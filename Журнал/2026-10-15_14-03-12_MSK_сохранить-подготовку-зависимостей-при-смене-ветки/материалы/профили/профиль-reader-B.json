@@ -1,0 +1,257 @@
+{
+  "граница": "Малая реальная Git fixture, setup и assertions исключены из API-времён. Вложенные интервалы cProfile не суммируются. Consumer использует четыре свежих процесса. Производственная приёмка отдельно.",
+  "запуски": [
+    {
+      "диагностика": [
+        {
+          "вызовов": 449,
+          "имя": "_путь",
+          "собственное_нс": 3751300911,
+          "файл": "чтение_цепочки_подготовки.py"
+        },
+        {
+          "вызовов": 5584088,
+          "имя": "<method 'casefold' of 'str' objects>",
+          "собственное_нс": 521715780,
+          "файл": "~"
+        },
+        {
+          "вызовов": 18,
+          "имя": "<method 'poll' of 'select.poll' objects>",
+          "собственное_нс": 116030877,
+          "файл": "~"
+        },
+        {
+          "вызовов": 3266,
+          "имя": "<built-in method posix.scandir>",
+          "собственное_нс": 33848438,
+          "файл": "~"
+        },
+        {
+          "вызовов": 6778,
+          "имя": "<built-in method posix.lstat>",
+          "собственное_нс": 15873475,
+          "файл": "~"
+        },
+        {
+          "вызовов": 11,
+          "имя": "<built-in method _posixsubprocess.fork_exec>",
+          "собственное_нс": 11814208,
+          "файл": "~"
+        },
+        {
+          "вызовов": 40,
+          "имя": "<built-in method posix.read>",
+          "собственное_нс": 9496961,
+          "файл": "~"
+        },
+        {
+          "вызовов": 11012,
+          "имя": "__init__",
+          "собственное_нс": 6782393,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 9266,
+          "имя": "_str_normcase",
+          "собственное_нс": 6451750,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 10488,
+          "имя": "with_segments",
+          "собственное_нс": 5408768,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 6982,
+          "имя": "parent",
+          "собственное_нс": 4567515,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 9968,
+          "имя": "_from_parsed_parts",
+          "собственное_нс": 3902867,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 33990,
+          "имя": "<built-in method builtins.isinstance>",
+          "собственное_нс": 3243801,
+          "файл": "~"
+        },
+        {
+          "вызовов": 452,
+          "имя": "realpath",
+          "собственное_нс": 3057591,
+          "файл": "<frozen posixpath>"
+        },
+        {
+          "вызовов": 3900,
+          "имя": "__getitem__",
+          "собственное_нс": 2925204,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 10972,
+          "имя": "_format_parsed_parts",
+          "собственное_нс": 2873868,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 9968,
+          "имя": "_from_parsed_string",
+          "собственное_нс": 2438554,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 15871,
+          "имя": "__str__",
+          "собственное_нс": 2380273,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 7892,
+          "имя": "__fspath__",
+          "собственное_нс": 2320298,
+          "файл": "__init__.py"
+        },
+        {
+          "вызовов": 16926,
+          "имя": "<built-in method builtins.len>",
+          "собственное_нс": 2317928,
+          "файл": "~"
+        }
+      ],
+      "первичное_чтение_нс": 2996039583,
+      "сверки_нс": [
+        525008000,
+        522678333,
+        517066167
+      ]
+    }
+  ],
+  "кэш_ОС_очищен": false,
+  "режим": "чтение",
+  "состав_sha256": {
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py": "f10fc9953c726e4f49872ce53a33fb1512194a13d7547bb6f89ac45f6a4c4c37",
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py": "7206553e438a945273d1453cc79a067b649a79076644ffbb38b2f816f192eadd",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py": "9792c4929bfef05d8068cdba096fee9d63b08c6277db2ab2dda0c94eb1487e7b",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_восстановление_подготовки.py": "657f740d7ae38adb39959feeb824778efe8d8da43c1a7d480215f069f09bac91",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py": "34586ceeb72af6075f367264d9348eb7148b9f6a443ddd7fc73b945fb39652c3",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_инициализации_worktree.py": "969e68c9fcf32eace72b8bd5bb0c47fa451dd787894695cc7845803641bbb142",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_новый_этап_подготовки.py": "17c1d1b6d2d603b5cc784b1792b4be05295301b6ff0d85fb9ab8ce0502a04b1c",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_отказы_подготовки.py": "dd433793810a43f276713ea5852a5af8a7fe5bda7183d13a37d74c2694db9173",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_ошибка_повторного_чтения.py": "6b129bf33782ea29d1c3f284667d3c47ddbd647cad3609d60f698ee535ec48e8",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_переход_между_ветками.py": "916ad62aa2d408ed451eedb3ec6d54063fdff7a03dbce7997c461775864e8c16",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_подготовка_зависимостей.py": "1f60208b91a355f164d7ebdbace891fff77f703589c104bd30c142e20db27bb2",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранний_допуск.py": "1f57e73aa9fc66d53bace7be2810ad7650a047594913669694c65b8f269d9e62",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранняя_доступность_деревьев.py": "6dc2d26562c64223d55494d118b699aed51eb7e1b01dc9cef6792967290a05d9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_принятого_создателя.py": "04994fe7180f7375d096b29b194af5e8f0b65b28145dcd9185d6f892b987243a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py": "39b32fcfaeb8d2422d77bca86b1d66cdbb5d5ca880884b8477baefe9eaa36e68",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py": "dfe41541e5fdac2e0e3efb99dccb46f69749a3e0a0b87b955bfc25d3cf9c3f15",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_ветка_состояния_узла.py": "05cd3fc27f3f49fc540cc80e887d7489fab89d89de7a2aca9f4af0e66aa8c5d7",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_возврата_RAW_писателя.py": "3a70568219b7ffff2feb96d475cfdce2d81e45ee4b8d6c3c9be38c23fb23e40f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_восстановление_прерванной_задачи.py": "1c6f8e0b8e4f2cd1188a13d9ae66099d00f1fbb9a94d39c0e7c7da4422fc9bd2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_выбор_ожиданий_узла.py": "088051f54fd3f186335e4598ffd489a73e6cf1a904c6373701e8147147b4ecfe",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_выбранные_команды.py": "faf4a798b78f08dba3b629221ae33f0eee5171604be88bb6e5345c8c51d5bd2e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_готовность_создания_коммита.py": "795702ed3b4121ebc06ad4c6ee2c7b238b919b0135a0886242def0d5575da1ec",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_готовность_этапа.py": "6818213b5b71bbd5b4308176dd55fe282749b683964cbdc321256079a6ba1fcb",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_детектор_вывода.py": "7f61db5e808ec951ab8646d6c0e52901230b9f788b656eb6a8f91f9244fb8cbf",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_допуск_автора.py": "12e84d2dcc2250f4d84d5e4d79e1deb4f75f6ea327b584b5ee7b7d2c39b549eb",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_допуск_сообщений.py": "85f33324a5bd9a679b39d199111bf9ba8e976cc0cde9b16fe76303172276ee8b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_допуска_контрольного_среза_узла.py": "62c4f3553e09d852342893afdb962ff092989be51fbecf0d0a6057c1e2c18518",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_запуска_принятого_писателя.py": "42eae10f32d49ada97b59c5cdfc6ad46702d09ebc4190eb2ab37fc89fecc8e69",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_захват_вывода.py": "4af02b7b6876687a6d9018778ed0f53baedd8c8a25e8ab886f11240ac0bf1535",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_имя_автора.py": "52a9afcb1efe414dd1d3333c3bdbd78caf708b8309f752230e92019a4b1c5e45",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_исторические_неподтверждённые_приёмки.py": "c0912b1d552ae4018af7051d0b673f37cffa8ca75975d4d4bca8f3a06b867949",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_исторических_одиночных_запросов.py": "6a0e47a69ca7fcc799a40eb5c2d68274e170c1a2053a7280c9595f3ed7230ed2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_исторических_режимов_разметки.py": "b8abb80a716d1f94979d6951d524fac00017b2ebdfeb3e33a4f6b57fd20823cd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_исторической_квитанции.py": "6ad9b855fc38eb796a0bf502d5ae261d73b9e8fb7dd2e17e40175d5d3015bcc9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_история_модели.py": "873c11fa5429a4c61e920782465bafc00e0f2329cccf13975736e3d07f274abb",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_история_пути_гита.py": "10f06b68de25ad8b4358ef38870e19e2f3bdf0e49cfc157598cc01a211cd1ed0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_каталог_наблюдений_узла.py": "9d1d85c301ffe746c3ff82785669ac504e7bf821f846c021e1bf99033b73699f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_классификации_продолжения_модели.py": "4a4ad5e79718eb1c2a0005d3f2d9d076df06dd6e0249ad81f861e16fb382adf2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_команды_с_изображением.py": "80efefe06a86a62a25f3db0a22de8a5cc4dc9ee554c09f89c39f4bae5d0fd441",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py": "e45b9527c75cab3c2fd1f2d09c531ca8497d2b5ff37c06c973ba01b6ad8e05d1",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_ответ_задачи.py": "b3ee35c89de65a64982a4e9992f84f7646a171f00ed786d1e8331e169d779dc4",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py": "8e8ac666135d19fa43f311a8dc8c91fb2ec2d602eaa1c2531a3b0242a8f2c493",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_кэш_каталогов_ссылок.py": "936e8cb0d7fb2254e26369059a09c0e863c4e3f6b7f52728b692eae5bd605ced",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_кэш_команд_коммита.py": "77e7f4577df1c5a6c345b603627257df36ebc8d7e68017ef244bbe989f01f5ae",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_кэш_сверки_остатка.py": "d09a8f9226b106aefb826686439ace333a1062e609eb1fa226db087e9d656147",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_кэш_снимков_обновления.py": "a39445f2f2713c3fbb18eec2239c6c19fe736b22fe05793cf9c70ca78308fd33",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_локальные_решения_сообщений.py": "982d3d4f478c8a044b94e3efedea032cba964c84b164c305013bd4fce646d963",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_моста_полного_ответа_узла.py": "14ed835c9bcb470ed592006818555c5e3c76ab6c9a8a0d82235b00506186a3c6",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py": "4b9ed202d59b5f73438cf023942cbe7aee8fb097414078b2eb31e7512dc344d2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_независимой_контрольной_точки.py": "c909f242a7a3a9eb4d06aaeacec0a91cff87740e9bc2249b81fbec70264fda82",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_независимой_пары_и_индекса.py": "e8baa7c45f0f3f09d71b3ece702cf867e4872e47a36586aae19022adecc18584",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_необязательный_граф.py": "987aa5f1a07bf65606b67ca42299bbb39f5d195f2ce4999c371a3a2839a6692e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обновление_ожиданий_узла.py": "7552f85acb757ede663affbfcd60292b11c40b6d19908f3aaa585e852f002aa0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обработка_сообщений.py": "2275fe711fbfac3c9eb53d675f9c752309c42146e18612b4daf06be558ad43c5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py": "e5435c251344d257f844c3fc74612109ff13803023dd37b903cb4d0299c1490c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py": "7be7dd40d8fb6e6dde9b9794b6694ff50983be39b3e8b2453e8cfcaf48056b8f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи.py": "83ef85b5c0a463a72e9ec10aaa0f55aaccf1cb5fabe0bd604fa0f90993e7cfce",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи_v2.py": "aaab687f9debbaec06f232f585190dea21853d30b07a744bbe9c1d6a16a0a0a3",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_основания_двусторонней_координации.py": "3679336f1f77b0b89152309c273ee2071d1363b6f060433c4c27893742e9e9e5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перенос_истории_модели.py": "f5fc468cdabf4f3a4490b65e9589bb4bf72bdb0240b665994aa2a471ccccdec2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_переноса_модели_этапа.py": "21045e77b1f11fc05a2cc3659294993dd22538c682299c35b37ea4475bb1c8bd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_переподготовка_ожиданий_узла.py": "b0aad20e381b304dcd5b16bc8deda81df6fb410c573ea6a84343d9b7fee9523c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py": "ab21481648b0d1855b9dde5faf489025f8d0fdcd04c86ab842b997a6b3403b1c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_переходов_задачи_узла.py": "956acf325a87b8e2903c9b253b3335937833de405df40f0da0288bd76c4d69e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_план_журнала_писателя_состояния.py": "4331a5c2ba45e7f33ce283a43b28e957346e39084a22eb6e7611db9da0106bf1",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторного_плана_журнала_состояния.py": "1868fa03d35f11f1584543e6d9fc5f42de7dcf7a764b4e5b7bdb81009eb5f053",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки.py": "18bf52b27b4fbd0fcd5e3b51584450fd9124a6caf4365e3b1cd15440dde33d29",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py": "8180877c47e1cf2a8a35ee59b002f44b9301b50c42db04abff1b9ac1022cabf9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторных_полномочий_узла.py": "c3702352cc978a3a3dd7e195756a5ada7395f5666995a52a38d6969f6f6bf597",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py": "f3f1b595f506b8cfc19560850a76b5523a75c0e00096aa094e8c7c9457b973a2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_полей.py": "a226d7081891c130d66f003075c6093f3eb53fb332510da513f5e1d96bcf0e0a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py": "a11096086d2ba7817a9eccb1ec904c4958361f8c7644e060a4cef0e28c0d5f2f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_поздней_привязки_журнала.py": "bc771856f4ed07b33706d44027532961093e9cc1a54351b8d630528c7c974fc9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_поколения_готовности.py": "85632daacfd5569a95047d7e7e457d341db50270eeb2b34f9637cdd453408bc5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_покрытия_до_проекции.py": "a602a12341e9e7b0c6a0111dc94c0debe7d27d10e9708daf4a72d9a05be5c05b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_полей_журнала.py": "a2f0f02f37da53946ced920110b3f18bfd442a72b9629ce1bd3200082596aefb",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_построителя_дерева_базиса_узла.py": "0b6d957ac85e06e01c45015968732f29b82d8fd72f85246bab0d0d8c01b16026",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_принятого_создателя.py": "1bf0665273aa862d64fe5670c3336ea4b8d86f47c36e9a1ffc00a61233791634",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_приём_делегации.py": "4953445685732eb039f45ab06ff5e972d3c5d6ecbb5b1b20a88c838c8f105dd9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_приёма_базиса_состояния_узла.py": "500754775d511a1bb1b876398001af7b415ff0b215639a7f79a7283b578c6ac8",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_проверенного_кода.py": "be77defb38c193c94a46076dab3a9b0557e651408d5f94b96feafd3bf132b1ad",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_проверенного_плана_журнала_состояния.py": "f0cbdd14a09e3c081cca465609849e07029eeac6a854cda58dd1a051b09877e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_продолжение_задачи.py": "2d0f9ce401f20ee7c1fcadde163e60c9cdbc856efaceb7f8cd8b7d362c3f6e34",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_продолжения_открытой_подготовки.py": "14675281d3e3c5e885cd6675ba9d25cae6b5cb03f31d09f69d1bc8195ffb399a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_происхождение_сообщений.py": "959b28f7d5c5c9dc3d1018da2c77d4e767b92b02c33a321453745f67c6ee5534",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_происхождения_писателя_генератора.py": "79286ae7c5aa04f9693e0a4146996be917e59ae383187088557be26d41474825",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_профиля_переноса_модели_этапа.py": "07abcea32ba05f002398d426fa26ef07dda1e9c22d238e6283ea0de1cae6f5fa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_публикационного_допуска_дочернего_состава.py": "fd0f256ef89a5e144f32df5274f81808fbff5d17a33b69f2a892aff6842b5273",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_публикуемого_профиля_полей.py": "364076c5c3aa8e11b7f14b0b9c609d28f6523372d7cdac32f2f99e296d11a4d5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_разделы_дословного_запроса.py": "77a5cf427fa25f31b27a3bb21e3c8acce230b48fceb8e498b3b4a93b83f18c58",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_ранний_охват.py": "77bfe6bee85a1af08576aeb9921b61340adb08f6dae2f08417f83f8ada69323a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_ранний_состав_коммита.py": "5d3d19a207c423469feadeaef15d88016408743e1d3aa85c340940f33fdccbb9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_реестр_этапов.py": "e176a84acc8ec307ed0ea47dbd58b5cfbcb28da2d97e2a76b5704e1b1f989aba",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_свежего_автора.py": "40b12ba6b50147e8cf9da1fd25f53d3327015765826bdb8495fa1508185d4728",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сверки_контрольной_точки.py": "425cb95ccce79c402f9e866c8f34a8fd16f628dcb22e37a62ae5b4b0664fbd7d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_служебного_исполнения.py": "379af2c67d7097e71cb5708ef3b5bbd0837bc1379d48d75ee2ecde780be94982",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смены_незапечатанной_подготовки.py": "fa42fcbfa240e8afd62bd76b4bd889a53b2d82015648ed0a4d72e99cf323f474",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанная_история_обязательств.py": "095961db42e7a44eea7b0b489fbd1d2c16e61e45968b7ea7cc49ac57c25e65c8",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_снимка_связности.py": "9fb6a641b14d00b9367b1d08abb0f13e2a0b8d295095278039f043182bbe8e83",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py": "88e9eec3e00a233552e8abb0ef6139b67767751f5950f8d42f4ab5b751e6382b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создания_базиса_узла.py": "049e56830cfbac75900ecbb06636c9e6d9ce4a9ef619cf4f8c80f0b83d693104",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сообщения_задачи.py": "e3b0ea0b3163134a92cdf3bb6ea7395852a2f74af9cfc44ebcad0836ae8986cb",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_состояние_задач_узла.py": "f55603a3e0de287740200b6edfb7c44e16d14305e3e370af16a0acae522165ce",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сохранённой_модели_писателя_ожиданий.py": "c139f6dc09015c46043429ea82d6ae0d8012903e3c9db3ef8a0c720c7f1a123b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_типизированной_контрольной_точки.py": "3e54e83db5fde268f5bba7117613a9fbdd6e854a42cd346229745aadb8e19fda",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py": "99e3efa046d296a464a1c6207b72b2e80818b78d4fb6699d3a59812a6178ee6b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_фиксация_командной_строки.py": "96e74b02ec90514d11f78bef4cc43cdb24f4e99d6905bcf9651ec28e7d514e72",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_форматы_раннего_охвата.py": "ceaf4f5efb4b07f22ecc831ebc55b68b112c2d8a9918646d41348b89cd3ec095",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_цели_ветки_состояния_узла.py": "b667807262a83b8bd84838e944f9aaecdffaf945aa1ff4c657929d1077a3575b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_читающего_реестра_полной_истории_узла.py": "e7eaedf59ac75f4658ec1b074807e1268393ac7cf277748001eb8005438a6d9a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_чтения_цепочки_подготовки.py": "5030181f47f02c3cf3b60c2202ca0cc773722caafcb6a4aa23303e753d3613f6",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_принятого_создателя.py": "b03157f8f975c79aacdac383723787fe1a51e1459b7390396a811666ebb4da20",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json": "9a6f8d4483d2131ecdab2b367b34cda866565b34f7643d49899a285f4d74e15c"
+  },
+  "среда": {
+    "python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+    "платформа": "darwin"
+  },
+  "схема": "fum.профиль-цепочки-подготовки.1"
+}

@@ -71,7 +71,8 @@
     "текст_команды_с_изображением": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
     "типизированная_контрольная_точка": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
     "формат_обзора": "Инструменты/fum-ocenki/scripts/формат_обзора.py",
-    "хранение_обзора": "Инструменты/fum-ocenki/scripts/хранение_обзора.py"
+    "хранение_обзора": "Инструменты/fum-ocenki/scripts/хранение_обзора.py",
+    "чтение_цепочки_подготовки": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py"
   },
   "код": [
     "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
@@ -139,7 +140,8 @@
     "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
     "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py",
     "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py",
-    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py"
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py"
   ],
   "ресурсы": [
     "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон",
