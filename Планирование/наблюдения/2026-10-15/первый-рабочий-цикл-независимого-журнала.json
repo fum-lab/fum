@@ -1,0 +1,49 @@
+{
+  "ACTs": [
+    {
+      "ACT": "Планирование/дочерние-поручения/2026-10-15/рабочий-состав-журнала-S0.json",
+      "ACT_SHA": "a989ba6914ddc21db450b160164f6a170d0728e8da0421c042d5fa0b5292c684",
+      "J": "Журнал/2026-10-15_03-05-25_MSK_собрать-первый-состав-журнала",
+      "actor": "01a13ce0-ea6a-7233-b6c2-3364fbfbee35",
+      "birth": "aeb5cbe6b4659616b51275e7bcd18709a1c970c3",
+      "branch": "refs/heads/codex/dir/sobratj-pervyij-sostav-zhurnala-01a07d3d",
+      "firstliteralSHA": "64826fe1f1d40250f91ff9f4dd97d35db82844021b4f84b1e16345ea3bf0dbcb"
+    },
+    {
+      "ACT": "Планирование/дочерние-поручения/2026-10-15/рабочий-состав-журнала-S1.json",
+      "ACT_SHA": "32c119823b6a35d6c9b05dbc791eaff3ec21eeabf611b1cafe3611d80341786c",
+      "J": "Журнал/2026-10-15_03-05-25_MSK_шаг-второго-состава-журнала",
+      "actor": "01a13ce0-ea6a-7233-b6c2-334c88654a76",
+      "birth": "aeb5cbe6b4659616b51275e7bcd18709a1c970c3",
+      "branch": "refs/heads/codex/dir/shag-vtorogo-sostava-zhurnala-01a07d3d",
+      "firstliteralSHA": "449d8fefe018d6a6ca59995eb4400a2b59fcf36732a259f42c4787199378da0e"
+    }
+  ],
+  "ROOT_ACT_J": "Журнал/2026-10-15_03-05-25_MSK_закрепить-допуск-поколений-журнала",
+  "ROOT_J1": "Журнал/2026-10-15_03-05-25_MSK_цикл-независимого-журнала-1",
+  "ROOT_J2": "Журнал/2026-10-15_03-05-25_MSK_цикл-независимого-журнала-2",
+  "clock": {
+    "label": "2026-10-15 03:05:25 MSK",
+    "prefix": "2026-10-15_03-05-25_MSK"
+  },
+  "scope": "Существующиеcommit/tree выбираютсяотдельно; будущиеOIDнепредсказываются. S1доA1толькоRO; новыйACTcommitмеждуA1/S1не нужен.",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "не_доказано": [
+    "ActualRoot9J1/J2",
+    "S0/S1actualproduction",
+    "R1/state2/ROOTcompletion"
+  ],
+  "порядок": [
+    "Оба ACT опубликованы до выбранного существующегоH0",
+    "S0actor:firstACTrefотH0/A=H0,thenfreshownD",
+    "S0plan/apply/provenance/.7/.9/C_S0",
+    "ROOTвыбираеттолькоC_S0/path/rawSHA S0blob,childJнеимпортируется",
+    "УстановкаS0нафиксированномROOTHEADH0 иfreshreplay",
+    "ROOT9J1→A1;H0Journalbytes/modesнеизменны",
+    "S1actor:firstACTrefотужеexistingA1/A=H1=A1,thenfreshownD",
+    "S1plan/apply/provenance/.7/.9/C_S1",
+    "ROOTвыбираеттолькоS1blob,installнафиксированномA1,replay",
+    "ROOT9J2послеS1install;историяA1неизменна"
+  ],
+  "схема": "fum.план-первого-рабочего-цикла-журнала.1"
+}
