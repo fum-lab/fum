@@ -7101,6 +7101,24 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "profile-metadata-path-replacement-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_метаданных_профилей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:858e998e0933c6588d909063c80db0f27d84c7ebafe54883feb6e6174823e6ae",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Точные два фрагмента тестового относительного пути изменяют каталог для проверки отказа неверного контекста."
+    },
+    {
+      "id": "profile-metadata-expanded-home-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_метаданных_профилей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5a3ee83c23be4cf13acfa0504eb35e20412945ad560423d178d112285e560bba",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный синтетический суффикс теста доказывает отказ пути вместо одиночной служебной метки."
     }
   ],
   "метаданные": [

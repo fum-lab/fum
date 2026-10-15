@@ -811,6 +811,9 @@ def scan_text(
             )
             if form.kind == "posix-user-home" and (line_number, form.start, form.end) in допущенные_метаданные:
                 категория = "allow.collaboration-observation-metadata.posix-user-home"
+            elif (form.kind == "home-expansion" and line[form.start:form.end] == chr(126)
+                    and (line_number, form.start, form.end) in допущенные_метаданные):
+                категория = "allow.cprofile-builtin-metadata.home-expansion"
             if сырое_обсуждение:
                 категория = f'report.external-source.{form.kind}'
             for начало, конец, тип in нефайловые_фрагменты:
