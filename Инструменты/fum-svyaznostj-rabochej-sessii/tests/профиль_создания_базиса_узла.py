@@ -10,17 +10,96 @@ import pstats
 import subprocess
 import sys
 import time
+import types
 
 
 КОРЕНЬ = Path(__file__).resolve().parents[3]
 ПРОФИЛЬ = Path(__file__).resolve()
 ТЕСТЫ = ПРОФИЛЬ.with_name('test_создания_базиса_узла.py')
 ДОПУСК = ПРОФИЛЬ.parent.parent / 'scripts/допуск_создания_базиса_узла.py'
+СОЗДАТЕЛЬ = ДОПУСК.with_name('создание_базиса_узла.py')
+ОБЁРТКА = КОРЕНЬ / 'Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py'
 
 
-def отпечатки_исходников():
+def отпечатки_исходников(полная_цепочка=False):
     return {п.relative_to(КОРЕНЬ).as_posix(): hashlib.sha256(п.read_bytes()).hexdigest()
-            for п in (ПРОФИЛЬ, ТЕСТЫ, ДОПУСК)}
+            for п in ((ПРОФИЛЬ, ТЕСТЫ, ДОПУСК, СОЗДАТЕЛЬ, ОБЁРТКА) if полная_цепочка
+                      else (ПРОФИЛЬ, ТЕСТЫ, ДОПУСК))}
+
+
+def полная_цепочка():
+    начало = time.perf_counter_ns()
+    исходники = отпечатки_исходников(True)
+    буферы = {п: (КОРЕНЬ / п).read_bytes() for п in исходники}
+    assert {п: hashlib.sha256(д).hexdigest() for п, д in буферы.items()} == исходники
+    стадии = {'захват_исходников': time.perf_counter_ns() - начало}
+    начало = time.perf_counter_ns()
+    модуль = types.ModuleType('закреплённый_issuer_полного_профиля')
+    модуль.__file__ = str(ТЕСТЫ)
+    exec(compile(буферы[ТЕСТЫ.relative_to(КОРЕНЬ).as_posix()], str(ТЕСТЫ), 'exec', dont_inherit=True), модуль.__dict__)
+    стадии['загрузка_issuer'] = time.perf_counter_ns() - начало
+    начало = time.perf_counter_ns()
+    фикстура = модуль.ФикстураПолногоБазиса(исходные_буферы=буферы)
+    try:
+        стадии['подготовка_M_C0'] = time.perf_counter_ns() - начало
+        assert {з['путь']: з['sha256'] for з in фикстура.контракты} == исходники
+        до = фикстура.снимок(фикстура.корень)
+        начало = time.perf_counter_ns()
+        подготовка = фикстура.команда('подготовить-допуск')
+        стадии['CLI_подготовка_допуска_целиком'] = time.perf_counter_ns() - начало
+        assert подготовка.returncode == 0, подготовка.stderr.decode()
+        assert до == фикстура.снимок(фикстура.корень)
+        начало = time.perf_counter_ns()
+        фикстура.закрепить_допуск()
+        стадии['независимое_закрепление_D'] = time.perf_counter_ns() - начало
+        аргументы = фикстура.аргументы_допуска()
+        коммиты_до = set(фикстура.ф.гит('rev-list', '--all').splitlines())
+        профиль = фикстура.частное / 'создание.pstats'
+        дескриптор = os.open(профиль, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        os.close(дескриптор)
+        начало = time.perf_counter_ns()
+        создание = фикстура.команда('создать', *аргументы, профиль=профиль)
+        стадии['CLI_создание_целиком_с_cProfile'] = time.perf_counter_ns() - начало
+        assert создание.returncode == 0, создание.stderr.decode()
+        результат = json.loads(создание.stdout)
+        assert результат['дерево'] == фикстура.ф.дерево_фикстуры
+        assert результат['родители'] == фикстура.ф.предмет['родители']
+        assert set(фикстура.ф.гит('rev-list', '--all').splitlines()) - коммиты_до == {результат['коммит']}
+        начало = time.perf_counter_ns()
+        до_повтора = фикстура.снимок()
+        стадии['снимок_до_повтора'] = time.perf_counter_ns() - начало
+        начало = time.perf_counter_ns()
+        повтор = фикстура.команда('повтор', *аргументы)
+        стадии['CLI_повтор_целиком'] = time.perf_counter_ns() - начало
+        assert повтор.returncode == 0, повтор.stderr.decode()
+        assert json.loads(повтор.stdout) == результат
+        начало = time.perf_counter_ns()
+        assert до_повтора == фикстура.снимок()
+        стадии['проверка_неизменности'] = time.perf_counter_ns() - начало
+        начало = time.perf_counter_ns()
+        поставка = фикстура.закрепить_поставку()
+        стадии['независимая_поставка_P_целиком'] = time.perf_counter_ns() - начало
+        assert поставка['подтверждена'] is True and поставка['результат'] == результат
+        функции = []
+        for (файл, строка, имя), (простые, вызовы, собственное, полное, _) in pstats.Stats(str(профиль)).stats.items():
+            путь = Path(файл)
+            if путь.is_absolute() and путь.is_relative_to(фикстура.код):
+                функции.append({'путь': путь.relative_to(фикстура.код).as_posix(), 'строка': строка,
+                    'имя': имя, 'вызовы': вызовы, 'простые_вызовы': простые,
+                    'собственное_с': собственное, 'полное_с': полное})
+        проверочный_процесс = json.loads((фикстура.частное / 'процесс-проверки.json').read_bytes())
+        процесс_коммита = json.loads((фикстура.частное / 'процесс-коммита.json').read_bytes())
+        assert исходники == отпечатки_исходников(True)
+        return {'схема': 'fum.процесс-профиля-полной-цепочки-базиса.1', 'исходники': исходники,
+            'стадии_нс': стадии, 'результат': результат, 'P': поставка,
+            'cProfile': sorted(функции, key=lambda ф: (-ф['полное_с'], ф['путь'], ф['имя'])),
+            'вложенные_наблюдения_нс': {'от_spawn_worker_до_выпуска_rawprocess': проверочный_процесс['длительность_наносекунды'],
+                                     'subprocess_commit_и_обработка_исхода': процесс_коммита['длительность_наносекунды']},
+            'один_B': True, 'повтор_без_эффектов': True, 'production_B': False,
+            'версия_интерпретатора': sys.version.split()[0],
+            'версия_системы_контроля_версий': фикстура.ф.гит('--version').strip()}
+    finally:
+        фикстура.закрыть()
 
 
 def один_процесс():
@@ -78,26 +157,37 @@ def главная():
     разбор = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     разбор.add_argument('--дочерний', action='store_true')
     разбор.add_argument('--выход', type=Path)
+    разбор.add_argument('--полная-цепочка', action='store_true')
     вход = разбор.parse_args()
     if вход.дочерний:
         if вход.выход is not None:
             разбор.error('Свежий процесс возвращает только stdout')
-        print(json.dumps(один_процесс(), ensure_ascii=False, sort_keys=True))
+        print(json.dumps(полная_цепочка() if вход.полная_цепочка else один_процесс(), ensure_ascii=False, sort_keys=True))
         return
     if вход.выход is None:
         разбор.error('Нужен новый внешний файл профиля')
-    исходники = отпечатки_исходников()
+    исходники = отпечатки_исходников(вход.полная_цепочка)
     среда = {к: в for к, в in os.environ.items() if not к.startswith('GIT_')}
     среда.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull)
     процессы = []
     for номер in range(3):
         начало = time.perf_counter_ns()
-        процесс = subprocess.run([sys.executable, '-I', '-S', '-B', str(ПРОФИЛЬ), '--дочерний'],
-            env=среда, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=True)
+        аргументы = [sys.executable, '-I', '-S', '-B', str(ПРОФИЛЬ), '--дочерний']
+        if вход.полная_цепочка:
+            аргументы.append('--полная-цепочка')
+        процесс = subprocess.run(аргументы,
+            env=среда, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
         длительность = time.perf_counter_ns() - начало
+        for канал, данные_канала in (('stdout', процесс.stdout), ('stderr', процесс.stderr)):
+            сохранить(вход.выход.with_name(вход.выход.name + f'.child{номер+1}.{канал}'), данные_канала)
+        if процесс.returncode != 0:
+            print(json.dumps({'свежий_процесс': номер + 1, 'код': процесс.returncode,
+                'stdout_sha256': hashlib.sha256(процесс.stdout).hexdigest(),
+                'stderr_sha256': hashlib.sha256(процесс.stderr).hexdigest()}, ensure_ascii=False), file=sys.stderr)
+            raise ValueError('Свежий процесс отказал; оба raw канала сохранены приватно')
         результат = json.loads(процесс.stdout)
-        assert результат['исходники'] == исходники == отпечатки_исходников()
-        assert результат['состояние_фикстуры_сохранено'] is True
+        assert результат['исходники'] == исходники == отпечатки_исходников(вход.полная_цепочка)
+        assert (результат['повтор_без_эффектов'] if вход.полная_цепочка else результат['состояние_фикстуры_сохранено']) is True
         assert процесс.stderr == b'', 'Неожиданный stderr свежего процесса'
         процессы.append({'номер': номер + 1, 'процесс_нс': длительность, 'измерение': результат})
     результат = {'схема': 'fum.профиль-индекса-базиса.1', 'исходники': исходники,
@@ -105,10 +195,19 @@ def главная():
                    'с cProfile и проверка неизменности измерены отдельно. Кэш ОС не очищается. '
                    'Создание B, typed-v4, intent/receipt и общая ODB не измеряются.',
         'процессы': процессы}
+    if вход.полная_цепочка:
+        результат['схема'] = 'fum.профиль-полной-цепочки-базиса.1'
+        результат['граница'] = ('Три независимых свежих полных изолированных Git-фикстуры M/C0→D→B→P. '
+            'Пять exact raw источников закреплены в каждом M. CLI создание измеряется с cProfile; '
+            'он охватывает данный Python процесс, не вложенные Git/worker/stock child. '
+            'Внешние стадии измерены monotonic вокруг вызовов; вложенные наблюдения не суммируются. '
+            'P: normal push точного B в отдельный локальный приёмник, отдельный процесс читает ref/raw6, '
+            'issuer сохраняет P вне T и неизменные D-байты. Кэш ОС не очищается, production_B=false.')
     данные = (json.dumps(результат, ensure_ascii=False, sort_keys=True, indent=2) + '\n').encode()
     сохранить(вход.выход, данные)
     print(json.dumps({'процессов': 3, 'sha256': hashlib.sha256(данные).hexdigest(),
-                     'допуск_нс': [п['измерение']['стадии_нс']['читающий_допуск'] for п in процессы]},
+                     'допуск_нс': [п['измерение']['стадии_нс']['CLI_создание_целиком_с_cProfile' if вход.полная_цепочка
+                                                            else 'читающий_допуск'] for п in процессы]},
                     ensure_ascii=False))
 
 
