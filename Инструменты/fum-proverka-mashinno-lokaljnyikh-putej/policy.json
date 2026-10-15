@@ -7101,6 +7101,96 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "issue295-guard-temporary-root",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/допуск_независимого_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1e2e5b25d31260858941b922a3590c734fb75e4fac04d02dda3f9f3ae4b6798c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет системный резервный каталог точного замка RAW при отсутствии TMPDIR; физический каталог выбирается и проверяется до эффектов."
+    },
+    {
+      "id": "issue295-journal-suffixes",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/допуск_независимого_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0d644a63d9d3b73cf9cd33258b1597d34ecf00b2d739189ff3aa17e67ca8813f",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Это два суффикса имени канонической пары Журнала для замены внутри относительного пути, а не абсолютные адреса файлов."
+    },
+    {
+      "id": "issue295-package-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/конечный_состав_независимого_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a6be1628189479c4ce551b26e00f29d5da0301c3a3f1e34f33065d87a9f5fbb2",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс имени Python-пакета используется только для закрытого отказа пакетному импорту, а не как абсолютный путь."
+    },
+    {
+      "id": "issue295-scripts-segment",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/конечный_состав_независимого_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:80ff823d0fb5a308b76fc74b608484a7a96aef0b255c213accf9f50f74f7e94f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сегмент относительного Git-пути отбирает конечные исходники рецепта; он не адресует корень файловой системы."
+    },
+    {
+      "id": "issue295-loader-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ed496477c905cf8f52c7778baaace7f8b2e2952ee74cb522a42f96794c50a092",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная открытая фикстура загрузчика проверяет отказ замыкания до исполнения и не читает указанный искусственный файл."
+    },
+    {
+      "id": "issue295-data-root-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:801625ff62c9379d04c5554f59fe4a8c968ab3278e0eb12454ea137a5ddacb28",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный корень отрицательной проверки PATH передаётся только при замоканном subprocess и не читается как рабочее дерево."
+    },
+    {
+      "id": "issue295-include-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8b28b4dee69d5b5736588944b217970a6b35455d90cbad88b2ee3ffa2b72aca3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Несуществующий адрес в Git include является враждебной фикстурой раннего отказа конфигурации, а не рабочим источником."
+    },
+    {
+      "id": "issue295-chosen-root-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2b92780d6cdb7d718d666ff811a9cd45667f1ce5b5414a0d75de9751dddf8512",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Обезличенный корень подлинного кадра используется только для сравнения конечной роли H без обращения к файловой системе."
+    },
+    {
+      "id": "issue295-foreign-root-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:093951114f60d1b9c3c66d4347548436ffe490ed682d609e598a6489224ee06b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Обезличенный другой корень проверяет отказ подменённому кадру роли H без обращения к файловой системе."
+    },
+    {
+      "id": "issue295-raw-lock-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/фикстура_контура.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2471eb77863c2d59443392492829c41df581dcf3b309102e4fe117c552e9a12d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая фикстура воспроизводит системный резервный каталог точного внешнего замка RAW для независимого снимка отсутствия эффектов."
     }
   ],
   "метаданные": [
