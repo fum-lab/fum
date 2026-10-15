@@ -1,0 +1,494 @@
+{
+  "Python": [
+    3,
+    14
+  ],
+  "входы": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py",
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/проверка_данных.py"
+  ],
+  "динамика": [
+    {
+      "вид": "spec_from_file_location",
+      "область": "<module>",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+      "форма_sha256": "4d4b7a6b259c36db8319374895b9c8c5b2cfe84f62867b5b396ae1ead4a8a036",
+      "цели": {
+        "свежесть_подготовки_этапа": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "загрузить",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+      "форма_sha256": "e2e2102a10d2b97c57396653589e3cb7a465abb15fc0e6a8dcc45d6d0fd49453",
+      "цели": {
+        "отчёты_создания_коммита": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+        "охват_создания_коммита": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+        "связность_создания_коммита": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+      }
+    },
+    {
+      "вид": "exec",
+      "область": "загрузить_контур_слияния",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+      "форма_sha256": "4e64c74ed7f6e6cd1df8c9c25755e187289b8c92c40dac7e951d82e7c923093a",
+      "цели": {
+        "контур_слияния": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py"
+      }
+    },
+    {
+      "вид": "compile",
+      "область": "загрузить_контур_слияния",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+      "форма_sha256": "118f2faf3e6d338aec7d06d42fee4d3fb3a63dca82062ff8d7c893ea454fdc1d",
+      "цели": {
+        "контур_слияния": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "проверить_машинный_отчёт_о_запусках",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "форма_sha256": "02dcf1a7ddbc6da9ba7d7956a9eb1a7751ec91a0a32cfd4ee8438e74d6d97c25",
+      "цели": {
+        "fum_машинный_отчёт_о_запусках": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
+      }
+    },
+    {
+      "вид": "запрещённый-в-ROOT9",
+      "область": "загрузить_подготовку_для_допуска",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "форма_sha256": "e2e2102a10d2b97c57396653589e3cb7a465abb15fc0e6a8dcc45d6d0fd49453",
+      "цели": {}
+    },
+    {
+      "вид": "запрещённый-в-ROOT9",
+      "область": "загрузить_подготовку_для_допуска",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "форма_sha256": "c7a59a456021598401df8608915ba3d64afbcfe13d1e41df5186523dd4f3b3ef",
+      "цели": {}
+    },
+    {
+      "вид": "запрещённый-в-ROOT9",
+      "область": "загрузить_подготовку_для_допуска",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "форма_sha256": "72c1c122e8d83fc051767b159df69c8d9a7eeda08c0b0c690e0df3ad6ea47702",
+      "цели": {}
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "загрузить_охват",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+      "форма_sha256": "47a66d071e7d033df4084068692052aaea2bfd29b7e58aa67860a2027a2195e3",
+      "цели": {
+        "охват_обычного_поручения": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "_link_tools",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "форма_sha256": "c62ed48285457e1a7115b04220298fbea088dc7b190a9c7471e815b623866400",
+      "цели": {
+        "fum_request_layout_link_tools": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "журнал",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+      "форма_sha256": "e2e2102a10d2b97c57396653589e3cb7a465abb15fc0e6a8dcc45d6d0fd49453",
+      "цели": {
+        "обычный_независимый_журнал_структуры": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "модуль_свежести",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+      "форма_sha256": "811c1bbc1c061d2acaaea462e7869a6753a8320b349ea8e4f1bbea12179f2927",
+      "цели": {
+        "свежесть_обычной_независимой_пары": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "<module>",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+      "форма_sha256": "ffdfc29081d4461035f692308d0560b61ba9c086faa8988429334e039fcdef97",
+      "цели": {
+        "fum_происхождение_сообщений_0177": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py"
+      }
+    },
+    {
+      "вид": "compile",
+      "область": "код",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+      "форма_sha256": "c6d6bcbdbbf58a4ade52d7b58dadcfe5073453b6cc0399d47b7480abeed83c7f",
+      "цели": {
+        "публикационный_допуск_дочернего_состава": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+        "создание_коммита": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py"
+      }
+    },
+    {
+      "вид": "compile",
+      "область": "код",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+      "форма_sha256": "eb154525e7833ab9f86ea69bb7b99f9a3060f794de1a30008cea5eb8e8e7799c",
+      "цели": {
+        "публикационный_допуск_дочернего_состава": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+        "создание_коммита": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py"
+      }
+    },
+    {
+      "вид": "exec",
+      "область": "сканер",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+      "форма_sha256": "c868989a2a1bda47be7726ba8d3e36c7fdf52cf50c95a0ff63be11b5e44c6525",
+      "цели": {
+        "fum_публикационный_сканер": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+        "path_forms": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+        "request_folder_layout": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+        "метаданные_наблюдений": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py"
+      }
+    },
+    {
+      "вид": "compile",
+      "область": "сканер",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+      "форма_sha256": "362fd834c67f537aa96a4d2c3fc4ba3810429a057f78c725c25ef803ec91d31a",
+      "цели": {
+        "fum_публикационный_сканер": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+        "path_forms": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+        "request_folder_layout": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+        "метаданные_наблюдений": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "загрузить_связность",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+      "форма_sha256": "13bbc70ad27eed673d80abc03499beeb9c9850c7ce7537b4bb4ce515d7ca596e",
+      "цели": {
+        "связность_раннего_охвата": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "_проверка_вопросов",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py",
+      "форма_sha256": "e2e2102a10d2b97c57396653589e3cb7a465abb15fc0e6a8dcc45d6d0fd49453",
+      "цели": {
+        "проверка_вопросов_шаблона": "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "выполнить",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+      "форма_sha256": "c7fc4eb5d37b4e8c485c0a1e2c2c14d9ea2cf989ddd1e4e73e2e098f27a59f0b",
+      "цели": {
+        "допуск_приёма": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "загрузить_связность",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py",
+      "форма_sha256": "84d8c72824d909f85132a29897021a8888f5b3e46037d3929016e2ea74e46174",
+      "цели": {
+        "связность_для_доставки": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "валидатор",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py",
+      "форма_sha256": "4d1aaadde79f161951f612b5cda3eae1ac165592c620a5af87a71895174ad59b",
+      "цели": {
+        "отчёты_доказательного_обзора": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "проверить_третий_реестр",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "форма_sha256": "50275a4025edbb65f1485d666596d094a83beb19b18bcbad93da048b953f48de",
+      "цели": {
+        "обязательства_третьей_версии": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "выполнить",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "форма_sha256": "69ed8427fdbda41e68e8c108c45aba806c4e540796f3fcb8583c75f72c2efd91",
+      "цели": {
+        "обязательства_продолжения": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py"
+      }
+    },
+    {
+      "вид": "run_path",
+      "область": "проверить_планирование",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py",
+      "форма_sha256": "5c89c91112aa32716b460a550603057e0bc2f68c52f1bf5c8dce377fc177d6bc",
+      "цели": {
+        "build-planning-registry": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "ПроверкаОбязательств.модуль_отчётов",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "форма_sha256": "4f1cb9711fbb94e7d55a874758ab706e43281a9dc518b4401ed89477db2aea0b",
+      "цели": {
+        "отчёты_проверки_обязательств": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
+      }
+    },
+    {
+      "вид": "spec_from_file_location",
+      "область": "загрузить_исходник",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+      "форма_sha256": "e2e2102a10d2b97c57396653589e3cb7a465abb15fc0e6a8dcc45d6d0fd49453",
+      "цели": {
+        "наполнитель_отчёты": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+        "наполнитель_охват": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+        "формы_адресов_публичного_журнала": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py"
+      }
+    },
+    {
+      "вид": "exec",
+      "область": "загрузить_исходник",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+      "форма_sha256": "809a50bd93f73c10c8e1fa43efdf4afffcd7bc3e294233698e949edc0cc45fe6",
+      "цели": {
+        "наполнитель_отчёты": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+        "наполнитель_охват": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+        "формы_адресов_публичного_журнала": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py"
+      }
+    },
+    {
+      "вид": "compile",
+      "область": "загрузить_исходник",
+      "основание": "Точный просмотренный исходник и конечная карта помощника K659; режимы проекции и дочерней передачи не разрешены.",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+      "форма_sha256": "cfbc1ad474a2b918c38ed37c860ec98c809e1a7033b236b67b4abd2ece9482fe",
+      "цели": {
+        "наполнитель_отчёты": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+        "наполнитель_охват": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+        "формы_адресов_публичного_журнала": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py"
+      }
+    }
+  ],
+  "дополнительные_имена": {
+    "валидатор_читающих_зависимостей": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py"
+  },
+  "импортные_коллизии": [],
+  "исходники": {
+    "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py": "62dc315aaf022137a10002471dd02279056e14df59935aaf14690ca7837e6018",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочернее_назначение.py": "ea9d634382289f5041698b50e2aea85ef47852c657d359a44908b9cd2e44551a",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочерний_коммит.py": "c717588c7cb84f33e88d13c8876e66d3070869ca9b1e75e374404e2b101e8742",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/журнал_приёма.py": "d52eb4c4392a4cb52c1b0dcc1ff95d1e18cb1c1753299bb4a894edaa9deeea19",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/запись_слоя.py": "840feae25073d8d60a7a1ec06dc4c53282dc45f07d89e588d04c078c756589e3",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/коммит_приёма.py": "8a64b14682226657424adbd5d9430c12f7ab16f73acbf9a0211e87becbde5a39",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/контроль_первичного_потока.py": "50415400b299e95d753f6313d963f8782b402dc7d860631e83f4003b2a68c2db",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/копии_нативного_сжатия.py": "cb3b4c2c8a4dc3762b8f869683581ca6f63f6aec57a6175ed469af815c7fa304",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативное_назначение.py": "66d07b83db7e98e0b131e3007e385ab16e52809d6fff59aa78457aaaf1d7d9b2",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативные_вызовы.py": "18a3b7a5ad9adf90179110dcbf4ce2a1918a9045d439780e9d0c708324e55c0e",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативный_приём.py": "932c5dbecd7c58dcce051a14d54dd2b7977af9ec8a4a6fefca8b910193961c13",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_журнала_приёма.py": "08fae88059a3f966ba5db59133547c249f7ead6242a3bc7ed12df718a1d49e80",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_писателя.py": "9e2b007db50fe0a5a841c781bebd0a527868865eb4a2aa3848388d40eb8ea2e6",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/остановка_ребёнка.py": "1e0260dded68e37c0c5f14ed013a478d63468b8bf5227819c0e8106896f43b39",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/пакет_незавершённого.py": "5332c8cd8d874a761150e743bd7de935f1d74f96e35fdd840eacb284f6517e24",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/паспорт_конвейера.py": "32f15386d6ff4067cc04b02ef1f2cac753dbeb1b81a5914068e53403d700a424",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_журнала_приёма.py": "e5d5167f8fa9311757c91954e4678b717731ecdcccc29decaecd19634e78969d",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_запуска_слоёв.py": "ee0c614cdcc1c589d9ec178b41daae26fe58897dfef10263abfcb2d0f3952d78",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поколение_запуска.py": "e0cd1ca711ebf75a8f99c01836436a88b1b51fd6b6e5e055aaee4fca68c57247",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поручение_слоя.py": "c9115a838367f10aa2e537ca282fdcb794b164468a112aeb6c3cb113d99d9110",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/приём_интеграции.py": "94ccb6e8256e18714437bb2d397b06c337c33d6a2cafc98bc965d3323b28e1bb",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/свежесть_слоя.py": "3c166f006806cd145fc67ad7e7e4d5bd1e03233a957c1cff0dc80061583799c3",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_приёма.py": "ef4e16cd7df792b08ede1aea370106539b3ba3d237ac2a276eaa4e25ff86eb26",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_слоя.py": "78c9fedc4dbc5f83847df191b9fde3c9dac58ffb7dd6a78415932f035ea1f3dc",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/слияние_приёма.py": "02b009e5d2d951581fe741a848e159f6585679c5258f3aa59ccfd3e8b31d45ba",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_нативного_источника.py": "e08bd4c089606b742f902934d0b2642fe72d43487201d9fead33ff786b396d52",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_области.py": "f3d3f407a0e58a82dbc360b10a80f77fcecb30e90a33714dd325f085dbe6ac4f",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/терминал_запуска.py": "6095b3dcea8cd9bdf05c62100e0c9f0ad97e136451144485812d4d5d0a349a6b",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/файл_журнала_приёма.py": "ec5954dd5e7eded73898037f602ce76a73a1ac0c3e817f1b907db4d768890911",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/хранилище_незавершённого.py": "ca11874d22cb40539ae285664c5001079220ca6197e483af416a1411209fc222",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/эпизод_приёма.py": "85461bc474e1718d96d2a591cbc0c8b976242a5167a1a62d8494507562acccd0",
+    "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py": "85298b80e4d08cc2860155287355c69ff0f495ebd64a8eb7ba337b0c85e875b2",
+    "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": "de652cbb38fca069f52bf27ee7f456510fe9adcc73e99fcdab50d59e0b434444",
+    "Инструменты/fum-ocenki/scripts/контекст_обзора.py": "1bf950946fc25219d66791fe95ed99a63f4d2f09eed9db620ae023ed5d63934b",
+    "Инструменты/fum-ocenki/scripts/контракт_обзора.py": "f1661c05d338b5a414353b78ce2e0f872a26cdf1f635e4f7c07bfa13d99f659e",
+    "Инструменты/fum-ocenki/scripts/построение_обзора.py": "ff99b36aed1495deeaaad2be0978ef619e72037416a6b27577d9a15f751b112e",
+    "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": "3ee72fc1c7fda4edbe10e93dbd5ab21dde2c40c069840ffbcd1da4b4a27014d7",
+    "Инструменты/fum-ocenki/scripts/реестр_обзора.py": "0ae4b1fa8b62b6842a56132e8e6d15e9b88b259e4ff837e51ced4b7a57951f37",
+    "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": "de35c9b613f1ee32a748a2eba589498220843d4c41f14b59907a2ffbe3801d09",
+    "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": "5030972ee5ef4243b5b60b6c5cc13a6d13892acdbfe39e6806b2bcbeaf148930",
+    "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": "0afe69cf79e51e150b55f790455778b69b3a30778138de9716214cbd737dbe70",
+    "Инструменты/fum-ocenki/scripts/формат_обзора.py": "414fa7b795abb43a0c36627f3a4bea910238bf0d673c7e8022b654e7e6d4d040",
+    "Инструменты/fum-ocenki/scripts/хранение_обзора.py": "c95bd74354c08e9093ee4acb03c1449be092a9d384b2fc399692438c50c1675f",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "2c87f068afd90502eb80bb9d377820f89b3ec08c6a7b3ca241cdd7ceb4a0999b",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "f9c592f16380c97e1bc4daa59c3951be2da5e6b1bac5531420189f6383052f70",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f938ac669331c7149164391f60fa08f76a44920ce29a9717fb00b5c7c5bb70d9",
+    "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "a86c9355b99a7e921659709daa80d18d78988df7e3b4882a16563877d883a285",
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py": "f9e13cfbc512a134b2545f2eee30a6a9f906e68f4f5dc0bafc7601e8a7be3340",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "3a6464a1a85c0e1229643d68270527aa2d40ab77f2f7aa814010dac19cd3d8ba",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "9bd85c358aa25e529d7997639c0af7fa719c2767177dcc6ce4585cc15d6e00b9",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": "38c3467515aca83bd57f0a928e3fedc227812b09b879fe8e1b55d07df7f40084",
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "c15dfaf65f431f5168ad0e5b0761f75729063cf5a4957007f2167a7a9adbbb2c",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py": "80ef50196a8ebe904d4f3e613d014d01de138575bce9971a70d2900ff1f5961d",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py": "eda083aeeaa9435077c4ecb89dd20f90141b4b2b76b9dade5e07cbbbd99d1c90",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "2adcfeb90b67f8ade53f8c77d45d3239a75aac758dfdeeb8a75292b1774ff1ac",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py": "76e8e2e898ac66a53125f86501e4f5d6eba095b0223e87acdce8267c24699d1e",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "31320cd6c86dfd00ec97c40bf96738e91abbb55bdad9ea2a054918f70c27aab4",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py": "78994ffa2b84c881e2228028aa9fe2a9cf87fa174b36032dec93d28f07c64c92",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py": "c2ec279d8005e02a441d5c797e094456e4ae14fda3198b6cee3e05b05da1b50d",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py": "0134597bf0dc2f5697daa16ba7ae599b1ce9b0a7cbd360aa3c6ab5e31432be08",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py": "4109dcc2b60bc8e0ad2a784d9cd92a75bcda825888e30b55d7014b44c761510d",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "eb10015b171917d6d6204d291501d4cfc4a0852d64f4f4a38b2a12fdb61a3b94",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "7582a56d8e41562e39308f49d68bc18267fae50ee6713ac7ce03f957b8335a19",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py": "f42bd5fdb7f69d53142c0df63a722f45661a2fe9e9a9ba9e7b00bf1534d33ef1",
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "73c867732aee7fefa204be511d59f672a9cefe9ceee97cb8cdf6986300c7fef8",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "5860cb7739db2d3a77062eb00f1dda50759a17ab733878438dff56cb93ebb66c",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py": "54218ad5644839335e8f4de3fa48e516f028a05b6aa8d3d6a1f4372e1ffab8e8",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py": "1b35aea4ef65a68234c9ebfc988c15cf52e66dbe6a5fbe845e50e025d55418b8",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/допуск_наполнения_состояния.py": "c7c4649bb90df3763c6d4910722556639e73e216613c99c97e680b89f524e099",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py": "a4924a3bb02db5dcd0cfc4d47900cdf3d85c17161c0b89c77d078e33d7833731",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py": "2b2898918e5ff497725fc800d900664839ab9bc62b367e8c194be867e2a18e1c",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e890da579f80b44a229f7b11cbb2f8cc03b52458b533252fc730192525c8f25c",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py": "9a82d211a4a03fad639d918e4a59fa9c0c8862f15a74ff0adee7fb82ac1c73f3",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py": "d4ae8306a848ea3a0c204ec284c52845acef9f35e8cbd15b57df2dc36718a3d5",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "d707f50aa1b5a49a6b1a58da00c1707aed337448d0bae95a2cd790c04282e363",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py": "a037f203d6c65533a0b016297c9c41679a85b03e3b11ea5200fe8f81865f0f53",
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "7c20ad23a43d4557d8cb1350c8d2c1d8d609c8c9bee0b0c00626a8fcb6e1e914",
+    "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "c77ced8ecc599d495792fd2ee037b788200954e10f4252ae908f3b4c86c8d442",
+    "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "5e3f6c8cad1256e004d64c583e407b275fc7e1cbcbd632e6bfc6304bf3c00e5c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "cf057652b695ef686d78c6fed1f27ae0d90fb18fd04c649e50136dd573781d6e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "27899a62431a21d2381b2e7072a2c50af5d1f6aeb3236f0bed92a040416ae950",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": "a7886dee1bab0b37dcb68619b90a1e77c69fcf7b2a081f9b4b2ffc0dafc0db74",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": "5c8fefe82f493c9543baa61dc2c0b590777827d3bae0d9e47e85f8b2054d52f9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": "57d6d7e3065a60c886c353282956afa467698b186d0acd3a37e8e5ffec229657",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/детектор_вывода.py": "df66f8c33a189f905c7b87cbfc07fc0a7b8244918b6831960ea5a8fd95ad2188",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py": "85b45be19280e322c730792ab4ec4dc89f3986594327fe1355d5e8196e3b1c8b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "d7bf6e12fb56fd30a37063c7f4732b4abf8a1ed80be0b61c8cb05458eaa30937",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "bb7a6bc4515e4c5b4bebcd83411eec27c2bf7acf3497ce498a1cf1ce5ae761e5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f5bb20476d1a56971ff0da2eee7563ee82ab9b4eac8508307a1ca1859c20a614",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "93d0879be62c2cc6f8079830e52bae23a3f986ac2f14c618ac4b7b2b805c5852",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "c0be56ef1d41151fd3b9239144c30afa24547bb9292c516e14506213ca4f2da6",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "756d39461b992a457e83430efd2d1f3cf01a728cea817445ee3d5b684ac37ed9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "8e58638c62aad0eaed0c7bc874461a2e39b2cfadf179987a02bfd33935ff419e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "f70655ec0af881f1112e4e6037397ebda33ac66fb19836bf773ff42924046353",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "947555ac3659fb0af4959197c094e4100aa589c7b3a4f2765fe80e12a6e47951",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "604189e37dc8dc3a601b1575af314cbf80b6ca12ed8de04b07c07a155b87843e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py": "683c0eb9aa711d3249ee80bb8f70d9f6f40cd5b3227c8594e97c8e39247a934b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": "d30bb4d454f224c0ee81fce0e1d33cd4ff7832bace301b758ce26770bf09b5a9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": "7d0859b61e0120e53056e77971b03f15462d92b038eae02dab54a685677f09c1",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": "8e8024ca9c783ce249430f0e2dece456ed37c5c8c78c4f6242b78e765c5e94de",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_модели.py": "544f79f051981d8dcbc7fa76d72eb719adb1b312e277ce1366dbd558c21a262f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": "a714919ccaa86271ad1bbac6f5a1fcdd412c5bb15cf42965e8ac11247f107ea2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": "e68afebaa590754d8c73e54a529edff06ff955afecb26b9722ede6c9c4a1de96",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_ветки_состояния_узла.py": "a318d1f08134bdbbf20bb7b59c45512d048d4190803a281f3576ebc6162f0628",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "92083dc3e5e091dfebf9892abc97103c310bd68afb5677b3fb41a7124e469ce2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py": "c2e50582dc0fcdf8600911c6fc674e9efddda8f70fbff6cc0a63d1017a1cf5d7",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": "b01089dc8b04919cd7887dfdc7b44a241e5474f45969405a21e665673f8e7e45",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "0557ba1d368cece22e9c8e2d87d628622fa3ade1282ae3278de1bc7bb70f7e75",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "f38fc6787a2bce2720e48efddbe12bb4cd6f9db05108f2150ed7316e608fe9f4",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "b4dd854e8e90df04650e6cc024540a120f28bb208293dbc47f5a357b645106a8",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "43236453e5e9141c6a071c86357ba675e668ba3e8bfb1522a267812ca85e7bb5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": "6579e82b7ee5be4b7afb8f548c94bc55a5fd7e955d4c9ded95061869830142bd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": "32149eb21044c43405707b71a378fa2f6ff296ff6a41d33b8eed1a2fb134a35d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/устойчивые_свидетельства.py": "87796267c5a4b66df3e560c02a09c0bb899aa4117521894051c977b5e5b0ae4c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py": "efe940c32c55ec6eb7eb4cdebf2a43d69d313e0d95fe5785426c179716e44a60",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/проверка_данных.py": "5fc4754daf3e95f8eaf66a7d99715d986d08c01d4ffdd4bf5a82d9606cc903d1"
+  },
+  "модули_допуска": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py"
+  ],
+  "разрешённые_команды": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py",
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/проверка_данных.py",
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py"
+  ],
+  "ресурсы": [
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-инструментов.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-профиля.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-состава.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-текста.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-проверок.md.шаблон",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json"
+  ],
+  "ресурсы_рендера": [
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-инструментов.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-профиля.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-состава.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-текста.md.шаблон",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-проверок.md.шаблон"
+  ],
+  "схема": "fum.рецепт-конечного-контура.1",
+  "эталоны": {
+    "Markdown": {
+      "sha256": "ec823ad17b23ec74423f1ba854a40935e45993f4110be1f83fa4f1742569697f",
+      "коммит": "4d8c9fac0fc23ec9f2e7a2c0efb668b0bc4bb014",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py"
+    },
+    "основа": "659d2d6ff7e97f78307daffc4561cdb5995206ce",
+    "совместный-принятый-код": {
+      "дерево": "8eee23c598ff516534d738154b311d35a322576e",
+      "коммит": "7bbb4adb74ba84fb4295ea5749e07605e729f246",
+      "основа_рецепта_sha256": "b07f655a88e9e56657a1a084b60989a2f570b291173deeec534c77359f1647c1"
+    },
+    "цепочка-кандидат": {
+      "исходники_sha256": {
+        "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py": "61981badbc216564a6c26ac4df827ea8b2a6d5b73dd91827e7d6766a332ac523",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_принятого_создателя.py": "d290bd689a1adec94275b4778045faa0c018a3a5bdbfc5f1f3f90355a01cb01e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py": "d91a595143c90995747375680596644fce1edbf4faf3127586741e533e81a7b8"
+      }
+    }
+  }
+}
