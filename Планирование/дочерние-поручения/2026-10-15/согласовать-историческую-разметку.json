@@ -1,0 +1,24 @@
+{
+  "ветка": "refs/heads/codex/dir/soglasovatj-rezhimyi-istoricheskoj-razmetki-01a07d3d",
+  "исполнитель": "01a13e5d-1849-74a2-8677-213d9863b098",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_исторических_режимов_разметки.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_исторических_режимов_разметки.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/обычный-независимый-журнал.md",
+    "Журнал/2026-10-15_10-00-10_MSK_согласовать-режимы-исторической-разметки/",
+    "Журнал/2026-10-15_10-00-10_MSK_закрепить-согласование-исторического-Markdown/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "e03fa77d9ea1749482c17e057c2cf26277c2aba472f586fa60d16ac6832699ce",
+    "коммит": "08dee3486dba272837583ce0646b25d29632ed34",
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/обычный-независимый-журнал.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "8766d6a4e0c7de1338aee23a1d99c5baab7daf7d4a47c540cc4b057e7611f716"
+}
