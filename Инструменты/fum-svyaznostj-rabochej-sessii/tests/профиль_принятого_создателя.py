@@ -161,7 +161,11 @@ def главная():
     п = argparse.ArgumentParser(description=__doc__)
     п.add_argument('--выход')
     п.add_argument('--рабочий-вход')
+    п.add_argument('--цепочка', choices=('чтение', 'цикл', 'прежний-цикл'))
+    п.add_argument('--повторы', type=int, default=3)
     а = п.parse_args()
+    if а.цепочка:
+        return профиль_цепочки(а)
     if а.рабочий_вход:
         print(json.dumps(рабочий_процесс(а.рабочий_вход), ensure_ascii=False))
         return 0
@@ -207,6 +211,79 @@ def главная():
     with os.fdopen(os.open(выход, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600), 'w') as поток:
         json.dump(итог, поток, ensure_ascii=False, sort_keys=True, indent=2); поток.write('\n')
     print(json.dumps({'свежих_процессов': 3, 'медианы_нс': медианы, 'production_ускорение_доказано': False}, ensure_ascii=False))
+    return 0
+
+
+def профиль_цепочки(а):
+    """Полный mixed reader либо настоящий consumer после D.4; setup вне таймера."""
+    if not а.выход or not 1 <= а.повторы <= 10:
+        raise ValueError('нужны новый приватный выход и от одного до десяти повторов')
+    корень = Path(__file__).resolve().parents[3]
+    выход = Path(а.выход)
+    if not выход.is_absolute() or выход != выход.resolve() or any(os.path.lexists(п / '.git') for п in выход.parents):
+        raise ValueError('нужен физический приватный выход вне Git')
+    for путь in ('Инструменты/fum-proverka-git-zavisimostej/tests',
+                 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts',
+                 'Инструменты/fum-svyaznostj-rabochej-sessii/tests'):
+        sys.path.insert(0, str(корень / путь))
+    import test_чтения_цепочки_подготовки as чтение
+    import test_принятого_создателя as создатель
+    import чтение_цепочки_подготовки as читатель
+    пути = [ПУСК, 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py',
+        'Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json',
+        str(Path(__file__).relative_to(корень))]
+    пути += [str(п.relative_to(корень)) for п in корень.glob('Инструменты/fum-proverka-git-zavisimostej/scripts/*.py')]
+    пути += [str(п.relative_to(корень)) for п in корень.glob('Инструменты/fum-proverka-git-zavisimostej/tests/test_*.py')]
+    пути += [str(п.relative_to(корень)) for п in корень.glob('Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_*.py')]
+    состав_кода = json.loads((корень / 'Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json').read_bytes())
+    пути.extend([*состав_кода['код'], *состав_кода['ресурсы'],
+        'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_создателя.py',
+        'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исполнение_принятого_кода.py'])
+    состав = {п: hashlib.sha256((корень / п).read_bytes()).hexdigest() for п in sorted(set(пути))}
+    запуски = []
+    for _ in range(а.повторы):
+        ф = (чтение.ЧтениеЦепочкиПодготовки if а.цепочка == 'чтение' else создатель.ПринятыйСоздатель)('runTest')
+        ф.setUp()
+        try:
+            if а.цепочка != 'чтение':
+                if а.цепочка == 'цикл':
+                    ф.test_смена_ветки_сохраняет_подготовку_в_полном_цикле()
+                else:
+                    ф.test_зарегистрированная_вложенная_копия_проходит_полный_цикл()
+                запуски.append({'процессы': ф.профиль, 'неизменность_цепочки_и_листьев': True,
+                    'коммит_кода_фикстуры': ф.к, 'основа_данных': ф.база, 'пин': ф.пин_зависимости})
+            else:
+                ф.создать_цепочку(смешанная=True)
+                до = ф.срез()
+                профилировщик = cProfile.Profile()
+                профилировщик.enable()
+                начало = time.perf_counter_ns()
+                допуск = ф.допустить()
+                первичное = time.perf_counter_ns() - начало
+                сверки = []
+                for _ in range(3):
+                    начало = time.perf_counter_ns()
+                    читатель.сверить_чтение_цепочки(допуск)
+                    сверки.append(time.perf_counter_ns() - начало)
+                профилировщик.disable()
+                if до != ф.срез():
+                    raise ValueError('профиль чтения изменил fixture')
+                статистика = [{'файл': Path(файл).name, 'имя': имя, 'вызовов': число,
+                    'собственное_нс': int(собственное * 1e9)}
+                    for (файл, _, имя), (_, число, собственное, _, _) in pstats.Stats(профилировщик).stats.items()]
+                запуски.append({'первичное_чтение_нс': первичное, 'сверки_нс': сверки,
+                    'диагностика': sorted(статистика, key=lambda з: з['собственное_нс'], reverse=True)[:20]})
+        finally:
+            ф.doCleanups()
+    if any(hashlib.sha256((корень / п).read_bytes()).hexdigest() != х for п, х in состав.items()):
+        raise ValueError('исходники профиля изменились')
+    итог = {'схема': 'fum.профиль-цепочки-подготовки.1', 'режим': а.цепочка,
+        'состав_sha256': состав, 'запуски': запуски, 'кэш_ОС_очищен': False,
+        'граница': 'Малая реальная Git fixture, setup и assertions исключены из API-времён. Вложенные интервалы cProfile не суммируются. Consumer использует четыре свежих процесса. Производственная приёмка отдельно.',
+        'среда': {'python': sys.version, 'платформа': sys.platform}}
+    with os.fdopen(os.open(выход, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600), 'w') as поток:
+        json.dump(итог, поток, ensure_ascii=False, sort_keys=True, indent=2); поток.write('\n')
+    print(json.dumps({'режим': а.цепочка, 'повторов': len(запуски), 'исходники_неизменны': True}, ensure_ascii=False))
     return 0
 
 
