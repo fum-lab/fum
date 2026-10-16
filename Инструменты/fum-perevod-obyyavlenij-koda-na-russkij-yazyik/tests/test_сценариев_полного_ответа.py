@@ -4,6 +4,7 @@ import json
 import os
 import tempfile
 import unittest
+from unittest import mock
 
 from test_сценарий_ответа import модуль, учёт
 
@@ -109,6 +110,148 @@ class ПолныйСценарий(unittest.TestCase):
             карта = подготовить(корень, {ХОСТ: исходный}, {ХОСТ: {'Buffer': 'буфер'}})
             итог = учёт.подготовить_изменения(корень, карта)[0].новый_текст
             сам.assertEqual(исходный.replace('ф(Buffer) {return Buffer;', 'ф(буфер) {return буфер;'), итог)
+
+    def test_свободное_имя_внутри_сегмента_закрывает_весь_план(сам):
+        смешанный = 'function ф(Buffer){return Buffer;} Buffer.from("данные");'
+        for путь, текст in ((МОСТ, смешанный), (ХОСТ, хост(первый=смешанный)),
+                            (ХОСТ, хост(второй=смешанный))):
+            with сам.subTest(путь=путь, текст=текст), tempfile.TemporaryDirectory() as каталог:
+                корень = Path(каталог)
+                карта = подготовить(корень, {путь: текст}, {путь: {'Buffer': 'буфер'}})
+                with сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'свобод|область'):
+                    учёт.подготовить_изменения(корень, карта)
+                сам.assertEqual(текст.encode(), (корень / путь).read_bytes())
+
+    def test_локальные_области_не_прикрывают_свободное_имя(сам):
+        варианты = (
+            'const ф = Buffer => Buffer; Buffer.from("x");',
+            'const ф = (Buffer = 1) => {return Buffer;}; Buffer.from("x");',
+            '{let Buffer = 1; Buffer;} Buffer.from("x");',
+            '{const Buffer = 1; Buffer;} Buffer.from("x");',
+            'try {throw 1;} catch (Buffer) {Buffer;} Buffer.from("x");',
+            'try {throw 1;} catch ({message: Buffer}) {Buffer;} Buffer.from("x");',
+            'for (let Buffer = 0; Buffer < 1; ++Buffer) {Buffer;} Buffer.from("x");',
+            'for (const Buffer of список) {Buffer;} Buffer.from("x");',
+            'const ф = function Buffer(){return Buffer;}; Buffer.from("x");',
+            'function ф(п = Buffer.from("x")){const Buffer=1;return Buffer;}',
+            'function ф(){const Buffer=1;return ()=>Buffer;} function г(){return Buffer;}',
+            'function ф(Buffer){return Buffer;} const объект={...{},Buffer};',
+            'function ф(Buffer){return Buffer;} Buffer=1;',
+            'function ф(Buffer){return Buffer;} ++Buffer;',
+        )
+        for текст in варианты:
+            for путь, исходный in ((МОСТ, текст), (ХОСТ, хост(первый=текст)),
+                                   (ХОСТ, хост(второй=текст))):
+                with сам.subTest(путь=путь, текст=текст), tempfile.TemporaryDirectory() as каталог:
+                    корень = Path(каталог)
+                    карта = подготовить(корень, {путь: исходный}, {путь: {'Buffer': 'буфер'}})
+                    with сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'Свободное имя'):
+                        учёт.подготовить_изменения(корень, карта)
+                    сам.assertEqual(исходный.encode(), (корень / путь).read_bytes())
+
+    def test_доказанные_области_переводятся_с_сохранением_ролей(сам):
+        варианты = (
+            ('function ф(Buffer){return ()=>Buffer;}',
+             'function ф(буфер){return ()=>буфер;}'),
+            ('function ф(Buffer,п=Buffer){return Buffer;}',
+             'function ф(буфер,п=буфер){return буфер;}'),
+            ('const ф=Buffer=>Buffer; const г=(Buffer=1)=>{return Buffer;};',
+             'const ф=буфер=>буфер; const г=(буфер=1)=>{return буфер;};'),
+            ('const ф=function Buffer(){return ()=>Buffer;};',
+             'const ф=function буфер(){return ()=>буфер;};'),
+            ('Buffer(); function Buffer(){return 1;}',
+             'буфер(); function буфер(){return 1;}'),
+            ('function ф(){Buffer;let Buffer=1;return Buffer;}',
+             'function ф(){буфер;let буфер=1;return буфер;}'),
+            ('function ф(Buffer){return {Buffer};}',
+             'function ф(буфер){return {Buffer:буфер};}'),
+            ('function ф({ключ:Buffer=1}){return объект.Buffer+объект?.Buffer+Buffer;}',
+             'function ф({ключ:буфер=1}){return объект.Buffer+объект?.Buffer+буфер;}'),
+            ('const {Buffer:значение}=источник; function ф(Buffer){return Buffer;}',
+             'const {Buffer:значение}=источник; function ф(буфер){return буфер;}'),
+            ('try {throw 1;} catch(Buffer){const ф=()=>Buffer;} ',
+             'try {throw 1;} catch(буфер){const ф=()=>буфер;} '),
+            ('for(let Buffer=0;Buffer<1;++Buffer){const ф=()=>Buffer;}',
+             'for(let буфер=0;буфер<1;++буфер){const ф=()=>буфер;}'),
+            ('for(const Buffer of список){const ф=()=>Buffer;}',
+             'for(const буфер of список){const ф=()=>буфер;}'),
+        )
+        for текст, ожидаемый in варианты:
+            with сам.subTest(текст=текст):
+                новый, _, _ = учёт.замены_сценария(текст, {'Buffer': 'буфер'}, живой=True)
+                сам.assertEqual(ожидаемый, новый)
+
+    def test_особые_имена_и_неизвестная_роль_закрывают_перевод(сам):
+        for имя in ('arguments', 'undefined'):
+            with сам.subTest(имя=имя), сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'Особая область'):
+                учёт.замены_сценария('function ф(' + имя + '){return ' + имя + ';}',
+                                    {имя: 'значение'}, живой=True)
+        with mock.patch.object(модуль.Разбор, 'прочитать', return_value=None):
+            with сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'роль токена'):
+                учёт.замены_сценария('const Buffer=1;Buffer;', {'Buffer': 'буфер'}, живой=True)
+
+    def test_особый_сокращённый_ключ_не_становится_установкой_прототипа(сам):
+        текст = 'const __proto__={значение:1};const объект={__proto__};'
+        for путь, исходный in ((МОСТ, текст), (ХОСТ, хост(первый=текст)),
+                               (ХОСТ, хост(второй=текст))):
+            with сам.subTest(путь=путь), tempfile.TemporaryDirectory() as каталог:
+                корень = Path(каталог)
+                карта = подготовить(корень, {путь: исходный}, {путь: {'__proto__': 'прототип'}})
+                with сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'прототип'):
+                    учёт.подготовить_изменения(корень, карта)
+                сам.assertEqual(исходный.encode(), (корень / путь).read_bytes())
+        новый, _, _ = учёт.замены_сценария('const {__proto__}=источник;__proto__;',
+                                        {'__proto__': 'прототип'}, живой=True)
+        сам.assertEqual('const {__proto__:прототип}=источник;прототип;', новый)
+
+    def test_отказ_позднего_сегмента_не_пишет_ни_одну_цель(сам):
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            исходники = {МОСТ: 'const Buffer=1;Buffer;',
+                         ХОСТ: хост(второй='function ф(Buffer){return Buffer;} Buffer.from("x");')}
+            карта = подготовить(корень, исходники, {п: {'Buffer': 'буфер'} for п in исходники})
+            def снимок():
+                результат = {}
+                for путь in исходники:
+                    файл = корень / путь; сведения = файл.stat()
+                    результат[путь] = (файл.read_bytes(), сведения.st_mode,
+                                       сведения.st_mtime_ns, сведения.st_ino)
+                return результат
+            прежде = снимок()
+            with сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'Свободное имя'):
+                учёт.атомарно_применить(учёт.подготовить_изменения(корень, карта))
+            сам.assertEqual(прежде, снимок())
+
+    def test_прямое_вычисление_не_скрывает_употребление_в_строке(сам):
+        варианты = (
+            'function ф(){const value=1;return eval("value");}',
+            'function ф(){const value=1;return ((eval)) /* ё */\r\n("value");}',
+            'function ф(){const value=1;return eval("val"+"ue");}',
+            'function ф(){const value=1;return eval(...список);}',
+            'function ф(eval,value){return eval("value")+value;}',
+            'function ф(){eval("value");} const value=1;value;',
+        )
+        for текст in варианты:
+            for путь, исходный in ((МОСТ, текст), (ХОСТ, хост(первый=текст)),
+                                   (ХОСТ, хост(второй=текст))):
+                with сам.subTest(путь=путь, текст=текст), tempfile.TemporaryDirectory() as каталог:
+                    корень = Path(каталог)
+                    карта = подготовить(корень, {путь: исходный}, {путь: {'value': 'значение'}})
+                    with сам.assertRaisesRegex(учёт.ОшибкаКонтракта, 'eval'):
+                        учёт.подготовить_изменения(корень, карта)
+                    сам.assertEqual(исходный.encode(), (корень / путь).read_bytes())
+
+    def test_непрямой_и_неизменяемый_вызов_не_расширяет_отказ(сам):
+        текст = 'function ф(value){return объект.eval("value")+eval.call(null,"value")+value;}'
+        ожидаемый = 'function ф(значение){return объект.eval("value")+eval.call(null,"value")+значение;}'
+        новый, _, _ = учёт.замены_сценария(текст, {'value': 'значение'}, живой=True)
+        сам.assertEqual(ожидаемый, новый)
+        исходный = хост('function ф(value){return value;}', 'eval("value");')
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            карта = подготовить(корень, {ХОСТ: исходный}, {ХОСТ: {'value': 'значение'}})
+            итог = учёт.подготовить_изменения(корень, карта)[0].новый_текст
+            сам.assertEqual(исходный.replace('ф(value){return value;', 'ф(значение){return значение;'), итог)
 
     def test_невыбранная_строка_и_повреждённая_вторая_не_получают_перевод(сам):
         for текст, имя in ((хост().replace('old = 777', 'thirdOnly = 777'), 'thirdOnly'),
