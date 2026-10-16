@@ -7614,6 +7614,69 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Буквальный суффикс пути контроллера соединяется с явно выбранным корнем; самостоятельного адреса компьютера нет."
+    },
+    {
+      "id": "node-state-checker-transition-20",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cca36243637d9658d32138982211651107bf58ffe82e19a69b98aadfb87679e1",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-122",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:db9590b7208cc7b793dcc4ae688a086cbb6160cdcaf0d9b852f25e08ebef109c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-127",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5bb9d559dca365de041712b53922cb6581f60732c1fd6bc9dce50e370ccc62af",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-128",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2f6d24fe2c34a8f63d5596d6a8cf9d4b80a99de93245326d812066641d39d658",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-161",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ec37c02b5ac554f08d27ed57a6fd44e91526f6f071fb00e13ddebc32c4f57354",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-180",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:587e03831b2dc9a5c2bc0533f6e6573b2c6aa9836019214d032dfd23fb7207ab",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-196",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4309c2d2cf1e7538e23e82dd652f0ed7c7ac4c5da4531246109615576dea193f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Намеренно небезопасные значения автономного отрицательного теста; не путь рабочей машины."
     }
   ],
   "метаданные": [
