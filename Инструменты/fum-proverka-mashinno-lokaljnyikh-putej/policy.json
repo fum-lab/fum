@@ -7254,6 +7254,24 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Сегмент относительного Git-пути отбирает конечные исходники рецепта; он не адресует корень файловой системы."
+    },
+    {
+      "id": "act23-relative-scripts-component",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/журнал_повторного_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b99879f5c46b82b63a287f616fd02a92e062df8e76e54d4ee28c2c188fac199d",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Составной относительный путь начинается с «Инструменты/»; выбранный литерал разделяет компоненты этого пути и самостоятельно не адресует файловую систему."
+    },
+    {
+      "id": "act23-relative-report-link-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторного_эффекта_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:10ff564708a5faf317676f8b8eb22af8b7a6f9a8d47256cf37ee8af860de4df4",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Тест собирает относительную Markdown-ссылку из имени папки Журнала и выбранного суффикса имени отчёта; литерал самостоятельно не обозначает абсолютный путь."
     }
   ],
   "метаданные": [
