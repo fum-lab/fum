@@ -7254,6 +7254,42 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Сегмент относительного Git-пути отбирает конечные исходники рецепта; он не адресует корень файловой системы."
+    },
+    {
+      "id": "live-writer-0228-termios-bitwise",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/живое_восстановление_писателя.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a127f6d4ff05766ceb9b02d661c439fe21350fd253e10c58ec7646679ce40ce5",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Побитовое отрицание флагов терминала в присваивании; эта строка не описывает домашний каталог."
+    },
+    {
+      "id": "live-writer-0228-uuid-regex",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fc1d7867c9939a78b0778fdfa81700f5416546c038f42bd3ab11f8bde20526e0",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Регулярное выражение идентификатора: косые черты служат разделителями выражения и не обозначают путь."
+    },
+    {
+      "id": "live-writer-0228-sha256-regex",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:75c79ecbf7baae47af5bb80f972485a5048ddab9a6fcf2173b2bf739cfe9c340",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Регулярное выражение хэша SHA256: косые черты служат разделителями выражения и не обозначают путь."
+    },
+    {
+      "id": "live-writer-0228-controller-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:415ba217aeb4254731b05470e1ed6a016c67948afd1d20415032ddc1e3987455",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Буквальный суффикс пути контроллера соединяется с явно выбранным корнем; самостоятельного адреса компьютера нет."
     }
   ],
   "метаданные": [
