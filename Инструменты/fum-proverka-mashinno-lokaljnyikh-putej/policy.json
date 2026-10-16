@@ -7254,6 +7254,312 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Сегмент относительного Git-пути отбирает конечные исходники рецепта; он не адресует корень файловой системы."
+    },
+    {
+      "id": "json-01a143f4-001",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2e5efc48b609137c414233cea21d74f86ce4dcecb3d9bcb74347d9565c7f7681",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-002",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7b6fdf37fbccec28c1ae5eaa00b8749bcf07ac01f5067b57ff14cb3d965c87ac",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-003",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bdb5a1af3078ef3cb1c8385e9476eeafe01b0315ef53636b765b1b190f4e50ae",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-004",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bff24cd5b5015f30383d0a890954f5c085e5a853d3bc9cb5ef181334bb849a85",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-005",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfc99f319cbfddf1102ff75417ae311e56f031c51b049a608a2cf70f80141887",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-006",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2e5efc48b609137c414233cea21d74f86ce4dcecb3d9bcb74347d9565c7f7681",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-007",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7b6fdf37fbccec28c1ae5eaa00b8749bcf07ac01f5067b57ff14cb3d965c87ac",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-008",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bdb5a1af3078ef3cb1c8385e9476eeafe01b0315ef53636b765b1b190f4e50ae",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-009",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bff24cd5b5015f30383d0a890954f5c085e5a853d3bc9cb5ef181334bb849a85",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-010",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfc99f319cbfddf1102ff75417ae311e56f031c51b049a608a2cf70f80141887",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-011",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e4971cf748c53409340844a53616dcc5e2340239e79a8c240f39992475a4e206",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные примеры выбора полей JSON Pointer RFC 6901 внутри JSON-документа без файлового адреса."
+    },
+    {
+      "id": "json-01a143f4-012",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:410244bf95c15f240ff06d282b771a5b75918424ddfb88999ee8d840962a1446",
+      "count": 3,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные примеры выбора полей JSON Pointer RFC 6901 внутри JSON-документа без файлового адреса."
+    },
+    {
+      "id": "json-01a143f4-013",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d945510e782112868402c041e12f7e192c82159d0b214e1568b8a0a280517883",
+      "count": 4,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные примеры выбора полей JSON Pointer RFC 6901 внутри JSON-документа без файлового адреса."
+    },
+    {
+      "id": "json-01a143f4-014",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0c30e45f9f0c828069ebc5c03dd6c7d4ea34d70447f811f404c33013932e5d24",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный синтаксис экранирования JSON Pointer RFC 6901 без адреса файловой системы."
+    },
+    {
+      "id": "json-01a143f4-015",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8bac95ef68f7dddb178f8079f635ed1de758ba49c4c3cf2c20c59509257dce8c",
+      "count": 3,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный синтаксис экранирования JSON Pointer RFC 6901 без адреса файловой системы."
+    },
+    {
+      "id": "json-01a143f4-016",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:925ad102c3a90175e0a3b8e49aec0b04a41db8f8131b5efc4885d8bf6351dc80",
+      "count": 3,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный синтаксис экранирования JSON Pointer RFC 6901 без адреса файловой системы."
+    },
+    {
+      "id": "json-01a143f4-017",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:66f73186ecbde917681edd1bdcc2746aee9ee40ce03df5c72c861d8e35258168",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-018",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7b3ece9d0e0f336ee63ab1dd88bdef5e05ab07ceb0a678a79f822d9e7a78210d",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-019",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:db55201fdddea42b07697d99cf600508a52f7cdc1a6389707085eae4a326d0e0",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-020",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e3a360ae70257f83b56be74a9577de7da804e211622c8693a3f2a49d283186d4",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-021",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:026f9aa8f969d95bb25df1d63581f90a7682467bfc81668a4eac467ba9d98d06",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-022",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0a17077f8a3cc599761ba1c014205476e33258c15a50583f67bb1b5e0baa948c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-023",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2d5c97d36e53b433a32e3a5419671779bb0fb96ba48ced3b4caf41e1da238254",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру отсутствующего источника для проверки закрытого отказа CLI."
+    },
+    {
+      "id": "json-01a143f4-024",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5e4bf7251fe78866c8181ca3c985a2e01a85ec9ba14adc7c675b2b6c48cd7165",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-025",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:63d1b7fa52657e2025b32c4454953afdf199adfde42afc4cf47e56a26a15451f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-026",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7b4703f119117af46e1c468f081f2768a8fbfa07fc912ede82cd09ca4c432666",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-027",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:99a9d7de3826dabfe90b2558fc4bee35c117d5bd5ddbd856f600ebaeff1a576f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-028",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b3000148ee4fa8265c78cb234441f7f9c8105807e9f3a3e9d09dfa3659b9bf85",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-029",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c4b0194d6174d0b7f37d7a68965b2203d9e24f1a8378aad70abe3ea042045b70",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-030",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c5edb37f5998e26f930f64ffed6863e8738fc7ee60cef667d619cdb5f3f5c39c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-031",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ec38618c4ca8d41aac7c2fd4f0a21a35e39d171057e6dafe4c68594c18a31c36",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-032",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6c3ee8197cf41befb3400841c0dae5c9c618271ec0008c0530097be1570d63db",
+      "count": 4,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-033",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7a1b42c3fb4ca5ee3244c373ce1cae7874a1b79a30999246d803ec14c203af87",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-034",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b32b615a225ccde9c248774f86d3b147d000c5e3e9f394d6f4f3f707d08a8a0a",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
     }
   ],
   "метаданные": [
