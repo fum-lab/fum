@@ -1,0 +1,25 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-perevod-obyyavlenij-koda-na-russkij-yazyik--zhivoj-most",
+  "исполнитель": "01a1027d-4e0b-7450-8b34-852df3deabd7",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_сценарий_ответа.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/SKILL.md",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/сценарии-ответа.md",
+    "Журнал/2026-10-16_11-34-25_MSK_исправить-смешение-имён-в-переводчике/",
+    "Журнал/2026-10-16_09-08-04_MSK_допустить-язык-живого-моста/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "3a12456bafdbe316d7c16f3fe711579b5b5553174e0c8fb3fba023f6e5169db7",
+    "коммит": "716c9d2d91fd9c65a51fe40340ee8b5a3e10f6f6",
+    "путь": "Планирование/параллельные-постановки/2026-10-03/русификация-кода-при-слиянии.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "7973ce7e458905a61b14a34a9d6bba68b36db78946fdf67bd8078caddbabbf4a"
+}
