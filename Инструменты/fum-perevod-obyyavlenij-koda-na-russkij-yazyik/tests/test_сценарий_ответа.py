@@ -19,6 +19,29 @@ sys.modules[спецификация_учёта.name] = учёт
 
 
 class ПроверкаСценарияОтвета(unittest.TestCase):
+    def test_новые_формы_чтения_и_отправки_имеют_только_конечный_адрес(сам):
+        путь = 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs'
+        чтение = 'const чтение = {threadId:"",hostId:"local",turnLimit:1,includeOutputs:true,maxOutputCharsPerItem:16000};'
+        отправка = 'const отправка = {threadId:"",hostId:"local",prompt:"ё🙂",model:"gpt-6.1-sol",thinking:"ultra"};'
+        сам.assertEqual([], учёт.объявления_сценария(чтение + отправка, путь))
+        сам.assertTrue(сам.имена(чтение + отправка))
+        for текст in (отправка.replace(',thinking:"ultra"', ''),
+                      отправка.replace('};', ',...добавка};'),
+                      отправка.replace('};', ',hostId:"other"};'),
+                      отправка.replace('};', ',extra:1};'),
+                      'const hostId = 1; function функция(prompt) {return prompt;}',
+                      'const сосед = {prompt:"данные"};'):
+            with сам.subTest(текст=текст):
+                сам.assertTrue(учёт.объявления_сценария(текст, путь))
+
+    def test_синтаксический_допуск_живого_пути_не_исполняет_источник(сам):
+        путь = 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs'
+        with tempfile.TemporaryDirectory() as каталог:
+            след = Path(каталог) / 'эффект'
+            текст = 'require("fs").writeFileSync(' + repr(str(след)) + ',"запрещено");'
+            сам.assertEqual([], учёт.объявления_сценария(текст, путь))
+            сам.assertFalse(след.exists())
+
     def имена(сам, текст):
         return {запись["имя"] for запись in модуль.разобрать(текст)["объявления"]}
 
