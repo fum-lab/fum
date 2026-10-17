@@ -1,0 +1,2712 @@
+{
+  "схема": "fum.состав-source-checkpoint-C2.1",
+  "база": "9b9943c8eaa8e1f7c4e19cfdc7895fcdffca7a49",
+  "план_C26": {
+    "коммит": "7b24a13f5f295399dbb2da9b4f8a80153ed6f7f5",
+    "путь": "Планирование/материалы-базиса-узла/2026-10-17/дополнение-трёх-исходников-запуска-общего-базиса-C26.json",
+    "sha256": "26a7dcc3c7ecf12ff7871fb41bd31befe4a7f0cc757eefafc81092cabc5f5e0c"
+  },
+  "сохранено_прежних": 167,
+  "добавлено": 3,
+  "итого": 170,
+  "policy_sha256": "7ecb29ed6d361448659150265196402534c605a2da979d50647a4e479a8c9c10",
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+      "исходный_Git": {
+        "blob": "432137d4b5f2ea8067ee936e5801e8af33b9fc67",
+        "sha256": "933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+        "байтов": 373548,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 373548,
+      "фактический_sha256": "933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py",
+      "исходный_Git": {
+        "blob": "1c90cd6905df86dc8acb65ce3447f2f7e1f18451",
+        "sha256": "928f1eab473201c75660b58489c50ab73552e7467a79411382640201d502f68a",
+        "байтов": 23426,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 23426,
+      "фактический_sha256": "928f1eab473201c75660b58489c50ab73552e7467a79411382640201d502f68a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочернее_назначение.py",
+      "исходный_Git": {
+        "blob": "70908047f84f33a0d3eb8a8e9ee3b69dae617ed8",
+        "sha256": "8f3820a14ac7a432e5a839c2b7dc9e8b2fdb20bfe98bdc53837c49cbced82fd2",
+        "байтов": 8685,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочернее_назначение.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 8685,
+      "фактический_sha256": "8f3820a14ac7a432e5a839c2b7dc9e8b2fdb20bfe98bdc53837c49cbced82fd2",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочерний_коммит.py",
+      "исходный_Git": {
+        "blob": "59a013be51368bcfe64fa2377ebe92d9b322edb0",
+        "sha256": "a379ba2a5458de6fed87374e67d4f41106bb203311bda581d872f1b09aa4cabd",
+        "байтов": 6550,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочерний_коммит.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6550,
+      "фактический_sha256": "a379ba2a5458de6fed87374e67d4f41106bb203311bda581d872f1b09aa4cabd",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/журнал_приёма.py",
+      "исходный_Git": {
+        "blob": "fbfe4fdf8fe1a1b7f12f030ee9358835aa4a93bb",
+        "sha256": "1c216173d6e574d05189538890e7cd10002504cdefc31683dac992ae9db51af9",
+        "байтов": 8311,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/журнал_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 8311,
+      "фактический_sha256": "1c216173d6e574d05189538890e7cd10002504cdefc31683dac992ae9db51af9",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/запись_слоя.py",
+      "исходный_Git": {
+        "blob": "f7c412e5dcae0aad03ff21d8e6e3206690555949",
+        "sha256": "c1fee3cee66b4e3bad0d4b590373f76e0dff852a93206390842be178e8d91e83",
+        "байтов": 7844,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/запись_слоя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 7844,
+      "фактический_sha256": "c1fee3cee66b4e3bad0d4b590373f76e0dff852a93206390842be178e8d91e83",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/коммит_приёма.py",
+      "исходный_Git": {
+        "blob": "e327a9e43e9d4a6f8e86508dc75b0490ee28a8f3",
+        "sha256": "278ba8e528b25251a92325e52d3a69562eb36915957c934f18f87ebf7e69d787",
+        "байтов": 8748,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/коммит_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 8748,
+      "фактический_sha256": "278ba8e528b25251a92325e52d3a69562eb36915957c934f18f87ebf7e69d787",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/контроль_первичного_потока.py",
+      "исходный_Git": {
+        "blob": "9f4abef1a624b571b66b270575230aac5baa4705",
+        "sha256": "4f21f2be143a59af373033f0b1e0393bb13d44b9aeac7be8975754044445b885",
+        "байтов": 4493,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/контроль_первичного_потока.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4493,
+      "фактический_sha256": "4f21f2be143a59af373033f0b1e0393bb13d44b9aeac7be8975754044445b885",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/копии_нативного_сжатия.py",
+      "исходный_Git": {
+        "blob": "5fc4ff6fca1713d166928e8a8c7aa44708abe338",
+        "sha256": "73f321870c42a498d49fec250ebf7d19990ca7c74484134eac1b1321bd0b4459",
+        "байтов": 11300,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/копии_нативного_сжатия.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11300,
+      "фактический_sha256": "73f321870c42a498d49fec250ebf7d19990ca7c74484134eac1b1321bd0b4459",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативное_назначение.py",
+      "исходный_Git": {
+        "blob": "c76bc0a34919a20fad282afdffac3a6a4437fc2a",
+        "sha256": "76afdfcce33149db8831f79c59fb9f4683e090b04d517ab8869529b4d86f6a4b",
+        "байтов": 3635,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативное_назначение.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3635,
+      "фактический_sha256": "76afdfcce33149db8831f79c59fb9f4683e090b04d517ab8869529b4d86f6a4b",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативные_вызовы.py",
+      "исходный_Git": {
+        "blob": "4b3360277cf7635d5ab26211050ebbcbd7ba703a",
+        "sha256": "e9c7410de349d5ef0fca1ffd6020399ab6825895d63de19141f14089f05a389e",
+        "байтов": 13029,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативные_вызовы.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 13029,
+      "фактический_sha256": "e9c7410de349d5ef0fca1ffd6020399ab6825895d63de19141f14089f05a389e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативный_приём.py",
+      "исходный_Git": {
+        "blob": "b801f0c09ef0391ed37e2f2f0817729493285353",
+        "sha256": "936ab3cfe037db9fbc1e741b13762f6fc66f7c34bf6d5a26515756abf3981831",
+        "байтов": 11953,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативный_приём.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11953,
+      "фактический_sha256": "936ab3cfe037db9fbc1e741b13762f6fc66f7c34bf6d5a26515756abf3981831",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_журнала_приёма.py",
+      "исходный_Git": {
+        "blob": "d95a1127bdd9834972038cfde2681c175046e1ad",
+        "sha256": "257e692de6c14611511a378dbcc627896cc3cde23906edd0370ae481c8c854c3",
+        "байтов": 7665,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_журнала_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 7665,
+      "фактический_sha256": "257e692de6c14611511a378dbcc627896cc3cde23906edd0370ae481c8c854c3",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_писателя.py",
+      "исходный_Git": {
+        "blob": "082c7bc8572109e77a2c1fe29f9faa7ef1c7b987",
+        "sha256": "381e29f5e46ea7534f1db4aaa81ca618906d7f65df2ddd07f41835e4ccc7692c",
+        "байтов": 9694,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_писателя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9694,
+      "фактический_sha256": "381e29f5e46ea7534f1db4aaa81ca618906d7f65df2ddd07f41835e4ccc7692c",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/остановка_ребёнка.py",
+      "исходный_Git": {
+        "blob": "5fc236f2b61b6976a91612cc98475c3efe0f2589",
+        "sha256": "77437e6caab636deeaa6d1b602158cabb700a36bdee868a8b3c15da3f024a922",
+        "байтов": 10347,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/остановка_ребёнка.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10347,
+      "фактический_sha256": "77437e6caab636deeaa6d1b602158cabb700a36bdee868a8b3c15da3f024a922",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/пакет_незавершённого.py",
+      "исходный_Git": {
+        "blob": "4fde857f3011e43286cf3439fef2df5836041364",
+        "sha256": "f4b0f1b9fcd6b2eb18448d61b280909e59de1510be29787f17c136cbb1cc9fe4",
+        "байтов": 10787,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/пакет_незавершённого.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10787,
+      "фактический_sha256": "f4b0f1b9fcd6b2eb18448d61b280909e59de1510be29787f17c136cbb1cc9fe4",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/паспорт_конвейера.py",
+      "исходный_Git": {
+        "blob": "0aec63858353619245b72560278371879ea82ecf",
+        "sha256": "ca3eb67983d7ca2ed5980b801f34c3570ff757234e9959d230c58133678cef2c",
+        "байтов": 33821,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/паспорт_конвейера.py",
+        "режим": "100755"
+      },
+      "фактические_байты": 33821,
+      "фактический_sha256": "ca3eb67983d7ca2ed5980b801f34c3570ff757234e9959d230c58133678cef2c",
+      "режим": "0755",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_журнала_приёма.py",
+      "исходный_Git": {
+        "blob": "00001db7f68407467f1544259fba74cdc703f417",
+        "sha256": "73aa29da4b63ddb67e753e8b94e544e760815c9d0172738c14f9499fe54f3e75",
+        "байтов": 5835,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_журнала_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5835,
+      "фактический_sha256": "73aa29da4b63ddb67e753e8b94e544e760815c9d0172738c14f9499fe54f3e75",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_запуска_слоёв.py",
+      "исходный_Git": {
+        "blob": "fa46bc5de30658f304c4fac0752fca127b24d210",
+        "sha256": "1a298f4ace39b3a1d81d6a737ea7f7a49c4193b9e68bb49f057128227d59e759",
+        "байтов": 4248,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_запуска_слоёв.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4248,
+      "фактический_sha256": "1a298f4ace39b3a1d81d6a737ea7f7a49c4193b9e68bb49f057128227d59e759",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поколение_запуска.py",
+      "исходный_Git": {
+        "blob": "b63764be6cab2874b64f934708dfc06ca060de58",
+        "sha256": "5844665e21bbd0264fd0d937ff1908a59cf3c03e62dfa23e7da7c096b37469f6",
+        "байтов": 7718,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поколение_запуска.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 7718,
+      "фактический_sha256": "5844665e21bbd0264fd0d937ff1908a59cf3c03e62dfa23e7da7c096b37469f6",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поручение_слоя.py",
+      "исходный_Git": {
+        "blob": "d3f1e818d30950845ea263fc6a34a288de0f3c14",
+        "sha256": "9b829290bbfc7d6ee054d8feaf91f395e965b57de11d389ba66a559876f0fb70",
+        "байтов": 4956,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поручение_слоя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4956,
+      "фактический_sha256": "9b829290bbfc7d6ee054d8feaf91f395e965b57de11d389ba66a559876f0fb70",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/приём_интеграции.py",
+      "исходный_Git": {
+        "blob": "2dc8179fadde7d085bcc6e4d87e3bd3c49755d77",
+        "sha256": "e5f72c506e5afb53b7b72e24ed6901ac0a23da494f5d3fe764a1dcd4505894d2",
+        "байтов": 13250,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/приём_интеграции.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 13250,
+      "фактический_sha256": "e5f72c506e5afb53b7b72e24ed6901ac0a23da494f5d3fe764a1dcd4505894d2",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/свежесть_слоя.py",
+      "исходный_Git": {
+        "blob": "a0e7a86a682e719368f4e1596b30200f2cab0d3f",
+        "sha256": "d571c8e7aaae60a51aa2572212d6d18394f4b9795f650d80b83581651fcd7f0c",
+        "байтов": 5515,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/свежесть_слоя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5515,
+      "фактический_sha256": "d571c8e7aaae60a51aa2572212d6d18394f4b9795f650d80b83581651fcd7f0c",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_приёма.py",
+      "исходный_Git": {
+        "blob": "2785f5ac57e8633187edec988920fde65712eadd",
+        "sha256": "456805d848e5ce1dced45e15407548145f58af637be4795e7c6bcca0bfb9d567",
+        "байтов": 4041,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4041,
+      "фактический_sha256": "456805d848e5ce1dced45e15407548145f58af637be4795e7c6bcca0bfb9d567",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_слоя.py",
+      "исходный_Git": {
+        "blob": "f67626423aee6d9c8af45a8f809cffb91feaf57f",
+        "sha256": "4c983f5ff366daa2cc288c174412c842b3b143ff12b80c69bf7183160fa6cc1d",
+        "байтов": 4987,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_слоя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4987,
+      "фактический_sha256": "4c983f5ff366daa2cc288c174412c842b3b143ff12b80c69bf7183160fa6cc1d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/слияние_приёма.py",
+      "исходный_Git": {
+        "blob": "7ffbefbcc71e0514f9cf50b661d9ebf1735c6353",
+        "sha256": "1ba284cf438829b1cabd455fe0de15e904a33ee6829e4154f84dcc7da46c21b1",
+        "байтов": 9542,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/слияние_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9542,
+      "фактический_sha256": "1ba284cf438829b1cabd455fe0de15e904a33ee6829e4154f84dcc7da46c21b1",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_нативного_источника.py",
+      "исходный_Git": {
+        "blob": "1d29caef7a2f8898c41b8627732884c9a53f57fb",
+        "sha256": "96e3976a897e33fd8372983604db1a46ed73397d0a3c048ac24f56e650300d79",
+        "байтов": 13655,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_нативного_источника.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 13655,
+      "фактический_sha256": "96e3976a897e33fd8372983604db1a46ed73397d0a3c048ac24f56e650300d79",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_области.py",
+      "исходный_Git": {
+        "blob": "808b8110b3ecbec2c4cb28ed4a610ef60aba1b95",
+        "sha256": "ab9be4b8b66ebc1f8c6699e09c711a8a22dd149c4303e41a1dab291e383eecab",
+        "байтов": 3575,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_области.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3575,
+      "фактический_sha256": "ab9be4b8b66ebc1f8c6699e09c711a8a22dd149c4303e41a1dab291e383eecab",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/терминал_запуска.py",
+      "исходный_Git": {
+        "blob": "7294d4f8af160461e7b554c8f83ce8dda08c202d",
+        "sha256": "1c4a201761a9ea4c8891ac62c999981061122f04d97455948c3234123b7942bb",
+        "байтов": 2498,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/терминал_запуска.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2498,
+      "фактический_sha256": "1c4a201761a9ea4c8891ac62c999981061122f04d97455948c3234123b7942bb",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/файл_журнала_приёма.py",
+      "исходный_Git": {
+        "blob": "f342788966dc9c1851cc16352adc3ff56ea924c6",
+        "sha256": "3c91d4b71aeb6c3087cf2295f2a83650f9377c548a16a2ddeb57f5c9a94a9d1e",
+        "байтов": 3049,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/файл_журнала_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3049,
+      "фактический_sha256": "3c91d4b71aeb6c3087cf2295f2a83650f9377c548a16a2ddeb57f5c9a94a9d1e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/хранилище_незавершённого.py",
+      "исходный_Git": {
+        "blob": "cc7ed7ad4cf4653d8a50a96b8cc467f9a432cbd8",
+        "sha256": "1d53d23272c5e68740bdc316df1666c9276d78594ff035d729bb754ad8958e48",
+        "байтов": 6136,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/хранилище_незавершённого.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6136,
+      "фактический_sha256": "1d53d23272c5e68740bdc316df1666c9276d78594ff035d729bb754ad8958e48",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/эпизод_приёма.py",
+      "исходный_Git": {
+        "blob": "0b8c6f4a743920aa223258e87d214d87f6703a27",
+        "sha256": "4fc5a34014395542bc1e884ccc52a5c98ce36487a3fe7adb499d29486394f94b",
+        "байтов": 11357,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/эпизод_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11357,
+      "фактический_sha256": "4fc5a34014395542bc1e884ccc52a5c98ce36487a3fe7adb499d29486394f94b",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py",
+      "исходный_Git": {
+        "blob": "70a4584e9ed7f0bc5c443a15e15551086dd19f32",
+        "sha256": "ee26082227da2d8a291f050d716cfe66622a71ff433f8727d9e06efa89b4cbec",
+        "байтов": 17700,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 17700,
+      "фактический_sha256": "ee26082227da2d8a291f050d716cfe66622a71ff433f8727d9e06efa89b4cbec",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/доказательный_обзор.py",
+      "исходный_Git": {
+        "blob": "808d47403a3ae36ed06e95b594caa2448ac6078a",
+        "sha256": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+        "байтов": 5924,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/доказательный_обзор.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5924,
+      "фактический_sha256": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/контекст_обзора.py",
+      "исходный_Git": {
+        "blob": "9a0ced550b7c522aa619b547023a953bf598f895",
+        "sha256": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+        "байтов": 5888,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/контекст_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5888,
+      "фактический_sha256": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/контракт_обзора.py",
+      "исходный_Git": {
+        "blob": "7c7326fc35da78962c440bda4ef05b45a372fbcf",
+        "sha256": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+        "байтов": 4811,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/контракт_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4811,
+      "фактический_sha256": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/построение_обзора.py",
+      "исходный_Git": {
+        "blob": "270b55543dc4aebc38284fb1828047d41805cbe5",
+        "sha256": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+        "байтов": 2981,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/построение_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2981,
+      "фактический_sha256": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/приёмки_обзора.py",
+      "исходный_Git": {
+        "blob": "f7da5e5ef35652d4ad05176d6c70f2bfdd5ca4d6",
+        "sha256": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+        "байтов": 3847,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/приёмки_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3847,
+      "фактический_sha256": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/реестр_обзора.py",
+      "исходный_Git": {
+        "blob": "170d4820642a407bbe99bc4f376ab98cd0c94cb9",
+        "sha256": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+        "байтов": 2509,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/реестр_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2509,
+      "фактический_sha256": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py",
+      "исходный_Git": {
+        "blob": "cb49e9ce55a9ec2a77069e62caf9b4a9af7f6473",
+        "sha256": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+        "байтов": 4100,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4100,
+      "фактический_sha256": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/сигналы_обзора.py",
+      "исходный_Git": {
+        "blob": "ada23c3184b84f4ea3a8f100adf0587ecca251ea",
+        "sha256": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+        "байтов": 2614,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/сигналы_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2614,
+      "фактический_sha256": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py",
+      "исходный_Git": {
+        "blob": "d5fc96f6fab7d36a22d8557e2a953f2fbe966566",
+        "sha256": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+        "байтов": 8298,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 8298,
+      "фактический_sha256": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/формат_обзора.py",
+      "исходный_Git": {
+        "blob": "9874d48e724010f98710b68df1310f8fab3b5cc1",
+        "sha256": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+        "байтов": 3599,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/формат_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3599,
+      "фактический_sha256": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/хранение_обзора.py",
+      "исходный_Git": {
+        "blob": "7f1b9f684a6d181e055949c1ca0f9d0d79d55595",
+        "sha256": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+        "байтов": 6013,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-ocenki/scripts/хранение_обзора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6013,
+      "фактический_sha256": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+      "исходный_Git": {
+        "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+        "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+        "байтов": 37479,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 37479,
+      "фактический_sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+      "исходный_Git": {
+        "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+        "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+        "байтов": 214543,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 214543,
+      "фактический_sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+      "исходный_Git": {
+        "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+        "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+        "байтов": 18450,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 18450,
+      "фактический_sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py",
+      "исходный_Git": {
+        "blob": "6f9f8bd44878689c46ebd204cbb9c294681c3daa",
+        "sha256": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+        "байтов": 59024,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 59024,
+      "фактический_sha256": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "исходный_Git": {
+        "blob": "fc5ba8048b5aa8b262ad19ae2985a5f94cc001aa",
+        "sha256": "f10fc9953c726e4f49872ce53a33fb1512194a13d7547bb6f89ac45f6a4c4c37",
+        "байтов": 119076,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 119076,
+      "фактический_sha256": "f10fc9953c726e4f49872ce53a33fb1512194a13d7547bb6f89ac45f6a4c4c37",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "исходный_Git": {
+        "blob": "46b1464075eeef3c67816048514ca491ef5642f1",
+        "sha256": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+        "байтов": 5410,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5410,
+      "фактический_sha256": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "исходный_Git": {
+        "blob": "de47c8c87b5859abf40f1f16fdf3ee3d69d81862",
+        "sha256": "a32eb5ca9a09bad96640fb8faf61621f933145c1fd81ae0335f457b9ab8d27f7",
+        "байтов": 44008,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 44008,
+      "фактический_sha256": "a32eb5ca9a09bad96640fb8faf61621f933145c1fd81ae0335f457b9ab8d27f7",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py",
+      "исходный_Git": {
+        "blob": "09f49cddd989cc2514912b8ee9128d87c136a187",
+        "sha256": "e5db4fc3277594122c91c23cf94ef4451f6c62fa16647b6e764048a7c9a74497",
+        "байтов": 33134,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 33134,
+      "фактический_sha256": "e5db4fc3277594122c91c23cf94ef4451f6c62fa16647b6e764048a7c9a74497",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "исходный_Git": {
+        "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+        "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+        "байтов": 13309,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 13309,
+      "фактический_sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py",
+      "исходный_Git": {
+        "blob": "d8ed4c19d918b4777ec99b7e1765a7ad1f466e1e",
+        "sha256": "3b2e5c8af335702f866536c9532929bc15337cc64eda617c28a0e8fd4a616709",
+        "байтов": 166024,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 166024,
+      "фактический_sha256": "3b2e5c8af335702f866536c9532929bc15337cc64eda617c28a0e8fd4a616709",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "исходный_Git": {
+        "blob": "317a400c27fb10637c744f65cbc3a0fb1ef8fbd9",
+        "sha256": "4a5fd867af2408ffbd294d10c053a043ffe3283f44c115963e906ccc2d168bde",
+        "байтов": 33002,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 33002,
+      "фактический_sha256": "4a5fd867af2408ffbd294d10c053a043ffe3283f44c115963e906ccc2d168bde",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py",
+      "исходный_Git": {
+        "blob": "a590d9a1f12328a6e1b7c1a2786da61336a3068b",
+        "sha256": "b950ad79d5230430473932f19b49d7e21499d8c6e809437d11684e25134e3f3d",
+        "байтов": 15019,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 15019,
+      "фактический_sha256": "b950ad79d5230430473932f19b49d7e21499d8c6e809437d11684e25134e3f3d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py",
+      "исходный_Git": {
+        "blob": "6981082cde72fd2132f6af728f887487f561ab91",
+        "sha256": "734cb08c12f2172b37e3c437f6ca75ecaf06284e1d6ac69434948f69ad500cc6",
+        "байтов": 37837,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 37837,
+      "фактический_sha256": "734cb08c12f2172b37e3c437f6ca75ecaf06284e1d6ac69434948f69ad500cc6",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py",
+      "исходный_Git": {
+        "blob": "f50c2433600daebb6da0fefe87473948a40dd4c7",
+        "sha256": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+        "байтов": 24754,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 24754,
+      "фактический_sha256": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py",
+      "исходный_Git": {
+        "blob": "667b0e583227681ee4cd69c1a251118f6da60604",
+        "sha256": "1c88b6d88a2fde9f00d8b1647a99f4ece69b35089f6e1a69212d0a449c84aa10",
+        "байтов": 9646,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9646,
+      "фактический_sha256": "1c88b6d88a2fde9f00d8b1647a99f4ece69b35089f6e1a69212d0a449c84aa10",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py",
+      "исходный_Git": {
+        "blob": "ba8ca14a32dc355bfbafef49ae25b92e5442ae9d",
+        "sha256": "3a5ca9b48e48efc79c5292e6657aa60252516d28264381d4c24f6fd2374aad1b",
+        "байтов": 56896,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 56896,
+      "фактический_sha256": "3a5ca9b48e48efc79c5292e6657aa60252516d28264381d4c24f6fd2374aad1b",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py",
+      "исходный_Git": {
+        "blob": "bd176ebeb2901fcbe064b9c506a5c678cf6db95b",
+        "sha256": "838229483c487e982af520d37792733c308a467c30109324fdd11997df091350",
+        "байтов": 32580,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 32580,
+      "фактический_sha256": "838229483c487e982af520d37792733c308a467c30109324fdd11997df091350",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py",
+      "исходный_Git": {
+        "blob": "5503598ddde9830b12beadf2ac54ed822fc4d669",
+        "sha256": "64b60d02239d5ecf8845edefd03f7bfbae4f6751864fee38bdbd3a881e9cd444",
+        "байтов": 37963,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 37963,
+      "фактический_sha256": "64b60d02239d5ecf8845edefd03f7bfbae4f6751864fee38bdbd3a881e9cd444",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+      "исходный_Git": {
+        "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+        "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+        "байтов": 18175,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 18175,
+      "фактический_sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+      "исходный_Git": {
+        "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+        "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+        "байтов": 70810,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 70810,
+      "фактический_sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "исходный_Git": {
+        "blob": "e03a97813b12125a20582bf51e4d564413826dae",
+        "sha256": "2039b87a8f3558b73dc4d24c3023f1568499d901dc666f8cc87b726ec4401651",
+        "байтов": 6948,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6948,
+      "фактический_sha256": "2039b87a8f3558b73dc4d24c3023f1568499d901dc666f8cc87b726ec4401651",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+      "исходный_Git": {
+        "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+        "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+        "байтов": 11337,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11337,
+      "фактический_sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "исходный_Git": {
+        "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+        "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "байтов": 115082,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 115082,
+      "фактический_sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py",
+      "исходный_Git": {
+        "blob": "794c928ada0daca971fc58fc1c074eaa7a182bd0",
+        "sha256": "049fc6fba5df801b69dc7ba16168b65403f6ae8f02d047ac1bcfaec77ea290b2",
+        "байтов": 5894,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5894,
+      "фактический_sha256": "049fc6fba5df801b69dc7ba16168b65403f6ae8f02d047ac1bcfaec77ea290b2",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+      "исходный_Git": {
+        "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+        "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+        "байтов": 20020,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 20020,
+      "фактический_sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/допуск_наполнения_состояния.py",
+      "исходный_Git": {
+        "blob": "17c1e4ddfb6ac50e3c7f5450c9dfaa048a20cfb6",
+        "sha256": "cf6a853e962d7ae1b46545d46ca5c50c3e08a26c7f8974c08c635d16a05bf0e2",
+        "байтов": 8683,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/допуск_наполнения_состояния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 8683,
+      "фактический_sha256": "cf6a853e962d7ae1b46545d46ca5c50c3e08a26c7f8974c08c635d16a05bf0e2",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py",
+      "исходный_Git": {
+        "blob": "8ecc392b0981e6ad14b43538e66294e69a4d8843",
+        "sha256": "5f870563df45c7b6d75a4384157f299bb0f38c4e0461cbe21b1a710cca0d3bb1",
+        "байтов": 5112,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5112,
+      "фактический_sha256": "5f870563df45c7b6d75a4384157f299bb0f38c4e0461cbe21b1a710cca0d3bb1",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+      "исходный_Git": {
+        "blob": "1787658688a0099dd5e6e54596250a48b0377541",
+        "sha256": "cbe758a15edbdac1aab839198c1d72f42d373221776defbfadad6ead1e0df859",
+        "байтов": 33292,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 33292,
+      "фактический_sha256": "cbe758a15edbdac1aab839198c1d72f42d373221776defbfadad6ead1e0df859",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+      "исходный_Git": {
+        "blob": "6b2abc372c4b94f8ccfaaddf5a0961a52167067b",
+        "sha256": "44540e9501765caac2c3f7f5d907da57ce9190805769dd68d46f26f85bacf95e",
+        "байтов": 38941,
+        "дерево": "334d95c6a7cf1749a791b8a389a81dbccd4e6122",
+        "коммит": "e518a866b693539ae0f409bfcc9418d697af81a3",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 38941,
+      "фактический_sha256": "44540e9501765caac2c3f7f5d907da57ce9190805769dd68d46f26f85bacf95e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+      "исходный_Git": {
+        "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+        "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+        "байтов": 3059,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3059,
+      "фактический_sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+      "исходный_Git": {
+        "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+        "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+        "байтов": 11033,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11033,
+      "фактический_sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py",
+      "исходный_Git": {
+        "blob": "27e639a05ba745690c527039c5eafd1c1bd5a6f8",
+        "sha256": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+        "байтов": 30822,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 30822,
+      "фактический_sha256": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py",
+      "исходный_Git": {
+        "blob": "7f8970dcfcbc41c9e7cd75b8e8582d645f42a183",
+        "sha256": "7886d6e54e16e810693a8351dd60ee4de9d5e806fcf10816c1b374d4712a3458",
+        "байтов": 4882,
+        "дерево": "334d95c6a7cf1749a791b8a389a81dbccd4e6122",
+        "коммит": "e518a866b693539ae0f409bfcc9418d697af81a3",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4882,
+      "фактический_sha256": "7886d6e54e16e810693a8351dd60ee4de9d5e806fcf10816c1b374d4712a3458",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+      "исходный_Git": {
+        "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+        "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+        "байтов": 18712,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 18712,
+      "фактический_sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+      "исходный_Git": {
+        "blob": "d3d3fd9dc68936b1c5791f6926b391606ff97718",
+        "sha256": "bcca33c53409296fca433acc3a21b10ec7ae94cb445ac5b7b247c92e46cb84d1",
+        "байтов": 57759,
+        "дерево": "334d95c6a7cf1749a791b8a389a81dbccd4e6122",
+        "коммит": "e518a866b693539ae0f409bfcc9418d697af81a3",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 57759,
+      "фактический_sha256": "bcca33c53409296fca433acc3a21b10ec7ae94cb445ac5b7b247c92e46cb84d1",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "исходный_Git": {
+        "blob": "4d14660d400c0be1a4aebedff837944c5a22813f",
+        "sha256": "70cea98d2edea37548e57bf0e6dc7f3297441119a506bcea750f8827def21de8",
+        "байтов": 23229,
+        "дерево": "334d95c6a7cf1749a791b8a389a81dbccd4e6122",
+        "коммит": "e518a866b693539ae0f409bfcc9418d697af81a3",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 23229,
+      "фактический_sha256": "70cea98d2edea37548e57bf0e6dc7f3297441119a506bcea750f8827def21de8",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_строгого_индекса_путей.py",
+      "исходный_Git": {
+        "blob": "af781a8ef1d0f7640359899ca6e76ad12e7328e4",
+        "sha256": "71e06481785158824cf9906138d981dbc86d47e16b3d687653fb46fe5185fff5",
+        "байтов": 4631,
+        "дерево": "334d95c6a7cf1749a791b8a389a81dbccd4e6122",
+        "коммит": "e518a866b693539ae0f409bfcc9418d697af81a3",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_строгого_индекса_путей.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4631,
+      "фактический_sha256": "71e06481785158824cf9906138d981dbc86d47e16b3d687653fb46fe5185fff5",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/строгий-индекс-путей.md",
+      "исходный_Git": {
+        "blob": "2f10bec5654f84a8c05011e41b9097d298898844",
+        "sha256": "af3b18e4fa2f7c8e68cedf30c2f86b1db2d8c8d8c86f49204d20582c75c17dc5",
+        "байтов": 6913,
+        "дерево": "334d95c6a7cf1749a791b8a389a81dbccd4e6122",
+        "коммит": "e518a866b693539ae0f409bfcc9418d697af81a3",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/строгий-индекс-путей.md",
+        "режим": "100644"
+      },
+      "фактические_байты": 6954,
+      "фактический_sha256": "7aafbc6f5cde2a0c5468d958f91fc61db54e8b76d5187206cae8741cfe4c929f",
+      "режим": "0644",
+      "адаптация_руководства": true
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-инструментов.md.шаблон",
+      "исходный_Git": {
+        "blob": "8b836cda5d70165ba15ff3982ec64d986ee36b65",
+        "sha256": "ca86266002cdd64a02bcb1700f2056cb6e638aac875662b27d7bc05dcba639ef",
+        "байтов": 465,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-инструментов.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 465,
+      "фактический_sha256": "ca86266002cdd64a02bcb1700f2056cb6e638aac875662b27d7bc05dcba639ef",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-проверок.md.шаблон",
+      "исходный_Git": {
+        "blob": "9c43feda5ab49672cf3934c98d36d0d7fb5f44aa",
+        "sha256": "35da679a7d45c921b007e4d345a1a7195d02b9aa6d2ddf1a7f7c6dc144bb6889",
+        "байтов": 45,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-проверок.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 45,
+      "фактический_sha256": "35da679a7d45c921b007e4d345a1a7195d02b9aa6d2ddf1a7f7c6dc144bb6889",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-профиля.md.шаблон",
+      "исходный_Git": {
+        "blob": "a699ff154b1553a12536aa668b36fc200ca7e652",
+        "sha256": "c5231b3195dd1ad72a3fbf126c7947fefd7e1a50c66754b8f360f3cd37b86c63",
+        "байтов": 184,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-профиля.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 184,
+      "фактический_sha256": "c5231b3195dd1ad72a3fbf126c7947fefd7e1a50c66754b8f360f3cd37b86c63",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-состава.md.шаблон",
+      "исходный_Git": {
+        "blob": "b01f0f21559f42b531e4dc7892e1f0e4b94e16f5",
+        "sha256": "3190981270235fd4c4fc5ae80f240fd729d3a20c77d7bb7847a314c482cc2b08",
+        "байтов": 17,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-состава.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 17,
+      "фактический_sha256": "3190981270235fd4c4fc5ae80f240fd729d3a20c77d7bb7847a314c482cc2b08",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-текста.md.шаблон",
+      "исходный_Git": {
+        "blob": "0d057005f358df933f996bd6898d4af87b82a40d",
+        "sha256": "5e019a1616b8f85c4f2a127cde667c09d8d93451f27d6a83f7fea4bb2f9b8650",
+        "байтов": 25,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-текста.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 25,
+      "фактический_sha256": "5e019a1616b8f85c4f2a127cde667c09d8d93451f27d6a83f7fea4bb2f9b8650",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон",
+      "исходный_Git": {
+        "blob": "1101c581d6d06ebf5264ef4e1e5096a551430bbb",
+        "sha256": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "байтов": 1562,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 1562,
+      "фактический_sha256": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон",
+      "исходный_Git": {
+        "blob": "0c6bf320a8043cd902c75266b230feb7cd228c39",
+        "sha256": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "байтов": 3190,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон",
+        "режим": "100644"
+      },
+      "фактические_байты": 3190,
+      "фактический_sha256": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+      "исходный_Git": {
+        "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+        "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+        "байтов": 18428,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 18428,
+      "фактический_sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+      "исходный_Git": {
+        "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+        "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+        "байтов": 1386,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 1386,
+      "фактический_sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+      "исходный_Git": {
+        "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+        "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+        "байтов": 1533,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 1533,
+      "фактический_sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "исходный_Git": {
+        "blob": "dd36be908e3e26d72cdf4b1a67c7ac73331347ca",
+        "sha256": "e3610321d8e42763d41484cc650416ddaae3b279fd121b66288c77a717966c22",
+        "байтов": 83402,
+        "дерево": "bee177748d2ed0c76060d3176da67893f8ee9ccf",
+        "коммит": "d4ece912779f5ea2d69ce3c09d05774584392806",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 83402,
+      "фактический_sha256": "e3610321d8e42763d41484cc650416ddaae3b279fd121b66288c77a717966c22",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+      "исходный_Git": {
+        "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+        "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+        "байтов": 2654,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2654,
+      "фактический_sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py",
+      "исходный_Git": {
+        "blob": "b89d87eb57e5e19e4245f0e955df8c28ba2e1ad8",
+        "sha256": "7f90bec76f69ab8df0961f0d91e8fbd3f830ff2689e15464fff08d88e46db68f",
+        "байтов": 10110,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10110,
+      "фактический_sha256": "7f90bec76f69ab8df0961f0d91e8fbd3f830ff2689e15464fff08d88e46db68f",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py",
+      "исходный_Git": {
+        "blob": "51072ab39f5ea978572339cc2ec231dd741ca5d4",
+        "sha256": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+        "байтов": 32018,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 32018,
+      "фактический_sha256": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_писателя.py",
+      "исходный_Git": {
+        "blob": "1523d41447d8bd32142078f2ed4d983255ddafc9",
+        "sha256": "5a7d075f0c3bdc2845983183af2bfb28e4968848e65d004c8274a6921b2ab9fc",
+        "байтов": 9153,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_писателя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9153,
+      "фактический_sha256": "5a7d075f0c3bdc2845983183af2bfb28e4968848e65d004c8274a6921b2ab9fc",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_создателя.py",
+      "исходный_Git": {
+        "blob": "1ec75d0511831af15344b4b517e81305727ef840",
+        "sha256": "93018e0f485755be62595d582235138c464419c5b3c8aba5fbf869ecdadd2c69",
+        "байтов": 9419,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_создателя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9419,
+      "фактический_sha256": "93018e0f485755be62595d582235138c464419c5b3c8aba5fbf869ecdadd2c69",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+      "исходный_Git": {
+        "blob": "4deab7257c33016cffff3e1b6a1f7b34ad2cf50f",
+        "sha256": "93e723b49102b80cdb6050421b897b252841528993ff8ef0e3e9d725b292c76a",
+        "байтов": 26957,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 26957,
+      "фактический_sha256": "93e723b49102b80cdb6050421b897b252841528993ff8ef0e3e9d725b292c76a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+      "исходный_Git": {
+        "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+        "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+        "байтов": 7398,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 7398,
+      "фактический_sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+      "исходный_Git": {
+        "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+        "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+        "байтов": 2709,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2709,
+      "фактический_sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/детектор_вывода.py",
+      "исходный_Git": {
+        "blob": "d82b17c5bb91b8af198c12213dd1f8850fb0805d",
+        "sha256": "179a91599126be9e58d88a04b66804992054ddaa87129e81246761fc862baa62",
+        "байтов": 4811,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/детектор_вывода.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4811,
+      "фактический_sha256": "179a91599126be9e58d88a04b66804992054ddaa87129e81246761fc862baa62",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/журнал_повторного_состояния_узла.py",
+      "исходный_Git": {
+        "blob": "a14a261cab4e55f408d64d8ab0c18c468b5fc06a",
+        "sha256": "d8223cb63543a3fdb9437f84cd04c592afdec3377a0f0005136181e308bda79b",
+        "байтов": 55323,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/журнал_повторного_состояния_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 55323,
+      "фактический_sha256": "d8223cb63543a3fdb9437f84cd04c592afdec3377a0f0005136181e308bda79b",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_принятого_создателя.py",
+      "исходный_Git": {
+        "blob": "a84a56d6a9729810c2fd66bfd2b30cc7a8c34f21",
+        "sha256": "d290bd689a1adec94275b4778045faa0c018a3a5bdbfc5f1f3f90355a01cb01e",
+        "байтов": 96662,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_принятого_создателя.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 96662,
+      "фактический_sha256": "d290bd689a1adec94275b4778045faa0c018a3a5bdbfc5f1f3f90355a01cb01e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py",
+      "исходный_Git": {
+        "blob": "b310a93403dbddd4f43f91a87cd1bc7140967493",
+        "sha256": "9478b1f73fb9a2a8d605bdbe9874eba14e927e20400934b9dc98ae4433e8a09e",
+        "байтов": 23625,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 23625,
+      "фактический_sha256": "9478b1f73fb9a2a8d605bdbe9874eba14e927e20400934b9dc98ae4433e8a09e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исполнение_принятого_кода.py",
+      "исходный_Git": {
+        "blob": "c7071c1d262520fe4669528d92f1a9a58b7e138c",
+        "sha256": "d2fe64709a92cc642ec28e1a669cbc15561fdcc1b73c9fb81b7736821465605f",
+        "байтов": 24483,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исполнение_принятого_кода.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 24483,
+      "фактический_sha256": "d2fe64709a92cc642ec28e1a669cbc15561fdcc1b73c9fb81b7736821465605f",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/историческая_доставка_ожиданий.py",
+      "исходный_Git": {
+        "blob": "80af4cb80dde43236addf1a1e914f09a5e2e87e7",
+        "sha256": "d6d047f86068e6cbadcaddf7d766f2b3bcdb3c2d986be1910b889fea181e3584",
+        "байтов": 9702,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/историческая_доставка_ожиданий.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9702,
+      "фактический_sha256": "d6d047f86068e6cbadcaddf7d766f2b3bcdb3c2d986be1910b889fea181e3584",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_байты_ожиданий.py",
+      "исходный_Git": {
+        "blob": "4b57155aebc6b0df17daee06335c511cbecbd892",
+        "sha256": "6ffde1323c0e7873afcd1668239c36eba8a3c60298e97ea0b813738983830e3d",
+        "байтов": 7979,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_байты_ожиданий.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 7979,
+      "фактический_sha256": "6ffde1323c0e7873afcd1668239c36eba8a3c60298e97ea0b813738983830e3d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+      "исходный_Git": {
+        "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+        "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+        "байтов": 3641,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3641,
+      "фактический_sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+      "исходный_Git": {
+        "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+        "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+        "байтов": 18085,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 18085,
+      "фактический_sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+      "исходный_Git": {
+        "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+        "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+        "байтов": 14459,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 14459,
+      "фактический_sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каркас_журнала_состояния.py",
+      "исходный_Git": {
+        "blob": "7d433e2335395ca003a184ff88b9f3f0a5f4c1d7",
+        "sha256": "ab6f537438d23ff12aab8c2212702ee54b8e2c428465c8c644c3a664e8bc88ed",
+        "байтов": 3689,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каркас_журнала_состояния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 3689,
+      "фактический_sha256": "ab6f537438d23ff12aab8c2212702ee54b8e2c428465c8c644c3a664e8bc88ed",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py",
+      "исходный_Git": {
+        "blob": "1c2417625fe822d6c22a088f5d2b53ad95fe4f7a",
+        "sha256": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+        "байтов": 21446,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 21446,
+      "фактический_sha256": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "исходный_Git": {
+        "blob": "239deeedebcba82c2f812cf2783dff7a39625fc7",
+        "sha256": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+        "байтов": 10277,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10277,
+      "фактический_sha256": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py",
+      "исходный_Git": {
+        "blob": "2cad0d50d28ba33ce304d1ed5b723edc97dccff8",
+        "sha256": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+        "байтов": 10359,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10359,
+      "фактический_sha256": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+      "исходный_Git": {
+        "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+        "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "байтов": 4960,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 4960,
+      "фактический_sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+      "исходный_Git": {
+        "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+        "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+        "байтов": 10208,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10208,
+      "фактический_sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимая_пара_журнала.py",
+      "исходный_Git": {
+        "blob": "5efd2e7d3d6641e6184f865f61675cfb60d6a18d",
+        "sha256": "519526a5fc2ed6a5cc9396736b8a2ead16d4699e840356ffca3128b0963b6ff0",
+        "байтов": 6361,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимая_пара_журнала.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6361,
+      "фактический_sha256": "519526a5fc2ed6a5cc9396736b8a2ead16d4699e840356ffca3128b0963b6ff0",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+      "исходный_Git": {
+        "blob": "1d14d0383d305503b2425898551357359dc9041e",
+        "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "байтов": 6676,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6676,
+      "фактический_sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py",
+      "исходный_Git": {
+        "blob": "7703d2c92c30614fccc8a6e51054e4e5c83ebb9b",
+        "sha256": "7971425375ce9bfbd167a70156baf1313e278d006067fd796d9796f7aa876108",
+        "байтов": 71779,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 71779,
+      "фактический_sha256": "7971425375ce9bfbd167a70156baf1313e278d006067fd796d9796f7aa876108",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+      "исходный_Git": {
+        "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+        "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+        "байтов": 78135,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 78135,
+      "фактический_sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+      "исходный_Git": {
+        "blob": "335153776523fdc0bb774f335619597705da7556",
+        "sha256": "8ecd14f61a1ae5452d646c8bc7e1fbe6ee96bfb87a82c1bc9800bb81a88e3358",
+        "байтов": 20461,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 20461,
+      "фактический_sha256": "8ecd14f61a1ae5452d646c8bc7e1fbe6ee96bfb87a82c1bc9800bb81a88e3358",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "исходный_Git": {
+        "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+        "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+        "байтов": 47018,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 47018,
+      "фактический_sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "исходный_Git": {
+        "blob": "9fc9773f3226798af0940867eb11f62c4f7aaa88",
+        "sha256": "64cd5c44beab447d98a571662b8b17fca2d7fd967d324b7fb07301a9c46b5f03",
+        "байтов": 53142,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 53142,
+      "фактический_sha256": "64cd5c44beab447d98a571662b8b17fca2d7fd967d324b7fb07301a9c46b5f03",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/основание_двусторонней_координации.py",
+      "исходный_Git": {
+        "blob": "cfb9d461aa327fea283ed5bbef9af23c3cb0d986",
+        "sha256": "cbd8308e463826d8138bf00dd6ea7bde75f1d07614e8cfdfb9a10eb42dc74723",
+        "байтов": 43661,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/основание_двусторонней_координации.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 43661,
+      "фактический_sha256": "cbd8308e463826d8138bf00dd6ea7bde75f1d07614e8cfdfb9a10eb42dc74723",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+      "исходный_Git": {
+        "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+        "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+        "байтов": 9375,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9375,
+      "фактический_sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+      "исходный_Git": {
+        "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+        "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+        "байтов": 17189,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 17189,
+      "фактический_sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+      "исходный_Git": {
+        "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+        "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+        "байтов": 10886,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 10886,
+      "фактический_sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/план_журнала_писателя_состояния.py",
+      "исходный_Git": {
+        "blob": "a0dd9ec3af62d99ec26eea50a788b8c9a09537b8",
+        "sha256": "29db76e13dad72bef59c58bda9d82c757fcaa573ccc00f1baff8fff599fde363",
+        "байтов": 11725,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/план_журнала_писателя_состояния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11725,
+      "фактический_sha256": "29db76e13dad72bef59c58bda9d82c757fcaa573ccc00f1baff8fff599fde363",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_модели.py",
+      "исходный_Git": {
+        "blob": "031b924a466636746e13e6702db4583adb6c6051",
+        "sha256": "defa5a524d9c985d3c813ff820bd6b75bd00560aa4d69f69e19e076e39bc8a44",
+        "байтов": 2180,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_модели.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2180,
+      "фактический_sha256": "defa5a524d9c985d3c813ff820bd6b75bd00560aa4d69f69e19e076e39bc8a44",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторный_план_журнала_состояния.py",
+      "исходный_Git": {
+        "blob": "14d3dcb024f161396a0254c08d2369a9f7d73f2c",
+        "sha256": "c466948bd6be7cb8a9ba7fa8293fba7ddaa52e59167fe9a8ebde8148eb5540fe",
+        "байтов": 11301,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторный_план_журнала_состояния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11301,
+      "фактический_sha256": "c466948bd6be7cb8a9ba7fa8293fba7ddaa52e59167fe9a8ebde8148eb5540fe",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_ветки_состояния_узла.py",
+      "исходный_Git": {
+        "blob": "799d64e14d12bb3894be5d5ffa40a2f94fd7d6d9",
+        "sha256": "c189c60333fe4f1fbee63c4a51b3d72083618d21e459da458f08ac25b4d696e6",
+        "байтов": 9694,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_ветки_состояния_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9694,
+      "фактический_sha256": "c189c60333fe4f1fbee63c4a51b3d72083618d21e459da458f08ac25b4d696e6",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+      "исходный_Git": {
+        "blob": "a842c6553eda0ad326ee7bbe0a6181422b65a41a",
+        "sha256": "8a63fdce2232785984ffbd28e0abd0f15c608c4cab10f6c249aafaff7bb4e56d",
+        "байтов": 73429,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 73429,
+      "фактический_sha256": "8a63fdce2232785984ffbd28e0abd0f15c608c4cab10f6c249aafaff7bb4e56d",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+      "исходный_Git": {
+        "blob": "d56ce1ba1b5a2fc3262d6ac9e37f24d62d9a8c8e",
+        "sha256": "6f93cdbabff916baac384446a71b9e657e745d90d4d8444a3571fafe1bf9dbed",
+        "байтов": 50317,
+        "дерево": "785443f7b4b52241bc9fc64b343a788bf863a585",
+        "коммит": "1a667a975665bb065f140a724c3d5993c8f760cb",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 50317,
+      "фактический_sha256": "6f93cdbabff916baac384446a71b9e657e745d90d4d8444a3571fafe1bf9dbed",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+      "исходный_Git": {
+        "blob": "4828d52c75643d14a91f7fe19dc768a4c5f752ec",
+        "sha256": "f085a10ebb0c830a033d074b6fdcb2dd53060b0dbd1671585af40ff4e47262c5",
+        "байтов": 113871,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 113871,
+      "фактический_sha256": "f085a10ebb0c830a033d074b6fdcb2dd53060b0dbd1671585af40ff4e47262c5",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py",
+      "исходный_Git": {
+        "blob": "4fdac46d8071bb0c7812c16f798c0e4ba76af220",
+        "sha256": "f790ef96ade98fcdd62c56ccbcccc6c21e6aa1cb3bb0111bd415f5ed263ccfd0",
+        "байтов": 94476,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 94476,
+      "фактический_sha256": "f790ef96ade98fcdd62c56ccbcccc6c21e6aa1cb3bb0111bd415f5ed263ccfd0",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+      "исходный_Git": {
+        "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+        "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+        "байтов": 12815,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 12815,
+      "фактический_sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_ветки_состояния_узла.py",
+      "исходный_Git": {
+        "blob": "e43acbbc099d29bd6cd6c2981179bf13b9b6dc50",
+        "sha256": "d21ba72c042efcdc2ff54639ac047215ab05763b6c485ce058c2062838b97f7a",
+        "байтов": 9334,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_ветки_состояния_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9334,
+      "фактический_sha256": "d21ba72c042efcdc2ff54639ac047215ab05763b6c485ce058c2062838b97f7a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_повторного_состояния_узла.py",
+      "исходный_Git": {
+        "blob": "0a6e63182a2f06c5a6a45d83f66efced17c73960",
+        "sha256": "fc56429d76edc06155c6c0b48ad635dc580a408041985771a4ac05303a99fd09",
+        "байтов": 9083,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_повторного_состояния_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 9083,
+      "фактический_sha256": "fc56429d76edc06155c6c0b48ad635dc580a408041985771a4ac05303a99fd09",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+      "исходный_Git": {
+        "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+        "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+        "байтов": 15491,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 15491,
+      "фактический_sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенные_повторные_полномочия_узла.py",
+      "исходный_Git": {
+        "blob": "9344bb83eb72666cc98512da7081eb8681fadb06",
+        "sha256": "9c7741507395d506851b453cd7a0031924fff94e2ec83b237e36f01538eb2038",
+        "байтов": 6232,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенные_повторные_полномочия_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6232,
+      "фактический_sha256": "9c7741507395d506851b453cd7a0031924fff94e2ec83b237e36f01538eb2038",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенный_план_журнала_состояния.py",
+      "исходный_Git": {
+        "blob": "e93120f8236d365ef022560f080739557ed809ca",
+        "sha256": "346f653c29378dece08306abb2cc7fd947261fa49ddfb807cfe29c0c5db418b3",
+        "байтов": 13494,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенный_план_журнала_состояния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 13494,
+      "фактический_sha256": "346f653c29378dece08306abb2cc7fd947261fa49ddfb807cfe29c0c5db418b3",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенный_повторный_план_состояния.py",
+      "исходный_Git": {
+        "blob": "394b7ca3937f2b4925b30b051fd96914817cea40",
+        "sha256": "fbb4fcd73d6f76f4ede83a2501f92330774f58b83f6e91b2a1d7470080e3f0ad",
+        "байтов": 5354,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенный_повторный_план_состояния.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 5354,
+      "фактический_sha256": "fbb4fcd73d6f76f4ede83a2501f92330774f58b83f6e91b2a1d7470080e3f0ad",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "исходный_Git": {
+        "blob": "8145560e98eb7cfb300df75937b054006241c880",
+        "sha256": "a0eec6c696092d0c49585614bb26915eb05c16153604230fc0180c72dd1a9fa6",
+        "байтов": 29144,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 29144,
+      "фактический_sha256": "a0eec6c696092d0c49585614bb26915eb05c16153604230fc0180c72dd1a9fa6",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/происхождение_писателя_генератора.py",
+      "исходный_Git": {
+        "blob": "797213dc539ec1f59d9a631433e8a063d092d2ee",
+        "sha256": "2228998b23923a27785ed1865dc6e5cf1e2a35f5baf44c8061c09da47a4ab910",
+        "байтов": 6424,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/происхождение_писателя_генератора.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6424,
+      "фактический_sha256": "2228998b23923a27785ed1865dc6e5cf1e2a35f5baf44c8061c09da47a4ab910",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+      "исходный_Git": {
+        "blob": "9429c7fad91532f2741169e751319988f7a1b88d",
+        "sha256": "092ae5d435ad90a8dd4ecca1baf66c8f32b4af07122cdaf8674a2aa08f673789",
+        "байтов": 17778,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 17778,
+      "фактический_sha256": "092ae5d435ad90a8dd4ecca1baf66c8f32b4af07122cdaf8674a2aa08f673789",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+      "исходный_Git": {
+        "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+        "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+        "байтов": 14817,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 14817,
+      "фактический_sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+      "исходный_Git": {
+        "blob": "202560aa50df11dfaef812036156d0b679ec3719",
+        "sha256": "f741062125e9571eddb8b465db7f09c76aa4542fa4452f33caebb457511e0ebc",
+        "байтов": 48821,
+        "дерево": "bee177748d2ed0c76060d3176da67893f8ee9ccf",
+        "коммит": "d4ece912779f5ea2d69ce3c09d05774584392806",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 48821,
+      "фактический_sha256": "f741062125e9571eddb8b465db7f09c76aa4542fa4452f33caebb457511e0ebc",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/смена_незапечатанной_подготовки.py",
+      "исходный_Git": {
+        "blob": "312fee2c61f5de3492cc69c3c5109a19b95249ab",
+        "sha256": "1ce9aaf78951f3c0a4728eaec87ce5bc0d1bbd75eaeb1f4870818fb6806c37aa",
+        "байтов": 19105,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/смена_незапечатанной_подготовки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 19105,
+      "фактический_sha256": "1ce9aaf78951f3c0a4728eaec87ce5bc0d1bbd75eaeb1f4870818fb6806c37aa",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+      "исходный_Git": {
+        "blob": "371b687e57a7c0fac5e7cdc094608360f9a636c8",
+        "sha256": "8ff8ef55d389963be20955eb6369389f120939e0ccef80adb4e7f0ea70a9ca48",
+        "байтов": 116676,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 116676,
+      "фактический_sha256": "8ff8ef55d389963be20955eb6369389f120939e0ccef80adb4e7f0ea70a9ca48",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+      "исходный_Git": {
+        "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+        "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+        "байтов": 24544,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 24544,
+      "фактический_sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py",
+      "исходный_Git": {
+        "blob": "89813f8796d6ab565bacac78475f51f92e73f2bc",
+        "sha256": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+        "байтов": 48630,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 48630,
+      "фактический_sha256": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+      "исходный_Git": {
+        "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+        "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+        "байтов": 2741,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 2741,
+      "фактический_sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+      "исходный_Git": {
+        "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+        "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+        "байтов": 13640,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 13640,
+      "фактический_sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/устойчивые_свидетельства.py",
+      "исходный_Git": {
+        "blob": "d47c9abaad9cdaa72bb863016d5ed029b06d96d3",
+        "sha256": "7677689c54ae7ed16267bb5cd3e751f965302fd0494b9e047a8574c295716a71",
+        "байтов": 15799,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/устойчивые_свидетельства.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 15799,
+      "фактический_sha256": "7677689c54ae7ed16267bb5cd3e751f965302fd0494b9e047a8574c295716a71",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/цели_ветки_состояния_узла.py",
+      "исходный_Git": {
+        "blob": "b1aad69fd8026e568a67e4544d1e83746ee0342c",
+        "sha256": "71ff7a466aa2633de0647b2669d718dae324b36ef2b1287445df5c42323e118b",
+        "байтов": 6570,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/цели_ветки_состояния_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 6570,
+      "фактический_sha256": "71ff7a466aa2633de0647b2669d718dae324b36ef2b1287445df5c42323e118b",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py",
+      "исходный_Git": {
+        "blob": "2eb76aa9a16642305293f28e71af55a9fb259603",
+        "sha256": "3b96c56e03c144cca02277513fe2021c3666598266a29ec82c1321ad36c30233",
+        "байтов": 51480,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 51480,
+      "фактический_sha256": "3b96c56e03c144cca02277513fe2021c3666598266a29ec82c1321ad36c30233",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/эффект_повторного_состояния_узла.py",
+      "исходный_Git": {
+        "blob": "dca01b6899d5551463312319cbb8eb7f8156993e",
+        "sha256": "2a46a511d49395ba2e3e346ca7a444a94686b9c14ca2283f1925dc045913ea84",
+        "байтов": 11142,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/эффект_повторного_состояния_узла.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11142,
+      "фактический_sha256": "2a46a511d49395ba2e3e346ca7a444a94686b9c14ca2283f1925dc045913ea84",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_кандидата_базиса.py",
+      "исходный_Git": {
+        "blob": "25a4339b39827aeb28c63a5802686dea2f01c845",
+        "sha256": "020612b3f018a9bc8ad5a8fe5448cc23aabf91865ac80a337ba405516f67e2ba",
+        "байтов": 33487,
+        "дерево": "785443f7b4b52241bc9fc64b343a788bf863a585",
+        "коммит": "1a667a975665bb065f140a724c3d5993c8f760cb",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_кандидата_базиса.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 33487,
+      "фактический_sha256": "020612b3f018a9bc8ad5a8fe5448cc23aabf91865ac80a337ba405516f67e2ba",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_свежести_внешнего_состава_ребёнка.py",
+      "исходный_Git": {
+        "blob": "bbffacb67b14fffff70730fa7542c8bbbde702d5",
+        "sha256": "090301dcd709d314e364745074390cb2f6b2d9264156a59cba7251b7c437a600",
+        "байтов": 33042,
+        "дерево": "bee177748d2ed0c76060d3176da67893f8ee9ccf",
+        "коммит": "d4ece912779f5ea2d69ce3c09d05774584392806",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_свежести_внешнего_состава_ребёнка.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 33042,
+      "фактический_sha256": "090301dcd709d314e364745074390cb2f6b2d9264156a59cba7251b7c437a600",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/проверка_данных.py",
+      "исходный_Git": {
+        "blob": "0d95155cf849735612dad5ada1eea7fa426e689e",
+        "sha256": "284900856f990c0c47221764fb53e03a6a36b3a28801923e9d644d504678155a",
+        "байтов": 1755,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/проверка_данных.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 1755,
+      "фактический_sha256": "284900856f990c0c47221764fb53e03a6a36b3a28801923e9d644d504678155a",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/профиль_свежести_внешнего_состава_ребёнка.py",
+      "исходный_Git": {
+        "blob": "0043f0fb1543ebd16bd301b082c400c8391758f7",
+        "sha256": "4dd9b124408f0392cd1863cfaf43b35812c52e100e5143f751b40fa08b967492",
+        "байтов": 11243,
+        "дерево": "bee177748d2ed0c76060d3176da67893f8ee9ccf",
+        "коммит": "d4ece912779f5ea2d69ce3c09d05774584392806",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/профиль_свежести_внешнего_состава_ребёнка.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 11243,
+      "фактический_sha256": "4dd9b124408f0392cd1863cfaf43b35812c52e100e5143f751b40fa08b967492",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_кандидата_базиса.py",
+      "исходный_Git": {
+        "blob": "ee2660394e5c5fbf27dfd1f41a194a6ea3be4250",
+        "sha256": "f672496c6d5df4517b619e273e0eabbc6610eef355314a8f4cde2088614b4704",
+        "байтов": 8062,
+        "дерево": "785443f7b4b52241bc9fc64b343a788bf863a585",
+        "коммит": "1a667a975665bb065f140a724c3d5993c8f760cb",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_кандидата_базиса.py",
+        "режим": "100644"
+      },
+      "фактические_байты": 8062,
+      "фактический_sha256": "f672496c6d5df4517b619e273e0eabbc6610eef355314a8f4cde2088614b4704",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/внешний-состав-дочерней-связности.md",
+      "исходный_Git": {
+        "blob": "b171800b5d5a54378d0b9f6044971201c2c51db4",
+        "sha256": "5d3e5c2c2359e1a03092d062891124d34f227e3553076e0556026c55f5251099",
+        "байтов": 8486,
+        "дерево": "bee177748d2ed0c76060d3176da67893f8ee9ccf",
+        "коммит": "d4ece912779f5ea2d69ce3c09d05774584392806",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/внешний-состав-дочерней-связности.md",
+        "режим": "100644"
+      },
+      "фактические_байты": 8501,
+      "фактический_sha256": "acfd91a1d2dc6a9123501512feb9e8090981feabcea1bb84b72e00122d809832",
+      "режим": "0644",
+      "адаптация_руководства": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json",
+      "исходный_Git": {
+        "blob": "fb2c326f499ef99f0d798da569be000c1f92892a",
+        "sha256": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686",
+        "байтов": 11905,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json",
+        "режим": "100644"
+      },
+      "фактические_байты": 11905,
+      "фактический_sha256": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-кандидата-базиса.md",
+      "исходный_Git": {
+        "blob": "2953b194c2727a30cabf2c6efc35d7b7eee317f9",
+        "sha256": "bf0d534591bd77eb3bb0c2c16b08407d7064934fe1856be99740aaab81bd5a9e",
+        "байтов": 15926,
+        "дерево": "785443f7b4b52241bc9fc64b343a788bf863a585",
+        "коммит": "1a667a975665bb065f140a724c3d5993c8f760cb",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-кандидата-базиса.md",
+        "режим": "100644"
+      },
+      "фактические_байты": 15924,
+      "фактический_sha256": "3971310d9b9d76b4e0b34f62e3ae73ee4676cd9006bd0b38c39a0fdb6ec0aa4b",
+      "режим": "0644",
+      "адаптация_руководства": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json",
+      "исходный_Git": {
+        "blob": "7eea0c2c6b31720ecf376d984f121b03f93230c4",
+        "sha256": "9a6f8d4483d2131ecdab2b367b34cda866565b34f7643d49899a285f4d74e15c",
+        "байтов": 18557,
+        "дерево": "c387d1269438275a3c48e0128036b58bba2ba9c7",
+        "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+        "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json",
+        "режим": "100644"
+      },
+      "фактические_байты": 18557,
+      "фактический_sha256": "9a6f8d4483d2131ecdab2b367b34cda866565b34f7643d49899a285f4d74e15c",
+      "режим": "0644",
+      "адаптация_руководства": false
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_независимого_контура.py",
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "blob": "ebf95fbc59c1f358c564a32decdfb277471d1418",
+      "фактический_sha256": "9a5996f47e17ac7dfe80fb5999c4b22fafe59ce678fb8d6b4f096e5be1e3b364",
+      "режим": "0644",
+      "байтов": 21401
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/конечный_состав_независимого_контура.py",
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "blob": "f1527f85cd91e0e7961c822c2bc88cf2c9b2a691",
+      "фактический_sha256": "7f56a6ba145f6f6e9bcd5fe3d785aa950071022c45790bb2fa6843473f1d885c",
+      "режим": "0644",
+      "байтов": 39598
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/допуск_независимого_контура.py",
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "blob": "143ad66a2313ddf41b7640c450e68d80c5fcbd20",
+      "фактический_sha256": "00716787fa4e119475fb8a827baa2ba418c81e9380ad9491bb7e3580a21994cb",
+      "режим": "0644",
+      "байтов": 79634
+    }
+  ],
+  "исполнение_и_whole_приёмка": false
+}
