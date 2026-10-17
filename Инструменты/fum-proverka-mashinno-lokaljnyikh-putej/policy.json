@@ -3888,6 +3888,33 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "candidate256-tools-segment",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fbc2eb2d730b345034fba054307ba7c83e4fde2b745913196cd76833c8665680",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный структурный сегмент проверки принадлежности загруженного проектного модуля; это не адрес машины."
+    },
+    {
+      "id": "candidate256-bootstrap-git",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f4a105ec75e25708641a15a232d71bb394df240f30cadaedee40e00921139f51",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный системный Git для независимой проверки исходных объектов ROOT до загрузки принятого контура."
+    },
+    {
+      "id": "candidate256-admin-fixture",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_кандидата_базиса.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:04c9b9374029751eef61a56ae9b3d49639aa2b873361b6ff1e738b5fe4cafb0f",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет относительные суффиксы Git-admin только в автономной проверке неизменности состояния."
     }
   ]
 }

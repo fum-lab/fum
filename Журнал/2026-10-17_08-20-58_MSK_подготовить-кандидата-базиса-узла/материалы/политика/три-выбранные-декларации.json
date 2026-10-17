@@ -1,0 +1,26 @@
+{
+  "declarations": [
+    {
+      "category": "allow.path-validation-definition",
+      "id": "candidate256-tools-segment",
+      "line": 120,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+      "reason": "Закрепляет точный структурный сегмент проверки принадлежности загруженного проектного модуля; это не адрес машины."
+    },
+    {
+      "category": "allow.path-validation-definition",
+      "id": "candidate256-bootstrap-git",
+      "line": 193,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+      "reason": "Закрепляет точный системный Git для независимой проверки исходных объектов ROOT до загрузки принятого контура."
+    },
+    {
+      "category": "allow.test-fixture",
+      "id": "candidate256-admin-fixture",
+      "line": 228,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_кандидата_базиса.py",
+      "reason": "Закрепляет относительные суффиксы Git-admin только в автономной проверке неизменности состояния."
+    }
+  ],
+  "schema": "fum.machine-local-path-policy-update.v1"
+}
