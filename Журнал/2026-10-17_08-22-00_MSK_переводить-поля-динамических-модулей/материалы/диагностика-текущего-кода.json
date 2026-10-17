@@ -1,0 +1,20 @@
+{
+  "схема": "fum.диагностика-текущего-кода334.1",
+  "основание": "Позднее адресное разрешение ROOT на один запуск существующего compact-harness после последних P1; после отчёта и манифеста STOP.",
+  "запусков": 1,
+  "повторов": 5,
+  "выбор_повторов": "Штатно фиксированы в существующем harness; код и параметры сценария не менялись.",
+  "медиана_нс": 2990584,
+  "профиль_sha256": "8140af157d7e63c781e6c4b28fa9c78825236549a99e507af6bd00cc826e93fa",
+  "состав_семи": {
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py": "1b52e24fff79a9a45f050d310242d0e9bd392311b905d67866ec18c75d6536a0",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py": "95c12f96504f85387456232f3e834affc9974950f3abde2da9cb82422e76feab",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py": "aaf07a1840f42a80835eaa198cbba94e8eb122f14edba0c7addfff1b7caf6b6d",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_безопасный_перевод_python.py": "47f7ec84fecdcc8811f1c0920805f571fbf8cf656b0b7454d37fd7bb7d61a36f",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py": "5ce6c402d11f0c375033d599829aaf7896b3f2a5168cada81ee8c9208e8387dd",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_безопасный_перевод_python.py": "4dbdc6e1f2f0df2786710f15a1257de642c44530255bb663f91d6b234933393c",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/безопасный-перевод-Python.md": "d2fa05c23a04496b5af0386b6cc4d1ed1a48b0181339861898197caac7dbfe05"
+  },
+  "граница": "Диагностика текущей подготовки малой пары через binder/package; main-инвентарь этим профилем не измеряется. Не A/B, не доказательство ускорения. Старые два профиля неизменны.",
+  "решение": "Сохранить алгоритм: текущая малая подготовка занимает около3мс; этот замер не обосновывает нового изменения алгоритма. Корректность проверена ранее адресно, код после неё не менялся."
+}

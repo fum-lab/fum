@@ -1,0 +1,1079 @@
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py
+@@ -23,7 +23,7 @@
+ from разбор_сценария import (ОшибкаСценария, путь_живого_моста, пути_сценариев,
+                              разобрать, разобрать_живой_перевод, токены)
+ from аббревиатуры_контекста import ОшибкаПеречня, отфильтровать_аббревиатуры
+-from безопасные_привязки_python import ОбластиПитона, ОтказПеревода, заменить_привязки
++from безопасные_привязки_python import ОбластиПитона, ОтказПеревода, заменить_привязки, ПроисхождениеПитона
+ 
+ 
+ версия_схемы = 1
+@@ -321,6 +321,7 @@
+         сам.путь = путь
+         сам.объявления: list[Объявление] = []
+         сам.области = ОбластиПитона(дерево)
++        сам.происхождение = ПроисхождениеПитона(дерево)
+         узлы = tuple(ast.walk(дерево))
+         сам.импорты = {
+             псевдоним: узел for узел in узлы
+@@ -439,7 +440,10 @@
+         return False
+ 
+     def добавить(сам, вид: str, имя: str, узел: ast.AST) -> None:
+-        if сам.внешний_метод(имя, узел):
++        if (сам.внешний_метод(имя, узел)
++                or сам.происхождение.внешний_метод(узел)
++                or сам.происхождение.внешний_параметр(узел)
++                or сам.происхождение.внешний_атрибут(узел)):
+             return
+         добавить_объявление(
+             сам.объявления,
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py
+@@ -175,6 +175,395 @@
+ 
+     def visit_Nonlocal(сам, узел):
+         сам.текущая.нелокальные.update(узел.names)
++
++
++class ПроисхождениеПитона:
++    """Конечные статические роли API; неизвестное происхождение — None."""
++
++    def __init__(сам, дерево):
++        сам.дерево = дерево
++        сам.области = ОбластиПитона(дерево)
++        сам.узлы = tuple(ast.walk(дерево))
++        сам._неограниченный_импорт = any(isinstance(у, ast.ImportFrom) and any(п.name == '*' for п in у.names) for у in сам.узлы)
++        сам.родители = {ч: у for у in сам.узлы for ч in ast.iter_child_nodes(у)}
++        сам.импорты = {п: у for у in сам.узлы if isinstance(у, (ast.Import, ast.ImportFrom)) for п in у.names}
++        сам.значения = {}
++        сам._разбираемые_фабрики = set()
++        for узел in сам.узлы:
++            if isinstance(узел, ast.Assign) and len(узел.targets) == 1 and isinstance(узел.targets[0], ast.Name):
++                сам.значения[узел.targets[0]] = (узел, узел.value)
++            elif isinstance(узел, ast.AnnAssign) and узел.value is not None and isinstance(узел.target, ast.Name):
++                сам.значения[узел.target] = (узел, узел.value)
++        сам.мутации = []
++        сам.мутации_объекта = set()
++        for узел in сам.узлы:
++            if isinstance(узел, ast.Attribute) and isinstance(узел.ctx, (ast.Store, ast.Del)):
++                родитель = сам.родители.get(узел)
++                if isinstance(родитель, ast.AnnAssign) and родитель.value is None:
++                    continue
++                путь = сам._сырой_путь(узел)
++                if путь:
++                    сам.мутации.append((путь[0], узел))
++            elif isinstance(узел, ast.Name) and узел.id == '__builtins__' and isinstance(узел.ctx, (ast.Store, ast.Del)):
++                сам.мутации.append((('builtins',), узел))
++            elif isinstance(узел, ast.Call) and len(узел.args) >= 2 and сам._обычное_встроенное(узел.func, {'setattr', 'delattr'}):
++                владелец = сам._сырой_путь(узел.args[0])
++                if владелец:
++                    имя = узел.args[1]
++                    путь = владелец[0] + ((имя.value,) if isinstance(имя, ast.Constant) and isinstance(имя.value, str) else ())
++                    сам.мутации.append((путь, узел))
++            elif isinstance(узел, ast.Subscript) and isinstance(узел.ctx, (ast.Store, ast.Del)):
++                владелец = сам._словарь_интерфейса(узел.value)
++                if владелец:
++                    путь = владелец + ((узел.slice.value,) if isinstance(узел.slice, ast.Constant) and isinstance(узел.slice.value, str) else ())
++                    сам.мутации.append((путь, узел))
++            if isinstance(узел, ast.Call):
++                вызов_интерфейса = сам._сырой_путь(узел.func)
++                if (вызов_интерфейса and вызов_интерфейса[0] == ('unittest', 'mock', 'patch', 'object') and len(узел.args) >= 2):
++                    цель = сам._сырой_путь(узел.args[0])
++                    имя = узел.args[1]
++                    if цель:
++                        путь = цель[0] + ((имя.value,) if isinstance(имя, ast.Constant) and isinstance(имя.value, str) else ())
++                        сам.мутации.append((путь, узел))
++                elif (вызов_интерфейса and вызов_интерфейса[0] == ('unittest', 'mock', 'patch') and узел.args
++                        and isinstance(узел.args[0], ast.Constant) and isinstance(узел.args[0].value, str)):
++                    сам.мутации.append((tuple(узел.args[0].value.split('.')), узел))
++                if isinstance(узел.func, ast.Attribute):
++                    словарь = сам._словарь_интерфейса(узел.func.value)
++                    if словарь:
++                        сам.мутации.append((словарь, узел))
++                # Передача самого объекта API неизвестному коду лишает нас
++                # доказательства неизменности; локальные значения не обобщаются.
++                передаваемые = [*узел.args, *(к.value for к in узел.keywords)]
++                while передаваемые:
++                    аргумент = передаваемые.pop()
++                    if isinstance(аргумент, (ast.List, ast.Tuple, ast.Set)):
++                        передаваемые.extend(аргумент.elts)
++                        continue
++                    if isinstance(аргумент, ast.Dict):
++                        передаваемые.extend(ч for ч in [*аргумент.keys, *аргумент.values] if ч is not None)
++                        continue
++                    if isinstance(аргумент, ast.Starred):
++                        передаваемые.append(аргумент.value)
++                        continue
++                    переданный = сам._сырой_путь(аргумент)
++                    if переданный:
++                        путь = переданный[0]
++                        сам.мутации.append((путь[:-1] if путь[-1] == '__dict__' else путь, узел))
++            if isinstance(узел, ast.Attribute) and узел.attr == '__dict__':
++                владелец = сам._сырой_путь(узел.value)
++                if владелец:
++                    сам.мутации.append((владелец[0], узел))
++            if isinstance(узел, ast.Subscript) and isinstance(узел.slice, ast.Constant) and isinstance(узел.slice.value, str):
++                контейнер = сам._сырой_путь(узел.value)
++                имя = tuple(узел.slice.value.split('.'))
++                if контейнер and контейнер[0] == ('sys', 'modules') and имя[0] in {'sys', 'builtins', 'importlib', 'ctypes', 'unittest'}:
++                    сам.мутации.append((имя, узел))
++            if isinstance(узел, ast.Attribute) and узел.attr.startswith('__') and узел.attr.endswith('__'):
++                владелец = сам._сырой_путь(узел.value)
++                if владелец:
++                    # Внутренности callable изменяют сам сохранённый объект,
++                    # поэтому ранний снимок его имени здесь не помогает.
++                    сам.мутации.append((владелец[0], узел))
++                    сам.мутации_объекта.add(узел)
++            if not isinstance(узел, (ast.Name, ast.Attribute)) or not isinstance(узел.ctx, ast.Load):
++                continue
++            путь = сам._сырой_путь(узел)
++            if путь is None:
++                continue
++            родитель = сам.родители.get(узел)
++            if ((isinstance(родитель, ast.Attribute) and родитель.value is узел)
++                    or (isinstance(родитель, ast.Call) and родитель.func is узел)
++                    or (isinstance(родитель, ast.ClassDef) and узел in родитель.bases)
++                    or (isinstance(родитель, ast.Subscript) and родитель.value is узел
++                        and путь[0] == ('sys', 'modules'))):
++                continue
++            цель = None
++            if isinstance(родитель, ast.Assign) and len(родитель.targets) == 1:
++                цель = родитель.targets[0]
++            elif isinstance(родитель, ast.AnnAssign):
++                цель = родитель.target
++            if isinstance(цель, ast.Name) and родитель.value is узел:
++                область = сам.области.владельцы[родитель]
++                if (родитель in getattr(область.узел, 'body', ())
++                        and сам._привязки(цель) == [('имя', цель)]):
++                    continue
++            # Контейнеры, возврат и прочие непрозрачные передачи API могут
++            # изменить его через ускользнувший объект. Полноту не угадываем.
++            сам.мутации.append((путь[0], узел))
++            сам.мутации_объекта.add(узел)
++
++    def _привязки(сам, узел):
++        if not isinstance(узел, ast.Name):
++            return []
++        область = сам.области.владельцы.get(узел)
++        владелец = область.владелец(узел.id) if область else None
++        return владелец.привязки.get(узел.id, []) if владелец else []
++
++    def _сырой_путь(сам, узел, посещённые=frozenset()):
++        if узел in посещённые:
++            return None
++        посещённые = посещённые | {узел}
++        if isinstance(узел, ast.Attribute):
++            начало = сам._сырой_путь(узел.value, посещённые)
++            return (начало[0] + (узел.attr,), None) if начало else None
++        if not isinstance(узел, ast.Name):
++            return None
++        записи = сам._привязки(узел)
++        if not записи:
++            return (('builtins', узел.id), None) if узел.id in {'getattr', 'setattr', 'delattr', 'hasattr', 'vars', 'list', 'exec', 'eval'} else None
++        пути = set()
++        for _, привязка in записи:
++            импорт = сам.импорты.get(привязка)
++            if импорт is None or импорт.lineno >= узел.lineno:
++                break
++            область_импорта = сам.области.владельцы[импорт]
++            if импорт not in getattr(область_импорта.узел, 'body', ()):
++                return None
++            if область_импорта.вид == 'класс' and (область_импорта.узел.bases or область_импорта.узел.keywords or область_импорта.узел.decorator_list):
++                return None
++            if isinstance(импорт, ast.Import):
++                путь = tuple(привязка.name.split('.'))
++                пути.add(путь if привязка.asname else путь[:1])
++            elif импорт.level == 0 and импорт.module and привязка.name != '*':
++                пути.add((*импорт.module.split('.'), привязка.name))
++            else:
++                break
++        else:
++            return (next(iter(пути)), None) if len(пути) == 1 else None
++        if len(записи) != 1:
++            return None
++        пара = сам.значения.get(записи[0][1])
++        if пара is None:
++            return None
++        присваивание, значение = пара
++        область = сам.области.владельцы[присваивание]
++        if присваивание not in getattr(область.узел, 'body', ()) or присваивание.lineno >= узел.lineno:
++            return None
++        начало = сам._сырой_путь(значение, посещённые)
++        return (начало[0], начало[1] or присваивание) if начало else None
++
++    def _словарь_интерфейса(сам, узел):
++        if isinstance(узел, ast.Name) and узел.id == '__builtins__':
++            return ('builtins',)
++        if isinstance(узел, ast.Attribute) and узел.attr == '__dict__':
++            путь = сам._сырой_путь(узел.value)
++            return путь[0] if путь else None
++        if (isinstance(узел, ast.Call) and len(узел.args) == 1 and not узел.keywords
++                and сам._обычное_встроенное(узел.func, {'vars'})):
++            путь = сам._сырой_путь(узел.args[0])
++            return путь[0] if путь else None
++        return None
++
++    def _снимок_раньше(сам, снимок, мутация):
++        if (снимок not in сам.дерево.body or not isinstance(мутация, ast.Attribute)
++                or not isinstance(мутация.ctx, (ast.Store, ast.Del))):
++            return False
++        верхний = мутация
++        while сам.родители.get(верхний) is not сам.дерево:
++            верхний = сам.родители.get(верхний)
++            if верхний is None:
++                return False
++        return сам.дерево.body.index(снимок) < сам.дерево.body.index(верхний)
++
++    def путь_внешнего_интерфейса(сам, узел):
++        if сам._неограниченный_импорт:
++            return None
++        происхождение = сам._сырой_путь(узел)
++        if происхождение is None:
++            return None
++        путь, снимок = происхождение
++        for изменённый, мутация in сам.мутации:
++            if путь[:len(изменённый)] == изменённый:
++                if мутация in сам.мутации_объекта or снимок is None or not сам._снимок_раньше(снимок, мутация):
++                    return None
++        return путь
++
++    def _обычное_встроенное(сам, узел, имена):
++        путь = сам._сырой_путь(узел)
++        return bool(путь and len(путь[0]) == 2 and путь[0][0] == 'builtins' and путь[0][1] in имена)
++
++    def встроенное(сам, узел, имя):
++        return сам._обычное_встроенное(узел, {имя}) and сам.путь_внешнего_интерфейса(узел) == ('builtins', имя)
++
++    def _метод(сам, узел):
++        if not isinstance(узел, ast.FunctionDef) or узел.decorator_list:
++            return None
++        область = сам.области.владельцы.get(узел)
++        if область is None or область.вид != 'класс':
++            return None
++        класс = область.узел
++        if len(класс.bases) != 1 or класс.decorator_list or класс.keywords or область.привязки.get(узел.name) != [('функция', узел)]:
++            return None
++        база = сам.путь_внешнего_интерфейса(класс.bases[0])
++        допустимые = {('importlib', 'abc', 'Loader'): {'create_module', 'exec_module'},
++            ('importlib', 'abc', 'MetaPathFinder'): {'find_spec'}}
++        if узел.name not in допустимые.get(база, ()):
++            return None
++        параметры = узел.args
++        if (параметры.posonlyargs or параметры.kwonlyargs or параметры.vararg or параметры.kwarg
++                or len(параметры.args) != (4 if узел.name == 'find_spec' else 2)):
++            return None
++        return узел.name
++
++    def внешний_метод(сам, узел):
++        return сам._метод(узел) is not None
++
++    def внешний_параметр(сам, узел):
++        if not isinstance(узел, ast.arg):
++            return False
++        область = сам.области.владельцы.get(узел)
++        функция = область.узел if область else None
++        метод = сам._метод(функция)
++        if метод is None:
++            return False
++        имена = {'create_module': ('spec',), 'exec_module': ('module',), 'find_spec': ('fullname', 'path', 'target')}[метод]
++        return any(п is узел and п.arg == и for п, и in zip(функция.args.args[1:], имена))
++
++    def _замкнутый_возврат(сам, возврат, вид):
++        значение = возврат.value
++        if not isinstance(значение, ast.Name):
++            return isinstance(значение, ast.Call)
++        область = сам.области.владельцы[значение].владелец(значение.id)
++        for узел in сам.узлы:
++            if (not isinstance(узел, ast.Name) or узел.id != значение.id or not isinstance(узел.ctx, ast.Load)
++                    or сам.области.владельцы[узел].владелец(узел.id) is not область):
++                continue
++            родитель = сам.родители.get(узел)
++            if родитель is возврат:
++                continue
++            if isinstance(родитель, ast.Attribute) and родитель.value is узел and not родитель.attr.startswith('__'):
++                continue
++            if isinstance(родитель, ast.Call) and узел in родитель.args:
++                if (вид == 'описание' and родитель.args == [узел]
++                        and сам.путь_внешнего_интерфейса(родитель.func) == ('importlib', 'util', 'module_from_spec')):
++                    continue
++                вызов = родитель.func
++                if (вид == 'модуль' and родитель.args == [узел] and isinstance(вызов, ast.Attribute)
++                        and вызов.attr == 'exec_module' and isinstance(вызов.value, ast.Attribute)
++                        and вызов.value.attr == 'loader' and сам._тип(вызов.value.value) == 'описание'):
++                    continue
++            if (вид == 'модуль' and isinstance(родитель, ast.Assign) and родитель.value is узел
++                    and len(родитель.targets) == 1 and isinstance(родитель.targets[0], ast.Subscript)
++                    and сам.путь_внешнего_интерфейса(родитель.targets[0].value) == ('sys', 'modules')):
++                continue
++            return False
++        return True
++
++    def _замкнутая_библиотека(сам, получатель, символ):
++        if not isinstance(получатель, ast.Name):
++            return isinstance(получатель, ast.Call)
++        область = сам.области.владельцы[получатель].владелец(получатель.id)
++        for узел in сам.узлы:
++            if (not isinstance(узел, ast.Name) or узел.id != получатель.id or not isinstance(узел.ctx, ast.Load)
++                    or сам.области.владельцы[узел].владелец(узел.id) is not область):
++                continue
++            родитель = сам.родители.get(узел)
++            if isinstance(родитель, ast.Attribute) and родитель.value is узел and not родитель.attr.startswith('__'):
++                continue
++            if isinstance(родитель, ast.Call) and родитель.args and родитель.args[0] is узел:
++                if (сам.встроенное(родитель.func, 'hasattr') and len(родитель.args) == 2
++                        and isinstance(родитель.args[1], ast.Constant) and isinstance(родитель.args[1].value, str)):
++                    continue
++                if (сам._обычное_встроенное(родитель.func, {'setattr', 'delattr'}) and len(родитель.args) >= 2
++                        and isinstance(родитель.args[1], ast.Constant) and родитель.args[1].value != символ):
++                    continue
++            return False
++        return True
++
++    def _тип(сам, узел, посещённые=frozenset()):
++        if узел in посещённые:
++            return None
++        посещённые = посещённые | {узел}
++        if isinstance(узел, ast.Name):
++            записи = сам._привязки(узел)
++            if not записи:
++                return None
++            if all(привязка in сам.значения for _, привязка in записи):
++                типы = {сам._тип(сам.значения[п][1], посещённые) for _, п in записи}
++                тип = next(iter(типы)) if len(типы) == 1 else None
++                if тип == 'библиотека' and any(not isinstance(сам.значения[п][1], ast.Call)
++                        or сам.путь_внешнего_интерфейса(сам.значения[п][1].func) != ('ctypes', 'CDLL') for _, п in записи):
++                    return None
++                return тип
++            if len(записи) != 1:
++                return None
++            вид, привязка = записи[0]
++            if вид == 'параметр':
++                функция = сам.области.владельцы[привязка].узел
++                if сам._метод(функция) == 'exec_module' and функция.args.args[1] is привязка:
++                    return 'модуль'
++            цель = сам.родители.get(привязка)
++            цикл = сам.родители.get(цель)
++            if (isinstance(цель, ast.Tuple) and len(цель.elts) == 2 and all(isinstance(э, ast.Name) for э in цель.elts)
++                    and цель.elts[1] is привязка and isinstance(цикл, ast.For) and цикл.target is цель):
++                итератор = цикл.iter
++                if (isinstance(итератор, ast.Call) and len(итератор.args) == 1 and not итератор.keywords
++                        and сам.встроенное(итератор.func, 'list')):
++                    итератор = итератор.args[0]
++                if (isinstance(итератор, ast.Call) and not итератор.args and not итератор.keywords
++                        and isinstance(итератор.func, ast.Attribute) and итератор.func.attr == 'items'
++                        and сам.путь_внешнего_интерфейса(итератор.func.value) == ('sys', 'modules')):
++                    return 'модуль'
++        elif isinstance(узел, ast.Subscript):
++            if (сам.путь_внешнего_интерфейса(узел.value) == ('sys', 'modules') and isinstance(узел.slice, ast.Constant)
++                    and isinstance(узел.slice.value, str)):
++                return 'модуль'
++        elif isinstance(узел, ast.Call):
++            путь = сам.путь_внешнего_интерфейса(узел.func)
++            if путь in {('importlib', 'util', 'spec_from_file_location'), ('importlib', 'machinery', 'PathFinder', 'find_spec')}:
++                return 'описание'
++            if (путь == ('importlib', 'util', 'module_from_spec') and len(узел.args) == 1 and not узел.keywords
++                    and сам._тип(узел.args[0], посещённые) == 'описание'):
++                return 'модуль'
++            if (путь == ('ctypes', 'CDLL') and len(узел.args) == 1 and isinstance(узел.args[0], ast.Constant)
++                    and узел.args[0].value is None):
++                return 'библиотека'
++            if isinstance(узел.func, ast.Name):
++                записи = сам._привязки(узел.func)
++                if len(записи) == 1 and записи[0][0] == 'функция':
++                    функция = записи[0][1]
++                    if isinstance(функция, ast.FunctionDef) and not функция.decorator_list and функция not in сам._разбираемые_фабрики:
++                        область = сам.области.вложенные[функция]
++                        возвраты = [э for э in ast.walk(функция) if isinstance(э, ast.Return) and сам.области.владельцы.get(э) is область]
++                        if len(возвраты) == 1:
++                            сам._разбираемые_фабрики.add(функция)
++                            try:
++                                тип = сам._тип(возвраты[0].value, посещённые)
++                                if тип in {'модуль', 'описание'} and not сам._замкнутый_возврат(возвраты[0], тип):
++                                    return None
++                                return тип
++                            finally:
++                                сам._разбираемые_фабрики.remove(функция)
++        elif isinstance(узел, ast.Attribute):
++            if узел.attr in {'renamex_np', 'renameatx_np', 'renameat2'} and сам._тип(узел.value, посещённые) == 'библиотека':
++                if not сам._замкнутая_библиотека(узел.value, узел.attr):
++                    return None
++                for часть in сам.узлы:
++                    if (isinstance(часть, ast.Attribute) and часть.attr == узел.attr and isinstance(часть.ctx, (ast.Store, ast.Del))
++                            and сам._тип(часть.value, посещённые) == 'библиотека'):
++                        return None
++                    if (isinstance(часть, ast.Call) and len(часть.args) >= 2 and сам._обычное_встроенное(часть.func, {'setattr', 'delattr'})
++                            and сам._тип(часть.args[0], посещённые) == 'библиотека'):
++                        имя = часть.args[1]
++                        if not isinstance(имя, ast.Constant) or имя.value == узел.attr:
++                            return None
++                return 'функция_C'
++        return None
++
++    def модуль(сам, узел):
++        return сам._тип(узел) == 'модуль'
++
++    def внешний_атрибут(сам, узел):
++        if not isinstance(узел, ast.Attribute):
++            return False
++        путь = сам.путь_внешнего_интерфейса(узел.value)
++        if путь == ('sys',) and узел.attr == 'dont_write_bytecode':
++            return True
++        if путь == ('importlib', 'util') and узел.attr == 'spec_from_file_location':
++            return True
++        тип = сам._тип(узел.value)
++        return ((тип == 'описание' and узел.attr == 'loader') or (тип == 'функция_C' and узел.attr in {'argtypes', 'restype'}))
+ 
+ 
+ def подготовить_замены(текст, переименования, выбранные_области=None, измерения=None,
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py
+@@ -15,8 +15,9 @@
+ import re
+ import sys
+ import time
+-
+-from безопасные_привязки_python import подготовить_замены, ОтказПеревода, ОбластиПитона
++import unicodedata
++
++from безопасные_привязки_python import подготовить_замены, ОтказПеревода, ОбластиПитона, ПроисхождениеПитона
+ 
+ 
+ def хэш(байты):
+@@ -112,7 +113,7 @@
+     return найденные
+ 
+ 
+-def подготовить_связи(текст, связи, записи, код=None):
++def подготовить_связи(текст, связи, записи, код=None, поля=None):
+     дерево = ast.parse(текст)
+     строки = текст.splitlines(keepends=True)
+     смещения = [0]
+@@ -122,7 +123,7 @@
+     def позиция(строка, столбец):
+         return смещения[строка - 1] + len(строки[строка - 1].encode()[:столбец].decode())
+ 
+-    правки = []
++    правки = list(поля or ())
+     for встроенный in код or []:
+         if set(встроенный) != {'строка', 'столбец', 'хэш', 'переводы'}:
+             raise ОтказПеревода('Неизвестные поля встроенного кода')
+@@ -173,6 +174,171 @@
+     return применить_диапазоны(текст, правки), правки
+ 
+ 
++def подготовить_поля_модулей(поля, записи, исходники):
++    """Доказать конечную группу над исходными AST до первой замены.
++
++    Координаты — строки с единицы и байтовые столбцы с нуля. SHA задаются
++    записями файлов. Одинаковое написание владельца не является связью.
++    """
++    if not isinstance(поля, list):
++        raise ОтказПеревода('Поля модулей должны быть списком')
++    анализ = {путь: ПроисхождениеПитона(ast.parse(текст)) for путь, текст in исходники.items()}
++    правки = {путь: [] for путь in записи}
++    учтённые = {путь: set() for путь in записи}
++    имена, новые_имена = set(), set()
++    for поле in поля:
++        if not isinstance(поле, dict) or set(поле) != {'имя', 'новое', 'источник', 'владельцы', 'употребления', 'количество'}:
++            raise ОтказПеревода('Неизвестные поля контракта модуля')
++        старое, новое, источник = поле['имя'], поле['новое'], поле['источник']
++        проверить_переводы({старое: новое})
++        if (re.search('[A-Za-z]', новое) or any(и != unicodedata.normalize('NFKC', и) for и in (старое, новое))
++                or any(и.startswith('__') for и in (старое, новое)) or новое in новые_имена
++                or старое in имена or источник not in записи or записи[источник]['переводы'].get(старое) != новое):
++            raise ОтказПеревода('Поле не подтверждено единственной картой поставщика')
++        имена.add(старое)
++        новые_имена.add(новое)
++        if (type(поле['количество']) is not int or поле['количество'] < 1
++                or not isinstance(поле['владельцы'], list) or not поле['владельцы']
++                or not isinstance(поле['употребления'], list) or len(поле['употребления']) != поле['количество']):
++            raise ОтказПеревода('Неверный полный счёт поля модуля')
++        владельцы = []
++        for владелец in поле['владельцы']:
++            if not isinstance(владелец, dict) or set(владелец) != {'путь', 'имя', 'область', 'получение'}:
++                raise ОтказПеревода('Неизвестные поля владельца')
++            путь = владелец['путь']
++            if путь not in анализ or not isinstance(владелец['имя'], str):
++                raise ОтказПеревода('Нет закреплённого исходника владельца')
++            for координата in ('область', 'получение'):
++                значение = владелец[координата]
++                if not isinstance(значение, list) or len(значение) != 2 or any(type(ч) is not int or ч < 0 for ч in значение):
++                    raise ОтказПеревода('Некорректная координата владельца')
++            найденные = [о for о in анализ[путь].области.области
++                if [getattr(о.узел, 'lineno', 0), getattr(о.узел, 'col_offset', 0)] == владелец['область']]
++            if len(найденные) != 1:
++                raise ОтказПеревода('Не найдена единственная область владельца')
++            область = найденные[0]
++            привязки = область.привязки.get(владелец['имя'], [])
++            if len(привязки) != 1 or [привязки[0][1].lineno, привязки[0][1].col_offset] != владелец['получение']:
++                raise ОтказПеревода('Перепривязанный или неизвестный владелец модуля')
++            ключ = (путь, область, владелец['имя'])
++            if ключ in владельцы:
++                raise ОтказПеревода('Повторный владелец модуля')
++            владельцы.append(ключ)
++        ожидаемые = set()
++        for употребление in поле['употребления']:
++            if not isinstance(употребление, dict) or set(употребление) != {'путь', 'строка', 'столбец', 'вид', 'владелец'}:
++                raise ОтказПеревода('Неизвестные поля потребителя')
++            if (употребление['путь'] not in записи or type(употребление['строка']) is not int or употребление['строка'] < 1
++                    or type(употребление['столбец']) is not int or употребление['столбец'] < 0
++                    or type(употребление['владелец']) is not int or not 0 <= употребление['владелец'] < len(владельцы)
++                    or употребление['вид'] not in {'запись', 'чтение', 'getattr', 'patch.object'}):
++                raise ОтказПеревода('Некорректный потребитель модуля')
++            ключ = tuple(употребление[к] for к in ('путь', 'строка', 'столбец', 'вид', 'владелец'))
++            if ключ in ожидаемые:
++                raise ОтказПеревода('Повторный потребитель модуля')
++            ожидаемые.add(ключ)
++        найденные, использованы, записи_поля = set(), set(), 0
++        for путь, происхождение in анализ.items():
++            текст = исходники[путь]
++            строки = текст.splitlines(keepends=True)
++            смещения = [0]
++            for строка in строки:
++                смещения.append(смещения[-1] + len(строка))
++
++            def позиция(узел, конец=False):
++                номер = узел.end_lineno if конец else узел.lineno
++                столбец = узел.end_col_offset if конец else узел.col_offset
++                return смещения[номер - 1] + len(строки[номер - 1].encode()[:столбец].decode())
++
++            for узел in ast.walk(происхождение.дерево):
++                вид, получатель, токен = None, None, None
++                if isinstance(узел, ast.Attribute) and узел.attr == старое:
++                    if not isinstance(узел.ctx, (ast.Store, ast.Load)):
++                        raise ОтказПеревода('Удаление поля модуля не поддержано')
++                    вид = 'запись' if isinstance(узел.ctx, ast.Store) else 'чтение'
++                    получатель = узел.value
++                    до = позиция(узел, True)
++                    токен = (до - len(старое), до)
++                elif isinstance(узел, ast.Call) and len(узел.args) >= 2:
++                    имя_интерфейса = узел.func.id if isinstance(узел.func, ast.Name) else getattr(узел.func, 'attr', '')
++                    строка = узел.args[1]
++                    строковое = isinstance(строка, ast.Constant) and строка.value == старое
++                    связан = isinstance(узел.args[0], ast.Name) and any(
++                            п == путь and и == узел.args[0].id and происхождение.области.владельцы[узел.args[0]].владелец(и) is о
++                            for п, о, и in владельцы)
++                    if (связан or имя_интерфейса in {'getattr', 'setattr', 'delattr', 'hasattr', 'object'}
++                            or происхождение.встроенное(узел.func, 'getattr')):
++                        if not isinstance(строка, ast.Constant):
++                            raise ОтказПеревода('Вычисляемое имя поля модуля')
++                        if связан and строка.value in {'__dict__', '__dir__', '__getattribute__', '__getattr__', '__setattr__', '__delattr__', '__class__'}:
++                            raise ОтказПеревода('Строковый доступ к рефлексии модуля')
++                        if связан and строка.value == новое:
++                            raise ОтказПеревода('Коллизия строкового имени поля модуля')
++                        if строковое:
++                            if происхождение.встроенное(узел.func, 'getattr'):
++                                вид = 'getattr'
++                            elif происхождение.путь_внешнего_интерфейса(узел.func) == ('unittest', 'mock', 'patch', 'object'):
++                                вид = 'patch.object'
++                            else:
++                                raise ОтказПеревода('Не доказан неизменённый API строкового потребителя')
++                            получатель = узел.args[0]
++                            от, до = позиция(строка), позиция(строка, True)
++                            if текст[от:до] not in {repr(старое), json.dumps(старое, ensure_ascii=False)}:
++                                raise ОтказПеревода('Поле требует простой строковый токен')
++                            токен = (от + 1, до - 1)
++                if вид is None:
++                    continue
++                if not isinstance(получатель, ast.Name) or not происхождение.модуль(получатель):
++                    raise ОтказПеревода('Не доказано происхождение владельца поля')
++                область = происхождение.области.владельцы[получатель].владелец(получатель.id)
++                ключ_владельца = (путь, область, получатель.id)
++                if ключ_владельца not in владельцы:
++                    raise ОтказПеревода('Потребитель вне закреплённого владельца')
++                номер = владельцы.index(ключ_владельца)
++                ключ = (путь, узел.lineno, узел.col_offset, вид, номер)
++                найденные.add(ключ)
++                использованы.add(номер)
++                записи_поля += вид == 'запись' and путь == источник
++                if any(isinstance(ч, ast.Name) and unicodedata.normalize('NFC', ч.id) == unicodedata.normalize('NFC', новое)
++                       or isinstance(ч, ast.Attribute) and unicodedata.normalize('NFC', ч.attr) == unicodedata.normalize('NFC', новое)
++                       for ч in ast.walk(происхождение.дерево)) or any(
++                           unicodedata.normalize('NFC', и) == unicodedata.normalize('NFC', новое)
++                           for о in происхождение.области.области for и in о.привязки):
++                    raise ОтказПеревода('Коллизия нового поля модуля')
++                правки[путь].append({'начало': токен[0], 'конец': токен[1], 'старое': старое,
++                    'новое': новое, 'роль': 'поле_модуля_' + вид, 'источник': источник})
++            родители = {ч: у for у in ast.walk(происхождение.дерево) for ч in ast.iter_child_nodes(у)}
++            for узел in ast.walk(происхождение.дерево):
++                if not isinstance(узел, ast.Name) or not isinstance(узел.ctx, ast.Load):
++                    continue
++                область = происхождение.области.владельцы[узел].владелец(узел.id)
++                if (путь, область, узел.id) not in владельцы:
++                    continue
++                родитель = родители.get(узел)
++                if isinstance(родитель, ast.Attribute) and родитель.value is узел:
++                    if родитель.attr in {'__dir__', '__getattribute__', '__getattr__', '__setattr__', '__delattr__', '__class__'}:
++                        raise ОтказПеревода('Неподдержанная рефлексия владельца модуля')
++                    if родитель.attr == '__dict__':
++                        вызов = родители.get(родитель)
++                        if not (isinstance(вызов, ast.Call) and происхождение.встроенное(вызов.func, 'exec')
++                                and родитель in вызов.args[1:]
++                                and [вызов.lineno, вызов.col_offset] in записи[путь].get('исполнения', [])):
++                            raise ОтказПеревода('Незакреплённое динамическое пространство модуля')
++                    continue
++                if isinstance(родитель, ast.Call) and узел in родитель.args:
++                    разрешён = (родитель.args[0] is узел and
++                        (происхождение.встроенное(родитель.func, 'getattr')
++                         or происхождение.путь_внешнего_интерфейса(родитель.func) == ('unittest', 'mock', 'patch', 'object')))
++                    if not разрешён:
++                        raise ОтказПеревода('Непроверенная передача владельца поля модуля')
++                    continue
++                raise ОтказПеревода('Непроверенный потребитель или контейнер владельца модуля')
++        if найденные != ожидаемые or использованы != set(range(len(владельцы))) or not записи_поля:
++            raise ОтказПеревода('Неполная связь собственного поля модуля')
++        учтённые[источник].add(старое)
++    return правки, учтённые
++
++
+ def перенести_координату(текст, координата, правки):
+     строка, столбец = координата
+     if (строка, столбец) == (0, 0):
+@@ -194,7 +360,9 @@
+ def подготовить(корень, манифест, измерения=None):
+     начало = time.perf_counter_ns()
+     корень = Path(корень).resolve(strict=True)
+-    if set(манифест) != {'схема', 'файлы'} or манифест['схема'] != 'fum.пакет-перевода-python.1' or not isinstance(манифест['файлы'], list):
++    вторая = манифест.get('схема') == 'fum.пакет-перевода-python.2'
++    if (set(манифест) != ({'схема', 'файлы', 'поля_модулей'} if вторая else {'схема', 'файлы'})
++            or манифест['схема'] not in {'fum.пакет-перевода-python.1', 'fum.пакет-перевода-python.2'} or not isinstance(манифест['файлы'], list)):
+         raise ОтказПеревода('Неизвестная схема пакета')
+     записи, исходники = {}, {}
+     for запись in манифест['файлы']:
+@@ -210,17 +378,21 @@
+             raise ОтказПеревода(f'{имя}: неверный хэш входа')
+         проверить_переводы(запись['переводы'])
+         записи[имя], исходники[имя] = запись, байты.decode('utf-8')
++    отметка_полей = time.perf_counter_ns()
++    поля, учтённые = подготовить_поля_модулей(манифест['поля_модулей'], записи, исходники) if вторая else ({}, {})
++    if вторая and измерения is not None:
++        измерения.append({'стадия': 'доказательство_полей', 'длительность_наносекунды': time.perf_counter_ns() - отметка_полей})
+     изменения = []
+     for имя, запись in записи.items():
+         отметка = time.perf_counter_ns()
+         текст = исходники[имя]
+-        связанный, связи = подготовить_связи(текст, запись['связи'], записи, запись.get('код'))
++        связанный, связи = подготовить_связи(текст, запись['связи'], записи, запись.get('код'), поля.get(имя))
+         связанные_атрибуты = []
+         сдвиг = 0
+         for связь in sorted(связи, key=lambda правка: правка['начало']):
+-            if связь['роль'] == 'атрибут':
+-                начало = связь['начало'] + сдвиг
+-                связанные_атрибуты.append((начало, начало + len(связь['новое'])))
++            if связь['роль'] in {'атрибут', 'поле_модуля_запись', 'поле_модуля_чтение'}:
++                начало_диапазона = связь['начало'] + сдвиг
++                связанные_атрибуты.append((начало_диапазона, начало_диапазона + len(связь['новое'])))
+             сдвиг += len(связь['новое']) - (связь['конец'] - связь['начало'])
+         выбор = None
+         if запись['области'] is not None:
+@@ -247,11 +419,13 @@
+             итог, привязки, _ = подготовить_замены(связанный, запись['переводы'], выбор, разрешённые_передачи=передачи, имена_областей=имена_областей, разрешённые_исполнения=исполнения, разрешённые_внешние_вызовы=внешние_вызовы, связанные_атрибуты=связанные_атрибуты)
+         except ValueError as ошибка:
+             raise ОтказПеревода(f'{имя}: {ошибка}') from ошибка
+-        отсутствующие = set(запись['переводы']) - {п['старое'] for п in привязки}
++        отсутствующие = set(запись['переводы']) - {п['старое'] for п in привязки} - учтённые.get(имя, set())
+         if отсутствующие:
+             raise ОтказПеревода(f'{имя}: отсутствующие собственные привязки: {sorted(отсутствующие)}')
+         изменения.append({'путь': имя, 'файл': корень / имя, 'корень': корень, 'до': запись['хэш'], 'после': хэш(итог.encode()),
+                           'текст': итог, 'переводы': запись['переводы'], 'связи': связи, 'привязки': привязки})
++        if вторая:
++            изменения[-1]['контракт_полей'] = манифест['поля_модулей']
+         if измерения is not None:
+             измерения.append({'стадия': имя, 'длительность_наносекунды': time.perf_counter_ns() - отметка})
+     if измерения is not None:
+@@ -260,7 +434,12 @@
+ 
+ 
+ def описание(план):
+-    return {'схема': 'fum.план-перевода-python.1', 'файлы': [{к: з[к] for к in ('путь', 'до', 'после', 'переводы', 'связи', 'привязки')} for з in план]}
++    вторая = bool(план and 'контракт_полей' in план[0])
++    результат = {'схема': 'fum.план-перевода-python.2' if вторая else 'fum.план-перевода-python.1',
++        'файлы': [{к: з[к] for к in ('путь', 'до', 'после', 'переводы', 'связи', 'привязки')} for з in план]}
++    if вторая:
++        результат['поля_модулей'] = план[0]['контракт_полей']
++    return результат
+ 
+ 
+ def применить(план):
+@@ -268,11 +447,15 @@
+         файл = точный_файл(запись['корень'], запись['путь'])
+         if файл != запись['файл'] or хэш(файл.read_bytes()) != запись['до'] or хэш(запись['текст'].encode()) != запись['после']:
+             raise ОтказПеревода('Пакет изменился после построения плана')
++    # Только новый формат допускает проверенный явный повтор без замены inode.
++    изменяемые = [з for з in план if 'контракт_полей' not in з or з['до'] != з['после']]
++    if not изменяемые:
++        return
+     спецификация = importlib.util.spec_from_file_location('исполнитель_пакета_питона', Path(__file__).with_name('перевести-объявления-кода.py'))
+     модуль = importlib.util.module_from_spec(спецификация)
+     sys.modules[спецификация.name] = модуль
+     спецификация.loader.exec_module(модуль)
+-    изменения = [модуль.ИзменениеФайла(з['путь'], з['файл'], з['текст'], 'sha256:' + з['до'], 'sha256:' + з['после'], з['переводы'], dict(Counter(п['старое'] for п in з['привязки']))) for з in план]
++    изменения = [модуль.ИзменениеФайла(з['путь'], з['файл'], з['текст'], 'sha256:' + з['до'], 'sha256:' + з['после'], з['переводы'], dict(Counter(п['старое'] for п in з['привязки']))) for з in изменяемые]
+     модуль.атомарно_применить(изменения)
+ 
+ 
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_безопасный_перевод_python.py
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_безопасный_перевод_python.py
+@@ -216,6 +216,56 @@
+             текст = импорт + '\nclass Тест(' + база + '):\n    def setUp(сам): pass\n'
+             with сам.subTest(импорт=импорт):
+                 сам.assertEqual([з for з in сам.инвентарь(текст) if з[3] == 'setUp'], [])
++
++    def test_конечные_внешние_интерфейсы(сам):
++        текст = ('import importlib.abc as основы\nimport importlib.util as утилиты\n'
++            'import sys as система\nimport ctypes as типы\n'
++            'система.dont_write_bytecode = True\n'
++            'утилиты.spec_from_file_location = другая\n'
++            'class Загрузчик(основы.Loader):\n'
++            '    def create_module(сам, spec): pass\n'
++            '    def exec_module(сам, module): pass\n'
++            'class Поиск(основы.MetaPathFinder):\n'
++            '    def find_spec(сам, fullname, path=None, target=None): pass\n'
++            'def подготовить():\n'
++            '    библиотека = типы.CDLL(None)\n'
++            '    if условие:\n'
++            '        функция = библиотека.renamex_np\n'
++            '        функция.argtypes = []\n'
++            '    else:\n'
++            '        функция = библиотека.renameat2\n'
++            '        функция.restype = типы.c_int\n')
++        сам.assertEqual(сам.инвентарь(текст), [])
++
++    def test_свои_поля_не_наследуют_внешность_объекта(сам):
++        for текст, имена in (
++            ('import ctypes\nбиблиотека = ctypes.CDLL(None)\nбиблиотека.argtypes = []\n', {'argtypes'}),
++            ('import ctypes\nбиблиотека = ctypes.CDLL(None)\nфункция = библиотека.rename\nфункция.own = 1\n', {'own'}),
++            ('import sys\ndef работа(sys):\n    sys.dont_write_bytecode = True\n', {'sys', 'dont_write_bytecode'}),
++            ('import importlib.abc\nclass Загрузчик(чужой.Loader):\n    def exec_module(сам, module): pass\n', {'exec_module', 'module'}),
++            ('import ctypes\nбиблиотека = ctypes.CDLL(None)\nфункция = библиотека.rename\nфункция = чужая\nфункция.argtypes = []\n', {'argtypes'}),
++            ('import ctypes\nбиблиотека = ctypes.CDLL(None)\nvars(библиотека)["renameat2"] = своя\nфункция = библиотека.renameat2\nфункция.restype = 1\n', {'restype'}),
++            ('import ctypes\nбиблиотека = ctypes.CDLL(None)\nбиблиотека.__dict__["renameat2"] = своя\nфункция = библиотека.renameat2\nфункция.restype = 1\n', {'restype'}),
++            ('import ctypes\nбиблиотека = ctypes.CDLL(None)\nсохранить([библиотека])\nфункция = библиотека.renameat2\nфункция.restype = 1\n', {'restype'}),
++        ):
++            with сам.subTest(текст=текст):
++                сам.assertEqual({з[3] for з in сам.инвентарь(текст)}, имена)
++
++    def test_неизвестная_подмена_импортного_интерфейса_закрыта(сам):
++        for подмена in ('основы.Loader = чужая',
++                'установить = setattr\nустановить(основы, "Loader", чужая)',
++                'vars(основы)["Loader"] = чужая',
++                'основы.__dict__["Loader"] = чужая',
++                'словарь = основы.__dict__\nсловарь["Loader"] = чужая',
++                'import sys\nподмена = sys.modules["importlib.abc"]\nподмена.Loader = чужая',
++                'mock.patch.object(основы, "Loader", чужая).start()',
++                'неизвестная([основы])', 'неизвестная(основы)'):
++            текст = ('import importlib.abc as основы\nfrom unittest import mock\n' + подмена
++                + '\nclass Загрузчик(основы.Loader):\n    def exec_module(сам, module): pass\n')
++            имена = {з[3] for з in сам.инвентарь(текст)}
++            with сам.subTest(подмена=подмена):
++                сам.assertIn('exec_module', имена)
++                сам.assertIn('module', имена)
+ 
+     def test_внешний_метод_не_скрывает_параметры_тело_и_поле(сам):
+         текст = ('import unittest\nclass Тест(unittest.TestCase):\n'
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py
+@@ -1,9 +1,12 @@
+ """Проверить точные карты областей и явных межфайловых потребителей."""
+ import hashlib
++import ast
++import copy
+ import importlib
+ import json
+ from pathlib import Path
+ import sys
++import subprocess
+ import tempfile
+ import unittest
+ 
+@@ -286,5 +289,190 @@
+                 сам.assertEqual((корень/'потребитель.py').read_text(), исходник)
+ 
+ 
++class ПроверкаПолейДинамическогоМодуля(unittest.TestCase):
++    def фикстура(сам, корень, преобразовать=None):
++        исходники = {
++            'код.py': ('import importlib.abc\nimport sys\n'
++                'class Загрузчик(importlib.abc.Loader):\n'
++                '    def exec_module(сам, модуль):\n'
++                '        модуль._own_sha256 = 7\n'
++                'def прочитать(выбранное):\n'
++                '    for имя, модуль in list(sys.modules.items()):\n'
++                '        if имя == выбранное:\n'
++                '            return getattr(модуль, "_own_sha256", None)\n'),
++            'test_код.py': ('import importlib.util\nfrom unittest import mock\n'
++                'def загрузить(путь):\n'
++                '    описание = importlib.util.spec_from_file_location("пример", путь)\n'
++                '    модуль = importlib.util.module_from_spec(описание)\n'
++                '    описание.loader.exec_module(модуль)\n'
++                '    return модуль\n'
++                'def проверка(путь):\n'
++                '    модуль = загрузить(путь)\n'
++                '    with mock.patch.object(модуль, "_own_sha256", 8):\n'
++                '        assert модуль._own_sha256 == 8\n'
++                '    assert "_own_sha256" == "_own_sha256"\n')}
++        if преобразовать is not None:
++            исходники = преобразовать(исходники)
++        файлы, владельцы, употребления = [], [], []
++        for путь, текст in исходники.items():
++            (корень / путь).write_text(текст)
++            дерево = ast.parse(текст)
++            from безопасные_привязки_python import ОбластиПитона
++            области = ОбластиПитона(дерево)
++            локальные = {}
++            for узел in ast.walk(дерево):
++                if not isinstance(узел, ast.Name) or узел.id != 'модуль':
++                    continue
++                область = области.владельцы[узел].владелец(узел.id)
++                ключ = (getattr(область.узел, 'lineno', 0), getattr(область.узел, 'col_offset', 0))
++                if ключ not in локальные:
++                    привязка = область.привязки['модуль'][0][1]
++                    локальные[ключ] = len(владельцы)
++                    владельцы.append({'путь': путь, 'имя': 'модуль', 'область': list(ключ),
++                        'получение': [привязка.lineno, привязка.col_offset]})
++            for узел in ast.walk(дерево):
++                вид, получатель = None, None
++                if isinstance(узел, ast.Attribute) and узел.attr == '_own_sha256':
++                    вид = 'запись' if isinstance(узел.ctx, ast.Store) else 'чтение'
++                    получатель = узел.value
++                elif isinstance(узел, ast.Call) and len(узел.args) >= 2 and isinstance(узел.args[1], ast.Constant) and узел.args[1].value == '_own_sha256':
++                    вид = 'getattr' if isinstance(узел.func, ast.Name) else 'patch.object'
++                    получатель = узел.args[0]
++                if вид:
++                    область = области.владельцы[получатель].владелец(получатель.id)
++                    ключ = (getattr(область.узел, 'lineno', 0), getattr(область.узел, 'col_offset', 0))
++                    употребления.append({'путь': путь, 'строка': узел.lineno, 'столбец': узел.col_offset,
++                        'вид': вид, 'владелец': локальные[ключ]})
++            файлы.append({'путь': путь, 'хэш': hashlib.sha256(текст.encode()).hexdigest(),
++                'переводы': {'_own_sha256': '_собственный_хэш'} if путь == 'код.py' else {},
++                'области': None, 'связи': [], 'передачи': []})
++        номера = sorted({у['владелец'] for у in употребления})
++        for употребление in употребления:
++            употребление['владелец'] = номера.index(употребление['владелец'])
++        владельцы = [владельцы[н] for н in номера]
++        поле = {'имя': '_own_sha256', 'новое': '_собственный_хэш', 'источник': 'код.py',
++            'владельцы': владельцы, 'употребления': употребления, 'количество': len(употребления)}
++        return исходники, {'схема': 'fum.пакет-перевода-python.2', 'файлы': файлы, 'поля_модулей': [поле]}
++
++    def test_полный_пакет_поля_и_обычные_строки(сам):
++        import пакет_перевода_python as пакет
++        with tempfile.TemporaryDirectory() as каталог:
++            корень = Path(каталог)
++            исходники, карта = сам.фикстура(корень)
++            план = пакет.подготовить(корень, карта)
++            сам.assertEqual(len(план), 2)
++            сам.assertEqual(пакет.описание(план)['схема'], 'fum.план-перевода-python.2')
++            пакет.применить(план)
++            for путь, исходник in исходники.items():
++                итог = (корень / путь).read_text()
++                сам.assertIn('_собственный_хэш', итог)
++                if путь.startswith('test_'):
++                    сам.assertIn('assert "_own_sha256" == "_own_sha256"', итог)
++                сам.assertEqual(исходник.count('exec_module'), итог.count('exec_module'))
++            with сам.assertRaises(ValueError):
++                пакет.подготовить(корень, карта)
++            import types
++            from unittest import mock
++            пространство = {'__name__': 'фикстура_поля'}
++            exec((корень / 'код.py').read_text(), пространство)
++            модуль = types.ModuleType('пример')
++            пространство['Загрузчик']().exec_module(модуль)
++            with mock.patch.dict(sys.modules, {'пример': модуль}):
++                сам.assertEqual(пространство['прочитать']('пример'), 7)
++                тест = {'__name__': 'фикстура_потребителя'}
++                exec((корень / 'test_код.py').read_text(), тест)
++                with mock.patch('importlib.util.module_from_spec', return_value=модуль):
++                    тест['проверка'](корень / 'код.py')
++                сам.assertEqual(модуль._собственный_хэш, 7)
++            повтор = {'схема': 'fum.пакет-перевода-python.2', 'поля_модулей': [],
++                'файлы': [{**з, 'хэш': hashlib.sha256((корень / з['путь']).read_bytes()).hexdigest(), 'переводы': {}} for з in карта['файлы']]}
++            карта_повтора = корень / 'повтор.json'
++            карта_повтора.write_text(json.dumps(повтор, ensure_ascii=False))
++            до = {п: ((корень / п).read_bytes(), (корень / п).stat().st_ino, (корень / п).stat().st_mtime_ns) for п in исходники}
++            итог = subprocess.run([sys.executable, '-B', str(Path(пакет.__file__)), 'применить',
++                '--корень-репозитория', str(корень), '--карта', str(карта_повтора), '--выход', str(корень / 'план-повтора.json')],
++                capture_output=True, text=True)
++            сам.assertEqual(итог.returncode, 0, итог.stderr)
++            сам.assertEqual({п: ((корень / п).read_bytes(), (корень / п).stat().st_ino, (корень / п).stat().st_mtime_ns) for п in исходники}, до)
++
++    def test_неполное_или_подменённое_свидетельство_не_пишет(сам):
++        import пакет_перевода_python as пакет
++        for случай in ('счётчик', 'потребитель', 'SHA', 'владелец', 'координата', 'повтор'):
++            with сам.subTest(случай=случай), tempfile.TemporaryDirectory() as каталог:
++                корень = Path(каталог)
++                исходники, карта = сам.фикстура(корень)
++                поле = карта['поля_модулей'][0]
++                if случай == 'счётчик': поле['количество'] += 1
++                if случай == 'потребитель': поле['употребления'].pop(); поле['количество'] -= 1
++                if случай == 'SHA': карта['файлы'][1]['хэш'] = '0' * 64
++                if случай == 'владелец': поле['владельцы'][0]['имя'] = 'чужой'
++                if случай == 'координата': поле['употребления'][0]['строка'] += 1
++                if случай == 'повтор': поле['употребления'].append(copy.deepcopy(поле['употребления'][0])); поле['количество'] += 1
++                with сам.assertRaises(ValueError): пакет.подготовить(корень, карта)
++                сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
++
++    def test_получение_модуля_из_реестра_сохраняет_доказательство(сам):
++        import пакет_перевода_python as пакет
++        with tempfile.TemporaryDirectory() as каталог:
++            корень = Path(каталог)
++            def изменить(исходники):
++                исходники['test_код.py'] = 'import sys\n' + исходники['test_код.py'].replace(
++                    '    модуль = загрузить(путь)', '    модуль = sys.modules["пример"]')
++                return исходники
++            исходники, карта = сам.фикстура(корень, изменить)
++            сам.assertEqual(len(пакет.подготовить(корень, карта)), 2)
++            сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
++
++    def test_прежняя_запись_поля_остаётся_закрытой(сам):
++        import пакет_перевода_python as пакет
++        with tempfile.TemporaryDirectory() as каталог:
++            корень = Path(каталог)
++            исходники, карта = сам.фикстура(корень)
++            карта['схема'] = 'fum.пакет-перевода-python.1'
++            del карта['поля_модулей']
++            with сам.assertRaisesRegex(ValueError, 'Неизвестный владелец записываемого поля'):
++                пакет.подготовить(корень, карта)
++            сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
++
++    def test_затенение_интерфейса_и_вычисляемая_строка_закрыты(сам):
++        import пакет_перевода_python as пакет
++        изменения = (
++            ('код.py', 'def прочитать(выбранное):', 'def прочитать(выбранное, getattr):'),
++            ('test_код.py', 'def проверка(путь):', 'def проверка(путь, mock):'),
++            ('test_код.py', '    with mock.patch.object', '    mock.patch = чужая\n    with mock.patch.object'),
++            ('test_код.py', '    with mock.patch.object', '    коробка = [mock.patch]\n    коробка[0].object = чужая\n    with mock.patch.object'),
++            ('test_код.py', '    with mock.patch.object', '    mock.patch.object.__code__ = чужая.__code__\n    with mock.patch.object'),
++            ('test_код.py', '    with mock.patch.object', '    mock.patch.object.__defaults__ = (чужая,)\n    with mock.patch.object'),
++            ('test_код.py', '    with mock.patch.object', '    mock.patch.object.__kwdefaults__ = {"чужая": чужая}\n    with mock.patch.object'),
++            ('test_код.py', '    with mock.patch.object', '    mock.patch.object.__class__ = чужая\n    with mock.patch.object'),
++            ('код.py', 'getattr(модуль, "_own_sha256", None)', 'getattr(модуль, "_own_" + "sha256", None)'),
++            ('код.py', 'getattr(модуль, "_own_sha256", None)', 'getattr(модуль, имя, None)'),
++            ('код.py', '        модуль._own_sha256 = 7', '        модуль = чужой\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        неизвестная(модуль)\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        неизвестная([модуль])\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        сохранённые = [модуль]\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        модуль.__dict__["_own_sha256"] = 8\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        модуль.__setattr__("_own_sha256", 8)\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        assert "_own_sha256" in модуль.__dir__()\n        модуль._own_sha256 = 7'),
++            ('код.py', '        модуль._own_sha256 = 7', '        assert "_own_sha256" in getattr(модуль, "__dir__")()\n        модуль._own_sha256 = 7'),
++            ('test_код.py', '    описание.loader.exec_module(модуль)', '    неизвестная([модуль])\n    описание.loader.exec_module(модуль)'),
++            ('код.py', '        модуль._own_sha256 = 7', '        словарь = getattr(модуль, "__dict__")\n        модуль._own_sha256 = 7'),
++            ('test_код.py', '    with mock.patch.object(модуль, "_own_sha256", 8):',
++                '    mock.patch.object(mock.patch, "object", чужая).start()\n    with mock.patch.object(модуль, "_own_sha256", 8):'),
++            ('код.py', 'def прочитать(выбранное):', 'import builtins\nfrom unittest import mock\nmock.patch.object(builtins, "getattr", чужая).start()\ndef прочитать(выбранное):'),
++            ('test_код.py', '        assert модуль._own_sha256 == 8', '        assert модуль._own_sha256 == 8\n        модуль._собственный_хэш = 9'),
++            ('test_код.py', '        assert модуль._own_sha256 == 8', '        assert модуль._own_sha256 == 8\n    with mock.patch.object(модуль, "_собственный_хэш", 8, create=True): pass'),
++        )
++        for путь, до, после in изменения:
++            with сам.subTest(изменение=после), tempfile.TemporaryDirectory() as каталог:
++                корень = Path(каталог)
++                def изменить(исходники):
++                    исходники[путь] = исходники[путь].replace(до, после)
++                    return исходники
++                исходники, карта = сам.фикстура(корень, изменить)
++                with сам.assertRaises(ValueError): пакет.подготовить(корень, карта)
++                сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
++
++
+ if __name__ == '__main__':
+     unittest.main()
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_безопасный_перевод_python.py
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_безопасный_перевод_python.py
+@@ -6,6 +6,7 @@
+ import platform
+ import statistics
+ import sys
++import tempfile
+ import time
+ 
+ каталог = Path(__file__).resolve().parents[1] / 'scripts'
+@@ -46,9 +47,48 @@
+     print(json.dumps({'функций': количество, 'медиана_наносекунды': результат['медиана_наносекунды'], 'замен': len(план)}, ensure_ascii=False))
+ 
+ 
++def измерить_поля(выход):
++    """Малый пакет runtime+test; исходники в замерах не исполняются."""
++    sys.path.insert(0, str(Path(__file__).resolve().parent))
++    from test_пакет_перевода_python import ПроверкаПолейДинамическогоМодуля
++    from пакет_перевода_python import подготовить, описание
++    повторы, ожидаемый = [], None
++    with tempfile.TemporaryDirectory() as временный:
++        корень = Path(временный)
++        исходники, карта = ПроверкаПолейДинамическогоМодуля().фикстура(корень)
++        вход = hashlib.sha256(json.dumps(исходники, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
++        for _ in range(5):
++            стадии = []
++            начало = time.perf_counter_ns()
++            план = подготовить(корень, карта, измерения=стадии)
++            длительность = time.perf_counter_ns() - начало
++            результат = hashlib.sha256(json.dumps(описание(план), ensure_ascii=False, sort_keys=True).encode()).hexdigest()
++            if ожидаемый is not None and результат != ожидаемый:
++                raise ValueError('Не совпал результат малой пакетной фикстуры')
++            ожидаемый = результат
++            повторы.append({'длительность_наносекунды': длительность, 'стадии': стадии})
++        if any((корень / п).read_text() != т for п, т in исходники.items()):
++            raise ValueError('Профиль изменил исходную фикстуру')
++    результат = {'схема': 'fum.профиль-полей-модулей.1', 'Python': platform.python_version(),
++        'вход_sha256': вход, 'результат_sha256': ожидаемый, 'повторы': повторы,
++        'медиана_наносекунды': statistics.median(п['длительность_наносекунды'] for п in повторы),
++        'код': {и: hashlib.sha256((каталог / и).read_bytes()).hexdigest() for и in
++            ('безопасные_привязки_python.py', 'пакет_перевода_python.py')},
++        'сценарий_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
++        'фикстура_sha256': hashlib.sha256(Path(__file__).with_name('test_пакет_перевода_python.py').read_bytes()).hexdigest(),
++        'условия': 'Пять последовательных повторов одной малой пары runtime+test; подготовка и исполнение входного кода исключены. Весь пакет включает вложенные стадии, их времена не складываются.'}
++    with выход.open('x') as поток:
++        поток.write(json.dumps(результат, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
++    print(json.dumps({'медиана_наносекунды': результат['медиана_наносекунды'], 'вход_sha256': вход, 'результат_sha256': ожидаемый}, ensure_ascii=False))
++
++
+ if __name__ == '__main__':
+     разборщик = argparse.ArgumentParser(description=__doc__)
+     разборщик.add_argument('--выход', type=Path, required=True)
+     разборщик.add_argument('--функций', type=int, default=400)
++    разборщик.add_argument('--поля-модулей', action='store_true')
+     аргументы = разборщик.parse_args()
+-    измерить(аргументы.выход, аргументы.функций)
++    if аргументы.поля_модулей:
++        измерить_поля(аргументы.выход)
++    else:
++        измерить(аргументы.выход, аргументы.функций)
+--- C572/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/безопасный-перевод-Python.md
++++ предложено/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/безопасный-перевод-Python.md
+@@ -48,11 +48,35 @@
+ 
+ Готовый пример с классификацией и командами воспроизведения — [миграция унаследованного Python](миграция-унаследованного-Python.md).
+ 
++## Собственное поле динамического модуля
++
++Для записи собственного поля модульного объекта используется отдельная схема `fum.пакет-перевода-python.2`. Она сохраняет записи `файлы` первой версии и добавляет обязательный массив `поля_модулей`; прежняя схема `.1` не получает нового допуска. План второй версии имеет схему `fum.план-перевода-python.2` и сохраняет исходный контракт полей вместе с найденными диапазонами. Команды `план` и `применить` остаются прежними.
++
++Каждая группа поля содержит ровно `имя`, `новое`, `источник`, `владельцы`, `употребления`, `количество`. Поставщик `источник` обязан входить в пакет и подтверждать эту пару в своей карте `переводы`. Русское новое имя не содержит латиницы; оба имени должны иметь нормальную форму NFKC. SHA-256 всех файлов связывают координаты с точными исходными байтами.
++
++Владелец содержит ровно `путь`, `имя`, `область`, `получение`. Последние два значения — пары «строка, байтовый столбец»: координата узла лексической области и единственного связывания владельца. Модульная область обозначается `(0, 0)`; строки исходника начинаются с единицы, столбцы с нуля. Повтор, перепривязка, отсутствующая или неиспользованная запись владельца закрывают группу.
++
++Потребитель содержит ровно `путь`, `строка`, `столбец`, `вид`, `владелец`. Последнее поле — индекс владельца с нуля. Виды ограничены значениями `запись`, `чтение`, `getattr`, `patch.object`; координата относится ко всему `Attribute` либо `Call`, а не к строковому литералу. Количество равно полному числу неповторяющихся потребителей. Хотя бы одна запись поля должна находиться у поставщика. Перед правкой автоматизация независимо обходит все файлы пакета и требует точного совпадения найденного множества с контрактом.
++
++Поддержанные роли владельца: параметр доказанного `importlib.abc.Loader.exec_module`, значение конечного обхода `sys.modules.items()`, значение `sys.modules` с постоянным строковым ключом, результат `module_from_spec` с доказанным `ModuleSpec` и результат локальной фабрики с единственным замкнутым возвратом такого объекта. Роль показывает статический источник объекта; сама по себе она не доказывает принадлежность поля. В частности, Python позволяет хранить в `sys.modules` произвольные значения. Собственность поля и точную область потребителей закрепляет отдельная группа и её проверенный поставщик.
++
++Вычисляемые строки, неизвестные вызовы рефлексии, затенённый `getattr`, неподтверждённый `patch.object`, контейнерная передача владельца, незакреплённый алиас и утечка из фабрики дают отказ до записи. Доступ к `__dict__` допустим только непосредственно в прежнем координатно разрешённом `exec`; допуска `исполнения` группа не заменяет. Неизвестные формы и неполные связи не расширяются по совпадению имени. Коллизии проверяются также по объявлениям, нормализованным именам и строковым потребителям нового поля. Обычные строки с тем же текстом сохраняются.
++
++После просмотра плана применяется та же карта. Затем повторяются адресные проверки и инвентаризация. Старая карта после перевода отказывает по прежним SHA. Для явного повтора без записи создаётся карта `.2` с фактическими итоговыми SHA, пустыми `переводы` и пустым `поля_модулей`: неизменные файлы перечитываются, но не заменяются. Свежий процесс проверяет сохранность байтов, inode и mtime; молчаливого принятия старой карты нет.
++
++## Происхождение обязательных внешних интерфейсов
++
++Сборщик отличает конечные обязательные методы `Loader` и `MetaPathFinder`, их контрактные параметры, системное `sys.dont_write_bytecode`, слот `importlib.util.spec_from_file_location`, `ModuleSpec.loader` и поля `argtypes`/`restype` доказанной C-функции от собственных имён. Для C-функции поддержана цепь `ctypes.CDLL(None)` и символы исключительного переименования `renamex_np`, `renameatx_np`, `renameat2`; присваивания в разных ветвях допустимы, только если каждое доказывает ту же роль. Собственное поле библиотечного либо модульного объекта внешним автоматически не становится.
++
++Проверяются реальные импорты, их псевдонимы, лексические владельцы, базы классов и конечные цепочки получения объекта. Подмена через прямую запись, `setattr`/`delattr`, словарь интерфейса, `patch` и непроверенную передачу объекта лишает исключения. Неизвестная, условная либо звёздочная импортная область не считается доказательством. Ранний сохранённый указатель функции может пережить прямую замену её импортного слота; возможная мутация самого объекта не наследует это разрешение. Случай `unittest.TestCase.setUp` сохраняет прежний отдельный контракт.
++
+ ## Проверка и профиль
+ 
+ Адресный набор — `tests/test_безопасный_перевод_python.py`. Он проверяет внешние API, затенение импортов, области генераторов, собственные ключевые аргументы, строковые связи и отказы при потере владельца. При запуске в рабочей сессии используется обязательная отчётная обёртка.
+ 
+ Сценарий `tests/измерить_безопасный_перевод_python.py --выход <файл.json>` выполняет пять последовательных повторов на 400 функциях без исполнения входного кода. Результат содержит хэши входа, результата, исполнителя и сценария, версию Python и монотонные длительности стадий. Параметр `--функций` задаёт размер. Повторы сравниваются только при одинаковых входе, сценарии и результате; перекрывающиеся проверки не складываются с календарным временем этапа.
++
++Флаг `--поля-модулей --выход <новый-файл.json>` выбирает малую открытую пару runtime+test из пакетных регрессий. Пять повторов измеряют доказательство группы и подготовку всего пакета; подготовка фикстуры и исполнение её кода исключены. Профиль сохраняет версии и SHA исполнителей, сценария, фикстуры, входа и результата. Файл вывода создаётся однократно. При сравнении до и после изменения эти SHA и условия позволяют проверить сопоставимость; вложенные стадии не складываются с длительностью всего пакета.
+ 
+ Профиль инвентаря вызывается отдельно из корня FUM, через отчётную обёртку:
+ 

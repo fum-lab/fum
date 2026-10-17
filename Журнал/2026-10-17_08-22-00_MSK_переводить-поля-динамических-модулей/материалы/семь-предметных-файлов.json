@@ -1,0 +1,67 @@
+{
+  "схема": "fum.RO-состав-предложения334.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дочерняя_задача": "01a1484c-6a9f-7770-ac31-cd28dc7ca913",
+  "HEAD": "15d03d9857fbedc79129817e5119880dd808ceb0",
+  "ref": "refs/heads/codex/perevoditj-polya-dinamicheskikh-modulej",
+  "кодовая_основа": "3ed222ce81f3985d66186b8e9ec78d1ddfc203eb",
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+      "C572_sha256": "4f16547195b28c59bc26d7b6b037c8b5b1788c46f486afce00d494f46fc8e80c",
+      "C572_байтов": 139334,
+      "предложено_sha256": "1b52e24fff79a9a45f050d310242d0e9bd392311b905d67866ec18c75d6536a0",
+      "предложено_байтов": 139750,
+      "birth_sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+      "C572_sha256": "32494b8a855c71e3dea15b219e4283758a26febb38d0787ba26a3dcc1f75bde4",
+      "C572_байтов": 38543,
+      "предложено_sha256": "95c12f96504f85387456232f3e834affc9974950f3abde2da9cb82422e76feab",
+      "предложено_байтов": 66503,
+      "birth_sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+      "C572_sha256": "0b52c593e138acad0c7ca937832536f646c0b22873af4db88ced0ba5837fe060",
+      "C572_байтов": 24312,
+      "предложено_sha256": "aaf07a1840f42a80835eaa198cbba94e8eb122f14edba0c7addfff1b7caf6b6d",
+      "предложено_байтов": 41789,
+      "birth_sha256": "576aa83b7947932527983e7482869f6cebbd0839d4ef02ade6d420dc17114600"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_безопасный_перевод_python.py",
+      "C572_sha256": "443798c05835c98dff2a2259dcea9302f418c6b10fef66012dff0d43fc1c9519",
+      "C572_байтов": 34587,
+      "предложено_sha256": "47f7ec84fecdcc8811f1c0920805f571fbf8cf656b0b7454d37fd7bb7d61a36f",
+      "предложено_байтов": 38797,
+      "birth_sha256": "35952240ce4154b815981d9a75fa8506133d0652b868def7cb4ddd43042ae99d"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "C572_sha256": "cd9728287ae7325f7fa455c95e3e741f3721d9fea5416b87446b13889b882e14",
+      "C572_байтов": 25870,
+      "предложено_sha256": "5ce6c402d11f0c375033d599829aaf7896b3f2a5168cada81ee8c9208e8387dd",
+      "предложено_байтов": 42913,
+      "birth_sha256": "93fdc9ae62c2cf102f0f156b2d681ae26ab3fff04d2b8bffa2083223db6f0fe8"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_безопасный_перевод_python.py",
+      "C572_sha256": "ceafc786e891b309eaf00de69af38ba212d05b16b5e2ce2a5edcdb102090adad",
+      "C572_байтов": 3435,
+      "предложено_sha256": "4dbdc6e1f2f0df2786710f15a1257de642c44530255bb663f91d6b234933393c",
+      "предложено_байтов": 7113,
+      "birth_sha256": "ceafc786e891b309eaf00de69af38ba212d05b16b5e2ce2a5edcdb102090adad"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/безопасный-перевод-Python.md",
+      "C572_sha256": "958b4aaa29a10f6b59f5a0fc824cfbae7a4ac890c5fbe3d39ae2ab452245dbd3",
+      "C572_байтов": 21903,
+      "предложено_sha256": "d2fa05c23a04496b5af0386b6cc4d1ed1a48b0181339861898197caac7dbfe05",
+      "предложено_байтов": 30638,
+      "birth_sha256": "73512062b27a755cbe37d969721ee1c0e00806a38a6d905b08a28a6b8a10a807"
+    }
+  ],
+  "граница": "Не проиндексировано, не закоммичено, не принято ROOT, не применено к живому333/ROOT."
+}

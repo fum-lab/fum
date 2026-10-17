@@ -1,0 +1,115 @@
+{
+  "коммит": "3ed222ce81f3985d66186b8e9ec78d1ddfc203eb",
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/SKILL.md",
+      "sha256": "92fb0ce384faeca70a04da7b20ff02d0b8ba9c3b32e3f8aa2b9cfc22cbd6726f",
+      "байтов": 43295
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+      "байтов": 5004
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести_имена_контекста.py",
+      "sha256": "26390c36ebff457ab4007a4808b0e0f02e489b74aa9bcdf1e6936c6ecbf115fd",
+      "байтов": 8437
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "sha256": "e33cf532cf9d3b52d852d30e660aa0c07424f55e64bb9bbd61183de31665ffa1",
+      "байтов": 36053
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_аббревиатуры_контекста.py",
+      "sha256": "ae627688a26bca120b7c7e17dc7d5259109b1e0afe3b21cdefc1da30efda769e",
+      "байтов": 7961
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_контрпримеры_ревью_python.py",
+      "sha256": "47832fab75883f3e876f6573c3fcb8de2adf5c1ce8c7b50a0059f1a08940ea39",
+      "байтов": 4764
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_миграция_контекста.py",
+      "sha256": "0be9771cc2f7627b5893a2b8c9aa8f996b74d28ed560b70c9eab944518d502c3",
+      "байтов": 5939
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_перевод_объявлений_кода.py",
+      "sha256": "f93d951ee46a6f3298f038a5517ff7f7bb4f691395cf057a0e553e498fae4784",
+      "байтов": 26875
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py",
+      "sha256": "8a7b2ff0aa1fd37ebab4a2deadf0ceb8ffec1da0a2dd4f74414ad2410aee2595",
+      "байтов": 44655
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_роли_свифт.py",
+      "sha256": "d539b6abd736f88f853ec02ec90da37d6030662034f0fdb34133bcc53d3a8c3b",
+      "байтов": 3819
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сигнатуры_свифт.py",
+      "sha256": "84f3837accec3d829f32f2c6840e921e9d80bffbcfdb6982a80099555b929852",
+      "байтов": 4506
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py",
+      "sha256": "cf62460fe8d8ff76ae2b1e2f1394f9bef33761492bc5b0f6d053ccc82a3b9040",
+      "байтов": 29044
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "sha256": "8d7767577d4fc7c79173149ac33ea9165ad56252136bc501df99671a8acbaf0f",
+      "байтов": 14962
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_шаблон_адаптера.py",
+      "sha256": "82868f4f1c074d3b6485c23a2e77dc78b639e1c169b74da3b6d3976fdf714f64",
+      "байтов": 14037
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_имена_контекста.py",
+      "sha256": "3a115e29a17c718092eabf69a214cd5bf70040f925797732dc180b845ca15be0",
+      "байтов": 7163
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_сценарий_ответа.py",
+      "sha256": "7c711bd3889a997b9609bd4ee8e3b24bd8329e64447c9610538b32baa24ca208",
+      "байтов": 9234
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_шаблон_адаптера.py",
+      "sha256": "7b8209725809ee055244ebee62bff95befb3a636589c00a8ad8dd1510f6cd179",
+      "байтов": 4105
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+      "байтов": 7650
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/миграция-унаследованного-Python.md",
+      "sha256": "588fd07fa01ca6030f8b447d155933aed7571ee8b3e9829fecb155a4320f55c2",
+      "байтов": 18920
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/остаток-объявлений-кода.json",
+      "sha256": "632cdfe1e2d3fde8f0e97b3bded9642e0b6a054b6041445c217538816be3078f",
+      "байтов": 276
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/собственные-имена-контекста.md",
+      "sha256": "7059e35e665c02dd4d3dc524d4a9966a2196e37eb896843201886b53b8d97f2c",
+      "байтов": 9742
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/сценарии-ответа.md",
+      "sha256": "b4d9152f54431836ed95899ce4282859b6bc2ae87819a2d90a2caba3a6e3a99e",
+      "байтов": 16497
+    }
+  ]
+}

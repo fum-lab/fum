@@ -177,8 +177,398 @@ class ОбластиПитона(ast.NodeVisitor):
         сам.текущая.нелокальные.update(узел.names)
 
 
+class ПроисхождениеПитона:
+    """Конечные статические роли API; неизвестное происхождение — None."""
+
+    def __init__(сам, дерево):
+        сам.дерево = дерево
+        сам.области = ОбластиПитона(дерево)
+        сам.узлы = tuple(ast.walk(дерево))
+        сам._неограниченный_импорт = any(isinstance(у, ast.ImportFrom) and any(п.name == '*' for п in у.names) for у in сам.узлы)
+        сам.родители = {ч: у for у in сам.узлы for ч in ast.iter_child_nodes(у)}
+        сам.импорты = {п: у for у in сам.узлы if isinstance(у, (ast.Import, ast.ImportFrom)) for п in у.names}
+        сам.значения = {}
+        сам._разбираемые_фабрики = set()
+        for узел in сам.узлы:
+            if isinstance(узел, ast.Assign) and len(узел.targets) == 1 and isinstance(узел.targets[0], ast.Name):
+                сам.значения[узел.targets[0]] = (узел, узел.value)
+            elif isinstance(узел, ast.AnnAssign) and узел.value is not None and isinstance(узел.target, ast.Name):
+                сам.значения[узел.target] = (узел, узел.value)
+        сам.мутации = []
+        сам.мутации_объекта = set()
+        for узел in сам.узлы:
+            if isinstance(узел, ast.Attribute) and isinstance(узел.ctx, (ast.Store, ast.Del)):
+                родитель = сам.родители.get(узел)
+                if isinstance(родитель, ast.AnnAssign) and родитель.value is None:
+                    continue
+                путь = сам._сырой_путь(узел)
+                if путь:
+                    сам.мутации.append((путь[0], узел))
+            elif isinstance(узел, ast.Name) and узел.id == '__builtins__' and isinstance(узел.ctx, (ast.Store, ast.Del)):
+                сам.мутации.append((('builtins',), узел))
+            elif isinstance(узел, ast.Call) and len(узел.args) >= 2 and сам._обычное_встроенное(узел.func, {'setattr', 'delattr'}):
+                владелец = сам._сырой_путь(узел.args[0])
+                if владелец:
+                    имя = узел.args[1]
+                    путь = владелец[0] + ((имя.value,) if isinstance(имя, ast.Constant) and isinstance(имя.value, str) else ())
+                    сам.мутации.append((путь, узел))
+            elif isinstance(узел, ast.Subscript) and isinstance(узел.ctx, (ast.Store, ast.Del)):
+                владелец = сам._словарь_интерфейса(узел.value)
+                if владелец:
+                    путь = владелец + ((узел.slice.value,) if isinstance(узел.slice, ast.Constant) and isinstance(узел.slice.value, str) else ())
+                    сам.мутации.append((путь, узел))
+            if isinstance(узел, ast.Call):
+                вызов_интерфейса = сам._сырой_путь(узел.func)
+                if (вызов_интерфейса and вызов_интерфейса[0] == ('unittest', 'mock', 'patch', 'object') and len(узел.args) >= 2):
+                    цель = сам._сырой_путь(узел.args[0])
+                    имя = узел.args[1]
+                    if цель:
+                        путь = цель[0] + ((имя.value,) if isinstance(имя, ast.Constant) and isinstance(имя.value, str) else ())
+                        сам.мутации.append((путь, узел))
+                elif (вызов_интерфейса and вызов_интерфейса[0] == ('unittest', 'mock', 'patch') and узел.args
+                        and isinstance(узел.args[0], ast.Constant) and isinstance(узел.args[0].value, str)):
+                    сам.мутации.append((tuple(узел.args[0].value.split('.')), узел))
+                if isinstance(узел.func, ast.Attribute):
+                    словарь = сам._словарь_интерфейса(узел.func.value)
+                    if словарь:
+                        сам.мутации.append((словарь, узел))
+                # Передача самого объекта API неизвестному коду лишает нас
+                # доказательства неизменности; локальные значения не обобщаются.
+                передаваемые = [*узел.args, *(к.value for к in узел.keywords)]
+                while передаваемые:
+                    аргумент = передаваемые.pop()
+                    if isinstance(аргумент, (ast.List, ast.Tuple, ast.Set)):
+                        передаваемые.extend(аргумент.elts)
+                        continue
+                    if isinstance(аргумент, ast.Dict):
+                        передаваемые.extend(ч for ч in [*аргумент.keys, *аргумент.values] if ч is not None)
+                        continue
+                    if isinstance(аргумент, ast.Starred):
+                        передаваемые.append(аргумент.value)
+                        continue
+                    переданный = сам._сырой_путь(аргумент)
+                    if переданный:
+                        путь = переданный[0]
+                        сам.мутации.append((путь[:-1] if путь[-1] == '__dict__' else путь, узел))
+            if isinstance(узел, ast.Attribute) and узел.attr == '__dict__':
+                владелец = сам._сырой_путь(узел.value)
+                if владелец:
+                    сам.мутации.append((владелец[0], узел))
+            if isinstance(узел, ast.Subscript) and isinstance(узел.slice, ast.Constant) and isinstance(узел.slice.value, str):
+                контейнер = сам._сырой_путь(узел.value)
+                имя = tuple(узел.slice.value.split('.'))
+                if контейнер and контейнер[0] == ('sys', 'modules') and имя[0] in {'sys', 'builtins', 'importlib', 'ctypes', 'unittest'}:
+                    сам.мутации.append((имя, узел))
+            if isinstance(узел, ast.Attribute) and узел.attr.startswith('__') and узел.attr.endswith('__'):
+                владелец = сам._сырой_путь(узел.value)
+                if владелец:
+                    # Внутренности callable изменяют сам сохранённый объект,
+                    # поэтому ранний снимок его имени здесь не помогает.
+                    сам.мутации.append((владелец[0], узел))
+                    сам.мутации_объекта.add(узел)
+            if not isinstance(узел, (ast.Name, ast.Attribute)) or not isinstance(узел.ctx, ast.Load):
+                continue
+            путь = сам._сырой_путь(узел)
+            if путь is None:
+                continue
+            родитель = сам.родители.get(узел)
+            if ((isinstance(родитель, ast.Attribute) and родитель.value is узел)
+                    or (isinstance(родитель, ast.Call) and родитель.func is узел)
+                    or (isinstance(родитель, ast.ClassDef) and узел in родитель.bases)
+                    or (isinstance(родитель, ast.Subscript) and родитель.value is узел
+                        and путь[0] == ('sys', 'modules'))):
+                continue
+            цель = None
+            if isinstance(родитель, ast.Assign) and len(родитель.targets) == 1:
+                цель = родитель.targets[0]
+            elif isinstance(родитель, ast.AnnAssign):
+                цель = родитель.target
+            if isinstance(цель, ast.Name) and родитель.value is узел:
+                область = сам.области.владельцы[родитель]
+                if (родитель in getattr(область.узел, 'body', ())
+                        and сам._привязки(цель) == [('имя', цель)]):
+                    continue
+            # Контейнеры, возврат и прочие непрозрачные передачи API могут
+            # изменить его через ускользнувший объект. Полноту не угадываем.
+            сам.мутации.append((путь[0], узел))
+            сам.мутации_объекта.add(узел)
+
+    def _привязки(сам, узел):
+        if not isinstance(узел, ast.Name):
+            return []
+        область = сам.области.владельцы.get(узел)
+        владелец = область.владелец(узел.id) if область else None
+        return владелец.привязки.get(узел.id, []) if владелец else []
+
+    def _сырой_путь(сам, узел, посещённые=frozenset()):
+        if узел in посещённые:
+            return None
+        посещённые = посещённые | {узел}
+        if isinstance(узел, ast.Attribute):
+            начало = сам._сырой_путь(узел.value, посещённые)
+            return (начало[0] + (узел.attr,), None) if начало else None
+        if not isinstance(узел, ast.Name):
+            return None
+        записи = сам._привязки(узел)
+        if not записи:
+            return (('builtins', узел.id), None) if узел.id in {'getattr', 'setattr', 'delattr', 'hasattr', 'vars', 'list', 'exec', 'eval'} else None
+        пути = set()
+        for _, привязка in записи:
+            импорт = сам.импорты.get(привязка)
+            if импорт is None or импорт.lineno >= узел.lineno:
+                break
+            область_импорта = сам.области.владельцы[импорт]
+            if импорт not in getattr(область_импорта.узел, 'body', ()):
+                return None
+            if область_импорта.вид == 'класс' and (область_импорта.узел.bases or область_импорта.узел.keywords or область_импорта.узел.decorator_list):
+                return None
+            if isinstance(импорт, ast.Import):
+                путь = tuple(привязка.name.split('.'))
+                пути.add(путь if привязка.asname else путь[:1])
+            elif импорт.level == 0 and импорт.module and привязка.name != '*':
+                пути.add((*импорт.module.split('.'), привязка.name))
+            else:
+                break
+        else:
+            return (next(iter(пути)), None) if len(пути) == 1 else None
+        if len(записи) != 1:
+            return None
+        пара = сам.значения.get(записи[0][1])
+        if пара is None:
+            return None
+        присваивание, значение = пара
+        область = сам.области.владельцы[присваивание]
+        if присваивание not in getattr(область.узел, 'body', ()) or присваивание.lineno >= узел.lineno:
+            return None
+        начало = сам._сырой_путь(значение, посещённые)
+        return (начало[0], начало[1] or присваивание) if начало else None
+
+    def _словарь_интерфейса(сам, узел):
+        if isinstance(узел, ast.Name) and узел.id == '__builtins__':
+            return ('builtins',)
+        if isinstance(узел, ast.Attribute) and узел.attr == '__dict__':
+            путь = сам._сырой_путь(узел.value)
+            return путь[0] if путь else None
+        if (isinstance(узел, ast.Call) and len(узел.args) == 1 and not узел.keywords
+                and сам._обычное_встроенное(узел.func, {'vars'})):
+            путь = сам._сырой_путь(узел.args[0])
+            return путь[0] if путь else None
+        return None
+
+    def _снимок_раньше(сам, снимок, мутация):
+        if (снимок not in сам.дерево.body or not isinstance(мутация, ast.Attribute)
+                or not isinstance(мутация.ctx, (ast.Store, ast.Del))):
+            return False
+        верхний = мутация
+        while сам.родители.get(верхний) is not сам.дерево:
+            верхний = сам.родители.get(верхний)
+            if верхний is None:
+                return False
+        return сам.дерево.body.index(снимок) < сам.дерево.body.index(верхний)
+
+    def путь_внешнего_интерфейса(сам, узел):
+        if сам._неограниченный_импорт:
+            return None
+        происхождение = сам._сырой_путь(узел)
+        if происхождение is None:
+            return None
+        путь, снимок = происхождение
+        for изменённый, мутация in сам.мутации:
+            if путь[:len(изменённый)] == изменённый:
+                if мутация in сам.мутации_объекта or снимок is None or not сам._снимок_раньше(снимок, мутация):
+                    return None
+        return путь
+
+    def _обычное_встроенное(сам, узел, имена):
+        путь = сам._сырой_путь(узел)
+        return bool(путь and len(путь[0]) == 2 and путь[0][0] == 'builtins' and путь[0][1] in имена)
+
+    def встроенное(сам, узел, имя):
+        return сам._обычное_встроенное(узел, {имя}) and сам.путь_внешнего_интерфейса(узел) == ('builtins', имя)
+
+    def _метод(сам, узел):
+        if not isinstance(узел, ast.FunctionDef) or узел.decorator_list:
+            return None
+        область = сам.области.владельцы.get(узел)
+        if область is None or область.вид != 'класс':
+            return None
+        класс = область.узел
+        if len(класс.bases) != 1 or класс.decorator_list or класс.keywords or область.привязки.get(узел.name) != [('функция', узел)]:
+            return None
+        база = сам.путь_внешнего_интерфейса(класс.bases[0])
+        допустимые = {('importlib', 'abc', 'Loader'): {'create_module', 'exec_module'},
+            ('importlib', 'abc', 'MetaPathFinder'): {'find_spec'}}
+        if узел.name not in допустимые.get(база, ()):
+            return None
+        параметры = узел.args
+        if (параметры.posonlyargs or параметры.kwonlyargs or параметры.vararg or параметры.kwarg
+                or len(параметры.args) != (4 if узел.name == 'find_spec' else 2)):
+            return None
+        return узел.name
+
+    def внешний_метод(сам, узел):
+        return сам._метод(узел) is not None
+
+    def внешний_параметр(сам, узел):
+        if not isinstance(узел, ast.arg):
+            return False
+        область = сам.области.владельцы.get(узел)
+        функция = область.узел if область else None
+        метод = сам._метод(функция)
+        if метод is None:
+            return False
+        имена = {'create_module': ('spec',), 'exec_module': ('module',), 'find_spec': ('fullname', 'path', 'target')}[метод]
+        return any(п is узел and п.arg == и for п, и in zip(функция.args.args[1:], имена))
+
+    def _замкнутый_возврат(сам, возврат, вид):
+        значение = возврат.value
+        if not isinstance(значение, ast.Name):
+            return isinstance(значение, ast.Call)
+        область = сам.области.владельцы[значение].владелец(значение.id)
+        for узел in сам.узлы:
+            if (not isinstance(узел, ast.Name) or узел.id != значение.id or not isinstance(узел.ctx, ast.Load)
+                    or сам.области.владельцы[узел].владелец(узел.id) is not область):
+                continue
+            родитель = сам.родители.get(узел)
+            if родитель is возврат:
+                continue
+            if isinstance(родитель, ast.Attribute) and родитель.value is узел and not родитель.attr.startswith('__'):
+                continue
+            if isinstance(родитель, ast.Call) and узел in родитель.args:
+                if (вид == 'описание' and родитель.args == [узел]
+                        and сам.путь_внешнего_интерфейса(родитель.func) == ('importlib', 'util', 'module_from_spec')):
+                    continue
+                вызов = родитель.func
+                if (вид == 'модуль' and родитель.args == [узел] and isinstance(вызов, ast.Attribute)
+                        and вызов.attr == 'exec_module' and isinstance(вызов.value, ast.Attribute)
+                        and вызов.value.attr == 'loader' and сам._тип(вызов.value.value) == 'описание'):
+                    continue
+            if (вид == 'модуль' and isinstance(родитель, ast.Assign) and родитель.value is узел
+                    and len(родитель.targets) == 1 and isinstance(родитель.targets[0], ast.Subscript)
+                    and сам.путь_внешнего_интерфейса(родитель.targets[0].value) == ('sys', 'modules')):
+                continue
+            return False
+        return True
+
+    def _замкнутая_библиотека(сам, получатель, символ):
+        if not isinstance(получатель, ast.Name):
+            return isinstance(получатель, ast.Call)
+        область = сам.области.владельцы[получатель].владелец(получатель.id)
+        for узел in сам.узлы:
+            if (not isinstance(узел, ast.Name) or узел.id != получатель.id or not isinstance(узел.ctx, ast.Load)
+                    or сам.области.владельцы[узел].владелец(узел.id) is not область):
+                continue
+            родитель = сам.родители.get(узел)
+            if isinstance(родитель, ast.Attribute) and родитель.value is узел and not родитель.attr.startswith('__'):
+                continue
+            if isinstance(родитель, ast.Call) and родитель.args and родитель.args[0] is узел:
+                if (сам.встроенное(родитель.func, 'hasattr') and len(родитель.args) == 2
+                        and isinstance(родитель.args[1], ast.Constant) and isinstance(родитель.args[1].value, str)):
+                    continue
+                if (сам._обычное_встроенное(родитель.func, {'setattr', 'delattr'}) and len(родитель.args) >= 2
+                        and isinstance(родитель.args[1], ast.Constant) and родитель.args[1].value != символ):
+                    continue
+            return False
+        return True
+
+    def _тип(сам, узел, посещённые=frozenset()):
+        if узел in посещённые:
+            return None
+        посещённые = посещённые | {узел}
+        if isinstance(узел, ast.Name):
+            записи = сам._привязки(узел)
+            if not записи:
+                return None
+            if all(привязка in сам.значения for _, привязка in записи):
+                типы = {сам._тип(сам.значения[п][1], посещённые) for _, п in записи}
+                тип = next(iter(типы)) if len(типы) == 1 else None
+                if тип == 'библиотека' and any(not isinstance(сам.значения[п][1], ast.Call)
+                        or сам.путь_внешнего_интерфейса(сам.значения[п][1].func) != ('ctypes', 'CDLL') for _, п in записи):
+                    return None
+                return тип
+            if len(записи) != 1:
+                return None
+            вид, привязка = записи[0]
+            if вид == 'параметр':
+                функция = сам.области.владельцы[привязка].узел
+                if сам._метод(функция) == 'exec_module' and функция.args.args[1] is привязка:
+                    return 'модуль'
+            цель = сам.родители.get(привязка)
+            цикл = сам.родители.get(цель)
+            if (isinstance(цель, ast.Tuple) and len(цель.elts) == 2 and all(isinstance(э, ast.Name) for э in цель.elts)
+                    and цель.elts[1] is привязка and isinstance(цикл, ast.For) and цикл.target is цель):
+                итератор = цикл.iter
+                if (isinstance(итератор, ast.Call) and len(итератор.args) == 1 and not итератор.keywords
+                        and сам.встроенное(итератор.func, 'list')):
+                    итератор = итератор.args[0]
+                if (isinstance(итератор, ast.Call) and not итератор.args and not итератор.keywords
+                        and isinstance(итератор.func, ast.Attribute) and итератор.func.attr == 'items'
+                        and сам.путь_внешнего_интерфейса(итератор.func.value) == ('sys', 'modules')):
+                    return 'модуль'
+        elif isinstance(узел, ast.Subscript):
+            if (сам.путь_внешнего_интерфейса(узел.value) == ('sys', 'modules') and isinstance(узел.slice, ast.Constant)
+                    and isinstance(узел.slice.value, str)):
+                return 'модуль'
+        elif isinstance(узел, ast.Call):
+            путь = сам.путь_внешнего_интерфейса(узел.func)
+            if путь in {('importlib', 'util', 'spec_from_file_location'), ('importlib', 'machinery', 'PathFinder', 'find_spec')}:
+                return 'описание'
+            if (путь == ('importlib', 'util', 'module_from_spec') and len(узел.args) == 1 and not узел.keywords
+                    and сам._тип(узел.args[0], посещённые) == 'описание'):
+                return 'модуль'
+            if (путь == ('ctypes', 'CDLL') and len(узел.args) == 1 and isinstance(узел.args[0], ast.Constant)
+                    and узел.args[0].value is None):
+                return 'библиотека'
+            if isinstance(узел.func, ast.Name):
+                записи = сам._привязки(узел.func)
+                if len(записи) == 1 and записи[0][0] == 'функция':
+                    функция = записи[0][1]
+                    if isinstance(функция, ast.FunctionDef) and not функция.decorator_list and функция not in сам._разбираемые_фабрики:
+                        область = сам.области.вложенные[функция]
+                        возвраты = [э for э in ast.walk(функция) if isinstance(э, ast.Return) and сам.области.владельцы.get(э) is область]
+                        if len(возвраты) == 1:
+                            сам._разбираемые_фабрики.add(функция)
+                            try:
+                                тип = сам._тип(возвраты[0].value, посещённые)
+                                if тип in {'модуль', 'описание'} and not сам._замкнутый_возврат(возвраты[0], тип):
+                                    return None
+                                return тип
+                            finally:
+                                сам._разбираемые_фабрики.remove(функция)
+        elif isinstance(узел, ast.Attribute):
+            if узел.attr in {'renamex_np', 'renameatx_np', 'renameat2'} and сам._тип(узел.value, посещённые) == 'библиотека':
+                if not сам._замкнутая_библиотека(узел.value, узел.attr):
+                    return None
+                for часть in сам.узлы:
+                    if (isinstance(часть, ast.Attribute) and часть.attr == узел.attr and isinstance(часть.ctx, (ast.Store, ast.Del))
+                            and сам._тип(часть.value, посещённые) == 'библиотека'):
+                        return None
+                    if (isinstance(часть, ast.Call) and len(часть.args) >= 2 and сам._обычное_встроенное(часть.func, {'setattr', 'delattr'})
+                            and сам._тип(часть.args[0], посещённые) == 'библиотека'):
+                        имя = часть.args[1]
+                        if not isinstance(имя, ast.Constant) or имя.value == узел.attr:
+                            return None
+                return 'функция_C'
+        return None
+
+    def модуль(сам, узел):
+        return сам._тип(узел) == 'модуль'
+
+    def внешний_атрибут(сам, узел):
+        if not isinstance(узел, ast.Attribute):
+            return False
+        путь = сам.путь_внешнего_интерфейса(узел.value)
+        if путь == ('sys',) and узел.attr == 'dont_write_bytecode':
+            return True
+        if путь == ('importlib', 'util') and узел.attr == 'spec_from_file_location':
+            return True
+        тип = сам._тип(узел.value)
+        return ((тип == 'описание' and узел.attr == 'loader') or (тип == 'функция_C' and узел.attr in {'argtypes', 'restype'}))
+
+
 def подготовить_замены(текст, переименования, выбранные_области=None, измерения=None,
-                       разрешённые_передачи=None, имена_областей=None, разрешённые_исполнения=None, разрешённые_внешние_вызовы=None):
+                       разрешённые_передачи=None, имена_областей=None, разрешённые_исполнения=None, разрешённые_внешние_вызовы=None,
+                       связанные_атрибуты=None):
     """Вернуть текст и проверяемые диапазоны; необязательный выбор — по области.
 
     выбранные_области содержит (строка, байтовый столбец, старое имя).
@@ -204,8 +594,6 @@ def подготовить_замены(текст, переименования
         смещения.append(смещения[-1] + len(строка))
     токены = list(tokenize.generate_tokens(io.StringIO(текст).readline))
     позиции_токенов = [смещения[т.start[0] - 1] + т.start[1] for т in токены]
-    все_имена = {т.string for т in токены if т.type == tokenize.NAME}
-    все_имена.update(у.id for у in ast.walk(дерево) if isinstance(у, ast.Name))
     правки = {}
     выбранные = set()
     разрешённые_передачи = set(разрешённые_передачи or ())
@@ -221,6 +609,30 @@ def подготовить_замены(текст, переименования
 
     def конец(узел):
         return смещения[узел.end_lineno - 1] + len(строки[узел.end_lineno - 1].encode()[:узел.end_col_offset].decode())
+
+    связанные_диапазоны = set()
+    допустимые_атрибуты = set()
+    if связанные_атрибуты:
+        for узел in ast.walk(дерево):
+            if isinstance(узел, ast.Attribute):
+                до = конец(узел)
+                от = до - len(узел.attr)
+                if текст[от:до] == узел.attr:
+                    допустимые_атрибуты.add((от, до))
+        for диапазон in связанные_атрибуты:
+            if (not isinstance(диапазон, (tuple, list)) or len(диапазон) != 2
+                    or any(type(число) is not int for число in диапазон)):
+                raise ОтказПеревода('Неверный диапазон связанного атрибута')
+            ключ = tuple(диапазон)
+            if ключ not in допустимые_атрибуты or ключ in связанные_диапазоны:
+                raise ОтказПеревода('Неизвестный или повторный связанный атрибут')
+            связанные_диапазоны.add(ключ)
+    все_имена = {т.string for т, позиция in zip(токены, позиции_токенов)
+                 if т.type == tokenize.NAME and (позиция, позиция + len(т.string)) not in связанные_диапазоны}
+    все_имена.update(у.id for у in ast.walk(дерево) if isinstance(у, ast.Name))
+    все_имена.update(имя for область in области.области for имя in область.привязки)
+    все_имена.update(узел.attr for узел in ast.walk(дерево) if isinstance(узел, ast.Attribute)
+                     and (конец(узел) - len(узел.attr), конец(узел)) not in связанные_диапазоны)
 
     def ключ_области(область, имя):
         return (getattr(область.узел, "lineno", 0), getattr(область.узел, "col_offset", 0), имя)
