@@ -1,0 +1,37 @@
+{
+  "HEAD": "64a9ea6d29d91dcc7ec16cf00006c50da5c5ca2a",
+  "повтор": "один139, мягкие пороги300/900, без принудительного timeout",
+  "принятие": false,
+  "файлы": [
+    {
+      "blob": "dd36be908e3e26d72cdf4b1a67c7ac73331347ca",
+      "sha256": "e3610321d8e42763d41484cc650416ddaae3b279fd121b66288c77a717966c22",
+      "байт": 83402,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+    },
+    {
+      "blob": "202560aa50df11dfaef812036156d0b679ec3719",
+      "sha256": "f741062125e9571eddb8b465db7f09c76aa4542fa4452f33caebb457511e0ebc",
+      "байт": 48821,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py"
+    },
+    {
+      "blob": "bbffacb67b14fffff70730fa7542c8bbbde702d5",
+      "sha256": "090301dcd709d314e364745074390cb2f6b2d9264156a59cba7251b7c437a600",
+      "байт": 33042,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_свежести_внешнего_состава_ребёнка.py"
+    },
+    {
+      "blob": "0043f0fb1543ebd16bd301b082c400c8391758f7",
+      "sha256": "4dd9b124408f0392cd1863cfaf43b35812c52e100e5143f751b40fa08b967492",
+      "байт": 11243,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/профиль_свежести_внешнего_состава_ребёнка.py"
+    },
+    {
+      "blob": "b171800b5d5a54378d0b9f6044971201c2c51db4",
+      "sha256": "5d3e5c2c2359e1a03092d062891124d34f227e3553076e0556026c55f5251099",
+      "байт": 8486,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/внешний-состав-дочерней-связности.md"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "до": {
+    "lock_отсутствовал": true,
+    "receipt_отсутствовала": true,
+    "stdout_sha256": "71a88a6a16d2fd82c3994c6ee0dc7d8838cb770a848ee338a0eccb534c7f6412",
+    "готова": false,
+    "код": 1,
+    "состояние": "не_материализована"
+  },
+  "единственная_регистрация": {
+    "origin": "https://github.com/fum-lab/LinguisticKit.git",
+    "pin": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "upstream": "https://github.com/Roman-Kerimov/LinguisticKit.git",
+    "путь": "Зависимости/LinguisticKit"
+  },
+  "защищённый_снимок_до_после": {
+    "sha256": "5c33ed438badcdac993750b2d815b089d159f3d7b754964016c61c43a1b428ec",
+    "покрывает": [
+      "HEAD",
+      "полный ref",
+      "сырой индекс и полный stage inventory",
+      "gitlink",
+      ".gitmodules",
+      "common config",
+      "own config.worktree",
+      "оба исходника K"
+    ],
+    "тождественен": true
+  },
+  "исполнитель": "01a147d6-1164-7750-815e-0bffbbf63ebb",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "основание": "Адресное инструментальное поручение ROOT после фактического отказа collector до первого теста; не новое человеческое сообщение и не общее разрешение Git-изменений.",
+  "подготовка": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_байтов": 0,
+    "stdout_sha256": "ad0cbf7a356d220450088f706e8719b00cd0657d79d25f9a02411b799c6c49e8",
+    "stdout_байтов": 782,
+    "код": 0,
+    "секунд": 12.894180541858077
+  },
+  "после": {
+    "git_dir_и_common_dir_совпали": true,
+    "own_admin_топология_подтверждена": true,
+    "receipt": {
+      "mode": "0o600",
+      "sha256": "4aa2026769d95baee78de2616c41c3099c2cb05378ff46cdcf7fc6f65c8d63de",
+      "uid": 501,
+      "байт": 4815099,
+      "схема": "fum.подготовка-зависимостей.1"
+    },
+    "stdout_sha256": "d225be940387a9bcba6ed980abbcf0d61a6310e461f4ac88ee0472f330122777",
+    "готова": true,
+    "код": 0,
+    "состояние": "готова",
+    "чистый_detached_HEAD": true
+  },
+  "приватная_граница": "Полные snapshot, намерение, каналы, own-admin receipt и физические пути сохранены вне Git; координатор получил точные приватные координаты. Это подготовка окружения до допуска collector, не проверочная RAW и не Maker.prepare.",
+  "принятый_код": {
+    "preparer": {
+      "sha256": "61981badbc216564a6c26ac4df827ea8b2a6d5b73dd91827e7d6766a332ac523",
+      "байт": 119163,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py"
+    },
+    "validator": {
+      "sha256": "f10fc9953c726e4f49872ce53a33fb1512194a13d7547bb6f89ac45f6a4c4c37",
+      "байт": 119076,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py"
+    },
+    "байты_сверены_с_обычными_Git_blob": true,
+    "внешний_SKILL_не_читался": true,
+    "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda"
+  },
+  "пять_файлов_и_восемь_v3_RAW_неизменны": true,
+  "схема": "fum.происхождение-подготовки-зависимости-311.1",
+  "счётчик_тестов": 0
+}

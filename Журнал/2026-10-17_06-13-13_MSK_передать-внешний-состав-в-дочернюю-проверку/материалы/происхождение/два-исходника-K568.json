@@ -1,0 +1,22 @@
+{
+  "делегация_native_sha256": "4c9fe38170823b944b40753c72c8acf98783f3fac82725627f94d784dfad0fde",
+  "исходники": [
+    {
+      "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+      "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+      "байтов": 83321,
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+    },
+    {
+      "blob": "2359732415bbd9c61d9780b37179f7332ccd829b",
+      "sha256": "6e9182dce250e9cb3314d56acb2e56522ab2afaf076b0bf24a4d08d8c9fc1935",
+      "байтов": 48703,
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py"
+    }
+  ],
+  "постановка": "64a9ea6d29d91dcc7ec16cf00006c50da5c5ca2a",
+  "происхождение": "Инструментальная делегация ROOT, response_item/function_call_output codex_app.create_thread. Оригинал хранится приватно; человеческие команды ROOT выбирает отдельно.",
+  "схема": "fum.происхождение-двух-исходников.1"
+}

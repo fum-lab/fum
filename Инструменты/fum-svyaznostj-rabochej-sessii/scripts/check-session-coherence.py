@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import hashlib
 import importlib.util
 import os
 import re
@@ -15,6 +16,13 @@ from dataclasses import dataclass
 from decimal import Decimal, localcontext
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
+КАТАЛОГ_СЦЕНАРИЕВ = Path(__file__).resolve().parent
+if str(КАТАЛОГ_СЦЕНАРИЕВ) not in sys.path:
+    sys.path.insert(0, str(КАТАЛОГ_СЦЕНАРИЕВ))
+from автор_коммита import проверить_формат
 
 
 PROJECT_FILES_SCRIPTS = (
@@ -42,6 +50,7 @@ from project_files import (
 try:
     from request_folder_layout import (
         LayoutError,
+        _request_heading_label,
         МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА,
         validate_layout,
     )
@@ -51,6 +60,7 @@ except ModuleNotFoundError as exc:  # Keep isolated checker fixtures testable.
     LayoutError = RuntimeError
     МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА = "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"
     validate_layout = None
+    _request_heading_label = None
 
 
 REQUEST_STEM_RE = re.compile(
@@ -240,10 +250,8 @@ class AffectedPaths(set[Path]):
 
 def проверить_имя_автора(корень: Path, ожидаемое: str) -> list[str]:
     """Проверить роль и буквальный GIT_AUTHOR_NAME без изменения identity."""
-    if not isinstance(ожидаемое, str) or not re.fullmatch(
-        r"FUM [А-ЯЁ][А-Яа-яЁё]*(?:[ -][А-Яа-яЁё]+)*", ожидаемое
-    ):
-        return ["имя автора должно иметь формат FUM <Роль> с обычным одиночным пробелом"]
+    if not проверить_формат(ожидаемое):
+        return ["имя автора должно иметь точный формат FUM <Роль> или FUM <Роль> [<model>; effort=<effort>]"]
     try:
         subprocess.run(
             ["git", "-C", str(корень), "rev-parse", "--show-toplevel"],
@@ -255,7 +263,7 @@ def проверить_имя_автора(корень: Path, ожидаемо�
         )
         фактическое = результат.stdout.split(" <", 1)[0]
         if фактическое != ожидаемое:
-            return ["фактическое имя автора не совпадает с назначенной ролью"]
+            return ["фактическое имя автора не совпадает с полным ожидаемым именем"]
     except (OSError, subprocess.CalledProcessError):
         return ["не удалось прочитать GIT_AUTHOR_IDENT"]
     return []
@@ -263,7 +271,7 @@ def проверить_имя_автора(корень: Path, ожидаемо�
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--имя-автора", help="Точное ожидаемое имя автора, например FUM Интегратор.")
+    parser.add_argument("--имя-автора", help="Точное ожидаемое имя автора, например FUM Писатель [gpt-6-astra; effort=max].")
     parser.add_argument(
         "--request",
         required=True,
@@ -303,6 +311,9 @@ def parse_args() -> argparse.Namespace:
         "--контрольная-точка", action="store_true",
         help="Проверить промежуточный коммит с точным открытым терминальным отчётом.",
     )
+    parser.add_argument('--контракт-независимого-журнала', type=Path)
+    parser.add_argument('--выбранный-состав', type=Path)
+    parser.add_argument('--писатель')
     return parser.parse_args()
 
 
@@ -422,14 +433,19 @@ def expected_journal_heading(path: Path) -> str:
 
 
 def section_body(text: str, heading: str) -> str | None:
-    pattern = re.compile(rf"^## {re.escape(heading)}\s*$", re.MULTILINE)
-    match = pattern.search(text)
-    if not match:
-        return None
-    start = match.end()
-    next_heading = HEADING_RE.search(text, start)
-    end = next_heading.start() if next_heading else len(text)
-    return text[start:end]
+    pattern = re.compile(rf"## {re.escape(heading)}[ \t]*")
+    start = None
+    offset = 0
+    # Видимый Markdown определяет границы, исходный текст сохраняет все байты.
+    structural_lines = markdown_structural_text(text).split("\n")
+    for raw, visible in zip(text.splitlines(keepends=True), structural_lines):
+        if HEADING_RE.fullmatch(visible):
+            if start is not None:
+                return text[start:offset]
+            if pattern.fullmatch(visible):
+                start = offset + len(raw.rstrip("\r\n"))
+        offset += len(raw)
+    return text[start:] if start is not None else None
 
 
 def request_files(
@@ -476,6 +492,20 @@ def contains_request_link(
     return False
 
 
+def подпись_навигации(path: Path) -> str:
+    """Тот же заголовок соседа, который сохраняет генератор папок запросов."""
+    if _request_heading_label is not None:
+        with path.open(encoding="utf-8") as source:
+            heading = source.readline()
+        try:
+            return _request_heading_label(heading, path.parent.name)
+        except LayoutError:
+            # Исторические каркасы проверяются прежним способом; проверка
+            # заголовка текущего запроса остаётся независимой и строгой.
+            pass
+    return request_label(path)
+
+
 def validate_navigation(
     repo_root: Path,
     request_path: Path,
@@ -504,7 +534,7 @@ def validate_navigation(
             errors.append("request navigation must state previous request: нет")
     elif not contains_request_link(
         navigation,
-        request_label(previous_file),
+        подпись_навигации(previous_file),
         previous_file,
         request_path,
         repo_root,
@@ -519,7 +549,7 @@ def validate_navigation(
             errors.append("request navigation must state next request: нет")
     elif not contains_request_link(
         navigation,
-        request_label(next_file),
+        подпись_навигации(next_file),
         next_file,
         request_path,
         repo_root,
@@ -534,7 +564,7 @@ def validate_navigation(
         previous_navigation = section_body(previous_text, "Навигация по запросам") or ""
         if not contains_request_link(
             previous_navigation,
-            request_label(request_path),
+            подпись_навигации(request_path),
             request_path,
             previous_file,
             repo_root,
@@ -549,7 +579,7 @@ def validate_navigation(
         next_navigation = section_body(next_text, "Навигация по запросам") or ""
         if not contains_request_link(
             next_navigation,
-            request_label(request_path),
+            подпись_навигации(request_path),
             request_path,
             next_file,
             repo_root,
@@ -901,7 +931,17 @@ def проверить_машинный_отчёт_о_запусках(
     try:
         спецификация.loader.exec_module(модуль)
         проверка = getattr(модуль, "проверить_журнал_сессии")
-        ошибки = проверка(корень, путь_запроса, контрольная_точка=контрольная_точка)
+        идентификатор_активного_запуска = (
+            os.environ.get(модуль.ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА)
+            if контрольная_точка
+            else None
+        )
+        ошибки = проверка(
+            корень,
+            путь_запроса,
+            контрольная_точка=контрольная_точка,
+            идентификатор_активного_запуска=идентификатор_активного_запуска,
+        )
     except (AttributeError, OSError, RuntimeError, UnicodeError) as ошибка:
         return [f"check-run report validation failed: {ошибка}"]
     if not isinstance(ошибки, list) or any(
@@ -1989,7 +2029,10 @@ def validate_git_status(
     return errors
 
 
-def validate_md_recency(repo_root: Path) -> list[str]:
+def validate_md_recency(repo_root: Path, *, проверка=None) -> list[str]:
+    # Явный принятый callback сохраняет W как данные, не запускает W-код.
+    if проверка is not None:
+        return проверка(repo_root)
     script = repo_root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py"
     if not script.exists():
         return []
@@ -2022,10 +2065,28 @@ def validate_session(
     expected_codex_thread_id: str | None = None,
     commit_message: str | None = None,
     контрольная_точка: bool = False,
+    контракт_журнала=None,
+    выбранный_состав=None,
+    писатель=None,
 ) -> list[str]:
-    root = Path(repo_root).resolve()
+    независимый = контракт_журнала is not None
+    if not независимый and (выбранный_состав is not None or писатель is not None):
+        return ['прежняя связность не принимает поля независимого Журнала']
+    if независимый and (not контрольная_точка or not check_git_status
+            or expected_codex_thread_id is None or писатель is None or выбранный_состав is None):
+        return ['независимая связность требует полный адресный вход контрольной точки']
+    root = Path(repo_root) if независимый else Path(repo_root).resolve()
     request_path = absolute_path(request, root)
     errors: list[str] = []
+    привязка_журнала = None
+    if независимый:
+        try:
+            import связность_независимого_журнала as независимый_журнал
+            привязка_журнала = независимый_журнал.проверить_контракт(root, контракт_журнала,
+                выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
+                писатель=писатель, запрос=str(request_path.relative_to(root)))
+        except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
+            return ['независимый Журнал: ' + str(ошибка)]
 
     if request_match(request_path) is None:
         errors.append(
@@ -2042,21 +2103,36 @@ def validate_session(
     except ProjectFilesError as exc:
         return errors + [f"project Markdown inventory failed: {exc}"]
 
-    errors.extend(validate_request_folder_layout(root))
+    if not независимый:
+        errors.extend(validate_request_folder_layout(root))
+    else:
+        try:
+            строитель = независимый_журнал.журнал().каркас
+            строитель._прочитать_шаблоны()
+            from расширение_шаблонов import проверить_установленные_типы
+            проверить_установленные_типы(root)
+            строитель._validate_retired_owned_areas(root)
+            строитель._validate_no_legacy_references(root)
+        except (ValueError, RuntimeError, OSError) as ошибка:
+            errors.append('независимая структура: ' + str(ошибка))
 
     text = read_text(request_path)
     expected_heading = expected_request_heading(request_path)
     if not text.startswith(f"{expected_heading}\n"):
         errors.append(f"request must start with heading: {expected_heading}")
 
-    errors.extend(
-        validate_navigation(
+    if независимый:
+        ожидаемая_навигация = ('Собственная открытая пара; хронологические связи принятого состава '
+            'проверяются в отдельном индексе Журнала.')
+        if (section_body(text, 'Навигация по запросам') or '').strip() != ожидаемая_навигация:
+            errors.append('изменена навигация собственной независимой пары')
+    else:
+        errors.extend(validate_navigation(
             root,
             request_path,
             text,
             markdown_paths=project_markdown,
-        )
-    )
+        ))
     errors.extend(validate_journal(root, request_path, контрольная_точка=контрольная_точка))
     errors.extend(
         проверить_незаполненный_маркер_шаблона(text, request_path, root)
@@ -2126,10 +2202,26 @@ def validate_session(
     )
     errors.extend(validate_provenance_section_position(session_markdown_paths, root))
     errors.extend(validate_mermaid_markdown_list_labels(session_markdown_paths, root))
-    errors.extend(validate_md_recency(root))
+    if независимый:
+        if писатель == expected_codex_thread_id:
+            errors.extend(validate_md_recency(root, проверка=независимый_журнал.проверить_полную_свежесть))
+        else:
+            errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths,
+                выбранный_состав=выбранный_состав))
+    else:
+        errors.extend(validate_md_recency(root))
 
     if check_git_status:
         errors.extend(validate_git_status(root, affected_files, git_status))
+
+    if независимый:
+        try:
+            повтор = независимый_журнал.проверить_контракт(root, контракт_журнала,
+                выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
+                писатель=писатель, запрос=str(request_path.relative_to(root)))
+            if повтор != привязка_журнала: errors.append('независимый Журнал изменился при связности')
+        except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
+            errors.append('независимый Журнал: ' + str(ошибка))
 
     return errors
 
@@ -2148,6 +2240,16 @@ def main() -> int:
         except OSError as exc:
             print(f"cannot read commit message file: {exc}", file=sys.stderr)
             return 2
+    новые = {}
+    if args.контракт_независимого_журнала is not None or args.выбранный_состав is not None or args.писатель is not None:
+        try:
+            import сообщения_задачи as файлы
+            if args.контракт_независимого_журнала is None or args.выбранный_состав is None:
+                raise ValueError('нужны два независимо переданных файла нового входа')
+            новые = {'контракт_журнала': файлы._разобрать(args.контракт_независимого_журнала.read_bytes()),
+                'выбранный_состав': файлы._разобрать(args.выбранный_состав.read_bytes()), 'писатель': args.писатель}
+        except (OSError, ValueError) as ошибка:
+            print(str(ошибка), file=sys.stderr); return 2
     errors = validate_session(
         args.repo_root,
         args.request,
@@ -2156,6 +2258,7 @@ def main() -> int:
         expected_codex_thread_id=args.codex_thread_id,
         commit_message=commit_message,
         контрольная_точка=args.контрольная_точка,
+        **новые,
     )
     if errors:
         for error in errors:
