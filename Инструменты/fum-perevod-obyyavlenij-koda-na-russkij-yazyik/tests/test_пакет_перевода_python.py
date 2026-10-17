@@ -8,6 +8,7 @@ from pathlib import Path
 import sys
 import subprocess
 import tempfile
+import time
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
@@ -474,5 +475,185 @@ class ПроверкаПолейДинамическогоМодуля(unittest.
                 сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
 
 
+class ПроверкаПубличногоЗамыкания(unittest.TestCase):
+    """Свежие production import и изменяющий CLI, без подмен модулей."""
+
+    каталог = Path(__file__).resolve().parents[1] / 'scripts'
+
+    def процесс(сам, этап, аргументы, корень, требовать_успех=True):
+        начало = time.perf_counter_ns()
+        итог = subprocess.run(аргументы, cwd=корень, capture_output=True, text=True)
+        сам.метки.append({'этап': этап, 'длительность_нс': time.perf_counter_ns() - начало,
+            'код': итог.returncode, 'stdout_sha256': hashlib.sha256(итог.stdout.encode()).hexdigest(),
+            'stderr_sha256': hashlib.sha256(итог.stderr.encode()).hexdigest()})
+        if требовать_успех:
+            сам.assertEqual(итог.returncode, 0, итог.stderr)
+        return итог
+
+    def публичный_импорт(сам):
+        сам.метки = []
+        код = ('import importlib, json, sys\nfrom pathlib import Path\n'
+            'каталог = Path(sys.argv[1]).resolve()\nsys.path.insert(0, str(каталог))\n'
+            'главный = importlib.import_module("перевести-объявления-кода")\n'
+            'разбор = importlib.import_module("разбор_сценария")\n'
+            'assert Path(главный.__file__).resolve() == каталог / "перевести-объявления-кода.py"\n'
+            'assert Path(разбор.__file__).resolve() == каталог / "разбор_сценария.py"\n'
+            'assert hasattr(разбор, "путь_живого_моста") and callable(разбор.разобрать_живой_перевод)\n'
+            'print(json.dumps({"главный": главный.__file__, "разбор": разбор.__file__}, ensure_ascii=False))\n')
+        сам.процесс('свежий публичный импорт',
+            [sys.executable, '-I', '-S', '-B', '-c', код, str(сам.каталог)], сам.каталог)
+        return сам.метки
+
+    def фикстура_двух_полей(сам, корень):
+        исходники = {
+            'код.py': ('import importlib.abc\n\n'
+                'class Загрузчик(importlib.abc.Loader):\n'
+                '    def create_module(сам, описание):\n        return None\n\n'
+                '    def exec_module(сам, модуль):\n'
+                '        модуль._own_sha256 = 7\n        модуль._own_crc32 = 11\n'),
+            'test_код.py': ('import importlib.util\nfrom pathlib import Path\nfrom код import Загрузчик\n\n'
+                'def загрузить(путь):\n'
+                '    описание = importlib.util.spec_from_file_location("пример", путь, loader=Загрузчик())\n'
+                '    модуль = importlib.util.module_from_spec(описание)\n'
+                '    описание.loader.exec_module(модуль)\n    return модуль\n\n'
+                'def проверка(путь):\n    модуль = загрузить(путь)\n'
+                '    assert getattr(модуль, "_own_sha256") == 7\n'
+                '    assert getattr(модуль, "_own_crc32") == 11\n'
+                '    assert модуль._own_sha256 == 7\n    assert модуль._own_crc32 == 11\n'
+                '    assert "_own_sha256/_own_crc32" == "_own_sha256/_own_crc32"\n\n'
+                'if __name__ == "__main__":\n    проверка(Path(__file__).with_name("код.py"))\n')}
+        переводы = {'_own_sha256': '_собственный_хэш', '_own_crc32': '_собственная_сумма'}
+        деревья = {путь: ast.parse(текст) for путь, текст in исходники.items()}
+        функции = {путь: next(у for у in ast.walk(дерево) if isinstance(у, ast.FunctionDef)
+            and у.name == ('exec_module' if путь == 'код.py' else 'проверка'))
+            for путь, дерево in деревья.items()}
+        владельцы = []
+        for путь, функция in функции.items():
+            привязка = (next(а for а in функция.args.args if а.arg == 'модуль') if путь == 'код.py'
+                else next(у for у in ast.walk(функция) if isinstance(у, ast.Name)
+                    and у.id == 'модуль' and isinstance(у.ctx, ast.Store)))
+            владельцы.append({'путь': путь, 'имя': 'модуль',
+                'область': [функция.lineno, функция.col_offset],
+                'получение': [привязка.lineno, привязка.col_offset]})
+        поля = []
+        for имя, новое in переводы.items():
+            употребления = []
+            for номер, (путь, функция) in enumerate(функции.items()):
+                for узел in ast.walk(функция):
+                    вид = None
+                    if isinstance(узел, ast.Attribute) and узел.attr == имя:
+                        вид = 'запись' if isinstance(узел.ctx, ast.Store) else 'чтение'
+                    elif (isinstance(узел, ast.Call) and isinstance(узел.func, ast.Name)
+                            and узел.func.id == 'getattr' and len(узел.args) == 2
+                            and isinstance(узел.args[1], ast.Constant) and узел.args[1].value == имя):
+                        вид = 'getattr'
+                    if вид:
+                        употребления.append({'путь': путь, 'строка': узел.lineno,
+                            'столбец': узел.col_offset, 'вид': вид, 'владелец': номер})
+            сам.assertEqual(len(употребления), 3)
+            поля.append({'имя': имя, 'новое': новое, 'источник': 'код.py',
+                'владельцы': copy.deepcopy(владельцы), 'употребления': употребления, 'количество': 3})
+        файлы = []
+        for путь, текст in исходники.items():
+            (корень / путь).write_text(текст)
+            файлы.append({'путь': путь, 'хэш': hashlib.sha256(текст.encode()).hexdigest(),
+                'переводы': переводы if путь == 'код.py' else {},
+                'области': None, 'связи': [], 'передачи': []})
+        return исходники, {'схема': 'fum.пакет-перевода-python.2',
+            'файлы': файлы, 'поля_модулей': поля}
+
+    def пакетный_цикл(сам):
+        сам.метки = []
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            исходники, карта = сам.фикстура_двух_полей(корень)
+            вход = {п: hashlib.sha256(т.encode()).hexdigest() for п, т in исходники.items()}
+            карта_путь = корень / 'карта.json'
+            карта_путь.write_text(json.dumps(карта, ensure_ascii=False, indent=2) + '\n')
+            cli = [sys.executable, '-S', '-B', str(сам.каталог / 'пакет_перевода_python.py')]
+            def команда(действие, файл_карты, выход):
+                return [*cli, действие, '--корень-репозитория', str(корень),
+                    '--карта', str(файл_карты), '--выход', str(выход)]
+            выполнить = [sys.executable, '-S', '-B', str(корень / 'test_код.py')]
+            сам.процесс('исходная фикстура', выполнить, корень)
+            сам.процесс('публичный план', команда('план', карта_путь, корень / 'план.json'), корень)
+            план = json.loads((корень / 'план.json').read_bytes())
+            сам.assertEqual(план['схема'], 'fum.план-перевода-python.2')
+            сам.assertEqual(len(план['файлы']), 2)
+            сам.assertEqual(len(план['поля_модулей']), 2)
+            сам.assertTrue(all(з['до'] != з['после'] for з in план['файлы']))
+            сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
+            итог = сам.процесс('публичное изменяющее применение',
+                команда('применить', карта_путь, корень / 'применение.json'), корень, False)
+            if итог.returncode:
+                сам.assertEqual({п: (корень / п).read_text() for п in исходники}, исходники)
+            сам.assertEqual(итог.returncode, 0, итог.stderr)
+            сам.assertEqual((корень / 'план.json').read_bytes(), (корень / 'применение.json').read_bytes())
+            ожидания = {'_own_sha256': '_собственный_хэш', '_own_crc32': '_собственная_сумма'}
+            for путь, исходник in исходники.items():
+                новый = (корень / путь).read_text()
+                дерево = ast.parse(новый)
+                сам.assertFalse(any(isinstance(у, ast.Attribute) and у.attr in ожидания for у in ast.walk(дерево)))
+                for имя in ожидания.values():
+                    сам.assertIn(имя, новый)
+                for api in ('create_module', 'exec_module', 'module_from_spec', 'spec_from_file_location'):
+                    сам.assertEqual(исходник.count(api), новый.count(api))
+                if путь.startswith('test_'):
+                    сам.assertIn('assert "_own_sha256/_own_crc32" == "_own_sha256/_own_crc32"', новый)
+            сам.процесс('переведённая фикстура', выполнить, корень)
+            остаток = {'схема': 'fum.пакет-перевода-python.2', 'поля_модулей': [],
+                'файлы': [{**з, 'хэш': hashlib.sha256((корень / з['путь']).read_bytes()).hexdigest(),
+                    'переводы': {}} for з in карта['файлы']]}
+            повтор = корень / 'повтор.json'
+            повтор.write_text(json.dumps(остаток, ensure_ascii=False, indent=2) + '\n')
+            до = {п: ((корень / п).read_bytes(), (корень / п).stat().st_ino,
+                (корень / п).stat().st_mtime_ns) for п in исходники}
+            сам.процесс('свежий план остатка', команда('план', повтор, корень / 'остаток.json'), корень)
+            сам.процесс('свежий повтор без записи', команда('применить', повтор, корень / 'повтор-план.json'), корень)
+            сам.assertEqual({п: ((корень / п).read_bytes(), (корень / п).stat().st_ino,
+                (корень / п).stat().st_mtime_ns) for п in исходники}, до)
+            сам.assertTrue(all(з['до'] == з['после'] for з in json.loads((корень / 'остаток.json').read_bytes())['файлы']))
+            return {'вход': вход, 'выход': {п: hashlib.sha256((корень / п).read_bytes()).hexdigest()
+                for п in исходники}, 'метки': сам.метки}
+
+    def test_свежий_публичный_импорт(сам):
+        сам.публичный_импорт()
+
+    def test_свежий_публичный_пакет_двух_полей(сам):
+        сам.пакетный_цикл()
+
+
+def измерить_публичный_пакет(выход):
+    """Три рабочих цикла полного входа; ImportError не является базой скорости."""
+    import platform
+    import statistics
+    файлы = [ПроверкаПубличногоЗамыкания.каталог / имя for имя in (
+        'перевести-объявления-кода.py', 'пакет_перевода_python.py',
+        'безопасные_привязки_python.py', 'разбор_сценария.py', 'аббревиатуры_контекста.py')]
+    файлы.append(Path(__file__).resolve())
+    def хэши():
+        return {п.name: hashlib.sha256(п.read_bytes()).hexdigest() for п in файлы}
+    до = хэши()
+    повторы = []
+    for _ in range(3):
+        проверка = ПроверкаПубличногоЗамыкания()
+        начало = time.perf_counter_ns()
+        импорт = проверка.публичный_импорт()
+        цикл = проверка.пакетный_цикл()
+        повторы.append({**цикл, 'импорт': импорт, 'полный_цикл_нс': time.perf_counter_ns() - начало})
+    if до != хэши() or any((п['вход'], п['выход']) != (повторы[0]['вход'], повторы[0]['выход']) for п in повторы):
+        raise ValueError('Источники или результат публичного цикла изменились')
+    результат = {'схема': 'fum.профиль-публичного-пакета-python.1',
+        'Python': platform.python_version(), 'источники_sha256': до, 'повторы': повторы,
+        'медиана_полного_цикла_нс': statistics.median(п['полный_цикл_нс'] for п in повторы),
+        'условия': 'Три малые одинаковые пары, оба поля, отдельные свежие процессы настоящего импорта, public plan/apply, исполнения фикстуры и no-effect повтора. Общий цикл включает подготовку фикстуры и проверки; метки процессов вложены и повторно не суммируются. RED ImportError не используется для заявления ускорения.'}
+    with Path(выход).open('x', encoding='utf-8') as поток:
+        поток.write(json.dumps(результат, ensure_ascii=False, indent=2) + '\n')
+    print(json.dumps({'повторов': 3, 'медиана_полного_цикла_нс': результат['медиана_полного_цикла_нс']}, ensure_ascii=False))
+
+
 if __name__ == '__main__':
-    unittest.main()
+    if len(sys.argv) == 3 and sys.argv[1] == '--профиль-публичного-пакета':
+        измерить_публичный_пакет(sys.argv[2])
+    else:
+        unittest.main()

@@ -1,0 +1,132 @@
+{
+  "схема": "fum.происхождение-замыкания-переводчика.1",
+  "основа": "8a364878150ad46200a89820be3f3863febcbbe0",
+  "helper_старый": {
+    "sha256": "63be1138c8461de6c83f259d0e220b1d3d76daa14fd67ae25014fe135d22148c",
+    "байтов": 28908,
+    "blob": "064d313e05aa441b97a6427e5aff13221e8bbf7f"
+  },
+  "пять_файлов": [
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+      "источник": {
+        "коммит": "8a364878150ad46200a89820be3f3863febcbbe0",
+        "режим": "100644",
+        "blob": "9c3b5251ce0ddaa367b34f927a0a5d701aadae95"
+      },
+      "байтов": 139750,
+      "sha256": "1b52e24fff79a9a45f050d310242d0e9bd392311b905d67866ec18c75d6536a0",
+      "импорты": [
+        "__future__",
+        "argparse",
+        "ast",
+        "dataclasses",
+        "hashlib",
+        "io",
+        "json",
+        "keyword",
+        "os",
+        "pathlib",
+        "re",
+        "stat",
+        "sys",
+        "tempfile",
+        "tokenize",
+        "unicodedata",
+        "аббревиатуры_контекста",
+        "безопасные_привязки_python",
+        "разбор_сценария"
+      ],
+      "прочие_импорты_stdlib": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+      "источник": {
+        "коммит": "8a364878150ad46200a89820be3f3863febcbbe0",
+        "режим": "100644",
+        "blob": "d557551b2ca52813bc243fb80a9848d0bd6e4de5"
+      },
+      "байтов": 41789,
+      "sha256": "aaf07a1840f42a80835eaa198cbba94e8eb122f14edba0c7addfff1b7caf6b6d",
+      "импорты": [
+        "__future__",
+        "argparse",
+        "ast",
+        "collections",
+        "hashlib",
+        "importlib",
+        "json",
+        "pathlib",
+        "re",
+        "sys",
+        "time",
+        "unicodedata",
+        "безопасные_привязки_python"
+      ],
+      "прочие_импорты_stdlib": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+      "источник": {
+        "коммит": "8a364878150ad46200a89820be3f3863febcbbe0",
+        "режим": "100644",
+        "blob": "43575afc40063203eac58d09427c093b5aa38c95"
+      },
+      "байтов": 66503,
+      "sha256": "95c12f96504f85387456232f3e834affc9974950f3abde2da9cb82422e76feab",
+      "импорты": [
+        "__future__",
+        "ast",
+        "bisect",
+        "collections",
+        "dataclasses",
+        "io",
+        "re",
+        "time",
+        "tokenize"
+      ],
+      "прочие_импорты_stdlib": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "источник": {
+        "коммит": "bac942c7bf9f0d6f68290ddc1fa12ea632d5bd76",
+        "режим": "100644",
+        "blob": "d99cf249160de757ac2415789a7fd4d469b41f7b"
+      },
+      "байтов": 36053,
+      "sha256": "e33cf532cf9d3b52d852d30e660aa0c07424f55e64bb9bbd61183de31665ffa1",
+      "импорты": [
+        "__future__",
+        "contextlib",
+        "dataclasses",
+        "os",
+        "re",
+        "shutil",
+        "subprocess"
+      ],
+      "прочие_импорты_stdlib": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+      "источник": {
+        "коммит": "8a364878150ad46200a89820be3f3863febcbbe0",
+        "режим": "100644",
+        "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02"
+      },
+      "байтов": 5004,
+      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+      "импорты": [
+        "json",
+        "pathlib",
+        "re"
+      ],
+      "прочие_импорты_stdlib": true
+    }
+  ],
+  "helper_C573_C572_K568_побайтно_равны": true,
+  "границы": [
+    "Статический инвариант не заменяет свежего исполнения public import и изменяющего public apply.",
+    "Node относится к CJS-ветви helper; текущая открытая фикстура Python."
+  ]
+}
