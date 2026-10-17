@@ -624,5 +624,245 @@ class СовместимостьСсылок(unittest.TestCase):
                 сам.assertEqual(сам.снимок(ф), до)
 
 
+class ГраницыЗамков(unittest.TestCase):
+    пример = Материализация.пример
+    общий = СовместимостьСсылок.общий
+    снимок = СовместимостьСсылок.снимок
+    отказ = СовместимостьСсылок.отказ
+
+    def области(сам, ф):
+        админ = Path(гит(ф.корень, 'rev-parse', '--absolute-git-dir').decode().strip())
+        отчёт = Path(гит(ф.отчёт, 'rev-parse', '--absolute-git-dir').decode().strip())
+        общий = Path(гит(ф.корень, 'rev-parse', '--git-common-dir').decode().strip())
+        return админ, отчёт, (общий if общий.is_absolute() else ф.корень / общий).resolve()
+
+    def штатная_конфигурация(сам, ф):
+        админ, отчёт, общий = сам.области(ф)
+        гит(ф.корень, 'config', '--local', 'extensions.worktreeConfig', 'true')
+        for область in (админ, отчёт):
+            (область / 'config.worktree').write_text(f'[codex]\nlocalenvironmentconfigpath = {ф.каталог / "not-opened.toml"}\n')
+        return админ, отчёт, общий
+
+    def полный_цикл(сам, ф):
+        до = сам.снимок(ф); план = ф.м.план(ф.вход, ф.назначение)
+        сам.assertEqual(сам.снимок(ф), до)
+        выбор = ф.выбрать(план)
+        for действие in ('применить', 'проверить'):
+            ответ = ф.потребитель(действие, план, выбор)
+            сам.assertEqual(ответ.returncode, 0, ответ.stderr.decode())
+        до = сам.снимок(ф); повтор = ф.потребитель('применить', план, выбор)
+        сам.assertEqual(повтор.returncode, 0, повтор.stderr.decode())
+        сам.assertTrue(json.loads(повтор.stdout)['без_повторных_эффектов'])
+        сам.assertEqual(json.loads(повтор.stderr)['эффекты_Гит'], 0)
+        сам.assertEqual(сам.снимок(ф), до)
+
+    def test_служебные_замки_сохраняются_в_полном_цикле(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+        чужой = ф.каталог / 'чужой-worktree'
+        гит(ф.корень, 'worktree', 'add', '--detach', str(чужой), ф.предмет['K'])
+        чужой_админ = Path(гит(чужой, 'rev-parse', '--absolute-git-dir').decode().strip())
+        служебные = [общий / 'fum-branch-next-step/claims.lock',
+            общий / 'fum-branch-task-gate/.transitions.lock',
+            отчёт / 'foreign-service/worker.lock', чужой_админ / 'index.lock',
+            общий / 'refs/heads/codex/unprotected.lock']
+        for файл in служебные:
+            файл.parent.mkdir(parents=True, exist_ok=True); файл.write_bytes(b'permanent sentinel\n'); файл.chmod(0o600)
+        до = {str(п): (п.read_bytes(), п.stat().st_mode) for п in служебные}
+        сам.полный_цикл(ф)
+        сам.assertEqual({str(п): (п.read_bytes(), п.stat().st_mode) for п in служебные}, до)
+
+    def test_штатная_конфигурация_рабочего_дерева_проходит_полный_цикл(сам):
+        ф = сам.общий(); сам.штатная_конфигурация(ф); сам.полный_цикл(ф)
+
+    def test_свежая_общая_конфигурация_останавливает_эффект_после_намерения(сам):
+        ф = сам.общий(); план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план)
+        достигнуто = []
+        def остановка(имя):
+            if имя == 'после-намерения':
+                гит(ф.корень, 'config', '--local', 'user.name', 'Новый автор')
+                достигнуто.append(сам.снимок(ф))
+        with сам.assertRaises(ValueError):
+            ф.м.применить(ф.вход, ф.назначение, план, выбор, остановка=остановка)
+        сам.assertEqual(сам.снимок(ф), достигнуто[0])
+        сам.assertEqual(json.loads((ф.состояние / 'намерение.json').read_bytes())['фаза'], 'намерение')
+        сам.assertFalse((ф.состояние / 'квитанция.json').exists())
+        сам.отказ(ф, план, выбор)
+
+    def test_конечная_таблица_настоящих_замков_всех_типов(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+        с = ф.м.контекст(ф.вход, ф.назначение)
+        имена_админа = ('index', 'HEAD', 'ORIG_HEAD', 'FETCH_HEAD', 'config.worktree',
+            'MERGE_HEAD', 'MERGE_MSG', 'MERGE_MODE', 'AUTO_MERGE', 'MERGE_AUTOSTASH',
+            'CHERRY_PICK_HEAD', 'REVERT_HEAD', 'BISECT_LOG', 'BISECT_START')
+        пути = [к / (имя + '.lock') for к in (админ, отчёт) for имя in имена_админа]
+        пути += [общий / имя for имя in ('config.lock', 'packed-refs.lock', 'shallow.lock',
+            'info/grafts.lock', 'objects/info/alternates.lock', 'objects/pack/multi-pack-index.lock',
+            'objects/info/commit-graph.lock', 'objects/info/commit-graphs/commit-graph-chain.lock',
+            'objects/pack/multi-pack-index.d/multi-pack-index-chain.lock')]
+        пути += [общий / (префикс + ветка + '.lock') for ветка in (ф.ветка, ф.контроль['ветка'])
+            for префикс in ('', 'logs/')]
+        for файл in пути:
+            файл.parent.mkdir(parents=True, exist_ok=True)
+            for тип in ('файл', 'каталог', 'оборванная-ссылка'):
+                with сам.subTest(путь=str(файл.relative_to(общий)), тип=тип):
+                    if тип == 'файл': файл.write_bytes(b'active\n')
+                    elif тип == 'каталог': файл.mkdir()
+                    else: файл.symlink_to('missing-target')
+                    до = сам.снимок(ф)
+                    with сам.assertRaises(ValueError): ф.м.значимые_замки(с)
+                    сам.assertEqual(сам.снимок(ф), до)
+                    if тип == 'каталог': файл.rmdir()
+                    else: файл.unlink()
+        сам.assertFalse((ф.состояние / 'намерение.json').exists())
+
+    def test_ранние_замки_реальному_потребителю_не_дают_намерения(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+        план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план)
+        for файл in (админ / 'index.lock', отчёт / 'index.lock', общий / (ф.ветка + '.lock'), общий / 'packed-refs.lock'):
+            with сам.subTest(путь=файл.name):
+                файл.parent.mkdir(parents=True, exist_ok=True); файл.write_bytes(b'active\n')
+                сам.отказ(ф, план, выбор); сам.assertFalse((ф.состояние / 'намерение.json').exists())
+                файл.unlink()
+
+    def test_поздние_замки_сохраняют_достигнутую_фазу_и_свежий_отказ(сам):
+        случаи = [('B', 'index.lock', 'после-намерения', 'намерение'),
+            ('control', 'index.lock', 'после-ref-HEAD', 'ref-HEAD-проверены'),
+            ('ref', '', 'перед-квитанцией', 'до-квитанции'),
+            ('common', 'config.lock', 'после-намерения', 'намерение')]
+        случаи += [('common', имя, 'после-намерения', 'намерение') for имя in (
+            'objects/pack/multi-pack-index.lock', 'objects/info/commit-graph.lock',
+            'objects/info/commit-graphs/commit-graph-chain.lock',
+            'objects/pack/multi-pack-index.d/multi-pack-index-chain.lock')]
+        случаи += [('B', 'index.lock', 'после-read-tree', 'до-индекса-файлов')]
+        for роль, имя, граница, фаза in случаи:
+            with сам.subTest(роль=роль, имя=имя, граница=граница):
+                ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+                исходный_контекст = ф.м.контекст(ф.вход, ф.назначение) if граница == 'после-read-tree' else None
+                план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план)
+                файл = (общий / (ф.ветка + '.lock') if роль == 'ref' else
+                    {'B': админ, 'control': отчёт, 'common': общий}[роль] / имя)
+                достигнуто = []
+                def остановка(точка):
+                    if точка == граница:
+                        файл.parent.mkdir(parents=True, exist_ok=True); файл.write_bytes(b'late active\n')
+                        достигнуто.append(сам.снимок(ф))
+                with сам.assertRaises(ValueError):
+                    ф.м.применить(ф.вход, ф.назначение, план, выбор, остановка=остановка)
+                сам.assertEqual(сам.снимок(ф), достигнуто[0])
+                сам.assertEqual(json.loads((ф.состояние / 'намерение.json').read_bytes())['фаза'], фаза)
+                сам.assertFalse((ф.состояние / 'квитанция.json').exists())
+                if граница == 'после-read-tree':
+                    сам.assertFalse((админ / 'MERGE_HEAD').exists())
+                    сам.assertEqual(ф.м.инвентарь(исходный_контекст), исходный_контекст['листья'])
+                    ф.м.рабочие_файлы(исходный_контекст, исходный_контекст['листья'])
+                сам.отказ(ф, план, выбор)
+
+    def test_слои_рабочего_дерева_и_их_наличие_проверяются_перед_эффектом(сам):
+        for мутация in ('B', 'control', 'source', 'появление', 'исчезновение', 'unsafe'):
+            with сам.subTest(мутация=мутация):
+                ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
+                источник = Path(гит(ф.п.корень, 'rev-parse', '--absolute-git-dir').decode().strip())
+                if мутация == 'source':
+                    гит(ф.п.корень, 'config', '--local', 'extensions.worktreeConfig', 'true')
+                    (источник / 'config.worktree').write_text('[user]\nname = Source\n')
+                файл = {'B': админ, 'control': отчёт, 'source': источник,
+                    'появление': отчёт, 'исчезновение': админ, 'unsafe': отчёт}[мутация] / 'config.worktree'
+                if мутация == 'появление': файл.unlink()
+                план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план); достигнуто = []
+                def остановка(имя):
+                    if имя == 'после-намерения':
+                        if мутация == 'исчезновение': файл.unlink()
+                        elif мутация == 'unsafe': файл.write_text(f'[include]\npath = {ф.каталог / "not-opened"}\n')
+                        else: файл.write_text('[user]\nname = Changed\n')
+                        достигнуто.append(сам.снимок(ф))
+                with сам.assertRaises(ValueError):
+                    ф.м.применить(ф.вход, ф.назначение, план, выбор, остановка=остановка)
+                сам.assertEqual(сам.снимок(ф), достигнуто[0])
+                сам.assertEqual(json.loads((ф.состояние / 'намерение.json').read_bytes())['фаза'], 'намерение')
+                сам.отказ(ф, план, выбор)
+
+    def test_опасная_конфигурация_отказывает_до_первого_Гит_роли(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
+        прежний = subprocess.run
+        for область, корень in ((общий, ф.отчёт), (админ, ф.корень), (отчёт, ф.отчёт)):
+            файл = область / ('config' if область == общий else 'config.worktree'); оригинал = файл.read_bytes()
+            for хвост in (f'[include]\npath = {ф.каталог / "never-read"}\n'.encode(),
+                f'[includeIf "gitdir:**"]\npath = {ф.каталог / "never-read"}\n'.encode(),
+                b'[filter "bad"]\nclean = bad\n', f'[core]\nworktree = {ф.каталог / "redirect"}\n'.encode(),
+                b'[extensions]\nunknown = true\n', f'[trace2]\neventTarget = {ф.каталог / "never-written"}\n'.encode(),
+                b'[codex]\nlocalenvironmentconfigpath = relative-path\n'):
+                with сам.subTest(область=область.name, хвост=хвост.splitlines()[0]):
+                    файл.write_bytes(оригинал + хвост); вызовы = []
+                    def наблюдать(аргументы, **параметры):
+                        if '-C' in аргументы and аргументы[аргументы.index('-C') + 1] == str(корень):
+                            вызовы.append(аргументы); raise AssertionError('Repo-aware Git до отказа config')
+                        return прежний(аргументы, **параметры)
+                    with patch.object(subprocess, 'run', side_effect=наблюдать), сам.assertRaises(ValueError):
+                        ф.м.план(ф.вход, ф.назначение)
+                    сам.assertFalse(вызовы)
+                    файл.write_bytes(оригинал)
+
+    def test_физические_источники_не_следуют_ссылкам_и_опасным_типам(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
+        ограда = ф.м.ограда_конфигурации(ф.состояние)
+        for файл in (общий / 'config', админ / 'config.worktree', админ / 'commondir', админ / 'gitdir', ф.корень / '.git'):
+            исходные = файл.read_bytes(); режим = файл.stat().st_mode & 0o777
+            запас = файл.with_name(файл.name + '.fixture-original'); файл.rename(запас)
+            for тип in ('symlink', 'hardlink', 'directory', 'writable'):
+                with сам.subTest(источник=файл.name, тип=тип):
+                    if тип == 'symlink': файл.symlink_to(запас)
+                    elif тип == 'hardlink': os.link(запас, файл)
+                    elif тип == 'directory': файл.mkdir()
+                    else: файл.write_bytes(исходные); файл.chmod(0o666)
+                    with сам.assertRaises(ValueError): ограда(ф.корень)
+                    if тип == 'directory': файл.rmdir()
+                    else: файл.unlink()
+            запас.rename(файл); файл.chmod(режим)
+
+    def test_тип_флага_и_слой_расширения_не_обходятся(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
+        ограда = ф.м.ограда_конфигурации(ф.состояние)
+        for файл, хвост in ((общий / 'config', b'[extensions]\nworktreeConfig = invalid\n'),
+            (админ / 'config.worktree', b'[extensions]\nworktreeConfig = true\n')):
+            оригинал = файл.read_bytes(); файл.write_bytes(оригинал + хвост)
+            with сам.assertRaises(ValueError): ограда(ф.корень)
+            файл.write_bytes(оригинал)
+
+    def test_внешний_include_не_читается_даже_парсером(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+        внешний = ф.каталог / 'повреждённый-внешний-config'
+        внешний.write_bytes(b'[[invalid syntax\n')
+        файл = общий / 'config'; оригинал = файл.read_bytes()
+        файл.write_bytes(оригинал + ('\n[include]\npath = ' + str(внешний) + '\n').encode())
+        with сам.assertRaisesRegex(ValueError, 'Преобразующая/перенаправляющая конфигурация'):
+            ф.м.план(ф.вход, ф.назначение)
+        сам.assertEqual(внешний.read_bytes(), b'[[invalid syntax\n')
+
+    def test_неверный_ACT_не_допускает_импорт_зависимостей(сам):
+        ф = сам.общий(); ф.вход['нативный']['sha256'] = '0' * 64
+        with patch.object(ф.м, 'загрузить_код', side_effect=AssertionError('Импорт до ACT')) as импорт:
+            with сам.assertRaisesRegex(ValueError, 'Нет независимого поручения'):
+                ф.м.план(ф.вход, ф.назначение)
+            импорт.assert_not_called()
+
+    def test_незавершённые_операции_обеих_ролей_не_теряются(сам):
+        ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+        с = ф.м.контекст(ф.вход, ф.назначение)
+        for область in (админ, отчёт):
+            for имя in ('CHERRY_PICK_HEAD', 'REVERT_HEAD', 'rebase-merge', 'rebase-apply',
+                'BISECT_LOG', 'BISECT_START', 'sequencer') + (('MERGE_HEAD',) if область == отчёт else ()):
+                with сам.subTest(роль=область.name, маркер=имя):
+                    файл = область / имя; файл.write_bytes(b'pending\n'); до = сам.снимок(ф)
+                    with сам.assertRaises(ValueError): ф.м.значимые_замки(с)
+                    сам.assertEqual(сам.снимок(ф), до); файл.unlink()
+
+    def test_первая_версия_сохраняет_отказ_служебного_замка_и_расширения(сам):
+        ф = сам.общий(1); админ, отчёт, общий = сам.области(ф)
+        файл = общий / 'historical-service/claims.lock'; файл.parent.mkdir(); файл.write_bytes(b'permanent\n')
+        with сам.assertRaisesRegex(ValueError, 'Git-замок'): ф.м.план(ф.вход, ф.назначение)
+        файл.unlink(); сам.штатная_конфигурация(ф)
+        with сам.assertRaisesRegex(ValueError, 'конфигурация'): ф.м.план(ф.вход, ф.назначение)
+
+
 if __name__ == '__main__':
     unittest.main()
