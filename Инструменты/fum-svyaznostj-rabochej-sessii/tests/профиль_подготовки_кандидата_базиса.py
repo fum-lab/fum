@@ -57,18 +57,30 @@ def выполнить():
             ф = ПримерПодготовки(каталог, история=ф.п, связанный=параметры.общая_база,
                 общий=параметры.общая_база, версия=параметры.версия)
         служебные = []
+        сценарий = None
         if параметры.версия == 2 and параметры.общая_база:
+            сценарий = ('абсолютный', 'маркер', 'смешанный')[номер - 1]
             гит(ф.корень, 'config', '--local', 'extensions.worktreeConfig', 'true')
             for корень in (ф.корень, ф.отчёт):
                 админ = Path(гит(корень, 'rev-parse', '--absolute-git-dir').decode().strip())
-                (админ / 'config.worktree').write_text(f'[codex]\nlocalenvironmentconfigpath = {ф.каталог / "not-opened.toml"}\n')
+                данные = (b'[codex]\n\tlocalEnvironmentConfigPath = __none__\n'
+                    if сценарий == 'маркер' or (сценарий == 'смешанный' and корень == ф.корень)
+                    else f'[codex]\nlocalenvironmentconfigpath = {ф.каталог / "not-opened.toml"}\n'.encode())
+                (админ / 'config.worktree').write_bytes(данные)
             общий = Path(гит(ф.корень, 'rev-parse', '--git-common-dir').decode().strip())
             общий = (общий if общий.is_absolute() else ф.корень / общий).resolve()
+            if сценарий == 'смешанный':
+                with (общий / 'config').open('ab') as поток:
+                    поток.write(b'[codex]\n\tlocalEnvironmentConfigPath = __none__\n')
             чужой = Path(гит(ф.планировщик, 'rev-parse', '--absolute-git-dir').decode().strip())
             служебные = [общий / 'fum-branch-next-step/claims.lock',
                 общий / 'fum-branch-task-gate/.transitions.lock', чужой / 'service/worker.lock']
             for файл in служебные:
                 файл.parent.mkdir(parents=True, exist_ok=True); файл.write_bytes(b'permanent sentinel\n'); файл.chmod(0o600)
+        конфиги = [Path(гит(к, 'rev-parse', '--absolute-git-dir').decode().strip()) / 'config.worktree'
+            for к in (ф.корень, ф.отчёт)] if служебные else []
+        if служебные: конфиги.append(общий / 'config')
+        конфиги_до = [п.read_bytes() for п in конфиги]
         def снимок_служебных():
             return [{'sha256': hashlib.sha256(п.read_bytes()).hexdigest(), 'режим': п.stat().st_mode} for п in служебные]
         служебные_до = снимок_служебных()
@@ -110,12 +122,14 @@ def выполнить():
 
         assert повтор['без_повторных_эффектов'] and процессы[-1]['эффекты_Гит'] == 0
         assert снимок_служебных() == служебные_до
+        assert [п.read_bytes() for п in конфиги] == конфиги_до
         результаты.append({'повтор': номер, 'подготовка_наносекунды': подготовка, 'выбор_наносекунды': выбор_подготовка,
             'предмет': план['предмет'], 'объекты': план['объекты'],
             'отсутствующих_деревьев': len(план['отсутствующие_деревья']),
             'посторонний_коммит_наносекунды': посторонний_коммит,
             'replay_области_неизменны': True, 'служебные_метки': служебные_до,
-            'служебные_неизменны': True, 'штатная_конфигурация': bool(служебные), 'процессы': процессы})
+            'служебные_неизменны': True, 'штатная_конфигурация': bool(служебные),
+            'сценарий_конфигурации': сценарий, 'конфигурации_неизменны': True, 'процессы': процессы})
     assert all(э['предмет'] == результаты[0]['предмет'] and э['объекты'] == результаты[0]['объекты'] for э in результаты)
     assert ожидаемый_предмет is None or ожидаемый_предмет == результаты[0]['предмет']
     assert hashlib.sha256(СУБЪЕКТ.read_bytes()).hexdigest() == исходники[СУБЪЕКТ.name]

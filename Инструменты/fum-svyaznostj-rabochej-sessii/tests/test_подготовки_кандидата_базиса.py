@@ -636,15 +636,18 @@ class ГраницыЗамков(unittest.TestCase):
         общий = Path(гит(ф.корень, 'rev-parse', '--git-common-dir').decode().strip())
         return админ, отчёт, (общий if общий.is_absolute() else ф.корень / общий).resolve()
 
-    def штатная_конфигурация(сам, ф):
+    def штатная_конфигурация(сам, ф, маркер=False):
         админ, отчёт, общий = сам.области(ф)
         гит(ф.корень, 'config', '--local', 'extensions.worktreeConfig', 'true')
         for область in (админ, отчёт):
-            (область / 'config.worktree').write_text(f'[codex]\nlocalenvironmentconfigpath = {ф.каталог / "not-opened.toml"}\n')
+            данные = (b'[codex]\n\tlocalEnvironmentConfigPath = __none__\n' if маркер else
+                f'[codex]\nlocalenvironmentconfigpath = {ф.каталог / "not-opened.toml"}\n'.encode())
+            (область / 'config.worktree').write_bytes(данные)
         return админ, отчёт, общий
 
-    def полный_цикл(сам, ф):
-        до = сам.снимок(ф); план = ф.м.план(ф.вход, ф.назначение)
+    def полный_цикл(сам, ф, план=None):
+        до = сам.снимок(ф)
+        if план is None: план = ф.м.план(ф.вход, ф.назначение)
         сам.assertEqual(сам.снимок(ф), до)
         выбор = ф.выбрать(план)
         for действие in ('применить', 'проверить'):
@@ -672,21 +675,52 @@ class ГраницыЗамков(unittest.TestCase):
         сам.assertEqual({str(п): (п.read_bytes(), п.stat().st_mode) for п in служебные}, до)
 
     def test_штатная_конфигурация_рабочего_дерева_проходит_полный_цикл(сам):
-        ф = сам.общий(); сам.штатная_конфигурация(ф); сам.полный_цикл(ф)
+        данные = b'[codex]\n\tlocalEnvironmentConfigPath = __none__\n'
+        сам.assertEqual(len(данные), 47)
+        сам.assertEqual(hashlib.sha256(данные).hexdigest(), 'da89256d91364984591e686f641271bbbf63fc48a9e6add5690bf9979b795529')
+        for случай in ('маркер', 'абсолютный', 'смешанный'):
+            with сам.subTest(случай=случай):
+                ф = сам.общий()
+                админ, отчёт, общий = сам.штатная_конфигурация(ф, маркер=случай != 'абсолютный')
+                if случай == 'маркер':
+                    for область in (админ, отчёт): сам.assertEqual((область / 'config.worktree').read_bytes(), данные)
+                if случай == 'смешанный':
+                    (отчёт / 'config.worktree').write_text(f'[codex]\nlocalenvironmentconfigpath = {ф.каталог / "not-opened.toml"}\n')
+                    with (общий / 'config').open('ab') as поток: поток.write(данные)
+                    гит(ф.п.корень, 'config', '--local', 'extensions.worktreeConfig', 'true')
+                    источник = Path(гит(ф.п.корень, 'rev-parse', '--absolute-git-dir').decode().strip())
+                    (источник / 'config.worktree').write_bytes(данные)
+                до = сам.снимок(ф); ответ = ф.потребитель('план')
+                сам.assertEqual(сам.снимок(ф), до)
+                if ответ.returncode:
+                    сам.assertEqual(ответ.returncode, 2)
+                    сам.assertEqual(json.loads(ответ.stderr.splitlines()[-1])['эффекты_Гит'], 0)
+                    сам.assertFalse((ф.состояние / 'намерение.json').exists())
+                сам.assertEqual(ответ.returncode, 0, ответ.stderr.decode())
+                конфиги = {str(п): п.read_bytes() for п in (общий / 'config', админ / 'config.worktree', отчёт / 'config.worktree')}
+                if случай == 'смешанный': конфиги[str(источник / 'config.worktree')] = данные
+                сам.полный_цикл(ф, json.loads(ответ.stdout))
+                сам.assertEqual({имя: Path(имя).read_bytes() for имя in конфиги}, конфиги)
 
     def test_свежая_общая_конфигурация_останавливает_эффект_после_намерения(сам):
-        ф = сам.общий(); план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план)
-        достигнуто = []
-        def остановка(имя):
-            if имя == 'после-намерения':
-                гит(ф.корень, 'config', '--local', 'user.name', 'Новый автор')
-                достигнуто.append(сам.снимок(ф))
-        with сам.assertRaises(ValueError):
-            ф.м.применить(ф.вход, ф.назначение, план, выбор, остановка=остановка)
-        сам.assertEqual(сам.снимок(ф), достигнуто[0])
-        сам.assertEqual(json.loads((ф.состояние / 'намерение.json').read_bytes())['фаза'], 'намерение')
-        сам.assertFalse((ф.состояние / 'квитанция.json').exists())
-        сам.отказ(ф, план, выбор)
+        for смена in ('автор', 'abs-marker', 'marker-abs'):
+            with сам.subTest(смена=смена):
+                ф = сам.общий(); _, _, общий = сам.области(ф); файл = общий / 'config'
+                исходные = файл.read_bytes(); абсолютный = str(ф.каталог / 'not-opened.toml')
+                def данные(значение): return исходные + f'\n[codex]\nlocalenvironmentconfigpath = {значение}\n'.encode()
+                if смена != 'автор': файл.write_bytes(данные(абсолютный if смена == 'abs-marker' else '__none__'))
+                план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план); достигнуто = []
+                def остановка(имя):
+                    if имя == 'после-намерения':
+                        if смена == 'автор': гит(ф.корень, 'config', '--local', 'user.name', 'Новый автор')
+                        else: файл.write_bytes(данные('__none__' if смена == 'abs-marker' else абсолютный))
+                        достигнуто.append(сам.снимок(ф))
+                with сам.assertRaises(ValueError):
+                    ф.м.применить(ф.вход, ф.назначение, план, выбор, остановка=остановка)
+                сам.assertEqual(сам.снимок(ф), достигнуто[0])
+                сам.assertEqual(json.loads((ф.состояние / 'намерение.json').read_bytes())['фаза'], 'намерение')
+                сам.assertFalse((ф.состояние / 'квитанция.json').exists())
+                сам.отказ(ф, план, выбор)
 
     def test_конечная_таблица_настоящих_замков_всех_типов(сам):
         ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
@@ -758,7 +792,9 @@ class ГраницыЗамков(unittest.TestCase):
                 сам.отказ(ф, план, выбор)
 
     def test_слои_рабочего_дерева_и_их_наличие_проверяются_перед_эффектом(сам):
-        for мутация in ('B', 'control', 'source', 'появление', 'исчезновение', 'unsafe'):
+        случаи = [(роль, None) for роль in ('B', 'control', 'source', 'появление', 'исчезновение', 'unsafe')]
+        случаи += [(роль, смена) for роль in ('B', 'control', 'source') for смена in ('abs-marker', 'marker-abs')]
+        for мутация, смена in случаи:
             with сам.subTest(мутация=мутация):
                 ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
                 источник = Path(гит(ф.п.корень, 'rev-parse', '--absolute-git-dir').decode().strip())
@@ -767,11 +803,15 @@ class ГраницыЗамков(unittest.TestCase):
                     (источник / 'config.worktree').write_text('[user]\nname = Source\n')
                 файл = {'B': админ, 'control': отчёт, 'source': источник,
                     'появление': отчёт, 'исчезновение': админ, 'unsafe': отчёт}[мутация] / 'config.worktree'
+                абсолютный = str(ф.каталог / 'not-opened.toml')
+                def данные(значение): return f'[codex]\nlocalenvironmentconfigpath = {значение}\n'.encode()
+                if смена: файл.write_bytes(данные(абсолютный if смена == 'abs-marker' else '__none__'))
                 if мутация == 'появление': файл.unlink()
                 план = ф.м.план(ф.вход, ф.назначение); выбор = ф.выбрать(план); достигнуто = []
                 def остановка(имя):
                     if имя == 'после-намерения':
-                        if мутация == 'исчезновение': файл.unlink()
+                        if смена: файл.write_bytes(данные('__none__' if смена == 'abs-marker' else абсолютный))
+                        elif мутация == 'исчезновение': файл.unlink()
                         elif мутация == 'unsafe': файл.write_text(f'[include]\npath = {ф.каталог / "not-opened"}\n')
                         else: файл.write_text('[user]\nname = Changed\n')
                         достигнуто.append(сам.снимок(ф))
@@ -779,22 +819,34 @@ class ГраницыЗамков(unittest.TestCase):
                     ф.м.применить(ф.вход, ф.назначение, план, выбор, остановка=остановка)
                 сам.assertEqual(сам.снимок(ф), достигнуто[0])
                 сам.assertEqual(json.loads((ф.состояние / 'намерение.json').read_bytes())['фаза'], 'намерение')
+                сам.assertFalse((ф.состояние / 'квитанция.json').exists())
                 сам.отказ(ф, план, выбор)
 
     def test_опасная_конфигурация_отказывает_до_первого_Гит_роли(сам):
-        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
+        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф, маркер=True)
+        гит(ф.п.корень, 'config', '--local', 'extensions.worktreeConfig', 'true')
+        источник = Path(гит(ф.п.корень, 'rev-parse', '--absolute-git-dir').decode().strip())
+        маркер = b'[codex]\n\tlocalEnvironmentConfigPath = __none__\n'
+        (источник / 'config.worktree').write_bytes(маркер)
         прежний = subprocess.run
-        for область, корень in ((общий, ф.отчёт), (админ, ф.корень), (отчёт, ф.отчёт)):
+        похожие = [f'[codex]\nlocalenvironmentconfigpath = {з}\n'.encode() for з in (
+            '__NONE__', '__none__/x', '""', 'relative-path', '" __none__"', '"__none__ "',
+            '"__none__\\t"', '"__none__\\n"', '"__none__\x7f"', f'"{ф.каталог / "not-opened.toml"}\\t"')]
+        похожие += [b'[codex]\nlocalenvironmentconfigpath = relative-path\n' + маркер,
+            маркер + b'[codex]\nlocalenvironmentconfigpath = relative-path\n']
+        for область, корень in ((общий, ф.отчёт), (админ, ф.корень), (отчёт, ф.отчёт), (источник, ф.п.корень)):
             файл = область / ('config' if область == общий else 'config.worktree'); оригинал = файл.read_bytes()
-            for хвост in (f'[include]\npath = {ф.каталог / "never-read"}\n'.encode(),
+            опасные = [f'[include]\npath = {ф.каталог / "never-read"}\n'.encode(),
                 f'[includeIf "gitdir:**"]\npath = {ф.каталог / "never-read"}\n'.encode(),
                 b'[filter "bad"]\nclean = bad\n', f'[core]\nworktree = {ф.каталог / "redirect"}\n'.encode(),
                 b'[extensions]\nunknown = true\n', f'[trace2]\neventTarget = {ф.каталог / "never-written"}\n'.encode(),
-                b'[codex]\nlocalenvironmentconfigpath = relative-path\n'):
+                b'[codex]\nlocalenvironmentconfigpath = relative-path\n']
+            for хвост in опасные + похожие:
                 with сам.subTest(область=область.name, хвост=хвост.splitlines()[0]):
-                    файл.write_bytes(оригинал + хвост); вызовы = []
+                    файл.write_bytes(оригинал + маркер + хвост); вызовы = []
                     def наблюдать(аргументы, **параметры):
-                        if '-C' in аргументы and аргументы[аргументы.index('-C') + 1] == str(корень):
+                        поражённые = (ф.корень, ф.отчёт) if область == общий else (корень,)
+                        if '-C' in аргументы and аргументы[аргументы.index('-C') + 1] in {str(к) for к in поражённые}:
                             вызовы.append(аргументы); raise AssertionError('Repo-aware Git до отказа config')
                         return прежний(аргументы, **параметры)
                     with patch.object(subprocess, 'run', side_effect=наблюдать), сам.assertRaises(ValueError):
@@ -820,7 +872,7 @@ class ГраницыЗамков(unittest.TestCase):
             запас.rename(файл); файл.chmod(режим)
 
     def test_тип_флага_и_слой_расширения_не_обходятся(сам):
-        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф)
+        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф, маркер=True)
         ограда = ф.м.ограда_конфигурации(ф.состояние)
         for файл, хвост in ((общий / 'config', b'[extensions]\nworktreeConfig = invalid\n'),
             (админ / 'config.worktree', b'[extensions]\nworktreeConfig = true\n')):
@@ -829,7 +881,7 @@ class ГраницыЗамков(unittest.TestCase):
             файл.write_bytes(оригинал)
 
     def test_внешний_include_не_читается_даже_парсером(сам):
-        ф = сам.общий(); админ, отчёт, общий = сам.области(ф)
+        ф = сам.общий(); админ, отчёт, общий = сам.штатная_конфигурация(ф, маркер=True)
         внешний = ф.каталог / 'повреждённый-внешний-config'
         внешний.write_bytes(b'[[invalid syntax\n')
         файл = общий / 'config'; оригинал = файл.read_bytes()
@@ -839,7 +891,7 @@ class ГраницыЗамков(unittest.TestCase):
         сам.assertEqual(внешний.read_bytes(), b'[[invalid syntax\n')
 
     def test_неверный_ACT_не_допускает_импорт_зависимостей(сам):
-        ф = сам.общий(); ф.вход['нативный']['sha256'] = '0' * 64
+        ф = сам.общий(); сам.штатная_конфигурация(ф, маркер=True); ф.вход['нативный']['sha256'] = '0' * 64
         with patch.object(ф.м, 'загрузить_код', side_effect=AssertionError('Импорт до ACT')) as импорт:
             with сам.assertRaisesRegex(ValueError, 'Нет независимого поручения'):
                 ф.м.план(ф.вход, ф.назначение)

@@ -367,7 +367,7 @@ def ограда_конфигурации(песочница, исполните
                 'Преобразующая/перенаправляющая конфигурация')
             if ключ == 'codex.localenvironmentconfigpath':
                 текст = значение.decode('utf-8')
-                требовать(bool(текст) and Path(текст).is_absolute()
+                требовать(bool(текст) and (текст == '__none__' or Path(текст).is_absolute())
                     and not any(ord(ч) < 32 or ord(ч) == 127 for ч in текст), 'Неверная форма непрозрачного Codex-пути')
             ключи.append(ключ)
         if 'extensions.worktreeconfig' in ключи:
