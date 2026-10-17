@@ -15,6 +15,9 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import ограды_цитат
+import маска_архива
 
 PROJECT_FILES_SCRIPTS = (
     Path(__file__).resolve().parents[2]
@@ -36,10 +39,10 @@ INDEX_PATH = Path("Индексы/markdown-файлы-по-времени-ред
 RECENCY_BEGIN = "<!-- FUM-MD-RECENCY:BEGIN -->"
 RECENCY_END = "<!-- FUM-MD-RECENCY:END -->"
 RECENCY_BLOCK_RE = re.compile(
-    r"\n?<!-- FUM-MD-RECENCY:BEGIN -->\n"
+    r"(?:\A|\n)<!-- FUM-MD-RECENCY:BEGIN -->\n"
     r"<!-- last-content-edit: (?P<timestamp>[^>]+) -->\n"
     r"<!-- content-sha256: sha256:(?P<digest>[0-9a-f]{64}) -->\n"
-    r"<!-- FUM-MD-RECENCY:END -->\n?$",
+    r"<!-- FUM-MD-RECENCY:END -->\n?\Z",
     re.MULTILINE,
 )
 DISPLAY_TIME_RE = re.compile(
@@ -153,10 +156,16 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def split_recency_block(text: str) -> tuple[str, RecencyMetadata | None, bool]:
-    match = RECENCY_BLOCK_RE.search(text)
+def split_recency_block(text: str, *, путь=None, корень=None) -> tuple[str, RecencyMetadata | None, bool]:
+    маска, незакрытая_ограда = ограды_цитат.маскировать(маска_архива.маскировать(text, путь, корень))
+    if незакрытая_ограда:
+        return text, None, True
+    начало = маска.rfind(RECENCY_BEGIN)
+    if начало > 0 and маска[начало - 1] == '\n':
+        начало -= 1
+    match = RECENCY_BLOCK_RE.fullmatch(маска, начало) if начало >= 0 else None
     if not match:
-        has_partial_block = RECENCY_BEGIN in text or RECENCY_END in text
+        has_partial_block = RECENCY_BEGIN in маска or RECENCY_END in маска
         return text, None, has_partial_block
 
     content = text[: match.start()] + text[match.end() :]
@@ -328,7 +337,7 @@ def process_markdown_file(
         return None, errors, False
 
     original_text = read_text(path)
-    content, metadata, malformed = split_recency_block(original_text)
+    content, metadata, malformed = split_recency_block(original_text, путь=path, корень=repo_root)
     content = canonical_content(content)
     полный_хэш = content_digest(content)
     стабильное_содержание, повреждённый_блок_запусков = (
@@ -366,6 +375,8 @@ def process_markdown_file(
     )
 
     record = MarkdownRecord(path=path, rel_path=rel_path, timestamp=timestamp, digest=digest)
+    if not check and errors:
+        return record, errors, False
     expected_text = attach_recency_block(content, timestamp, digest)
     changed = expected_text != original_text
     if changed and not check:

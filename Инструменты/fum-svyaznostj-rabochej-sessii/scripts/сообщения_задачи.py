@@ -18,6 +18,8 @@ import uuid
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 _ПУТЬ_КЛАССИФИКАТОРА = Path(__file__).resolve().parents[2] / "fum-snimki-indeksa" / "scripts" / "происхождение_сообщений.py"
 _СПЕЦИФИКАЦИЯ = importlib.util.spec_from_file_location("fum_происхождение_сообщений_0177", _ПУТЬ_КЛАССИФИКАТОРА)

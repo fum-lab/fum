@@ -1,0 +1,57 @@
+{
+  "RAW": "8bab0b8c-bc6b-473c-a1b3-0a97d03c1126",
+  "код": 1,
+  "ошибок": 8,
+  "метод": "Полный parse policy → stock выбор exact доступного T → scan/count; исполнение только внешнего K568",
+  "ошибки": [
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/контекст_обзора.py",
+      "строка": 34,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:13ce705a0cad1ef51dc1f339bbb7dadddc70670921bf4643ff9138d8e87d3f5f"
+    },
+    {
+      "путь": "Инструменты/fum-ocenki/scripts/формат_обзора.py",
+      "строка": 9,
+      "категория": "error.windows-unc",
+      "line_sha256": "sha256:77de19b3e6c48f1aa23e78aa48ca8f69aa1802908301e761e143c3cd5fbc98cc"
+    },
+    {
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+      "строка": 330,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:9e5eb1343ec04b2c6909fbfe3f54647dd18bec1e42fa5463d1c1a3369756ad73"
+    },
+    {
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+      "строка": 336,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:9c5e4aa8bf192e03974c563bc271e420c88e7ccc168ce7901cff94df9df5ead4"
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+      "строка": 136,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:e590a677df10387c3ba36e82b166bac13706157c8914da13616bad7c120607c0"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каркас_журнала_состояния.py",
+      "строка": 29,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:01abfb92e3d26d3602844ce0d636d21d1ef0675bb89bc8ba9eb81b51992ee7af"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+      "строка": 67,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:a99a8ac49802fa218dd589dfc465b14cd18abf86d677c1146bb0a3a41da77ea0"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/план_журнала_писателя_состояния.py",
+      "строка": 101,
+      "категория": "error.posix-absolute",
+      "line_sha256": "sha256:5d7505760ff7b3b2935167baa6a42f398ce2b636eccf1bdee17824fb0c609c71"
+    }
+  ],
+  "решение": "Новые исключения не добавлены; требуется независимый адресный выбор ROOT по реальным строкам."
+}

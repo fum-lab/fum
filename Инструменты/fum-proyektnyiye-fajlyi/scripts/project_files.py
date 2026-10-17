@@ -3,11 +3,14 @@
 
 from __future__ import annotations
 
+import hashlib
 import os
 import re
 import stat
 import subprocess
 from pathlib import Path, PurePosixPath, PureWindowsPath
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 
 STRUCTURAL_EXCLUDED_DIRECTORY_NAMES = frozenset(
