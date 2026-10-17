@@ -3888,6 +3888,33 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "issue301-c19-class-literal-neutral-context",
+      "path": "Журнал/2026-10-17_09-38-43_MSK_сохранить-постановку-строгого-индекса-и-поручение-256/запрос.md",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:5917d4d6ac927d34c264c8a88a43bceadb6ff93afc4d5c7eac231b0c2310ba92",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Пояснительная строка определяет синтаксический класс в исходном поручении и не задаёт адрес файловой системы. Исторический текст сохраняется без изменений."
+    },
+    {
+      "id": "issue301-invalid-symlink-worker-fixture",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6442b2259f341f7b586571f59b62e0fa8fa17ba7e9bcf0864bb62062b48f17c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура создаёт внешнюю символическую ссылку для проверки отказа строгого индекса. Литерал не задаёт рабочую конфигурацию приложения."
+    },
+    {
+      "id": "issue301-invalid-symlink-invalidation-fixture",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:93943223d10661c0753f9b3e18a71416f3cb19494dc2cd242ed247300b73ac65",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная проверка инвалидации намеренно заменяет файл внешней символической ссылкой и требует отказа индекса. Литерал относится только к выбранному отрицательному тесту."
     }
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "bound_category": "allow.nonpath-syntax.windows-drive",
+  "category": "allow.nonpath-syntax",
+  "count": 1,
+  "id": "issue301-c19-class-literal-context",
+  "kind": "windows-drive",
+  "line": 33,
+  "line_sha256": "sha256:5917d4d6ac927d34c264c8a88a43bceadb6ff93afc4d5c7eac231b0c2310ba92",
+  "path": "Журнал/2026-10-17_09-38-43_MSK_сохранить-постановку-строгого-индекса-и-поручение-256/запрос.md",
+  "retirement": 0,
+  "updater_sha256": "c65d1372b80a8db1355b11359732b83a37dac6e8b93dc587808ecb11efc7aa9b",
+  "весь_T29_неизменён": true,
+  "декларация_sha256": "80feb70ebb07dc798477a07f026f915f0e86bf1d20aab2d5f4fa5976ddfa5474",
+  "до_sha256": "cd08ee237ffffb81a243db9bf3f9840e0e6e3f32b5c06ae2eab6821007b5d508",
+  "до_байтов": 242070,
+  "новых": 1,
+  "полная_publication_T_проверена": false,
+  "после_sha256": "f362399c647bf92b361e8bc682a27af3032bc76bc7d88bbb0987912f31610dcc",
+  "после_байтов": 242848,
+  "прежних": 432,
+  "сохранены_все_прежние_и_их_порядок": true,
+  "схема": "fum.адресная-policy-проверка-301.1"
+}
