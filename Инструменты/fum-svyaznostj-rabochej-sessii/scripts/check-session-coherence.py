@@ -314,6 +314,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--контракт-независимого-журнала', type=Path)
     parser.add_argument('--выбранный-состав', type=Path)
     parser.add_argument('--писатель')
+    parser.add_argument('--вход-дочернего-журнала', type=Path)
+    parser.add_argument('--поручение-дочернего-журнала', type=Path)
     return parser.parse_args()
 
 
@@ -2068,9 +2070,11 @@ def validate_session(
     контракт_журнала=None,
     выбранный_состав=None,
     писатель=None,
+    допуск_ребёнка=None,
 ) -> list[str]:
     независимый = контракт_журнала is not None
-    if not независимый and (выбранный_состав is not None or писатель is not None):
+    if not независимый and (выбранный_состав is not None or писатель is not None
+            or допуск_ребёнка is not None):
         return ['прежняя связность не принимает поля независимого Журнала']
     if независимый and (not контрольная_точка or not check_git_status
             or expected_codex_thread_id is None or писатель is None or выбранный_состав is None):
@@ -2084,7 +2088,8 @@ def validate_session(
             import связность_независимого_журнала as независимый_журнал
             привязка_журнала = независимый_журнал.проверить_контракт(root, контракт_журнала,
                 выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
-                писатель=писатель, запрос=str(request_path.relative_to(root)))
+                писатель=писатель, запрос=str(request_path.relative_to(root)),
+                допуск_ребёнка=допуск_ребёнка)
         except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
             return ['независимый Журнал: ' + str(ошибка)]
 
@@ -2207,7 +2212,7 @@ def validate_session(
             errors.extend(validate_md_recency(root, проверка=независимый_журнал.проверить_полную_свежесть))
         else:
             errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths,
-                выбранный_состав=выбранный_состав))
+                выбранный_состав=выбранный_состав, допуск_ребёнка=допуск_ребёнка))
     else:
         errors.extend(validate_md_recency(root))
 
@@ -2218,7 +2223,8 @@ def validate_session(
         try:
             повтор = независимый_журнал.проверить_контракт(root, контракт_журнала,
                 выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
-                писатель=писатель, запрос=str(request_path.relative_to(root)))
+                писатель=писатель, запрос=str(request_path.relative_to(root)),
+                допуск_ребёнка=допуск_ребёнка)
             if повтор != привязка_журнала: errors.append('независимый Журнал изменился при связности')
         except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
             errors.append('независимый Журнал: ' + str(ошибка))
@@ -2241,14 +2247,33 @@ def main() -> int:
             print(f"cannot read commit message file: {exc}", file=sys.stderr)
             return 2
     новые = {}
-    if args.контракт_независимого_журнала is not None or args.выбранный_состав is not None or args.писатель is not None:
+    if (args.контракт_независимого_журнала is not None
+            or args.выбранный_состав is not None or args.писатель is not None
+            or args.вход_дочернего_журнала is not None
+            or args.поручение_дочернего_журнала is not None):
         try:
             import сообщения_задачи as файлы
             if args.контракт_независимого_журнала is None or args.выбранный_состав is None:
                 raise ValueError('нужны два независимо переданных файла нового входа')
             новые = {'контракт_журнала': файлы._разобрать(args.контракт_независимого_журнала.read_bytes()),
                 'выбранный_состав': файлы._разобрать(args.выбранный_состав.read_bytes()), 'писатель': args.писатель}
-        except (OSError, ValueError) as ошибка:
+            if (args.вход_дочернего_журнала is None) != (args.поручение_дочернего_журнала is None):
+                raise ValueError('child требует полный Maker10 и отдельный выбор ACT')
+            if args.вход_дочернего_журнала is not None:
+                import связность_независимого_журнала as ж
+                параметры = файлы._разобрать(args.вход_дочернего_журнала.read_bytes())
+                поручение = файлы._разобрать(args.поручение_дочернего_журнала.read_bytes())
+                if (параметры.get('схема') != 'fum.создание-коммита.10'
+                        or параметры.get('контракт_журнала') != новые['контракт_журнала']
+                        or параметры.get('задача') != args.codex_thread_id
+                        or параметры.get('исполнитель') != args.писатель
+                        or Path(параметры.get('корень', '')) != Path(args.repo_root)
+                        or absolute_path(параметры.get('запрос', ''), Path(args.repo_root))
+                            != absolute_path(args.request, Path(args.repo_root))):
+                    raise ValueError('Maker10 не совпал с адресом связности')
+                новые['допуск_ребёнка'] = ж.допуск_дочернего_журнала(
+                    параметры, поручение, новые['выбранный_состав'])
+        except (OSError, ValueError, TypeError, KeyError, AttributeError) as ошибка:
             print(str(ошибка), file=sys.stderr); return 2
     errors = validate_session(
         args.repo_root,
