@@ -39,11 +39,16 @@ class СырыеОбсуждения(unittest.TestCase):
     def test_одиночный_запрос_слияния_с_публичным_шаблоном(self):
         запись = self.запись()
         запись.update({'pull_request': {}, 'html_url': 'https://github.com/fum-lab/fum/pull/1',
-                       'labels_url': 'https://api.github.com/repos/fum-lab/fum/issues/1/labels{/name}'})
+                       'labels_url': 'https://api.github.com/repos/fum-lab/fum/issues/1/labels{/name}',
+                       'following_url': 'https://api.github.com/users/example/following{/other_user}',
+                       'gists_url': 'https://api.github.com/users/example/gists{/gist_id}',
+                       'starred_url': 'https://api.github.com/users/example/starred{/owner}{/repo}',
+                       'events_url': 'https://api.github.com/users/example/events{/privacy}'})
         путь, текст = self.вход_объекта(запись)
         категории = self.категории(путь, текст)
-        self.assertTrue(категории)
-        self.assertTrue(all(категория == 'report.external-source.posix-absolute' for категория in категории))
+        self.assertEqual(категории, ['report.external-source.posix-absolute'])
+        self.assertEqual(self.категории('Документация/пример.json', текст),
+                         ['error.posix-absolute'])
 
     def test_одиночный_комментарий(self):
         запись = self.запись(); запись.pop('number')

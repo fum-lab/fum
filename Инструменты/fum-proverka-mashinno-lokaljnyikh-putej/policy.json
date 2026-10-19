@@ -3998,15 +3998,6 @@
       "reason": "Открытая автономная подстановка ответа GitHub Actions различает точный HTTP-суффикс ресурса Actions; адрес машины не используется."
     },
     {
-      "id": "role-fork-issue-one-response",
-      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/issue-1-ответ.json",
-      "kind": "posix-absolute",
-      "line_sha256": "sha256:e9ba268f79ee553599d6d33a7b81257d5069ef0e618e57b03e8ae5a62b3405ce",
-      "count": 6,
-      "category": "report.historical",
-      "reason": "Дословный сохранённый ответ GitHub issue 1 содержит шесть сегментов шаблонных URL в labels_url и полях URL пользователя; это параметры HTTP-адресов, не локальные пути."
-    },
-    {
       "id": "github-issue-one-comment-readback",
       "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/Issue-1-комментарий-проверка.json",
       "kind": "posix-absolute",
@@ -5373,15 +5364,6 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Строгое регулярное выражение адреса комментария API заданного репозитория GitHub; это определение проверки удалённого адреса, а не локальный файловый путь."
-    },
-    {
-      "id": "issues-api-single-template",
-      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
-      "kind": "posix-absolute",
-      "line_sha256": "sha256:d8a9efd0785868658e79d43540a2aa6d4b09049e05f651e95addce6d02e838cb",
-      "count": 1,
-      "category": "allow.test-fixture",
-      "reason": "Открытая автономная фикстура одиночного ответа GitHub: публичный URI-шаблон либо искусственный путь; не раскрывает состояние машины."
     },
     {
       "id": "issues-api-single-missing-body",
@@ -7677,6 +7659,186 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Намеренно небезопасные значения автономного отрицательного теста; не путь рабочей машины."
+    },
+    {
+      "id": "issue341-malformed-tail-basic",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:472baa2e51c6a2048cc381c7bead138e7c213ab8b88bc02a85acd0a969066934",
+      "count": 6,
+      "category": "allow.test-fixture",
+      "reason": "Намеренные неправильные хвосты: незакрытая переменная, звёздочка и начальная цифра. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-context",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:76f2ae47fd74369843f43bd7199bef5271a637be9433cffc31404abd83197917",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Намеренные неподдержанные переменные и буквальное продолжение. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-continuation",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d4d62cd72bec7ebf8af6d81b855ce24721237dd779339d4db6cf85cc81ebd843",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Намеренные лишняя скобка, путь и query после правильного префикса. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-fragment",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b81ad5330c06a9a1c58e8ac364990405b174bd75a1f68a17a3bc63c38203c536",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Намеренный фрагмент после переменной. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-home-prefix",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:656198923395dea72a6567f679c3145df56eb70ad336526e2e1deb6c7ff1b693",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Префикс составного неподдержанного параметра, разделённый со вторым видом пути по физическим строкам. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-home-variable",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:7c4f890fcbe74668db7f57e12d2b3a8114a15565eee8acdf09c78025dfb9e2ee",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Намеренный составной псевдопараметр с искусственной домашней формой. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:248ad4fa3ff7e9d14ad66615afe91013d166fbc036390413a21ed803cd4d308f",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый нескрытый путь неправильного хвоста. Открытая автономная фикстура, без пути машины. Та же точная строка повторяется в другом отрицательном сценарии; число совпадений выводит штатный обновитель."
+    },
+    {
+      "id": "issue341-invalid-authority-template",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a903a1f3bc57165f9ae47671c48c835b773e3c506ab1848b747d01e5de3936be",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Именованный хвост при неправильном HTTP authority должен остаться находкой. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-file-uri-prefix",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:ed85e641b21e37866248c6009817b317e92341a4ee2fb0b632145ce905a094a5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая искусственная файловая URI-фикстура. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-other-scheme-template",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9f2f80230720f22beb7fe8768035238713a41e16f0161e529c950b452c1c24c9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Непоглощённый хвост файловой и иной схемы. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-other-scheme-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:72b5feea43c5405a022d5da12deacaf071bb9c4341dfcefa3f09c4e096546d8e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый нескрытый путь иной схемы. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-neighbor-source",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ce31641f48c3bf4fa437d61d789d9758c768e6eb33ec8e1cb1175b8921aa5f98",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный соседний путь после разделителя. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-neighbor-pair-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2ff6beae19a9984774c18602cd6c0609d68074d7da26b7149317bb723e7a2a49",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый соседний путь в полном результате. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-neighbor-local-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:63ccec02a396ed753b45e7eea0fd7ddaeccdaa397064e71d7600dd710d3c8dbe",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый соседний путь без web-форм. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-home-neighbor-source",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:c44f81c4d8186d6fe73e396e1fbf19ab2d385fd60cced3263152b41740038cf0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный домашний путь сразу после закрывающей кавычки. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-home-neighbor-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:85762f1c45822db3f29a537dd1ad6c8a6e507ba19a9eeb1bc1ca1e5709e2a954",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемая домашняя форма соседнего пути. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-inline-tail-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:276cee26e31ab0a30e2ec9535faf4b10a904a99e370e8ae4883fcff639016359",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый нескрытый путь рядом с закрывающей обратной кавычкой. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-bare-template-source",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fdbb03de0f1b56e9f5029d61574f29117dd8cce947559c36f2f4862d05f17a5b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Самостоятельная переменная вне HTTP-адреса остаётся кандидатом пути. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-bare-template-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:48abf453c7331f6e6c05f4021f319d215c437df1a4df66dc63c59b3f890016cb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый путь самостоятельной переменной. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-document-local-body",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b99543ba8a0706a0159d16650d442c455e8aa30bc89310655083ec555660c975",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный настоящий путь в JSON обычного документа. Открытая автономная фикстура, без пути машины."
     }
   ],
   "метаданные": [
