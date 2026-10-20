@@ -1,0 +1,53 @@
+{
+  "схема": "fum.фикстуры-служебной-оболочки.1",
+  "оболочка": {
+    "type": "additional_tools",
+    "id": "tools_fixture",
+    "role": "developer",
+    "tools": [{
+      "type": "namespace",
+      "name": "fixture",
+      "description": "Синтетический служебный набор; не команда человека.",
+      "tools": [
+        {"type": "function", "name": "read", "description": "Открытое описание.", "strict": false, "parameters": {"type": "object", "properties": {"text": {"type": "string"}}}},
+        {"type": "custom", "name": "query", "description": "Открытая грамматика.", "format": {"type": "grammar", "syntax": "lark", "definition": "start: WORD"}}
+      ]
+    }]
+  },
+  "поручение": {
+    "type": "response_item",
+    "payload": {
+      "type": "function_call_output",
+      "id": "delegation_fixture",
+      "name": "create_thread",
+      "namespace": "codex_app",
+      "output": "<codex_delegation>\n  <source_thread_id>00000000-0000-0000-0000-000000000332</source_thread_id>\n  <input>Проверь синтетический результат &amp; сохрани порядок.</input>\n</codex_delegation>",
+      "internal_chat_message_metadata_passthrough": {}
+    }
+  },
+  "неверные_формы": [
+    {"путь": ["role"], "удалить": true},
+    {"путь": ["role"], "значение": "user"},
+    {"путь": ["role"], "значение": null},
+    {"путь": ["role"], "значение": []},
+    {"путь": ["id"], "удалить": true},
+    {"путь": ["id"], "значение": 7},
+    {"путь": ["id"], "значение": ""},
+    {"путь": ["content"], "значение": [{"type": "input_text", "text": "Не превращай это в команду."}]},
+    {"путь": ["tools"], "удалить": true},
+    {"путь": ["tools"], "значение": {}},
+    {"путь": ["tools"], "значение": []},
+    {"путь": ["tools", 0], "значение": "namespace"},
+    {"путь": ["tools", 0, "type"], "значение": "function"},
+    {"путь": ["tools", 0, "name"], "значение": ""},
+    {"путь": ["tools", 0, "description"], "значение": []},
+    {"путь": ["tools", 0, "tools"], "значение": []},
+    {"путь": ["tools", 0, "tools", 0, "type"], "значение": "namespace"},
+    {"путь": ["tools", 0, "tools", 0, "strict"], "значение": 1},
+    {"путь": ["tools", 0, "tools", 0, "parameters"], "значение": []},
+    {"путь": ["tools", 0, "tools", 0, "extra"], "значение": true},
+    {"путь": ["tools", 0, "tools", 1, "format", "syntax"], "значение": []},
+    {"путь": ["tools", 0, "tools", 1, "format", "definition"], "удалить": true},
+    {"путь": ["tools", 0, "tools", 1, "format", "extra"], "значение": true}
+  ]
+}
