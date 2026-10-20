@@ -7839,6 +7839,51 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Искусственный настоящий путь в JSON обычного документа. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue301-invalid-symlink-worker-fixture",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6442b2259f341f7b586571f59b62e0fa8fa17ba7e9bcf0864bb62062b48f17c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура создаёт внешнюю символическую ссылку для проверки отказа строгого индекса. Литерал не задаёт рабочую конфигурацию приложения."
+    },
+    {
+      "id": "issue301-invalid-symlink-invalidation-fixture",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:93943223d10661c0753f9b3e18a71416f3cb19494dc2cd242ed247300b73ac65",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная проверка инвалидации намеренно заменяет файл внешней символической ссылкой и требует отказа индекса. Литерал относится только к выбранному отрицательному тесту."
+    },
+    {
+      "id": "independent-merge-test-materials-relative-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_слияния_независимых_журналов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1cb5a27770018be3d8896d9c7ba74accd39fb9d02684a6debf77d4d130d715bd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "В тестовой фикстуре суффикс материалов соединяется с относительным каталогом записи Журнала; строка не задаёт машинный абсолютный путь."
+    },
+    {
+      "id": "independent-merge-test-materials-prefix-relative",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_слияния_независимых_журналов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0f09d7d202864258ed1189170df22a0b1562770495b672861547594a67b36746",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "В проверке теста суффикс материалов добавляется к пути, полученному relative_to корня фикстуры; литерал является частью относительного пути."
+    },
+    {
+      "id": "independent-merge-request-relative-syntax",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8d663c6eafcff6b021bd929674c6c0f07d0c43a8b8dafaafbc4c05611d5aa530",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс имени запроса соединяется с относительным каталогом Журнала при строгом сравнении пути; строка не содержит машинного абсолютного пути."
     }
   ],
   "метаданные": [
