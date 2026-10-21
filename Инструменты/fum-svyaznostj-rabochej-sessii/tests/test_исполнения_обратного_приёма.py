@@ -81,6 +81,22 @@ class ИсполнениеОбратногоПриёма(unittest.TestCase):
             self.вызов()
         self.assertEqual(list(self.каталог.iterdir()), [])
 
+    def test_bare_каталог_операции_отклоняется_до_эффекта(self):
+        bare = self.корень.parent / "хранилище.git"
+        subprocess.run(["git", "init", "--bare", str(bare)], env=self.среда,
+                       capture_output=True, check=True)
+        self.каталог = bare / "операция"
+        self.каталог.mkdir(mode=0o700)
+        индекс = (self.корень / ".git/index").read_bytes()
+        for имя in ("применить", "повтор"):
+            with self.subTest(операция=имя):
+                with self.assertRaisesRegex(ValueError, "вне Git"):
+                    self.вызов(имя)
+                self.assertEqual(list(self.каталог.iterdir()), [])
+                self.assertEqual(self.гит("rev-parse", "HEAD").decode().strip(), self.основа)
+                self.assertEqual((self.корень / ".git/index").read_bytes(), индекс)
+                self.assertFalse((self.корень / ".git/MERGE_HEAD").exists())
+
     def test_прерывание_после_merge_не_перезапускается(self):
         модуль = importlib.import_module("исполнение_обратного_приёма")
         with patch.object(модуль, "проверить_готовое_слияние", side_effect=ValueError("Прервано после merge")):
