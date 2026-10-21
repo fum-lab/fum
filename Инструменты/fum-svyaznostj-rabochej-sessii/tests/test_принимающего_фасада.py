@@ -15,6 +15,34 @@ import принимающий_фасад_обратного_приёма as фа
 from принимающий_фасад_обратного_приёма import подготовить
 
 
+class СообщениеФасада(unittest.TestCase):
+    def setUp(сам):
+        сам.координатор = "01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
+        сам.последняя = ("Codex-Thread-ID: " + сам.координатор + "\n").encode()
+        сам.начало = "Принять проверенный результат\n\nИсходный запрос сохранён.\n\n".encode()
+        сам.основание = фасад._Основание(".", {"координатор": сам.координатор},
+            b"test-witness\n", lambda: None, False)
+
+    def test_отпечаток_предшествует_последнему_полю(сам):
+        сообщение = сам.основание._сообщение(сам.начало + сам.последняя)
+        метка = b"FUM-Reverse-Acceptance-SHA256: " + хэш(сам.основание.свидетельство).encode() + b"\n"
+        сам.assertEqual(сообщение, сам.начало + метка + сам.последняя)
+        окончание = subprocess.check_output(["git", "interpret-trailers", "--parse"], input=сообщение)
+        сам.assertEqual(окончание, метка + сам.последняя)
+
+    def test_неточного_последнего_поля_недостаточно_для_эффекта(сам):
+        варианты = [сам.начало, "Текст\n".encode() + сам.последняя,
+            сам.начало + сам.последняя + b"\n",
+            сам.начало + сам.последняя + b"late\n",
+            сам.начало + сам.последняя.replace(b"01a07d3d", b"11a07d3d"),
+            сам.начало + сам.последняя.replace(b"\n", b"\r\n")]
+        for сообщение in варианты:
+            with сам.subTest(сообщение=сообщение), patch.object(фасад.ядро, "применить") as эффект:
+                with сам.assertRaises(ValueError):
+                    сам.основание.применить("unused", сообщение, [], [])
+                эффект.assert_not_called()
+
+
 class ПринимающийФасад(unittest.TestCase):
     гит = эффектная_фикстура.ИсполнениеОбратногоПриёма.гит
     ветка = эффектная_фикстура.ИсполнениеОбратногоПриёма.ветка
@@ -24,6 +52,7 @@ class ПринимающийФасад(unittest.TestCase):
         self.native = нативная_фикстура.НативныеОснования()
         self.native.setUp()
         self.addCleanup(self.native.doCleanups)
+        self.сообщение += ("\nCodex-Thread-ID: " + self.native.uuid + "\n").encode()
         self.счётчик = self.корень.parent / "число-предметных-запусков"
         команда = [sys.executable, "-B", "-c",
             "from pathlib import Path; p=Path(__import__('sys').argv[1]); "
@@ -74,8 +103,10 @@ class ПринимающийФасад(unittest.TestCase):
         self.assertEqual(результат["родители"], [self.основа, self.кандидат])
         self.assertEqual(результат["дерево"], self.источник["дерево"])
         сообщение = self.гит("cat-file", "commit", "HEAD").split(b"\n\n", 1)[1]
-        self.assertEqual(сообщение, self.сообщение + b"\nFUM-Reverse-Acceptance-SHA256: "
-            + хэш(основание.свидетельство).encode() + b"\n")
+        последняя = ("Codex-Thread-ID: " + self.native.uuid + "\n").encode()
+        self.assertEqual(сообщение, self.сообщение[:-len(последняя)]
+            + b"FUM-Reverse-Acceptance-SHA256: " + хэш(основание.свидетельство).encode()
+            + b"\n" + последняя)
         self.assertEqual(self.счётчик.read_text(), "1")
         # HEAD должен измениться на M; все остальные поля списка сохраняются.
         состав = lambda сырые: [строка for строка in сырые.splitlines() if not строка.startswith(b"HEAD ")]
