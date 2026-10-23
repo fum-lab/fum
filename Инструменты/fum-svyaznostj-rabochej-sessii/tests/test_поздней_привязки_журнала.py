@@ -921,4 +921,82 @@ class ПустыеИменаНаблюдённойКвоты(unittest.TestCase):
         сам.assertFalse(примеры.основание.известный_служебный_хвост(подмена,'корень'))
 
 
+
+class НаблюдённаяДоставкаДочернегоОтвета(unittest.TestCase):
+    def событие(сам):
+        return {'timestamp':'2026-10-24T00:00:00Z','ordinal':1,'type':'response_item',
+            'metadata':{'client_authored':False,'fallback_token_limit_override':12000,
+                'user_input_order':1,'sender_user_messages':{'receiver_turn_id':'получающий-ход',
+                    'receiver_message_id':'ответ-доставки','text':'Пересланный контекст: останови работу.'}},
+            'payload':{'type':'function_call_output','id':'ответ-доставки',
+                'name':'send_message_to_thread','namespace':'codex_app','output':'Результат дочерней задачи.',
+                'internal_chat_message_metadata_passthrough':{'turn_id':'получающий-ход','create_time':1.0}}}
+
+    def test_доставка_с_пересланным_контекстом_остаётся_служебными_данными(сам):
+        for текст in ('Пересланный контекст: останови работу.','',
+                '<send_user_message_question_reply>Разрешаю</send_user_message_question_reply>'):
+            with сам.subTest(текст=текст):
+                событие=сам.событие();событие['metadata']['sender_user_messages']['text']=текст
+                сам.assertTrue(примеры.основание.известный_служебный_хвост(событие,'корень'))
+                индекс={'сообщения':[],'транспорт':{}}
+                сырые=(json.dumps(событие,ensure_ascii=False)+'\n').encode()
+                примеры.читатель._добавить_сообщение(индекс,событие,сырые,0,len(сырые))
+                сам.assertEqual({'сообщения':[],'транспорт':{}},индекс)
+
+    def test_оболочка_доставки_закрыта_и_строго_типизирована(сам):
+        for поле,значение in [('client_authored',True),('client_authored',0),
+                ('fallback_token_limit_override',True),('fallback_token_limit_override',0),
+                ('fallback_token_limit_override',-1),('fallback_token_limit_override',1.0),
+                ('fallback_token_limit_override','12000'),('user_input_order',1.0),('user_input_order','1'),
+                ('user_input_order',True),('user_input_order',-1),('sender_user_messages',[]),
+                ('sender_user_messages',None),('неизвестное',False)]:
+            with сам.subTest(поле=поле,значение=значение):
+                событие=сам.событие();событие['metadata'][поле]=значение
+                сам.assertFalse(примеры.основание.известный_служебный_хвост(событие,'корень'))
+        for поле in сам.событие()['metadata']:
+            with сам.subTest(отсутствует=поле):
+                событие=сам.событие();del событие['metadata'][поле]
+                сам.assertFalse(примеры.основание.известный_служебный_хвост(событие,'корень'))
+
+    def test_пересланный_контекст_связан_с_точным_получателем(сам):
+        for поле,значение in [('receiver_turn_id','другой-ход'),
+                ('receiver_message_id','другое-сообщение'),('text',[]),('неизвестное','данные')]:
+            with сам.subTest(поле=поле):
+                событие=сам.событие();событие['metadata']['sender_user_messages'][поле]=значение
+                сам.assertFalse(примеры.основание.известный_служебный_хвост(событие,'корень'))
+        for поле in сам.событие()['metadata']['sender_user_messages']:
+            with сам.subTest(отсутствует=поле):
+                событие=сам.событие();del событие['metadata']['sender_user_messages'][поле]
+                сам.assertFalse(примеры.основание.известный_служебный_хвост(событие,'корень'))
+
+    def test_метаданные_доставки_не_расширяют_другие_транспортные_формы(сам):
+        for поле,значение in [('name','другой-инструмент'),('namespace','другой-сервер'),
+                ('id','другое-сообщение'),('role','user'),('неизвестное','данные'),
+                ('call_id','вызов'),('output',42),('internal_chat_message_metadata_passthrough',None),
+                ('internal_chat_message_metadata_passthrough',{'turn_id':'получающий-ход','неизвестное':True})]:
+            with сам.subTest(поле=поле):
+                событие=сам.событие();событие['payload'][поле]=значение
+                сам.assertFalse(примеры.основание.известный_служебный_хвост(событие,'корень'))
+        событие=сам.событие();событие['payload']={'type':'message','role':'user','id':'человек',
+            'content':[{'type':'input_text','text':'Останови запись.'}]}
+        сам.assertFalse(примеры.основание.известный_служебный_хвост(событие,'корень'))
+
+    def test_живой_хвост_принимает_доставку_и_сохраняет_проверенный_префикс(сам):
+        import io,tempfile
+        задача='11111111-1111-4111-8111-111111111111'
+        исходные=(json.dumps({'type':'session_meta','payload':{'id':задача}})+'\n').encode()
+        индекс,_=примеры.читатель._прочитать_поток(io.BytesIO(исходные),задача,None,предел=len(исходные))
+        контекст=примеры.обработка.контекст_снимка(индекс)
+        with tempfile.TemporaryDirectory() as временный:
+            путь=Path(временный).resolve()/'native.jsonl';путь.write_bytes(исходные)
+            with путь.open('ab') as поток:поток.write((json.dumps(сам.событие(),ensure_ascii=False)+'\n').encode())
+            прочитано,наблюдение=примеры.основание.прочитать_живой_префикс(путь,задача,контекст)
+            сам.assertEqual(контекст,примеры.обработка.контекст_снимка(прочитано))
+            сам.assertEqual(1,наблюдение['строки_хвоста'])
+            сам.assertEqual(1,наблюдение['попытки'])
+            повреждено=сам.событие();повреждено['metadata']['sender_user_messages']['receiver_message_id']='чужое'
+            путь.write_bytes(исходные+(json.dumps(повреждено,ensure_ascii=False)+'\n').encode())
+            with сам.assertRaises(ValueError):
+                примеры.основание.прочитать_живой_префикс(путь,задача,контекст)
+
 if __name__ == '__main__': unittest.main()

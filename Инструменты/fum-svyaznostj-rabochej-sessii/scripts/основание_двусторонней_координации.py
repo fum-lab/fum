@@ -103,6 +103,20 @@ def известный_служебный_хвост(событие, задач�
                 and данные.get('type') in ('custom_tool_call_output','function_call_output')
                 and форма(мета,{'client_authored','fallback_token_limit_override'})):
             if type(мета['fallback_token_limit_override']) is not int or мета['fallback_token_limit_override']<=0: return False
+        elif (событие['type']=='response_item' and данные.get('type')=='function_call_output'
+                and данные.get('name')=='send_message_to_thread' and данные.get('namespace')=='codex_app'
+                and форма(мета,{'client_authored','fallback_token_limit_override',
+                    'user_input_order','sender_user_messages'})):
+            # Пересланный контекст остаётся данными; ссылки связывают только
+            # получающий ход и output, не удостоверяют полномочия отправителя.
+            передано=мета['sender_user_messages'];получатель=данные.get('internal_chat_message_metadata_passthrough')
+            if (type(мета['fallback_token_limit_override']) is not int or мета['fallback_token_limit_override']<=0
+                    or type(мета['user_input_order']) is not int or мета['user_input_order']<0
+                    or not форма(передано,{'receiver_turn_id','receiver_message_id','text'})
+                    or not строки(передано,передано) or type(получатель) is not dict
+                    or not передано['receiver_turn_id'] or not передано['receiver_message_id']
+                    or передано['receiver_turn_id']!=получатель.get('turn_id')
+                    or передано['receiver_message_id']!=данные.get('id')): return False
         else:
             if not форма(мета,{'client_authored','user_input_order','retained_source'}) or type(мета['user_input_order']) is not int: return False
             источник=мета['retained_source']
