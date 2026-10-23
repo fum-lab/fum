@@ -73,7 +73,10 @@ def известный_служебный_хвост(событие, задач�
     def строки(объект, имена):
         return all(type(объект.get(и)) is str for и in имена)
     def части(состав, вид):
-        return type(состав) is list and all(форма(ч,{'type','text'}) and ч['type']==вид and type(ч['text']) is str for ч in состав)
+        return type(состав) is list and all((форма(ч,{'type','text'})
+            or вид=='output_text' and форма(ч,{'type','text','annotations','logprobs'})
+                and ч['annotations']==[] and ч['logprobs']==[])
+            and ч['type']==вид and type(ч['text']) is str for ч in состав)
     def вывод(значение):
         return type(значение) is str or части(значение,'input_text')
     def метаданные(объект):
@@ -93,7 +96,7 @@ def известный_служебный_хвост(событие, задач�
     if 'metadata' in событие:
         мета=событие['metadata']
         if type(мета) is not dict or мета.get('client_authored') is not False: return False
-        if (событие['type']=='response_item' and данные.get('type')=='function_call'
+        if (событие['type']=='response_item' and данные.get('type') in ('function_call','agent_message')
                 and форма(мета,{'client_authored','user_input_order'})):
             if type(мета['user_input_order']) is not int or мета['user_input_order']<0: return False
         elif (событие['type']=='response_item'
@@ -108,12 +111,22 @@ def известный_служебный_хвост(событие, задач�
             if not форма(идентичность,{'message_id','role','turn_id'}) or not строки(идентичность,идентичность) or идентичность['role']!='assistant': return False
     if событие.get('type')=='response_item':
         вид=данные.get('type')
+        if вид=='agent_message':
+            # Агентский материал остаётся данными, включая непрозрачные части.
+            return (форма(событие.get('metadata'),{'client_authored','user_input_order'})
+                and форма(данные,{'type','id','author','recipient','content',
+                'internal_chat_message_metadata_passthrough'}) and строки(данные,['id','author','recipient'])
+                and метаданные(данные['internal_chat_message_metadata_passthrough'])
+                and type(данные['content']) is list and all(
+                    форма(ч,{'type','text'}) and ч['type']=='input_text' and type(ч['text']) is str
+                    or форма(ч,{'type','encrypted_content'}) and ч['type']=='encrypted_content'
+                    and type(ч['encrypted_content']) is str for ч in данные['content']))
         if вид=='message':
-            return форма(данные,{'type','id','role','phase','content','internal_chat_message_metadata_passthrough'}) and данные['role']=='assistant' and данные['phase'] in ('commentary','final') and type(данные['id']) is str and части(данные['content'],'output_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
+            return форма(данные,{'type','id','role','phase','content','internal_chat_message_metadata_passthrough'},{'status'}) and ('status' not in данные or данные['status']=='completed') and данные['role']=='assistant' and данные['phase'] in ('commentary','final') and type(данные['id']) is str and части(данные['content'],'output_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
         if вид=='reasoning':
             return форма(данные,{'type','id','encrypted_content','summary','internal_chat_message_metadata_passthrough'}) and строки(данные,['id','encrypted_content']) and части(данные['summary'],'summary_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
         формы={
-            'function_call':({'type','id','call_id','name','arguments','internal_chat_message_metadata_passthrough'},{'namespace'}),
+            'function_call':({'type','id','call_id','name','arguments','internal_chat_message_metadata_passthrough'},{'namespace','status'}),
             'custom_tool_call':({'type','id','call_id','name','input','status','internal_chat_message_metadata_passthrough'},set()),
             'custom_tool_call_output':({'type','id','call_id','output','internal_chat_message_metadata_passthrough'},set())}
         if вид=='function_call_output':
@@ -121,7 +134,7 @@ def известный_служебный_хвост(событие, задач�
             return форма(данные,имена) and строки(данные,имена-{'internal_chat_message_metadata_passthrough','output'}) and вывод(данные['output']) and метаданные(данные['internal_chat_message_metadata_passthrough'])
         if вид in формы:
             обязательные,необязательные=формы[вид]
-            return форма(данные,обязательные,необязательные) and строки(данные,set(данные)-{'internal_chat_message_metadata_passthrough','output'}) and ('output' not in данные or вывод(данные['output'])) and метаданные(данные['internal_chat_message_metadata_passthrough']) and (вид!='custom_tool_call' or данные['status']=='completed')
+            return форма(данные,обязательные,необязательные) and строки(данные,set(данные)-{'internal_chat_message_metadata_passthrough','output'}) and ('output' not in данные or вывод(данные['output'])) and метаданные(данные['internal_chat_message_metadata_passthrough']) and ('status' not in данные or данные['status']=='completed')
         return False
     if событие.get('type')=='event_msg':
         вид=данные.get('type')
@@ -142,7 +155,12 @@ def известный_служебный_хвост(событие, задач�
             if вид=='ContextCompaction': return форма(элемент,{'type','id'})
             if вид=='AgentMessage': return форма(элемент,{'type','id','phase','content'}) and элемент['phase'] in ('commentary','final') and части(элемент['content'],'Text')
             if вид=='Reasoning': return форма(элемент,{'type','id','raw_content','summary_text'}) and элемент['raw_content']==[] and type(элемент['summary_text']) is list and all(type(в) is str for в in элемент['summary_text'])
-            if вид=='SubAgentActivity': return форма(элемент,{'type','id','agent_path','agent_thread_id','kind'}) and строки(элемент,['agent_path','agent_thread_id']) and элемент['kind'] in ('started','completed','interacted')
+            if вид=='SubAgentActivity': return форма(элемент,{'type','id','agent_path','agent_thread_id','kind'},{'model','reasoning_effort'}) and строки(элемент,['agent_path','agent_thread_id']) and элемент['kind'] in ('started','completed','interacted') and all(элемент.get(и) is None for и in ('model','reasoning_effort'))
+            if вид=='CollabAgentToolCall':
+                return форма(элемент,{'type','id','tool','status','sender_thread_id','receiver_thread_ids',
+                    'receiver_agents','agents_states'}) and элемент['tool']=='wait' and элемент['status']=='completed' \
+                    and элемент['sender_thread_id']==задача and элемент['receiver_thread_ids']==элемент['receiver_agents']==[] \
+                    and элемент['agents_states']=={}
             if вид=='McpToolCall': return форма(элемент,{'type','id','arguments','duration','pluginId','result','server','status','tool'}) and строки(элемент,['pluginId','server','tool']) and type(элемент['arguments']) is dict and type(элемент['result']) is dict and длительность(элемент['duration']) and элемент['status'] in ('completed','failed')
             if вид=='CommandExecution':
                 if not форма(элемент,{'type','id','command','cwd','duration','exit_code','parsed_cmd','process_id','source','status','aggregated_output'}) or not строки(элемент,['cwd','process_id','aggregated_output']) or type(элемент['command']) is not list or not all(type(в) is str for в in элемент['command']) or type(элемент['exit_code']) is not int or элемент['source']!='unified_exec_startup' or элемент['status'] not in ('completed','failed') or not длительность(элемент['duration']) or type(элемент['parsed_cmd']) is not list: return False
@@ -310,10 +328,10 @@ def _проверить(корень, решение, вход, получить
         'адресат или эффекты выходят из конечной координации')
     требовать(смысл['хэш_поручения']==хэш(решение['поручение'].encode()), 'подменено конечное поручение')
     акт=решение['акт']
-    state = решение.get('схема') == 'fum.смысл-дочернего-поручения.4' and вход.get('схема') == 'fum.подготовка-дочернего-поручения.6'
+    контур_состояния = решение.get('схема') == 'fum.смысл-дочернего-поручения.4' and вход.get('схема') == 'fum.подготовка-дочернего-поручения.6'
     требовать(type(акт['область']) is list and акт['область'] and all(type(п) is str and п for п in акт['область'])
         and type(акт['ветка']) is str and (акт['ветка'].startswith('refs/heads/codex/')
-            or (state and акт['ветка'] == 'refs/heads/fum-lab/fum')), 'нет конечной области')
+            or (контур_состояния and акт['ветка'] == 'refs/heads/fum-lab/fum')), 'нет конечной области')
     обычное._гит(корень,'check-ref-format',акт['ветка'])
     обычное.проверить_область(корень,акт['область'],
         [имя+'проверка-покрытия' if имя.endswith('/') else имя for имя in акт['область']])
