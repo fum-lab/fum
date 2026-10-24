@@ -2206,7 +2206,7 @@ def validate_session(
         if писатель == expected_codex_thread_id:
             errors.extend(validate_md_recency(root, проверка=независимый_журнал.проверить_полную_свежесть))
         else:
-            errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths))
+            errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths, выбранный_состав=выбранный_состав))
     else:
         errors.extend(validate_md_recency(root))
 

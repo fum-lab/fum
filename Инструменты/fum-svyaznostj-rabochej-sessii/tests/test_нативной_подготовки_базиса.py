@@ -171,6 +171,230 @@ class Пример:
                     'sha256':генератор.хэш(b''.join(сырые[1:]))},
                 'вызов':места[номер_вызова],'исход':места[-1]}}
 
+class ОжиданиеНативногоЗахвата(unittest.TestCase):
+    """Малый явно синтетический native; не исполняет настоящий базис."""
+    def setUp(сам):
+        сам.временный = tempfile.TemporaryDirectory(prefix='fum-native-capture-')
+        сам.addCleanup(сам.временный.cleanup)
+        сам.каталог = Path(сам.временный.name).resolve()
+        сам.исполнитель = str(uuid.uuid4()); сам.ход = str(uuid.uuid4())
+        сам.скрипт = 'text({"схема":"синтетический-указатель"});'
+        сам.вход = сам.каталог / 'Iraw.json'; сам.вход.write_bytes(b'{}\n'); сам.вход.chmod(0o600)
+        сам.номер = 0
+
+    def пример(сам, ожиданий=0, правка=None):
+        def рамка(п, исход=False):
+            р = {'type': 'response_item', 'payload': {**п,
+                'internal_chat_message_metadata_passthrough': {
+                    'turn_id': сам.ход, 'create_time': 10.0}}}
+            if исход: р['metadata'] = {'client_authored': False}
+            return р
+        def завершение():
+            return [{'type': 'input_text', 'text': 'Script completed\nWall time 0.1 seconds\nOutput:\n'},
+                {'type': 'input_text', 'text': '{"схема":"синтетический-указатель"}'}]
+        def выполняется():
+            return 'Script running with cell ID 105\nWall time 1.0 seconds\nOutput:\n'
+        записи = [
+            {'type': 'session_meta', 'payload': {'id': сам.исполнитель, 'cwd': str(сам.каталог)}},
+            {'type': 'turn_context', 'payload': {'turn_id': сам.ход, 'cwd': str(сам.каталог)}},
+            рамка({'type': 'custom_tool_call', 'id': 'exec-fixture', 'call_id': 'call_exec',
+                'name': 'exec', 'status': 'completed', 'input': сам.скрипт}),
+            рамка({'type': 'custom_tool_call_output', 'id': 'exec-output', 'call_id': 'call_exec',
+                'output': выполняется() if ожиданий else завершение()}, True)]
+        for номер in range(ожиданий):
+            вызов = 'call_wait_' + str(номер)
+            записи += [рамка({'type': 'function_call', 'id': 'wait-' + str(номер),
+                'call_id': вызов, 'name': 'wait', 'status': 'completed',
+                'arguments': json.dumps({'cell_id': '105', 'yield_time_ms': 1000, 'max_tokens': 2000})}),
+                рамка({'type': 'function_call_output', 'id': 'wait-output-' + str(номер),
+                    'call_id': вызов, 'output': завершение() if номер == ожиданий - 1 else выполняется()}, True)]
+        if правка: правка(записи)
+        for номер, запись in enumerate(записи):
+            запись['ordinal'] = номер
+            запись['timestamp'] = '2026-10-18T05:00:00.000Z'
+        строки = [генератор.байты(з) for з in записи]
+        сам.номер += 1; путь = сам.каталог / ('native-' + str(сам.номер) + '.jsonl')
+        записать(путь, b''.join(строки))
+        выбор = {'схема': 'fum.выбор-дескриптора-нативного-захвата.1',
+            'выбор': str(сам.вход), 'выбор_sha256': генератор.хэш(сам.вход.read_bytes()),
+            'JS_sha256': генератор.хэш(сам.скрипт.encode()), 'исполнитель': сам.исполнитель,
+            'turn_id': сам.ход, 'call_id': 'call_exec', 'корень_контекста': str(сам.каталог),
+            'источник': {'путь': str(путь), 'начало': len(строки[0]), 'конец': sum(map(len, строки))}}
+        return выбор, путь
+
+    def test_отдельные_CLI_конструктора_и_читателя_не_дают_эффекта(сам):
+        выбор, оригинал = сам.пример(2)
+        файл = сам.каталог / 'выбор-конструктора.json'; файл.write_bytes(генератор.байты(выбор)); файл.chmod(0o600)
+        команда = [sys.executable, '-B', str(Path(читатель.__file__).resolve())]
+        до = оригинал.read_bytes(), генератор.отпечаток(оригинал.stat())
+        результат = subprocess.run([*команда, 'дескриптор-захвата', '--выбор', str(файл),
+            '--sha256', генератор.хэш(файл.read_bytes())], capture_output=True, timeout=10)
+        сам.assertEqual(0, результат.returncode, результат.stderr.decode())
+        сам.assertEqual(b'', результат.stderr)
+        сам.assertEqual(читатель.построить_ожидание_захвата(выбор), json.loads(результат.stdout))
+        ожидание = сам.каталог / 'ожидание.json'; ожидание.write_bytes(результат.stdout); ожидание.chmod(0o600)
+        проверка = subprocess.run([*команда, 'сверить-захват', '--ожидание', str(ожидание),
+            '--sha256', генератор.хэш(ожидание.read_bytes())], capture_output=True, timeout=10)
+        сам.assertEqual(0, проверка.returncode, проверка.stderr.decode())
+        сам.assertIs(json.loads(проверка.stdout)['разрешение_эффекта'], False)
+        ожидание.chmod(0o400)
+        старый = subprocess.run([*команда, '--ожидание', str(ожидание),
+            '--sha256', генератор.хэш(ожидание.read_bytes())], capture_output=True, timeout=10)
+        сам.assertEqual(2, старый.returncode)
+        смешанный = subprocess.run([*команда, 'дескриптор-захвата', '--ожидание', str(ожидание),
+            '--sha256', генератор.хэш(ожидание.read_bytes())], capture_output=True, timeout=10)
+        сам.assertEqual(2, смешанный.returncode)
+        сам.assertEqual(до, (оригинал.read_bytes(), генератор.отпечаток(оригинал.stat())))
+
+    def test_немедленный_и_несколько_ожиданий(сам):
+        for число in (0, 1, 3):
+            with сам.subTest(ожиданий=число):
+                выбор, путь = сам.пример(число)
+                до = (путь.read_bytes(), генератор.отпечаток(путь.stat()))
+                д = читатель.построить_ожидание_захвата(выбор)
+                сам.assertEqual('fum.ожидание-нативной-подготовки.2', д['схема'])
+                сам.assertEqual(число + 1, len(д['источник']['цепочка']))
+                сам.assertEqual('105' if число else None, д['cell_id'])
+                пара = читатель.прочитать_цепь_захвата(д)
+                сам.assertEqual(сам.скрипт, пара['вызов']['payload']['input'])
+                сам.assertEqual('Script completed\nWall time 0.1 seconds\nOutput:\n',
+                    пара['исход']['payload']['output'][0]['text'])
+                сам.assertEqual(до, (путь.read_bytes(), генератор.отпечаток(путь.stat())))
+
+    def test_время_создания_не_задаёт_порядок(сам):
+        def правка(записи):
+            for номер, з in enumerate(записи[2:]):
+                з['payload']['internal_chat_message_metadata_passthrough']['create_time'] = 100.0 - номер
+        выбор, _ = сам.пример(3, правка)
+        читатель.прочитать_цепь_захвата(читатель.построить_ожидание_захвата(выбор))
+
+    def test_повреждённая_цепь_закрыто_отказывает(сам):
+        def изменить(номер, поле, значение):
+            return lambda з: з[номер]['payload'].__setitem__(поле, значение)
+        случаи = [
+            изменить(4, 'arguments', '{"cell_id":"чужой","yield_time_ms":1000,"max_tokens":2000}'),
+            изменить(4, 'arguments', '{"cell_id":"105","yield_time_ms":1000,"max_tokens":2000,"terminate":true}'),
+            изменить(4, 'status', 'in_progress'), изменить(4, 'name', 'чужой'),
+            изменить(4, 'call_id', 'call_exec'), изменить(5, 'call_id', 'call_missing'),
+            изменить(2, 'input', 'text("подмена");'),
+            изменить(5, 'output', 'Script running with cell ID 105\nWall time 1.0 seconds\nOutput:\n'),
+            изменить(5, 'output', [{'type': 'input_text', 'text': 'Script failed\nWall time 0.1 seconds\nOutput:\n'},
+                {'type': 'input_text', 'text': '{"схема":"синтетический-указатель"}'}]),
+            lambda з: з[5]['metadata'].__setitem__('client_authored', True),
+            lambda з: з[5].pop('metadata'),
+            lambda з: з[5]['payload'].pop('internal_chat_message_metadata_passthrough'),
+            lambda з: з[5]['payload'].pop('id'),
+            lambda з: з[5]['payload']['internal_chat_message_metadata_passthrough'].__setitem__('turn_id', str(uuid.uuid4())),
+            lambda з: з[5]['metadata'].__setitem__('client_authored', 0),
+            lambda з: з[2].__setitem__('metadata', {'client_authored': True}),
+            lambda з: з[4]['payload']['internal_chat_message_metadata_passthrough'].__setitem__('turn_id', str(uuid.uuid4())),
+            lambda з: з[1]['payload'].__setitem__('cwd', str(сам.каталог / 'REPORT')),
+            lambda з: з[0]['payload'].__setitem__('id', str(uuid.uuid4())),
+            lambda з: з.extend(copy.deepcopy(з[4:])),
+            lambda з: з.insert(4, copy.deepcopy(з[2])),
+            lambda з: з[5]['payload']['output'].append({'type': 'input_text', 'text': 'лишнее'})]
+        for номер, правка in enumerate(случаи):
+            with сам.subTest(случай=номер):
+                выбор, _ = сам.пример(1, правка)
+                with сам.assertRaises(ValueError):
+                    читатель.построить_ожидание_захвата(выбор)
+
+    def test_дескриптор_не_скрывает_пропущенное_ожидание(сам):
+        выбор, _ = сам.пример(3)
+        д = читатель.построить_ожидание_захвата(выбор)
+        del д['источник']['цепочка'][1]
+        with сам.assertRaises(ValueError): читатель.прочитать_цепь_захвата(д)
+
+    def test_более_широкий_оригинал_и_независимый_буквальный_скрипт(сам):
+        выбор, путь = сам.пример(1)
+        новый = сам.каталог / 'original-with-tail.jsonl'
+        записать(новый, путь.read_bytes() + генератор.байты({
+            'type': 'turn_context', 'ordinal': 20, 'timestamp': '2026-10-18T05:01:00Z',
+            'payload': {'turn_id': str(uuid.uuid4()), 'cwd': str(сам.каталог)}}))
+        выбор['источник']['путь'] = str(новый)
+        д = читатель.построить_ожидание_захвата(выбор)
+        читатель.прочитать_цепь_захвата(д, сам.скрипт)
+        with сам.assertRaises(ValueError): читатель.прочитать_цепь_захвата(д, сам.скрипт + '\n')
+
+    def test_прежняя_цепь_должна_завершиться_до_выбранной(сам):
+        def правка(записи, завершить):
+            прежние = copy.deepcopy(записи[2:])
+            for з in прежние:
+                з['payload']['call_id'] = 'call_prior_' + з['payload']['call_id']
+            if not завершить: прежние = прежние[:2]
+            записи[2:2] = прежние
+        выбор, _ = сам.пример(1, lambda з: правка(з, True))
+        читатель.прочитать_цепь_захвата(читатель.построить_ожидание_захвата(выбор))
+        выбор, _ = сам.пример(1, lambda з: правка(з, False))
+        with сам.assertRaises(ValueError): читатель.построить_ожидание_захвата(выбор)
+
+    def test_чужой_замкнутый_вызов_внутри_исполнения_запрещён(сам):
+        def правка(записи):
+            чужие = copy.deepcopy(записи[4:6])
+            for з in чужие: з['payload']['call_id'] = 'call_foreign'
+            чужие[0]['payload']['name'] = 'foreign'
+            чужие[0]['payload']['arguments'] = '{}'
+            чужие[1]['payload']['output'] = '{}'
+            записи[4:4] = чужие
+        выбор, _ = сам.пример(1, правка)
+        with сам.assertRaises(ValueError): читатель.построить_ожидание_захвата(выбор)
+
+    def test_прежнее_ожидание_без_известного_exec_отказывает(сам):
+        def правка(записи):
+            прежние = copy.deepcopy(записи[4:6])
+            for з in прежние: з['payload']['call_id'] = 'call_orphan'
+            записи[2:2] = прежние
+        выбор, _ = сам.пример(1, правка)
+        with сам.assertRaisesRegex(ValueError, 'без известного exec'):
+            читатель.построить_ожидание_захвата(выбор)
+
+    def test_хэш_спана_и_закрытое_описание_не_подменяются(сам):
+        выбор, _ = сам.пример(1)
+        д = читатель.построить_ожидание_захвата(выбор)
+        случаи = []
+        другой = copy.deepcopy(д); другой['лишнее'] = 1; случаи.append(другой)
+        другой = copy.deepcopy(д); другой['источник']['лишнее'] = 1; случаи.append(другой)
+        другой = copy.deepcopy(д); другой['источник']['цепочка'][0]['лишнее'] = 1; случаи.append(другой)
+        for имя in ('вызов', 'исход'):
+            другой = copy.deepcopy(д)
+            другой['источник']['цепочка'][0][имя]['sha256'] = '0' * 64
+            случаи.append(другой)
+        for номер, другой in enumerate(случаи):
+            with сам.subTest(случай=номер), сам.assertRaises(ValueError):
+                читатель.прочитать_цепь_захвата(другой)
+
+    def test_личность_режим_хэш_и_границы_обязательны(сам):
+        выбор, путь = сам.пример(1)
+        д = читатель.построить_ожидание_захвата(выбор)
+        for поле in ('JS_sha256', 'выбор_sha256'):
+            другой = copy.deepcopy(д); другой[поле] = '0' * 64
+            with сам.assertRaises(ValueError): читатель.прочитать_цепь_захвата(другой)
+        for поле in ('начало', 'конец'):
+            другой = copy.deepcopy(д); другой['источник']['интервал'][поле] += 1
+            with сам.assertRaises(ValueError): читатель.прочитать_цепь_захвата(другой)
+        путь.chmod(0o600)
+        with сам.assertRaises(ValueError): читатель.прочитать_цепь_захвата(д)
+        путь.chmod(0o400)
+        другой = copy.deepcopy(д)
+        другой['источник']['личность'] = list(генератор.отпечаток(путь.stat()))
+        связь = сам.каталог / 'ссылка'; связь.symlink_to(путь)
+        другой['источник']['путь'] = str(связь)
+        with сам.assertRaises(ValueError): читатель.прочитать_цепь_захвата(другой)
+
+    def test_неполная_строка_порядок_и_жёсткая_ссылка_отказывают(сам):
+        выбор, путь = сам.пример(1)
+        строки = [json.loads(б) for б in путь.read_bytes().splitlines()]
+        строки[-1]['ordinal'] = строки[-2]['ordinal']
+        повреждённые = [путь.read_bytes()[:-1], b''.join(генератор.байты(з) for з in строки)]
+        for номер, данные in enumerate(повреждённые):
+            новый = сам.каталог / ('повреждённый-' + str(номер) + '.jsonl'); записать(новый, данные)
+            другой = copy.deepcopy(выбор)
+            другой['источник'].update(путь=str(новый), конец=len(данные))
+            with сам.assertRaises(ValueError): читатель.построить_ожидание_захвата(другой)
+        os.link(путь, сам.каталог / 'жёсткая-ссылка')
+        with сам.assertRaises(ValueError): читатель.построить_ожидание_захвата(выбор)
+
+
 class НативнаяПодготовка(unittest.TestCase):
     def setUp(сам):
         сам.временный = tempfile.TemporaryDirectory(prefix='fum-native-fixture-')
