@@ -39,6 +39,7 @@ MAX_EXCEPTION_COUNT = 16
 POLICY_CATEGORY_BASES = frozenset(
     {
         "allow.path-validation-definition",
+        "allow.nonpath-syntax",
         "allow.test-fixture",
         "report.historical",
     }

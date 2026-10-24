@@ -130,6 +130,10 @@ def классифицировать_сообщение(сообщение) -> s
         if all(вид in _ВИДЫ_ПОЛЬЗОВАТЕЛЯ and часть["type"] in _ВИДЫ_ПОЛЬЗОВАТЕЛЯ[вид]
                for вид, часть in zip(виды, содержимое)):
             return "человек"
+        if (виды == ["additional_content.codex_apps_open_page"]
+                and содержимое[0]["type"] == "input_text"
+                and содержимое[0]["text"] == '<external_codex_apps_open_page>{"page_id":null}</external_codex_apps_open_page>'):
+            return "служебный контекст"
         if all(вид in _ВИДЫ_КОНТЕКСТА and часть["type"] == "input_text"
                for вид, часть in zip(виды, содержимое)):
             return "служебный контекст"

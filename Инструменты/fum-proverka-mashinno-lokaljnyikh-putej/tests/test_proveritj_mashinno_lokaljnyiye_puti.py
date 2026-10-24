@@ -773,7 +773,14 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                     "FIXTURE = '~alice/private/project'",
                     "allow.test-fixture",
                 ),
+                (
+                    "Инструменты/demo/scripts/syntax.py",
+                    "PATTERN = '" + chr(0x7E) + "{3,}'",
+                    "allow.nonpath-syntax",
+                ),
             )
+            себя.assertEqual(hashlib.sha256(cases[-1][1].encode("utf-8")).hexdigest(),
+                             "7527ad0c46ad65c0341ce39b81645c16bc10173f789534764c15ea88017dcdb8")
             exceptions = []
             for index, (relative, line, category) in enumerate(cases, start=1):
                 себя.write_and_add(корень_сценария, relative, line + "\n")
@@ -797,6 +804,7 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             себя.assertEqual(
                 результат_сценария.rendered_lines(),
                 (
+                    "Инструменты/demo/scripts/syntax.py:1:allow.nonpath-syntax.home-expansion",
                     "Инструменты/demo/tests/test_example.py:1:allow.test-fixture.home-expansion",
                     "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/example.py:1:allow.path-validation-definition.posix-absolute",
                 ),

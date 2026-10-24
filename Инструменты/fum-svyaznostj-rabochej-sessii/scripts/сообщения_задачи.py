@@ -135,7 +135,9 @@ def _добавить_сообщение(индекс, запись, сырая,
     данные = запись.get("payload")
     _требовать(type(данные) is dict and type(данные.get("type")) is str and bool(данные["type"]), "повреждённая оболочка response_item")
     if данные["type"] != "message":
-        _требовать("role" not in данные, "роль в неизвестной оболочке response_item")
+        _требовать("role" not in данные or (
+            данные["type"] == "additional_tools" and данные["role"] == "developer"
+        ), "роль в неизвестной оболочке response_item")
         return
     _требовать(данные.get("role") in {"user", "assistant", "system", "developer", "tool"}, "неизвестная роль сообщения")
     if данные["role"] != "user":
