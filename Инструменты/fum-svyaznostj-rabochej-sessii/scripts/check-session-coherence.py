@@ -316,6 +316,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--писатель')
     parser.add_argument('--вход-дочернего-журнала', type=Path)
     parser.add_argument('--поручение-дочернего-журнала', type=Path)
+    parser.add_argument('--вход-дочернего-слияния', type=Path)
+    parser.add_argument('--поручение-дочернего-слияния', type=Path)
+    parser.add_argument('--приёмка-контрольной-точки', type=Path)
     return parser.parse_args()
 
 
@@ -2071,10 +2074,11 @@ def validate_session(
     выбранный_состав=None,
     писатель=None,
     допуск_ребёнка=None,
+    допуск_слияния=None,
 ) -> list[str]:
     независимый = контракт_журнала is not None
     if not независимый and (выбранный_состав is not None or писатель is not None
-            or допуск_ребёнка is not None):
+            or допуск_ребёнка is not None or допуск_слияния is not None):
         return ['прежняя связность не принимает поля независимого Журнала']
     if независимый and (not контрольная_точка or not check_git_status
             or expected_codex_thread_id is None or писатель is None or выбранный_состав is None):
@@ -2083,13 +2087,19 @@ def validate_session(
     request_path = absolute_path(request, root)
     errors: list[str] = []
     привязка_журнала = None
+    снимок_индекса_слияния = None
     if независимый:
         try:
             import связность_независимого_журнала as независимый_журнал
             привязка_журнала = независимый_журнал.проверить_контракт(root, контракт_журнала,
                 выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
                 писатель=писатель, запрос=str(request_path.relative_to(root)),
-                допуск_ребёнка=допуск_ребёнка)
+                допуск_ребёнка=допуск_ребёнка, допуск_слияния=допуск_слияния)
+            if допуск_слияния is not None:
+                вход = независимый_журнал.проверить_допуск_слияния(допуск_слияния, root)['параметры']
+                независимый_журнал.проверить_область_записей(вход,
+                    выбранный_состав=выбранный_состав, допуск_слияния=допуск_слияния)
+                снимок_индекса_слияния = независимый_журнал._снимок_индекса_слияния(root)
         except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
             return ['независимый Журнал: ' + str(ошибка)]
 
@@ -2208,7 +2218,10 @@ def validate_session(
     errors.extend(validate_provenance_section_position(session_markdown_paths, root))
     errors.extend(validate_mermaid_markdown_list_labels(session_markdown_paths, root))
     if независимый:
-        if писатель == expected_codex_thread_id:
+        if допуск_слияния is not None:
+            errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths,
+                выбранный_состав=выбранный_состав, допуск_слияния=допуск_слияния))
+        elif писатель == expected_codex_thread_id:
             errors.extend(validate_md_recency(root, проверка=независимый_журнал.проверить_полную_свежесть))
         else:
             errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths,
@@ -2224,8 +2237,14 @@ def validate_session(
             повтор = независимый_журнал.проверить_контракт(root, контракт_журнала,
                 выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
                 писатель=писатель, запрос=str(request_path.relative_to(root)),
-                допуск_ребёнка=допуск_ребёнка)
+                допуск_ребёнка=допуск_ребёнка, допуск_слияния=допуск_слияния)
             if повтор != привязка_журнала: errors.append('независимый Журнал изменился при связности')
+            if допуск_слияния is not None:
+                вход = независимый_журнал.проверить_допуск_слияния(допуск_слияния, root)['параметры']
+                независимый_журнал.проверить_область_записей(вход,
+                    выбранный_состав=выбранный_состав, допуск_слияния=допуск_слияния)
+                if независимый_журнал._снимок_индекса_слияния(root) != снимок_индекса_слияния:
+                    errors.append('полный индекс child-merge изменился при связности')
         except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
             errors.append('независимый Журнал: ' + str(ошибка))
 
@@ -2273,6 +2292,30 @@ def main() -> int:
                     raise ValueError('Maker10 не совпал с адресом связности')
                 новые['допуск_ребёнка'] = ж.допуск_дочернего_журнала(
                     параметры, поручение, новые['выбранный_состав'])
+        except (OSError, ValueError, TypeError, KeyError, AttributeError) as ошибка:
+            print(str(ошибка), file=sys.stderr); return 2
+    слияние = (args.вход_дочернего_слияния, args.поручение_дочернего_слияния,
+        args.приёмка_контрольной_точки)
+    if any(п is not None for п in слияние):
+        try:
+            if not all(п is not None for п in слияние) or not новые:
+                raise ValueError('child-merge требует полный отдельный вход, ACT.4, ROOT-приёмку и S')
+            if args.вход_дочернего_журнала is not None or args.поручение_дочернего_журнала is not None:
+                raise ValueError('старый child10 и новый child-merge не совмещаются')
+            import связность_независимого_журнала as ж
+            import подготовка_этапа_коммита as чтение
+            вход, _ = чтение._прочитать_приватный_объект(args.вход_дочернего_слияния)
+            поручение, _ = чтение._прочитать_приватный_объект(args.поручение_дочернего_слияния)
+            приёмка, _ = чтение._прочитать_приватный_объект(args.приёмка_контрольной_точки)
+            if (вход['контракт_журнала'] != новые['контракт_журнала']
+                    or вход['задача'] != args.codex_thread_id or вход['исполнитель'] != args.писатель
+                    or Path(вход['корень']) != Path(args.repo_root)
+                    or absolute_path(вход['запрос'], Path(args.repo_root))
+                        != absolute_path(args.request, Path(args.repo_root))):
+                raise ValueError('child-merge не совпал с полным адресом связности')
+            новые['допуск_слияния'] = ж.допуск_дочернего_слияния(вход, поручение, приёмка)
+            ж.проверить_область_записей(вход, выбранный_состав=новые['выбранный_состав'],
+                допуск_слияния=новые['допуск_слияния'])
         except (OSError, ValueError, TypeError, KeyError, AttributeError) as ошибка:
             print(str(ошибка), file=sys.stderr); return 2
     errors = validate_session(

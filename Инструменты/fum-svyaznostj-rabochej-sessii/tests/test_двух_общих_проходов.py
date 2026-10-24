@@ -2,6 +2,7 @@
 import contextlib
 import copy
 import hashlib
+import inspect
 import json
 import os
 from pathlib import Path
@@ -136,7 +137,7 @@ def вызвать(модуль, имя, параметры, выбор):
 @contextlib.contextmanager
 def наблюдать(модуль, имя, корень):
     """Обёртки выполняют исходный вызов ровно один раз."""
-    код = getattr(модуль, имя).__code__
+    код = inspect.unwrap(getattr(модуль, имя)).__code__
     журнал = модуль.журнал()
     класс = журнал.ИндексПутей
     исходный_путь = журнал.точный_путь
@@ -200,6 +201,42 @@ def наблюдать(модуль, имя, корень):
         yield данные
 
 
+class ВладелецВызоваНаблюдателя(unittest.TestCase):
+    def test_обёрнутый_и_прямой_вызовы_имеют_одинаковое_точное_наблюдение(сам):
+        with tempfile.TemporaryDirectory(prefix='fum-observer-owner-') as каталог:
+            корень = Path(каталог).resolve()
+            (корень / 'Журнал').mkdir()
+            for имя in ('а.raw', 'б.raw'):
+                (корень / 'Журнал' / имя).write_bytes(b'fixture\n')
+            журнал = связность.журнал()
+
+            @contextlib.contextmanager
+            def область():
+                yield
+
+            def цель():
+                with журнал.ИндексПутей(корень, журнал.контракт.ключ_коллизии) as индекс:
+                    журнал.точный_путь(корень, 'Журнал/а.raw', индекс=индекс)
+                return индекс
+
+            @область()
+            def посторонний():
+                журнал.точный_путь(корень, 'Журнал/б.raw')
+
+            for название, вызов in (('прямой', цель), ('обёрнутый', область()(цель))):
+                with сам.subTest(вид=название):
+                    модуль = types.SimpleNamespace(журнал=lambda: журнал, выполнить=вызов)
+                    with наблюдать(модуль, 'выполнить', корень) as данные:
+                        индекс = модуль.выполнить()
+                        посторонний()
+                    сам.assertEqual([2, 4], данные['свой'])
+                    сам.assertEqual([1, 2], данные['прочие'])
+                    сам.assertEqual([('Журнал/а.raw', индекс)], данные['пути'])
+                    сам.assertEqual([индекс], данные['индексы'])
+                    сам.assertEqual([индекс], данные['проверенные'])
+                    сам.assertTrue(индекс.закрыт)
+
+
 class ДваОбщихПрохода(unittest.TestCase):
     @classmethod
     def setUpClass(класс):
@@ -245,6 +282,11 @@ class ДваОбщихПрохода(unittest.TestCase):
                     стенд(слияние=слияние) as (р, параметры):
                 до = снимок(р)
                 исходные_параметры = copy.deepcopy(параметры)
+                ожидаемые_пути = [
+                    п for п in р.ф.гит('ls-files', '--cached', '--others',
+                        '--exclude-standard', '-z').split('\0')
+                    if п and not п.startswith('Proyekcii/')
+                ]
                 все_индексы = []
                 for имя in АПИ:
                     ожидается = вызвать(
@@ -263,10 +305,15 @@ class ДваОбщихПрохода(unittest.TestCase):
                             индекс = данные['индексы'][0]
                             сам.assertEqual([индекс], данные['проверенные'])
                             сам.assertTrue(индекс.закрыт)
-                            сам.assertTrue(all(
-                                и is индекс if п.startswith('Журнал/')
-                                else и is None
-                                for п, и in данные['пути']))
+                            индексированные = [(п, и) for п, и in данные['пути']
+                                if и is not None]
+                            сам.assertEqual(ожидаемые_пути,
+                                [п for п, _ in индексированные])
+                            сам.assertTrue(all(и is индекс for _, и in индексированные))
+                            сам.assertEqual(
+                                [(р.ж.ПУТЬ_СОСТАВА, None)]
+                                    if имя == 'проверить_область_записей' else [],
+                                [(п, и) for п, и in данные['пути'] if и is None])
                             все_индексы.append(индекс)
                 сам.assertEqual(4, len({id(и) for и in все_индексы}))
 
@@ -275,7 +322,7 @@ class ДваОбщихПрохода(unittest.TestCase):
             for изменение in ('каталог', 'RAW'):
                 with сам.subTest(API=имя, изменение=изменение), \
                         стенд() as (р, параметры):
-                    код = getattr(связность, имя).__code__
+                    код = inspect.unwrap(getattr(связность, имя)).__code__
                     исходная = связность.сверить_снимки_разметки
                     после_инъекции = []
                     исходные_параметры = copy.deepcopy(параметры)
