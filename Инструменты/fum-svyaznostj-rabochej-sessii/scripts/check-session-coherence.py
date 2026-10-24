@@ -16,6 +16,11 @@ from decimal import Decimal, localcontext
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote
 
+КАТАЛОГ_СЦЕНАРИЕВ = Path(__file__).resolve().parent
+if str(КАТАЛОГ_СЦЕНАРИЕВ) not in sys.path:
+    sys.path.insert(0, str(КАТАЛОГ_СЦЕНАРИЕВ))
+from автор_коммита import проверить_формат
+
 
 PROJECT_FILES_SCRIPTS = (
     Path(__file__).resolve().parents[2]
@@ -240,10 +245,8 @@ class AffectedPaths(set[Path]):
 
 def проверить_имя_автора(корень: Path, ожидаемое: str) -> list[str]:
     """Проверить роль и буквальный GIT_AUTHOR_NAME без изменения identity."""
-    if not isinstance(ожидаемое, str) or not re.fullmatch(
-        r"FUM [А-ЯЁ][А-Яа-яЁё]*(?:[ -][А-Яа-яЁё]+)*", ожидаемое
-    ):
-        return ["имя автора должно иметь формат FUM <Роль> с обычным одиночным пробелом"]
+    if not проверить_формат(ожидаемое):
+        return ["неверный формат имени автора, модели или усилия"]
     try:
         subprocess.run(
             ["git", "-C", str(корень), "rev-parse", "--show-toplevel"],

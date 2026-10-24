@@ -51,3 +51,16 @@ class ДопускАвтора(unittest.TestCase):
     def test_вне_git_допуск_не_выдаётся(сам):
         with tempfile.TemporaryDirectory() as каталог:
             сам.assertTrue(СВЯЗНОСТЬ.проверить_имя_автора(Path(каталог), 'FUM Интегратор'))
+
+
+    def test_полное_имя_принимается_и_сравнивается_целиком(сам):
+        имя = "FUM Codex [gpt-6-astra; effort=ultra]"
+        with mock.patch.dict(os.environ, {"GIT_AUTHOR_NAME": имя}):
+            сам.assertEqual([], СВЯЗНОСТЬ.проверить_имя_автора(сам.корень, имя))
+            сам.assertTrue(СВЯЗНОСТЬ.проверить_имя_автора(сам.корень, имя.replace("ultra", "low")))
+            сам.assertTrue(СВЯЗНОСТЬ.проверить_имя_автора(сам.корень, "FUM Codex"))
+
+    def test_неизвестный_или_повреждённый_суффикс_отказывает(сам):
+        for имя in ("FUM Codex [unknown; effort=ultra]", "FUM Codex [gpt-6-astra; effort=unknown]", "FUM Codex [gpt-6-astra; effort=]", "FUM Codex [gpt-6-astra; effort=ultra] хвост", "FUM Codex [gpt-6-astra;  effort=ultra]"):
+            with сам.subTest(имя=имя), mock.patch.dict(os.environ, {"GIT_AUTHOR_NAME": имя}):
+                сам.assertTrue(СВЯЗНОСТЬ.проверить_имя_автора(сам.корень, имя))
