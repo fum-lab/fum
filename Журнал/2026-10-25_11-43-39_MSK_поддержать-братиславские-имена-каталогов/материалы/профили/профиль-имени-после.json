@@ -1,0 +1,128 @@
+{
+  "LinguisticKit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "python": "3.15.0",
+  "архитектура": "arm64",
+  "база": "511404439fb79e8221a8f9c527ebd5aac3a49498",
+  "вход": {
+    "sourceLabel": "создать-краткую-запись",
+    "title": "Создать краткую запись",
+    "журнал": "2026-10-25_12-00-00_msk_sozdatj-kratkuyu-zapisj"
+  },
+  "измерения": [
+    {
+      "длительность_нс": 2081323833,
+      "повтор": 1,
+      "этап": "renderer2"
+    },
+    {
+      "длительность_нс": 1820286000,
+      "повтор": 1,
+      "этап": "план2"
+    },
+    {
+      "длительность_нс": 1809940208,
+      "повтор": 1,
+      "этап": "метаданные"
+    },
+    {
+      "длительность_нс": 3073007333,
+      "повтор": 1,
+      "этап": "recency-обычный"
+    },
+    {
+      "длительность_нс": 89542,
+      "повтор": 1,
+      "этап": "recency-повтор-маркера"
+    },
+    {
+      "длительность_нс": 2669400417,
+      "повтор": 2,
+      "этап": "renderer2"
+    },
+    {
+      "длительность_нс": 2074668792,
+      "повтор": 2,
+      "этап": "план2"
+    },
+    {
+      "длительность_нс": 1875831917,
+      "повтор": 2,
+      "этап": "метаданные"
+    },
+    {
+      "длительность_нс": 2141288334,
+      "повтор": 2,
+      "этап": "recency-обычный"
+    },
+    {
+      "длительность_нс": 98375,
+      "повтор": 2,
+      "этап": "recency-повтор-маркера"
+    },
+    {
+      "длительность_нс": 1954598291,
+      "повтор": 3,
+      "этап": "renderer2"
+    },
+    {
+      "длительность_нс": 1939738375,
+      "повтор": 3,
+      "этап": "план2"
+    },
+    {
+      "длительность_нс": 1917480291,
+      "повтор": 3,
+      "этап": "метаданные"
+    },
+    {
+      "длительность_нс": 2056101000,
+      "повтор": 3,
+      "этап": "recency-обычный"
+    },
+    {
+      "длительность_нс": 88625,
+      "повтор": 3,
+      "этап": "recency-повтор-маркера"
+    }
+  ],
+  "исходники_до": {
+    "Журнал/2026-10-25_11-43-39_MSK_поддержать-братиславские-имена-каталогов/материалы/эталон-имён.json": "e91b7a96563ca93d64b120f2122313fd2f59c370718698416c7b93a13830e3d8",
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py": "933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "b41ca6f94e3328b940bc102bb5726edf28222e78b51408b99fb971f40666a386",
+    "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift": "490aeb9cb02d67f9b716ca17ab061b312057845df9f62f98c6cd501577499c18",
+    "Инструменты/fum-proverka-nazvanij-avtomatizacij/Sources/preobrazovatj-nazvaniya/main.swift": "24b97a8d31b4d28adf919d8c417aad5cb107486b31de4e1e039b5791599047c2",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/имя_обычного_журнала.py": "7d517dd950b84f6598e0ac60cb663f1d00e8e764140afb959424d6b413b2be41",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "7b52782c12052c238769d115742b45d5b018470150b6562e854fd5a34ca02617",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_братиславского_имени_пары.py": "896fa0da8ececfa10b596662bb9443926fc9ddbcb731b13f22e5bfb2b996cd01",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_имени_обычного_журнала.py": "ad89a88121c23524f1a726308778e10507624a58d029d3171f542197e0e61b80",
+    "Инструменты/fum-struktura-papok-zaprosov/каталоги-журнала.2.json": "f9c9f662a297f2cc6e763e4d313a5e0dc6dcf81715cac1559193577308ad95a5",
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "11813645fc4234f4aa5cbc8eafa07133ce22a6ed5fa95b66d6fa25fa074bc008",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "afb22b70eef25ffb22dea5e661b7e7240e8aef1175c1de4cab7d5b92aabca82f"
+  },
+  "исходники_после": {
+    "Журнал/2026-10-25_11-43-39_MSK_поддержать-братиславские-имена-каталогов/материалы/эталон-имён.json": "e91b7a96563ca93d64b120f2122313fd2f59c370718698416c7b93a13830e3d8",
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py": "933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "b41ca6f94e3328b940bc102bb5726edf28222e78b51408b99fb971f40666a386",
+    "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift": "490aeb9cb02d67f9b716ca17ab061b312057845df9f62f98c6cd501577499c18",
+    "Инструменты/fum-proverka-nazvanij-avtomatizacij/Sources/preobrazovatj-nazvaniya/main.swift": "24b97a8d31b4d28adf919d8c417aad5cb107486b31de4e1e039b5791599047c2",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/имя_обычного_журнала.py": "7d517dd950b84f6598e0ac60cb663f1d00e8e764140afb959424d6b413b2be41",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "7b52782c12052c238769d115742b45d5b018470150b6562e854fd5a34ca02617",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_братиславского_имени_пары.py": "896fa0da8ececfa10b596662bb9443926fc9ddbcb731b13f22e5bfb2b996cd01",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_имени_обычного_журнала.py": "ad89a88121c23524f1a726308778e10507624a58d029d3171f542197e0e61b80",
+    "Инструменты/fum-struktura-papok-zaprosov/каталоги-журнала.2.json": "f9c9f662a297f2cc6e763e4d313a5e0dc6dcf81715cac1559193577308ad95a5",
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "11813645fc4234f4aa5cbc8eafa07133ce22a6ed5fa95b66d6fa25fa074bc008",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "afb22b70eef25ffb22dea5e661b7e7240e8aef1175c1de4cab7d5b92aabca82f"
+  },
+  "код": "рабочие байты до коммита; отдельные SHA до и после",
+  "результат_sha256": [
+    "a6849771c032cf2d26c2a1e8c4b6f59453b6a4263a2c5166b21f138f86c5e3bd",
+    "348c8816e7ecaa1be60b7138724e131570f49d789102c77250c09ac67aa89c8f"
+  ],
+  "система": "Darwin",
+  "схема": "fum.профиль-имени-обычного-журнала.1",
+  "условия": "Проверяемый кэш Swift уже подготовлен; кэш ОС не очищался; подготовка фикстуры исключена. Метки включены. Вложенные интервалы не складываются."
+}

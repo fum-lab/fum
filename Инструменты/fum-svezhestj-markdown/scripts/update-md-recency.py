@@ -176,6 +176,31 @@ def split_recency_block(text: str, *, путь=None, корень=None) -> tuple
     return content, metadata, False
 
 
+def _блок_запусков_нового_отчёта(имя: str, содержание: str):
+    """Новая версия выбирается явно; прежний regex и старые хэши неизменны."""
+    import importlib
+    import importlib.util
+    каталог = Path(__file__).resolve().parents[2] / 'fum-otchyotyi-o-zapuskakh-proverok/scripts'
+    имя_модуля = 'отчёты_о_запусках_проверок'
+    if str(каталог) not in sys.path:
+        sys.path.insert(0, str(каталог))
+    путь = каталог / (имя_модуля + '.py')
+    описание = importlib.util.find_spec(имя_модуля)
+    if описание is None or описание.origin != str(путь):
+        raise ValueError('Чужой источник resolver отчёта')
+    отчёты = importlib.import_module(имя_модуля)
+    if (отчёты.__file__ != str(путь) or путь != путь.resolve() or путь.is_symlink()
+            or отчёты.КОД_ПРИ_ЗАГРУЗКЕ != hashlib.sha256(путь.read_bytes()).hexdigest()):
+        raise ValueError('Изменён resolver отчёта после загрузки')
+    имена = отчёты.модуль_имён_пары()
+    свойства = имена.свойства(содержание, имя)
+    каталоги = свойства['имя']['каталоги']
+    каталог_проверок = '/'.join(каталоги[к] for к in имена.ИСТОЧНИКИ_КАТАЛОГОВ)
+    return re.compile(УПРАВЛЯЕМЫЙ_БЛОК_ЗАПУСКОВ.pattern.replace(
+        'материалы/запуски-проверок', re.escape(каталог_проверок)),
+        УПРАВЛЯЕМЫЙ_БЛОК_ЗАПУСКОВ.flags)
+
+
 def стабильное_содержание_отчёта(
     путь: Path,
     корень_репозитория: Path,
@@ -192,7 +217,16 @@ def стабильное_содержание_отчёта(
     число_концов = содержание.count("<!-- FUM-CHECK-RUNS:END -->")
     if число_начал == 0 and число_концов == 0:
         return содержание, False
-    совпадение = УПРАВЛЯЕМЫЙ_БЛОК_ЗАПУСКОВ.search(содержание)
+    шаблон = УПРАВЛЯЕМЫЙ_БЛОК_ЗАПУСКОВ
+    if (re.match(r'^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}_msk_', части[1])
+            or содержание.splitlines()[2:3] == ['<!-- FUM-ОБЫЧНЫЙ-ЖУРНАЛ: 2 -->']):
+        if число_начал != 1 or число_концов != 1:
+            return содержание, True
+        try:
+            шаблон = _блок_запусков_нового_отчёта(части[1], содержание)
+        except (ValueError, RuntimeError, OSError, ImportError, UnicodeError):
+            return содержание, True
+    совпадение = шаблон.search(содержание)
     if (
         число_начал != 1
         or число_концов != 1

@@ -62,6 +62,13 @@ except ModuleNotFoundError as exc:  # Keep isolated checker fixtures testable.
     validate_layout = None
     _request_heading_label = None
 
+try:
+    import имя_обычного_журнала as имена_пары_2
+except ModuleNotFoundError as ошибка_имён:
+    if ошибка_имён.name != 'имя_обычного_журнала':
+        raise
+    имена_пары_2 = None
+
 
 REQUEST_STEM_RE = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2})_"
@@ -341,7 +348,10 @@ def read_text(path: Path) -> str:
 def request_match(path: Path) -> re.Match[str] | None:
     if path.name != REQUEST_FILENAME:
         return None
-    return REQUEST_STEM_RE.fullmatch(path.parent.name)
+    прежнее = REQUEST_STEM_RE.fullmatch(path.parent.name)
+    if прежнее is not None or имена_пары_2 is None:
+        return прежнее
+    return имена_пары_2.ШАБЛОН.fullmatch(path.parent.name)
 
 
 def request_datetime_key(match: re.Match[str]) -> tuple[int, int, int, int, int, int]:
@@ -368,6 +378,15 @@ def validate_request_filename_title(path: Path) -> list[str]:
     if not match:
         return []
 
+    if match.re is not REQUEST_STEM_RE:
+        try:
+            данные = имена_пары_2.свойства(read_text(path), path.parent.name)
+            if not slug_starts_with_infinitive_verb(данные['имя']['sourceLabel']):
+                return ['русский sourceLabel новой пары должен начинаться с инфинитива']
+        except (ValueError, LayoutError, OSError, UnicodeError) as ошибка:
+            return ['неверная связь имени новой пары: ' + str(ошибка)]
+        return []
+
     slug = match.group("title")
     if not slug:
         return []
@@ -390,7 +409,7 @@ def is_request_file(path: Path, repo_root: Path) -> bool:
         len(relative.parts) == 3
         and relative.parts[0] == JOURNAL_DIRECTORY
         and relative.parts[2] == REQUEST_FILENAME
-        and REQUEST_STEM_RE.fullmatch(relative.parts[1]) is not None
+        and request_match(path) is not None
     )
 
 
@@ -413,6 +432,9 @@ def request_title(path: Path) -> str | None:
     match = request_match(path)
     if not match:
         return None
+
+    if match.re is not REQUEST_STEM_RE:
+        return имена_пары_2.свойства(read_text(path), path.parent.name)['имя']['title']
 
     slug = match.group("title")
     if not slug:
