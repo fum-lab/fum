@@ -1,0 +1,34 @@
+{
+  "CLI_sha256": "5e7ca987acd6646631879e43b4938d0e1abf22a344b499d53f9953ae4f93a52e",
+  "Package_sha256": "723754808a2582dd59feeed78fc356afc2eaa1aa1d0d50dcb5ec44df874eaf14",
+  "SwiftTesting": {
+    "suite": 1,
+    "tests": 5,
+    "секунды": 7.014
+  },
+  "native_sha256": "37cdb0b859eaf7d398fb8f3f631eef87fd463d69f799cc1a4e7e0c3d731d9edc",
+  "targets": [
+    "ПереходВеток",
+    "КомандаПерехода",
+    "ИсполнительФикстуры",
+    "ПроверкиПерехода"
+  ],
+  "граница": "Только требуемые настройки собственного Swift-пакета и один адресный прогон. Широкие неизменённые наборы не повторены; lifetime/config/index live blocker не закрыт. Нового прикладного Python-механизма в поставке нет.",
+  "передача_flags": "SwiftPM SwiftSetting.unsafeFlags используется только для усиливающих проверку flags; предупреждения и concurrency не подавляются",
+  "перекомпиляция": "library, оба executables и test target; Build complete 4,74 с",
+  "поручение": "Последние общие указания человека: все Swift warnings трактуются как errors, максимальный контрольconcurrency; собственные target/test flags -warnings-as-errors, Swift6/strict-concurrency=complete безослаблений. Python планомерно выводим, новыеприкладныемеханизмыFUMA&gt;Swift. Проверь, что твойужеиспытанныйlimitedSwiftпакет этому соответствует; еслиужеесть, не меняйрадигалочкии не повторяйнаборы. Твойcheckpointv2переданнаRO, решениеROOTследом; ожидающийlive lifetime/config/index остаётсяследующимдефектом, не скрываем.",
+  "постоянные_flags": [
+    "-warnings-as-errors",
+    "-strict-concurrency=complete"
+  ],
+  "прежний_RO_план": "Сохранён без изменений как история L511. Новые постоянные compiler flags изменяют pin Package; после saving commit требуется новый RO-план по выбранному ROOT L. Старую операцию не перепривязываем.",
+  "проверка": {
+    "stderr_sha256": "9679119dc3aa4cbdf19a990bde69f3ba1c44e8e6963b6a4e09e8e00ca1e8c915",
+    "stdout_sha256": "a4d31a66dc8bdba2d9ae01631b0495851702dbf55aa335350e63619bed1a2a7b",
+    "длительность_нс": 20704968375,
+    "код": 0
+  },
+  "происхождение": "агентское сообщение ROOT, передающее новые общие указания человека",
+  "схема": "fum.строгие-настройки-перехода.1",
+  "язык": "Swift 6"
+}
