@@ -5,10 +5,13 @@ import Testing
 #endif
 
 private func снимокПроверки(_ пути: [String], грязный: Bool = false) -> СнимокПутей {
-    СнимокПутей(коммит: String(repeating: "a", count: 40), дерево: String(repeating: "b", count: 40),
+    let каталоги = Set(пути.flatMap { путь in
+        путь.indices.filter { путь[$0] == "/" }.map { String(путь[..<$0]) }
+    })
+    return СнимокПутей(коммит: String(repeating: "a", count: 40), дерево: String(repeating: "b", count: 40),
         ветка: "refs/heads/direction", индекс_sha256: String(repeating: "c", count: 64),
         индекс_изменён: грязный, записи: пути.map { путь in
-            ЗаписьСнимкаПутей(путь: путь, тип: пути.contains { $0.hasPrefix(путь + "/") } ? "каталог" : "файл", sha256: "байты") })
+            ЗаписьСнимкаПутей(путь: путь, тип: каталоги.contains(путь) ? "каталог" : "файл", sha256: "байты") })
 }
 
 private func контекстПроверки() -> КонтекстПутей {

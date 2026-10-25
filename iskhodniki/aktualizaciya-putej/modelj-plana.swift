@@ -74,7 +74,7 @@ struct ИсключениеИмени: Codable, Equatable, Sendable {
     var источник: String
 }
 
-struct ПрепятствиеПути: Codable, Equatable, Sendable {
+struct ПрепятствиеПути: Codable, Hashable, Sendable {
     var код: String
     var пути: [String]
 }
