@@ -34,6 +34,16 @@ class ПроверкаЗахватаВывода(unittest.TestCase):
     def хэш_манифеста(проверка):
         return hashlib.sha256((проверка.каталог/'манифест.json').read_bytes()).hexdigest()
 
+    def test_отказ_закрытия_не_подменяет_первичный_отказ_записи(проверка):
+        import захват_вывода as модуль
+        прежний = os.close
+        def закрыть(дескриптор):
+            прежний(дескриптор)
+            raise OSError('вторичный отказ закрытия')
+        with patch.object(os, 'write', side_effect=OSError('первичный отказ записи')), patch.object(os, 'close', side_effect=закрыть):
+            with проверка.assertRaisesRegex(OSError, 'первичный отказ записи'):
+                модуль.сохранить(проверка.корень/'частичный-файл', b'data')
+
     def test_оба_бинарных_канала_сохранены_до_выдачи(проверка):
         результат=проверка.запустить("import os; os.write(1, bytes(range(256))*2048); os.write(2,b'error\\x00'*65536)")
         проверка.assertTrue(результат['полнота'])
