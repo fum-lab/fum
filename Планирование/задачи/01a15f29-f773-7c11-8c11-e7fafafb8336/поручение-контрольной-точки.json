@@ -1,0 +1,25 @@
+{
+  "ветка": "refs/heads/codex/predproverka-vyikhodov-zakhvata",
+  "исполнитель": "01a15f29-f773-7c11-8c11-e7fafafb8336",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захватить-вывод.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/наблюдать-процесс.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/полный-захват-вывода.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_захват_вывода.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_плана_выходов.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_плана_выходов.py",
+    "Журнал/2026-10-21_18-58-36_MSK_предотвратить-коллизии-выходов-захвата/",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Индексы/навигация-журнала.md",
+    "Индексы/состав-журнала.json"
+  ],
+  "постановка": {
+    "sha256": "9ef2e4c9e99c9a37814643bd00c660c17976dff4dd83aa4c7be59d450f803040",
+    "коммит": "7a35082adb12c77297902284faa9b9a022ef2ea4",
+    "путь": "Журнал/2026-10-21_17-48-55_MSK_сохранить-первый-реальный-обратный-приём/запрос.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "f949beb521202b3f1863d7d3b9d8675b83ba09b6f090bc560f4658b22daf76ad"
+}

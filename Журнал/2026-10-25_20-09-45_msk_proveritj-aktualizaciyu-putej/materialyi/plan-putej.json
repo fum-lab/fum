@@ -1,0 +1,220 @@
+{
+  "алгоритм" : "fum.пути.unicode-boundary.Cyrl-Latn.ru.ascii-lower-kebab.1",
+  "ветка" : "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/master",
+  "владелец" : "01a148a5-c088-7373-9665-a3f9b477565e",
+  "вход_sha256" : "368e1ccea17b90112de06ccde550fcb77a9dd97f34bc0c112ecd9522c6559da4",
+  "выбранные_области" : [
+    "iskhodniki/aktualizaciya-putej",
+    "proverki/aktualizaciya-putej"
+  ],
+  "исключения" : [
+
+  ],
+  "корень" : "fum-lab/fum/instrumentyi/imena-katalogov",
+  "отображение_sha256" : "e4177da46e758624efc838652cb88a4148193f640871ef9719862ecdf356ddfd",
+  "отображения" : [
+    {
+      "исходный" : "iskhodniki",
+      "целевой" : "iskhodniki"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej",
+      "целевой" : "iskhodniki/aktualizaciya-putej"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+      "целевой" : "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+      "целевой" : "iskhodniki/aktualizaciya-putej/modelj-plana.swift"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift",
+      "целевой" : "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej/proveritj-puti.swift",
+      "целевой" : "iskhodniki/aktualizaciya-putej/proveritj-puti.swift"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+      "целевой" : "iskhodniki/aktualizaciya-putej/proverka-imyon.swift"
+    },
+    {
+      "исходный" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md",
+      "целевой" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md"
+    },
+    {
+      "исходный" : "proverki",
+      "целевой" : "proverki"
+    },
+    {
+      "исходный" : "proverki/aktualizaciya-putej",
+      "целевой" : "proverki/aktualizaciya-putej"
+    },
+    {
+      "исходный" : "proverki/aktualizaciya-putej/proverki-putej.swift",
+      "целевой" : "proverki/aktualizaciya-putej/proverki-putej.swift"
+    }
+  ],
+  "охват_ссылок" : "кандидаты выбранной области; внешние ссылки и применение не проверены",
+  "писатель" : "01a148a5-c088-7373-9665-a3f9b477565e",
+  "политика_границ_sha256" : "5a52f1134876854e29db243cbfc6eebc86cc916a4d354ba73a0fc7516109bcd4",
+  "препятствия" : [
+    {
+      "код" : "изменённый-индекс",
+      "пути" : [
+
+      ]
+    },
+    {
+      "код" : "обновление-ссылок-не-реализовано",
+      "пути" : [
+
+      ]
+    }
+  ],
+  "применение_разрешено" : false,
+  "программа" : [
+    "инвентаризация",
+    "отображение",
+    "дешёвая проверка",
+    "diff/план",
+    "проверяемое применение — не реализовано",
+    "обновление ссылок — не реализовано",
+    "сверка сохранённого плана"
+  ],
+  "ревизия" : "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "реестр_имён" : "Инструменты/реестр-названий-автоматизаций.json",
+  "снимок" : {
+    "ветка" : "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/master",
+    "дерево" : "411c196948e6246052cdfdf5ec22dba64699b794",
+    "записи" : [
+      {
+        "путь" : "iskhodniki",
+        "режим" : "040000",
+        "тип" : "каталог"
+      },
+      {
+        "путь" : "iskhodniki/aktualizaciya-putej",
+        "режим" : "040000",
+        "тип" : "каталог"
+      },
+      {
+        "sha256" : "92409edb351de7391c3fed46c5bfcac304c48934d26d7d50e623c83c77dfd635",
+        "путь" : "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+        "режим" : "100644",
+        "тип" : "файл"
+      },
+      {
+        "sha256" : "842c35fc1af4295b1aeab40b66f5df6870ac64517dc17c083090395de2b0f399",
+        "путь" : "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+        "режим" : "100644",
+        "тип" : "файл"
+      },
+      {
+        "sha256" : "94668148b335053d4b8fc348026a429a724788bc53e050ac0577a5b7dcc89ea8",
+        "путь" : "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift",
+        "режим" : "100644",
+        "тип" : "файл"
+      },
+      {
+        "sha256" : "f115b6ddc828c8cc027d80fdae1c5a2696378de88759e0ab89bb42f0de844564",
+        "путь" : "iskhodniki/aktualizaciya-putej/proveritj-puti.swift",
+        "режим" : "100644",
+        "тип" : "файл"
+      },
+      {
+        "sha256" : "16ffeed76f26395270cb3f441b2b7cf3722a10cbbec9ed4d20be1affc24afc4f",
+        "путь" : "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+        "режим" : "100644",
+        "тип" : "файл"
+      },
+      {
+        "sha256" : "34330c97ac21adb536a502be1593826a85da8102e5e9567a040d1eeeb20f9b35",
+        "путь" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md",
+        "режим" : "100644",
+        "тип" : "файл"
+      },
+      {
+        "путь" : "proverki",
+        "режим" : "040000",
+        "тип" : "каталог"
+      },
+      {
+        "путь" : "proverki/aktualizaciya-putej",
+        "режим" : "040000",
+        "тип" : "каталог"
+      },
+      {
+        "sha256" : "6da57608bfb4850c97296ffec7d9e6c909d7b67a2419a5b54088e3ad4c645af1",
+        "путь" : "proverki/aktualizaciya-putej/proverki-putej.swift",
+        "режим" : "100644",
+        "тип" : "файл"
+      }
+    ],
+    "индекс_sha256" : "f601c8b5b6f534c8d5a8f8ab82f5d366513ffb2a17309e06edc24d7be2ea3dde",
+    "индекс_изменён" : true,
+    "коммит" : "0e6a9e5969b9c35db18c532ee1b65d3aa4dc3f03",
+    "пространство_sha256" : "09d4d3ebf850d5d54b654458eef27937a68182ce14448510a77f33d5359f9744"
+  },
+  "снимок_sha256" : "69cc0ce49f5b1b227a9756764314d4825f8aee482c257713879864a7e08baecc",
+  "ссылки" : [
+    {
+      "вид" : "Markdown",
+      "состояние" : "кандидат",
+      "строка" : 9,
+      "файл" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md"
+    },
+    {
+      "вид" : "Markdown",
+      "состояние" : "кандидат",
+      "строка" : 70,
+      "файл" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md"
+    },
+    {
+      "вид" : "Markdown",
+      "состояние" : "кандидат",
+      "строка" : 74,
+      "файл" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md"
+    },
+    {
+      "вид" : "Markdown",
+      "состояние" : "кандидат",
+      "строка" : 78,
+      "файл" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md"
+    },
+    {
+      "вид" : "Markdown",
+      "состояние" : "кандидат",
+      "строка" : 79,
+      "файл" : "iskhodniki/aktualizaciya-putej/rukovodstvo.md"
+    },
+    {
+      "вид" : "код",
+      "состояние" : "не проверено — нужен синтаксический адаптер",
+      "строка" : 37,
+      "файл" : "proverki/aktualizaciya-putej/proverki-putej.swift"
+    },
+    {
+      "вид" : "код",
+      "состояние" : "не проверено — нужен синтаксический адаптер",
+      "строка" : 42,
+      "файл" : "proverki/aktualizaciya-putej/proverki-putej.swift"
+    },
+    {
+      "вид" : "код",
+      "состояние" : "не проверено — нужен синтаксический адаптер",
+      "строка" : 90,
+      "файл" : "proverki/aktualizaciya-putej/proverki-putej.swift"
+    },
+    {
+      "вид" : "код",
+      "состояние" : "не проверено — нужен синтаксический адаптер",
+      "строка" : 126,
+      "файл" : "proverki/aktualizaciya-putej/proverki-putej.swift"
+    }
+  ],
+  "схема" : "fum.план-актуализации-путей.1"
+}
