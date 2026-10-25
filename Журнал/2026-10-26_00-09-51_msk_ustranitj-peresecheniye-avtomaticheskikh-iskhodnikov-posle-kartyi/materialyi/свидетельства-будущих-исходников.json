@@ -1,0 +1,208 @@
+{
+  "схема": "fum.свидетельства-будущих-исходников.1",
+  "основа": "9a603310ae1039820e8e0e8d464f9848508b151a",
+  "ROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель": "01a17494-5f9d-7a71-a5ee-bed5aace5860",
+  "RED_на_точном_коде_A": true,
+  "предметные_запуски": [
+    {
+      "запись": "materialyi/zapuski-proverok/1_6b104464-ff9f-42a6-bc30-ac169530d3d3.json",
+      "идентификатор": "6b104464-ff9f-42a6-bc30-ac169530d3d3",
+      "capture_манифест_sha256": "30146739b0fe71c9bac9dde5a5152280ba89dc2f46bc199acab23b25361a13ab",
+      "capture_вызов_sha256": "0c45f4f2585cee1db255fead4cc3b4700715bcdb537a9c56b7dad8de11348954",
+      "код": 1,
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "b7357d16b4a904eac693296ad0e8642eed621e4c012ba942b63f017f3b7533ac",
+          "байты": 3470,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "граница": "UUID передан отчётной обёртке аргументом --идентификатор-запуска внутри сохранённого capture-вызова."
+    },
+    {
+      "запись": "materialyi/zapuski-proverok/2_e161ac90-de98-41ca-8297-74c80cba3765.json",
+      "идентификатор": "e161ac90-de98-41ca-8297-74c80cba3765",
+      "capture_манифест_sha256": "7066addf4df66988594a4f3255505a65861c1d475ce5844da59b475668b271e2",
+      "capture_вызов_sha256": "15077b89c263f6afa1941d31d66c4c85599fa104b7c62a1bb332af19e4647e1a",
+      "код": 0,
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "82d4a89fde474f06e4ec0e7ec81ba4bf6e3e9623b4a7b5ace433774414fbdb35",
+          "байты": 472,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "граница": "UUID передан отчётной обёртке аргументом --идентификатор-запуска внутри сохранённого capture-вызова."
+    },
+    {
+      "запись": "materialyi/zapuski-proverok/3_46319340-5de3-43e7-9f37-0d7d2adec982.json",
+      "идентификатор": "46319340-5de3-43e7-9f37-0d7d2adec982",
+      "capture_манифест_sha256": "76baa49fe3d8cab10c03f5a53e6ea39e2fad61118ec1e60b6682914c08c0bf8f",
+      "capture_вызов_sha256": "a89bdfe8ebd9f653ec816c6abc9e14f0edeab614727b36a7c2c65f850999905b",
+      "код": 0,
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e4e3a5345525e71d6edc3b938c0a24105babf3ed8da01be0d9dbc7341731fb3a",
+          "байты": 10308,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "граница": "UUID передан отчётной обёртке аргументом --идентификатор-запуска внутри сохранённого capture-вызова."
+    },
+    {
+      "запись": "materialyi/zapuski-proverok/4_8e8dff21-5713-4d52-9a87-1f0109ab6f94.json",
+      "идентификатор": "8e8dff21-5713-4d52-9a87-1f0109ab6f94",
+      "capture_манифест_sha256": "1cfb41f018ea914abacf72d0537d2a2b35f02bd35ee4da80956e991adbf325ac",
+      "capture_вызов_sha256": "3ec8ffa1cf2ae14009184e24cfbd4c1f9242d76ecfc67b723288cd55eb0a4025",
+      "код": 0,
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        }
+      },
+      "граница": "UUID передан отчётной обёртке аргументом --идентификатор-запуска внутри сохранённого capture-вызова."
+    }
+  ],
+  "исходники": [
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/bezopasnyiye-puti.swift",
+      "sha256": "374e1cf684ab7a903c1b6f59fd9e7f499fa9df659b78e93b964014ca59f22a2d"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/komanda-manifesta.swift",
+      "sha256": "db2f3448dd156c8e929b85be13e3482818ac3be94aa9c3f14e8668aef7d3aa39"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.json",
+      "sha256": "f7d7b177ad9c78400a8c0dd26173d31acccd02e8d5b4bcf6f34344401ef3c165"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.swift",
+      "sha256": "7af7e1c3d2e30e0d59c280b3bd52f5d6b3e18a55f42ce1940a7e5fd01c37963a"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/otobrazheniye-manifesta.swift",
+      "sha256": "0ec51429b5991185f68b883ae38a4d2e6f6f45029d0da6199b3ef543cf3d1a28"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/porozhdeniye-manifesta.swift",
+      "sha256": "934e56be7c29fda74cf4cbc26f4be14a2411ddae527dc146e16002588d04f736"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/profilj-manifesta.swift",
+      "sha256": "822dd226a3ce5585baf6cd38b5e9bffeb6905f2782c25a3b29d6667138b70b3c"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/proverka-manifesta.swift",
+      "sha256": "214877399741c774081e0bdb59228f55e62415b604d02b31f215b81daa1f5cbb"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/proverki-budusjhikh-iskhodnikov.swift",
+      "sha256": "67780fe600fcd64ffa0f514955cb74b9a4576a813906d05e60a409dd0d082ba0"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/proverki-manifesta.swift",
+      "sha256": "5e8df86efbd08e17166f23f422ea381ac3f93efffdf768052d6332ce5eea1812"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/zapusk-proverok.sh",
+      "sha256": "ca08a340bc6e3196f85ab88c3772cfcd1629bdc896a344ed3e9a891abf81909a"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/zapusk-proverok.swift",
+      "sha256": "f2e5e8998d57a726e4c482a70e08d6e7762b71d2e383a32076d39df24db797e1"
+    }
+  ],
+  "профиль": {
+    "граница": "Последовательные интервалы одного процесса; подготовка фикстуры и сборка вне таймера. Профиль локального примитива, не FUMA runtime.",
+    "замеры": [
+      {
+        "наносекунд": 26734667,
+        "повторов": 100,
+        "стадия": "декодирование"
+      },
+      {
+        "наносекунд": 234628625,
+        "повторов": 100,
+        "стадия": "валидация-связей-и-файлов"
+      },
+      {
+        "наносекунд": 2259250,
+        "повторов": 100,
+        "стадия": "чистое-порождение-байтов"
+      },
+      {
+        "наносекунд": 245833000,
+        "повторов": 100,
+        "стадия": "полный-вызов"
+      }
+    ],
+    "отпечатокМанифеста": "fd06fc1b99eb0ad7426941277bd7d22ea9c5bbde5b194ddf7f62e13f989a241d",
+    "отпечатокОписания": "f7d7b177ad9c78400a8c0dd26173d31acccd02e8d5b4bcf6f34344401ef3c165",
+    "схема": "fum.профиль-порождения-манифеста.1"
+  },
+  "граница_профиля": "Четырёхцелевая хранимая модель без карты; стоимость виртуальной проверки карты отдельно не измерена. Профиль не доказывает ускорение.",
+  "отпечатки_поставки": {
+    "кандидат/Package.swift": "fd06fc1b99eb0ad7426941277bd7d22ea9c5bbde5b194ddf7f62e13f989a241d",
+    "manifest.diff": "7995ac4d0f6e5341ee75859511243bd71c363facaa57c8ccc6df523e0ea9deaa",
+    "dump.json": "c97ebfdd411b01bcc43f497c9611ca345b3f0b280ea3a61bc3e92c2ad2a4327b",
+    "profile.json": "ba6dc49cc5b7c829977bcb742f755d2087af1dd87b58e78604a3ed2d208328ba"
+  },
+  "границы": [
+    "Сохранение конечной дочерней точки от A; ROOT-приёмка и интеграция отдельно.",
+    "Исходники, поддеревья исключений и ресурсов входят в полный target-инвентарь. Для локальной зависимости проверяются каталог и её Package.swift, полный внешний пакет не индексируется.",
+    "dump-package и прямой runner не доказывают сборку четырёх продуктов, обработку ресурсов и CodeSign bundle.",
+    "Creator, legacy NAV/проекция и полный ROOT backlog отключены по решению 149 / не проверены."
+  ],
+  "проверка_полей": {
+    "запись": "materialyi/zapuski-proverok/5_de502392-c7fc-4e07-aaed-7f0debc19ebc.json",
+    "идентификатор": "de502392-c7fc-4e07-aaed-7f0debc19ebc",
+    "capture_манифест_sha256": "24bf030272713e6e8be3b9831ee91d1c6683e8a65acea6317890e677d195228e",
+    "capture_вызов_sha256": "d25e4b8e03eedfa330667e989380a465f28c08ebd78dbba035765143390e8e52",
+    "код": 0,
+    "полнота": true,
+    "каналы": {
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "байты": 0,
+        "конец": true
+      },
+      "stdout": {
+        "sha256": "afd44852fbd1f4310ab2ad28847092c7412ad11d2cbd552d2577dd8b273e3f11",
+        "байты": 594,
+        "конец": true
+      }
+    }
+  },
+  "читающее_ревью": {
+    "блокирующих_замечаний": 0,
+    "граница": "Ревьюер читал diff; сам не запускал тесты и не принимал ROOT-результат."
+  }
+}
