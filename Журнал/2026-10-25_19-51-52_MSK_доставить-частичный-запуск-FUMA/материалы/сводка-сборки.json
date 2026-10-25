@@ -1,0 +1,29 @@
+{
+  "схема": "fum.сводка-единственной-сборки.1",
+  "основа": "43f2306519ff0c00485b0d27e6870ca08d2834d5",
+  "patch_sha256": "716fee9fc946df39061701ad010b56f2f627a2b92c42bed8e7813163c0f76548",
+  "продуктовых_файлов": 19,
+  "новых_сборок": 1,
+  "jobs": 2,
+  "scratch": "новый приватный физический каталог вне всех Git-предков",
+  "Swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)",
+  "наблюдённые_флаги": {
+    "-swift-version 6": true,
+    "-strict-concurrency=complete": true,
+    "-warnings-as-errors": true,
+    "-enable-actor-data-race-checks": true
+  },
+  "код": 0,
+  "полный_захват": true,
+  "stdout": {
+    "sha256": "3fcc68634af1a0d01bae0a3cee5fc852532cb3eaaf0f9d3945cbbc1246be4037",
+    "байты": 72741,
+    "конец": true
+  },
+  "stderr": {
+    "sha256": "1331c497577e497fdec30e93dcebefc927ed37a640c3da33fc4390903b3881c1",
+    "байты": 4587,
+    "конец": true
+  },
+  "manifest_sha256": "c15e98d4061b95fec954fa8ff43e79c276cebcc8164d6faa55574a29373a7cb6"
+}
