@@ -9,6 +9,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "fum", targets: ["FUMApp"]),
+        .executable(name: "fum-оператор", targets: ["КомандаОператора"]),
         .executable(name: "fum-mcp", targets: ["FUMMCPServer"]),
         .executable(name: "fum-ax-vision-sense", targets: ["FUMAXVisionSense"]),
         .executable(name: "fum-attention-loop", targets: ["FUMAttentionLoop"])
@@ -37,6 +38,10 @@ let package = Package(
             ]
         ),
         .systemLibrary(name: "CMpvSystem", pkgConfig: "mpv", providers: [.brew(["mpv"])]),
+        .executableTarget(name: "КомандаОператора", dependencies: ["ИсполнениеОператора"],
+            path: "Sources/komanda-operatora",
+            swiftSettings: [.swiftLanguageMode(.v6),
+                .unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]),
         .target(name: "ПутиИсполнения"),
         .target(name: "ИсполнениеОператора", dependencies: [
             "ПутиИсполнения",
