@@ -9,7 +9,8 @@ let настройки: [SwiftSetting] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"]),
+        .library(name: "АрхивКодекса", targets: ["АрхивКодекса"])],
     targets: [
         .target(name: "КонтейнерНаблюдений",
             path: "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений",
@@ -17,12 +18,16 @@ let package = Package(
         .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений"],
             path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md"],
             swiftSettings: настройки),
-        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска"],
+        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "АрхивКодекса"],
             path: "iskhodniki/zapusk",
             exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "README.md"],
             sources: ["Команда.swift"], swiftSettings: настройки),
         .testTarget(name: "ПроверкиЗапуска", dependencies: ["ОсноваЗапуска", "КонтейнерНаблюдений"],
-            path: "proverki/zapusk", swiftSettings: настройки)
+            path: "proverki/zapusk", swiftSettings: настройки),
+        .target(name: "АрхивКодекса", dependencies: ["КонтейнерНаблюдений"],
+            path: "iskhodniki/arkhiv-codex", exclude: ["README.md"], swiftSettings: настройки),
+        .testTarget(name: "arkhiv-codex-tests", dependencies: ["АрхивКодекса", "КонтейнерНаблюдений", "ОсноваЗапуска"],
+            path: "proverki/arkhiv-codex", swiftSettings: настройки)
     ],
     swiftLanguageModes: [.v6]
 )

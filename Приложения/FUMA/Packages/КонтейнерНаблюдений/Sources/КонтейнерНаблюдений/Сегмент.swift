@@ -11,6 +11,7 @@ public final class Сегмент {
     private let операции: ФайловыеОперации
     private var снимок = Снимок()
     private var отказ = false
+    private var ошибкаЗавершения: (any Error)?
     public private(set) var профиль: [МеткаПрофиля] = []
     private let профилировать: Bool
     private var глубина = 0
@@ -64,15 +65,26 @@ public final class Сегмент {
     deinit { закрыть() }
 
     public func закрыть() {
+        try? завершить()
+    }
+
+    /// Завершает владение обоими fd даже при отказе первого close.
+    /// Возвращает первый наблюдённый отказ; прежний Void API остаётся совместимым.
+    public func завершить() throws {
+        if let ошибкаЗавершения { throw ошибкаЗавершения }
         // Явный unlock завершает владение даже при временно унаследованном fork fd.
         // Один экземпляр не используют через fork. close после EINTR не повторяется.
+        var ошибка: (any Error)?
         func освободить(_ fd: Int32) {
             guard fd >= 0 else { return }
-            while flock(fd, LOCK_UN) != 0 && errno == EINTR {}
-            _ = Darwin.close(fd)
+            var исход: Int32
+            repeat { исход = flock(fd, LOCK_UN) } while исход != 0 && errno == EINTR
+            if исход != 0 { ошибка = ошибка ?? ОшибкаКонтейнера.система(errno) }
+            do { try операции.закрытие(fd) } catch { ошибка = ошибка ?? error }
         }
         освободить(дескриптор); дескриптор = -1
         освободить(каталог); каталог = -1
+        if let ошибка { отказ = true; ошибкаЗавершения = ошибка; throw ошибка }
     }
 
     public func очиститьПрофиль() { профиль.removeAll(keepingCapacity: true) }

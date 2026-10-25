@@ -42,10 +42,13 @@ public enum ОшибкаКонтейнера: Error, Equatable {
 public struct ФайловыеОперации: Sendable {
     public var запись: @Sendable (Int32, UnsafeRawBufferPointer) throws -> Int
     public var синхронизация: @Sendable (Int32) throws -> Void
+    public var закрытие: @Sendable (Int32) throws -> Void
     public init(запись: @escaping @Sendable (Int32, UnsafeRawBufferPointer) throws -> Int,
-                синхронизация: @escaping @Sendable (Int32) throws -> Void) {
+                синхронизация: @escaping @Sendable (Int32) throws -> Void,
+                закрытие: @escaping @Sendable (Int32) throws -> Void = системноеЗакрытие) {
         self.запись = запись
         self.синхронизация = синхронизация
+        self.закрытие = закрытие
     }
 }
 

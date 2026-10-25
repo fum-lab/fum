@@ -3,6 +3,7 @@ import Darwin
 
 public enum ВходКоманды: Sendable {
     case помощь
+    case архив([String])
     case запуск(ПараметрыЗапуска)
 
     public static let справка = """
@@ -11,6 +12,7 @@ public enum ВходКоманды: Sendable {
     fuma [--хранилище <абсолютный приватный путь>] [--событие <UUID>]
          [--намерение <строка>] [--профиль]
     fuma --помощь
+    fuma архив-codex импорт|восстановить|восстановить-хвост <архив> <UUID сессии> <UUID поколения> <файл>
 
     По умолчанию: /Users/Shared/fuma-zapusk-<UID>, новый UUID
     события и фактическое UTC-время. Это идентификатор события, а не адрес узла.
@@ -32,6 +34,7 @@ public enum ВходКоманды: Sendable {
 
     public static func разобрать(_ аргументы: [String]) throws -> ВходКоманды {
         if аргументы == ["--помощь"] { return .помощь }
+        if аргументы.first == "архив-codex" { return .архив(Array(аргументы.dropFirst())) }
         var значения: [String: String] = [:]
         var профиль = false
         var номер = 0

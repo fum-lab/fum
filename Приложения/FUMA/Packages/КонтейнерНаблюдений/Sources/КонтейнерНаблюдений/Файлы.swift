@@ -1,6 +1,11 @@
 import Foundation
 import Darwin
 
+/// close после EINTR не повторяется: дескриптор уже мог быть освобождён.
+public func системноеЗакрытие(_ дескриптор: Int32) throws {
+    if Darwin.close(дескриптор) != 0 { throw ОшибкаКонтейнера.система(errno) }
+}
+
 extension ФайловыеОперации {
     public static let системные = ФайловыеОперации(запись: { дескриптор, буфер in
         let число = Darwin.write(дескриптор, буфер.baseAddress, буфер.count)
