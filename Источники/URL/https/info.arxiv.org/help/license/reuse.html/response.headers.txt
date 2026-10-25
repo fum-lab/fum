@@ -1,0 +1,22 @@
+HTTP/2 200
+x-guploader-uploadid: AJjja9b6BsrOTzuiTZa9ug3gZChRNI82Mzlr4tbVOEq4CiwB_WfPbdsizbeCMPSNqKK00SeyKZj2DgA
+x-goog-generation: 1788987486301752
+x-goog-metageneration: 1
+x-goog-stored-content-encoding: identity
+x-goog-stored-content-length: 89583
+x-goog-meta-goog-reserved-file-mtime: 1788987431
+x-goog-hash: crc32c=0qPS4w==
+x-goog-hash: md5=lya0ItLBLDyVwAqrlmMjFw==
+x-goog-storage-class: STANDARD
+accept-ranges: bytes
+content-length: 89583
+server: UploadServer
+via: 1.1 google
+date: Tue, 15 Sep 2026 20:29:01 GMT
+last-modified: Wed, 09 Sep 2026 20:58:06 GMT
+etag: "9726b422d2c12c3c95c00aab96632317"
+content-type: text/html
+vary: Accept-Encoding
+age: 0
+cache-control: public,max-age=1800
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000

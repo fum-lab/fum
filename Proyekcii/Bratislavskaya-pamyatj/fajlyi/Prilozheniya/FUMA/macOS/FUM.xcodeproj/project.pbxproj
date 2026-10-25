@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C6A00000000000000000119 /* КомандноеИсполнение.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000024; };
+		7C6A0000000000000000011A /* FUMStructuringOperatorMemory */ = {isa = PBXBuildFile; productRef = 7C6A00000000000000000910; };
+		7C6A0000000000000000011B /* КонтейнерНаблюдений */ = {isa = PBXBuildFile; productRef = 7C6A00000000000000000911; };
 		7C6A00000000000000000117 /* ПутиПриложения.swift in FUM */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000018 /* ПутиПриложения.swift */; };
 		7C6A00000000000000000118 /* ПутиПриложения.swift in MCP */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000018 /* ПутиПриложения.swift */; };
 		7C6A00000000000000000101 /* AXVisionSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000001 /* AXVisionSnapshot.swift */; };
@@ -58,6 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C6A00000000000000000024 /* КомандноеИсполнение.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/КомандноеИсполнение.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000018 /* ПутиПриложения.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ПутиИсполнения/ПутиПриложения.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000001 /* AXVisionSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXVisionSnapshot.swift; sourceTree = "<group>"; };
 		7C6A00000000000000000002 /* CameraGaze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGaze.swift; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6A0000000000000000011A /* FUMStructuringOperatorMemory */,
+				7C6A0000000000000000011B /* КонтейнерНаблюдений */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +115,7 @@
 		7C6A00000000000000000300 = {
 			isa = PBXGroup;
 			children = (
+				7C6A00000000000000000024 /* КомандноеИсполнение.swift */,
 				7C6A00000000000000000018 /* ПутиПриложения.swift */,
 				7C6A00000000000000000301 /* Sources */,
 				7C6A00000000000000000303 /* Xcode */,
@@ -213,6 +220,10 @@
 				7C6A00000000000000000801 /* PBXTargetDependency */,
 			);
 			name = FUM;
+			packageProductDependencies = (
+				7C6A00000000000000000910 /* FUMStructuringOperatorMemory */,
+				7C6A00000000000000000911 /* КонтейнерНаблюдений */,
+			);
 			productName = FUMA;
 			productReference = 7C6A00000000000000000020 /* FUMA.app */;
 			productType = "com.apple.product-type.application";
@@ -259,6 +270,10 @@
 				Base,
 			);
 			mainGroup = 7C6A00000000000000000300;
+			packageReferences = (
+				7C6A00000000000000000900 /* FUMStructuringOperatorMemory */,
+				7C6A00000000000000000901 /* КонтейнерНаблюдений */,
+			);
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7C6A00000000000000000302 /* Products */;
@@ -276,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6A00000000000000000119 /* КомандноеИсполнение.swift in Sources */,
 				7C6A00000000000000000101 /* AXVisionSnapshot.swift in Sources */,
 				7C6A00000000000000000102 /* CameraGaze.swift in Sources */,
 				7C6A00000000000000000103 /* CameraVisionModel.swift in Sources */,
@@ -318,6 +334,16 @@
 			targetProxy = 7C6A00000000000000000800 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		7C6A00000000000000000900 = {isa = XCLocalSwiftPackageReference; relativePath = "../../../Прототипы/память-структурирующих-операторов"; };
+		7C6A00000000000000000901 = {isa = XCLocalSwiftPackageReference; relativePath = "../Packages/КонтейнерНаблюдений"; };
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7C6A00000000000000000910 = {isa = XCSwiftPackageProductDependency; package = 7C6A00000000000000000900; productName = FUMStructuringOperatorMemory; };
+		7C6A00000000000000000911 = {isa = XCSwiftPackageProductDependency; package = 7C6A00000000000000000901; productName = "КонтейнерНаблюдений"; };
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7C6A00000000000000000601 /* Debug */ = {

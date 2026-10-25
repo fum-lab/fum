@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 13:00:53 MSK - Ispravitj sboj finaljnoj proyekcii](../2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 15:57:32 MSK - Utochnitj granicyi Swift obolochki](../2026-09-15_15-57-32_MSK_utochnitj-granicyi-Swift-obolochki/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 15:40:41 MSK - Utochnitj operatornyij interfejs FUMA](../2026-09-15_15-40-41_MSK_utochnitj-operatornyij-interfejs-FUMA/zapros.md)
 
 ## Tekst zaprosa
 
@@ -85,6 +85,6 @@ Eto sleduyusjhij etap tekh zhe realjnyikh komand posle kontroljnogo kommita `1b2
 - [Zapisj pryamoj proverki 2](materialyi/zapuski-proverok/2_6ee3c817-0937-4b8f-a09a-08195642b5a6.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 16:01:28 MSK -->
-<!-- content-sha256: sha256:5391d2236fb6ec9c6a8bab85c49a3bdaa1e58be381fc2aa09f881881e9967c49 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:076f421fe75e264e6ed41b503e4149d83aa8d7c0ea366f549b5d9693af099dd8 -->
 <!-- FUM-MD-RECENCY:END -->

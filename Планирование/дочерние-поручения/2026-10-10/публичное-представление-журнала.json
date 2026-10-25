@@ -1,0 +1,27 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--publichnoye-predstavleniye-zhurnala--01a122ed",
+  "исполнитель": "01a122ed-0e56-7432-9bf8-738f01b0e5cb",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_публичного_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_публичного_представления_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_публичного_представления_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/публичное-представление-журнала.md",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+    "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md",
+    "Инструменты/fum-struktura-papok-zaprosov/SKILL.md",
+    "Журнал/2026-10-10_02-18-32_MSK_реализовать-публичное-представление-журнала/",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Журнал/2026-10-10_01-54-09_MSK_автоматизировать-публичное-представление-журнала/запрос.md"
+  ],
+  "постановка": {
+    "sha256": "0110fa6b34e62d24cbff7aba723837faee8d5bf98228f6bdd0d9471080d0a502",
+    "коммит": "251762581828d2063a80a2a0b797c14de3072d95",
+    "путь": "Планирование/дочерние-поручения/2026-10-10/публичное-представление-журнала.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "2fc780671eb39698a7db093611953c7efbb12d9da82728ca8d605ade7c26d369"
+}

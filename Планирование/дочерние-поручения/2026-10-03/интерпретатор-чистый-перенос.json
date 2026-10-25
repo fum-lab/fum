@@ -1,0 +1,38 @@
+{
+  "ветка": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--chistyij-perenos-01a0fed7",
+  "исполнитель": "01a0fed7-0a10-71c0-b194-944dc852d675",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Документация/дистилляция-GPT-в-операторы-FUMA.md",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/SKILL.md",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py",
+    "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/README.md",
+    "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/РамкиJSONL.swift",
+    "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Чтение.swift",
+    "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/РамкиJSONLTests.swift",
+    "Приложения/FUMA/macOS/FUM.xcodeproj/project.pbxproj",
+    "Приложения/FUMA/macOS/Package.swift",
+    "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ЗаписьJSONL.swift",
+    "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift",
+    "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/КомандноеИсполнение.swift",
+    "Приложения/FUMA/macOS/Tests/ИсполнениеОператораTests/JSONLTests.swift",
+    "Приложения/FUMA/macOS/docs/исполнение-оператора.md",
+    "Приложения/FUMA/macOS/Операторы/сообщения-журнала-Codex.json",
+    "Приложения/FUMA/macOS/проверки/JSONL/свидетельства.json",
+    "Приложения/FUMA/macOS/проверки/проверить-и-измерить-JSONL.py",
+    "Приложения/FUMA/macOS/проверки/фикстуры/срез-журнала-Codex-эталон.json",
+    "Приложения/FUMA/macOS/проверки/фикстуры/срез-журнала-Codex.jsonl",
+    "Журнал/2026-10-03_02-25-08_MSK_перенести-интерпретатор-FUMA/",
+    "Журнал/2026-10-03_00-33-08_MSK_подготовить-чистую-ветку-интерпретатора/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "e9b618b3f1ab7e28d77d29b32f7d6aa2f35c6478d6f146b0c125a9e7e8910762",
+    "коммит": "1b4e6110a9c7c49813b902e0df2b5023a5546e37",
+    "путь": "Планирование/параллельные-постановки/2026-10-03/интерпретатор-чистый-перенос.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "e7ad7d3ae5ab75b06474f3ca54c1b17645c38edad51fa2529aecab7c9859791e"
+}

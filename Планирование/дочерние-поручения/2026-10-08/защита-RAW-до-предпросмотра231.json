@@ -1,0 +1,29 @@
+{
+  "ветка": "refs/heads/codex/soglasovatj-obratnuyu-dostavku-i-kontroljnuyu-tochku-231",
+  "исполнитель": "01a11c7c-0789-7350-a989-7d3a05dd5406",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-дочернего-поручения.md",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/обратная-доставка.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_доставка_отчёта.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_контрольной_точки_обратной_доставки.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/профиль_контрольной_точки_обратной_доставки.py",
+    "Инструменты/fum-reyestr-planirovaniya/обратная-доставка.md",
+    "Журнал/2026-10-08_22-22-30_MSK_закрепить-RAW-до-предпросмотра/",
+    "Журнал/2026-10-08_20-11-01_MSK_согласовать-доставку-и-контрольную-точку/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "6fe141f753306a45916ad0e726ee304e9e7191e4dd2cce3ebfef773bf2ff0b7a",
+    "коммит": "e36b417166f22856e8e6679eb52a6c388ef7ef0c",
+    "путь": "Планирование/параллельные-постановки/2026-10-08/согласовать-обратную-доставку-и-контрольную-точку.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "9c136c717857acd8c424aea10db59c10629421d74906cb5056cfe4d5b3ca859d"
+}

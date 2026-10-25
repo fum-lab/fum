@@ -1,0 +1,73 @@
+{
+  "пулреквест": {
+    "base": {
+      "ref": "fuma",
+      "sha": "35947297c784afd7189836bad633bfe24ac9eac8"
+    },
+    "head": {
+      "ref": "codex/dir/publikacionnyij-dopusk-dochernego-sostava",
+      "sha": "7216df27e0853b7b7f9cb96af0cc05f902a44b9d"
+    },
+    "html_url": "https://github.com/fum-lab/fum/pull/220",
+    "merge_commit_sha": "ae73ddab18f8eee381e5ba30b30498b4cf2a3db3",
+    "merged": true,
+    "merged_at": "2026-10-07T20:41:14Z",
+    "number": 220,
+    "state": "closed"
+  },
+  "ветка": "refs/heads/fuma",
+  "граница": "Публикационный допуск доставлен и PR220 слит. Это приёмка конкретного входящего состава, не завершение ROOT. Новые адресные проверки ROOT успешны; исторические RED/GREEN/профиль сохранены из источника. Остаток S31 не закрыт.",
+  "коммит": {
+    "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791405313 +0300",
+    "дерево": "00cfa5c09a715d6be65ec4488b0375c0a5f80f9c",
+    "коммит": "ae73ddab18f8eee381e5ba30b30498b4cf2a3db3",
+    "коммиттер": "FUM <fum@local> 1791405313 +0300",
+    "родители": [
+      "4f47f338b86e6defab086ea70f3b248f15888595",
+      "7216df27e0853b7b7f9cb96af0cc05f902a44b9d"
+    ],
+    "сообщение_sha256": "2dd366f2ebfcddd29651cb2d7badec19ccded72a0083a61a76c6a5bc248f3590"
+  },
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "наблюдение": "2026-10-07 23:44:08 MSK",
+  "первичные_процессы": {
+    "PR220-после-C305": {
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_байты": 0,
+      "stdout_sha256": "4b78122dd61cb0c79fa3d3f36c2dd5a793bb9f0ce3a0f8516c8a0d817df71573",
+      "stdout_байты": 385,
+      "код": 0,
+      "монотонные_нс": 1270612541
+    },
+    "push-точного-C305": {
+      "stderr_sha256": "2cdfe5aa9c35df9c162524f3a71c69facad55a28c421360b02c20b693b186138",
+      "stderr_байты": 112,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_байты": 0,
+      "код": 0,
+      "монотонные_нс": 2655863167
+    },
+    "remote-точный-C305": {
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_байты": 0,
+      "stdout_sha256": "3952adf21d905fd394740179df448b63585b6cd61eb3e4d4d7d9ef2e0b823b41",
+      "stdout_байты": 57,
+      "код": 0,
+      "монотонные_нс": 968312209
+    },
+    "создание": {
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_байты": 0,
+      "stdout_sha256": "7fc1ae5daa191bfecd942115cdf777939cee7d9a9758017e1d3a49b7989c9cc5",
+      "stdout_байты": 470,
+      "код": 0,
+      "монотонные_нс": 58985773875
+    }
+  },
+  "схема": "fum.наблюдение-доставки.1",
+  "удалённая_ветка": {
+    "коммит": "ae73ddab18f8eee381e5ba30b30498b4cf2a3db3",
+    "ветка": "refs/heads/fuma",
+    "адрес": "https://github.com/fum-lab/fum.git"
+  }
+}

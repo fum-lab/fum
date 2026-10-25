@@ -1,0 +1,240 @@
+{
+  "граница": "Только данные уже действующей policy v2 и точные kind/line SHA/count. Номера строк обозначают C98; после исправления адрес выбирается по тем же точным байтам. Реальные системные привязки не объявляются фикстурами. MAX_EXCEPTION_COUNT остаётся 16. Новая схема сканера и ослабление классификатора запрещены.",
+  "декларации": [
+    {
+      "category": "report.historical",
+      "count": 1,
+      "id": "tdlib-full-publication-1",
+      "kind": "posix-user-home",
+      "line": 104,
+      "line_sha256": "sha256:33cb32d847679a08fd5409e6f59cf47dcaefcd02722d341001180e5de11d96d9",
+      "path": "Журнал/2026-10-01_14-28-31_MSK_сохранить-сырой-обмен-Telegram-и-привязку-библиотеки/отчёт.md",
+      "reason": "Неизменный архивный контекст прежней проверки; историческое наблюдение не задаёт новый путь или полномочия."
+    },
+    {
+      "category": "report.historical",
+      "count": 1,
+      "id": "tdlib-full-publication-2",
+      "kind": "posix-user-home",
+      "line": 251,
+      "line_sha256": "sha256:65356604c110780e3eb3151adff71ea45088d70f4040dff66df12d9c74fea9a5",
+      "path": "Журнал/2026-10-01_14-28-31_MSK_сохранить-сырой-обмен-Telegram-и-привязку-библиотеки/отчёт.md",
+      "reason": "Неизменный архивный контекст прежней проверки; историческое наблюдение не задаёт новый путь или полномочия."
+    },
+    {
+      "category": "report.historical",
+      "count": 1,
+      "id": "tdlib-full-publication-3",
+      "kind": "posix-user-home",
+      "line": 252,
+      "line_sha256": "sha256:7ab7857d4732091baa60e072790b0c33f16c2c792ac966cf0718ac7c654e02f3",
+      "path": "Журнал/2026-10-01_14-28-31_MSK_сохранить-сырой-обмен-Telegram-и-привязку-библиотеки/отчёт.md",
+      "reason": "Неизменный архивный контекст прежней проверки; историческое наблюдение не задаёт новый путь или полномочия."
+    },
+    {
+      "category": "report.historical",
+      "count": 1,
+      "id": "tdlib-full-publication-4",
+      "kind": "posix-user-home",
+      "line": 383,
+      "line_sha256": "sha256:a32372d94334013a35c7f415c21406ca6b1dbd490f38c74ee9a453349393fc7d",
+      "path": "Журнал/2026-10-01_14-28-31_MSK_сохранить-сырой-обмен-Telegram-и-привязку-библиотеки/отчёт.md",
+      "reason": "Неизменный архивный контекст прежней проверки; историческое наблюдение не задаёт новый путь или полномочия."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-5",
+      "kind": "posix-absolute",
+      "line": 33,
+      "line_sha256": "sha256:88f9411a6e1f79486c0f99a5fb5f981a10c76c0e0c55b549affc485f42bbecf3",
+      "path": "Журнал/2026-10-02_22-45-30_MSK_проверить-отказы-команды-Telegram/материалы/проверить-исполнитель-отказов.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-6",
+      "kind": "posix-absolute",
+      "line": 71,
+      "line_sha256": "sha256:e58f92f46459b18bcaa8d304d21fd14d17454cb40a7853f1cb7e5e7e8da8b07e",
+      "path": "Журнал/2026-10-02_22-45-30_MSK_проверить-отказы-команды-Telegram/материалы/проверить-исполнитель-отказов.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-7",
+      "kind": "posix-absolute",
+      "line": 20,
+      "line_sha256": "sha256:c3fc871b976ed187d02030077cb9031211628e88a0f55947721113c7038df3fc",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-8",
+      "kind": "posix-absolute",
+      "line": 73,
+      "line_sha256": "sha256:a16eaec65ed6a3e7519103d808943e8c64cd1287b0721af975f351502246cbff",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-9",
+      "kind": "posix-absolute",
+      "line": 206,
+      "line_sha256": "sha256:a010d050dd10a925799bb6bebf801b203bc9386d678fa6635a1b1d15f8c6ae0f",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-10",
+      "kind": "posix-absolute",
+      "line": 207,
+      "line_sha256": "sha256:0a6b534141c79c892a07ff6bc122aeba2c5478c4f80cd0b92979f1611d6c5eec",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-11",
+      "kind": "posix-absolute",
+      "line": 208,
+      "line_sha256": "sha256:b44250b42bf43d952284384dc3cbdd838a3fc8d4472102bea4cffb31efa247ee",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-12",
+      "kind": "posix-absolute",
+      "line": 209,
+      "line_sha256": "sha256:8efb80de6fea4a11a85946cf824051694f96a33c81413732fc4b0e85545fa89e",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-13",
+      "kind": "posix-absolute",
+      "line": 210,
+      "line_sha256": "sha256:4bf1c2e99c4140818eddfbc019e1ff814563e95b7e076d3e52a3477c3f5b34db",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-14",
+      "kind": "posix-absolute",
+      "line": 211,
+      "line_sha256": "sha256:bd7e9af266f1ef34fe79e8b48b55a32493eb7cd77887ccda5cca091272bc19ae",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-15",
+      "kind": "posix-absolute",
+      "line": 212,
+      "line_sha256": "sha256:390021ae2f9be92d3254e01e7af7176f16ffe0d2710af10b9ebb85cee81d9452",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-16",
+      "kind": "posix-absolute",
+      "line": 220,
+      "line_sha256": "sha256:3b8f4de33fff67f6ad9307e891e06693f0c90650cacdfa71c1840456284e73e1",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-17",
+      "kind": "posix-absolute",
+      "line": 221,
+      "line_sha256": "sha256:da986877d7be16c2f2d07248d99860c970a77f892ea56d3ce1f8bfcca9391686",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-18",
+      "kind": "posix-absolute",
+      "line": 425,
+      "line_sha256": "sha256:a2cbbc98031ee7ae2d0f8e508238c70b7b9513d5382bc4a57e696552d3e63774",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-19",
+      "kind": "posix-absolute",
+      "line": 173,
+      "line_sha256": "sha256:7c2dac1e62faf128ef2b62a8bcb23fae34c753feff2a798eff8d92110a4af864",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-20",
+      "kind": "posix-absolute",
+      "line": 176,
+      "line_sha256": "sha256:41dbb8b02d123399f07582583e10f0b4b31bb04aee445e23563d7122fed25f6a",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.test-fixture",
+      "count": 1,
+      "id": "tdlib-full-publication-21",
+      "kind": "posix-absolute",
+      "line": 177,
+      "line_sha256": "sha256:da567c58c684ad23002d11361b7ec6ab9361157d6dee87c5f7bdd9c602caa873",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "reason": "Конечные синтетические аргументы либо отрицательный путь фикстуры; не допускают выполнения указанных файлов."
+    },
+    {
+      "category": "allow.path-validation-definition",
+      "count": 2,
+      "id": "tdlib-full-publication-22",
+      "kind": "posix-absolute",
+      "line": 460,
+      "line_sha256": "sha256:2e80e8b8385f73f9149cda4851817ca1eb6064f222ea5ccf8c925f1cd82608af",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py",
+      "reason": "Два префикса для проверки вывода анализа зависимости; они не открывают файл и не выбирают системный инструмент."
+    }
+  ],
+  "исходники_sha256": {
+    "Журнал/2026-10-01_14-28-31_MSK_сохранить-сырой-обмен-Telegram-и-привязку-библиотеки/отчёт.md": "421ee9264eac25b08168e19fa2b9417bac078eea44e98ed33fcc143f94e9a932",
+    "Журнал/2026-10-02_22-45-30_MSK_проверить-отказы-команды-Telegram/материалы/проверить-исполнитель-отказов.py": "96514089ce6e4d3b2f68836ed08edfa21c8ac6c29c4406d44f8c4c8c5172d086",
+    "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift": "cda0b684313dfe8b8353158d0fc001520df98fafa4031c3239626acb8b08caec",
+    "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py": "9f64af4749a3b4bfc0b427700cc1b8da4ee5e1ca65446ca3b6f4c2a43db98aae",
+    "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py": "f136597ab57625b442c449b8adcd463c682e7cc422fc88f897d2985a002ef7ee",
+    "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py": "68c5693869a5a2a84edfe67db940bd4117c78f99990587da46e55f11289e6e22"
+  },
+  "коммит_источника": "98d58779257586f7455825334185e230a60374c9",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "ошибок_полного_состава": 41,
+  "разрешённых_кандидатов": 23,
+  "схема": "fum.решение-публикационных-деклараций.1",
+  "установка": "Исполнитель применяет штатный обновитель policy после исправления и проверки кода. Старые закрытые отчёты, helpers и RAW сохраняются; чужие исключения не удаляются. Этот файл решения не является готовой policy.",
+  "число_деклараций": 22
+}

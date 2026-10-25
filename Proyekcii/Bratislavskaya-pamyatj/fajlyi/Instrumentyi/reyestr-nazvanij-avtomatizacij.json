@@ -204,6 +204,11 @@
       "source": "перенос рабочих деревьев",
       "transliteration": "perenos rabochikh derevjyev",
       "slug": "fum-perenos-rabochikh-derevjyev"
+    },
+    {
+      "source": "иерархическая очередь приоритетов",
+      "transliteration": "iyerarkhicheskaya ocheredj prioritetov",
+      "slug": "fum-iyerarkhicheskaya-ocheredj-prioritetov"
     }
   ],
   "display": [

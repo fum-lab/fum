@@ -1,0 +1,75 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "codex-author-child-fixture-relative-tail",
+      "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py",
+      "line": 71,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка открытой дочерней фикстуры строит относительный путь в собственном временном Git; буквальный хвост не является адресом машины."
+    },
+    {
+      "id": "codex-author-creator-placeholder-20",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 20,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-21",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 21,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-24",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 24,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-31",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 31,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-251",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 251,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-263",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 263,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-264",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 264,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-265",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 265,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-274",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "line": 274,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    }
+  ]
+}

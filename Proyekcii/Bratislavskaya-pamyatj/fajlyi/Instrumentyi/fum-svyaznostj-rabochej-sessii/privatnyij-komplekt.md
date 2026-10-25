@@ -1,8 +1,8 @@
 # Privatnyij komplekt perekhvata zaversheniya
 
-[Podgotovka](scripts/podgotovitj-komplekt-zaversheniya.py) izvlekayet odinnadcatj iskhodnikov iz odnogo tochnogo Git commit, sokhranyayet ikh iyerarkhiyu i pechatayet proveryayemogo kandidata Stop. Ona ne ustanavlivayet nastrojki, ne menyayet Trust, ne zapuskayet poluchennyij project-kod i ne sozdayot sostoyaniye realjnoj zadachi.
+[Podgotovka](scripts/podgotovitj-komplekt-zaversheniya.py) izvlekayet dvenadcatj iskhodnikov iz odnogo tochnogo Git commit, sokhranyayet ikh iyerarkhiyu i pechatayet proveryayemogo kandidata Stop. Ona ne ustanavlivayet nastrojki, ne menyayet Trust, ne zapuskayet poluchennyij project-kod i ne sozdayot sostoyaniye realjnoj zadachi.
 
-Versiya `fum.комплект-Stop.3` dobavlyayet k prezhnim vosjmi iskhodnikam obrabotchik soobsjhenij, chitatelj JSONL i klassifikator proiskhozhdeniya. Vse odinnadcatj fajlov proveryayutsya celikom. Staryiye sokhranyonnyiye komandyi versij 1/2 vklyuchayut sobstvennyij zagruzchik i ne perepisyivayutsya. Dlya novogo dopuska podgotovjte otdeljnyij komplekt versii 3 s yavnyim istochnikom JSONL; staraya skhema ne prinimayetsya kak novaya.
+Versiya `fum.комплект-Stop.3` dobavlyayet k prezhnim vosjmi iskhodnikam obrabotchik soobsjhenij, chitatelj JSONL i klassifikator proiskhozhdeniya. Tekusjhij sostav dopolnen chitatelem prinyatiya delegacii; vse dvenadcatj fajlov proveryayutsya celikom. Format manifesta ne izmenyon, sokhranyonnyiye komplektyi iz odinnadcati fajlov ne perepisyivayutsya. Staryiye sokhranyonnyiye komandyi versij 1/2 vklyuchayut sobstvennyij zagruzchik i ne perepisyivayutsya. Dlya novogo dopuska podgotovjte otdeljnyij komplekt versii 3 s yavnyim istochnikom JSONL; staraya skhema ne prinimayetsya kak novaya.
 
 ## Vkhod i rezuljtat
 
@@ -18,7 +18,7 @@ python3 -I -S -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/�
 
 Stdout soderzhit JSON so skhemoj `fum.кандидат-комплекта-Stop.3`, putyom komplekta, SHA-256 manifesta, samim manifestom, kandidatom `hooks` i spravochnyim SHA-256 zagruzchika. Vyivod soderzhit lokaljnyiye puti: yego sleduyet khranitj privatno, a ne bez proverki publikovatj v FUM. Pri otkaze stdout pust, kod 2 i ogranichennaya po naznacheniyu diagnostika v stderr; podgotovka ne vyidayot otkaz za gotovogo kandidata.
 
-Manifest svyazyivayet commit, tree, odinnadcatj putej, iskhodnyiye blob OID, rezhim Git 100644, privatnyij rezhim 0400, razmer, SHA-256 i konfiguraciyu vyipolneniya. Bajtyi ne preobrazuyutsya. Itogovyij katalog imenuyetsya `stop-<SHA256-манифеста>`, katalogi vnutri imeyut 0500. Pomimo odinnadcati `.py` razreshyon toljko `манифест.json` 0400 i neobkhodimyiye katalogi. Odnoimyonnaya povrezhdyonnaya celj ne remontiruyetsya i ne zamenyayetsya; ispravleniye trebuyet otdeljnogo resheniya cheloveka.
+Manifest svyazyivayet commit, tree, dvenadcatj putej, iskhodnyiye blob OID, rezhim Git 100644, privatnyij rezhim 0400, razmer, SHA-256 i konfiguraciyu vyipolneniya. Bajtyi ne preobrazuyutsya. Itogovyij katalog imenuyetsya `stop-<SHA256-манифеста>`, katalogi vnutri imeyut 0500. Pomimo dvenadcati `.py` razreshyon toljko `манифест.json` 0400 i neobkhodimyiye katalogi. Odnoimyonnaya povrezhdyonnaya celj ne remontiruyetsya i ne zamenyayetsya; ispravleniye trebuyet otdeljnogo resheniya cheloveka.
 
 ## Proverka do ispolneniya
 
@@ -34,6 +34,7 @@ Zagruzchik do ispolneniya project-koda sveryayet zakryituyu skhemu manifesta, po
 
 - `scripts/перехватить-завершение.py`;
 - `scripts/проверить-продолжение-задачи.py`;
+- `scripts/приём_делегации.py`;
 - `scripts/обработка_сообщений.py`, `scripts/сообщения_задачи.py` togo zhe navyika;
 - `Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py`;
 - `scripts/обязательства_задачи.py`, `scripts/обязательства_задачи_v2.py` i `scripts/история_пути_гита.py` togo zhe navyika;
@@ -49,7 +50,9 @@ Trust opredeleniya zakreplyayet stroku s zagruzchikom i khyeshem manifesta, no n
 
 Privatnyij komplekt ne zamenyayet dannyiye guard: reyestr, plan, kartochki i Git-obyyektyi chitayutsya iz otdeljno naznachennogo nastoyasjhego dereva. Mezhdu proverkoj i lenivyim chteniyem sosednego koda ne zayavlyayetsya zasjhita ot atak vladeljca fajlov. Sostoyaniye i native Trust takzhe ne vkhodyat v manifest; ogranicheniye prodolzhenij ostayotsya obyazannostjyu adaptera.
 
-Koordinator otdeljno proveryayet vyivod, vyibrannyij commit, odinnadcatj SHA, fakticheskij cwd, puti, limityi i dejstvuyusjhij sloj nastroyek. Zatem chelovek doveryayet konkretnomu opredeleniyu v shtatnoj poverkhnosti Codex. Eta avtomatizaciya ne pishet `hooks.json`, `trusted_hash`, poljzovateljskiye nastrojki ili chuzhoj checkout. Imya otdeljnogo iskhodnogo primera u koordinatora — `Stop.hooks.шаблон.json`; dlya podgotovki on ne yavlyayetsya ispolnyayemyim vkhodom.
+Koordinator otdeljno proveryayet vyivod, vyibrannyij commit, dvenadcatj SHA, fakticheskij cwd, puti, limityi i dejstvuyusjhij sloj nastroyek. Zatem chelovek doveryayet konkretnomu opredeleniyu v shtatnoj poverkhnosti Codex. Eta avtomatizaciya ne pishet `hooks.json`, `trusted_hash`, poljzovateljskiye nastrojki ili chuzhoj checkout. Imya otdeljnogo iskhodnogo primera u koordinatora — `Stop.hooks.шаблон.json`; dlya podgotovki on ne yavlyayetsya ispolnyayemyim vkhodom.
+
+Vyibrannyij vkhod prinyatiya delegacii poka peredayotsya samostoyateljnomu guard cherez yego CLI. Podgotovitelj i adapter ne zakreplyayut etot vkhod v konfiguracii; ochisjhennoye okruzheniye zagruzchika ne perenosit `FUM_DELEGATION_TRUST`. Pri sokhranyonnom prinyatii i otsutstvuyusjhem vyibrannom vkhode guard otkazyivayet. Polnoye zamyikaniye iskhodnikov ne oznachayet gotovnostj nativnogo zapuska prinyatoj delegacii.
 
 ## Vosproizvodimyiye proverki
 
@@ -65,6 +68,6 @@ Po peredannomu auditu zakreplyonnogo runtime blokirovka sokhranyayetsya kak `res
 - [Otchyot, TDD i syiryiye izmereniya](../../Zhurnal/2026-09-09_13-23-25_MSK_podgotovitj-privatnyij-komplekt-zaversheniya/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
-<!-- content-sha256: sha256:7a62205cd748fcfcbe561b9273d6b1d1585d50641e7724f4f08e1b61b3b58a00 -->
+<!-- last-content-edit: 2026-09-16 16:55:43 MSK -->
+<!-- content-sha256: sha256:e9af025362ee7ff779fbb88f73a8982a0baab6e57bff1f1fce454d3ff6dc7865 -->
 <!-- FUM-MD-RECENCY:END -->

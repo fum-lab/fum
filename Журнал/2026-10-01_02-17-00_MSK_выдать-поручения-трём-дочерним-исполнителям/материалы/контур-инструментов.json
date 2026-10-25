@@ -1,0 +1,96 @@
+{
+  "коммит": "e8112e88e0a574ade47ab560324af834dc6e2d00",
+  "дерево": "e7ffd56de5ed1111f1f9f58d74ddcacb9007230e",
+  "файлов": 27069,
+  "байтов": 465910797,
+  "полный_манифест_sha256": "f51ae2505a0348f43133b4eb9ffa5980f283e226d39622db9aa4f568c5b5df11",
+  "gitlinks_не_материализованы_архивом": [
+    {
+      "путь": "Зависимости/LinguisticKit",
+      "gitlink": "837e2ce107b97ee7b9d3344c9fe99142281fe393"
+    }
+  ],
+  "отдельный_подпроцесс_в_дочернем_checkout": [
+    {
+      "исполнитель": "01a0f40a-a34f-7950-b74c-2e8b942cfdcb",
+      "файлы": [
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "режим": "100644"
+        }
+      ]
+    },
+    {
+      "исполнитель": "01a0f27d-9a9b-71a1-82d6-9c10c1c8de72",
+      "файлы": [
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "режим": "100644"
+        }
+      ]
+    },
+    {
+      "исполнитель": "01a0f27d-9ee9-7de0-b884-41fbd0a2b3a8",
+      "файлы": [
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "режим": "100644"
+        },
+        {
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "режим": "100644"
+        }
+      ]
+    }
+  ],
+  "профиль_нс": {
+    "получение_и_архив": 7017925084,
+    "сверка_полных_байтов_и_режимов": 2310610291,
+    "отдельные_дочерние_источники": 163837625
+  },
+  "граница": "Один полный Git-снимок инструмента; реальная готовность дочернего коммита ещё не проверена. SKILL вне checkout не является инструкцией."
+}

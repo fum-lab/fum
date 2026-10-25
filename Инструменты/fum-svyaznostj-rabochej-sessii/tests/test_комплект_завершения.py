@@ -21,11 +21,14 @@ from unittest import mock
 ПРЕФИКС = "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/"
 ПУТИ = [ПРЕФИКС + имя for имя in ("перехватить-завершение.py", "проверить-продолжение-задачи.py", "обязательства_задачи.py")]
 ПУТИ += ["Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"]
-ПУТИ += [ПРЕФИКС + имя for имя in ("обязательства_задачи_v2.py", "история_пути_гита.py")]
+ПУТИ += [ПРЕФИКС + имя for имя in ("обязательства_задачи_v2.py", "история_пути_гита.py",
+    "исторические_неподтверждённые_приёмки.py")]
 ПУТИ += ["Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/" + имя for имя in (
     "закрытый_отчёт_из_гита.py", "связь_отпечатка_с_коммитом.py")]
-ПУТИ += [ПРЕФИКС + имя for имя in ("обработка_сообщений.py", "сообщения_задачи.py")]
+ПУТИ += [ПРЕФИКС + имя for имя in ("обработка_сообщений.py", "сообщения_задачи.py",
+    "кэш_сверки_остатка.py")]
 ПУТИ += ["Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py"]
+ПУТИ += [ПРЕФИКС + "приём_делегации.py"]
 ЗАДАЧА = "01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
 
 
@@ -53,7 +56,8 @@ class КомплектЗавершения(unittest.TestCase):
             'assert "PYTHONPATH" not in os.environ and "ПОСТОРОННЕЕ" not in os.environ\n'
             'assert os.environ["PATH"] == "/usr/bin:/bin"\n'
             'assert "--исходник" in sys.argv\n'
-            'print(json.dumps(json.load(sys.stdin), ensure_ascii=False))\n')
+            'значение=json.load(sys.stdin)\n'
+            'print(json.dumps({"test":значение["test"],"argv":sys.argv}, ensure_ascii=False))\n')
         это.коммит = это.сохранить()
 
     def убрать(это):
@@ -106,8 +110,10 @@ class КомплектЗавершения(unittest.TestCase):
         манифест = (цель / "манифест.json").read_bytes()
         это.assertEqual(hashlib.sha256(манифест).hexdigest(), результат["sha256"])
         это.assertEqual(цель.name, "stop-" + результат["sha256"])
-        это.assertEqual(len(результат["манифест"]["файлы"]), 11)
-        это.assertEqual(результат["манифест"]["схема"], "fum.комплект-Stop.3")
+        это.assertEqual(len(результат["манифест"]["файлы"]), 14)
+        это.assertEqual(результат["манифест"]["схема"], "fum.комплект-Stop.4")
+        это.assertEqual(результат["схема"], "fum.кандидат-комплекта-Stop.4")
+        это.assertEqual(результат["кандидат"]["hooks"]["Stop"][0]["hooks"][0]["timeout"], 90)
         for имя in ПУТИ:
             это.assertEqual((цель / имя).read_bytes(), (это.репозиторий / имя).read_bytes())
             это.assertEqual((цель / имя).stat().st_mode & 0o777, 0o400)
@@ -115,6 +121,24 @@ class КомплектЗавершения(unittest.TestCase):
         это.assertEqual(процесс.returncode, 0, процесс.stderr)
         это.assertEqual(json.loads(процесс.stdout)["test"], "ё ' $ `")
         это.assertFalse((это.каталог / "состояние").exists())
+
+    def test_шаблон_имеет_согласованный_срок_guard(это):
+        шаблон = Path(__file__).resolve().parents[1] / "шаблоны/Stop.hooks.шаблон.json"
+        настройка = json.loads(шаблон.read_text(encoding="utf-8"))
+        команда = настройка["hooks"]["Stop"][0]["hooks"][0]["command"]
+        это.assertIn("--тайм-аут-backend 60", команда)
+        это.assertIn('--кэш "<ПРИВАТНЫЙ-КЭШ-СООБЩЕНИЙ>"', команда)
+        это.assertEqual(настройка["hooks"]["Stop"][0]["hooks"][0]["timeout"], 90)
+
+    def test_сгенерированный_комплект_передаёт_путь_приватного_кэша(это):
+        кэш = это.хранилище / "сообщения.json"
+        результат = это.подготовить("--кэш", str(кэш))
+        это.assertEqual(результат["манифест"]["выполнение"]["кэш"], str(кэш))
+        процесс = это.вызвать(результат["кандидат"])
+        это.assertEqual(процесс.returncode, 0, процесс.stderr)
+        части = json.loads(процесс.stdout)["argv"]
+        позиция = части.index("--кэш")
+        это.assertEqual(части[позиция + 1], str(кэш))
 
     def test_четвёртый_исходник_обязателен(это):
         (это.репозиторий / ПУТИ[3]).unlink()
@@ -131,6 +155,15 @@ class КомплектЗавершения(unittest.TestCase):
                 это.отказ_подготовки("источник-инвентарь")
                 путь.write_bytes(байты)
                 это.коммит = это.сохранить()
+
+    def test_незаявленный_локальный_импорт_отклоняется_до_создания_комплекта(это):
+        исходник = это.репозиторий / ПУТИ[2]
+        исходник.write_text("import новый_локальный_модуль\n", encoding="utf-8")
+        сосед = исходник.with_name("новый_локальный_модуль.py")
+        сосед.write_text("ЗНАЧЕНИЕ = 1\n", encoding="utf-8")
+        это.коммит = это.сохранить()
+        это.отказ_подготовки("источник-неполный-импорт")
+        это.assertFalse(any(это.хранилище.glob("stop-*")))
 
     def test_тип_и_режим_исходника_проверяются(это):
         путь = это.репозиторий / ПУТИ[3]
@@ -332,6 +365,7 @@ class КомплектЗавершения(unittest.TestCase):
         варианты = []
         for изменить in (lambda м: м.update(лишнее=True),
                         lambda м: м.update(схема="fum.комплект-Stop.1"),
+                        lambda м: м.update(схема="fum.комплект-Stop.3"),
                         lambda м: м["файлы"].pop(),
                         lambda м: м["файлы"][0].update(размер=True),
                         lambda м: м["выполнение"].update(лишнее=True)):

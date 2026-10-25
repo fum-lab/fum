@@ -1,0 +1,26 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--polnyij-prinyatyij-kontur-zhurnala--01a13f4a",
+  "исполнитель": "01a13f4a-13a4-74d2-9141-0d790037b731",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_независимого_контура.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/конечный_состав_независимого_контура.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/допуск_независимого_контура.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/независимый-контур/",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/принятый-независимый-контур.md",
+    "Журнал/2026-10-15_14-03-12_MSK_запустить-полный-принятый-контур-журнала/",
+    "Журнал/2026-10-15_14-03-12_MSK_закрепить-ремонт-допуска-рабочего-цикла/запрос.md",
+    "Журнал/2026-10-15_14-22-16_MSK_закрепить-адресные-поручения-ремонта/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json"
+  ],
+  "постановка": {
+    "sha256": "d4974e64656cf42adad513b96bb97d8501f4ca8d9853c49908d931e01f04fc84",
+    "коммит": "eca4df1468ceed73abfb70e1ccf481ff0d200912",
+    "путь": "Планирование/параллельные-постановки/2026-10-15/запускать-полный-принятый-контур-независимого-журнала.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "4d6168fffab8aefeee3b1bc82b09d9cb9fb1c77cd83e90f4e712e1b18ef50b2d"
+}

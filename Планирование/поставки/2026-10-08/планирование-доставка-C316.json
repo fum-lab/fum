@@ -1,0 +1,38 @@
+{
+  "PR": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "1c658e2bc972fd0035e52524ee98dfd1d8a451042707af1b8aba9ff61e900d82",
+    "stdout_байты": 256,
+    "данные": {
+      "baseRefName": "fuma",
+      "headRefOid": "208a9475b1646b942c664caf822b845264155b16",
+      "mergeCommit": {
+        "oid": "fce66596c60d7d503ebe0d673cf24340989b8294"
+      },
+      "mergedAt": "2026-10-08T03:23:04Z",
+      "number": 222,
+      "state": "MERGED",
+      "url": "https://github.com/fum-lab/fum/pull/222"
+    },
+    "код": 0
+  },
+  "origin": "https://github.com/fum-lab/fum.git",
+  "remote_наблюдение": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_байты": 0,
+    "stdout_sha256": "1ac708ce39934b8e707f6c6d370581471bb11090b39ba24de1c812674927d1f7",
+    "stdout_байты": 57,
+    "код": 0,
+    "монотонные_нс": 911788917
+  },
+  "ветка": "refs/heads/fuma",
+  "граница": "Наблюдение поставки C316, не завершение всех обязательств ROOT. Планирование child terminal admission отдельно.",
+  "коммит": "fce66596c60d7d503ebe0d673cf24340989b8294",
+  "родители": [
+    "375de009c6e4085acf87480dca033f73706fac93",
+    "208a9475b1646b942c664caf822b845264155b16"
+  ],
+  "содержимое": "Срез актуального планирования и D12 TDLib приняты merge-коммитом; опубликованные OID и GitHub состояние PR совпали.",
+  "схема": "fum.наблюдение-доставки.1",
+  "удалённый_oid": "fce66596c60d7d503ebe0d673cf24340989b8294"
+}

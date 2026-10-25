@@ -1,6 +1,6 @@
 # Iskhodniki FUMA
 
-Katalog sobirayet sobstvennuyu realizaciyu FUMA obyichnyimi fajlami yedinogo FUM: chetyire samostoyateljnyikh SwiftPM-paketa i prilozheniye dlya macOS. Paketyi yesjhyo ne podklyuchenyi k prilozheniyu; takoj svyazi ne byilo i v iskhodnoj realizacii.
+Katalog sobirayet sobstvennuyu realizaciyu FUMA obyichnyimi fajlami yedinogo FUM: chetyire samostoyateljnyikh SwiftPM-paketa i prilozheniye dlya macOS. Kontejner nablyudenij uzhe podklyuchyon k CLI-scenariyu operatorov prilozheniya; ostaljnyiye paketyi trebuyut otdeljnoj integracii.
 
 - [Kontejner nablyudenij](Packages/KontejnerNablyudenij/README.md) khranit odin ogranichennyij segment binarnyikh nablyudenij.
 - [Snimok agentskoj zadachi](Packages/SnimokAgentskojZadachi/README.md) vosproizvodit sinteticheskiye scenarii i vosstanavlivayet snimok.
@@ -10,7 +10,21 @@ Katalog sobirayet sobstvennuyu realizaciyu FUMA obyichnyimi fajlami yedinogo FUM
 
 Paketyi obyyavlyayut Swift tools 6.0, Swift 6 i macOS 14. Eto granica nyineshnej realizacii, a ne zayavleniye o podderzhke vsekh celevyikh OS. Rukovodstva paketov poka sokhranyayut iskhodnyij tekst; ikh komandyi s `Packages/` vyipolnyayutsya iz etogo kataloga. [Proverka paketov iz chistogo klona](proverka-paketov.md) podtverzhdena na nablyudyonnoj platforme: 133 testa, chetyire Release-sborki i pyatj sinteticheskikh profilej. Rukovodstvo soderzhit samostoyateljnyiye komandyi i ogranicheniya. [Proverka prilozheniya iz chistogo klona](proverka-prilozheniya.md) podtverzhdayet SwiftPM, Xcode i sinteticheskiye profili s otdeljnyimi ogranicheniyami sredyi.
 
+## Razvitiye obsjhej kodovoj bazyi
+
+[Podgotovka Android-runtime](plan-Android-runtime.md) prinyata v rabotu: obsjheye Swift-yadro, platformennyiye adapteryi i sobstvennyij interfejs cherez Metal/Vulkan. Zapusk na Android yesjhyo trebuyetsya podtverditj.
+
+Celevaya struktura po poslednemu utochneniyu — yedinyij Swift-paket FUMA v etom kataloge, obsjhiye Sources/Tests i platformennyiye razlichiya cherez #if vnutri komponentov. Perenos prezhnego macOS-paketa i otdeljnyikh sobstvennyikh paketov yesjhyo predstoit; tekusjheye raspolozheniye vyishe ostayotsya opisaniyem fakta.
+
+[Tekstovaya sreda po modeli Canon Cat](../../Dokumentaciya/interfejs-FUMA/tekstovaya-sreda-Canon-Cat.md) zaplanirovana na strukturiruyusjhikh operatorakh: LEAP, sostavnoj kursor i shriftovoj trakt k Metal/Vulkan. Istochnik i granicyi pervogo sreza privedenyi v plane.
+
+[Medijnyij trakt](medijnyij-trakt.md) svyazyivayet lokaljnuyu ozvuchku, generiruyemoye video, Torrent-arkhiv i publikacii YouTube/Twitch/Telegram/MAX; eto plan s yavnoj granicej pervogo proveryayemogo sreza.
+
+[GitHub-adapter](plan-GitHub-adaptera.md) zaplanirovan dlya nablyudeniya i vedeniya repozitoriyev, zadach, PR, proverok i relizov FUM.
+
 ## Sokhraneniye proiskhozhdeniya
+
+[Podgotovka iOS-runtime](plan-iOS-runtime.md) takzhe aktivirovana: prilozheniye v Simulator, zapisj i replay obsjhego scenariya, sobstvennyij graficheskij putj Metal. Perenosimostj paketov i zapusk trebuyut proverki.
 
 [Manifest perenosa](../../Zhurnal/2026-09-11_01-28-44_MSK_perenesti-iskhodniki-FUMA/materialyi/manifest-perenosa-paketov.json) svyazyivayet kazhdyij iskhodnyij putj s polnyimi commit, blob OID, SHA-256, razmerom, rezhimom i mestom v FUM. Iskhodniki i fiksturyi izvlechenyi bez izmeneniya bajtov. V README shtatno dobavlyayutsya toljko sluzhebnyiye metki svezhesti; ikh polnyij kanonicheskij khyesh uchityivayetsya otdeljno.
 
@@ -30,6 +44,6 @@ Dlya povtornogo izvlecheniya nuzhen pustoj celevoj katalog. Posle importa syiroj
 - [FUM-STEP-0176](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
-<!-- content-sha256: sha256:4acce5aa2aa63a5c8a0f88fb06d1cf1d96f82c5b439e0eb9c85a8c8c36d23600 -->
+<!-- last-content-edit: 2026-09-15 22:23:43 MSK -->
+<!-- content-sha256: sha256:66cebb0e666ce1a42ed41e0afdd28911a444a88857885187af3c8d9df0b09a19 -->
 <!-- FUM-MD-RECENCY:END -->

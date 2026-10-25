@@ -1,0 +1,78 @@
+[
+  {
+    "команда": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-f",
+      "-s",
+      "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests",
+      "-p",
+      "test_раздельных_ожиданий.py"
+    ],
+    "код": 0,
+    "наносекунды": 75685553083
+  },
+  {
+    "команда": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-f",
+      "-s",
+      "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests",
+      "-p",
+      "test_завершения_*.py"
+    ],
+    "код": 0,
+    "наносекунды": 261485307834
+  },
+  {
+    "команда": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-f",
+      "-s",
+      "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests",
+      "-p",
+      "test_интервалов_нативных_вызовов.py"
+    ],
+    "код": 0,
+    "наносекунды": 247490667
+  },
+  {
+    "команда": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-f",
+      "-s",
+      "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests",
+      "-p",
+      "test_новых_веток_поколения.py"
+    ],
+    "код": 0,
+    "наносекунды": 96388844375
+  },
+  {
+    "команда": [
+      "python3",
+      "-B",
+      "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/профиль_сохранённых_писателей.py",
+      "--раздельно",
+      "--выход",
+      "<новый-приватный-json>"
+    ],
+    "код": 0,
+    "наносекунды": 29691359042
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--perepodgotovka-ustanovlennoj-operacii-ozhidanij--01a120cb-2d16",
+  "исполнитель": "01a120cb-a1cc-7900-8a7c-2d16e5adf6b5",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_переподготовка_ожиданий_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переподготовки_ожиданий_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/переподготовка-установленной-операции-ожиданий.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/состояние-задач-узла.md",
+    "Журнал/2026-10-09_18-28-54_MSK_закрыть-пробелы-переподготовки-ожиданий/",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Журнал/2026-10-09_16-24-33_MSK_переподготовить-установленную-операцию-ожиданий/запрос.md"
+  ],
+  "постановка": {
+    "sha256": "f2da7b082c0fb07a09ea57b840b3194dc5999e8ecc1a02431ba9f63469339a95",
+    "коммит": "b501651f612091596087fdca404d85bd34f51beb",
+    "путь": "Сбои/FUM-СБОЙ-0199-нет-переподготовки-установленной-операции-ожиданий.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "bebd3860b0adca7dfdcb84ed592290ba5cf1034e149e2a3a39cbd300c308928b"
+}

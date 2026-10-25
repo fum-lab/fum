@@ -4,10 +4,16 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import importlib.util
+import json
+import os
 import re
+import stat
 import subprocess
 import sys
 import tempfile
+import uuid
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Sequence
@@ -18,6 +24,8 @@ REVISION_PATTERN = re.compile(r"(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})\Z")
 GITHUB_SCP_PATTERN = re.compile(
     r"(?:[^@]+@)?github\.com:(?P<owner>[^/]+)/(?P<name>[^/]+?)(?:\.git)?\Z"
 )
+ПРОБРАСЫВАТЬ_ОШИБКИ_ЧТЕНИЯ = False
+КОД_ДОПУСКА_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -31,7 +39,7 @@ class DependencySpec:
 @dataclass(frozen=True)
 class GitResult:
     returncode: int
-    stdout: str
+    stdout: str | bytes
     stderr: str
 
 
@@ -47,13 +55,19 @@ def run_git(
     *arguments: str,
     allowed_returncodes: tuple[int, ...] = (0,),
     strip_output: bool = True,
+    сырые_байты: bool = False,
 ) -> GitResult:
     try:
         result = subprocess.run(
-            ["git", *arguments],
+            ["git", "--no-replace-objects", "--no-optional-locks", "--no-lazy-fetch",
+             "-c", f"core.hooksPath={os.devnull}", "-c", "core.fsmonitor=false",
+             "-c", "core.filemode=true", "-c", "submodule.recurse=false",
+             "-c", "fetch.recurseSubmodules=false", *arguments],
             cwd=cwd,
+            env={**{ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith("GIT_")},
+                 "GIT_NO_LAZY_FETCH": "1"},
             check=False,
-            text=True,
+            text=not сырые_байты,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=120,
@@ -69,7 +83,7 @@ def run_git(
     return GitResult(
         returncode=result.returncode,
         stdout=result.stdout.strip() if strip_output else result.stdout,
-        stderr=result.stderr.strip(),
+        stderr=(result.stderr.decode('utf-8', errors='replace') if сырые_байты else result.stderr).strip(),
     )
 
 
@@ -167,6 +181,8 @@ def expected_submodule_git_directory(
                 f"{path}: Git-каталог submodule не должен проходить через "
                 f"символическую ссылку {current}"
             ]
+        if current.exists() and not current.is_dir():
+            return None, [f"{path}: компонент Git-каталога должен быть каталогом: {current}"]
     modules_root = (superproject_git_dir / "modules").resolve()
     expected_git_dir = expected_git_dir.resolve()
     try:
@@ -379,13 +395,6 @@ def validate_repository_topology(repo_root: Path, spec: DependencySpec) -> list[
         )
     if fork.kind != upstream.kind:
         errors.append("форк и upstream должны использовать один тип Git-расположения")
-    names_match = (
-        fork.name.casefold() == upstream.name.casefold()
-        if fork.kind == upstream.kind == "github"
-        else fork.name == upstream.name
-    )
-    if not names_match:
-        errors.append("имена репозиториев форка и upstream должны совпадать")
     if fork.kind == upstream.kind == "github":
         if normalized_github_location(fork) == normalized_github_location(upstream):
             errors.append(
@@ -482,19 +491,22 @@ def read_index_gitlink_revision(
     try:
         result = run_git(
             repo_root,
+            "--literal-pathspecs",
             "ls-files",
             "--stage",
+            "-z",
             "--",
             path,
+            strip_output=False,
         )
     except RuntimeError as error:
         return None, [f"{path}: не удалось прочитать gitlink: {error}"]
-    lines = [line for line in result.stdout.splitlines() if line]
+    lines = [line for line in result.stdout.split("\0") if line]
     if len(lines) != 1:
         return None, [f"{path}: ожидается ровно один gitlink в индексе"]
-    metadata, separator, _ = lines[0].partition("\t")
+    metadata, separator, имя_записи = lines[0].partition("\t")
     fields = metadata.split()
-    if not separator or len(fields) != 3:
+    if not separator or len(fields) != 3 or имя_записи != path:
         return None, [f"{path}: некорректная запись gitlink"]
     mode, revision, stage = fields
     errors: list[str] = []
@@ -660,6 +672,8 @@ def validate_gitmodules_before_add(repo_root: Path) -> list[str]:
     try:
         gitmodules.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as error:
+        if ПРОБРАСЫВАТЬ_ОШИБКИ_ЧТЕНИЯ:
+            raise
         return [f".gitmodules должен быть доступным UTF-8-файлом: {error}"]
     return []
 
@@ -720,6 +734,14 @@ def registered_dependency_spec(
     if errors:
         return None, errors
     return spec, []
+
+
+def проверить_флаги_индекса(корень: Path, путь: str) -> list[str]:
+    """Читать каждый флаг до status, fetch или checkout."""
+    записи = run_git(корень, "ls-files", "-v", "-z", strip_output=False).stdout
+    if any(запись and not запись.startswith("H ") for запись in записи.split("\0")):
+        return [f"{путь}: скрывающие изменения флаги индекса запрещены"]
+    return []
 
 
 def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
@@ -787,6 +809,8 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
                 encoding="utf-8"
             ).strip()
         except (OSError, UnicodeError) as error:
+            if ПРОБРАСЫВАТЬ_ОШИБКИ_ЧТЕНИЯ:
+                raise
             errors.append(f"не удалось прочитать рабочую .gitmodules как UTF-8: {error}")
         else:
             if indexed_gitmodules != working_gitmodules:
@@ -815,16 +839,17 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     except RuntimeError as error:
         errors.append(f"{spec.path}: не является Git-клоном: {error}")
         return errors
+    topology_errors = []
     if Path(dependency_root).resolve() != dependency.resolve():
-        errors.append(f"{spec.path}: Git-корень зависимости не совпадает с путём")
+        topology_errors.append(f"{spec.path}: Git-корень зависимости не совпадает с путём")
     git_marker = dependency / ".git"
     if not git_marker.is_file() or git_marker.is_symlink():
-        errors.append(
+        topology_errors.append(
             f"{spec.path}: submodule должен использовать связанный .git-файл "
             "без символической ссылки"
         )
     if section is not None:
-        errors.extend(
+        topology_errors.extend(
             validate_submodule_git_directory(
                 repo_root,
                 dependency,
@@ -832,6 +857,9 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
                 section,
             )
         )
+    if topology_errors:
+        return errors + topology_errors
+    errors.extend(проверить_флаги_индекса(dependency, spec.path))
     try:
         superproject = run_git(
             dependency,
@@ -1011,6 +1039,7 @@ def validate_initialization_target(
             section,
         )
     )
+    errors.extend(проверить_флаги_индекса(dependency, spec.path))
     try:
         superproject = run_git(
             dependency,
@@ -1093,6 +1122,8 @@ def validate_initialization_target(
 def initialize_registered_dependency(
     repo_root: Path,
     path: str,
+    *,
+    перед_эффектом=None,
 ) -> tuple[DependencySpec | None, list[str]]:
     repo_root = repo_root.resolve()
     spec, errors = registered_dependency_spec(repo_root, path)
@@ -1155,13 +1186,18 @@ def initialize_registered_dependency(
                     f"{spec.path}: каталог нематериализованного submodule не пуст"
                 ]
         try:
+            if перед_эффектом is not None:
+                перед_эффектом("материализация")
             run_git(
                 repo_root,
                 "-c",
                 "protocol.file.allow=always",
+                "-c",
+                f"{section}.url={spec.fork_url}",
+                "-c",
+                f"{section}.active=true",
                 "submodule",
                 "update",
-                "--init",
                 "--checkout",
                 "--no-recommend-shallow",
                 "--",
@@ -1185,6 +1221,8 @@ def initialize_registered_dependency(
         ]
     if "upstream" not in remotes:
         try:
+            if перед_эффектом is not None:
+                перед_эффектом("добавление_источника_оригинала")
             run_git(
                 dependency,
                 "remote",
@@ -1198,11 +1236,17 @@ def initialize_registered_dependency(
             ]
 
     try:
+        if перед_эффектом is not None:
+            перед_эффектом("получение_форка")
         run_git(dependency, "fetch", "--prune", "origin")
+        if перед_эффектом is not None:
+            перед_эффектом("получение_оригинала")
         run_git(dependency, "fetch", "--prune", "upstream")
     except RuntimeError as error:
         return spec, [f"не удалось получить remote для {spec.path}: {error}"]
     try:
+        if перед_эффектом is not None:
+            перед_эффектом("выбор_ревизии")
         run_git(
             dependency,
             "checkout",
@@ -1218,11 +1262,15 @@ def initialize_registered_dependency(
     return spec, validate_dependency(repo_root, spec)
 
 
-def preflight_dependency(spec: DependencySpec) -> list[str]:
+def preflight_dependency(spec: DependencySpec, *, перед_эффектом=None, проверить_дерево=None) -> list[str]:
+    if перед_эффектом is not None:
+        перед_эффектом()
     with tempfile.TemporaryDirectory(prefix="fum-git-dependency-") as tmp:
-        temporary_root = Path(tmp)
+        temporary_root = Path(tmp).resolve()
         clone = temporary_root / "dependency"
         try:
+            if перед_эффектом is not None:
+                перед_эффектом()
             run_git(
                 temporary_root,
                 "-c",
@@ -1231,12 +1279,27 @@ def preflight_dependency(spec: DependencySpec) -> list[str]:
                 "--origin",
                 "origin",
                 "--no-checkout",
+                "--no-local",
+                "--no-hardlinks",
                 "--",
                 spec.fork_url,
                 str(clone),
             )
             run_git(clone, "remote", "add", "upstream", spec.upstream_url)
+            if перед_эффектом is not None:
+                перед_эффектом()
+            for удалённый, адрес in (('origin', spec.fork_url), ('upstream', spec.upstream_url)):
+                ошибки_источника = validate_remote_urls(clone, spec.path, удалённый, адрес)
+                ошибки_источника += validate_remote_fetch_refspec(clone, spec.path, удалённый)
+                if ошибки_источника:
+                    raise RuntimeError('; '.join(ошибки_источника))
             run_git(clone, "fetch", "origin")
+            if перед_эффектом is not None:
+                перед_эффектом()
+            ошибки_источника = validate_remote_urls(clone, spec.path, 'upstream', spec.upstream_url)
+            ошибки_источника += validate_remote_fetch_refspec(clone, spec.path, 'upstream')
+            if ошибки_источника:
+                raise RuntimeError('; '.join(ошибки_источника))
             run_git(clone, "fetch", "upstream")
             object_result = run_git(
                 clone,
@@ -1258,85 +1321,786 @@ def preflight_dependency(spec: DependencySpec) -> list[str]:
             return reachability_errors
         if not reachable:
             return [f"ревизия {spec.revision} не достижима из origin форка"]
+        if проверить_дерево is not None:
+            проверить_дерево(clone)
     return []
 
 
-def materialize_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
-    repo_root = repo_root.resolve()
-    errors = validate_spec(spec)
-    errors.extend(validate_repo_root(repo_root))
-    if errors:
-        return errors
-    errors.extend(validate_repository_topology(repo_root, spec))
-    if errors:
-        return errors
+def разобрать_предварительный_допуск(байты):
+    def пары(значения):
+        результат = dict(значения)
+        if len(результат) != len(значения):
+            raise RuntimeError('повтор ключа предварительного допуска')
+        return результат
 
-    target = dependency_path(repo_root, spec)
-    if target.exists():
-        return validate_dependency(repo_root, spec)
-    errors.extend(validate_gitmodules_before_add(repo_root))
-    if errors:
-        return errors
-    if (repo_root / ".gitmodules").exists():
-        _, section_errors = find_submodule_section(repo_root, spec.path)
-        if not section_errors:
-            errors.append(f"{spec.path}: запись .gitmodules уже существует")
-    existing_index = run_git(
-        repo_root,
-        "ls-files",
-        "--stage",
-        "--",
-        spec.path,
-    ).stdout
-    if existing_index:
-        errors.append(f"{spec.path}: путь уже присутствует в Git-индексе")
-    git_dir_value = run_git(repo_root, "rev-parse", "--git-dir").stdout
-    git_dir = Path(git_dir_value)
-    if not git_dir.is_absolute():
-        git_dir = repo_root / git_dir
-    modules_residue = git_dir.joinpath(
-        "modules",
-        *PurePosixPath(spec.path).parts,
-    )
-    if modules_residue.exists():
-        errors.append(f"{spec.path}: обнаружен остаточный Git-каталог submodule")
-    if errors:
-        return errors
-    errors.extend(preflight_dependency(spec))
-    if errors:
-        return errors
+    def константа(значение):
+        raise RuntimeError('нечисловая константа предварительного допуска: ' + значение)
 
+    return json.loads(байты, object_pairs_hook=пары, parse_constant=константа)
+
+
+def загрузить_подготовку_для_допуска(ожидаемый_хэш):
+    путь = Path(__file__).with_name('подготовка_зависимостей.py')
+    байты = прочитать_закреплённые_байты({'путь': str(путь), 'хэш_байтов': ожидаемый_хэш})
+    имя = 'подготовка_допуска_' + uuid.uuid4().hex
+    описание = importlib.util.spec_from_file_location(имя, путь)
+    if описание is None or описание.loader is None:
+        raise RuntimeError('недоступен неизменённый helper подготовки')
+    модуль = importlib.util.module_from_spec(описание)
+    sys.modules[имя] = модуль
+    exec(compile(байты, str(путь), 'exec'), модуль.__dict__)
+    if модуль.ОТПЕЧАТОК_КОДА[путь.name] != ожидаемый_хэш:
+        raise RuntimeError('исходник подготовки изменился при свежей загрузке')
+    прочитать_закреплённые_байты({'путь': str(путь), 'хэш_байтов': ожидаемый_хэш})
+    return модуль
+
+
+def прочитать_закреплённые_байты(ссылка):
+    if (type(ссылка) is not dict or set(ссылка) != {'путь', 'хэш_байтов'}
+            or type(ссылка['путь']) is not str or type(ссылка['хэш_байтов']) is not str
+            or re.fullmatch('[0-9a-f]{64}', ссылка['хэш_байтов']) is None):
+        raise RuntimeError('нужны закрытая ссылка на файл и независимо закреплённый SHA-256')
+    путь = Path(ссылка['путь'])
+    if not путь.is_absolute() or путь.resolve() != путь or not путь.is_file() or путь.is_symlink():
+        raise RuntimeError('вход должен быть физическим абсолютным обычным файлом')
+    свойства = путь.stat()
+    if свойства.st_uid != os.geteuid() or свойства.st_mode & 0o022:
+        raise RuntimeError('вход имеет чужого владельца или допускает чужую запись')
+    with путь.open('rb') as поток:
+        до = os.fstat(поток.fileno())
+        if до.st_size > 134217728:
+            raise RuntimeError('вход превышает объявленную границу 128 MiB')
+        байты = поток.read()
+        после = os.fstat(поток.fileno())
+    if (до.st_dev, до.st_ino, до.st_size, до.st_mtime_ns, до.st_ctime_ns) != (
+            после.st_dev, после.st_ino, после.st_size, после.st_mtime_ns, после.st_ctime_ns):
+        raise RuntimeError('вход изменился во время чтения')
+    if hashlib.sha256(байты).hexdigest() != ссылка['хэш_байтов']:
+        raise RuntimeError('сырые байты входа не совпадают с независимо выбранным SHA-256')
+    if путь.stat() != после:
+        raise RuntimeError('файл заменён после чтения')
+    return байты
+
+
+def снимок_защищённого_пути(путь, *, исключить=()):
+    """Читает байты, ссылки и метаданные, не следуя ссылкам каталогов."""
+    путь = Path(путь)
+    if not os.path.lexists(путь):
+        return None
+    результат = {}
+    очередь = [путь]
+    while очередь:
+        текущий = очередь.pop()
+        имя = текущий.relative_to(путь).as_posix()
+        if имя != '.' and текущий.relative_to(путь).parts[0] in исключить:
+            continue
+        до = текущий.lstat()
+        запись = {'режим': stat.S_IMODE(до.st_mode), 'устройство': до.st_dev,
+                  'номер_узла': до.st_ino, 'изменён': до.st_mtime_ns}
+        if stat.S_ISLNK(до.st_mode):
+            запись['вид'], запись['ссылка'] = 'ссылка', os.readlink(текущий)
+        elif stat.S_ISREG(до.st_mode):
+            запись['вид'] = 'файл'
+            вычисление = hashlib.sha256()
+            with текущий.open('rb') as поток:
+                for блок in iter(lambda: поток.read(1048576), b''):
+                    вычисление.update(блок)
+            запись['байты'] = вычисление.hexdigest()
+        elif stat.S_ISDIR(до.st_mode):
+            запись['вид'] = 'каталог'
+            # Изменение mtime родителя при записи только своего Gitdir ожидаемо.
+            запись.pop('изменён')
+            очередь.extend(sorted(текущий.iterdir(), reverse=True))
+        else:
+            raise RuntimeError('неподдержанный защищаемый объект: ' + str(текущий))
+        после = текущий.lstat()
+        if not stat.S_ISDIR(до.st_mode) and (
+                до.st_dev, до.st_ino, до.st_mode, до.st_size, до.st_mtime_ns, до.st_ctime_ns) != (
+                после.st_dev, после.st_ino, после.st_mode, после.st_size, после.st_mtime_ns, после.st_ctime_ns):
+            raise RuntimeError('защищаемый объект изменился при чтении')
+        результат[имя] = запись
+    return результат
+
+
+def диагноз_дерева(корень, ссылка, каталог, причина):
+    return RuntimeError(f'ранний допуск дерева: корень={корень}; ref={ссылка}; '
+                        f'admin={каталог}; причина={причина}')
+
+
+def метаданные_физического_каталога(путь):
+    """Закрепляет идентичность компонентов, не обходя рабочие файлы."""
+    if not путь.is_absolute():
+        raise RuntimeError('каталог должен иметь абсолютный физический путь')
+    результат = []
+    for компонент in (*reversed(путь.parents), путь):
+        свойства = компонент.lstat()
+        if not stat.S_ISDIR(свойства.st_mode):
+            raise RuntimeError('отсутствует обычный каталог либо обнаружена ссылка: ' + str(компонент))
+        результат.append((str(компонент), свойства.st_dev, свойства.st_ino, свойства.st_mode))
+    if путь.resolve() != путь:
+        raise RuntimeError('нефизический путь каталога: ' + str(путь))
+    return tuple(результат)
+
+
+def физический_маршрут_указателя(путь):
+    """Проверяет сырые компоненты, в том числе исчезающие после '..'."""
+    if not путь.is_absolute():
+        raise RuntimeError('нужен абсолютный служебный указатель')
+    текущий = Path(путь.anchor)
+    результат = []
+    for имя in ('.', *путь.parts[1:]):
+        if имя == '..':
+            текущий = текущий.parent
+        elif имя != '.':
+            текущий = текущий / имя
+        свойства = текущий.lstat()
+        if not stat.S_ISDIR(свойства.st_mode):
+            raise RuntimeError('нефизический компонент служебного указателя: ' + str(текущий))
+        результат.append((str(текущий), свойства.st_dev, свойства.st_ino, свойства.st_mode))
+    return текущий, tuple(результат)
+
+
+def прочитать_метаданные_регистрации(путь):
+    def признаки(свойства):
+        return (свойства.st_dev, свойства.st_ino, свойства.st_mode, свойства.st_size,
+                свойства.st_mtime_ns, свойства.st_ctime_ns)
+
+    метаданные_физического_каталога(путь.parent)
+    до = путь.lstat()
+    if not stat.S_ISREG(до.st_mode) or до.st_size > 65536:
+        raise RuntimeError('нужен обычный файл метаданных не больше 64 КиБ: ' + str(путь))
+    with путь.open('rb') as поток:
+        if признаки(os.fstat(поток.fileno())) != признаки(до):
+            raise RuntimeError('файл метаданных подменён перед чтением: ' + str(путь))
+        байты = поток.read(65537)
+        после = os.fstat(поток.fileno())
+    if признаки(после) != признаки(до) or признаки(путь.lstat()) != признаки(до):
+        raise RuntimeError('файл метаданных изменился при чтении: ' + str(путь))
+    текст = байты.decode('utf-8').removesuffix('\n')
+    if not текст or '\n' in текст or '\r' in текст or '\0' in текст:
+        raise RuntimeError('неоднозначные метаданные: ' + str(путь))
+    return текст, признаки(до)
+
+
+def метаданные_одного_дерева(дерево, запись, общий, обратный):
+    каталог = обратный
     try:
-        run_git(
-            repo_root,
-            "-c",
-            "protocol.file.allow=always",
-            "submodule",
-            "add",
-            "--",
-            spec.fork_url,
-            spec.path,
-        )
-        target = dependency_path(repo_root, spec)
-        run_git(target, "remote", "add", "upstream", spec.upstream_url)
-        run_git(target, "fetch", "origin")
-        run_git(target, "fetch", "upstream")
-        run_git(target, "checkout", "--detach", spec.revision)
-        section, section_errors = find_submodule_section(repo_root, spec.path)
-        if section_errors or section is None:
-            return section_errors or ["не удалось найти новую запись .gitmodules"]
-        run_git(
-            repo_root,
-            "config",
-            "-f",
-            ".gitmodules",
-            f"{section}.fumUpstream",
-            spec.upstream_url,
-        )
-        run_git(repo_root, "add", ".gitmodules", spec.path)
-    except RuntimeError as error:
-        return [f"не удалось материализовать {spec.path}: {error}"]
-    return validate_dependency(repo_root, spec)
+        if not os.path.lexists(дерево):
+            raise RuntimeError('рабочий корень отсутствует')
+        идентичность = метаданные_физического_каталога(дерево)
+        маркер = дерево / '.git'
+        свойства = маркер.lstat()
+        if stat.S_ISDIR(свойства.st_mode):
+            каталог = маркер
+            указатель = None
+            маршрут_указателя = None
+            if каталог != общий or обратный != 'неизвестен' and обратный != общий:
+                raise RuntimeError('обычный Git-каталог не совпадает с общей регистрацией')
+        else:
+            указатель = прочитать_метаданные_регистрации(маркер)
+            if not указатель[0].startswith('gitdir: '):
+                raise RuntimeError('неверный прямой указатель .git')
+            прямой = Path(указатель[0].removeprefix('gitdir: '))
+            if not прямой.is_absolute():
+                прямой = дерево / прямой
+            прямой_каталог, маршрут_указателя = физический_маршрут_указателя(прямой)
+            каталог = прямой_каталог
+            if каталог == общий or обратный != каталог:
+                raise RuntimeError('прямая и обратная регистрации не совпадают')
+        административные = метаданные_физического_каталога(каталог)
+        связность = обратный_указатель = маршрут_связности = None
+        if каталог != общий:
+            обратный_указатель = прочитать_метаданные_регистрации(каталог / 'gitdir')
+            if обратный_указатель[0] != str(маркер):
+                raise RuntimeError('обратный указатель gitdir не совпадает с корнем')
+            связность = прочитать_метаданные_регистрации(каталог / 'commondir')
+            общий_указатель = Path(связность[0])
+            if not общий_указатель.is_absolute():
+                общий_указатель = каталог / общий_указатель
+            общий_каталог, маршрут_связности = физический_маршрут_указателя(общий_указатель)
+            if общий_каталог != общий:
+                raise RuntimeError('commondir указывает в другую Git-базу')
+        голова = прочитать_метаданные_регистрации(каталог / 'HEAD')
+        ожидаемая = запись['голова'] if запись['ссылка'] == 'detached' else 'ref: ' + запись['ссылка']
+        if голова[0] != ожидаемая:
+            raise RuntimeError('HEAD/ref не совпадают с перечнем')
+        return {'ссылка': запись['ссылка'], 'голова': запись['голова'], 'каталог': каталог,
+            'идентичность': идентичность, 'административные': административные,
+            'указатель': указатель, 'обратный_указатель': обратный_указатель,
+            'связность': связность, 'голова_файл': голова,
+            'маршрут_указателя': маршрут_указателя, 'маршрут_связности': маршрут_связности}
+    except (OSError, UnicodeError, RuntimeError) as ошибка:
+        raise диагноз_дерева(дерево, запись['ссылка'], каталог, str(ошибка)) from ошибка
+
+
+def метаданные_зарегистрированных_деревьев(корень, общий, перечень):
+    """Полный ранний проход; читаются только указатели и служебный HEAD."""
+    записи = {}
+    for блок in перечень.split('\n\n'):
+        строки = блок.splitlines()
+        if not строки or not строки[0].startswith('worktree '):
+            raise RuntimeError('неполный перечень рабочих деревьев')
+        дерево = Path(строки[0].removeprefix('worktree '))
+        ссылки = [строка.removeprefix('branch ') for строка in строки if строка.startswith('branch ')]
+        головы = [строка.removeprefix('HEAD ') for строка in строки if строка.startswith('HEAD ')]
+        ссылка = ссылки[0] if len(ссылки) == 1 else 'detached' if 'detached' in строки else 'неизвестен'
+        if (дерево in записи or 'bare' in строки or len(головы) != 1
+                or not REVISION_PATTERN.fullmatch(головы[0])
+                or not (len(ссылки) == 1 and ссылки[0].startswith('refs/') and 'detached' not in строки
+                        or not ссылки and строки.count('detached') == 1)):
+            raise диагноз_дерева(дерево, ссылка, 'неизвестен', 'неоднозначная регистрация')
+        записи[дерево] = {'ссылка': ссылка, 'голова': головы[0]}
+    if корень not in записи:
+        raise диагноз_дерева(корень, 'неизвестен', 'неизвестен', 'собственное дерево отсутствует в перечне')
+
+    обратные = {}
+    служебные = {}
+    родитель = общий / 'worktrees'
+    имена = ()
+    if os.path.lexists(родитель):
+        метаданные_физического_каталога(родитель)
+        имена = tuple(sorted(путь.name for путь in родитель.iterdir()))
+        for имя in имена:
+            каталог = родитель / имя
+            дерево, ссылка = 'неизвестен', 'неизвестен'
+            try:
+                идентичность = метаданные_физического_каталога(каталог)
+                указатель = прочитать_метаданные_регистрации(каталог / 'gitdir')
+                маркер = Path(указатель[0])
+                if not маркер.is_absolute() or маркер.name != '.git':
+                    raise RuntimeError('неоднозначный обратный указатель gitdir')
+                дерево = маркер.parent
+                ссылка = записи.get(дерево, {}).get('ссылка', 'неизвестен')
+                if дерево not in записи:
+                    raise RuntimeError('обратная регистрация отсутствует в перечне Git')
+                if дерево in обратные:
+                    raise RuntimeError('неоднозначная обратная регистрация; другой admin=' + str(обратные[дерево]))
+                обратные[дерево] = каталог
+                служебные[str(каталог)] = (идентичность, указатель)
+            except (OSError, UnicodeError, RuntimeError) as ошибка:
+                raise диагноз_дерева(дерево, ссылка, каталог, str(ошибка)) from ошибка
+
+    результат = {}
+    for дерево, запись in записи.items():
+        результат[дерево] = метаданные_одного_дерева(
+            дерево, запись, общий, обратные.get(дерево, 'неизвестен'))
+    return результат, служебные, имена
+
+
+def снять_защищённое_состояние(корень, *, новый_путь=None):
+    """Самостоятельный читающий producer; checked add его вход не создаёт."""
+    корень = Path(корень)
+    if корень.resolve() != корень:
+        raise RuntimeError('нужен физический корень защиты')
+    собственный = Path(run_git(корень, 'rev-parse', '--absolute-git-dir').stdout)
+    общий = Path(run_git(корень, 'rev-parse', '--path-format=absolute', '--git-common-dir').stdout)
+    перечень = run_git(корень, 'worktree', 'list', '--porcelain').stdout
+    метаданные = метаданные_зарегистрированных_деревьев(корень, общий, перечень)
+
+    def сверить_метаданные():
+        свежий = run_git(корень, 'worktree', 'list', '--porcelain').stdout
+        if свежий != перечень:
+            raise диагноз_дерева(корень, метаданные[0][корень]['ссылка'], собственный,
+                                  'перечень регистраций изменился')
+        текущие = метаданные_зарегистрированных_деревьев(корень, общий, свежий)
+        if текущие != метаданные:
+            for дерево, запись in метаданные[0].items():
+                if текущие[0].get(дерево) != запись:
+                    raise диагноз_дерева(дерево, запись['ссылка'], запись['каталог'],
+                                          'root, маркер или admin подменён после раннего прохода')
+            raise диагноз_дерева(корень, метаданные[0][корень]['ссылка'], собственный,
+                                  'обратные регистрации подменены после раннего прохода')
+
+    сверить_метаданные()
+
+    def сверить_дерево(дерево, запись):
+        текущая = метаданные_одного_дерева(дерево, запись, общий, запись['каталог'])
+        if текущая != запись:
+            raise диагноз_дерева(дерево, запись['ссылка'], запись['каталог'],
+                                  'root, маркер или admin подменён после раннего прохода')
+
+    деревья = {}
+    for дерево, запись in метаданные[0].items():
+        if дерево == корень:
+            continue
+        сверить_дерево(дерево, запись)
+        try:
+            каталог = Path(run_git(дерево, 'rev-parse', '--absolute-git-dir').stdout)
+            if каталог != запись['каталог']:
+                raise RuntimeError('Git-каталог перенаправлен в ' + str(каталог))
+            деревья[str(дерево)] = {
+                'рабочие_байты': снимок_защищённого_пути(дерево, исключить=('.git',)),
+                'маркер': снимок_защищённого_пути(дерево / '.git') if (дерево / '.git').is_file() else None,
+                'гит_каталог': str(каталог),
+                'административные_байты': снимок_защищённого_пути(каталог) if каталог != общий else None,
+            }
+        except (OSError, UnicodeError, RuntimeError) as ошибка:
+            raise диагноз_дерева(дерево, запись['ссылка'], запись['каталог'], str(ошибка)) from ошибка
+        сверить_дерево(дерево, запись)
+    собственные_копии = {}
+    инвентарь = run_git(корень, 'ls-files', '--stage', '-v', '-z', strip_output=False).stdout
+    for строка in инвентарь.split('\0')[:-1]:
+        сведения, путь = строка.split('\t', 1)
+        if сведения.startswith('H 160000 ') and сведения.endswith(' 0') and путь != новый_путь:
+            раздел, ошибки = find_submodule_section(корень, путь)
+            if ошибки or раздел is None:
+                raise RuntimeError('неоднозначное описание прежней защищаемой копии')
+            каталог, ошибки = expected_submodule_git_directory(корень, путь, раздел)
+            if ошибки or каталог is None:
+                raise RuntimeError('небезопасный каталог прежней защищаемой копии')
+            собственные_копии[путь] = {'рабочие_байты': снимок_защищённого_пути(корень / путь),
+                                     'административные_байты': снимок_защищённого_пути(каталог)}
+    результат = {'схема': 'fum.защищённые-области-добавления.1', 'перечень_деревьев': перечень,
+        'общий_гит_каталог': str(общий), 'собственный_гит_каталог': str(собственный),
+        'общие_области': {имя: снимок_защищённого_пути(общий / имя)
+                          for имя in ('config', 'config.worktree', 'index', 'HEAD', 'refs', 'packed-refs', 'modules')},
+        'ссылки': run_git(корень, 'for-each-ref', '--format=%(refname) %(objectname)').stdout,
+        'чужие_деревья': деревья, 'собственные_готовые_копии': собственные_копии}
+    сверить_метаданные()
+    return результат
+
+
+def подготовить_описание_добавления(прежние_байты, описание):
+    def значение(текст):
+        if any(ord(символ) < 32 or ord(символ) == 127 for символ in текст):
+            raise RuntimeError('управляющий символ в контракте регистрации')
+        return '"' + текст.replace('\\', '\\\\').replace('"', '\\"') + '"'
+    прежние_байты.decode('utf-8')
+    разделитель = b'\n' if прежние_байты and not прежние_байты.endswith(b'\n') else b''
+    запись = (f'[submodule {значение(описание.path)}]\n'
+              f'\tpath = {значение(описание.path)}\n'
+              f'\turl = {значение(описание.fork_url)}\n'
+              f'\tfumUpstream = {значение(описание.upstream_url)}\n').encode()
+    return прежние_байты + разделитель + запись
+
+
+def проверить_первичное_родство(описание, ответы, разобрать):
+    if type(ответы) is not dict or set(ответы) != {'форк', 'оригинал'}:
+        raise RuntimeError('нужна точная пара независимо выбранных первичных ответов')
+    прочитанные = {}
+    for роль, адрес in (('форк', описание.fork_url), ('оригинал', описание.upstream_url)):
+        расположение, ошибки = parse_repository_location(адрес)
+        if ошибки or расположение is None or расположение.kind != 'github':
+            raise RuntimeError('мутирующий add требует публичные GitHub URL')
+        ссылка = ответы[роль]
+        if type(ссылка) is not dict or set(ссылка) != {'путь', 'хэш_байтов', 'адрес'}:
+            raise RuntimeError('неверная форма первичного ответа')
+        полное_имя = расположение.namespace + '/' + расположение.name
+        if ссылка['адрес'] != 'https://api.github.com/repos/' + полное_имя:
+            raise RuntimeError('первичный адрес не совпадает с выбранным источником')
+        данные = разобрать(прочитать_закреплённые_байты({
+            ключ: ссылка[ключ] for ключ in ('путь', 'хэш_байтов')}))
+        if (type(данные) is not dict or данные.get('full_name') != полное_имя
+                or type(данные.get('id')) is not int or данные['id'] <= 0
+                or данные.get('private') is not False or type(данные.get('fork')) is not bool):
+            raise RuntimeError('неполный или противоречивый первичный ответ')
+        прочитанные[роль] = данные
+    форк, оригинал = прочитанные['форк'], прочитанные['оригинал']
+    родитель = форк.get('parent')
+    if (форк['fork'] is not True or type(родитель) is not dict
+            or type(родитель.get('id')) is not int or родитель['id'] != оригинал['id']
+            or родитель.get('full_name') != оригинал['full_name'] or форк['id'] == оригинал['id']):
+        raise RuntimeError('не подтверждены fork=true и прямой parent.id/full_name')
+
+
+class ДопускДобавления:
+    def __init__(сам, корень, описание, файл, ожидаемый_хэш):
+        сам.корень, сам.описание = Path(корень), описание
+        сам.ссылка = {'путь': str(файл), 'хэш_байтов': ожидаемый_хэш}
+        байты_допуска = прочитать_закреплённые_байты(сам.ссылка)
+        предварительные = разобрать_предварительный_допуск(байты_допуска)
+        сам.подготовка = загрузить_подготовку_для_допуска(
+            предварительные['снимок_до']['код']['подготовка_зависимостей.py'])
+        сам.данные = сам.подготовка.разобрать_объект(байты_допуска)
+        поля = {'схема', 'исполнитель', 'корневая_задача', 'зависимость', 'снимок_до',
+                'готовая_квитанция', 'первичные_ответы', 'описание_подмодулей_после', 'защищённое_состояние'}
+        сам.граф = None
+        сам.набор_графов = None
+        if type(сам.данные) is dict and сам.данные.get('схема') in {
+                'fum.допуск-добавления-зависимости.2', 'fum.допуск-добавления-зависимости.3'}:
+            поля = поля | {'граф'}
+            сам.граф = сам.данные.get('граф')
+            if сам.данные['схема'] == 'fum.допуск-добавления-зависимости.2' or сам.граф is not None:
+                сам.подготовка.проверить_форму_графа(сам.граф, описание)
+            if сам.данные['схема'] == 'fum.допуск-добавления-зависимости.3':
+                поля |= {'набор_графов'}
+                сам.набор_графов = сам.данные.get('набор_графов')
+                сам.подготовка.прочитать_набор_графов(сам.набор_графов)
+        if (type(сам.данные) is not dict or set(сам.данные) != поля
+                or сам.данные['схема'] not in ('fum.допуск-добавления-зависимости.1',
+                    'fum.допуск-добавления-зависимости.2', 'fum.допуск-добавления-зависимости.3')):
+            raise RuntimeError('неверная закрытая форма допуска добавления')
+        ожидаемое = {'адрес_форка': описание.fork_url, 'адрес_оригинала': описание.upstream_url,
+                     'путь': описание.path, 'ревизия': описание.revision}
+        if сам.данные['зависимость'] != ожидаемое:
+            raise RuntimeError('источник, путь или OID не совпадают с независимым выбором')
+        сам.до = сам.данные['снимок_до']
+        сам.подготовка.исторические_гитлинки(сам.до)
+        сам.записи_до = сам.индексные_записи(сам.до)
+        сам.прежний_инвентарь = [запись for запись in сам.подготовка.прочитать_инвентарь(сам.корень)
+            if запись['путь'] in сам.записи_до]
+        сам.подготовка.проверить_набор_графов(сам.прежний_инвентарь, сам.набор_графов)
+        if '.gitmodules' in сам.записи_до:
+            объект = сам.записи_до['.gitmodules'][1]
+            прежние = run_git(сам.корень, 'cat-file', 'blob', объект, strip_output=False, сырые_байты=True).stdout
+        else:
+            прежние = b''
+        if (hashlib.sha256(прежние).hexdigest() if '.gitmodules' in сам.записи_до else None) != сам.до['описание_подмодулей']:
+            raise RuntimeError('исходное описание не подтверждено индексным blob')
+        сам.описание_после = прочитать_закреплённые_байты(сам.данные['описание_подмодулей_после'])
+        if сам.описание_после != подготовить_описание_добавления(прежние, описание):
+            raise RuntimeError('ожидаемое описание не является точным добавлением одной секции')
+        алгоритм = run_git(сам.корень, 'rev-parse', '--show-object-format').stdout
+        if алгоритм not in ('sha1', 'sha256'):
+            raise RuntimeError('неподдержанный формат Git-объектов')
+        объект = hashlib.new(алгоритм, b'blob ' + str(len(сам.описание_после)).encode() + b'\0' + сам.описание_после).hexdigest()
+        сам.записи_после = сам.записи_до.copy()
+        if описание.path in сам.записи_до:
+            raise RuntimeError('новый путь уже присутствует в исходном индексе')
+        сам.записи_после['.gitmodules'] = (сам.записи_до.get('.gitmodules', ('100644', ''))[0], объект)
+        сам.записи_после[описание.path] = ('160000', описание.revision)
+        сам.защита = сам.подготовка.разобрать_объект(прочитать_закреплённые_байты(сам.данные['защищённое_состояние']))
+        сам.цель = dependency_path(сам.корень, описание)
+        сам.каталог, ошибки = expected_submodule_git_directory(сам.корень, описание.path, 'submodule.' + описание.path)
+        if ошибки or сам.каталог is None:
+            raise RuntimeError('; '.join(ошибки))
+        сам.путь_исхода = Path(сам.до['гит_каталог']) / ('fum-добавление-' + hashlib.sha256(описание.path.encode()).hexdigest() + '.json')
+        сам.фаза = 'допуск'
+        сам.граф_готов = False
+        сам.фазы_листьев = []
+        сам.хэш_графа = (hashlib.sha256(json.dumps(сам.граф, ensure_ascii=False, sort_keys=True,
+                            separators=(',', ':')).encode()).hexdigest() if сам.граф is not None else None)
+
+    def индексные_записи(сам, снимок):
+        сам.подготовка.исторические_гитлинки(снимок)
+        результат = {}
+        for строка in снимок['инвентарь_индекса'].split('\0')[:-1]:
+            сведения, путь = строка.split('\t', 1)
+            _, режим, объект, _ = сведения.split()
+            результат[путь] = (режим, объект)
+        return результат
+
+    def проверить_родство(сам, описание=None, ответы=None):
+        проверить_первичное_родство(сам.описание if описание is None else описание,
+            сам.данные['первичные_ответы'] if ответы is None else ответы, сам.подготовка.разобрать_объект)
+
+    def проверить(сам, *, материализована=False, описание_установлено=False, результат=False):
+        if hashlib.sha256(Path(__file__).read_bytes()).hexdigest() != КОД_ДОПУСКА_ПРИ_ЗАГРУЗКЕ:
+            raise RuntimeError('исполняемые исходники add изменились')
+        сам.подготовка.проверить_код()
+        прежние_графы = сам.подготовка.проверить_набор_графов(сам.прежний_инвентарь, сам.набор_графов)
+        прочитать_закреплённые_байты(сам.ссылка)
+        прочитать_закреплённые_байты(сам.данные['описание_подмодулей_после'])
+        прочитать_закреплённые_байты(сам.данные['защищённое_состояние'])
+        сам.проверить_родство()
+        if сам.граф is not None:
+            сам.подготовка.проверить_форму_графа(сам.граф, сам.описание)
+            for лист in сам.граф['листья']:
+                сам.проверить_родство(DependencySpec(лист['адрес_форка'], лист['адрес_оригинала'],
+                                                   лист['путь'], лист['ревизия']), лист['первичные_ответы'])
+        if сам.корень.resolve() != сам.корень or str(сам.корень) != сам.до['корень']:
+            raise RuntimeError('чужой или перенаправленный физический корень')
+        текущий = сам.подготовка.снять_снимок(сам.корень)
+        if (сам.корень / '.gitmodules').exists() and (сам.корень / '.gitmodules').stat().st_nlink != 1:
+            raise RuntimeError('общий inode описания через жёсткую ссылку запрещён до эффекта')
+        сам.подготовка.проверить_владение(сам.корень, текущий, сам.данные['исполнитель'], сам.данные['корневая_задача'])
+        if текущий['гит_каталог'] == текущий['общий_гит_каталог']:
+            raise RuntimeError('регистрация требует собственного linked worktree')
+        изменяемые = {'индекс', 'инвентарь_индекса', 'описание_подмодулей'}
+        if any(текущий[ключ] != сам.до[ключ] for ключ in сам.до if ключ not in изменяемые):
+            raise RuntimeError('HEAD/ref, топология, config или код отличаются от выбранного снимка')
+        записи = сам.индексные_записи(текущий)
+        хэш_описания = hashlib.sha256(сам.описание_после).hexdigest()
+        готовый_результат = записи == сам.записи_после and текущий['описание_подмодулей'] == хэш_описания
+        исходное = текущий == сам.до
+        промежуточное = (описание_установлено and записи == сам.записи_до
+                         and текущий['индекс'] == сам.до['индекс']
+                         and текущий['описание_подмодулей'] == хэш_описания)
+        if not (исходное or промежуточное or готовый_результат):
+            raise RuntimeError('снимок не является исходным или точным ожидаемым delta')
+        if результат and not готовый_результат:
+            raise RuntimeError('конечный двухпутевой delta не подтверждён')
+        ошибки = validate_spec(сам.описание) + validate_repository_topology(сам.корень, сам.описание)
+        адрес_репозитория = run_git(сам.корень, 'remote', 'get-url', 'origin').stdout
+        ошибки += validate_remote_urls(сам.корень, 'FUM', 'origin', адрес_репозитория)
+        ошибки += validate_public_github_https_url(адрес_репозитория, 'origin FUM')
+        переписывания = run_git(сам.корень, 'config', '--get-regexp',
+                               r'^url\..*\.(insteadof|pushinsteadof)$', allowed_returncodes=(0, 1))
+        if переписывания.returncode == 0:
+            ошибки.append('необъявленная конфигурационная подмена Git URL запрещена')
+        ошибки += validate_dependency_worktree_location(сам.корень, сам.цель, сам.описание.path)
+        каталог, ошибки_каталога = expected_submodule_git_directory(сам.корень, сам.описание.path, 'submodule.' + сам.описание.path)
+        ошибки += ошибки_каталога
+        if каталог != сам.каталог:
+            ошибки.append('канонический module-путь изменился')
+        if ошибки:
+            raise RuntimeError('; '.join(ошибки))
+        for путь in сам.записи_до:
+            if (путь.casefold() == сам.описание.path.casefold()
+                    or путь.casefold().startswith(сам.описание.path.casefold() + '/')
+                    or сам.описание.path.casefold().startswith(путь.casefold() + '/')):
+                raise RuntimeError('новый путь накладывается на исходный индекс')
+        if not (материализована or готовый_результат):
+            if os.path.lexists(сам.цель) or os.path.lexists(сам.каталог):
+                raise RuntimeError('занятый путь или остаточный module-каталог')
+        else:
+            сам.проверить_материализованную_топологию()
+            if сам.граф is not None and сам.граф_готов and not готовый_результат:
+                сам.подготовка.проверить_готовность_графа(сам.цель, сам.граф)
+        ссылка = сам.данные['готовая_квитанция']
+        if type(ссылка) is not dict or set(ссылка) != {'путь', 'хэш_байтов'}:
+            raise RuntimeError('неверная ссылка выбранной подготовки')
+        if ссылка['путь'] != str(Path(текущий['гит_каталог']) / 'fum-подготовка-зависимостей-v1.json'):
+            raise RuntimeError('выбрана чужая активная квитанция')
+        прочитать_закреплённые_байты(ссылка)
+        квитанция, _ = сам.подготовка.прочитать_квитанцию(ссылка['путь'])
+        сам.подготовка.проверить_цепочку(квитанция, Path(текущий['гит_каталог']), сам.данные['исполнитель'], сам.данные['корневая_задача'])
+        if ((квитанция['схема'] == 'fum.подготовка-зависимостей.3') != (сам.набор_графов is not None)
+                or сам.набор_графов is not None and квитанция['набор_графов'] != сам.набор_графов):
+            raise RuntimeError('add требует явно закреплённый набор выбранной подготовки; старый допуск не расширяется')
+        if (квитанция['готова'] is not True or any(значение != 'готова' for значение in квитанция['состояния'].values())
+                or сам.подготовка.группа_жива(квитанция['группа_процессов'])):
+            raise RuntimeError('выбранная подготовка не финализирована или её группа жива')
+        for поле in ('корень', 'гит_каталог', 'общий_гит_каталог', 'ссылка'):
+            if квитанция['снимок'][поле] != текущий[поле]:
+                raise RuntimeError('выбранная подготовка принадлежит иной топологии')
+        прежние = сам.подготовка.исторические_гитлинки(квитанция['снимок'])
+        текущие = сам.подготовка.исторические_гитлинки(текущий)
+        if any(текущие.get(путь) != ревизия for путь, ревизия in прежние.items()):
+            raise RuntimeError('историческая готовая зависимость или её OID утрачены')
+        графы = прежние_графы.copy()
+        if сам.граф is not None and готовый_результат:
+            графы[сам.описание.path] = сам.граф
+        if промежуточное:
+            # Описание уже заменено, индекс ещё прежний: их точный delta доказан выше.
+            # Полную готовность проверяем до замены и после staging; прежние копии
+            # здесь связаны полным неизменным снимком защиты, графы проверяем явно.
+            for путь, граф in графы.items():
+                сам.подготовка.проверить_готовность_графа(сам.корень / путь, граф)
+            готова = True
+        else:
+            готова = сам.подготовка.проверить_зависимости(сам.корень, графы=графы)['готова']
+        if not готова:
+            raise RuntimeError('весь текущий stage0-инвентарь должен быть готов')
+        сам.подготовка.проверить_набор_графов(сам.прежний_инвентарь, сам.набор_графов)
+        if снять_защищённое_состояние(сам.корень, новый_путь=сам.описание.path) != сам.защита:
+            raise RuntimeError('общие или чужие рабочие/Git-области изменились')
+        сам.подготовка.проверить_набор_графов(сам.прежний_инвентарь, сам.набор_графов)
+        return готовый_результат
+
+    def проверить_материализованную_топологию(сам):
+        маркер = сам.цель / '.git'
+        if маркер.is_symlink() or not маркер.is_file():
+            raise RuntimeError('у нового клона нужен обычный связанный .git-файл')
+        ошибки = validate_submodule_git_directory(сам.корень, сам.цель, сам.описание.path, 'submodule.' + сам.описание.path)
+        if ошибки or Path(run_git(сам.цель, 'rev-parse', '--show-toplevel').stdout) != сам.цель:
+            raise RuntimeError('; '.join(ошибки) or 'новый клон обнаруживает чужой Git-корень')
+        удалённые = run_git(сам.цель, 'remote').stdout.splitlines()
+        ожидаемые = ['origin'] if сам.фаза in ('материализация', 'добавление_источника') else ['origin', 'upstream']
+        if удалённые != ожидаемые:
+            raise RuntimeError('поздняя подмена ролей remote нового клона')
+        for удалённый in ожидаемые:
+            адрес = сам.описание.fork_url if удалённый == 'origin' else сам.описание.upstream_url
+            ошибки = validate_remote_urls(сам.цель, сам.описание.path, удалённый, адрес)
+            ошибки += validate_remote_fetch_refspec(сам.цель, сам.описание.path, удалённый)
+            if ошибки:
+                raise RuntimeError('; '.join(ошибки))
+
+    def сохранить_исход(сам, состояние, *, новый=False):
+        данные = {'схема': 'fum.исход-добавления-зависимости.1', 'допуск_sha256': сам.ссылка['хэш_байтов'],
+                  'путь': сам.описание.path, 'состояние': состояние, 'фаза': сам.фаза}
+        if сам.граф is not None:
+            данные.update({'схема': 'fum.исход-добавления-зависимости.2',
+                           'отпечаток_графа': сам.хэш_графа, 'фазы_листьев': сам.фазы_листьев})
+        if сам.набор_графов is not None:
+            данные.update({'схема': 'fum.исход-добавления-зависимости.3',
+                'набор_графов': сам.набор_графов, 'отпечаток_графа': сам.хэш_графа,
+                'фазы_листьев': сам.фазы_листьев})
+        байты = (json.dumps(данные, ensure_ascii=False, sort_keys=True) + '\n').encode()
+        путь = сам.путь_исхода if новый else сам.путь_исхода.with_name(сам.путь_исхода.name + '.' + uuid.uuid4().hex + '.tmp')
+        дескриптор = os.open(путь, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(дескриптор, 'wb') as файл:
+            файл.write(байты); файл.flush(); os.fsync(файл.fileno())
+        if not новый:
+            os.replace(путь, сам.путь_исхода)
+        сам.подготовка.синхронизировать_каталог(сам.путь_исхода.parent)
+
+    def проверить_повтор(сам, готовый):
+        if not os.path.lexists(сам.путь_исхода):
+            if готовый:
+                raise RuntimeError('результат существует без собственного завершённого намерения')
+            return False
+        данные, _ = сам.подготовка.прочитать_квитанцию(сам.путь_исхода)
+        поля = {'схема', 'допуск_sha256', 'путь', 'состояние', 'фаза'}
+        схема = 'fum.исход-добавления-зависимости.1'
+        if сам.граф is not None:
+            поля |= {'отпечаток_графа', 'фазы_листьев'}; схема = 'fum.исход-добавления-зависимости.2'
+        if сам.набор_графов is not None:
+            поля |= {'набор_графов', 'отпечаток_графа', 'фазы_листьев'}
+            схема = 'fum.исход-добавления-зависимости.3'
+        if (type(данные) is not dict or set(данные) != поля or данные['схема'] != схема
+                or данные['допуск_sha256'] != сам.ссылка['хэш_байтов'] or данные['путь'] != сам.описание.path
+                or данные['состояние'] != 'готова' or not готовый):
+            raise RuntimeError('частичный или неизвестный исход: обычный повтор запрещён')
+        if сам.набор_графов is not None and (данные['набор_графов'] != сам.набор_графов
+                or данные['отпечаток_графа'] != сам.хэш_графа or данные['фаза'] != 'проверка_результата'
+                or сам.граф is None and данные['фазы_листьев'] != []):
+            raise RuntimeError('набор графов или фаза готового исхода отличаются')
+        if сам.граф is not None:
+            ожидаемые = [{'путь': лист['путь'], 'фаза': фаза} for лист in сам.граф['листья']
+                for фаза in ('клонирование', 'добавление_источника', 'получение_форка', 'получение_оригинала', 'выбор_ревизии', 'готова')]
+            if (данные['отпечаток_графа'] != сам.хэш_графа or данные['фазы_листьев'] != ожидаемые
+                    or данные['фаза'] != 'проверка_результата'):
+                raise RuntimeError('граф или история фаз готового исхода отличаются')
+            сам.фазы_листьев = данные['фазы_листьев']
+        return True
+
+    def подготовить_листья(сам):
+        привязки = сам.подготовка.проверить_родителя_графа(сам.цель, сам.граф)
+        for путь in сам.граф['нематериализованные']:
+            цель = сам.цель.joinpath(*PurePosixPath(путь).parts)
+            каталог, ошибки = expected_submodule_git_directory(сам.цель, путь, привязки[путь][0])
+            ошибки += validate_dependency_worktree_location(сам.цель, цель, путь)
+            if ошибки or каталог is None or os.path.lexists(каталог) or (os.path.lexists(цель) and (not цель.is_dir() or any(цель.iterdir()))):
+                raise RuntimeError('; '.join(ошибки) or 'невыбранный узел графа занят')
+        for лист in сам.граф['листья']:
+            путь = лист['путь']; цель = сам.цель.joinpath(*PurePosixPath(путь).parts)
+            раздел = привязки[путь][0]
+            каталог, ошибки = expected_submodule_git_directory(сам.цель, путь, раздел)
+            ошибки += validate_dependency_worktree_location(сам.цель, цель, путь)
+            if ошибки or каталог is None:
+                raise RuntimeError('; '.join(ошибки))
+            if os.path.lexists(каталог) or (os.path.lexists(цель) and (not цель.is_dir() or any(цель.iterdir()))):
+                raise RuntimeError('занятый лист или остаточный private GitDir сохраняется')
+            def перед_эффектом(фаза, *, клонирован=False):
+                сам.фаза = 'лист:' + путь + ':' + фаза
+                сам.проверить(материализована=True)
+                сам.подготовка.проверить_родителя_графа(сам.цель, сам.граф)
+                if клонирован:
+                    сам.подготовка.проверить_указатель_листа(сам.цель, цель, путь, раздел)
+                    ошибки = []
+                    ожидаемые = ['origin'] if фаза == 'добавление_источника' else ['origin', 'upstream']
+                    if run_git(цель, 'remote').stdout.splitlines() != ожидаемые:
+                        raise RuntimeError('роли remote листа изменены перед эффектом')
+                    for роль in ожидаемые:
+                        адрес = лист['адрес_форка'] if роль == 'origin' else лист['адрес_оригинала']
+                        ошибки += validate_remote_urls(цель, путь, роль, адрес)
+                        ошибки += validate_remote_fetch_refspec(цель, путь, роль)
+                    if ошибки: raise RuntimeError('; '.join(ошибки))
+                сам.фазы_листьев.append({'путь': путь, 'фаза': фаза})
+                сам.сохранить_исход('выполняется')
+            перед_эффектом('клонирование')
+            каталог.parent.mkdir(parents=True, exist_ok=True); цель.parent.mkdir(parents=True, exist_ok=True)
+            run_git(сам.корень, 'clone', '--origin', 'origin', '--no-checkout', '--no-local', '--no-hardlinks',
+                    '--separate-git-dir=' + str(каталог), '--', лист['адрес_форка'], str(цель))
+            параметры = ('--git-dir=' + str(каталог), '--work-tree=' + str(цель))
+            for фаза, команда in [('добавление_источника', ('remote', 'add', 'upstream', лист['адрес_оригинала'])),
+                                  ('получение_форка', ('fetch', '--prune', 'origin')),
+                                  ('получение_оригинала', ('fetch', '--prune', 'upstream')),
+                                  ('выбор_ревизии', ('checkout', '--detach', '--no-overwrite-ignore', лист['ревизия']))]:
+                перед_эффектом(фаза, клонирован=True)
+                run_git(сам.корень, *параметры, *команда)
+            перед_эффектом('готова', клонирован=True)
+        сам.подготовка.проверить_готовность_графа(сам.цель, сам.граф)
+        сам.граф_готов = True
+
+
+def materialize_dependency(repo_root: Path, spec: DependencySpec, *, допуск=None,
+                           ожидаемый_хэш_допуска=None) -> list[str]:
+    if допуск is None or ожидаемый_хэш_допуска is None:
+        return ['add требует явный независимо закреплённый допуск до первого эффекта']
+    разрешение = None
+    намерение_сохранено = False
+    try:
+        ошибки = validate_spec(spec) + validate_repo_root(repo_root)
+        if not ошибки:
+            ошибки += validate_repository_topology(repo_root, spec)
+        if ошибки:
+            return ошибки
+        ошибки = validate_gitmodules_before_add(repo_root)
+        if ошибки:
+            return ошибки
+        разрешение = ДопускДобавления(repo_root, spec, допуск, ожидаемый_хэш_допуска)
+        готовый = разрешение.проверить()
+        if разрешение.проверить_повтор(готовый):
+            намерение_сохранено = True
+            ошибки = validate_dependency(repo_root, spec)
+            if ошибки:
+                raise RuntimeError('; '.join(ошибки))
+            разрешение.проверить(материализована=True, результат=True)
+            return []
+        ошибки = validate_gitmodules_before_add(repo_root)
+        if ошибки:
+            return ошибки
+        разрешение.сохранить_исход('намерение', новый=True)
+        намерение_сохранено = True
+        разрешение.фаза = 'предварительная_проверка'
+        ошибки = preflight_dependency(spec, перед_эффектом=разрешение.проверить,
+            проверить_дерево=lambda клон: разрешение.подготовка.проверить_дерево_графа(клон, spec.revision, разрешение.граф))
+        if ошибки:
+            raise RuntimeError('; '.join(ошибки))
+        разрешение.проверить()
+        разрешение.фаза = 'материализация'
+        разрешение.каталог.parent.mkdir(parents=True, exist_ok=True)
+        разрешение.цель.parent.mkdir(parents=True, exist_ok=True)
+        разрешение.проверить()
+        run_git(repo_root, '-c', 'protocol.file.allow=always', 'clone', '--origin', 'origin',
+                '--no-checkout', '--no-local', '--no-hardlinks',
+                '--separate-git-dir=' + str(разрешение.каталог), '--', spec.fork_url, str(разрешение.цель))
+        разрешение.проверить_материализованную_топологию()
+        параметры = ('--git-dir=' + str(разрешение.каталог), '--work-tree=' + str(разрешение.цель))
+        for фаза, команда in [('добавление_источника', ('remote', 'add', 'upstream', spec.upstream_url)),
+                              ('получение_форка', ('fetch', '--prune', 'origin')),
+                              ('получение_оригинала', ('fetch', '--prune', 'upstream')),
+                              ('выбор_ревизии', ('checkout', '--detach', '--no-overwrite-ignore', spec.revision))]:
+            разрешение.фаза = фаза
+            разрешение.проверить(материализована=True)
+            run_git(repo_root, *параметры, *команда)
+        достижим, ошибки = remote_revision_is_reachable(разрешение.цель, spec.revision, 'origin')
+        if ошибки or not достижим:
+            raise RuntimeError('; '.join(ошибки) or 'ревизия не достижима из выбранного origin')
+        разрешение.подготовка.проверить_дерево_графа(разрешение.цель, spec.revision, разрешение.граф)
+        if разрешение.граф is not None:
+            разрешение.подготовить_листья()
+        разрешение.фаза = 'описание_подмодулей'
+        разрешение.проверить(материализована=True)
+        временный = Path(разрешение.до['гит_каталог']) / ('.gitmodules-' + uuid.uuid4().hex + '.tmp')
+        дескриптор = os.open(временный, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(дескриптор, 'wb') as поток:
+            поток.write(разрешение.описание_после); поток.flush()
+            os.fchmod(поток.fileno(), 0o755 if разрешение.записи_после['.gitmodules'][0] == '100755' else 0o644)
+            os.fsync(поток.fileno())
+        разрешение.проверить(материализована=True)
+        корневой_дескриптор = os.open(repo_root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            свойства = os.fstat(корневой_дескриптор)
+            if (свойства.st_dev, свойства.st_ino) != (Path(repo_root).stat().st_dev, Path(repo_root).stat().st_ino):
+                raise RuntimeError('корень заменён перед установкой описания')
+            os.replace(временный, '.gitmodules', dst_dir_fd=корневой_дескриптор)
+            os.fsync(корневой_дескриптор)
+        finally:
+            os.close(корневой_дескриптор)
+        разрешение.подготовка.синхронизировать_каталог(Path(repo_root))
+        разрешение.фаза = 'индекс'
+        разрешение.проверить(материализована=True, описание_установлено=True)
+        run_git(repo_root, '--literal-pathspecs', 'add', '--', '.gitmodules', spec.path)
+        разрешение.фаза = 'проверка_результата'
+        разрешение.проверить(материализована=True, результат=True)
+        ошибки = validate_dependency(repo_root, spec)
+        if ошибки:
+            raise RuntimeError('; '.join(ошибки))
+        разрешение.проверить(материализована=True, результат=True)
+        разрешение.сохранить_исход('готова')
+        разрешение.проверить(материализована=True, результат=True)
+        return []
+    except (OSError, UnicodeError, ValueError, TypeError, KeyError, RuntimeError) as ошибка:
+        if намерение_сохранено:
+            try:
+                разрешение.сохранить_исход('неизвестно')
+            except (OSError, RuntimeError) as ошибка_записи:
+                return ['неизвестный исход add; частичные результаты сохранены: ' + str(ошибка),
+                        'исход не удалось устойчиво записать: ' + str(ошибка_записи)]
+        return ['допуск add закрыт; частичные результаты сохраняются: ' + str(ошибка)]
 
 
 def add_repo_root_argument(parser: argparse.ArgumentParser) -> None:
@@ -1382,6 +2146,10 @@ def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
     commands = parser.add_subparsers(dest="command", required=True)
     add_parser = commands.add_parser("add", help="Добавить новый Git submodule.")
     add_common_arguments(add_parser)
+    add_parser.add_argument('--допуск', type=Path, required=True,
+                            help='Самостоятельно подготовленный закрытый допуск.')
+    add_parser.add_argument('--ожидаемый-хэш-допуска', required=True,
+                            help='Независимо выбранный SHA-256 сырых байтов допуска.')
     check_parser = commands.add_parser(
         "check",
         help="Автономно проверить уже материализованную зависимость.",
@@ -1412,7 +2180,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             revision=arguments.revision.lower(),
         )
         if arguments.command == "add":
-            errors = materialize_dependency(arguments.repo_root, dependency_spec)
+            errors = materialize_dependency(arguments.repo_root, dependency_spec,
+                допуск=arguments.допуск, ожидаемый_хэш_допуска=arguments.ожидаемый_хэш_допуска)
         else:
             errors = validate_dependency(arguments.repo_root, dependency_spec)
         success_message = "Проверена Git-зависимость"

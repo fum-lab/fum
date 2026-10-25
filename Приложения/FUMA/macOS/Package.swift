@@ -15,12 +15,13 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "FUMStructuringOperatorMemory", path: "../../../Прототипы/память-структурирующих-операторов"),
-        .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений")
+        .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений"),
+        .package(name: "АрхивныйСнимокЗадачи", path: "../Packages/АрхивныйСнимокЗадачи")
     ],
     targets: [
         .executableTarget(
             name: "FUMApp",
-            dependencies: ["CMpvShim", "ПутиИсполнения", "ИсполнениеОператора"],
+            dependencies: ["CMpvShim", "ПутиИсполнения", "ИсполнениеОператора", "FUMObservationJournal"],
             linkerSettings: [
                 .linkedFramework("OpenGL"),
                 .linkedLibrary("mpv")
@@ -40,12 +41,15 @@ let package = Package(
         .target(name: "ИсполнениеОператора", dependencies: [
             "ПутиИсполнения",
             .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
-            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")
+            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
+            .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
         ]),
+        .target(name: "FUMObservationJournal"),
         .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
-        .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения"]),
-        .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения"]),
-        .executableTarget(name: "FUMAttentionLoop", dependencies: ["ПутиИсполнения"]),
+        .testTarget(name: "FUMObservationJournalTests", dependencies: ["FUMObservationJournal"]),
+        .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
+        .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
+        .executableTarget(name: "FUMAttentionLoop", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
         .testTarget(name: "ПутиИсполненияTests", dependencies: ["ПутиИсполнения"])
     ]
 )

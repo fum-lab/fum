@@ -224,6 +224,6 @@ MWS Cloud Platform Audit Logs Следующая
 Virtual Infrastructure
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
 <!-- content-sha256: sha256:15ccb10a2f7eb18e8de117094652e91fbdc4a507c93f6f7a097f04e737df1709 -->
 <!-- FUM-MD-RECENCY:END -->

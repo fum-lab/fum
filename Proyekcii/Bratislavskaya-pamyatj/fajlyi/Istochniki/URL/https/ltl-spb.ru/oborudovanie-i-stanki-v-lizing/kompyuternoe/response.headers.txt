@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Tue, 15 Sep 2026 16:14:22 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+set-cookie: [REDACTED: response cookie]
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: max-age=2592000, private, must-revalidate
+Pragma: no-cache
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+Vary: Accept-Encoding

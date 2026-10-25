@@ -66,13 +66,13 @@ Postanovka peredayotsya otdeljnyim kommitom posle Linux-postanovki 4dd5a7f33913b
 
 ## Istochniki i svyazj s planom
 
-- [Tri komandyi, otvetyi i proiskhozhdeniye](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_13-30-58_MSK_подготовить-постановку-Windows-VM-на-macOS/запрос.md); [issledovaniye i granicyi porucheniya koordinatora](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_13-30-58_MSK_подготовить-постановку-Windows-VM-на-macOS/материалы/поручение-координатора.json). Boljshoye issledovaniye polucheno ot koordinatora; zdesj adresno prochitanyi UTM scripting, ukazannyij iskhodnik UTM, Microsoft ARM64 ISO, Windows Setup i material Microsoft o Parallels.
+- [Tri komandyi, otvetyi i proiskhozhdeniye](../Zhurnal/2026-09-11_13-30-58_MSK_podgotovitj-postanovku-Windows-VM-na-macOS/zapros.md); [issledovaniye i granicyi porucheniya koordinatora](../Zhurnal/2026-09-11_13-30-58_MSK_podgotovitj-postanovku-Windows-VM-na-macOS/materialyi/porucheniye-koordinatora.json). Boljshoye issledovaniye polucheno ot koordinatora; zdesj adresno prochitanyi UTM scripting, ukazannyij iskhodnik UTM, Microsoft ARM64 ISO, Windows Setup i material Microsoft o Parallels.
 - [Obsjhij cikl Linux VM](Linux-na-macOS.md), [podgotovka khosta STEP0179](kartochki-shagov/🟡-FUM-STEP-0179-avtomatizirovatj-podgotovku-repozitoriya-na-macOS.md), [gostevoj Windows STEP0181](kartochki-shagov/🟡-FUM-STEP-0181-avtomatizirovatj-podgotovku-repozitoriya-na-Windows.md).
 - [Avtomatizaciya Windows Setup](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/automate-windows-setup?view=windows-11), [dobavleniye drajverov](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/add-device-drivers-to-windows-during-windows-setup?view=windows-11), [gostevaya podderzhka UTM](https://docs.getutm.app/guest-support/windows/).
 - [UTM Apple Boot](https://docs.getutm.app/settings-apple/boot/), [QEMU ARM virt](https://www.qemu.org/docs/master/system/arm/virt.html), [dokumentaciya CLI Parallels](https://docs.parallels.com/landing/parallels-desktop-developers-guide/command-line-interface-utility/manage-virtual-machines-from-cli/general-virtual-machine-management/create-a-virtual-machine) — adresnyiye oporyi issledovaniya koordinatora dlya posleduyusjhej realizacii.
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:bfa0b38d586e10398b4168c7c37b072d0d211ca5d3056a48544214c7ff852cce -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:fd612893595b40f528e1ae8bc0f89477a7613094623151e6709225731fec9555 -->
 <!-- FUM-MD-RECENCY:END -->

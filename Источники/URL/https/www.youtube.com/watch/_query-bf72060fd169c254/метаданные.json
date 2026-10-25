@@ -1,0 +1,31 @@
+{
+  "id": "_DxVPRKT6Ww",
+  "title": "Как рой из 1200 ИИ-агентов придумал концепт БОГА и решил его ВЗЛОМАТЬ. (Атака на Hugging Face)",
+  "channel": "ВЕЛИКОХАТСКИЙ | НАУКА",
+  "channel_id": "UC3dZyu3Gyqz38TP_RMyf7DA",
+  "uploader": "ВЕЛИКОХАТСКИЙ | НАУКА",
+  "upload_date": "20261010",
+  "duration": 3796,
+  "webpage_url": "https://www.youtube.com/watch?v=_DxVPRKT6Ww",
+  "original_url": "https://www.youtube.com/watch?v=_DxVPRKT6Ww",
+  "license": null,
+  "language": "ru",
+  "manual_subtitle_languages": [],
+  "дорожки": [
+    {
+      "дорожка": "ru-orig",
+      "непустых_событий": 1294,
+      "начало_мс": 240,
+      "конец_мс": 3796000,
+      "автоматическая": true
+    },
+    {
+      "дорожка": "en-orig",
+      "непустых_событий": 1307,
+      "начало_мс": 1079,
+      "конец_мс": 3794839,
+      "автоматическая": true
+    }
+  ],
+  "тип_представления": "Выбранные публичные метаданные; приватный оригинал учтён по SHA-256"
+}

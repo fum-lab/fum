@@ -1,0 +1,99 @@
+{
+  "схема": "fum.сверка-входящего-среза.1",
+  "исходный_HEAD": "8e7a3d494954971f9119a2ea3a435d5cefc8da38",
+  "вход": "ac78d0b410395358797663dcc028150938839f06",
+  "общая_база": "14044dfd994cf16b5061fb245b18a8e5abf0ac7d",
+  "файлы_инструментов": [
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/SKILL.md",
+      "sha256": "21f38e57fbd9a885fca4cdfceddd8bb8ef2b224d0866feb06e31b3480c72aacb",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+      "sha256": "f7dc17976af308ef79c3d1d1da88f10f70efdc9f98897a216707b5625240d981",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_братиславская_проекция_памяти.py",
+      "sha256": "498da4b7d867abc1475a747ba03cd81029bb5179594457a2cc89eda9e4960fe8",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_переход_форматов_основной_ветки.py",
+      "sha256": "b69e7e9c171becb8fe9c9cde83e2d16d0d3a2327d42d1a130eaac32bf1133630",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/профиль-предпосылки-форматов.py",
+      "sha256": "a84ca0ff9a171499d27c75e51af4ae67e0aac0954818a5810e2232fba999efbd",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/фикстуры/поколение-master-v2.json",
+      "sha256": "bb80682e5c9ce56b8ebb2eefda93f7500239890a20728fe0dbd51f4d85c7f1e4",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/фикстуры/поколение-master-изменённое-v2.json",
+      "sha256": "dd66248298ca56779239a4854672acebe27b1bdae2cfb3716d94cc1ff9c228f6",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/фикстуры/поколение-ведущей-v2.json",
+      "sha256": "4449fd8204f1b182a197fc2c62d8092e3650deb390a50b3c127e5be49c1b7967",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/фикстуры/создать-прежнее-поколение-v2.py",
+      "sha256": "87f04080238d8bf7447acc20dd6f4e3b842f7da160b4c38cae768885a460ca7c",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-сценариев-и-карты-авторов.json",
+      "sha256": "1d1e276a96dfe74bb5aea626b60495c3e35056319016502d9b1881d0a585dbd9",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py",
+      "sha256": "928f1eab473201c75660b58489c50ab73552e7467a79411382640201d502f68a",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/продвинуть_принятое_слияние.py",
+      "sha256": "6e3da27f919043bf7f38415948a1511108694cb003ca602e5e9ef1edfac62aed",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/SKILL.md",
+      "sha256": "5d5962969ed78910a751c18aa141478db601c47c92b2ec78c9954f70ba022596",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/остаток-объявлений-кода.json",
+      "sha256": "06154f5e5804089672f4db82c310ef3c8a294582ab9e187c071ae1d3f5b04ab9",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md",
+      "sha256": "d2f50347a67408494e844981074e7daff2731813a996e84570d44b5908cd4ad3",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy-кандидата-слияния.json",
+      "sha256": "2d91152240c89ed6b9959d0e31ea3ebabc9585fc5fa7aee46bb3416e32774b75",
+      "совпадает_со_входом": true
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/происхождение-политики-слияния.json",
+      "sha256": "a622b4bb4d3a428781e4a1693d004e7bca5d1a81fdbb9a303553bba3763df017",
+      "совпадает_со_входом": true
+    }
+  ],
+  "независимая_проверка": {
+    "исполнитель": "archive_rename_map",
+    "граница": "Сохранность кода C, обязательств и финансового результата корня, CLI J8, целого прежнего поколения и отсутствие конфликтных стадий. Без запуска тестов и без финальной приёмки.",
+    "результат": "PASS"
+  },
+  "поколение_проекции": "c4d59c8909e388a83872b91ee75accbd659e9792"
+}

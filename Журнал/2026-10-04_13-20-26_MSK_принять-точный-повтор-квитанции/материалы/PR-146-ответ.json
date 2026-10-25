@@ -1,0 +1,10 @@
+{
+  "схема": "fum.свидетельство-публикации-PR.1",
+  "url": "https://github.com/fum-lab/fum/pull/146",
+  "head": "045e2b196e9503b3bbe05876a96474cfb79273c5",
+  "base": "fuma",
+  "состояние": "open",
+  "сырой_ответ": "Источники/URL/https/api.github.com/repos/fum-lab/fum/pulls/146/снимки/2026-10-04_13-20-26_MSK/response.body.json",
+  "байты": 16919,
+  "sha256": "c00248bbf512193ee248faccb80db17ae4660e5ef732930d234cd1c1bbc9d9a4"
+}

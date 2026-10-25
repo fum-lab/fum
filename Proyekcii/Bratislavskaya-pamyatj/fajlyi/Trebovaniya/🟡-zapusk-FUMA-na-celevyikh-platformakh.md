@@ -26,6 +26,12 @@ Eto trebovaniye k postavlyayemomu produktu. Podgotovlennoye okruzheniye razrabot
 
 Dlya Web otdeljno fiksiruyutsya OS, versiya brauzera, sposob razmesjheniya prilozheniya i ogranicheniya sredyi. Rabota v odnom brauzere ne podtverzhdayet ostaljnyiye; proveryayemyij rezuljtat — poleznyij scenarij FUMA v brauzere.
 
+## Utochneniye obsjhej realizacii
+
+FUMA stroitsya na yedinoj sobstvennoj kodovoj baze s obsjhimi Swift-paketami i platformennyimi adapterami. Podgotovka Android-runtime i napravleniya Windows prinyata v rabotu s otdeljnyimi ispolnitelyami obsjhej kodovoj bazyi: avtomatizaciya sborki i poleznyij scenarij na yavnom Android-profile. Status otdeljnoj platformyi opredelyayetsya fakticheskim zapuskom, a ne nalichiyem oficialjnogo SDK. [Plan Android](../Prilozheniya/FUMA/plan-Android-runtime.md).
+
+[Iskhodnyiye komandyi](../Zhurnal/2026-09-15_20-33-17_MSK_prinyatj-obnovlyonnoye-postoyannoye-planirovaniye/zapros.md).
+
 ## Status i granicyi
 
 Trebovaniye ne rasshiryayet avtomaticheski specialjnyiye vozmozhnosti macOS na ostaljnyiye platformyi.
@@ -47,6 +53,6 @@ Microsoft Windows Holographic isklyuchena iz celej podderzhki po posleduyusjhemu
 - [Perechenj platform i posleduyusjheye dobavleniye PlayStation i Xbox](../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:34295a34f1f41b375b488f4dd76bb91866123fe93d399eba01cf24271371000a -->
+<!-- last-content-edit: 2026-09-15 20:47:51 MSK -->
+<!-- content-sha256: sha256:08effd2e9c61adfaeb2845bf2434324f1712b65467a2193beb7320ced7ca9385 -->
 <!-- FUM-MD-RECENCY:END -->

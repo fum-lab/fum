@@ -1,0 +1,16 @@
+{
+  "схема": "fum.поздняя-редакция-источника.1",
+  "основание": "FUM-ПРАВИЛО-000166; приёмка ROOT, новый этап",
+  "начало_этапа": "2026-10-04 23:48:13 MSK",
+  "исходный_коммит": "2e287a4f5bd9b21ad12dd2decc0f6c7f5952b03a",
+  "источник": "Источники/URL/https/github.com/fum-lab/fum/issues/27/response.headers.txt",
+  "до_sha256": "8eef0d51c6c69cb9493dd98db8a4829fc54be5c5788c6f9bd7e67bffe0cc314c",
+  "после_sha256": "15598a48f9b925281dfa7e98cb09159fc46d69dc5e4ad89b0e17aeb1830b8a8b",
+  "поле": "x-github-edge-region",
+  "строка": 21,
+  "helper": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+  "helper_sha256": "215b38288e432777f9f42fe426fcf0a426b640c79d06a7c3ad7dab6a175516b4",
+  "сеть": false,
+  "body_и_извлечение_неизменны": true,
+  "прежняя_история_не_переписана": true
+}

@@ -1,0 +1,36 @@
+{
+  "коммит": {
+    "raw": {
+      "коммит": "e848de20c7a951163627a20dd2a5f10e83307cb6",
+      "дерево": "64a63455b3b09499a83cf97358d8efa0940b6a71",
+      "родители": [
+        "0be1e181466e924415c18b689c5caf4aa5449a2e",
+        "9bada4d38b826803b2fcdd07c44ad625d40ae0d9"
+      ],
+      "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791140252 +0300",
+      "коммиттер": "FUM <fum@local> 1791140252 +0300",
+      "сообщение_sha256": "31fc7ce4f9bcb40c69508718d902eec324e096ab3867a99dffe8a557c620842e"
+    },
+    "целей": 75,
+    "ref": "refs/heads/fuma",
+    "чистый": true,
+    "origin": "https://github.com/fum-lab/fum.git",
+    "удалённый_до": "0be1e181466e924415c18b689c5caf4aa5449a2e\trefs/heads/fuma\n",
+    "поправка_чтения": "name-only -z вместо quoted textual paths; до первого push"
+  },
+  "push_код": 0,
+  "stdout": "",
+  "stderr": "To https://github.com/fum-lab/fum.git\n   0be1e1814..e848de20c  e848de20c7a951163627a20dd2a5f10e83307cb6 -> fuma\n",
+  "remote_readback": "e848de20c7a951163627a20dd2a5f10e83307cb6\trefs/heads/fuma\n",
+  "PR": {
+    "baseRefName": "fuma",
+    "headRefOid": "9bada4d38b826803b2fcdd07c44ad625d40ae0d9",
+    "mergeCommit": {
+      "oid": "e848de20c7a951163627a20dd2a5f10e83307cb6"
+    },
+    "mergedAt": "2026-10-04T19:00:10Z",
+    "number": 165,
+    "state": "MERGED",
+    "url": "https://github.com/fum-lab/fum/pull/165"
+  }
+}

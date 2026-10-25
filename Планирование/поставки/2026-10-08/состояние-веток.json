@@ -1,0 +1,1210 @@
+{
+  "ветки": [
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-14T14:51:46+03:00",
+      "oid": "0f456def7758c94caabc506e252ed023befc9afe",
+      "ref": "refs/heads/codex/D22-перенос-01a09f8d",
+      "summary": "Запустить публичную раздачу D22"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T21:32:09+03:00",
+      "oid": "fe18610b813092b0ce52359533ebaf26d81f5d8c",
+      "ref": "refs/heads/codex/Telegram-TDLib-0222-01a09179",
+      "summary": "Ограничить число восстановленных сущностей Telegram"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T22:58:27+03:00",
+      "oid": "43cdecd4014704dc5238dbedaafb4eec401ce444",
+      "ref": "refs/heads/codex/android-runtime-01a0a633",
+      "summary": "Подтвердить общий пакет FUMA из сетевого клона"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-09T10:08:35+03:00",
+      "oid": "4a7c3c2cb8f6af211abce0e46101be558c66f639",
+      "ref": "refs/heads/codex/cache-preparer-race-01a07d3d",
+      "summary": "Интегрировать кэш преобразователя и устранить гонку подготовки доверия"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-23T22:39:20+03:00",
+      "oid": "f234b32c0cd6b5e8308e7fafadebd7ddd8e017df",
+      "ref": "refs/heads/codex/derived-pipeline-recovery-v1",
+      "summary": "Связать преемника запуска с сохранённой историей"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-27T02:05:52+03:00",
+      "oid": "2fb28d9abaff00efe831cc862f04a2681c7c4607",
+      "ref": "refs/heads/codex/derived-pipeline-v1",
+      "summary": "Сохранить проверенный этап конвейера производных веток"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-03T22:06:25+03:00",
+      "oid": "caeae3fb0342fd3142a2ce2d98601e1306ea58f6",
+      "ref": "refs/heads/codex/dir/dokumentaciya--53-vselennaya-fum--odin-svidetelj",
+      "summary": "Сохранить рассказ «Один свидетель» и редакционный разбор"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-04T09:28:26+03:00",
+      "oid": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-proverka-git-zavisimostej",
+      "summary": "Подготовить точную вложенную топологию"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-05T07:47:13+03:00",
+      "oid": "1ee6b7090ce8c2ec973773e5db65ff7454315ef3",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-reyestr-planirovaniya--01a109ad",
+      "summary": "Исправить выбор модели при приёме задач"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-03T21:57:40+03:00",
+      "oid": "9bada4d38b826803b2fcdd07c44ad625d40ae0d9",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-rusifikaciya-koda-pri-sliyanii",
+      "summary": "Добавить Python-контур русификации кандидата слияния"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-05T02:25:27+03:00",
+      "oid": "546a105b03df6ea0401f62255b97ff0fe33393a2",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii",
+      "summary": "Подготовить корневой фасад этапа коммита"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T04:52:20+03:00",
+      "oid": "208a9475b1646b942c664caf822b845264155b16",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0165",
+      "summary": "Исправить актуальный срез планирования"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-05T12:43:05+03:00",
+      "oid": "12ee0a7a5badf6ea78b768fcd59de3b07e23d930",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--01a109f3",
+      "summary": "Автоматизировать подготовку дочерних поручений"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-05T19:23:44+03:00",
+      "oid": "871191e8d237a6e250799a7143470a2b1515aa35",
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--lokaljnyiye-resheniya",
+      "summary": "Реализовать локальные решения сообщений"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-23T22:50:49+03:00",
+      "oid": "5419ed11bfbe484baa6d133dc5bd0c574a89d794",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya",
+      "summary": "Включить восстановление запуска в ветку пилота"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-29T00:44:24+03:00",
+      "oid": "f2b0b806f6c4b89a4c626ad40cd5e900df794ad7",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104",
+      "summary": "Сохранить события контрольного конвейера"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T21:14:42+03:00",
+      "oid": "24cf865a83278e88250696ae45a734302a584ada",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-1f86c3c011cbb8886fa51d68a13e1b2c5595be2f0f383899a82a57a23c1e31df",
+      "summary": "Поставить пилот с автоматическими входами"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T02:53:21+03:00",
+      "oid": "5aa68c6df65b12320b3761b13b0ed89611e24ba1",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-32f1fbb4a91e96b3e21717bab954dce25a687b0b906043007afe7c95000986bc",
+      "summary": "Поставить новое поколение двух писателей конвейера"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-28T13:06:59+03:00",
+      "oid": "bf16422b16121481f7e68692b132d280ea97b1aa",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-4d56ec2933973021223fa2d08a97e2d25e882c7cd089e19d0129939e63b39995",
+      "summary": "Подготовить пилот конвейера и запуск трёх направлений"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T23:03:57+03:00",
+      "oid": "10577331a4f534c012e65d669d01654181784027",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-dec4d68829f6c45dc9fccfa1f9b188d03bb15db46264e362ccaae2e37bb2839a",
+      "summary": "Поставить пилот с читателем ответов"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T17:39:31+03:00",
+      "oid": "4004efbdc44253111aafc6a884672c6eb802df85",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-e5d7acc9a78e21cd0a67847c51b646e69827d3c4773b7da62011ac8ee646cb3b",
+      "summary": "Поставить живой пилот с обратным приёмом"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T19:05:46+03:00",
+      "oid": "5dd003b2d6fd2f96d7169fe51b8b8d8e7cc560f4",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-f3d78098a19cda3764a9cd5a98fd9beb7a3e6d59b2d321e444c9c34be11b9cb2",
+      "summary": "Поставить исправленный живой пилот"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-23T22:50:49+03:00",
+      "oid": "5419ed11bfbe484baa6d133dc5bd0c574a89d794",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya",
+      "summary": "Включить восстановление запуска в ветку пилота"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-29T01:29:53+03:00",
+      "oid": "d756a7720d894503be09a94bc8a2cbbb95943915",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104",
+      "summary": "Проверить совместимость сообщений контрольного конвейера"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T21:14:42+03:00",
+      "oid": "24cf865a83278e88250696ae45a734302a584ada",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-1f86c3c011cbb8886fa51d68a13e1b2c5595be2f0f383899a82a57a23c1e31df",
+      "summary": "Поставить пилот с автоматическими входами"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T02:53:21+03:00",
+      "oid": "5aa68c6df65b12320b3761b13b0ed89611e24ba1",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-32f1fbb4a91e96b3e21717bab954dce25a687b0b906043007afe7c95000986bc",
+      "summary": "Поставить новое поколение двух писателей конвейера"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-28T14:05:21+03:00",
+      "oid": "daa53209ebafe4208e26e70953d5adf8ad4a7b12",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-4d56ec2933973021223fa2d08a97e2d25e882c7cd089e19d0129939e63b39995",
+      "summary": "Выделить сообщения контрольного конвейера"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T17:39:31+03:00",
+      "oid": "4004efbdc44253111aafc6a884672c6eb802df85",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-e5d7acc9a78e21cd0a67847c51b646e69827d3c4773b7da62011ac8ee646cb3b",
+      "summary": "Поставить живой пилот с обратным приёмом"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-24T19:05:46+03:00",
+      "oid": "5dd003b2d6fd2f96d7169fe51b8b8d8e7cc560f4",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-f3d78098a19cda3764a9cd5a98fd9beb7a3e6d59b2d321e444c9c34be11b9cb2",
+      "summary": "Поставить исправленный живой пилот"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-06T02:36:51+03:00",
+      "oid": "58abe12c8e72fc83e41c712e1782ee02e6ab1d81",
+      "ref": "refs/heads/codex/dir/perenositj-modeljnyij-kontekst",
+      "summary": "Исправить профиль переноса модели"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T11:00:43+03:00",
+      "oid": "10b81f8ccee5dfbdc0a1bcd992a5ab175be80b52",
+      "ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--ekonomicheskij-pasport",
+      "summary": "Исправить переносимость будущего профиля экономического паспорта"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-04T20:51:10+03:00",
+      "oid": "225f74d09f4dfdb641f84821147e68dd4df6d2fd",
+      "ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--minimaljnyij-byudzhet",
+      "summary": "Прочитать исторические квитанции без смены HEAD"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-04T20:27:48+03:00",
+      "oid": "2e287a4f5bd9b21ad12dd2decc0f6c7f5952b03a",
+      "ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--poluchatelj-i-marshrutyi",
+      "summary": "Сохранить и разобрать условия ресурсной поддержки MWS"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-06T06:01:47+03:00",
+      "oid": "1b892b2270501b651857bf54e12237a996d7d4db",
+      "ref": "refs/heads/codex/dir/povtornaya-podgotovka-root",
+      "summary": "Поставить повторную подготовку ROOT"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T09:17:10+03:00",
+      "oid": "5951d9f8b72b5842803592218330850782b7a7b0",
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttelegram",
+      "summary": "Исправить публикационную границу поставки TDLib"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-10-03T14:59:34+03:00",
+      "oid": "d21ca2ab719549e33ae9b92c8548c64d50eae5de",
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttorrent",
+      "summary": "Подготовить провайдер и воспроизводимый сборщик либторрента"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T11:24:02+03:00",
+      "oid": "73f477ad4961b8a7ef90b952f83092324dea4a61",
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--operatoryi--klaviatura",
+      "summary": "Исправить фикстуру профиля текущей библиотеки Klaviatura"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T10:36:19+03:00",
+      "oid": "8c1d4f1a5c3cbb24a0e002d12c6f3f720b3d565e",
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--operatoryi--linguistickit",
+      "summary": "Исправить имена и проверки лингвистики"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-10-05T01:47:31+03:00",
+      "oid": "e0d47d4004ba59601b56ba828c1c33d75ce7ead4",
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--packages--nablyudeniyedostupnosti",
+      "summary": "Подготовить наблюдение доступности к адресной приёмке"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-04T20:58:07+03:00",
+      "oid": "7cac62d860521592546c60f32d87679fcf84cd9e",
+      "ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--chistyij-perenos-01a0fed7",
+      "summary": "Соединить скаляры и текст в общем интерпретаторе"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-10-04T10:28:59+03:00",
+      "oid": "5f05b88cf25600686e1c375e15018df673b158f6",
+      "ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--kompoziciya",
+      "summary": "Очистить публичную карточку переводчика"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-07T21:14:07+03:00",
+      "oid": "7216df27e0853b7b7f9cb96af0cc05f902a44b9d",
+      "ref": "refs/heads/codex/dir/publikacionnyij-dopusk-dochernego-sostava",
+      "summary": "Устранить поздний дрейф публикационного допуска"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T01:27:53+03:00",
+      "oid": "1c75e19f163f4730a26a717968cc04421bec33e9",
+      "ref": "refs/heads/codex/dir/realizovatj-chitayusjhuyu-sverku-kontroljnoj-tochki",
+      "summary": "Подтвердить читающую сверку раундами v4"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-06T02:34:39+03:00",
+      "oid": "471974b1a973e340d4e74dfcd73a5cb20ff5524e",
+      "ref": "refs/heads/codex/dir/realizovatj-yedinyij-razbor-ssyilok",
+      "summary": "Исправить выходы профиля ссылок"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-05T21:16:47+03:00",
+      "oid": "21127044f704719a37f21bda6425dfe0dbadfb15",
+      "ref": "refs/heads/codex/dir/uskoritj-strogiye-snimki-katalogov",
+      "summary": "Реализовать кэш строгих снимков"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-10-02T22:50:22+03:00",
+      "oid": "239b62488f42dc742353ee9ce1ef39d72cddcf6c",
+      "ref": "refs/heads/codex/disabled-libtorrent-gitlinks-01a0fdf3",
+      "summary": "Допустить точный отключённый граф libtorrent"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T17:51:36+03:00",
+      "oid": "e1da02ba71776a4f4452bb760a906fea1e809e4d",
+      "ref": "refs/heads/codex/imena-vetok-01a0e1cf",
+      "summary": "Зарегистрировать раздельные отказы финансовой приёмки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-08T23:16:29+03:00",
+      "oid": "a7e0bbbf20d1fa8dba984d4ce156f6a819c5add6",
+      "ref": "refs/heads/codex/linguistickit-concurrency-01a07d3d",
+      "summary": "Сохранить проверенный PR поддержки Swift Concurrency в LinguisticKit"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T21:24:07+03:00",
+      "oid": "f368dfc791e8f1b5db4020d62ff082c3a73dc196",
+      "ref": "refs/heads/codex/max-bot-api-01a0a634",
+      "summary": "Сохранить границы контрольной поставки MAX"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T01:34:34+03:00",
+      "oid": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+      "ref": "refs/heads/codex/merge-pr3-01a09047",
+      "summary": "Принять предпосылку интеграции из PR №3"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T14:44:26+03:00",
+      "oid": "9efd84ded4e0f47b47aaac4a7464f8c4e5171c8e",
+      "ref": "refs/heads/codex/merge-pr4-01a09047",
+      "summary": "Принять предпосылку форматов и контроля из PR №4"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-08T23:48:14+03:00",
+      "oid": "e1fa94d0c54a339abab2a6d229163a07b47647ce",
+      "ref": "refs/heads/codex/metadata-finder-projection-01a07d3d",
+      "summary": "Устранить блокировку проекции обычными метаданными Finder"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-14T23:26:24+04:00",
+      "oid": "2b4da98690185e0c03b740bd39e650beb703ebc0",
+      "ref": "refs/heads/codex/planetarnoe-mirnoe-soglashenie-01a0011d",
+      "summary": "Создать проект планетарного мирного соглашения"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-18T12:23:21+03:00",
+      "oid": "940e1848de14ee4718c855b346e1177ecfe1a267",
+      "ref": "refs/heads/codex/preflight-materials-0225-01a0b3af",
+      "summary": "Сверять материалы этапа до дорогой приёмки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T23:42:58+03:00",
+      "oid": "193279364854a6081491e02c26dd8c6f66dce0ca",
+      "ref": "refs/heads/codex/sravneniye-astra-low-01a0a704",
+      "summary": "Исправить локальный медиапакет поддержки"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-16T01:17:10+03:00",
+      "oid": "a827179c70083f9a682412f5c204ad35153ea818",
+      "ref": "refs/heads/codex/sravneniye-astra-low-01a0a708",
+      "summary": "Уточнить проверку вычетов и время"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T23:42:58+03:00",
+      "oid": "193279364854a6081491e02c26dd8c6f66dce0ca",
+      "ref": "refs/heads/codex/sravneniye-luna-high-19327936",
+      "summary": "Исправить локальный медиапакет поддержки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T23:35:23+03:00",
+      "oid": "b2df928066fa84d3bf7ab8100baf519e934e4233",
+      "ref": "refs/heads/codex/sravneniye-luna-low-b2df9280",
+      "summary": "Создать локальный медиапакет поддержки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T23:57:42+03:00",
+      "oid": "abc217c2760c6cbeb778833116a619ba8df644ad",
+      "ref": "refs/heads/codex/sravneniye-sol-high-abc217c2",
+      "summary": "Исправить финансовое свидетельство медиапакета"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-22T10:44:33+03:00",
+      "oid": "c0a878b9da48f25b72f566eff5069a394277058c",
+      "ref": "refs/heads/codex/stop-guard-recovery",
+      "summary": "Зафиксировать проверяемый перевод и автоматический журнал запусков"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T21:20:24+03:00",
+      "oid": "88c546a2cab280499f9dcbeab2cf8f92aacfded7",
+      "ref": "refs/heads/codex/windows-runtime-01a0a633",
+      "summary": "Подготовить Windows runtime и план инструментов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T02:43:34+03:00",
+      "oid": "9d39f45a344af3d99d8402c8e7631e58e239c6fa",
+      "ref": "refs/heads/codex/адаптировать-приложение-0176",
+      "summary": "Адаптировать приложение FUM для монорепозитория"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T18:15:16+03:00",
+      "oid": "81e2e2c6e830c0f742fffa719c38facde39e41a1",
+      "ref": "refs/heads/codex/архивный-снимок-задачи-01a08641",
+      "summary": "Поддержать строгие служебные оболочки архивного снимка"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-14T22:28:01+03:00",
+      "oid": "cf64f276837773b7b6eee40f9d5d8bc1c72e1f3e",
+      "ref": "refs/heads/codex/безопасный-Python-0173-01a0a0e0",
+      "summary": "Подтвердить доставку Python пакета"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T16:23:45+03:00",
+      "oid": "775f38b93ba144907419718be66b12b934c0c5f8",
+      "ref": "refs/heads/codex/вселенная-FUM-01a08612",
+      "summary": "Доработать проект вселенной FUM"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T17:51:37+03:00",
+      "oid": "f8a00f2320e41cc044e26d44b967b1582c77b37e",
+      "ref": "refs/heads/codex/вход-снимка-индекса-01a07d3d",
+      "summary": "Сохранить аннотации видимых ответов ассистента"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-10T22:25:30+03:00",
+      "oid": "406c6ba1d0b3373403fefd14d5f7faf8e0665b7d",
+      "ref": "refs/heads/codex/допуск-JS-0201",
+      "summary": "Проверить объединение ведущей ветки с master"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T17:06:03+03:00",
+      "oid": "48c52d0d7125bc47de431d2c9633c46dbd6b7111",
+      "ref": "refs/heads/codex/доставка-автоудаления-01a09047",
+      "summary": "Принять исправление штатного удаления проекции"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T14:56:46+03:00",
+      "oid": "002bb953671fa82b2144e7ec506d4975df977e3c",
+      "ref": "refs/heads/codex/защита-обязательств-01a07d3d",
+      "summary": "Различать происхождение пользовательских и служебных сообщений"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-08T21:48:48+03:00",
+      "oid": "63f1b0f0f29c9f29cabcfe3e7fbb8f88c6f81fdb",
+      "ref": "refs/heads/codex/защита-профилей-01a07d3d",
+      "summary": "Защитить историческую сверку объявлений при переименовании"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T16:25:56+03:00",
+      "oid": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "ref": "refs/heads/codex/имя-приложения-FUMA-01a08d6d",
+      "summary": "Переименовать пакет и приложение в FUMA"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T23:03:30+03:00",
+      "oid": "de9f81fec9e2bad840c6e37b049f5734f544d07b",
+      "ref": "refs/heads/codex/интеграция-fuma-master-01a07d3d",
+      "summary": "Сохранить непринятый кандидат слияния fuma и master"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T17:52:52+03:00",
+      "oid": "19765643195f0fb87dce58c7aba7fd1b50301531",
+      "ref": "refs/heads/codex/интеграция-fuma-master-профили-01a07d3d",
+      "summary": "Принять устойчивые свидетельства и доставку"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T19:55:11+03:00",
+      "oid": "18b695d45da0f4f5b335c57f59f993c806041fd5",
+      "ref": "refs/heads/codex/интеграция-оператора-FUMA-01a0a5cc",
+      "summary": "Проверить байтовый повтор оператора и уточнить отказ stdout"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T14:02:34+03:00",
+      "oid": "90f4cba01268d4a1833f1921b9427778e8b3740b",
+      "ref": "refs/heads/codex/интеграция-поставок-01a08f62",
+      "summary": "Сохранить передачу проверенной интеграции"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T14:20:47+03:00",
+      "oid": "c7cd5d33cbf44df0b714d76e188580e9b18d4473",
+      "ref": "refs/heads/codex/интерпретатор-и-UTF-32-0208",
+      "summary": "Принять сравнение декодирования UTF-8"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T19:36:04+03:00",
+      "oid": "cf7e92eb6f914eae2bf16d7dbf50df9487464dff",
+      "ref": "refs/heads/codex/история-модели-01a0a5cd",
+      "summary": "Проверить поставку истории модели"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T05:04:29+03:00",
+      "oid": "1b6d7a669767e5487f71477118dbc6672d4a68fa",
+      "ref": "refs/heads/codex/комплект-Swift-0220-01a09304",
+      "summary": "Сохранить контрольную точку плана Swift 6.1.2"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T06:07:00+03:00",
+      "oid": "1a87a15ee88834551e6fdc78f6a03861894cb1d4",
+      "ref": "refs/heads/codex/комплект-Swift-0220-публикация-01a09304",
+      "summary": "Исправить публикацию планового среза Swift"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T14:45:36+03:00",
+      "oid": "583704422445f32cf732f2625e6b5818880fd274",
+      "ref": "refs/heads/codex/контейнер-наблюдений-01a07d3d",
+      "summary": "Завершить синтетический снимок, CLI и 35 проверок"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T17:38:19+03:00",
+      "oid": "b74e49b2b1a7a2a424e1d3445eb5a87ff57d9905",
+      "ref": "refs/heads/codex/контекст-свидетельства-01a0930d",
+      "summary": "Создать устойчивые свидетельства обработки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-08T20:02:58+03:00",
+      "oid": "a2a3f8e2edb8f8cec98829f97795bb4623752f7c",
+      "ref": "refs/heads/codex/контракт-индекса-01a07d3d",
+      "summary": "Уточнить запреты самоссылок и сообщение коммита"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T00:08:12+03:00",
+      "oid": "4065ae6d314dc36014af856ab724961b00a87b2b",
+      "ref": "refs/heads/codex/кэш-сборки-братиславской-проекции-01a0822b",
+      "summary": "Принять кэш сборки братиславского преобразователя"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-11T06:49:46+03:00",
+      "oid": "b762bd0cb77fdbcc418141a1f33800a7bdb630a6",
+      "ref": "refs/heads/codex/математическое-направление-0202",
+      "summary": "Принять план математического направления"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T05:23:37+03:00",
+      "oid": "38eeaab8df29860046ea162b1d9e4ca7f3b8bae7",
+      "ref": "refs/heads/codex/матрица-Windows-0181-01a092ff",
+      "summary": "Сохранить контрольную точку матрицы Windows и WSL"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T20:17:01+03:00",
+      "oid": "0c0d1cf96e1dd46d2a0161a00974a04556c54f23",
+      "ref": "refs/heads/codex/наблюдатель-Linux-VM-01a08fe2",
+      "summary": "Сохранить родительский адаптер наблюдателя Linux VM"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T02:02:58+03:00",
+      "oid": "0f62797675ddbcd3c68bceefe6793de95c5d20b8",
+      "ref": "refs/heads/codex/настроить-Linux-VM-01a08fe2",
+      "summary": "Подготовить проверку SSH после обновления системы"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T16:58:32+03:00",
+      "oid": "0e688997b174f8e16617e80033263fe9d16337f3",
+      "ref": "refs/heads/codex/необработанные-сообщения-01a07d3d",
+      "summary": "Связать явное принятие делегации с работой исполнителя"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T05:56:00+03:00",
+      "oid": "7acc2de8ca1dcbefd82c16faecd1c31bdfa6e648",
+      "ref": "refs/heads/codex/необязательный-граф-0203",
+      "summary": "Сохранить ссылку на необязательный граф в проекции"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T19:37:20+03:00",
+      "oid": "740cf935a88b4fed7bce3687463ceee54b272780",
+      "ref": "refs/heads/codex/обратная-доставка-интеграций-01a07d3d",
+      "summary": "Закрепить коммиты слияния при интеграции веток"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-26T12:01:34+03:00",
+      "oid": "001031070d9a4b364376299c8d38daf5bca17329",
+      "ref": "refs/heads/codex/объединить-историю-01a0e04c",
+      "summary": "Исправить преждевременный тайм-аут Stop"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T03:40:40+03:00",
+      "oid": "fcfa02d1feb0b10f086dad7acdccccc37544bace",
+      "ref": "refs/heads/codex/операторное-внимание-0218-01a091c7",
+      "summary": "Зафиксировать доставку контрольной точки внимания"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T05:09:05+03:00",
+      "oid": "f2a42cb04a347a79c8732b89fc82a142ffe34051",
+      "ref": "refs/heads/codex/офлайн-комплект-0221-01a09306",
+      "summary": "Сохранить контрольную точку плана офлайн-комплекта FUM"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T06:47:43+03:00",
+      "oid": "17ef8a59fa3c67a73e54c2348189afcb10849585",
+      "ref": "refs/heads/codex/пакет-диагностики-0201",
+      "summary": "Восстанавливать неготовый приём"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T05:15:01+03:00",
+      "oid": "d4ed03209ec903bf2ee9033567b9c1bd162267da",
+      "ref": "refs/heads/codex/параметрическое-3D-0224-01a09310",
+      "summary": "Подготовить матрицу и паспорт параметрического 3D FUMA"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T06:17:53+03:00",
+      "oid": "dec167ee29bbab8ff5fd3d6722e1bedd4294f744",
+      "ref": "refs/heads/codex/паспорт-macOS-VM-0216-01a09302",
+      "summary": "Подготовить паспорт пилота macOS VM"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-11T04:56:20+03:00",
+      "oid": "6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95",
+      "ref": "refs/heads/codex/перенести-исходники-FUMA-0176",
+      "summary": "Завершить поставку FUMA из публичного клона"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T20:16:18+03:00",
+      "oid": "70dcc48ef17b142f3829fc6cabe360019309849a",
+      "ref": "refs/heads/codex/перенос-рабочих-деревьев-0207",
+      "summary": "Перенести подузлы за пределы папки проекта"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T14:31:02+03:00",
+      "oid": "cdd67b22c271be28cd0cdce1dda5f08f1a264c72",
+      "ref": "refs/heads/codex/перехват-завершения-01a07d3d",
+      "summary": "Подготовить проверяемый приватный комплект перехвата завершения"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T00:53:24+03:00",
+      "oid": "f5716675472a9807d004e95144b98c621855bfc2",
+      "ref": "refs/heads/codex/план-Госуслуг-01a0909c",
+      "summary": "Зарегистрировать диагностику продолжения"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-09T17:43:49+03:00",
+      "oid": "ef0b528c8c117f7cfddb83d1699aa333d9c486a5",
+      "ref": "refs/heads/codex/планирование-наблюдения-macos-01a07d3d",
+      "summary": "Согласовать поставки и спланировать рабочий контекст"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T21:45:25+03:00",
+      "oid": "7e6a5ace3bbfa1ad5e7d3e98114a0a784d8237ec",
+      "ref": "refs/heads/codex/подключить-гостевые-команды-Linux-VM-01a08fe2",
+      "summary": "Подключить гостевые команды к наблюдателю"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-21T22:49:33Z",
+      "oid": "6a6fc9fe76207a469bfbecbdde797e77854b827d",
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-repair-v1",
+      "summary": "Исправить атомарный снимок прямых ссылок C0"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-21T21:39:55Z",
+      "oid": "3bb4f3c5e6330e3e1f1e290cff522b0f298ab655",
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-v1",
+      "summary": "КАРАНТИННЫЙ TRANSFER-RESULT; НЕ РЕВЬЮИТЬ, НЕ ИНТЕГРИРОВАТЬ, НЕ ПУБЛИКОВАТЬ"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-21T18:32:42Z",
+      "oid": "01c8498eb671a2bbb437211cf63c1c14db63d308",
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-legacy-bootstrap-v2",
+      "summary": "FUM-STEP-0150: исправить историческую загрузку миграции пула"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-21T09:18:30Z",
+      "oid": "152a994eb44528a57fdc0bd0eca801cec42e7345",
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-pinned-bootstrap-v1",
+      "summary": "Исправить закреплённую загрузку ядра миграции"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T18:39:57Z",
+      "oid": "850d56806d01edf26454adc7861ca5f4497451a9",
+      "ref": "refs/heads/codex/подузлы/repair-post-terminal-01a0026f-v1",
+      "summary": "Сохранить post-terminal отчёт и незакрытый P1 pinned bootstrap"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T16:30:02+04:00",
+      "oid": "249d076b1857f4e1727e5448587d13f16b15a30a",
+      "ref": "refs/heads/codex/подузлы/review-fum-step-0147-6ad10c37",
+      "summary": "Организовать локальные worktree-подузлы FUM"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-22T08:14:13Z",
+      "oid": "9aa36482cb83eee785396e7394f142e76bbe17bc",
+      "ref": "refs/heads/codex/подузлы/интеграция-регистрации-запроса-b072c12e-e569e47f-602e5512-в1",
+      "summary": "Интегрировать результат sha256:e569e47f1e31684caeec783bf09f42ca9c23cf507c3087fd28bcf46328947ff7"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T16:30:02+04:00",
+      "oid": "249d076b1857f4e1727e5448587d13f16b15a30a",
+      "ref": "refs/heads/codex/подузлы/интеграция-результата-0df01b13-e7fc70e5-v1",
+      "summary": "Организовать локальные worktree-подузлы FUM"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T16:30:02+04:00",
+      "oid": "249d076b1857f4e1727e5448587d13f16b15a30a",
+      "ref": "refs/heads/codex/подузлы/ревью-0a4df969-01a001a4-v1",
+      "summary": "Организовать локальные worktree-подузлы FUM"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-643f568c-01a001a4-v1",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-интеграционного-кандидата-375ba39a-в1",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-регистрации-запроса-b072c12e-e569e47f-в1",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-результата-0df01b13-v1",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-результата-a3cbe22a3ae1d3f268636d75b86616da9a28c63f2edca61abbc789ceadaa71dd-v1",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-ремонта-сохранения-graph-431b3002-в4",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-ремонта-сохранения-graph-9fcc93b5-в3",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-ремонта-сохранения-graph-b89430f5-в2",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:13:49Z",
+      "oid": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "ref": "refs/heads/codex/подузлы/ревью-ремонта-сохранения-graph-dd8d6760-в1",
+      "summary": "Снимок инструмента миграции дат коммитов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-22T07:28:20Z",
+      "oid": "0349465159e3e257a4b05e56c1c4fd44faa012a8",
+      "ref": "refs/heads/codex/подузлы/регистрация-запроса-b072c12e-в1",
+      "summary": "Зарегистрировать запрос об идентичности агентской сессии"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-22T14:42:17Z",
+      "oid": "f5a54c4a73c19eac106d871b842b9f812a532c00",
+      "ref": "refs/heads/codex/подузлы/ремонт-сохранения-graph-при-CAS-цели-в1",
+      "summary": "Исправить сохранение graph.json при сравнении и замене цели"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-23T00:15:00Z",
+      "oid": "ce5eb334b7e84bcfc566e02fd70e4f78ddf1fbb4",
+      "ref": "refs/heads/codex/подузлы/ремонт-сохранения-graph-при-CAS-цели-в2",
+      "summary": "Исправить сохранение graph при CAS цели"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-23T03:55:40Z",
+      "oid": "c7b77c871c2d773e0da37ede0cf94a22e4246b30",
+      "ref": "refs/heads/codex/подузлы/ремонт-сохранения-graph-при-CAS-цели-в3",
+      "summary": "Исправить сохранение graph при первом C0 CAS"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-23T07:20:33Z",
+      "oid": "335980d70204d65b42de4bee775fa4b20005ae93",
+      "ref": "refs/heads/codex/подузлы/ремонт-сохранения-graph-при-CAS-цели-в4",
+      "summary": "Устранить findings ревью миграции дат и сохранения графа"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-15T01:53:44Z",
+      "oid": "62f3d8db20ec9ea5abb57b0cf090a4a3630402c6",
+      "ref": "refs/heads/codex/подузлы/сессия-0e726c1afc99b3bc6b4df54b",
+      "summary": "Учесть аудит доверия и сопровождаемости FUM"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-15T02:51:46Z",
+      "oid": "3c38e4bda26abef9dc27c281ec46943f480d32d3",
+      "ref": "refs/heads/codex/подузлы/сессия-0f0e16308c739e9d2d6f3b9f",
+      "summary": "Добавить собственные пулы долговечным веточным узлам"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T18:31:32Z",
+      "oid": "f821f3b55e0c3eab2cf1ea05d01cf02ffd571e1f",
+      "ref": "refs/heads/codex/подузлы/сессия-12b43691fc6371660755681e",
+      "summary": "Добавить Metal-дерево Markdown-документов"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T22:26:43Z",
+      "oid": "1de99504e46497f4d384ee6c5fc110063bcbfb6c",
+      "ref": "refs/heads/codex/подузлы/сессия-260d116b5d1f2911884d3651",
+      "summary": "Игнорировать локальное состояние Obsidian"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-14T22:48:52Z",
+      "oid": "b0403b8047a411255c66bc4e818402d5ec6ab300",
+      "ref": "refs/heads/codex/подузлы/сессия-2b381b69b99d4e96092ffa4f",
+      "summary": "Завершить автономную приёмку параллельных подузлов"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T22:58:17Z",
+      "oid": "1a47d4746324bdb361d99398dc235d9bea192c4b",
+      "ref": "refs/heads/codex/подузлы/сессия-409742d2b28e477012b06626",
+      "summary": "Исключить дублирование полной регрессии перед финальным smoke-check"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T22:26:27Z",
+      "oid": "aa04f749400da6cb4b1a8eec1e86baa00fe11e5f",
+      "ref": "refs/heads/codex/подузлы/сессия-5145e5cfc1174e66a304a9ec",
+      "summary": "Перевести лицензионную памятку на английский язык"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-15T00:21:27Z",
+      "oid": "7ee98fa4f72c319217d4284d30ecd1b1ca3198ab",
+      "ref": "refs/heads/codex/подузлы/сессия-781706e17230e4e1307fe6b2",
+      "summary": "Интегрировать растущую физическую инфраструктуру FUM"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T20:20:18Z",
+      "oid": "cbeb686f4bc2ad7fa08fcb10fc0c44baeec1915b",
+      "ref": "refs/heads/codex/подузлы/сессия-bc79104b1252c679a5fcba21",
+      "summary": "Именовать задачи Codex и игнорировать .obsidian при старте"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T18:09:24Z",
+      "oid": "0ded7d2ed7f89ef739c2a69d4bf594e322756994",
+      "ref": "refs/heads/codex/подузлы/сессия-c8121b1382fa3ef091cd8fcf",
+      "summary": "Связать следующие шаги с дорожной картой"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-14T20:22:29Z",
+      "oid": "db927feb6fa9bce952d53a30ed15562f86ba25b6",
+      "ref": "refs/heads/codex/подузлы/сессия-e4c4e011613e9dcfe6d0bc14",
+      "summary": "Создать постоянных тематических исполнителей"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T20:21:31Z",
+      "oid": "87d0f3e4f80ec8df6eeacdf498dad8eced430543",
+      "ref": "refs/heads/codex/подузлы/сессия-e56bcc3b0ea834216351fb42",
+      "summary": "Завершить контракт братиславской проекции памяти"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-08-14T22:53:47Z",
+      "oid": "3832cdae90d040052d212253b523596c024ef0a7",
+      "ref": "refs/heads/codex/подузлы/сессия-f19e343180b26b3d462e8269",
+      "summary": "Материализовать зависимости автоматически создаваемых слотов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-08-20T16:32:50Z",
+      "oid": "28950e66a3ffc2e51ee87084c9bbc22e4e8752fe",
+      "ref": "refs/heads/codex/подузлы/сессия-ff6b955430eb0f6c79ff1532",
+      "summary": "Добавить миграцию исторических дат коммитов пула"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T00:46:51+03:00",
+      "oid": "d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612",
+      "ref": "refs/heads/codex/политика-интеграции-01ca9886-01a09047",
+      "summary": "Проверить предпосылку интеграции через PR"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T22:21:52+03:00",
+      "oid": "6049110117aa2d46380422ff51e2e996f087ee90",
+      "ref": "refs/heads/codex/постановка-README-01a08d77",
+      "summary": "Уточнить план I2P через libtorrent и сохранить границы SwiftNIO"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T16:59:30+03:00",
+      "oid": "20f3257bcd19a19473df28028794b78d5dd940ce",
+      "ref": "refs/heads/codex/предпосылка-автоудаления-01a09047",
+      "summary": "Исправить проверку штатного удаления проекции"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T14:20:19+03:00",
+      "oid": "08cffcc75c7a9776453b2d7497c1d2d75ca6f994",
+      "ref": "refs/heads/codex/предпосылка-форматов-62a8-01a09047",
+      "summary": "Восстановить контроль остатка и согласованные предпосылки приёмки"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T06:37:57+03:00",
+      "oid": "b08b969c9c40bda90e53e8effee904f181dce7d6",
+      "ref": "refs/heads/codex/приём-направлений-FUMA-0201",
+      "summary": "Перенести диагностику Госуслуг"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T21:45:25+03:00",
+      "oid": "7e6a5ace3bbfa1ad5e7d3e98114a0a784d8237ec",
+      "ref": "refs/heads/codex/проверить-JSON-Linux-VM-01a08fe2",
+      "summary": "Подключить гостевые команды к наблюдателю"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T22:23:07+03:00",
+      "oid": "efea651904988537b973836c9cb8aae95fe15474",
+      "ref": "refs/heads/codex/прямой-Swift-наблюдатель-01a08fe2",
+      "summary": "Выполнить обмен и восстановление измерений гостя"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T16:17:08+03:00",
+      "oid": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "ref": "refs/heads/codex/рабочий-контекст-0165-01a0930d",
+      "summary": "Закрепить кооперативную модель захвата и SHA производителя"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-11T11:47:27+03:00",
+      "oid": "acab107170a4a1243b76cba4f25b0b408e735603",
+      "ref": "refs/heads/codex/расширение-шаблонов-01a08f63",
+      "summary": "Уточнить руководство и область самостоятельной задачи"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-15T19:25:27+03:00",
+      "oid": "790156bedf407511ed4fd0eda14447a443784584",
+      "ref": "refs/heads/codex/реестр-организаций-поддержки-01a0904a",
+      "summary": "Подготовить маршруты финансирования и лизинга"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T18:31:34+03:00",
+      "oid": "ac78d0b410395358797663dcc028150938839f06",
+      "ref": "refs/heads/codex/слияние-14044-48c52-01a09047",
+      "summary": "Принять слияние FUMA с исправленным удалением проекции"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T02:26:13+03:00",
+      "oid": "14044dfd994cf16b5061fb245b18a8e5abf0ac7d",
+      "ref": "refs/heads/codex/слияние-14044-9efd-01a09047",
+      "summary": "Связать сравнение моделей с историей обработки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-10T22:25:30+03:00",
+      "oid": "406c6ba1d0b3373403fefd14d5f7faf8e0665b7d",
+      "ref": "refs/heads/codex/слияние-master-в-планировщик-01a07d3d",
+      "summary": "Проверить объединение ведущей ветки с master"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-12T05:53:31+03:00",
+      "oid": "d05d9c3d4e19db097e6d2eca117708c50a807d2d",
+      "ref": "refs/heads/codex/совместимость-master-FUMA-0175-01a09047",
+      "summary": "Закрепить общий допуск зависимостей принятого источника"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-10T22:25:30+03:00",
+      "oid": "406c6ba1d0b3373403fefd14d5f7faf8e0665b7d",
+      "ref": "refs/heads/codex/состояние-приёма-0201",
+      "summary": "Проверить объединение ведущей ветки с master"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-09T16:27:33+03:00",
+      "oid": "37ef3e5121169ec75a29f2dc3b34eab0594933d2",
+      "ref": "refs/heads/codex/статистика-вызовов-01a07d3d",
+      "summary": "Накапливать статистику вызовов в долговечном контейнере"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T14:52:16+03:00",
+      "oid": "7cdc8747fd7f656d1bb9e5d920dae2fbbdc78e9a",
+      "ref": "refs/heads/codex/финансирование-фума-01a0904a",
+      "summary": "Уточнить публикационную редакцию пакетов"
+    },
+    {
+      "ancestor_of_fuma": false,
+      "date": "2026-09-11T03:41:29+03:00",
+      "oid": "582fae9778073ffedcdf347509887c84a4334e27",
+      "ref": "refs/heads/codex/форматы-приложения-FUMA-0176",
+      "summary": "Обновить поколение проекции по точной прежней политике"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-10-08T13:16:45+03:00",
+      "oid": "1c10b62f43c2baa96dc96adbdf023260a701dc85",
+      "ref": "refs/heads/fuma",
+      "summary": "Принять подготовленный срез TDLib"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T18:31:34+03:00",
+      "oid": "ac78d0b410395358797663dcc028150938839f06",
+      "ref": "refs/heads/master",
+      "summary": "Принять слияние FUMA с исправленным удалением проекции"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-16T17:51:36+03:00",
+      "oid": "e1da02ba71776a4f4452bb760a906fea1e809e4d",
+      "ref": "refs/heads/planirovaniye",
+      "summary": "Зарегистрировать раздельные отказы финансовой приёмки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T23:42:58+03:00",
+      "oid": "193279364854a6081491e02c26dd8c6f66dce0ca",
+      "ref": "refs/heads/refs/heads/codex/sravneniye-luna-high-19327936",
+      "summary": "Исправить локальный медиапакет поддержки"
+    },
+    {
+      "ancestor_of_fuma": true,
+      "date": "2026-09-15T23:35:23+03:00",
+      "oid": "b2df928066fa84d3bf7ab8100baf519e934e4233",
+      "ref": "refs/heads/refs/heads/codex/sravneniye-luna-low-b2df9280",
+      "summary": "Создать локальный медиапакет поддержки"
+    }
+  ],
+  "исходник_sha256": "63b491d4ca4c10ba6cb9e39ad5efd784d03f08643439f83170278b18e462c551",
+  "наблюдено": "2026-10-08T10:40:38.988729+00:00",
+  "отмены": {
+    "подтверждённых": 1,
+    "поставки": [
+      {
+        "OID": "de9f81fec9e2bad840c6e37b049f5734f544d07b",
+        "ref": "refs/heads/codex/интеграция-fuma-master-01a07d3d",
+        "замена": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+        "объект_тега": "60aacb9e519a06f248af291f1ffde3b9ef9837d5",
+        "тег": "otmeneno/integraciya-fuma-master-01a07d3d-2026-10-08",
+        "удалённая_доставка": true
+      }
+    ],
+    "решение": "Отменена только прежняя заменённая попытка C2; ветки и материалы сохраняются. Ancestry остальных не означает отмену."
+  },
+  "полнота": "Все локальные refs/heads; удалённые refs без локальной ветки и незакоммиченные результаты не объявлены охваченными. Ancestry не доказывает отмену или завершение задачи.",
+  "принимающий_коммит": "1c10b62f43c2baa96dc96adbdf023260a701dc85",
+  "приоритеты": [
+    {
+      "направление": "Повторная подготовка ROOT",
+      "состояние": "активен; RAW73 успешен, RAW74 выполнялся при наблюдении; новая поставка ещё не получена"
+    },
+    {
+      "PR": 43,
+      "коммит": "e0d47d4004ba59601b56ba828c1c33d75ce7ead4",
+      "направление": "Доступность macOS",
+      "состояние": "точный срез для адресной приёмки ROOT; исполнитель подтвердил чистоту и прекращение записи"
+    },
+    {
+      "коммит": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "направление": "Подготовка зависимостей",
+      "состояние": "прежняя поставка принята; новый ремонтный акт в этом этапе"
+    },
+    {
+      "коммит": "43cdecd4014704dc5238dbedaafb4eec401ce444",
+      "направление": "Общий Swift и Android",
+      "состояние": "не принят в fuma; приёмка общего пакета до app UID/JNI/lifecycle"
+    },
+    {
+      "PR": 20,
+      "коммит": "5f05b88cf25600686e1c375e15018df673b158f6",
+      "направление": "Переводчик",
+      "состояние": "перенос только остатка происхождения; старые продукты не заменяют текущие"
+    },
+    {
+      "PR": 19,
+      "коммит": "d21ca2ab719549e33ae9b92c8548c64d50eae5de",
+      "направление": "libtorrent",
+      "состояние": "новый этап после допуска и подготовки зависимостей; каркас отдельно от настоящего backend"
+    },
+    {
+      "PR": 22,
+      "коммит": "239b62488f42dc742353ee9ce1ef39d72cddcf6c",
+      "направление": "Ранний допуск libtorrent",
+      "состояние": "сверить замещение поздней принятой топологией перед новым merge"
+    },
+    {
+      "направление": "D22",
+      "состояние": "явная пауза человека; не возобновлять"
+    }
+  ],
+  "схема": "fum.состояние-веток.1",
+  "числа": {
+    "ancestor_refs": 88,
+    "excluded_D22_unique": 1,
+    "maximal_nonD22_unique": 56,
+    "nonancestor_refs": 74,
+    "nonancestor_unique": 65,
+    "refs": 162,
+    "unique_oids": 139
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "схема": "fum.сообщения-задачи.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источник": "6a7d8805ede5924887e4cc79d2a14f6c24beb12b51736d559f86d99d07a1f353",
+  "граница": 1516025123,
+  "sha256": "417958e69c66dc1ab650880fc978903a50dac8c0901ca601e18ee8808625283e",
+  "сообщения": [
+    {
+      "дубли": [],
+      "позиция": {
+        "sha256": "c0af74883176ed542cd386cf842bb74090a209e60f26176c0db7858067876832",
+        "конец": 1292821752,
+        "начало": 1292821096
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "text": "Vetka, sobirayusjhaya sobyitiya, vetka, vyidelyayusjhaya znachimyiye soobsjheniya dlya obrabotki, vetka, pishusjhaya v proizvodnuyu dokumentaciyu, vetka, pishusjhaya v shagi, vetka pishusjhusjhaya v trebovaniya, vetka, pishusjhaya v iskhodnyij kod rantajma FUMA i tak daleye.\n",
+          "type": "input_text"
+        }
+      ],
+      "сырой_объект": {
+        "content": [
+          {
+            "text": "Vetka, sobirayusjhaya sobyitiya, vetka, vyidelyayusjhaya znachimyiye soobsjheniya dlya obrabotki, vetka, pishusjhaya v proizvodnuyu dokumentaciyu, vetka, pishusjhaya v shagi, vetka pishusjhusjhaya v trebovaniya, vetka, pishusjhaya v iskhodnyij kod rantajma FUMA i tak daleye.\n",
+            "type": "input_text"
+          }
+        ],
+        "id": "msg_01a0c7c7-bb52-72c1-a368-e0984fb86002",
+        "internal_chat_message_metadata_passthrough": {
+          "content_item_kinds": [
+            "user.text"
+          ],
+          "create_time": 1790058150.738042,
+          "turn_id": "01a0c7a7-41ae-7463-a202-8072d0766576"
+        },
+        "role": "user",
+        "type": "message"
+      },
+      "экземпляр": "3cff84869b0f6213e9dcb344e644f4abba2d57c88a3ab51cd0b79ec6804af775"
+    },
+    {
+      "дубли": [],
+      "позиция": {
+        "sha256": "ed3aad3f6298351d453b8786e061a8a9c6ab0a6eabded719b919a20173394837",
+        "конец": 1294731360,
+        "начало": 1294730846
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "text": "Davaj voobsjhe vsyo sdelayem chyotko — kazhdoj direktorii sootvetstvuyet svoj pisatelj, svoya vetka i pishusjheye rabocheye derevo.\n",
+          "type": "input_text"
+        }
+      ],
+      "сырой_объект": {
+        "content": [
+          {
+            "text": "Davaj voobsjhe vsyo sdelayem chyotko — kazhdoj direktorii sootvetstvuyet svoj pisatelj, svoya vetka i pishusjheye rabocheye derevo.\n",
+            "type": "input_text"
+          }
+        ],
+        "id": "msg_01a0c7d9-e71f-7210-9ab3-cf5eb6a47736",
+        "internal_chat_message_metadata_passthrough": {
+          "content_item_kinds": [
+            "user.text"
+          ],
+          "create_time": 1790059341.599778,
+          "turn_id": "01a0c7a7-41ae-7463-a202-8072d0766576"
+        },
+        "role": "user",
+        "type": "message"
+      },
+      "экземпляр": "4bfb181a3b52e167e216dfccaa725a9f48e06ed277c9053f2d79bbae2c31e7ae"
+    },
+    {
+      "дубли": [],
+      "позиция": {
+        "sha256": "fff423595b2eb14e709d86f0f05691237eba3c855a9ad1280aef89303f85fccb",
+        "конец": 1295484795,
+        "начало": 1295484184
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "text": "Glavnoye sama ideya, chto kazhdomu konkretnomu vlozhennomu katalogu sootvetstvuyet konkretnaya vetka, i potencialjno oni khotj vse mogut rabotatj odnovremenno v svoyom rabochem dereve. Roditeljskiye katalogi sledyat za dochernimi.\n",
+          "type": "input_text"
+        }
+      ],
+      "сырой_объект": {
+        "content": [
+          {
+            "text": "Glavnoye sama ideya, chto kazhdomu konkretnomu vlozhennomu katalogu sootvetstvuyet konkretnaya vetka, i potencialjno oni khotj vse mogut rabotatj odnovremenno v svoyom rabochem dereve. Roditeljskiye katalogi sledyat za dochernimi.\n",
+            "type": "input_text"
+          }
+        ],
+        "id": "msg_01a0c7df-ead1-79b1-bf73-4d7efdff9e44",
+        "internal_chat_message_metadata_passthrough": {
+          "content_item_kinds": [
+            "user.text"
+          ],
+          "create_time": 1790059735.761333,
+          "turn_id": "01a0c7a7-41ae-7463-a202-8072d0766576"
+        },
+        "role": "user",
+        "type": "message"
+      },
+      "экземпляр": "e6a9e7fa6bce999e3299f88536a6b6661b6b5c81194f84eb55818a7c340d55e7"
+    }
+  ],
+  "размер_снимка": 1516025123,
+  "дописано_после_снимка": 0,
+  "неполный_хвост": 0,
+  "полнота_подтверждена": true,
+  "профиль": {
+    "прочитано_байтов": 1516025123,
+    "разобрано_строк": 1603,
+    "режим": "проверенный префикс и хвост",
+    "сверка_снимка_наносекунды": 53416,
+    "этапы_наносекунды": {
+      "чтение_кэша": 87817542,
+      "чтение_источника": 915955542,
+      "сохранение_и_выдача": 4946459
+    },
+    "длительность_наносекунды": 1009026167
+  }
+}

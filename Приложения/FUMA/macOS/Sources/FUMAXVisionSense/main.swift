@@ -1,5 +1,6 @@
 import AppKit
 import ApplicationServices
+import FUMObservationJournal
 import Foundation
 import ПутиИсполнения
 
@@ -98,6 +99,8 @@ struct AXVision {
             .map(readApplication)
 
         return [
+            "schema": "fum.ax-snapshot.1",
+            "source": "fum-ax-vision-sense",
             "timestamp": ISO8601DateFormatter().string(from: Date()),
             "status": "ok",
             "interval": options.interval,
@@ -107,6 +110,8 @@ struct AXVision {
 
     private func permissionSnapshot(message: String) -> [String: Any] {
         [
+            "schema": "fum.ax-snapshot.1",
+            "source": "fum-ax-vision-sense",
             "timestamp": ISO8601DateFormatter().string(from: Date()),
             "status": "waiting_for_accessibility_permission",
             "message": message,
@@ -116,6 +121,8 @@ struct AXVision {
 
     private func accessRequestSnapshot(trusted: Bool) -> [String: Any] {
         [
+            "schema": "fum.ax-snapshot.1",
+            "source": "fum-ax-vision-sense",
             "timestamp": ISO8601DateFormatter().string(from: Date()),
             "status": trusted ? "accessibility_trusted" : "accessibility_prompted",
             "trusted": trusted,
@@ -446,19 +453,10 @@ struct AXVisionStateRecorder {
         let url = URL(fileURLWithPath: expandedPath)
 
         do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            if !FileManager.default.fileExists(atPath: expandedPath) {
-                FileManager.default.createFile(atPath: expandedPath, contents: nil)
-            }
-
-            let handle = try FileHandle(forWritingTo: url)
-            try handle.seekToEnd()
+            let журнал = ЖурналНаблюдений()
             for event in events {
-                let data = try JSONSerialization.data(withJSONObject: event, options: [.sortedKeys])
-                try handle.write(contentsOf: data)
-                try handle.write(contentsOf: Data("\n".utf8))
+                try журнал.добавитьJSONСтроку(event, в: url)
             }
-            try handle.close()
         } catch {
             fputs("Failed to append AX vision state changes to \(expandedPath): \(error)\n", stderr)
         }
@@ -586,6 +584,8 @@ struct AXVisionCompactState {
         [
             "timestamp": timestamp,
             "type": type,
+            "schema": "fum.observation-event.1",
+            "source": "fum-ax-vision-sense",
             "status": status,
             "applicationCount": apps.count,
             "windowCount": windows.count

@@ -1,0 +1,81 @@
+{
+  "схема": "fum.выбранные-уточнения.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "граница": 853721697,
+  "sha256": "dd9a42227a64461c22d2b11810993a9e076566e6eec6659ad9b3ee4622cf29a9",
+  "команды": [
+    {
+      "экземпляр": "ef837fff67293f9b538d3208a47808bae6fa2ece3b5a720aebe56abc8bd7b9fb",
+      "позиция": {
+        "начало": 847626024,
+        "конец": 847626518,
+        "sha256": "3a0bd5b02534a5c4aba3ae5620135ea9401f04443d3fd885c4c99f9f8268d258"
+      },
+      "текст": "Pishi kommentarii i otvechaj na nikh pri neobkhodimosti dlya obyyasneniya prodelyivayemoj i dobavlyayemoj rabotyi.\n"
+    },
+    {
+      "экземпляр": "bf95b92ac9abc1c6d49e84c77795f00b5eab82ae9a72220d7fcc1a41f985ae57",
+      "позиция": {
+        "начало": 847692292,
+        "конец": 847692740,
+        "sha256": "d9e846f655a34ff7b625c7587ac38416b4ba254c0343bd7830fbe51f01c9216f"
+      },
+      "текст": "Budem ispoljzovatj otkryityiye shriftyi v FUMA, zhelateljno pod CC0.\n"
+    },
+    {
+      "экземпляр": "6431b582af3503e7c5a68d9b59ba75ab30106e9b3bdbf55da31e5b47727fde65",
+      "позиция": {
+        "начало": 847693266,
+        "конец": 847693697,
+        "sha256": "845fa9d1333ec87377318042bf7df6e5783a4b3433032437307b570dd7337645"
+      },
+      "текст": "Kommentarii i otvetyi na nikh v Issues tozhe pishi.\n"
+    },
+    {
+      "экземпляр": "0069b215fa05f1b885a62b0f8c6c8e0fd91329540f2f9911a96b59c2bc3c7ce4",
+      "позиция": {
+        "начало": 847748003,
+        "конец": 847748445,
+        "sha256": "5056c0d3781bcbaafc41e87e27d70f4ed002f26e4ec9224e28e5d92151e14f6d"
+      },
+      "текст": "Vetku s realizaciyej ot Luna tozhe sokhranyaj dlya sravneniya.\n"
+    },
+    {
+      "экземпляр": "cfa768d2822d53c7c9ae944bbff410825615907e6ac464e548026b710c1af170",
+      "позиция": {
+        "начало": 847766075,
+        "конец": 847766502,
+        "sha256": "367514fe012ad200a646ae0ae6f0366038b10ddfdf2bc36619de3cdfdfdde2e3"
+      },
+      "текст": "A Sol pomozhet ekonomitj po sravneniyu s Astra?\n"
+    },
+    {
+      "экземпляр": "fbd8940e6e04dea64b231774e6215a9508c9c20b046411db7c063265a052be83",
+      "позиция": {
+        "начало": 852809852,
+        "конец": 852810247,
+        "sha256": "a5fd22747048c8ad09d914c52118dd59474a5f88148cd6856380f3b05252ba1a"
+      },
+      "текст": "Tak i sdelayem.\n"
+    },
+    {
+      "экземпляр": "c92cd3cc134a93c0a272ed0c5cae91dc836ade0feadd91e1d380a55e1e677baf",
+      "позиция": {
+        "начало": 852810720,
+        "конец": 852811148,
+        "sha256": "73fbc04de91b670a69add82636d0342fc523d38902ef8a8a12af771257f1655c"
+      },
+      "текст": "Nu Luna Vyisokoye pustj tozhe dovyipolnyayetsya.\n"
+    },
+    {
+      "экземпляр": "14f39f152a2fe8587600aafd546b5213166f037006ed490bfa6d48e4b6cfe1ff",
+      "позиция": {
+        "начало": 852815589,
+        "конец": 852816063,
+        "sha256": "28819e16016ecb48d1e4e3162e5af2d9698d743e7fc909d5489de63263c9073d"
+      },
+      "текст": "A myi smozhem sdelatj tak, chtobyi Mendeley mog chitatj Istochniki kak svoj katalog istochnikov?\n"
+    }
+  ],
+  "граница_смысла": "Завершённый проверенный префикс, не весь продолжающийся живой диалог."
+}

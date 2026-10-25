@@ -1,0 +1,21 @@
+{
+  "M": "9efd84ded4e0f47b47aaac4a7464f8c4e5171c8e",
+  "L": "14044dfd994cf16b5061fb245b18a8e5abf0ac7d",
+  "основание": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+  "путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md",
+  "запуск": "1ec5d1b0-bbd3-4684-9dfc-eaa5f33c3a31",
+  "код": 2,
+  "наносекунды": 28302862250,
+  "вывод": "Конфликтное поколение потеряло ожидаемый индексный путь: Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md\n",
+  "blob_основания_и_M": "649c77fcb58fc2f2ce32bb80ac79720e31cc23e3",
+  "L_не_содержит_путь": true,
+  "AUTO_MERGE_не_содержит_путь": true,
+  "индекс_не_содержит_путь": true,
+  "физический_путь_отсутствует": true,
+  "индекс_проекции_sha256": "7fe1958376465eb5a7e22c4f3568d187583e791ff85d7e70cc134aa37587d2fa",
+  "манифест_sha256": "957294230ed387c24979b7b9dd5f153cb5ceb9dce92e9a4f3ea2fc50d2fcdf05",
+  "проекция_изменена": false,
+  "полный_контур_запускался": false,
+  "C_принят": false,
+  "master_продвинут": false
+}

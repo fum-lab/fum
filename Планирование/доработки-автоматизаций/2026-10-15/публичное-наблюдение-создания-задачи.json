@@ -1,0 +1,42 @@
+{
+  "Issue": "https://github.com/fum-lab/fum/issues/289",
+  "дальнейший_допуск": "После независимого принятия кода ROOT выбирает отдельный exact own event/native/map/manifest. Эффекты только открытый own отчёт+новый own материал; REQUEST/human3/closedRAW неизменны. Новый подготовленный snapshot/RAW/READY после перехода.",
+  "исключение_самозависимости": "Первое поручение нового ребёнка без приватных адресов; сначала только RO/nativebirth, затем опубликованный ACT, ownref/D/K выбор. Нельзя использовать собственный непринятый transport для собственной поставки.",
+  "контракт": "Явно выбранный input.2: только первое response_item/function_call_output/create_thread, exact firstprompt reader, ROOTsender/ACT/actor/nativeprefix/spanSHA. Роль остаётся наблюдение. Старый input.1, общий policy/P1/filler/Creator/3human originals/closedRAW не меняются.",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "не_доказано": [
+    "Native production переход",
+    "ROOT9/составS0",
+    "R1/state2",
+    "ОбщийROOT guard"
+  ],
+  "область": [
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_публичного_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_публичного_представления_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_публичного_представления_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/публичное-представление-журнала.md"
+  ],
+  "основание_кода": "21f3b3cdbba2c04ddbc5c18acbb44a88dbce560a",
+  "предмет": "Первое native create_thread наблюдение закрыто отвергается старым публичным installer; pure builder поддерживает нужную роль.",
+  "проверки": [
+    "GenuineRED текущего неподдержанного контейнера",
+    "GREEN точного наблюдения/RAW replay/losslessprivatearchive",
+    "Негативы чужойsender/ACT/firstprompt/span/role/container/lateforeign",
+    "Fresh-process no-effect повтор",
+    "Профиль3freshPID и точный sourceclosure до/после"
+  ],
+  "реальный_стык": {
+    "firstprompt_sha256": "dbf1c1de76cffb76940f964e77e142f9bcfce9d0115dc7bfb671f46aed959c68",
+    "native_raw_sha256": "aae1e34e046745683212ce4584568135aa0acd1a199427ff6a346dcd55a7bf0d",
+    "native_span": [
+      142540,
+      148456
+    ],
+    "report_sha256": "628824b8113c39f7059b6c9a2eb57680eee7185237780ed3198ed1a8a06b40bb",
+    "исполнитель": "01a13c69-bc44-7291-bd9b-6c53fc7d87cf",
+    "предметный_helper": "15GREEN, профиль3PID,4subject ROcapsule сохранены; без READY/commit/push.",
+    "состояние": "Новая процедура не реализована/не принята, actual переход не выполнен."
+  },
+  "решение": "После текущего контрольного коммита запустить отдельную видимую задачу GPT6.1Sol/Ultra. Без повторного человеческого разрешения в исходном объёме.",
+  "схема": "fum.постановка-адресного-транспорта.1"
+}

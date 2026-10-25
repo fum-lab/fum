@@ -23,15 +23,33 @@ Shablon stroiteljnogo etapa dobavil soderzhateljnoye izmeneniye napravleniya 08,
 
 [Pervichnyij read-only-otkaz kontroljnoj tochki](../Zhurnal/2026-09-14_22-03-16_MSK_prinyatj-sovmestnuyu-klassifikaciyu-ostatka/materialyi/nablyudeniye-nepolnogo-okhvata.json) imeyet kod 1: razdel «Povliyal na fajlyi» ne perechislyal dva JSON tekusjhikh proverok i indeks svezhesti Markdown. Dliteljnostj ne izmerena; vyimyishlennaya pozdnyaya zapisj ne sozdayotsya. Dobavlenyi tochnyiye ssyilki na materialyi etapa i indeks; povtornyij dopusk vyipolnyayetsya posle polnogo oformleniya. Soderzhateljnyiye Python/Swift-testyi radi etogo ne povtoryalisj.
 
-V etoj versii vklyuchenyi semj proyavlenij: 0001–0005,0007i0008. Nomer 0006 zanyat otdeljnoj nezavershyonnoj rabotoj i ne pereispoljzuyetsya; yeyo dannyiye ne importirovanyi i priyomka ne zayavlyayetsya. Nomer 0007 naznachen koordinatorom posle sverki dostupnyikh refs i rabochikh fajlov.
+V etoj versii vklyuchenyi odinnadcatj proyavlenij: 0001–0005 i 0007–0012. Nomer 0006 zanyat otdeljnoj nezavershyonnoj rabotoj i ne pereispoljzuyetsya; yeyo dannyiye ne importirovanyi i priyomka ne zayavlyayetsya. Nomer 0007 naznachen koordinatorom posle sverki dostupnyikh refs i rabochikh fajlov.
 
 ### FUM-SBOJ-0051/PROYAVLENIYE-0008
 
 [Predvariteljnaya svyaznostj7a916e50](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/zapuski-proverok/18_7a916e50-a509-40ce-af4d-1607372dcd07.json) do povtornogo polnogo progona obnaruzhila odin propusjhennyij putj: izmenyonnyij proizvodnyij indeks svezhesti Markdown. Kod1 i43.194442792s sokhranenyi; [nablyudeniye](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/nablyudeniye-povtornogo-propuska-okhvata.json) svyazyivayet tochnyij SHA zapisi i vyivoda. V zapros dobavlena tochnaya ssyilka na indeks. Polnyij povtor yesjhyo ne zapuskalsya, poetomu otkaz ne povlyok novuyu doroguyu proyekciyu. Koordinator vyidelil0008 posle chteniya16versij v dostupnyikh zaregistrirovannyikh worktrees; odin worktree i chastnyiye chuzhiye rezervyi ne okhvachenyi.0006i0007 sokhranenyi za prezhnimi granicami.
 
+### FUM-SBOJ-0051/PROYAVLENIYE-0009
+
+[Otkaz predposyilki master](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/pervyij-otkaz-svyaznosti-predposyilki.json) v processe 9434 vernul kod 1: ne perechislen predyidusjhij zapros s izmenyonnoj navigaciyej. Svideteljstvo prochitano iz `5b64d4a6bff7d555fe4219ac42357a9ee66a9e83`, yego SHA zakreplyon v [registracii](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json). Lokaljnoye ispravleniye ssyilki ne zakryivayet rannyuyu avtomatizirovannuyu podgotovku polnogo sostava.
+
+### FUM-SBOJ-0051/PROYAVLENIYE-0010
+
+[Otkaz tekusjhego arkhiva](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/otkaz-okhvata-istochnikov.txt) otklonil 49 fajlov semi HTML-snimkov. Arkhivator dobavil ssyilki v «Prikreplyayemyiye materialyi», no dejstvuyusjhij okhvat proveryayetsya v «Povliyal na fajlyi». Korenj dobavil tochnyiye ssyilki na semj katalogov v trebuyemyij razdel, sokhraniv syiryiye materialyi. Proverka korrektno ostanovila kommit; izmenyatj validator ili rasshiryatj razresheniye do vsego checkout ne trebuyetsya.
+
+### FUM-SBOJ-0051/PROYAVLENIYE-0011
+
+[Terminaljnaya zapisj kornevogo J6](../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/iskhodnaya-zapisj-4_a8047c54-dc3d-46e0-a658-9e120c7d4e16.json) zavershena kodom 1 za 568,460521583 s. Posle ispravleniya otdeljnoj aktivnoj ssyilki vne pokoleniya polnyij dopusk doshyol do shaga11: [polnyij zakhvat i adresnyiye vyiderzhki](../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-4.json) soderzhat 97 soobsjhenij `unexpected Git status path`: 96 susjhestvuyusjhikh putej proyekcii i proizvodnyij reyestr planirovaniya. Otsutstvuyusjhikh putej sredi etogo nabora ne obnaruzheno koordinatorom; eto ta zhe granica susjhestvuyusjhego sostava, chto u0004, a ne isklyuchyonnaya ssyilka pervogo otkaza.
+
+Razdel zaprosa dopolnen integratorom razreshyonnyimi katalogom proyekcii i reyestrom. Eto mestnoye vosstanovleniye oblasti; sistemnoye ranneye predotvrasjheniye i itogovaya priyomka etim ne dokazanyi. Nomer0011 [naznachen koordinatorom](../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/naznacheniye-0051-0011.json) posle sverki207 dostupnyikh local/origin refs,7 unikaljnyikh Git-versij i32 rabochikh fajlov;36 zaregistrirovannyikh derevjyev bez kartochki, setj i nezaregistrirovannyiye rezervyi vne sverki. V iskhodnom snimke `e1da02ba71776a4f4452bb760a906fea1e809e4d` tekstyi proyavlenij 0009 i 0010 otsutstvovali. V obyyedinyonnoj kartochke oni sokhranenyi iz `ebdbb6211548e0dc5533fea4f287ce291a5b355a` pod prezhnimi nomerami. Nomer 0006 ostayotsya zanyatyim.
+
 ## Granica povtoreniya
 
 Iskhodnaya prichina — nepolnyij perechenj oblasti v shablone zaprosa pri perekhode ot otdeljnyikh kartochek k svodnomu napravleniyu. Posleduyusjhiye proyavleniya podtverzhdayut tu zhe granicu susjhestvuyusjhikh razreshyonnyikh fajlov: perechisleniye chasti obyyektov ili tekstovoye imya kataloga ne dayot polnogo pokryitiya. Obsjhaya mera — sverka vsego fakticheskogo Git-perechnya i razreshyonnyikh celej ssyilok, s sokhraneniyem otkaza dlya postoronnikh putej. Oshibka svyaznosti ili vyikhod izmeneniya za soglasovannyij obyyom ne ustanovlenyi. Eta granica otlichayetsya ot FUM-SBOJ-0035: tam otsutstvuyusjhij udalyonnyij putj treboval specialjnogo markera; zdesj propusjhen susjhestvuyusjhij izmenyonnyij dokument.
+
+### FUM-SBOJ-0051/PROYAVLENIYE-0012
+
+Polnyij dopusk J18 otkazal na shage 11 posle desyati uspeshnyikh shagov: 33 susjhestvuyusjhikh puti Proyekcii ne pokryityi zaprosom. Vneshnyaya dliteljnostj 601,605821458 s. [Adresnoye vosstanovleniye](../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/vosstanovleniye-okhvata.json) vosproizvelo 33 otkaza iskhodnogo spiska i nolj posle ssyilki na razreshyonnuyu oblastj. Eto mestnoye vosstanovleniye; sistemnoye predotvrasjheniye ostayotsya otkryityim v FUM-STEP-0225. [Granica naznacheniya nomera](../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/naznacheniye-0051-0012.json) sokhranyayet nedostupnyiye rezervyi neizvestnyimi i zanyatyij 0006.
 
 ## Ozhidaniye i klassifikaciya
 
@@ -64,6 +82,12 @@ Dopolniteljnoye osnovaniye FUM-STEP-0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕН
 
 Povtornoye osnovaniye FUM-STEP-0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0008`: proizvodnyij indeks vkhodit v polnyij fakticheskij sostav kazhdogo novogo etapa, dazhe yesli predyidusjhaya papka uzhe ispravlyalasj. Uspekh tekusjhej svyaznosti ne dokazyivayet avtomaticheskoye predotvrasjheniye.
 
+Dopolniteljnyiye osnovaniya STEP0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0010`: navigacionnyij fajl prezhnego etapa i tochnyiye katalogi novyikh snimkov dolzhnyi popastj v dejstvuyusjhij razdel okhvata do zaklyuchiteljnoj svyaznosti.
+
+Osnovaniye novogo utochneniya STEP0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0011`: polnyij fakticheskij sostav proizvodnoj proyekcii i reyestra proveryayetsya do dorogogo dopuska.
+
+Osnovaniye utochneniya FUM-STEP-0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0012`.
+
 ## Kriterii zakryitiya
 
 Avtomatizirovannaya podgotovka vyiyavlyayet polnyij sostav materialov do zaklyuchiteljnoj svyaznosti, sokhranyayet otkaz dlya postoronnego puti i trebuyet otdeljnyiye ssyilki tekusjhej paryi. Prezhniye kriterii vsekh vklyuchyonnyikh proyavlenij sokhranenyi; lokaljnoye ispravleniye spiska ikh ne zakryivayet.
@@ -83,7 +107,9 @@ Avtomatizirovannaya podgotovka vyiyavlyayet polnyij sostav materialov do zaklyuc
 - Istoriya0001–0005 perenesena iz `775128491a1b9f9b130bd6946ad2d33fd04dbe51`, SHA-256 `b34bb722f87b505ff82cbd56afce485a7dadf73b1f0b590436be64d6e9cf4c83`; smyisl i iskhodnyiye nomera sokhranenyi, razdelyi privedenyi k dejstvuyusjhemu formatu kartochki.
 - [Naznacheniye0008 i tekusjhij zapros](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md).
 
+- [Registraciya0011 i granicyi perenosa](../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/zapros.md).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:7d358fa7164a158fef6cc9acebd85d59fb4edeafc386f09d61e85c1fe9f25f3e -->
+<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
+<!-- content-sha256: sha256:1ea59831cbc01f1b67db5fb101c2e9404f430e6c4fb1a3a36ffe33aba7292d85 -->
 <!-- FUM-MD-RECENCY:END -->

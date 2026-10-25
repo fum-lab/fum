@@ -1,0 +1,55 @@
+{
+  "отпечаток_закрытия": "sha256:5718fbadf891d0b819e44760a031171b1c36e6cd5021567cd632abb3788a8a62",
+  "сессия": "Журнал/2026-09-22_14-39-32_MSK_закрепить-схемы-runtime-снимков/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "ef6a0ae2209c886b8e4d26e0fee1c72104a0e8fe4c77309c4e5d11ce29ed91b3",
+      "имя": "1_01e19e89-b0ea-4052-9230-5001392add8a.json"
+    },
+    {
+      "sha256": "3afaabb634b73ff5c9071498f6f5103bd053c3ce1bf8d09752333401cfe791a7",
+      "имя": "2_eeead15e-af81-4b5a-87b0-ca8cdb3b2de7.json"
+    },
+    {
+      "sha256": "c240ae2e22236e9e196dd9b546d7283086c83f5af1fdceeff633d4990d4ad212",
+      "имя": "3_4bc90feb-3801-48fc-8813-06185e5178d1.json"
+    },
+    {
+      "sha256": "93bcfaa3ae8958ec936599859d005ae78d5fe037bb69fa630aa8eda2207dbb03",
+      "имя": "4_40cc457a-d9af-4641-baf0-9882584af2ed.json"
+    },
+    {
+      "sha256": "dd81e07f38afaf465798219b951c26338e962e1b656a11ab273e10a41dc3ded0",
+      "имя": "5_d1a98710-16fd-49e6-b45b-0cbb4f2631a5.json"
+    },
+    {
+      "sha256": "b70bb396f80717920c7a45716719777605cfe4aad7e90f599eb901dad0637a68",
+      "имя": "6_d7403318-b127-4cd3-9994-b25036da8ac3.json"
+    },
+    {
+      "sha256": "e50a9af640d8007cdc78a138eb823fdcbccf7e3d560d8d103d8d7dc5e4a1826d",
+      "имя": "7_a5c6e7bf-ef78-476e-aec9-0c84896e8c1e.json"
+    },
+    {
+      "sha256": "4d764d69001caa297e8fb0889492ec7e3664dd5487c070c6f281d108974961e5",
+      "имя": "8_62167aee-4044-41fd-be72-1630c730f96e.json"
+    },
+    {
+      "sha256": "9fcde5c84de68c690f79a85cf86aea71b16b6613498e0a93715f2b39ac0167d6",
+      "имя": "9_68d725ba-dd45-4a92-8e28-34f8e5f55194.json"
+    },
+    {
+      "sha256": "d3ee6980fd07d0a983944690f6dcc5f7e8d544dc4d414dec846f6e0819fca348",
+      "имя": "10_1f0c63e5-d138-4b47-bd5a-80da674f5e84.json"
+    },
+    {
+      "sha256": "e9983ebf6d408ef533ac3811ec3f7e90ea87f6c982eb14d3e30be42b742a9ce7",
+      "имя": "11_f6068557-a8e5-4bd3-aac2-30b8debf941d.json"
+    },
+    {
+      "sha256": "976a15c3aa02821437e3ae7721b31e70f81298ec7a14b8dedd48706ed1814614",
+      "имя": "12_bd1bcaad-4a5e-48a1-a657-b72cfda8686c.json"
+    }
+  ]
+}

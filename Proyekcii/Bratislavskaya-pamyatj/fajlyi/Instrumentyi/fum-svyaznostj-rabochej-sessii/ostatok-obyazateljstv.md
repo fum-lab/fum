@@ -33,6 +33,20 @@ python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обя�
 
 Sostoyaniye `есть-доступная-работа` oznachayet nalichiye sleduyusjhego dejstviya. `ожидание` vozvrasjhayetsya toljko kogda ostavshiyesya izvestnyiye rabotyi imeyut podtverzhdyonnyiye prichinyi ozhidaniya i net napravleniya bez sleduyusjhego etapa. Inache vozvrasjhayetsya `требуется-план`. Ozhidaniye odnoj rabotyi ne skryivayet nezavisimuyu dostupnuyu rabotu.
 
+## Pochemu priyomka ustarela
+
+Chtobyi poluchitj tochnyiye razlichiya bez ruchnogo poiska po istorii Git, vyizovite:
+
+```bash
+python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py --диагностика-неактуальности
+```
+
+Rezhim vozvrasjhayet otdeljnuyu skhemu `fum.диагностика-приёмок.1`. Shtatnaya skhema `fum.остаток-обязательств.1` i reyestr ne izmenyayutsya. Diagnostika sokhranyayet UUID, vershinu Git, istochnik i SHA reyestra, identichnostj proverennyikh priyomok i ikh priznaki aktualjnosti. Dlya kazhdogo raskhodyasjhegosya obyyavlennogo puti vyivodyatsya prinyatyiye i tekusjhiye SHA-256 i rezhim; `текущее: null` oznachayet otsutstviye fajla. Soderzhimoye fajlov ne vyivoditsya. Poryadok priyomok i rezuljtatov sootvetstvuyet proverennomu reyestru.
+
+Pustoj spisok `изменённые_результаты` ne dokazyivayet aktualjnostj: mogla ustaretj predposyilka. Dlya etogo ostayutsya otdeljnyiye polya `актуальны_собственные_результаты`, `актуальны_предпосылки` i obsjhij priznak `актуальна`. Podmena prinyatogo svideteljstva privodit k obyichnomu otkazu; diagnosticheskij rezhim ne oslablyayet proverku.
+
+Flag sovmestim s `--кандидат-из-ввода` i nesovmestim s `--создать-основу`. Polnaya proverka ostatka vyipolnyayetsya odin raz, zatem diagnostika stroitsya iz uzhe prochitannyikh obyyektov bez novyikh processov Git. Nesokhranyonnyij checkout ne stanovitsya tekusjhim rezuljtatom: sravneniye zakrepleno polem `граница_актуальности`.
+
 ## Sokhranyayemyiye dannyiye
 
 V [reyestre etoj zadachi](../../Planirovaniye/zadachi/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/obyazateljstva.json) kazhdoye obyazateljstvo soderzhit identifikator, roditelya, vid rezuljtata i celuyu doslovnuyu komandu s putyom zaprosa i polnyim kommitom. Istoricheskoye proiskhozhdeniye sokhranyayetsya otdeljno ot prinyatogo perenosa v pervichnyij checkout. Nezavisimaya granica importa zakreplena v iskhodnike: proveryayemyij JSON ne mozhet sam naznachitj sebe novyij genezis.
@@ -40,6 +54,8 @@ V [reyestre etoj zadachi](../../Planirovaniye/zadachi/01a07d3d-d376-7ad2-aafc-67
 Rabota soderzhit `идентификатор`, `обязательство`, `действие`, `основание`, `предпосылки`, `ожидание` i nepustoj spisok tochnyikh putej `результаты`. Osnovaniye sovpadayet s obyazateljstvom. Predposyilki obrazuyut graf bez ciklov. Ozhidaniye imeyet prichinu i svideteljstvo s polyami `коммит`, `путь`, `sha256`; otsutstviye plana ne maskiruyetsya ozhidaniyem.
 
 Priyomka etapa soderzhit `работа`, `коммит`, `запрос`, `финальный_запуск` i `результаты`. Kazhdyij rezuljtat zadayot `путь`, `sha256` i Git-rezhim `100644` libo `100755`. Opredeleniye rabotyi uzhe prisutstvuyet v kommite priyomki; khotya byi odin zayavlennyij rezuljtat izmenyon etim kommitom. Priyomka zapisyivayetsya pozdneye, kogda izvesten kommit, i proveryayetsya [chitatelem zakryitogo otchyota](../fum-otchyotyi-o-zapuskakh-proverok/svyazj-s-kommitom.md). Proveryayutsya v3-svideteljstva, iskhodnaya komanda, UUID zadachi, poslednij trailer kommita i tochnyiye bajtyi rezuljtata. Vsya cepochka predposyilok proveryayetsya kak na moment priyomki, tak i na tekusjhuyu granicu.
+
+Adresnyij ili diagnosticheskij zapusk mozhet byitj sokhranyon kak promezhutochnaya podgotovka. Yesli zapisj priyomki soderzhit toljko zavershyonnyiye uspeshnyiye zapuski klassa `адресная`, chitatelj soobsjhayet `состояние_проверки=адресная-подготовка`, sokhranyayet prichinu `адресные проверки не являются финальной приёмкой` i ne vklyuchayet etap v podtverzhdyonnyiye. Dlya finaljnoj priyomki nuzhen zakryityij polnyij otchyot, svyazannyij s tem zhe kommitom; iskhodnyiye adresnyiye zapisi ostayutsya neizmennyimi.
 
 Udaleniye ili izmeneniye opredeleniya, poterya priyomki i udaleniye reyestra obnaruzhivayutsya na kazhdom rebre vsej dostizhimoj istorii, vklyuchaya oboikh roditelej sliyaniya. Ischeznoveniye s posleduyusjhim vosstanovleniyem ne schitayetsya nepreryivnyim sokhraneniyem. Paketnoye chteniye unikaljnyikh derevjyev sokrasjhayet chislo processov Git, sokhranyaya vse versii i ryobra. Shallow-istoriya, grafts, simvolicheskiye ssyilki vmesto obyichnogo fajla i smena `HEAD` vo vremya chteniya otklonyayutsya.
 
@@ -52,6 +68,6 @@ V pervoj zapisi splanirovan etap samogo reyestra; ostaljnyiye shestj napravlenij
 Iskhodnoye osnovaniye i obsuzhdeniye sorazmernosti processa: [zapros tekusjhego etapa](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md). Scenarii otkazov zakreplenyi adresnyimi testami; [parnyij profilj](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/materialyi/profilj-sravneniya.json) sokhranyayet granicyi izmereniya i sravneniye rezuljtata do i posle optimizacii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:03:44 MSK -->
-<!-- content-sha256: sha256:80d2a6a1cf16cadb9b702dd3b578a442c0c312325a27637969d3f1aee78a24e5 -->
+<!-- last-content-edit: 2026-09-22 02:44:42 MSK -->
+<!-- content-sha256: sha256:d23994de297bc6bfe53680975413edf7ca8705dbcba75ae35e4d6c8441624039 -->
 <!-- FUM-MD-RECENCY:END -->

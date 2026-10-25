@@ -1,0 +1,56 @@
+{
+  "ACT": "Планирование/дочерние-поручения/2026-10-14/однозначный-автор-коммитов-Codex.json",
+  "Issue": "https://github.com/fum-lab/fum/issues/271",
+  "входная_роль": "FUM Codex",
+  "исключить": [
+    "изменение опубликованной истории",
+    "нормативный self-admission",
+    "реальный B/state2",
+    "слияние",
+    "посторонние cache и B продукты",
+    "массовая правка parser-only исторических фикстур"
+  ],
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_ранний_состав_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_свежего_автора.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_свежего_автора.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-дочернего-поручения.md",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/сценарий_коммита_приёма.py",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/сценарий_обнаружения_приёма.py",
+    "Правила/агентов/Git-и-рабочая-сессия.md",
+    "Правила/агентов/инвентарь-правил.json",
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py",
+    "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_имени_агентского_автора.py",
+    "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md"
+  ],
+  "постановка": {
+    "sha256": "1660a99376add553de658f48540f5204727051c7bf14bfdbed07b761138c7227",
+    "коммит": "c56823979663d64c0dd585bc23b46001d76756b1",
+    "путь": "Журнал/2026-10-14_12-38-15_MSK_сохранить-обсуждения-и-намерения/запрос.md"
+  },
+  "проверки": [
+    "неправильная свежая роль в prepare/READY/Create",
+    "подмена подготовленного полного имени",
+    "producer поручений возвращает Codex",
+    "настоящий commit с Codex и точными остальными identity",
+    "исторический FUM Разработчик replay без второго эффекта",
+    "полная семантическая сверка нормы/инвентаря/validator"
+  ],
+  "реализовано": false,
+  "сохранить": [
+    "подлинные model/effort из native",
+    "исторические литералы и читающий replay до свежего gate",
+    "email/committer/даты",
+    "специализацию отдельно от имени агента",
+    "первичные RED/GREEN/отказы и3свежихпрофиля"
+  ],
+  "схема": "fum.план-исправления-автора.1"
+}

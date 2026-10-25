@@ -1,0 +1,11 @@
+HTTP/2 200
+date: Tue, 15 Sep 2026 17:57:35 GMT
+content-type: text/html
+last-modified: Fri, 04 Sep 2026 01:42:06 GMT
+vary: Accept-Encoding
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=VdVW207DjjPWCcTm1fuB%2B01a9jhN6mqBMwOmW3VtJ%2BT9VTuXiGRC3zB9J%2FpJVqom7jXbunx0%2FnPXAfRXI4F7KHhhDmKhIKYS9RDFxUVgNQdBgOOyDWDXQq1%2FP%2BRhlHFscHA%3D"}]}
+server: cloudflare
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-cache-status: DYNAMIC
+cf-ray: [REDACTED: response trace identifier]
+alt-svc: h3=":443"; ma=86400

@@ -1,0 +1,35 @@
+{
+  "результат": {
+    "коммит": "35a7101103eee6ee47e1c9f3e587f492a162ed1d",
+    "дерево": "69c44b23985d20a1f43dae6a590dffc5dc03e8c5",
+    "родители": [
+      "e848de20c7a951163627a20dd2a5f10e83307cb6",
+      "a544da2f68825929c38d924d1a9204016fdd45a9"
+    ],
+    "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791142647 +0300",
+    "коммиттер": "FUM <fum@local> 1791142647 +0300",
+    "сообщение_sha256": "60aceddc8a02f6ae22efd1d34c8e8a639d4ee30bbecd34f7be492c497e888464"
+  },
+  "целей": 49,
+  "ветка": "refs/heads/fuma",
+  "чистое_дерево": true,
+  "raw_sha256": "375c21424a818ac411eed74ce37e0fdf532bec685eb00d2de9ffc2805f39e894",
+  "remote": "35a7101103eee6ee47e1c9f3e587f492a162ed1d",
+  "PR": {
+    "baseRefName": "fuma",
+    "headRefOid": "a544da2f68825929c38d924d1a9204016fdd45a9",
+    "isDraft": false,
+    "mergeCommit": {
+      "oid": "35a7101103eee6ee47e1c9f3e587f492a162ed1d"
+    },
+    "mergedAt": "2026-10-04T19:38:12Z",
+    "state": "MERGED",
+    "url": "https://github.com/fum-lab/fum/pull/166"
+  },
+  "поздние_вызовы": {
+    "готово": "код0 / 51.692с",
+    "создать": "код0 / 51.680с",
+    "push": "код0 / 3.055с"
+  },
+  "ошибка_моего_вызова": "Recency первоначально не запустилась: ошибочный путь fum-md-recency; исправленный канонический fum-svezhestj-markdown успешен. Допуск и предметный состав не менялись."
+}

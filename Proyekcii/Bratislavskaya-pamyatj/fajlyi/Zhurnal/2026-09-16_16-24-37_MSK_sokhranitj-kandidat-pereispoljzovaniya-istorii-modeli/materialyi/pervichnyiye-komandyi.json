@@ -1,0 +1,42 @@
+[
+  {
+    "экземпляр": "de4ebe129a6b958cdb013d79c0cf4eec1f8910eae1c407452dadf10bbdb2d52b",
+    "позиция": {
+      "начало": 906389402,
+      "конец": 906389973,
+      "sha256": "bca6472bf61bcacebcbeac012cea6c21402566560f302d6f326817ca8c6df0ba"
+    },
+    "текст": "V celom nasha strategicheskaya celj: posledovateljno stremitjsya umenjshatj neobkhodimyiye usiliya modeli, chtobyi v itoge prijti k vozmozhnosti ispoljzovatj lokaljnyiye boleye prostyiye LLM.\n",
+    "обработанный_источник": {
+      "коммит": "bdcb98738475868fddab1bd43a71018f93770b53",
+      "путь": "Журнал/2026-09-16_15-31-31_MSK_закрепить-обработку-семи-сообщений/материалы/обработка-428-434/de4ebe129a6b958cdb013d79c0cf4eec1f8910eae1c407452dadf10bbdb2d52b/846bc5a82067b7d3ccb4ca5116279583b685ab37374c0c904424d5f8a82af1fc/команда.json",
+      "sha256": "184d5e148f1f1cf9c7f75f5f99505f9f141ef8738c0928e2335ac091c366d0af"
+    },
+    "сохранённая_команда": [
+      {
+        "text": "V celom nasha strategicheskaya celj: posledovateljno stremitjsya umenjshatj neobkhodimyiye usiliya modeli, chtobyi v itoge prijti k vozmozhnosti ispoljzovatj lokaljnyiye boleye prostyiye LLM.\n",
+        "type": "input_text"
+      }
+    ]
+  },
+  {
+    "экземпляр": "7f944ccc2d8e9776fb1595d19a71cd25a93afdcdf22f5eb0f1222c7f4372846f",
+    "позиция": {
+      "начало": 906631867,
+      "конец": 906632342,
+      "sha256": "6ba74e11b9f0838f756f85bb7b726df790d926d8b1b708e55922cf9c52478775"
+    },
+    "текст": "I dlya realizacii etoj celi tyi mozheshj vvoditj sbor dopolniteljnyikh trebuyemyikh parametrov.\n",
+    "обработанный_источник": {
+      "коммит": "bdcb98738475868fddab1bd43a71018f93770b53",
+      "путь": "Журнал/2026-09-16_15-31-31_MSK_закрепить-обработку-семи-сообщений/материалы/обработка-428-434/7f944ccc2d8e9776fb1595d19a71cd25a93afdcdf22f5eb0f1222c7f4372846f/20a9ae1686536b0c97221f9ad5d3c4b7a7b2c9c07ec3c95541b8644b4205dfa5/команда.json",
+      "sha256": "c3689081a18e8aa63dba885bd0b03e3337cb411e55d7cff5ca5dab0d5f48dfec"
+    },
+    "сохранённая_команда": [
+      {
+        "text": "I dlya realizacii etoj celi tyi mozheshj vvoditj sbor dopolniteljnyikh trebuyemyikh parametrov.\n",
+        "type": "input_text"
+      }
+    ]
+  }
+]

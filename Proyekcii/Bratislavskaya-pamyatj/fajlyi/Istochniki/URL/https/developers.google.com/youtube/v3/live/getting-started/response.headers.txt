@@ -1,0 +1,16 @@
+HTTP/2 200
+last-modified: Mon, 14 Sep 2026 19:48:18 GMT
+content-type: text/html; charset=utf-8
+vary: Cookie
+content-security-policy: base-uri 'self'; object-src 'none'; script-src 'strict-dynamic' 'unsafe-inline' https: http: 'nonce-[REDACTED]' 'unsafe-eval'; frame-ancestors 'self' https://codeassist.google.com https://code-assist-free-tier.corp.google.com; report-uri https://csp.withgoogle.com/csp/devsite/v2
+strict-transport-security: max-age=63072000; includeSubdomains; preload
+x-xss-protection: 0
+x-content-type-options: nosniff
+cache-control: no-cache, must-revalidate
+expires: 0
+pragma: no-cache
+x-cloud-trace-context: 9a1f56b1beed2404ce8054768562286c
+date: Tue, 15 Sep 2026 19:03:46 GMT
+server: Google Frontend
+content-length: 94456
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000

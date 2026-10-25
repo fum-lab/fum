@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 12:17:50 MSK - Vklyuchitj prinyatyij interpretator](../2026-09-11_12-17-50_MSK_vklyuchitj-prinyatyij-interpretator/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 13:39:59 MSK - Prinyatj napravleniye finansirovaniya FUM](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 12:40:18 MSK - Podgotovitj postanovku Linux VM na macOS](../2026-09-11_12-40-18_MSK_podgotovitj-postanovku-Linux-VM-na-macOS/zapros.md)
 
 ## Tekst zaprosa
 
@@ -112,6 +112,6 @@ Vosjmoj etap obyyedinyayet tochnyij prinyatyij vkhod shablonov `acab107170a4a124
 Prinyatyiye vosemj OID zakreplenyi v karte vkhodov. Novyiye benchmark-izmeneniya, ustanovka Linux na Mac i prodvizheniye master v etot kandidat ne vkhodyat. Po soobsjheniyu koordinatora nomera sboyev 0073 i 0074 zarezervirovanyi drugoj zadachej; zdesj oni ne naznachayutsya. Peredacha proverennogo C yedinstvennomu pisatelyu fuma trebuyet tochnogo iskhodnogo OID i podtverzhdeniya polucheniya; eto yesjhyo dostupnaya rabota, a ne sovershivshijsya fakt.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:a81ac433a07e975be72f87be717836a9c07a1daedfeadc49ae7c782208e0a1d6 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:0bb7a2ab26bb797656f7f057d34f327bebd6b0c2331c5ef6503970f987deb963 -->
 <!-- FUM-MD-RECENCY:END -->

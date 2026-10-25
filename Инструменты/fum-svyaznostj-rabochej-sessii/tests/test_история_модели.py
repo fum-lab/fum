@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from история_модели import импортировать, подготовить_коммит
+from перепривязать_историю_модели import перепривязать
 import история_модели as модуль
 
 
@@ -41,6 +42,10 @@ class ИсторияМодели(unittest.TestCase):
     def импорт(self, **параметры):
         return импортировать(self.источник, self.задача, корень_репозитория=self.корень,
                             кэш=self.кэш, история=self.история, **параметры)
+
+    def перепривязать(self, **параметры):
+        return перепривязать(self.источник, self.задача, корень_репозитория=self.корень,
+                             кэш=self.кэш, история=self.история, **параметры)
 
     def test_первое_смены_повтор_и_происхождение(self):
         self.наблюдать()
@@ -100,6 +105,120 @@ class ИсторияМодели(unittest.TestCase):
         новый.replace(self.источник)
         with self.assertRaises(ValueError):
             self.импорт()
+
+    def test_явная_перепривязка_проверяет_префикс_и_подхватывает_хвост(self):
+        self.наблюдать()
+        self.импорт()
+        прежние_байты = self.источник.read_bytes()
+        новый = self.каталог / "новый"
+        новый.write_bytes(прежние_байты)
+        новый.replace(self.источник)
+        хвост = (json.dumps({"type": "turn_context", "timestamp": "2026-09-16T16:00:00Z",
+                             "payload": {"model": "gpt-6-sol", "effort": "ultra"}}) + "\n").encode()
+        with self.источник.open("ab") as поток:
+            поток.write(хвост)
+
+        результат = self.перепривязать()
+
+        сохранённая = json.loads(self.история.read_bytes())
+        self.assertEqual(сохранённая["число_наблюдений"], 2)
+        self.assertEqual(сохранённая["события"][-1]["модель"], "gpt-6-sol")
+        self.assertEqual(результат["новых_наблюдений"], 1)
+        self.assertEqual(результат["дописано_после_снимка"], 0)
+        self.assertTrue(результат["перепривязка"])
+        self.assertEqual(результат["полнота"], True)
+        self.assertEqual(self.импорт()["новых_наблюдений"], 0)
+
+    def test_перепривязка_без_записи_не_меняет_историю_и_курсор(self):
+        self.наблюдать()
+        self.импорт()
+        старые_байты = (self.история.read_bytes(), self.кэш.read_bytes())
+        новый = self.каталог / "новый"
+        новый.write_bytes(self.источник.read_bytes())
+        новый.replace(self.источник)
+
+        результат = self.перепривязать(без_записи=True)
+
+        self.assertTrue(результат["без_записи"])
+        self.assertEqual((self.история.read_bytes(), self.кэш.read_bytes()), старые_байты)
+
+    def test_перепривязка_отклоняет_изменённый_префикс_без_записи(self):
+        self.наблюдать()
+        self.импорт()
+        старые_байты = (self.история.read_bytes(), self.кэш.read_bytes())
+        новый = self.каталог / "новый"
+        новый.write_bytes(self.источник.read_bytes().replace(b'"low"', b'"xxx"'))
+        новый.replace(self.источник)
+
+        with self.assertRaisesRegex(ValueError, "префикс изменён"):
+            self.перепривязать()
+
+        self.assertEqual((self.история.read_bytes(), self.кэш.read_bytes()), старые_байты)
+
+    def test_перепривязка_требует_полный_старый_снимок(self):
+        self.наблюдать()
+        with self.источник.open("ab") as поток:
+            поток.write(b'{"type":')
+        self.импорт()
+        старые_байты = (self.история.read_bytes(), self.кэш.read_bytes())
+        новый = self.каталог / "новый"
+        новый.write_bytes(self.источник.read_bytes())
+        новый.replace(self.источник)
+
+        with self.assertRaisesRegex(ValueError, "старый снимок неполон"):
+            self.перепривязать()
+
+        self.assertEqual((self.история.read_bytes(), self.кэш.read_bytes()), старые_байты)
+
+    def test_сбой_перепривязки_восстанавливается_обычным_импортом(self):
+        self.наблюдать()
+        self.импорт()
+        новый = self.каталог / "новый"
+        новый.write_bytes(self.источник.read_bytes())
+        хвост = (json.dumps({"type": "turn_context", "timestamp": "2026-09-16T16:00:00Z",
+                             "payload": {"model": "gpt-6-sol", "effort": "ultra"}}) + "\n").encode()
+        with новый.open("ab") as поток:
+            поток.write(хвост)
+        новый.replace(self.источник)
+        установить = модуль.чтение._установить
+
+        def отказ(путь, данные):
+            if путь == self.история:
+                raise OSError("синтетический сбой установки истории")
+            установить(путь, данные)
+
+        with patch.object(модуль.чтение, "_установить", side_effect=отказ):
+            with self.assertRaises(OSError):
+                self.перепривязать()
+
+        подготовленный = json.loads(self.кэш.read_bytes())["данные"]
+        self.assertTrue(подготовленный["подготовлено"])
+        результат = self.импорт()
+        self.assertEqual(json.loads(self.история.read_bytes())["число_наблюдений"], 2)
+        self.assertEqual(json.loads(self.история.read_bytes())["события"][-1]["модель"], "gpt-6-sol")
+        self.assertEqual(результат["новых_наблюдений"], 0)
+        self.assertFalse(json.loads(self.кэш.read_bytes())["данные"]["подготовлено"])
+
+    def test_CLI_перепривязки_возвращает_сухой_результат(self):
+        self.наблюдать()
+        self.импорт()
+        старые_байты = (self.история.read_bytes(), self.кэш.read_bytes())
+        новый = self.каталог / "новый"
+        новый.write_bytes(self.источник.read_bytes())
+        новый.replace(self.источник)
+        команда = [sys.executable, "-B", str(Path(модуль.__file__).with_name("перепривязать-историю-модели.py")),
+            "--корень-репозитория", str(self.корень), "--исходник", str(self.источник),
+            "--задача-источника", self.задача, "--кэш", str(self.кэш),
+            "--история", str(self.история), "--без-записи"]
+
+        результат = subprocess.run(команда, capture_output=True, check=False)
+
+        self.assertEqual(результат.returncode, 0, результат.stdout + результат.stderr)
+        квитанция = json.loads(результат.stdout)
+        self.assertTrue(квитанция["перепривязка"])
+        self.assertTrue(квитанция["без_записи"])
+        self.assertLess(len(результат.stdout), 4096)
+        self.assertEqual((self.история.read_bytes(), self.кэш.read_bytes()), старые_байты)
 
     def test_без_записи_не_создаёт_файлов(self):
         self.наблюдать()

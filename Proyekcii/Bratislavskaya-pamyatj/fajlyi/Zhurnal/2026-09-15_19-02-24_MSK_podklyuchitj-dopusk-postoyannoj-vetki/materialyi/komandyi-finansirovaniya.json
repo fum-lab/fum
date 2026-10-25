@@ -1,0 +1,42 @@
+[
+  {
+    "текст": "Prodolzhaj prorabotku voprosa finansirovaniya dlya FUMA.\n",
+    "время": "2026-09-15T16:05:28.601Z",
+    "байты": [
+      790021435,
+      790021871
+    ],
+    "sha256": "13d0a1cd4dbffb8734dbaa6458ecabd75b6480280d54a0067730a5f5a6183c0d",
+    "тип_источника": "native response_item user"
+  },
+  {
+    "текст": "Tam yestj variantyi s oborudovaniyem v lizing?\n",
+    "время": "2026-09-15T16:08:17.408Z",
+    "байты": [
+      790273121,
+      790273547
+    ],
+    "sha256": "dbb7fa18f1b189380225bdc4aea72c3a8fddfb46f6d913664475b04d1219f2b8",
+    "тип_источника": "native response_item user"
+  },
+  {
+    "текст": "Kredityi tozhe privetstvuyutsya, kak odna iz opcij.\n",
+    "время": "2026-09-15T16:09:45.154Z",
+    "байты": [
+      790366450,
+      790366881
+    ],
+    "sha256": "cd6d887f762f44ec946b71d04c479fcc189b8cdc3d3169d4e25af7c0322cd37b",
+    "тип_источника": "native response_item user"
+  },
+  {
+    "текст": "Donatyi yestj v finansovoj zadache?\n",
+    "время": "2026-09-15T16:13:51.244Z",
+    "байты": [
+      790580229,
+      790580643
+    ],
+    "sha256": "7abf41d8517e77aa197ce3ad6f207d619b0e41cd0653ad7465ee2a609c62c64d",
+    "тип_источника": "native response_item user"
+  }
+]

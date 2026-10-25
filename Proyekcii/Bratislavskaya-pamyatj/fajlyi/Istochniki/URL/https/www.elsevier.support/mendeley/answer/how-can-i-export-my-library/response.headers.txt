@@ -1,0 +1,24 @@
+HTTP/2 200
+date: Tue, 15 Sep 2026 20:28:58 GMT
+content-type: text/html; charset=utf-8
+set-cookie: [REDACTED: response cookie]
+x-amzn-requestid: 07e445d0-52bc-4362-9af2-dcf5cdbb14bf
+tdm-policy: https://www.elsevier.com/tdm/tdmrep-policy.json
+x-nextjs-cache: HIT
+x-amzn-remapped-content-length: 110210
+content-security-policy: default-src 'self' *.amazoncognito.com; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.cookielaw.org https://assets.adobedtm.com https://elsevier.atlassian.net https://js-agent.newrelic.com https://www.pingvp.com https://rules.ee.channels.ocs.oraclecloud.com https://ee.channels.ocs.oraclecloud.com http://ee.channels.ocs.oraclecloud.com https://bots.kore.ai *.mouseflow.com; style-src 'self' 'unsafe-inline' https://www.pingvp.com http://ee.channels.ocs.oraclecloud.com/css/debugger.css https://bots.kore.ai https://fonts.googleapis.com/; img-src 'self' data: blob: https://supportcontent.elsevier.com http://images.ctfassets.net https://images.ctfassets.net https://smetrics.elsevier.com http://metrics.elsevier.com https://cm.everesttech.net https://cdn.cookielaw.org https://dpm.demdex.net https://i.ytimg.com/ https://www.pingvp.com *.mouseflow.com https://bots.kore.ai https://platform.kore.ai/ https://eu-platform.kore.ai https://*.elsevier.support; font-src 'self' *.mouseflow.com https://fonts.gstatic.com/; connect-src 'self' https://cognito-idp.eu-west-1.amazonaws.com https://cdn.cookielaw.org https://geolocation.onetrust.com https://privacyportal.onetrust.com https://dpm.demdex.net http://elsevierlimited.tt.omtrdc.net http://metrics.elsevier.com https://smetrics.elsevier.com https://*.nr-data.net https://external-production-cs-solution-tempbucketfa49b7aa-n4wzg9tyjqnz.s3.eu-west-1.amazonaws.com/ https://rules.ee.channels.ocs.oraclecloud.com https://service.elsevier.com/ https://cn.service.elsevier.com/ https://es.service.elsevier.com/ https://service.elsevier.com/ https://*.rightnowtech.com *.mouseflow.com https://bots.kore.ai https://platform.kore.ai/ https://eu-platform.kore.ai/ https://cdn.jsdelivr.net/npm/emoji-picker-element-data@%5E1/en/emojibase/data.json wss://platform.kore.ai/ wss://eu-platform.kore.ai/ https://elsevierhipaa.custhelp.com/; media-src 'self' https://supportcontent.elsevier.com https://elsevier.pingvp.com https://cdn.3d4medical.com; object-src 'none'; frame-src 'self' https://elsevier.demdex.net https://player.vimeo.com https://www.youtube.com https://p.widencdn.net https://player.vimeo.com https://instant-access.ddw-cloud.com/OrderTracking/ https://orr-order-tracking.prod.ecommerce.elsevier.com/ https://brand.elsevier.com/ https://player.bilibili.com/ *.mouseflow.com https://eu-platform.kore.ai/ https://cdn-assets-eu.frontify.com/; worker-src 'none'; base-uri 'self'; manifest-src 'self'; report-to csp-endpoint; report-uri /api/csp/report;
+x-opennext: 1
+cache-control: s-maxage=31536000
+x-powered-by: Next.js
+x-amzn-trace-id: Root=1-6aa9665a-3de1d9af50c0b2045d3c8b41;Parent=67b738f1b435ef2e;Sampled=0;Lineage=1:f6f9720f:0
+tdm-reservation: 0
+reporting-endpoints: csp-endpoint="/api/csp/report"
+vary: Accept-Encoding
+x-cache: Hit from cloudfront
+via: 1.1 092346d27526f990a25d9067d81b2a0e.cloudfront.net (CloudFront)
+x-amz-cf-pop: ARN56-P3
+x-amz-cf-id: yvKRA7CQvBITIggqFexM4uPMNsBA4Hn6xQ5oRvVntMfoLnpKdh6oPw==
+age: 17456
+cf-cache-status: DYNAMIC
+server: cloudflare
+cf-ray: [REDACTED: response trace identifier]

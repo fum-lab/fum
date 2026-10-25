@@ -5,10 +5,19 @@ import sys
 import unittest
 from unittest import mock
 
-from test_входа_направления import открытый_вход, ЗАДАЧА, сообщение, строка
+from contextlib import contextmanager
+from test_входа_направления import открытый_вход as прежний_вход, ЗАДАЧА, сообщение, строка
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import исполнитель_приёма as исполнение
+
+
+@contextmanager
+def открытый_вход():
+    with прежний_вход() as (корень, источник, решение):
+        решение["схема"] = "fum.решение-приёма.2"
+        решение["задача"].update(model="gpt-6-astra", thinking="low")
+        yield корень, источник, решение
 
 
 def подготовленная_постановка(корень, источник, решение):

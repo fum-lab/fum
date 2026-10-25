@@ -25,6 +25,8 @@ V otchyot vkhodyat i pokryityiye, i nepokryityiye voprosyi. Ssyilka kartochki po
 
 ## Materialyi
 
+- [Pervyij scenarij strukturiruyusjhikh operatorov](2026-09-15_19-04-26_MSK_integrirovatj-ispolneniye-operatora-FUMA.md) — sokhranyonnyij kontrakt UTF-8 → Unicode-skalyaryi → UTF-32 i granica konechnogo ispolneniya v FUMA.
+- [Yedinyij runtime FUMA i stoimostj IPC](2026-09-15_16-09-02_MSK_utochnitj-obolochku-API-i-stoimostj-IPC.md).
 - [Chto takoye FUM](2026-08-03_17-01-51_MSK_zakrepitj-sistemnoye-ustraneniye-nedorabotok.md) - kratkoye raskryitiye nazvaniya FUM, yego agentskogo naznacheniya i fraktaljnogo principa organizacii myishleniya.
 - [Kak razreshatj konflikt avtonomii poduzla i ustojchivosti sostavnogo uzla](2026-06-22_08-14-25_MSK_konflikt-avtonomii-i-ustojchivosti-FUM.md) - obsjhij princip otbora zhiznesposobnyikh variantov koordinacii bez opravdaniya totaljnoj vlasti nad poduzlom.
 - [Kak razlichatj issledovateljskiye statusyi FUM](2026-06-22_08-22-06_MSK_razlicheniye-issledovateljskikh-statusov-FUM.md) - granicyi mezhdu gipotezoj, siljnyim predpolozheniyem, vosproizvedyonnyim rezuljtatom i otkryitiyem.
@@ -44,6 +46,6 @@ Formaljnyij voprositeljnyij priznak sam po sebe nedostatochen: posle otbora dosl
 - [iskhodnyij zapros 2026-07-13 15:20:42 MSK - Ogranichitj voprosyi i otvetyi susjhnostjyu FUM](../Zhurnal/2026-07-13_15-20-42_MSK_ogranichitj-voprosyi-i-otvetyi-susjhnostjyu-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 17:18:11 MSK -->
-<!-- content-sha256: sha256:90a546a33e8e282ffcbb4fa38f1baf22271b0f17e6bcef5c9d80b62b9feb0262 -->
+<!-- last-content-edit: 2026-09-15 20:44:05 MSK -->
+<!-- content-sha256: sha256:d8355372882247463606384c23dc09b815b107a8cc3ca6ee892edb41860ba083 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,36 @@
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "MWS Docs",
+      "item": "https://mws.ru/docs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Биллинг",
+      "item": "https://mws.ru//docs/cloud-platform/billing/general/welcome-grant.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Функциональность",
+      "item": "https://mws.ru//docs/cloud-platform/billing/general/welcome-grant.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Гранты",
+      "item": "https://mws.ru//docs/cloud-platform/billing/general/welcome-grant.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Приветственный грант",
+      "item": "https://mws.ru/docs/cloud-platform/billing/general/welcome-grant.html"
+    }
+  ]
+}

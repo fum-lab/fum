@@ -1,0 +1,11 @@
+{
+  "схема": "fum.наблюдение-отказа-контрольной-точки.1",
+  "задача": "01a09047-faa1-7370-83f7-cdfc8f9943a6",
+  "проверка": "check-session-coherence.py --контрольная-точка",
+  "процесс": "9434",
+  "время_события": "2026-09-15T20:51:41.189Z",
+  "sha256_первичной_строки": "7249e3641d299650ca1271e967eaf07a1d2661322f772332324bce701e94a1b5",
+  "код_завершения": 1,
+  "вывод": "md recency updated: 2 file(s) changed\njournal time profile must contain a non-empty boundary line after its table: Граница профиля:\nbroken Markdown link in Журнал/2026-08-02_03-48-05_MSK_добавить-полный-GitHub-совместимый-файл-LICENSE/отчёт.md:62: ../../Зависимости/LinguisticKit/LICENSE\nbroken Markdown link in Журнал/2026-09-11_21-58-48_MSK_принять-слияние-после-исправления-путей/материалы/языковые-операторы.md:37: ../../../Зависимости/LinguisticKit/Extracted/ScriptTables/ru.json\nbroken Markdown link in Журнал/2026-09-11_21-58-48_MSK_принять-слияние-после-исправления-путей/материалы/языковые-операторы.md:37: ../../../Зависимости/LinguisticKit/Sources/LinguisticKit/StringProtocol.swift\nbroken Markdown link in Журнал/2026-09-11_21-58-48_MSK_принять-слияние-после-исправления-путей/материалы/языковые-операторы.md:39: ../../../Зависимости/LinguisticKit/LICENSE\nunexpected Git status path: Журнал/2026-09-11_23-55-50_MSK_принять-слияние-с-профилями-продолжения/запрос.md\n",
+  "граница": "Прямая заключительная проверка по000188; не запись отчётной обёртки. Ошибки оформления исправлены, файлы уже закреплённого LinguisticKit подготавливаются отдельно."
+}

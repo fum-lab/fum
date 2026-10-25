@@ -1,0 +1,68 @@
+{
+  "отпечаток_закрытия": "sha256:dbec04ac9dcb94a9e81a363792cc8b42e74d44e831536171c318259c3f4d1742",
+  "отпечаток_содержимого_закрытия": "sha256:eb23612c4724f726770e01f4565ae67d6012992f578c1a5ade9a885e32f05aed",
+  "сессия": "Журнал/2026-09-25_10-32-25_MSK_закрепить-продолжение-пилота-на-luna/запрос.md",
+  "схема": "fum.test-run-report.v3",
+  "файлы": [
+    {
+      "sha256": "ffe418401ab6587704ec9f8ae56a1dbc8d0d4913fe5f5cdce36c925351a69c04",
+      "имя": "1_38b898b6-b878-47db-a397-af365d98eb4b.json"
+    },
+    {
+      "sha256": "09cec535e8b2d837ee92b868e6e02e8a1200df335381f0eb9d1ab0f19f0c19c9",
+      "имя": "2_60e4817b-65e4-4834-96a3-9e81edb146dc.json"
+    },
+    {
+      "sha256": "9280d8bed4219833edf94955a97c0a5dc6c36827b6e200ef70b62ccbbc12f346",
+      "имя": "3_7c2f55fa-a865-4017-934c-d332a853529e.json"
+    },
+    {
+      "sha256": "011be394e61267d1b5e438211c3a27297b9965a5b769f151855483d55b03c3d2",
+      "имя": "4_3705a46c-df2d-42a1-a21b-fea141d1b83a.json"
+    },
+    {
+      "sha256": "ed5ede229fecc9aafd09da9edb986e43bb4cc53e4659032d6c8ee8806c80ec7a",
+      "имя": "5_ff820181-ab64-4c54-b5ee-52d2e33b3a44.json"
+    },
+    {
+      "sha256": "17c61f3d27849d6ca5bd655b7b9bd761c7539555c31a7d2832eb59323ff978c6",
+      "имя": "6_7848d42a-3b4a-4276-a8b2-c053e82f6298.json"
+    },
+    {
+      "sha256": "24ce529c7b2b54680ef8f2503a0944e61908a430ec83be07762f212a9c0f8182",
+      "имя": "7_039dd118-e49c-44a1-b6a4-81acc0a566ba.json"
+    },
+    {
+      "sha256": "4f6f0f6c87128207986a48cbd9f4d9c028b2627064cb9513e02f0943edbadfc1",
+      "имя": "8_ff38c412-8e68-4f5d-aa56-dbb5ace9d250.json"
+    },
+    {
+      "sha256": "4ea2a4b84e44f8013031830de3bfabd6eef77dd454ad5b1a01f2971b21c15ebd",
+      "имя": "9_4ae4a442-e20c-4502-bfbd-be3e085c1c53.json"
+    },
+    {
+      "sha256": "d95ba1232adcc59e50fd86b118978bb79bda3e24f5a858a414a28f6a519319c7",
+      "имя": "10_5e93a739-7926-4571-8955-fb6aa1ef04ea.json"
+    },
+    {
+      "sha256": "f7f8f762385c4ebdcab308931278ef79e95e22494dc678f28961a67d1ad86dfa",
+      "имя": "11_714cf9b4-e3e5-4657-b3b6-0f0760e4452e.json"
+    },
+    {
+      "sha256": "c7985df3dd0af098c7044c05b3c0b23de8ed14f331cbac8ded511a6d8412e3df",
+      "имя": "12_7fbc41d8-c74f-4de8-95fd-85b22f7259ca.json"
+    },
+    {
+      "sha256": "df84a878657cf080b87a965073459151c41ab3ac0e847b2fa2d568f987b4873f",
+      "имя": "13_0d39ac89-0e41-45ee-9cc6-e7fd9e38ff4e.json"
+    },
+    {
+      "sha256": "b584d6baf9fd94707e697648f0f3c87e3a7120f76b4e2b4d5383ebf200545fc4",
+      "имя": "14_28b3bc38-5927-44fd-acd7-67ef63d18af6.json"
+    },
+    {
+      "sha256": "477b4fad763274534db42fe5b7efd2ef78bc5a5cf8c2cb1247b1abe1e451b216",
+      "имя": "15_5a9f7c3b-846f-4fce-853c-12423fdeb814.json"
+    }
+  ]
+}

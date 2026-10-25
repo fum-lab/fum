@@ -1,0 +1,124 @@
+{
+  "ACT_SHA": "1a1894ef638da99cb313aba32ee811ad50e7a6952aed972d33ccdfa1e87d5b97",
+  "PR": "https://github.com/fum-lab/fum/pull/279",
+  "RAW": {
+    "всего": 24,
+    "отказов": 10,
+    "успехов": 14
+  },
+  "RO_SHA": "f8969c29329cbed6bdaac547c810b06865fd7c32b3c7d5ede93da03a8c280cf2",
+  "production_ускорение_доказано": false,
+  "raw_sha256": "e4d7314e98d16524c99a1092d5afae198032ffb9c9f600b827bcd9d22ab5e806",
+  "replay": {
+    "иной_PID": true,
+    "контролируемых_снимков": 10,
+    "пишущих_процессов": 0,
+    "эффектов": 0
+  },
+  "вся_область_от_общего_предка": 52,
+  "граница": "Точный H проверен отдельно; двухродительское слияние проверяет полный независимый stock ROOT.5 из M.",
+  "интеграционная_доработка": {
+    "RED": "12 тестов, один реальный отказ полной старой нормы",
+    "fresh_Creator_не_изменён": true,
+    "изменённые_ROOT_пути": [
+      "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_имени_агентского_автора.py",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_независимого_журнала.py",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md"
+    ],
+    "историческое_тело_SHA": "2de664ff0b0579d0a05d33325a0a6e6e91dbb1bd39d66d3702bb644e001da71d",
+    "почему": "Две причины реального RAW2: отсутствие точного старого профиля и строгий старый инвентарь без ожидаемого авторского overlay."
+  },
+  "исполнитель": "01a139fd-03e6-7561-beda-3bb36a363089",
+  "источник": "9d389e54d28728450a09a90c70971f1d8e758d3a",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "критических_замечаний_RO_нет": true,
+  "предметные_продукты": [
+    {
+      "sha256": "f5ed191babf470f15488103de90e8ba51acbf5bdd1342ba6289a47f0ffe6f1d2",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py"
+    },
+    {
+      "sha256": "afc0f7974bbbd0f6411810bb2105b87485790b36aa26b1f2ef18f68a81678cb8",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_имени_агентского_автора.py"
+    },
+    {
+      "sha256": "9fff525ffe92c13836870c25babe17d2e68bae566597de878c20d64e4e710b91",
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/сценарий_коммита_приёма.py"
+    },
+    {
+      "sha256": "dffc5d46ed6af701b8e76dfe817831bbbeefda0e1fb157befb0d572b8ee4bbb2",
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/сценарий_обнаружения_приёма.py"
+    },
+    {
+      "sha256": "e8196400054a03408a14f62b34cc7b6c06ce21bc23f778d01f6b871489b7e1c3",
+      "путь": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py"
+    },
+    {
+      "sha256": "a8d20762e5537f51786b510ec85d9c309b27a7ff58aa1717ff55c4268e7410fb",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json"
+    },
+    {
+      "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py"
+    },
+    {
+      "sha256": "8a63fdce2232785984ffbd28e0abd0f15c608c4cab10f6c249aafaff7bb4e56d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py"
+    },
+    {
+      "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py"
+    },
+    {
+      "sha256": "7be7dd40d8fb6e6dde9b9794b6694ff50983be39b3e8b2453e8cfcaf48056b8f",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py"
+    },
+    {
+      "sha256": "f3f1b595f506b8cfc19560850a76b5523a75c0e00096aa094e8c7c9457b973a2",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py"
+    },
+    {
+      "sha256": "5d3d19a207c423469feadeaef15d88016408743e1d3aa85c340940f33fdccbb9",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_ранний_состав_коммита.py"
+    },
+    {
+      "sha256": "40b12ba6b50147e8cf9da1fd25f53d3327015765826bdb8495fa1508185d4728",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_свежего_автора.py"
+    },
+    {
+      "sha256": "88e9eec3e00a233552e8abb0ef6139b67767751f5950f8d42f4ab5b751e6382b",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py"
+    },
+    {
+      "sha256": "3744d6891feceae0b41dd901bddfe07c15b3c160b735d47991d6a2cb35127beb",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_свежего_автора.py"
+    },
+    {
+      "sha256": "b80799d7b9b7e34a6ba4d280299ac4e5bf559b393df1ab7a0684ba7b06123179",
+      "путь": "Правила/агентов/инвентарь-правил.json"
+    },
+    {
+      "sha256": "cab34eb0c9133fd4cabf313bdbdd3b18b3b407208ea50bf34100264358bcdc63",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_независимого_журнала.py"
+    }
+  ],
+  "принимающий_HEAD": "8024c8a240c6d8d0bc848c5553e891877420ffb6",
+  "профиль": {
+    "sha256": "bbd643668ea174e8eb67adea8587228b59384eb353996496aea0001cb5bc6fbf",
+    "пинов_до_после": 10,
+    "процессов": 3
+  },
+  "реальный_B_state2_созданы": false,
+  "результат": {
+    "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791984948 +0300",
+    "дерево": "58b8a0c5ff92c455de3a09de2c84c1539e06eb5b",
+    "коммит": "9d389e54d28728450a09a90c70971f1d8e758d3a",
+    "коммиттер": "FUM <fum@local> 1791984948 +0300",
+    "родители": [
+      "c56823979663d64c0dd585bc23b46001d76756b1"
+    ],
+    "сообщение_sha256": "f54e6d471f270740eff429e28f86fc4e047bc96286eac11a816ae95cb2b9c7fd"
+  },
+  "схема": "fum.локальная-приёмка-поставки.1"
+}

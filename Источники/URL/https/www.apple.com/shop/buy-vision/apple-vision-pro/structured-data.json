@@ -1,0 +1,157 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Apple Vision Pro",
+    "url": "https://www.apple.com/shop/buy-vision/apple-vision-pro",
+    "mainEntityOfPage": "https://www.apple.com/shop/buy-vision/apple-vision-pro",
+    "offers": [
+      {
+        "@type": "AggregateOffer",
+        "lowPrice": 3699.0,
+        "highPrice": 4348.0,
+        "priceCurrency": "USD",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    ],
+    "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/vision-pro-gallery-measure-dual-knit-202510?wid=5120&hei=2880&fmt=jpeg&qlt=90&.v=1758586787993",
+    "description": "Shop Apple Vision Pro with the new powerful M5 chip and comfortable Dual Knit Band. Sign up for an in-store demo. Or shop with a specialist over video."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": "1",
+        "item": {
+          "@id": "https://www.apple.com/apple-vision-pro",
+          "url": "https://www.apple.com/apple-vision-pro",
+          "name": "Apple Vision Pro"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "2",
+        "name": "Buy Apple Vision Pro"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I try Apple Vision Pro before I buy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can sign up to experience Apple Vision Pro at the Apple Store. You’ll meet with a Specialist one on one for an interactive demo experience. Book a demo at an Apple Store."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I wear my glasses while using Apple Vision Pro?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Apple Vision Pro was specifically designed to be used without glasses. If you wear glasses for vision correction, you may need to purchase ZEISS Optical Inserts. They magnetically attach to Apple Vision Pro to provide precise viewing for those who need glasses or certain contacts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How will I know if I need ZEISS Optical Inserts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When you order Apple Vision Pro, we’ll ask you a series of vision questions. Your answers will determine whether or not you need optical inserts. Generally speaking, if you don’t wear any vision correction options, you likely won’t need ZEISS Optical Inserts. The same is true if you wear soft contact lenses to correct your distance vision since Apple Vision Pro works well with most soft contact lenses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add optical inserts after I buy my Apple Vision Pro?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For the best Apple Vision Pro experience right out of the box, it’s important to answer all the vision questions correctly and to add optical inserts to your Apple Vision Pro order if they are recommended. This will ensure that the Light Seal you get is compatible with your optical inserts.\nIf you buy optical inserts later, you may need to purchase a new Light Seal."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "If I need ZEISS Optical Inserts, how do I provide my prescription?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Once we determine that you need ZEISS Optical Inserts, you can complete your purchase and upload your prescription to ZEISS. If you need more time, we’ll also send you an email so you can upload your prescription later. You’ll need to upload a valid, unexpired prescription from a U.S. eye care professional within 30 days of placing your order."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I share Apple Vision Pro with someone else?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. That person may need a different head band or Light Seal size for the best experience with Apple Vision Pro."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What will the experience be for customers traveling internationally?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apple Vision Pro is great for travel, and when customers travel abroad, the experience will remain consistent. That means all of their apps and content will remain accessible while traveling, so they can use apps and enjoy music, TV, and movies.\nOn the airplane, customers can turn on Travel Mode, which adapts Apple Vision Pro to the unique motion of commercial air travel to give you the best experience. They can dial in an Environment, wear AirPods Pro, and sit back to enjoy a movie while seats and sounds around them disappear."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can customers buy Apple Vision Pro in the countries where it’s offered and take it back to their country/region?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apple Vision Pro is only available for sale in select countries and is designed for customers in those countries to use at home, at work, and while traveling."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "If a customer purchases Apple Vision Pro in one of the countries in which it is sold and then takes it to another country, how does their experience differ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apple Vision Pro only supports select languages for typing, Siri, and Dictation. For additional information.   The App Store requires an Apple Account with the region set to a country in which Apple Vision Pro is available for purchase.   Purchases on the Apple Music and Apple TV app require an Apple Account with region set to a country in which Apple Vision Pro is available for purchase.   For customers with vision correction needs, ZEISS will only accept vision prescriptions written by eye care professionals in the country where ZEISS Optical Inserts are purchased and will only ship to locations within that country.   Customers may not be able to access certain apps, features, or content due to licensing or other restrictions in those countries or regions.   Apple Support is only available in the countries in which Apple Vision Pro is sold."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are ZEISS Optical Inserts reimbursable under my Flexible Spending Account (FSA) or Health Savings Account (HSA) in the U.S.?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ZEISS Optical Inserts may be reimbursable under FSA or HSA. Please check with your FSA/HSA plan administrator."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are ZEISS Optical Inserts covered by insurance benefits?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Some vision insurance providers may allow you to receive reimbursement for your order. Please check with your vision insurance provider."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What products can be covered by AppleCare One?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AppleCare One coverage extends to products that were purchased recently or are currently covered by AppleCare+. Other eligible devices are those currently associated with your Apple Account, Apple audio or headphones less than 1 year old, and other Apple devices that are less than 4 years old and in good condition. Learn more about AppleCare (Opens in a new window)."
+        }
+      }
+    ]
+  }
+]

@@ -20,7 +20,17 @@ Graficheskij interfejs i nabor yego vozmozhnostej opredelyayutsya dlya konkretno
 - RED/GREEN i profilj otdeljno uchityivayut podgotovku, kadr i resursyi; resheniye ob optimizacii opirayetsya na sopostavimyij scenarij.
 - Veb-versiya imeyet sobstvennyiye svideteljstva rabotyi v Safari, Chrome i Firefox. Uspekh nativnoj sborki ikh ne zamenyayet.
 
+## Utochneniye obsjhej realizacii
+
+Interfejs FUMA po vozmozhnosti polnostjyu sobstvennyij: obsjhiye scena i povedeniye opisyivayutsya strukturiruyusjhimi operatorami, platformennyiye ispolniteli ispoljzuyut Metal/Vulkan. Dlya Android planiruyetsya Vulkan; sistemnyiye poverkhnostj, vvod, dostupnostj i zhiznennyij cikl ostayutsya yavnyimi platformennyimi adapterami. Prezhnyaya celj DirectX ne otmenena etim utochneniyem.
+
+[Iskhodnyiye komandyi](../Zhurnal/2026-09-15_20-33-17_MSK_prinyatj-obnovlyonnoye-postoyannoye-planirovaniye/zapros.md).
+
 ## Status i granicyi
+
+Pervyij graficheskij putj Windows — Vulkan s Win32 surface; DirectX ne yavlyayetsya usloviyem pervogo zapuska. Dlya macOS, iOS, tvOS i visionOS vyibran Metal. Dlya watchOS namereniye sokhranyayetsya, no publichnaya dokumentaciya Metal ne vklyuchayet etu platformu: dostupnyij graficheskij putj dolzhen byitj ustanovlen otdeljno. Obsjhiye scena i operatornaya logika sokhranyayutsya pri razlichii adapterov.
+
+Osnovaniye: [komandyi i otvetyi](../Zhurnal/2026-09-15_20-55-24_MSK_sokhranitj-medijnyij-plan-i-zapuski-platform/otchyot.md), [Khronos](../Istochniki/URL/https/docs.vulkan.org/refpages/latest/refpages/source/VK_KHR_win32_surface.html/source-index.md) i [dannyiye Apple](../Istochniki/URL/https/developer.apple.com/tutorials/data/documentation/metal.json/otchyot-ob-izvlechenii.md).
 
 Status — `🟡`: prinyato i zaplanirovano. Podderzhka tryokh graficheskikh API poka ne podtverzhdena. Matrica i pervyiye proverki vkhodyat v [platformennyij plan FUMA](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0182-opredelitj-platformennyiye-sborki-i-pervyij-scenarij-FUMA.md).
 
@@ -31,6 +41,6 @@ Susjhestvuyusjheye [trebovaniye Metal dlya interfejsa Apple silicon](🟡-otriso
 - [Komanda o graficheskikh API, zamena Mantle na Vulkan i dobavleniye Web](../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:06:16 MSK -->
-<!-- content-sha256: sha256:92555554d405dac418047c53c4f224da3a5ba180ea3595cdee656c5c2d28b902 -->
+<!-- last-content-edit: 2026-09-15 21:15:43 MSK -->
+<!-- content-sha256: sha256:848060b8d442db816548a0a4f8b0970fa012ae6d084079bf0ca30bfc4eb4ac5c -->
 <!-- FUM-MD-RECENCY:END -->

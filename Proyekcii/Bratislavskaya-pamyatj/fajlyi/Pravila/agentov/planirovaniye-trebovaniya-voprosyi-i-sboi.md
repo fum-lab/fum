@@ -35,6 +35,8 @@ Eti pravila polnostjyu chitayutsya do izmeneniya planirovaniya, trebovanij, vopr
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000149 -->
 - Aktualjno obnovlyayemyij pul [predlozhenij o sleduyusjhikh shagakh](../../Glossarij/predlozheniye-o-sleduyusjhem-shage.md) khranitsya kak atomarnyiye [kartochki shagov](../../Glossarij/kartochka-shaga.md) v `Планирование/карточки-шагов/`; `Планирование/предложения-о-следующих-шагах.md` ostayotsya kompaktnoj vkhodnoj stranicej dlya prezhnikh ssyilok. Posle kazhdoj [rabochej sessii](../../Glossarij/rabochaya-sessiya.md), vliyayusjhej na proyekt, nuzhno dobavlyatj voznikshiye kartochki, utochnyatj ikh istochniki i status i sokhranyatj vyipolnennyiye, poglosjhyonnyiye ili snyatyiye kartochki v polnom indekse. Kartochka shaga ne zamenyayet trebovaniye; yesli predlozheniye prinimayetsya v rabotu, ono prokhodit obyichnuyu cepochku: iskhodnyij zapros -> proizvodnaya dokumentaciya -> proverka -> kommit.
 
+Novyiye soglasovannyiye postanovki, izmeneniya prioritetov i prinyatyiye rezuljtatyi svoyevremenno otrazhayutsya v postoyannom planirovanii: posle sokhraneniya iskhodnyikh soobsjhenij i pered sleduyusjhim neobyazateljnyim rasshireniyem rabotyi, bez ozhidaniya otdeljnogo napominaniya poljzovatelya. Obnovlyayutsya susjhestvuyusjhiye kartochki i naznacheniya; uzhe vyipolnennoye ne registriruyetsya povtorno. Yesli postoyannuyu vetku vedyot drugoj pisatelj, korenj peredayot yemu tochnyiye istochniki, prinyatyij obyyom, kommit postanovki i svedeniya ob uzhe naznachennyikh ispolnitelyakh. Obnovleniye vyipolnyayet vladelec celevogo dereva; korenj podtverzhdayet dostavlennyij kommit libo sokhranyayet konkretnuyu prichinu zaderzhki. Zhurnal drugoj vetki, otvet agenta i nachataya ispolniteljskaya zadacha sami po sebe ne podtverzhdayut obnovleniye postoyannogo plana.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000150 -->
 - Kazhdaya kartochka shaga poluchayet odin neizmenyayemyij `card_id` vida `FUM-STEP-NNNN`, kotoryij ne vyivoditsya iz pozicii, imeni fajla ili vetochnogo vyibora i posle snyatiya ne pereispoljzuyetsya. Imya fajla imeyet vid `<эмодзи>-FUM-STEP-NNNN-<краткое-название>.md`: emodzi `🟡`, `✅`, `🧩` i `🗑️` tochno sootvetstvuyut statusam `active`, `completed`, `absorbed` i `withdrawn`, identifikator sovpadayet s `card_id`, a nepustoye kratkoye nazvaniye opisyivayet shag slovami, razdelyonnyimi odinochnyimi defisami. Kartochki lezhat neposredstvenno v ploskom kataloge `Планирование/карточки-шагов/`; yedinstvennyij Markdown-fajl kataloga, ne yavlyayusjhijsya kartochkoj, — tochnyij kornevoj `README.md`. Pri smene statusa ili utochnenii kratkogo nazvaniya ispoljzuj `Инструменты/fum-reyestr-planirovaniya/scripts/rename-step-card.py`: komanda vyipolnyayet `git mv`, sinkhroniziruyet status i indeks i zamenyayet prezhneye imya vo vsekh zhivyikh tekstovyikh predstavleniyakh, sokhranyaya doslovnyij razdel `Текст запроса` i syiryiye materialyi `Источники/`. Yesli prezhnij putj yesjhyo zapisan v `Планирование/следующие-шаги-веток/`, snachala udali vyipolnennogo kandidata libo yavno perevyipusti yego s novyim `card_path` i svezhim `step_id`; komanda obyazana ostanovitjsya do pereimenovaniya, a ne obnovlyatj staroye pokoleniye zapuska. Takoye pereimenovaniye ne menyayet identichnostj kartochki. Emodzi opisyivayet zhiznennyij cikl kartochki, a ne rezhim `dispatch` i ne vyichislennyij runtime-status zapuska. Aktualjnaya kartochka soderzhit razdelyi `Задача`, `Почему сейчас`, `Критерии завершения` i `Источники`; istoricheskaya — `Задача`, `Результат` i `Источники`. Polnyij indeks `Планирование/карточки-шагов/README.md` i mashinnyij planovyij reyestr dolzhnyi tochno pokryivatj vse kartochki i otklonyatj nesoglasovannyiye imya, status ili identifikator.
 
@@ -67,7 +69,11 @@ Eti pravila polnostjyu chitayutsya do izmeneniya planirovaniya, trebovanij, vopr
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
+## Istochnik utochneniya planirovaniya i integracii
+
+- [Postoyannyiye ukazaniya o sliyanii, plane i operatornom prioritete](../../Zhurnal/2026-09-15_20-06-33_MSK_zakrepitj-sliyaniya-i-prioritetyi-planirovaniya/zapros.md).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:78539629e2e1ccbf37225d0be619a7ad9f410b9427ff302465ecceacbe3a4d43 -->
+<!-- last-content-edit: 2026-09-15 20:10:53 MSK -->
+<!-- content-sha256: sha256:c3fb805be576f9787319cff2de52914bf836f1d110cb798ea578ab03fbd094aa -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,7 @@
+{
+  "наблюдение": "Внешний захват вернул code2 capture-or-representation-failed при бюджете1200байт. Производитель update-md-recency завершился0; его stdout и полный манифест сохранились. Повторное исполнение ради представления не выполнялось.",
+  "манифест_sha256": "23b6692f58a09624fbc1b0e9ec093e28d3700030f44fba80b44a3b8e8cb75032",
+  "код_производителя": 0,
+  "stdout_sha256": "6b276f15c015ca44d8f46b8fc2a0e04877de17fa0d28532c205c44139c57a17c",
+  "stdout": "md recency updated: 2 file(s) changed\n"
+}

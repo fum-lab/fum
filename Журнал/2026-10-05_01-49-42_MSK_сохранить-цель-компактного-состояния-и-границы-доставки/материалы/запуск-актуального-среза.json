@@ -1,0 +1,35 @@
+{
+  "схема": "fum.наблюдение-дочернего-запуска.1",
+  "коммит_постановки": "2fb63f7368342b51964190625f4719c9862cb719",
+  "исполнитель": "01a0f76e-144f-7002-8b5e-ce77f0bf01b6",
+  "путь_ACT": "Планирование/дочерние-поручения/2026-10-05/актуальный-срез-планирования.json",
+  "raw_sha256_ACT": "9a71235da5f495cd0e6161938bf5001c3368b227087b1e61734e9b007ded518c",
+  "поручение_доставлено": true,
+  "наблюдение": {
+    "schemaVersion": 1,
+    "cursor": "3ce62c53-fa8f-45aa-af91-f7014b1f8a5f:2",
+    "revision": 2,
+    "changed": true,
+    "thread": {
+      "id": "01a0f76e-144f-7002-8b5e-ce77f0bf01b6",
+      "hostId": "local",
+      "status": {
+        "type": "active",
+        "activeFlags": []
+      }
+    },
+    "latestTurn": {
+      "id": "01a10917-1983-75d0-a6d5-1fc1342b0dc9",
+      "status": "inProgress",
+      "error": null,
+      "startedAt": 1791153871,
+      "completedAt": null,
+      "durationMs": null
+    },
+    "latestAssistantMessageId": null,
+    "latestAssistantMessage": null,
+    "latestToolMarkerId": null,
+    "latestToolMarker": null
+  },
+  "граница": "API подтвердил новый active/inProgress. Позднее исполнитель отдельно сообщил проверку ACT .7 и неизменные native-поля. Это начало одного конечного этапа; готовность результата, полнота всего проекта, приёмка и интеграция не подтверждены."
+}

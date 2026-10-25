@@ -1,0 +1,37 @@
+{
+  "исходная_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "сообщения": [
+    {
+      "начало": 751476653,
+      "конец": 751477131,
+      "sha256": "18b890edbfe1749fdfdf0c20335cf453794762181c7c0b4d52b1c73f5efc87f8",
+      "время": "2026-09-15T12:49:47.258Z",
+      "текст": "Sami vyizovyi API so storonyi Codex CLI dolzhnyi byitj pomesjhenyi vnutrj obolochki FUMA na Swift.\n",
+      "извлечение": "полный текст"
+    },
+    {
+      "начало": 751511866,
+      "конец": 751512672,
+      "sha256": "9c705db0169f1d4a337a4ae7d80d7c833b6d95c26d0bb2eca04675a333b7c170",
+      "время": "2026-09-15T12:50:36.411Z",
+      "текст": "Оба потока",
+      "извлечение": "поле ответа формы"
+    },
+    {
+      "начало": 752093332,
+      "конец": 752093830,
+      "sha256": "2e8020bf18d5e35c9ea736921c595c78a6a967846273466b6b8296d166df1d42",
+      "время": "2026-09-15T13:04:24.515Z",
+      "текст": "U nas gde-to zaplanirovano obyyedineniye vsekh zavisimostej rantajma FUMA v funkcii yedinogo ispolnyayemogo binarnika?\n",
+      "извлечение": "полный текст"
+    },
+    {
+      "начало": 752148953,
+      "конец": 752149410,
+      "sha256": "791b013892b10edd1fa31bf13c1357210e5aa98bc77eb35f8a69712ff666d397",
+      "время": "2026-09-15T13:06:15.776Z",
+      "текст": "Yedinyij binarnik khochetsya dlya togo, chtobyi minimizirovatj stoimostj IPC.\n",
+      "извлечение": "полный текст"
+    }
+  ]
+}

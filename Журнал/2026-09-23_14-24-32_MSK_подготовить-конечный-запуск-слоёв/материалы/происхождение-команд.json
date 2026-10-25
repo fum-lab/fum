@@ -1,0 +1,138 @@
+[
+  {
+    "дубли": [],
+    "позиция": {
+      "sha256": "fff423595b2eb14e709d86f0f05691237eba3c855a9ad1280aef89303f85fccb",
+      "конец": 1295484795,
+      "начало": 1295484184
+    },
+    "происхождение": "человек",
+    "содержимое": [
+      {
+        "text": "Glavnoye sama ideya, chto kazhdomu konkretnomu vlozhennomu katalogu sootvetstvuyet konkretnaya vetka, i potencialjno oni khotj vse mogut rabotatj odnovremenno v svoyom rabochem dereve. Roditeljskiye katalogi sledyat za dochernimi.\n",
+        "type": "input_text"
+      }
+    ],
+    "сырой_объект": {
+      "content": [
+        {
+          "text": "Glavnoye sama ideya, chto kazhdomu konkretnomu vlozhennomu katalogu sootvetstvuyet konkretnaya vetka, i potencialjno oni khotj vse mogut rabotatj odnovremenno v svoyom rabochem dereve. Roditeljskiye katalogi sledyat za dochernimi.\n",
+          "type": "input_text"
+        }
+      ],
+      "id": "msg_01a0c7df-ead1-79b1-bf73-4d7efdff9e44",
+      "internal_chat_message_metadata_passthrough": {
+        "content_item_kinds": [
+          "user.text"
+        ],
+        "create_time": 1790059735.761333,
+        "turn_id": "01a0c7a7-41ae-7463-a202-8072d0766576"
+      },
+      "role": "user",
+      "type": "message"
+    },
+    "экземпляр": "e6a9e7fa6bce999e3299f88536a6b6661b6b5c81194f84eb55818a7c340d55e7"
+  },
+  {
+    "дубли": [],
+    "позиция": {
+      "sha256": "44890d9641afae127e77ff5aef50143465242c5d383c6748492c458096719695",
+      "конец": 1295485936,
+      "начало": 1295485484
+    },
+    "происхождение": "человек",
+    "содержимое": [
+      {
+        "text": "Konkretnyij stilj nejminga tyi mozheshj i sam pridumatj. Glavnoye sutj.\n",
+        "type": "input_text"
+      }
+    ],
+    "сырой_объект": {
+      "content": [
+        {
+          "text": "Konkretnyij stilj nejminga tyi mozheshj i sam pridumatj. Glavnoye sutj.\n",
+          "type": "input_text"
+        }
+      ],
+      "id": "msg_01a0c7df-ead4-7413-be4c-d172c85bc774",
+      "internal_chat_message_metadata_passthrough": {
+        "content_item_kinds": [
+          "user.text"
+        ],
+        "create_time": 1790059735.764377,
+        "turn_id": "01a0c7a7-41ae-7463-a202-8072d0766576"
+      },
+      "role": "user",
+      "type": "message"
+    },
+    "экземпляр": "0e50034f63c992ba8f290654a9a1b3d136284a52a3d8ce26c0ccfa41d17d8f39"
+  },
+  {
+    "дубли": [],
+    "позиция": {
+      "sha256": "87454d2f1d296e1b0faa3bc57b292af7b039d683af9a3c968ba399bfe4709a6a",
+      "конец": 1300602153,
+      "начало": 1300601668
+    },
+    "происхождение": "человек",
+    "содержимое": [
+      {
+        "text": "Nu dlya imyon vetok davaj vsyo zhe ispoljzovatj puti na bratislavskom, poluchennyiye iz imyon katalogov.\n",
+        "type": "input_text"
+      }
+    ],
+    "сырой_объект": {
+      "content": [
+        {
+          "text": "Nu dlya imyon vetok davaj vsyo zhe ispoljzovatj puti na bratislavskom, poluchennyiye iz imyon katalogov.\n",
+          "type": "input_text"
+        }
+      ],
+      "id": "msg_01a0c7e1-ef81-72a0-bf12-50fe987802d0",
+      "internal_chat_message_metadata_passthrough": {
+        "content_item_kinds": [
+          "user.text"
+        ],
+        "create_time": 1790059868.033338,
+        "turn_id": "01a0c7a7-41ae-7463-a202-8072d0766576"
+      },
+      "role": "user",
+      "type": "message"
+    },
+    "экземпляр": "2191339888b9e7412c19fe0bc72cfd7094a0b476cfb12cf5cba3ea7c61d72def"
+  },
+  {
+    "дубли": [],
+    "позиция": {
+      "sha256": "04492c8738c9b4e2b29333f109d23a8e38b82c64a9d66a7e5d2703788b7d20c0",
+      "конец": 1454835268,
+      "начало": 1454834813
+    },
+    "происхождение": "человек",
+    "содержимое": [
+      {
+        "text": "Pochemu myi yesjhyo ne aktivirovali rabotu s mnogimi vetkami v konvejyere?\n",
+        "type": "input_text"
+      }
+    ],
+    "сырой_объект": {
+      "content": [
+        {
+          "text": "Pochemu myi yesjhyo ne aktivirovali rabotu s mnogimi vetkami v konvejyere?\n",
+          "type": "input_text"
+        }
+      ],
+      "id": "msg_01a0cb8e-0acd-7393-a3e2-cf61ebc8ad0b",
+      "internal_chat_message_metadata_passthrough": {
+        "content_item_kinds": [
+          "user.text"
+        ],
+        "create_time": 1790121478.861511,
+        "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07"
+      },
+      "role": "user",
+      "type": "message"
+    },
+    "экземпляр": "c2f6b9cdadf5a7a1338d6f2e3e2841ebb427d6c10e321a65827993ac828d0c94"
+  }
+]

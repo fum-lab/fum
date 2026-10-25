@@ -1,0 +1,24 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--osnovaniye-dvustoronnej-koordinacii--01a120cb-2cf9",
+  "исполнитель": "01a120cb-a1cc-7900-8a7c-2cf97a05e680",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/основание_двусторонней_координации.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_основания_двусторонней_координации.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_основания_двусторонней_координации.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-дочернего-поручения.md",
+    "Журнал/2026-10-09_16-24-10_MSK_передавать-основание-двусторонней-координации/",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Журнал/2026-10-09_15-21-01_MSK_сохранить-препятствия-и-обратную-связь/запрос.md"
+  ],
+  "постановка": {
+    "sha256": "a0574f7e750f655b38af28a89d01d34fb29bd1e0c9be193a7003077efeebb423",
+    "коммит": "b501651f612091596087fdca404d85bd34f51beb",
+    "путь": "Сбои/FUM-СБОЙ-0198-повторное-разрешение-на-обычный-дочерний-отчёт.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "fca2696bfcaf349e0a6849421178a84cd4317a8476e55c0b0a3f5398f93ad534"
+}

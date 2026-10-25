@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 15:13:26 MSK - Zakrepitj reakciyu na pereraskhod konteksta](../2026-09-15_15-13-26_MSK_zakrepitj-reakciyu-na-pereraskhod-konteksta/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 16:17:32 MSK - Sokhranitj sboi peredachi konteksta](../2026-09-15_16-17-32_MSK_sokhranitj-sboi-peredachi-konteksta/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 15:40:41 MSK - Utochnitj operatornyij interfejs FUMA](../2026-09-15_15-40-41_MSK_utochnitj-operatornyij-interfejs-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 16:09:02 MSK - Utochnitj obolochku API i stoimostj IPC](../2026-09-15_16-09-02_MSK_utochnitj-obolochku-API-i-stoimostj-IPC/zapros.md)
 
 ## Tekst zaprosa
 
@@ -61,6 +61,6 @@ Adresnaya proverka formata i dopusk kontroljnoj tochki fiksiruyutsya v sosednem 
 - [Zapisj pryamoj proverki 1](materialyi/zapuski-proverok/1_ca9f430c-1e45-4c61-8f42-d8b759414f2b.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 16:30:50 MSK -->
-<!-- content-sha256: sha256:3a6e1c5bb597dfd558cddc982ccd78f779cad2abffb685e63cf28061e33072d2 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:ff71f7bc3d7548401b8fb33479ec05b22e4288bd9e44aae5cf80902109069143 -->
 <!-- FUM-MD-RECENCY:END -->

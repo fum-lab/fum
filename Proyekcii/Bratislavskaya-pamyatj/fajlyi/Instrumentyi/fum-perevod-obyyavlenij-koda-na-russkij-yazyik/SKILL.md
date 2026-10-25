@@ -13,7 +13,7 @@ Python-vetvj ispoljzuyet [kontrakt leksicheskikh privyazok i potrebitelej](bezop
 
 ## Oblastj pravila
 
-Inventarj rassmatrivayet sobstvennyiye fajlyi `.py`, `.swift`, `.md`, prezhnij tochnyij JS-adapter i chetyire tochnyikh CJS-scenariya otveta:
+Inventarj rassmatrivayet sobstvennyiye fajlyi `.py`, `.swift`, `.md`, prezhnij tochnyij JS-adapter i pyatj tochnyikh CJS-scenariya otveta:
 
 - dlya Python sintaksicheskoye derevo dayot klassyi, obyichnyiye i asinkhronnyiye funkcii, parametryi, imena v kontekste zapisi i zapisyivayemyiye atributyi;
 - dlya Swift leksicheskij razbor vne strok i kommentariyev dayot tipyi, funkcii, `let`, `var`, variantyi `case`, parametryi funkcij i yavnyikh signatur zamyikanij;
@@ -152,7 +152,9 @@ Testyi proveryayut inventarj tryokh yazyikov, zasjhisjhyonnyiye oblasti, tochnyi
 - [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
 - [iskhodnyij zapros 2026-08-04 12:51:44 MSK — Perevesti obyyavlyayemyij kod na russkij yazyik](../../Zhurnal/2026-08-04_12-51-44_MSK_perevesti-obyyavlyayemyij-kod-na-russkij-yazyik/zapros.md)
 
+- [Predposyilka formatov proyekcii](../../Zhurnal/2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:66d3aece69c2ac2d36ae692dc9e6bf0d859c1554535c212dcbd2ee404068a155 -->
+<!-- last-content-edit: 2026-09-19 08:45:44 MSK -->
+<!-- content-sha256: sha256:2eec1da45b8af891f17f375199267a46e703db34a3fba18d4be1ce729dcff14f -->
 <!-- FUM-MD-RECENCY:END -->

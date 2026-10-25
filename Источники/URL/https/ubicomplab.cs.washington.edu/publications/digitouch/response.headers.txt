@@ -1,0 +1,10 @@
+HTTP/2 200
+cache-control: max-age=600
+content-type: text/html; charset=utf-8
+etag: "0d8d1dfcde0d9622aef395a295c5860a88aac3b85b4e71e8a607ee95ca54776c"
+expires: Tue, 22 Sep 2026 17:37:55 PDT
+last-modified: Tue, 22 Sep 2026 11:06:12 GMT
+vary: Origin
+x-request-id: [REDACTED: response trace identifier]
+content-length: 12788
+date: Wed, 23 Sep 2026 00:27:55 GMT

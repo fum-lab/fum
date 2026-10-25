@@ -1,0 +1,23 @@
+{
+  "отпечаток_закрытия": "sha256:bc64069de4871a5ad8489da444d75d6ddff31209ac08ade9a79708794bfb41dc",
+  "сессия": "Журнал/2026-09-21_20-58-30_MSK_принять-иерархическую-очередь-приоритетов/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "ca89eb50e6dacbcde3de3e65a7343c1b8d2039977da0954ff06fd3b35b594d34",
+      "имя": "1_d2d3d2f1-8f9b-4c17-a66b-7c7ad4fc5f4a.json"
+    },
+    {
+      "sha256": "38fbbfd66b0a771da51017b5affec62301a6e87d4df46a19630dcdc3baafe152",
+      "имя": "2_91a4dc6b-8d4d-4bf7-9ff8-b1b5674a3b62.json"
+    },
+    {
+      "sha256": "e7d5c1ac85c59af370fb8a8256f8ab8f0861e753bc8332d42fc80886029dc0cf",
+      "имя": "3_4cb9bbf4-7c11-4e84-9d2e-1b4d5e1e1ce0.json"
+    },
+    {
+      "sha256": "b16f49e645bd5b5d36747dc74260a08eea1cd451d2174063654f250530b931e3",
+      "имя": "4_3eab97fe-1d5e-4f7c-a6b5-5a2d1d4e97b1.json"
+    }
+  ]
+}

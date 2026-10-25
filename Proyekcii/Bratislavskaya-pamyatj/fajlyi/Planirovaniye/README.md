@@ -10,6 +10,19 @@ Planovyiye materialyi ne zamenyayut [iskhodnyiye zaprosyi](../Glossarij/iskhodny
 
 Planirovaniye yavno razdelyayetsya i po stadiyam realizacii. [Stadii planirovaniya FUM](stadii/README.md) pokazyivayut, kak odin i tot zhe sloj trebovanij podderzhivayetsya v tekusjhem dokumentacionnom prototipe i vo chto on dolzhen perejti v budusjhej korobochnoj realizacii. [MVP-kandidatyi](MVP-kandidatyi/README.md) takzhe chitayutsya cherez etot sloj: dlya kazhdogo kandidata fiksiruyetsya tekusjhaya dokumentaljnaya forma, perekhodnyij rezuljtat i budusjhaya korobochnaya forma.
 
+## Blizhajshiye soglasovannyiye postavki
+
+Prioritet — integraciya prinyatyikh narabotok v osnovnoj rantajm FUMA i svoyevremennaya dostavka obnovlyonnoj obsjhej bazyi. Paralleljno prodolzhayutsya istoriya modeli i usiliya i podgotovka finansirovaniya.
+
+Sokhranyon snimok naznachenij iz `d76d9d87faedf2cfe8de5bf4c5b2ae4ed724ff7b`; on podtverzhdayet susjhestvuyusjhiye porucheniya na moment zapisi, no ne tekusjhij status ispolneniya ili posleduyusjhuyu priyomku.
+
+- Osnovnoj Swift-rantajm — zadacha `01a0a5cc-cc6f-78f3-9445-fcdb81c396d3`: susjhestvuyusjhij interpretator → pryamoye ispolneniye v FUMA → tipizirovannyij rezuljtat → dolgovechnoye nablyudeniye. Pervyij srez utochnyon v [operatornom plane](operatornyij-interfejs-FUMA.md).
+- Istoriya modeli i usiliya — zadacha `01a0a5cd-e3cf-7ee2-8bba-042dd8b52cb1`: inkrementaljnoye sokhraneniye vsekh nablyudayemyikh pereklyuchenij, povtornyij import bez dublej, vosstanovleniye posle preryivaniya i otdeljnyiye polya `model` i `effort` kommita. Pervoye nablyudeniye, podtverzhdyonnaya smena i neizvestnyij promezhutok razlichayutsya; prezhniye i novyiye znacheniya, vremya i nativnoye proiskhozhdeniye sokhranyayutsya. Posledneye sostoyaniye ne zamenyayet istoriyu; prichinyi i iniciator ne ugadyivayutsya, prezhniye kommityi ne perepisyivayutsya.
+- Finansirovaniye — zadacha `01a0904a-f98e-70b1-8ea6-a0202ff4de7a`: [susjhestvuyusjheye napravleniye](finansirovaniye-i-resursyi/README.md) dlya Rossii s nekommercheskim oriyentirom i sokhraneniyem CC0; donatyi, lizing, kredityi i drugiye formyi rassmatrivayutsya razdeljno.
+- Obratnaya dostavka — [FUM-STEP-0228](kartochki-shagov/🟡-FUM-STEP-0228-kontrolirovatj-dostavku-v-postoyannuyu-vetku.md): pereispoljzovatj prinyatyij mekhanizm i podklyuchitj yego k vyiboru sleduyusjhej razreshyonnoj rabotyi. Nalichiye instrumenta ne podtverzhdayet svoyevremennostj dostavki.
+
+Po poslednim poluchennyim podtverzhdeniyam prinimayusjhego koordinatora istoriya modeli vklyuchena v fuma merge-kommitom [34fd25cfb0bfa50c4428cf363fe7c3b773c0ff84](https://github.com/fum-lab/fum/commit/34fd25cfb0bfa50c4428cf363fe7c3b773c0ff84), roditeli d76d9d87 i cf7e92eb. Zatem rantajm `18b695d45da0f4f5b335c57f59f993c806041fd5` prinyat i opublikovan nastoyasjhim merge [b0e2c0da7e5c6103a11df9dddebcf70e24f97473](https://github.com/fum-lab/fum/commit/b0e2c0da7e5c6103a11df9dddebcf70e24f97473), roditeli 34fd25cf i 18b695d4. Na etu poluchennuyu granicu finansovyij srez `d7259ac269f19a1795a9874bfecf39c06d7a4760` nakhoditsya na priyomke; zaversheniye yego sliyaniya yesjhyo ne podtverzhdeno. OID i roditeljskiye svyazi sverenyi po Git. Polnaya obyyedinyonnaya priyomka i proyekciya ostayutsya vperedi. Eti novyiye iskhodniki ne vklyuchenyi v tekusjhuyu vetku planirovaniya: ikh posleduyusjhaya dostavka soglasuyetsya otdeljno.
+
 ## Materialyi
 
 - [Nachaljnyij rolevoj pul dochernikh fork-agentov FUM](nachaljnyij-rolevoj-pul-dochernikh-fork-agentov-FUM.md) - proyektnaya konfiguraciya kornevogo `fum`, rolej `fum-yadro`, `fum-optimizator` i `fum-pisatelj`, otdeljnyikh sessij shagov FUM, marshruta pull request i migracii perenosimyikh navyikov cherez yadro.
@@ -50,6 +63,8 @@ Planirovaniye yavno razdelyayetsya i po stadiyam realizacii. [Stadii planirovani
 
 ## Istochniki trebovanij
 
+Osnovaniya: [postanovki rantajma i istorii](../Zhurnal/2026-09-15_18-29-25_MSK_zakrepitj-vosemj-reshenij-obrabotki/zapros.md), [utochneniya integracii i finansirovaniya](../Zhurnal/2026-09-15_19-02-24_MSK_podklyuchitj-dopusk-postoyannoj-vetki/zapros.md), [snimok naznachenij](../Zhurnal/2026-09-15_19-02-24_MSK_podklyuchitj-dopusk-postoyannoj-vetki/otchyot.md).
+
 - [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
 - [iskhodnyij zapros 2026-08-11 23:30:57 MSK — Zamenitj avtozapusk obyazateljnyim prodolzheniyem vetki](../Zhurnal/2026-08-11_23-30-57_MSK_zamenitj-avtozapusk-obyazateljnyim-prodolzheniyem-vetki/zapros.md)
 - [iskhodnyij zapros 2026-08-08 13:37:10 MSK — Vnedritj vetochnyiye cepochki shagov](../Zhurnal/2026-08-08_13-37-10_MSK_vnedritj-vetochnyiye-cepochki-shagov/zapros.md)
@@ -84,6 +99,6 @@ Planirovaniye yavno razdelyayetsya i po stadiyam realizacii. [Stadii planirovani
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 09:37:36 MSK -->
-<!-- content-sha256: sha256:6d98aa440aa73a3416e0b5226793a367750c26364df3b480d745e63487d1d260 -->
+<!-- last-content-edit: 2026-09-15 20:13:14 MSK -->
+<!-- content-sha256: sha256:e46311c56a31adb671786276f8b0a982c693d59ee6a7bf23a50560342d637297 -->
 <!-- FUM-MD-RECENCY:END -->

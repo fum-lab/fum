@@ -1,6 +1,6 @@
 # Otchyot 2026-09-15 19:20:02 MSK - Proveritj postavku istorii modeli
 
-Zavershena predmetnaya dorabotka inkrementaljnoj istorii modeli i usiliya posle kornevogo obzora. Doslovnyiye citatyi sokhranyayutsya, fajl kommita privaten s momenta sozdaniya, nepolnaya para sokhranyayet dostupnyiye znacheniya. Stroguyu gotovnostj etapa opredelyayet mashinnaya granica proverok nizhe; adresnyij uspekh ne podmenyayet polnyij progon.
+Zavershena predmetnaya dorabotka inkrementaljnoj istorii modeli i usiliya posle kornevogo obzora. Doslovnyiye citatyi sokhranyayutsya, fajl kommita privaten s momenta sozdaniya, nepolnaya para sokhranyayet dostupnyiye znacheniya. Postavka ogranichena proverennoj kontroljnoj tochkoj po pozdnemu utochneniyu kornya. Polnaya priyomka FUM i aktualjnaya obsjhaya proyekciya v feature-vetke ne vkhodyat v etu peredachu.
 
 ## Otvetyi na utochneniya kornya
 
@@ -26,14 +26,15 @@ Granica profilya: tri posledovateljnyikh vyizova API otkryitogo scenariya; vlozh
 
 <!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; каталог=материалы/запуски-проверок -->
 
-| Vyizov                                                                   | Dliteljnostj | Rezuljtat |
-| ----------------------------------------------------------------------- | ------------ | --------- |
-| [Ispolnitelj istorii modeli] RED — sokhraneniye doslovnyikh markerov        | 0,112 s      | neuspeshno |
-| [Ispolnitelj istorii modeli] GREEN — citatyi, privatnostj i skvoznoj CLI | 0,377 s      | uspeshno   |
-| [Ispolnitelj istorii modeli] Povtornyij profilj posle ispravlenij        | 0,943 s      | uspeshno   |
-| [Ispolnitelj istorii modeli] Sverka chetyiryokh prinyatyikh nablyudenij         | 0,037 s      | uspeshno   |
+| Vyizov                                                                            | Dliteljnostj | Rezuljtat         |
+| -------------------------------------------------------------------------------- | ------------ | ----------------- |
+| [Ispolnitelj istorii modeli] RED — sokhraneniye doslovnyikh markerov                 | 0,112 s      | neuspeshno         |
+| [Ispolnitelj istorii modeli] GREEN — citatyi, privatnostj i skvoznoj CLI          | 0,377 s      | uspeshno           |
+| [Ispolnitelj istorii modeli] Povtornyij profilj posle ispravlenij                 | 0,943 s      | uspeshno           |
+| [Ispolnitelj istorii modeli] Sverka chetyiryokh prinyatyikh nablyudenij                  | 0,037 s      | uspeshno           |
+| [Ispolnitelj istorii modeli] Standartnaya dokumentacionnaya priyomka istorii modeli | 381,152 s    | prervano — SIGINT |
 
-Obsjheye vremya pryamyikh zapuskov proverok: 1,469 s.
+Obsjheye vremya pryamyikh zapuskov proverok: 382,621 s.
 
 Ekonomnyij poryadok proverok: ne gotov.
 
@@ -43,11 +44,17 @@ Ekonomnyij poryadok proverok: ne gotov.
 
 Odinnadcatj adresnyikh scenariyev proshli: proiskhozhdeniye i deduplikaciya, inkrementaljnyij rost, povrezhdeniye/usecheniye/zamena, nepolnyij khvost, otsutstviye zapisi, granicyi putej, crash+append, podgotovka polej, sokhraneniye citatyi, prava do zapisi i skvoznoj CLI. RED citatyi predshestvuyet ispravleniyu. [Itogovyij profilj](materialyi/profilj-itogovoj-realizacii.json) soderzhit SHA iskhodnikov i tu zhe fiksturu, chto pervichnyij zamer. Dopolniteljnaya algoritmicheskaya optimizaciya ne obosnovana: povtornyij putj uzhe chitayet nolj bajtov istochnika. Raznica yedinichnyikh zamerov ne obyyavlyayetsya uskoreniyem.
 
+## Suzheniye priyomki i nachatyij polnyij progon
+
+Posle nachala standartnogo progona korenj yavno ogranichil blizhajshuyu peredachu kontroljnoj tochkoj. Povtornyij polnyij progon ne zapuskalsya. Uzhe nachatyij process proshyol strukturu, sborku i proverku reyestra, obratnyiye ssyilki i primeneniye proyekcii: 10199 fajlov, 344,867 s na primeneniye. V faze `новое_установлено` process ne preryivalsya; posle zaversheniya ustanovki i udaleniya kvitancii otchyotnoj obyortke peredan SIGINT vo vremya otdeljnoj nezavisimoj proverki. Itog obyortki — kod 130, preryivaniye sokhraneno mashinnoj zapisjyu. Nezavisimaya proverka ne zavershena; poluchennoye pokoleniye sokhranyayetsya kak nepriyomochnyij proizvodnyij snimok i posle registracii pozdnego utochneniya otstayot ot kanona. Novyij krug proyekcii ne vyipolnyayetsya.
+
+Polnyij privatnyij stdout imeyet 3424 bajta, SHA `8a63e51328037f0a4131c7916ee947bd40e4ba66bd11d83b1d7c94432e4c300a`; stderr pust. Aktivnyikh processov progona ne ostalosj. Posleduyusjhaya kontroljnaya svyaznostj ne trebuyet obyyavlyatj etot progon uspeshnyim.
+
 ## Oblastj postavki i ogranicheniya
 
 Toljko moduli, testyi i rukovodstvo svyaznosti, dve sobstvennyiye paryi Zhurnala, neobkhodimaya navigaciya i proizvodnaya proyekciya. Prilozheniya/FUMA/macOS, fum-reyestr-planirovaniya, pravila i konfiguraciya Codex ne menyayutsya. Istorii predyidusjhikh nablyudenij ostayutsya neizmennyimi. Sozdaniye kartochki kornevogo sboya vne ogranichennoj oblasti peredano kornyu s iskhodnyim zamechaniyem i RED/GREEN.
 
-[Interfejs i vosproizvedeniye](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/istoriya-modeli.md) opisyivayut yavnyij zapusk i podgotovku soobsjheniya. Avtozapusk otsutstvuyet. Polnyij kornevoj ostatok ne yavlyayetsya obyyomom etoj zadachi; prinyatiye i integraciya vetki v `fuma` otnosyatsya k kornyu. Kontroljnaya tochka `5398b7a7d0d2beedc6b827b99bdc1f30fe24cf08` opublikovana, udalyonnyij OID proveren. Finaljnyiye OID, derevo i roditeli soobsjhayutsya posle fiksacii.
+[Interfejs i vosproizvedeniye](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/istoriya-modeli.md) opisyivayut yavnyij zapusk i podgotovku soobsjheniya. Avtozapusk otsutstvuyet. Polnyij kornevoj ostatok ne yavlyayetsya obyyomom etoj zadachi; prinyatiye i integraciya vetki v `fuma` otnosyatsya k kornyu. Kontroljnaya tochka `5398b7a7d0d2beedc6b827b99bdc1f30fe24cf08` opublikovana, udalyonnyij OID proveren. Finaljnyiye OID, derevo i roditeli soobsjhayutsya posle fiksacii. Neprinyatyij ostatok: nezavisimaya obsjhaya proverka i finaljnaya proyekciya, smyislovaya priyomka kornem i merge-kommit v `fuma`; oni ne obyyavlenyi vyipolnennyimi etoj zadachej.
 
 ## Istochniki
 
@@ -55,6 +62,6 @@ Toljko moduli, testyi i rukovodstvo svyaznosti, dve sobstvennyiye paryi Zhurnala
 - [Pervyij etap](../2026-09-15_19-05-01_MSK_sokhranyatj-nablyudayemuyu-istoriyu-modeli/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:26:11 MSK -->
-<!-- content-sha256: sha256:196e316a61be7cc7b257a88972c93634ea80095d436ffcd5c9eed06ca5a68880 -->
+<!-- last-content-edit: 2026-09-15 19:34:25 MSK -->
+<!-- content-sha256: sha256:c24c0bc8889773b48cbba20b173935dce53e4c19d9032c638da42bbb2f946702 -->
 <!-- FUM-MD-RECENCY:END -->

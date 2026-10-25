@@ -23,11 +23,13 @@ Poljzovatelj vyibral otdeljnyij binarnyij kontejner dlya samodostatochnogo khran
 
 ## Istochniki
 
+- [Utochneniye obyazateljnoj zapisi kazhdogo vyizova i nablyudeniya macOS](../../Zhurnal/2026-09-15_15-40-41_MSK_utochnitj-operatornyij-interfejs-FUMA/zapros.md) i [svyazj kontejnera s operatornyim interfejsom](../operatornyij-interfejs-FUMA.md) — postanovka posleduyusjhego skvoznogo primeneniya, a ne podtverzhdeniye polnotyi tekusjhej zapisi API.
+
 - [Komandyi tekusjhej zadachi](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
 - [Otvetyi i granicyi rezuljtata](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md).
 - [Podrobnyij plan](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/materialyi/planyi/plan-kontejnera-nablyudenij.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 13:49:48 MSK -->
-<!-- content-sha256: sha256:7512f09d9716761a5ed9e69531a06624bb526596ef12fdb63b1a4c331b12f848 -->
+<!-- last-content-edit: 2026-09-15 15:48:02 MSK -->
+<!-- content-sha256: sha256:54dae3c7c92612167c8d49c15e4f60e05352235ab1531bd8e08825e5e4f79a7b -->
 <!-- FUM-MD-RECENCY:END -->

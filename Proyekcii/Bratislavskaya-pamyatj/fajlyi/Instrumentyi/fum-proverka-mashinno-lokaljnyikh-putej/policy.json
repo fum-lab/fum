@@ -3870,6 +3870,330 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
+    },
+    {
+      "id": "durable-receipts-command-suffix-late-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:42d09b14d9a0b9ecd49866467143aad3701db56587bc6a58b66db08c3ac0c9f6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка выбирает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "durable-receipts-command-suffix-unselected-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:618cc0b9ffb47ee35b3dcd8af209ad85c1750ab4103186df51368dd83a73ccb2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "role-fork-resource-issues",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e6820bce257ca310d916cd0f02b4a29189a72914c5f623421024575369045491",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-pulls",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1cae00cd7100d0d57ba6707f632f2308cfa316807665e1bbce17ba43e36241e3",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-comments",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7389fab52c6c57a76afae6c366c9dcf70a5b6ae150bb3baab419f431f6605718",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-review-comments",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ca50abd28682cbf27072f93c2b6952086c1340d0f91ea9d0981261286261c37b",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-releases",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e76edcd3afc50051ba337c25dcdc53d23c73ed2ffe923282cab2202dfe171878",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-deployments",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60fccf845de6b70c80caaee267ab564da2b1bf50f1c2b97a453e0834693241e6",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-labels",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e32678c64da5b6a7fb8536c32c3208235c5b6048aea3edc5bf75362f30077be9",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-milestones",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a36ba96cc9c95c17b5999a946fe33fd04319267830992ea566a12d78f2d0060a",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-actions",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d701b1e45086ecf3568a519411e4aa93930f9fb04227c99de5d5932da58b886c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-artifacts",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6337bdd71c039691c34141d6a21c57b39dbfcd1c646aee73e2249dc830e23eac",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-actions-recheck",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b4727550923a5467ecee6ef884a5214732e46c1683fee90a4b5bb0c3468c842d",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-actions-fixture",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/test_архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6e0eb97a3ab99e1124c8789e3d4abe9a86ed141add95282f4f3705773bf82e8a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная подстановка ответа GitHub Actions различает точный HTTP-суффикс ресурса Actions; адрес машины не используется."
+    },
+    {
+      "id": "role-fork-issue-one-response",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/issue-1-ответ.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e9ba268f79ee553599d6d33a7b81257d5069ef0e618e57b03e8ae5a62b3405ce",
+      "count": 6,
+      "category": "report.historical",
+      "reason": "Дословный сохранённый ответ GitHub issue 1 содержит шесть сегментов шаблонных URL в labels_url и полях URL пользователя; это параметры HTTP-адресов, не локальные пути."
+    },
+    {
+      "id": "github-issue-one-comment-readback",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/Issue-1-комментарий-проверка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2cdd13826d52fa5c6ce373d8b4517822dd12c3964e6cd2ada8ba4f33fa2fb295",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный ответ повторного чтения комментария GitHub содержит относительные HTTP-ссылки в body_html; это адреса сайта, а не пути машины."
+    },
+    {
+      "id": "github-pr-two-comment-readback",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/PR-2-комментарий-проверка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d9f93ea582ffe8a648b5b338819089fcab6bbf52366ee65e9755eb7cfd47b51d",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный ответ повторного чтения комментария GitHub содержит относительные HTTP-ссылки в body_html; это адреса сайта, а не пути машины."
+    },
+    {
+      "id": "planner-integration-j13-1-36",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:778b2f09fd30374d412ef345cbc5f94b2376c701dc84e3ae9bc9006f6d406ce4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-1-71",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ccaa13e98c796eb60a1e745039ab5eaf774f7648650df5cbde59c18aa12215cb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-1-76",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:15cc042f8ac0392ecf5952c9a68e547bb0219afd59ef915ca29c875e3a544048",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-2-220",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5d891b281d662b783e6c471e3d4f0924b61d7f1dc6628a5adce194cbe3ff08f9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение проверяет допустимую Markdown-ограду из тильд; это синтаксис документа, не раскрытие домашнего каталога."
+    },
+    {
+      "id": "planner-integration-j13-3-82",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:057bd37329cceb0f8bb5b6d73ab5dfdccd8a36740e038ee3f1376e2d594ace12",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-107",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e4014dd956985895cbb456b96588eae97b18e49244dec4080d89d6aa9b41820f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-120",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1eca3418c7fa1684dd270cec7d4b0ba1fb3b5859aef8eeb088ce34a86c0fd4f5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-131",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:863d79edcbc12d261515bf718fcf8ce9f153dfa13251c660553b7f56840a3f62",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-135",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2d0105cf2103f1fc5a4bbd6af732e13b2f5fa35fd2fb3599f7843569c858c252",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-154",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2a27ad2cd52644b0624c7e5e833390d6084c84704ce4347cc9453f4804773d1d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-4-24",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_устойчивой_пары_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f1e1307178d8330ab68dc617c6422193683f5ffce21500ca3c2a1bd7bcb99c8f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Суффикс относительного пути запроса синтетического журнала в автономной фикстуре."
+    },
+    {
+      "id": "planner-integration-j13-5-200",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:24e606bdac55a6f79af624dc2256d9c5d0776c8e1f4b016e6a909e6d433c7340",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-214",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ceec274c1d4a2cf51fca48e07c617fa2dd9e54f2eb0f96f356589599d8399a4a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-268",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:73d8813ed185a53131619b8ca19fdd8763eb6d5f783c5b8211ea3563bfe7b2e1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-300",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3dede1e78dcd016e1b99bcdb887fd9df3701b07a63356d02b1e9a7a269fed3bb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-332",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6d4cbc57b0020bb0eb5a6de9ca256995d1c4e90cfb5f64845a6a4eec348f9087",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-400",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a2c3b39acef30978e4c217faf02206616e70022306f1bd5e8a9f633da8839833",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "media-package-absolute-path-negative-fixture",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_медиапакет_поддержки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:229ade3324da4ec6fd5577c223884cb5b2416b17730311789d0982544f8efb0d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательные относительные и абсолютные адреса Git-источника; изолированная фикстура проверяет отказ до чтения."
+    },
+    {
+      "id": "fuma-j16-original-answer-null-device",
+      "path": "Журнал/2026-09-18_00-01-17_MSK_принять-финансовые-пакеты-и-реестр/материалы/видимые-ответы.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9679402eec032abbec6d5a4a1a953c5b593cef67affd122def1d8128e01cf1ec",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный видимый ответ ассистента о ранее обнаруженном и исправленном системном литерале; строка хранит исходное свидетельство, а не исполняемую настройку."
     }
   ]
 }

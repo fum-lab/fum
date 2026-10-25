@@ -9,13 +9,19 @@ Etot navyik opisyivayet lokaljnuyu [avtomatizaciyu FUM](../../Glossarij/avtomati
 
 papka zaprosa -> iskhodnyij zapros i sosednij otchyot -> zatronutyiye fajlyi -> proverki -> kommit.
 
+Dlya adresnogo obyyasneniya neaktualjnyikh priyomok dostupen yavnyij rezhim `обязательства_задачи.py --диагностика-неактуальности`: [otdeljnaya versionirovannaya vyidacha](ostatok-obyazateljstv.md#pochemu-priyomka-ustarela) pokazyivayet puti i razlichiya khyeshej/rezhimov iz proverennogo Git-snimka. On ne menyayet shtatnyij ostatok i ne zamenyayet finaljnyij dopusk.
+
 ## Kogda ispoljzovatj
+
+Do dorogogo dopuska dostupna [rannyaya sverka materialov](rannyaya-sverka-materialov.md): polnyij fakticheskij Git-perechenj, obyazateljnaya tekusjhaya para, nezavisimyiye tochnyiye razresheniya i povtornaya proverka snimka bez globaljnogo obkhoda Markdown.
 
 Ispoljzuj etu avtomatizaciyu pered kommitom rabochej sessii, vliyayusjhej na proyekt, posle zapuska `fum-svezhestj-markdown` i posle togo kak fajl zaprosa uzhe soderzhit razdelyi `## Идентификатор сеанса Codex`, `## Использованные инструменты`, `## Повлиял на файлы` i `## Проверки`. Polnuyu predkommitnuyu proverku zapuskaj s tem zhe fajlom soobsjheniya, kotoryij zatem budet peredan `git commit -F`. Dlya novyikh zaprosov nachinaya s zakreplyonnoj vremennoj granicyi parametryi `--commit-message-file` i `--codex-thread-id` obyazateljnyi; istoricheskiye zaprosyi sokhranyayut prezhnij kontrakt.
 
 Avtomatizaciya osobenno polezna, kogda sessiya menyayet neskoljko oblastej pamyati: `Документация/`, `Глоссарий/`, `Инструменты/`, `Планирование/` i `Журнал/`.
 
 ## Promezhutochnyij kommit postoyannoj zadachi
+
+Dlya povtorno primenimogo sozdaniya kontroljnoj tochki ispoljzuj [podgotovku i sozdaniye kommita](sozdaniye-kommita.md): pervichnyiye komandyi, nablyudayemaya modelj, rolj avtora, tochnyij indeks, obyazateljnyiye proverki, sozdaniye i chteniye fakticheskogo Git-obyyekta. Obyichnyij i merge-kommit podderzhanyi; itogovoye zamyikaniye proyekcii poka zakryito otkazyivayet.
 
 Yavnyij flag --kontroljnaya-tochka primenyayetsya toljko k promezhutochnomu kommitu, razreshyonnomu poljzovatelem. Vse proverki zaprosa, soobsjheniya kommita, identifikatora, ssyilok, recency i Git-sostoyaniya sokhranyayutsya. Mashinnyij zhurnal dolzhen byitj otkryityim, soderzhatj toljko terminaljnyiye zapisi i tochnyij aktualjnyij predprosmotr; aktivnaya zapisj, snimok, zhurnal vozobnovleniya ili podmena bloka zapresjhayut dopusk. Rezhim po umolchaniyu ne menyayetsya. Proverka ne zakryivayet otchyot i ne zayavlyayet gotovnostj proyekcii ili finaljnogo rezuljtata.
 
@@ -44,6 +50,8 @@ Dlya razreshyonnyikh lokaljnyikh CLI s potencialjno boljshim stdout ili stderr p
 Do zapuska vyiberi novyij privatnyij fizicheskij katalog vne lyubogo Git-predka; domashnij katalog sam mozhet byitj repozitoriyem. Dejstvuyet kooperativnaya granica doverennogo processa i yedinstvennogo pisatelya, opisannaya v rukovodstve. Pri otkaze posle vozmozhnogo effekta vyiyasni sokhranyonnoye sostoyaniye, a ne povtoryaj komandu avtomaticheski. Byudzhet vsego otveta i kod vyizyivayemogo processa proveryayutsya otdeljno ot koda predstavleniya.
 
 ## Obyazateljnyij razbor dialoga
+
+Otdeljnoye [prinyatiye delegacii](prinyatiye-delegacii.md) svyazyivayet nezavisimo vyibrannoye porucheniye koordinatora s rabotoj ispolnitelya. Guard proveryayet fiksirovannyij putj prinyatiya i yego istoriyu: prinyatiye bez rabotyi zakryivayet dopusk dazhe pri nulevom chelovecheskom ostatke. Sostoyaniye vyipolneniya ostayotsya v susjhestvuyusjhem plane; kornevaya priyomka vyipolnyayetsya otdeljno.
 
 Pri vosstanovlenii i sverke dogovoryonnostej vyizyivayetsya [ostatok soobsjhenij](obrabotka-soobsjhenij.md) s yavnyimi kornem, kornevyim UUID i iskhodnyim JSONL:
 
@@ -102,7 +110,7 @@ V shablone dopolniteljno zamenyayetsya otnositeljnyij putj plana etapa; reyestr,
 
 ## Privatnyij komplekt Stop
 
-[Podgotovitelj i kontrakt](privatnyij-komplekt.md) vosproizvodimo izvlekayut odinnadcatj tochnyikh iskhodnikov iz odnogo commit, proveryayut cepochku Git-derevjyev i sokhranyayut privatnyij komplekt s manifestom. Komanda kandidata zakreplyayet inline-zagruzchik, khyesh manifesta i izolirovannyij Python; chuzhiye fajlyi, nevernyiye prava i povrezhdyonnyij komplekt otklonyayutsya. Nastrojki, Trust i nastoyasjheye sostoyaniye podgotovka ne sozdayot. Shablon `Stop.hooks.шаблон.json` ostayotsya toljko poyasnyayusjhim primerom.
+[Podgotovitelj i kontrakt](privatnyij-komplekt.md) vosproizvodimo izvlekayut dvenadcatj tochnyikh iskhodnikov iz odnogo commit, proveryayut cepochku Git-derevjyev i sokhranyayut privatnyij komplekt s manifestom. Dobavlen chitatelj prinyatiya delegacii; sokhranyonnyiye prezhniye komplektyi ne obnovlyayutsya. Komanda kandidata zakreplyayet inline-zagruzchik, khyesh manifesta i izolirovannyij Python; chuzhiye fajlyi, nevernyiye prava i povrezhdyonnyij komplekt otklonyayutsya. Nastrojki, Trust i nastoyasjheye sostoyaniye podgotovka ne sozdayot. Shablon `Stop.hooks.шаблон.json` ostayotsya toljko poyasnyayusjhim primerom.
 
 Pered primeneniyem koordinator chitayet kontrakt, sveryayet konkretnyij kandidat i dejstvuyusjhij sloj runtime. Sluzhebnyij HookPrompt ne pripisyivayetsya cheloveku po odnoj roli user; yego proiskhozhdeniye i fakticheskoye prodolzheniye modeli proveryayutsya otdeljno. Nativnoye podklyucheniye ne vyivoditsya iz uspeshnyikh sinteticheskikh testov ili nalichiya privatnogo kataloga.
 
@@ -219,6 +227,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 [Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:16:22 MSK -->
-<!-- content-sha256: sha256:627f5d83dcaee45742255424e5878fc086b6d171f156afea32e7704f81bab9b8 -->
+<!-- last-content-edit: 2026-09-18 12:11:26 MSK -->
+<!-- content-sha256: sha256:a96b7b739a31397b59899c98be38fa9bdc0f751d6bf990c34112989e42a2ae11 -->
 <!-- FUM-MD-RECENCY:END -->

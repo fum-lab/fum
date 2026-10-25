@@ -1,0 +1,125 @@
+{
+  "schema": "fum.конвейер-производных-веток.v1",
+  "pipeline_id": "контекст-fuma",
+  "root_layer_id": "корень",
+  "branch_naming": {
+    "scheme": "bratislavskaya-path-slug.v2",
+    "namespace": "fum"
+  },
+  "layers": [
+    {
+      "layer_id": "корень",
+      "branch_ref": "refs/heads/fum/root",
+      "directory_path": "",
+      "parent_layer_id": null,
+      "worktree": "FUM-worktrees/fum/root",
+      "writer": "FUM Корень",
+      "lifecycle": "permanent",
+      "status": "active",
+      "depends_on": []
+    },
+    {
+      "layer_id": "события",
+      "branch_ref": "refs/heads/fum/dir/pamyatj--sobyitiya",
+      "directory_path": "Память/события/",
+      "parent_layer_id": "корень",
+      "worktree": "FUM-worktrees/fum/dir/pamyatj--sobyitiya",
+      "writer": "FUM События",
+      "lifecycle": "temporary",
+      "status": "active",
+      "depends_on": []
+    },
+    {
+      "layer_id": "значимые-сообщения",
+      "branch_ref": "refs/heads/fum/dir/pamyatj--sobyitiya--znachimyiye-soobsjheniya",
+      "directory_path": "Память/события/значимые-сообщения/",
+      "parent_layer_id": "события",
+      "worktree": "FUM-worktrees/fum/dir/pamyatj--sobyitiya--znachimyiye-soobsjheniya",
+      "writer": "FUM Сообщения",
+      "lifecycle": "temporary",
+      "status": "active",
+      "depends_on": [
+        "события"
+      ]
+    },
+    {
+      "layer_id": "требования",
+      "branch_ref": "refs/heads/fum/dir/planirovaniye--trebovaniya",
+      "directory_path": "Планирование/требования/",
+      "parent_layer_id": "корень",
+      "worktree": "FUM-worktrees/fum/dir/planirovaniye--trebovaniya",
+      "writer": "FUM Требования",
+      "lifecycle": "permanent",
+      "status": "active",
+      "depends_on": [
+        "значимые-сообщения"
+      ]
+    }
+  ],
+  "path_owners": [
+    {
+      "path": "Память/события/",
+      "kind": "directory",
+      "layer_id": "события"
+    },
+    {
+      "path": "Память/события/значимые-сообщения/",
+      "kind": "directory",
+      "layer_id": "значимые-сообщения"
+    },
+    {
+      "path": "Память/события/README.md",
+      "kind": "readme",
+      "inherits": "Память/события/"
+    },
+    {
+      "path": "Планирование/требования/",
+      "kind": "directory",
+      "layer_id": "требования"
+    },
+    {
+      "path": "Индексы/markdown-файлы-по-времени-редактирования.md",
+      "kind": "file",
+      "layer_id": "корень"
+    }
+  ],
+  "storage_targets": [
+    {
+      "target_id": "монорепо",
+      "kind": "git",
+      "path": "Память/события/",
+      "format": "tracked-files",
+      "status": "planned"
+    },
+    {
+      "target_id": "журнал",
+      "kind": "journal",
+      "path": "Журнал/",
+      "format": "jsonl",
+      "status": "planned"
+    }
+  ],
+  "deliveries": [
+    {
+      "delivery_id": "вперёд-1",
+      "direction": "forward",
+      "from_layer": "события",
+      "to_layer": "значимые-сообщения",
+      "base_oid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "result_oid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "status": "accepted"
+    },
+    {
+      "delivery_id": "обратно-1",
+      "direction": "reverse",
+      "from_layer": "требования",
+      "to_layer": "корень",
+      "base_oid": "cccccccccccccccccccccccccccccccccccccccc",
+      "result_oid": "dddddddddddddddddddddddddddddddddddddddd",
+      "status": "pending",
+      "accepted_paths": [
+        "Планирование/требования/"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+HTTP/2 200
+server: nginx
+date: Sat, 03 Oct 2026 16:43:48 GMT
+content-type: text/html;charset=utf-8
+set-cookie: [REDACTED: response cookie]
+content-language: ru

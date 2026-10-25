@@ -1,0 +1,14 @@
+{
+  "B": "READY4 успешен986.715с; CREATE4 отказал2 до эффекта из-за7-го turn_context при тех же model/effort. Причина установлена; новая подготовка5 ещё не поставка.",
+  "Issue": 283,
+  "child": "01a13b1b-4c3e-7223-93af-604ba8b651cf",
+  "native_SHA": "453f1a0e5e861b17ecbccf26d238b1ebbf49e1a2edd7510a7eb6d71516d22a17",
+  "observed_effort": "ultra",
+  "observed_model": "gpt-6.1-sol",
+  "ref": "refs/heads/codex/dir/zavershatj-prinyatoye-docherneye-porucheniye-01a07d3d",
+  "база": "c8336985aca62f188ff71096eabc5536ae59c560",
+  "префлайт": "чистый detached C519/собственныйUUID/нетGitоператоров; иныхписателейпоизвестнойграницeненаблюдается",
+  "реализовано": false,
+  "собственный_ref_ещё_не_создан": true,
+  "схема": "fum.наблюдение-постановки.1"
+}

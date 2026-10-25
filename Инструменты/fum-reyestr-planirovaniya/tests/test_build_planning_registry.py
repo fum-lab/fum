@@ -1950,6 +1950,35 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "missing inverse semantic relation"):
                 build_planning_registry.build_to_file(output, root)
 
+    def test_общий_разбор_байтов_сохраняет_оболочку_и_переводы_строк(сам):
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог).resolve()
+            сам.write_step_cards(корень)
+            путь = корень / build_planning_registry.STEP_CARDS_DIR / ACTIVE_STEP_CARD
+            обычная = build_planning_registry.parse_step_card(путь, корень)
+            путь.write_bytes(путь.read_bytes().replace(b'\n', b'\r\n'))
+            сам.assertEqual(build_planning_registry.parse_step_card(путь, корень), обычная)
+            общий = build_planning_registry.разобрать_карточку_шага(путь.read_bytes(), путь.relative_to(корень),
+                нормализовать_цель=lambda цель: build_planning_registry.normalize_target(цель, путь, корень))
+            сам.assertEqual(общий, обычная)
+            таблица = корень / 'таблица.md'
+            таблица.write_bytes(b'# Test\r\n\r\n## Table\r\n\r\n| Name | Value |\r\n| --- | --- |\r\n| [A](a.md) | B |\r\n')
+            оболочка = build_planning_registry.strict_table_after_heading(таблица, 'Table', ['Name', 'Value'], корень)
+            общий = build_planning_registry.разобрать_строгую_таблицу(таблица.read_bytes(), таблица,
+                'Table', ['Name', 'Value'], нормализовать_цель=lambda цель: build_planning_registry.normalize_target(цель, таблица, корень))
+            сам.assertEqual(общий, оболочка)
+            сам.assertEqual(build_planning_registry.SCHEMA, 'fum.planning.requirements-registry.v9')
+
+    def test_файловая_оболочка_проверяет_исходное_имя_символьной_ссылки(сам):
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог).resolve()
+            сам.write_step_cards(корень)
+            каталог_карточек = корень / build_planning_registry.STEP_CARDS_DIR
+            ссылка = каталог_карточек / ACTIVE_STEP_CARD.replace('0001', '9999')
+            ссылка.symlink_to(ACTIVE_STEP_CARD)
+            with сам.assertRaisesRegex(ValueError, 'filename id does not match'):
+                build_planning_registry.parse_step_card(ссылка, корень)
+
     def test_build_rejects_unclassified_planning_view(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 18:29:25 MSK - Zakrepitj vosemj reshenij obrabotki](../2026-09-15_18-29-25_MSK_zakrepitj-vosemj-reshenij-obrabotki/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 19:20:02 MSK - Proveritj postavku istorii modeli](../2026-09-15_19-20-02_MSK_proveritj-postavku-istorii-modeli/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 19:04:26 MSK - Integrirovatj ispolneniye operatora FUMA](../2026-09-15_19-04-26_MSK_integrirovatj-ispolneniye-operatora-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 19:12:12 MSK - Podgotovitj marshrutyi finansirovaniya i lizinga](../2026-09-15_19-12-12_MSK_podgotovitj-marshrutyi-finansirovaniya-i-lizinga/zapros.md)
 
 ## Tekst zaprosa
 
@@ -41,6 +41,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:26:11 MSK -->
-<!-- content-sha256: sha256:efc7bca7a7f0e9bbffb63c3399ffc2b8275995c98bba7393fe9927b42338ab35 -->
+<!-- last-content-edit: 2026-09-15 20:17:15 MSK -->
+<!-- content-sha256: sha256:cb3990debfa4e2d86fb3a94610378c60fb8f1337f5d73cfb0fcd9a57eba492f2 -->
 <!-- FUM-MD-RECENCY:END -->

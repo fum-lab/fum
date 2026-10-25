@@ -1,0 +1,113 @@
+{
+  "схема": "fum.профиль-сохранения-поставки.1",
+  "подготовка_наносекунды": 44830649125,
+  "фазы": [
+    {
+      "стадия": "первичный предпросмотр",
+      "вызовов": 3,
+      "наносекунды": [
+        2736381792,
+        2853585083,
+        2636446708
+      ],
+      "медиана": 2736381792,
+      "вызовы_Git": [
+        193,
+        193,
+        193
+      ]
+    },
+    {
+      "стадия": "повторная сверка и запись под замком",
+      "вызовов": 1,
+      "наносекунды": [
+        5123232125
+      ],
+      "медиана": 5123232125,
+      "вызовы_Git": [
+        384
+      ]
+    },
+    {
+      "стадия": "исторический повтор",
+      "вызовов": 7,
+      "наносекунды": [
+        3503500,
+        3305209,
+        3308625,
+        3259250,
+        3261417,
+        3268458,
+        3269459
+      ],
+      "медиана": 3269459,
+      "вызовы_Git": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "стадия": "подготовка следующего поколения с S в предках",
+      "вызовов": 1,
+      "наносекунды": [
+        2426943083
+      ],
+      "медиана": 2426943083,
+      "вызовы_Git": [
+        56
+      ]
+    }
+  ],
+  "размеры_байтов": {
+    "Native_ROOT": 9281,
+    "Native_события": 4752,
+    "Native_сообщения": 8837,
+    "реестр_до": 44196,
+    "реестр_после": 49382
+  },
+  "преемник": {
+    "новая_постановка": "2561a30b3da65ff089444bc33bd1877d5cbc7afb",
+    "S_в_предках": true,
+    "прежняя_история_сохранена": true,
+    "новые_внешние_попытки": 0
+  },
+  "исходники_sha256": {
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочернее_назначение.py": "8f3820a14ac7a432e5a839c2b7dc9e8b2fdb20bfe98bdc53837c49cbced82fd2",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/завершение_двух_до_записи.py": "57736656a0d7d0729366bc2c596c09059633bd9d2ad8cc749b59e97442249761",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/завершение_сохранённой_поставки.py": "f6268cfa3530ee55ef7ccf2dc32834b9f3180ef2c548fe92a62ca9547079efc3",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/завершение_сохранённых_писателей.py": "d6d666e4b292cfeb0fa6e3da4793196b856fb201233816f83a6e87da79ee788c",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/закоммиченный_писатель.py": "8ea6ec9bb7fa719a4e304c03669cd36dcb2084961848a441d83c6ad327a7424f",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/контроль_первичного_потока.py": "4f21f2be143a59af373033f0b1e0393bb13d44b9aeac7be8975754044445b885",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативное_назначение.py": "76afdfcce33149db8831f79c59fb9f4683e090b04d517ab8869529b4d86f6a4b",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативные_вызовы.py": "bfe5780c415054f842cc1fb80a830df22b817965f0d12c41074326af10876e86",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_писателя.py": "381e29f5e46ea7534f1db4aaa81ca618906d7f65df2ddd07f41835e4ccc7692c",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/остановка_ребёнка.py": "77437e6caab636deeaa6d1b602158cabb700a36bdee868a8b3c15da3f024a922",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/пакет_незавершённого.py": "f4b0f1b9fcd6b2eb18448d61b280909e59de1510be29787f17c136cbb1cc9fe4",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поручение_слоя.py": "9b829290bbfc7d6ee054d8feaf91f395e965b57de11d389ba66a559876f0fb70",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поток_остановленного_писателя.py": "5305b0b033b3be883fd5104716a6f568f9f468511ec354c7439b4986da3df9d2",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/привязка_писателя_для_координатора.py": "05a70a844c9aafc5030cc0d8f27732ee27be800e5c66ef850023963a0fb53dae",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/проверенная_поставка_сообщений.py": "4cae709f14a115ab8840ab78d781794c0b32a278c2152434686f50b37833e3a7",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/раздельные_ожидания.py": "aae71769ba031824fe35c45c696a01da1569729f955e2484045221baade02ab2",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_нативного_источника.py": "c11160d1a24afeff97c9db1f0614c8f31d1da54b21b71c6ec35a6c49fc96d6f9",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_области.py": "ab9be4b8b66ebc1f8c6699e09c711a8a22dd149c4303e41a1dab291e383eecab",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/сохранённый_писатель.py": "2cb7b1a1aaa22ba4c03c98221ce08619ebca258adb58f3deb03768468488cfc0",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/терминал_запуска.py": "0cfcc3ed63fe9113f74fc465d4e2824758ee6c96cd45801df69b102ed1739ac3",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/хранилище_незавершённого.py": "1d53d23272c5e68740bdc316df1666c9276d78594ff035d729bb754ad8958e48",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/профиль_сохранения_поставки.py": "81bd14bdc011eecedc40462ff0d08d835c46b6cb98252feddb1ce0f8f5997ba2",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/следующее_поколение_поставки.py": "76838f092b24d79b6d78b6f1da1ff6639687fcbf8481ca17abd31bde20e51918",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_сохранения_поставки.py": "847c4948a8a110d7a008049ddea7a2fd41eddf7d4499135b00ed965dacf178f0",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "ba0c59ee1390f410cc09838d238f4985cd94e6726616a0dbd987388ddb701040",
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "d22d2a7b54ee13df2b8787f5c3e9c5e78830af31eadee2f122c4105106aea63f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "6c5464e60d5f383eddf2cb1d0e12e9b5229878480dcfcef3a0e62cb7490d2842",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "f17489161f3239d12d71e4a64e63eac5bf56a2fa9963e266c1f922c92bfeef3c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079"
+  },
+  "граница": "Реальные временные Git-деревья, штатные frozen/подготовка/квитанция и локальный bare origin; Native синтетический. Соответствие исполняемого checkout с C подменено только фикстурой. Подготовка измерена отдельно. Desktop, интернет и большой живой реестр не измерены. Повтор запрещает шесть видов живой проверки и сохраняет байты реестра."
+}

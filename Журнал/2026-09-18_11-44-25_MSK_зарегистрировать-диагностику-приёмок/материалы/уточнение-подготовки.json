@@ -1,0 +1,10 @@
+[
+  {
+    "текст": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_TwXdKDLwD3zxDZ15mRbcL6aa\\\",0]\",\"question\":\"Задача «Выявлять неполный состав этапа до дорогих проверок» уже появилась в Codex Desktop? API подтвердил создание, но пока не возвращает настоящий ID, а доступ к интерфейсу инструментом запрещён.\",\"answer\":\"Видна, ещё готовится\"}]\n</send_user_message_question_reply>",
+    "позиция": {
+      "начало": 1007718567,
+      "конец": 1007719534,
+      "sha256": "b9f2325bce50d770111b8171270979e143b7cebd5063491c64b62dc2f2af5cf2"
+    }
+  }
+]

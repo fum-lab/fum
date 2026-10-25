@@ -1,0 +1,29 @@
+{
+  "схема": "fum.наблюдение-доставки.1",
+  "коммит": "8773fbd85cd3b9223df765ccb0bd728b6dc6b51b",
+  "родители": [
+    "30e79a7b87aeed2a83318104595fb516efe2b469",
+    "546a105b03df6ea0401f62255b97ff0fe33393a2"
+  ],
+  "ветка": "refs/heads/fuma",
+  "до": [
+    "30e79a7b87aeed2a83318104595fb516efe2b469",
+    "refs/heads/fuma"
+  ],
+  "после": [
+    "8773fbd85cd3b9223df765ccb0bd728b6dc6b51b",
+    "refs/heads/fuma"
+  ],
+  "код": 0,
+  "наносекунды": 4843712792,
+  "подтверждено": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "926060f126fdea1503cdc01978389d8da09037df4f6fa3ea51643c66252841c6",
+  "PR": {
+    "номер": 192,
+    "состояние": "MERGED",
+    "merge_oid": "8773fbd85cd3b9223df765ccb0bd728b6dc6b51b",
+    "url": "https://github.com/fum-lab/fum/pull/192",
+    "mergedAt": "2026-10-05T00:46:02Z"
+  }
+}
