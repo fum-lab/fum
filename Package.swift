@@ -10,7 +10,16 @@ let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
     products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    dependencies: [
+        .package(path: "Зависимости/LinguisticKit")
+    ],
     targets: [
+        .target(name: "АктуализацияПутей",
+            dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit")],
+            path: "iskhodniki/aktualizaciya-putej", exclude: ["rukovodstvo.md"],
+            swiftSettings: настройки),
+        .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей"],
+            path: "proverki/aktualizaciya-putej", swiftSettings: настройки),
         .target(name: "КонтейнерНаблюдений",
             path: "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений",
             swiftSettings: настройки),
