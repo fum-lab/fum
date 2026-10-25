@@ -1,0 +1,23 @@
+{
+  "ветка": "refs/heads/codex/realizovatj-zakrytiye-issues-298-01a16f6e",
+  "исполнитель": "01a16f6e-8e33-7bc1-a1c7-f5c438aa2284",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-materialyi-zaprosov/scripts/завершение_обсуждения_GitHub.py",
+    "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/test_завершения_обсуждения_GitHub.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/test_истории_обсуждений_GitHub.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/профиль_завершения_обсуждения_GitHub.py",
+    "Инструменты/fum-materialyi-zaprosov/завершение-обсуждения-GitHub.md",
+    "Инструменты/fum-materialyi-zaprosov/SKILL.md",
+    "Журнал/2026-10-24_22-49-42_MSK_реализовать-подтверждённое-закрытие-Issues/",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json"
+  ],
+  "постановка": {
+    "sha256": "42548acdc651526944e4cfcb92599931de4afbc31837f80c15a3be10d91ee602",
+    "коммит": "94710d1cd270a948629eb207f7fc7338d84d0c69",
+    "путь": "Журнал/2026-10-24_19-56-00_MSK_поддержать-дочернее-слияние-сохраняющей-контрольной-точки/материалы/следующий-шаг-закрытия-Issues.json"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "87fac86beda379557f9b070b8dddc96fabacaee876214636812825a4361e5524"
+}
