@@ -1,0 +1,12 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "dynamic334-profile-context-class-literal",
+      "path": "Журнал/2026-10-17_08-22-00_MSK_переводить-поля-динамических-модулей/материалы/контекст-фикстуры-профиля.py.txt",
+      "line": 101,
+      "category": "allow.test-fixture",
+      "reason": "Сохранённый контекст тестовой фикстуры: буквальный Python-код class C: с экранированным переводом строки распознан как Windows-диск; строка не содержит адреса машины."
+    }
+  ]
+}
