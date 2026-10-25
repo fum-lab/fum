@@ -5,9 +5,12 @@
 Из чистого клона на macOS 14+ с Swift 6:
 
 ```sh
+python3 -B Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init --repo-root . --path Зависимости/LinguisticKit
 swift build --jobs 2 --product fuma
 swift test --jobs 2 --filter 'Архива|АрхивСЗапуском'
 ```
+
+Общий пакет включает принятую актуализацию путей, поэтому чистому клону нужна штатная подготовка зарегистрированного LinguisticKit на gitlink 837e2ce107b97ee7b9d3344c9fe99142281fe393. Сам byte-archive target зависит только от КонтейнерНаблюдений.
 
 Пакет использует Swift 6, complete concurrency, warnings-as-errors и actor checks. Test target и bundle — ASCII `arkhiv-codex-tests`. Набор создаёт обычный синтетический файл 264 МиБ, проверяет настоящий переход сегмента, три новых процесса, удаление исходника и SHA восстановленного потока. Нужно около 0,9 ГиБ свободного временного места. Сеть, Git и Python для приёма/восстановления не используются. Необязательная переменная `ФУМА_ПРОФИЛЬ_АРХИВА` задаёт новый JSON-файл с числовым профилем; родитель должен существовать, прежний файл не перезаписывается. Сборку можно вынести стандартным `--scratch-path`.
 
@@ -31,6 +34,6 @@ API `принять(_:смещение:)` адресует порцию: под�
 Основание — [постановка](../../Планирование/предложения/2026-10-25/codex-raw.json) и [отчёт](../../Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/отчёт.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-26 01:46:58 MSK -->
-<!-- content-sha256: sha256:bd42e9cd953a6a4d76b2ab028ebb40dbd404547bd550a0095b850bd4344e8895 -->
+<!-- last-content-edit: 2026-10-26 01:52:25 MSK -->
+<!-- content-sha256: sha256:9efa0e9be1ac517d864174dccbef9a1edd079b76c38fcb7b1fa2c80edc984b8e -->
 <!-- FUM-MD-RECENCY:END -->
