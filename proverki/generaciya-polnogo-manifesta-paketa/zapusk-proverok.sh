@@ -4,7 +4,7 @@ set -eu
 if git -C "$1" rev-parse --git-dir >/dev/null 2>&1; then exit 2; fi
 cd "$2"
 mkdir -p "$1/modules" "$1/fixtures"
-if [[ "${3:-}" == "поставка" ]]; then
+if [[ "${3:-}" == "поставка" || "${3:-}" == "поставка-без-профиля" ]]; then
   mkdir -p "$1/кандидат" "$1/кэш" "$1/настройки" "$1/доверие"
   xcrun swiftc -O -swift-version 6 -strict-concurrency=complete -warnings-as-errors \
     -enable-actor-data-race-checks -parse-as-library -module-name ГенерацияМанифеста \
@@ -16,7 +16,9 @@ if [[ "${3:-}" == "поставка" ]]; then
     xcrun swift package --package-path "$1/кандидат" --scratch-path "$1/scratch" \
       --cache-path "$1/кэш" --config-path "$1/настройки" --security-path "$1/доверие" \
       --disable-sandbox dump-package > "$1/dump.json"
-  "$1/manifest" профиль --корень "$2" --описание iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.json > "$1/profile.json"
+  if [[ "$3" == "поставка" ]]; then
+    "$1/manifest" профиль --корень "$2" --описание iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.json > "$1/profile.json"
+  fi
   exit 0
 fi
 xcrun swiftc --version

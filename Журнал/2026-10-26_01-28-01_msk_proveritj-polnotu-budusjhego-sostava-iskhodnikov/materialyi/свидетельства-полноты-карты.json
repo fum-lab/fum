@@ -1,0 +1,592 @@
+{
+  "схема": "fum.свидетельства-полноты-карты.1",
+  "основа": "aaa482fb7cde74bc4786af50b6689fc07d1a05e3",
+  "ROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель": "01a17494-5f9d-7a71-a5ee-bed5aace5860",
+  "этап": "b790c477fd2fdaf37db120b3ee3fb8c0f66c5e5b73762b026ae1d2279abc4c35",
+  "исходники": [
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/bezopasnyiye-puti.swift",
+      "sha256": "374e1cf684ab7a903c1b6f59fd9e7f499fa9df659b78e93b964014ca59f22a2d"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/komanda-manifesta.swift",
+      "sha256": "db2f3448dd156c8e929b85be13e3482818ac3be94aa9c3f14e8668aef7d3aa39"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.json",
+      "sha256": "f7d7b177ad9c78400a8c0dd26173d31acccd02e8d5b4bcf6f34344401ef3c165"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.swift",
+      "sha256": "7af7e1c3d2e30e0d59c280b3bd52f5d6b3e18a55f42ce1940a7e5fd01c37963a"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/otobrazheniye-manifesta.swift",
+      "sha256": "07ee67dd16e271a84cb97a3f1e2e5e1c7f71d94870c663daace6fb13331b2272"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/porozhdeniye-manifesta.swift",
+      "sha256": "934e56be7c29fda74cf4cbc26f4be14a2411ddae527dc146e16002588d04f736"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/profilj-manifesta.swift",
+      "sha256": "822dd226a3ce5585baf6cd38b5e9bffeb6905f2782c25a3b29d6667138b70b3c"
+    },
+    {
+      "путь": "iskhodniki/generaciya-polnogo-manifesta-paketa/proverka-manifesta.swift",
+      "sha256": "214877399741c774081e0bdb59228f55e62415b604d02b31f215b81daa1f5cbb"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/proverki-budusjhikh-iskhodnikov.swift",
+      "sha256": "82d93ff1d7a0e96f1a5eaa15c20d441a0d11c2aa6b2bc2d961f089079dc1b0af"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/proverki-manifesta.swift",
+      "sha256": "5e8df86efbd08e17166f23f422ea381ac3f93efffdf768052d6332ce5eea1812"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/zapusk-proverok.sh",
+      "sha256": "b8d6449ce2b2c7258fd9c044b6d0b6dd157560a74c651fb6349a11fa51af552e"
+    },
+    {
+      "путь": "proverki/generaciya-polnogo-manifesta-paketa/zapusk-proverok.swift",
+      "sha256": "f2e5e8998d57a726e4c482a70e08d6e7762b71d2e383a32076d39df24db797e1"
+    }
+  ],
+  "предметные_пути": {
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/otobrazheniye-manifesta.swift": "07ee67dd16e271a84cb97a3f1e2e5e1c7f71d94870c663daace6fb13331b2272",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/rukovodstvo.md": "4fd4e8a281ab0c67f83f513594920d34bd6cba7f3887079bdfe7fb3753dc9b7b",
+    "proverki/generaciya-polnogo-manifesta-paketa/proverki-budusjhikh-iskhodnikov.swift": "82d93ff1d7a0e96f1a5eaa15c20d441a0d11c2aa6b2bc2d961f089079dc1b0af",
+    "proverki/generaciya-polnogo-manifesta-paketa/zapusk-proverok.sh": "b8d6449ce2b2c7258fd9c044b6d0b6dd157560a74c651fb6349a11fa51af552e"
+  },
+  "запуски": [
+    {
+      "порядок": 1,
+      "идентификатор": "ebd81337-1520-44f1-8c0a-080261791cfc",
+      "запись": "materialyi/zapuski-proverok/1_ebd81337-1520-44f1-8c0a-080261791cfc.json",
+      "вызов": "RED внешнего префикса на точном B",
+      "код": 1,
+      "capture_вызов_sha256": "a5ad28d624064362e788bbe01e97cfd3524e6ff71073343f26fdf78a35544dc6",
+      "capture_манифест_sha256": "5720fca88045dfe5bd76cee3e31044a913d48f7c4aa01640d75da0b6e4c93301",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "db6819b3b77470d2a17ac3ec130e935c37ae4a9e91fd1b08b98b9792e61bead8",
+          "байты": 3401,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 2,
+      "идентификатор": "da807d81-1f38-4ea6-af4e-adb14863eb37",
+      "запись": "materialyi/zapuski-proverok/2_da807d81-1f38-4ea6-af4e-adb14863eb37.json",
+      "вызов": "GREEN внешнего префикса после проверки покрытия",
+      "код": 0,
+      "capture_вызов_sha256": "01550870575ca3ef3f7cec45a289a1c38f2871f24b4f707dcb59acddab26cc2e",
+      "capture_манифест_sha256": "b982925a59c5cd17e39b66c6a9a5c647e25462cc3b5831904dfd857f3be15723",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "76610daa4dcfb00dcbaf735348e669ddcc90424f728941f5adec5961e0f9b130",
+          "байты": 428,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 3,
+      "идентификатор": "3474b531-b44e-4a20-a395-825055e941d2",
+      "запись": "materialyi/zapuski-proverok/3_3474b531-b44e-4a20-a395-825055e941d2.json",
+      "вызов": "Единый строгий набор генератора после проверки полноты карты",
+      "код": 0,
+      "capture_вызов_sha256": "d131096d244fc18c304047e4cc7f565091f7c5aee8ef5e1ed361180fe087e6fb",
+      "capture_манифест_sha256": "df5986fa505ef0069f14ea062840e11ab7e5e973b4ed4daaf04606ec87d85337",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "4d7adaa4be2085d758d65305d6f2d4ea1fda431b69e409640ff2784f0c3eb261",
+          "байты": 11734,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 4,
+      "идентификатор": "2dca4299-8cfc-454f-8432-412abd80cf04",
+      "запись": "materialyi/zapuski-proverok/4_2dca4299-8cfc-454f-8432-412abd80cf04.json",
+      "вызов": "RED неоднозначной регистровой границы карты",
+      "код": 1,
+      "capture_вызов_sha256": "9962df8345ef1b790d2949bb63d10d8bc3fd912139ee8fbe4f2cb7867f603c0e",
+      "capture_манифест_sha256": "894d43cb999998df621fa741e4f618bc8bca59be2dd2a11f0530a92b5105aac8",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "936860206ade82b47e1a9c89c23373eaf8f01f47076f90bd660d5c0169959725",
+          "байты": 3467,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 5,
+      "идентификатор": "71410124-c338-43ee-9daf-53a7b7af1ba1",
+      "запись": "materialyi/zapuski-proverok/5_71410124-c338-43ee-9daf-53a7b7af1ba1.json",
+      "вызов": "Финальный строгий набор генератора с полнотой и неоднозначной границей карты",
+      "код": 0,
+      "capture_вызов_sha256": "03c8fa8b8345e007653a0bd5424b40a3e19f7da0de7c557241b41cc4ee675b10",
+      "capture_манифест_sha256": "7e07fd0a819695cf4163f2c1511db7255101ebf9ef28397499db5e5a28f9685d",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "70a1a0f1d3c933d5a4a562bd4bfc00a8c1839521c1e3e8fe40a7ffb18f722431",
+          "байты": 12465,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 6,
+      "идентификатор": "3d0a41ec-4d6b-47d7-8dc7-2452028827fb",
+      "запись": "materialyi/zapuski-proverok/6_3d0a41ec-4d6b-47d7-8dc7-2452028827fb.json",
+      "вызов": "Окончательный строгий набор с известными и неизвестными casefold-префиксами",
+      "код": 0,
+      "capture_вызов_sha256": "dacc16173b849fcaee208cdc5d37f0f247dd732f9d019eb207e526a032478679",
+      "capture_манифест_sha256": "8318cf63860ac0166d49074ae056356563211c17d323a9993feaee36fdd7429d",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "a33f1a6765d702142dc21a6e1b8e7b0e66362abcd24be7f3d9d9183084f42caf",
+          "байты": 12921,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 7,
+      "идентификатор": "570b775f-e286-49ae-9f0c-3369eb25d5da",
+      "запись": "materialyi/zapuski-proverok/7_570b775f-e286-49ae-9f0c-3369eb25d5da.json",
+      "вызов": "Строгая публичная CLI-поставка кандидата и dump без повтора профиля",
+      "код": 0,
+      "capture_вызов_sha256": "9dc85ee9b0704779207c5ed1311d94dd8f47f5c8169dd8cc06c5e718bffdf4b4",
+      "capture_манифест_sha256": "38adec8468b0d9fb60d56a1dd1ef5404fdab39fb6690896308dc2e3ff8ad505a",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 8,
+      "идентификатор": "02c61d3f-d115-4a02-9661-0965c1710afd",
+      "запись": "materialyi/zapuski-proverok/8_02c61d3f-d115-4a02-9661-0965c1710afd.json",
+      "вызов": "RED неоднозначной source-границы карты",
+      "код": 1,
+      "capture_вызов_sha256": "83bef32d8bb1dc9d650ba083e2ac303e8bbf0f8c5df9e920c73aa65b8336831b",
+      "capture_манифест_sha256": "547d2cc575493bb561e31f2dbe071b17efe5b8216f01e007a7ce53df75a20e91",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "4ae47ddd86715af5424ec91298cf648f6517165691b167b1a2b48b31c7535e5e",
+          "байты": 6836,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 9,
+      "идентификатор": "bcefe7cf-2a96-4246-842c-7adc6db2f056",
+      "запись": "materialyi/zapuski-proverok/9_bcefe7cf-2a96-4246-842c-7adc6db2f056.json",
+      "вызов": "RED неоднозначной границы exclude и resource после карты",
+      "код": 1,
+      "capture_вызов_sha256": "f1c8c20f2946feaa816cc15640e2efe8b446091fd695dbd3d3e0892339173f43",
+      "capture_манифест_sha256": "132d2663b4e969c23cde8aa5daca9c628b224196617517e707843f7998db2474",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "37213174f6a39d556f36de129e554c04913d351b25d79c36b7223c9475a98c22",
+          "байты": 7227,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 10,
+      "идентификатор": "1d283394-39f7-49ef-b9f4-233d03e52272",
+      "запись": "materialyi/zapuski-proverok/10_1d283394-39f7-49ef-b9f4-233d03e52272.json",
+      "вызов": "Строгий набор с полнотой source/destination и границ exclude/resource",
+      "код": 0,
+      "capture_вызов_sha256": "fe7e76bce2fea8ae82b36191cc6772f7b7dcd573c91943e693854892cd7dde41",
+      "capture_манифест_sha256": "0189e81528a53442293d3e5600bf1751798b469b9f533efbf0939a909e853374",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "8bfa3c60547a2f8a82c53d0745f0d6a16d29fa9ce85e355b8b8d309837223ef6",
+          "байты": 14250,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 11,
+      "идентификатор": "cea1b972-e3ad-4b76-94f7-eeba8ad91df9",
+      "запись": "materialyi/zapuski-proverok/11_cea1b972-e3ad-4b76-94f7-eeba8ad91df9.json",
+      "вызов": "Публичная CLI-поставка окончательного source/destination guard без старого профиля",
+      "код": 0,
+      "capture_вызов_sha256": "b2fbfeaf504b56a38189588b27e53d74e85e59e5d0b2838a30bc475fcfd27b98",
+      "capture_манифест_sha256": "fabeacf8c8d914d535e857a434c5218f0ab4bc1e75fc2dbb7dd93f3f245e9ffc",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 12,
+      "идентификатор": "1d4d3f99-7e15-4fbf-a3c1-acbe3ab36a93",
+      "запись": "materialyi/zapuski-proverok/12_1d4d3f99-7e15-4fbf-a3c1-acbe3ab36a93.json",
+      "вызов": "Адресное наблюдение шести процессов публичного CLI с картой",
+      "код": 0,
+      "capture_вызов_sha256": "e864afad4330f7d81549b83395bea5c21bc08f049b15b2b56a2d6a1f53111991",
+      "capture_манифест_sha256": "5b32940978fc4a29a3451ed3a5c3e8d8294ca5ea9f35bfcfd326522f1228bab9",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "b50557101006046ade3081ee7b2334adc877d6fedf19603eff39b9faa6a002a1",
+          "байты": 3110,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 13,
+      "идентификатор": "90d191ef-d185-4ed2-96c8-d171df4deb54",
+      "запись": "materialyi/zapuski-proverok/13_90d191ef-d185-4ed2-96c8-d171df4deb54.json",
+      "вызов": "Проверка RED mapped inventory на 64d254: explicit файл и каталог",
+      "код": 0,
+      "capture_вызов_sha256": "4745dab673b3c438517ab590fa6aed5c08dbac083e6ee50371d2e7979b88009d",
+      "capture_манифест_sha256": "20cb42fac8f9b662da79817af32ee817e0115b1d066009e560d2a261962df480",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "4ce5058e7b38021f5f57f2c432d726fb490eb73184827334e042704de61ce8a1",
+          "байты": 904,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 14,
+      "идентификатор": "5809b002-0cf0-4c9c-a162-e05ba11eb0ad",
+      "запись": "materialyi/zapuski-proverok/14_5809b002-0cf0-4c9c-a162-e05ba11eb0ad.json",
+      "вызов": "RED mapped inventory через покрытый прообраз вложенного корня",
+      "код": 0,
+      "capture_вызов_sha256": "6a44672bf60434b1510f66f8fc63e48769e60a3a9d60298b482ba9ad91b7d3d3",
+      "capture_манифест_sha256": "2c4b89a89569c053c9863a035a4b15611d47fefc1757361ff6f47d2f59fbfdb7",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "c94b7ca87070683e34780a5c3fd75378899c8f0f295d688ec3d0a7e4f163f0fb",
+          "байты": 1105,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 15,
+      "идентификатор": "ccaebc51-818c-4b16-bfd1-a7b4234e8a33",
+      "запись": "materialyi/zapuski-proverok/15_ccaebc51-818c-4b16-bfd1-a7b4234e8a33.json",
+      "вызов": "RED mapped inventory при полном покрытии родителя и трёх непересекающихся целях",
+      "код": 1,
+      "capture_вызов_sha256": "c7c451bbc1ac8756c8a40f61f4754292c388172327cc4ee6bc1515a6c2a94861",
+      "capture_манифест_sha256": "346a93f971177d0b28db6c31f9673260b0ff481ce2766a41de805ffeced8e153",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e1553a981e98c58978479091d06bc762c3bacb07fdb474fb54d3d6e6a7c97acb",
+          "байты": 5268,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 16,
+      "идентификатор": "f85f7c8c-1376-4693-9828-4db271039854",
+      "запись": "materialyi/zapuski-proverok/16_f85f7c8c-1376-4693-9828-4db271039854.json",
+      "вызов": "Строгий набор после guard всего mapped inventory и будущих границ",
+      "код": 0,
+      "capture_вызов_sha256": "2ed3b3840ae12e7f4beec2ce8e1fecde776a5314fad66531c6e3352ac7de1125",
+      "capture_манифест_sha256": "c0c4c356064b4b1446f2d4fb9ff923d29cdc8af242b08b4bb91ebf25cff90ae0",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "617c61b044be2ba4f919607fc483f42882b6e073885bb254fbc6590e22b53e27",
+          "байты": 15374,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 17,
+      "идентификатор": "86b955a3-21d1-4b25-a491-9910b6d3f15c",
+      "запись": "materialyi/zapuski-proverok/17_86b955a3-21d1-4b25-a491-9910b6d3f15c.json",
+      "вызов": "Окончательный набор с трёхцелевыми случаями и согласованным регистром",
+      "код": 0,
+      "capture_вызов_sha256": "993d26aeb9b26172e56ceb5348e5a50396d228ce683f9728af3199f3c50c87b5",
+      "capture_манифест_sha256": "0e79d7472be2d433319c6f18c4cb097d6fe8cd84887837290dbc8b18532cc21b",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "0a14ba4dcb021a006611d96e5b070dc7920baa883d3223f28a43e7c6cdee5b59",
+          "байты": 16049,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+          "байты": 98,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 18,
+      "идентификатор": "26340938-c2c6-4586-9493-4c9f95af12fa",
+      "запись": "materialyi/zapuski-proverok/18_26340938-c2c6-4586-9493-4c9f95af12fa.json",
+      "вызов": "Поставка окончательного mapped-inventory guard через публичный вход",
+      "код": 0,
+      "capture_вызов_sha256": "33429471314ffeca3e699617dd557de689101a1673f99647768a7ac6c241e1a2",
+      "capture_манифест_sha256": "4fce7da3a00db81b0454e042f033199d2aa845972894e7e68e89d6cc1e1a69be",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 19,
+      "идентификатор": "7d2ab3db-1524-4a50-96a4-a02449d8f2f3",
+      "запись": "materialyi/zapuski-proverok/19_7d2ab3db-1524-4a50-96a4-a02449d8f2f3.json",
+      "вызов": "Наблюдение публичного CLI с картой после guard mapped inventory",
+      "код": 0,
+      "capture_вызов_sha256": "ac9bdd91e4f3ac5a7c7170e92817346aea340847259acc9e84ec7dcbca17bad3",
+      "capture_манифест_sha256": "0800baa769945927b9400ad2db8662ae1dfdce85b6b97738cf81886fca52042d",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "9f79f840e5a65a4c672e7df1b92b08df7e0b53afbe89c5430b28d35c849d5131",
+          "байты": 3110,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    },
+    {
+      "порядок": 20,
+      "идентификатор": "62ec1aae-7b3b-499a-8595-f70ff1e52fe3",
+      "запись": "materialyi/zapuski-proverok/20_62ec1aae-7b3b-499a-8595-f70ff1e52fe3.json",
+      "вызов": "Поля и ссылки конечного Журнала полноты карты",
+      "код": 0,
+      "capture_вызов_sha256": "25d159ab4b2e28ada1e23f59bd710ccf33ab2520594f090391cd321f42d57c7d",
+      "capture_манифест_sha256": "8b4b33cfc6ea9991a5b830dcf03072a84c159355ba2e42d577da98e4c15a0617",
+      "полнота": true,
+      "каналы": {
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "байты": 0,
+          "конец": true
+        },
+        "stdout": {
+          "sha256": "b15ecac8d9548309c38db41ba302ba1c58b86c65e5e6f0bd7e9560366e29d2af",
+          "байты": 560,
+          "конец": true
+        }
+      },
+      "состав_компиляции_и_исходники_до_после_стабильны": true,
+      "граница": "Полные private pins включают SHA, inode, mtime и ctime; runUUID передан обёртке внутри hash-bound capture-вызова. Единственный писатель не менял предметные файлы во время процесса."
+    }
+  ],
+  "неповторённые_переходы": {
+    "installer": {
+      "повтор": false,
+      "wall_seconds": 10.066796334,
+      "readback": true,
+      "индекс_неизменён": true
+    },
+    "исходный_RED": "ebd81337-1520-44f1-8c0a-080261791cfc",
+    "STOP_и_возобновление": {
+      "источники": {
+        "stop": {
+          "строка": 1855,
+          "начало": 8375023,
+          "конец": 8377888,
+          "raw_sha256": "8ad3eeab9722d385d543ebf0ee2803c8160bf630adcb97270e3a714affe56df3",
+          "input_sha256": "e7c9b3d6ac587241378b2930daf8b0adef6657ed988b34a7afed08e53166feda"
+        },
+        "resume": {
+          "строка": 1889,
+          "начало": 8453117,
+          "конец": 8457403,
+          "raw_sha256": "a2464a7d5287aa37bef9852010ab8ba11477a8ec898b082e6011e3a1137134ab",
+          "input_sha256": "e84ece7644afb2e790af82cae78b4460f2544fbf63e9f2b7a387fd673dfbb767"
+        }
+      },
+      "HEAD": "aaa482fb7cde74bc4786af50b6689fc07d1a05e3",
+      "index_sha256": "e1db6dc99b3a9cb15b3ea6b295db592c80dfe5d93456c1d67b506c9d50b5c2cc",
+      "installer_и_RED_не_повторены": true,
+      "сохранённый_RAW_sha256": "9b498fa1c3a6ab65df080fe1a35080f14318a0d0a4d66755728099c1d0161187",
+      "модель": "gpt-6.1-sol",
+      "усилие": "ultra"
+    }
+  },
+  "финальная_поставка": {
+    "кандидат/Package.swift": "fd06fc1b99eb0ad7426941277bd7d22ea9c5bbde5b194ddf7f62e13f989a241d",
+    "manifest.diff": "7995ac4d0f6e5341ee75859511243bd71c363facaa57c8ccc6df523e0ea9deaa",
+    "dump.json": "94965e001bb1c3da96fefa56e2ad061fe661fe72152069d44f29e0a07ce82f8d"
+  },
+  "неизменный_профиль_без_карты_повторён": false,
+  "наблюдение_карты": "наблюдение-cli-карты-финальное.json",
+  "ревью": "Ограниченное RO-чтение diff без запусков и ROOT-приёмки; блокирующих замечаний по окончательной мере не найдено.",
+  "границы": [
+    "Консервативный отказ непокрытого участвующего префикса; полный обход checkout отсутствует.",
+    "Manifest зависимости доказывает exact file, не всё её поддерево.",
+    "dump и прямой runner не подтверждают сборку продуктов, ресурсы при сборке и CodeSign bundle.",
+    "Creator, legacy NAV/проекция и полный ROOT backlog отключены по решению149 / не проверены; own-final/global ROOT guard отдельно не требуется по текущему допуску."
+  ]
+}
