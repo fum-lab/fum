@@ -14,6 +14,11 @@ let package = Package(
         .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
+        .target(name: "МатериализацияУзлов", dependencies: ["FUMStructuringOperatorMemory"],
+            path: "iskhodniki/perekhod-vetok/uzlyi", resources: [.copy("opredeleniya")],
+            swiftSettings: настройки),
+        .testTarget(name: "ПроверкиМатериализацииУзлов", dependencies: ["МатериализацияУзлов"],
+            path: "iskhodniki/perekhod-vetok/proverki", swiftSettings: настройки),
         .target(name: "FUMStructuringOperatorMemory",
             path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
             resources: [.copy("Фикстуры"), .copy("Определения")], swiftSettings: настройки),
@@ -34,7 +39,7 @@ let package = Package(
         .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений"],
             path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md"],
             swiftSettings: настройки),
-        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла"],
+        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла", "МатериализацияУзлов"],
             path: "iskhodniki/zapusk",
             exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "README.md"],
             sources: ["Команда.swift"], swiftSettings: настройки),
