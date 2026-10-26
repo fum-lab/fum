@@ -308,6 +308,38 @@ struct ПроверкиПакета {
         #expect(try фикстура.гит(["ls-files", "--stage", "-z"]) == план.индекс)
     }
 
+    @Test("Git сохраняет выбранный образ, UTF8 argv и очистку среды при постороннем PATH")
+    func системныйGitИСреда() throws {
+        let фикстура = try ФикстураПакета()
+        let чужой = фикстура.родитель.appendingPathComponent("user-bin")
+        try FileManager.default.createDirectory(at: чужой, withIntermediateDirectories: false)
+        let поддельныйGit = чужой.appendingPathComponent("git")
+        try Data("не исполняемый образ Git\n".utf8).write(to: поддельныйGit)
+        try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: поддельныйGit.path)
+        let конфиг = фикстура.родитель.appendingPathComponent("user.gitconfig")
+        try Data("[незакрытый\n".utf8).write(to: конфиг)
+        var среда = ProcessInfo.processInfo.environment
+        среда["PATH"] = чужой.path
+        среда["GIT_DIR"] = чужой.path; среда["GIT_WORK_TREE"] = чужой.path
+        среда["GIT_CONFIG_GLOBAL"] = конфиг.path; среда["GIT_CONFIG_NOSYSTEM"] = "0"
+        среда["GIT_CONFIG_COUNT"] = "1"; среда["GIT_CONFIG_KEY_0"] = "unsafe.flag"
+        среда["GIT_CONFIG_VALUE_0"] = "чужое-значение"
+        let вход = try фикстура.поручение()
+        #expect(try ЧитательПакета.гит(фикстура.корень, ["rev-parse", "HEAD"], средаДляПроверки: среда)
+            == Data((вход.коммит + "\n").utf8))
+        #expect(try ЧитательПакета.гит(фикстура.корень, ["config", "--global", "--list"], средаДляПроверки: среда).isEmpty)
+        #expect(try ЧитательПакета.гит(фикстура.корень, ["config", "--get", "unsafe.flag"],
+            коды: [0, 1], средаДляПроверки: среда).isEmpty)
+        let путь = ФикстураПакета.пути[4].0
+        let данные = try Data(contentsOf: фикстура.корень.appendingPathComponent(путь))
+        #expect(try ЧитательПакета.гит(фикстура.корень, ["rev-parse", "HEAD:" + путь], средаДляПроверки: среда)
+            == Data((ЧитательПакета.объект(данные) + "\n").utf8))
+        #expect(throws: ОтказПакета.условие("Git-отказ-rev-parse")) {
+            try ЧитательПакета.гит(фикстура.корень, ["rev-parse", "--verify", "HEAD:отсутствует"], средаДляПроверки: среда)
+        }
+        #expect(ProcessInfo.processInfo.environment["PATH"] != чужой.path)
+    }
+
     @Test("Постоянный слот не обходится новым UUID плана")
     func постоянныйСлотИНеизвестноеНамерение() async throws {
         let фикстура = try ФикстураПакета()
@@ -371,6 +403,53 @@ struct ПроверкиПакета {
         #expect(!FileManager.default.fileExists(atPath: фикстура.хранилище.path))
     }
 
+    @Test("Failed parent-fsync нельзя обойти существующей основой или промежуточным каталогом",
+        arguments: [false, true])
+    func устойчивостьРодителяДоЭффекта(вложенная: Bool) async throws {
+        let фикстура = try ФикстураПакета()
+        let план = try await ПакетПутей.построить(корень: фикстура.корень, вход: фикстура.поручение())
+        let байты = try байтыПлана(план)
+        let основа = вложенная ? фикстура.хранилище.appendingPathComponent("следующий") : фикстура.хранилище
+        let контроль = try КонтрольСинхронизацииРодителя(родитель: фикстура.родитель)
+        let операции = ФайловыеОперации(запись: ФайловыеОперации.системные.запись,
+            синхронизация: { fd in try контроль.синхронизировать(fd) })
+        for попытка in 1...2 {
+            await #expect(throws: ОшибкаКонтейнера.система(EIO)) {
+                try await ПакетПутей.применить(корень: фикстура.корень, план: байты,
+                    ожидаемыйХэш: хэшПутей(байты), хранилищеДляПроверки: основа,
+                    неисправность: { этап, номер in
+                        if этап == "до-намерения", номер == 1 { контроль.предметныйШаг() }
+                    }, операцииЖурнала: операции)
+            }
+            #expect(контроль.попытокСинхронизации == попытка)
+            #expect(контроль.предметныхШагов == 0)
+            #expect(FileManager.default.fileExists(atPath: фикстура.хранилище.path))
+            #expect(!FileManager.default.fileExists(atPath: основа.appendingPathComponent(план.пространство).path))
+            #expect(!FileManager.default.fileExists(atPath: основа.appendingPathComponent(план.пространство + ".json").path))
+            #expect(try фикстура.гит(["ls-files", "--stage", "-z"]) == план.индекс)
+            #expect(try ЧитательПакета.строкаГит(фикстура.корень, ["rev-parse", "HEAD"]) == план.поручение.коммит)
+            #expect(try Data(ЧитательПакета.строкаГит(фикстура.корень, ["symbolic-ref", "HEAD"]).utf8)
+                == Data(план.поручение.ветка.utf8))
+            // Если старый код уже допустил эффект, сохраняем RED и не запускаем третий apply.
+            try #require(контроль.предметныхШагов == 0)
+            for перенос in план.переносы {
+                #expect(try ЧитательПакета(фикстура.корень).прочитать(перенос.исходный).0.sha256 == перенос.sha256)
+                #expect(!FileManager.default.fileExists(atPath: фикстура.корень.appendingPathComponent(перенос.целевой).path))
+            }
+            for правка in план.правки {
+                #expect(try Data(contentsOf: фикстура.корень.appendingPathComponent(правка.путь)) == правка.прежде)
+            }
+        }
+        контроль.отказывать(false)
+        let журнал = try #require(try ЖурналПакета.открыть(корень: фикстура.корень, план: план, байты: байты,
+            основаДляПроверки: основа, создать: true, операции: операции))
+        #expect(журнал.новый)
+        #expect(контроль.попытокСинхронизации == 3)
+        #expect(try журнал.прочитать("план") == байты)
+        #expect(try журнал.подтверждённыйПрефикс == 0)
+        #expect(контроль.предметныхШагов == 0)
+    }
+
     @Test("После failed sync instance закрыт; reopen повторяет sync перед чтением")
     func неизвестнаяДолговечностьAppend() async throws {
         let фикстура = try ФикстураПакета()
@@ -416,7 +495,7 @@ struct ПроверкиПакета {
             try await ПакетПутей.применить(корень: фикстура.корень, план: байты,
                 ожидаемыйХэш: хэшПутей(байты), хранилищеДляПроверки: фикстура.хранилище)
         }
-        let сегмент = фикстура.хранилище.appendingPathComponent(план.пространство + "/сегмент.fumobs")
+        let сегмент = фикстура.хранилище.appendingPathComponent(план.пространство).appendingPathComponent("сегмент.fumobs")
         let файл = try FileHandle(forWritingTo: сегмент)
         try файл.seekToEnd(); try файл.write(contentsOf: Data([255])); try файл.synchronize(); try файл.close()
         await #expect(throws: ОтказПакета.условие("неполный-хвост-журнала")) {
@@ -471,11 +550,68 @@ struct ПроверкиПакета {
         let данные = try байтыПлана(Профиль(имя_результата: имя, документов: план.документы.count,
             план_sha256: хэшПутей(байты), квитанция: квитанция, замеры: замеры))
         let адрес = URL(fileURLWithPath: try #require(ProcessInfo.processInfo.environment["FUM_BATCH_PROFILE_OUT"]))
+        try сохранитьПрофильПакета(данные, адрес: адрес)
+    }
+
+    @Test("Узкий профиль failed parent-fsync и восстановления init",
+        .enabled(if: ProcessInfo.processInfo.environment["FUM_BATCH_INIT_PROFILE_OUT"] != nil))
+    func профильУстойчивостиРодителя() async throws {
+        let фикстура = try ФикстураПакета()
+        let план = try await ПакетПутей.построить(корень: фикстура.корень, вход: фикстура.поручение())
+        let байты = try байтыПлана(план)
+        struct Замер: Encodable {
+            var вложенная: Bool
+            var первый_отказ_нс: UInt64
+            var повторный_отказ_нс: UInt64
+            var восстановление_нс: UInt64
+            var parent_fsync_попыток: Int
+        }
+        var замеры: [Замер] = []
+        for номер in 0..<8 {
+            let вложенная = номер % 2 == 1
+            let промежуточный = фикстура.родитель.appendingPathComponent("init-\(номер)")
+            let основа = вложенная ? промежуточный.appendingPathComponent("следующий") : промежуточный
+            let контроль = try КонтрольСинхронизацииРодителя(родитель: фикстура.родитель)
+            let операции = ФайловыеОперации(запись: ФайловыеОперации.системные.запись,
+                синхронизация: { fd in try контроль.синхронизировать(fd) })
+            var отказы: [UInt64] = []
+            for _ in 0..<2 {
+                let начало = DispatchTime.now().uptimeNanoseconds
+                do {
+                    _ = try ЖурналПакета.открыть(корень: фикстура.корень, план: план, байты: байты,
+                        основаДляПроверки: основа, создать: true, операции: операции)
+                    Issue.record("Инициализация обошла parent-fsync EIO")
+                } catch ОшибкаКонтейнера.система(EIO) {}
+                отказы.append(DispatchTime.now().uptimeNanoseconds - начало)
+            }
+            try #require(контроль.попытокСинхронизации == 2)
+            контроль.отказывать(false)
+            let начало = DispatchTime.now().uptimeNanoseconds
+            let журнал = try #require(try ЖурналПакета.открыть(корень: фикстура.корень, план: план, байты: байты,
+                основаДляПроверки: основа, создать: true, операции: операции))
+            let длительность = DispatchTime.now().uptimeNanoseconds - начало
+            try #require(контроль.попытокСинхронизации == 3 && журнал.новый)
+            try #require(try журнал.подтверждённыйПрефикс == 0 && журнал.прочитать("план") == байты)
+            замеры.append(Замер(вложенная: вложенная, первый_отказ_нс: отказы[0], повторный_отказ_нс: отказы[1],
+                восстановление_нс: длительность, parent_fsync_попыток: контроль.попытокСинхронизации))
+        }
+        struct Профиль: Encodable {
+            var схема = "fum.профиль-восстановления-init-пакета.1"
+            var план_sha256: String
+            var замеры: [Замер]
+            var условия = "8 последовательных независимых private bases одной fixture:4leaf и4nested. Подготовка fixture/плана и внешний producer исключены. Измеряется только вызов init с проверками namespace, targetedparentfsync и durableplan. Сначала2адресныхEIO, затемуспешноеоткрытие; предметные14effects не запускаются. Нольэффектов приpersistentfailure доказан отдельно интеграционнымGREEN. Не baseline/ускорение/ROOT-профиль."
+        }
+        let данные = try байтыПлана(Профиль(план_sha256: хэшПутей(байты), замеры: замеры))
+        let адрес = URL(fileURLWithPath: try #require(ProcessInfo.processInfo.environment["FUM_BATCH_INIT_PROFILE_OUT"]))
+        try сохранитьПрофильПакета(данные, адрес: адрес)
+    }
+
+    private func сохранитьПрофильПакета(_ данные: Data, адрес: URL) throws {
         let родитель = адрес.deletingLastPathComponent()
         try #require(try Data(ЧитательПакета.физический(родитель).path.utf8) == Data(родитель.path.utf8))
         var текущий = родитель.path
         while true {
-            try #require(!FileManager.default.fileExists(atPath: текущий + "/.git"))
+            try #require(!FileManager.default.fileExists(atPath: URL(fileURLWithPath: текущий).appendingPathComponent(".git").path))
             if текущий == "/" { break }
             let следующий = (текущий as NSString).deletingLastPathComponent
             try #require(следующий.utf8.count < текущий.utf8.count)
@@ -529,6 +665,36 @@ private final class ПереключательСинхронизации: @unche
     private var значение = false
     var отказывать: Bool { замок.withLock { значение } }
     func установить(_ новое: Bool) { замок.withLock { значение = новое } }
+}
+
+// Только fault injection. Все изменяемые счётчики/флаг под одним NSLock;
+// отказ адресован единственному directory FD по сохранённым dev/ino.
+private final class КонтрольСинхронизацииРодителя: @unchecked Sendable {
+    private let замок = NSLock()
+    private let устройство: UInt64
+    private let инод: UInt64
+    private var отказ = true
+    private var синхронизаций = 0
+    private var шагов = 0
+
+    init(родитель: URL) throws {
+        var сведения = stat()
+        try #require(lstat(родитель.path, &сведения) == 0 && сведения.st_mode & S_IFMT == S_IFDIR)
+        устройство = UInt64(сведения.st_dev); инод = сведения.st_ino
+    }
+    var попытокСинхронизации: Int { замок.withLock { синхронизаций } }
+    var предметныхШагов: Int { замок.withLock { шагов } }
+    func отказывать(_ значение: Bool) { замок.withLock { отказ = значение } }
+    func предметныйШаг() { замок.withLock { шагов += 1 } }
+    func синхронизировать(_ fd: Int32) throws {
+        var сведения = stat()
+        guard fstat(fd, &сведения) == 0 else { throw ОшибкаКонтейнера.система(errno) }
+        if сведения.st_mode & S_IFMT == S_IFDIR, UInt64(сведения.st_dev) == устройство, сведения.st_ino == инод {
+            let отказывать = замок.withLock { синхронизаций += 1; return отказ }
+            if отказывать { throw ОшибкаКонтейнера.система(EIO) }
+        }
+        try ФайловыеОперации.системные.синхронизация(fd)
+    }
 }
 
 private final class ФикстураПакета {

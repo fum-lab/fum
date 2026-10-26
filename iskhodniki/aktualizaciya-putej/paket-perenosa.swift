@@ -2,6 +2,7 @@ import Foundation
 import CryptoKit
 import Darwin
 import FUMStructuringOperatorMemory
+import КонтейнерНаблюдений
 
 enum ОтказПакета: Error, Equatable, CustomStringConvertible {
     case условие(String)
@@ -191,17 +192,19 @@ enum ПакетПутей {
     static func применить(корень: URL, план: Data, ожидаемыйХэш: String,
         хранилищеДляПроверки: URL? = nil,
         неисправность: ((String, Int) throws -> Void)? = nil,
-        профиль: ПрофильПакета? = nil) async throws -> КвитанцияПакета {
+        профиль: ПрофильПакета? = nil,
+        операцииЖурнала: ФайловыеОперации = .системные) async throws -> КвитанцияПакета {
         let начало = DispatchTime.now().uptimeNanoseconds
         defer { профиль?.добавить("применение-с-повторной-сверкой", от: начало) }
         let разобранный = try разобратьДляПрименения(корень, план, ожидаемыйХэш)
-        if let квитанция = try прочитатьЗавершённый(корень, разобранный, план, хранилищеДляПроверки) {
+        if let квитанция = try прочитатьЗавершённый(корень, разобранный, план, хранилищеДляПроверки, операцииЖурнала) {
             return квитанция
         }
         let текущий = try await построить(корень: корень, вход: разобранный.поручение, профиль: профиль)
         try сверить(сохранённые: план, ожидаемыйХэш: ожидаемыйХэш, текущий: текущий)
         return try ПрименениеПакета(корень: корень, план: разобранный, байты: план,
-            основаХранилища: хранилищеДляПроверки, неисправность: неисправность, профиль: профиль).выполнить()
+            основаХранилища: хранилищеДляПроверки, неисправность: неисправность, профиль: профиль,
+            операцииЖурнала: операцииЖурнала).выполнить()
     }
 
     private static func разобратьДляПрименения(_ корень: URL, _ данные: Data, _ хэш: String) throws -> ПланПакета {
@@ -222,9 +225,9 @@ enum ПакетПутей {
     }
 
     private static func прочитатьЗавершённый(_ корень: URL, _ план: ПланПакета, _ байты: Data,
-        _ основа: URL?) throws -> КвитанцияПакета? {
+        _ основа: URL?, _ операции: ФайловыеОперации) throws -> КвитанцияПакета? {
         guard let журнал = try ЖурналПакета.открыть(корень: корень, план: план, байты: байты,
-            основаДляПроверки: основа, создать: false) else { return nil }
+            основаДляПроверки: основа, создать: false, операции: операции) else { return nil }
         guard let квитанция = try журнал.квитанция() else {
             throw ОтказПакета.условие("существует-незавершённое-намерение-эффект-не-повторён")
         }
@@ -409,6 +412,26 @@ struct ЗамерПакета: Codable, Sendable {
     var наносекунды: UInt64
 }
 
+enum СистемныеАдресаПакета {
+    static var пустаяКонфигурация: String { _PATH_DEVNULL }
+
+    static func исполнительGit() throws -> String {
+        // Это compile-time стандарт Darwin SDK, а не PATH процесса. Проверенная
+        // текущая SDK выбирает тот же системный Git; поиска/fallback по PATH нет.
+        guard let первый = _PATH_STDPATH.split(separator: ":", omittingEmptySubsequences: false).first else {
+            throw ОтказПакета.условие("неверный-стандартный-путь-SDK")
+        }
+        let каталог = String(первый)
+        let части = каталог.split(separator: "/", omittingEmptySubsequences: false)
+        guard части.count > 1, части.first == "",
+              части.dropFirst().allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." }),
+              !каталог.contains("\\"), каталог.utf8.allSatisfy({ (33...126).contains($0) }) else {
+            throw ОтказПакета.условие("неверный-стандартный-путь-SDK")
+        }
+        return URL(fileURLWithPath: каталог, isDirectory: true).appendingPathComponent("git", isDirectory: false).path
+    }
+}
+
 // Только ограниченная диагностика. Изменяемый буфер всегда под одним NSLock;
 // он не участвует в решении и не добавляет FS/Git-проходов.
 final class ПрофильПакета: @unchecked Sendable {
@@ -495,13 +518,15 @@ final class ЧитательПакета {
         throw ОтказПакета.условие("предел-физических-предков")
     }
 
-    static func гит(_ корень: URL, _ аргументы: [String], коды: Set<Int32> = [0]) throws -> Data {
+    static func гит(_ корень: URL, _ аргументы: [String], коды: Set<Int32> = [0],
+        средаДляПроверки: [String: String]? = nil) throws -> Data {
         // C argv строится из исходных UTF-8, без промежуточного NSString пути.
         let команда = ["git", "--no-optional-locks", "--no-replace-objects", "--literal-pathspecs",
             "-c", "core.fsmonitor=false", "-C", корень.path] + аргументы
-        var среда = ProcessInfo.processInfo.environment.filter { !$0.key.hasPrefix("GIT_") }
+        var среда = (средаДляПроверки ?? ProcessInfo.processInfo.environment).filter { !$0.key.hasPrefix("GIT_") }
         среда["GIT_OPTIONAL_LOCKS"] = "0"; среда["GIT_CONFIG_NOSYSTEM"] = "1"
-        среда["GIT_CONFIG_GLOBAL"] = "/dev/null"; среда["GIT_NO_LAZY_FETCH"] = "1"
+        среда["GIT_CONFIG_GLOBAL"] = СистемныеАдресаПакета.пустаяКонфигурация; среда["GIT_NO_LAZY_FETCH"] = "1"
+        let исполнитель = try СистемныеАдресаПакета.исполнительGit()
         var строки = команда.map { $0.withCString { strdup($0) } } + [nil]
         var окружение = среда.keys.sorted().map { ключ in (ключ + "=" + среда[ключ]!).withCString { strdup($0) } } + [nil]
         defer { for строка in строки { free(строка) }; for строка in окружение { free(строка) } }
@@ -526,7 +551,9 @@ final class ЧитательПакета {
         var процесс: pid_t = 0
         let запуск = строки.withUnsafeMutableBufferPointer { аргументы in
             окружение.withUnsafeMutableBufferPointer { переменные in
-                posix_spawn(&процесс, "/usr/bin/git", &действия, nil, аргументы.baseAddress!, переменные.baseAddress!)
+                исполнитель.withCString { путь in
+                    posix_spawn(&процесс, путь, &действия, nil, аргументы.baseAddress!, переменные.baseAddress!)
+                }
             }
         }
         close(канал[1])

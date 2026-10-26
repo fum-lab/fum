@@ -51,10 +51,10 @@ final class ЖурналПакета {
         let данныеМаркера = try байтыПлана(Маркер(пространство: план.пространство, план_sha256: хэш))
         let новый = !естьКаталог && !естьМаркер
         if новый {
-            try создатьПриватныйКаталог(основа)
+            try создатьПриватныйКаталог(основа, операции: операции)
             try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false,
                 attributes: [.posixPermissions: 0o700])
-            try синхронизироватьКаталог(основа)
+            try синхронизироватьКаталог(основа, операции: операции)
         } else {
             guard естьКаталог && естьМаркер else { throw ОтказПакета.условие("хранилище-ожидалось-но-потеряно") }
             let сохранённый = try прочитатьПриватныйФайл(маркер)
@@ -174,7 +174,7 @@ final class ЖурналПакета {
         var путь = адрес.path
         for _ in 0...(путь.utf8.count + 1) {
             var атрибуты = stat()
-            let проверяемый = путь == "/" ? "/.git" : путь + "/.git"
+            let проверяемый = URL(fileURLWithPath: путь).appendingPathComponent(".git").path
             if lstat(проверяемый, &атрибуты) == 0 { throw ОтказПакета.условие("runtime-внутри-Git") }
             guard errno == ENOENT || errno == ENOTDIR else { throw ОтказПакета.условие("предки-runtime-не-подтверждены") }
             if путь == "/" { return }
@@ -195,22 +195,31 @@ final class ЖурналПакета {
         }
     }
 
-    private static func создатьПриватныйКаталог(_ адрес: URL) throws {
-        if FileManager.default.fileExists(atPath: адрес.path) {
-            try проверитьКаталог(адрес); return
-        }
+    private static func создатьПриватныйКаталог(_ адрес: URL, операции: ФайловыеОперации) throws {
         let родитель = адрес.deletingLastPathComponent()
-        if !FileManager.default.fileExists(atPath: родитель.path) { try создатьПриватныйКаталог(родитель) }
+        if FileManager.default.fileExists(atPath: адрес.path) {
+            try проверитьКаталог(адрес)
+            // Существование могло остаться после успешного mkdir и failed parent-fsync.
+            try синхронизироватьКаталог(родитель, операции: операции)
+            return
+        }
+        if !FileManager.default.fileExists(atPath: родитель.path) {
+            try создатьПриватныйКаталог(родитель, операции: операции)
+        } else {
+            // Прошлый отказ мог оставить промежуточный parent. До создания потомка
+            // подтверждаем его ребро. После failed sync эта программа потомков не создаёт.
+            try синхронизироватьКаталог(родитель.deletingLastPathComponent(), операции: операции)
+        }
         try FileManager.default.createDirectory(at: адрес, withIntermediateDirectories: false,
             attributes: [.posixPermissions: 0o700])
-        try синхронизироватьКаталог(родитель)
+        try синхронизироватьКаталог(родитель, операции: операции)
     }
 
-    private static func синхронизироватьКаталог(_ адрес: URL) throws {
+    private static func синхронизироватьКаталог(_ адрес: URL, операции: ФайловыеОперации = .системные) throws {
         let дескриптор = open(адрес.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard дескриптор >= 0 else { throw ОтказПакета.условие("каталог-журнала-не-открыт") }
         defer { close(дескриптор) }
-        guard fsync(дескриптор) == 0 else { throw ОтказПакета.условие("каталог-журнала-не-синхронизирован") }
+        try операции.синхронизация(дескриптор)
     }
 
     private static func прочитатьПриватныйФайл(_ адрес: URL) throws -> Data {
