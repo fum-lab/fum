@@ -1,0 +1,137 @@
+{
+  "входSHA256" : "4107d4f08ad7d130587fda91dfe3c73201dd5edaec20c0de6523791ebfd23114",
+  "данные" : {
+    "время" : "2026-10-26T20:44:23+03:00",
+    "доставка" : [
+      {
+        "вид" : "передача ROOT",
+        "идентификатор" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "свидетельство" : "Пользователь разрешил передать этап ROOT; при создании записи внешнее сообщение ещё не отправлено. После exact push и remote readback передать commit OID и ограничения."
+      }
+    ],
+    "исход" : "Подготовлена карта состояния долговременных направлений и FUMA для передачи ROOT через ограниченную локальную запись. Приёмка ROOT и интеграция не заявляются.",
+    "область" : "planirovaniye/01a08d77-2060-7701-9f44-ff04769d8a6e/01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "остаток" : [
+      "При создании этой записи точный коммит и push текущей ветки ещё не выполнены; после публикации сообщить ROOT точный commit OID и remote readback.",
+      "ROOT review/acceptance and integration remain pending; do not infer them from a clean tree, commit, or push.",
+      "The native message reader observed 8 messages at the 524463130-byte snapshot, but live_source_rechecked was false. The later 527973184-byte read was model metadata only; current message-history completeness and full ROOT history remain unknown.",
+      "Resolve the FUMA branch ref status with its owner: local fuma/master is 127 commits ahead of its own origin ref; this checkpoint does not modify that active direction.",
+      "The observed local-only refs audit/master, glossarij/master, khudozhestvennoye-napravleniye/master, planirovaniye/master, and pravila/master were not all published by this checkpoint; other refs may advance after the snapshot.",
+      "The observed dokumentaciya/master, fuma/master, and opisaniya/master ref divergences remain for their owners to reconcile; no force update or cross-branch write was made.",
+      "The prior dirty checkout provenance remains unknown and its files/ref must remain preserved until its owner resolves it.",
+      "ROOT reader, global guard, fullPUB, build, and init were not run in this bounded checkpoint; their coverage remains unknown."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Read-only model/effort history import",
+        "наносекунды" : 10175981083,
+        "свидетельство" : "fum.приём-истории-модели.1; без записи; 299 observations; 13 events; 0 gaps; 0 incomplete tail bytes; 0 append after snapshot; model gpt-6-luna; effort max; switches between observations remain unknown."
+      },
+      {
+        "исход" : "неуспешно",
+        "код" : 2,
+        "название" : "Initial full Journal plan with explicit null optional original",
+        "наносекунды" : 38294084,
+        "свидетельство" : "CLI returned fum.отказ-локальной-записи.1 with code input; target readback was empty; no apply ran. The failing optional key was removed from the corrected private input."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Minimal diagnostic Journal plan",
+        "наносекунды" : 22367250,
+        "свидетельство" : "Minimal public schema planned successfully to the same bounded scope; diagnostic plan was never applied and target remained empty."
+      }
+    ],
+    "происхождение" : [
+      "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e user messages 0 through 7 were paged by the local task-message reader. The observed reader snapshot was 524463130 bytes, with 8 messages and 0 remaining; live_source_rechecked was false.",
+      "A later read-only model/effort import observed a 527973184-byte native snapshot, 299 observations, 13 events, 0 gaps, 0 incomplete tail bytes, and no append during that import. It read model metadata only and does not refresh message completeness.",
+      "Git source d081c0a6dfecf876d94107c3f2585cd99f686f39 contains planirovaniye/postanovka.json as blob 828aa333533fb9d6e80b41d84d36df513a830ed1; content SHA-256 80634bf2e9bfa2ddacf06b52449263f9e19d103befa825db3202f017518db977. Its quote planirovaniye has native_frame_sha256=null.",
+      "ROOT task 01a07d3d-d376-7ad2-aafc-67e4c25a67eb delegated this bounded status map in the assigned planirovaniye area and authorized return of the checkpoint; delegation does not imply ROOT acceptance.",
+      "The local FUMA Journal package source is commit c6af44bf1ec061675b6205b9c6ee889d98264f28, pin record zhurnal/384-build.nachalo.json, 34 input pins; all 34 matched the source and base d081c0a6dfecf876d94107c3f2585cd99f686f39.",
+      "Local Journal command identity SHA-256 689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b; package schema fum.вход-локальной-записи.1; the private executable location is intentionally omitted.",
+      "At 2026-10-26 20:44:23 MSK, the read-only local/origin ref inventory reported 32 local refs, 27 origin refs, 24 exact matches, 3 divergences, 5 local-only refs, and no remote-only refs.",
+      "At the same snapshot, Codex task 01a1698f-bb98-7691-b1c1-31ec737ed070 for fum-lab/fum/fuma/master was active; task 01a173f5-8308-7970-99ad-c3b80e790f3c for fum-lab/fum/fuma/zapusk/master existed with status notLoaded.",
+      "Read-only model/effort import result: gpt-6-luna/max at 2026-10-26T17:37:12.387Z; import complete for model metadata, 10175981083 nanoseconds, history SHA-256 fd3cd6beab1826abf2080661dd3647dc4084e69efc87a19ca89314dcecb47a0c."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "The new isolated planning branch is refs/heads/fum-lab/fum/planirovaniye/master at base d081c0a6dfecf876d94107c3f2585cd99f686f39; it was clean before this Journal-only write. It is separate from the older planirovaniye worktree at 935d945aaf23a66fbc3abecd6ed9124c45038739.",
+      "The older clean planirovaniye commit 935d945aaf23a66fbc3abecd6ed9124c45038739 is an ancestor of both the assigned base d081c0a6dfecf876d94107c3f2585cd99f686f39 and origin root master; this ancestry was checked by Git.",
+      "The older dirty checkout remains at b08b969c9c40bda90e53e8effee904f181dce7d6 on codex/приём-направлений-FUMA-0201. Its observed staged, unstaged, and untracked state was left untouched; its original provenance is unknown.",
+      "An independent FUMA task already exists and is active on fum-lab/fum/fuma/master; no duplicate FUMA chat or branch was created in this stage.",
+      "At the observed snapshot, local fum-lab/fum/fuma/master was b8b670d8f511affb08fb3a64874b737e5890c689 and origin/fum-lab/fum/fuma/master was e79cb924459dc3ad6e290e6256cb718efa03524d. The local ref was 127 commits ahead and 0 behind that specific origin ref.",
+      "The optimization checkpoint 9f47d83166030eb898d1c887d1d6280651aa50eb, “Сохранить узкий перенос ускорения путей”, and plan ee0b09c85173ac52508bc458227a1c3e5c42e4c4, “Сохранить состав C576 и план сокращения проверок”, are contained in origin/fum-lab/fum/master and origin/fum-lab/fum/fuma/zapusk/master, but not in origin/fum-lab/fum/fuma/master.",
+      "Other observed divergences were dokumentaciya/master local d081c0a6dfecf876d94107c3f2585cd99f686f39 versus origin 56679877386874c07f714a708e147c9848bc673a, and opisaniya/master local 3d4ddf99673ca50384ad47815751fbdf8f22d6e8 versus origin 469ebea0da125e8850b47f0aa8abbb45c9cc4117. No changes were made to them.",
+      "This checkpoint is a status map and handoff for ROOT review; it is not acceptance, integration, or closure of other direction work.",
+      "Первый полный plan отказал с кодом вход из-за явного null в необязательном поле оригинал сообщения. Целевой каталог после отказа был прочитан как пустой; применение не запускалось. Минимальный диагностический plan прошёл. Исправленный вход опускает отсутствующее необязательное поле; несколько диагностических вариантов подтвердили тот же отказ до исправления."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, user message 0.",
+        "роль" : "человек",
+        "текст" : "Stoit yesjhyo nakinutj rabochikh derevjyev dlya paralleljnoj rabotyi, ili luchshe podozhdatj poka?"
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, structured UI reply answer, message 1.",
+        "роль" : "человек",
+        "текст" : "Да, выполнить C94 и передать ROOT"
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, user message 2.",
+        "роль" : "человек",
+        "текст" : "Svoyevremenno zapuskaj novyiye ustojchivyye napravleniya v vide vetok so svoimi derevjyami i sessiyami."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, user message 3.",
+        "роль" : "человек",
+        "текст" : "Svoyevremenno dostavlyaj znachimyiye obnovleniya optimizacii."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, user message 4.",
+        "роль" : "человек",
+        "текст" : "Sozdaj vetku napravleniya FUMA."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, structured UI reply answer, message 5.",
+        "роль" : "человек",
+        "текст" : "Новую независимую задачу FUMA с отдельной веткой, деревом и сессией"
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, user message 6.",
+        "роль" : "человек",
+        "текст" : "Kak u nas dela s novyimi dolgovremennyimi vetkami?"
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Native task 01a08d77-2060-7701-9f44-ff04769d8a6e, structured UI reply answer, message 7.",
+        "роль" : "человек",
+        "текст" : "Да, выполнить этап и передать ROOT"
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "ROOT-transferred quote from Git source d081c0a6dfecf876d94107c3f2585cd99f686f39, file planirovaniye/postanovka.json; native_frame_sha256 is null; not presented as a message from the current native log.",
+        "роль" : "человек",
+        "текст" : "planirovaniye"
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a08d77-2060-7701-9f44-ff04769d8a6e",
+      "стадия" : "карта-долгих-веток"
+    }
+  },
+  "идентификатор" : "e9a7743371eee8a98910f5e29a90337a28a2351f1d2b378fb787f7bdbb7b0898",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
