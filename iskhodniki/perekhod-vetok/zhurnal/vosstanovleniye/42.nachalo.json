@@ -1,0 +1,78 @@
+{
+  "схема": "fum.намерение-материализации-возврата-идентичности.1",
+  "статус": "намерение",
+  "название": "Материализовать возврат контрольной точки из-за неверного автора",
+  "непосредственный_координатор": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+  "корневой_Codex_Thread_ID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "собственный_Codex_Thread_ID": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+  "поручение": {
+    "вид": "адресное-поручение-непосредственного-координатора",
+    "время_получения": "2026-10-26T19:46:10.964Z",
+    "response_item_ordinal": 8133,
+    "исходный_текст": "НезависимыйROOTrawreadback d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4/treee9b128d0bce7fbe0759c34600de34a3d1aa03745,parent9909:26новыхpathsтолько3scope, remoteexactесть, ноAuthorсноваFUMПисатель/committerFUM. RootCodextrailerиboundaryбезfunctionalGREENесть. ПредметнаяприёмкаВОЗВРАЩЕНА. d167неamend/rebase/force/rewrite, сохранитькакnegativeidentityfixture. ТотжеUUID/W/ref/solewriter. Точнаяadditiveграницаmaterializer: следующийсодержательныйcommit ТОЛЬКО own FUMA/narrative/provenance вzhurnal/vosstanovleniye, привязанныйкd167и98565debgrant, с правильнымФАКТИЧЕСКИМownnativeAuthor/полнымoriginalbody/Roottrailer. Код26pathsдоотдельногоadmissionнедоразвивать, realdriver/help/plan/applyHOLD: v2targetstagebindings наавтоматическогопотомкаНЕвыданы. Научный/функциональныйостаток3P1/tests/SwiftPM/realdriver/scopedPUBсохранитьчестно. Передcommit сначалаистинныйownnativeJSONL turn_contextmodel/effort/time/currentturn—неread_threadsummaryинеrequestedUI; найдиONLYownфайлпосuffix01a177a3 (ROOT21GB/native/residual/finalguardНИКОГДА). Еслиunknown —refusecommit, неугадыватьmodel. ТолькоscopedGIT_AUTHOR_NAME, SAMEENVgitvarAuthor/Committer; rawcommitheader/fullbody/prepushcheckобязательны, неправильныйheaderостанавливаетpush. Общийgitconfig/committerнеподменять. НуженACKcustody/точногоскоупа; workflowmetadataсамописаниемнеисправляется, фактическийновыйrawобъектпроверим.",
+    "исходный_текст_sha256": "000b46052c88c7e3e0440e05fe866c82489fe36ecda0dd27853c69ea1818d118",
+    "исходный_текст_байтов": 1846
+  },
+  "нативное_наблюдение": {
+    "источник": "rollout-2026-10-26T13-56-25-01a177a3-cb11-75d1-adc8-8aa71d0b3aeb.jsonl",
+    "строка": 8132,
+    "ordinal": 8131,
+    "turn_id": "01a179bf-bb70-79b2-a375-edbb9554be05",
+    "root_turn_id": "01a17936-910b-7c72-b34e-51402f6c87a4",
+    "время": "2026-10-26T19:46:10.960Z",
+    "время_Europe_Saratov": "2026-10-26T23:46:10.960+04:00",
+    "model": "gpt-5.6-sol",
+    "effort": "ultra",
+    "строка_с_LF_sha256": "d2f0d01413bff0813d84521be8555c7fb9cd009d115397ecad8a4f3ef9fb2b94",
+    "строка_с_LF_байтов": 2025,
+    "независимая_сверка": "payload.model/payload.effort и collaboration_mode.settings.model/reasoning_effort совпали; найден ровно один собственный JSONL по полному UUID"
+  },
+  "отрицательная_фикстура_идентичности": {
+    "коммит": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+    "дерево": "e9b128d0bce7fbe0759c34600de34a3d1aa03745",
+    "родитель": "9909c19aade5820e41798d155f9c30978b48453d",
+    "сырой_commit_sha256": "ce51bd9266db7f249fb5d21573a7884de22d6487567d60258645a1628022e6ae",
+    "сырой_commit_байтов": 832,
+    "author": "FUM Писатель <fum@local> 1793043790 +0400",
+    "committer": "FUM <fum@local> 1793043790 +0400",
+    "remote_exact": true,
+    "предметная_приёмка": "возвращена",
+    "переписывать": false
+  },
+  "исходный_допуск": {
+    "коммит": "98565deb72e2d4b7e3e157452233d631412233a6",
+    "дерево": "e5e1d0e3af4354a8870cb1773cbf5c8cba753ff6",
+    "родитель": "6b7c72d21899874a6ab48d85250ae1e698eb8da8",
+    "путь": "iskhodniki/perekhod-vetok/postanovka-ispolnitelya-paketa.json",
+    "blob": "1b201bccf1bdf7935e69f61f14c6f80067f714e7",
+    "сырой_sha256": "65452f21be9b4cb1eb58fcd343861925ba8add8eb1ce5600dbb9641dcd19cd23",
+    "потомок_разрешён_автоматически": false
+  },
+  "custody": {
+    "worktree_leaf": "cd00",
+    "физический_корень_sha256": "a73c3487101cb6552bc210d7e8f6246713b13a225e8d9f82a1ee977299f8ac34",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+    "HEAD": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+    "единственный_писатель": true,
+    "разрешённый_префикс": "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/"
+  },
+  "следующая_идентичность": {
+    "author_name": "FUM Codex [gpt-5.6-sol; effort=ultra]",
+    "author_email": "сохранить из git-config",
+    "committer": "сохранить без переопределения",
+    "допустимая_переменная": "GIT_AUTHOR_NAME",
+    "запрещено": [
+      "изменять общий user.name",
+      "переопределять committer",
+      "угадывать model или effort"
+    ]
+  },
+  "границы": [
+    "Изменяется только собственное повествование и происхождение в журнале восстановления",
+    "Двадцать шесть путей контрольной точки d167 не изменяются до отдельного допуска",
+    "Коммит d167 не amend, не rebase, не force и не rewrite",
+    "Real driver, help, plan, apply, tests, SwiftPM и продуктовый scoped PUB удерживаются",
+    "ROOT JSONL, ROOT residual и ROOT final guard не читаются и не запускаются",
+    "Workflow metadata не исправляет прежний объект; доказательством будет новый фактический raw commit"
+  ]
+}
