@@ -1,0 +1,155 @@
+{
+  "схема": "fum.компактная-карта-подузлов.1",
+  "снимок_msk": "2026-10-26 20:07:22 MSK",
+  "узел": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "основание_состава": "Четыре прямых направления перечислены исходным нативным поручением; API списка задач не выдаёт граф родителей.",
+  "прямые_дети": [
+    {
+      "задача": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "название": "fum-lab/fum/instrumentyi/perekhod-vetok/master",
+      "роль": "materializer и переход веток",
+      "состояние": "active",
+      "рабочее_дерево": "home-relative:.codex/worktrees/1b30/FUM",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+      "head": "2a81742d9c8d44683ac5971b8bcdd17b7315a25c",
+      "tree": "277dc8cfcc89b6ed37fc9e0b636dfd603e075742",
+      "remote": "2a81742d9c8d44683ac5971b8bcdd17b7315a25c",
+      "чистота": "clean после commit; бывшие plan-postavki.json и FUMA-намерение включены в десятифайловую дельту",
+      "checkpoint_воплощения_аудитора": {
+        "commit": "2a81742d9c8d44683ac5971b8bcdd17b7315a25c",
+        "parent": "f96de62d1eb77935570a43315b5f25b47ce7c7bc",
+        "tree": "277dc8cfcc89b6ed37fc9e0b636dfd603e075742",
+        "доставка": "normal push exact; independent remote readback exact",
+        "граница": "materialization и план сохранены; ROOT owner-ACK аудитора остаётся UNKNOWN"
+      },
+      "рекурсивные_ack": [
+        {
+          "задача": "01a17752-0dbe-7a13-8a81-c63995c0dd1f",
+          "роль": "observer",
+          "состояние": "STOP; W отсутствует; ref и remote exact; ancestor HEAD",
+          "commit": "3bfd8e7ef7d75a115343150903a48d9a1be2063a"
+        },
+        {
+          "задача": "01a1776c-b6c6-7652-a33e-b04a17007007",
+          "роль": "factory audit",
+          "состояние": "STOP; W отсутствует; ref и remote exact; ancestor HEAD",
+          "commit": "1e6ee7836ac153bbcf3e0b7e9391ed28d728924d"
+        },
+        {
+          "задача": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+          "роль": "recovery",
+          "состояние": "STOP; W clean; ref и remote exact; ancestor HEAD",
+          "рабочее_дерево": "home-relative:.codex/worktrees/cd00/FUM",
+          "commit": "9909c19aade5820e41798d155f9c30978b48453d"
+        },
+        {
+          "задача": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+          "роль": "sync",
+          "состояние": "active; 4 tracked modified и 7 untracked; ref и remote exact; возвращён без merge; не ancestor HEAD",
+          "наблюдение_msk": "не позднее 2026-10-26 20:02:39 MSK",
+          "рабочее_дерево": "home-relative:.codex/worktrees/9d58/FUM",
+          "commit": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+          "остаток": "Git backend, intent, partial-effect и restart с тем же идентификатором"
+        }
+      ]
+    },
+    {
+      "задача": "01a148a5-c088-7373-9665-a3f9b477565e",
+      "название": "fum-lab/fum/instrumentyi/imena-katalogov/master",
+      "роль": "Names и публичный фасад имён",
+      "состояние": "idle; последний ход completed",
+      "рабочее_дерево": "home-relative:.codex/worktrees/c8c4/FUM",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/publichnyij-fasad-imyon/master",
+      "head": "14eec09dc6d1c1d5a4132f35e46e83cc95632230",
+      "tree": "9b24b1ff04b78a6b14b9e11d9403049cb70651ea",
+      "remote": "14eec09dc6d1c1d5a4132f35e46e83cc95632230",
+      "чистота": "clean",
+      "границы_ack": "полнота ROOT UNKNOWN; общий guard завершился кодом 2 и не разрешает final",
+      "рекурсивные_ack": [
+        {
+          "задача": "01a17761-2ee2-78c1-aa09-731d3321c441",
+          "роль": "writer",
+          "состояние": "delivered и STOP; W отсутствует; ref и remote exact; не ancestor фасада; приёмка и интеграция не доказаны",
+          "commit": "655b0ee2f344b512647f8d0fe32fd0fbfbca492f"
+        },
+        {
+          "задача": "01a17767-dd69-71c0-9993-f2af8fb846c1",
+          "роль": "read-only проверка поставки",
+          "состояние": "completed; runner timing подтверждён; полное время producer неизвестно"
+        },
+        {
+          "задача": "01a17494-5f9d-7a71-a5ee-bed5aace5860",
+          "роль": "generator",
+          "состояние": "completed и STOP; W clean; ref и remote exact; не ancestor фасада",
+          "рабочее_дерево": "home-relative:.codex/worktrees/0f1e/FUM",
+          "commit": "94986cf7e62032e7669be934d1584cdd05fc8504"
+        },
+        {
+          "задача": "01a177e0-a3ce-7891-9706-a12bc25efb10",
+          "роль": "batch",
+          "состояние": "idle после read-only ACK; detached W clean; ROOT-приёмка, writer grant и импорт UNKNOWN",
+          "рабочее_дерево": "home-relative:.codex/worktrees/9eea/FUM",
+          "commit": "ad5be10fd0c41361be87986fd172ddbca607a1d2",
+          "tree": "f95e81899506c292d192944498b2d1e0e9546b20",
+          "дополнительная_custody": {
+            "рабочее_дерево": "home-relative:.codex/worktrees/bcc4/FUM",
+            "ref": "refs/heads/codex/chastichnaya-postavka-paketa-otbor-01a148a5",
+            "remote": "ad5be10fd0c41361be87986fd172ddbca607a1d2",
+            "состояние": "clean; наличие второй custody означает, что исключительность ref не доказана"
+          },
+          "selector_sha256": "ec23bdd0041f522b92d82805798f3d37811dc4815bc5f929b7cf589273eb94b6"
+        }
+      ]
+    },
+    {
+      "задача": "01a175db-2729-7e32-bef8-e6d5ee3f9cd0",
+      "название": "fum-lab/fum/instrumentyi/zhurnal/master",
+      "роль": "генератор локального журнала",
+      "состояние": "thread notLoaded; latest turn completed; явный STOP; в доступном срезе адресные потомки не обнаружены",
+      "рабочее_дерево": "home-relative:.codex/worktrees/eac7/FUM",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/zhurnal/master",
+      "head": "3cc3a7265a31c0475edc9b66f420e50293719521",
+      "tree": "cfcedf87374a2ac0a1b84f433c50894174d3751c",
+      "remote": "3cc3a7265a31c0475edc9b66f420e50293719521",
+      "чистота": "clean",
+      "доставка": "remote exact по ACK; исходное поручение фиксирует ROOT-принятие",
+      "root_acceptance_prefix": "d63cfd96"
+    },
+    {
+      "задача": "01a16c3d-fd59-7441-8cc5-9542c393e351",
+      "название": "fum-lab/fum/instrumentyi/dopusk-vetok/master",
+      "роль": "допуск веток и ограниченная часть №149",
+      "состояние": "thread notLoaded; latest turn completed; явный STOP; в доступном срезе адресные потомки не обнаружены",
+      "рабочее_дерево": "home-relative:.codex/worktrees/chastj-149/FUM",
+      "ref": "refs/heads/codex/dir/instrumentyi--dopusk-vetok--chastj-149",
+      "head": "b35abea7305da72f5fd7fa2d716e048f0952207d",
+      "tree": "c2cec1dc29edc9182a290a09968b1199c6770e9d",
+      "remote": "b35abea7305da72f5fd7fa2d716e048f0952207d",
+      "чистота": "clean",
+      "доставка": "remote exact по ACK; частичный результат принят; полная G/PR368 не принята"
+    }
+  ],
+  "связанный_аудитор_root": {
+    "задача": "01a177c7-9a89-7690-9259-3b5a56dae88c",
+    "название": "fum-lab/fum/audit/master",
+    "родство": "прямой ребёнок ROOT 01a07d3d-d376-7ad2-aafc-67e4c25a67eb, не прямой ребёнок текущего узла",
+    "состояние": "idle; прежний физический путь вновь материализован как clean detached worktree; target ref ожидаемо отсутствует локально и удалённо",
+    "рабочее_дерево": "home-relative:.codex/worktrees/7d27/FUM",
+    "последний_ro_head": "2f94314df3b9880296803c68824c37d1609cea38",
+    "tree": "99531ccdaa408edf7ea9d49eeb95160590e48a9b",
+    "восстановление": "По квитанции materializer 01a127bf один штатный git worktree add --detach завершился кодом 0 без force/repair/prune; readback независимо подтверждает тот же путь, exact HEAD/tree, пустой porcelain, отсутствие ref и Git-admin регистрацию git-common-relative:worktrees/FUM142. Новый UUID, чат или branch не создавались; это tracked RO-снимок, не восстановление прежних inode или неизвестного untracked. ROOT owner-ACK того же auditor thread ещё ожидается.",
+    "ограничение": "Исходное поручение аудитора прямо запрещало создавать ref без отдельного committed writer grant; отсутствие ref не устраняется догадкой."
+  },
+  "d22": {
+    "состояние": "окончательно отменён",
+    "действие": "не возобновлять"
+  },
+  "ограничения_полноты": [
+    "list_threads возвращает не более 50 последних и 12 закреплённых задач и не содержит parent-child graph",
+    "read_thread корня недоступен из-за одного oversized turn",
+    "wait_threads подтверждает только адресный статус или ACK, но не перечисляет всех потомков и не доказывает sole-writer",
+    "cwd в API может быть устаревшим после исчезновения worktree",
+    "состояния активных W наблюдались неатомарно; для изменяемых записей указана граница снимка, а не вечная чистота",
+    "отсутствие иных потомков не доказано; карта охватывает четыре явно перечисленных direct child и известных по поручениям или ACK потомков"
+  ]
+}
