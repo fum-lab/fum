@@ -70,7 +70,7 @@ struct ПрофильПриёмникаJSONL {
         }
 
         let запись = ЗаписьПрофиляJSONL(
-            схема: "fum.профиль-композиции-приёмника-jsonl.1",
+            схема: "fum.профиль-композиции-приёмника-jsonl.2",
             условия: "3 последовательные серии по 8 фиксированных кадров; один Data chunk; SwiftPM debug; только монотонные внешние часы; без конкурирующего варианта",
             источник: источник,
             начальноеСмещение: начало,
@@ -82,6 +82,6 @@ struct ПрофильПриёмникаJSONL {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         let данные = try encoder.encode(запись)
-        print("FUMA_JSONL_PROFILE=" + String(decoding: данные, as: UTF8.self))
+        print("ФУМА_ПРОФИЛЬ_КОМПОЗИЦИИ=" + String(decoding: данные, as: UTF8.self))
     }
 }
