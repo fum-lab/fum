@@ -1,0 +1,59 @@
+{
+  "схема": "fum.read-only-ревью-identity-gate.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "владелец_реализации": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+  "источник": {
+    "worktree": "9d58/FUM",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master",
+    "head": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+    "состояние": "грязное; рассматриваемые Swift-файлы и журнальные записи ещё не образуют поставленный checkpoint"
+  },
+  "readback": {
+    "adapter-git-avtor-commita.swift": {
+      "строк": 43,
+      "sha256": "2707821d2e100c84683bacc2e4eee2fbe4ee991cdcefbe025c0bb455ac15523e"
+    },
+    "adapter-git-sobstvennogo-ref.swift": {
+      "строк": 1861,
+      "sha256": "7cd72d0c3917e7bf797cd8aa9e082c026724e42f9d1a646fd3b42647d0db927a"
+    },
+    "proverki.swift": {
+      "строк": 1639,
+      "sha256": "5d846daa13cffb88a751f4b3a276491ca7a5d8a2da913215b6530e543a6bdc40"
+    }
+  },
+  "существенные_пробелы": [
+    {
+      "приоритет": "P1",
+      "пробел": "Gate пока вызывается только BuilderGitПубликацииВЧастнойФикстуре и тестами; публичный CLI предоставляет read-only git-no-op, а обычный или merge production path не доказан.",
+      "свидетельство": "adapter.swift:29-42,73-82; adapter-git-sobstvennogo-ref.swift:1509,1820-1835"
+    },
+    {
+      "приоритет": "P1",
+      "пробел": "Commit-процесс явно получает только GIT_AUTHOR_NAME. Email, даты и committer остаются ambient, тогда как ожидаемые raw Author/Committer взяты из более раннего git var; нужен типизированный полный контракт и те же scoped env для наблюдения и commit.",
+      "свидетельство": "adapter-git-sobstvennogo-ref.swift:52-70,1611-1625,1661-1664; proverki.swift:250-251,335-336"
+    },
+    {
+      "приоритет": "P1",
+      "пробел": "Тестовый helper сам создаёт native-stage snapshot и selection; выбратьИсточник проверяет caller bytes и hash, но независимый producer/read path для источника не доказан.",
+      "свидетельство": "proverki.swift:210-219; adapter-git-sobstvennogo-ref.swift:1248-1258"
+    },
+    {
+      "приоритет": "P2",
+      "пробел": "Нет обязательного real-process fixture с правильным user.name и унаследованным GIT_AUTHOR_NAME=FUM Писатель, same-env git var, реальным commit/raw readback и проверкой отсутствия leakage.",
+      "свидетельство": "Текущий wrong-author тест вручную хэширует изменённые raw bytes: proverki.swift:1247-1289."
+    },
+    {
+      "приоритет": "P1",
+      "пробел": "Commit argv не содержит --cleanup=verbatim. Локальный commit.cleanup=strip способен удалить допустимую тему, начинающуюся с #, либо краевые пробелы; последующая raw-сверка остановит push, но HEAD уже будет продвинут.",
+      "свидетельство": "adapter-git-sobstvennogo-ref.swift:1625; требуется реальная ordinary/merge-регрессия с local config commit.cleanup=strip и доказанным сохранением исходного тела."
+    }
+  ],
+  "подтверждённые_свойства": [
+    "Нет whitelist семейства модели; неизвестные значения отклоняются.",
+    "Ordinary и merge используют один точный raw-контракт, а merge подготавливается через --no-ff --no-commit.",
+    "Tree, parents, Author, Committer и body полностью сверяются до допуска и непосредственно перед push.",
+    "Неверные Author и body в текущих отрицательных private-fixture тестах не меняют remote."
+  ],
+  "граница": "Это read-only-наблюдение незавершённого чужого worktree, не commit, не delivery, не ROOT-приёмка, не integration, не Green и не доказательство рабочего production path. Второй parser или writer не создаётся."
+}

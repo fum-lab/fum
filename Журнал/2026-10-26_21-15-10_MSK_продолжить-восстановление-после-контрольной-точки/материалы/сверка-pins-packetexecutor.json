@@ -1,0 +1,69 @@
+{
+  "схема": "fum.сверка-pins-packetexecutor.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "постановка": {
+    "commit": "6b7c72d21899874a6ab48d85250ae1e698eb8da8",
+    "tree": "4975873810f3542d3d7aae6ba0aeae00a5306ae4",
+    "путь": "iskhodniki/perekhod-vetok/postanovka-ispolnitelya-paketa.json",
+    "blob": "ce756f298efca756d39a9d9a5d5022d1ca1d2675",
+    "sha256": "c6a9cd56796a8d5683dfadfd3eaca7798a96e1a4bc7424b41382dc090a0e4a14",
+    "байтов": 6460
+  },
+  "source_provenance": {
+    "commit": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+    "tree": "8931d2f63231534c142cd17b39d1599e20c55992",
+    "pins_path": "zhurnal/384-build.nachalo.json",
+    "pins_blob": "9960fadfa82c8edbe99ca33b06ea3a6185f9be29",
+    "pins_sha256": "48a3f233fa2b9e4ed0ebe96e484c222d0747ace655e78787d177fa5badd954ce",
+    "pins_count": 34,
+    "package_blob": "d44f23282483aa954c2df88453aeaf2ccb7a2fef",
+    "package_sha256": "6e19bbcfeb25f5e2b855f5c06892b6ada2ed29dc32fdaf807f6017103fe51cd3",
+    "package_bytes": 3114,
+    "packet_sha256": "7fd6657c9b901d9173eb2bdadfb1ba4e9e6b7f8d521894389de3af9bc4633ad0",
+    "packet_bytes": 4702,
+    "driver_sha256": "689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b",
+    "driver_bytes": 4127264
+  },
+  "target_compatibility": {
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+    "commit": "9909c19aade5820e41798d155f9c30978b48453d",
+    "tree": "0cbd2769919fe4c7d94d0951f0fd25496cc7be46",
+    "совпадает": 33,
+    "всего": 34,
+    "отсутствующие_пути": 0,
+    "единственная_замена": {
+      "путь": "Package.swift",
+      "source_blob": "d44f23282483aa954c2df88453aeaf2ccb7a2fef",
+      "source_sha256": "6e19bbcfeb25f5e2b855f5c06892b6ada2ed29dc32fdaf807f6017103fe51cd3",
+      "target_blob": "b58ad33b9b7b050379a703f1125512df73f9bc2d",
+      "target_sha256": "b07f4ed9de8cc794f308e47917659bca5cb240cec5f79e4b9095e44e26d0e929",
+      "target_bytes": 3677,
+      "коммиты_происхождения": [
+        "545a4e0f9d101cad0950cf96f53c2221ded39222",
+        "537bf1e9253bd3e1f81c429ebd8a0a3dcca8d255"
+      ]
+    },
+    "вычисленный_канонический_профиль_sha256": "d511f6fb4aa80dbd16b1b7cba65371a2712e2a35f5dd3a5e65aa1c7fd50ee489",
+    "сериализация": "jq -cS и завершающий LF",
+    "граница": "Вычисленный профиль ещё не является принятым артефактом."
+  },
+  "corrected_grant": {
+    "требование_до_spawn": "Source provenance полностью совпадает с c6af/34 pins/packet/driver; target совпадает с 9909/tree и отдельным 34-entry target profile.",
+    "write_set": [
+      "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye",
+      "iskhodniki/perekhod-vetok/proverki/vosstanovleniye",
+      "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye"
+    ],
+    "package_swift": "Исключён из write-set и проверяется неизменным до и после эффекта.",
+    "форма": "Явный versioned amendment либо новый пакет; молчаливое переосмысление прежнего literal контракта запрещено.",
+    "при_ином_значении": "Fail-closed, process count 0."
+  },
+  "запрещено": [
+    "удалить pin Package.swift",
+    "принять wildcard или произвольного descendant",
+    "назвать 9909 источником старого driver без пересборки",
+    "пересобрать driver без нового точного допуска",
+    "временно вернуть Package.swift к старым байтам"
+  ],
+  "состояние": "Точная коррекция передана materializer; ожидается versioned amendment и leaf readback, GREEN не заявлен."
+}

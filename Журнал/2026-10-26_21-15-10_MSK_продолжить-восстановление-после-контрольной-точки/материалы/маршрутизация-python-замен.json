@@ -1,0 +1,63 @@
+{
+  "схема": "fum.маршрутизация-python-замен.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "контрольная_точка": "d01c27126bdd9b0c025d4aa04a7d1d186f25a0be",
+  "полный_сканер_машинных_путей": {
+    "состояние": "владелец Swift/FUMA не найден",
+    "python_entrypoint": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+    "полный_argv": "python3 -B <entrypoint> --repo-root .",
+    "commit": "90ebaf9a7988d74c1bc3dae1a81d830ebca61627",
+    "tree": "db91068206b848dcb1b55263db2eb8a686512ff0",
+    "blob": "de47c8c87b5859abf40f1f16fdf3ee3d69d81862",
+    "sha256": "a32eb5ca9a09bad96640fb8faf61621f933145c1fd81ae0335f457b9ab8d27f7",
+    "cli_аргументы": [
+      "--repo-root",
+      "--policy"
+    ],
+    "адресный_режим": "Inline Python импортирует тот же модуль и передаёт stage-0 blobs из `git ls-files --stage -z`; это не отдельный versioned CLI и не стабильный argv.",
+    "ROOT_получил_аудит": true,
+    "назначение": "Новый UUID/ref/worktree/base/checkpoint не созданы; писатель остаётся неназначенным.",
+    "следующее_действие": "ROOT выдаёт один новый явный Swift/FUMA ACT; до принятого эквивалента используется адресная проверка дельты, физическое удаление запрещено."
+  },
+  "приём_github_STEP_0237": {
+    "состояние": "владелец Swift/FUMA не найден",
+    "python_entrypoint": "Инструменты/fum-materialyi-zaprosov/scripts/разбор_версий_обсуждений.py",
+    "исторические_узлы": [
+      {
+        "uuid": "01a139c4-9796-7750-9a38-cd18352c9520",
+        "ref": "refs/heads/codex/dir/fum-materialyi-zaprosov-01a07d3d",
+        "head": "233afdf27c2851bce5b4a598990b095d63d49da8",
+        "состояние": "STOP/notLoaded; прежний Python-слой внимания"
+      },
+      {
+        "uuid": "01a143bb-7eb0-77d3-8b11-85a036b81ac2",
+        "ref": "refs/heads/codex/dir/instrumentyi--fum-materialyi-zaprosov--svyazatj-resheniya-s-versiyami-obzorov-github--01a143bb",
+        "head": "05ef382c5348ba7b4c6d4f618937f85484481ab8",
+        "состояние": "STOP/notLoaded; прежнее Python-покрытие версий"
+      },
+      {
+        "uuid": "01a16c3d-fd59-7441-8cc5-9542c393e351",
+        "ref": "refs/heads/codex/dir/instrumentyi--dopusk-vetok--chastj-149",
+        "head": "b35abea7305da72f5fd7fa2d716e048f0952207d",
+        "состояние": "STOP/notLoaded; поставка №149, не Swift-реконструкция"
+      }
+    ],
+    "кандидат_ref": "refs/heads/codex/step-0237-swift-fuma-priyom-github",
+    "проверка_ref": "Локальный и live remote ref отсутствуют; ref не создавался.",
+    "минимальная_область": [
+      "iskhodniki/zhurnal/<новое-имя>/**",
+      "iskhodniki/zhurnal/proverki/<то-же-имя>/**"
+    ],
+    "исключено": [
+      "Package.swift",
+      "Issues/**",
+      "старый Python",
+      "миграция или перенумерация исторических наблюдений"
+    ],
+    "контракт": "Различать issues/N и pulls/N; проверять repo/path/SHA/body/number/metadata; сохранять code=0 при полнота=false и внимание=true, пять старых форматов и 12 повторов порядка.",
+    "ROOT_получил_аудит": true,
+    "назначение": "Новый UUID/ref/worktree/base/checkpoint не созданы; писатель остаётся неназначенным.",
+    "следующее_действие": "ROOT выдаёт новый видимый ограниченный ACT одному писателю; закрытые исторические ветви автоматически не возобновляются."
+  },
+  "граница": "Read-only-аудит и свободный ref не создают исполнителя, реализацию, GREEN, ROOT-приёмку или разрешение удалить Python."
+}

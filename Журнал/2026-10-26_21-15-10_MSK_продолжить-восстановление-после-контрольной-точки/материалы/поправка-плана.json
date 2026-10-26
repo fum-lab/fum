@@ -1,0 +1,179 @@
+{
+  "схема": "fum.поправка-плана-восстановления.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "унаследованный_план": "Журнал/2026-10-26_20-23-50_MSK_продолжить-восстановление-всех-подузлов/материалы/план-продолжения.json",
+  "контрольная_точка": {
+    "commit": "d01c27126bdd9b0c025d4aa04a7d1d186f25a0be",
+    "tree": "c69dfd37fadf23705c60e13ba1ac29e04d1686d2",
+    "parent": "94b52660120efa27246dd16ab13fa3d69123300f",
+    "ref": "refs/heads/codex/karta-dostavki-agentov-01a17797",
+    "remote_oid": "d01c27126bdd9b0c025d4aa04a7d1d186f25a0be",
+    "доставлена": true,
+    "первая_попытка": {
+      "remote_oid_после": "94b52660120efa27246dd16ab13fa3d69123300f",
+      "доставлена": false,
+      "отказ": "remote unpack failed: index-pack failed"
+    },
+    "повтор": "После нового явного readback один normal exact push завершился кодом 0; независимый ls-remote подтвердил exact commit.",
+    "слепой_повтор": false
+  },
+  "checkpoint_materializer": {
+    "commit": "6b7c72d21899874a6ab48d85250ae1e698eb8da8",
+    "tree": "4975873810f3542d3d7aae6ba0aeae00a5306ae4",
+    "parent": "2a81742d9c8d44683ac5971b8bcdd17b7315a25c",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+    "remote_oid": "6b7c72d21899874a6ab48d85250ae1e698eb8da8",
+    "число_путей": 19,
+    "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>",
+    "committer": "FUM <fum@local>",
+    "доказано": [
+      "raw commit, tree и parent",
+      "exact remote ref",
+      "Package bridge и две постановки сохранены"
+    ],
+    "не_доказано": [
+      "GREEN или product tests",
+      "commit/result/GREEN листьев после фактического ACK",
+      "application readback",
+      "готовый общий CLI",
+      "внедрённый identity gate"
+    ]
+  },
+  "поправки": [
+    {
+      "идентификатор": "GIT-BUILDER-CODEX-IDENTITY-SOURCE-BINDING",
+      "владелец": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+      "маршрут": [
+        "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+        "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+        "01a177f5-1f11-7543-a68f-fe7e73ff5345"
+      ],
+      "состояние": "первый Swift-парсер наблюдён uncommitted; общая-реализация-ожидается",
+      "требование": {
+        "expected_identity": "Независимо выбранная подтверждённая identity из проверенного источника или снимка конкретного этапа.",
+        "не_обязательно": "Последняя UI-пара model/effort в момент commit.",
+        "source_binding": "Обязателен; пустой, неизвестный, чужой или подменённый источник не заменяется fallback.",
+        "модели": "Любая подтверждённая модель без whitelist семейств.",
+        "история": "Смена UI не разрешает переписывать опубликованный Author; старая достоверная identity остаётся правильной для своего содержания."
+      },
+      "положительный_сценарий": "Старый достоверный snapshot при новом текущем UI проходит с Author собственного snapshot.",
+      "отрицательные_сценарии": [
+        "неподтверждённая identity",
+        "подменённая identity",
+        "чужой snapshot",
+        "default FUM Писатель"
+      ],
+      "различающий_env_fixture": "user.name задаёт правильный Codex, а унаследованный GIT_AUTHOR_NAME — FUM Писатель; в том же ограниченном process env читаются `git var GIT_AUTHOR_IDENT` и raw header. Унаследованный env остаётся гипотезой причины eb341ada до этого теста.",
+      "требование_эффекта": "Адаптер явно назначает полный Author только своему процессу, сохраняет ожидаемые email/committer/даты, не печатает секретные env и не оставляет env leakage последующим действиям.",
+      "маршрут_ACK": "Materializer подтвердил доставку поправки тому же sync-владельцу; ROOT и независимое read-only-чтение увидели незакоммиченный Swift parser и тесты, но кодовый checkpoint ещё отсутствует.",
+      "наблюдаемая_дельта": {
+        "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "строк": 43,
+        "sha256": "2707821d2e100c84683bacc2e4eee2fbe4ee991cdcefbe025c0bb455ac15523e",
+        "основной_adapter_sha256": "7cd72d0c3917e7bf797cd8aa9e082c026724e42f9d1a646fd3b42647d0db927a",
+        "тестовый_файл": "iskhodniki/perekhod-vetok/proverki/sinkhronizaciya/proverki.swift",
+        "строк_тестового_файла": 1639,
+        "sha256_тестового_файла": "5d846daa13cffb88a751f4b3a276491ca7a5d8a2da913215b6530e543a6bdc40",
+        "последняя_коррекция": "Sync-владелец обнаружил, что raw-author guard срабатывает раньше проверки полного raw commit: отрицательный body-сценарий перестраивается на правильный Author с изменённым только body, а неправильный Author при правильном body проверяется отдельно.",
+        "независимое_ревью": "материалы/ревью-identity-gate.json",
+        "граница": "Чужое дерево грязное; файл untracked. Commit, source pins, RED/GREEN и включение в ordinary/merge/new push path не доказаны. Read-only-ревью выявило неполный scoped Author/Committer env, самодекларируемый stage source, отсутствие inherited-name distinguisher и отсутствие --cleanup=verbatim при commit."
+      },
+      "новый_экземпляр": {
+        "commit": "eb341ada46d9a7e6db16a2560f09bbf95c6305cf",
+        "ref": "refs/heads/fum-lab/fum/audit/master",
+        "author": "FUM Писатель <fum@local>",
+        "body_identity": "gpt-6-luna / max",
+        "обращение": "Не amend/force; использовать как negative regression fixture и выполнять только добавочную коррекцию."
+      },
+      "граница": "Это поправка существующего Swift/FUMA identity gate, а не отдельная архитектура или новый writer."
+    },
+    {
+      "идентификатор": "МАТЕРИАЛИЗАТОР-MISSING-CWD-25FE",
+      "владелец": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "состояние": "positive-fixture-подтверждён; общая-реализация-ожидается",
+      "наблюдение": "FUMA/ramki child 01a1778f-169d-7170-8ab8-e84847e9074b: прежний 25fe/FUM отсутствует; own create вернул NotGit, parent handoff оставил pending composer без операции.",
+      "требование": "Переиспользовать тот же tracked-only raw Git restore прежнего cwd с independently selected exact source и ref readback; UI handoff не считать обязательным.",
+      "границы": [
+        "не создавать второй UUID или restorer",
+        "не отправлять и не удалять пользовательский draft",
+        "private и untracked остаются unknown",
+        "source выбирает родитель по доказательствам"
+      ],
+      "positive_fixture": {
+        "uuid": "01a1778f-169d-7170-8ab8-e84847e9074b",
+        "commit": "d45f5cc1f2acfa4ec866d06f17f34fb3dfe9057e",
+        "tree": "b5cf09dd3ac2d8bd684703c2fcba31fd762984ff",
+        "ref": "refs/heads/fum-lab/fum/fuma/ramki-jsonl/master",
+        "status": "чистый",
+        "remote_target": "отсутствует",
+        "legacy_ref": "refs/heads/codex/ramki-jsonl",
+        "legacy_oid": "3b4942ed072b6613671f528c5845803141894bcc",
+        "граница": "Tracked-only exact restore и bind ref подтверждены; private/untracked и remote-публикация не доказаны."
+      }
+    }
+  ],
+  "уточнение_повторного_использования_identity_gate": {
+    "основа_sync": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+    "наблюдение": "Готовый raw commit/author/body parser на этой основе не найден.",
+    "минимальная_область": "Малый Swift-файл рядом с iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter.swift в target МатериализацияУзлов.",
+    "повторное_использование": [
+      "СнимокGitСинхронизации и canonical UUID check из inventarj.swift",
+      "ОтказСинхронизации, pretty JSON и strict argv образцы из adapter.swift"
+    ],
+    "pure_parser": "Raw bytes делятся на headers/body первой пустой строкой; author читается только из headers и сверяется с тем же independently selected expectation.",
+    "граница": "Pure parser не удостоверяет источник Git/OID или живую модель; source binding обеспечивает адаптер. На текущей основе Git effects не реализованы."
+  },
+  "legacy_guard_corpus": {
+    "путь": "private, не публикуется",
+    "байтов": 3664,
+    "sha256": "84e162cc8612a04130637d3fbb7759aa9b11539c65210c336048f588189f4544",
+    "импортёр_sha256": "5b7b62ef3d1498b4e32c4f7b1e6390c0a504480e0d8e319978cadb3c267f1293",
+    "история_sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+    "покрывает": [
+      "complete native snapshot без пропусков и хвоста",
+      "model/effort не unknown",
+      "ровно один raw author header",
+      "сравнение expected FUM Codex name",
+      "JSON receipt"
+    ],
+    "не_покрывает": [
+      "body и ROOT UUID",
+      "email и committer",
+      "tree и parents",
+      "ref и remote",
+      "independently selected старый stage snapshot при новом UI"
+    ],
+    "использование": "Только regression corpus для Swift/FUMA; новые zsh/Python wrappers не распространяются, private source не копируется в Git."
+  },
+  "github_issues": {
+    "историческая_политика_author": {
+      "number": 271,
+      "url": "https://github.com/fum-lab/fum/issues/271",
+      "state": "closed",
+      "state_reason": "completed",
+      "граница": "Закрыта через PR 279; не переоткрывать и не создавать дубликат."
+    },
+    "актуальный_вызов_identity_gate": {
+      "number": 363,
+      "url": "https://github.com/fum-lab/fum/issues/363",
+      "state": "open",
+      "comment": "https://github.com/fum-lab/fum/issues/363#issuecomment-6424283501",
+      "comment_id": 6424283501,
+      "readback": "Точное тело подтвердило Swift/FUMA, того же sync-владельца, source-bound expectation, ordinary/merge tests и отсутствие готовой реализации."
+    },
+    "model_effort_observation": {
+      "number": 284,
+      "url": "https://github.com/fum-lab/fum/issues/284",
+      "state": "open",
+      "граница": "Отдельная зависимость; не смешивать caller identity validator с доказательством живого model/effort."
+    }
+  },
+  "не_доказано": [
+    "явный ACK последних дополнений sync-владельцем и его кодовый checkpoint",
+    "реализация Swift/FUMA identity gate",
+    "реализация общего materializer",
+    "ROOT-приёмка",
+    "интеграция в master",
+    "завершение всех подузлов"
+  ]
+}
