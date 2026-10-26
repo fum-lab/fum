@@ -1,0 +1,65 @@
+{
+  "схема": "fum.конечное-продолжение-исполнителя-пакета.1",
+  "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "координатор": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+  "родитель_координатора": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "режим": "Новый конечный этап существующего узла после прежнего STOP; не новая задача/UUID/ref",
+  "контрольная_точка": "Обычная ограниченная ручная программа000030; ROOT JSONL/ROOT residual/finalguard/fullPUB/legacy Creator исключены, ROOT полнота UNKNOWN",
+  "имена": {
+    "ревизия": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "карта_sha256": "5c376eb979cec33153605ca683c80d209bf938b86859e608b6ffac179687835a",
+    "проверка": "37.iskhod.json, принятый mapper получитьКартуСвоихИмён с skip-build; карта не разрешает эффекты"
+  },
+  "исполнитель": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+  "прежний_коммит": "9909c19aade5820e41798d155f9c30978b48453d",
+  "прежнее_дерево": "0cbd2769919fe4c7d94d0951f0fd25496cc7be46",
+  "области": [
+    "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye",
+    "iskhodniki/perekhod-vetok/proverki/vosstanovleniye",
+    "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye"
+  ],
+  "модель": {
+    "запрошена": "gpt-5.6-sol",
+    "усилие": "ultra",
+    "основание": "Продолжение того же ранее эскалированного узла; свежий own native требуется отдельно, историю решения не переписывать"
+  },
+  "источник": {
+    "пакет_sha256": "7fd6657c9b901d9173eb2bdadfb1ba4e9e6b7f8d521894389de3af9bc4633ad0",
+    "пакет_байтов": 4702,
+    "driver_sha256": "689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b",
+    "driver_байтов": 4127264,
+    "коммит": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+    "pins": "zhurnal/384-build.nachalo.json",
+    "число_pins": 34,
+    "result": "zhurnal/384-build.iskhod.json",
+    "граница": "Координатор независимо подтвердил ordinary file/no-symlink/realpath/size/hash и34pins. Приватные пути передаются адресно; driver использовать на месте с ресурсами, не копировать/собирать. Перед spawn исполнитель повторяет проверки"
+  },
+  "контракт": [
+    "Codable с закрытыми ключами; forced external enum resolved_journal=local_fuma, остальные собственные смысловые имена RU",
+    "Missing/unknown/misspelled fields отвергаются до spawn; misspelled driver key даёт process count0",
+    "Один typed argv resolver help/plan/apply, без shell/command-string/jq/cat/redirection",
+    "Writer UUID именно leaf; ROOT UUID только provenance. Свои physical W/ref/base OID/scope и адресное assignment закреплены независимо от untrusted input",
+    "Plan сохраняет exact stdout bytes/SHA, apply получает те же input bytes и сохранённые exact plan bytes/SHA; чтение plan через JSON re-encode не заменяет exact bytes",
+    "Разрешённый вывод только в подкаталог zhurnal назначенной scope из адресного grant; legacy root Журнал и ROOT21GB исключены до resolver/spawn",
+    "Unknown outcome сначала readback того же path/ID и bytes; нельзя повторять apply новымID или переписывать частичный файл",
+    "Квитанция связывает assignment/payload, plan/apply/readback SHA, physical binding и итог leaf; доставка/ACK/application различаются"
+  ],
+  "проверки": [
+    "Closed keys/missing/unknown/misspelled driver → no process",
+    "Неподставленный placeholder/чужой scope/ROOT writer вместоleaf/wrong packet driver pins/hash → no process",
+    "Exact plan stdout bytes без reserialization, same input apply",
+    "Unknown/partial output сначала readback; конфликт bytes отказ без cleanup/повторногоeffect",
+    "Реальный help/plan/apply/readback принятого driver только в собственном назначенном FUMA-журнале после строгого допуска"
+  ],
+  "интеграция": "Существующие МатериализацияУзлов/ПроверкиМатериализацииУзлов, без нового Package/executable. RootCLI/Package не редактировать; отдельный packetexecutor не назначать заново. Старые9909/94/7f6/history/RAW сохраняются",
+  "ресурсы": "Пока heavy SwiftPM слот у sync: подготовка fixtures/tests и код доступна, тяжёлые проверки после явного release; новый общий тестовый framework не требуется",
+  "потребитель": {
+    "первый": "Planning",
+    "короткий_uuid": "01a08d77",
+    "полный_uuid": "не предоставлен в этом поручении",
+    "применение": "Executor никогда не пишет в W Planning; владелец Planning сам применяет проверенный пакет по своим правилам"
+  },
+  "журнал": "Новая собственная FUMA запись с реальными командами/ошибками, сырьё приватно. Старые записи не переписываются. Ordinary checkpoint000030, без ROOTreader/legacy Creator",
+  "доставка": "Нужны explicit ACK actualUUID/W/ref/H9909/clean/solewriter/source grant и свежий model native, затем реальные RED/GREEN/profile/scoped PUB/commit/normal push/remote OID. Один ACK не является результатом"
+}

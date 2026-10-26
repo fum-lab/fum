@@ -1,6 +1,6 @@
 {
   "схема": "fum.программа-материализации-агентов.1",
-  "состояние": "Аудит v2 принят e38ed1e9, восстановление 9909c19a принято двухродительским e91fb857 и доставлено. Sync 3f286543 адресно возвращён без merge: неверные metadata коммита и отсутствие настоящего Git backend. Тот же sync UUID/W/ref возобновлён для конечного исправления, тяжёлый слот остаётся за ним. Завершённые подузлы сохраняют STOP.",
+  "состояние": "Sync3f возвращён, тот же writer продолжает Git backend/typed push/merge metadata. По новым адресным ROOT-заказам прежний observer восстановлен на3bfd в прежнем ref/W, прежний recovery9909 выбран packetexecutor в существующемcd00; новые committed постановки готовятся. Их прежние STOP не заменяются фоновым autostart: новые этапы начинаются только адресной передачей и actual ACK. Root повторимый cwd recovery/идемпотентный no-op и общий CLI остаются незавершёнными.",
   "квитанция_цикла": "kvitanciya-cikla-1.json",
   "граница_квитанции": "Неизменяемая начальная ACK-граница545a4e0f; более поздняя доставка наблюдателя учитывается отдельным журналом, а не переписыванием прежней квитанции",
   "адрес": "fum-lab/fum/instrumentyi/perekhod-vetok/master",
@@ -145,7 +145,8 @@
       "постановка": "postanovka-nablyudeniya.json",
       "область": "iskhodniki/perekhod-vetok/fabrika-agentov/nablyudeniye",
       "результат": "Конечный снимок каталог-ref-дерево-владелец-сессия-продвижение; чужие области только чтение",
-      "доставка": "3bfd8e7ef7d75a115343150903a48d9a1be2063a и STOP; родитель сверил объект и remote, приёмка/интеграция отдельно"
+      "доставка": "3bfd8e7ef7d75a115343150903a48d9a1be2063a и STOP; родитель сверил объект и remote, приёмка/интеграция отдельно",
+      "новый_этап": "postanovka-nablyudeniya-2.json: on-demand наблюдение параллелизма; прежний W восстановлен на существующую ветку3bfd, clean. Source grant/приёмка нового этапа/actual ACK отдельно. Package library/tests bridge подготовлен root, реализации и GREEN пока нет"
     },
     {
       "постановка": "postanovka-audita.json",
@@ -162,7 +163,8 @@
       ],
       "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
       "исторический_ref": "refs/heads/codex/fabrika-agentov-vosstanovleniye-01a127bf",
-      "результат": "9909c19a доставлен в адресный ref, remote подтверждён. Три замечания закрыты; точные байты совпали с RO-review. Старый codex ref сохраняется на7f6. STOP без архива; тяжёлый SwiftPM-слот освобождён и передан sync."
+      "результат": "9909c19a доставлен в адресный ref, remote подтверждён. Три замечания закрыты; точные байты совпали с RO-review. Старый codex ref сохраняется на7f6. STOP без архива; тяжёлый SwiftPM-слот освобождён и передан sync.",
+      "новый_этап": "postanovka-ispolnitelya-paketa.json: typed local_fuma packetexecutor. Прежние UUID/cd00/ref9909/clean подтверждены, новый writer не создаётся. Byte/hash/ordinary/no-symlink source пакета и driver, sourcec6af и34pins сверены; начало после committed grant и actual ACK"
     },
     {
       "постановка": "postanovka-sinkhronizacii.json",

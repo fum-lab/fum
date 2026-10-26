@@ -1,0 +1,72 @@
+{
+  "входSHA256" : "bc2e75574635e18c87d5d876421187eaf3c03e28942c2e6317607b1df7fbfa0e",
+  "данные" : {
+    "время" : "2026-10-26T18:07:38Z",
+    "доставка" : [
+
+    ],
+    "исход" : "Подготовлена ближайшая сохраняющая контрольная точка: прежние владельцы выбраны, observer physical/ref recovery проверен, новые гранты готовятся к адресной передаче. Actual ACK новых этапов ещё не получены",
+    "область" : "iskhodniki/perekhod-vetok",
+    "остаток" : [
+      "Scoped PUB/diff/терминальная история, commit/normal push/remote readback",
+      "Адресно передать exactC+hash двум прежним leaf, получить actual новый ACK и не считать его готовым результатом",
+      "Root cwd recovery/no-op: typed preflight/absence/registry/OID/custody/tracked readback/unknown private и тесты",
+      "Принять sync backend/typed push+merge metadata, общийCLI integration и чистая partial доставка"
+    ],
+    "проверки" : [
+      {
+        "исход" : "неуспешно",
+        "код" : 1,
+        "название" : "Изолированный direct typecheck CLI-тестов",
+        "наносекунды" : 1927306292,
+        "свидетельство" : "36.iskhod.json; Testing module недоступен без SwiftPM окружения, исход сохранён"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Штатный Names mapper без сборки",
+        "наносекунды" : 5000360292,
+        "свидетельство" : "37.iskhod.json;8реальныхстрок, source/input/output bytes сохранены"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Root manifest observer bridge без сборки",
+        "наносекунды" : 2142681250,
+        "свидетельство" : "38.iskhod.json; dump-package0, единственный executableproductfuma"
+      }
+    ],
+    "происхождение" : [
+      "Последовательные адресные ROOT-заказы через instrumentyi01a17797: repeatable cwd recovery; typed argv push и merge metadata; on-demand parallelism; local_fuma packetexecutor",
+      "Независимые app/Git/FS readbacks прежних observer01a17752 и recovery01a177a3, original assignments и source bytes; новые UUID/чаты/ветки не создавались",
+      "Source packet4702bytes SHA7fd6657c9b901d9173eb2bdadfb1ba4e9e6b7f8d521894389de3af9bc4633ad0 и driver4127264bytes SHA689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b ordinary/no-symlink/realpath; sourcec6af has exactly34pins"
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Прежний observer3c8f физически отсутствовал, ref local+remote3bfd свободен. До эффекта записано намерение4a737052. Один worktree add на literal full ref вернул0, но actual HEAD оказался detached. Новый add не выполнялся: после clean/OID/ref/custody checks один switch --no-guess существующей ветки привязал тот же checkout. Итог branch exact, H3bfd/tree6591/status пуст. Неизвестные private/untracked/ignored не объявлены восстановленными",
+      "ROOT proto исход записан отдельно: родитель подтвердил успешный ручной worktree add прежнегоW refs/heads/fum-lab/fum/prototipyi/master после app missing-cwd/not-managed отказов. Позднее предложение detach не выдаётся за этот исход. Наш audit-detached2f — другой случай. Общий materializer ещё не реализует repeatable recovery/no-op, это следующий root объём",
+      "Для observer подготовлены конечная постановка2, единственный rootPackage library/tests bridge и пустые точки включения. Нет реализации, продуктовых тестов или GREEN. Владелец после восстановления сам примет exact parent source commit двухродительским merge и отдельным model-author commit; Package/CLI не редактирует",
+      "On-demand контракт включает finite window/observedAt/source/version/stale/conflict/адресные deltas/immutable bounded result/O(N+M), счётчики. Не ждать идеальной свежести всех узлов, не повторять весь сбор после сообщения, не исполнять recovery/message actions из отчёта и не читать большие native ради счётчика",
+      "Прежний recovery01a177a3 выбран packetexecutor: actual cd00/ref9909/tree0cbd/clean, последнийSTOP. Новая конечная постановка не возобновляет его до адресной передачи. Она закрывает ключи/resolved_journal=local_fuma/typed argv/help-plan-apply/exact bytes/readback и связывает packet/driver/source/34pins. Planning применяет результат своим владельцем; executor не пишет чужойW",
+      "Sync01a177f5 сохраняет4modified+29untracked и единственный writer9d58/ref3f. Ему переданы ROOT zsh-refspec дефект и merge-autocommit wrong-author случай, требуемые typed builders и отрицательные bare-remote/commit tests. ACK и реализация пока отдельно; текущий код/RAW не очищаются",
+      "CLI process-tests source сохранён незавершённым. Попытка36 direct swiftc отказала no module Testing до проверки кода; это не функциональный RED. Через SwiftPM ещё не запускалась. Тяжёлый слот пока sync; только лёгкий skip-build Names37 и manifest38 root выполнены",
+      "Names37 реально вычислил8полныхпутей принятым mapper/LK837, картаSHA5c376eb979cec33153605ca683c80d209bf938b86859e608b6ffac179687835a. Нет ручной транслитерации; поля source grants сохраняют этот источник",
+      "Диск6.4GiB после восстановленияobserver: никакой cleanup и новых полных копий; packetexecutor использует уже существующийcd00. Checkpoint сохраняет подготовленное, не ждёт всех функций и не объявляет применение/ROOT readiness",
+      "Предыдущая plan-попытка вернула публикационный отказ2 до установки. Исходные input и stdout сохранены; диагностический разбор нашёл техническую slash-последовательность после скобки, собственная производная фраза уточнена без изменения RAW. Новый вход не считается успехом до actual apply readback",
+      "Поздний ROOT-заказ задаёт единый on-demand entry vosstanovitj-uzel в существующем fuma. Первый срез: closed Codable plan/result, реальный временный Git W и fake session adapter в тестах; public transport без Desktop API честно blocked/gap. Идемпотентность already-working/completed-ACT, paused/D22-cancelled, unknown-launch-readback и независимые per-node outcomes; Root21GB/dispatcher/codex-exec-resume исключены. Реализация этого root entry ещё не готова"
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "стадия" : "подготовить-новые-этапы-прежних-листьев"
+    }
+  },
+  "идентификатор" : "d0a3ee10d1f6eb8ea2e1e867715110e6b91be301d455f4f6a8bb1792b77acb5a",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}

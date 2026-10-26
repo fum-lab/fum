@@ -14,6 +14,12 @@ let package = Package(
         .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
+        .target(name: "НаблюдениеПараллелизма", dependencies: ["FUMStructuringOperatorMemory"],
+            path: "iskhodniki/perekhod-vetok/fabrika-agentov/nablyudeniye/uzlyi",
+            swiftSettings: настройки),
+        .testTarget(name: "ПроверкиПараллелизма", dependencies: ["НаблюдениеПараллелизма"],
+            path: "iskhodniki/perekhod-vetok/fabrika-agentov/nablyudeniye/proverki",
+            swiftSettings: настройки),
         .target(name: "МатериализацияУзлов", dependencies: ["FUMStructuringOperatorMemory"],
             path: "iskhodniki/perekhod-vetok/uzlyi", resources: [.copy("opredeleniya")],
             swiftSettings: настройки),
