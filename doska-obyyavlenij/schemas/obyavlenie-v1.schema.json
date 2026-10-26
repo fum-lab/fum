@@ -1,0 +1,482 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:doska-obyyavlenij:announcement:1",
+  "title": "Запись доски объявлений FUM, версия 1",
+  "description": "Неизменяемая запись об объявлении. Получение, принятие и применение подтверждаются раздельно по каждому получателю.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "схема",
+    "идентификатор",
+    "производитель",
+    "вид",
+    "заголовок",
+    "кратко",
+    "состояние_публикации",
+    "получатели",
+    "источник",
+    "приёмка_источника",
+    "связи"
+  ],
+  "properties": {
+    "схема": {
+      "const": "fum.доска-объявлений.1"
+    },
+    "идентификатор": {
+      "$ref": "#/$defs/id"
+    },
+    "производитель": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "адрес",
+        "роль",
+        "идентификатор_задачи"
+      ],
+      "properties": {
+        "адрес": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._/-]*$"
+        },
+        "роль": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "идентификатор_задачи": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        }
+      }
+    },
+    "вид": {
+      "enum": [
+        "принятый-план",
+        "готовый-результат",
+        "обновление",
+        "изменение-состояния",
+        "потребность",
+        "исправление",
+        "отзыв"
+      ]
+    },
+    "заголовок": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "кратко": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1200
+    },
+    "состояние_публикации": {
+      "const": "объявлено"
+    },
+    "получатели": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "адрес",
+          "получено",
+          "принято",
+          "применено"
+        ],
+        "properties": {
+          "адрес": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._/-]*$"
+          },
+          "получено": {
+            "$ref": "#/$defs/received"
+          },
+          "принято": {
+            "$ref": "#/$defs/accepted"
+          },
+          "применено": {
+            "$ref": "#/$defs/applied"
+          }
+        }
+      }
+    },
+    "источник": {
+      "$ref": "#/$defs/source"
+    },
+    "приёмка_источника": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "статус",
+        "обращение",
+        "коммит"
+      ],
+      "properties": {
+        "статус": {
+          "enum": [
+            "принято",
+            "не принято",
+            "неизвестно"
+          ]
+        },
+        "обращение": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^https://github\\.com/fum-lab/fum/(pull|issues)/[0-9]+$"
+            }
+          ]
+        },
+        "коммит": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/commit"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "const": "принято"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "обращение": {
+                "type": "string"
+              },
+              "коммит": {
+                "$ref": "#/$defs/commit"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "связи": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "заменяет",
+        "исправляет",
+        "отзывает"
+      ],
+      "properties": {
+        "заменяет": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "исправляет": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "отзывает": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hex64": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "репозиторий",
+        "коммит",
+        "путь",
+        "sha256"
+      ],
+      "properties": {
+        "репозиторий": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+/[a-z0-9._-]+$"
+        },
+        "коммит": {
+          "$ref": "#/$defs/commit"
+        },
+        "путь": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\r\\n]+$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/hex64"
+        }
+      }
+    },
+    "stateEvidence": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/source"
+        }
+      ]
+    },
+    "received": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "статус",
+        "свидетельство"
+      ],
+      "properties": {
+        "статус": {
+          "enum": [
+            "неизвестно",
+            "получено",
+            "не получено"
+          ]
+        },
+        "свидетельство": {
+          "$ref": "#/$defs/stateEvidence"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "const": "неизвестно"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "свидетельство": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "not": {
+                  "const": "неизвестно"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "свидетельство": {
+                "$ref": "#/$defs/source"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "accepted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "статус",
+        "свидетельство"
+      ],
+      "properties": {
+        "статус": {
+          "enum": [
+            "неизвестно",
+            "принято",
+            "отклонено"
+          ]
+        },
+        "свидетельство": {
+          "$ref": "#/$defs/stateEvidence"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "const": "неизвестно"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "свидетельство": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "not": {
+                  "const": "неизвестно"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "свидетельство": {
+                "$ref": "#/$defs/source"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "applied": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "статус",
+        "свидетельство"
+      ],
+      "properties": {
+        "статус": {
+          "enum": [
+            "неизвестно",
+            "применено",
+            "не применено"
+          ]
+        },
+        "свидетельство": {
+          "$ref": "#/$defs/stateEvidence"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "const": "неизвестно"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "свидетельство": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "статус": {
+                "not": {
+                  "const": "неизвестно"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "свидетельство": {
+                "$ref": "#/$defs/source"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "вид": {
+            "const": "изменение-состояния"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "связи": {
+            "properties": {
+              "заменяет": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "вид": {
+            "const": "исправление"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "связи": {
+            "properties": {
+              "исправляет": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "вид": {
+            "const": "отзыв"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "связи": {
+            "properties": {
+              "отзывает": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

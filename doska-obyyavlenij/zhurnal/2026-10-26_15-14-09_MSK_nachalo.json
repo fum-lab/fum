@@ -1,0 +1,56 @@
+{
+  "схема": "fum.доска-сессия.1",
+  "время": "2026-10-26T15:14:09+03:00",
+  "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "исполнитель": "01a17815-c6b6-7482-9829-b8dd7901ca23",
+  "адрес": "fum-lab/fum/doska-obyyavlenij/master",
+  "наблюдаемая_среда": {
+    "модель": "gpt-6-luna",
+    "усилие": "max",
+    "основание": "метаданные native JSONL этой задачи"
+  },
+  "источник_постановки": {
+    "commit": "025278f436600e82b379020f5b37180ddba3d389",
+    "tree": "1511c495bd31cae82cec1db66d1ba8363ff6f1b2",
+    "path": "doska-obyyavlenij/postanovka.json",
+    "sha256": "f573f27efa6bb7a386f4f5af059b361a7fa33f8127f629a1ed30189b1977f727"
+  },
+  "начало_работы": {
+    "ref": "refs/heads/fum-lab/fum/doska-obyyavlenij/master",
+    "head": "025278f436600e82b379020f5b37180ddba3d389",
+    "состояние_до_переключения": "чистое, detached; ref создан ROOT-разрешённым переходом от точного commit",
+    "состояние_после_переключения": "чистое"
+  },
+  "область": [
+    "doska-obyyavlenij/**"
+  ],
+  "человеческие_сообщения_через_ROOT": [
+    {
+      "порядок": 1,
+      "источник": "основание.текст в doska-obyyavlenij/postanovka.json указанного commit",
+      "текст": "Nam byi yesjhyo kakuyu-nibudj legkovesnuyu dosku obyyavlenij mozhet? I otdeljnogo agenta s otdeljnoj vetkoj i papkoj pod eto."
+    },
+    {
+      "порядок": 2,
+      "источник": "дословная цитата в адресном сообщении ROOT",
+      "текст": "V celom eto v interesakh kazhdogo agenta — byistreye delatj rezuljtat i byistreye i tochneye yego dostavlyatj, a dlya etogo svoyevremenno obnovlyatj instrumentarij."
+    },
+    {
+      "порядок": 3,
+      "источник": "дословная цитата в адресном сообщении ROOT",
+      "текст": "Nam nuzhno dobitjsya togo, chtobyi myordzhi prokhodili pochti bez konfliktov."
+    }
+  ],
+  "разрешение_ROOT": {
+    "вид": "обычный ограниченный write grant; не legacy ACT/019",
+    "создать_и_переключить_ref": "refs/heads/fum-lab/fum/doska-obyyavlenij/master от 025278f436600e82b379020f5b37180ddba3d389",
+    "допустимая_запись": "doska-obyyavlenij/**, включая собственный zhurnal",
+    "внешнее_сопровождение": "разрешены GitHub Issues/PR; перед созданием Issue проверить дубликаты, сохранять отправленный текст и ответ API",
+    "границы": [
+      "не менять root AGENTS.md, Package.swift, общие индексы, чужие worktree/ref/index/config",
+      "не писать новый Swift/FUMA или Python",
+      "не запускать ROOT JSONL, общий continuation guard, fullPUB, smoke, build, init или материализацию",
+      "не публиковать в Telegram, MAX или X"
+    ]
+  }
+}
