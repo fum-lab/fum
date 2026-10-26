@@ -1,0 +1,82 @@
+{
+  "схема": "fum.алгоритмические-имена-архива.1",
+  "sourceCommit": "cf9caff741de309322c77fc22a396a4095564406",
+  "linguisticKit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "фактическийВыводSHA256": "8d3dabe4c3af3b1e7ec7379e348f97859f82fabac3356dceb233538c48cd719b",
+  "driver": "import Foundation\n@main struct ВычислениеИмён {\n    static func main() async throws {\n        let записи = CommandLine.arguments.dropFirst().map { ЗаписьСнимкаПутей(путь: $0) }\n        let карта = try await ТранслитераторПутей().отобразить(записи)\n        try FileHandle.standardOutput.write(contentsOf: байтыПлана(карта))\n    }\n}\n",
+  "выборДокумента": "README→readme отказал как portable case collision. Выбрано смысловое русское имя Руководство.md, алгоритм Names вычислил назначение. Это не план физического несуществующего Руководство.md.",
+  "карта": [
+    {
+      "исходный": "iskhodniki/arkhiv-codex/komanda/Команда.swift",
+      "целевой": "iskhodniki/arkhiv-codex/komanda/komanda.swift",
+      "имяДляАлгоритма": "iskhodniki/arkhiv-codex/komanda/Команда.swift",
+      "режимДо": "100644",
+      "blobДо": "450a26b5b831dbe8f207dcec810976ec4e56a5c7",
+      "sha256До": "3519eed5682caf61fd6b2eab3ff48092bb8a13415b6f229e0ca8ea630c98f818"
+    },
+    {
+      "исходный": "iskhodniki/arkhiv-codex/Архив.swift",
+      "целевой": "iskhodniki/arkhiv-codex/arkhiv.swift",
+      "имяДляАлгоритма": "iskhodniki/arkhiv-codex/Архив.swift",
+      "режимДо": "100644",
+      "blobДо": "12515c6cc03025db05300a100f4c4cd66a72cad5",
+      "sha256До": "5d79c27cf0848b585515941ab28555198ff26c231d1a1c3f9f1cac09723e82f3"
+    },
+    {
+      "исходный": "iskhodniki/arkhiv-codex/Источник.swift",
+      "целевой": "iskhodniki/arkhiv-codex/istochnik.swift",
+      "имяДляАлгоритма": "iskhodniki/arkhiv-codex/Источник.swift",
+      "режимДо": "100644",
+      "blobДо": "47c49bb5669f34a7195ae78a999666cf11b124e5",
+      "sha256До": "f64ffc4ed0ee55428c1d71fe0f67b7109d30b44b92fc7b3564e14a43cee25f42"
+    },
+    {
+      "исходный": "iskhodniki/arkhiv-codex/Порция.swift",
+      "целевой": "iskhodniki/arkhiv-codex/porciya.swift",
+      "имяДляАлгоритма": "iskhodniki/arkhiv-codex/Порция.swift",
+      "режимДо": "100644",
+      "blobДо": "4524d7b654598340dec67cd242f174c90dfb5b06",
+      "sha256До": "ff3439c07030b751fb6e5fc92534bc4a0eb1fb24038ecdf28a2a781b09cdb29f"
+    },
+    {
+      "исходный": "iskhodniki/arkhiv-codex/Файлы.swift",
+      "целевой": "iskhodniki/arkhiv-codex/fajlyi.swift",
+      "имяДляАлгоритма": "iskhodniki/arkhiv-codex/Файлы.swift",
+      "режимДо": "100644",
+      "blobДо": "8d583989080342bb8e73900eb8d483ce9b919379",
+      "sha256До": "4cee15b5a201bdbfd108c9a2e7948a9b89178249cb5f6df217ae6a6319452cc9"
+    },
+    {
+      "исходный": "proverki/arkhiv-codex/АрхивТесты.swift",
+      "целевой": "proverki/arkhiv-codex/arkhiv-testyi.swift",
+      "имяДляАлгоритма": "proverki/arkhiv-codex/АрхивТесты.swift",
+      "режимДо": "100644",
+      "blobДо": "2618b72a29a4c871fef071171b9c8224242cccf6",
+      "sha256До": "0528dc54b5acd26757cc3fb9e06d574c7650886eb2714fc158b1451c9973a11d"
+    },
+    {
+      "исходный": "proverki/arkhiv-codex/ПроцессыИПрофиль.swift",
+      "целевой": "proverki/arkhiv-codex/processyi-i-profilj.swift",
+      "имяДляАлгоритма": "proverki/arkhiv-codex/ПроцессыИПрофиль.swift",
+      "режимДо": "100644",
+      "blobДо": "1e520ddf9e006016c2382553ba2624a28fd1775c",
+      "sha256До": "1104e79bb6c0caef55bf44f482e6ab152a7e5aae99550994673680757e6a7b6b"
+    },
+    {
+      "исходный": "proverki/arkhiv-codex/СовместимостьЗапуска.swift",
+      "целевой": "proverki/arkhiv-codex/sovmestimostj-zapuska.swift",
+      "имяДляАлгоритма": "proverki/arkhiv-codex/СовместимостьЗапуска.swift",
+      "режимДо": "100644",
+      "blobДо": "be5f6f93fa75a0cde34ab15e25c5794f11e0e26c",
+      "sha256До": "8921e6cf120c297b29a97b30f8f44a7c30c8188b9d93c4755bab5edc81094eb5"
+    },
+    {
+      "исходный": "iskhodniki/arkhiv-codex/README.md",
+      "целевой": "iskhodniki/arkhiv-codex/rukovodstvo.md",
+      "имяДляАлгоритма": "iskhodniki/arkhiv-codex/Руководство.md",
+      "режимДо": "100644",
+      "blobДо": "199204fdcb3a3c029f62ab70173a33ab00bc47e6",
+      "sha256До": "08e56a0b345e90ec62872ecf906b0b6b395c8857bfd27c5c2d21603c946a851f"
+    }
+  ]
+}

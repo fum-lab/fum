@@ -1,0 +1,150 @@
+{
+  "schema": "fum.machine-local-path-policy.v3",
+  "exceptions": [
+    {
+      "id": "raw378-e93e8c520ed540a3aaa4",
+      "path": "iskhodniki/zapusk/README.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:e6af2fcbf8fe463a1edff49be6058ed291e217329ad38e60af41db036af44fa8",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Унаследованная из C точная строка публичного стандартного каталога приложения с UID; не адрес клиента и не приватный RAW."
+    },
+    {
+      "id": "raw378-7a56d0eaaa797d503718",
+      "path": "iskhodniki/zapusk/АргументыЗапуска.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:cbf216aa091b9a0c2ea25edfd3d6f3463d6a952248e376ea4f8e9c01986512d2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Унаследованная из C точная строка публичного стандартного каталога приложения с UID; не адрес клиента и не приватный RAW."
+    },
+    {
+      "id": "raw378-25c7bfe6d72b61c02f7c",
+      "path": "iskhodniki/zapusk/АргументыЗапуска.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:a8995eedc2fe7c2497eb8d40fcddd1a9415bf9af3f9a36a00b42e7f42aa47d49",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Унаследованная из C точная строка публичного стандартного каталога приложения с UID; не адрес клиента и не приватный RAW."
+    },
+    {
+      "id": "raw378-85e8a8bcc910b1f99dd0",
+      "path": "proverki/arkhiv-codex/АрхивТесты.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f8992a505b30a6677c78167de470dd52fc8817814410d3c51e3b7bd3b71a56af",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Стандартный нулевой файл macOS используется только для контролируемого переиспользования fd в автономной регрессии; данные машины не читаются."
+    },
+    {
+      "id": "raw378-bee6a01ca3369b3ed908",
+      "path": "proverki/arkhiv-codex/ПроцессыИПрофиль.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bca450d328a346dc3e83419b92ecdb9146a7910ec5fa8cefb59408be5b647193",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Строка является только суффиксом при конкатенации с проверенным временным корнем; самостоятельным абсолютным адресом не используется."
+    },
+    {
+      "id": "raw378-0e2108ad54e3f9a49e17",
+      "path": "proverki/arkhiv-codex/СовместимостьЗапуска.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:318b2585f32fa7c06c87edddf0edac471e79bc283c5cc4bc305eb621855e2516",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Стандартный macOS-инструмент выбирает установленный SwiftPM в автономной проверке одного продукта; это не частный путь установки."
+    },
+    {
+      "id": "raw378-0609bfe4b7e89d1e29fa",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-итоговый.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3069aace3c481cdc96d5b4efe4d47f374dfac3fe2d3f5955481b13a288200a07",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-0f1ef0b572b882b8308d",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-итоговый.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:572070c76568543f2a1ee9d1ac2654154bac54dbdabfbca10be8dcfbb2cafec8",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-c1e21394eea34aa647e3",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-проверенный.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:febd70f3a88c3ddd6228a534e8bdebfafe2e0f80944384535fe82bfe2ecbe97f",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-973fb88e8201f64d7261",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-проверенный.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:eab5974b66fb6d794a7fd8eb3a67d323dbda4b4f9b76d6d7368568a371f6cb15",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-ebe0b3b95d29f2f2fed4",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-ранняя-сверка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8df1f83fd709d980797b0411f5a7d996a21169c366ce1a209999f307470c2462",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-e0abb356ea12d46ed717",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-ранняя-сверка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:07e40179cc97bd44295f77282d66b883e38398120cefbaf79c075961f9026ea8",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-6e6be18214d6df757029",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-русский-интерфейс.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfda14cc93ecbbc4b476ea0971b721139cc019ddbc28dd2b936746eab2a966b3",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-13bcb3bdb1b3b5bcd322",
+      "path": "Журнал/2026-10-26_00-11-30_MSK_сохранить-многосегментный-raw-codex/материалы/профиль-русский-интерфейс.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:dab3c5e797e18c17b1c52bab21df0671387ebe78517a48ba72a9ebd819c22714",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "После JSON-декодирования ключ является относительным номерным именем сегмента. Экранированный slash не делает его абсолютным адресом; RAW-профиль сохраняется буквально."
+    },
+    {
+      "id": "raw378-pin-c7e2bf4830a9e550814a",
+      "path": "Журнал/2026-10-26_01-56-17_MSK_уточнить-имена-и-барьер-запуска-архива/материалы/профиль-барьер-запуска.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c7e2bf4830a9e550814af540b787d97950a03ac7c23c9d0b3d7fd1e50bc5f7ac",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Экранированный slash внутри проверенного относительного JSON-ключа номерного сегмента; декодированные ключи точно00000000/сегмент.fumobs и00000001/сегмент.fumobs, не абсолютные адреса."
+    },
+    {
+      "id": "raw378-pin-a9e8d4801e2c7f274a82",
+      "path": "Журнал/2026-10-26_01-56-17_MSK_уточнить-имена-и-барьер-запуска-архива/материалы/профиль-барьер-запуска.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a9e8d4801e2c7f274a827b7ccc44684a4ed64cb2b90243b0cb63d33da84fad7b",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Экранированный slash внутри проверенного относительного JSON-ключа номерного сегмента; декодированные ключи точно00000000/сегмент.fumobs и00000001/сегмент.fumobs, не абсолютные адреса."
+    }
+  ],
+  "метаданные": []
+}

@@ -6,6 +6,11 @@ import Darwin
 
 final class МаркерПакетаАрхива: NSObject {}
 
+enum ОшибкаПроверкиЗапуска: Error {
+    case дрейфБинарника
+    case неожиданныйЗапуск
+}
+
 @Suite(.serialized)
 struct ПроцессыАрхиваКодекса {
     func хэшФайла(_ путь: URL) throws -> String {
@@ -43,14 +48,17 @@ struct ПроцессыАрхиваКодекса {
     }
 
     func процесс(_ программа: URL, _ аргументы: [String], ожидаемыйКод: Int32 = 0,
-                 ожидаемыйХэш: String? = nil) throws -> [String: Any] {
+                 ожидаемыйХэш: String? = nil,
+                 запустить: (Process) throws -> Void = { try $0.run() }) throws -> [String: Any] {
         let закреплённый = try хэшФайла(программа)
-        if let ожидаемыйХэш { #expect(закреплённый == ожидаемыйХэш) }
+        if let ожидаемыйХэш, закреплённый != ожидаемыйХэш {
+            throw ОшибкаПроверкиЗапуска.дрейфБинарника
+        }
         let процесс = Process(), вывод = Pipe(), ошибки = Pipe()
         процесс.executableURL = программа; процесс.arguments = ["архив-codex"] + аргументы
         процесс.standardOutput = вывод; процесс.standardError = ошибки
         let часы = ContinuousClock(), начало = часы.now
-        try процесс.run(); процесс.waitUntilExit()
+        try запустить(процесс); процесс.waitUntilExit()
         let интервал = начало.duration(to: часы.now)
         let данные = вывод.fileHandleForReading.readDataToEndOfFile()
         _ = ошибки.fileHandleForReading.readDataToEndOfFile()
@@ -60,6 +68,27 @@ struct ПроцессыАрхиваКодекса {
         итог["процессСекунды"] = Double(интервал.components.seconds) + Double(интервал.components.attoseconds) * 1e-18
         итог["бинарникSHA256"] = закреплённый
         return итог
+    }
+
+    @Test func дрейфЗакреплённогоБинарникаОстанавливаетЗапуск() throws {
+        let путь = try ПроверкиАрхиваКодекса().каталог()
+        defer { try? FileManager.default.removeItem(at: путь) }
+        let программа = путь.appendingPathComponent("фикстура")
+        try Data([1]).write(to: программа)
+        let закреплённый = try хэшФайла(программа)
+        try Data([2]).write(to: программа)
+        var запусков = 0
+        do {
+            _ = try процесс(программа, [], ожидаемыйХэш: закреплённый, запустить: { _ in
+                запусков += 1
+                throw ОшибкаПроверкиЗапуска.неожиданныйЗапуск
+            })
+            Issue.record("Дрейф бинарника принят")
+        } catch ОшибкаПроверкиЗапуска.дрейфБинарника {
+        } catch let ошибка {
+            Issue.record("Получен иной отказ: \(ошибка)")
+        }
+        #expect(запусков == 0)
     }
 
     @Test func настоящийПереход256МиБИНовыйПроцессБезИсточника() throws {

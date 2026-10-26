@@ -1,0 +1,39 @@
+{
+  "схема": "fum.остановка-читающего-плана.1",
+  "режим": "plan",
+  "эффектПримененияНеЗапускался": true,
+  "завершёнПервыйПлан": {
+    "destination": "iskhodniki/arkhiv-codex/komanda/komanda.swift",
+    "mode": "plan",
+    "renamed_file": {
+      "destination": "iskhodniki/arkhiv-codex/komanda/komanda.swift",
+      "source": "iskhodniki/arkhiv-codex/komanda/Команда.swift"
+    },
+    "rewritten_files": [],
+    "source": "iskhodniki/arkhiv-codex/komanda/Команда.swift",
+    "updated_files": [
+      "iskhodniki/arkhiv-codex/komanda/komanda.swift"
+    ],
+    "updated_links": 0
+  },
+  "прерваннаяКоманда": [
+    "python3",
+    "-B",
+    "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py",
+    "plan",
+    "--repo-root",
+    ".",
+    "--source",
+    "iskhodniki/arkhiv-codex/Архив.swift",
+    "--destination",
+    "iskhodniki/arkhiv-codex/arkhiv.swift"
+  ],
+  "кодВнешнейОбёртки": 130,
+  "кодЕёДочернегоОркестратора": -2,
+  "кодОтдельногоПрерванногоCLI": null,
+  "длительностьВсейГруппыНаносекунды": 471042773250,
+  "HEAD": "cf9caff741de309322c77fc22a396a4095564406",
+  "индексДоПосле": "8b612b2475cfd9fdbe5556bd7b4bd613cedbe6c7",
+  "все9ИсходныхBlobНеИзменены": true,
+  "назначенийНет": true
+}

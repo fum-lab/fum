@@ -1,0 +1,38 @@
+[
+  {
+    "исходный" : "iskhodniki/arkhiv-codex/komanda/Команда.swift",
+    "целевой" : "iskhodniki/arkhiv-codex/komanda/komanda.swift"
+  },
+  {
+    "исходный" : "iskhodniki/arkhiv-codex/Архив.swift",
+    "целевой" : "iskhodniki/arkhiv-codex/arkhiv.swift"
+  },
+  {
+    "исходный" : "iskhodniki/arkhiv-codex/Источник.swift",
+    "целевой" : "iskhodniki/arkhiv-codex/istochnik.swift"
+  },
+  {
+    "исходный" : "iskhodniki/arkhiv-codex/Порция.swift",
+    "целевой" : "iskhodniki/arkhiv-codex/porciya.swift"
+  },
+  {
+    "исходный" : "iskhodniki/arkhiv-codex/Файлы.swift",
+    "целевой" : "iskhodniki/arkhiv-codex/fajlyi.swift"
+  },
+  {
+    "исходный" : "proverki/arkhiv-codex/АрхивТесты.swift",
+    "целевой" : "proverki/arkhiv-codex/arkhiv-testyi.swift"
+  },
+  {
+    "исходный" : "proverki/arkhiv-codex/ПроцессыИПрофиль.swift",
+    "целевой" : "proverki/arkhiv-codex/processyi-i-profilj.swift"
+  },
+  {
+    "исходный" : "proverki/arkhiv-codex/СовместимостьЗапуска.swift",
+    "целевой" : "proverki/arkhiv-codex/sovmestimostj-zapuska.swift"
+  },
+  {
+    "исходный" : "iskhodniki/arkhiv-codex/Руководство.md",
+    "целевой" : "iskhodniki/arkhiv-codex/rukovodstvo.md"
+  }
+]
