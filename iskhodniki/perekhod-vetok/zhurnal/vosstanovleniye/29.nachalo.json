@@ -1,0 +1,23 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Ограниченный публикационный просмотр собственной исправляющей дельты",
+  "команда_sha256": "58b089b2bf097c26282ec95b00b845ff6010090ef28978d63b26ed0e21b08fec",
+  "скрипт_sha256": "c072067a0eedc78e4b8b07fdaff68495f457dc7dcef441be47aa6c4ce36b9f34",
+  "основание": "94c4416aa07d6827a89d2734629d332040face34",
+  "граница": "Только tracked и untracked дельта к возвращённому кандидату; любой путь вне трёх назначенных областей отказывает. Собственные квитанции29 исключены для конечности; это не fullPUB",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/plan.swift",
+      "sha256": "4f5f79cda1f01e64e83163525708e903e919849594e136e6c3219387a36aaecd"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki.swift",
+      "sha256": "5a4300eee390b646122049464ff626a9cd8f99f9135a04e213f08b0120a4219d"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/zhurnal/5451cb8019f894e4cdc39f791f71c91ae30a5232da33545bbc591a0ea06ec62e.json",
+      "sha256": "5fa1719899d728bcea04e83462b4ed9b31a2db5eb801bc90f7eee9b6dc5fc094"
+    }
+  ]
+}

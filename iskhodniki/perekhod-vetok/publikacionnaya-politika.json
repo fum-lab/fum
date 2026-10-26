@@ -1,0 +1,32 @@
+{
+  "schema": "fum.machine-local-path-policy.v2",
+  "exceptions": [
+    {
+      "id": "recovery-profile-15-historical-env",
+      "path": "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/15.iskhod.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0519f7038239e76f5e795d59def066c9102fa7ef61c2b22eeb302ff846ee5455",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная историческая строка исхода профиля 15 из 9909c19aade5820e41798d155f9c30978b48453d. Сохраняет описание фактически применённого стандартного системного диспетчера env; не разрешает новые runtime-литералы или личные пути."
+    },
+    {
+      "id": "recovery-profile-16-historical-env",
+      "path": "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/16.nachalo.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c92df8c0bb37b1bd2516f4823be98fe1169d4d65d8c0370cd6221fe972c3433f",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная неизменяемая строка намерения исторического профиля 16 из 9909c19aade5820e41798d155f9c30978b48453d. Фиксирует стандартный системный env-диспетчер в реально выполненной программе; соседние строки и исполняемый код не разрешаются."
+    },
+    {
+      "id": "recovery-profile-23-historical-env",
+      "path": "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/23.nachalo.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2640a5d18dd829599912df0fcd6e2820b051b8f05d5663ee90d5924a3cab59dd",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная строка намерения сопоставимого профиля 23 из 9909c19aade5820e41798d155f9c30978b48453d. Сохраняет историческое описание того же env-диспетчера; допуск ограничен SHA всей строки и одним совпадением."
+    }
+  ]
+}
