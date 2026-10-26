@@ -1,0 +1,21 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Проверить материализованную LinguisticKit автономно",
+  "команда_sha256": "3928009644c4ca466d7b1a1fa5e7f1a6e498e5f3d05dc5ff39b85d3313e3f7fd",
+  "граница": "Проверка автономна и не доказывает GitHub-родство, лицензию либо общую приёмку",
+  "входные_закрепления": [
+    {
+      "путь": ".gitmodules",
+      "sha256": "0712cbe6aa8fb81e19480e0bdf8c0b95204c639dcdefae6a126bcfdebcef1368"
+    },
+    {
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "sha256": "f10fc9953c726e4f49872ce53a33fb1512194a13d7547bb6f89ac45f6a4c4c37"
+    },
+    {
+      "путь": "gitlink и materialized HEAD Зависимости/LinguisticKit",
+      "sha256": "837e2ce107b97ee7b9d3344c9fe99142281fe393"
+    }
+  ]
+}

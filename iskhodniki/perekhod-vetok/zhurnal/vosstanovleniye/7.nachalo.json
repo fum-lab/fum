@@ -1,0 +1,21 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Проверить append-only историю модели",
+  "команда_sha256": "3c62f759ea2b7e7d8f7fc1963a488fd61f15595896b9384ad5b611dfbc63d46c",
+  "граница": "Адресный suite истории: точный повтор, конфликт ID, requested/API/native и unknown инициатор",
+  "входные_закрепления": [
+    {
+      "путь": "Package.swift",
+      "sha256": "b07f4ed9de8cc794f308e47917659bca5cb240cec5f79e4b9095e44e26d0e929"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/plan.swift",
+      "sha256": "9606c6496cab3924638abbef5d480286bb1f6bb8d2f5c54d97bb38cf239aee1a"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki.swift",
+      "sha256": "dba4e1f9d6c763668da3833d20d799520c3c3a0d0f3e6d09a3343e40a1fc4d1c"
+    }
+  ]
+}
