@@ -206,22 +206,38 @@
       "назначение": "57e7e2611d57b54f60457a851c0a7c0666ca7d54:iskhodniki/zapusk/zhurnal/vkhod-jsonl-fuma.json",
       "собственная_ветка": "refs/heads/codex/vkhod-jsonl-fuma",
       "проверенный_начальный_HEAD": "57e7e2611d57b54f60457a851c0a7c0666ca7d54",
-      "наблюдённое_состояние": "Активная адресная correction: новые ASCII Names-имена, правильные author/body будущего commit и preexecution fixed resource pin; frozenC5e кодовый RO без иных существенных дефектов. Новый код ещё не принят",
+      "наблюдённое_состояние": "Corrected productSTOP. Parent рассмотрел весь13path incoming, сопоставил прежний sourceRO с минимальной correction и проверил сохранённый настоящий8test результат; merge подготовляется, ROOTприёмка отдельно",
       "модель": "gpt-5.6-sol / ultra независимо подтверждены2026-10-26T11:17:00.467Z и повторно11:47:08.785Z; инициаторFUMA",
       "после_восстановления": "Сначала адресный статус и checkpoint; активному не посылать повтор, неизвестный эффект выяснить",
-      "последний_доставленный": "c5e967ffc789cd8980ddf3c72d9ff009f1de6664",
-      "дерево": "34c5ba89c59f79d6703407c90da486e3c9c30aba",
+      "последний_доставленный": "afc851a09b70a71f527de2e16a549aa586ee2894",
+      "дерево": "f647df7b5576932fb9d52f6a6f44c86115b74367",
       "дефекты_полученного_C": [
         "Два новых Cyrillic физических имени вместо Names/LK837 ASCII",
         "Author FUM Писатель и короткие body69/66байт без ROOT trailer",
         "SHA definition resource наблюдался после исполнения, без ожидаемого runtime pin; correction требует отказ до parse/execution"
+      ],
+      "приёмка_кода": {
+        "база_родителя": "655a51c4f9a4b713daaaf498a79990209b0b8ff1",
+        "входящих_путей": 13,
+        "исходный_RO": "C5e: без иных существенных code-дефектов; pin-gap устранён в afc",
+        "correction_review": "ASCII Names/LK837 rename, фиксированный expectedresourceSHA доparse/execution, internal injection, исходныйСрез в pin-error, различающий valid-whitespace negative test",
+        "actual_tests": "Сохранённый native вызов swift test --filter FUMJSONLProjectionTests завершился0 и8/8; не новый parent-run",
+        "test_call_record_sha256": "edc499c26ff4f940a50f1ec0cde862cd44608c7bbd7bbc6beeea18ba43288822",
+        "test_output_record_sha256": "d51c0a0466abf1158bb187a72e2b1b89e95ff9a490d2ea9c06737dda5562f28f",
+        "профиль": "Три fresh finite samples118/122/169байт, wall_ns13058958/4450542/4129417; nestedintervalsне складываются",
+        "parent_PUB13": 0,
+        "граница": "Старые7tests и78passed/1skip относятся кC5e; исходныйстарыйprofileJSONневыдаётсязановыеизмерения"
+      },
+      "metadata_границы": [
+        "Старые cede42/c5e967 Author/body дефекты сохранены; afc author/committer/body/ROOTtrailer правильны",
+        "В a707 запись краткой parent-сводки названа буквальным поручением. Принимающий отчёт явно считает её производной, не native-original; source полномочий остаётся pinned57 и реальные direct сообщения, не journal claim"
       ]
     }
   ],
   "граница_снимка_состояний": {
-    "время": "2026-10-26T11:54:01Z",
-    "источник": "Две точные bounded native проверки моделей, parent source reviews и independent remote OID reads; поздние прямые ROOT-команды",
-    "ограничение": "Snapshot не обещает будущего неизменного W; запрос/API/ACK/observedapply отдельно"
+    "время": "2026-10-26T12:29:32Z",
+    "источник": "Frozen afc Gitblob review, independentremote, сохранённый native8test output и sourcePUB13",
+    "ограничение": "Состояния остальных детей относятся к последним адресным наблюдениям, не к одновременному общему снимку"
   },
   "восстановление_координатора": {
     "программа_данных": true,
@@ -240,7 +256,9 @@
   "ресурсная_граница": {
     "наблюдение_ROOT": "18GiB available на Data volume",
     "следствие": "Не копировать полный21GiB RAW и не размножать buildcache; перед liveimport требуется свежий резерв",
-    "наблюдение_не_гарантия": "Снимок ROOT не доказывает будущего свободного места"
+    "наблюдение_не_гарантия": "Снимок ROOT не доказывает будущего свободного места",
+    "новое_наблюдение": "Read-only df перед dependencyпланом показал8.9GiB available; это новый snapshot,18GiB не считается текущим",
+    "следующий_шаг": "Для combinedrootbuild один собственныйscratchjobs2 и адресный init/check только LK837; no RAWcopy/чужихcachewrites"
   },
   "запланированное_новое_назначение": {
     "адрес": "fum-lab/fum/fuma/vkhod-jsonl-fuma/master",
@@ -551,7 +569,13 @@
       "результат": "merge740a741522dbd678f602e8f128c1fd67a694a720"
     },
     "критерий_повторного_обновления": "Нужная исправленная зависимость, изменение API/контракта или обнаруженный дефект; не каждое движение чужого ref",
-    "граница": "Ревью входа не расширяет полномочия и не снимает явный RAW/production hold"
+    "граница": "Ревью входа не расширяет полномочия и не снимает явный RAW/production hold",
+    "потребление_проекции": {
+      "C": "afc851a09b70a71f527de2e16a549aa586ee2894",
+      "дерево": "f647df7b5576932fb9d52f6a6f44c86115b74367",
+      "критерий_обновления": "Исправление contract/API/resourcepin или реально нужная зависимость, не каждыйref",
+      "статус": "Source review выполнен; принимающийmergeещёне создан"
+    }
   },
   "следующий_источник_зависимости": {
     "C": "7da711b39ed356017afed7ffa861be5b5998c4d9",
