@@ -1,0 +1,86 @@
+{
+  "schema": "fum.machine-local-path-policy.v2",
+  "exceptions": [
+    {
+      "id": "issue381-definition-drive",
+      "path": "iskhodniki/zhurnal/modelj-zapisi.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:1e0224e9fb259b3c070944c7b47105a92bd08e1675c4b3826a337b4c624a36bc",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Синтаксическое определение Windows-drive в валидаторе; реальный путь отсутствует."
+    },
+    {
+      "id": "issue381-definition-file-uri",
+      "path": "iskhodniki/zhurnal/modelj-zapisi.swift",
+      "kind": "file-uri",
+      "line_sha256": "sha256:0e9c8da2ef21600a8553b75a75ae94ee3227af9a3bbdc5c595331aabe252e1ce",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Синтаксическое определение файлового URI в валидаторе; адрес не содержит данных среды."
+    },
+    {
+      "id": "issue381-definition-home",
+      "path": "iskhodniki/zhurnal/modelj-zapisi.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7c2f72f919c925ff036dcc8f70f233122bbaa4cbb21b2d76ffc98337e60caab9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Синтаксическое определение домашней формы в валидаторе; не пользовательский каталог."
+    },
+    {
+      "id": "issue381-relative-journal-suffix",
+      "path": "iskhodniki/zhurnal/plan-zapisi.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:eca469184492a59fc568d1fee8a74de310979ef045c2ecf48de41fb984edfa88",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс относительного пути соединяется с проверенной областью; самостоятельным абсолютным адресом не является."
+    },
+    {
+      "id": "issue381-fixture-journal-path",
+      "path": "iskhodniki/zhurnal/proverki/proverki-zhurnala.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5bc8b7f268fe5ad15ee91fd999a6d982baa0fa7883160eed4e37753930bddf79",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная проверка относительного пути плана внутри назначенной области."
+    },
+    {
+      "id": "issue381-fixture-escape",
+      "path": "iskhodniki/zhurnal/proverki/proverki-zhurnala.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ee669e8ad58ffb16cb96dac26d8d9dfd0a13498f7118cb519b249d539cc16922",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытые отрицательные входы запрета абсолютной области; данные реальной среды отсутствуют."
+    },
+    {
+      "id": "issue381-fixture-home",
+      "path": "iskhodniki/zhurnal/proverki/proverki-zhurnala.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:6d6ce97aa86e46aea35d908c041303995f72f732db99ab03ea48c056d9ac3394",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Тестовый одиночный знак домашней формы конструирует отрицательный вход."
+    },
+    {
+      "id": "issue381-fixture-normalization",
+      "path": "iskhodniki/zhurnal/proverki/proverki-zhurnala.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e8426c0629c7b3db7bf9e512bf7c4fa343f794c93cfbfee51d80409d6220baa5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Суффикс относительного пути Unicode-фикстуры; проверяет точное написание плана."
+    },
+    {
+      "id": "issue381-native-late-template",
+      "path": "iskhodniki/zhurnal/zhurnal/6.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b2bef8c6b151be901fe28274388e13e1bad328bb02a66165fffb99b10654fba6",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точный буквальный XML-шаблон области из позднего агентского уточнения ROOT; не адрес файловой системы. Других форм на строке нет."
+    }
+  ]
+}
