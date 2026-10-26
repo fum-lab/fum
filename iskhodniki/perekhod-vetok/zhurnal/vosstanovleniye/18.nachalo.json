@@ -1,0 +1,21 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "RED успешных эффектов и закрытой ordinary-программы",
+  "команда_sha256": "90a5fa82cf38b17dac3aabc4b950dbd89b03b99377761cda90177202f9d8d09e",
+  "граница": "Только suite плана восстановления на tests-first снимке; ожидаются различимые отказы stale-success, стабильного ID, неизвестного/алиасного check-ID и неподдерживаемой роли",
+  "входные_закрепления": [
+    {
+      "путь": "Package.swift",
+      "sha256": "b07f4ed9de8cc794f308e47917659bca5cb240cec5f79e4b9095e44e26d0e929"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/plan.swift",
+      "sha256": "195aaa8b330bb0ce65bc933c93b2a0365e388d4150f41a2fa7077df46a51c084"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki.swift",
+      "sha256": "98e0eb7648bb48278cc0afd7728c77212c3b81dbd8103ba53eb9513194aef324"
+    }
+  ]
+}
