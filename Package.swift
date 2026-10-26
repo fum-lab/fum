@@ -42,9 +42,9 @@ let package = Package(
             swiftSettings: настройки),
         .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла"],
             path: "iskhodniki/zapusk",
-            exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "vkhod-paketa-putej.swift", "obrabotchik-paketa-putej.swift", "priyomnik-fuma-jsonl.swift", "proverka-versionnoj-svyazi-priyomki.swift", "README.md", "zhurnal", "proverki"],
+            exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "vkhod-paketa-putej.swift", "obrabotchik-paketa-putej.swift", "priyomnik-fuma-jsonl.swift", "proverka-versionnoj-svyazi-priyomki.swift", "svyazj-kvitancii-modeli.swift", "README.md", "zhurnal", "proverki"],
             sources: ["Команда.swift"], swiftSettings: настройки),
-        .testTarget(name: "proverki-paketa-putej", dependencies: ["ОсноваЗапуска", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory"],
+        .testTarget(name: "proverki-paketa-putej", dependencies: ["ОсноваЗапуска", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory", "КонтейнерНаблюдений"],
             path: "iskhodniki/zapusk/proverki", swiftSettings: настройки),
         .testTarget(name: "ПроверкиЗапуска", dependencies: ["ОсноваЗапуска", "КонтейнерНаблюдений"],
             path: "proverki/zapusk", swiftSettings: настройки)
