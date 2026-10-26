@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Синтаксический разбор исполнителя FUMA-пакета и его проверок",
+  "команда_sha256": "c095f5115a8178a4c76664e067415e728e935f342ea4b01239b60c5b3f936031",
+  "скрипт_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Только /usr/bin/swiftc -frontend -parse двух новых файлов; без type-check, сборки, SwiftPM, запуска приватного driver и файлового эффекта программы",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "633a879629aac733045d3bccc42aed0f8b6a269421e6019c06c765a2e9a8841a"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki-ispolnitelya-paketa.swift",
+      "sha256": "faa6f436359ba4f078ac8344d1e3f230c4d83bfa574bc1fafcc6474d47f178f3"
+    }
+  ]
+}

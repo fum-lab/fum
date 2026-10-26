@@ -1,0 +1,13 @@
+{
+  "схема": "fum.исход-адресной-проверки.1",
+  "намерение": "38.nachalo.json",
+  "название": "Прямой Swift 6 type-check тестов с TestingMacros",
+  "команда_sha256": "eca7c0823d1813033b83591885459f8ae9ba542ae71fcfe7a4c627c5174f78cf",
+  "состояние": "успешно",
+  "код": 0,
+  "наносекунды": 1381239891,
+  "вывод_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "вывод_байтов": 0,
+  "свидетельство": "Test SHA 96e187af прошёл Swift 6 type-check с complete strict concurrency, warnings-as-errors, system Testing и TestingMacros; вывод пуст",
+  "граница": "Проверен один test-файл против временного production-модуля SHA acd504d5; тесты не выполнялись, SwiftPM и приватный driver не запускались"
+}

@@ -1,0 +1,13 @@
+{
+  "схема": "fum.исход-адресной-проверки.1",
+  "намерение": "39.nachalo.json",
+  "название": "Прямой Swift 6 type-check URL и basis усиления",
+  "команда_sha256": "886c58d8922ce07bff2cd39952af489ebf5a133d0df105e75a316d734984fea4",
+  "состояние": "успешно",
+  "код": 0,
+  "наносекунды": 800539970,
+  "вывод_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "вывод_байтов": 0,
+  "свидетельство": "Production SHA 58704c5e прошёл Swift 6 complete strict concurrency type-check с warnings-as-errors; вывод пуст",
+  "граница": "Проверен один production-файл против предсуществующего dependency-модуля; tests, SwiftPM, сборка и приватный driver не запускались"
+}

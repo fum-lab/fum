@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Синтаксический разбор после исправлений независимого обзора",
+  "команда_sha256": "c095f5115a8178a4c76664e067415e728e935f342ea4b01239b60c5b3f936031",
+  "скрипт_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Только /usr/bin/swiftc -frontend -parse после exclusive claim, recovery provenance/evidence и публикационной проверки; без type-check, SwiftPM и приватного driver",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "d37de71ffc5fe7aaee884431c831ee39a57255726ec612afdfe4c78d5a1a668f"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki-ispolnitelya-paketa.swift",
+      "sha256": "e8514dc3c343d31935f6314218c955cb85df5e3ab4c4e3cb2382d0516620213c"
+    }
+  ]
+}

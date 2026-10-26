@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Синтаксический разбор замороженного фазового исполнителя",
+  "команда_sha256": "c095f5115a8178a4c76664e067415e728e935f342ea4b01239b60c5b3f936031",
+  "скрипт_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Только /usr/bin/swiftc -frontend -parse замороженной пары после закрытия runner, фазового outcome и bounded pipes; без type-check, SwiftPM и приватного driver",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "1a5c32e377f259eacf06362562ec1f868fc681aa6c178124cbc3358ed6e57593"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki-ispolnitelya-paketa.swift",
+      "sha256": "5d895c0f22f61fdbc7994c98da78558d40cbb9e7e4a321382b5d09f90d44e418"
+    }
+  ]
+}

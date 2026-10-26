@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Прямой Swift 6 type-check расширенных тестов",
+  "команда_sha256": "eca7c0823d1813033b83591885459f8ae9ba542ae71fcfe7a4c627c5174f78cf",
+  "скрипт_sha256": "4ddd78e25a7738b883395d4b598b8fdf85e4cba1cb2e998e2f64f31960b0be63",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Обновить временный тестируемый module и type-check тестов URL/v2/intent/recovery evidence; без SwiftPM, запуска тестов, общей сборки и driver",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "58704c5e5c172a7dfaf44e1320e2be76e7fdfc6f4a0c4cd0adf7ed71bd962c80"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki-ispolnitelya-paketa.swift",
+      "sha256": "39b5e3983ee06658199d13bc528c5607faba39ef83eac41e85af7ce0d4b2ca47"
+    }
+  ]
+}

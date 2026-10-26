@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Прямой Swift 6 type-check URL и basis усиления",
+  "команда_sha256": "886c58d8922ce07bff2cd39952af489ebf5a133d0df105e75a316d734984fea4",
+  "скрипт_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Только production type-check после fixed-point URL decoding, IP normalization и basis operation binding; без SwiftPM, тестов, сборки и driver",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "58704c5e5c172a7dfaf44e1320e2be76e7fdfc6f4a0c4cd0adf7ed71bd962c80"
+    },
+    {
+      "путь": ".build/out/Products/Debug/FUMStructuringOperatorMemory.swiftmodule/arm64-apple-macos.swiftmodule",
+      "sha256": "a22a34cf663c64096a88184916ed2f77694c2e18f0de9f1a10fd983f14816540"
+    }
+  ]
+}

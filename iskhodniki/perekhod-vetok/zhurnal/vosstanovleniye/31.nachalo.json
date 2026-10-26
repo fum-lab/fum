@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Повторный синтаксический разбор после фазового recovery",
+  "команда_sha256": "c095f5115a8178a4c76664e067415e728e935f342ea4b01239b60c5b3f936031",
+  "скрипт_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Только /usr/bin/swiftc -frontend -parse двух новых файлов после append-only apply-outcome и закрытия injected runner; без type-check, SwiftPM и приватного driver",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "564f604e3249f953649f43cade21840501535515697b742495f229e870c99917"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki-ispolnitelya-paketa.swift",
+      "sha256": "c7d7731b1f1c7d2da6c7726f46ed8cd0a07e72cc24003c2826fd649fca3313f9"
+    }
+  ]
+}

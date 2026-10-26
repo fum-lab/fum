@@ -1,0 +1,19 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Прямой Swift 6 type-check тестов с TestingMacros",
+  "команда_sha256": "eca7c0823d1813033b83591885459f8ae9ba542ae71fcfe7a4c627c5174f78cf",
+  "скрипт_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+  "основание": "9909c19aade5820e41798d155f9c30978b48453d",
+  "граница": "Последний адресный test type-check с явными system Testing framework и TestingMacros library; без SwiftPM, запуска тестов, общей сборки и driver",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+      "sha256": "acd504d5b5625ef29c9df73c72bded3e6a8e1cfde81e63722652297bc8d3498a"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki-ispolnitelya-paketa.swift",
+      "sha256": "96e187af2ace60e2a83ac94acfdbdbf167092ffdf5300d51c1680f30fbbac634"
+    }
+  ]
+}
