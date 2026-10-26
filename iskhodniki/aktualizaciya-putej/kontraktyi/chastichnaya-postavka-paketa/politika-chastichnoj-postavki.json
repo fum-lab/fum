@@ -1,0 +1,12 @@
+{
+  "declarations": [
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "batch9-markdown-tilde-fence-regex",
+      "line": 611,
+      "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "reason": "Тильда входит в регулярное выражение границы Markdown-блока из трёх тильд. Это синтаксис ограждения, а не домашний каталог или адрес файловой системы."
+    }
+  ],
+  "schema": "fum.machine-local-path-policy-update.v1"
+}

@@ -1,0 +1,53 @@
+{
+  "selector_sha256": "ec23bdd0041f522b92d82805798f3d37811dc4815bc5f929b7cf589273eb94b6",
+  "source_base": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+  "source_data": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+  "source_selector": "iskhodniki/aktualizaciya-putej/kontraktyi/chastichnaya-postavka-paketa/otbor-chastichnoj-postavki.json",
+  "восстановление": "Active не дублируется. После restart сначала фактический последний эффект/HEAD/index/captures, затем тот же прерванный чат; STOP/closed не возобновлять без нового этапа.",
+  "координатор": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "маршрут_передачи": "После ACK Root управление направлением идёт через instrumentyi. Прежний адресный gate ROOT exact-selector approval до product import не отменён; пакет передаётся этому родителю для согласованной приёмки.",
+  "модель": {
+    "accepted": null,
+    "observed": null,
+    "previous": null,
+    "requested_effort": "max",
+    "requested_model": "gpt-6-luna",
+    "граница": "API accepted request и native observed model сверяются отдельно; unknown не угадывается. При подтверждённых повторных ошибках возможна адресная эскалация gpt-5.6-sol/ultra в том же поколении с сохранением инициатора и основания.",
+    "инициатор_решения": "Координатор 01a148a5-c088-7373-9665-a3f9b477565e",
+    "общая_политика": "Прямой выбор человека, переданный ROOT."
+  },
+  "начало": "Только RO-preflight UUID/native, W/ref/HEAD==S/tree/clean/locks/sole-writer, selector SHA и все source/Package/gitlink pins. Branch отS, не default project base. До Root acceptance selector и отдельного writer grant никакого product batch apply.",
+  "начальный_коммит": "Точный S с этой согласованной постановкой передаётся независимо после публикации. S имеет родителя receiving L; будущий OID здесь не выдумывается.",
+  "область_метаданных": "iskhodniki/aktualizaciya-putej/kontraktyi/chastichnaya-postavka-paketa и новый собственный zhurnal. Общие правила/state-materializer/globalpolicy не входят.",
+  "получатель": "Новый видимый конечный ребёнок; реальный UUID связывает координатор после create_thread.",
+  "предусловие_истории_модели": "До canonical import владелец создаёт родительский каталог нового файла истории. Если helper отказал до создания cursor/history из-за отсутствующего родителя, сначала сверяются отсутствующие результаты, затем готовится каталог и импортируется тот же исходник.",
+  "предусловие_своего_Журнала": "CLI требует существующий каталог scope/zhurnal, который владелец подготавливает заранее. Plan не пишет файлов; после неизвестного эффекта сначала readback того же пути, не новый ID и не повтор вслепую.",
+  "программа": [
+    "После Root exact-selector approval и coordinator writer grant проверить исходные before_L entries и полные source/target pins. При необходимости использовать штатный dependency init/check, не ручной submodule update, сохранить service refs.",
+    "Сверить SHA единого batch patch, выполнить отдельный git apply --check --index. При известном исходе0 и стабильном index/HEAD выполнить ровноодин git apply --index. Не делать ручной series copy/cherry-pick/переписываниеистории.",
+    "Проверить exact11дельту9A/2M, target mode/blob/SHA; кроме11paths только собственные новые metadata/J. Все remaining sourceL inputs и dependency pins сохраняются; старых historical capsules нетвnet.",
+    "Адресный PUB выбранных product bytes: поactual unchanged policy ожидается1regexкандидат. Honest allow.nonpath-syntax предлагается Root exactmanifest; globalpolicy самому не менять. Не выдавать conditional proposal за actualgreen.",
+    "Сохранить provenance старых RED/GREEN/initprofile через C/path/blob/SHA. Новые producttests/build не запускать без реальной необходимости/изменения кода. Невыполненное не превращать вуспех, runnerwait не wholeproducer duration.",
+    "Перед обычнымcommit проверить exactstage diff/check, own new Journal/modelhistory, применимый recency и publication metadata. Raw commit/body/tree/parents/author, normal exactpush и независимый remote readback, clean. Результат координатору, затемSTOPбезархива."
+  ],
+  "родитель_координатора": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "сохранённые_предполётные_отказы": [
+    {
+      "код": 2,
+      "операция": "journal plan",
+      "смысл": "Нужен заранее подготовленный scope/zhurnal; plan не пишет. Первый результат сохранён, путь проверен, каталог создан владельцем, второйplan0 иapply0/установлена."
+    },
+    {
+      "код": 2,
+      "операция": "model history import",
+      "смысл": "Родитель назначения отсутствовал. История/cursor/lock не созданы; владелец подготовил родительский каталог. Отказ не заменяется успешным кодом."
+    },
+    {
+      "код": 3,
+      "операция": "canonical model import после подготовки каталога",
+      "смысл": "Полный snapshot был дописан на915байт во время чтения; gaps0/tail0, последняя наблюдённая модель6.1sol/ultra. История/cursor сохранены. Новая актуализация того же cursor читает реальный добавленный источник; код3 не переименован в0."
+    }
+  ],
+  "схема": "fum.постановка-частичного-импорта.1"
+}

@@ -1,0 +1,761 @@
+{
+  "base": {
+    "commit": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+    "tree": "8931d2f63231534c142cd17b39d1599e20c55992"
+  },
+  "batch": {
+    "patch_bytes": 272804,
+    "patch_sha256": "97d6ea9f9f6a40b4cabdb41acfb5238af4095a81054d55a6cb60069660e39cc0",
+    "precheck": [
+      "git",
+      "apply",
+      "--check",
+      "--index"
+    ],
+    "preparation": "Отдельный приватный GIT_INDEX_FILE: read-tree L, единая update-index --index-info для выбранных source blobs, точный override документационного blob, git diff --cached --binary --full-index L -- <selected>. Main index/checkout не импортированы. Нового builder нет.",
+    "primitive": [
+      "git",
+      "apply",
+      "--index"
+    ],
+    "product_candidate_tree_from_L": "d5aa3a808fea04cf9861adad1e31e5b04bb86510",
+    "reproduction": "Проверенный source ref/C получают из того же origin; exact blobs и документационная patch образуют тот же конечный batch patch. Физический адрес приватного patch передаётся отдельно и не публикуется."
+  },
+  "coordinator": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "documentation_projection": {
+    "patch": "--- a/iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-paketa-perenosa.md\n+++ b/iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-paketa-perenosa.md\n@@ -62,7 +62,7 @@\n \n ## Поздние уточнения и фактическое состояние\n \n-Принятая общая постановка в `Планирование/aktualizaciya-putej.md` восстанавливается до точных байтов основы 679. Её незакоммиченный новый вариант полностью сохранён рядом в `iskhodnaya-postanovka.txt`; это источник перехода, а не новая активная версия общего плана. Все новые результаты этапа остаются в собственной области компонента.\n+Принятая общая постановка в `Планирование/aktualizaciya-putej.md` восстанавливается до точных байтов основы 679. Её прежний незакоммиченный вариант сохранён как [неизменный источник перехода](https://github.com/fum-lab/fum/blob/7da711b39ed356017afed7ffa861be5b5998c4d9/iskhodniki/aktualizaciya-putej/kontraktyi/iskhodnaya-postanovka.txt) в C `7da711b39ed356017afed7ffa861be5b5998c4d9`: путь `iskhodniki/aktualizaciya-putej/kontraktyi/iskhodnaya-postanovka.txt`, blob `f690d8898f5b69ff1233ac0b9e8947bbf2c9c78e`, SHA-256 `7c98eacdcaa61c742c5aac079dc3058e6bd7907d5734e50cc4e026ec35109c3b`. Это источник перехода, а не новая активная версия общего плана; в частичный net исходный материал не копируется. Все новые результаты этапа остаются в собственной области компонента.\n \n Исторические карта и snapshot Cfd сохраняют происхождение имён. Актуальный live-source выбирается после локального журнального checkpoint владельца RAW. Package-adapter не ожидает вслепую Package из Cfd: в выбранном текущем target `АрхивКодекса` исключение `[\"README.md\", \"zhurnal\"]` становится `[\"rukovodstvo.md\", \"zhurnal\"]`, с сохранением остальных байтов и отдельной привязкой SHA.\n \n@@ -76,9 +76,9 @@\n \n Прежние четыре PUB findings не объявлены успешными. Два относительных suffix выражены через API компонентов пути. Реальные системные пути нельзя объявить `allow.nonpath-syntax`; существующий manifest updater не имеет категории `allow.system-runtime`. Адресная SDK-проверка показала корректное переиспользование стандартных Darwin-констант для прежнего выбранного образа и пустого конфига, без пользовательского PATH. Глобальные policy/Python не меняются; фактический исход новой публикационной проверки фиксируется отдельно.\n \n-Два незавершённых P.1-файла891 являются новыми для receivingL, поэтому одной исторической классификации недостаточно. Их исходные891/f197/blobs и закрытые капсулы сохраняются. Следующая отдельная ограниченная поставка исключает эти два черновика из результирующего net, не меняя продукт и шесть JSONL. Точная [постановка исключения](kontrakt-isklyucheniya-chernovikov.json) опубликована в содержательном checkpoint этого этапа; до адресного выбора реализации и writer grant ребёнок не начинает запись. Приёмка ROOT остаётся отдельной.\n+Два незавершённых P.1-файла891 являются новыми для receivingL, поэтому одной исторической классификации недостаточно. Их исходные891/f197/blobs и закрытые капсулы сохраняются. Следующая отдельная ограниченная поставка исключает эти два черновика из результирующего net, не меняя продукт и шесть JSONL. Точная [неизменная постановка прежнего исключения](https://github.com/fum-lab/fum/blob/7da711b39ed356017afed7ffa861be5b5998c4d9/iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-isklyucheniya-chernovikov.json) (C `7da711b39ed356017afed7ffa861be5b5998c4d9`, путь `iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-isklyucheniya-chernovikov.json`, blob `123491cfedcfde0592d0e5182f9f06f01b9a9cc9`, SHA-256 `3a2e739e78d2a47927ada0fa2d6fa64fe3006a324ff5c9d318aaffdf6614de3c`) опубликована в содержательном checkpoint этого этапа; до адресного выбора реализации и writer grant ребёнок не начинает запись. Приёмка ROOT остаётся отдельной.\n \n <!-- FUM-MD-RECENCY:BEGIN -->\n-<!-- last-content-edit: 2026-10-26 11:13:26 MSK -->\n-<!-- content-sha256: sha256:998cff0ab9cdfbd0203145294c0778b258b4ff27555f3bb99a2bda011d13516d -->\n+<!-- last-content-edit: 2026-10-26 13:32:18 MSK -->\n+<!-- content-sha256: sha256:afcbdcbc47f0bfbfb263e19c093b87d9b0c56290d4e6e98b945af0bd8064dd6e -->\n <!-- FUM-MD-RECENCY:END -->\n",
+    "patch_sha256": "7f745aa4328defbbcd33645be688b77ff45513523a72af07791dc5f9839be2e3",
+    "path": "iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-paketa-perenosa.md",
+    "recency": "2026-10-26 13:32:18 MSK",
+    "scope": "Только две ссылки на исключаемые источники превращены в immutable ссылки C/path/blob/SHA; остальной текст не редактируется.",
+    "source_blob": "663a864ad2f5fae0b1d7855ad1cce5a2002dd20c",
+    "source_sha256": "da782be5a2db7fae89c176ac30a569496e07ce64441bc8cdba4d9cda83089a47",
+    "target_blob": "b63f45156b9acae104165769d92943a33a3610f5",
+    "target_sha256": "3ebfa57136c13b3f3c405112b174ff83addccf47c787863edb4c6e21dd9734be"
+  },
+  "evidence_sources": [
+    {
+      "blob": "f2f0dfa47f18696360c51ad6053da37cb69d0d40",
+      "bytes": 17200,
+      "copied_into_net": false,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "sha256": "8234a2726a1b00d076aabdeb8e7437f89636b74250d90b393c6402fda8dbc754",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob",
+      "url": "https://github.com/fum-lab/fum/blob/7da711b39ed356017afed7ffa861be5b5998c4d9/iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e.json"
+    },
+    {
+      "blob": "c472549a6cec113482b53758ff3899cf14c46fdd",
+      "bytes": 2827,
+      "copied_into_net": false,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e/profilj-vosstanovleniya.json",
+      "sha256": "a4da84977fd9bde7275d90a40420fe7dc3e0c204e68094acf3528e5ab0222ff0",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob",
+      "url": "https://github.com/fum-lab/fum/blob/7da711b39ed356017afed7ffa861be5b5998c4d9/iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e/profilj-vosstanovleniya.json"
+    },
+    {
+      "blob": "2de57547db5baf9ab0272ed47c69ea1048866e34",
+      "bytes": 5320,
+      "copied_into_net": false,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2335480aef8c7615a77842222674c4eefb5aa7f20d0a1ea5ff14f385f7f8cc5d.json",
+      "sha256": "1b4c747bdecb320f81d72ba3bb13cc71f3abd2ccc1faa5b65fa5abd25aba95b9",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob",
+      "url": "https://github.com/fum-lab/fum/blob/7da711b39ed356017afed7ffa861be5b5998c4d9/iskhodniki/aktualizaciya-putej/zhurnal/2335480aef8c7615a77842222674c4eefb5aa7f20d0a1ea5ff14f385f7f8cc5d.json"
+    }
+  ],
+  "excluded_initial_stubs": [
+    {
+      "blob": "b0a44b7b115cb976a66c41e583d825c97099c126",
+      "bytes": 6379,
+      "copied_into_net": false,
+      "mode": "100644",
+      "path": "Журнал/2026-10-26_03-26-12_MSK_подготовить-пакетное-применение-имён-архива/запрос.md",
+      "sha256": "d8fa3b71ddf67f6d3893dcc2abeeb42ffd9d234b05117503acc9188a31ed955f",
+      "source_commit": "5066379f9cf82c767929090d42fff6b16a50c3e3",
+      "type": "blob"
+    },
+    {
+      "blob": "18c59236c64c3f23bed0d04c8bbfc297c1620d37",
+      "bytes": 4343,
+      "copied_into_net": false,
+      "mode": "100644",
+      "path": "Журнал/2026-10-26_03-26-12_MSK_подготовить-пакетное-применение-имён-архива/отчёт.md",
+      "sha256": "19ebb5e385bbf42adc14e503b97d52a759d49b6585b3217ec5fefd647120da09",
+      "source_commit": "5066379f9cf82c767929090d42fff6b16a50c3e3",
+      "type": "blob"
+    }
+  ],
+  "excluded_source_delta": [
+    {
+      "blob": "f690d8898f5b69ff1233ac0b9e8947bbf2c9c78e",
+      "bytes": 28488,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/kontraktyi/iskhodnaya-postanovka.txt",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "7c98eacdcaa61c742c5aac079dc3058e6bd7907d5734e50cc4e026ec35109c3b",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "123491cfedcfde0592d0e5182f9f06f01b9a9cc9",
+      "bytes": 5804,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-isklyucheniya-chernovikov.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "3a2e739e78d2a47927ada0fa2d6fa64fe3006a324ff5c9d318aaffdf6614de3c",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "ca1425c507c8d57138316f5fc3459afab3289213",
+      "bytes": 2048,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "652eb4abff92920d4cd0baadaa0221f592d18154d7cad055d93c4d5d6fef988f",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "4e4516793454f37662370f9ffca03f68c9d0b612",
+      "bytes": 3054,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/10f426fc00e828e99910c838fd75056c60211dcfcad528ad736c7ecf87541e14.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "a3c5c53d18874179211198544283f3ce58edfd91b3fe5e6502ef1d0345ccc897",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "b3eef36a08d6a5b5183f714d698cad9c54b1ac72",
+      "bytes": 10495,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-03-39-56-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "70faf718c6ee79b1bba613385216121751522a37e13fcd39db807d1593281dc9",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "8404d9d6e786328f7365891e3168125833a44793",
+      "bytes": 16483,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-19-45-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "5baf9964883a830ede9958a610ea0979982f1a1e5b1bca262beca8f01efebff5",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "709be068af1a7765e71042b8ae2b5739b217c23b",
+      "bytes": 31380,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "f27599edca0292038eb20b1ef996409ba4324496221e3af34e2b09710828aea4",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "e1b894cdb5c930c1e6c272d2b85881bd389e05f5",
+      "bytes": 2048,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e/01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "b323a1d99774ca89e305b9b28775f41c29a729d658f553bb8953575fb14c6fef",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "81b12ea80ad505b8d8fe7211d5ddfe569b4a0934",
+      "bytes": 15749,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-05-54-49-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "9e2d6eaab273f3d52a4d23ab72f3712aedf6a318819a313ad2d925b60b939fd7",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "506fc5694c9b82b7e8f501f7f8ab6ab42e626ed9",
+      "bytes": 2048,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-05-54-49-msk-01a148a5-c088-7373-9665-a3f9b477565e/01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "425445fd7bc316fe106cf1bdbf21d84bcb12b8bccdc0812af6b4d1fa8435c49f",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "8871083c1bc4dfa5f30aabcbe2ea66ede33433bc",
+      "bytes": 11831,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-09-28-07-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "58ce261d6730b15afa25963464f83a362ed23e366ed472d720f9af85c20cc0ef",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "6c2cc8e0fe7ec2c67df2370ba9cc921791ef0281",
+      "bytes": 2048,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-09-28-07-msk-01a148a5-c088-7373-9665-a3f9b477565e/01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "522dff0496aa23bbc9ad23e9c510f182df16011daf23bd395c7e83a7187a4d84",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "f8296bb70125e5ff7b9492415d4a5f8fc2dbaf0d",
+      "bytes": 9931,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-09-28-07-msk-01a148a5-c088-7373-9665-a3f9b477565e/profilj.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "f0d334d7aa80bacc317c679dfbb52c4c8dc5697596fbfa3205c1ef607797b1e0",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "f2f0dfa47f18696360c51ad6053da37cb69d0d40",
+      "bytes": 17200,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "8234a2726a1b00d076aabdeb8e7437f89636b74250d90b393c6402fda8dbc754",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "8f5264c43c8cb185578024323abd75e04c65bbfd",
+      "bytes": 2048,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e/01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "feab1726c6583ea044c7be4e458c20fe89c2766732acab31e9b0cf26e9fa2c0a",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "c472549a6cec113482b53758ff3899cf14c46fdd",
+      "bytes": 2827,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e/profilj-vosstanovleniya.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "a4da84977fd9bde7275d90a40420fe7dc3e0c204e68094acf3528e5ab0222ff0",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "8a19b5d127a18596a6a67ddf7e4156458a3c76ea",
+      "bytes": 22333,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "1b81af435df7b692d8ea8559cdd49a34411a9d5826121d2b3dcda20ab19baa59",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "edc00ef32e3f5e24dcf3b75f1bcb44ab996d75b9",
+      "bytes": 2048,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "365730348a82f385d76a769d60d65bc2875bdae00d5589c2f779d3b27fd1726c",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "f887ab63e5822665d346d402b88712e6889e4e1c",
+      "bytes": 1948,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/manifest-publikacionnyikh-kontekstov.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "cbc8709a8894641fe0b6744824b9c626b85b6fa849de0459fb5fb4b8cb6f1a60",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "a32ec6489d2ea66848b61114296679052af3837f",
+      "bytes": 3970,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/otpechatki-publikacionnyikh-kontekstov.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "2a3d0501b29cc3725e9a06d458b44ff020c1aff8e79edc9b1631bb4f5402d4fe",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "5c96f5b2ab449a32571b7fd6916bc0cc7c495e0e",
+      "bytes": 18691,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/programma.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "fcf72afed3ced7d477c26adae3e9f0c44cbee8b695443202e927830e221e7f75",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "0816973e3482a4c61f4d603c1e2bf59ce7841d50",
+      "bytes": 5305,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/205d34fc0b90fa42ebef7c76122710a9eaaf6160964d8854b429b3a5ed9e7314.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "eedb299dbc0e9727c56fabcb0e1111795def12f565408d0243df1b1c7b377fbc",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "2de57547db5baf9ab0272ed47c69ea1048866e34",
+      "bytes": 5320,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2335480aef8c7615a77842222674c4eefb5aa7f20d0a1ea5ff14f385f7f8cc5d.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "1b4c747bdecb320f81d72ba3bb13cc71f3abd2ccc1faa5b65fa5abd25aba95b9",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "25cb248222e165eb32df4512fdb27f9e3eae5277",
+      "bytes": 4957,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2a3105e71aa51b6c4a62045f860837e3b3e63b27aeacf8311eb6be75d05a7e84.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "47e4d912f1a8a15cdc6857bbbce84c4fa329498ff1ba9f0f90207a1ba821735e",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "4a6f1c1370cfa52e3a2b4f5707907da04cc18271",
+      "bytes": 2941,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/5b24588f34d806b12e121b88d6663730dcb3e91cbd31fa4f724ceb12e1e190c0.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "b3eb710fc36f2b430c7c15c76e1936124193479bc9eecae7462a134eb5b038f0",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "386f0f7c42e5d3e4b7443e77cdb36272a7b67b88",
+      "bytes": 3919,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/5f145973acad71991635cd03c54c308684f16d27be4c458dada5172bb0f9e524.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "59fadd6b052a17d5f0f3fb75efc44cc54a33e265d022713105c4485439b09fe0",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "3d9cfc626d0780f7f8f5c404f255a0157dedb0cd",
+      "bytes": 4980,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/67721bd0ee7d51cd792595f4ffd9a11063dc47fb90f841ed8347a9686e9806c8.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "c26088cb164670c3905a0a85645fbabcb55be580b00884fbe39121be0c2b1217",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "711f47c4392a973982b7052a9662c006c25749f4",
+      "bytes": 4569,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/f2469c93ce4a6f92da5ed469c99110037f1f2b0937be496f84915103c1596183.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "2560f6c46ebbd3b6a19431f706874f5eb3a5e250e9fd3beffc7d3edcd2ea1f74",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "80db18b904d12924b161fc71ee561c15d5832def",
+      "bytes": 19549,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/isklyucheniye-dvukh-chernovikov/zhurnal/38ce27048c78bf9b6c19f7df5bb79167abae209f3cd43538f1ab22a3f7ec632c.json",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "500d54074d4644379e336c9898e0bbe23477a9210371cda87e80ca8678d15502",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    },
+    {
+      "blob": "f88ef1e9416b26591d5e5d2a06b2804f7293e4ba",
+      "bytes": 13600,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/perenesti-postanovku.swift",
+      "reason": "Исторический журнал, воспроизводящий helper либо прежняя постановка; не production/test/runtime input этого частичного среза. Источник остаётся неизменным.",
+      "sha256": "84d11043d665f1974bd60e80596da617eb7d6a875944917f3ec6e61b42cbb3f9",
+      "source_commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "type": "blob"
+    }
+  ],
+  "external_gitlink": {
+    "changed": false,
+    "commit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "initialization": "Только штатный init/check при необходимости перед batch apply; service capture refs сохраняются.",
+    "path": "Зависимости/LinguisticKit"
+  },
+  "root_acceptance_before_product_import": true,
+  "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "schema": "fum.selector-partial-batch.v1",
+  "scope_limits": [
+    "Только11selected product/doc/test/resource paths и собственные новые selector/assignment/Journal metadata.",
+    "Старые evidence/helper/P.1 не переносятся и не удаляются из sourceC; globalpolicy/AGENTS/Root21GB/CLI/RAW не изменяются.",
+    "Полные прежние PUB2/whole-timing не превращаются в успех; общий NAV/Creator/Proyekcii не объявляются пройденными."
+  ],
+  "selected": [
+    {
+      "before_L": {
+        "blob": "d44f23282483aa954c2df88453aeaf2ccb7a2fef",
+        "bytes": 3114,
+        "mode": "100644",
+        "sha256": "6e19bbcfeb25f5e2b855f5c06892b6ada2ed29dc32fdaf807f6017103fe51cd3",
+        "type": "blob"
+      },
+      "operation": "M",
+      "path": "Package.swift",
+      "source_C": {
+        "blob": "ec99ed9d3ac5912311c9f6fbb2fd39c7f4b7827f",
+        "bytes": 3597,
+        "mode": "100644",
+        "sha256": "9114852afcaa278e133490cd14cf87a683161f502e5115cb812ce0791dfd4b26",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "ec99ed9d3ac5912311c9f6fbb2fd39c7f4b7827f",
+        "bytes": 3597,
+        "mode": "100644",
+        "sha256": "9114852afcaa278e133490cd14cf87a683161f502e5115cb812ce0791dfd4b26",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/dannyiye/paket-perenosa.json",
+      "source_C": {
+        "blob": "ca047cd62ab00579a27a56f17bec7c9e3c1282b7",
+        "bytes": 6444,
+        "mode": "100644",
+        "sha256": "72cc8b8793ccfda05abc79e660b30887897f08b8ede1110b0a1b2ed52636b8d8",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "ca047cd62ab00579a27a56f17bec7c9e3c1282b7",
+        "bytes": 6444,
+        "mode": "100644",
+        "sha256": "72cc8b8793ccfda05abc79e660b30887897f08b8ede1110b0a1b2ed52636b8d8",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/dannyiye/snimok-devyati.json",
+      "source_C": {
+        "blob": "583c5288ec050a870511877c6e37e24b22cc0495",
+        "bytes": 4407,
+        "mode": "100644",
+        "sha256": "611e56ebf1305f5cc0133c36c242169bfba2950854aee3d6d6d89418f8d191d0",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "583c5288ec050a870511877c6e37e24b22cc0495",
+        "bytes": 4407,
+        "mode": "100644",
+        "sha256": "611e56ebf1305f5cc0133c36c242169bfba2950854aee3d6d6d89418f8d191d0",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/kontraktyi/kontrakt-paketa-perenosa.md",
+      "source_C": {
+        "blob": "663a864ad2f5fae0b1d7855ad1cce5a2002dd20c",
+        "bytes": 20578,
+        "mode": "100644",
+        "sha256": "da782be5a2db7fae89c176ac30a569496e07ce64441bc8cdba4d9cda83089a47",
+        "type": "blob"
+      },
+      "source_relation": "Две ссылки происхождения и recency; отдельная точная документационная проекция.",
+      "target": {
+        "blob": "b63f45156b9acae104165769d92943a33a3610f5",
+        "bytes": 21494,
+        "mode": "100644",
+        "sha256": "3ebfa57136c13b3f3c405112b174ff83addccf47c787863edb4c6e21dd9734be",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/paket-perenosa.swift",
+      "source_C": {
+        "blob": "aeeea0129bf111d7d9901e60731c3389d40a21b4",
+        "bytes": 56618,
+        "mode": "100644",
+        "sha256": "5b2b52026a04c10f4c46f25b22db2f7088a1da42cfca0fda58395753bedb48ee",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "aeeea0129bf111d7d9901e60731c3389d40a21b4",
+        "bytes": 56618,
+        "mode": "100644",
+        "sha256": "5b2b52026a04c10f4c46f25b22db2f7088a1da42cfca0fda58395753bedb48ee",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/primeneniye-paketa.swift",
+      "source_C": {
+        "blob": "71aba2ec2e32aabaccdb58e37ef3e44ad1689549",
+        "bytes": 24296,
+        "mode": "100644",
+        "sha256": "69dddbb01a281d11efd463adecc103292696f0d5531810e4125bf84295bfe41b",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "71aba2ec2e32aabaccdb58e37ef3e44ad1689549",
+        "bytes": 24296,
+        "mode": "100644",
+        "sha256": "69dddbb01a281d11efd463adecc103292696f0d5531810e4125bf84295bfe41b",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/proverki/paket-perenosa.swift",
+      "source_C": {
+        "blob": "0ffe46ab833a05f35bd18064c6c757855aa10aba",
+        "bytes": 937,
+        "mode": "100644",
+        "sha256": "72ed3a676c6ebf22eff31e38179db9bea6434a77aa93bff30816100cb6e43f93",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "0ffe46ab833a05f35bd18064c6c757855aa10aba",
+        "bytes": 937,
+        "mode": "100644",
+        "sha256": "72ed3a676c6ebf22eff31e38179db9bea6434a77aa93bff30816100cb6e43f93",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/proverki/proverki-paketa.swift",
+      "source_C": {
+        "blob": "b4087ab5b5a0e71397b33fef4c69477de8e0576c",
+        "bytes": 65439,
+        "mode": "100644",
+        "sha256": "cdc52170855e03e6efd790f73906ccba5c70bc56101d694dfefaae5f65a7b421",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "b4087ab5b5a0e71397b33fef4c69477de8e0576c",
+        "bytes": 65439,
+        "mode": "100644",
+        "sha256": "cdc52170855e03e6efd790f73906ccba5c70bc56101d694dfefaae5f65a7b421",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": {
+        "blob": "30088fdf466e24f7a3f7964d6da6499bdea15e04",
+        "bytes": 15492,
+        "mode": "100644",
+        "sha256": "9a3b74c72da728844408af4e096e9f0938cd3f8922bfc5a7bef16909a57ebcb5",
+        "type": "blob"
+      },
+      "operation": "M",
+      "path": "iskhodniki/aktualizaciya-putej/rukovodstvo.md",
+      "source_C": {
+        "blob": "8fc662a983ab0bdbbe8b2d5091d6c7311aa1574c",
+        "bytes": 25403,
+        "mode": "100644",
+        "sha256": "2a4a45d74e809033b0caeaf9a1b0161dbe390d11f55f16a4b0af0d43135c644e",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "8fc662a983ab0bdbbe8b2d5091d6c7311aa1574c",
+        "bytes": 25403,
+        "mode": "100644",
+        "sha256": "2a4a45d74e809033b0caeaf9a1b0161dbe390d11f55f16a4b0af0d43135c644e",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "source_C": {
+        "blob": "9ee9ba3ea438bdb8243e00f9557730abda1b5bdb",
+        "bytes": 50742,
+        "mode": "100644",
+        "sha256": "78a7016af47fc5b6edf5de3be1cda6d01fcb78e9ee4f1139e4146e3bb54d5364",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "9ee9ba3ea438bdb8243e00f9557730abda1b5bdb",
+        "bytes": 50742,
+        "mode": "100644",
+        "sha256": "78a7016af47fc5b6edf5de3be1cda6d01fcb78e9ee4f1139e4146e3bb54d5364",
+        "type": "blob"
+      }
+    },
+    {
+      "before_L": null,
+      "operation": "A",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal-paketa.swift",
+      "source_C": {
+        "blob": "e4649ec88ce39ceffa8c5f15443064a9e91741b1",
+        "bytes": 17847,
+        "mode": "100644",
+        "sha256": "75d5b8716f8be1c83990ba0c57fc9c46a620a17d29d7e2495a1ecad29c38928e",
+        "type": "blob"
+      },
+      "source_relation": "Точные исходные Git-байты без изменений.",
+      "target": {
+        "blob": "e4649ec88ce39ceffa8c5f15443064a9e91741b1",
+        "bytes": 17847,
+        "mode": "100644",
+        "sha256": "75d5b8716f8be1c83990ba0c57fc9c46a620a17d29d7e2495a1ecad29c38928e",
+        "type": "blob"
+      }
+    }
+  ],
+  "source": {
+    "commit": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+    "read_only": true,
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/chastj-swift/master",
+    "tree": "77b24437a73d2451bca7ed40ebee5110cd4c22c4"
+  },
+  "test_portability": {
+    "executed_before_source_C": "Parent-fsync RED2cases/14issues; repair5GREEN; SDK before/after GREEN; final init-profile3GREEN, whole batch26=24executedGREEN+2profile skip. Это исторические реальные запуски, а не новые тесты в L-срезе.",
+    "graph_read_only": "Production и оба тестовых каталога не ссылаются на старый zhurnal/perenesti-postanovku.swift или evidence. Package исключает zhurnal и kontraktyi; две Bundle resources включены.",
+    "limits": "Новые producttests не запускаются без необходимости. При изменении исполняемых входов/Package/dependency pins переносимость требует нового решения. Живые планы и receipt не переиспользуются; RAW-owner строит свежий plan.",
+    "profile": "Восемь последовательных init/check samples,4leaf/4nested. Другие2targeted функции могли идти параллельно. Полный producer timing child metadata не установлен; runner wait8875/10875ns отозван корректирующим источником."
+  },
+  "unchanged_inputs": [
+    {
+      "blob": "94a22560bbb47eddc00bcf289dc89d006806371d",
+      "bytes": 214,
+      "mode": "100644",
+      "path": ".gitmodules",
+      "same_in_L_and_C": true,
+      "sha256": "0712cbe6aa8fb81e19480e0bdf8c0b95204c639dcdefae6a126bcfdebcef1368",
+      "type": "blob"
+    },
+    {
+      "blob": "4ae453a8e5d93df0d280918be70b340cc142633e",
+      "bytes": 38,
+      "mode": "100644",
+      "path": ".codex/config.toml",
+      "same_in_L_and_C": true,
+      "sha256": "d7be509ab65b3ab0dd1c175e0e404210d3e0f662e4314a3c49fd991e6d4525e2",
+      "type": "blob"
+    },
+    {
+      "blob": "29b0d6dac00beff7d542f7eed2ed9566bd4675b8",
+      "bytes": 29624,
+      "mode": "100644",
+      "path": "AGENTS.md",
+      "same_in_L_and_C": true,
+      "sha256": "8e9831234fd7d3168ff0b6e40c9faf99ac5cbc2bc9c4ce062a3b3c61b37faa9d",
+      "type": "blob"
+    },
+    {
+      "blob": "edf5d1d288c07a5d53cac294fc0fd53368e22a51",
+      "bytes": 23222,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+      "same_in_L_and_C": true,
+      "sha256": "92409edb351de7391c3fed46c5bfcac304c48934d26d7d50e623c83c77dfd635",
+      "type": "blob"
+    },
+    {
+      "blob": "fb301bc916a872f4ae6468ff6ae9e745b6f99740",
+      "bytes": 9535,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+      "same_in_L_and_C": true,
+      "sha256": "8ea16d2ba65efc098c8491af1dd7fc185079dab5d8f837cacf3c227f953c3dd0",
+      "type": "blob"
+    },
+    {
+      "blob": "e81df07bd16dd75a6035a2e72076fcdcdebad01a",
+      "bytes": 15575,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift",
+      "same_in_L_and_C": true,
+      "sha256": "9680a93d035776dc370f95c554672c3049afbdedb2971bea1290d366f2c351ac",
+      "type": "blob"
+    },
+    {
+      "blob": "e3e6dfc5d520ef18420b331f14d5bb00e72b75d4",
+      "bytes": 9781,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/proveritj-puti.swift",
+      "same_in_L_and_C": true,
+      "sha256": "f115b6ddc828c8cc027d80fdae1c5a2696378de88759e0ab89bb42f0de844564",
+      "type": "blob"
+    },
+    {
+      "blob": "28cb87599896d29719d5bfa1e2d665aa8b4fcaaf",
+      "bytes": 4830,
+      "mode": "100644",
+      "path": "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+      "same_in_L_and_C": true,
+      "sha256": "16ffeed76f26395270cb3f441b2b7cf3722a10cbbec9ed4d20be1affc24afc4f",
+      "type": "blob"
+    }
+  ],
+  "unchanged_source_trees": [
+    {
+      "ls_tree_sha256": "f1512b957c6b3c56cf7fc9973efbe3a0b22b35cccd451c964b066a4d7cd4bba2",
+      "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
+      "same_in_L_and_C": true,
+      "tree": "07700569cb1911f4f90c3d5e9f1f606d911c12b9"
+    },
+    {
+      "ls_tree_sha256": "c12e709c6437ba2fe84e5239cc2071dae84de6b3bce1d525d26c5abb531ec118",
+      "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений",
+      "same_in_L_and_C": true,
+      "tree": "907b18fd58bb9e44294bbd68b47e282a0d191f51"
+    },
+    {
+      "ls_tree_sha256": "eeb9d33df4743629f4bfd07b235cd708f6201238b416fd69fccc4ac5e7caff9c",
+      "path": "proverki/aktualizaciya-putej",
+      "same_in_L_and_C": true,
+      "tree": "fbd91939c8c5e0ad4fb82520d122beda4cff0db9"
+    },
+    {
+      "ls_tree_sha256": "ba0bb90728bcaddb18bf7296d9d66741c407e20a81e17f8c500eac3224259933",
+      "path": "iskhodniki/zhurnal",
+      "same_in_L_and_C": true,
+      "tree": "e8a1a18293f144756fab1a670e2d2c0a62a984d8"
+    },
+    {
+      "ls_tree_sha256": "b14d841ea6a628cf75cb3038ed308ddb9215de8d3477908ce521e3a2bc4df10a",
+      "path": "iskhodniki/zapusk",
+      "same_in_L_and_C": true,
+      "tree": "cd08e2974853340a80f5e4c975ed7cb6e8ee8785"
+    }
+  ]
+}

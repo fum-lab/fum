@@ -1,0 +1,45 @@
+{
+  "входSHA256" : "d1006e456259ae1edc67ad7fdb1b6c4aac6f1a8a1875e1ce9cbd229db6e62269",
+  "данные" : {
+    "время" : "2026-10-26T10:42:09+00:00",
+    "доставка" : [
+
+    ],
+    "исход" : "Подготовка отбора завершена; metadata commit/push/readback и ROOTприёмкаselector следуют до импорта.11productionпути ещё не установлены в этомcheckout.",
+    "область" : "iskhodniki/aktualizaciya-putej",
+    "остаток" : [
+      "ОбычныйmetadataScommit/push/readback; передать ROOT компактный selector/состав и получить адресную приёмку передproductэффектом.",
+      "Создать видимый ограниченный LunaMaxchildотS со своимW/ref, получитьownpreflight, затем послеROOTapproval одинbatchapply+exactreadback+обычнаядоставка."
+    ],
+    "проверки" : [
+
+    ],
+    "происхождение" : [
+      "Новый конечный ROOT-этап частичной поставки по000064: первичная приватная капсула SHA1888d7a3386642f2c8050e01d0e6631bdd29aa53e75881bbffa9616c20c1695b. Source7da711b39ed356017afed7ffa861be5b5998c4d9 и его ветка read-only.",
+      "ReceivingL=c6af44bf1ec061675b6205b9c6ee889d98264f28. Отдельный selectorW/ref создан отL; корень/HEAD/AGENTS/clean/lock/ref absence проверены. Собственный UUID01a148a5-c088-7373-9665-a3f9b477565e, общийROOT01a07d3d-d376-7ad2-aafc-67e4c25a67eb."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Минимальный состав11файлов подтверждён независимым RO-аудитом графа:4productionSwift,2новыхтеста,2BundleJSON,Package и2действующихдокумента. Старый helper и evidence не нужны production/test; Package исключает zhurnal.",
+      "Selector iskhodniki/aktualizaciya-putej/kontraktyi/chastichnaya-postavka-paketa/otbor-chastichnoj-postavki.json SHAec23bdd0041f522b92d82805798f3d37811dc4815bc5f929b7cf589273eb94b6 закрепляет9A/2M.10файлов exactC, один activecontract имеет ровнодве ссылкипроисхождения на неизменённый C/path/blob/SHA и новый recency. Старые30дополнительных sourceDelta и2старыхP.1 не включаются, их исходныеOID/SHA доступны без удаленияизsource.",
+      "Стандартными Git-командами подготовлен единый приватный batch patch SHA97d6ea9f9f6a40b4cabdb41acfb5238af4095a81054d55a6cb60069660e39cc0,272804байта. ВременныйGIT_INDEX_FILE не является рабочим индексом; product checkout/index этогоW не импортирован. Нового Pythonbuilder или механизмафабрики нет.",
+      "PUB11immutabletargetblobs поactualunchangedpolicy:code1/full, ровноregex~{3}вssyilki611. Existingupdaterfingerprint allow.nonpath-syntax дает conditional0 при единственном точном предложенномдобавлении; policy в памяти, не установлена и ROOTacceptanceнеподменяется. ПолныйstdoutSHA03143e27f0879cc871e5c1f24d96440b221532943632c1d1d88d8b71d067318f.",
+      "SourceC/path/blob/SHAссылки на реальныеRED/GREEN/initprofile сохранены вselector; старые результаты не выдаются за новые и не копируютсявnet. Никакихдополнительныхproducttests/build/dependencyinit сейчас не было.",
+      "Этаmetadataконтрольнаяточка публикуетselector иточнуюпостановку до рождения нового visibleLunaMaxпишущегопоколения. Новыйребёнок стартует от точногоS, содержащегоэтифайлы и родителяL. До productbatchэффекта ROOTпринимает exactselector, затемкоординатор выдаётwritergrantпослеownpreflight. Запрос/accepted/observedмодели иинициаторрешения фиксируютсяотдельно.",
+      "Первый journal plan вернул code2/путь без установки. Сверено: own zhurnal отсутствовал, main index неизменён, установленной записи нет. Локальный CLI явно требует заранее созданный каталог scope/zhurnal. Владелец подготовил этот каталог, затем выполняется новый plan; прежний отказ сохранён, слепого повторения эффекта нет."
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a148a5-c088-7373-9665-a3f9b477565e",
+      "стадия" : "частичная-поставка-batch9-отбор"
+    }
+  },
+  "идентификатор" : "e254c1e11ecca15375e3cfa07a2399c22f33ec41e1a15d3f73a009fa99558a03",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
