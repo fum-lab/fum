@@ -1688,7 +1688,61 @@
       "состояние": "Источник C1 ещё не получен; минимальная readonly проводка после отдельного source-приёма."
     },
     "проверенная_точка_проводки": "В текущем28b ранняя отдельнаяветка после закрытого пакет-путей и до parser/ЦиклЗапуска; успех и любой отказ завершаютсявней. Неподдерживаемый или effectfulverbотклоняется до чтенияфайлов/вызоваC1; обычныйstartupневызывается.",
-    "контур_зависимости": "КомандаЗапуска сейчас→ОсноваЗапуска/ЖурналУзла; rootManifestещёнеобъявляет реальныйproductC1. Минимальноеmanifestреброопределяетсятолькопопринятойsourceпоставке."
+    "контур_зависимости": "КомандаЗапуска сейчас→ОсноваЗапуска/ЖурналУзла; rootManifestещёнеобъявляет реальныйproductC1. Минимальноеmanifestреброопределяетсятолькопопринятойsourceпоставке.",
+    "предварительный_контракт_C1": {
+      "источник_агент": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "исходное_сообщение": {
+        "sha256": "b0772a1a264f77cb3d2f9708e66a2b6338761e6c03dfd11599a3a8a329e3d340",
+        "bytes": 965
+      },
+      "состояние": "Технически готов, но нет immutable commit/ref/remote. Не импортировать staged/dirty bytes и не начинать реализацию.",
+      "файлы": [
+        "kontrakt-istochnika-kodeks.swift",
+        "adapter-git-avtor-commita.swift",
+        "proverki-avtorstva-commita.swift"
+      ],
+      "публичный_API": "ПроверкаВыбранногоАвторстваИТелаКодекс.проверить",
+      "пределы": {
+        "JSON": 65536,
+        "RAW": 1048576
+      },
+      "квитанция": {
+        "exactBytesVerified": true,
+        "sourceAuthenticated": false,
+        "эффект": "Отсутствует."
+      },
+      "CLI": "Не входит в C1. Поздняя отдельная allowlisted file-only обёртка FUMA; не импортировать adapter.swift/cat-file/experimentalbackend.",
+      "блок": "Recency code1 на унаследованном stale глобальном Markdown-индексе; sourceHEAD/remoteнеизменны. КонкретнаяграницаадреснопереданаROOT иinstrumentyi, источникпокаожидается.",
+      "заявлено_поставщиком": "3/3 Swift6, ownLatin0; rawfixture30494/body30285bytes, bodyсначала#; SHA1/SHA256GitOID/rawSHA256. Это ещё не consumerприём.",
+      "ещё_нужно": [
+        "Принятый точный C/tree/ref/remote/pathSHA.",
+        "Реальный product/target и receipt/typed-refusal serialization contract."
+      ]
+    },
+    "дальнейшая_граница_допуска": {
+      "сообщения": [
+        {
+          "timestamp": "2026-10-26T21:15:53.107Z",
+          "source_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "bytes": 1295,
+          "sha256": "1822f382fe75a8333cd05596989bdc2ae52b2da15f773ae251204a733ba58ca6"
+        },
+        {
+          "timestamp": "2026-10-26T21:17:53.950Z",
+          "source_thread_id": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+          "bytes": 621,
+          "sha256": "38ab83b8c9e3eb460309fe45cf58b3cb4e724196186d8d2757c2b3c9af0b9ad2"
+        }
+      ],
+      "последовательность": [
+        "ROOT сообщил адресное разрешение сохраняющего85filecheckpoint при явном inheritedrecency1, без измененияглобальногоMDиндекса.",
+        "Затем instrumentyi сообщил отказstrictаудита оттакойпоставки: recencyосталсяобязательным, нетсвоейоткрытойrootJournalpair/preview/remainder; syncidle, commit/pushнебудет."
+      ],
+      "фактическое_состояние": "Нового C/ref/remote нет. Импортstaged/dirtybytes, частичнаяsourceветка иCLIреализация не выполнялись.",
+      "передано_ROOT": "Противоречие и физическое отсутствиеsourceдоставки адресно переданыROOT дляразвязкисinstrumentyi.",
+      "условие_продолжения": "Действительный immutable sourceпослеурегулированиядопуска уROOT; затемограниченнаяприёмка3sourceпутей, отдельнаяветкапо000064, readonlyCLI.",
+      "не_выполнено": "ГлобальныйMDиндекс/чужиеправила/ACT/refsнеизменялись."
+    }
   },
   "принятая_инвариантность_разбиения_рамок": {
     "схема": "fum.приём-инвариантности-рамок.1",
@@ -1822,7 +1876,7 @@
         "живое_поколение_сохранено": true
       }
     ],
-    "LLM_остаток": "Адресная scope/body/trailer/literal/Names/profile/boundedhash коррекция у прежнего владельца. Конечная дельта5путей:Package/prod/test/старыйlocalJ/новыйlocalJ, затем свежий suite безprofileenv и отдельно малый3×10profile. Сырой checkpoint0e728 не принят.",
+    "LLM_остаток": "Конечная коррекция закрыта C4e после предметногоC0232 и metadata-onlyдополненияbody. Исправлены scope/body/trailer/literal/Names/profile/hashbound; конечныйsourceсостав6путей, старые0e728/12a3 сохранены. ROOT/master/liveотдельно.",
     "границы": "Не повторять ROOT21GB, wholeinventory, residual/continuation/legacyguard/019; не считать historicalguardcode3 или0/0 завершением задачи."
   },
   "принятая_RAW_фикстура_после_неясной_синхронизации": {
@@ -1879,5 +1933,132 @@
     },
     "доставка": "Exactsource3/scopedPUB0/rawcommitidentity/remote06dподтверждены.",
     "предел": "Same-process fixture; не power-crash/21GB/cursors/productionlive."
+  },
+  "принятая_связь_квитанции_модели": {
+    "C": "4e368467e13011c4c91a4b24dbae16907fdb7363",
+    "tree": "72bc571dfd6c532c83c1804758dbcc31f716ae92",
+    "parents": [
+      "0232f5e87b8110a495c6dbcd6ac14c9fa246738d"
+    ],
+    "base": "0e96b3b860cba409da17f4dde65c41bf45a58a99",
+    "состояние": "Потребитель FUMA принял после независимых предметного и body-аудитов; обычный merge выполняется отдельно.",
+    "потребитель_FUMA": true,
+    "ROOT": false,
+    "master": false,
+    "live": false,
+    "пути": {
+      "Package.swift": {
+        "bytes": 4393,
+        "sha256": "eef4a94a850403d3e29d97308a5a2b61f2e00ae982bcf0b4d5f605f89dfe2a1f"
+      },
+      "iskhodniki/zapusk/proverki/proverki-svyazi-kvitancii-modeli.swift": {
+        "bytes": 22769,
+        "sha256": "59d6798e6d88d0e1fc6e43b0fc5bf69783ef6aeef04650a3f31147992c61571a"
+      },
+      "iskhodniki/zapusk/svyazj-kvitancii-modeli.swift": {
+        "bytes": 2234,
+        "sha256": "6c8e96b9db104bb38c8b10706dd358811d16a1627fad40c3ba4fbee4dc4598a4"
+      },
+      "iskhodniki/zapusk/zhurnal/0a1dc6df9661f58056ab53caa1f3c93a5a52a24214b79742f77f6e0559b4153e.json": {
+        "bytes": 17998,
+        "sha256": "af51eb417583c54470c79ba3e5a78828d91daa13e46330f2763481128996e263"
+      },
+      "iskhodniki/zapusk/zhurnal/12a3a8168d10b64680b837888bd47c1095204285baa298cfee9d3002d05f0d22.json": {
+        "bytes": 9480,
+        "sha256": "4480e2dd140b4f8033ee4cb84f62b6d94eb4b9ac62d139fcab45d2f4df55ef98"
+      },
+      "iskhodniki/zapusk/zhurnal/2f2398b63dd5b371e5f786095ca31ed306089bfdef107aeeee6a54d152197833.json": {
+        "bytes": 12032,
+        "sha256": "1b83a1b492ec522bbeded06e8e453d893d5b30083b9277f7b0c0df8a80324429"
+      }
+    },
+    "заявленные_проверки_поставщика": [
+      {
+        "исход": "успешно",
+        "код": 0,
+        "название": "Обычный адресный набор связи квитанции модели без профиля",
+        "наносекунды": 27889464667,
+        "свидетельство": "Swift-адаптер сохранил точные argv/stdout/stderr и терминальный исход. Без FUM_PROFILE_OUT прошли 10 содержательных тестов, профиль был ровно один раз пропущен; итог: 11 тестов в одном suite, код 0. Stdout SHA-256 70f8241eb3a7280327449f95871308b194fb9d3084d9f29a6604b2733ebf1c71, 3226 байт; stderr SHA-256 5093567eb99b6aa73b7c6237d03fe1e35e8ed1d92cda7243c873fcd7582ea48d, 169893 байт."
+      },
+      {
+        "исход": "успешно",
+        "код": 0,
+        "название": "Отдельный профиль связи квитанции модели 3 на 10",
+        "наносекунды": 23827127291,
+        "свидетельство": "Отдельно выполнен ровно один профильный тест: три серии по 10 чистых Data-вызовов, код 0. JSON профиля: SHA-256 82876b4009327ecf4b16aa875d682acf9cb566d91a182a474eed2dc75cf5b41e, 2000 байт. После обоих запусков адаптер подтвердил две терминальные пары и точные приватные каналы. Порогов и вывода о производительности нет."
+      }
+    ],
+    "границы": [
+      "Принимает только согласованные receipt+exactData и существующий RecordedLLMEnvelope с status.hypothesis; не исполнение предложений.",
+      "Data≤262144, UInt64sizeбезсужения; формат rawhash64lowerhex материализует не больше65UTF8bytes.",
+      "Обычный набор безenv:10проверокуспешны,1profileпропущен; отдельноprofile3×10. Новые ownимена исправленыканоническимplan/apply.",
+      "ИсторическийlocalJ12a3 и0e728сохранены; новаязаписьявноисправляет первуюquote literalошибку.",
+      "13внеобластныхGitentriesпроверяютсяк0e96. НетROOT21GB/повторногоguard.",
+      "Не доказывает файловоесохранение, происхождениеотнастоящеймодели илиодобрениечеловека."
+    ],
+    "независимый_предметный_приём": {
+      "исход": "Код и две первичные пары C0232 подтверждены; bodyполнота закрыта отдельным4e, без повторения тестов.",
+      "обычный_набор": {
+        "code": 0,
+        "passed": 10,
+        "skipped": 1,
+        "runner_total": 11,
+        "nanoseconds": 27889464667,
+        "stdout_bytes": 3226,
+        "stdout_sha256": "70f8241eb3a7280327449f95871308b194fb9d3084d9f29a6604b2733ebf1c71",
+        "stderr_bytes": 169893,
+        "stderr_sha256": "5093567eb99b6aa73b7c6237d03fe1e35e8ed1d92cda7243c873fcd7582ea48d"
+      },
+      "профиль": {
+        "code": 0,
+        "passed": 1,
+        "series_calls": [
+          10,
+          10,
+          10
+        ],
+        "nanoseconds": 23827127291,
+        "stdout_bytes": 632,
+        "stdout_sha256": "e60d31f71904e7195cf3bbf5f7b7293b7f777cde54ce849892690614148426fc",
+        "stderr_bytes": 174474,
+        "stderr_sha256": "5bc0500be2d335e5cab74790b054b554ad55755e997797322a26c9e701a43129",
+        "json_bytes": 2000,
+        "json_sha256": "82876b4009327ecf4b16aa875d682acf9cb566d91a182a474eed2dc75cf5b41e",
+        "series_nanoseconds": [
+          2119750,
+          1743042,
+          1753667
+        ]
+      },
+      "граница_часов": "Измерена дочерняя env…swift test с её сборкой и закрытием каналов; не вся работа производителя.",
+      "граница_закрепления": "Все36capturepins совпали сGitC; новыеproduction/test внихневходят. ИхконечныеSHA свереныотдельно, полноеprelaunchзакреплениедвухновыхфайловне заявляется.",
+      "относительный_путь_профиля": "Код сохраняет Issue; отдельного свежего отрицательного runtimeзапуска в двух парах нет."
+    },
+    "проверенный_код_C": "0232f5e87b8110a495c6dbcd6ac14c9fa246738d",
+    "body_закрытие": {
+      "C": "4e368467e13011c4c91a4b24dbae16907fdb7363",
+      "дельта": "Одна новая локальная J; код, Package и обе прежние J побайтно сохранены.",
+      "источник": {
+        "C": "0e96b3b860cba409da17f4dde65c41bf45a58a99",
+        "байтов": 12034,
+        "sha256": "d6e1802adbbb448731b5d53a159d3266e1eb8d4ba24e5a3bfa929cb2561787d8"
+      },
+      "проверка": "Декодированный selector точно равен исходным schema/root/coordinator/version, всем8общимграницам и полномуLLMобъекту8полей/4области/7контрактов. Другаярольarkhiv явно исключена. Триhumanquotesliteral, четыре полных correctionпоручения, одинпоследнийROOTtrailer.",
+      "новая_J": {
+        "байтов": 17998,
+        "sha256": "af51eb417583c54470c79ba3e5a78828d91daa13e46330f2763481128996e263"
+      },
+      "новые_прогоны": "Нет: metadata-only, production/test SHA сохранены."
+    },
+    "доставка": {
+      "remote": {
+        "code": 0,
+        "nanoseconds": 3376182958,
+        "stdout": "4e368467e13011c4c91a4b24dbae16907fdb7363\trefs/heads/codex/fuma-llm-kvitanciya-v2\n",
+        "stderr": ""
+      },
+      "sourcePUB": 0,
+      "sourcePUB_nanos": 24238541
+    }
   }
 }
