@@ -441,6 +441,57 @@ struct ПроверкиПакета {
         #expect(FileManager.default.fileExists(atPath: фикстура.корень.appendingPathComponent(ФикстураПакета.пути[0].0).path))
     }
 
+    @Test("Адресный профиль одного dry-run и отдельно сверенного apply",
+        .enabled(if: ProcessInfo.processInfo.environment["FUM_BATCH_PROFILE_OUT"] != nil))
+    func адресныйПрофиль() async throws {
+        let фикстура = try ФикстураПакета()
+        for номер in 0..<200 { try фикстура.записать("документы/заметка-\(номер).md", "# Несвязанная заметка \(номер)\n") }
+        let имена = try await ТранслитераторПутей().отобразить([ЗаписьСнимкаПутей(путь: "Профиль.json")])
+        let имя = try #require(имена.first?.целевой)
+        let профиль = ПрофильПакета()
+        let план = try await ПакетПутей.построить(корень: фикстура.корень, вход: фикстура.поручение(), профиль: профиль)
+        let байты = try байтыПлана(план)
+        let квитанция = try await ПакетПутей.применить(корень: фикстура.корень, план: байты,
+            ожидаемыйХэш: хэшПутей(байты), хранилищеДляПроверки: фикстура.хранилище, профиль: профиль)
+        let замеры = профиль.снимок()
+        try #require(квитанция.исход == "завершено" && квитанция.подтверждённый_префикс == 14)
+        try #require(замеры.filter { $0.этап == "разрешение-всего-Markdown" }.count == 2)
+        try #require(замеры.filter { $0.этап == "прямой-эффект" }.count == 14)
+        struct Профиль: Encodable {
+            var схема = "fum.профиль-пакета-девяти-путей.1"
+            var имя_результата: String
+            var документов: Int
+            var глобальных_планов = 2
+            var разборов_всего_Markdown = 2
+            var план_sha256: String
+            var квитанция: КвитанцияПакета
+            var замеры: [ЗамерПакета]
+            var условия = "Одна синтетическая fixture, n=1. Подготовка и сериализация результата исключены; алгоритм имён прогрет получением имени профиля. Два глобальных плана: dry-run и повторная сверка apply; не девять отдельных планов. Монотонные вложенные интервалы не складываются. Без baseline и утверждения об ускорении; не профиль ROOT/live RAW."
+        }
+        let данные = try байтыПлана(Профиль(имя_результата: имя, документов: план.документы.count,
+            план_sha256: хэшПутей(байты), квитанция: квитанция, замеры: замеры))
+        let адрес = URL(fileURLWithPath: try #require(ProcessInfo.processInfo.environment["FUM_BATCH_PROFILE_OUT"]))
+        let родитель = адрес.deletingLastPathComponent()
+        try #require(try Data(ЧитательПакета.физический(родитель).path.utf8) == Data(родитель.path.utf8))
+        var текущий = родитель.path
+        while true {
+            try #require(!FileManager.default.fileExists(atPath: текущий + "/.git"))
+            if текущий == "/" { break }
+            let следующий = (текущий as NSString).deletingLastPathComponent
+            try #require(следующий.utf8.count < текущий.utf8.count)
+            текущий = следующий
+        }
+        let дескриптор = open(адрес.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        try #require(дескриптор >= 0)
+        defer { close(дескриптор) }
+        try FileHandle(fileDescriptor: дескриптор, closeOnDealloc: false).write(contentsOf: данные)
+        try #require(fsync(дескриптор) == 0)
+        let каталог = open(родитель.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        try #require(каталог >= 0)
+        defer { close(каталог) }
+        try #require(fsync(каталог) == 0)
+    }
+
     @Test("Несвязанные legacy адреса не блокируют конечные девять путей")
     func несвязанныйНеподдержанныйMarkdown() throws {
         let пары = ФикстураПакета.пути.map { ОтображениеПути(исходный: $0.0, целевой: $0.1) }

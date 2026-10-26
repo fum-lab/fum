@@ -7929,6 +7929,15 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Пояснительная строка определяет синтаксический класс в исходном поручении и не задаёт адрес файловой системы. Исторический текст сохраняется без изменений."
+    },
+    {
+      "id": "github-pr-379-archive-uri",
+      "path": "Issues/fum-lab/fum/данные/e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Два параметра ref являются операторами URI-шаблона archive_url в исходном публичном ответе GitHub PR379 (head.repo/base.repo), а не адресами файловой системы. Точное число, SHA полной строки и путь выводятся штатным updater; изменение байтов закрывает исключение."
     }
   ],
   "метаданные": [

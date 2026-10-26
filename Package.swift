@@ -11,13 +11,20 @@ let package = Package(
     platforms: [.macOS(.v14)],
     products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
     dependencies: [
-        .package(path: "Зависимости/LinguisticKit"),
-        .package(name: "FUMStructuringOperatorMemory", path: "Прототипы/память-структурирующих-операторов")
+        .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
+        .target(name: "FUMStructuringOperatorMemory",
+            path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
+            resources: [.copy("Фикстуры"), .copy("Определения")], swiftSettings: настройки),
+        .target(name: "ЖурналУзла", dependencies: ["FUMStructuringOperatorMemory", "ОсноваЗапуска"],
+            path: "iskhodniki/zhurnal", exclude: ["381.json", "publikacionnaya-politika.json", "karta-imyon.json", "primer.json", "profilj.json", "rukovodstvo.md", "zhurnal", "proverki", "uchyot-proverok.swift"],
+            resources: [.copy("opredeleniya")], swiftSettings: настройки),
+        .testTarget(name: "proverki-zhurnala", dependencies: ["ЖурналУзла", "ОсноваЗапуска"],
+            path: "iskhodniki/zhurnal/proverki", swiftSettings: настройки),
         .target(name: "АктуализацияПутей",
             dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit"),
-                .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
+                "FUMStructuringOperatorMemory",
                 "КонтейнерНаблюдений"],
             path: "iskhodniki/aktualizaciya-putej",
             exclude: ["rukovodstvo.md", "zhurnal", "kontraktyi", "proverki"],
@@ -33,7 +40,7 @@ let package = Package(
         .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений"],
             path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md"],
             swiftSettings: настройки),
-        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска"],
+        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла"],
             path: "iskhodniki/zapusk",
             exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "README.md"],
             sources: ["Команда.swift"], swiftSettings: настройки),
