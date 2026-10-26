@@ -64,11 +64,16 @@ Raw readback объектов показывает историческое ра
 
 Текущий native `turn_context` наблюдён в `2026-10-26T18:09:00.021Z`: модель `gpt-6-luna`, effort `max`, turn `01a17966-c243-7081-be56-d75787a657a4`; SHA-256 компактного извлечения `121cf4bbe9ccb4c9e2322af43ed02574147b9ffc9b9d42f7774f59e913c8aa9a`. Для нового add-only checkpoint Author задан как `FUM Codex [gpt-6-luna; effort=max] <fum@local>`; committer сохраняется `FUM <fum@local>`. ROOT UUID `01a07d3d-d376-7ad2-aafc-67e4c25a67eb`; UUID узла-писателя `01a17838-f2eb-7f03-ad72-c62fce2dbbd2`.
 
-Перед checkpoint свежий remote readback подтвердил собственный ref на `3d4ddf99673ca50384ad47815751fbdf8f22d6e8`, а `fum-lab/fum/master` на `d081c0a6dfecf876d94107c3f2585cd99f686f39`. Адресные проверки raw старого tip, raw merge-коммита, native turn context и remote сохранены в `zhurnal/run-08`–`run-11`; предметные тесты и общий валидатор не повторялись.
+Новый add-only checkpoint `d4d748215b13cef41116b9a4b669f8d93e2bb3da` с родителем `3d4ddf99673ca50384ad47815751fbdf8f22d6e8` получил согласованный raw Author `FUM Codex [gpt-6-luna; effort=max] <fum@local>`; committer — `FUM <fum@local>`. Raw `git cat-file` до push подтвердил Author, committer, ROOT-UUID и полный body.
+
+Перед checkpoint свежий remote readback подтвердил собственный ref на `3d4ddf99673ca50384ad47815751fbdf8f22d6e8`, а `fum-lab/fum/master` на `d081c0a6dfecf876d94107c3f2585cd99f686f39`. Адресные записи raw старого tip, raw merge-коммита, native turn context, remote и нового commit сохранены в `zhurnal/run-08`–`run-12`; предметные тесты и общий валидатор не повторялись.
+
+Исправление автора и исторический факт записаны через FUMA в [журнале этапа 5](zhurnal/dc4e99c696af77b69c6961a4c7569729818557510344f797d2d7a6effda2f68c.json); SHA-256 содержимого `c456db71f6839d858e00dacd84537c86a1fe25e6819a307d41fd53ec605ca6a0` совпал с результатом применения. На момент записи обычный push нового checkpoint ещё не выполнен.
+
 
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-26 21:13:41 MSK -->
-<!-- content-sha256: sha256:e85fbbe0e01deb6e86d17da48e94e0493e6b858909fed226fef769ff7d2d5c9a -->
+<!-- last-content-edit: 2026-10-26 21:15:26 MSK -->
+<!-- content-sha256: sha256:d69010c0c85ce6676cefb6e39a804cc6ed21ff27b642d973506e50b36d8e3d45 -->
 <!-- FUM-MD-RECENCY:END -->

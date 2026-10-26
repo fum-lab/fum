@@ -39,9 +39,11 @@
 - [Запись продолжения стадии](zhurnal/ccb2e305dcb6e8f1efeb771734a321c43474bf9461b8768f0de7504ee0726474.json) также создана через FUMA; SHA-256 файла 96735c0bbf4e39226cf2719fcb8a70e34c3b76aa80572061d1bf4d24c0d6725d совпал с планом побайтно.
 - [Запись третьего этапа](zhurnal/1f2e7ff29605ab2cc382b5674ba8c06d8d69ace06a4f1bfc2a0a91cc3c7e797e.json) создана через FUMA; SHA-256 файла 791de53d5a04a3e30454c705d0b4483af74b44e1c10ebd4a1a80e00dc0504727 совпал с планом побайтно.
 - [Запись четвёртого этапа](zhurnal/845b0dc056007a98465aa6b3d166fe95686bd0ac58e786b533a4cf63cc4abe93.json) создана через FUMA; SHA-256 файла f681a3cef3eeac956615e26cc9e5e49e832ae44e64b4d09ab13d8d494416cb91 фиксирует явный merge ROOT d081, родителей, адресные проверки и состояние до публикации.
+- [Запись пятого этапа](zhurnal/dc4e99c696af77b69c6961a4c7569729818557510344f797d2d7a6effda2f68c.json) создана через FUMA; SHA-256 файла c456db71f6839d858e00dacd84537c86a1fe25e6819a307d41fd53ec605ca6a0 фиксирует неверный прежний Author как исторический факт и raw readback нового автора до push.
+
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-26 20:43:13 MSK -->
-<!-- content-sha256: sha256:1ba3058736b1e0d59b1dcb1ee9ea126614becf3430e818c75dc21df10e9758d2 -->
+<!-- last-content-edit: 2026-10-26 21:15:26 MSK -->
+<!-- content-sha256: sha256:c6ff2fba42a428a39d4469fd0cb403577f2537c85ce73e80b506445c65000f5c -->
 <!-- FUM-MD-RECENCY:END -->

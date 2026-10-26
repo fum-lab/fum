@@ -1,0 +1,80 @@
+{
+  "входSHA256" : "fdb8113d88e31ac91acfcf0c5806c82448d22745604ac1f89df4b728bec07325",
+  "данные" : {
+    "время" : "2026-10-26T18:14:31Z",
+    "доставка" : [
+      {
+        "вид" : "Проверенная remote-база перед исправляющей отправкой",
+        "идентификатор" : "refs/heads/fum-lab/fum/opisaniya/master=3d4ddf99673ca50384ad47815751fbdf8f22d6e8",
+        "свидетельство" : "refs/heads/fum-lab/fum/master=d081c0a6dfecf876d94107c3f2585cd99f686f39; открытый PR https://github.com/fum-lab/fum/pull/391 пока указывает на прежний head."
+      }
+    ],
+    "исход" : "Add-only checkpoint d4d748215b13cef41116b9a4b669f8d93e2bb3da создан от прежнего tip 3d4ddf99673ca50384ad47815751fbdf8f22d6e8. Raw git object проверен до push: Author FUM Codex [gpt-6-luna; effort=max] <fum@local>; committer FUM <fum@local>; ROOT-UUID и полный body присутствуют. Предыдущие raw объекты неизменны.",
+    "область" : "opisaniya",
+    "остаток" : [
+      "До обычного push повторно сверить обе remote refs с 3d4ddf99673ca50384ad47815751fbdf8f22d6e8 и d081c0a6dfecf876d94107c3f2585cd99f686f39.",
+      "Выполнить ровно одну обычную отправку нового commit, независимо прочитать remote refs, затем подтвердить обновлённую голову открытого PR 391. Это не приёмка или интеграция ROOT."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Raw cat-file опубликованного tip 3d4ddf",
+        "наносекунды" : 67757291,
+        "свидетельство" : "zhurnal/run-08-old-tip-author.iskhod.json; raw объект сообщает Author FUM Писатель <fum@local>."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Raw cat-file merge-родителя 628a2d3",
+        "наносекунды" : 67041416,
+        "свидетельство" : "zhurnal/run-10-merge-author.iskhod.json; raw объект подтверждает тот же исторический Author и committer FUM <fum@local>."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Нативное наблюдение model/effort текущего turn_context",
+        "наносекунды" : 210726666,
+        "свидетельство" : "zhurnal/run-09-native-turn-context.iskhod.json; gpt-6-luna, effort=max, turn 01a17966-c243-7081-be56-d75787a657a4, 2026-10-26T18:09:00.021Z."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Свежий remote ls-remote до checkpoint",
+        "наносекунды" : 867158375,
+        "свидетельство" : "zhurnal/run-11-current-remote.iskhod.json; собственная ветка 3d4ddf99673ca50384ad47815751fbdf8f22d6e8, fum/master d081c0a6dfecf876d94107c3f2585cd99f686f39."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Raw cat-file нового Codex Author checkpoint до push",
+        "наносекунды" : 65404584,
+        "свидетельство" : "zhurnal/run-12-new-author-commit.iskhod.json; commit d4d748215b13cef41116b9a4b669f8d93e2bb3da, правильные Author/committer, родитель, полный body и ROOT-UUID."
+      }
+    ],
+    "происхождение" : [
+      "Поручение ROOT 01a07d3d-d376-7ad2-aafc-67e4c25a67eb требует зафиксировать raw неверный Author прежнего опубликованного tip как исторический факт, не переписывать опубликованные объекты, наблюдать текущие model/effort нативно, создать add-only checkpoint с полным body и ROOT UUID, прочитать новый raw объект до обычного push и адресно проверить запись/метаданные.",
+      "Model и effort взяты из текущего native turn_context 01a17966-c243-7081-be56-d75787a657a4, timestamp 2026-10-26T18:09:00.021Z; compact extraction SHA-256 121cf4bbe9ccb4c9e2322af43ed02574147b9ffc9b9d42f7774f59e913c8aa9a."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Raw git objects подтверждают: опубликованный tip 3d4ddf99673ca50384ad47815751fbdf8f22d6e8 и его merge-родитель 628a2d3c0d1277e2ff589e036a04c3795b00f4a2 имеют Author FUM Писатель <fum@local>; C3 469ebea0da125e8850b47f0aa8abbb45c9cc4117 имеет прежнего Codex Author. Все старые объекты сохранены.",
+      "Наблюдённые поля нового Author: FUM Codex [gpt-6-luna; effort=max] <fum@local>; committer FUM <fum@local>.",
+      "Точный новый commit является обычным потомком 3d4ddf99673ca50384ad47815751fbdf8f22d6e8; amend, rebase и force не использовались.",
+      "Предметные Swift Tests и общий системный валидатор не запускались повторно."
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 5,
+      "писатель" : "01a17838-f2eb-7f03-ad72-c62fce2dbbd2",
+      "стадия" : "git-author-correction"
+    }
+  },
+  "идентификатор" : "dc4e99c696af77b69c6961a4c7569729818557510344f797d2d7a6effda2f68c",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
