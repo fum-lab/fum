@@ -1,0 +1,40 @@
+{
+  "gitlink_LinguisticKit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "sha256_сырого_stdout": "e1783d4aee80ad7e0007f37daafdbc28cc3267ba5d104cde84672471bed68738",
+  "вход_JSON": [
+    "Приёмник FUMA JSONL",
+    "Проверка приёмника FUMA JSONL",
+    "Профиль приёмника FUMA JSONL"
+  ],
+  "исходный_коммит": "d31eab34be33049349155b6e06ba59695177025d",
+  "команда": [
+    "swift",
+    "run",
+    "-q",
+    "--jobs",
+    "2",
+    "--package-path",
+    "Инструменты/fum-proverka-nazvanij-avtomatizacij",
+    "preobrazovatj-nazvaniya"
+  ],
+  "правило_файлового_имени": "точный вывод LK837, lowercase, пробелы заменены дефисами, добавлено .swift",
+  "схема": "fum.карта-ASCII-имён-jsonl.1",
+  "сырой_stdout_JSON": "[\"Priyomnik FUMA JSONL\",\"Proverka priyomnika FUMA JSONL\",\"Profilj priyomnika FUMA JSONL\"]\n",
+  "файлы": [
+    {
+      "вывод_LK837": "Priyomnik FUMA JSONL",
+      "путь": "iskhodniki/zapusk/priyomnik-fuma-jsonl.swift",
+      "смысл": "фасад"
+    },
+    {
+      "вывод_LK837": "Proverka priyomnika FUMA JSONL",
+      "путь": "iskhodniki/zapusk/proverka-priyomnika-fuma-jsonl.swift",
+      "смысл": "Swift Testing"
+    },
+    {
+      "вывод_LK837": "Profilj priyomnika FUMA JSONL",
+      "путь": "iskhodniki/zapusk/proverki/profilj-priyomnika-fuma-jsonl.swift",
+      "смысл": "профиль"
+    }
+  ]
+}
