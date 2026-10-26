@@ -25,6 +25,7 @@ let package = Package(
         .testTarget(name: "АрхивныйСнимокЗадачиTests", dependencies: ["АрхивныйСнимокЗадачи", "КомандаАрхива", "АварийнаяФикстура", "ПрофильАрхивногоСнимка",
             .product(name: "СнимокАгентскойЗадачи", package: "СнимокАгентскойЗадачи"),
             .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")]),
-        .testTarget(name: "ПроверкиПоследовательныхРамок", dependencies: ["АрхивныйСнимокЗадачи"],
+        .testTarget(name: "ПроверкиПоследовательныхРамок", dependencies: ["АрхивныйСнимокЗадачи",
+            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")],
             path: "proverki", swiftSettings: строгиеНастройки)
     ], swiftLanguageModes: [.v6])
