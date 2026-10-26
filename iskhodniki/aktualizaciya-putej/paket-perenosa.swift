@@ -65,7 +65,8 @@ struct ПланПакета: Codable, Equatable, Sendable {
     var исходники: [ФайлПакета]
     var каталоги: [КаталогПакета]
     var определение_sha256 = ПравилаПакета.хэшОпределения
-    var основа_кода = "891da1c8d09f8f7f832a509d09be73ea3b6ecdf3"
+    var основа_кода = "d6ffe81acf4602341d0904428a3416be46362413"
+    var применение_разрешено = true
     var исполнитель_sha256: String
 }
 
@@ -76,6 +77,26 @@ struct КвитанцияПакета: Codable, Equatable, Sendable {
     var подтверждённый_префикс: Int
     var наблюдённый_префикс: Int?
     var причина: String?
+}
+
+// Публичная граница для единственного продукта fuma. Внутренняя модель, injection
+// и выбор тестового хранилища через неё недоступны. Историческую квитанцию caller
+// не должен выдавать за повторную проверку текущего рабочего дерева.
+public enum ПакетноеПрименениеПутей {
+    public static func построить(корень: URL, поручение: Data) async throws -> Data {
+        let вход = try JSONDecoder().decode(ПоручениеПакета.self, from: поручение)
+        return try await байтыПлана(ПакетПутей.построить(корень: корень, вход: вход))
+    }
+
+    public static func сверить(корень: URL, план: Data, sha256: String) async throws {
+        let вход = try JSONDecoder().decode(ПланПакета.self, from: план).поручение
+        let текущий = try await ПакетПутей.построить(корень: корень, вход: вход)
+        try ПакетПутей.сверить(сохранённые: план, ожидаемыйХэш: sha256, текущий: текущий)
+    }
+
+    public static func применить(корень: URL, план: Data, sha256: String) async throws -> Data {
+        try await байтыПлана(ПакетПутей.применить(корень: корень, план: план, ожидаемыйХэш: sha256))
+    }
 }
 
 enum ПакетПутей {
@@ -132,7 +153,8 @@ enum ПакетПутей {
                 после: try обновитьСвежесть(изменение.будущиеБайты, путь: изменение.путь, время: вход.время_свежести),
                 режим: свойства[Data(изменение.путь.utf8)]!.режим))
         }
-        guard правки.count == 5, Set(правки.dropFirst().map(\.путь)) == разрешённыеДокументы else {
+        guard правки.count == 5,
+              Set(правки.dropFirst().map { Data($0.путь.utf8) }) == Set(разрешённыеДокументы.map { Data($0.utf8) }) else {
             throw ОтказПакета.условие("не-четыре-разрешённые-ссылочные-правки")
         }
         for правка in правки {
@@ -159,7 +181,41 @@ enum ПакетПутей {
     static func применить(корень: URL, план: Data, ожидаемыйХэш: String,
         хранилищеДляПроверки: URL? = nil,
         неисправность: ((String, Int) throws -> Void)? = nil) async throws -> КвитанцияПакета {
-        throw ОтказПакета.условие("пакет-не-реализован")
+        let разобранный = try разобратьДляПрименения(корень, план, ожидаемыйХэш)
+        if let квитанция = try прочитатьЗавершённый(корень, разобранный, план, хранилищеДляПроверки) {
+            return квитанция
+        }
+        let текущий = try await построить(корень: корень, вход: разобранный.поручение)
+        try сверить(сохранённые: план, ожидаемыйХэш: ожидаемыйХэш, текущий: текущий)
+        return try ПрименениеПакета(корень: корень, план: разобранный, байты: план,
+            основаХранилища: хранилищеДляПроверки, неисправность: неисправность).выполнить()
+    }
+
+    private static func разобратьДляПрименения(_ корень: URL, _ данные: Data, _ хэш: String) throws -> ПланПакета {
+        guard данные.count <= 67_108_864, хэшПутей(данные) == хэш else {
+            throw ОтказПакета.условие("SHA-плана-не-совпал")
+        }
+        let план = try JSONDecoder().decode(ПланПакета.self, from: данные)
+        guard try байтыПлана(план) == данные,
+              Data(план.схема.utf8) == Data("fum.план-пакета-девяти-путей.1".utf8),
+              план.применение_разрешено, план.переносы.count == 9, план.правки.count == 5,
+              план.поручение.владелец == ProcessInfo.processInfo.environment["CODEX_THREAD_ID"],
+              план.определение_sha256 == ПравилаПакета.хэшОпределения,
+              try план.исполнитель_sha256 == хэшИсполнителя(),
+              try план.пространство == пространство(корень) else {
+            throw ОтказПакета.условие("неверный-план-применения")
+        }
+        return план
+    }
+
+    private static func прочитатьЗавершённый(_ корень: URL, _ план: ПланПакета, _ байты: Data,
+        _ основа: URL?) throws -> КвитанцияПакета? {
+        guard let журнал = try ЖурналПакета.открыть(корень: корень, план: план, байты: байты,
+            основаДляПроверки: основа, создать: false) else { return nil }
+        guard let квитанция = try журнал.квитанция() else {
+            throw ОтказПакета.условие("существует-незавершённое-намерение-эффект-не-повторён")
+        }
+        return квитанция
     }
 
     static func сверить(сохранённые: Data, ожидаемыйХэш: String, текущий: ПланПакета) throws {
@@ -178,7 +234,7 @@ enum ПакетПутей {
     ]
 
     static func проверитьПоручение(_ корень: URL, _ вход: ПоручениеПакета) throws {
-        guard вход.схема == "fum.запрос-пакета-девяти-путей.1",
+        guard Data(вход.схема.utf8) == Data("fum.запрос-пакета-девяти-путей.1".utf8),
               UUID(uuidString: вход.корневая_задача)?.uuidString.lowercased() == вход.корневая_задача,
               UUID(uuidString: вход.владелец)?.uuidString.lowercased() == вход.владелец,
               вход.владелец == ProcessInfo.processInfo.environment["CODEX_THREAD_ID"],
@@ -190,12 +246,12 @@ enum ПакетПутей {
             throw ОтказПакета.условие("неверное-время-свежести")
         }
         guard try ЧитательПакета.строкаГит(корень, ["rev-parse", "--show-object-format"]) == "sha1",
-              try Data(URL(fileURLWithPath: ЧитательПакета.строкаГит(корень, ["rev-parse", "--show-toplevel"]))
-                .resolvingSymlinksInPath().standardizedFileURL.path.utf8) == Data(корень.path.utf8),
-              try ЧитательПакета.строкаГит(корень, ["symbolic-ref", "HEAD"]) == вход.ветка,
+              try Data(ЧитательПакета.физический(URL(fileURLWithPath:
+                ЧитательПакета.строкаГит(корень, ["rev-parse", "--show-toplevel"]))).path.utf8) == Data(корень.path.utf8),
+              try Data(ЧитательПакета.строкаГит(корень, ["symbolic-ref", "HEAD"]).utf8) == Data(вход.ветка.utf8),
               try ЧитательПакета.строкаГит(корень, ["rev-parse", "HEAD"]) == вход.коммит,
               try ЧитательПакета.строкаГит(корень, ["rev-parse", "HEAD^{tree}"]) == вход.дерево,
-              try ЧитательПакета.строкаГит(корень, ["symbolic-ref", "HEAD"]) == вход.ветка else {
+              try Data(ЧитательПакета.строкаГит(корень, ["symbolic-ref", "HEAD"]).utf8) == Data(вход.ветка.utf8) else {
             throw ОтказПакета.условие("дрейф-адреса")
         }
     }
@@ -204,12 +260,14 @@ enum ПакетПутей {
         let читатель = try ЧитательПакета(корень)
         let (_, корневой) = try читатель.каталог("")
         let сообщённый = try ЧитательПакета.строкаГит(корень, ["rev-parse", "--absolute-git-dir"])
-        let служебный = URL(fileURLWithPath: сообщённый).resolvingSymlinksInPath().standardizedFileURL.path
+        let служебный = try ЧитательПакета.физический(URL(fileURLWithPath: сообщённый)).path
         return хэшПутей(Data("\(корень.path)\0\(корневой.устройство):\(корневой.инод)\0\(служебный)".utf8))
     }
 
     static func хэшИсполнителя() throws -> String {
-        guard let адрес = Bundle.main.executableURL else { throw ОтказПакета.условие("не-найден-исполнитель") }
+        guard let адрес = Bundle(for: МеткаОбразаПакета.self).executableURL else {
+            throw ОтказПакета.условие("не-найден-исполнитель")
+        }
         return try хэшПутей(Data(contentsOf: адрес))
     }
 
@@ -331,6 +389,8 @@ enum ПакетПутей {
     }
 }
 
+private final class МеткаОбразаПакета: NSObject {}
+
 struct ЭлементИндексаПакета: Equatable, Sendable {
     var путь: Data
     var режим: String
@@ -367,8 +427,7 @@ final class ЧитательПакета {
     private var открытые: [Data: (Int32, КаталогПакета)] = [:]
 
     init(_ корень: URL) throws {
-        guard Data(корень.path.utf8) == Data(корень.standardizedFileURL.path.utf8),
-              Data(корень.path.utf8) == Data(корень.resolvingSymlinksInPath().path.utf8) else {
+        guard try Data(корень.path.utf8) == Data(Self.физический(корень).path.utf8) else {
             throw ОтказПакета.условие("нефизический-корень")
         }
         self.корень = корень
@@ -379,6 +438,30 @@ final class ЧитательПакета {
     }
 
     deinit { for (дескриптор, _) in открытые.values { close(дескриптор) } }
+
+    static func физический(_ адрес: URL) throws -> URL {
+        guard адрес.isFileURL, адрес.path.hasPrefix("/"), !адрес.path.utf8.contains(0) else {
+            throw ОтказПакета.условие("не-файловый-адрес")
+        }
+        var остаток: [String] = []
+        var путь = адрес.path
+        for _ in 0...(путь.utf8.count + 1) {
+            if let указатель = realpath(путь, nil) {
+                let основа = String(cString: указатель); free(указатель)
+                let суффикс = остаток.reversed().joined(separator: "/")
+                return URL(fileURLWithPath: основа + (суффикс.isEmpty ? "" : (основа == "/" ? "" : "/") + суффикс))
+            }
+            guard errno == ENOENT else { throw ОтказПакета.условие("физический-адрес-не-разрешён") }
+            var сведения = stat()
+            if lstat(путь, &сведения) == 0 { throw ОтказПакета.условие("неразрешённый-символический-адрес") }
+            let родитель = (путь as NSString).deletingLastPathComponent
+            guard !родитель.isEmpty, родитель.utf8.count < путь.utf8.count else {
+                throw ОтказПакета.условие("физический-предок-не-сокращается")
+            }
+            остаток.append((путь as NSString).lastPathComponent); путь = родитель
+        }
+        throw ОтказПакета.условие("предел-физических-предков")
+    }
 
     static func гит(_ корень: URL, _ аргументы: [String], коды: Set<Int32> = [0]) throws -> Data {
         // C argv строится из исходных UTF-8, без промежуточного NSString пути.
