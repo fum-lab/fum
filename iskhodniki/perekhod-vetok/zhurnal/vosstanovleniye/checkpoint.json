@@ -1,0 +1,169 @@
+{
+  "ветка_и_основание": {
+    "head": "f080129907a93ff1174bdb53d4cb2d288fcca1dd",
+    "ref": "refs/heads/codex/fabrika-agentov-vosstanovleniye-01a127bf",
+    "tree": "21af6a5cd4d157c7e93a0fcf0b8a6063aa70e361",
+    "единственный_писатель": true,
+    "рабочая_область": {
+      "идентификатор": "cd00/FUM",
+      "путь_sha256": "a73c3487101cb6552bc210d7e8f6246713b13a225e8d9f82a1ee977299f8ac34",
+      "путь_utf8_байтов": 36,
+      "путь_приватен": true
+    },
+    "создана_от_точного_C": true,
+    "чисто_до_начала": true
+  },
+  "задача": {
+    "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "родительский_uuid": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+    "собственный_uuid": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb"
+  },
+  "наблюдения": {
+    "кодовых_проверок_пока_нет": true,
+    "образ_FUMA_проверен": true,
+    "первая_попытка_чтения_ROOT_остатка": {
+      "код": 130,
+      "объём_прочитанного": "неизвестен",
+      "повтор": "запрещён координатором",
+      "результат": "не получен",
+      "состояние": "прервана"
+    },
+    "собственный_native_turn_context": {
+      "at": "2026-10-26T10:11:07.930Z",
+      "effort": "max",
+      "line_bytes": 2018,
+      "line_sha256": "34555d90086f03cb444589f5a41f9454cb6d1670197c5d42502dbb34390dd6e2",
+      "model": "gpt-6-luna"
+    }
+  },
+  "незавершённое": [
+    "чистый FUMA plan.swift",
+    "Swift Testing proverki.swift",
+    "дедуп-история модели и planner для восстановления по Git spec",
+    "короткий профиль",
+    "точный push и readback"
+  ],
+  "области_записи": [
+    "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/**",
+    "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/**",
+    "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/**"
+  ],
+  "переход_модели": {
+    "native_after": {
+      "model": "gpt-6-luna",
+      "effort": "unknown",
+      "state": "observed",
+      "observed_at": "2026-10-26T10:35:44.871Z",
+      "evidence": "сообщение координатора: LunaMax"
+    },
+    "native_observation_event": {
+      "path": "events/native-observation-2026-10-26t103544871z.json",
+      "sha256": "235836dbd34370868bdee8bf5cda693528a23c576c6670515444b827f97708c7",
+      "bytes": 1450
+    },
+    "sha256": "59bb97eec94426d940013e647660859708451983a5b3ea73c317d02685ca09ab",
+    "байтов": 4540,
+    "событие": "events/2f32b2c4-7e27-42d5-bca6-64c88a639dca.json"
+  },
+  "полномочия": {
+    "запрещено": [
+      "читать ROOT JSONL или запускать ROOT final guard",
+      "fullPUB",
+      "master/PR",
+      "создавать новую задачу/UUID/W/ref",
+      "выполнять host create/send/wake из чистого планировщика"
+    ],
+    "основание": "исходная постановка в C плюс адресные уточнения непосредственного координатора",
+    "разрешено": [
+      "читать собственный native-префикс",
+      "писать только назначенные три области",
+      "создать и продвигать только собственную ветку",
+      "запускать scoped TDD и профиль через обёртку",
+      "обычно отправить свой ref и проверить удалённый OID"
+    ]
+  },
+  "программа_проверок": [
+    {
+      "id": "own-native-identity-model",
+      "provenance": "собственный native turn_context; SHA/байты сохранены выше",
+      "state": "completed"
+    },
+    {
+      "id": "own-worktree-head-ref-clean-sole-writer",
+      "provenance": "readback cd00; C/tree/ref/sole-owner зафиксированы выше",
+      "state": "completed"
+    },
+    {
+      "id": "source-map-and-FUMA-image-digest",
+      "provenance": "три явно закреплённых SHA/размера из задания",
+      "state": "completed"
+    },
+    {
+      "id": "LinguisticKit-init-check-if-needed",
+      "provenance": "разрешено только в собственном W при необходимости",
+      "state": "pending"
+    },
+    {
+      "id": "scoped-TDD-RED-GREEN",
+      "provenance": "только три назначенные области; отчётная обёртка",
+      "state": "pending"
+    },
+    {
+      "id": "short-reproducible-profile",
+      "provenance": "тот же typed planner; без вывода ускорения без A/B",
+      "state": "pending"
+    },
+    {
+      "id": "exact-diff-author-normal-commit",
+      "provenance": "текущая ветка и наблюдаемый author",
+      "state": "pending"
+    },
+    {
+      "id": "exact-own-ref-push-and-remote-OID-readback",
+      "provenance": "обычный push одной своей ветки",
+      "state": "pending"
+    },
+    {
+      "id": "ROOT-reader-or-final-guard",
+      "provenance": "прямое адресное уточнение координатора",
+      "state": "not-authorized"
+    },
+    {
+      "id": "fullPUB-master-PR",
+      "provenance": "объём ordinary child 000061/188",
+      "state": "not-authorized"
+    }
+  ],
+  "происхождение": {
+    "источник_политики": {
+      "blob_oid": "d6235b36310e027b8d06957f61244fd8c460655d",
+      "commit": "f080129907a93ff1174bdb53d4cb2d288fcca1dd",
+      "sha256": "5403c149cbf630054ad43f72986bf35f0287b1a8e234e10e2ed23aa3b265cc72",
+      "байтов": 7255,
+      "путь": "iskhodniki/perekhod-vetok/zhurnal/006e95ef174e4dd2f0a10bcc7d553fe669f46c896bb0fa053f02beaee73e9166.json"
+    },
+    "исходный_ввод": {
+      "sha256": "5ff45b20ca905c65bc00f04ce91d661ff3bce5cae67cc5f7018033e18d914e4b",
+      "байтов": 30928,
+      "публикуется_цитата": false,
+      "хранение": "приватно-вне-Git"
+    },
+    "карта_имён": {
+      "sha256": "7e63af0e0e1763ce7dd72ef99cafcbd778d92b3cbc37cbfd8f51c18590d221a7",
+      "байтов": 1719,
+      "путь": "iskhodniki/perekhod-vetok/karta-imyon-vosstanovleniya.json"
+    },
+    "программный_образ_FUMA": {
+      "sha256": "689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b",
+      "байтов": 4127264
+    },
+    "спецификация": {
+      "sha256": "37a73048b201e20e3d97089b556d8c147dae042763e35ead7a94e18ceb8bfbd2",
+      "байтов": 16867,
+      "путь": "iskhodniki/perekhod-vetok/postanovka-vosstanovleniya.json"
+    }
+  },
+  "роль": "обычный дочерний писатель 000061/188; не ROOT и не конечная передача 000019",
+  "схема": "fum.контрольная-точка-восстановления.1",
+  "этап": "начальная-метадата; код и TDD ещё не начаты"
+}
