@@ -80,9 +80,13 @@ enum ПланировщикЗаписи {
         let данные = try JSONDecoder().decode(ВходЗаписи.self, from: Data(результат.utf8))
         try данные.проверить()
         let каноническийВход = try каноническиеДанные(данные)
-        let исходныеПоля = try JSONSerialization.jsonObject(with: вход) as? NSDictionary
-        let типизированныеПоля = try JSONSerialization.jsonObject(with: каноническийВход) as? NSDictionary
-        guard let исходныеПоля, let типизированныеПоля, исходныеПоля.isEqual(типизированныеПоля),
+        let исходныеПоля = try JSONSerialization.jsonObject(with: вход)
+        let типизированныеПоля = try JSONSerialization.jsonObject(with: каноническийВход)
+        let формат: JSONSerialization.WritingOptions = [.sortedKeys, .withoutEscapingSlashes]
+        // Точная сериализация JSON-значений сохраняет типы 1/true и закрытый состав полей.
+        // Равенство с уже проверенным типизированным результатом проверяет и оригинал.
+        guard try JSONSerialization.data(withJSONObject: исходныеПоля, options: формат)
+                == JSONSerialization.data(withJSONObject: типизированныеПоля, options: формат),
               Data(результат.utf8) == каноническийВход,
               Data(данные.область.utf8) == Data(цель.область.utf8) else { throw ОтказЖурнала.вход }
         let идентификатор = хэш(try каноническиеДанные(данные.экземпляр))
