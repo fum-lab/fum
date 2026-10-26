@@ -51,7 +51,7 @@
         "journal_record_directories_are_data": 4353,
         "projection_directories_including_root": 2486,
         "source_tree": "99531ccdaa408edf7ea9d49eeb95160590e48a9b",
-        "plan": "Журнал/2026-10-26_13-44-30_MSK_создать-карту-заказов-и-доставки-поведения-агентов/plan.json"
+        "plan": "Журнал/2026-10-26_13-44-30_MSK_создать-карту-заказов-и-доставки-поведения-агентов/материалы/plan.json"
       },
       "частота": {
         "наблюдалось": 1,
