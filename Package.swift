@@ -32,11 +32,11 @@ let package = Package(
             path: "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений",
             swiftSettings: настройки),
         .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений"],
-            path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md"],
+            path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md", "zhurnal"],
             swiftSettings: настройки),
         .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла"],
             path: "iskhodniki/zapusk",
-            exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "README.md"],
+            exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "ВходПакетаПутей.swift", "ОбработчикПакетаПутей.swift", "README.md", "zhurnal"],
             sources: ["Команда.swift"], swiftSettings: настройки),
         .testTarget(name: "ПроверкиЗапуска", dependencies: ["ОсноваЗапуска", "КонтейнерНаблюдений"],
             path: "proverki/zapusk", swiftSettings: настройки)

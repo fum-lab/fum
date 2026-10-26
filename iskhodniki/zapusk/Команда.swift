@@ -6,6 +6,17 @@ import ЖурналУзла
 @main
 struct Команда {
     static func main() async {
+        if CommandLine.arguments.dropFirst().first == "пакет-путей" {
+            let текст: String
+            do {
+                _ = try РазборПакетаПутей.разобрать(Array(CommandLine.arguments.dropFirst(2)))
+                текст = "Backend пакета путей не подключён; операция не выполнялась.\n"
+            } catch {
+                текст = "Некорректные аргументы пакет-путей; используйте fuma --помощь.\n"
+            }
+            try? FileHandle.standardError.write(contentsOf: Data(текст.utf8))
+            Darwin.exit(2)
+        }
         let вывод: Data
         let код: Int32
         do {
