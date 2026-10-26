@@ -1,0 +1,14 @@
+{
+  "stderr_sha256" : "281cac3f2a17c870f37483ceab2b1c8dca61699bd089c0f5311b8a14005fa464",
+  "stderr_байтов" : 623,
+  "stdout_sha256" : "8f47a3cc2b7bd55f82b647f0fbf630fde2e062acc3fa7188e442a94a7e839d19",
+  "stdout_байтов" : 11810,
+  "код" : 0,
+  "команда_sha256" : "9369c8a2b5b00e5bd2850d505abac9dad90c39e3dd1f9c2d068db7045b99015e",
+  "название" : "GREEN каталога после RED54/55: no-op custody collisions stage identity freshness bounded CLI",
+  "намерение" : "56.nachalo.json",
+  "наносекунды" : 7868361958,
+  "оригиналы" : "Точный argv, stdout и stderr сохранены приватно; сырые локальные пути не публикуются",
+  "состояние" : "успешно",
+  "схема" : "fum.исход-адресной-проверки.1"
+}

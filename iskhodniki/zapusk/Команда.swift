@@ -2,6 +2,7 @@ import Foundation
 import Darwin
 import ОсноваЗапуска
 import ЖурналУзла
+import МатериализацияУзлов
 
 @main
 struct Команда {
@@ -9,6 +10,11 @@ struct Команда {
         let вывод: Data
         let код: Int32
         do {
+            if CommandLine.arguments.dropFirst().first == "vosstanovitj-uzel" {
+                let ответ = try await КомандаКаталогаВосстановления.выполнить(Array(CommandLine.arguments.dropFirst(2)))
+                try FileHandle.standardOutput.write(contentsOf: ответ)
+                return
+            }
             if CommandLine.arguments.dropFirst().first == "журнал" {
                 let ответ = try КомандаЖурнала.выполнить(Array(CommandLine.arguments.dropFirst(2)))
                 try FileHandle.standardOutput.write(contentsOf: ответ)
@@ -23,6 +29,9 @@ struct Команда {
                 вывод = try ПредставлениеЗапуска.байты(ОтветЗапуска(результат: результат), читаемо: true)
                 код = 0
             }
+        } catch let ошибка as ОтказКомандыКаталога {
+            вывод = (try? ошибка.представление()) ?? Data("{}\n".utf8)
+            код = 2
         } catch let ошибка as ОтказКомандыЖурнала {
             вывод = (try? ошибка.представление()) ?? Data("{}\n".utf8)
             код = 2

@@ -1,6 +1,6 @@
 {
   "схема": "fum.программа-материализации-агентов.1",
-  "состояние": "Sync3f возвращён, тот же writer продолжает Git backend/typed push/merge metadata. По новым адресным ROOT-заказам прежний observer восстановлен на3bfd в прежнем ref/W, прежний recovery9909 выбран packetexecutor в существующемcd00; новые committed постановки готовятся. Их прежние STOP не заменяются фоновым autostart: новые этапы начинаются только адресной передачей и actual ACK. Root повторимый cwd recovery/идемпотентный no-op и общий CLI остаются незавершёнными.",
+  "состояние": "Снимок на 2026-10-26T19:44:09Z. Root каталог имеет закрытые DTO, чистый planner и один entry vosstanovitj-uzel в общем fuma: реальные RED54/55, GREEN56 32tests и processhelp57. Production session transport закрыт; real temporaryGit + fake session execution ещё не подключены. Observer001e доставлен, возвращён по Author/trailer и трём P2; additive исправление у прежнего writer. Packetexecutor получил correctedgrant98565deb version2, готовит bounded checkpoint без functionalGREEN. Sync priority10tests дал7pass/3privatefixturefail, requested gpt-5.6-sol/ultra передан прежнему UUID; actual нового native ещё ожидается. После rootGREEN heavy слот явно передан обратно sync на один diagnostic serialrun.",
   "квитанция_цикла": "kvitanciya-cikla-1.json",
   "граница_квитанции": "Неизменяемая начальная ACK-граница545a4e0f; более поздняя доставка наблюдателя учитывается отдельным журналом, а не переписыванием прежней квитанции",
   "адрес": "fum-lab/fum/instrumentyi/perekhod-vetok/master",
@@ -246,5 +246,49 @@
     "смысл": "Штатный обновитель сформировал ровно три report.historical декларации по пути, kind, SHA всей строки и count1. Исходные байты/RАW не переписываются. Это не нулевое число находок и не проверка общего checkout.",
     "имя": "Имя повторно использовано из реально вычисленной LK837 пары публикационная политика → publikacionnaya-politika в принятом c6af:iskhodniki/zhurnal/karta-imyon.json; расширение JSON — формат.",
     "общая_политика": "Общая policy репозитория не меняется; принимающий владелец отдельно выбирает эту точную границу при интеграции."
+  },
+  "каталог_восстановления": {
+    "вход": "vosstanovitj-uzel",
+    "код": [
+      "uzlyi/inventarj-kataloga.swift",
+      "uzlyi/plan-kataloga.swift",
+      "uzlyi/komanda-kataloga.swift"
+    ],
+    "проверки": [
+      "proverki/proverki-kataloga.swift",
+      "proverki/proverki-komandyi-kataloga.swift"
+    ],
+    "контракт": "Конечный выбор не более64непосредственных детей, immutable grant source, per-record source/time/version, clockTTL, O(N+M) группировка UUID/целей/ref. Чистый exactexistingowner/path/ref/OID/tree даёт no-op; missingtarget требует existingknownfreebranch/source. Paused/cancelled/completed не wake; stage permission закрепляет UUID/этап/поручение, stableintent различает новыеэтапы. Private/untracked/ignored прошлого воплощения UNKNOWN.",
+    "cli": "Help и read-only plan доступны через единственный product fuma. Closed keys/argv, inputlimit131072/planlimit1048576 читаются максимумlimit+1, exact inputSHA и contentplanSHA. Применение без независимо подключённого host всегда typedblocked с0новыхэффектов. JSON не выдаёт fixture capability.",
+    "actual": [
+      "54: compiled27tests/31issues, настоящий behavioralRED",
+      "55: compiled3stage tests/12issues, настоящий behavioralRED",
+      "56: compiled32tests/2suites allpass;7.868361958sec wrapper не wholeproducerbenchmark",
+      "57: реальный собранный fuma vosstanovitj-uzel помощь0"
+    ],
+    "сохранённые_неуспехи": "44 incorrect frontend argv1;45 parse0;46 skipbuild1 missingnewobserverbundle;47 MachObundle не executable125;48 helperfolder dlopen signal5;49 отсутствовавший runtimeFramework signal5;50 helpercode0 безвыбраннойtestinglibrary/zeroTests/nomap НЕ GREEN;51 helperправильновыбралswift-testing,1Namescase0/map5. 52 compilation1 duplicateproverki.swiftbasenames;53 Namesодинcase0, rootprocessfileполучилуникальноеимя. Rawи oldobjectsсохранены.",
+    "остаток": [
+      "Реальный временный Git restore/no-op и durable intent/readback test",
+      "Fake session adapter, one-nodefailure/unknownlaunch/idempotence и фактические integration tests",
+      "Production Desktop transport unavailable; codex exec resume не выбран",
+      "Чистая частичная поставка отc6af без старого67dd39paths, ROOT acceptance отдельно"
+    ],
+    "имена": {
+      "проверка": "51.iskhod.json",
+      "карта_sha256": "3bc3594d0aab82fc539fc9ca4587b66a1fbabb24b9dfe365912c83b11985c7f8",
+      "уникальный_process_test": "53.iskhod.json"
+    }
+  },
+  "синхронизация_адресное_уточнение": {
+    "граница": "Позднее сообщение добавлено отдельно от снимка 19:44; полный сбор не повторялся",
+    "писатель": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+    "actual": "gpt-5.6-sol / ultra",
+    "событие": "thread_settings_applied",
+    "время": "2026-10-26T19:40:38.109Z",
+    "ordinal": 8623,
+    "строка_sha256_без_LF": "5ed57898137a26d22896800f424a8f7e12e95bffcd6bfce332f26668023c3216",
+    "turn": "01a1799a-a3d0-7173-a3c3-34fa19a3a0cf",
+    "прежний": "gpt-6-luna / max, 19:20:54.474Z, сохранён как история",
+    "ресурс": "Слот принят тем же владельцем на один serial diagnostic run после root GREEN56; новый UUID не создан"
   }
 }

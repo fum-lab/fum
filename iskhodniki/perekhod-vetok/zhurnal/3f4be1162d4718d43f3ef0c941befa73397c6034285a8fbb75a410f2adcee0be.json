@@ -1,0 +1,67 @@
+{
+  "входSHA256" : "5e7a8db2dc7cff3a80978124cb4c81eba0bfc4453e756363c687ea6488423e25",
+  "данные" : {
+    "время" : "2026-10-26T19:57:57Z",
+    "доставка" : [
+
+    ],
+    "исход" : "Исходнаяjournalrecordнепереписана. Адресныеисправлениепубликациииactualсменаsyncсохраненыотдельнойзаписью; частичныйrootCещёготовится",
+    "область" : "iskhodniki/perekhod-vetok",
+    "остаток" : [
+      "ScopedPUB/exactdiff/index/ledger/authorbodyreadback/normal exactpush/remotereadback",
+      "ПрименитьнезависиморазобранныйprivateGitdraftпослеactualtemporaryGitRED; fake-session/no-duplicate/intentreplay/per-nodefailures tests/profile",
+      "Syncsamewriterdiagnostic3positives/actualmodelACK/sourceC; observeradditiveAuthorfix+3P2; packetadditivenarrative+exactnewstageadmission",
+      "Чистаяpartialdeliveryотc6afбезстарого67dd39paths, ROOTacceptanceотдельно"
+    ],
+    "проверки" : [
+      {
+        "исход" : "неуспешно",
+        "код" : 1,
+        "название" : "ScopedPUB60",
+        "наносекунды" : 284732667,
+        "свидетельство" : "60.iskhod.json; толькоerror.home-expansion на техническомлитерале, fixtureсохранён"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "СвежийGREEN61",
+        "наносекунды" : 9304110375,
+        "свидетельство" : "61.iskhod.json;33tests/2suitesallpass,10ref-symbolcases"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Полная8sourceSHAmap62",
+        "наносекунды" : 70717541,
+        "свидетельство" : "62.iskhod.json; текущийконечныйсоставsource"
+      }
+    ],
+    "происхождение" : [
+      "Продолжение собственного каталога от98565deb; исходная запись2e3cf60 сохранена без изменения",
+      "ScopedPUB60 и точный отказной fixture сохранены; решение не ослабляет сканер",
+      "Позднее явное ROOT-решение STOP старого sync turn → idle → same-thread новый5.6turn, передано через instrumentyi"
+    ],
+    "публичная" : true,
+    "решения" : [
+      "PUB60 вернул1: error.home-expansion на source CharacterSet с дословным U+007E. Это техническое множество запрещённых символов Git-ref. Его значение сохранено равнозначным Swift Unicode-escape; сканер и policy не менялись. Добавлен тест десяти запрещённых символов, свежий61 собрал код и выполнил33 теста двух suites без ошибок",
+      "Проверка62 закрепила текущие8source SHA после исправления;58 остаётся историческим снимком. Новых заявлений whole-producer performance нет",
+      "ROOT позднее потребовал закончить старый sync turn, поскольку settings override не подтверждал actual нового turn. Сначала отправлен STOP с запретом нового workload, commit, cleanup и ROOTguard; дождались завершения текущей команды. wait_threads явно подтвердил idle/completed старого01a1799a, безпроцессов, lastapply_patch0 и сохранённыйprivateSTOPcheckpoint",
+      "После наблюдённого idle одной командой model=gpt-5.6-sol/thinking=ultra продолжен тот же UUID01a177f5, W9d58/ref/H3f/tree1e26. Новый actual OWN turn_context line9255/ordinal9254,2026-10-26T19:54:57.012Z, turn01a179c7-c248-71b3-8400-85efc981ec65, SHA428410404da36715357702be281f04d8012eff4983691253b5218a201050d711 подтверждён ребёнком. Settings прошлого turn и прежняяLuna сохранены отдельно; requested не подменялactual",
+      "Root61 завершён, слот явно освобождён и передан новому actualsync turn на один diagnostic serialrun трёхpositiveprivateGitcases с boundedoversizecase. Root новыхSwiftPMне запускает. Точныйownnativepath передан, общие sessions scan/ROOTJSONL запрещены",
+      "Чистыйкаталог/CLIсрез сохраняется отдельно от приватного unsafeGitdraft. Его7ROfindings не выданы заготовыйbackend; tests/privatev2готовятся темжеinternalagent внеcheckout"
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "стадия" : "уточнить-публикацию-и-фактический-sync-turn"
+    }
+  },
+  "идентификатор" : "3f4be1162d4718d43f3ef0c941befa73397c6034285a8fbb75a410f2adcee0be",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}

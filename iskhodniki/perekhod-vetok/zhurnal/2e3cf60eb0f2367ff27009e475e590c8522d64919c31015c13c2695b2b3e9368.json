@@ -1,0 +1,95 @@
+{
+  "входSHA256" : "dc9b08274264833af50bb8c914b5443baf6ec92de9cffe1c808544d301214274",
+  "данные" : {
+    "время" : "2026-10-26T19:44:09Z",
+    "доставка" : [
+
+    ],
+    "исход" : "Первый проверенныйчистыйcatalog/CLIсрезготовксохраняющейконтрольнойточке. RealGitadapter/fakesession/productiontransportневыданызавыполненныйlauncher",
+    "область" : "iskhodniki/perekhod-vetok",
+    "остаток" : [
+      "ScopedPUB/exactdiff/index/ledger/authorbodyreadback/normal exactpush/remotereadback",
+      "ПрименитьнезависиморазобранныйprivateGitdraftпослеactualtemporaryGitRED; fake-session/no-duplicate/intentreplay/per-nodefailures tests/profile",
+      "Syncsamewriterdiagnostic3positives/actualmodelACK/sourceC; observeradditiveAuthorfix+3P2; packetadditivenarrative+exactnewstageadmission",
+      "Чистаяpartialdeliveryотc6afбезстарого67dd39paths, ROOTacceptanceотдельно"
+    ],
+    "проверки" : [
+      {
+        "исход" : "неуспешно",
+        "код" : 1,
+        "название" : "НастоящийbehavioralRED",
+        "наносекунды" : 7631630625,
+        "свидетельство" : "54.iskhod.json;27tests/31issues после успешнойсборки"
+      },
+      {
+        "исход" : "неуспешно",
+        "код" : 1,
+        "название" : "НастоящийstageRED",
+        "наносекунды" : 8100839500,
+        "свидетельство" : "55.iskhod.json;3tests/12issues после успешнойсборки"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "АдресныйGREENчистогокаталога/CLI",
+        "наносекунды" : 7868361958,
+        "свидетельство" : "56.iskhod.json;32tests/2suites, этоwrapperduration, не wholeproducerbenchmark"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Реальныйfumaentryhelp",
+        "наносекунды" : 566340833,
+        "свидетельство" : "57.iskhod.json;singleproductcompiledfuma, exactargv/stdout/stderrprivate"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Закрытая8sourceSHAmap",
+        "наносекунды" : 73500792,
+        "свидетельство" : "58.iskhod.json; sourceSHAпо8адреснымфайлам"
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Names51",
+        "наносекунды" : 283618167,
+        "свидетельство" : "51.iskhod.json;1Namescase/map5, SHA3bc3594d0aab82fc539fc9ca4587b66a1fbabb24b9dfe365912c83b11985c7f8"
+      }
+    ],
+    "происхождение" : [
+      "Адресные ROOT-поручения через instrumentyi01a17797: один vosstanovitj-uzel entry в том же productfuma, repeatabletrackedcwdrestore, exactexisting no-op, fake-session+temporaryGit firstslice, productionhost честноblocked",
+      "Предыдущая собственная сохранённая граница98565deb72e2d4b7e3e157452233d631412233a6/treee5e1d0e3af4354a8870cb1773cbf5c8cba753ff6, normalpush/remoteOIDverified",
+      "НезависимыйROreview новых rootDTO/plan: missingbranch/crossUUIDsame-target/commonstagegrant/collidingstageintents. Все4findings получили различающие tests; privateGitadapterdraft829lines пока внеcheckout и безtests"
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Закрытые Codable DTO и чистый план ограничены 64 непосредственными детьми. Индексы UUID, целевых путей и пар репозиторий/ref строятся один раз. Проверяются владелец, источник, путь, ref, OID, дерево, чистота и свежесть наблюдения. Данные прежнего private/untracked/ignored воплощения остаются UNKNOWN.",
+      "Точное существующее состояние даёт no-op. Пауза, отмена и завершённый ACT не запускаются заново. Отсутствующая или неизвестная ветка и спорная цель дают закрытый отказ. Независимый третий узел продолжает получать собственный результат.",
+      "Допуск нового этапа содержит UUID узла, этап и поручение. Общий текст названия не разрешает другой UUID. Повтор пары запрещён; намерения этапов 2 и 3 отличаются, повтор этапа 2 сохраняет прежний идентификатор. Часы и TTL выбираются вне JSON тестовым контекстом; production-контекст закрыт.",
+      "Реальные RED54 (27 тестов, 31 issue) и RED55 (3 теста, 12 issues) сохранены. После исправлений GREEN56 собрал код и выполнил 32 теста двух suites без ошибок. Это покрытие чистого плана и CLI resolver; Git-восстановление и сессии ещё не исполнялись.",
+      "В существующий product fuma подключён один entry vosstanovitj-uzel. Закрытый argv поддерживает помощь, план и применение. Чтение ограничено limit+1: вход 131072 байта, план 1048576 байт. План связывает точные исходные байты SHA и собственное содержимое. Без host применение всегда возвращает typed blocked без эффектов; JSON не выдаёт тестовую capability. Реальный процесс57 помощи завершился0.",
+      "Компиляция52 выявила одинаковые Swift basename proverki.swift в одном test target. Исторический recovery-файл сохранён; root процессный тест получил уникальное имя через принятый Names53. Это исправление контракта включения, а не функциональный RED52.",
+      "Все диагностические неуспехи44 и46–50 сохранены. Код0 попытки50 не означал выполнения тестов: отсутствовали выбранная testing library и выходная карта. Исправленная конечная программа51 использовала фактический Mach-O bundle, штатный SwiftPM helper, Xcode runtime environment и явную swift-testing library; реально выполнен один Names-тест и получена карта пяти имён. Сборки для этой карты не было.",
+      "Observer001e4026 доставлен, но возвращён тому же владельцу из-за неверных Author/trailer и трёх P2: принадлежность tool marker ходу, освежение статуса историей, противоречивые ancestry-цепочки. Опубликованная история сохраняется. Root Package resource bridge пока не принят.",
+      "Родитель независимо подтвердил packetd16752bb, 26 новых scoped путей и remote OID, но Author снова FUM Писатель. Тому же владельцу выдан точный additive допуск только на собственную narrative/provenance запись от d167 и grant98565deb. Код заморожен; real driver удержан. Автоматического допуска потомка нет. Функциональные tests/SwiftPM/real driver/scoped PUB не подтверждены.",
+      "Sync priority suite завершила 10 тестов: 7 успешных, 3 private fixture failure. Их причины не объявлены известными по гипотезе о contention. После root GREEN56 слот явно передан тому же sync на один serial diagnostic run с сохранением remote/readback и первичной фазы ошибки. Gates не ослабляются.",
+      "Поздний actual ACK модели добавлен отдельным адресным уточнением: OWN native thread_settings_applied от19:40:38.109Z подтверждает gpt-5.6-sol / ultra, ordinal8623, строка SHA5ed57898. Прежнее Luna/max сохранено. Сам turn ID остаётся прежним, новый чат не создавался. Первоначальное ожидание actual в снимке19:44 не переписано задним числом.",
+      "Проверка58 закрепила восемь собственных файлов; после позднего уточнения59 заново закрепила только программу. Common34 pins helper не заменяют карту нового кода. Git-адаптер829строк остался приватным черновиком вне checkout: независимый RO-review нашёл filter, inode, objects, lock, tracked completeness, timeout и O_EXCL дефекты; подготовлены задания на тесты и v2.",
+      "Этот промежуточный checkpoint сохраняет проверенный чистый срез. Real temporary Git, fake session adapter, profiling и production transport остаются открытыми. Coherence отключена по решению149 / не проверено. NAV, Proyekcii, fullPUB и полнота ROOT неизвестны. Очистка и новые полные копии не выполнялись."
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "стадия" : "сохранить-каталог-после-первых-red-green"
+    }
+  },
+  "идентификатор" : "2e3cf60eb0f2367ff27009e475e590c8522d64919c31015c13c2695b2b3e9368",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
