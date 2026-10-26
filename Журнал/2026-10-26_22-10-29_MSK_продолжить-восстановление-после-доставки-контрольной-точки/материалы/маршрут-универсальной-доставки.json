@@ -1,0 +1,42 @@
+{
+  "схема": "fum.маршрут-универсальной-доставки.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "решение_о_writer": "Новый writer, chat, worktree и ref сейчас не создаются: сохранённый plan-postavki требует использовать существующие воплощения, а эффект уже разделён между materializer, sync и packetexecutor.",
+  "ближайшая_цепочка": {
+    "source_commit": "98565deb72e2d4b7e3e157452233d631412233a6",
+    "source_tree": "e5e1d0e3af4354a8870cb1773cbf5c8cba753ff6",
+    "grant_blob": "1b201bccf1bdf7935e69f61f14c6f80067f714e7",
+    "grant_sha256": "65452f21be9b4cb1eb58fcd343861925ba8add8eb1ce5600dbb9641dcd19cd23",
+    "recipient": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+    "recipient_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+    "recipient_base": "9909c19aade5820e41798d155f9c30978b48453d",
+    "уже_есть": "ACK и раздельная сверка source/current closed 34-pin профилей.",
+    "ожидается": "Фактический packetexecutor plan, apply, единственное outcome-read и application readback."
+  },
+  "первый_act": {
+    "режим": "read-only ROOT-приёмка после результата существующего packetexecutor",
+    "проверить": [
+      "raw source commit, tree, path, mode, blob и SHA",
+      "recipient UUID, ref, base, source pins и отдельные current pins",
+      "ровно один plan, один apply и один outcome-read",
+      "terminal status, application readback и точный repeat/no-op"
+    ],
+    "закрытые_отказы": [
+      "отсутствует любая стадия",
+      "подменён source или recipient",
+      "смешаны source/current профили",
+      "unknown или partial outcome",
+      "readback не совпадает"
+    ],
+    "выход": "Машинная цепочка source → ACK → application; ACK отдельно не называется применением."
+  },
+  "постоянный_валидатор": {
+    "условие": "Только отдельное решение ROOT после первой фактической цепочки.",
+    "основа": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "command": "fuma проверить-поставку --контракт <json>",
+    "семантика": "Только read-only cat-file/ls-tree по полным OID, канонический JSON+LF fum.проверка-полной-доставки.1 и коды 0/2.",
+    "запрещено": "Commit, push, merge, изменение ref/worktree, сеть, Python, D22 и запись в области живых владельцев.",
+    "конфликт": "Package.swift и root CLI пересекаются с PR 393, поэтому writer сейчас не запускается."
+  },
+  "граница": "Checkpoint валидатора, delivery его ветки, успешная проверка фактической цепочки, ROOT-приёмка и интеграция — разные состояния."
+}

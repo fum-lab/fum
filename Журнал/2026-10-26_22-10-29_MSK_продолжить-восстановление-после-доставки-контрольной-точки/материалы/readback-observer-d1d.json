@@ -1,0 +1,36 @@
+{
+  "схема": "fum.readback-observer-additive-provenance.1",
+  "commit": "d1d572aaab0acd3f48d6d84e0bba699f2e44ed4d",
+  "tree": "7cd0adfef672137db93a3e870ce72811dfdd397d",
+  "parent": "001e4026c081b3284f35688e3bbb6c013b3e32e1",
+  "ref": "refs/heads/codex/fabrika-agentov-nablyudeniye-01a127bf",
+  "remote_oid": "d1d572aaab0acd3f48d6d84e0bba699f2e44ed4d",
+  "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+  "committer": "FUM <fum@local>",
+  "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "изменённых_путей": 25,
+  "область": "Только iskhodniki/perekhod-vetok/fabrika-agentov/nablyudeniye/zhurnal/*.json.",
+  "fuma_запись": {
+    "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/nablyudeniye/zhurnal/eaaf3933b180c0c1f6516ab7c388f1337ab71052da7c38304c1ba596bf8dd5ea.json",
+    "sha256": "708777df8e440372cbe960dfc47a8c6c42988307a7d3af84bd018375c81a6f2f"
+  },
+  "исходное_поручение": {
+    "источник": "6b7c72d21899874a6ab48d85250ae1e698eb8da8:iskhodniki/perekhod-vetok/postanovka-nablyudeniya-2.json",
+    "байтов": 7662,
+    "sha256": "4f0f3bb12aee986b3e4fc2731579a7e518bf39270aca92e4084bfa749c86dd7f",
+    "сохранение": "Полные байты включены в commit body."
+  },
+  "независимый_readback": [
+    "git cat-file -p подтвердил tree, parent, Author, Committer, полное тело и Codex-Thread-ID.",
+    "git diff-tree подтвердил 25 новых JSON-путей в единственном разрешённом префиксе.",
+    "git show плюс shasum подтвердили обе заявленные SHA-256 и размер исходного поручения.",
+    "git ls-remote --refs подтвердил точный удалённый OID."
+  ],
+  "сохраняемый_предок": "001e4026c081b3284f35688e3bbb6c013b3e32e1 остаётся неизменённым отрицательным identity fixture; additive commit не меняет его header.",
+  "остаток": [
+    "SwiftPM typecheck и различающие RED/GREEN-прогоны не выполнены.",
+    "Три P2 наблюдателя не исправлены: identity wait_threads, историческое время snapshot и конфликтующие цепочки предков.",
+    "Профилирование и точный handoff общего SwiftPM-слота не завершены."
+  ],
+  "граница": "Это корректно атрибутированный additive provenance checkpoint и доставка собственного журнала, а не функциональный Green, ROOT-приёмка, интеграция или восстановление всех узлов."
+}

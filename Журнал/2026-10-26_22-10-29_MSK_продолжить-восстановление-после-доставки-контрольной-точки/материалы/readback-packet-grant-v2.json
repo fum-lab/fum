@@ -1,0 +1,34 @@
+{
+  "схема": "fum.readback-packet-grant-v2.1",
+  "commit": "98565deb72e2d4b7e3e157452233d631412233a6",
+  "tree": "e5e1d0e3af4354a8870cb1773cbf5c8cba753ff6",
+  "parent": "6b7c72d21899874a6ab48d85250ae1e698eb8da8",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+  "remote_oid": "98565deb72e2d4b7e3e157452233d631412233a6",
+  "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>",
+  "committer": "FUM <fum@local>",
+  "постановка": {
+    "путь": "iskhodniki/perekhod-vetok/postanovka-ispolnitelya-paketa.json",
+    "blob": "1b201bccf1bdf7935e69f61f14c6f80067f714e7",
+    "sha256": "65452f21be9b4cb1eb58fcd343861925ba8add8eb1ce5600dbb9641dcd19cd23"
+  },
+  "дельта": {
+    "путей": 8,
+    "source_profile": "c6af / 34 pins",
+    "target_profile": "9909 / closed 34 map / d511f6fb",
+    "допустимое_отличие": "Только точный Package.swift b07f4ed9; остальные 33 Git-входа совпадают.",
+    "unicode_readback": "Пять имён macOS появились в stdout в NFD при карте в NFC; коллизий нет, SHA совпали, Git paths и карта не менялись."
+  },
+  "проверено": [
+    "raw commit, tree и parent",
+    "точный blob и SHA-256 постановки",
+    "восемь изменённых путей",
+    "independent remote OID"
+  ],
+  "не_доказано": [
+    "fresh leaf preflight",
+    "driver spawn или result",
+    "packetexecutor functional Green",
+    "ROOT-приёмка или интеграция"
+  ]
+}

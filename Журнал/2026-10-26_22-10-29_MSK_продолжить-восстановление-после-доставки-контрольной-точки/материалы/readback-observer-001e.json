@@ -1,0 +1,24 @@
+{
+  "схема": "fum.readback-observer-negative-author.1",
+  "commit": "001e4026c081b3284f35688e3bbb6c013b3e32e1",
+  "tree": "a5b97caa9731670ffed28ff612371f03c0ebfdd0",
+  "parent": "1c16110891455701a6bb87fc2d8b7e4c1f20e968",
+  "ref": "refs/heads/codex/fabrika-agentov-nablyudeniye-01a127bf",
+  "remote_oid": "001e4026c081b3284f35688e3bbb6c013b3e32e1",
+  "author": "FUM Писатель <fum@local>",
+  "committer": "FUM <fum@local>",
+  "trailer": "FUM-Root-UUID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "изменённых_путей": 14,
+  "проверки_из_сообщения": {
+    "swift_frontend_parse": "код 0",
+    "staged_diff_check": "код 0",
+    "swiftpm_typecheck_tests_profile": "не запускались"
+  },
+  "дефекты_identity": [
+    "Author не содержит фактические model/effort Codex.",
+    "Сообщение не сохраняет полное исходное поручение.",
+    "Использован FUM-Root-UUID вместо обязательного Codex-Thread-ID."
+  ],
+  "решение": "Не amend/force. Сохранить опубликованный commit как provenance и regression fixture; тому же writer нужен additive own-FUMA/narrative commit с actual native Author, полным original body, Codex root trailer и raw pre-push readback.",
+  "граница": "Это частичный source checkpoint и отрицательный identity fixture, а не принятие, SwiftPM Green, Package bridge, ROOT-готовность или интеграция."
+}

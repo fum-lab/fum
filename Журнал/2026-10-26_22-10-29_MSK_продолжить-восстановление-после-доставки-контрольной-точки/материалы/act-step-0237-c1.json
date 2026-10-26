@@ -1,0 +1,88 @@
+{
+  "схема": "fum.act-step-0237-swift-c1.1",
+  "задача_root": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "база": {
+    "commit": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "tree": "8bc97a924725613dae8416576354fb40699f410b",
+    "статус": "Принятая ROOT-основа документационного среза; не доказательство восстановления всех узлов."
+  },
+  "worktree": "Управляемый изолированный worktree step-0237-swift-fuma; приватный физический путь не публикуется.",
+  "ref": "refs/heads/codex/step-0237-swift-fuma-priyom-github",
+  "проверка_адреса": "До создания ref отсутствовал локально, удалённо и среди worktree claims; после создания HEAD/ref совпали с exact base, дерево чистое.",
+  "адресная_коллизия": "Позднее координационное сообщение предложило новый fum-lab/fum/.../master, но загруженные AGENTS.md 000058 и правило долгоживущих направлений требуют refs/heads/codex/... и не содержат исключения для этого C1. Затем требование переноса до первого C было снято: возможная постепенная адресная миграция отнесена отдельному узлу правил. Второй ref, rename и удаление не выполнялись; действующий codex ref сохранён.",
+  "имя": {
+    "вход": "разбор версий обсуждений",
+    "транслитерация": "razbor versij obsuzhdenij",
+    "каталог": "razbor-versij-obsuzhdenij",
+    "источник": "Штатный LinguisticKit exact 837e2ce107b97ee7b9d3344c9fe99142281fe393 через подписанный кэш принятого checkout; ветвь сборки запрещена."
+  },
+  "writer": "collaboration task root/step_0237_swift_c1",
+  "область_c1": [
+    "iskhodniki/zhurnal/razbor-versij-obsuzhdenij/**",
+    "iskhodniki/zhurnal/proverki/razbor-versij-obsuzhdenij/**",
+    "минимальный stitch iskhodniki/zhurnal/komanda-zhurnala.swift",
+    "собственный Журнал писателя"
+  ],
+  "команда": "fuma журнал версии-обсуждений план|прочитать; --полный только у план; решение в C1 обязано закрыто вернуть код 2.",
+  "аудит_архива": {
+    "metadata": 93,
+    "page_refs": 477,
+    "уникальных_referenced_raw": 300,
+    "повтор_порядка": "1…12 сохраняется без dedup и перенумерации.",
+    "legacy_связи": "В пяти metadata присутствуют старые scalar/смешанные формы поля связи; reader C1 обязан их сохранить, чтобы не потерять часть 93 наблюдений."
+  },
+  "исключено": [
+    "Package.swift и iskhodniki/zapusk/Команда.swift",
+    "старый Python-код, его тесты и физическое удаление",
+    "C2 решение, lock/fsync/atomic replace/CAS/crash recovery",
+    "Issues/**, правила, Proyekcii/**, D22, master, PR и интеграция"
+  ],
+  "ресурс": "Тяжёлый SwiftPM-слот использован последовательно и освобождён; параллельного второго SwiftPM не было. Новые копии 208 MiB архива и отдельные build tree не создавались.",
+  "реализация": "Материализованы C1 reader/plan/read, nested CLI stitch, negative/golden/profile, explicit решение→неРеализовано(code 2) и fail-closed связь state/coverage с exact archive. Пять legacy форм связи, 1…12×2, 93 metadata, 477 refs, 300 unique referenced RAW, полный Issue149=8, forged coverage и fake dismissal покрыты тестами.",
+  "red_green": {
+    "первый_реальный_filter": "RED: 12 tests, 10 issues, 1428.183 s; 14 полных проходов по 216 225 328 байтам уникального RAW, около 2.819 GiB повторного чтения.",
+    "оптимизация": "Production path API сохранён; внутренний overload принимает immutable Sendable snapshot, а private actor один раз строит и кэширует success или terminal failure для тестов.",
+    "legacy_duplicate_pages": "Побайтно эквивалентная версия с тем же page SHA разрешена; неоднозначное повторение закрыто отказывает.",
+    "legacy_overlapping_pages": "Page-array order сохранён, более поздняя страница детерминированно заменяет более раннюю версию того же GitHub ID; completeness, identity и parent guards сохранены.",
+    "single_historical": "GREEN 1/1 за 81.873 s; собран весь 93-observation snapshot.",
+    "основной_green": "12 tests, 0 issues, 101.166 s; cold archive read выполнен один раз."
+  },
+  "финальная_перепроверка": {
+    "filter_run_22": "code 0; 110.339591166 s",
+    "build_run_23": "code 0; 2.865762166 s, внутренний SwiftPM 0.51 s",
+    "cli_run_24": "code 0; 3.376835083 s; 2 tests/14 cases, внутренний 0.443 s",
+    "profile_run_25": {
+      "code": 0,
+      "duration_seconds": 254.031164041,
+      "internal_seconds": 251.087,
+      "per_run_nanos": [
+        82643549041,
+        82617663333,
+        85822089041
+      ]
+    },
+    "inventory_run_26": "code 0",
+    "diff_runs_27_28": "RED code 2, затем GREEN code 0",
+    "selected_scan_run_29": "code 0; 1.157064250 s; tree b319f38ce24f2462c4a77d3b51d666810bf01d3c; 42 blobs; 0 errors; 2 допустимых report.compiler-file-path-reference; fullPUB=false. Квитанция 29 добавлена после скана."
+  },
+  "staged_readback": {
+    "head": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "tree": "a70d4aebacc553481cdc74d1978074b0b9825d1e",
+    "paths": 43,
+    "added": 40,
+    "modified": 3,
+    "diff_stat": "4263 additions, 1 deletion",
+    "unstaged": 0,
+    "untracked": 0,
+    "diff_check": 0,
+    "forbidden_paths": 0
+  },
+  "recency_blockers": [
+    "Устаревший запрос предыдущего этапа.",
+    "Отсутствует recency у собственной новой пары request/report.",
+    "Устарел Журнал/README.md.",
+    "Устарел глобальный Markdown-индекс."
+  ],
+  "текущий_статус": "Функциональный C1 и профиль подготовлены, exact staged tree сохранён. Обязательный recency выполнен один раз с code 1; штатного адресного режима для собственной пары нет. Smoke не повторял известный отказ. Commit и push не выполнялись и запрещены до coordinator-owned точной Markdown-основы и нового ACT.",
+  "граница": "Новый ACT изолирован и не пересекается с materializer/sync. Даже будущий C1 не разрешит удалить Python без отдельного принятого C2 и общей parity."
+}

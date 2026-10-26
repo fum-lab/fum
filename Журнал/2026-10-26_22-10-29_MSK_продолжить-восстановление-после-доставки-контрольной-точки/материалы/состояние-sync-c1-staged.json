@@ -1,0 +1,94 @@
+{
+  "схема": "fum.sync-pure-c1-staged-state.1",
+  "thread": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+  "actual_turn": "01a179c7-c248-71b3-8400-85efc981ec65",
+  "actual_model": "gpt-5.6-sol",
+  "actual_effort": "ultra",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master",
+  "head": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+  "remote_oid": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+  "staged_tree": "b0004eec8e63a70d3d002be5c4da4a9297a394b7",
+  "staged_paths": {
+    "count": 85,
+    "composition": "Три чистых Swift-файла и 82 JSON-файла непрерывного собственного Журнала 28–68.",
+    "pure_files": [
+      "iskhodniki/perekhod-vetok/proverki/sinkhronizaciya/proverki-avtorstva-commita.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift"
+    ],
+    "excluded_dirty_files": [
+      "iskhodniki/perekhod-vetok/proverki/sinkhronizaciya/proverki.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/inventarj.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/plan.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-sobstvennogo-ref.swift"
+    ]
+  },
+  "pure_file_sha256": {
+    "kontrakt-istochnika-kodeks.swift": "0aaa806dec1d33b64d766a0f13f167badc27600f41485ff9a0daeef40e29a0ed",
+    "adapter-git-avtor-commita.swift": "1858a3c7d320964c64548d6cf588fadb00b11d2054bf6d07acd6d3f00a3abda9",
+    "proverki-avtorstva-commita.swift": "aa1e3876e66454a35ea710ccc2af8fa8c711c14b228eb35ed88c327f5e6b98f3"
+  },
+  "public_contract": {
+    "boundary": "Чистый Data API без Git/process/IO/env/clock и без CLI.",
+    "entry": "ПроверкаВыбранногоАвторстваИТелаКодекс.проверить",
+    "json_limit_bytes": 65536,
+    "raw_commit_limit_bytes": 1048576,
+    "receipt": "Точные байты проверены; источник модели отдельно остаётся неаутентифицированным; побочного эффекта нет.",
+    "fixture": "Raw commit 30 494 байта, тело 30 285 байт с первым символом #; закреплены Git SHA-1, Git SHA-256 и SHA-256 raw."
+  },
+  "checks": {
+    "pure_run_61": {
+      "code": 0,
+      "duration_seconds": 15.886314458
+    },
+    "final_pure_run_64": {
+      "code": 0,
+      "duration_seconds": 8.930313542,
+      "tests": 3,
+      "suites": 1,
+      "swift": "Swift 6, strict concurrency, warnings-as-errors; байты трёх файлов сверены через cmp."
+    },
+    "own_latin_62": {
+      "code": 0,
+      "duration_seconds": 0.140926666,
+      "count": 0
+    },
+    "final_own_latin_65": {
+      "code": 0,
+      "duration_seconds": 0.141373,
+      "count": 0,
+      "sdk_protocol_names": [
+        "codingPath",
+        "debugDescription",
+        "encode",
+        "from",
+        "intValue",
+        "stringValue",
+        "to"
+      ]
+    },
+    "full_index_scan_66": {
+      "code": 2,
+      "duration_seconds": 221.591892625,
+      "status": "Адресно остановлен после ошибочной материализации всего staged-репозитория; повтор whole-repo запрещён, исход сохранён."
+    },
+    "selected_publication_scan_68": {
+      "code": 0,
+      "selected_paths": 83,
+      "findings": 0,
+      "fullPUB": false
+    },
+    "decomposition": "Код 0; 235 правил, 11 тем.",
+    "recency": "Код 1: унаследованный глобальный Markdown-индекс основания устарел; staged и unstaged Markdown в C1 отсутствуют и побайтно равны HEAD. Исключение №149 на recency не распространяется."
+  },
+  "result": {
+    "commit_created": false,
+    "push_performed": false,
+    "delivery": false,
+    "reason": "Обязательный recency-check не пройден; чужой глобальный индекс не исправлялся и gate не обходился.",
+    "checkpoint_structure": "В индексе нет собственной открытой пары корневого Журнала, актуального предпросмотра и сохранённого остатка контрольной точки; 82 JSON относятся к внутреннему source-журналу и заканчиваются парой 68."
+  },
+  "base_index_evidence": "У исходного HEAD, d081c0a6 и materializer b73 один и тот же устаревший blob глобального Markdown-индекса 8611bb27cebdb11d3bb6573253a7e0c9fc5d8bf1. Blob 45174ac15a623c1ca0288052e481573e68519da5 относится к самому update-md-recency.py, а не к ожидаемому индексу; исправленный индекс не генерировался. Sync и d081 расходятся на 24/14 коммитов: четыре Markdown из d081 отсутствуют в sync, три других добавлены в sync, и ни один из этих семи путей не отражён в общем индексе. Поэтому repair только на d081 не докажет полный текущий sync-W; иной blob в корневом checkpoint 23bcd1eb также находится в другой непринятой линии.",
+  "next_boundary": "Сохранить staged tree и sole writer. Координатор отдельно исправляет индекс в своей разрешённой области и получает принятую основу либо выдаёт новый точный ACT; затем sole writer переносит проверенные C1-байты по явному переходу и повторяет обязательные проверки. FUMA не импортирует staged/dirty байты до immutable delivery."
+}

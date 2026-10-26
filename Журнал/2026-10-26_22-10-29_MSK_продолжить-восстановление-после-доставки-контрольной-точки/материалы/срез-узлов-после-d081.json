@@ -1,0 +1,79 @@
+{
+  "схема": "fum.срез-восстановления-узлов.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "принимающая_основа_ROOT": {
+    "commit": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "tree": "8bc97a924725613dae8416576354fb40699f410b",
+    "parents": [
+      "be896655e402d52cbcbb7974a673114645cc0f0d",
+      "56679877386874c07f714a708e147c9848bc673a"
+    ],
+    "ref": "refs/heads/fum-lab/fum/master",
+    "remote_oid": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "основание": "Raw commit readback и отдельный git ls-remote; PR 389 принят ROOT.",
+    "граница": "Принятие ветки документации не доказывает полноту диалога, восстановление всех узлов или общий Green."
+  },
+  "узлы": [
+    {
+      "имя": "materializer",
+      "thread": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "cursor": "35f77645-21f0-4588-bd9a-977573282c74:38",
+      "состояние": "active",
+      "последняя_поставка": "98565deb72e2d4b7e3e157452233d631412233a6",
+      "текущая_работа": "Новые модели и тесты восстановления каталога добавлены в собственном дереве; синтаксический разбор прошёл.",
+      "ожидание": "Поведенческий SwiftPM-запуск ждёт фактического текущего владельца общего слота sync.",
+      "не_доказано": "Новый commit, доставка текущей работы и поведенческий Green."
+    },
+    {
+      "имя": "sync",
+      "thread": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+      "cursor": "4f72745a-4bef-4e36-bd94-e8dc9e8fceea:40",
+      "состояние": "active",
+      "head": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master",
+      "текущая_работа": "Тот же writer добавляет read-only author-check полного OID и real-Git отрицательную проверку во временном репозитории.",
+      "слот": "Ошибочное ожидание собственного неотданного heavy slot устранено; тот же чат возобновлён, посторонний Swift/Xcode-процесс не найден.",
+      "не_доказано": "Адресный запуск, новый commit, push и независимая поставка."
+    },
+    {
+      "имя": "packet",
+      "thread": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+      "cursor": "408f9cfa-d377-43f4-88ec-ee65d4e94f60:18",
+      "состояние": "active",
+      "текущая_работа": "После сверки физического корня, HEAD/ref и единственного writer начата первая запись production-допуска v2 с точными tree/blob/raw/map-привязками.",
+      "сохранённая_проверка": "До записи production прошёл direct Swift 6 type-check с complete strict concurrency и warnings-as-errors.",
+      "не_доказано": "SwiftPM, настоящий driver/leaf result, packetexecutor Green, новый commit и доставка."
+    },
+    {
+      "имя": "observer",
+      "thread": "01a17752-0dbe-7a13-8a81-c63995c0dd1f",
+      "cursor": "4fb61b22-e96d-470b-8384-24bc79fd4489:15",
+      "состояние": "active",
+      "опубликованный_negative_fixture": "001e4026c081b3284f35688e3bbb6c013b3e32e1",
+      "native_identity": "gpt-6-luna / max",
+      "текущая_работа": "Тот же writer сверяет immutable provenance и чистоту опубликованного HEAD перед additive narrative/corrective записью через FUMA.",
+      "не_доказано": "Исправляющий commit, корректный raw Author/body/trailer, SwiftPM Green и доставка."
+    }
+  ],
+  "координация": {
+    "step_0237": "Подробный read-only пакет C1 план|прочитать и обязательного C2 решение доставлен в parent ROOT после подтверждённого отсутствия в его недавней истории.",
+    "typed_argv_push": {
+      "дефект": "Shell-форма $task_oid:refs/... была разобрана zsh как модификатор :r и дала ошибочный source ref до сетевого эффекта.",
+      "владелец": "Тот же единственный sync writer 01a177f5 в собственном дереве и ref.",
+      "контракт": "/usr/bin/git typed argv: push, --porcelain, origin, <fullOID>:<trusted-full-ref>; ровно один refspec, без force, lease, delete, wildcard, multiple, all, mirror, tags, foreign ref или remote.",
+      "проверка": "Опасная shell-форма остаётся negative fixture с process count 0; разрешённый эффект только во временном private bare-репозитории; unknown outcome требует exact ls-remote прежнего identity.",
+      "граница": "Заказ распределён, но ещё не реализован и не проверен; live push в ROOT-ref ребёнку не разрешён и текущий author/body C не должен задерживаться."
+    },
+    "author_body_bounded_input": {
+      "подтверждено": "Real Git OID пересчитывается по object header и bytes; receipt сохраняет sourceAuthenticated=false.",
+      "дефект": "Data(contentsOf:mappedIfSafe) читает вход до проверки лимита 8192 байта и не гарантирует bounded read.",
+      "заказ": "Тот же sync-writer читает не более limit+1 для четырёх малых payload и добавляет адресный oversized negative без большой фикстуры.",
+      "root_cli": "Фактический корневой Команда.swift маршрутизирует только ЖурналУзла; sync-dispatch и CLI-регрессия остаются отдельным шагом после принятой source-поставки.",
+      "граница": "Заказ передан через materializer, но ближайший commit и его проверка ещё отсутствуют."
+    },
+    "d22": "Закрыт; прошивки и сборки по этому направлению не возобновляются.",
+    "python": "Новый Python-код не добавляется; физическое удаление существующего Python отложено до принятой Swift/FUMA parity.",
+    "писатели": "Новые дублирующие writers текущим корнем не создавались."
+  },
+  "граница_актуальности": "Это read-only снимок живых чатов по указанным курсорам. Последующие сообщения могут продвинуть состояние; снимок сам не является ROOT-приёмкой, интеграцией или завершением."
+}

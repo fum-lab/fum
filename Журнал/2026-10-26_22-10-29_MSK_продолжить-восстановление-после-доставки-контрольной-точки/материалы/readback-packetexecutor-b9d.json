@@ -1,0 +1,31 @@
+{
+  "схема": "fum.readback-packetexecutor-additive-identity.1",
+  "commit": "b9d676f793cdb2e0f75b21b995fa1a87bb8c1e39",
+  "tree": "c29eed48141a507f357bf78c3acf2020218e348d",
+  "parent": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+  "remote_oid": "b9d676f793cdb2e0f75b21b995fa1a87bb8c1e39",
+  "author": "FUM Codex [gpt-5.6-sol; effort=ultra] <fum@local>",
+  "committer": "FUM <fum@local>",
+  "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "изменённые_пути": [
+    "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/42.iskhod.json",
+    "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/42.nachalo.json"
+  ],
+  "подтверждено": [
+    "raw commit, tree и parent",
+    "фактические Author и Committer",
+    "полный original body и ROOT trailer",
+    "ровно два additive journal-пути",
+    "normal push и independent remote OID"
+  ],
+  "сохранённая_история": "d16752bb не переписан и остаётся negative identity fixture с фактическим неправильным header.",
+  "hold": [
+    "26 code-путей d167",
+    "functional tests и SwiftPM",
+    "real private driver",
+    "product scoped PUB",
+    "три P1 и внешний exact-v2 consumer"
+  ],
+  "граница": "Additive materializer исправляет provenance следующим корректно атрибутированным объектом. Он не исправляет header предка, не выдаёт новый grant и не доказывает packetexecutor Green, application readback, ROOT-приёмку или интеграцию."
+}

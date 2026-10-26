@@ -1,0 +1,38 @@
+{
+  "схема": "fum.readback-packetexecutor-negative-author.1",
+  "commit": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+  "tree": "e9b128d0bce7fbe0759c34600de34a3d1aa03745",
+  "parent": "9909c19aade5820e41798d155f9c30978b48453d",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+  "remote_oid": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+  "author": "FUM Писатель <fum@local>",
+  "committer": "FUM <fum@local>",
+  "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "изменённых_путей": 26,
+  "разрешённые_префиксы": [
+    "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/",
+    "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/",
+    "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/"
+  ],
+  "проверки_из_сообщения_и_передачи": {
+    "direct_swift_6_typecheck_production": "успешно",
+    "direct_swift_6_typecheck_tests": "успешно",
+    "staged_diff_check": "чисто",
+    "swiftpm_tests": "не запускались",
+    "functional_tests": "не исполнялись",
+    "real_private_driver": "не запускался",
+    "scoped_pub": "не выполнялся"
+  },
+  "identity_дефект": "Raw Author не содержит фактические model/effort Codex и равен FUM Писатель <fum@local>.",
+  "решение": "Не amend/force/rewrite. Сохранить опубликованный commit как provenance и второй negative identity fixture; тот же packet writer получил additive corrective/narrative область только в iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye от exact d167 и grant 98565deb, с фактическим native Author, полным original body, root Codex trailer и raw pre-push readback.",
+  "additive_correction": {
+    "commit": "b9d676f793cdb2e0f75b21b995fa1a87bb8c1e39",
+    "tree": "c29eed48141a507f357bf78c3acf2020218e348d",
+    "parent": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+    "readback": "readback-packetexecutor-b9d.json",
+    "граница": "Корректный additive provenance-объект не меняет плохой header d167 и не выдаёт новый функциональный допуск."
+  },
+  "custody": "Тот же UUID/worktree/ref; 26 code-путей заморожены до отдельного admission, real driver HOLD. Если actual native identity неизвестна, commit обязан отказать; requested модель не подставляется.",
+  "допуск_следующего_этапа": "Corrected grant v2 по-прежнему закрепляет 98565deb… и основу 9909c19…. Он не разрешает потомка d16752bb автоматически; новый точный grant ещё отсутствует.",
+  "граница": "Это доставленная source-контрольная точка, а не packetexecutor Green, application readback, ROOT-приёмка или интеграция."
+}

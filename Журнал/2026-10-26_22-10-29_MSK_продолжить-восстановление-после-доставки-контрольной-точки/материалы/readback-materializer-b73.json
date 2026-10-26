@@ -1,0 +1,38 @@
+{
+  "схема": "fum.readback-materializer-catalog-checkpoint.1",
+  "commit": "b73b1c628aa31401b80c1cb1bb88760113759414",
+  "tree": "79b18964bbc9858525b273afa253a7adc36dbec9",
+  "parent": "98565deb72e2d4b7e3e157452233d631412233a6",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+  "remote_oid": "b73b1c628aa31401b80c1cb1bb88760113759414",
+  "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>",
+  "committer": "FUM <fum@local>",
+  "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дельта": {
+    "логических_изменений_с_rename_detection": 52,
+    "сырых_diff_entries_без_rename_detection": 53,
+    "rename": "R098 iskhodniki/perekhod-vetok/proverki/proverki.swift -> iskhodniki/perekhod-vetok/proverki/proverki-komandyi-sinkhronizacii.swift",
+    "область": "Собственный iskhodniki/perekhod-vetok/** и минимальный iskhodniki/zapusk/Команда.swift."
+  },
+  "независимый_readback": [
+    "git cat-file -p подтвердил tree, parent, Author, Committer, полное тело и корневой Codex-Thread-ID.",
+    "git diff-tree -M подтвердил 52 логических изменения и один rename R098.",
+    "git ls-remote --refs подтвердил exact remote OID."
+  ],
+  "результаты_владельца_без_повторного_запуска_root": {
+    "red54": "27 тестов, 31 issue.",
+    "red55": "3 теста, 12 issues.",
+    "green56": "Сборка успешна; 32 теста двух suites без ошибок.",
+    "process57": "Собранный fuma vosstanovitj-uzel помощь завершился кодом 0.",
+    "pub60": "Исторический отказ на техническом литерале U+007E сохранён.",
+    "green61": "После равнозначного Unicode-экранирования 33 теста двух suites без ошибок.",
+    "pub63_diff64": "Адресные публикационная и diff-проверки завершились кодом 0; сохранены 64 терминальные пары учёта."
+  },
+  "состояние_владельца": "После normal exact push и независимого ls-remote собственный worktree сообщён чистым.",
+  "остаток": [
+    "Приватный 829-строчный Git adapter draft не вошёл в commit; семь найденных дефектов ещё исправляются и покрываются тестами.",
+    "Real temporary Git, fake session adapter, профиль и production transport не выполнены.",
+    "Чистая частичная поставка от c6af и ROOT-приёмка не выданы."
+  ],
+  "граница": "Это доставленная контрольная точка закрытого чистого каталога и CLI-входа с production apply blocked, а не реальный Git/session launcher, полное восстановление, ROOT-приёмка или интеграция."
+}

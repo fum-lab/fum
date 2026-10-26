@@ -1,0 +1,91 @@
+{
+  "схема": "fum.маршрут-swift-сканера.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "наблюдённая_основа": {
+    "commit": "23bcd1eb5cdb68387cfd81665d1f10f80ababde5",
+    "tree": "fc25c6a637b18a288c0df536d1514d53c01f3671",
+    "ref": "refs/heads/codex/karta-dostavki-agentov-01a17797",
+    "режим": "read-only аудит; готового Swift-эквивалента не найдено"
+  },
+  "предлагаемый_первый_срез": {
+    "назначение": "Параллельный проверяемый Swift/FUMA CLI без переключения потребителей и без удаления Python.",
+    "library_target": "ПроверкаМашинноЛокальныхПутей",
+    "library_path": "iskhodniki/proverka-mashinno-lokaljnyikh-putej/**",
+    "test_path": "proverki/proverka-mashinno-lokaljnyikh-putej/**",
+    "product": "fuma",
+    "существующий_target": "КомандаЗапуска",
+    "command": "fuma проверить-машинно-локальные-пути --repo-root . [--policy …]",
+    "коды": {
+      "чисто": 0,
+      "находки": 1,
+      "ошибка_входа_или_контракта": 2
+    },
+    "стыки": [
+      "Package.swift",
+      "iskhodniki/zapusk/Команда.swift",
+      "iskhodniki/zapusk/АргументыЗапуска.swift"
+    ],
+    "зависимости": [
+      "Foundation",
+      "CryptoKit",
+      "Darwin при необходимости",
+      "/usr/bin/git"
+    ]
+  },
+  "обязательная_совместимость": {
+    "git_вход": [
+      "git ls-files --cached --stage -z",
+      "неигнорируемые untracked-файлы",
+      "рабочие байты вместо blobs индекса",
+      "исключение Proyekcii/**",
+      "явные категории gitlink, mode, symlink, missing, nonregular, binary и non-UTF8"
+    ],
+    "формы_путей": [
+      "POSIX absolute и user-home",
+      "Windows drive и UNC",
+      "file://",
+      "домашние сокращения и переменные",
+      "Swift #filePath",
+      "маскирование обычных URL, включая именованные GitHub-хвосты"
+    ],
+    "координаты": "Номера строк и смещения Unicode code points должны совпадать с Python-контрактом, а не со Swift Character или UTF-16.",
+    "контексты": [
+      "Журнал и Источники",
+      "бинарные вложения",
+      "JSON-pointer и data-image",
+      "сырые GitHub-обсуждения",
+      "runtime, shebang, gitignore и placeholder",
+      "исполнители субагентов",
+      "четыре узких системных литерала"
+    ],
+    "policy": {
+      "версии": [
+        2,
+        3
+      ],
+      "исключений": 882,
+      "путей": 292,
+      "metadata_источников": 3,
+      "metadata_позиций": 59,
+      "требование": "Закрытые поля и типы, запрет дублей JSON и NaN, точные fingerprint/count."
+    },
+    "выход": "Детерминированные sort/dedup и escaping, отсутствие локального значения в выдаче, коды 0/1/2."
+  },
+  "адресные_проверки_первого_среза": [
+    "Swift Testing для форм путей, Git-инвентаря, policy/metadata и provenance-контекстов.",
+    "Синтетические Git-репозитории и отдельный process-test CLI.",
+    "Один адресный полный Swift-запуск с wall, CPU, RSS и числом входов; старый полный Python-скан повторно не запускать."
+  ],
+  "не_входит_в_первый_срез": [
+    "новый Python-код",
+    "записывающий obnovitj-policy.py",
+    "staged/index-адаптеры связности",
+    "внешние потребители path_forms.py",
+    "профильные программы",
+    "переключение общего smoke-check",
+    "удаление или переименование Python",
+    "изменение policy.json, Proyekcii/** или macOS-пакета приложения"
+  ],
+  "условие_следующего_перехода": "Cutover и физическое удаление Python допустимы только отдельным C2 после доказанной положительной и отрицательной parity, подключения и ROOT-приёмки.",
+  "граница": "Материал задаёт read-only маршрут будущего ACT. Он не создаёт writer, worktree/ref, реализацию, Swift Green, ROOT-приёмку или интеграцию."
+}

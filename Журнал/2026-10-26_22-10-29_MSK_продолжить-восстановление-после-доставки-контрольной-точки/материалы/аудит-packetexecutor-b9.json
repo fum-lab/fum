@@ -1,0 +1,27 @@
+{
+  "схема": "fum.audit-packetexecutor-b9.1",
+  "source_commit": "b9d676f793cdb2e0f75b21b995fa1a87bb8c1e39",
+  "code_tree_source": "d16752bbce625d58b0e070fa4fe1eb25ce9b8ff4",
+  "файл": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/ispolnitelj-paketa.swift",
+  "readback": "Код в b9 побайтно совпадает с d167; ROOT адресно прочитал неизменяемый blob после сообщения materializer.",
+  "подтверждённые_дефекты": [
+    {
+      "область": "apply outcome примерно 741-806",
+      "дефект": "Точный readback и успешный ответ могут вернуть установлена даже когда свидетельство durable outcome не удалось сохранить и перечитать.",
+      "требование": "При applyИсходСохранён=false итог fail-closed UNKNOWN; observed exact file SHA может сообщаться отдельно, но не как завершённое долговечное применение. Повторный apply и новый ID запрещены."
+    },
+    {
+      "область": "web URL validation примерно 1335-1390",
+      "дефект": "Проверяются user/password/query/fragment, но percentEncodedPath не проходит private-path filter.",
+      "требование": "Любой percent-encoded private path обязан закрыто отказать до первого процесса."
+    },
+    {
+      "область": "system process runner примерно 2357-2417",
+      "дефект": "Два @unchecked Sendable, DispatchQueue и DispatchSemaphore нарушают принятую Swift strict-concurrency границу.",
+      "требование": "Structured async/file channels/deadline/cancellation без unchecked/GCD/semaphore; cancellation во время help прекращает последующие plan/apply."
+    }
+  ],
+  "обязательная_recovery_матрица": "После unknown outcome и driver drift различать exact/different/absent/symlink, сохранять прежний ID, ноль новых процессов и отсутствие cleanup.",
+  "следующий_допуск": "Materializer готовит отдельный code-only grant от exact b9; реальные driver-вызовы остаются HOLD до новой source-приёмки и exact stage binding.",
+  "граница": "Additive b9 исправляет происхождение, но не исправляет код d167 и не является packetexecutor Green, разрешением driver или ROOT-приёмкой."
+}

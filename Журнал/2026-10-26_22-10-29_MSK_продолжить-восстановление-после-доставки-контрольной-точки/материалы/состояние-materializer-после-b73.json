@@ -1,0 +1,68 @@
+{
+  "схема": "fum.materializer-post-b73-state.1",
+  "срез": "2026-10-27T02:08:02+04:00",
+  "head": "b73b1c628aa31401b80c1cb1bb88760113759414",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+  "tree": "79b18964bbc9858525b273afa253a7adc36dbec9",
+  "parent": "98565deb72e2d4b7e3e157452233d631412233a6",
+  "remote_oid": "b73b1c628aa31401b80c1cb1bb88760113759414",
+  "git_state": "Индекс пуст; reflog ветки заканчивается b73. После b73 нового commit/push не наблюдается.",
+  "working_state": {
+    "source_diff": "Ровно четыре unstaged source-файла; 132 добавления и 92 удаления.",
+    "journal": "28 untracked терминальных JSON: полные пары 65–78.",
+    "files": {
+      "iskhodniki/perekhod-vetok/uzlyi/inventarj-kataloga.swift": "dfc598eac3abfe29b7970dfc069a38b65d433000d60a647345dd041767ac3adb",
+      "iskhodniki/perekhod-vetok/uzlyi/plan-kataloga.swift": "d3edd842c49c3fde3157a15284970e28d2d8b3f82d33a5da7717f3139d9686de",
+      "iskhodniki/perekhod-vetok/proverki/proverki-kataloga.swift": "2bc46ed1a1c0f8e14bf44e6a84ac2ceff1da432ac6d722f6cc2c2ef8c22a9ba8",
+      "iskhodniki/perekhod-vetok/proverki/proverki-komandyi-kataloga.swift": "2f03a8686a968d6d68c0d73db4d12b147757cb088f68fcac4e9f2162ac07d074"
+    }
+  },
+  "terminal": {
+    "75_RED": {
+      "code": 1,
+      "duration_nanos": 8444029667,
+      "stdout_bytes": 5930,
+      "stdout_sha256": "c7b957c63d86bb0cfe617a471ec1ecdbc690752d52941d59570535f33131601e",
+      "stderr_bytes": 634,
+      "stderr_sha256": "49b86343689b71270ad26f8e15e5d90a4cd61a531c5936d9781d17ede210922c"
+    },
+    "76_GREEN": {
+      "code": 0,
+      "duration_nanos": 6492757917,
+      "stdout_bytes": 15195,
+      "stdout_sha256": "ce6574a90976aef25352e811f2747196b43267f997fe8c32aa5651635dde7f05",
+      "stderr_bytes": 694,
+      "stderr_sha256": "227f518c72377bce2bb84da74f792a1edda0e722deb9484135a75b2cac75c80b",
+      "source_inventory": "Текущие тестовые исходники содержат ровно 36 @Test и 2 @Suite; runtime summary находится только в приватном RAW и независимо не читался."
+    },
+    "77_exact_input_lock": {
+      "code": 0,
+      "duration_nanos": 71958875,
+      "stdout_bytes": 806,
+      "stdout_sha256": "266921ed95e7cc77ad56f74f2f49a42aa183a426b276ffd3f13d38e214d733d5",
+      "stderr_bytes": 0,
+      "readback": "SHA stdout независимо воспроизведён из семи текущих входов в сохранённом порядке."
+    },
+    "78_names_without_swiftpm": {
+      "code": 0,
+      "duration_nanos": 213164791
+    }
+  },
+  "semantics": [
+    "Fractional RFC3339/ISO8601 разбирается с fallback без дробной части.",
+    "запускНеизвестен остаётся UNKNOWN/observe после одного Git readback.",
+    "Относительный source path закрывает пустые компоненты, точку, две точки и case-insensitive .git, а также абсолютность, обратную косую черту и управляющие символы.",
+    "Wire-ключи не изменены; собственные латинские compile-time имена переименованы.",
+    "Default production effect не расширен: без источника plan blocked/observe, без adapter apply закрыто отказывает, exact-input drift отвергается."
+  ],
+  "recency": "HOLD: Markdown не изменён, глобальный индекс равен HEAD blob 8611bb27cebdb11d3bb6573253a7e0c9fc5d8bf1. Отдельного сериализованного HOLD-флага нет.",
+  "own_latin_boundary": "Запись 70 успешна, но публичный JSON не содержит count/classification. Число SDK-наблюдений и own_latin_count=0 независимо не подтверждены без приватного RAW либо нового compiler-run.",
+  "not_verified": [
+    "Фактический stdout 75/76 и runtime counts.",
+    "Криптографическая привязка самого запуска 76 к снимку до последующего lock 77.",
+    "Полный smoke/fullPUB.",
+    "Реальный Git/session adapter и production effect.",
+    "Серверная история удалённых или переписанных refs."
+  ],
+  "result": "Функциональная подготовка сохранена в sole-writer worktree, но новый checkpoint и push закрыты recency; b73 остаётся последним доставленным объектом."
+}
