@@ -58,8 +58,17 @@ C3 `469ebea0da125e8850b47f0aa8abbb45c9cc4117` имеет tree `141cd3689d3b9312a
 
 Этап 4 записан через FUMA в [собственный журнал области](zhurnal/845b0dc056007a98465aa6b3d166fe95686bd0ac58e786b533a4cf63cc4abe93.json); SHA-256 содержимого `f681a3cef3eeac956615e26cc9e5e49e832ae44e64b4d09ab13d8d494416cb91` совпал с результатом применения. На момент этой записи merge-коммит ещё ожидал публикации и PR. ROOT reader 21 GB не запускался, Python-исходники не расширялись.
 
+## Контрольная точка автора Git
+
+Raw readback объектов показывает историческое расхождение: C3 `469ebea0da125e8850b47f0aa8abbb45c9cc4117` имеет автора `FUM Codex [gpt-6-luna; effort=max] <fum@local>`, но merge-коммит `628a2d3c0d1277e2ff589e036a04c3795b00f4a2` и следующий tip `3d4ddf99673ca50384ad47815751fbdf8f22d6e8` — `FUM Писатель <fum@local>`. У обоих последних коммитов committer — `FUM <fum@local>`. Это исторические факты; прежние объекты и опубликованная история не переписываются.
+
+Текущий native `turn_context` наблюдён в `2026-10-26T18:09:00.021Z`: модель `gpt-6-luna`, effort `max`, turn `01a17966-c243-7081-be56-d75787a657a4`; SHA-256 компактного извлечения `121cf4bbe9ccb4c9e2322af43ed02574147b9ffc9b9d42f7774f59e913c8aa9a`. Для нового add-only checkpoint Author задан как `FUM Codex [gpt-6-luna; effort=max] <fum@local>`; committer сохраняется `FUM <fum@local>`. ROOT UUID `01a07d3d-d376-7ad2-aafc-67e4c25a67eb`; UUID узла-писателя `01a17838-f2eb-7f03-ad72-c62fce2dbbd2`.
+
+Перед checkpoint свежий remote readback подтвердил собственный ref на `3d4ddf99673ca50384ad47815751fbdf8f22d6e8`, а `fum-lab/fum/master` на `d081c0a6dfecf876d94107c3f2585cd99f686f39`. Адресные проверки raw старого tip, raw merge-коммита, native turn context и remote сохранены в `zhurnal/run-08`–`run-11`; предметные тесты и общий валидатор не повторялись.
+
+
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-26 20:43:13 MSK -->
-<!-- content-sha256: sha256:3a600d32b43174501d774ebe7dc02678cc8d23ca2b4ef44b7e5b5827aa5c68d6 -->
+<!-- last-content-edit: 2026-10-26 21:13:41 MSK -->
+<!-- content-sha256: sha256:e85fbbe0e01deb6e86d17da48e94e0493e6b858909fed226fef769ff7d2d5c9a -->
 <!-- FUM-MD-RECENCY:END -->
