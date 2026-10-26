@@ -95,6 +95,7 @@ public enum ИсходФасадаJSONL: Equatable, Sendable {
 public enum ОшибкаФасадаJSONL: Error, Equatable, Sendable {
   case ресурсОпределенияОтсутствует
   case ресурсОпределенияНекорректен
+  case ресурсОпределенияНеСовпадает(СрезJSONL, вычисленныйSHA256: String)
   case результатОпределенияНекорректен
 }
 
@@ -102,10 +103,30 @@ public enum ОшибкаФасадаJSONL: Error, Equatable, Sendable {
 public enum ФасадJSONL {
   private static let пределБайтовСреза = 262_144
   private static let имяРесурсаОпределения = "vkhod-jsonl-fuma"
+  private static let ожидаемыйSHA256РесурсаОпределения =
+    "eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba"
 
   public static func выполнить(
     _ срез: СрезJSONL,
     профиль: ((ЗамерФасадаJSONL) -> Void)? = nil
+  ) throws -> ИсходФасадаJSONL {
+    try выполнить(
+      срез, изменитьДанныеРесурса: nil, профиль: профиль)
+  }
+
+  static func выполнитьДляПроверки(
+    _ срез: СрезJSONL,
+    изменитьДанныеРесурса: @escaping (Data) -> Data,
+    профиль: ((ЗамерФасадаJSONL) -> Void)? = nil
+  ) throws -> ИсходФасадаJSONL {
+    try выполнить(
+      срез, изменитьДанныеРесурса: изменитьДанныеРесурса, профиль: профиль)
+  }
+
+  private static func выполнить(
+    _ срез: СрезJSONL,
+    изменитьДанныеРесурса: ((Data) -> Data)?,
+    профиль: ((ЗамерФасадаJSONL) -> Void)?
   ) throws -> ИсходФасадаJSONL {
     guard валидныйИсточник(срез.привязка.источник) else {
       return .отклонено(срез, код: "источник", вычисленныйSHA256: nil)
@@ -157,10 +178,25 @@ public enum ФасадJSONL {
     guard let url = Bundle.module.url(
       forResource: имяРесурсаОпределения, withExtension: "json", subdirectory: "Определения")
     else { throw ОшибкаФасадаJSONL.ресурсОпределенияОтсутствует }
-    let данныеРесурса: Data
+    let прочитанныеДанныеРесурса: Data
     let определение: ОпределениеОператора
     do {
-      данныеРесурса = try Data(contentsOf: url)
+      прочитанныеДанныеРесурса = try Data(contentsOf: url)
+    } catch {
+      throw ОшибкаФасадаJSONL.ресурсОпределенияНекорректен
+    }
+    let данныеРесурса = изменитьДанныеРесурса?(прочитанныеДанныеРесурса)
+      ?? прочитанныеДанныеРесурса
+    let хэшРесурса = Self.sha256(данныеРесурса)
+    guard хэшРесурса == ожидаемыйSHA256РесурсаОпределения else {
+      профиль?(ЗамерФасадаJSONL(
+        этап: "ресурс-определения",
+        наносекунды: DispatchTime.now().uptimeNanoseconds - началоРесурса,
+        исход: "отказ", вложенный: false))
+      throw ОшибкаФасадаJSONL.ресурсОпределенияНеСовпадает(
+        срез, вычисленныйSHA256: хэшРесурса)
+    }
+    do {
       определение = try ОпределениеОператора.разобрать(данныеРесурса)
     } catch {
       throw ОшибкаФасадаJSONL.ресурсОпределенияНекорректен
