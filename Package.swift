@@ -11,13 +11,20 @@ let package = Package(
     platforms: [.macOS(.v14)],
     products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
     dependencies: [
-        .package(path: "Зависимости/LinguisticKit")
+        .package(path: "Зависимости/LinguisticKit"),
+        .package(name: "FUMStructuringOperatorMemory", path: "Прототипы/память-структурирующих-операторов")
     ],
     targets: [
         .target(name: "АктуализацияПутей",
-            dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit")],
-            path: "iskhodniki/aktualizaciya-putej", exclude: ["rukovodstvo.md", "zhurnal", "kontraktyi", "dannyiye"],
+            dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit"),
+                .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
+                "КонтейнерНаблюдений"],
+            path: "iskhodniki/aktualizaciya-putej",
+            exclude: ["rukovodstvo.md", "zhurnal", "kontraktyi", "proverki"],
+            resources: [.copy("dannyiye/paket-perenosa.json"), .copy("dannyiye/snimok-devyati.json")],
             swiftSettings: настройки),
+        .testTarget(name: "ПроверкиПакетаПереноса", dependencies: ["АктуализацияПутей"],
+            path: "iskhodniki/aktualizaciya-putej/proverki", swiftSettings: настройки),
         .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей"],
             path: "proverki/aktualizaciya-putej", swiftSettings: настройки),
         .target(name: "КонтейнерНаблюдений",
