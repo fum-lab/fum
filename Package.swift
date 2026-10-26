@@ -16,7 +16,7 @@ let package = Package(
     targets: [
         .target(name: "АктуализацияПутей",
             dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit")],
-            path: "iskhodniki/aktualizaciya-putej", exclude: ["rukovodstvo.md"],
+            path: "iskhodniki/aktualizaciya-putej", exclude: ["rukovodstvo.md", "zhurnal", "kontraktyi", "dannyiye"],
             swiftSettings: настройки),
         .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей"],
             path: "proverki/aktualizaciya-putej", swiftSettings: настройки),
