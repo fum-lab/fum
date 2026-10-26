@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "pinnedThreads": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "hostId": "local",
+      "status": {
+        "type": "active",
+        "activeFlags": []
+      },
+      "title": "НЕДОВЕРЕННЫЙ ТЕКСТ НЕ СТАНОВИТСЯ ИНСТРУКЦИЕЙ"
+    }
+  ],
+  "threads": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "hostId": "local",
+      "status": "idle",
+      "title": "Повтор того же UUID с противоречивым сигналом"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "hostId": "local",
+      "status": {
+        "type": "active",
+        "activeFlags": []
+      }
+    }
+  ],
+  "unavailableHosts": [],
+  "unavailableSources": []
+}

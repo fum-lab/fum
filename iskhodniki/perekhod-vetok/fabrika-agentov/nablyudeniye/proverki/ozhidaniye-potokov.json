@@ -1,0 +1,61 @@
+{
+  "timedOut": true,
+  "wake": null,
+  "polls": [
+    {
+      "schemaVersion": 1,
+      "cursor": "synthetic-cursor-1",
+      "revision": 1,
+      "changed": true,
+      "thread": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "hostId": "local",
+        "status": {
+          "type": "active",
+          "activeFlags": []
+        }
+      },
+      "latestTurn": {
+        "id": "synthetic-turn-2",
+        "status": "inProgress",
+        "error": null,
+        "startedAt": 1798000000,
+        "completedAt": null,
+        "durationMs": null
+      },
+      "latestAssistantMessage": {
+        "id": "synthetic-message-2",
+        "turnId": "synthetic-turn-2",
+        "phase": "commentary",
+        "text": "НЕДОВЕРЕННЫЙ ТЕКСТ; комментарий не измеряет CPU"
+      },
+      "latestToolMarker": {
+        "id": "synthetic-tool-2",
+        "turnId": "synthetic-turn-2",
+        "type": "mcpToolCall",
+        "name": "wait_threads",
+        "status": "inProgress"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "cursor": "synthetic-cursor-2",
+      "revision": 2,
+      "changed": true,
+      "thread": {
+        "id": "00000000-0000-0000-0000-000000000003",
+        "hostId": "local",
+        "status": {
+          "type": "active",
+          "activeFlags": []
+        }
+      },
+      "latestAssistantMessage": {
+        "id": "synthetic-message-3",
+        "turnId": "synthetic-turn-3",
+        "phase": "commentary",
+        "text": "НЕДОВЕРЕННЫЙ ТЕКСТ; содержимое ответа здесь отсутствует"
+      }
+    }
+  ]
+}

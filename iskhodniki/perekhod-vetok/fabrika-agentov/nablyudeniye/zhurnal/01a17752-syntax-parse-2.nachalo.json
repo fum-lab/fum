@@ -1,0 +1,145 @@
+{
+  "входные_закрепления" : [
+    {
+      "sha256" : "1855227ee653dc74e4db1fcdecfe90883b7f6373e9437c5c618f45eabf9017ab",
+      "путь" : "Package.swift"
+    },
+    {
+      "sha256" : "5b8c5670a44418c16a277e3aa339793cf2dc95cf2063a8e82c9229c5cbb49338",
+      "путь" : "iskhodniki/zapusk/Команда.swift"
+    },
+    {
+      "sha256" : "f182132aef4cd14f410a3b151706ba29792bb261ddcc777c99cb5d1f5c08f0fc",
+      "путь" : "iskhodniki/zapusk/ПоляЗапуска.swift"
+    },
+    {
+      "sha256" : "1c9dfd8396892b460eed30d5e956c273fadd205685708a3ae2a6968166a5aa1f",
+      "путь" : "iskhodniki/zhurnal/381.json"
+    },
+    {
+      "sha256" : "050a8678163461b050235d195d1d7d297720fa583624d7f906993dde8e884ff8",
+      "путь" : "iskhodniki/zhurnal/fajlovyij-adapter.swift"
+    },
+    {
+      "sha256" : "46d4a4a989d87061a2dc55782eae64ff03201595be83ec96d73c1091688a8473",
+      "путь" : "iskhodniki/zhurnal/karta-imyon.json"
+    },
+    {
+      "sha256" : "c4927940d9521373be8709deafab8e1fe7a5407b9a83605a88ce6ecab24305a3",
+      "путь" : "iskhodniki/zhurnal/komanda-zhurnala.swift"
+    },
+    {
+      "sha256" : "6766c463045531a1beaf4830f7bc20e69a64a5467fe39a337d7c3cc46490772c",
+      "путь" : "iskhodniki/zhurnal/modelj-zapisi.swift"
+    },
+    {
+      "sha256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+      "путь" : "iskhodniki/zhurnal/opredeleniya/sformirovatj-zapisj.json"
+    },
+    {
+      "sha256" : "9f6b2f8561e59eede119dccb1fba3e5d32b1c1ebb2d484debcd965aab142347f",
+      "путь" : "iskhodniki/zhurnal/plan-zapisi.swift"
+    },
+    {
+      "sha256" : "deee4f029e955041b098063627439247eeb6d4de1376be2ab16fba34120109f4",
+      "путь" : "iskhodniki/zhurnal/primer.json"
+    },
+    {
+      "sha256" : "088726276bc6745bc96a7fd7d57031a7d0e9b1c198a3c4a3403f096c83243d3d",
+      "путь" : "iskhodniki/zhurnal/profilj.json"
+    },
+    {
+      "sha256" : "6060a0b4739ee28674c456ee58e43ac19a85aa04d074ae8083c6ceb6a32c5f54",
+      "путь" : "iskhodniki/zhurnal/proverki/profilj.swift"
+    },
+    {
+      "sha256" : "d765acf465f17c334b39c232945047252738f7b5ea83b072c0e58d2108a4baa6",
+      "путь" : "iskhodniki/zhurnal/proverki/proverki-zhurnala.swift"
+    },
+    {
+      "sha256" : "1d41f2e435e78e9372046da282218e010dd66e0af3ae89f2292242ce5335f60f",
+      "путь" : "iskhodniki/zhurnal/publikacionnaya-politika.json"
+    },
+    {
+      "sha256" : "2d2488d35069cb32d626fdbd242bb9845942c2cebbb6e3f4256410f47bec50e6",
+      "путь" : "iskhodniki/zhurnal/uchyot-proverok.swift"
+    },
+    {
+      "sha256" : "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift"
+    },
+    {
+      "sha256" : "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift"
+    },
+    {
+      "sha256" : "12e1df61f025ccc217ab920c2ccc28d33bebe30757f32ed66c311a0361fcb1bf",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Domain.swift"
+    },
+    {
+      "sha256" : "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Engine.swift"
+    },
+    {
+      "sha256" : "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Fixtures.swift"
+    },
+    {
+      "sha256" : "a4269a8eddd8b671c270e128c2d9769c726c6db2fb9300dd12b12db672c71b36",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift"
+    },
+    {
+      "sha256" : "bca9cd347e5eb231f6decf225394082053cef820246bf9ae6018f0a2abbf54c1",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift"
+    },
+    {
+      "sha256" : "1004e6da58f7eaaf8545a905965d75a6c048f3e8eab52643634015c58a41ba28",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift"
+    },
+    {
+      "sha256" : "dab7b52639c92fed633a3eda3e7abea169ff08c06280fef15650360bb6132651",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift"
+    },
+    {
+      "sha256" : "93e81ddca96164c3d09cafbbec0f63843699ef3adfd4e507c8df3aed616f8166",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift"
+    },
+    {
+      "sha256" : "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift"
+    },
+    {
+      "sha256" : "e9b20904fa21e66a26843fccf9423c43c5ed346a23b225a23bc47eec1d31d9be",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift"
+    },
+    {
+      "sha256" : "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json"
+    },
+    {
+      "sha256" : "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json"
+    },
+    {
+      "sha256" : "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift"
+    },
+    {
+      "sha256" : "1c2262433f80a3d7a630238fa9a806329afc12f941c5d292c1c5afc6bb9904b8",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift"
+    },
+    {
+      "sha256" : "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json"
+    },
+    {
+      "sha256" : "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292",
+      "путь" : "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json"
+    }
+  ],
+  "граница" : "Исход при отсутствии терминальной записи неизвестен; повтор не разрешён",
+  "команда_sha256" : "e315709354c4e897163b2619e82efdb1536981f0d93381d6b4cfc8aa5b772d9a",
+  "название" : "Swift 6 parser syntax only after status preservation fix",
+  "статус" : "намерение",
+  "схема" : "fum.намерение-адресной-проверки.1"
+}

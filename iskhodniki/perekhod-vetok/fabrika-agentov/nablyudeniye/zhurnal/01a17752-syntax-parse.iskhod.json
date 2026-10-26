@@ -1,0 +1,14 @@
+{
+  "stderr_sha256" : "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_байтов" : 0,
+  "stdout_sha256" : "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_байтов" : 0,
+  "код" : 0,
+  "команда_sha256" : "e315709354c4e897163b2619e82efdb1536981f0d93381d6b4cfc8aa5b772d9a",
+  "название" : "Swift 6 parser syntax only for observer source and tests",
+  "намерение" : "01a17752-syntax-parse.nachalo.json",
+  "наносекунды" : 71606167,
+  "оригиналы" : "Точный argv, stdout и stderr сохранены приватно; сырые локальные пути не публикуются",
+  "состояние" : "успешно",
+  "схема" : "fum.исход-адресной-проверки.1"
+}
