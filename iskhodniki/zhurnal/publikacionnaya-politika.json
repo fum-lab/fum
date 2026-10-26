@@ -1,0 +1,23 @@
+{
+  "schema": "fum.machine-local-path-policy.v2",
+  "exceptions": [
+    {
+      "id": "issue381-native-source",
+      "path": "iskhodniki/zhurnal/zhurnal/1.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:9308d7d8bd7df0ef364ef3b08ac60adc49da1eb158025644fa1ece48b1155054",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная неизменная строка первоначального агентского поручения ROOT; не исполняемый путь и не новые данные окружения."
+    },
+    {
+      "id": "issue381-native-syntax",
+      "path": "iskhodniki/zhurnal/zhurnal/1.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c60a10abbdf1e5105aedc3d01c6ab41f552f89d9018377add21f9dcd5b5b6699",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Буквальный шаблон назначенной области из первоначального поручения ROOT; не абсолютный адрес файловой системы."
+    }
+  ]
+}
