@@ -1,0 +1,41 @@
+{
+  "схема": "fum.ограниченное-наблюдение-ast85.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "исполнитель": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+  "граница": {
+    "базовый_вызов": "прежний argv81",
+    "единственное_изменение": "два -primary-file перед inventarj-kataloga.swift и plan-kataloga.swift",
+    "argv_json_sha256": "0fb316e8e36cd29e8fefb07c8e6d8a7bf43690a9f260e25e1c1fde0134b2c45d",
+    "повторов": 0
+  },
+  "исход": {
+    "код": 0,
+    "длительность_нс": 502139791,
+    "source_file": 2,
+    "ast_байтов": 4097537,
+    "ast_sha256": "78c7a665dd0cd3bcd83fecc6812aaf7dea6e530af234f8e25170b0c0c34df1eb",
+    "join": {
+      "ожидалось": 21,
+      "сопоставлено": 21,
+      "несопоставленных": 0,
+      "проверенных_ast_строк": 46,
+      "json_sha256": "25f9dc2b83192bca4c023659b7cf92b85d4a774e2ca61412b365c7c8bf9d8c46"
+    }
+  },
+  "неизменность": {
+    "pins": 8,
+    "pins_sha256": "fd2fbaa40b7da630789bdab809abac36cbc99c315cfd4886603585223f7fd962",
+    "index_sha256_до_и_после": "79fd5a4890d67b5c23ab2b3738db2a55eb6fadb036b55deddd474e7cbf5a8d90",
+    "head": "b73b1c628aa31401b80c1cb1bb88760113759414",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+    "исходники_и_план_неизменны": true,
+    "канонических_эффектов": false
+  },
+  "ограничения": {
+    "приватные_raw_в_git": false,
+    "глобальное_ownLatin_0_не_доказано": true,
+    "полная_parity_не_доказана": true,
+    "приёмка_узла_не_доказана": true,
+    "публикация_не_доказана": true
+  }
+}

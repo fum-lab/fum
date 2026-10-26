@@ -1,0 +1,62 @@
+{
+  "схема": "fum.read-only-план-продолжения-sync-c1.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "исходное_состояние": {
+    "worktree": "9d58/FUM",
+    "задача_писателя": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master",
+    "head": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+    "remote_oid_совпал": true,
+    "индексное_дерево": "b0004eec8e63a70d3d002be5c4da4a9297a394b7",
+    "staged_путей": 85,
+    "staged_swift": 3,
+    "staged_json": 82
+  },
+  "удерживаемые_вне_индекса_байты": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/sinkhronizaciya/proverki.swift",
+      "sha256": "045033b568f6834e55d5661a7fdc90cb0821c9520ec246dfcad5d6c260715109",
+      "состояние": "modified"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter.swift",
+      "sha256": "3c06fe138e3990ce4be81b7484b9b0fc848bdb04304162c258f42dc7a9a859e7",
+      "состояние": "modified"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/inventarj.swift",
+      "sha256": "a319977b614ac28c9e8b3fb286294803c7f952092aa7a70397df6b2780b75daf",
+      "состояние": "modified"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/plan.swift",
+      "sha256": "3c9c73d6e9d70651ce5b99f805b3402e5d23d4bd905aacdf5164ddeb8843ff5e",
+      "состояние": "modified"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-sobstvennogo-ref.swift",
+      "sha256": "ef2857722c467119a79e4b37b14b3a6d49aa39dfd8659bdb7d3e94861bbe57f0",
+      "состояние": "untracked"
+    }
+  ],
+  "сопоставление": {
+    "root_checkpoint": "1386fbe69be3f6dac244a11093e972ed776a6e34",
+    "общий_предок": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+    "совпадающих_имён_изменённых_путей": 0,
+    "различающихся_путей_между_деревьями": 504,
+    "markdown_путей_в_различии": 19,
+    "семантическая_совместимость_не_доказана": true
+  },
+  "решение": {
+    "новый_writer_не_создаётся": true,
+    "один_root_recency_blob_не_переносится": true,
+    "полный_merge_этим_планом_не_разрешён": true,
+    "нужны": [
+      "точная принятая основа для целевого дерева C1",
+      "новый ACT тому же sync-writer",
+      "явный статус пяти удерживаемых backend-файлов",
+      "повторные recency, exact diff/index и адресные проверки",
+      "normal push и независимый remote readback после разрешённого commit"
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "схема": "fum.передача-packet-code-only.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "координатор": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+  "исполнитель_сокращённо": "01a177a3…",
+  "новый_turn": "01a17a69-31f9-7222-92db-545a48c32293",
+  "статус": "fresh ACK получен; code-запись и тяжёлые проверки в этой передаче ещё не доказаны",
+  "fresh_ack": {
+    "physical_worktree": "cd00/FUM",
+    "head": "b9…",
+    "tree": "c29e…",
+    "ref": "exact ref исполнителя; в передаче сокращён",
+    "index_and_worktree_clean": true,
+    "source_pins": 4,
+    "pins_mode_blob_sha_matched": true,
+    "sole_writer": true,
+    "transport": "однократно сохранённый XML decode",
+    "postanovka_sha256_matched": true,
+    "native_model": "gpt-5.6-sol",
+    "native_effort": "ultra",
+    "native_turn": "01a17a69…",
+    "native_timestamp_utc": "2026-10-26T22:51:16.896Z",
+    "свободно_примерно_gib": 4.8
+  },
+  "постановка": {
+    "байтов": 24218,
+    "sha256": "4636f9597d2e3eb25244b5b530951f1293cfddf016c74259c107363b49990199",
+    "основа": "exact b9/tree",
+    "source_pins": 4,
+    "дефектов": 5,
+    "разрешённых_write_prefixes": 3,
+    "запрошенная_модель": "gpt-5.6-sol",
+    "запрошенное_усилие": "ultra"
+  },
+  "hold": [
+    "real product runtime",
+    "commit",
+    "push",
+    "recency",
+    "tests/build до отдельного heavy-слота",
+    "actual behavior fixes до RED"
+  ],
+  "read_only_source_slice": {
+    "статус": "приватное предложение, не delivery",
+    "база": "c6af",
+    "catalog_sources": 3,
+    "tests": 2,
+    "positive_sources": "3/2",
+    "base_targets": 9,
+    "products": 1,
+    "manifest_sha256": "22d2f5f00230f4ef830804ef3e01f678ff88c1db1cb61fc7b5359484bc798988",
+    "shared_patch_sha256": "9241c40062211cdcfa02e6c16bfc80f33f02301723f2f795dbf3a6a1480c4f4a",
+    "не_доказано": [
+      "build",
+      "delivery",
+      "неизменяемый C",
+      "recency"
+    ]
+  }
+}
