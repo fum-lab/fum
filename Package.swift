@@ -17,7 +17,7 @@ let package = Package(
         .target(name: "МатериализацияУзлов", dependencies: ["FUMStructuringOperatorMemory"],
             path: "iskhodniki/perekhod-vetok/uzlyi", resources: [.copy("opredeleniya")],
             swiftSettings: настройки),
-        .testTarget(name: "ПроверкиМатериализацииУзлов", dependencies: ["МатериализацияУзлов"],
+        .testTarget(name: "ПроверкиМатериализацииУзлов", dependencies: ["МатериализацияУзлов", "АктуализацияПутей"],
             path: "iskhodniki/perekhod-vetok/proverki", swiftSettings: настройки),
         .target(name: "FUMStructuringOperatorMemory",
             path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",

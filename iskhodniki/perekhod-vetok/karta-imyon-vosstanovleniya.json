@@ -1,0 +1,28 @@
+{
+  "граница" : "Только вычисленная карта. Перенос, синтаксические ссылки, сохранение исторических свидетельств и отсутствие цели отдельно проверяет владелец",
+  "карта" : [
+    {
+      "исходный" : "iskhodniki/perekhod-vetok/uzlyi/восстановление/план.swift",
+      "целевой" : "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/plan.swift"
+    },
+    {
+      "исходный" : "iskhodniki/perekhod-vetok/proverki/восстановление/проверки.swift",
+      "целевой" : "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki.swift"
+    },
+    {
+      "исходный" : "iskhodniki/perekhod-vetok/zhurnal/восстановление",
+      "целевой" : "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye"
+    },
+    {
+      "исходный" : "iskhodniki/perekhod-vetok/постановка-восстановления.json",
+      "целевой" : "iskhodniki/perekhod-vetok/postanovka-vosstanovleniya.json"
+    },
+    {
+      "исходный" : "iskhodniki/perekhod-vetok/профиль-самостоятельности-v2.json",
+      "целевой" : "iskhodniki/perekhod-vetok/profilj-samostoyateljnosti-v2.json"
+    }
+  ],
+  "механизм" : "Принятый ШтатноеОтображениеПутей: Unicode segmentation, LinguisticKit Cyrl→Latn.ru, ASCII до lowercase, kebab; не ручная транслитерация",
+  "ревизия" : "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "схема" : "fum.карта-имён-среза-материализации.1"
+}

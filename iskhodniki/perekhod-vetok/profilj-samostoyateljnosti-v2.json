@@ -1,0 +1,20 @@
+{
+  "входов_в_наборе" : 8,
+  "граница" : "Включены чтение ресурса, разбор определения, JSON encode, исполнение FUMA и decode. Сборка, подготовка входов и host/модель не входят. Кэш ОС не сбрасывался; ускорение не заявлено",
+  "закрепления" : {
+    "iskhodniki/perekhod-vetok/proverki/profilj-polnomochij.swift" : "f2faf2a8d4f7052a23b780e47ca8c9ba02f16b05c257d21085517050b5208df0",
+    "iskhodniki/perekhod-vetok/proverki/proverki-polnomochij.swift" : "77a0b559da70030b880404a643930ba5bcb44ddee8dbc60ba9a47dfcd092c623",
+    "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json" : "9e3a0fd3e35aec1077a12db8ca4b9fd87dbd0982689813048925329c94777aec",
+    "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift" : "e1efb4ab3fd69b6da5d105e28cd905a435fd4d69189f8d647eb4b654ad6c7e29",
+    "Package.swift" : "b07f4ed9de8cc794f308e47917659bca5cb240cec5f79e4b9095e44e26d0e929"
+  },
+  "наносекунды_набора" : [
+    21737042,
+    16644959,
+    16057167
+  ],
+  "оптимизация" : "Алгоритм сохранён: измеряется конечное управляющее решение, частота рабочего потока не измерена; оснований добавлять кэш или ослаблять проверку определения нет",
+  "повторов" : 3,
+  "режим" : "Debug; три последовательных набора по восемь решений",
+  "схема" : "fum.профиль-самостоятельности-узла.1"
+}

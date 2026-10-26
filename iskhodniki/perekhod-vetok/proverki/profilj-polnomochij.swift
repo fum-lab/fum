@@ -4,10 +4,10 @@ import Testing
 @testable import МатериализацияУзлов
 
 func закрепленияСамостоятельности() throws -> [String: String] {
-    let пути = ["Package.swift", "iskhodniki/perekhod-vetok/uzlyi/Полномочия.swift",
-        "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/самостоятельность.json",
-        "iskhodniki/perekhod-vetok/proverki/ПроверкиПолномочий.swift",
-        "iskhodniki/perekhod-vetok/proverki/ПрофильПолномочий.swift"]
+    let пути = ["Package.swift", "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json",
+        "iskhodniki/perekhod-vetok/proverki/proverki-polnomochij.swift",
+        "iskhodniki/perekhod-vetok/proverki/profilj-polnomochij.swift"]
     return try Dictionary(uniqueKeysWithValues: пути.map { путь in
         (путь, SHA256.hash(data: try Data(contentsOf: URL(fileURLWithPath: путь)))
             .map { String(format: "%02x", $0) }.joined())
@@ -28,7 +28,7 @@ func закрепленияСамостоятельности() throws -> [Strin
         case .чужаяОбласть: условия.свояОбласть = false
         case .нужныПолномочия: условия.естьПолномочия = false
         case .безопасноеПродолжениеНевозможно: условия.можноБезопасноПродолжать = false
-        case .нетПолезногоПродвижения: условия.естьПолезноеПродвижение = false
+        case .нетБезопасногоСледующегоШага: условия.естьБезопасныйСледующийШаг = false
         }
         входы.append(условия)
     }
