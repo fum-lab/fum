@@ -7920,6 +7920,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Прежняя строка принятого94710: суффикс относительного имени запроса соединяется с именем своей фикстуры Журнала; не адрес локальной машины."
+    },
+    {
+      "id": "issue301-c19-class-literal-neutral-context",
+      "path": "Журнал/2026-10-17_09-38-43_MSK_сохранить-постановку-строгого-индекса-и-поручение-256/запрос.md",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:5917d4d6ac927d34c264c8a88a43bceadb6ff93afc4d5c7eac231b0c2310ba92",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Пояснительная строка определяет синтаксический класс в исходном поручении и не задаёт адрес файловой системы. Исторический текст сохраняется без изменений."
+    },
+    {
+      "id": "github-pr-379-archive-uri",
+      "path": "Issues/fum-lab/fum/данные/e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Два параметра ref являются операторами URI-шаблона archive_url в исходном публичном ответе GitHub PR379 (head.repo/base.repo), а не адресами файловой системы. Точное число, SHA полной строки и путь выводятся штатным updater; изменение байтов закрывает исключение."
     }
   ],
   "метаданные": [

@@ -1,0 +1,96 @@
+{
+  "схема": "fum.свежее-наблюдение-333.1",
+  "метка": "Планирование-частный-архив-333-20261017",
+  "порядок": 3,
+  "полнота_наблюдённых_цепочек": true,
+  "состояние": "завершено",
+  "страниц": 7,
+  "страниц_Issues_PR": 4,
+  "страниц_комментариев": 3,
+  "Issues": 246,
+  "PR": 87,
+  "комментариев": 207,
+  "прежних_файлов_неизменны": 11,
+  "новых_архивных_файлов": 5,
+  "подтверждённая_Issue": {
+    "схема": "fum.предварительное-чтение-Issue.1",
+    "номер": 333,
+    "ID": 5894319011,
+    "URL": "https://github.com/fum-lab/fum/issues/333",
+    "created_at": "2026-10-17T03:18:29Z",
+    "updated_at": "2026-10-17T03:18:29Z",
+    "заголовок": "Автоматизировать сохранение непубликуемого этапа Журнала перед публичной контрольной точкой",
+    "body_sha256": "36b7de05e5d434fa63862a48b32c2a6ee88fae26bc69e2d9c4b674288429b32b",
+    "проверка_GET_нс": 933263125,
+    "код": 0,
+    "HTTP": 200,
+    "post_не_выполнялся": true
+  },
+  "получение_нс": 9582089208,
+  "локальное_чтение_нс": 252166042,
+  "граница": "Завершены обе наблюдённые цепочки Link; это не атомарный снимок GitHub.",
+  "сохранение_Link": "Точное тело и извлечённый rel=next; полный HTTP-заголовок Link не сохраняется.",
+  "не_охвачено": [
+    "Атомарный снимок GitHub",
+    "Удалённые до наблюдения материалы и ненаблюдённые редакции",
+    "Отдельные PR review/diff, вложения, настройки, workflows и Actions"
+  ],
+  "страницы": [
+    {
+      "sha256": "fea872758cbc29b3e79694eb71195820104bf64e9ccd07bbc1ed1be6b32cfb5f",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?state=all&per_page=100",
+      "байты": 958082,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoRztdxjPAAAAAVfE2Hg%3D&page=2",
+      "тип": "issues"
+    },
+    {
+      "sha256": "b661e5087ae86ef9a5ba708aaad1b7405128f8eed75240a048af0ce971b084bf",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?page=2&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoRztdxjPAAAAAVfE2Hg%3D&state=all",
+      "байты": 1582978,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?page=3&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQWbzLjPAAAAAVOPU20%3D&state=all",
+      "тип": "issues"
+    },
+    {
+      "sha256": "88897d0e610d0903e74a84f886aa32e659fbed508ae49e0586154483cea8d502",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?page=3&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQWbzLjPAAAAAVOPU20%3D&state=all",
+      "байты": 1409182,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?page=4&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQJQehjPAAAAAVMzPXk%3D&state=all",
+      "тип": "issues"
+    },
+    {
+      "sha256": "04dba0b8f35b51d20f2e8dbaf162bef7a4ef0b75de83983f62e23175307da1a3",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?page=4&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQJQehjPAAAAAVMzPXk%3D&state=all",
+      "байты": 378784,
+      "разбор": "проверен",
+      "следующий": null,
+      "тип": "issues"
+    },
+    {
+      "sha256": "4d7085628c193de034f3a9e69a5a0df700713ae5f0cca6b46efa3b00f829dd5f",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?per_page=100",
+      "байты": 784949,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=2",
+      "тип": "comments"
+    },
+    {
+      "sha256": "ce491cd864f86baa4d779977e12bc5656a9e61ecb4f645baa93f27c793eac51e",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?page=2&per_page=100",
+      "байты": 810930,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?page=3&per_page=100",
+      "тип": "comments"
+    },
+    {
+      "sha256": "b7dfc1b1e45c8a81ad04abc3bace532746dc919fa9d8133e2c83f97b7fc121a4",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?page=3&per_page=100",
+      "байты": 34799,
+      "разбор": "проверен",
+      "следующий": null,
+      "тип": "comments"
+    }
+  ]
+}
