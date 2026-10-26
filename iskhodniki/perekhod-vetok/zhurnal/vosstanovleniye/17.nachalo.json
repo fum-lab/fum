@@ -1,0 +1,22 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "Ограниченный публикационный просмотр собственной дельты",
+  "команда_sha256": "b2d131ed0764f020c9a596b0998430783d7a4759ca0ca10e2c0db715e5e5f6b2",
+  "скрипт_sha256": "a7b191dcbc7dd0a8d6810cc98a21c7d1f44817c15348c73071fb05cfe2a19214",
+  "граница": "Только три назначенные области, кроме собственных квитанций 17; regular/no-symlink, UTF-8, JSON и конечный набор опасных последовательностей. Это не fullPUB и не поиск всех видов секретов",
+  "входные_закрепления": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/plan.swift",
+      "sha256": "195aaa8b330bb0ce65bc933c93b2a0365e388d4150f41a2fa7077df46a51c084"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki.swift",
+      "sha256": "a7f3e3d20956494f6e982c5cd7ce2b57d351e845817019e5c91bdd8dce52356c"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/zhurnal/vosstanovleniye/zhurnal/642e24de9711ec20497488529ec507a6cc6f12b68bac1aa2b895dc48d5971916.json",
+      "sha256": "17d69e9c465d54108cad1c7412e79169e32abb45db7929c07fba14b4f5b9aecb"
+    }
+  ]
+}

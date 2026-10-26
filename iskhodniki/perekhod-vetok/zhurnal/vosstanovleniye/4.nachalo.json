@@ -1,0 +1,21 @@
+{
+  "схема": "fum.намерение-адресной-проверки.1",
+  "статус": "намерение",
+  "название": "GREEN плана восстановления после первой реализации",
+  "команда_sha256": "90a5fa82cf38b17dac3aabc4b950dbd89b03b99377761cda90177202f9d8d09e",
+  "граница": "Адресный suite плана; история модели и профиль проверяются отдельными вызовами",
+  "входные_закрепления": [
+    {
+      "путь": "Package.swift",
+      "sha256": "b07f4ed9de8cc794f308e47917659bca5cb240cec5f79e4b9095e44e26d0e929"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/vosstanovleniye/plan.swift",
+      "sha256": "d59a9b3e48e91af3a4f49cc5cae1f66126fb3ae797f845dba1b3523dd558c1d6"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/vosstanovleniye/proverki.swift",
+      "sha256": "8a5a8108572640f16cf02ccaa387d4b181caec66b796d0130a114130dc9df3b0"
+    }
+  ]
+}
