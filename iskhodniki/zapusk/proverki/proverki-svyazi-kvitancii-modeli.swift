@@ -38,7 +38,7 @@ struct ПроверкиСвязиКвитанцииМодели {
     @Test("несовпадение размера, включая UInt64.max, отклоняется до хэширования")
     func неверныеРазмеры() throws {
         let данные = try каноническиеДанные()
-        let сыройХэш = сыройSHA256(данные)
+        let сыройХэш = сыройХэшДанных(данные)
         let неверныеРазмеры = [UInt64(данные.count) + 1, UInt64.max]
 
         for размер in неверныеРазмеры {
@@ -114,13 +114,37 @@ struct ПроверкиСвязиКвитанцииМодели {
 
         let квитанцияСБольшимиБуквами = try создатьКвитанцию(
             размер: UInt64(данные.count),
-            хэш: сыройSHA256(данные).uppercased()
+            хэш: сыройХэшДанных(данные).uppercased()
         )
         #expect(throws: ОшибкаСвязиКвитанцииМодели.неверныйФорматХэша) {
             try СвязьКвитанцииМодели.декодировать(
                 квитанция: квитанцияСБольшимиБуквами,
                 данные: данные
             )
+        }
+    }
+
+    @Test("формат сырого хэша отклоняет неверную длину и не-ASCII")
+    func неверныйФорматСырогоХэша() throws {
+        let данные = try каноническиеДанные()
+        let недопустимыеХэши = [
+            String(repeating: "a", count: 63),
+            String(repeating: "a", count: 65),
+            String(repeating: "a", count: 1_000_000),
+            String(repeating: "а", count: 32),
+        ]
+
+        for хэш in недопустимыеХэши {
+            let квитанция = try создатьКвитанцию(
+                размер: UInt64(данные.count),
+                хэш: хэш
+            )
+            #expect(throws: ОшибкаСвязиКвитанцииМодели.неверныйФорматХэша) {
+                try СвязьКвитанцииМодели.декодировать(
+                    квитанция: квитанция,
+                    данные: данные
+                )
+            }
         }
     }
 
@@ -222,7 +246,10 @@ struct ПроверкиСвязиКвитанцииМодели {
         }
     }
 
-    @Test("три серии по десять вызовов работают только с Data и квитанцией")
+    @Test(
+        "три серии по десять вызовов работают только с Data и квитанцией",
+        .enabled(if: ProcessInfo.processInfo.environment["FUM_PROFILE_OUT"] != nil)
+    )
     func профильСвязи() throws {
         guard let путь = ProcessInfo.processInfo.environment["FUM_PROFILE_OUT"],
               путь.hasPrefix("/") else {
@@ -280,7 +307,7 @@ struct ПроверкиСвязиКвитанцииМодели {
                 название: название,
                 вызовов: 10,
                 размерДанных: данные.count,
-                хэшСырыхБайтов: сыройSHA256(данные),
+                хэшСырыхБайтов: сыройХэшДанных(данные),
                 хэшОтвета: конверт.responseHash,
                 наносекунды: всегоНаносекунд,
                 среднееНаносекунд: всегоНаносекунд / 10
@@ -344,7 +371,7 @@ private struct ВходКвитанции: Encodable {
 private func создатьКвитанцию(для данные: Data) throws -> Квитанция {
     try создатьКвитанцию(
         размер: UInt64(данные.count),
-        хэш: сыройSHA256(данные)
+        хэш: сыройХэшДанных(данные)
     )
 }
 
@@ -366,7 +393,7 @@ private func каноническиеДанные() throws -> Data {
     try canonicalJSONData(создатьКонверт())
 }
 
-private func сыройSHA256(_ данные: Data) -> String {
+private func сыройХэшДанных(_ данные: Data) -> String {
     String(sha256Digest(данные).dropFirst("sha256:".count))
 }
 
@@ -385,12 +412,12 @@ private func сериализовать(
     ]
     let значения = [
         "schema_version": String(конверт.schemaVersion),
-        "adapter_id": try JSONEncoder().encode(конверт.adapterId).строкаUTF8,
-        "model": try JSONEncoder().encode(конверт.model).строкаUTF8,
-        "prompt_text": try JSONEncoder().encode(конверт.promptText).строкаUTF8,
-        "prompt_hash": try JSONEncoder().encode(конверт.promptHash).строкаUTF8,
-        "response_hash": try JSONEncoder().encode(конверт.responseHash).строкаUTF8,
-        "proposals": try canonicalJSONData(конверт.proposals).строкаUTF8,
+        "adapter_id": try JSONEncoder().encode(конверт.adapterId).строкаКодировки,
+        "model": try JSONEncoder().encode(конверт.model).строкаКодировки,
+        "prompt_text": try JSONEncoder().encode(конверт.promptText).строкаКодировки,
+        "prompt_hash": try JSONEncoder().encode(конверт.promptHash).строкаКодировки,
+        "response_hash": try JSONEncoder().encode(конверт.responseHash).строкаКодировки,
+        "proposals": try canonicalJSONData(конверт.proposals).строкаКодировки,
     ]
     let порядок = обратныйПорядок ? Array(ключи.reversed()) : ключи
     let части = try порядок.map { ключ -> String in
@@ -408,7 +435,7 @@ private enum ОшибкаТестовойФикстуры: Error {
 }
 
 private extension Data {
-    var строкаUTF8: String {
+    var строкаКодировки: String {
         String(decoding: self, as: UTF8.self)
     }
 }

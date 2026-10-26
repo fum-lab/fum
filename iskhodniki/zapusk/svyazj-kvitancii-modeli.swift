@@ -40,7 +40,7 @@ public enum СвязьКвитанцииМодели {
     }
 
     private static func форматСырогоХэшаДопустим(_ хэш: String) -> Bool {
-        let байты = Array(хэш.utf8)
+        let байты = Array(хэш.utf8.prefix(65))
         guard байты.count == 64 else { return false }
         return байты.allSatisfy {
             (48...57).contains($0) || (97...102).contains($0)
