@@ -34,7 +34,7 @@ let package = Package(
         .testTarget(name: "ПроверкиЗапуска", dependencies: ["ОсноваЗапуска", "КонтейнерНаблюдений"],
             path: "proverki/zapusk", swiftSettings: настройки),
         .target(name: "АрхивКодекса", dependencies: ["КонтейнерНаблюдений"],
-            path: "iskhodniki/arkhiv-codex", exclude: ["README.md"], swiftSettings: настройки),
+            path: "iskhodniki/arkhiv-codex", exclude: ["README.md", "zhurnal"], swiftSettings: настройки),
         .testTarget(name: "arkhiv-codex-tests", dependencies: ["АрхивКодекса", "КонтейнерНаблюдений", "ОсноваЗапуска"],
             path: "proverki/arkhiv-codex", swiftSettings: настройки)
     ],
