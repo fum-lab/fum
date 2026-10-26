@@ -38,8 +38,10 @@
 - [Служебная запись стадии 1](zhurnal/fe197954de5ce57fc6fad221065da2de2b075da68dd601307e02844b27ecbe19.json) создана через FUMA и сверена с точными байтами сохранённого плана; общий индекс Журнала не затронут.
 - [Запись продолжения стадии](zhurnal/ccb2e305dcb6e8f1efeb771734a321c43474bf9461b8768f0de7504ee0726474.json) также создана через FUMA; SHA-256 файла 96735c0bbf4e39226cf2719fcb8a70e34c3b76aa80572061d1bf4d24c0d6725d совпал с планом побайтно.
 - [Запись третьего этапа](zhurnal/1f2e7ff29605ab2cc382b5674ba8c06d8d69ace06a4f1bfc2a0a91cc3c7e797e.json) создана через FUMA; SHA-256 файла 791de53d5a04a3e30454c705d0b4483af74b44e1c10ebd4a1a80e00dc0504727 совпал с планом побайтно.
+- [Запись четвёртого этапа](zhurnal/845b0dc056007a98465aa6b3d166fe95686bd0ac58e786b533a4cf63cc4abe93.json) создана через FUMA; SHA-256 файла f681a3cef3eeac956615e26cc9e5e49e832ae44e64b4d09ab13d8d494416cb91 фиксирует явный merge ROOT d081, родителей, адресные проверки и состояние до публикации.
+
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-26 17:06:52 MSK -->
-<!-- content-sha256: sha256:3e0333ab390e1cd299aeb9209bc563410e04455a3ac6337a1298149980d99efc -->
+<!-- last-content-edit: 2026-10-26 20:43:13 MSK -->
+<!-- content-sha256: sha256:1ba3058736b1e0d59b1dcb1ee9ea126614becf3430e818c75dc21df10e9758d2 -->
 <!-- FUM-MD-RECENCY:END -->
