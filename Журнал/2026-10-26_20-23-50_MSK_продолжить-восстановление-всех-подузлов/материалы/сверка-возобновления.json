@@ -1,0 +1,193 @@
+{
+  "схема": "fum.сверка-возобновления-подузлов.1",
+  "задача": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "исходная_контрольная_точка": "94b52660120efa27246dd16ab13fa3d69123300f",
+  "root_граница": {
+    "commit": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "tree": "8bc97a924725613dae8416576354fb40699f410b",
+    "parents": [
+      "be896655e402d52cbcbb7974a673114645cc0f0d",
+      "56679877386874c07f714a708e147c9848bc673a"
+    ],
+    "ref": "refs/heads/fum-lab/fum/master",
+    "remote_exact": true,
+    "pr": {
+      "number": 389,
+      "state": "closed",
+      "merged": true,
+      "merge_commit_sha": "d081c0a6dfecf876d94107c3f2585cd99f686f39"
+    }
+  },
+  "прототипы": {
+    "thread": "01a17847-53e7-7c51-972a-bbb825cc188e",
+    "worktree": "9ec1/FUM",
+    "head": "e127dc2cbd58db93f98eafd5dc62cc376fbcd91d",
+    "tree": "2f688070a597c6cafcf8b417f2170f1b55f49cdc",
+    "parent": "8fed4a21bc2791ef20d7c31d330e1a1063951e2b",
+    "ref": "refs/heads/fum-lab/fum/prototipyi/master",
+    "local_remote_exact": true,
+    "clean": true,
+    "дубль_владельца": false,
+    "приватные_байты": "unknown",
+    "фактический_переход": "git worktree add <старый W> refs/heads/fum-lab/fum/prototipyi/master",
+    "поздний_detach_план_не_исполнялся": true,
+    "идемпотентный_повтор": "требуется read-only успех по совпадающим owner/path/ref/OID/tree"
+  },
+  "аудитор_на_границе_наблюдения": {
+    "thread": "01a177c7-9a89-7690-9259-3b5a56dae88c",
+    "thread_state": "active",
+    "прежний_read_only": {
+      "worktree": "7d27/FUM",
+      "head": "2f94314df3b9880296803c68824c37d1609cea38",
+      "tree": "99531ccdaa408edf7ea9d49eeb95160590e48a9b",
+      "ref": null,
+      "clean": true
+    },
+    "текущий_writer": {
+      "worktree": "audit/FUM",
+      "head": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "tree": "8bc97a924725613dae8416576354fb40699f410b",
+      "ref": "refs/heads/fum-lab/fum/audit/master",
+      "clean": false,
+      "porcelain": [
+        "?? audit/"
+      ]
+    },
+    "конечный_readback_владельца": false
+  },
+  "materializer": {
+    "thread": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+    "checkpoint": "2a81742d9c8d44683ac5971b8bcdd17b7315a25c",
+    "checkpoint_tree": "277dc8cfcc89b6ed37fc9e0b636dfd603e075742",
+    "remote_exact": true,
+    "последний_ход": "inProgress",
+    "worktree": "1b30/FUM",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+    "untracked": 3,
+    "missing_cwd_и_idempotent_noop_приняты": true,
+    "typed_argv_передан_sync": true,
+    "sync": {
+      "thread": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+      "worktree": "9d58/FUM",
+      "head": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+      "modified": 4,
+      "untracked": 29,
+      "checkpoint_нового_заказа": null
+    },
+    "общий_материализатор_готов": false
+  },
+  "planning": {
+    "thread": "01a08d77-2060-7701-9f44-ff04769d8a6e",
+    "worktree": "planirovaniye-01a08d77/FUM",
+    "head": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "tree": "8bc97a924725613dae8416576354fb40699f410b",
+    "ref": "refs/heads/fum-lab/fum/planirovaniye/master",
+    "package_sha256": "7fd6657c9b901d9173eb2bdadfb1ba4e9e6b7f8d521894389de3af9bc4633ad0",
+    "image_sha256": "689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b",
+    "pins_matched": 34,
+    "plan_apply_argv_read": true,
+    "application_readback": false,
+    "planirovaniye_zhurnal_exists": false,
+    "старые_worktree": "read-only"
+  },
+  "доставка_правил_и_packetexecutor": {
+    "rules_owner": {
+      "thread": "01a17869-c953-7163-bb76-21716549be02",
+      "worktree": "pravila/FUM",
+      "ref": "refs/heads/fum-lab/fum/pravila/master",
+      "head": "c2040f356551b2da0b1f5f220d26153277ebd578",
+      "tree": "bf47f24d0f85c22469533766b2e578f5e88ac483",
+      "remote_ref_exists": false,
+      "thread_state": "active/inProgress",
+      "modified_tracked": 8,
+      "resolved_journal_readback": false
+    },
+    "packetexecutor": {
+      "назначенный_thread": "01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+      "маршрут_назначения": "01a17797-519b-73c1-bcc8-fd295cdfe9b0 -> 01a127bf-38dd-7fc0-8c7b-1d245d7706a5 -> 01a177a3-cb11-75d1-adc8-8aa71d0b3aeb",
+      "worktree": "cd00/FUM",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+      "head": "9909c19aade5820e41798d155f9c30978b48453d",
+      "tree": "0cbd2769919fe4c7d94d0951f0fd25496cc7be46",
+      "clean": true,
+      "последний_этап": "STOP",
+      "новый_этап_принят": false,
+      "контракт_доставлен_parent": true,
+      "packet_size": 4702,
+      "packet_sha256": "7fd6657c9b901d9173eb2bdadfb1ba4e9e6b7f8d521894389de3af9bc4633ad0",
+      "driver_sha256": "689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b",
+      "new_uuid_created": false
+    }
+  },
+  "typed_git_builder": {
+    "parent": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+    "owner": "01a177f5-1f11-7543-a68f-fe7e73ff5345",
+    "worktree": "9d58/FUM",
+    "head": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+    "push_refspec_case_delivered": true,
+    "merge_metadata_case": {
+      "observed_commit": "1ba24f605dd1e3e66b7abf98765b3b5e00715c6f",
+      "required_argv": [
+        "git",
+        "merge",
+        "--no-ff",
+        "--no-commit"
+      ],
+      "default_author_rejected": "FUM Писатель",
+      "raw_readback_before_push": true,
+      "delivered_parent": true,
+      "owner_ack": false
+    }
+  },
+  "маршруты_доставки": {
+    "sboi_карточка": {
+      "через_root": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "существующий_владелец": "01a1786a-abf6-7dc2-b307-3cb51e93c702",
+      "доставлено_root": true,
+      "ack_владельца": false
+    },
+    "сверка_параллелизма": {
+      "владелец_направления": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "владелец_критериев": "01a177c7-9a89-7690-9259-3b5a56dae88c",
+      "маршрут": "01a17797-519b-73c1-bcc8-fd295cdfe9b0 -> 01a127bf-38dd-7fc0-8c7b-1d245d7706a5 -> 01a17752-0dbe-7a13-8a81-c63995c0dd1f",
+      "исполнитель": {
+        "thread": "01a17752-0dbe-7a13-8a81-c63995c0dd1f",
+        "роль": "fabrika-agentov/nablyudeniye",
+        "прежний_worktree": "3c8f/FUM",
+        "worktree_существует": true,
+        "ref": "refs/heads/codex/fabrika-agentov-nablyudeniye-01a127bf",
+        "oid": "3bfd8e7ef7d75a115343150903a48d9a1be2063a",
+        "tree": "6591db705b644a5d52a675a20903dd76d41c234b",
+        "parent": "b6b2c551ce979f280a12afbc8b72e1d418b38161",
+        "local_remote_exact": true,
+        "private_untracked": "unknown",
+        "recovery_readback": true,
+        "symbolic_ref_readback": "refs/heads/codex/fabrika-agentov-nablyudeniye-01a127bf",
+        "porcelain_пуст": true,
+        "промежуточный_detached_исход": "literal worktree add завершился кодом 0, но post-readback увидел detached HEAD; второй add не запускался, тот же clean checkout привязан к существующей ветке через git switch",
+        "ack_нового_этапа": false
+      },
+      "выбор_исполнителя": "завершён",
+      "новый_uuid_создан": false,
+      "новая_issue_создана": false,
+      "существующая_issue": 151,
+      "root_comment": "https://github.com/fum-lab/fum/issues/151#issuecomment-6423237657",
+      "сложность": "O(N+M)",
+      "наблюдение_исполняет_действия": false,
+      "compact_ack_root": true
+    }
+  },
+  "обязательный_диалог": {
+    "код": 0,
+    "полнота_источника": true,
+    "непроверенный_хвост": 0,
+    "остаток_сообщений": 0,
+    "raw_sha256": "05f88d8c4691eb53fbe889ec929d8ea03ceec176e214f9660adfc6cdbb5b6e87",
+    "завершение_задачи_доказано": false
+  },
+  "границы": [
+    "Эта сверка не является ROOT-приёмкой, интеграцией в master или fullPUB.",
+    "Восстановленные Git tracked bytes не доказывают восстановление ignored, private и cache-состояния.",
+    "Физическое присутствие worktree не доказывает готовность общего materializer или завершение всех подузлов."
+  ]
+}
