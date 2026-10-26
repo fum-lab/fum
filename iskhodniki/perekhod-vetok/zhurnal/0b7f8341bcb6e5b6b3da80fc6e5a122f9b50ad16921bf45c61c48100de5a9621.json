@@ -1,0 +1,54 @@
+{
+  "входSHA256" : "6a5eacf7890f6ed9d3f7f41e6730cc5b7f3d58b89171aa94a85b24c702975253",
+  "данные" : {
+    "время" : "2026-10-26T19:13:28Z",
+    "доставка" : [
+
+    ],
+    "исход" : "Version2 grant подготовлен, literalpacket сохранён. Запись не разрешает spawn до exact checkpointC/hash и независимого повторного leaf preflight",
+    "область" : "iskhodniki/perekhod-vetok",
+    "остаток" : [
+      "Scoped publication delta/exact diff/terminal ledger; commit/normal exact push/remote readback",
+      "Передать correctedgrant C/path/blob/SHA тому же leaf, получить actual readback перед реальным driver",
+      "Sync priority actual suite и checkpoint; observer partial source checkpoint",
+      "Root vosstanovitj-uzel implementation/real temporaryGit/fake-session tests, CLI integration и чистая partial delivery отc6af"
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Реальные34targetphysicalfilehashes",
+        "наносекунды" : 68042958,
+        "свидетельство" : "41.iskhod.json; stdout SHAed24f200b8d2862891bb16054136341c40d5c382cf06189ba140ebbc76623c5e; comparison34/34 after collision-free NFC-equivalence on macOS filenames"
+      }
+    ],
+    "происхождение" : [
+      "Поздний адресный ROOT-заказ через instrumentyi: сохранить version2 grant до первого реального driver spawn; immutable packet и sourcec6af не изменять",
+      "Источник c6af44bf1ec061675b6205b9c6ee889d98264f28/tree8931d2f63231534c142cd17b39d1599e20c55992; pins blob9960fadfa82c8edbe99ca33b06ea3a6185f9be29 SHA48a3f233fa2b9e4ed0ebe96e484c222d0747ace655e78787d177fa5badd954ce",
+      "Target9909c19aade5820e41798d155f9c30978b48453d/tree0cbd2769919fe4c7d94d0951f0fd25496cc7be46. Git diff конечных34путей вернул только Package.swift; authorized targetSHA b07f4ed9de8cc794f308e47917659bca5cb240cec5f79e4b9095e44e26d0e929"
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Исторический literal current34 профиль даёт33/34 и processcount0. Это действительный fail-closed, не снимаемый устным переопределением. Новая коррекция_допуска версии2 отдельно выбирает immutable runtime provenance34 и closed target compatibility34map. Packet7fd/driver689 остаются теми же",
+      "Независимая physical current проверка41 системного shasum завершилась0:34вывода/34уникальныхпути/34совпавшиххэша. Первое JS сравнение exact filename strings отказало на5NFDименах macOS противNFCpins. Raw41сохранён; после сравнения канонически эквивалентных строк и проверки отсутствия коллизий34/34 подтверждены. Git source/path bytes и карта не переписывались, wildcard normalization contract не введён",
+      "Target map compact sortedkeys UTF8+LF SHAd511f6fb4aa80dbd16b1b7cba65371a2712e2a35f5dd3a5e65aa1c7fd50ee489. Только Package имеет authorized source→targetdelta; остальные33Gitbytes идентичны. Package вне write-set, current34 проверяются передspawn/после; own executor sources отдельно pin exact stage C",
+      "Получены реальные новые ACK observer01a17752 и packetexecutor01a177a3; observer сам получил sourceC6b7 двухродительским1c161108/tree497587 с правильным author. Это stage ACK/merge, ещё не функциональный результат",
+      "SwiftPM слот явно подтверждён sync01a177f5; root не занял его без release. Observer/packet готовят код/fixtures/no-process syntax checks. Observer Package resource scope violation сохранена privatepatch и отдельно исправлена владельцем обратно к exactC; rootresources ещё не установлены",
+      "Частичный checkpoint не ждёт всех функций. Исполнитель пакета пока удерживает real help/plan/apply до нового immutable correctionC/hash и своего свежего preflight. ROOT JSONL/residual/finalguard/fullPUB/legacy Creator не запускались; ROOTполнотаUNKNOWN",
+      "Первая plan-попытка вернула публикационный отказ2 до установки из-за дословного абсолютного пути системной команды в производном описании. Вход и отказ сохранены приватно; новый вход использует имя команды. RAW и ограничения публикации не меняются."
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "стадия" : "исправить-допуск-исполнителя-пакета"
+    }
+  },
+  "идентификатор" : "0b7f8341bcb6e5b6b3da80fc6e5a122f9b50ad16921bf45c61c48100de5a9621",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
