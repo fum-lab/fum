@@ -1,0 +1,27 @@
+{
+  "схема": "fum.локальная-проверка-генератора-382.1",
+  "поколение": "0bb49d68-9cfd-4844-90d1-402fe17e5df6",
+  "номер": 4,
+  "идентификатор": "f99d4e39-0f86-41f3-8c2d-eef86c869811",
+  "вид": "single-native-check",
+  "название": "SwiftPM: a-b с raw dependency и import a_b",
+  "код": 0,
+  "полнота": true,
+  "capture_sha256": "ff1d64afd80ab4dc437fdf4b3320f2a62b1e07876b5f2cec43bc32c43d6f1ff4",
+  "вызов_sha256": "a7681b910c51ff6221ebf99f0c464b66d1fefc08e1a3ce522f46bb4aba1dfa81",
+  "каналы": {
+    "stderr": {
+      "sha256": "76d02332b74e16374cc18fc7f791c00193bf04f27fcdfc7e774d9db757311439",
+      "байты": 4265,
+      "конец": true
+    },
+    "stdout": {
+      "sha256": "59930d61b34107230158617fee2c2509ab8a4cf844b7c6ac5023ad967d954855",
+      "байты": 45812,
+      "конец": true
+    }
+  },
+  "исходники_стабильны": true,
+  "входной_набор_sha256": "198281f2bf5ae08ff4d1915d6a0cbc28696b19db758d6680234e5e9921e5d3da",
+  "граница": "Малая отдельная native SwiftPM-фикстура: raw a-b и import a_b. Не ROOT-пакет; outputs/scratch/cache вне Git."
+}

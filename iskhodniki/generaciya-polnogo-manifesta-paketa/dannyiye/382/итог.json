@@ -1,0 +1,69 @@
+{
+  "схема": "fum.результат-генератора-382.1",
+  "контракт": "kontraktyi/382.json",
+  "журнал": "iskhodniki/generaciya-polnogo-manifesta-paketa/zhurnal/382/0bb49d68-9cfd-4844-90d1-402fe17e5df6",
+  "база_C41": "41a0140171841ddbd721325c7e15239393f4cc60",
+  "первый_checkpoint": "dbc857f224b45edeeb67452024fd750d5061a849",
+  "изменение": "Target-имя допускает непустые компоненты прежнего идентификатора через дефис; точное proverki-aktualizaciya-putej сохраняется. Проверка define не изменена, код неверное-имя-модуля сохранён.",
+  "приёмка": [
+    {
+      "запись": "0001.json",
+      "вид": "Предметный RED точного принятого имени",
+      "код": 1
+    },
+    {
+      "запись": "0009.json",
+      "вид": "Первый GREEN точного принятого имени",
+      "код": 0
+    },
+    {
+      "запись": "0016.json",
+      "вид": "Окончательный новый набор, 10 функций / 26 случаев и настоящий dump-package",
+      "код": 0
+    },
+    {
+      "запись": "0013.json",
+      "вид": "Отдельный клиентский модуль, 4 функции публичного фасада",
+      "код": 0
+    },
+    {
+      "запись": "0014.json",
+      "вид": "Прежние28, ровно один прогон",
+      "код": 0
+    },
+    {
+      "запись": "0015.json",
+      "вид": "Адресный профиль10 вызовов",
+      "код": 0
+    }
+  ],
+  "порядок": "Полный порядок и все отказы в пронумерованных собственных записях; успешные результаты не заменяют предыдущие.",
+  "границы": [
+    "Это конечная дочерняя поставка #382, не ROOT-приёмка/интеграция.",
+    "Поддерживается узкое безопасное подмножество target-имён, а не всё множество имён SwiftPM.",
+    "a-b/a_b — разные raw-имена. Отдельные выбранные сборки успешны; совместная нативная сборка пары отказала по a_b.swiftmodule. Глобальный запрет raw-имён не добавлен.",
+    "Нового Python, второго продукта/самостоятельного пакета, правки root Package.swift, общей текущей модели и common wiring нет.",
+    "Историческая модель4/0, старые28/runner, старые J/RAW и остальные12 прежних product paths неизменны.",
+    "Creator/aggregate/NAV/Proyekcii, legacy149, ROOT21GB не проверены и не повторялись по допуску.",
+    "Профиль малого входа без baseline: не измеряет ROOT, узкое место или ускорение.",
+    "Новый журнал — явные собственные поколения JSON; old P.1/v4 не имитируется и принуждающий старую пару CLI не вызывается."
+  ],
+  "исходники": {
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/bezopasnyiye-puti.swift": "374e1cf684ab7a903c1b6f59fd9e7f499fa9df659b78e93b964014ca59f22a2d",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/dannyiye/382/описание-фикстуры.json": "aac63f93309cda1164d2bd341428cd523a562a02fdafab6d13b75739c84168ad",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/komanda-manifesta.swift": "db2f3448dd156c8e929b85be13e3482818ac3be94aa9c3f14e8668aef7d3aa39",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/modelj-manifesta.swift": "7af7e1c3d2e30e0d59c280b3bd52f5d6b3e18a55f42ce1940a7e5fd01c37963a",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/otobrazheniye-manifesta.swift": "07ee67dd16e271a84cb97a3f1e2e5e1c7f71d94870c663daace6fb13331b2272",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/porozhdeniye-manifesta.swift": "934e56be7c29fda74cf4cbc26f4be14a2411ddae527dc146e16002588d04f736",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/profilj-manifesta.swift": "822dd226a3ce5585baf6cd38b5e9bffeb6905f2782c25a3b29d6667138b70b3c",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/proverka-manifesta.swift": "3c2367f6f59c377bd654d2aad12790dab70d91191ad0e828f2ad9149130c295a",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/proverki/запуск-382.sh": "31b757c350907a1e595a981e6148170ed38ce665541a228972da7d796770d34c",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/proverki/проверки-имён-целей.swift": "96da348836e2b40231e9cb75a8011d6923543af422d8d5eb6947082a5ef69ab5",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/proverki/проверки-фасада.swift": "193a46f3b43bf7348606a9dfa3510260072b16e338ca66fcdf207045ff828bc9",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/proverki/профиль-382.swift": "fef78b137af3fd82e671b67475af1011e15eca5653e896949ce4bfdfd6577ac0",
+    "iskhodniki/generaciya-polnogo-manifesta-paketa/фасад-генератора.swift": "221f31deb3e0b1f060112b20998e7ae52839cf79d099ad8b2657c22dc62df572",
+    "proverki/generaciya-polnogo-manifesta-paketa/proverki-budusjhikh-iskhodnikov.swift": "82d93ff1d7a0e96f1a5eaa15c20d441a0d11c2aa6b2bc2d961f089079dc1b0af",
+    "proverki/generaciya-polnogo-manifesta-paketa/proverki-manifesta.swift": "5e8df86efbd08e17166f23f422ea381ac3f93efffdf768052d6332ce5eea1812",
+    "proverki/generaciya-polnogo-manifesta-paketa/zapusk-proverok.swift": "f2e5e8998d57a726e4c482a70e08d6e7762b71d2e383a32076d39df24db797e1"
+  }
+}

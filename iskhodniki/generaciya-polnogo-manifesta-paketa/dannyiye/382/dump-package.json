@@ -1,0 +1,41 @@
+{
+  "схема": "fum.проекция-dump-package-382.1",
+  "запись": "0016.json",
+  "оригинал_sha256": "cffe243af38f82c72ac4b62124a382b25b0b6387d912cca4c12b2e171b215782",
+  "манифест_sha256": "760fffc6836b78b1bdb267100c7355a7434fb5ecaba90b3c5b504d6ad55f23f0",
+  "описание_sha256": "417e25300c7680481aded5fd8b8238603b729a07697a7920208af99eb8e5386e",
+  "имя": "ФикстураИмени382",
+  "цели": [
+    {
+      "имя": "proverki-aktualizaciya-putej",
+      "вид": "test",
+      "путь": "src",
+      "исходники": [
+        "a.swift"
+      ],
+      "настройки": [
+        {
+          "kind": {
+            "swiftLanguageMode": {
+              "_0": "6"
+            }
+          },
+          "tool": "swift"
+        },
+        {
+          "kind": {
+            "unsafeFlags": {
+              "_0": [
+                "-strict-concurrency=complete",
+                "-warnings-as-errors",
+                "-enable-actor-data-race-checks"
+              ]
+            }
+          },
+          "tool": "swift"
+        }
+      ]
+    }
+  ],
+  "граница": "Полный исходный dump сохранён приватно; это явная проекция без временного абсолютного package path. Реальный dump-package малой фикстуры, не ROOT build."
+}

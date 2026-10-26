@@ -1,0 +1,20 @@
+{
+  "схема": "fum.фикстуры-модульных-имён-382.1",
+  "назначение": "Малые отдельные фикстуры вне Git для наблюдения реального SwiftPM. Исходы ещё не получены; совпадение c99name не объявляется новым запретом до native-проверок.",
+  "варианты": {
+    "single": {
+      "Package.swift": "// swift-tools-version: 6.0\nimport PackageDescription\nlet настройки: [SwiftSetting] = [.swiftLanguageMode(.v6), .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"Single382\", products: [], targets: [.target(name: \"a-b\", path: \"one\", swiftSettings: настройки), .target(name: \"Use\", dependencies: [\"a-b\"], path: \"use\", swiftSettings: настройки)])\n",
+      "one/a.swift": "public func первоеЗначение() -> Int { 1 }\n",
+      "use/use.swift": "import a_b\npublic func прочитатьПервое() -> Int { первоеЗначение() }\n"
+    },
+    "pair": {
+      "Package.swift": "// swift-tools-version: 6.0\nimport PackageDescription\nlet настройки: [SwiftSetting] = [.swiftLanguageMode(.v6), .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"Pair382\", products: [], targets: [.target(name: \"a-b\", path: \"one\", swiftSettings: настройки), .target(name: \"a_b\", path: \"two\", swiftSettings: настройки)])\n",
+      "one/a.swift": "public func первоеЗначение() -> Int { 1 }\n",
+      "two/b.swift": "public func второеЗначение() -> Int { 2 }\n"
+    }
+  },
+  "проверки": [
+    "Single382: swift build, включая raw dependency a-b и import a_b.",
+    "Pair382: раздельные --target a-b и --target a_b в новых scratch, затем общий swift build."
+  ]
+}

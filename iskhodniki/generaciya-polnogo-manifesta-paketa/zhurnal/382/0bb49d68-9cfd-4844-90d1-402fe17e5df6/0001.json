@@ -1,0 +1,27 @@
+{
+  "схема": "fum.локальная-проверка-генератора-382.1",
+  "поколение": "0bb49d68-9cfd-4844-90d1-402fe17e5df6",
+  "номер": 1,
+  "идентификатор": "187f8030-9c83-4ae3-8c16-78e384ec6146",
+  "вид": "red-382",
+  "название": "RED точного принятого target proverki-aktualizaciya-putej",
+  "код": 1,
+  "полнота": true,
+  "capture_sha256": "73d1dca453d840c142801df5c1abb9dcf319646aebaec2264a15ebc5bfde8fc2",
+  "вызов_sha256": "148b9d4bf18db156afacb51d409e90b6b3e4d60c66919deb94bb7cda923aee32",
+  "каналы": {
+    "stderr": {
+      "sha256": "ddac54a1ee174f54e08d8c27f3b27ad5ce2d797c29224653fb9a44584fda9af4",
+      "байты": 698,
+      "конец": true
+    },
+    "stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "байты": 0,
+      "конец": true
+    }
+  },
+  "исходники_стабильны": true,
+  "входной_набор_sha256": "198281f2bf5ae08ff4d1915d6a0cbc28696b19db758d6680234e5e9921e5d3da",
+  "граница": "Публичный own-runner, Swift 6 complete/warnings-as-errors/actor checks. Новая локальная запись, не v4; полный оригинальный capture и pins до/после сохранены приватно."
+}

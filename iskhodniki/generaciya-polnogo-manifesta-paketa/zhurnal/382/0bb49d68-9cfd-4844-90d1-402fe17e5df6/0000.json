@@ -1,0 +1,24 @@
+{
+  "схема": "fum.локальный-журнал-генератора-382.1",
+  "поколение": "0bb49d68-9cfd-4844-90d1-402fe17e5df6",
+  "номер": 0,
+  "вид": "начало-реализации",
+  "контракт": "iskhodniki/generaciya-polnogo-manifesta-paketa/kontraktyi/382.json",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "исполнитель": "01a17494-5f9d-7a71-a5ee-bed5aace5860",
+  "координатор": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "основание": {
+    "коммит": "dbc857f224b45edeeb67452024fd750d5061a849",
+    "дерево": "6d2fdefe962d5a62d7156ce1c29b4efc8b8baf5c",
+    "ветка": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/generaciya-polnogo-manifesta-paketa/master"
+  },
+  "предыдущее_поколение": "iskhodniki/generaciya-polnogo-manifesta-paketa/zhurnal/382/86cd1014-adc0-4c5d-8b42-1a3ae61460ce",
+  "доставка_предыдущего": {
+    "push_code": 0,
+    "readback_code": 0,
+    "remote_match": true
+  },
+  "состояние": "Продолжение конечной программы после первого checkpoint. RED/GREEN и public-фасад ещё предстоят.",
+  "проверки": [],
+  "граница": "Собственный local journal по явному writer grant; старые закрытые поколения не возобновляются."
+}
