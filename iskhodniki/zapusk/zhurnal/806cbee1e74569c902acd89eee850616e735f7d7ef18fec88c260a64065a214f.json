@@ -1,0 +1,87 @@
+{
+  "входSHA256" : "4773690123f942378cdf3d57bdaa0ea6259af651aceae924c2f7288f6c01a78e",
+  "данные" : {
+    "время" : "2026-10-27T07:07:07Z",
+    "доставка" : [
+      {
+        "вид" : "Доставленный working readonlyCLI",
+        "идентификатор" : "1b2dce8815cd60997e261132b4bbf689dd90f605",
+        "свидетельство" : "Canonicalbuild0 иодинreadonlyвызов0 подтверждены независимо,56pins; exactnormalpush/remote совпали. MпоступилпослепоставкиCLI ипринимаетсяmetadata-only."
+      }
+    ],
+    "исход" : "Актуальный M включается явным merge без изменения code/API/manifest и без повторов неизменных тестов. SourceS/I/CLI и предыдущие Журналы сохранены; вводятся только23принятыхMдобавления и собственные29/programmetadata.",
+    "область" : "iskhodniki/zapusk",
+    "остаток" : [
+      "Завершить mergeM/rawparents/tree/retention/sourcepins/readback и normalдоставку.",
+      "ОбновитьPR393 по точнымM/head/fullpatch безповтора codechecks.",
+      "ПолныйPUB/coherence/recency/ROOT/master/LIVE иполнаяисходнаяC1поставка остаютсяотдельными."
+    ],
+    "проверки" : [
+      {
+        "исход" : "неуспешно",
+        "код" : 1,
+        "название" : "Адресный PUB CLI6paths и полного тела до новогоM",
+        "наносекунды" : 198439958,
+        "свидетельство" : "Ровно2inherited error.posix-user-home АргументыЗапуска:29,76. ExactбайтыравныI21,68 иM=d08115,62; новых0. Primary intent/outcome/channels сохранены."
+      },
+      {
+        "исход" : "неуспешно",
+        "код" : 1,
+        "название" : "Полный выбранный PR393 состав до metadataM",
+        "наносекунды" : 999348000,
+        "свидетельство" : "Все150paths относительноd081;3inheritedfindings README7 иАргументы29,76. Fullpatch1493234/SHAa40ca6c70edc5de1c95268ac07d5497ee9ed3f1f0387af888122d048f923f55b. ПослеmetadataM этот снимок не выдаётся за новыйполныйпрогон."
+      }
+    ],
+    "происхождение" : [
+      "ROOT выбрал ровно два production-blob из Git tree b0004eec8e63a70d3d002be5c4da4a9297a394b7. Это приём исходных байтов для потребителя, не source commit/push и не полная поставка C1.",
+      "Решение ROOT fum.приём-выбранных-исходных-байтов.1: SHA256 1ab219bc6454aa25cb65f46d21ae41e81df4f5e0cd6e45ec84ab775f4a21c4c6. Две цели режима100644 совпали с immutable tree и preview.",
+      "adapter-git-avtor-commita.swift: blob3c883a6b8b6429f657e229ddc4d5619da783188c;15138bytes;SHA1858a3c7d320964c64548d6cf588fadb00b11d2054bf6d07acd6d3f00a3abda9.",
+      "kontrakt-istochnika-kodeks.swift: blob261d1786fbcf4f63301870eb878ab4f17fd1cd7c;45770bytes;SHA0aaa806dec1d33b64d766a0f13f167badc27600f41485ff9a0daeef40e29a0ed.",
+      "Frozen preview README9852/SHA4ba3f2adf29766c06727dce7c1ddb6d28ba507c3580217afa84f15e97726b6d4;patch33129/SHA4e49e06fa87a09e868124c16653bc7e2ec230f373c9f3477c688e3af87060116;verificationSHA1b16d179e5ca14dd508c8a1b6427d8e3925fc948309df655448f40bdebf9e7b9; повторный readback совпал.",
+      "Исторический private preview source_accepted=false сохраняется неизменным. Новый ROOT-приём относится только двум blobs, отдельно от полной source-поставки85files.",
+      "ROOT отдельно сохранил все85files Git-архивом512000bytes/SHA0ba13ce16d1042df64ef50445e4cc39c366df9cbda1e258bffa69987d69a9220; архив не импортируется.",
+      "Узкая Sd349052753738042f910a6354df8f0ed8c1771e1/treede0df93c788dce29f550374f3e5bafe059d37676/parentf99. Сырой commit SHA33cdbca2ec2d329af8d23fb69e804baa0010146a3209d2566c778acac3e1a049; тело/автор/committer/OID/триpath и independent remote readback совпали.",
+      "Доставленный I29778ac4819ab37db05cf8536b1cc6845b59ed05/tree43972051b540c359797a77b0700fd8efdbc2b3e1/parents[f99,S]. RawSHA b690b7319db2f0184a7546054e10f132a2d65c223f5232fb83b52a4a09236a0e. Точный normalpush и независимыйremote readback совпали.",
+      "Сохранённый CLIcommit1b2dce8815cd60997e261132b4bbf689dd90f605/tree453f1242c9e57b02fe09a0d5e7704a3faecb0bc3/parent29778ac4819ab37db05cf8536b1cc6845b59ed05/rawSHA2830d1c6d4768baa19e272e88cc1909ecafd8bd894c4468289e5e497dee424a1. Normal exact push и independent remote совпали.",
+      "Новый Mb3e0570b232b09d67a663f6f69c0cb1c1b3eb54f/treefb29ac133e88d50750d936afa10ebbfbb62c4bf0/parents[d081,0b85990efe6c3c1dd6c4eb32eff5d43d0dd69959]. Exact diff23Aтолькоrootzhurnal. Все47mode/blob из M rootzhurnal совпали с candidateindex, кодовые пути не менялись."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Принять точный новыйM явным merge с двумя родителями[CLI1b2dce8815cd60997e261132b4bbf689dd90f605,Mb3e0570b232b09d67a663f6f69c0cb1c1b3eb54f]. Короткийmaster/ac78 не включать.",
+      "Сохранить23M additions и все47rootzhurnalentries. Добавить только собственный localJ29 и новое поле программы; source2 и CLI4 остаются прежними.",
+      "Не повторять3/3,6/6,canonicalbuild,CLIвызов иfullPUB ради metadataM. Сохранённые primaryпары и их hashes остаются свидетельством неизменного кода.",
+      "Сохранить фактический PUB1: текущие строки29/76 байт-равныI21/68 иd08115/62. В полном150pathPRскане есть также README7, равнаяM d081. Новых находок0; fullgreen не заявлен.",
+      "После проверки собственного нового metadata/body доставитьnormalpush/readback и переписатьPR393 наактуальныеbaseM/head/tree/fullpatch. ROOT/master/LIVE приёмку не объявлять."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Новое точное нативное поручение ROOT; это сообщение агента, не первичный человеческий ввод.",
+        "роль" : "агент",
+        "текст" : "ROOT меняет собственную ранее выбранную последовательность, чтобы не удерживать FUMA на публикации чужого85file C1. Принимаю ИСХОДНЫЕ БАЙТЫ ровно2productionфайлов из immutableGitTree b0004eec8e63a70d3d002be5c4da4a9297a394b7 на основании твоих6/6/58pins+независимогоreview и provider3/3. Это НЕ source commit, не source push и не полнотаC1; source_accepted=true только выбранным2blob как материалу потребителя. Два точных100644blob: adapter-git-avtor-commita.swift=3c883a6b8b6429f657e229ddc4d5619da783188c; kontrakt-istochnika-kodeks.swift=261d1786fbcf4f63301870eb878ab4f17fd1cd7c; оба прежниеiskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/. Полное решение D/priyom-dvukh-production-blobov-c1-b0004eec.json. Все85files дополнительно сохранены exactprivategitarchive512000bytes/SHA0ba13ce16d1042df64ef50445e4cc39c366df9cbda1e258bffa69987d69a9220,85pathsetсовпал; sourceW/ref/indexне тронуты. Разрешаю твоему solewriter СЕЙЧАС выполнить подготовленную последовательность: узкая source-веткаS от твоегоH с ровно2productionblob изTREE (честноуказать treeпроисхождение+ROOTselection, несуществующийsourceCневыдумывать)→явныйmerge[H,S]→готовый4fileCLIpatch→собственныйlocalJournal/коммит/exactnormalpush/readback/PRupdate. Backend/runner/82JSON не вносить, старые3/3/6/6 безизменениякода не повторять; проверь фактическийmanifest/API/commit/author/candidateколлизию. Если для новойpackageпроводкиестьновыйпробел, толькоадресныйтест. ROOTMпокаd081, скоро возможнаmetadata-onlyпоставкаЖурнала; дофинальнойROOTприёмкиактуальныйMвключитьбезповторанеизменныхтестов. Повторноговопросачеловекунет. Первоочереднойполезныйрезультат — работающаяreadonlyкомандавпоставкеFUMA."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Адресное уточнение ROOT о полном receiving ref; ac78 не включён и не является родителем.",
+        "роль" : "агент",
+        "текст" : "Адресная коррекция ROOT ДО включения базы: принимающая ветка — ТОЛЬКО refs/heads/fum-lab/fum/master, сейчас d081c0a6dfecf876d94107c3f2585cd99f686f39. refs/heads/master и origin/master=ac78d0b410395358797663dcc028150938839f06 — известный старый PRIMARY/read-only, он НЕ является новой принимающей базой этой поставки. Его не включать вместоM и не следоватькороткому master/defaultbranch. Полные refs иOID были заданы в допуске; RootM сдвинется только после явного RootmergeЖурнала, тогда сообщу точныйновыйOIDэтогожеfullref. ROсравнениеac78можносохранитькакдиагностику, оно не даёт правадобавлятьac78. Продолжай текущуюузкуюsourceSотf99/Treeb000, CLI; source W untouched. Еслиac78ужеуспелстатьродителем/добавкой кандидата—останови следующий эффект и пришлиrawparents/tree; не resetи не переписывайопубликованное."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Новое точное поручение ROOT включает актуальный M только полного принимающего ref.",
+        "роль" : "агент",
+        "текст" : "ROOTM сдвинут иnormalpush/readbackподтверждён: refs/heads/fum-lab/fum/master = b3e0570b232b09d67a663f6f69c0cb1c1b3eb54f, parents[d081,0b85990e], treefb29ac133e88d50750d936afa10ebbfbb62c4bf0. Это metadata-only23Aтолькоzhurnal/**, ниPackage, ниАргументы, нидругойкодне менялся. Включи ЭТОТ точныйMвсвоего кандидата передROOTreview, explicitmerge, неmaster/ac78. Не повторятьнеизменные3/3/6/6/canonicalbuildиз-затолькоэтогоmetadata; проверитьretention/parents/tree/sourcepins+remote. Две PUBнаходки получены: baselinebyteidentityI/d081сохрани, новых0, fullPUBgreenнеобъявлять, не перепроверятьрадиMкогдаcodeblobsMравныd081. readonlyCLIbuild+smoke0 получены; ждуготовыйCLI/sourcecommit/PR393наактуальномM."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 29,
+      "писатель" : "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "стадия" : "постановка-cli-пакета-девяти-путей"
+    }
+  },
+  "идентификатор" : "806cbee1e74569c902acd89eee850616e735f7d7ef18fec88c260a64065a214f",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}

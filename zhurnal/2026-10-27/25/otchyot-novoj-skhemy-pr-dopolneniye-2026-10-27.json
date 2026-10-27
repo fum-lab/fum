@@ -1,0 +1,62 @@
+{
+  "источник": "GitHub get_pr_info, повторное адресное чтение в ходе отчёта 2026-10-27",
+  "охват": "Только четыре выбранных PR, без diff и полного аудита очереди",
+  "pr": [
+    {
+      "номер": 389,
+      "название": "Слияние ROOT-снимка в ветку документации",
+      "url": "https://github.com/fum-lab/fum/pull/389",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "base": "fum-lab/fum/master",
+      "base_sha": "be896655e402d52cbcbb7974a673114645cc0f0d",
+      "head": "fum-lab/fum/dokumentaciya/master",
+      "head_sha": "56679877386874c07f714a708e147c9848bc673a",
+      "merge_commit_sha": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "changed_files": 6
+    },
+    {
+      "номер": 390,
+      "название": "Добавить ограниченный инвентарь LinguisticKit",
+      "url": "https://github.com/fum-lab/fum/pull/390",
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "base": "fum-lab/fum/master",
+      "base_sha": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "head": "fum-lab/fum/zavisimosti/master",
+      "head_sha": "541589c938f4f8ca31c2bf0fa98c4daff2a18de6",
+      "merge_commit_sha": "584b24b795e5664aac5ff330f512af4e3c1ba250",
+      "changed_files": 5
+    },
+    {
+      "номер": 391,
+      "название": "Явный merge ROOT d081 в область opisaniya",
+      "url": "https://github.com/fum-lab/fum/pull/391",
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "base": "fum-lab/fum/master",
+      "base_sha": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "head": "fum-lab/fum/opisaniya/master",
+      "head_sha": "3a89941b76a9eb0ac5baf0dac8fb647d2cc97bc6",
+      "merge_commit_sha": "8fe37061f7c152c370dd19c81fadc77e2213fc10",
+      "changed_files": 29
+    },
+    {
+      "номер": 393,
+      "название": "FUMA: чистый приём JSONL и проверка версии принятой поставки",
+      "url": "https://github.com/fum-lab/fum/pull/393",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "base": "fum-lab/fum/master",
+      "base_sha": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "head": "codex/cli-paketa-devyati-putej",
+      "head_sha": "f99a752126c02b3ca0433420476d21c6ec4e002b",
+      "merge_commit_sha": "f2ff07d644d31cb0203c40929c510dcf5b74fecd",
+      "changed_files": 144
+    }
+  ]
+}
