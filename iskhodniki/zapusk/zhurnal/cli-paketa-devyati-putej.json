@@ -2060,5 +2060,51 @@
       "sourcePUB": 0,
       "sourcePUB_nanos": 24238541
     }
+  },
+  "приём_двух_production_blob_C1": {
+    "source_accepted": true,
+    "область_приёмки": "Только два production-blob как исходный материал потребителя; не полная source-поставка C1.",
+    "источник_тип": "Git tree, не commit",
+    "дерево": "b0004eec8e63a70d3d002be5c4da4a9297a394b7",
+    "решение_ROOT_sha256": "1ab219bc6454aa25cb65f46d21ae41e81df4f5e0cd6e45ec84ab775f4a21c4c6",
+    "цели": [
+      {
+        "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "mode": "100644",
+        "blob": "3c883a6b8b6429f657e229ddc4d5619da783188c"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+        "mode": "100644",
+        "blob": "261d1786fbcf4f63301870eb878ab4f17fd1cd7c"
+      }
+    ],
+    "узкая_поставка": {
+      "C": "d349052753738042f910a6354df8f0ed8c1771e1",
+      "tree": "de0df93c788dce29f550374f3e5bafe059d37676",
+      "parent": "f99a752126c02b3ca0433420476d21c6ec4e002b",
+      "ref": "refs/heads/codex/priyom-dvukh-production-blobov-c1-b0004eec",
+      "raw_sha256": "33cdbca2ec2d329af8d23fb69e804baa0010146a3209d2566c778acac3e1a049",
+      "remote_exact": true,
+      "предметных_путей": 2,
+      "собственных_журнальных_записей": 1
+    },
+    "публикация": {
+      "адресный_код": 0,
+      "наносекунды": 201915000,
+      "полный_PUB": false
+    },
+    "preview": {
+      "patch_sha256": "4e49e06fa87a09e868124c16653bc7e2ec230f373c9f3477c688e3af87060116",
+      "сохранённые_тесты": 6,
+      "повторены": false,
+      "статус_замороженного_поколения": "source_accepted=false сохраняется как происхождение; новое решение ROOT отдельно."
+    },
+    "принимающая_основа": {
+      "ref": "refs/heads/fum-lab/fum/master",
+      "M": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "короткий_master_исключён": true
+    },
+    "следующее": "Четырёхфайловый CLI patch и только адресная проверка новой канонической package-проводки; backend/runner/82JSON/ROOT21GB не входят."
   }
 }
