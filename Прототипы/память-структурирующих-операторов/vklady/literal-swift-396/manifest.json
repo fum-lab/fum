@@ -20,6 +20,18 @@
   "manifest_excludes_itself": true,
   "files": [
     {
+      "path": "LICENSE",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "git_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9032,
+      "sha256": "6051521956da4f768b4be630f296d9e6432d852481f859dc48d5e4a875ff9aaa",
+      "git_blob": "5c1a6ad773fce447efde837cb269dfb1dc7be98a"
+    },
+    {
       "path": "README.txt",
       "bytes": 8417,
       "sha256": "740aaf4a49dc0a3860cfc294092def9a7ff4a3510d9a02fc315e4bd75b107e0b",
@@ -30,6 +42,18 @@
       "bytes": 3780,
       "sha256": "bb80dbbfe256ba8cdfa5edd5f31033409c963f0a95094c8ab6cf9d6e30778e2a",
       "git_blob": "e80c81a45ca27e9e4015c9653263000e8108b8be"
+    },
+    {
+      "path": "otchyot-polirovki.json",
+      "bytes": 6474,
+      "sha256": "a56fb9eb337ba19fe24de3e65d89e7b77635a5fcc3f86ca9d2fe1fac5029e366",
+      "git_blob": "378c0aa634a7e715e8056e89e10ca700ea5f9912"
+    },
+    {
+      "path": "ozhidaemye-proverki.json",
+      "bytes": 597,
+      "sha256": "e773b9c437fec075498eba9e0dd65d4a66348ea7b97668447552be032a361681",
+      "git_blob": "119f5d31b62de10fd9f1de5a00ea311f638abe20"
     },
     {
       "path": "podklyuchenie-na-398.patch",
@@ -51,9 +75,15 @@
     },
     {
       "path": "proverit.sh",
-      "bytes": 5468,
-      "sha256": "2b585ff84cb88b79f279588fac425b71438ba0f0264401614819ab5e3d1a3531",
-      "git_blob": "c77351d2ccefbaa23ba0783908f40da2ce19e415"
+      "bytes": 7509,
+      "sha256": "18af9e1033e523eecb9feeee611904dbcd12fc44605bf39b9933211247fc056d",
+      "git_blob": "31f4249ffde05e9336351c6d973ae2de35774d51"
+    },
+    {
+      "path": "proverka-postavki.swift",
+      "bytes": 14954,
+      "sha256": "304e196cfd4c712e00196894638ca08a9883d4cba60806a3872fd2bdd9f1766e",
+      "git_blob": "53e4b1b27014e1273460844e05c4e49d8dc0a446"
     },
     {
       "path": "proverka-red.swift",
@@ -85,5 +115,7 @@
       "sha256": "e7bda89ef4af62475dd2268eea88073fcce977ff38f16c48f57b1da31d6f9459",
       "git_blob": "87056224ec7a80ee10fdd28d06423a908204fa76"
     }
-  ]
+  ],
+  "revision": "polish-1",
+  "previous_proposal_commit": "3104e61307011d6235fac370bfe61dc952369fe3"
 }

@@ -1,14 +1,37 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if [ "$#" -ne 3 ]; then
+umask 077
+bundle=$(cd "$(dirname "$0")" && pwd -P)
+if [ "$#" -eq 1 ] && [ "$1" = --check-package ]; then
+  mode=--check-package
+elif [ "$#" -eq 3 ]; then
+  mode=$1
+else
   echo 'Использование: bash proverit.sh --repo КЛОН НОВЫЙ_КАТАЛОГ' >&2
   echo '          или: bash proverit.sh --snapshot СНИМОК НОВЫЙ_КАТАЛОГ' >&2
+  echo '          или: bash proverit.sh --check-package' >&2
   exit 2
 fi
-mode=$1
-case "$mode" in --repo|--snapshot) ;; *) echo 'Неизвестный режим' >&2; exit 2 ;; esac
+case "$mode" in --repo|--snapshot|--check-package) ;; *) echo 'Неизвестный режим' >&2; exit 2 ;; esac
+for command in swift swiftc git shasum awk sed cmp mktemp; do
+  command -v "$command" >/dev/null || { echo "Не найден инструмент: $command" >&2; exit 2; }
+done
+# Проверяющий исходник также входит в манифест. Это сверка целостности,
+# а не аутентификация автора: доверенный commit пакета выбирается отдельно.
+checker_dir=$(mktemp -d "${TMPDIR:-/tmp}/fuma-426.XXXXXXXX")
+trap 'rm -rf -- "$checker_dir"' EXIT
+swiftc -parse-as-library -swift-version 6 -strict-concurrency=complete -warnings-as-errors \
+  "$bundle/proverka-postavki.swift" -o "$checker_dir/checker"
+"$checker_dir/checker" манифест "$bundle"
+"$checker_dir/checker" самопроверка
+if [ "$mode" = --check-package ]; then exit 0; fi
 origin=$(cd "$2" && pwd -P)
-bundle=$(cd "$(dirname "$0")" && pwd -P)
+# Выход не должен находиться внутри читаемых входов.
+parent=$(cd "$(dirname "$3")" && pwd -P)
+case "$parent/$(basename "$3")" in
+  "$origin"|"$origin"/*|"$bundle"|"$bundle"/*)
+    echo 'Выходной каталог пересекается с входом' >&2; exit 2 ;;
+esac
 # Каталог должен быть новым: существующие файлы никогда не перезаписываются.
 mkdir -m 700 "$3"
 out=$(cd "$3" && pwd -P)
@@ -52,7 +75,7 @@ PACKAGE
 swift --version > "$out/logs/toolchain.log"
 cp "$bundle/proverka-red.swift" "$tests/proverki.swift"
 set +e
-(cd "$out/validation" && swift test --jobs 2 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors) > "$out/logs/red.log" 2>&1
+(cd "$out/validation" && swift test --jobs 2 --scratch-path "$out/scratch-red" --disable-xctest --enable-swift-testing -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors) > "$out/logs/red.log" 2>&1
 red=$?
 set -e
 if [ "$red" -ne 1 ] || ! grep -q 'Неизвестная операция или неверная арность' "$out/logs/red.log"; then
@@ -63,10 +86,14 @@ echo PASS_BASELINE_RED=1
 (cd "$src" && git apply --check -p5 "$bundle/podklyuchenie.patch" && git apply -p5 "$bundle/podklyuchenie.patch")
 cp "$bundle/literal-swift.swift" "$src/literal-swift.swift"
 cp "$bundle/proverki-literala-swift.swift" "$tests/proverki.swift"
-(cd "$out/validation" && swift test --jobs 2 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors) > "$out/logs/green.log" 2>&1
-echo PASS_SWIFT_TESTING=13
+(cd "$out/validation" && swift test --jobs 2 --scratch-path "$out/scratch-green" --disable-xctest --enable-swift-testing \
+  --event-stream-version 0 --event-stream-output-path "$out/logs/tests.events.jsonl" \
+  -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors) > "$out/logs/green.log" 2>&1
+"$checker_dir/checker" события "$out/logs/tests.events.jsonl" \
+  "$bundle/ozhidaemye-proverki.json" "$out/logs/tests.result.json"
 swiftc -swift-version 6 -strict-concurrency=complete -warnings-as-errors -O "$src"/*.swift "$bundle/proverka-skalyarov.swift" -o "$out/scalars" > "$out/logs/build-scalars.log" 2>&1
 "$out/scalars" | tee "$out/logs/scalars.log"
+grep -Fxq 'PASS scalar_encoding_and_budgets=1112064' "$out/logs/scalars.log"
 
 # Только для сквозного опыта: отдельная копия непринятого JOIN из PR 398.
 c="$out/combined"
@@ -83,5 +110,9 @@ swiftc -swift-version 6 -strict-concurrency=complete -warnings-as-errors "$out/g
 "$out/generated" > "$out/actual.bin"
 cmp "$out/expected.bin" "$out/actual.bin"
 shasum -a 256 "$out/expected.bin" "$out/actual.bin" > "$out/logs/output-hashes.log"
+actual=$(shasum -a 256 "$out/actual.bin" | awk '{print $1}')
+[ "$actual" = 0b59e66ccfdfd7076ed28b71de822b2b37214e37dbf9f6f3374a8e7f4240dc12 ] || {
+  echo 'Сквозной результат не совпал с закреплённым эталоном' >&2; exit 1;
+}
 echo PASS_SEPARATE_COMPILE_AND_BYTES=1
 printf 'Результаты: %s\n' "$out"
