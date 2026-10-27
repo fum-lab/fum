@@ -1,0 +1,121 @@
+{
+  "kind": "external-proposal",
+  "issue": 396,
+  "date": "2026-10-27",
+  "base": "01186131ab4fa0622279ddcabedf90525267f130",
+  "experimental_join": "e41906c6e71f6b1418f226cd838f8c111220a976",
+  "toolchain": "Swift 6.2.1 / x86_64-unknown-linux-gnu",
+  "tests": {
+    "swift_testing": 13,
+    "unicode_scalars": 1112064,
+    "compiled_corpus": 665,
+    "expected_output_bytes": 22197,
+    "generated_source_bytes": 50420,
+    "graph_operations": 329991,
+    "output_sha256": "0b59e66ccfdfd7076ed28b71de822b2b37214e37dbf9f6f3374a8e7f4240dc12",
+    "generated_source_sha256": "dabf73e685377772d748c84dbebe0603d23cb9e102633634452623f981f3ea82",
+    "root_build": false,
+    "root_accepted": false
+  },
+  "manifest_excludes_itself": true,
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "git_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9032,
+      "sha256": "6051521956da4f768b4be630f296d9e6432d852481f859dc48d5e4a875ff9aaa",
+      "git_blob": "5c1a6ad773fce447efde837cb269dfb1dc7be98a"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 8417,
+      "sha256": "740aaf4a49dc0a3860cfc294092def9a7ff4a3510d9a02fc315e4bd75b107e0b",
+      "git_blob": "23e6c45602a1fc780413a4354f0aaf287d614e35"
+    },
+    {
+      "path": "literal-swift.swift",
+      "bytes": 3780,
+      "sha256": "bb80dbbfe256ba8cdfa5edd5f31033409c963f0a95094c8ab6cf9d6e30778e2a",
+      "git_blob": "e80c81a45ca27e9e4015c9653263000e8108b8be"
+    },
+    {
+      "path": "otchyot-polirovki.json",
+      "bytes": 6474,
+      "sha256": "a56fb9eb337ba19fe24de3e65d89e7b77635a5fcc3f86ca9d2fe1fac5029e366",
+      "git_blob": "378c0aa634a7e715e8056e89e10ca700ea5f9912"
+    },
+    {
+      "path": "ozhidaemye-proverki.json",
+      "bytes": 597,
+      "sha256": "e773b9c437fec075498eba9e0dd65d4a66348ea7b97668447552be032a361681",
+      "git_blob": "119f5d31b62de10fd9f1de5a00ea311f638abe20"
+    },
+    {
+      "path": "podklyuchenie-na-398.patch",
+      "bytes": 2179,
+      "sha256": "9b0a1bff08b75bd98f55f628d0dd84322c3073c6c6c0e20dd5d9e3bbfb6098fe",
+      "git_blob": "9990fb9b2182f69c233135edad909bb2e9737cfc"
+    },
+    {
+      "path": "podklyuchenie.patch",
+      "bytes": 2137,
+      "sha256": "d09aaa890fa588091b7121232fe3e82af3a6543174f8f686aafe73933411f056",
+      "git_blob": "3663b8540a024a648b29b50051797bc207b017ef"
+    },
+    {
+      "path": "programma-fuma.json",
+      "bytes": 883,
+      "sha256": "9b314e022f9c4da0596e9be44c4cc9cf899d9fd6ff3632548e0f775be95b8019",
+      "git_blob": "f80bbe5d082ee98c89f7d0124381874316dd3394"
+    },
+    {
+      "path": "proverit.sh",
+      "bytes": 7509,
+      "sha256": "18af9e1033e523eecb9feeee611904dbcd12fc44605bf39b9933211247fc056d",
+      "git_blob": "31f4249ffde05e9336351c6d973ae2de35774d51"
+    },
+    {
+      "path": "proverka-postavki.swift",
+      "bytes": 14954,
+      "sha256": "304e196cfd4c712e00196894638ca08a9883d4cba60806a3872fd2bdd9f1766e",
+      "git_blob": "53e4b1b27014e1273460844e05c4e49d8dc0a446"
+    },
+    {
+      "path": "proverka-red.swift",
+      "bytes": 711,
+      "sha256": "a3ac536de42bdb5dd68640e1a050ce8a49157d4bae7e854d1289e965b2d71868",
+      "git_blob": "d634ff10b2f99c04352a8a13f63ed2aad5fa3624"
+    },
+    {
+      "path": "proverka-skalyarov.swift",
+      "bytes": 1160,
+      "sha256": "3333c550c67c84c8f54d73ee5110fb2d6732a53aa5e61de8f54bb6b2ed4c069f",
+      "git_blob": "961c65c1973b5faf4bcb23415bce9c915c196310"
+    },
+    {
+      "path": "proverka-skvozhnogo-prohoda.swift",
+      "bytes": 2378,
+      "sha256": "f474b767fad41f05319ecd40d58cfa137ea19fbd8505a70bcc8d6d133df0f6a6",
+      "git_blob": "b7196a22898752d3b2e1aa316ce7a20aa6875d36"
+    },
+    {
+      "path": "proverki-literala-swift.swift",
+      "bytes": 10655,
+      "sha256": "273e064d5827c0a4d9e8a22f0c8c631e378654d9b51ae25426ccf1dc86ec46dd",
+      "git_blob": "5a035b5728a04ffa508d0cc111c3ce086fae3828"
+    },
+    {
+      "path": "sozdat-korpus.swift",
+      "bytes": 1544,
+      "sha256": "e7bda89ef4af62475dd2268eea88073fcce977ff38f16c48f57b1da31d6f9459",
+      "git_blob": "87056224ec7a80ee10fdd28d06423a908204fa76"
+    }
+  ],
+  "revision": "polish-1",
+  "previous_proposal_commit": "3104e61307011d6235fac370bfe61dc952369fe3"
+}
