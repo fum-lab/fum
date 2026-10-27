@@ -1,0 +1,30 @@
+{
+  "схема": "fuma.граф-JSON.1",
+  "числа": "целые64-без-дробей",
+  "переменные": [],
+  "результат": [
+    "соединить",
+    "import Foundation\nlet значения: [String] = [\n",
+    [
+      "соединить-строки",
+      [
+        "отобразить",
+        [
+          "переменная",
+          "вход"
+        ],
+        "элемент",
+        [
+          "литерал-Swift",
+          [
+            "переменная",
+            "элемент"
+          ],
+          65536
+        ]
+      ],
+      ",\n"
+    ],
+    "\n]\nfor значение in значения {\n  let байты = Data(значение.utf8)\n  try FileHandle.standardOutput.write(contentsOf: Data(\"\\(байты.count)\\n\".utf8))\n  try FileHandle.standardOutput.write(contentsOf: байты)\n}\n"
+  ]
+}
