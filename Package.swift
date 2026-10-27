@@ -14,6 +14,10 @@ let package = Package(
         .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
+        .target(name: "МатериализацияУзлов",
+            path: "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya",
+            sources: ["kontrakt-istochnika-kodeks.swift", "adapter-git-avtor-commita.swift"],
+            swiftSettings: настройки),
         .target(name: "FUMStructuringOperatorMemory",
             path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
             resources: [.copy("Фикстуры"), .copy("Определения")], swiftSettings: настройки),
@@ -40,7 +44,7 @@ let package = Package(
         .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory"],
             path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md", "zhurnal", "proverki"],
             swiftSettings: настройки),
-        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла"],
+        .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла", "МатериализацияУзлов"],
             path: "iskhodniki/zapusk",
             exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "vkhod-paketa-putej.swift", "obrabotchik-paketa-putej.swift", "priyomnik-fuma-jsonl.swift", "proverka-versionnoj-svyazi-priyomki.swift", "svyazj-kvitancii-modeli.swift", "README.md", "zhurnal", "proverki"],
             sources: ["Команда.swift"], swiftSettings: настройки),
