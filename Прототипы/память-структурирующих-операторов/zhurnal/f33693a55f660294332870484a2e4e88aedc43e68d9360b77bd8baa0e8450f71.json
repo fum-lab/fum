@@ -1,0 +1,75 @@
+{
+  "входSHA256" : "bba063e1e1df614a883ea9d357df4b3dec523bfd9bab3c63d8cdb1dc02ea1770",
+  "данные" : {
+    "время" : "2026-10-26T18:16:13.000Z",
+    "доставка" : [
+      {
+        "вид" : "No-ff checkpoint принятой программы версии 2",
+        "идентификатор" : "b8ebc18ebc9e9e19b5d6fd7c537eff8d7f39937a",
+        "свидетельство" : "Точные tree b5cf09dd3ac2d8bd684703c2fcba31fd762984ff и parents afc851a09b70a71f527de2e16a549aa586ee2894,d45f5cc1f2acfa4ec866d06f17f34fb3dfe9057e; ordinary exact push и independent origin readback совпали. Это не ROOT-приёмка и не доставка последующего тестового commit."
+      }
+    ],
+    "исход" : "В рабочем дереве подготовлен один новый Swift Testing-файл: 256 UTF-8 байт source ID приняты реальным fixed operator, канонически равные 257 NFD-байт отклонены typed-кодом; оба пути побайтно сохраняют frame, source binding, offset, length и SHA. Production не изменён.",
+    "область" : "Прототипы/память-структурирующих-операторов",
+    "остаток" : [
+      "Проверить exact diff/index, публикационную чистоту ровно двух новых файлов и применимый малый smoke-check.",
+      "Создать конечный commit с native author gpt-5.6-sol/ultra, committer FUM, полным русским телом и последним ROOT trailer; выполнить raw readback, normal exact push и independent remote readback.",
+      "ROOT-приёмка, интеграция в master, PR, полная публикация и следующий этап постоянной роли остаются отдельными решениями."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Names/LinguisticKit837 dry-plan одного смыслового имени",
+        "наносекунды" : 15670953500,
+        "свидетельство" : "Строгая сборка с LinguisticKit837 и plan/diff возвратили точное basename proverki-bajtovyikh-granic-istochnika-jsonl.swift, нуль препятствий и запрет применения. Длительность — сумма двух наблюдаемых shell wall-time, округлённая для второго вызова."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "swift test --filter ПроверкиБайтовыхГраницИсточникаJSONL --jobs 2",
+        "наносекунды" : 22626937917,
+        "свидетельство" : "Свежий адресный suite прошёл 2 из 2 тестов. Source SHA-256: accepted-256 0769bbec3a624e220436903e1a9701fbb7df8c27b8a07a7034eb671faa1c03bd, rejected-257-nfd f810317bf2f854b0b82e064414aafb342d22bdcf71db88c3ce244460e312cc72. Accepted wall 12031583 ns, rejected wall 1000 ns; это Debug-профиль двух конечных открытых выборок без порогов и заявления скорости; вложенные стадии не суммируются."
+      }
+    ],
+    "происхождение" : [
+      "Новый отдельный этап роли vkhod задан программой версии 2: C d45f5cc1f2acfa4ec866d06f17f34fb3dfe9057e, tree b5cf09dd3ac2d8bd684703c2fcba31fd762984ff, parents f7b04b9e235ce54d7f3a59aa5aded70cba0f11b4 и d081c0a6dfecf876d94107c3f2585cd99f686f39.",
+      "Точный source path iskhodniki/zapusk/zhurnal/cli-paketa-devyati-putej.json, blob 01d5c5924f999ec95adf3079e0cc14471156355c, 129313 байт, SHA-256 6ade8eba05ccc58d6dd80f1ccf54c830325bf68e95f4f6deca1f3b2c8d0126d5.",
+      "No-ff checkpoint b8ebc18ebc9e9e19b5d6fd7c537eff8d7f39937a принял source C с точным деревом и был доставлен обычным exact push в refs/heads/fum-lab/fum/fuma/vkhod-jsonl-fuma/master; independent remote OID совпал. Legacy refs/heads/codex/vkhod-jsonl-fuma сохранена на afc851a09b70a71f527de2e16a549aa586ee2894.",
+      "Нативно наблюдаемая модель gpt-5.6-sol с effort ultra сохранена отдельно от coordinator source author gpt-6.1-sol/ultra. Эскалация осталась обоснована повторными ошибками Names и метаданных, а не RED, вводом-выводом или длительностью.",
+      "Issue149 aggregator отключён адресным решением и не считается успехом; ROOT21, full residual, continuation, legacyguard и 019 не запускались."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Стадия fum-lab/fum/fuma/vkhod-jsonl-fuma/v2 с номером 1 создана как новый отдельный этап; она не продолжает закрытую v1 как номер 7.",
+      "Реальный Names/LinguisticKit837 dry-plan вычислил proverki-bajtovyikh-granic-istochnika-jsonl.swift из смыслового имени; план имел algorithm fum.пути.unicode-boundary.Cyrl-Latn.ru.ascii-lower-kebab.1, revision 837e2ce107b97ee7b9d3344c9fe99142281fe393, input SHA-256 4b5fe5ac2ab501d27fa57db922ea50b9a32076e8811dc31196972e826d17003b и нуль препятств. Backend apply не запускался.",
+      "Production не изменён: уже принятый фасад проверяет именно источник.utf8.count <= 256, возвращает исходный срез и даёт typed-отказ до SHA, профиля и оператора.",
+      "Новый Swift Testing suite сравнивает точные Data источника: 254 ASCII a плюс composed é равны 256 UTF-8 байтам, а 254 ASCII a плюс e и combining acute в NFD равны 257; Swift-строки канонически равны, сырые Data различаются.",
+      "Допустимый случай использует публичный ФасадJSONL и реальный fixed AutomationExecutor; frame SHA-256 26af636482d084730cee896bab1715180e8d867377c1fe8624d8b1dd2a5d1ea1, resource pin eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba и authority неизвестно сохранены."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Дословные фразы из исходных сообщений человека, адресно переданные ROOT; первичный человеческий JSONL, машинный путь и checkedNative receipt не заявляются.",
+        "роль" : "человек",
+        "текст" : "Shtatnoye razvyortyivaniye uzla dolzhno zapuskatjsya cherez swift run v korne sklonirovannogo repozitoriya.\nPo suti pervyij vkhod FUMA — eto JSONL Codex CLI.\nNovyij kod avtomatizaci, dazhe yesli on zaimstvuyetsya iz susjhestvuyusjhego na Python — yego uzhe pishem na Swift ili FUMA."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Буквальные поля результа и контракта агентского назначения role=vkhod из закреплённой программы версии 2; не сообщение человека.",
+        "роль" : "агент",
+        "текст" : "Новые проверки UTF-8 байтовых границ declared source ID и сохранения его исходных байтов.\nРовно256UTF8байт ID принимается,257 отклоняется. Добавить составной Unicode и канонически эквивалентную NFD-форму с другой байтовой длиной; не использовать только String.count или Swift String== для доказательства байтов.\nСравнивать Data(источник.utf8) в исходном срезе, сохранять exactData/offset/SHA и typed rejected; authority остаётся неизвестной."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a177ae-1456-7251-91f9-3571d3215421",
+      "стадия" : "fum-lab/fum/fuma/vkhod-jsonl-fuma/v2"
+    }
+  },
+  "идентификатор" : "f33693a55f660294332870484a2e4e88aedc43e68d9360b77bd8baa0e8450f71",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
