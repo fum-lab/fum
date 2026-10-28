@@ -1,6 +1,6 @@
 {
   "схема": "fum.координация.потребитель-байтов-сообщения-fuma.1",
-  "времяОбновленияUTC": "2026-10-28T23:02:51Z",
+  "времяОбновленияUTC": "2026-10-28T23:06:03Z",
   "идентификаторы": {
     "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
     "дочернийCodexThreadID": "01a184af-6041-79d0-88b1-17a9489d54a4",
@@ -88,6 +88,7 @@
   "evidence": {
     "privateArgvAndArtifactManifestSha256": "bf9c8701b39eb362e64f8e14665a3e7d75f16b01c00c7c3f59571138929b05c0",
     "commitMessageSha256": "02e748e06aaba9de9a148e0178711b3ed16d81926752677314c1faf8e0b670e2",
+    "deliveryRecordCommitMessageSha256": "d824ab8546ad40e5846b17c38c6ae21fae2684dfd6b2caee95e65c298d447d6c",
     "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
     "committer": "FUM <fum@local>",
     "ownRemoteRefBeforePush": "отсутствовал по git ls-remote",
@@ -117,7 +118,36 @@
     "выдаётсяЗаGitCommit": false
   },
   "доставка": {
-    "статусДоПервойФиксации": "подготовлено и проверено; commit/push ещё не выполнены",
+    "статус": "первичная контрольная точка закоммичена и доставлена в свой ref",
+    "коммит": {
+      "oid": "b69a2690ef45ff76a51ef6bcf7fb572201060435",
+      "tree": "26f08edb8fd583cf53bb9c152cf6ccf88af50662",
+      "parent": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+      "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "committer": "FUM <fum@local>",
+      "bodySha256": "02e748e06aaba9de9a148e0178711b3ed16d81926752677314c1faf8e0b670e2",
+      "rawObjectFileSha256": "a4685e4b29dc2d12213564056707fa84ecb611d72b4de4446e8541e8951bfd6d",
+      "rawReadbackOidMatches": true,
+      "commitBodyEqualsPreparedMessage": true,
+      "changedPaths": [
+        "koordinaciya/координатор.swift",
+        "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/ПроверкиПотребителяБайтСообщенияFUMA.swift",
+        "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/state.json",
+        "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/журнал.jsonl"
+      ]
+    },
+    "push": {
+      "command": [
+        "git",
+        "push",
+        "origin",
+        "b69a2690ef45ff76a51ef6bcf7fb572201060435:refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master"
+      ],
+      "result": "новая ветка создана обычным push",
+      "targetRef": "refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master",
+      "remoteReadbackOid": "b69a2690ef45ff76a51ef6bcf7fb572201060435",
+      "remoteReadbackMatches": true
+    },
     "общаяИнтеграция": "не выполнена, остаётся отдельным следующим переходом"
   }
 }
