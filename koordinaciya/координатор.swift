@@ -182,22 +182,6 @@ struct ПакетПоставки: Codable {
     let непроверенныеЗаявления: [String]
 }
 
-struct СвидетельствоВыбораМодели: Codable {
-    let источникAPI: String
-    let модель: String
-    let усилие: String
-    let корневойUUID: String
-}
-
-struct ОжидаемаяИдентичностьGit: Codable {
-    let свидетельство: СвидетельствоВыбораМодели
-    let имяАвтора: String
-    let почтаАвтора: String
-    let имяКоммитера: String
-    let почтаКоммитера: String
-    let родитель: String
-}
-
 struct СобственныйACK: Codable {
     let версия: String
     let область: String
@@ -258,6 +242,7 @@ struct ПланСамообновления: Codable {
     let требуетЧтениеROOTJSONL: Bool
     let старыйГлобальныйПорогДискаДляИсточникаГиБ: Int?
     let идентичностьСледующегоКоммита: ОжидаемаяИдентичностьGit
+    let сообщениеСледующегоКоммита: ПланСообщенияКоммита
 }
 
 struct РезультатСамообновления: Codable {
@@ -287,59 +272,17 @@ enum ФазаСамообновления: String, Codable {
     case некорректно = "некорректная-последовательность"
 }
 
-struct РезультатПодготовкиИдентичности: Codable {
-    let переменнаяОкружения: String
-    let значение: String
-    let неизменяемыеПоля: [String]
-    let ошибки: [String]
-}
-
 enum ОценщикИдентичностиGit {
-    static func подготовить(_ свидетельство: СвидетельствоВыбораМодели) -> РезультатПодготовкиИдентичности {
-        var ошибки: [String] = []
-        if свидетельство.источникAPI != "collaboration.spawn_agent" {
-            ошибки.append("неподтверждённый-источник-выбора-модели")
-        }
-        if свидетельство.модель.isEmpty || свидетельство.модель.contains(where: \.isWhitespace) {
-            ошибки.append("некорректное-имя-модели")
-        }
-        if свидетельство.усилие.isEmpty || свидетельство.усилие.contains(where: \.isWhitespace) {
-            ошибки.append("некорректное-усилие-модели")
-        }
-        if UUID(uuidString: свидетельство.корневойUUID) == nil {
-            ошибки.append("некорректный-корневой-uuid-идентичности")
-        }
-        return РезультатПодготовкиИдентичности(
-            переменнаяОкружения: "GIT_AUTHOR_NAME",
-            значение: "FUM Codex [\(свидетельство.модель); effort=\(свидетельство.усилие)]",
-            неизменяемыеПоля: ["GIT_AUTHOR_EMAIL", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL"],
-            ошибки: ошибки
-        )
-    }
-
     static func проверитьДоЭффекта(
         ожидаемая: ОжидаемаяИдентичностьGit,
-        авторGitVar: String,
-        коммитерGitVar: String,
+        метаданные: РезультатГенерацииМетаданныхКоммита,
         текущийHEAD: String,
         текущийРеф: String,
         ожидаемыйРеф: String
     ) -> [String] {
-        var ошибки = подготовить(ожидаемая.свидетельство).ошибки
-        guard let автор = разобратьИдентификатор(авторGitVar),
-              let коммитер = разобратьИдентификатор(коммитерGitVar) else {
-            ошибки.append("неразбираемая-git-ident")
-            return ошибки
-        }
-        let ожидаемоеИмя = подготовить(ожидаемая.свидетельство).значение
-        if ожидаемая.имяАвтора != ожидаемоеИмя {
-            ошибки.append("ожидаемое-имя-автора-не-связано-с-typed-выбором")
-        }
-        if автор.имя != ожидаемоеИмя || автор.почта != ожидаемая.почтаАвтора {
-            ошибки.append("автор-git-var-не-совпадает-с-типизированным-выбором")
-        }
-        if коммитер.имя != ожидаемая.имяКоммитера || коммитер.почта != ожидаемая.почтаКоммитера {
-            ошибки.append("коммитер-git-var-изменён")
+        var ошибки = метаданные.ошибки
+        if метаданные.выборМодели != ожидаемая.свидетельство {
+            ошибки.append("сгенерированные-метаданные-не-связаны-с-typed-выбором")
         }
         if текущийHEAD != ожидаемая.родитель {
             ошибки.append("head-не-равен-ожидаемому-родителю")
@@ -347,60 +290,46 @@ enum ОценщикИдентичностиGit {
         if текущийРеф != ожидаемыйРеф {
             ошибки.append("реф-не-совпадает-с-разрешённым")
         }
-        if ожидаемая.свидетельство.корневойUUID != UUID(uuidString: ожидаемая.свидетельство.корневойUUID)?.uuidString.lowercased() {
-            ошибки.append("корневой-uuid-не-каноничен")
-        }
         if !верныйOID(ожидаемая.родитель) {
             ошибки.append("неверный-ожидаемый-родитель")
         }
         return ошибки
     }
 
-    static func проверитьСыройОбъект(_ сыройКоммит: String, ожидаемая: ОжидаемаяИдентичностьGit) -> [String] {
+    static func проверитьСыройОбъект(
+        _ сыройКоммит: String,
+        метаданные: РезультатГенерацииМетаданныхКоммита,
+        ожидаемыйParent: String
+    ) -> [String] {
         guard let разделитель = сыройКоммит.range(of: "\n\n") else {
             return ["нет-границы-заголовка-и-сообщения"]
         }
         let заголовки = сыройКоммит[..<разделитель.lowerBound].split(separator: "\n").map(String.init)
-        let сообщение = сыройКоммит[разделитель.upperBound...]
+        let сообщение = String(сыройКоммит[разделитель.upperBound...])
         let родители = заголовки.filter { $0.hasPrefix("parent ") }.map { String($0.dropFirst("parent ".count)) }
         let авторы = заголовки.filter { $0.hasPrefix("author ") }
         let коммитеры = заголовки.filter { $0.hasPrefix("committer ") }
         let деревья = заголовки.filter { $0.hasPrefix("tree ") }.map { String($0.dropFirst("tree ".count)) }
-        var ошибки: [String] = []
+        var ошибки = метаданные.ошибки
 
-        if ожидаемая.имяАвтора != подготовить(ожидаемая.свидетельство).значение {
-            ошибки.append("ожидаемое-имя-автора-не-связано-с-typed-выбором")
-        }
-
-        if родители != [ожидаемая.родитель] { ошибки.append("сырой-parent-не-совпадает") }
-        if авторы.count != 1 || разобратьИдентификатор(авторы.first.map { String($0.dropFirst("author ".count)) } ?? "")?.имя != подготовить(ожидаемая.свидетельство).значение ||
-            разобратьИдентификатор(авторы.first.map { String($0.dropFirst("author ".count)) } ?? "")?.почта != ожидаемая.почтаАвтора {
-            ошибки.append("сырой-author-не-совпадает")
-        }
-        if коммитеры.count != 1 || разобратьИдентификатор(коммитеры.first.map { String($0.dropFirst("committer ".count)) } ?? "")?.имя != ожидаемая.имяКоммитера ||
-            разобратьИдентификатор(коммитеры.first.map { String($0.dropFirst("committer ".count)) } ?? "")?.почта != ожидаемая.почтаКоммитера {
-            ошибки.append("сырой-committer-не-совпадает")
-        }
+        if родители != [ожидаемыйParent] { ошибки.append("сырой-parent-не-совпадает") }
+        let author = ГенераторМетаданныхКоммита.разобратьGitIdent(авторы.first.map { String($0.dropFirst("author ".count)) } ?? "")
+        if авторы.count != 1 || author != метаданные.автор { ошибки.append("сырой-author-не-совпадает") }
+        let committer = ГенераторМетаданныхКоммита.разобратьGitIdent(коммитеры.first.map { String($0.dropFirst("committer ".count)) } ?? "")
+        if коммитеры.count != 1 || committer != метаданные.коммитер { ошибки.append("сырой-committer-не-совпадает") }
         if деревья.count != 1 || !деревья.allSatisfy(верныйOID) { ошибки.append("некорректная-tree-строка") }
+        if сообщение != метаданные.сообщение { ошибки.append("сырой-message-не-совпадает-с-генератором") }
 
         let trailers = сообщение.split(separator: "\n", omittingEmptySubsequences: false)
             .map(String.init)
             .filter { $0.hasPrefix("Codex-Thread-ID:") }
         let последняяНепустаяСтрока = сообщение.split(separator: "\n").last.map(String.init)
-        let точныйTrailer = "Codex-Thread-ID: \(ожидаемая.свидетельство.корневойUUID)"
+        let точныйTrailer = "Codex-Thread-ID: \(метаданные.выборМодели.корневойUUID)"
         if trailers != [точныйTrailer] || последняяНепустаяСтрока != точныйTrailer {
             ошибки.append("сырой-корневой-trailer-не-совпадает")
         }
+        if !верныйOID(ожидаемыйParent) { ошибки.append("неверный-ожидаемый-parent") }
         return ошибки
-    }
-
-    private static func разобратьИдентификатор(_ строка: String) -> (имя: String, почта: String)? {
-        guard let леваяСкобка = строка.range(of: " <", options: .backwards),
-              let праваяСкобка = строка[леваяСкобка.upperBound...].firstIndex(of: ">") else { return nil }
-        let имя = String(строка[..<леваяСкобка.lowerBound])
-        let почта = String(строка[леваяСкобка.upperBound..<праваяСкобка])
-        guard !имя.isEmpty, !почта.isEmpty else { return nil }
-        return (имя, почта)
     }
 
     private static func верныйOID(_ строка: String) -> Bool {
@@ -421,9 +350,13 @@ enum ОценщикСамообновления {
         if план.старыйГлобальныйПорогДискаДляИсточникаГиБ != nil {
             ошибкиПлана.append("старый-глобальный-порог-диска-для-источника")
         }
-        ошибкиПлана.append(contentsOf: ОценщикИдентичностиGit.подготовить(план.идентичностьСледующегоКоммита.свидетельство).ошибки)
-        if план.идентичностьСледующегоКоммита.имяАвтора != ОценщикИдентичностиGit.подготовить(план.идентичностьСледующегоКоммита.свидетельство).значение {
-            ошибкиПлана.append("ожидаемое-имя-автора-не-связано-с-typed-выбором")
+        ошибкиПлана.append(contentsOf: ГенераторМетаданныхКоммита.проверитьНаблюдение(план.идентичностьСледующегоКоммита.свидетельство))
+        ошибкиПлана.append(contentsOf: ГенераторМетаданныхКоммита.проверитьЗаголовок(план.сообщениеСледующегоКоммита.заголовок))
+        if план.сообщениеСледующегоКоммита.описание.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            ошибкиПлана.append("пустое-описание-сообщения-коммита")
+        }
+        if план.сообщениеСледующегоКоммита.исходныйЗапрос.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            ошибкиПлана.append("пустой-исходный-запрос-сообщения-коммита")
         }
         if let ожидаемыйКорневойUUID, план.идентичностьСледующегоКоммита.свидетельство.корневойUUID != ожидаемыйКорневойUUID {
             ошибкиПлана.append("typed-identity-не-связан-с-корневым-uuid-состояния")
@@ -929,7 +862,7 @@ enum Оценщик {
     static func оценить(состояние: СостояниеКоординации, журнал: String) -> ИтогКоординации {
         var ошибки: [String] = []
 
-        if состояние.схема != "fum.координация.состояние.1" && состояние.схема != "fum.координация.состояние.2" {
+        if состояние.схема != "fum.координация.состояние.1" && состояние.схема != "fum.координация.состояние.2" && состояние.схема != "fum.координация.состояние.3" {
             ошибки.append("неподдерживаемая-схема")
         }
         if UUID(uuidString: состояние.корневойUUID) == nil {
@@ -1095,7 +1028,7 @@ enum Оценщик {
 struct ГлавнаяКоординатора {
     static func main() {
         let аргументы = Array(CommandLine.arguments.dropFirst())
-        if аргументы.first == "--проверить-перед-коммитом" {
+        if аргументы.first == "--проверить-перед-коммитом" || аргументы.first == "--сгенерировать-метаданные-коммита" {
             guard аргументы.count == 2 else {
                 fputs("Ожидается путь к состояние.json.\n", stderr)
                 exit(EXIT_FAILURE)
@@ -1107,16 +1040,12 @@ struct ГлавнаяКоординатора {
                     throw CocoaError(.coderValueNotFound)
                 }
                 let выбор = план.идентичностьСледующегоКоммита.свидетельство
-                var окружениеАвтора = ProcessInfo.processInfo.environment
-                окружениеАвтора["GIT_AUTHOR_NAME"] = ОценщикИдентичностиGit.подготовить(выбор).значение
-                let автор = try выполнитьGit(["var", "GIT_AUTHOR_IDENT"], окружение: окружениеАвтора)
-                let коммитер = try выполнитьGit(["var", "GIT_COMMITTER_IDENT"], окружение: ProcessInfo.processInfo.environment)
+                let метаданные = try сгенерироватьМетаданные(план)
                 let head = try выполнитьGit(["rev-parse", "HEAD"], окружение: ProcessInfo.processInfo.environment)
                 let реф = try выполнитьGit(["symbolic-ref", "HEAD"], окружение: ProcessInfo.processInfo.environment)
                 var ошибки = ОценщикИдентичностиGit.проверитьДоЭффекта(
                     ожидаемая: план.идентичностьСледующегоКоммита,
-                    авторGitVar: автор,
-                    коммитерGitVar: коммитер,
+                    метаданные: метаданные,
                     текущийHEAD: head,
                     текущийРеф: реф,
                     ожидаемыйРеф: план.собственныйРеф
@@ -1124,10 +1053,14 @@ struct ГлавнаяКоординатора {
                 if выбор.корневойUUID != состояние.корневойUUID {
                     ошибки.append("typed-identity-не-связан-с-корневым-uuid-состояния")
                 }
-                let результат = try JSONSerialization.data(
-                    withJSONObject: ["готово": ошибки.isEmpty, "переменнаяАвторства": "GIT_AUTHOR_NAME", "ошибки": ошибки],
-                    options: [.sortedKeys]
-                )
+                let metadataData = try JSONEncoder().encode(метаданные)
+                let metadataObject = try JSONSerialization.jsonObject(with: metadataData)
+                let результат = try JSONSerialization.data(withJSONObject: [
+                    "готово": ошибки.isEmpty,
+                    "переменныеОкруженияКИзменению": метаданные.окружение,
+                    "метаданные": metadataObject,
+                    "ошибки": ошибки
+                ], options: [.sortedKeys])
                 FileHandle.standardOutput.write(результат)
                 FileHandle.standardOutput.write(Data([0x0a]))
                 if !ошибки.isEmpty { exit(EXIT_FAILURE) }
@@ -1152,18 +1085,20 @@ struct ГлавнаяКоординатора {
                 guard let текст = String(data: сыройОбъект, encoding: .utf8) else {
                     throw CocoaError(.fileReadInapplicableStringEncoding)
                 }
-                var ошибки = ОценщикИдентичностиGit.проверитьСыройОбъект(
+                let метаданные = try сгенерироватьМетаданные(план)
+                var ошибкиСырогоОбъекта = ОценщикИдентичностиGit.проверитьСыройОбъект(
                     текст,
-                    ожидаемая: план.идентичностьСледующегоКоммита
+                    метаданные: метаданные,
+                    ожидаемыйParent: план.идентичностьСледующегоКоммита.родитель
                 )
                 if план.идентичностьСледующегоКоммита.свидетельство.корневойUUID != состояние.корневойUUID {
-                    ошибки.append("typed-identity-не-связан-с-корневым-uuid-состояния")
+                    ошибкиСырогоОбъекта.append("typed-identity-не-связан-с-корневым-uuid-состояния")
                 }
-                let вывод = ["проверено": ошибки.isEmpty, "ошибки": ошибки] as [String: Any]
-                let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
+                let финальныйВывод = ["проверено": ошибкиСырогоОбъекта.isEmpty, "ошибки": ошибкиСырогоОбъекта] as [String: Any]
+                let результат = try JSONSerialization.data(withJSONObject: финальныйВывод, options: [.sortedKeys])
                 FileHandle.standardOutput.write(результат)
                 FileHandle.standardOutput.write(Data([0x0a]))
-                if !ошибки.isEmpty { exit(EXIT_FAILURE) }
+                if !ошибкиСырогоОбъекта.isEmpty { exit(EXIT_FAILURE) }
             } catch {
                 fputs("Не удалось проверить сырой Git-объект: \(error.localizedDescription)\n", stderr)
                 exit(EXIT_FAILURE)
@@ -1199,6 +1134,20 @@ struct ГлавнаяКоординатора {
             fputs("Не удалось прочитать снимок: \(error.localizedDescription)\n", stderr)
             exit(EXIT_FAILURE)
         }
+    }
+
+    private static func сгенерироватьМетаданные(_ план: ПланСамообновления) throws -> РезультатГенерацииМетаданныхКоммита {
+        let выбор = план.идентичностьСледующегоКоммита.свидетельство
+        var окружениеАвтора = ProcessInfo.processInfo.environment
+        окружениеАвтора["GIT_AUTHOR_NAME"] = ГенераторМетаданныхКоммита.имяАвтора(выбор)
+        let authorGitVar = try выполнитьGit(["var", "GIT_AUTHOR_IDENT"], окружение: окружениеАвтора)
+        let committerGitVar = try выполнитьGit(["var", "GIT_COMMITTER_IDENT"], окружение: ProcessInfo.processInfo.environment)
+        return ГенераторМетаданныхКоммита.сгенерировать(
+            свидетельство: выбор,
+            авторGitVar: authorGitVar,
+            коммитерGitVar: committerGitVar,
+            планСообщения: план.сообщениеСледующегоКоммита
+        )
     }
 
     private static func выполнитьGit(_ аргументы: [String], окружение: [String: String]) throws -> String {
