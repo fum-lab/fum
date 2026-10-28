@@ -109,7 +109,7 @@
       "ackFUMA": {
         "threadId": "01a1698f-bb98-7691-b1c1-31ec737ed070",
         "revision": 22,
-        "содержание": "FUMA прямо подтвердила, что она и дети больше не пишут в ROOT W/ref; её приёмный W/ref — /Users/fum/.codex/worktrees/aot-join-396/FUM / refs/heads/fum-lab/fum/fuma/aot-join-strings-396, HEAD 0bf0441…",
+        "содержание": "FUMA прямо подтвердила, что она и дети больше не пишут в ROOT W/ref; её приёмная ветка — refs/heads/fum-lab/fum/fuma/aot-join-strings-396, HEAD 0bf0441…; машинный путь исключён из публичной проекции",
         "ограничение": "это self-report; post-ACK RO read подтверждает текущий снимок, но не непрерывное отсутствие будущих записей"
       },
       "diff371Против6999": {
