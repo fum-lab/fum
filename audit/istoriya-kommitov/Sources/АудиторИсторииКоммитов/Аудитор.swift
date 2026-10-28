@@ -9,6 +9,7 @@ public enum ОшибкаАудита: Error, CustomStringConvertible, Sendable {
     case нетПервогоРодителя(String)
     case пустаяОбласть
     case небезопаснаяОбласть(String)
+    case областьНеНайдена(String)
     case нетКоммитов
     case слишкомМногоКоммитов(Int)
 
@@ -30,6 +31,8 @@ public enum ОшибкаАудита: Error, CustomStringConvertible, Sendable {
             "Нужна явная ограниченная область проверки; корень репозитория запрещён."
         case .небезопаснаяОбласть(let значение):
             "Некорректный относительный путь области: \(значение)"
+        case .областьНеНайдена(let значение):
+            "Область не совпадает ни с одним путём HEAD или индекса: \(значение)"
         case .нетКоммитов:
             "Нужно явно передать хотя бы один commit OID."
         case .слишкомМногоКоммитов(let число):
@@ -153,7 +156,8 @@ public struct ЗаписьАудита: Codable, Sendable, Equatable {
     public let авторПояс: String
     public let авторМодель: String
     public let авторУсилие: String
-    public let авторСоответствуетПравилу: ИтогПроверкиАвтора
+    public let совпадениеФорматаИмениАвтора: ИтогСовпаденияФорматаИмениАвтора
+    public let статусНативногоПодтвержденияАвтора: СтатусНативногоПодтвержденияАвтора
     public let фиксаторИмя: String
     public let фиксаторПочта: String
     public let фиксаторВремяUnix: Int64
@@ -184,8 +188,9 @@ public struct ЗаписьАудита: Codable, Sendable, Equatable {
         self.авторПояс = коммит.автор.часовойПояс
         self.авторМодель = подпись?.модель ?? ""
         self.авторУсилие = подпись?.усилие ?? ""
-        self.авторСоответствуетПравилу = Классификатор.итогАвтора(
+        self.совпадениеФорматаИмениАвтора = Классификатор.итогСовпаденияФорматаИмениАвтора(
             коммит.автор.имя, правилоАктивно: правила.правилоАвтораАктивно)
+        self.статусНативногоПодтвержденияАвтора = .неПроверено
         self.фиксаторИмя = коммит.фиксатор.имя
         self.фиксаторПочта = коммит.фиксатор.почта
         self.фиксаторВремяUnix = коммит.фиксатор.времяUnix
@@ -213,6 +218,20 @@ public struct ПривязкаРабочегоДерева: Codable, Sendable, E
     public let рабочиеФайлыСовпадаютСИндексомВОбласти: Bool
     public let нетНеотслеживаемыхВОбласти: Bool
     public let деревоСвязаноСHEADВОбласти: Bool
+
+    public init(текущийHEAD: String, деревоHEAD: String, область: [String],
+                индексСовпадаетСHEADВОбласти: Bool,
+                рабочиеФайлыСовпадаютСИндексомВОбласти: Bool,
+                нетНеотслеживаемыхВОбласти: Bool,
+                деревоСвязаноСHEADВОбласти: Bool) {
+        self.текущийHEAD = текущийHEAD
+        self.деревоHEAD = деревоHEAD
+        self.область = область
+        self.индексСовпадаетСHEADВОбласти = индексСовпадаетСHEADВОбласти
+        self.рабочиеФайлыСовпадаютСИндексомВОбласти = рабочиеФайлыСовпадаютСИндексомВОбласти
+        self.нетНеотслеживаемыхВОбласти = нетНеотслеживаемыхВОбласти
+        self.деревоСвязаноСHEADВОбласти = деревоСвязаноСHEADВОбласти
+    }
 }
 
 public struct ОтчётАудита: Codable, Sendable, Equatable {
@@ -222,6 +241,17 @@ public struct ОтчётАудита: Codable, Sendable, Equatable {
     public let авторROOT: String
     public let коммиты: [ЗаписьАудита]
     public let привязкаТекущейРабочейОбласти: ПривязкаРабочегоДерева
+
+    public init(схема: String, корневойUUID: String, принятыйROOT: String,
+                авторROOT: String, коммиты: [ЗаписьАудита],
+                привязкаТекущейРабочейОбласти: ПривязкаРабочегоДерева) {
+        self.схема = схема
+        self.корневойUUID = корневойUUID
+        self.принятыйROOT = принятыйROOT
+        self.авторROOT = авторROOT
+        self.коммиты = коммиты
+        self.привязкаТекущейРабочейОбласти = привязкаТекущейРабочейОбласти
+    }
 }
 
 public struct ЧитательИстории: Sendable {
@@ -258,10 +288,13 @@ public struct ЧитательИстории: Sendable {
 
     public func проверитьПривязку(области: [String]) throws -> ПривязкаРабочегоДерева {
         guard !области.isEmpty else { throw ОшибкаАудита.пустаяОбласть }
+        guard Set(области).count == области.count else {
+            throw ОшибкаАудита.небезопаснаяОбласть("повторяющаяся область")
+        }
         for путь in области {
             let части = путь.split(separator: "/", omittingEmptySubsequences: false)
             guard !путь.isEmpty, путь != ".", !путь.hasPrefix("/"),
-                  !части.contains(".."), !части.contains(".") else {
+                  !путь.hasPrefix(":("), !части.contains(".."), !части.contains(".") else {
                 throw ОшибкаАудита.небезопаснаяОбласть(путь)
             }
         }
@@ -269,12 +302,23 @@ public struct ЧитательИстории: Sendable {
         let деревоВывод = try выполнить(["rev-parse", "--verify", "HEAD^{tree}"])
         let head = try текст(headВывод.данные, команда: "rev-parse HEAD")
         let дерево = try текст(деревоВывод.данные, команда: "rev-parse HEAD^{tree}")
-        let индексРезультат = try выполнить(["diff", "--quiet", "--cached", "HEAD", "--"] + области,
-            допустимыеКоды: [0, 1])
+        for путь in области {
+            let вHEAD = try выполнить(["ls-tree", "-r", "--name-only", "HEAD", "--", путь],
+                буквальныеПути: true)
+            let вИндексе = try выполнить(["ls-files", "--cached", "--", путь],
+                буквальныеПути: true)
+            guard !вHEAD.данные.isEmpty || !вИндексе.данные.isEmpty else {
+                throw ОшибкаАудита.областьНеНайдена(путь)
+            }
+        }
+        let индексРезультат = try выполнить(
+            ["diff", "--quiet", "--cached", "HEAD", "--"] + области,
+            допустимыеКоды: [0, 1], буквальныеПути: true)
         let рабочийРезультат = try выполнить(["diff", "--quiet", "--"] + области,
-            допустимыеКоды: [0, 1])
+            допустимыеКоды: [0, 1], буквальныеПути: true)
         let неотслеживаемыеВывод = try выполнить(
-            ["ls-files", "--others", "--exclude-standard", "--"] + области)
+            ["ls-files", "--others", "--exclude-standard", "--"] + области,
+            буквальныеПути: true)
         let неотслеживаемые = try текст(неотслеживаемыеВывод.данные, команда: "ls-files --others")
             .split(whereSeparator: \.isNewline)
         let индексСовпадает = индексРезультат.код == 0
@@ -294,12 +338,15 @@ public struct ЧитательИстории: Sendable {
         return строка.trimmingCharacters(in: .newlines)
     }
 
-    private func выполнить(_ аргументы: [String], допустимыеКоды: Set<Int32> = [0]) throws -> (код: Int32, данные: Data) {
+    private func выполнить(
+        _ аргументы: [String], допустимыеКоды: Set<Int32> = [0], буквальныеПути: Bool = false
+    ) throws -> (код: Int32, данные: Data) {
         let команда = аргументы.joined(separator: " ")
         let процесс = Process()
         let выход = Pipe()
         процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
-        процесс.arguments = ["-C", корень.path] + аргументы
+        let режимПутей = буквальныеПути ? ["--literal-pathspecs"] : []
+        процесс.arguments = режимПутей + ["-C", корень.path] + аргументы
         процесс.standardOutput = выход
         процесс.standardError = FileHandle.standardError
         do {
@@ -345,8 +392,18 @@ public struct АудиторИстории: Sendable {
                 принятыйROOT: root, корневойUUID: корневойUUID)
         }
         let привязка = try читатель.проверитьПривязку(области: области)
-        return ОтчётАудита(схема: "fum.git-memory-commit-audit.first-pass.v1",
+        return ОтчётАудита(схема: "fum.git-memory-commit-audit.cli.v1",
             корневойUUID: корневойUUID, принятыйROOT: root.OID, авторROOT: root.автор.имя,
             коммиты: записи, привязкаТекущейРабочейОбласти: привязка)
+    }
+}
+
+public enum КодировщикJSONАудита {
+    public static func закодировать(_ отчёт: ОтчётАудита) throws -> Data {
+        let кодировщик = JSONEncoder()
+        кодировщик.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        var данные = try кодировщик.encode(отчёт)
+        данные.append(0x0a)
+        return данные
     }
 }

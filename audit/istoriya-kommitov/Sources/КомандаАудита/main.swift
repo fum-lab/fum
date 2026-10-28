@@ -22,10 +22,7 @@ struct КомандаАудита {
             let отчёт = try АудиторИстории(читатель: читатель).проверить(
                 корневойUUID: корневойUUID, принятыйROOTOID: rootOID,
                 OIDКоммитов: OIDКоммитов, области: области)
-            let кодировщик = JSONEncoder()
-            кодировщик.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-            var данные = try кодировщик.encode(отчёт)
-            данные.append(0x0a)
+            let данные = try КодировщикJSONАудита.закодировать(отчёт)
             try FileHandle.standardOutput.write(contentsOf: данные)
         } catch {
             let строка = "Ошибка аудита: \(error)\n"
