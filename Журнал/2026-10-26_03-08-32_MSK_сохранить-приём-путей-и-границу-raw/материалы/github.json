@@ -1,0 +1,36 @@
+{
+  "граница" : "Точные исходные байты API; обе версии отредактированного комментария сохранены. Получение не погашает общее машинное внимание архивного читателя",
+  "полученные" : [
+    {
+      "sha256" : "6ab94ff0adf373a71c113b116ddc27d48855a5541a8e7091f57d014b34de76d0",
+      "байты" : 5185,
+      "источник" : "https://api.github.com/repos/fum-lab/fum/issues/comments/6405344560",
+      "путь" : "Issues/fum-lab/fum/данные/6ab94ff0adf373a71c113b116ddc27d48855a5541a8e7091f57d014b34de76d0.json"
+    },
+    {
+      "sha256" : "e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f",
+      "байты" : 20221,
+      "источник" : "https://api.github.com/repos/fum-lab/fum/pulls/379",
+      "путь" : "Issues/fum-lab/fum/данные/e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f.json"
+    },
+    {
+      "sha256" : "7dffc2a56bdb23ac088cee96147878b0362a613a3c5413f7f7669d44eb89915d",
+      "байты" : 5219,
+      "источник" : "https://api.github.com/repos/fum-lab/fum/issues/comments/6405344560",
+      "путь" : "Issues/fum-lab/fum/данные/7dffc2a56bdb23ac088cee96147878b0362a613a3c5413f7f7669d44eb89915d.json"
+    },
+    {
+      "sha256" : "fa17d2c17cf1ba4d09d28f77689b435b266067aba48d81573ea43c7579c7c240",
+      "байты" : 5682,
+      "источник" : "https://api.github.com/repos/fum-lab/fum/issues/comments/6404310317",
+      "путь" : "Issues/fum-lab/fum/данные/fa17d2c17cf1ba4d09d28f77689b435b266067aba48d81573ea43c7579c7c240.json"
+    },
+    {
+      "sha256" : "023456aace86088ce351d8763898145845209c751d95eced2a3c56ab9fcc38aa",
+      "байты" : 10732,
+      "источник" : "https://api.github.com/repos/fum-lab/fum/issues/380",
+      "путь" : "Issues/fum-lab/fum/данные/023456aace86088ce351d8763898145845209c751d95eced2a3c56ab9fcc38aa.json"
+    }
+  ],
+  "схема" : "fum.получение-github-обычного-этапа.1"
+}

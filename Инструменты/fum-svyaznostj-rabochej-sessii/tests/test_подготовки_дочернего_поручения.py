@@ -16,6 +16,58 @@ from unittest import mock
 import test_подготовки_этапа_коммита as примеры
 
 
+class ФорматПостановки(unittest.TestCase):
+    def setUp(сам):
+        сам.м = importlib.import_module('подготовка_дочернего_поручения')
+
+    def сверить(сам, текст, сырые, путь='Планирование/постановка.json', выбранный=None):
+        сам.м.сверить_постановку({'постановка': {'путь': путь, 'текст': текст}},
+            {'путь': путь if выбранный is None else выбранный}, сырые)
+
+    def test_JSON_с_вложенным_Markdown_сверяется_без_recency(сам):
+        текст = json.dumps({'исходная_постановка': {'текст':
+            '# Работа\n<!-- FUM-MD-RECENCY:BEGIN -->\n'
+            '<!-- FUM-MD-RECENCY:END -->\n'}}, ensure_ascii=False, indent=2) + '\n'
+        with mock.patch.object(сам.м.этап.свежесть, 'split_recency_block',
+                side_effect=AssertionError('JSON нельзя разбирать как Markdown.')) as разбор:
+            сам.сверить(текст, текст.encode('utf-8'))
+            разбор.assert_not_called()
+
+    def test_JSON_не_нормализует_различия_байтов_и_пути(сам):
+        текст = '{"а": 1, "б": 2}\n'
+        варианты = [(текст.replace('1', '3').encode(), None),
+            (текст.rstrip('\n').encode(), None), (текст.encode() + b'\n', None),
+            (b'{"\\u0430":1,"\\u0431":2}\n', None),
+            ('{"б": 2, "а": 1}\n'.encode(), None), (b'\xff', None),
+            (текст.encode(), 'Планирование/другая.json')]
+        for сырые, путь in варианты:
+            with сам.subTest(сырые=сырые, путь=путь), сам.assertRaises(ValueError):
+                сам.сверить(текст, сырые, выбранный=путь)
+
+    def test_Markdown_сохраняет_прежнюю_нормализацию_recency(сам):
+        свежесть = сам.м.этап.свежесть
+        текст = '# Работа\n\nПроверить точные байты.\n'
+        версии = [текст, текст.rstrip('\n')]
+        for время in ('2026-10-23 01:00:00 MSK', '2026-10-24 01:00:00 MSK'):
+            версии.append(свежесть.attach_recency_block(текст, время,
+                свежесть.content_digest(свежесть.canonical_content(текст))))
+        for исходный in версии:
+            for выбранный in версии:
+                with сам.subTest(исходный=исходный, выбранный=выбранный):
+                    сам.сверить(исходный, выбранный.encode(), путь='Планирование/постановка.md')
+
+    def test_Markdown_отказывает_при_повреждении_содержания_и_пути(сам):
+        текст = '# Работа\n'
+        повреждённый = текст + '<!-- FUM-MD-RECENCY:BEGIN -->\n'
+        for исходный, сырые, путь in [(текст, b'\xff', None),
+                (текст, '# Другая работа\n'.encode(), None),
+                (текст, повреждённый.encode(), None),
+                (повреждённый, текст.encode(), None),
+                (текст, текст.encode(), 'Планирование/другая.md')]:
+            with сам.subTest(исходный=исходный, сырые=сырые, путь=путь), сам.assertRaises(ValueError):
+                сам.сверить(исходный, сырые, путь='Планирование/постановка.md', выбранный=путь)
+
+
 class ПодготовкаПоручения(unittest.TestCase):
     def setUp(сам):
         сам.м = importlib.import_module('подготовка_дочернего_поручения')
@@ -118,8 +170,13 @@ class ПодготовкаПоручения(unittest.TestCase):
         вход=сам.выходы/'операция.json'; вход.write_bytes(сам.м.байты(сам.вход)); вход.chmod(0o600)
         план=сам.м.построить_план(сам.вход); файл=сам.выходы/'план.json'
         файл.write_bytes(сам.м.байты(план)); файл.chmod(0o400)
-        процесс=subprocess.run([sys.executable,'-B',str(Path(сам.м.__file__)),'применить','--вход',str(вход),
-            '--план',str(файл),'--sha256',сам.м.хэш(файл.read_bytes())],capture_output=True,text=True,cwd=сам.ф.корень)
+        среда = dict(os.environ, PYTHONEXECUTABLE=str(сам.выходы / 'чужой-python'),
+            __PYVENV_LAUNCHER__=str(сам.выходы / 'чужой-launcher'))
+        # На macOS эти два launcher-поля влияют на sys.executable даже с -E.
+        for имя in ('PYTHONEXECUTABLE', '__PYVENV_LAUNCHER__'): среда.pop(имя, None)
+        процесс=subprocess.run([sys.executable,'-E','-s','-S','-B',str(Path(сам.м.__file__)),'применить','--вход',str(вход),
+            '--план',str(файл),'--sha256',сам.м.хэш(файл.read_bytes())],capture_output=True,text=True,cwd=сам.ф.корень,
+            env=среда)
         сам.assertEqual(0,процесс.returncode,процесс.stderr)
 
     def test_публикационный_отказ_до_подготовки(сам):

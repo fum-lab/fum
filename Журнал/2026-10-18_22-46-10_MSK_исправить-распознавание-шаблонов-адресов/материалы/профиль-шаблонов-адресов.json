@@ -1,0 +1,59 @@
+{
+  "воспроизведение": {
+    "python": "Python 3.14",
+    "каталог": "Физический корень клона FUM; новый приватный каталог выбирается переменной FUM_C579_URI_PROFILE_DIR.",
+    "код": "from pathlib import Path\nimport os,sys,hashlib,json,time,subprocess,pstats\nw=Path.cwd();p=Path(os.environ[\"FUM_C579_URI_PROFILE_DIR\"])\nassert p.is_dir() and p.resolve()==p and not p.is_symlink()\nfiles=[\"Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py\",\"Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py\",\"Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py\"]\nh=lambda b:hashlib.sha256(b).hexdigest()\nsources={x:h((w/x).read_bytes()) for x in files};runs=[]\nfor n in range(1,4):\n out=p/(\"uri-\"+str(n)+\".pstats\");assert not out.exists()\n argv=[sys.executable,\"-E\",\"-s\",\"-S\",\"-B\",\"-m\",\"cProfile\",\"-o\",str(out),\"-m\",\"unittest\",\"discover\",\"-s\",\"Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests\",\"-p\",\"test_шаблонов_адресов.py\"]\n start=time.perf_counter_ns();proc=subprocess.Popen(argv,stdout=subprocess.PIPE,stderr=subprocess.PIPE);stdout,stderr=proc.communicate();ns=time.perf_counter_ns()-start\n assert proc.returncode==0 and b\"Ran 8 tests\" in stderr,(proc.returncode,stderr.decode()[-1200:])\n stats=pstats.Stats(str(out))\n runs.append({\"номер\":n,\"pid\":proc.pid,\"код\":proc.returncode,\"процесс_нс\":ns,\"cProfile_секунд\":stats.total_tt,\"вызовов\":stats.total_calls,\"примитивных_вызовов\":stats.prim_calls,\"pstats_sha256\":h(out.read_bytes()),\"stdout_sha256\":h(stdout),\"stderr_sha256\":h(stderr)})\nassert len({r[\"pid\"] for r in runs})==3\nassert {x:h((w/x).read_bytes()) for x in files}==sources\nprint(json.dumps({\"схема\":\"fum.профиль-ограниченных-шаблонов-URI.1\",\"исходники\":sources,\"процессы\":runs,\"тестов_на_процесс\":8,\"граница\":\"Три свежих процесса стандартного cProfile. Полный интервал включает старт Python и запись pstats; подготовка каталога исключена. Кэш ОС не очищался. Ускорение ROOT или стоимость токенов не измерялись.\"},ensure_ascii=False,sort_keys=True))\n"
+  },
+  "граница": "Три свежих процесса стандартного cProfile. Полный интервал включает старт Python и запись pstats; подготовка каталога исключена. Кэш ОС не очищался. Ускорение ROOT или стоимость токенов не измерялись.",
+  "исходники": {
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "07a4b8f03553c2ddbb9b2b0a776ad4b66e1ddc50b69c6d95a531955427b96dd8",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "a32eb5ca9a09bad96640fb8faf61621f933145c1fd81ae0335f457b9ab8d27f7",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py": "dd2fd06cd106c23dd0790e4ef7da4a5f403628170246efb9d8e87d52096df678"
+  },
+  "отчётная_обёртка": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "62a133214e28eeb12cf4f6507d9de6198db5f3073746153116bb9f2860fe5d89",
+    "весь_процесс_нс": 6086284917,
+    "идентификатор": "43759ffe-1182-4dcc-9bb6-e964af420d7b"
+  },
+  "процессы": [
+    {
+      "cProfile_секунд": 0.1713044580000003,
+      "pid": 86923,
+      "pstats_sha256": "ad191f913a78e5244838d8388de36066172e0470a35b52c5215829a85ddecbe6",
+      "stderr_sha256": "60bb849356ffbc091f601e17fc6ae0b2eb5e26d734d433da020c6e775efbf97f",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "вызовов": 110058,
+      "код": 0,
+      "номер": 1,
+      "примитивных_вызовов": 107353,
+      "процесс_нс": 235070625
+    },
+    {
+      "cProfile_секунд": 0.15611292000000002,
+      "pid": 86924,
+      "pstats_sha256": "a1f739d78a5eec30c9932cb58b3fc29f97b800884aab4211bf6a37c8b693d851",
+      "stderr_sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "вызовов": 110057,
+      "код": 0,
+      "номер": 2,
+      "примитивных_вызовов": 107352,
+      "процесс_нс": 209684417
+    },
+    {
+      "cProfile_секунд": 0.15379121599999948,
+      "pid": 86925,
+      "pstats_sha256": "c9d6d93f8985f94508543063d958a9025ff3a49cfb7e8385260621afacfbbad1",
+      "stderr_sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "вызовов": 110058,
+      "код": 0,
+      "номер": 3,
+      "примитивных_вызовов": 107353,
+      "процесс_нс": 205038875
+    }
+  ],
+  "схема": "fum.профиль-ограниченных-шаблонов-URI.1",
+  "тестов_на_процесс": 8
+}

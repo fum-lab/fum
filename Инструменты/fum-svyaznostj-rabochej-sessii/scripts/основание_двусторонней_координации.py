@@ -3,9 +3,11 @@
 Метки ФС и штатный кэш предполагают одного кооперативного писателя. Смысл
 оригиналов и поздних уточнений выбирает ROOT; эвристик по словам здесь нет.
 """
+import copy
 import hashlib
 import os
 from pathlib import Path
+import stat
 import time
 import uuid
 
@@ -32,11 +34,86 @@ def хэш(сырые):
     return hashlib.sha256(сырые).hexdigest()
 
 
+class _ПредставленияПрефиксов:
+    """Закрытые индексы одной операции; каждое обращение перечитывает RAW."""
+    def __init__(сам):
+        сам.__индексы = {}
+        сам.__пути = {}
+        сам.__активен = False
+        сам.__использован = False
+        сам.__реализация = читатель._РЕАЛИЗАЦИЯ
+
+    def __enter__(сам):
+        требовать(not сам.__использован, 'область представлений уже использована')
+        сам.__использован = сам.__активен = True
+        return сам
+
+    def __exit__(сам, тип_ошибки, ошибка, трасса):
+        сам.__индексы.clear()
+        сам.__пути.clear()
+        сам.__активен = False
+
+    def прочитать(сам, поток, путь, задача, контекст):
+        требовать(сам.__активен, 'область представлений не активна')
+        обработка.проверить_контекст(контекст)
+        требовать(type(задача) is str and str(uuid.UUID(задача)) == задача,
+            'чужая задача представления')
+        текущая = хэш(Path(читатель.__file__).read_bytes()
+            + читатель._ПУТЬ_КЛАССИФИКАТОРА.read_bytes())
+        требовать(текущая == читатель._РЕАЛИЗАЦИЯ == сам.__реализация,
+            'реализация представления изменилась')
+        путь = адреса.точный_абсолютный(путь)
+        до = os.fstat(поток.fileno())
+        читатель._обычный(до)
+
+        def метка(состояние):
+            return (*читатель._метка(состояние), stat.S_IMODE(состояние.st_mode),
+                состояние.st_uid, состояние.st_gid, состояние.st_nlink)
+
+        наблюдённая = метка(до)
+        требовать(наблюдённая == метка(путь.lstat()), 'путь и FD представления различаются')
+        ключ = (задача, контекст['граница'], контекст['sha256'])
+        адрес = (str(путь), ключ)
+        требовать(адрес not in сам.__пути or сам.__пути[адрес] == наблюдённая,
+            'закреплённый путь представления изменился')
+        прежний = сам.__индексы.get(ключ)
+        if прежний is not None:
+            требовать(прежний['схема'] == читатель._СХЕМА
+                and прежний['задача'] == задача and прежний['граница'] == ключ[1]
+                and прежний['sha256'] == ключ[2]
+                and прежний['реализация'] == сам.__реализация,
+                'подменено закрытое представление')
+        поток.seek(0)
+        индекс, профиль = читатель._прочитать_поток(поток, задача, прежний,
+            только_хвост=прежний is not None, предел=контекст['граница'])
+        требовать(метка(os.fstat(поток.fileno())) == наблюдённая == метка(путь.lstat()),
+            'источник представления изменился при полном чтении')
+        требовать(индекс['схема'] == читатель._СХЕМА and индекс['задача'] == задача
+            and индекс['реализация'] == сам.__реализация
+            and обработка.контекст_снимка(индекс) == контекст
+            and type(индекс['источник']) is str and len(индекс['источник']) == 64
+            and (прежний is None or индекс['источник'] == прежний['источник'])
+            and профиль['прочитано_байтов'] == контекст['граница'],
+            'представление не подтверждено полными исходными байтами')
+        if прежний is None:
+            сам.__индексы[ключ] = copy.deepcopy(индекс)
+        сам.__пути[адрес] = наблюдённая
+        return индекс, профиль
+
+
+def _прочитать_в_операции(поток, путь, задача, контекст, представления):
+    if представления is None:
+        return читатель._прочитать_поток(поток, задача, None, предел=контекст['граница'])
+    требовать(type(представления) is _ПредставленияПрефиксов,
+        'внешнее представление префикса запрещено')
+    return представления.прочитать(поток, путь, задача, контекст)
+
+
 def проверить(корень, решение, вход):
     return _проверить(корень, решение, вход, _строгий_снимок)
 
 
-def проверить_историческое(корень, решение, вход):
+def проверить_историческое(корень, решение, вход, *, представления=None):
     """Отдельная .4: RAW и порядок префикса, затем закрытый LIVE-хвост.
 
     Возвращаемое основание относится к рассмотренному префиксу. Допустимый
@@ -44,7 +121,9 @@ def проверить_историческое(корень, решение, в
     Старый публичный проверить продолжает требовать неизменный полный кэш.
     """
     try:
-        return _проверить(корень, решение, вход, _исторический_снимок)
+        return _проверить(корень, решение, вход,
+            lambda корень, смысл, источник: _исторический_снимок(
+                корень, смысл, источник, представления=представления))
     except (читатель.ОшибкаСообщений, обработка.ОшибкаОбработки, OSError, KeyError, TypeError) as ошибка:
         raise ValueError('историческое LIVE-основание не подтверждено') from ошибка
 
@@ -73,7 +152,10 @@ def известный_служебный_хвост(событие, задач�
     def строки(объект, имена):
         return all(type(объект.get(и)) is str for и in имена)
     def части(состав, вид):
-        return type(состав) is list and all(форма(ч,{'type','text'}) and ч['type']==вид and type(ч['text']) is str for ч in состав)
+        return type(состав) is list and all((форма(ч,{'type','text'})
+            or вид=='output_text' and форма(ч,{'type','text','annotations','logprobs'})
+                and ч['annotations']==[] and ч['logprobs']==[])
+            and ч['type']==вид and type(ч['text']) is str for ч in состав)
     def вывод(значение):
         return type(значение) is str or части(значение,'input_text')
     def метаданные(объект):
@@ -93,13 +175,27 @@ def известный_служебный_хвост(событие, задач�
     if 'metadata' in событие:
         мета=событие['metadata']
         if type(мета) is not dict or мета.get('client_authored') is not False: return False
-        if (событие['type']=='response_item' and данные.get('type')=='function_call'
+        if (событие['type']=='response_item' and данные.get('type') in ('function_call','agent_message')
                 and форма(мета,{'client_authored','user_input_order'})):
             if type(мета['user_input_order']) is not int or мета['user_input_order']<0: return False
         elif (событие['type']=='response_item'
                 and данные.get('type') in ('custom_tool_call_output','function_call_output')
                 and форма(мета,{'client_authored','fallback_token_limit_override'})):
             if type(мета['fallback_token_limit_override']) is not int or мета['fallback_token_limit_override']<=0: return False
+        elif (событие['type']=='response_item' and данные.get('type')=='function_call_output'
+                and данные.get('name')=='send_message_to_thread' and данные.get('namespace')=='codex_app'
+                and форма(мета,{'client_authored','fallback_token_limit_override',
+                    'user_input_order','sender_user_messages'})):
+            # Пересланный контекст остаётся данными; ссылки связывают только
+            # получающий ход и output, не удостоверяют полномочия отправителя.
+            передано=мета['sender_user_messages'];получатель=данные.get('internal_chat_message_metadata_passthrough')
+            if (type(мета['fallback_token_limit_override']) is not int or мета['fallback_token_limit_override']<=0
+                    or type(мета['user_input_order']) is not int or мета['user_input_order']<0
+                    or not форма(передано,{'receiver_turn_id','receiver_message_id','text'})
+                    or not строки(передано,передано) or type(получатель) is not dict
+                    or not передано['receiver_turn_id'] or not передано['receiver_message_id']
+                    or передано['receiver_turn_id']!=получатель.get('turn_id')
+                    or передано['receiver_message_id']!=данные.get('id')): return False
         else:
             if not форма(мета,{'client_authored','user_input_order','retained_source'}) or type(мета['user_input_order']) is not int: return False
             источник=мета['retained_source']
@@ -108,12 +204,22 @@ def известный_служебный_хвост(событие, задач�
             if not форма(идентичность,{'message_id','role','turn_id'}) or not строки(идентичность,идентичность) or идентичность['role']!='assistant': return False
     if событие.get('type')=='response_item':
         вид=данные.get('type')
+        if вид=='agent_message':
+            # Агентский материал остаётся данными, включая непрозрачные части.
+            return (форма(событие.get('metadata'),{'client_authored','user_input_order'})
+                and форма(данные,{'type','id','author','recipient','content',
+                'internal_chat_message_metadata_passthrough'}) and строки(данные,['id','author','recipient'])
+                and метаданные(данные['internal_chat_message_metadata_passthrough'])
+                and type(данные['content']) is list and all(
+                    форма(ч,{'type','text'}) and ч['type']=='input_text' and type(ч['text']) is str
+                    or форма(ч,{'type','encrypted_content'}) and ч['type']=='encrypted_content'
+                    and type(ч['encrypted_content']) is str for ч in данные['content']))
         if вид=='message':
-            return форма(данные,{'type','id','role','phase','content','internal_chat_message_metadata_passthrough'}) and данные['role']=='assistant' and данные['phase'] in ('commentary','final') and type(данные['id']) is str and части(данные['content'],'output_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
+            return форма(данные,{'type','id','role','phase','content','internal_chat_message_metadata_passthrough'},{'status'}) and ('status' not in данные or данные['status']=='completed') and данные['role']=='assistant' and данные['phase'] in ('commentary','final') and type(данные['id']) is str and части(данные['content'],'output_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
         if вид=='reasoning':
             return форма(данные,{'type','id','encrypted_content','summary','internal_chat_message_metadata_passthrough'}) and строки(данные,['id','encrypted_content']) and части(данные['summary'],'summary_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
         формы={
-            'function_call':({'type','id','call_id','name','arguments','internal_chat_message_metadata_passthrough'},{'namespace'}),
+            'function_call':({'type','id','call_id','name','arguments','internal_chat_message_metadata_passthrough'},{'namespace','status'}),
             'custom_tool_call':({'type','id','call_id','name','input','status','internal_chat_message_metadata_passthrough'},set()),
             'custom_tool_call_output':({'type','id','call_id','output','internal_chat_message_metadata_passthrough'},set())}
         if вид=='function_call_output':
@@ -121,7 +227,7 @@ def известный_служебный_хвост(событие, задач�
             return форма(данные,имена) and строки(данные,имена-{'internal_chat_message_metadata_passthrough','output'}) and вывод(данные['output']) and метаданные(данные['internal_chat_message_metadata_passthrough'])
         if вид in формы:
             обязательные,необязательные=формы[вид]
-            return форма(данные,обязательные,необязательные) and строки(данные,set(данные)-{'internal_chat_message_metadata_passthrough','output'}) and ('output' not in данные or вывод(данные['output'])) and метаданные(данные['internal_chat_message_metadata_passthrough']) and (вид!='custom_tool_call' or данные['status']=='completed')
+            return форма(данные,обязательные,необязательные) and строки(данные,set(данные)-{'internal_chat_message_metadata_passthrough','output'}) and ('output' not in данные or вывод(данные['output'])) and метаданные(данные['internal_chat_message_metadata_passthrough']) and ('status' not in данные or данные['status']=='completed')
         return False
     if событие.get('type')=='event_msg':
         вид=данные.get('type')
@@ -142,7 +248,12 @@ def известный_служебный_хвост(событие, задач�
             if вид=='ContextCompaction': return форма(элемент,{'type','id'})
             if вид=='AgentMessage': return форма(элемент,{'type','id','phase','content'}) and элемент['phase'] in ('commentary','final') and части(элемент['content'],'Text')
             if вид=='Reasoning': return форма(элемент,{'type','id','raw_content','summary_text'}) and элемент['raw_content']==[] and type(элемент['summary_text']) is list and all(type(в) is str for в in элемент['summary_text'])
-            if вид=='SubAgentActivity': return форма(элемент,{'type','id','agent_path','agent_thread_id','kind'}) and строки(элемент,['agent_path','agent_thread_id']) and элемент['kind'] in ('started','completed','interacted')
+            if вид=='SubAgentActivity': return форма(элемент,{'type','id','agent_path','agent_thread_id','kind'},{'model','reasoning_effort'}) and строки(элемент,['agent_path','agent_thread_id']) and элемент['kind'] in ('started','completed','interacted') and all(элемент.get(и) is None for и in ('model','reasoning_effort'))
+            if вид=='CollabAgentToolCall':
+                return форма(элемент,{'type','id','tool','status','sender_thread_id','receiver_thread_ids',
+                    'receiver_agents','agents_states'}) and элемент['tool']=='wait' and элемент['status']=='completed' \
+                    and элемент['sender_thread_id']==задача and элемент['receiver_thread_ids']==элемент['receiver_agents']==[] \
+                    and элемент['agents_states']=={}
             if вид=='McpToolCall': return форма(элемент,{'type','id','arguments','duration','pluginId','result','server','status','tool'}) and строки(элемент,['pluginId','server','tool']) and type(элемент['arguments']) is dict and type(элемент['result']) is dict and длительность(элемент['duration']) and элемент['status'] in ('completed','failed')
             if вид=='CommandExecution':
                 if not форма(элемент,{'type','id','command','cwd','duration','exit_code','parsed_cmd','process_id','source','status','aggregated_output'}) or not строки(элемент,['cwd','process_id','aggregated_output']) or type(элемент['command']) is not list or not all(type(в) is str for в in элемент['command']) or type(элемент['exit_code']) is not int or элемент['source']!='unified_exec_startup' or элемент['status'] not in ('completed','failed') or not длительность(элемент['duration']) or type(элемент['parsed_cmd']) is not list: return False
@@ -249,7 +360,7 @@ def _завершить_префикс(поток, файл, идентично�
     raise ValueError('LIVE дописывается дольше трёх завершающих попыток')
 
 
-def прочитать_живой_префикс(источник, задача, контекст):
+def прочитать_живой_префикс(источник, задача, контекст, *, представления=None):
     """Полный независимый разбор B; кэш не является доказательством LIVE.
 
     Метрики EOF/хвоста возвращаются отдельно и не входят в неизменное основание.
@@ -261,7 +372,7 @@ def прочитать_живой_префикс(источник, задача,
         состояние=os.fstat(поток.fileno()); идентичность=_идентичность(состояние)
         требовать(контекст['граница']<=состояние.st_size,'LIVE-префикс усечён')
         начало=time.perf_counter_ns()
-        индекс,профиль=читатель._прочитать_поток(поток,задача,None,предел=контекст['граница'])
+        индекс,профиль=_прочитать_в_операции(поток,файл,задача,контекст,представления)
         разбор_нс=time.perf_counter_ns()-начало
         требовать(индекс['граница']==контекст['граница'] and индекс['sha256']==контекст['sha256']
             and обработка.контекст_снимка(индекс)==контекст,'подменены LIVE-префикс или порядок экземпляров')
@@ -270,23 +381,24 @@ def прочитать_живой_префикс(источник, задача,
     return индекс,{**наблюдение,'профиль':профиль,'разбор_нс':разбор_нс,'проверка_префикса':контекст}
 
 
-def _исторический_снимок(корень, смысл, источник):
+def _исторический_снимок(корень, смысл, источник, *, представления=None):
     границы.проверить_границу(источник['граница_снимка'],требовать)
-    индекс, наблюдение=прочитать_живой_префикс(источник['путь'],источник['задача'],смысл['контекст'])
+    индекс, наблюдение=прочитать_живой_префикс(источник['путь'],источник['задача'],смысл['контекст'],
+        представления=представления)
     # Граница выбора — именно исторический B, а актуальный EOF проверен отдельно.
     снимок={**индекс,'размер_снимка':индекс['граница'],'неполный_хвост':0,'дописано_после_снимка':0}
     границы.проверить_снимок(снимок,источник['граница_снимка'],требовать)
     return адреса.точный_абсолютный(источник['путь']), наблюдение, снимок
 
 
-def проверить_рассмотренный_префикс(корень, решение, вход):
+def проверить_рассмотренный_префикс(корень, решение, вход, *, представления=None):
     """Только B0; вызывающая .4 отдельно обязана проверить B1 и LIVE-хвост."""
     def прочитать(корень, смысл, источник):
         файл=адреса.точный_абсолютный(источник['путь'])
         with os.fdopen(os.open(файл,os.O_RDONLY|os.O_NOFOLLOW),'rb') as поток:
             состояние=os.fstat(поток.fileno()); идентичность=_идентичность(состояние)
             контекст=смысл['контекст']
-            индекс,_=читатель._прочитать_поток(поток,источник['задача'],None,предел=контекст['граница'])
+            индекс,_=_прочитать_в_операции(поток,файл,источник['задача'],контекст,представления)
             требовать(обработка.контекст_снимка(индекс)==контекст,'подменено историческое B0')
             наблюдение=_завершить_префикс(поток,файл,идентичность,источник['задача'],контекст,False,
                 исходная_метка=читатель._метка(состояние))
@@ -310,10 +422,10 @@ def _проверить(корень, решение, вход, получить
         'адресат или эффекты выходят из конечной координации')
     требовать(смысл['хэш_поручения']==хэш(решение['поручение'].encode()), 'подменено конечное поручение')
     акт=решение['акт']
-    state = решение.get('схема') == 'fum.смысл-дочернего-поручения.4' and вход.get('схема') == 'fum.подготовка-дочернего-поручения.6'
+    контур_состояния = решение.get('схема') == 'fum.смысл-дочернего-поручения.4' and вход.get('схема') == 'fum.подготовка-дочернего-поручения.6'
     требовать(type(акт['область']) is list and акт['область'] and all(type(п) is str and п for п in акт['область'])
         and type(акт['ветка']) is str and (акт['ветка'].startswith('refs/heads/codex/')
-            or (state and акт['ветка'] == 'refs/heads/fum-lab/fum')), 'нет конечной области')
+            or (контур_состояния and акт['ветка'] == 'refs/heads/fum-lab/fum')), 'нет конечной области')
     обычное._гит(корень,'check-ref-format',акт['ветка'])
     обычное.проверить_область(корень,акт['область'],
         [имя+'проверка-покрытия' if имя.endswith('/') else имя for имя in акт['область']])

@@ -1,0 +1,22 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-materialyi-zaprosov--svyazatj-resheniya-s-versiyami-obzorov-github--01a143bb",
+  "исполнитель": "01a143bb-7eb0-77d3-8b11-85a036b81ac2",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-materialyi-zaprosov/scripts/разбор_версий_обсуждений.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/test_разбора_версий_обсуждений.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/профиль_разбора_версий_обсуждений.py",
+    "Инструменты/fum-materialyi-zaprosov/внимание-к-обсуждениям-GitHub.md",
+    "Журнал/2026-10-16_11-34-25_MSK_связать-решения-с-версиями-обзоров/",
+    "Журнал/2026-10-16_09-43-02_MSK_провести-аудит-внедрения-состояния-узла/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "5af3e9ca52ebbb21a7ba953f9597bc5153eda6d6b1dfa26826a9feb58d1a6078",
+    "коммит": "4e363b536ce41dffb0087d92b49a7ed80f9ecab2",
+    "путь": "Планирование/карточки-шагов/🟡-FUM-STEP-0237-автоматизировать-приём-GitHub-Issues.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "0576695192f28d369a90ab879e41384f6cff85ffe26d730b71d48b67ba4a823d"
+}

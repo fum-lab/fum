@@ -3998,15 +3998,6 @@
       "reason": "Открытая автономная подстановка ответа GitHub Actions различает точный HTTP-суффикс ресурса Actions; адрес машины не используется."
     },
     {
-      "id": "role-fork-issue-one-response",
-      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/issue-1-ответ.json",
-      "kind": "posix-absolute",
-      "line_sha256": "sha256:e9ba268f79ee553599d6d33a7b81257d5069ef0e618e57b03e8ae5a62b3405ce",
-      "count": 6,
-      "category": "report.historical",
-      "reason": "Дословный сохранённый ответ GitHub issue 1 содержит шесть сегментов шаблонных URL в labels_url и полях URL пользователя; это параметры HTTP-адресов, не локальные пути."
-    },
-    {
       "id": "github-issue-one-comment-readback",
       "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/Issue-1-комментарий-проверка.json",
       "kind": "posix-absolute",
@@ -5373,15 +5364,6 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Строгое регулярное выражение адреса комментария API заданного репозитория GitHub; это определение проверки удалённого адреса, а не локальный файловый путь."
-    },
-    {
-      "id": "issues-api-single-template",
-      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
-      "kind": "posix-absolute",
-      "line_sha256": "sha256:d8a9efd0785868658e79d43540a2aa6d4b09049e05f651e95addce6d02e838cb",
-      "count": 1,
-      "category": "allow.test-fixture",
-      "reason": "Открытая автономная фикстура одиночного ответа GitHub: публичный URI-шаблон либо искусственный путь; не раскрывает состояние машины."
     },
     {
       "id": "issues-api-single-missing-body",
@@ -7254,6 +7236,708 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Сегмент относительного Git-пути отбирает конечные исходники рецепта; он не адресует корень файловой системы."
+    },
+    {
+      "id": "json-01a143f4-001",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2e5efc48b609137c414233cea21d74f86ce4dcecb3d9bcb74347d9565c7f7681",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-002",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7b6fdf37fbccec28c1ae5eaa00b8749bcf07ac01f5067b57ff14cb3d965c87ac",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-003",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bdb5a1af3078ef3cb1c8385e9476eeafe01b0315ef53636b765b1b190f4e50ae",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-004",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bff24cd5b5015f30383d0a890954f5c085e5a853d3bc9cb5ef181334bb849a85",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-005",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON-2.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfc99f319cbfddf1102ff75417ae311e56f031c51b049a608a2cf70f80141887",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-006",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2e5efc48b609137c414233cea21d74f86ce4dcecb3d9bcb74347d9565c7f7681",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-007",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7b6fdf37fbccec28c1ae5eaa00b8749bcf07ac01f5067b57ff14cb3d965c87ac",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-008",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bdb5a1af3078ef3cb1c8385e9476eeafe01b0315ef53636b765b1b190f4e50ae",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-009",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bff24cd5b5015f30383d0a890954f5c085e5a853d3bc9cb5ef181334bb849a85",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-010",
+      "path": "Журнал/2026-10-16_12-08-04_MSK_добавить-компактное-чтение-JSON-капсул/материалы/профиль-компактного-JSON.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfc99f319cbfddf1102ff75417ae311e56f031c51b049a608a2cf70f80141887",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-011",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e4971cf748c53409340844a53616dcc5e2340239e79a8c240f39992475a4e206",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные примеры выбора полей JSON Pointer RFC 6901 внутри JSON-документа без файлового адреса."
+    },
+    {
+      "id": "json-01a143f4-012",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:410244bf95c15f240ff06d282b771a5b75918424ddfb88999ee8d840962a1446",
+      "count": 3,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные примеры выбора полей JSON Pointer RFC 6901 внутри JSON-документа без файлового адреса."
+    },
+    {
+      "id": "json-01a143f4-013",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d945510e782112868402c041e12f7e192c82159d0b214e1568b8a0a280517883",
+      "count": 4,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные примеры выбора полей JSON Pointer RFC 6901 внутри JSON-документа без файлового адреса."
+    },
+    {
+      "id": "json-01a143f4-014",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0c30e45f9f0c828069ebc5c03dd6c7d4ea34d70447f811f404c33013932e5d24",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный синтаксис экранирования JSON Pointer RFC 6901 без адреса файловой системы."
+    },
+    {
+      "id": "json-01a143f4-015",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8bac95ef68f7dddb178f8079f635ed1de758ba49c4c3cf2c20c59509257dce8c",
+      "count": 3,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный синтаксис экранирования JSON Pointer RFC 6901 без адреса файловой системы."
+    },
+    {
+      "id": "json-01a143f4-016",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:925ad102c3a90175e0a3b8e49aec0b04a41db8f8131b5efc4885d8bf6351dc80",
+      "count": 3,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный синтаксис экранирования JSON Pointer RFC 6901 без адреса файловой системы."
+    },
+    {
+      "id": "json-01a143f4-017",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:66f73186ecbde917681edd1bdcc2746aee9ee40ce03df5c72c861d8e35258168",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-018",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7b3ece9d0e0f336ee63ab1dd88bdef5e05ab07ceb0a678a79f822d9e7a78210d",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-019",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:db55201fdddea42b07697d99cf600508a52f7cdc1a6389707085eae4a326d0e0",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-020",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e3a360ae70257f83b56be74a9577de7da804e211622c8693a3f2a49d283186d4",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-021",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:026f9aa8f969d95bb25df1d63581f90a7682467bfc81668a4eac467ba9d98d06",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-022",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0a17077f8a3cc599761ba1c014205476e33258c15a50583f67bb1b5e0baa948c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-023",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2d5c97d36e53b433a32e3a5419671779bb0fb96ba48ced3b4caf41e1da238254",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру отсутствующего источника для проверки закрытого отказа CLI."
+    },
+    {
+      "id": "json-01a143f4-024",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5e4bf7251fe78866c8181ca3c985a2e01a85ec9ba14adc7c675b2b6c48cd7165",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-025",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:63d1b7fa52657e2025b32c4454953afdf199adfde42afc4cf47e56a26a15451f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-026",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7b4703f119117af46e1c468f081f2768a8fbfa07fc912ede82cd09ca4c432666",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-027",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:99a9d7de3826dabfe90b2558fc4bee35c117d5bd5ddbd856f600ebaeff1a576f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-028",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b3000148ee4fa8265c78cb234441f7f9c8105807e9f3a3e9d09dfa3659b9bf85",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-029",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c4b0194d6174d0b7f37d7a68965b2203d9e24f1a8378aad70abe3ea042045b70",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-030",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c5edb37f5998e26f930f64ffed6863e8738fc7ee60cef667d619cdb5f3f5c39c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-031",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ec38618c4ca8d41aac7c2fd4f0a21a35e39d171057e6dafe4c68594c18a31c36",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели и escape-фикстуры RFC 6901 компактного JSON-читателя без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-032",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6c3ee8197cf41befb3400841c0dae5c9c618271ec0008c0530097be1570d63db",
+      "count": 4,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-033",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7a1b42c3fb4ca5ee3244c373ce1cae7874a1b79a30999246d803ec14c203af87",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "json-01a143f4-034",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_JSON.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b32b615a225ccde9c248774f86d3b147d000c5e3e9f394d6f4f3f707d08a8a0a",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точные указатели измеряемой открытой JSON-фикстуры без машинного адреса."
+    },
+    {
+      "id": "act23-relative-scripts-component",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/журнал_повторного_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b99879f5c46b82b63a287f616fd02a92e062df8e76e54d4ee28c2c188fac199d",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Составной относительный путь начинается с «Инструменты/»; выбранный литерал разделяет компоненты этого пути и самостоятельно не адресует файловую систему."
+    },
+    {
+      "id": "act23-relative-report-link-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторного_эффекта_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:10ff564708a5faf317676f8b8eb22af8b7a6f9a8d47256cf37ee8af860de4df4",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Тест собирает относительную Markdown-ссылку из имени папки Журнала и выбранного суффикса имени отчёта; литерал самостоятельно не обозначает абсолютный путь."
+    },
+    {
+      "id": "live-writer-0228-termios-bitwise",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/живое_восстановление_писателя.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a127f6d4ff05766ceb9b02d661c439fe21350fd253e10c58ec7646679ce40ce5",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Побитовое отрицание флагов терминала в присваивании; эта строка не описывает домашний каталог."
+    },
+    {
+      "id": "live-writer-0228-uuid-regex",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fc1d7867c9939a78b0778fdfa81700f5416546c038f42bd3ab11f8bde20526e0",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Регулярное выражение идентификатора: косые черты служат разделителями выражения и не обозначают путь."
+    },
+    {
+      "id": "live-writer-0228-sha256-regex",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:75c79ecbf7baae47af5bb80f972485a5048ddab9a6fcf2173b2bf739cfe9c340",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Регулярное выражение хэша SHA256: косые черты служат разделителями выражения и не обозначают путь."
+    },
+    {
+      "id": "live-writer-0228-controller-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_живого_восстановления_писателя.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:415ba217aeb4254731b05470e1ed6a016c67948afd1d20415032ddc1e3987455",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Буквальный суффикс пути контроллера соединяется с явно выбранным корнем; самостоятельного адреса компьютера нет."
+    },
+    {
+      "id": "node-state-checker-transition-20",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cca36243637d9658d32138982211651107bf58ffe82e19a69b98aadfb87679e1",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-122",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:db9590b7208cc7b793dcc4ae688a086cbb6160cdcaf0d9b852f25e08ebef109c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-127",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5bb9d559dca365de041712b53922cb6581f60732c1fd6bc9dce50e370ccc62af",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-128",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2f6d24fe2c34a8f63d5596d6a8cf9d4b80a99de93245326d812066641d39d658",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-161",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ec37c02b5ac554f08d27ed57a6fd44e91526f6f071fb00e13ddebc32c4f57354",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-180",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:587e03831b2dc9a5c2bc0533f6e6573b2c6aa9836019214d032dfd23fb7207ab",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Оператор Path и относительный каталог открытых фикстур checker; не абсолютный путь машины."
+    },
+    {
+      "id": "node-state-checker-transition-196",
+      "path": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_ветка_состояния_узла.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4309c2d2cf1e7538e23e82dd652f0ed7c7ac4c5da4531246109615576dea193f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Намеренно небезопасные значения автономного отрицательного теста; не путь рабочей машины."
+    },
+    {
+      "id": "issue341-malformed-tail-basic",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:472baa2e51c6a2048cc381c7bead138e7c213ab8b88bc02a85acd0a969066934",
+      "count": 6,
+      "category": "allow.test-fixture",
+      "reason": "Намеренные неправильные хвосты: незакрытая переменная, звёздочка и начальная цифра. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-context",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:76f2ae47fd74369843f43bd7199bef5271a637be9433cffc31404abd83197917",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Намеренные неподдержанные переменные и буквальное продолжение. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-continuation",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d4d62cd72bec7ebf8af6d81b855ce24721237dd779339d4db6cf85cc81ebd843",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Намеренные лишняя скобка, путь и query после правильного префикса. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-fragment",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b81ad5330c06a9a1c58e8ac364990405b174bd75a1f68a17a3bc63c38203c536",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Намеренный фрагмент после переменной. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-home-prefix",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:656198923395dea72a6567f679c3145df56eb70ad336526e2e1deb6c7ff1b693",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Префикс составного неподдержанного параметра, разделённый со вторым видом пути по физическим строкам. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-home-variable",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:7c4f890fcbe74668db7f57e12d2b3a8114a15565eee8acdf09c78025dfb9e2ee",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Намеренный составной псевдопараметр с искусственной домашней формой. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-malformed-tail-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:248ad4fa3ff7e9d14ad66615afe91013d166fbc036390413a21ed803cd4d308f",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый нескрытый путь неправильного хвоста. Открытая автономная фикстура, без пути машины. Та же точная строка повторяется в другом отрицательном сценарии; число совпадений выводит штатный обновитель."
+    },
+    {
+      "id": "issue341-invalid-authority-template",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a903a1f3bc57165f9ae47671c48c835b773e3c506ab1848b747d01e5de3936be",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Именованный хвост при неправильном HTTP authority должен остаться находкой. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-file-uri-prefix",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:ed85e641b21e37866248c6009817b317e92341a4ee2fb0b632145ce905a094a5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая искусственная файловая URI-фикстура. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-other-scheme-template",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9f2f80230720f22beb7fe8768035238713a41e16f0161e529c950b452c1c24c9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Непоглощённый хвост файловой и иной схемы. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-other-scheme-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:72b5feea43c5405a022d5da12deacaf071bb9c4341dfcefa3f09c4e096546d8e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый нескрытый путь иной схемы. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-neighbor-source",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ce31641f48c3bf4fa437d61d789d9758c768e6eb33ec8e1cb1175b8921aa5f98",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный соседний путь после разделителя. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-neighbor-pair-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2ff6beae19a9984774c18602cd6c0609d68074d7da26b7149317bb723e7a2a49",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый соседний путь в полном результате. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-neighbor-local-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:63ccec02a396ed753b45e7eea0fd7ddaeccdaa397064e71d7600dd710d3c8dbe",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый соседний путь без web-форм. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-home-neighbor-source",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:c44f81c4d8186d6fe73e396e1fbf19ab2d385fd60cced3263152b41740038cf0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный домашний путь сразу после закрывающей кавычки. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-home-neighbor-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:85762f1c45822db3f29a537dd1ad6c8a6e507ba19a9eeb1bc1ca1e5709e2a954",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемая домашняя форма соседнего пути. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-inline-tail-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:276cee26e31ab0a30e2ec9535faf4b10a904a99e370e8ae4883fcff639016359",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый нескрытый путь рядом с закрывающей обратной кавычкой. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-bare-template-source",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fdbb03de0f1b56e9f5029d61574f29117dd8cce947559c36f2f4862d05f17a5b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Самостоятельная переменная вне HTTP-адреса остаётся кандидатом пути. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-bare-template-expected",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:48abf453c7331f6e6c05f4021f319d215c437df1a4df66dc63c59b3f890016cb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Ожидаемый путь самостоятельной переменной. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue341-document-local-body",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_шаблонов_адресов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b99543ba8a0706a0159d16650d442c455e8aa30bc89310655083ec555660c975",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный настоящий путь в JSON обычного документа. Открытая автономная фикстура, без пути машины."
+    },
+    {
+      "id": "issue301-invalid-symlink-worker-fixture",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6442b2259f341f7b586571f59b62e0fa8fa17ba7e9bcf0864bb62062b48f17c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура создаёт внешнюю символическую ссылку для проверки отказа строгого индекса. Литерал не задаёт рабочую конфигурацию приложения."
+    },
+    {
+      "id": "issue301-invalid-symlink-invalidation-fixture",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:93943223d10661c0753f9b3e18a71416f3cb19494dc2cd242ed247300b73ac65",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная проверка инвалидации намеренно заменяет файл внешней символической ссылкой и требует отказа индекса. Литерал относится только к выбранному отрицательному тесту."
+    },
+    {
+      "id": "independent-merge-test-materials-relative-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_слияния_независимых_журналов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1cb5a27770018be3d8896d9c7ba74accd39fb9d02684a6debf77d4d130d715bd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "В тестовой фикстуре суффикс материалов соединяется с относительным каталогом записи Журнала; строка не задаёт машинный абсолютный путь."
+    },
+    {
+      "id": "independent-merge-test-materials-prefix-relative",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_слияния_независимых_журналов.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0f09d7d202864258ed1189170df22a0b1562770495b672861547594a67b36746",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "В проверке теста суффикс материалов добавляется к пути, полученному relative_to корня фикстуры; литерал является частью относительного пути."
+    },
+    {
+      "id": "independent-merge-request-relative-syntax",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8d663c6eafcff6b021bd929674c6c0f07d0c43a8b8dafaafbc4c05611d5aa530",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс имени запроса соединяется с относительным каталогом Журнала при строгом сравнении пути; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "independent-journal-name-relative-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a99a8ac49802fa218dd589dfc465b14cd18abf86d677c1146bb0a3a41da77ea0",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс имени запроса присоединяется к относительному каталогу Журнала после строгой проверки канонического имени; отдельным машинным абсолютным путём этот фрагмент не используется."
+    },
+    {
+      "id": "root-hidden-import-historical-url-20261025",
+      "path": "Журнал/2026-10-25_02-04-33_MSK_разрешить-защищённый-импорт-настроек-дочернего-слияния/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:518291a9bdf885a2500fff73b624c8f749d1e3734796896f3ffee75310714dab",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный видимый ответ ROOT из проверенного B23: фрагмент именованного хвоста веб-адреса, без схемы локального пути. Исходник и позиция сохранены."
+    },
+    {
+      "id": "root-hidden-import-historical-tilde-20261025",
+      "path": "Журнал/2026-10-25_02-04-33_MSK_разрешить-защищённый-импорт-настроек-дочернего-слияния/отчёт.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:00d8c7ba3db662636071b3aae82404e196f0ce6cabc7ebc79975441b7eacf306",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный видимый ответ ROOT из проверенного B23 упоминает синтаксическую тильду; это историческая цитата, исходные байты не меняются."
+    },
+    {
+      "id": "child-merge-request-relative-suffix-20261025",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_дочернего_слияния_контрольной_точки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b9b80263645165bbde2147d0e94a71b5f45cbda01291494b0261103cb627d244",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Прежняя строка принятого94710: суффикс относительного имени запроса соединяется с именем своей фикстуры Журнала; не адрес локальной машины."
+    },
+    {
+      "id": "issue301-c19-class-literal-neutral-context",
+      "path": "Журнал/2026-10-17_09-38-43_MSK_сохранить-постановку-строгого-индекса-и-поручение-256/запрос.md",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:5917d4d6ac927d34c264c8a88a43bceadb6ff93afc4d5c7eac231b0c2310ba92",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Пояснительная строка определяет синтаксический класс в исходном поручении и не задаёт адрес файловой системы. Исторический текст сохраняется без изменений."
+    },
+    {
+      "id": "github-pr-379-archive-uri",
+      "path": "Issues/fum-lab/fum/данные/e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e75e4317b01903b3cced048d9e8812f9737d1bf0e906c07f7efdcb0b02de126f",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Два параметра ref являются операторами URI-шаблона archive_url в исходном публичном ответе GitHub PR379 (head.repo/base.repo), а не адресами файловой системы. Точное число, SHA полной строки и путь выводятся штатным updater; изменение байтов закрывает исключение."
     }
   ],
   "метаданные": [

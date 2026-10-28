@@ -27,7 +27,9 @@ from test_request_folder_layout import RepositoryFixture as Основа
     'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py',
     'Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json',
     'Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон',
-    'Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон')
+    'Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон',
+    'Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py',
+    'Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py')
 
 
 def байты(значение):

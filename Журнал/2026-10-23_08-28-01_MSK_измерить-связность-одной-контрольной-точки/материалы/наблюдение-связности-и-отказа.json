@@ -1,0 +1,1005 @@
+{
+  "cpu_self_ns": 185126902000,
+  "maxRSS_байты_macos": 788561920,
+  "profiler": {
+    "builtins": true,
+    "subcalls": true,
+    "частный_полный_pstats_sha256": "3f50560b88a9f8570b8c951f7eeb2379f93b40c638a0ed49118673f83afa0fda",
+    "число_функций": 1104
+  },
+  "wall_ns": 190754602625,
+  "выбранные_связи_вызовов": [
+    {
+      "calls": 1,
+      "cumulative_s": 190.75071375000002,
+      "primitive_calls": 1,
+      "self_s": 0.016470790000000003,
+      "вызывающие": [],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 58.680098542,
+      "primitive_calls": 2,
+      "self_s": 0.000321248,
+      "вызывающие": [
+        {
+          "calls": 2,
+          "cumulative_s": 58.680098542,
+          "primitive_calls": 2,
+          "self_s": 0.000321248,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py:278:проверить_контракт"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 54.161237958,
+      "primitive_calls": 1,
+      "self_s": 0.504562799,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 54.161237958,
+          "primitive_calls": 1,
+          "self_s": 0.504562799,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1504:validate_markdown_links"
+    },
+    {
+      "calls": 42196,
+      "cumulative_s": 10.694519964000001,
+      "primitive_calls": 42196,
+      "self_s": 0.6233214100000001,
+      "вызывающие": [
+        {
+          "calls": 42178,
+          "cumulative_s": 10.604774837,
+          "primitive_calls": 42178,
+          "self_s": 0.6168454400000001,
+          "источник": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:474:_проверить_смешанный_проход"
+        },
+        {
+          "calls": 6,
+          "cumulative_s": 0.047233583,
+          "primitive_calls": 6,
+          "self_s": 0.0035614550000000003,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py:278:проверить_контракт"
+        },
+        {
+          "calls": 4,
+          "cumulative_s": 0.035376125,
+          "primitive_calls": 4,
+          "self_s": 0.0023506490000000002,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py:62:прочитать_объект_гита"
+        },
+        {
+          "calls": 6,
+          "cumulative_s": 0.006784293,
+          "primitive_calls": 6,
+          "self_s": 0.000523033,
+          "источник": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:98:_ресурсы"
+        },
+        {
+          "calls": 2,
+          "cumulative_s": 0.000351126,
+          "primitive_calls": 2,
+          "self_s": 4.0833e-05,
+          "источник": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:302:_живое_дерево"
+        }
+      ],
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:61:точный_путь"
+    },
+    {
+      "calls": 78716,
+      "cumulative_s": 7.3494622220000005,
+      "primitive_calls": 78716,
+      "self_s": 0.194147164,
+      "вызывающие": [
+        {
+          "calls": 78708,
+          "cumulative_s": 7.348604765,
+          "primitive_calls": 78708,
+          "self_s": 0.19412420700000002,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1504:validate_markdown_links"
+        },
+        {
+          "calls": 8,
+          "cumulative_s": 0.000857457,
+          "primitive_calls": 8,
+          "self_s": 2.2957e-05,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1766:affected_files_from_request"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1304:resolve_markdown_target"
+    },
+    {
+      "calls": 77806,
+      "cumulative_s": 6.072676821,
+      "primitive_calls": 77806,
+      "self_s": 0.42145808,
+      "вызывающие": [
+        {
+          "calls": 77806,
+          "cumulative_s": 6.072676821,
+          "primitive_calls": 77806,
+          "self_s": 0.42145808,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1504:validate_markdown_links"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1315:actual_case_path"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 4.512673666,
+      "primitive_calls": 1,
+      "self_s": 3.125e-06,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 4.512673666,
+          "primitive_calls": 1,
+          "self_s": 3.125e-06,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2034:validate_md_recency"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 4.512548666000001,
+      "primitive_calls": 1,
+      "self_s": 0.0032335410000000004,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 4.512548666000001,
+          "primitive_calls": 1,
+          "self_s": 0.0032335410000000004,
+          "источник": "<Python>/lib/python3.14/contextlib.py:82:inner"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py:461:проверить_полную_свежесть"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 4.299938458000001,
+      "primitive_calls": 1,
+      "self_s": 3.6709000000000004e-05,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 4.299938458000001,
+          "primitive_calls": 1,
+          "self_s": 3.6709000000000004e-05,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:956:validate_journal"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 4.294809375000001,
+      "primitive_calls": 1,
+      "self_s": 3.3544e-05,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 4.294809375000001,
+          "primitive_calls": 1,
+          "self_s": 3.3544e-05,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:915:проверить_машинный_отчёт_о_запусках"
+        }
+      ],
+      "функция": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py:2484:проверить_журнал_сессии"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 3.564735208,
+      "primitive_calls": 1,
+      "self_s": 0.116350069,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 3.564735208,
+          "primitive_calls": 1,
+          "self_s": 0.116350069,
+          "источник": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py:2054:текущий_контекст_проверок"
+        }
+      ],
+      "функция": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py:615:вычислить_отпечаток_содержимого"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 1.9327310000000002,
+      "primitive_calls": 1,
+      "self_s": 0.0024501310000000004,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 1.9327310000000002,
+          "primitive_calls": 1,
+          "self_s": 0.0024501310000000004,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1371:all_markdown_files"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 0.29912,
+      "primitive_calls": 1,
+      "self_s": 0.000103906,
+      "вызывающие": [
+        {
+          "calls": 1,
+          "cumulative_s": 0.29912,
+          "primitive_calls": 1,
+          "self_s": 0.000103906,
+          "источник": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+        }
+      ],
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1931:validate_git_status"
+    }
+  ],
+  "граница": "Один полный актуальный validate_session без активного RAW, с терминальным RAW1. До и после сверены текущие цели, все Python, частные источники, HEAD/ref/status и Git-индекс. Импорты, снимки состояния и сериализация вне окна. Cumulative интервалы вложены, не суммируются; wall инструментирован и не является контролируемым A/B. Prepare/READY/Create не выполнялись.",
+  "исключение": null,
+  "историческое_уточнение": {
+    "источник": {
+      "sha256": "7d4ea599928f168c55d7cbb42be29f4d683ca359a6ffae7754743a979405e358",
+      "коммит": "b3bc9dc64ac570803f04a7da6f8c892130972209",
+      "путь": "Журнал/2026-10-16_23-12-42_MSK_подготовить-обычный-запуск-цепи/отчёт.md"
+    },
+    "факт": "Переход с maker .5/подготовки .9 на независимый maker .9, новый S(H)/nav и ROOT9. Между 57.09 и 434.46 с контур изменился; точных исторических argv/SHA проверителя в RAW нет."
+  },
+  "исходный_профиль_sha256": "7328db5f960a9552daa33191596da319dcfc40eec9b5809701e596a162a58e76",
+  "лидеры_cumulative": [
+    {
+      "calls": 1,
+      "cumulative_s": 190.75071375000002,
+      "primitive_calls": 1,
+      "self_s": 0.016470790000000003,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:2062:validate_session"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 65.27645416600001,
+      "primitive_calls": 1,
+      "self_s": 0.13266535200000001,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py:1645:_validate_no_legacy_references"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 58.680098542,
+      "primitive_calls": 2,
+      "self_s": 0.000321248,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py:278:проверить_контракт"
+    },
+    {
+      "calls": 4341,
+      "cumulative_s": 56.045969265000004,
+      "primitive_calls": 4341,
+      "self_s": 0.156672221,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py:1595:_markdown_has_active_legacy_link"
+    },
+    {
+      "calls": 1,
+      "cumulative_s": 54.161237958,
+      "primitive_calls": 1,
+      "self_s": 0.504562799,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1504:validate_markdown_links"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 47.829161416000005,
+      "primitive_calls": 2,
+      "self_s": 0.021710708000000002,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:451:проверить_смешанный"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 47.807450708000005,
+      "primitive_calls": 2,
+      "self_s": 0.033167957000000005,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:465:_проверить_смешанный_с_навигацией"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 44.6689865,
+      "primitive_calls": 2,
+      "self_s": 0.206246383,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:474:_проверить_смешанный_проход"
+    },
+    {
+      "calls": 9813,
+      "cumulative_s": 41.579568312,
+      "primitive_calls": 9813,
+      "self_s": 5.196230819,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py:580:_markdown_link_tokens"
+    },
+    {
+      "calls": 824735,
+      "cumulative_s": 30.165635700000003,
+      "primitive_calls": 824735,
+      "self_s": 1.718927638,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:476:relative_to"
+    },
+    {
+      "calls": 6,
+      "cumulative_s": 22.710407207000003,
+      "primitive_calls": 6,
+      "self_s": 0.000268414,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:284:_дерево_коммита"
+    },
+    {
+      "calls": 6,
+      "cumulative_s": 22.339679918,
+      "primitive_calls": 6,
+      "self_s": 4.2458000000000006e-05,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py:30:проверенный_разбор_дерева"
+    },
+    {
+      "calls": 6,
+      "cumulative_s": 22.33963525,
+      "primitive_calls": 6,
+      "self_s": 0.39563527400000004,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:289:_разобрать_дерево_коммита"
+    },
+    {
+      "calls": 4,
+      "cumulative_s": 20.686748166,
+      "primitive_calls": 4,
+      "self_s": 0.005205126,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:432:построить_принятый_индекс"
+    },
+    {
+      "calls": 325532,
+      "cumulative_s": 19.968203284,
+      "primitive_calls": 325532,
+      "self_s": 0.763442861,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py:85:путь"
+    },
+    {
+      "calls": 9659404,
+      "cumulative_s": 19.429085527,
+      "primitive_calls": 9659404,
+      "self_s": 10.382877386,
+      "функция": "<builtin>:0:<method 'join' of 'str' objects>"
+    },
+    {
+      "calls": 9813,
+      "cumulative_s": 19.083918199000003,
+      "primitive_calls": 9813,
+      "self_s": 6.872145397000001,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:476:markdown_hidden_mask"
+    },
+    {
+      "calls": 814130,
+      "cumulative_s": 18.656169188,
+      "primitive_calls": 814130,
+      "self_s": 0.43464176200000004,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:932:resolve"
+    },
+    {
+      "calls": 824735,
+      "cumulative_s": 18.404954444,
+      "primitive_calls": 824735,
+      "self_s": 1.212447796,
+      "функция": "<frozen _collections_abc>:1025:__contains__"
+    },
+    {
+      "calls": 349020,
+      "cumulative_s": 17.112065973,
+      "primitive_calls": 349020,
+      "self_s": 3.5909033380000004,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py:70:строка"
+    },
+    {
+      "calls": 4,
+      "cumulative_s": 16.827068832000002,
+      "primitive_calls": 4,
+      "self_s": 0.161197008,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:320:_файлы_коммита"
+    },
+    {
+      "calls": 814132,
+      "cumulative_s": 16.725371241,
+      "primitive_calls": 814132,
+      "self_s": 4.537104792,
+      "функция": "<frozen posixpath>:388:realpath"
+    },
+    {
+      "calls": 6829898,
+      "cumulative_s": 14.934416444000002,
+      "primitive_calls": 6829898,
+      "self_s": 11.220288948,
+      "функция": "<builtin>:0:<built-in method posix.lstat>"
+    },
+    {
+      "calls": 8609846,
+      "cumulative_s": 14.289239948,
+      "primitive_calls": 8609846,
+      "self_s": 3.707657626,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:251:__str__"
+    },
+    {
+      "calls": 8253550,
+      "cumulative_s": 14.145020264000001,
+      "primitive_calls": 8253550,
+      "self_s": 4.136600628,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:341:drive"
+    },
+    {
+      "calls": 3661487,
+      "cumulative_s": 13.471553325,
+      "primitive_calls": 3661487,
+      "self_s": 0.855652205,
+      "функция": "<frozen _collections_abc>:1015:__iter__"
+    },
+    {
+      "calls": 41413436,
+      "cumulative_s": 13.351622126,
+      "primitive_calls": 41413436,
+      "self_s": 8.758539136000001,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py:75:<genexpr>"
+    },
+    {
+      "calls": 77806,
+      "cumulative_s": 12.640590989000001,
+      "primitive_calls": 77806,
+      "self_s": 0.23779898400000002,
+      "функция": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py:181:is_structurally_excluded_path"
+    },
+    {
+      "calls": 2836774,
+      "cumulative_s": 12.61606433,
+      "primitive_calls": 2836774,
+      "self_s": 1.961733817,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:63:__getitem__"
+    },
+    {
+      "calls": 84106,
+      "cumulative_s": 12.581466465,
+      "primitive_calls": 84106,
+      "self_s": 0.48495644600000004,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:1107:resolve_destination"
+    },
+    {
+      "calls": 6137405,
+      "cumulative_s": 11.624670680000001,
+      "primitive_calls": 6137405,
+      "self_s": 2.8993444860000004,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:157:with_segments"
+    },
+    {
+      "calls": 3872988,
+      "cumulative_s": 11.197401814000001,
+      "primitive_calls": 3872988,
+      "self_s": 1.4583088370000001,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:269:_from_parsed_parts"
+    },
+    {
+      "calls": 42196,
+      "cumulative_s": 10.694519964000001,
+      "primitive_calls": 42196,
+      "self_s": 0.6233214100000001,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:61:точный_путь"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 10.63404425,
+      "primitive_calls": 2,
+      "self_s": 0.001246083,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py:80:прочитать_состав"
+    },
+    {
+      "calls": 128295695,
+      "cumulative_s": 9.610932948,
+      "primitive_calls": 122621834,
+      "self_s": 8.661921438,
+      "функция": "<builtin>:0:<built-in method builtins.len>"
+    },
+    {
+      "calls": 373585,
+      "cumulative_s": 9.561005755,
+      "primitive_calls": 373585,
+      "self_s": 0.38565844200000005,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:768:reference_destination_on_line"
+    },
+    {
+      "calls": 9123295,
+      "cumulative_s": 9.538627892000001,
+      "primitive_calls": 9123295,
+      "self_s": 5.750298141,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:135:__init__"
+    },
+    {
+      "calls": 3227005,
+      "cumulative_s": 9.227281317000001,
+      "primitive_calls": 3227005,
+      "self_s": 0.872093639,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:190:__fspath__"
+    },
+    {
+      "calls": 4506396,
+      "cumulative_s": 8.760399966000001,
+      "primitive_calls": 4506396,
+      "self_s": 1.89910716,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:217:__eq__"
+    },
+    {
+      "calls": 2,
+      "cumulative_s": 7.557341292,
+      "primitive_calls": 2,
+      "self_s": 4.7210000000000004e-05,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:419:дерево_состава"
+    },
+    {
+      "calls": 3872988,
+      "cumulative_s": 7.53094028,
+      "primitive_calls": 3872988,
+      "self_s": 0.8856074930000001,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:276:_from_parsed_string"
+    },
+    {
+      "calls": 9578319,
+      "cumulative_s": 7.526097656,
+      "primitive_calls": 9578319,
+      "self_s": 3.3933561830000003,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:198:_str_normcase"
+    },
+    {
+      "calls": 78716,
+      "cumulative_s": 7.3494622220000005,
+      "primitive_calls": 78716,
+      "self_s": 0.194147164,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1304:resolve_markdown_target"
+    },
+    {
+      "calls": 6,
+      "cumulative_s": 7.099476791000001,
+      "primitive_calls": 6,
+      "self_s": 0.438382496,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py:387:_project_relative_files"
+    },
+    {
+      "calls": 4949834,
+      "cumulative_s": 7.065926373000001,
+      "primitive_calls": 4949834,
+      "self_s": 3.483198524,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:281:_parse_path"
+    },
+    {
+      "calls": 78726,
+      "cumulative_s": 6.886401331,
+      "primitive_calls": 78726,
+      "self_s": 0.115229781,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:329:repo_relative"
+    },
+    {
+      "calls": 8,
+      "cumulative_s": 6.6234842490000005,
+      "primitive_calls": 8,
+      "self_s": 1.6532896940000001,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:241:_проверить_структуру"
+    },
+    {
+      "calls": 52,
+      "cumulative_s": 6.113631001000001,
+      "primitive_calls": 52,
+      "self_s": 0.0018109150000000002,
+      "функция": "<Python>/lib/python3.14/subprocess.py:513:run"
+    },
+    {
+      "calls": 77806,
+      "cumulative_s": 6.072676821,
+      "primitive_calls": 77806,
+      "self_s": 0.42145808,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py:1315:actual_case_path"
+    },
+    {
+      "calls": 52,
+      "cumulative_s": 5.802156583,
+      "primitive_calls": 52,
+      "self_s": 0.0012241250000000002,
+      "функция": "<Python>/lib/python3.14/subprocess.py:1177:communicate"
+    }
+  ],
+  "лидеры_self": [
+    {
+      "calls": 6829898,
+      "cumulative_s": 14.934416444000002,
+      "primitive_calls": 6829898,
+      "self_s": 11.220288948,
+      "функция": "<builtin>:0:<built-in method posix.lstat>"
+    },
+    {
+      "calls": 9659404,
+      "cumulative_s": 19.429085527,
+      "primitive_calls": 9659404,
+      "self_s": 10.382877386,
+      "функция": "<builtin>:0:<method 'join' of 'str' objects>"
+    },
+    {
+      "calls": 41413436,
+      "cumulative_s": 13.351622126,
+      "primitive_calls": 41413436,
+      "self_s": 8.758539136000001,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py:75:<genexpr>"
+    },
+    {
+      "calls": 128295695,
+      "cumulative_s": 9.610932948,
+      "primitive_calls": 122621834,
+      "self_s": 8.661921438,
+      "функция": "<builtin>:0:<built-in method builtins.len>"
+    },
+    {
+      "calls": 9813,
+      "cumulative_s": 19.083918199000003,
+      "primitive_calls": 9813,
+      "self_s": 6.872145397000001,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:476:markdown_hidden_mask"
+    },
+    {
+      "calls": 9123295,
+      "cumulative_s": 9.538627892000001,
+      "primitive_calls": 9123295,
+      "self_s": 5.750298141,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:135:__init__"
+    },
+    {
+      "calls": 60231,
+      "cumulative_s": 5.3306213950000005,
+      "primitive_calls": 60231,
+      "self_s": 5.3306213950000005,
+      "функция": "<builtin>:0:<method 'poll' of 'select.poll' objects>"
+    },
+    {
+      "calls": 9813,
+      "cumulative_s": 41.579568312,
+      "primitive_calls": 9813,
+      "self_s": 5.196230819,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py:580:_markdown_link_tokens"
+    },
+    {
+      "calls": 82130132,
+      "cumulative_s": 4.593204569,
+      "primitive_calls": 82130132,
+      "self_s": 4.593204569,
+      "функция": "<builtin>:0:<built-in method builtins.ord>"
+    },
+    {
+      "calls": 814132,
+      "cumulative_s": 16.725371241,
+      "primitive_calls": 814132,
+      "self_s": 4.537104792,
+      "функция": "<frozen posixpath>:388:realpath"
+    },
+    {
+      "calls": 8253550,
+      "cumulative_s": 14.145020264000001,
+      "primitive_calls": 8253550,
+      "self_s": 4.136600628,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:341:drive"
+    },
+    {
+      "calls": 46838368,
+      "cumulative_s": 3.778157005,
+      "primitive_calls": 46838368,
+      "self_s": 3.778157005,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:776:<genexpr>"
+    },
+    {
+      "calls": 43592372,
+      "cumulative_s": 3.7393755110000004,
+      "primitive_calls": 43592372,
+      "self_s": 3.7392098860000003,
+      "функция": "<builtin>:0:<built-in method builtins.isinstance>"
+    },
+    {
+      "calls": 8609846,
+      "cumulative_s": 14.289239948,
+      "primitive_calls": 8609846,
+      "self_s": 3.707657626,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:251:__str__"
+    },
+    {
+      "calls": 349020,
+      "cumulative_s": 17.112065973,
+      "primitive_calls": 349020,
+      "self_s": 3.5909033380000004,
+      "функция": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py:70:строка"
+    },
+    {
+      "calls": 42934416,
+      "cumulative_s": 3.5176113570000003,
+      "primitive_calls": 42934416,
+      "self_s": 3.5176113570000003,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:544:<genexpr>"
+    },
+    {
+      "calls": 4949834,
+      "cumulative_s": 7.065926373000001,
+      "primitive_calls": 4949834,
+      "self_s": 3.483198524,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:281:_parse_path"
+    },
+    {
+      "calls": 9578319,
+      "cumulative_s": 7.526097656,
+      "primitive_calls": 9578319,
+      "self_s": 3.3933561830000003,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:198:_str_normcase"
+    },
+    {
+      "calls": 131583,
+      "cumulative_s": 3.331712474,
+      "primitive_calls": 131583,
+      "self_s": 3.331712474,
+      "функция": "<builtin>:0:<method 'count' of 'str' objects>"
+    },
+    {
+      "calls": 6137405,
+      "cumulative_s": 11.624670680000001,
+      "primitive_calls": 6137405,
+      "self_s": 2.8993444860000004,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:157:with_segments"
+    },
+    {
+      "calls": 106109,
+      "cumulative_s": 2.917796203,
+      "primitive_calls": 106109,
+      "self_s": 2.8419609290000003,
+      "функция": "<builtin>:0:<built-in method _io.open>"
+    },
+    {
+      "calls": 84106,
+      "cumulative_s": 3.652349241,
+      "primitive_calls": 84106,
+      "self_s": 2.2067854820000004,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:1053:markdown_unescape"
+    },
+    {
+      "calls": 21595122,
+      "cumulative_s": 2.1106554920000002,
+      "primitive_calls": 21595122,
+      "self_s": 2.1106554920000002,
+      "функция": "<builtin>:0:<method 'append' of 'list' objects>"
+    },
+    {
+      "calls": 6877223,
+      "cumulative_s": 4.299261107,
+      "primitive_calls": 6877223,
+      "self_s": 2.1086009160000003,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:261:_format_parsed_parts"
+    },
+    {
+      "calls": 6883013,
+      "cumulative_s": 2.0245016540000003,
+      "primitive_calls": 6883013,
+      "self_s": 2.0245016540000003,
+      "функция": "<builtin>:0:<method 'split' of 'str' objects>"
+    },
+    {
+      "calls": 826946,
+      "cumulative_s": 3.509271963,
+      "primitive_calls": 826946,
+      "self_s": 1.966933846,
+      "функция": "<builtin>:0:<built-in method posix.stat>"
+    },
+    {
+      "calls": 2836774,
+      "cumulative_s": 12.61606433,
+      "primitive_calls": 2836774,
+      "self_s": 1.961733817,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:63:__getitem__"
+    },
+    {
+      "calls": 4506396,
+      "cumulative_s": 8.760399966000001,
+      "primitive_calls": 4506396,
+      "self_s": 1.89910716,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:217:__eq__"
+    },
+    {
+      "calls": 3154747,
+      "cumulative_s": 3.8165363150000005,
+      "primitive_calls": 16090,
+      "self_s": 1.7249214730000002,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py:1628:_json_active_legacy"
+    },
+    {
+      "calls": 824735,
+      "cumulative_s": 30.165635700000003,
+      "primitive_calls": 824735,
+      "self_s": 1.718927638,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:476:relative_to"
+    },
+    {
+      "calls": 8,
+      "cumulative_s": 6.6234842490000005,
+      "primitive_calls": 8,
+      "self_s": 1.6532896940000001,
+      "функция": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py:241:_проверить_структуру"
+    },
+    {
+      "calls": 16443199,
+      "cumulative_s": 4.8265103300000005,
+      "primitive_calls": 15950426,
+      "self_s": 1.5378253910000002,
+      "функция": "<builtin>:0:<built-in method posix.fspath>"
+    },
+    {
+      "calls": 915736,
+      "cumulative_s": 2.4710234100000004,
+      "primitive_calls": 915736,
+      "self_s": 1.49852249,
+      "функция": "<frozen posixpath>:72:join"
+    },
+    {
+      "calls": 149129,
+      "cumulative_s": 2.421349389,
+      "primitive_calls": 149129,
+      "self_s": 1.4589481020000001,
+      "функция": "<Python>/lib/python3.14/urllib/parse.py:677:_unquote_impl"
+    },
+    {
+      "calls": 3872988,
+      "cumulative_s": 11.197401814000001,
+      "primitive_calls": 3872988,
+      "self_s": 1.4583088370000001,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:269:_from_parsed_parts"
+    },
+    {
+      "calls": 4631373,
+      "cumulative_s": 1.433084242,
+      "primitive_calls": 4631373,
+      "self_s": 1.433084242,
+      "функция": "<builtin>:0:<built-in method posix._path_splitroot_ex>"
+    },
+    {
+      "calls": 3069879,
+      "cumulative_s": 5.303410279,
+      "primitive_calls": 3069879,
+      "self_s": 1.391496415,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:372:parts"
+    },
+    {
+      "calls": 10395429,
+      "cumulative_s": 2.350586066,
+      "primitive_calls": 10395429,
+      "self_s": 1.3104295160000001,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:359:_tail"
+    },
+    {
+      "calls": 83215,
+      "cumulative_s": 2.7058971030000003,
+      "primitive_calls": 83215,
+      "self_s": 1.301126507,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:1077:strict_percent_decode"
+    },
+    {
+      "calls": 6996632,
+      "cumulative_s": 2.167785148,
+      "primitive_calls": 6996632,
+      "self_s": 1.257824928,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:632:__new__"
+    },
+    {
+      "calls": 824735,
+      "cumulative_s": 18.404954444,
+      "primitive_calls": 824735,
+      "self_s": 1.212447796,
+      "функция": "<frozen _collections_abc>:1025:__contains__"
+    },
+    {
+      "calls": 9123452,
+      "cumulative_s": 1.185973371,
+      "primitive_calls": 9123433,
+      "self_s": 1.185795411,
+      "функция": "<builtin>:0:<built-in method __new__ of type object at 0x10566ac80>"
+    },
+    {
+      "calls": 4949834,
+      "cumulative_s": 3.982649813,
+      "primitive_calls": 4949834,
+      "self_s": 1.151077889,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:330:_raw_path"
+    },
+    {
+      "calls": 96560,
+      "cumulative_s": 1.303975756,
+      "primitive_calls": 96560,
+      "self_s": 1.033954134,
+      "функция": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py:745:matching_label_bracket"
+    },
+    {
+      "calls": 9798060,
+      "cumulative_s": 1.02222479,
+      "primitive_calls": 9798060,
+      "self_s": 1.02222479,
+      "функция": "<builtin>:0:<method 'startswith' of 'str' objects>"
+    },
+    {
+      "calls": 5673548,
+      "cumulative_s": 1.3368146490000001,
+      "primitive_calls": 5673548,
+      "self_s": 0.9489531630000001,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:60:__len__"
+    },
+    {
+      "calls": 3872988,
+      "cumulative_s": 7.53094028,
+      "primitive_calls": 3872988,
+      "self_s": 0.8856074930000001,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:276:_from_parsed_string"
+    },
+    {
+      "calls": 3227005,
+      "cumulative_s": 9.227281317000001,
+      "primitive_calls": 3227005,
+      "self_s": 0.872093639,
+      "функция": "<Python>/lib/python3.14/pathlib/__init__.py:190:__fspath__"
+    },
+    {
+      "calls": 3661487,
+      "cumulative_s": 13.471553325,
+      "primitive_calls": 3661487,
+      "self_s": 0.855652205,
+      "функция": "<frozen _collections_abc>:1015:__iter__"
+    },
+    {
+      "calls": 10742968,
+      "cumulative_s": 0.791787572,
+      "primitive_calls": 10742968,
+      "self_s": 0.791787572,
+      "функция": "<builtin>:0:<method 'extend' of 'bytearray' objects>"
+    }
+  ],
+  "наблюдатель": {
+    "будущий_v3_sha256": "50c5887fd1a719d9d767cff01fd54f310e49082f0e37fad9a9352cf9c5fb2a11",
+    "исполненный_v1_sha256": "75510af5e5ea8a677fabd8f7741787a9e5e83652680d37d83339eb571c02cfab",
+    "исправления": [
+      "Сохранение первичного исключения при вторичном отказе записи; исключение не подменяется.",
+      "До дорогого окна выполняется точная адресная сверка открытого предпросмотра."
+    ],
+    "ограничение": "Полный v3 не выполнялся. Микропроверки исполнили две извлечённые функции и точный хвост v1 на внедрённых отказах; дорогой validate_session не повторён.",
+    "проверки": {
+      "GREEN_первичного_исключения": 4,
+      "RED_точного_v1": 1,
+      "порядок_до_окна": 1,
+      "ранний_предпросмотр": 2
+    }
+  },
+  "неизменность_состояния": true,
+  "ограничения_анализа": [
+    "190.754602625 с под cProfile не сравниваются напрямую с обычными 75.708504250 с N10; это не измерение ускорения или регрессии.",
+    "Три главных cumulative ветви вложены внутри общего validate_session; их дочерние интервалы не складываются повторно.",
+    "9813 вызовов лексера сами по себе не доказывают полезность кэша. Дорогие 4341 вызова дали 40.897 с, остальные 5472 — около 0.683 с; вес одинаковых полных текстов неизвестен.",
+    "Квадратичная сложность по этому профилю не доказана. Все filesystem-наблюдения и независимые проверки остаются прежними."
+  ],
+  "основа": "b3bc9dc64ac570803f04a7da6f8c892130972209",
+  "ошибки_связности": [
+    "check-run report: контрольная точка требует точный предпросмотр записей"
+  ],
+  "подтверждённый_исход": "Диагностический отказ; не GREEN. Полный целевой вызов один, после ошибки точного предпросмотра последующие проверки исполнены.",
+  "сбой_адреса_публикационного_результата": {
+    "исход": "После исправления HTML предварительный scanner достиг сохранения, но его занятый выход v4 дал FileExistsError; нового результата сканирования не записано, Prepare не запускалась.",
+    "мера": "Один согласованный suffix v5 для всех фаз и ранняя проверка отсутствия точного выходного пути до чтения/scanner. Старый неуспешный результат v4 сохранён. Не повторять заполнение и успешную recency ради исправления адреса.",
+    "причина": "AST-параметризация обновила полные имена, но пропустила строковый фрагмент -кандидат-v4.json. Нельзя считать завершение scanner подтверждённым по достижению save.",
+    "связь": "https://github.com/fum-lab/fum/issues/327#issuecomment-6280295328"
+  },
+  "сбой_предпросмотра": {
+    "граница": "Управляемый блок исключён из нормализованной recency отчёта, поэтому после preview второй apply свежести не требуется.",
+    "причина": "В v4 текущие Git/content отпечатки выводятся даже без полных попыток. После preview обновилась свежесть запроса и индекса; точное сравнение закономерно отказало.",
+    "профилактика": "Наполнение → свежесть и индекс → предпросмотр → адресная машинная сверка → только RO recency check → дорогое окно. При ошибке раннего допуска остановка без повторного apply или профиля."
+  },
+  "следующее_решение": "Выбирать сокращение существенной стоимости всего цикла. Проверить область уже существующих чистых строк/путей и Git-разбора; не вводить кэш файловой системы и не принимать малую локальную долю за значимое общее ускорение.",
+  "состояние_до_sha256": "cbd6de0d8ff5519068acb518f440eb0b2137b21afafd8b4380d9d34925344c46",
+  "состояние_после_sha256": "cbd6de0d8ff5519068acb518f440eb0b2137b21afafd8b4380d9d34925344c46",
+  "схема": "fum.краткое-наблюдение-связности.1"
+}
