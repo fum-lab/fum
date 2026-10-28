@@ -9,7 +9,11 @@ let настройки: [SwiftSetting] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    products: [
+        .executable(name: "fuma", targets: ["КомандаЗапуска"]),
+        .executable(name: "bootstrap-zavisimosti", targets: ["КомандаBootstrapЗависимости"]),
+        .executable(name: "proverka-marshruta-pravil", targets: ["КомандаМаршрутаПравил"]),
+    ],
     dependencies: [
         .package(path: "Зависимости/LinguisticKit")
     ],
@@ -17,6 +21,11 @@ let package = Package(
         .target(name: "МатериализацияУзлов",
             path: "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya",
             sources: ["kontrakt-istochnika-kodeks.swift", "adapter-git-avtor-commita.swift"],
+            swiftSettings: настройки),
+        .executableTarget(name: "КомандаBootstrapЗависимости",
+            path: "Инструменты/fum-proverka-git-zavisimostej/swift",
+            exclude: ["proverki-bootstrap-zavisimosti.swift"],
+            sources: ["bootstrap-zavisimosti.swift", "komanda-bootstrap-zavisimosti.swift"],
             swiftSettings: настройки),
         .target(name: "FUMStructuringOperatorMemory",
             path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
@@ -32,6 +41,13 @@ let package = Package(
             swiftSettings: настройки),
         .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей"],
             path: "proverki/aktualizaciya-putej", swiftSettings: настройки),
+        .target(name: "ПроверкаМаршрутаПравил", dependencies: ["FUMStructuringOperatorMemory"],
+            path: "iskhodniki/proverka-marshruta-pravil", exclude: ["komanda"],
+            resources: [.copy("opredeleniya")], swiftSettings: настройки),
+        .executableTarget(name: "КомандаМаршрутаПравил", dependencies: ["ПроверкаМаршрутаПравил"],
+            path: "iskhodniki/proverka-marshruta-pravil/komanda", swiftSettings: настройки),
+        .testTarget(name: "proverki-marshruta-pravil", dependencies: ["ПроверкаМаршрутаПравил"],
+            path: "proverki/proverka-marshruta-pravil", swiftSettings: настройки),
         .target(name: "КонтейнерНаблюдений",
             path: "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений",
             swiftSettings: настройки),
