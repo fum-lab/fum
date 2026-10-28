@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "4f955f026a259a6c4b623a65ffab178d75e43892",
+      "родитель": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Уточнение ROOT: связать первый ожидаемый родитель слияния с родителем плана и закрепить расхождение тестом Swift Testing.",
-      "заголовок": "Связать первого родителя слияния с планом",
-      "описание": "CLI проверки сырого merge-коммита теперь до чтения stdin и запуска FUMA сравнивает первый элемент независимого expectedParents с plan.parent. Несовпадение закрывается с exit 1; совпадение продолжает полную проверку дерева, упорядоченных родителей, author/committer, байтов сообщения и ROOT trailer. Добавлены два Swift Testing случая: совпадение и mismatch. На исходнике HEAD 4f955f0 без исправления тесты дали RED из-за отсутствующего helper; итоговый source прошёл Swift Testing 2/2 в приватном минимальном harness с двумя production Swift source, TESTING define, complete strict concurrency и warnings-as-errors. Исторический результат 100/100 сохранён отдельно; диагностический расширенный прогон 102/102 состоялся до внутренней русификации новых имён и не переписывается. После русификации production CLI собран из точных source и mismatch/readback проверены отдельно. Это собственный source checkpoint; ROOT acceptance и общая интеграция остаются отдельными."
+      "исходныйЗапрос": "Уточнение ROOT: после source+test checkpoint включить новый принятый ROOT-коммит 32d74f5b00ccb93653df67d80ad1a0b217b6c44a в собственную ветку явным двухродительским слиянием.",
+      "заголовок": "Слить принятую ROOT-контрольную точку renderer",
+      "описание": "Выполнено явное двухродительское слияние принятого ROOT-коммита 32d74f5b00ccb93653df67d80ad1a0b217b6c44a, дерева c343d3595f719e16967020655e20ff3f53c63995, родителей [232aa7694ad75bc7aad01da97b3f1b2c6e3ff1c8, a909245562eee1dead39455c39c8e7102650e383] в собственную ветку после source checkpoint b1ee05ce152c05e248ac7a9490180b93b9939cfd. Первый родитель — собственный source checkpoint, второй — точный ROOT OID. Это не ROOT acceptance общей поставки и не подключение общего Package consumer."
     }
   },
   "результатГенератораМетаданных": {
@@ -1603,6 +1603,103 @@
       "diagnosticHistory": "100/100 preserved in journal event 53; 102/102 preserved as pre-normalization run in event 56; current source compile-only confirmation, no re-run of unchanged suite",
       "currentSwiftTesting": "2/2 after final code names"
     },
-    "boundary": "own source checkpoint only; ROOT acceptance, merge of newer ROOT commit, and shared-package consumer remain pending; no full root Package build"
+    "boundary": "own source checkpoint only; ROOT acceptance, merge of newer ROOT commit, and shared-package consumer remain pending; no full root Package build",
+    "контрольнаяТочкаИсточника": {
+      "коммит": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+      "дерево": "13e85eca713b4a766d1aa7a844e953b426b73f23",
+      "родитель": "4f955f026a259a6c4b623a65ffab178d75e43892",
+      "доставка": {
+        "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+        "исход": "обычный push и независимый ls-remote подтверждены",
+        "адресУдалённогоРепозитория": "https://github.com/fum-lab/fum.git",
+        "удалённыйOID": "b1ee05ce152c05e248ac7a9490180b93b9939cfd"
+      },
+      "автор": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "коммитер": "FUM <fum@local>",
+      "точноеСообщениеSHA256": "1343fd6fd78165a3d6f3107833f429915f5236541bdd24b05f2e49eeb6a69240",
+      "проверкаСырогоОбъекта": {
+        "исход": "прошёл",
+        "свидетельствоSHA256": "d10f9d306202aa473a16f8e3819ad371187b290859d987ed3978203d498a60e4"
+      },
+      "повторнаяСверкаВыбора": {
+        "источник": "scoped native Codex thread metadata read-only query",
+        "числоСтрок": 1,
+        "threadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+        "agent_path": "/root/koordinaciya",
+        "attached_thread_parent_id": null,
+        "model": "gpt-6-luna",
+        "reasoning_effort": "max",
+        "хэшОтветаSHA256": "8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1",
+        "сверкаВыбранныхПолей": "совпадают с закреплённой typed API-selection квитанцией",
+        "lineageСтатус": "неизвестно; null не трактуется как отсутствие root lineage"
+      }
+    },
+    "поправкаТочногоСообщения": {
+      "обнаружение": {
+        "коммит": "1fd99a520fa5042398965f80e9d32cc0e692ee35",
+        "непубликовано": true,
+        "сыройОбъектSHA256": "593b0c979b5e859ca6a09657487f3fe052e779179438fefb08488cffb1639a8e",
+        "квитанцияSHA256": "a4bd7c2b3e66ebefede0e13db807aa4fd6b77bc107d1f0bd0be9f88b79a52315",
+        "исход": "отказ сырого readback: сырой-message-не-совпадает-с-генератором",
+        "причина": "jq -r добавил завершающий LF к строке FUMA, уже заканчивавшейся LF; remote остался на 4f955f026a259a6c4b623a65ffab178d75e43892"
+      },
+      "исправление": {
+        "коммит": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+        "сыройОбъектSHA256": "e020f490fdb5933c9af8363707786c0b1161a71f26e0c91b3842cf2987017784",
+        "квитанцияSHA256": "d10f9d306202aa473a16f8e3819ad371187b290859d987ed3978203d498a60e4",
+        "сообщениеSHA256": "1343fd6fd78165a3d6f3107833f429915f5236541bdd24b05f2e49eeb6a69240",
+        "исход": "исправленный сырой readback прошёл; сообщение извлечено с сохранением исходных байтов"
+      },
+      "следующийРемонтПотребителя": {
+        "статус": "запланирован-к-отдельной-реализации",
+        "свидетельство": "Реальный RED на сыром commit readback 1fd99a5: двойной LF отвергнут; это не Swift Testing.",
+        "требование": "Потребитель должен машинно сравнивать подготовленное UTF-8 message с точными байтами FUMA выхода до Git effect и штатно формировать точный byte-файл из typed результата; не зависеть от ручного jq-флага. Сохранить exact raw/receipt и typed источник; добавить RED на double-LF и GREEN на exact bytes.",
+        "граница": "не меняет общий Package consumer, не выдаёт локальный генератор за глобально подключённый, не запускает Git effect до успешной проверки."
+      }
+    },
+    "подготовкаСлиянияROOT": {
+      "источник": {
+        "дерево": "c343d3595f719e16967020655e20ff3f53c63995",
+        "родители": [
+          "232aa7694ad75bc7aad01da97b3f1b2c6e3ff1c8",
+          "a909245562eee1dead39455c39c8e7102650e383"
+        ],
+        "идентификаторКоммита": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a",
+        "удалённыйOID": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a"
+      },
+      "собственныйHEADДоСлияния": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+      "собственнаяВетка": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "MERGE_HEAD": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a",
+      "деревоКандидатаДоОбновленияСостояния": "a8f4e048545353ad6c6ba3e761ac92215073644f",
+      "конфликтов": 0,
+      "изменённыеПутиROOT": [
+        "iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift",
+        "proverki/aktualizaciya-putej/vhod-agenta-tests.swift"
+      ],
+      "исход": "merge candidate готов; собственный сырой merge readback, commit и push ожидают обновления state/journal",
+      "ожидаемыеРодители": [
+        "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+        "32d74f5b00ccb93653df67d80ad1a0b217b6c44a"
+      ]
+    },
+    "следующаяНезависимаяРабота": {
+      "область": "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/** плюс минимальная правка существующего координатора при необходимости",
+      "статус": "отдельный писатель запущен",
+      "тестовыйКонтракт": {
+        "отрицательный": "сообщение с дополнительным LF до Git effect отклоняется",
+        "положительный": "байты побайтно равны точным байтам сообщения FUMA",
+        "неизвестное": "общее подключение и другие цели интеграции не подтверждены"
+      },
+      "задача": "Потребитель байтов сообщения FUMA",
+      "ветка": "refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master",
+      "основа": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+      "рабочееДерево": "отдельное sparse дерево",
+      "выборAPI": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max",
+        "источник": "вызов collaboration.spawn_agent; backend неизвестен"
+      },
+      "интеграция": "не подключена; отдельное принятие владельцем остаётся требованием"
+    }
   }
 }
