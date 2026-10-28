@@ -128,7 +128,23 @@
         "text": "Realjnuyu muljtiagentnostj myi obespechim, yesli dlya kazhdoj sredyi: Codex Desktop, Claude, OpenCode i dr. myi obespechim svoyu pamyatj i svoyo raspredeleniye po vetkam."
       }
     ],
-    "late_refinements_chronology_boundary": "Поздняя передача пяти уточнений отдельная; расположение AOT-реплик в этом блоке не означает их позднее место в общем разговоре."
+    "late_refinements_chronology_boundary": "Поздняя передача пяти уточнений отдельная; расположение AOT-реплик в этом блоке не означает их позднее место в общем разговоре.",
+    "root_follow_up_replies": {
+      "source_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "provenance": "Две исходные реплики пользователя, дословно переданные ROOT после отдельного пакета 18+5; это не часть его SHA-256-проверенной копии и не native input получателя.",
+      "native_frame_sha256": null,
+      "order_boundary": "Сохранён порядок двух реплик внутри этого сообщения ROOT; глобальный порядок относительно прежних блоков не выводится.",
+      "replies": [
+        {
+          "position_in_block": 1,
+          "text": "Nablyudeniye stejta fajlovoj sistemyi, nablyudeniye stejta gita."
+        },
+        {
+          "position_in_block": 2,
+          "text": "Upravleniye stejtom budet ekvivalentno obnovleniyu stejta fajlovoj sistemyi i gita."
+        }
+      ]
+    }
   },
   "scope_and_boundaries": {
     "in_scope": [
@@ -381,11 +397,14 @@
       "allocation_status": "pending",
       "status": "pending-root-acceptance",
       "owner": "FUM requirements; FUMA runtime-types/adapters implementation owner is the consumer",
-      "statement": "FUMA uses typed, versioned adapter capabilities for Codex Desktop, Claude, OpenCode, filesystem, Git, and Torrent profiles. Each provider environment owns its workspace, memory, branch set, and process/session state; a common read-only memory view is explicit. Adapter state, capability, rights, provenance, action result, cancellation, recovery, and unknown outcome are reported as separate values. Provider APIs, model availability, and credentials are read at restore time and are not promised by a public commit.",
+      "statement": "FUMA uses typed, versioned adapter capabilities for Codex Desktop, Claude, OpenCode, filesystem, Git, and Torrent profiles. Each provider environment owns its workspace, memory, branch set, and process/session state; a common read-only memory view is explicit. Filesystem and Git are distinct, separately observed state domains. Node management is a reproducible change program across them with a persisted goal, provenance, per-step result verification, and a resumable interruption checkpoint. Control JSON records the target and program rather than duplicating the Git tree; no cross-system atomic transaction is implied. Adapter state, capability, rights, provenance, action result, cancellation, recovery, and unknown outcome are reported as separate values. Provider APIs, model availability, and credentials are read at restore time and are not promised by a public commit.",
       "acceptance_criteria": [
         "A deterministic fixture restores one committed node through two provider adapter test doubles with separate workspaces, writable memory, branches, and sessions, while preserving the same logical node, selected commit, child graph, and shared read-only reference.",
         "Each adapter reports its version, available capabilities, current state, required rights, source, observation time, and typed success/failure/cancel/unknown outcome; unsupported capabilities fail explicitly.",
         "Filesystem and Git fixtures verify exact paths, refs, commit/tree identity, provenance, and no duplicate writer; Torrent input is handled only through the declared network capability profile linked to FUM-REQ-0048/FUM-STEP-0183.",
+        "Filesystem and Git each produce a separate state observation with its own source, time, target, and result; a node-management program persists the desired goal, ordered changes, per-step provenance, and the last verified checkpoint.",
+        "After interruption between filesystem and Git changes, restoration obtains fresh observations from both domains and resumes or reports a typed mixed/unknown state; it never claims a cross-system atomic commit.",
+        "Control JSON stores the program, target, and commit/ref references needed to continue; it does not mirror the Git tree, whose contents remain resolved from the selected Git commit.",
         "Restore reads current API/model/credential availability as environment observations. None of those values is embedded as a promise in a public commit or inferred from a prior successful run.",
         "The compatibility fixture uses local test doubles and does not invoke unconnected external services."
       ],
@@ -423,6 +442,13 @@
           "packet_part": "поздниеУточнения",
           "positions": [
             5
+          ]
+        },
+        {
+          "packet_part": "root_follow_up_replies",
+          "positions": [
+            1,
+            2
           ]
         }
       ]
