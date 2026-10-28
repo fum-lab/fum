@@ -9,11 +9,38 @@ let настройки: [SwiftSetting] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    products: [
+        .executable(name: "fuma", targets: ["КомандаЗапуска"]),
+        .library(name: "МетаданныеКоммита", targets: ["МетаданныеКоммита"]),
+    ],
     dependencies: [
         .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
+        .target(
+            name: "МетаданныеКоммита",
+            dependencies: ["FUMStructuringOperatorMemory"],
+            path: "koordinaciya",
+            exclude: [
+                "журнал.jsonl",
+                "квитанция-root-native-client.json",
+                "координатор.swift",
+                "проверки.swift",
+                "состояние.json",
+            ],
+            sources: [
+                "генератор-метаданных-коммита.swift",
+                "потребитель-метаданных-коммита.swift",
+            ],
+            resources: [.copy("fuma")],
+            swiftSettings: настройки
+        ),
+        .testTarget(
+            name: "ПроверкиМетаданныхКоммита",
+            dependencies: ["МетаданныеКоммита"],
+            path: "proverki/metadannye-kommita",
+            swiftSettings: настройки
+        ),
         .target(
             name: "МатериализацияУзлов",
             dependencies: ["FUMStructuringOperatorMemory"],
