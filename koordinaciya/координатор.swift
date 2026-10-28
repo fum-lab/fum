@@ -15,6 +15,7 @@ struct СостояниеКоординации: Codable {
     let пакетыПоручений: [СнимокПоручений]?
     let точныеГрязныеПути: [String]?
     let точныеГрязныеПутиПолноеПокрытие: Bool?
+    let планСамообновления: ПланСамообновления?
 }
 
 enum СостояниеПути: String, Equatable {
@@ -181,6 +182,364 @@ struct ПакетПоставки: Codable {
     let непроверенныеЗаявления: [String]
 }
 
+struct СвидетельствоВыбораМодели: Codable {
+    let источникAPI: String
+    let модель: String
+    let усилие: String
+    let корневойUUID: String
+}
+
+struct ОжидаемаяИдентичностьGit: Codable {
+    let свидетельство: СвидетельствоВыбораМодели
+    let имяАвтора: String
+    let почтаАвтора: String
+    let имяКоммитера: String
+    let почтаКоммитера: String
+    let родитель: String
+}
+
+struct СобственныйACK: Codable {
+    let версия: String
+    let область: String
+    let источникРеф: String
+    let источникOID: String
+    let применённыйOID: String
+    let корневойUUID: String
+}
+
+struct ОбзорИсточникаСамообновления: Codable {
+    let источникРеф: String
+    let источникOID: String
+    let решение: String
+    let свидетельство: String
+}
+
+struct ПринятиеИсточникаСамообновления: Codable {
+    let источникРеф: String
+    let источникOID: String
+    let принял: String
+    let свидетельство: String
+}
+
+struct СвидетельствоОбратногоСлияния: Codable {
+    let коммитOID: String
+    let родители: [String]
+}
+
+struct ПроверкаОбластиСамообновления: Codable {
+    let коммитOID: String
+    let пути: [String]
+    let полноеПокрытие: Bool
+    let свидетельство: String
+}
+
+struct ПереходСамообновления: Codable {
+    let источникРеф: String
+    let источникOID: String
+    let источникДерево: String
+    let область: String
+    let назначение: String
+    let получено: Bool
+    let обзор: ОбзорИсточникаСамообновления?
+    let принятие: ПринятиеИсточникаСамообновления?
+    let обратноеСлияние: СвидетельствоОбратногоСлияния?
+    let проверкаОбласти: ПроверкаОбластиСамообновления?
+    let собственныйACK: СобственныйACK?
+    let удержание: String?
+}
+
+struct ПланСамообновления: Codable {
+    let собственныйКонтрольныйКоммит: String
+    let собственныйРеф: String
+    let собственнаяОбласть: String
+    let текущаяВерсия: String
+    let источники: [ПереходСамообновления]
+    let требуетHEADРавныйROOT: Bool
+    let требуетЧтениеROOTJSONL: Bool
+    let старыйГлобальныйПорогДискаДляИсточникаГиБ: Int?
+    let идентичностьСледующегоКоммита: ОжидаемаяИдентичностьGit
+}
+
+struct РезультатСамообновления: Codable {
+    let контрольныйКоммит: String
+    let независимаяРаботаРазрешена: Bool
+    let требуетHEADРавныйROOT: Bool
+    let требуетЧтениеROOTJSONL: Bool
+    let решенияИсточников: [РешениеСамообновления]
+    let ошибкиПлана: [String]
+}
+
+struct РешениеСамообновления: Codable {
+    let источникРеф: String
+    let источникOID: String
+    let решение: ФазаСамообновления
+    let ошибки: [String]
+}
+
+enum ФазаСамообновления: String, Codable {
+    case полученоЖдётОбзора = "получено-ждёт-обзора"
+    case обзорЖдётПринятия = "обзор-ждёт-принятия"
+    case принятоЖдётОбратногоСлияния = "принято-ждёт-обратного-слияния"
+    case примененоЖдётПроверки = "применено-ждёт-проверки"
+    case провереноЖдётСобственногоACK = "проверено-ждёт-собственного-ack"
+    case подтверждено = "подтверждено"
+    case удержано = "удержано-в-своей-области"
+    case некорректно = "некорректная-последовательность"
+}
+
+struct РезультатПодготовкиИдентичности: Codable {
+    let переменнаяОкружения: String
+    let значение: String
+    let неизменяемыеПоля: [String]
+    let ошибки: [String]
+}
+
+enum ОценщикИдентичностиGit {
+    static func подготовить(_ свидетельство: СвидетельствоВыбораМодели) -> РезультатПодготовкиИдентичности {
+        var ошибки: [String] = []
+        if свидетельство.источникAPI != "collaboration.spawn_agent" {
+            ошибки.append("неподтверждённый-источник-выбора-модели")
+        }
+        if свидетельство.модель.isEmpty || свидетельство.модель.contains(where: \.isWhitespace) {
+            ошибки.append("некорректное-имя-модели")
+        }
+        if свидетельство.усилие.isEmpty || свидетельство.усилие.contains(where: \.isWhitespace) {
+            ошибки.append("некорректное-усилие-модели")
+        }
+        if UUID(uuidString: свидетельство.корневойUUID) == nil {
+            ошибки.append("некорректный-корневой-uuid-идентичности")
+        }
+        return РезультатПодготовкиИдентичности(
+            переменнаяОкружения: "GIT_AUTHOR_NAME",
+            значение: "FUM Codex [\(свидетельство.модель); effort=\(свидетельство.усилие)]",
+            неизменяемыеПоля: ["GIT_AUTHOR_EMAIL", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL"],
+            ошибки: ошибки
+        )
+    }
+
+    static func проверитьДоЭффекта(
+        ожидаемая: ОжидаемаяИдентичностьGit,
+        авторGitVar: String,
+        коммитерGitVar: String,
+        текущийHEAD: String,
+        текущийРеф: String,
+        ожидаемыйРеф: String
+    ) -> [String] {
+        var ошибки = подготовить(ожидаемая.свидетельство).ошибки
+        guard let автор = разобратьИдентификатор(авторGitVar),
+              let коммитер = разобратьИдентификатор(коммитерGitVar) else {
+            ошибки.append("неразбираемая-git-ident")
+            return ошибки
+        }
+        let ожидаемоеИмя = подготовить(ожидаемая.свидетельство).значение
+        if ожидаемая.имяАвтора != ожидаемоеИмя {
+            ошибки.append("ожидаемое-имя-автора-не-связано-с-typed-выбором")
+        }
+        if автор.имя != ожидаемоеИмя || автор.почта != ожидаемая.почтаАвтора {
+            ошибки.append("автор-git-var-не-совпадает-с-типизированным-выбором")
+        }
+        if коммитер.имя != ожидаемая.имяКоммитера || коммитер.почта != ожидаемая.почтаКоммитера {
+            ошибки.append("коммитер-git-var-изменён")
+        }
+        if текущийHEAD != ожидаемая.родитель {
+            ошибки.append("head-не-равен-ожидаемому-родителю")
+        }
+        if текущийРеф != ожидаемыйРеф {
+            ошибки.append("реф-не-совпадает-с-разрешённым")
+        }
+        if ожидаемая.свидетельство.корневойUUID != UUID(uuidString: ожидаемая.свидетельство.корневойUUID)?.uuidString.lowercased() {
+            ошибки.append("корневой-uuid-не-каноничен")
+        }
+        if !верныйOID(ожидаемая.родитель) {
+            ошибки.append("неверный-ожидаемый-родитель")
+        }
+        return ошибки
+    }
+
+    static func проверитьСыройОбъект(_ сыройКоммит: String, ожидаемая: ОжидаемаяИдентичностьGit) -> [String] {
+        guard let разделитель = сыройКоммит.range(of: "\n\n") else {
+            return ["нет-границы-заголовка-и-сообщения"]
+        }
+        let заголовки = сыройКоммит[..<разделитель.lowerBound].split(separator: "\n").map(String.init)
+        let сообщение = сыройКоммит[разделитель.upperBound...]
+        let родители = заголовки.filter { $0.hasPrefix("parent ") }.map { String($0.dropFirst("parent ".count)) }
+        let авторы = заголовки.filter { $0.hasPrefix("author ") }
+        let коммитеры = заголовки.filter { $0.hasPrefix("committer ") }
+        let деревья = заголовки.filter { $0.hasPrefix("tree ") }.map { String($0.dropFirst("tree ".count)) }
+        var ошибки: [String] = []
+
+        if ожидаемая.имяАвтора != подготовить(ожидаемая.свидетельство).значение {
+            ошибки.append("ожидаемое-имя-автора-не-связано-с-typed-выбором")
+        }
+
+        if родители != [ожидаемая.родитель] { ошибки.append("сырой-parent-не-совпадает") }
+        if авторы.count != 1 || разобратьИдентификатор(авторы.first.map { String($0.dropFirst("author ".count)) } ?? "")?.имя != подготовить(ожидаемая.свидетельство).значение ||
+            разобратьИдентификатор(авторы.first.map { String($0.dropFirst("author ".count)) } ?? "")?.почта != ожидаемая.почтаАвтора {
+            ошибки.append("сырой-author-не-совпадает")
+        }
+        if коммитеры.count != 1 || разобратьИдентификатор(коммитеры.first.map { String($0.dropFirst("committer ".count)) } ?? "")?.имя != ожидаемая.имяКоммитера ||
+            разобратьИдентификатор(коммитеры.first.map { String($0.dropFirst("committer ".count)) } ?? "")?.почта != ожидаемая.почтаКоммитера {
+            ошибки.append("сырой-committer-не-совпадает")
+        }
+        if деревья.count != 1 || !деревья.allSatisfy(верныйOID) { ошибки.append("некорректная-tree-строка") }
+
+        let trailers = сообщение.split(separator: "\n", omittingEmptySubsequences: false)
+            .map(String.init)
+            .filter { $0.hasPrefix("Codex-Thread-ID:") }
+        let последняяНепустаяСтрока = сообщение.split(separator: "\n").last.map(String.init)
+        let точныйTrailer = "Codex-Thread-ID: \(ожидаемая.свидетельство.корневойUUID)"
+        if trailers != [точныйTrailer] || последняяНепустаяСтрока != точныйTrailer {
+            ошибки.append("сырой-корневой-trailer-не-совпадает")
+        }
+        return ошибки
+    }
+
+    private static func разобратьИдентификатор(_ строка: String) -> (имя: String, почта: String)? {
+        guard let леваяСкобка = строка.range(of: " <", options: .backwards),
+              let праваяСкобка = строка[леваяСкобка.upperBound...].firstIndex(of: ">") else { return nil }
+        let имя = String(строка[..<леваяСкобка.lowerBound])
+        let почта = String(строка[леваяСкобка.upperBound..<праваяСкобка])
+        guard !имя.isEmpty, !почта.isEmpty else { return nil }
+        return (имя, почта)
+    }
+
+    private static func верныйOID(_ строка: String) -> Bool {
+        строка.utf8.count == 40 && строка.utf8.allSatisfy {
+            (48...57).contains($0) || (97...102).contains($0)
+        }
+    }
+}
+
+enum ОценщикСамообновления {
+    static func оценить(_ план: ПланСамообновления, ожидаемыйКорневойUUID: String? = nil) -> РезультатСамообновления {
+        var ошибкиПлана: [String] = []
+        if !верныйOID(план.собственныйКонтрольныйКоммит) { ошибкиПлана.append("неверный-собственный-checkpoint") }
+        if !план.собственныйРеф.hasPrefix("refs/heads/fum-lab/fum/") { ошибкиПлана.append("неверный-собственный-реф") }
+        if план.собственнаяОбласть != "koordinaciya/**" { ошибкиПлана.append("область-самообновления-расширена") }
+        if план.требуетHEADРавныйROOT { ошибкиПлана.append("запрещённое-глобальное-равенство-head") }
+        if план.требуетЧтениеROOTJSONL { ошибкиПлана.append("запрещённый-root-jsonl-reader") }
+        if план.старыйГлобальныйПорогДискаДляИсточникаГиБ != nil {
+            ошибкиПлана.append("старый-глобальный-порог-диска-для-источника")
+        }
+        ошибкиПлана.append(contentsOf: ОценщикИдентичностиGit.подготовить(план.идентичностьСледующегоКоммита.свидетельство).ошибки)
+        if план.идентичностьСледующегоКоммита.имяАвтора != ОценщикИдентичностиGit.подготовить(план.идентичностьСледующегоКоммита.свидетельство).значение {
+            ошибкиПлана.append("ожидаемое-имя-автора-не-связано-с-typed-выбором")
+        }
+        if let ожидаемыйКорневойUUID, план.идентичностьСледующегоКоммита.свидетельство.корневойUUID != ожидаемыйКорневойUUID {
+            ошибкиПлана.append("typed-identity-не-связан-с-корневым-uuid-состояния")
+        }
+        if Set(план.источники.map(\.источникРеф)).count != план.источники.count {
+            ошибкиПлана.append("повторный-источник-самообновления")
+        }
+
+        let решения = план.источники.map { переход in оценить(переход, версия: план.текущаяВерсия, корневойUUID: план.идентичностьСледующегоКоммита.свидетельство.корневойUUID) }
+        return РезультатСамообновления(
+            контрольныйКоммит: план.собственныйКонтрольныйКоммит,
+            независимаяРаботаРазрешена: true,
+            требуетHEADРавныйROOT: план.требуетHEADРавныйROOT,
+            требуетЧтениеROOTJSONL: план.требуетЧтениеROOTJSONL,
+            решенияИсточников: решения,
+            ошибкиПлана: ошибкиПлана
+        )
+    }
+
+    static func оценитьРесурсныйДопуск(свободноГиБ: Int?, минимальныйРезервДляТяжёлойПроверкиГиБ: Int?, тяжёлаяПроверка: Bool) -> Bool {
+        guard let свободноГиБ, свободноГиБ >= 0 else { return false }
+        guard тяжёлаяПроверка else { return true }
+        guard let минимальныйРезервДляТяжёлойПроверкиГиБ, минимальныйРезервДляТяжёлойПроверкиГиБ >= 0 else { return false }
+        return свободноГиБ >= минимальныйРезервДляТяжёлойПроверкиГиБ
+    }
+
+    private static func оценить(_ источник: ПереходСамообновления, версия: String, корневойUUID: String) -> РешениеСамообновления {
+        var ошибки: [String] = []
+        if !источник.получено { ошибки.append("не-подтверждено-получение") }
+        if !источник.источникРеф.hasPrefix("refs/heads/fum-lab/fum/") || !верныйOID(источник.источникOID) || !верныйOID(источник.источникДерево) {
+            ошибки.append("некорректный-источник-самообновления")
+        }
+        if источник.область.isEmpty || источник.назначение.isEmpty { ошибки.append("пустая-область-или-назначение") }
+        if источник.принятие != nil && источник.обзор == nil {
+            ошибки.append("принято-до-обзора")
+        }
+        if let обзор = источник.обзор,
+           обзор.источникРеф != источник.источникРеф || обзор.источникOID != источник.источникOID ||
+            обзор.решение.isEmpty || обзор.свидетельство.isEmpty {
+            ошибки.append("обзор-не-связан-с-источником")
+        }
+        if let принятие = источник.принятие {
+            if источник.обзор == nil { ошибки.append("принято-до-обзора") }
+            if принятие.источникРеф != источник.источникРеф || принятие.источникOID != источник.источникOID ||
+                принятие.принял.isEmpty || принятие.свидетельство.isEmpty {
+                ошибки.append("принятие-не-связано-с-точным-источником")
+            }
+        }
+        if источник.обратноеСлияние != nil && источник.принятие == nil {
+            ошибки.append("применено-до-принятия")
+        }
+        if let слияние = источник.обратноеСлияние {
+            if !верныйOID(слияние.коммитOID) { ошибки.append("неверный-oid-обратного-слияния") }
+            if слияние.родители.count < 2 || Set(слияние.родители).count != слияние.родители.count ||
+                !слияние.родители.allSatisfy(верныйOID) || !слияние.родители.contains(источник.источникOID) {
+                ошибки.append("обратное-слияние-не-содержит-точный-источник-в-родителях")
+            }
+        }
+        if источник.проверкаОбласти != nil && источник.обратноеСлияние == nil {
+            ошибки.append("проверено-до-применения")
+        }
+        if let проверка = источник.проверкаОбласти {
+            if проверка.коммитOID != источник.обратноеСлияние?.коммитOID { ошибки.append("проверен-не-тот-коммит") }
+            let префиксОбласти = источник.область.hasSuffix("/**")
+                ? String(источник.область.dropLast(2))
+                : источник.область
+            if проверка.пути.isEmpty || проверка.пути.contains(where: { !безопасныйПуть($0) || !$0.hasPrefix(префиксОбласти) }) {
+                ошибки.append("путь-проверки-вне-назначенной-области")
+            }
+            if !проверка.полноеПокрытие || проверка.свидетельство.isEmpty { ошибки.append("проверка-области-неполная") }
+        }
+        if источник.собственныйACK != nil && источник.проверкаОбласти == nil {
+            ошибки.append("ack-до-проверки-области")
+        }
+        if let ack = источник.собственныйACK {
+            if ack.версия != версия || ack.область != источник.область || ack.источникРеф != источник.источникРеф ||
+                ack.источникOID != источник.источникOID || ack.применённыйOID != источник.проверкаОбласти?.коммитOID || ack.корневойUUID != корневойUUID {
+                ошибки.append("собственный-ack-не-связывает-версию-область-и-источник")
+            }
+        }
+
+        let фаза: ФазаСамообновления
+        if !ошибки.isEmpty {
+            фаза = .некорректно
+        } else if источник.удержание != nil {
+            фаза = .удержано
+        } else if источник.собственныйACK != nil {
+            фаза = .подтверждено
+        } else if источник.проверкаОбласти != nil {
+            фаза = .провереноЖдётСобственногоACK
+        } else if источник.обратноеСлияние != nil {
+            фаза = .примененоЖдётПроверки
+        } else if источник.принятие != nil {
+            фаза = .принятоЖдётОбратногоСлияния
+        } else if источник.обзор != nil {
+            фаза = .обзорЖдётПринятия
+        } else {
+            фаза = .полученоЖдётОбзора
+        }
+        return РешениеСамообновления(источникРеф: источник.источникРеф, источникOID: источник.источникOID, решение: фаза, ошибки: ошибки)
+    }
+
+    private static func верныйOID(_ строка: String) -> Bool {
+        строка.utf8.count == 40 && строка.utf8.allSatisfy {
+            (48...57).contains($0) || (97...102).contains($0)
+        }
+    }
+
+    private static func безопасныйПуть(_ строка: String) -> Bool {
+        guard !строка.isEmpty, !строка.hasPrefix("/"), !строка.hasSuffix("/") else { return false }
+        return строка.split(separator: "/", omittingEmptySubsequences: false).allSatisfy {
+            !$0.isEmpty && $0 != "." && $0 != ".."
+        }
+    }
+}
+
 struct ПереходАвтоматизации: Codable {
     let вход: String
     let автоматизируемаяРабота: String
@@ -236,6 +595,7 @@ struct ИтогКоординации: Codable {
     let продолжённыхХодов: Int
     let фактическиНачатоПоручений: Int?
     let покрытиеПорученийПолное: Bool
+    let самообновление: РезультатСамообновления?
 }
 
 enum ОценщикПоручений {
@@ -569,7 +929,7 @@ enum Оценщик {
     static func оценить(состояние: СостояниеКоординации, журнал: String) -> ИтогКоординации {
         var ошибки: [String] = []
 
-        if состояние.схема != "fum.координация.состояние.1" {
+        if состояние.схема != "fum.координация.состояние.1" && состояние.схема != "fum.координация.состояние.2" {
             ошибки.append("неподдерживаемая-схема")
         }
         if UUID(uuidString: состояние.корневойUUID) == nil {
@@ -652,6 +1012,9 @@ enum Оценщик {
         let фактическиНачато = покрытиеПорученийПолное
             ? наблюденияПоручений.compactMap(\.фактическиНачато).reduce(0, +)
             : nil
+        let самообновление = состояние.планСамообновления.map {
+            ОценщикСамообновления.оценить($0, ожидаемыйКорневойUUID: состояние.корневойUUID)
+        }
 
         return ИтогКоординации(
             схема: "fum.координация.предприёмочная-сверка.1",
@@ -669,7 +1032,8 @@ enum Оценщик {
             новыхХодов: наблюденияПоручений.map(\.новыеХоды).reduce(0, +),
             продолжённыхХодов: наблюденияПоручений.map(\.продолжённыеХоды).reduce(0, +),
             фактическиНачатоПоручений: фактическиНачато,
-            покрытиеПорученийПолное: покрытиеПорученийПолное
+            покрытиеПорученийПолное: покрытиеПорученийПолное,
+            самообновление: самообновление
         )
     }
 
@@ -731,6 +1095,81 @@ enum Оценщик {
 struct ГлавнаяКоординатора {
     static func main() {
         let аргументы = Array(CommandLine.arguments.dropFirst())
+        if аргументы.first == "--проверить-перед-коммитом" {
+            guard аргументы.count == 2 else {
+                fputs("Ожидается путь к состояние.json.\n", stderr)
+                exit(EXIT_FAILURE)
+            }
+            do {
+                let данные = try Data(contentsOf: URL(fileURLWithPath: аргументы[1]))
+                let состояние = try JSONDecoder().decode(СостояниеКоординации.self, from: данные)
+                guard let план = состояние.планСамообновления else {
+                    throw CocoaError(.coderValueNotFound)
+                }
+                let выбор = план.идентичностьСледующегоКоммита.свидетельство
+                var окружениеАвтора = ProcessInfo.processInfo.environment
+                окружениеАвтора["GIT_AUTHOR_NAME"] = ОценщикИдентичностиGit.подготовить(выбор).значение
+                let автор = try выполнитьGit(["var", "GIT_AUTHOR_IDENT"], окружение: окружениеАвтора)
+                let коммитер = try выполнитьGit(["var", "GIT_COMMITTER_IDENT"], окружение: ProcessInfo.processInfo.environment)
+                let head = try выполнитьGit(["rev-parse", "HEAD"], окружение: ProcessInfo.processInfo.environment)
+                let реф = try выполнитьGit(["symbolic-ref", "HEAD"], окружение: ProcessInfo.processInfo.environment)
+                var ошибки = ОценщикИдентичностиGit.проверитьДоЭффекта(
+                    ожидаемая: план.идентичностьСледующегоКоммита,
+                    авторGitVar: автор,
+                    коммитерGitVar: коммитер,
+                    текущийHEAD: head,
+                    текущийРеф: реф,
+                    ожидаемыйРеф: план.собственныйРеф
+                )
+                if выбор.корневойUUID != состояние.корневойUUID {
+                    ошибки.append("typed-identity-не-связан-с-корневым-uuid-состояния")
+                }
+                let результат = try JSONSerialization.data(
+                    withJSONObject: ["готово": ошибки.isEmpty, "переменнаяАвторства": "GIT_AUTHOR_NAME", "ошибки": ошибки],
+                    options: [.sortedKeys]
+                )
+                FileHandle.standardOutput.write(результат)
+                FileHandle.standardOutput.write(Data([0x0a]))
+                if !ошибки.isEmpty { exit(EXIT_FAILURE) }
+            } catch {
+                fputs("Не удалось проверить identity до коммита: \(error.localizedDescription)\n", stderr)
+                exit(EXIT_FAILURE)
+            }
+            return
+        }
+        if аргументы.first == "--проверить-сырой-коммит" {
+            guard аргументы.count == 2 else {
+                fputs("Ожидается путь к состояние.json; сырой объект коммита читается из stdin.\n", stderr)
+                exit(EXIT_FAILURE)
+            }
+            do {
+                let данные = try Data(contentsOf: URL(fileURLWithPath: аргументы[1]))
+                let состояние = try JSONDecoder().decode(СостояниеКоординации.self, from: данные)
+                guard let план = состояние.планСамообновления else {
+                    throw CocoaError(.coderValueNotFound)
+                }
+                let сыройОбъект = FileHandle.standardInput.readDataToEndOfFile()
+                guard let текст = String(data: сыройОбъект, encoding: .utf8) else {
+                    throw CocoaError(.fileReadInapplicableStringEncoding)
+                }
+                var ошибки = ОценщикИдентичностиGit.проверитьСыройОбъект(
+                    текст,
+                    ожидаемая: план.идентичностьСледующегоКоммита
+                )
+                if план.идентичностьСледующегоКоммита.свидетельство.корневойUUID != состояние.корневойUUID {
+                    ошибки.append("typed-identity-не-связан-с-корневым-uuid-состояния")
+                }
+                let вывод = ["проверено": ошибки.isEmpty, "ошибки": ошибки] as [String: Any]
+                let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
+                FileHandle.standardOutput.write(результат)
+                FileHandle.standardOutput.write(Data([0x0a]))
+                if !ошибки.isEmpty { exit(EXIT_FAILURE) }
+            } catch {
+                fputs("Не удалось проверить сырой Git-объект: \(error.localizedDescription)\n", stderr)
+                exit(EXIT_FAILURE)
+            }
+            return
+        }
         guard аргументы.count == 2 else {
             fputs("Ожидаются пути к состояние.json и журнал.jsonl.\n", stderr)
             exit(EXIT_FAILURE)
@@ -750,6 +1189,9 @@ struct ГлавнаяКоординатора {
             let результат = try кодировщик.encode(итог)
             FileHandle.standardOutput.write(результат)
             FileHandle.standardOutput.write(Data([0x0a]))
+            if let самообновление = итог.самообновление, !самообновление.ошибкиПлана.isEmpty || самообновление.решенияИсточников.contains(where: { !$0.ошибки.isEmpty }) {
+                exit(EXIT_FAILURE)
+            }
             if !итог.действителен {
                 exit(EXIT_FAILURE)
             }
@@ -757,6 +1199,28 @@ struct ГлавнаяКоординатора {
             fputs("Не удалось прочитать снимок: \(error.localizedDescription)\n", stderr)
             exit(EXIT_FAILURE)
         }
+    }
+
+    private static func выполнитьGit(_ аргументы: [String], окружение: [String: String]) throws -> String {
+        let процесс = Process()
+        процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+        процесс.arguments = аргументы
+        процесс.environment = окружение
+        let вывод = Pipe()
+        let ошибки = Pipe()
+        процесс.standardOutput = вывод
+        процесс.standardError = ошибки
+        try процесс.run()
+        процесс.waitUntilExit()
+        guard процесс.terminationStatus == 0 else {
+            let текстОшибки = String(decoding: ошибки.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
+            throw NSError(domain: "Координатор.Гит", code: Int(процесс.terminationStatus), userInfo: [NSLocalizedDescriptionKey: текстОшибки])
+        }
+        let данные = вывод.fileHandleForReading.readDataToEndOfFile()
+        guard let строка = String(data: данные, encoding: .utf8) else {
+            throw CocoaError(.fileReadInapplicableStringEncoding)
+        }
+        return строка.trimmingCharacters(in: .newlines)
     }
 }
 #endif
