@@ -7,18 +7,18 @@ public enum ВидОтказа: Equatable, Sendable {
 }
 
 public enum ОснованиеБазы: Equatable, Sendable {
-  case полныйOID(String)
+  case полныйИдентификаторОбъекта(String)
   case токенФикстуры(String)
 
   fileprivate var значение: String {
     switch self {
-    case .полныйOID(let значение), .токенФикстуры(let значение): значение
+    case .полныйИдентификаторОбъекта(let значение), .токенФикстуры(let значение): значение
     }
   }
 
   fileprivate var вид: String {
     switch self {
-    case .полныйOID: "полный-oid"
+    case .полныйИдентификаторОбъекта: "полный-идентификатор-объекта"
     case .токенФикстуры: "токен-фикстуры"
     }
   }
@@ -102,7 +102,7 @@ public enum ПричинаЭскалации: String, Decodable, Equatable, Send
   case нетДействующегоДопуска = "нет-действующего-допуска"
   case действуетПауза = "действует-пауза"
   case неизвестныйИсходЭффекта = "неизвестный-исход-эффекта"
-  case некорректныйOIDОснования = "некорректный-oid-основания"
+  case некорректныйИдентификаторОбъектаОснования = "некорректный-идентификатор-объекта-основания"
   case другаяБаза = "другая-база"
   case другойВладелец = "другой-владелец"
   case другоеРабочееДерево = "другое-рабочее-дерево"
@@ -141,8 +141,10 @@ public struct ПутьПлана: Decodable, Equatable, Sendable {
 public struct ПланИсправления: Decodable, Equatable, Sendable {
   public let база: String
   public let видОснованияБазы: String
-  public let полныйOIDПодтверждён: Bool
+  public let полныйИдентификаторОбъектаПодтверждён: Bool
   public let точныйМанифестПодтверждён: Bool
+  public let применимостьПодтверждена: Bool
+  public let общийОбработчикМанифеста: Bool
   public let владелец: String
   public let рабочееДерево: String
   public let ссылкаВетки: String
@@ -150,21 +152,25 @@ public struct ПланИсправления: Decodable, Equatable, Sendable {
   public let сохранитьПути: [String]
   public let изменитьИсторию: Bool
   public let применениеРазрешено: Bool
+  public let отправкаРазрешена: Bool
   public let требуетсяПовторноеНаблюдение: Bool
   public let пути: [ПутьПлана]
 
   public init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: Ключи.self)
     try проверитьПоля(container.allKeys.map(\.rawValue), ожидаемые: [
-      "база", "вид-основания-базы", "полный-oid-подтверждён", "точный-манифест-подтверждён",
+      "база", "вид-основания-базы", "полный-идентификатор-объекта-подтверждён",
+      "точный-манифест-подтверждён", "применимость-подтверждена", "общий-обработчик-манифеста",
       "владелец", "рабочее-дерево", "ссылка-ветки", "опубликованная-история",
-      "сохранить-пути", "изменить-историю", "применение-разрешено",
+      "сохранить-пути", "изменить-историю", "применение-разрешено", "отправка-разрешена",
       "требуется-повторное-наблюдение", "пути",
     ], decoder: decoder)
     база = try container.decode(String.self, forKey: .база)
     видОснованияБазы = try container.decode(String.self, forKey: .видОснованияБазы)
-    полныйOIDПодтверждён = try container.decode(Bool.self, forKey: .полныйOIDПодтверждён)
+    полныйИдентификаторОбъектаПодтверждён = try container.decode(Bool.self, forKey: .полныйИдентификаторОбъектаПодтверждён)
     точныйМанифестПодтверждён = try container.decode(Bool.self, forKey: .точныйМанифестПодтверждён)
+    применимостьПодтверждена = try container.decode(Bool.self, forKey: .применимостьПодтверждена)
+    общийОбработчикМанифеста = try container.decode(Bool.self, forKey: .общийОбработчикМанифеста)
     владелец = try container.decode(String.self, forKey: .владелец)
     рабочееДерево = try container.decode(String.self, forKey: .рабочееДерево)
     ссылкаВетки = try container.decode(String.self, forKey: .ссылкаВетки)
@@ -172,14 +178,17 @@ public struct ПланИсправления: Decodable, Equatable, Sendable {
     сохранитьПути = try container.decode([String].self, forKey: .сохранитьПути)
     изменитьИсторию = try container.decode(Bool.self, forKey: .изменитьИсторию)
     применениеРазрешено = try container.decode(Bool.self, forKey: .применениеРазрешено)
+    отправкаРазрешена = try container.decode(Bool.self, forKey: .отправкаРазрешена)
     требуетсяПовторноеНаблюдение = try container.decode(Bool.self, forKey: .требуетсяПовторноеНаблюдение)
     пути = try container.decode([ПутьПлана].self, forKey: .пути)
     guard Self.уникальны(сохранитьПути), сохранитьПути.count == 13,
       Self.уникальны(пути.map(\.путь)), пути.count == 23,
       пути.allSatisfy({ Self.допустимыйПуть($0.путь) }),
       Set(пути.map(\.путь)).isDisjoint(with: Set(сохранитьПути)),
-      видОснованияБазы == "полный-oid" || видОснованияБазы == "токен-фикстуры",
-      полныйOIDПодтверждён == false, точныйМанифестПодтверждён == false
+      видОснованияБазы == "полный-идентификатор-объекта" || видОснованияБазы == "токен-фикстуры",
+      полныйИдентификаторОбъектаПодтверждён == false, точныйМанифестПодтверждён == false,
+      применимостьПодтверждена == false, общийОбработчикМанифеста == false,
+      отправкаРазрешена == false
     else {
       throw DecodingError.dataCorruptedError(forKey: .пути, in: container, debugDescription: "План нарушает размер или состав")
     }
@@ -188,14 +197,17 @@ public struct ПланИсправления: Decodable, Equatable, Sendable {
   private enum Ключи: String, CodingKey {
     case база, владелец, пути
     case видОснованияБазы = "вид-основания-базы"
-    case полныйOIDПодтверждён = "полный-oid-подтверждён"
+    case полныйИдентификаторОбъектаПодтверждён = "полный-идентификатор-объекта-подтверждён"
     case точныйМанифестПодтверждён = "точный-манифест-подтверждён"
+    case применимостьПодтверждена = "применимость-подтверждена"
+    case общийОбработчикМанифеста = "общий-обработчик-манифеста"
     case рабочееДерево = "рабочее-дерево"
     case ссылкаВетки = "ссылка-ветки"
     case опубликованнаяИстория = "опубликованная-история"
     case сохранитьПути = "сохранить-пути"
     case изменитьИсторию = "изменить-историю"
     case применениеРазрешено = "применение-разрешено"
+    case отправкаРазрешена = "отправка-разрешена"
     case требуетсяПовторноеНаблюдение = "требуется-повторное-наблюдение"
   }
 
@@ -212,25 +224,37 @@ public struct ПланИсправления: Decodable, Equatable, Sendable {
 }
 
 public struct ОтветОператора: Decodable, Equatable, Sendable {
+  public let область: String
   public let схема: String
   public let исход: ИсходОтвета
   public let причина: ПричинаЭскалации?
   public let план: ПланИсправления?
   public let черновикСообщения: String
   public let эффект: String
+  public let эффектРазрешён: Bool
+  public let отправкаРазрешена: Bool
+  public let применимостьПодтверждена: Bool
 
   public init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: Ключи.self)
     try проверитьПоля(container.allKeys.map(\.rawValue), ожидаемые: [
-      "схема", "исход", "причина", "план", "черновик-сообщения", "эффект",
+      "область", "схема", "исход", "причина", "план", "черновик-сообщения", "эффект",
+      "эффект-разрешён", "отправка-разрешена", "применимость-подтверждена",
     ], decoder: decoder)
+    область = try container.decode(String.self, forKey: .область)
     схема = try container.decode(String.self, forKey: .схема)
     исход = try container.decode(ИсходОтвета.self, forKey: .исход)
     причина = try container.decodeIfPresent(ПричинаЭскалации.self, forKey: .причина)
     план = try container.decodeIfPresent(ПланИсправления.self, forKey: .план)
     черновикСообщения = try container.decode(String.self, forKey: .черновикСообщения)
     эффект = try container.decode(String.self, forKey: .эффект)
-    guard схема == "fuma.ответ-известному-отказу.пилот.1", эффект == "не-выполнять" else {
+    эффектРазрешён = try container.decode(Bool.self, forKey: .эффектРазрешён)
+    отправкаРазрешена = try container.decode(Bool.self, forKey: .отправкаРазрешена)
+    применимостьПодтверждена = try container.decode(Bool.self, forKey: .применимостьПодтверждена)
+    guard область == "синтетическая-фикстура-stop-07d609-13-36",
+      схема == "fuma.ответ-известному-отказу.пилот.2", эффект == "не-выполнять",
+      эффектРазрешён == false, отправкаРазрешена == false, применимостьПодтверждена == false
+    else {
       throw DecodingError.dataCorruptedError(
         forKey: .схема, in: container, debugDescription: "Неподдержанная схема ответа"
       )
@@ -261,7 +285,10 @@ public struct ОтветОператора: Decodable, Equatable, Sendable {
   }
 
   private enum Ключи: String, CodingKey {
-    case схема, исход, причина, план, черновикСообщения = "черновик-сообщения", эффект
+    case область, схема, исход, причина, план, черновикСообщения = "черновик-сообщения", эффект
+    case эффектРазрешён = "эффект-разрешён"
+    case отправкаРазрешена = "отправка-разрешена"
+    case применимостьПодтверждена = "применимость-подтверждена"
   }
 }
 
@@ -343,7 +370,7 @@ public struct ОператорОтвета: Sendable {
     guard !состояние.действуетПауза else { return эскалация(.действуетПауза) }
     guard !состояние.исходЭффектаНеизвестен else { return эскалация(.неизвестныйИсходЭффекта) }
     guard Self.допустимоеОснование(допуск.база), Self.допустимоеОснование(состояние.база) else {
-      return эскалация(.некорректныйOIDОснования)
+      return эскалация(.некорректныйИдентификаторОбъектаОснования)
     }
     guard Self.равны(допуск.база, состояние.база) else {
       return эскалация(.другаяБаза)
@@ -402,7 +429,7 @@ public struct ОператорОтвета: Sendable {
 
   private static func равны(_ первое: ОснованиеБазы, _ второе: ОснованиеБазы) -> Bool {
     switch (первое, второе) {
-    case (.полныйOID(let a), .полныйOID(let b)), (.токенФикстуры(let a), .токенФикстуры(let b)):
+    case (.полныйИдентификаторОбъекта(let a), .полныйИдентификаторОбъекта(let b)), (.токенФикстуры(let a), .токенФикстуры(let b)):
       return Self.байты(a) == Self.байты(b)
     default: return false
     }
@@ -411,7 +438,7 @@ public struct ОператорОтвета: Sendable {
   private static func допустимоеОснование(_ основание: ОснованиеБазы) -> Bool {
     switch основание {
     case .токенФикстуры(let значение): return Self.допустимыйПуть(значение) && !значение.contains("/")
-    case .полныйOID(let значение):
+    case .полныйИдентификаторОбъекта(let значение):
       return (значение.count == 40 || значение.count == 64)
         && значение.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) }
     }
