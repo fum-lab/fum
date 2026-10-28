@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+    "собственныйКонтрольныйКоммит": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+      "родитель": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -814,8 +814,8 @@
     },
     "сообщениеСледующегоКоммита": {
       "исходныйЗапрос": "A avtovyidachu polnomochij mozhem sdelatj?",
-      "заголовок": "Принять JSON-контракт полномочий",
-      "описание": "Независимо приняты source efafc15f4682bf50dc8f605000270d454a8d39db и только два JSON-файла: закрытая входная/выходная схема контракта и 33 синтетические фикстуры для отдельного FUMA evaluator. Разобраны JSON, проверены уникальные идентификаторы, точные ключи результата, наборы allow/hold/escalate, безопасность child grant для отказов и негативные сценарии owner/parent/scope, capability expansion, stale base/generation, pause, unknown effect и replay. Проверка подтверждает только контракт и fixtures. FUMA evaluator, Swift adapter, factory, orchestration effect и полная политика не подключены."
+      "заголовок": "Исправить запись журнала и закрепить приёмку",
+      "описание": "Физические строки 66–67 собственного JSONL содержат разрезанное событие 66; исходные байты и их SHA сохранены, append-only коррекция 67 добавлена. В собственной ветке отдельно приняты byte consumer merge f9a7b2c977c2ca77f577d66840df4e1ba250e799 и JSON-only contract merge 8815103a0e000ed47a8a4e205fadb99d6320dcc3; точные деревья, родители, raw receipts и push/readback сохранены в состоянии. Свежая read-only native metadata row для собственного thread показала те же выбранные gpt-6-luna/max и совпала с сохранённой частной проекцией SHA 8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1; backend и native turn context неизвестны. ROOT acceptance остаётся pending; полная FUMA policy, общий Package consumer и запуск фабрики не объявляются готовыми."
     }
   },
   "результатГенератораМетаданных": {
@@ -964,6 +964,38 @@
       "prePushVerified": true,
       "postPushVerified": true,
       "errors": []
+    },
+    "последнееПрименение": {
+      "schema": "fum.координация.генерация-сообщения.1",
+      "profileVersion": "08a42e4cb1f18d22",
+      "metadataExecutableSHA256": "08a42e4cb1f18d22f87004a4c80041d9c3ba785799cfcb55941a9fd71d1cac6e",
+      "fumaOperatorSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+      "fumaDefinitionSHA256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+      "freshSelectionProjectionSHA256": "8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1",
+      "acceptedSelection": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max"
+      },
+      "backendModel": "unknown",
+      "nativeTurnContext": "unknown",
+      "preflightReady": true,
+      "preflightSHA256": "fcf24f8b3bc268ca15c3a4d357bc946ad3a0746ce999d3a44acd4c34a9f9d6ef",
+      "fumaRunID": "fuma-cc868d64-758f-47bb-9bd4-d39ff69945d3",
+      "actualFUMAMessage": {
+        "byteCount": 1297,
+        "sha256": "111ab3faf4c98d4ba0f32243ec37a7ed6d83601c200ba48b0686fb36d5eb5446",
+        "preparedBytesEqual": true,
+        "rootTrailerPresent": true
+      },
+      "author": {
+        "имя": "FUM Codex [gpt-6-luna; effort=max]",
+        "почта": "fum@local"
+      },
+      "committer": {
+        "имя": "FUM",
+        "почта": "fum@local"
+      },
+      "gitEffect": "pending"
     }
   },
   "автовыдачаПолномочий": {
@@ -2069,6 +2101,35 @@
           "koordinaciya/avtovyidacha-polnomochij/kontrakt/fixtures.json"
         ],
         "fullFUMAPolicyComplete": false
+      },
+      "coordinatorMerge": {
+        "oid": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
+        "tree": "9c23315bf81a8fed9d4b503479bb7b371d5cf554",
+        "parents": [
+          "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+          "efafc15f4682bf50dc8f605000270d454a8d39db"
+        ],
+        "rawCheck": {
+          "passed": true,
+          "receiptSHA256": "787b17c0d34a1be5f5079d305575e886ffcd9248641c126b359c9189534e2f78",
+          "rawObjectSHA256": "d3e075ef71c3b5a52b418a0dd4fc520d412161506eed2baf1b717d6f8cae6b52",
+          "exactFumaMessageBytes": {
+            "count": 1065,
+            "sha256": "c63f5aa371ba147d8e6fd27536272f780ee9f0947318f54f1720807c4285b25f"
+          }
+        },
+        "push": {
+          "kind": "ordinary exact-OID push",
+          "remoteOID": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
+          "remoteReadback": "PASS",
+          "rootRefUnchanged": "9eec7d2f1f9f49b09812963f68ed637e96850090"
+        },
+        "scope": [
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/contract.json",
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/fixtures.json"
+        ],
+        "rootAcceptance": "pending",
+        "fullFUMAPolicyComplete": false
       }
     }
   ],
@@ -2170,5 +2231,48 @@
     },
     "gitConfigChanged": false,
     "globalModelChanged": false
+  },
+  "проверкаЦелостностиЖурнала": {
+    "schema": "fum.координация.проверка-jsonl.1",
+    "checkedAtUTC": "2026-10-28T23:53:08.332Z",
+    "source": "koordinaciya/журнал.jsonl",
+    "preCorrectionJournal": {
+      "bytes": 121636,
+      "sha256": "bdaa271cf8811378d4804f168fa69542307348a3d35e0b407b05c515f6203463"
+    },
+    "malformedEventOrder": 66,
+    "preservedPhysicalFragments": [
+      {
+        "line": 66,
+        "bytes": 1636,
+        "sha256": "e79a087700b5c5864c7627e9e88c0ea6f87c8c881634367e2da81a898832c6d7",
+        "hashScope": "content-without-LF"
+      },
+      {
+        "line": 67,
+        "bytes": 257,
+        "sha256": "cd1cc8df868321a7a50ee890044f84f8b52291d6dbcb05fc66cdb77333357c26",
+        "hashScope": "content-without-LF"
+      }
+    ],
+    "correctionEventOrder": 67,
+    "originalBytesRewritten": false,
+    "validPrefixEntries": 65,
+    "correctionAppended": true
+  },
+  "проверкаВыбораТекущейСессии": {
+    "checkedAtUTC": "2026-10-28T23:53:08.332Z",
+    "source": "read-only SQLite exact-row query",
+    "ownThreadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "agentPathMatches": true,
+    "model": "gpt-6-luna",
+    "reasoningEffort": "max",
+    "rowCount": 1,
+    "projectionSHA256": "8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1",
+    "projectionMatchesSavedPrivateBytes": true,
+    "backendModel": "unknown",
+    "nativeTurnContext": "unknown",
+    "attachedThreadParentIDSQLiteJSON": null,
+    "lineageStatus": "unknown"
   }
 }
