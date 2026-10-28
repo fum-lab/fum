@@ -3,8 +3,8 @@ import Testing
 
 @testable import FUMStructuringOperatorMemory
 
-@Test func этапТрансляцииAOTОтклоняетНеподдержаннуюОперацию() throws {
-  let граф = try графДляAOT(.массив([.строка("умножить"), .целое(2), .целое(3)]))
+@Test func трансляторОтклоняетНеподдержаннуюОперацию() throws {
+  let граф = try графДляТрансляции(.массив([.строка("умножить"), .целое(2), .целое(3)]))
   do {
     _ = try ТрансляторГрафаSwift.перевести(
       граф, пределИсходника: ПределыИсполнения().байтовРезультата)
@@ -14,7 +14,7 @@ import Testing
   }
 }
 
-@Test func этапТрансляцииAOTСтабиленИОграничиваетИсходник() throws {
+@Test func трансляторСтабиленИОграничиваетИсходник() throws {
   let граф = try графСоединения(["a", "ё"], разделитель: "|")
   let предел = ПределыИсполнения().байтовРезультата
   let исходник = try ТрансляторГрафаSwift.перевести(граф, пределИсходника: предел)
@@ -31,7 +31,7 @@ import Testing
   }
 }
 
-@Test func этапТрансляцииAOTПобайтноСовпадаетСИнтерпретатором() throws {
+@Test func переведённыйИсходникПобайтноСовпадаетСИнтерпретатором() throws {
   let строки = ["A", "ё", "е\u{0301}", "\"\\", "🙂", "\u{0}"]
   let граф = try графСоединения(строки, разделитель: String(repeating: "x", count: 48))
   let пределПоУмолчанию = ПределыИсполнения().байтовРезультата
@@ -64,29 +64,30 @@ import Testing
       файлИсходника.path, "-o", исполняемыйФайл.path,
     ])
   guard сборка.код == 0 else {
-    Issue.record("swiftc завершился кодом \(сборка.код): \(String(decoding: сборка.stderr, as: UTF8.self))")
+    let текстОшибкиСборки = String(decoding: сборка.выводОшибок, as: UTF8.self)
+    Issue.record("swiftc завершился кодом \(сборка.код): \(текстОшибкиСборки)")
     return
   }
 
   let точныйПредел = ожидаемыеБайты.count
   let исполнение = try запустить(URL(fileURLWithPath: исполняемыйФайл.path), аргументы: [String(точныйПредел)])
   #expect(исполнение.код == 0)
-  #expect(Array(исполнение.stdout) == Array(ожидаемыеБайты))
+  #expect(Array(исполнение.вывод) == Array(ожидаемыеБайты))
 
   let наБайтНиже = try запустить(
     URL(fileURLWithPath: исполняемыйФайл.path), аргументы: [String(точныйПредел - 1)])
   #expect(наБайтНиже.код != 0)
-  #expect(наБайтНиже.stdout.isEmpty)
+  #expect(наБайтНиже.вывод.isEmpty)
 }
 
 private func графСоединения(_ строки: [String], разделитель: String) throws -> ГрафJSON {
   let элементы = [.строка("массив")] + строки.map { УзелОпределения.строка($0) }
-  return try графДляAOT(.массив([
+  return try графДляТрансляции(.массив([
     .строка("соединить-строки"), .массив(элементы), .строка(разделитель),
   ]))
 }
 
-private func графДляAOT(_ результат: УзелОпределения) throws -> ГрафJSON {
+private func графДляТрансляции(_ результат: УзелОпределения) throws -> ГрафJSON {
   try ГрафJSON(.объект([
     "схема": .строка("fuma.граф-JSON.1"),
     "числа": .строка("целые64-без-дробей"),
@@ -97,22 +98,22 @@ private func графДляAOT(_ результат: УзелОпределен�
 
 private struct РезультатПроцесса {
   let код: Int32
-  let stdout: Data
-  let stderr: Data
+  let вывод: Data
+  let выводОшибок: Data
 }
 
-private func запустить(_ executable: URL, аргументы: [String]) throws -> РезультатПроцесса {
-  let process = Process()
-  process.executableURL = executable
-  process.arguments = аргументы
-  let stdout = Pipe()
-  let stderr = Pipe()
-  process.standardOutput = stdout
-  process.standardError = stderr
-  try process.run()
-  process.waitUntilExit()
+private func запустить(_ цельИсполняемогоФайла: URL, аргументы: [String]) throws -> РезультатПроцесса {
+  let процесс = Process()
+  процесс.executableURL = цельИсполняемогоФайла
+  процесс.arguments = аргументы
+  let каналВывода = Pipe()
+  let каналОшибок = Pipe()
+  процесс.standardOutput = каналВывода
+  процесс.standardError = каналОшибок
+  try процесс.run()
+  процесс.waitUntilExit()
   return РезультатПроцесса(
-    код: process.terminationStatus,
-    stdout: stdout.fileHandleForReading.readDataToEndOfFile(),
-    stderr: stderr.fileHandleForReading.readDataToEndOfFile())
+    код: процесс.terminationStatus,
+    вывод: каналВывода.fileHandleForReading.readDataToEndOfFile(),
+    выводОшибок: каналОшибок.fileHandleForReading.readDataToEndOfFile())
 }
