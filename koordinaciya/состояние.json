@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "9b7992ff5f968845bb198b6e828188a5951df32a",
+    "собственныйКонтрольныйКоммит": "f939d8a7302d181c707c0fd2518476660eb4debc",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "9b7992ff5f968845bb198b6e828188a5951df32a",
+      "родитель": "f939d8a7302d181c707c0fd2518476660eb4debc",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -814,8 +814,8 @@
     },
     "сообщениеСледующегоКоммита": {
       "исходныйЗапрос": "A avtovyidachu polnomochij mozhem sdelatj?",
-      "заголовок": "Обновить статус постановки перед назначением контракта",
-      "описание": "Сохранить результаты собственного checkpoint 5972408876ec7cc5dcf9254112ec50a2db732762 и merge 9b7992ff5f968845bb198b6e828188a5951df32a с принятым ROOT f9f61840aa39c8db4cf8546a61c4a6efade0c33d. Конкретные новые адреса contract/operator/adapter будут внесены только после одного канонического slug от существующей автоматизации именования; до этого child не запускается и путь не материализуется."
+      "заголовок": "Сохранить контракт автовыдачи и FUMA-срез",
+      "описание": "Сохранить RO-контракт и 15 сценариев по точным FUMA-исходникам, а также реальные FUMA-проверки допустимого подмножества, расширения полномочий и отсутствующего поля. Получить каноническую ссылку koordinaciya/avtovyidacha-polnomochij/kontrakt через существующую автоматизацию имён на закреплённом LinguisticKit pin. Это ещё не полная политика допуска: область, поколение, приостановка и отзыв, ресурсы, повторы и фабрика остаются непроверенными; вызова фабрики нет. Пишущий дочерний узел будет создан отдельно после этой постановочной контрольной точки."
     }
   },
   "результатГенератораМетаданных": {
@@ -969,7 +969,7 @@
   "автовыдачаПолномочий": {
     "схема": "fum.координация.автовыдачи.черновой-план.1",
     "идентификатор": "автовыдача-ограниченного-подмножества-v1",
-    "статус": "постановка-зафиксирована; ожидается-канонический-slug",
+    "статус": "RO-контракт-и-FUMA-срез-проверены; каноническое-имя-получено; писатель-ещё-не-материализован",
     "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
     "основание": {
       "источник": "прямое-поручение-родителя",
@@ -1007,17 +1007,17 @@
     "цепочка": [
       {
         "этап": "contract",
-        "область": "koordinaciya/<canonical-slug>/contract/**",
-        "состояние": "не-создано; ждёт slug"
+        "область": "koordinaciya/avtovyidacha-polnomochij/kontrakt/**",
+        "состояние": "постановка-зафиксирована-в-этой-контрольной-точке; отдельный writer ещё не создан"
       },
       {
         "этап": "operator",
-        "область": "koordinaciya/<canonical-slug>/operator/**",
+        "область": "koordinaciya/avtovyidacha-polnomochij/operator/**",
         "состояние": "после-приёмки-contract"
       },
       {
         "этап": "adapter",
-        "область": "koordinaciya/<canonical-slug>/adapter/**",
+        "область": "koordinaciya/avtovyidacha-polnomochij/adapter/**",
         "состояние": "после-приёмки-operator"
       },
       {
@@ -1044,10 +1044,18 @@
     },
     "неБарьерСуществующимПутям": true,
     "источникSlug": {
-      "состояние": "ожидается-ответ-инструментального-родителя-через-ROOT",
-      "переводчик": "существующая-автоматизация-именования/Lingvistika",
-      "получено": false,
-      "ручное-латинизирование-разрешено": false
+      "состояние": "получена-и-сверена-квитанция-службы-имён",
+      "переводчик": "существующая-LinguisticKit-N_ames-автоматизация",
+      "получено": true,
+      "ручноеЛатинизированиеРазрешено": false,
+      "ссылка": "koordinaciya/avtovyidacha-polnomochij/kontrakt",
+      "реф": "refs/heads/fum-lab/fum/koordinaciya/avtovyidacha-polnomochij/kontrakt/master",
+      "slug": "avtovyidacha-polnomochij",
+      "контракт": "kontrakt",
+      "pinLing": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+      "sha256Квитанции": "fcee76b94533a4f1c4cc6812c99a63c3d77efa3e3dbf5c6e24a9a0ce465af14f",
+      "sha256Входа": "771fc77cf21b41e883b122631a575867c692d49d40644dbfbe618e7d0d79a798",
+      "sha256Вывода": "5a71dc2ac23a07ec59991310f1f08511781b182ce61f8dbeef44745193126812"
     },
     "доставкаПостановки": {
       "taskCheckpoint": "5972408876ec7cc5dcf9254112ec50a2db732762",
@@ -1066,6 +1074,313 @@
       "запущен": false,
       "пустаяЗаготовкаСнята": true,
       "следующийПереход": "после-получения-canonical-slug"
-    }
+    },
+    "обзорКонтракта": {
+      "schema": "fum.координация.ro-анализ-контракта-автовыдачи.1",
+      "source": {
+        "коммит": "9b7992ff5f968845bb198b6e828188a5951df32a",
+        "дерево": "c31c99cb6d6bf1c8b54511a1580d0a8a2fdbaf88",
+        "файлы": [
+          {
+            "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+            "blob": "6f0659de06334b41cd8cbe08d8b15c3c8f1baa88"
+          },
+          {
+            "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+            "blob": "d3c294dd1bef8b8b1d149e528e880d6d52df0ac5"
+          },
+          {
+            "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift",
+            "blob": "4ebfea424ef4f3225925a407576fa87e992727b5"
+          },
+          {
+            "путь": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиГрафаJSON.swift",
+            "blob": "4d10a535c08212c85bec74fce696737f232abcf9"
+          },
+          {
+            "путь": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиКомпозиции.swift",
+            "blob": "24091b5fd931dba5986b12a468af05be3f852faa"
+          },
+          {
+            "путь": "koordinaciya/fuma/генератор-метаданных.json",
+            "blob": "c294c6da44050b0311a4084fcbd061efacdde53f"
+          }
+        ],
+        "разностьМеждуReviewBaseИТекущимWДляЭтихИсточников": "отсутствует"
+      },
+      "checks": [],
+      "findings": {
+        "существующиеОперации": [
+          "путь",
+          "если",
+          "равно",
+          "отобразить",
+          "массив",
+          "соединить-массивы",
+          "композиция-определений"
+        ],
+        "конечныеФлаги": "вектор по фиксированным ключам; FUMA сравнивает запрошенные true-флаги с грантовыми флагами и затем весь вектор с [true,...]",
+        "конечныеУровни": "перечень допустимых пар enum-уровней выражается точным равенством и ветвлением",
+        "новыйFUMAПримитив": "для конечной v1 политики не требуется",
+        "ограничения": [
+          "произвольное отношение префикса для динамической вложенности пути не подтверждено; использовать закреплённые trusted child profiles или adapter-наблюдение нормализованной вложенности",
+          "граф чистый и не хранит/не погашает request ID; history берётся из существующих state/journal, неизвестный эффект запрещает повтор",
+          "ошибку отсутствующего обязательного поля нельзя трактовать как allow; вход имеет полную фиксированную схему и явные маркеры неизвестности"
+        ]
+      },
+      "contract": {
+        "схема": "fum.координация.решение-автовыдачи.1",
+        "вход": {
+          "trustedParentGrant": {
+            "identity": {
+              "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+              "parentNode": "typed-parent-identity",
+              "childOwner": "typed-current-node-identity"
+            },
+            "source": {
+              "status": "verified|unknown",
+              "record": "parent-state-record-reference",
+              "generation": 1
+            },
+            "scopeProfile": {
+              "id": "approved-profile-from-parent-grant",
+              "path": "exact canonical child scope",
+              "depthLimit": 1
+            },
+            "capabilities": {
+              "read": true,
+              "writeOwnArea": true,
+              "commitOwnRef": true,
+              "normalPushOwnRef": true,
+              "spawnImmediateChildWithinIssuedSubscope": true
+            },
+            "resourceCeiling": {
+              "worktreeLevel": "small|medium|large",
+              "diskBudgetLevel": "small|medium|large",
+              "maximumDepth": 1
+            },
+            "control": {
+              "paused": false,
+              "revoked": false,
+              "generation": 1
+            }
+          },
+          "request": {
+            "requestId": "stable-request-id",
+            "requestHash": "sha256-of-exact-canonical-request-by-adapter",
+            "requesterIdentity": "typed-current-parent-node",
+            "requestedScopeProfile": "profile-id-only; no trusted grant selector",
+            "requestedCapabilities": {
+              "read": true,
+              "writeOwnArea": true,
+              "commitOwnRef": false,
+              "normalPushOwnRef": false,
+              "spawnImmediateChildWithinIssuedSubscope": false
+            },
+            "requestedResourceLevel": "small",
+            "baseOID": "full-git-oid",
+            "targetRef": "refs/heads/fum-lab/fum/<generated-scope>/contract/master",
+            "targetWorktreeProfile": "<generated-scope>/contract",
+            "modelSelection": {
+              "model": "gpt-6-luna",
+              "reasoningEffort": "max"
+            },
+            "taskMessageHash": "sha256"
+          },
+          "observedState": {
+            "grantSourceFresh": true,
+            "ownerAndParentMatch": true,
+            "grantGenerationCurrent": true,
+            "baseCurrent": true,
+            "scopeNestedInTrustedProfile": true,
+            "targetRefAndWorktreeUnoccupied": true,
+            "singleWriterObserved": true,
+            "pauseOrRevocationObserved": "clear|paused|revoked|unknown",
+            "resourceHeadroom": "sufficient|insufficient|unknown",
+            "replay": "none|same-request-known-effect|same-request-unknown-effect|same-id-different-hash|incomplete-history"
+          }
+        },
+        "выход": {
+          "decision": "allow|hold|escalate",
+          "exactChildGrant": "only-on-allow",
+          "reason": "required",
+          "generation": "required",
+          "requestId": "required",
+          "effectPlan": "dry-until-orchestrator-gate"
+        }
+      },
+      "cases": [
+        {
+          "id": "ordinary-own-scope",
+          "изменение": "request matches trusted child profile, actions and resource levels are subsets; base/source/generation fresh; no pause; W/ref unused",
+          "ожидается": "allow; exact grant only"
+        },
+        {
+          "id": "foreign-owner-or-parent",
+          "изменение": "requester, current owner, or parent identity differs from trusted grant",
+          "ожидается": "escalate; no effect"
+        },
+        {
+          "id": "request-supplies-grant-source",
+          "изменение": "request includes its own grant source/id as trust selector or adapter tries to load it",
+          "ожидается": "escalate; trusted source remains parent state"
+        },
+        {
+          "id": "foreign-scope",
+          "изменение": "requested scope lies outside the exact child profile",
+          "ожидается": "escalate; no effect"
+        },
+        {
+          "id": "capability-expansion",
+          "изменение": "any requested true flag is false in trusted grant",
+          "ожидается": "escalate; no effect"
+        },
+        {
+          "id": "resource-expansion",
+          "изменение": "requested finite resource level exceeds trusted ceiling",
+          "ожидается": "escalate; no effect"
+        },
+        {
+          "id": "stale-base-or-generation",
+          "изменение": "current HEAD/ref or grant generation differs from approved request snapshot",
+          "ожидается": "hold; refresh before any effect"
+        },
+        {
+          "id": "pause-or-revoke",
+          "изменение": "grant paused, revoked, or control state unknown",
+          "ожидается": "hold; no effect"
+        },
+        {
+          "id": "resource-shortage",
+          "изменение": "observed resource headroom below grant profile or unknown",
+          "ожидается": "hold; no effect"
+        },
+        {
+          "id": "occupied-target-or-second-writer",
+          "изменение": "same branch/W already exists or another writer observed",
+          "ожидается": "hold; do not create another node"
+        },
+        {
+          "id": "replay-same-id-and-body",
+          "изменение": "history has same request id and same hash, effect receipt known",
+          "ожидается": "return prior decision and receipt exactly; no second tool call"
+        },
+        {
+          "id": "replay-id-collision",
+          "изменение": "history has same request id with different request hash",
+          "ожидается": "escalate; no effect"
+        },
+        {
+          "id": "unknown-effect",
+          "изменение": "intent exists without independent factory receipt/readback",
+          "ожидается": "hold; no retry"
+        },
+        {
+          "id": "incomplete-history",
+          "изменение": "append-only state/journal coverage incomplete or parsing unknown",
+          "ожидается": "hold; no effect"
+        },
+        {
+          "id": "dry-executor",
+          "изменение": "valid allow in dry mode",
+          "ожидается": "decision only; no factory call"
+        }
+      ],
+      "effectBoundary": {
+        "factory": "collaboration.spawn_agent",
+        "toolHasIdempotencyKey": false,
+        "toolCallableFromFUMAProcess": false,
+        "safeV1": "orchestrator consumes the exact FUMA allow output once; records intent before call; reads list_agents/receipt afterward; no receipt or incomplete readback stays hold",
+        "permissions": "logical decision does not change OS or Codex permissions",
+        "overallDecision": "FUMA owns allow/hold/escalate; Swift adapter only selects/verifies trusted external source and current Git/factory observations"
+      },
+      "reviewer": {
+        "type": "read-only subagent",
+        "api": "collaboration.spawn_agent",
+        "selectedModel": "gpt-6-luna",
+        "selectedEffort": "max",
+        "backend": "unknown",
+        "nativeTurnContext": "неизвестно",
+        "agentStarted": true,
+        "filesWritten": 0,
+        "checkRuns": 0
+      }
+    },
+    "состояниеКонтракта": "предложение-RO-и-конечный-профиль-флагов-проверены-FUMA; полный-оператор-ещё-не-реализован",
+    "частичныйFUMAСрез": {
+      "схема": "fum.координация.доказательство-среза-подмножества.1",
+      "статус": "частичный-FUMA-срез-подтверждён; полная-автовыдача-не-реализована",
+      "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "проверяемыйСмысл": "Для конечного списка из пяти boolean capability флагов каждый запрос true разрешён только когда parent grant также true; запрос false всегда остаётся внутри флага. Это один компонент политики, не полный allow/hold/escalate.",
+      "источникИсполнителя": {
+        "продукт": "fum-оператор",
+        "sha256Бинарника": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+        "принятаяОсноваПакета": "6999fcb256d298302358d1329c2e57fead00a808",
+        "деревоПакета": "367d8eea5055aaedb65242c088266a2ff1320649",
+        "совпадениеПакетаСПринятойОсновой": true,
+        "профиль": "Swift 6, строгая конкурентность, warnings-as-errors; бинарник уже существовал, новой сборки не было"
+      },
+      "определение": {
+        "rawSha256": "8ee7096f06c1d01610d734a2aba76326aa73336e9c1a1ed29e24a995106b5937",
+        "оценкаХэшаИсполнителем": "sha256:8e18c90e02e60cb810bdcd258bd3a6ed859016613c29892fe4e88f9dbfbdba08",
+        "схемаГрафа": "fuma.граф-JSON.1",
+        "использованныеОперации": [
+          "путь",
+          "если",
+          "равно",
+          "отобразить",
+          "массив"
+        ],
+        "числоФлагов": 5
+      },
+      "фактическиеСценарии": [
+        {
+          "id": "subset-allow",
+          "ожидание": "подмножество=true",
+          "наблюдение": "подмножество=true; непревышение-конечного-профиля",
+          "входSha256": "fef4235fb2ca4963287942e22360203a9b1451fa89ed3247dd62f29d8019d802",
+          "stdoutSha256": "7968b1014d4bc9a6a4901342563c8a335221826f6c0a2c8ee4a866aa4ff17f71",
+          "наблюдениеSha256": "sha256:42ca68c147778620eece9375461f64829358c5e9de80fc4b780688302fb9b4b1",
+          "квитанция": "d1df4d4b-124a-4fd9-acf6-1ebfb6a5eb14",
+          "квитанцияSha256": "4452f672e5b0d07878da11f5307cdf381a1c24ec4aff17896482e6b31feba093",
+          "исход": "pass"
+        },
+        {
+          "id": "capability-expansion",
+          "ожидание": "подмножество=false",
+          "наблюдение": "подмножество=false; запрошенный-флаг-вне-выданного-предела",
+          "входSha256": "a15c726efd4527c591d4e4fe2515e4eefd9b80b7a6aefbc08c7324ae26ded0dc",
+          "stdoutSha256": "307cb045f5bcde986ba734248a436458d9570b73607b74dc53e61a8539eae12f",
+          "наблюдениеSha256": "sha256:4c805fadb623ae55d6b525f7580255ab625c9b63c2105c4f42ead3d366f017bd",
+          "квитанция": "1461142b-f0d5-44f6-8c7e-3fe5d725d9c4",
+          "квитанцияSha256": "053010822a887a0a09ad1a8880fa398d1e4a737649ca17d59374bc004ee3f696",
+          "исход": "pass"
+        },
+        {
+          "id": "missing-required-flag",
+          "ожидание": "fail-closed без решения",
+          "наблюдение": "код 2; путь-JSON сообщает отсутствующее обязательное поле; stdout пуст",
+          "входSha256": "c04f356ad7dc25cbaaefef1da02639e2c386b1a68090f8ba3a18dd38f68d284a",
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "70047cda5c52fc60acadb663c6e4259f0afc195dc5d78adb5681958b5e1944ac",
+          "исход": "expected-rejection"
+        }
+      ],
+      "эволюцияФикстуры": {
+        "версии": 3,
+        "первыеДвеФактическиеИтерации": "RED: v1 неверно отклоняла запрос false по уже выданному true флагу; v2 выдавала объект на каждый флаг и потому сравнивала не boolean-вектор. Обе ошибки исправлены в v3 до указанного GREEN.",
+        "областьИсправления": "только частный эксперимент; канонический код FUMA и общий Package не менялись",
+        "полныеСырыеВыходыИЖурналыСохраненыВПриватномХранилище": false,
+        "уточнениеСохранения": "Выходы v1 и v3 сохранены полностью. Для v2 профиль allow исполнялся два раза в один append-only FUMA сегмент; последняя stdout сохранена отдельно, обе квитанции остаются в сегменте, отдельная stdout первой записи была перезаписана перенаправлением."
+      },
+      "границыДоказательства": [
+        "проверен только finite subset из пяти capability-флагов",
+        "вложенность области, владелец/родитель, поколение, pause/revocation, resource levels, replay и unknown factory effect в этом запуске не проверялись",
+        "вызов collaboration.spawn_agent не выполнялся",
+        "логический результат FUMA не меняет права ОС или Codex",
+        "срез не является подключённым производственным генератором и не завершает feature"
+      ]
+    },
+    "переводчик": "существующая-LinguisticKit-автоматизация-имён"
   }
 }
