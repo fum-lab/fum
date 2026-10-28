@@ -1,0 +1,123 @@
+{
+  "схема": "fum.координация.потребитель-байтов-сообщения-fuma.1",
+  "времяОбновленияUTC": "2026-10-28T23:02:51Z",
+  "идентификаторы": {
+    "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "дочернийCodexThreadID": "01a184af-6041-79d0-88b1-17a9489d54a4",
+    "slug": "potrebitelj-bajtov-soobsjheniya-fuma",
+    "выборМоделиПриСоздании": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "max",
+      "видСвидетельства": "API selection, не утверждение о backend/provider"
+    }
+  },
+  "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
+  "границаЗадачи": {
+    "worktree": "выделенный sparse W для slug; физический путь сохранён только в приватном evidence",
+    "ветка": "refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master",
+    "исходныйHEAD": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+    "проверенныйHEADПередФиксацией": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+    "remote": "origin https://github.com/fum-lab/fum.git",
+    "исходноеСостояние": "чистое",
+    "изменённыеПути": [
+      "koordinaciya/координатор.swift",
+      "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/ПроверкиПотребителяБайтСообщенияFUMA.swift",
+      "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/state.json",
+      "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/журнал.jsonl"
+    ]
+  },
+  "реализация": {
+    "файл": "koordinaciya/координатор.swift",
+    "sha256": "f9ea424f342e19b4d1e88850eb26a613358d0dce21e61fd6ae7f912165712792",
+    "типы": [
+      "ПотребительБайтСообщенияFUMA",
+      "ОшибкаПотребителяБайтСообщенияFUMA"
+    ],
+    "подготовка": "Принимает фактические Data FUMA, проверяет UTF-8, атомарно записывает Data в файл, читает подготовленный файл обратно, требует побайтное равенство и возвращает Data без добавления/удаления LF.",
+    "границаGitЭффекта": "Перед вызовом переданного Git-effect callback проверяет UTF-8 и равенство исходных и подготовленных Data; при расхождении бросает ошибку до callback.",
+    "ограниченноеОткрытиеДляТеста": "РезультатЗапускаFUMA и ИсполнительГенератораFUMA стали internal вместо private, чтобы обязательный Swift Testing исходник мог получить реальный typed результат существующего executor.",
+    "интеграция": "Общий consumer и интеграция не изменялись; отдельная интеграция потребителя остаётся необходимой."
+  },
+  "источникFUMA": {
+    "происхождение": "Фактический typed результат существующего ИсполнительГенератораFUMA и ПакетВыходаГенератораFUMA на tracked fixture; сценарий найден по id, сообщение не задано тестом вручную.",
+    "сценарий": "leading-trailing-crlf-russian-trailer-mention",
+    "definitionSha256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+    "fixtureSha256": "679447d7b57e8b13f78dda008f4c2eb80152fa1977c0a517648716418cffec67",
+    "operatorSha256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+    "исполнительSwiftSha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+    "stdoutJsonSha256": "4702f4a01daf3e19f5853b7fbd8a8ffd395998a959881b06d7a62bd2ab3523e0",
+    "inputJsonSha256": "4e64973d873fdb6677f1fbf0d9797ae17de1a88b3334d7820921bb8e00e67cc6",
+    "resultJsonSha256": "0c76b33510f675ac3addd26e756ac0a7220427b2bdc1777082407a1e3db7b8b2",
+    "receiptJsonSha256": "ac974ce584e88687e27c70236caa96f1554443785d2c3085c5037b4f23f885a3",
+    "точныеБайты": {
+      "числоБайт": 270,
+      "исходноеСообщениеSha256": "cf5c4df85bb20f1b5670f37dd95fc8d9ead316be2008ec71eb27eead32c2ca24",
+      "подготовленныйФайлSha256": "cf5c4df85bb20f1b5670f37dd95fc8d9ead316be2008ec71eb27eead32c2ca24",
+      "равенствоData": true,
+      "свойства": ["UTF-8", "кириллица", "CRLF", "краевые пробелы", "последний байт 0A"],
+      "хранение": "Приватный временный runtime; абсолютные пути не являются переносимым описанием и не включены в этот state."
+    }
+  },
+  "TDD": {
+    "RED": {
+      "вариант": "В отдельной приватной копии coordinator временно удалён guard prepared Data == source Data перед callback.",
+      "исход": "Ожидающее отклонение не произошло: итог .потребительПропустилЭффект; тест упал, показывая прохождение дополнительного LF в Git-effect callback.",
+      "кодВозврата": 1,
+      "дополнительныйLF": {
+        "числоБайт": 271,
+        "sha256": "12d45b99e91085d9bb4d62e462267878ac02a2829a317f402d5c702213bde3aa"
+      },
+      "запись": "Приватный лог/argv сохранены во внешнем закрытом evidence; см. sha256 ниже."
+    },
+    "GREEN": {
+      "исход": "После восстановления точного исходника оба Swift Testing теста прошли: mismatch дополнительного LF отклонён до callback; фактические байты сообщения записаны и прочитаны без изменения.",
+      "тесты": 2,
+      "suite": 1,
+      "кодВозврата": 0,
+      "сборка": "Минимальный приватный Swift harness только из точных Swift source; Swift 6 strict concurrency, warnings-as-errors и actor data-race checks.",
+      "профиль": {
+        "числоВызовов": 25,
+        "общееВремяНС": 6549958,
+        "медианаНС": 240583,
+        "максимумНС": 579333,
+        "байтСообщения": 270,
+        "файлSha256": "9d11ce52c5f4c4723974d4b4d038aec57108abed51424d6b5ca32eacfc6ac60f"
+      }
+    }
+  },
+  "evidence": {
+    "privateArgvAndArtifactManifestSha256": "bf9c8701b39eb362e64f8e14665a3e7d75f16b01c00c7c3f59571138929b05c0",
+    "commitMessageSha256": "02e748e06aaba9de9a148e0178711b3ed16d81926752677314c1faf8e0b670e2",
+    "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+    "committer": "FUM <fum@local>",
+    "ownRemoteRefBeforePush": "отсутствовал по git ls-remote",
+    "indexBeforeCommit": "чистый",
+    "privateRedOutputSha256": "a34b872ce81795618d8253ac551bdfbe5f29ac013b9c7f6ccbbdcda84610ba80",
+    "privateGreenOutputSha256": "094c82df66626ea4ad526e2022d31cfd4e2298b689bc0c849a23ec339896defe",
+    "argvTemplate": [
+      "/usr/bin/env",
+      "KOORDINACIYA_REPOSITORY_ROOT=<private-worktree>",
+      "KOORDINACIYA_FUMA_DEFINITION=<tracked-definition>",
+      "KOORDINACIYA_FUMA_OPERATOR=<existing-operator>",
+      "KOORDINACIYA_FUMA_FIXTURE=<tracked-fixture>",
+      "KOORDINACIYA_FUMA_RUN_ROOT=<private-runtime>",
+      "/usr/bin/swift",
+      "test",
+      "--package-path",
+      "<private-minimal-harness>",
+      "--filter",
+      "ПроверкиПотребителяБайтСообщенияFUMA"
+    ],
+    "точныйArgvСЗакрытымиПутями": "Сохранён в приватном manifest; его абсолютные input/raw/runtime пути не внесены в Git."
+  },
+  "ограниченияПроверки": {
+    "изменёнPackageSwift": false,
+    "запущенПолныйRootPackageBuild": false,
+    "запущенPython": false,
+    "выдаётсяЗаGitCommit": false
+  },
+  "доставка": {
+    "статусДоПервойФиксации": "подготовлено и проверено; commit/push ещё не выполнены",
+    "общаяИнтеграция": "не выполнена, остаётся отдельным следующим переходом"
+  }
+}
