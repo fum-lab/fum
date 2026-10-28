@@ -1,0 +1,43 @@
+{
+  "выведенные_записи": [
+    {
+      "category": "allow.nonpath-syntax",
+      "count": 1,
+      "id": "batch9-markdown-tilde-fence-regex",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:cced280b1db0f0c239f9eb587fb30b792db9cf9fdef3c0d7a2bf496aa9138b45",
+      "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "reason": "Тильда входит в регулярное выражение границы Markdown-блока из трёх тильд. Это синтаксис ограждения, а не домашний каталог или адрес файловой системы."
+    },
+    {
+      "category": "report.historical",
+      "count": 1,
+      "id": "batch9-root-original-system-literal",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7f4e4d5904c734f43d6e08947a5fd8d84918db047c758e0114ecc61687361ba0",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Дословная доказательная цитата прежнего нативного поручения ROOT, сохранённая до текущего ремонта вместе с raw SHA и byte offsets. Она фиксирует первоначальное указание сохранить литерал и исход сканирования, не исполняет и не вводит текущий runtime-адрес."
+    },
+    {
+      "category": "report.historical",
+      "count": 1,
+      "id": "batch9-agent-original-system-literal",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:09e033eed8089c6fcde7c69948d87a15c8d369c50345a132fdb4f51cc4d1fafb",
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Дословная доказательная цитата прежнего ответа агента о системном литерале и ожидаемом отказе policy, с точным происхождением. Старые исходные байты не меняются; это цитата завершённой стадии, не действующий исполняемый литерал."
+    }
+  ],
+  "граница": "Категории и семантику цитат принимает ROOT. Вывод fingerprint выполняет штатный read-only API существующего обновителя, без вызова update_policy и без записи общей policy.",
+  "исходная_policy_sha256": "e42aee20feb8ed3000f8b06cb84a90a501e99da98c2eaf3c9912f922d5ca371e",
+  "манифест": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/manifest-publikacionnyikh-kontekstov.json",
+  "непокрытый_контекст": {
+    "blob": "f88ef1e9416b26591d5e5d2a06b2804f7293e4ba",
+    "sha256": "84d11043d665f1974bd60e80596da617eb7d6a875944917f3ec6e61b42cbb3f9",
+    "причина": "Исполняемый системный литерал закрытой капсулы. Его нельзя назвать nonpath или исторической цитатой; закрытый enum существующего обновителя не имеет allow.system-runtime. Общая policy и старые свидетельства не меняются. Для изменения старого артефакта либо отдельного точного допуска требуется решение ROOT.",
+    "путь": "iskhodniki/aktualizaciya-putej/zhurnal/perenesti-postanovku.swift",
+    "строка": 20
+  },
+  "статус": "Точное предложение ROOT, не установленная policy и не разрешение публикации.",
+  "схема": "fum.предложение-публикационных-контекстов.1"
+}

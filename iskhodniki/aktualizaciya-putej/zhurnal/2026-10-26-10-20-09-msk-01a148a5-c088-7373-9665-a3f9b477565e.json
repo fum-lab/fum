@@ -1,0 +1,239 @@
+{
+  "схема": "fum.адресный-этап-исправления-приёмки.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "время_начала": "2026-10-26T07:20:09Z",
+  "исходная_непринятая_поставка": "f19779d43c1e92a6022a3f609e83654f3c88d9d7",
+  "receiving_L": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+  "L_tree": "8931d2f63231534c142cd17b39d1599e20c55992",
+  "программа": [
+    "Включить exactL до содержательной записи: выполнено merge --noff --nocommit, кодL неизменён,6ROOTJSON сохранены.",
+    "Настоящий parentfsync RED, локальный ремонт leaf/intermediate recovery, GREEN/no-first-effect и узкий профиль.",
+    "Честная публикационная граница, текущий Darwin SDK API вместо своих system literals с регрессией сохранения образа/среды.",
+    "Содержательный checkpoint с точной постановкой отдельного исключения2initialP.1; затем свой конечный ребёнок на отдельном W/ref."
+  ],
+  "корневые_оригиналы": {
+    "число": 5,
+    "private_capsule_sha256": "9992ac959fefc33de7a5aa8cf9916ada3952ede80fb1cd8c163b57961bfaeee4",
+    "граница": "Оригиналы/порядок/raw boundaries сохранены приватно из собственного native. ROOT21GB не читался."
+  },
+  "запуски": [
+    {
+      "идентификатор": "merge-L",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "af2d8e44095522ff637192de6264fdfd469841c78f905e172641da9155205307",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "96bb6a194a796153cbd0c640642866371219451832063763d544b942a8d97c4e"
+    },
+    {
+      "идентификатор": "journal-start-plan",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "80aa33457113c5f2ba74068476fb90e162d8fc0a858018274f77743fd6eff8df",
+      "stdout_sha256": "e0abf807dda4c695c0662e1d35d80effaa031f5a66b75c7c486c3b9a3eaa8895",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "journal-start-plan-v2",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "7e91026fa5da765ccf152c696f4bfc87cac42a3862cb6f1763e6eb128c506b30",
+      "stdout_sha256": "1153c3995896d238f1373d11898cc2a8beea38d8ec1334a8c2c15de0970f923c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "journal-start-apply",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "5969f2d9cc0d9c7901e7dc522e09f2ee566a778372487485fb8b9729932f74d7",
+      "stdout_sha256": "5672568fd93c6b35fb00d14d99523f6fd1f8486aa810d9d2287d8f89fa495bb2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "parent-fsync-red",
+      "код": 1,
+      "полнота": true,
+      "манифест_sha256": "0eae0346a249970ff440e8f87ad99b92993f0830322c1f738ee98927237e7698",
+      "stdout_sha256": "a05d96ef89f1da48b8598fd2044cf6b58f2ebab04b143e7d217d653b10af1728",
+      "stderr_sha256": "89ff9f9dca41c67d6574d4daa9c2d0f70c327bf3c34a88fe45a64242e9c495d5"
+    },
+    {
+      "идентификатор": "parent-fsync-green",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "1c14d10c8720472f47b8f9c97894f107440ee1d9b567179fba74bd077c747087",
+      "stdout_sha256": "e1b13aa827989feae336b65b95ffe5bc992c74dc5ae09470f6bb222d4f9318fc",
+      "stderr_sha256": "d6c6b0f2900100dd4f49628e363abd780b3997676b60c7d77ad7193f041b44ee"
+    },
+    {
+      "идентификатор": "root-agent-names",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "742e7eb55a0b87efc2176e7c80a53ba381ceee80b1a32bb59cb468fe8e205515",
+      "stdout_sha256": "c5b36ec481c843fa3cdb983436e704c8f2a3a5a99f4eaafc0a7990183fac8eee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "journal-names-plan",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "2201da7b8fd1fcd75d2ae1cd2df54ac99422158befff66270aacde7eba75a152",
+      "stdout_sha256": "8bd9c9240adec2375b5df27eece664f898aace5147244c706197b75226c79379",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "journal-names-apply",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "ba1fe4c2b1538c875825958fbd48d5c50dbba59082e4000d6a7b61ba338cb631",
+      "stdout_sha256": "5ab02f4c54bf9f92eec16e58eaa9fb6ae46dda4fbbb2c248a820c28283eb02a4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "darwin-path-api",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "eee15ab350f22fdf7e02bfc73a80ca361bef937a64a4879c90ae0d44a65362ad",
+      "stdout_sha256": "7a4d676892b4550efe51729da77d3ff50fbaa0528fe5c25c67356aecfc957404",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "git-runtime-before",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "23fbed89d15c3c2ab048f9501be74c6ea8fec98c03c187bbbaed866100e923fc",
+      "stdout_sha256": "ede1cfc0dc5be124c2f10788d89db3333f2620c288c0dacd784c5f1865490386",
+      "stderr_sha256": "d6c8a0ac5d7aa26cd7ee429eca506fb79a049d19f8e94a2f741b578516b023a8"
+    },
+    {
+      "идентификатор": "git-runtime-after",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "3cae0d3373456990b1648581fed4986b13b3ab910aebbe28224e967f7e8c207b",
+      "stdout_sha256": "b26e8157f6d6c642e80d8d8723c185588b9fd867f42da0515cee7467fb86dcff",
+      "stderr_sha256": "af9ee6379820f92cc2b364a1e9121ae26490c6cbf6e8983deb4fdfb6b9128986"
+    },
+    {
+      "идентификатор": "init-profile",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "df269f6106b56b079084e25d255a71e135a27664750da445e67c256fef105a38",
+      "stdout_sha256": "67793584b8b5a0d70676055d525f79313c4e6a1c3d4d048f54ca635cde8a65bf",
+      "stderr_sha256": "36c5b6fd17e208f2fe1a02903aea5c3ab66f74a887adb65015c3118937430bde"
+    },
+    {
+      "идентификатор": "init-profile-final",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "3d2e1115780553b67859927247c15b4068528981fbd2374f054b97fab8aaf7c5",
+      "stdout_sha256": "5297c6a0a7c61254d319ea84403196231a9c6878839169276c120476beb532a5",
+      "stderr_sha256": "2e6f11280ea7c903ba0365da0a65f43c79c3c2001482606a7b5173a55e178143"
+    },
+    {
+      "идентификатор": "batch-after-repair",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "f88f6f3aa1316c77d4708e04a20f0e6099fd7ad70262ad3ef00ff58285838b01",
+      "stdout_sha256": "042ef109b08254b04eb4fbc76767210ac8ac43d1b1db7fe0e467074ce1e79bd3",
+      "stderr_sha256": "52396b3f7ebb85782ee1bffccc8a645a10df3ce3217f2d6aa2c6839e507260a8"
+    },
+    {
+      "идентификатор": "publication-selected",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "bafbef727e6edcbdac0003c5473d5e35f644f11cefd12c7d98e3f08705cb0642",
+      "stdout_sha256": "2a20f66e13674d22e587a4b4a0794ec0246932060e82ad6da355451e8b1f6228",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "journal-outcome-plan",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "eefc8cd641f862fb8ce5f2d4206918220421a8c95e71f3db58fbf231629e9895",
+      "stdout_sha256": "04ff46f4d5bc0235e5084f69ce404efcceb68936c96e03a762646ed6a4df5b6c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "идентификатор": "journal-outcome-apply",
+      "код": 0,
+      "полнота": true,
+      "манифест_sha256": "b96a8d10cc12120ae817b8563b640225e6e616743957734b96ed006f22296844",
+      "stdout_sha256": "e27df685a15991fe2c78e92f7f1aa8629e4149fb62fb881be05bd598912d2768",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "RED": "Parentfsync:1функция/2случая/14issues, producer1/full. Первый вызов адресно отказал EIO после mkdir. Старый второй вызов обошёл тот же parentfd, вернул завершено14 и вошёл в первый предметный hook. Это реальное исполнение на private fixtures; не статическая гипотеза и не power-loss.",
+  "ремонт": "Существующийleaf проверяется и повторно синхронизируетродителя. Для существующегоintermediate родительское ребро синхронизируется до mkdir потомка. Индукция ограничена частичными состояниями этой программы: первый failedsync останавливает создание потомков. Guards namespace/marker/segment loss сохранены. Операции проведены внутренним seam через существующий ФайловыеОперации; публичный произвольный storage/retry API не добавлен.",
+  "GREEN": "После ремонта5функций GREEN (new2cases+4старых storage/fault функций). После SDKзамены targeted2GREEN; на окончательном коде profile+SDK+repair3GREEN. Wholebatch26total=24executedGREEN/2profile skips. Old37 и ROOTобщие проверки заново не запускались.",
+  "SDK": {
+    "header": "usr/include/paths.h",
+    "header_sha256": "96603992a31cd9bd9f5a0721d714d1aec4fff18131fbbe8204d4831b61cb75ff",
+    "API": [
+      "_PATH_DEVNULL",
+      "_PATH_STDPATH"
+    ],
+    "выбор": "Первый стандартный каталог текущей compile-time SDK, URLfileAPI и explicitposix_spawn. ПользовательскийPATH не участвует; нет поиска/fallback или globalenv mutations.",
+    "выбранный_образ_sha256": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+    "граница": "Совпадение с прежним выбранным адресом/образом наблюдено на текущемSDK. SHAнаблюдение не заменяет криптографической проверки каждого запуска; будущийSDK требует повторной сверки.",
+    "регрессия": "Before/after0:fakePATHgit,badGITDIR/config/count,UTF8argv и прежний отказ revparse. ДоSDKзамены это профилактический baselineGREEN, отдельногоSDKRED не выдумано."
+  },
+  "профиль": {
+    "файл": "2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e/profilj-vosstanovleniya.json",
+    "sha256": "a4da84977fd9bde7275d90a40420fe7dc3e0c204e68094acf3528e5ab0222ff0",
+    "samples": 8,
+    "leaf": 4,
+    "nested": 4,
+    "медианы_нс": {
+      "первый_отказ_нс": 11580396.0,
+      "повторный_отказ_нс": 11139625.5,
+      "восстановление_нс": 12959875.0
+    },
+    "условия": "Последовательные samples внутри одной profileфункции. Две другие targetedфункции могли работать параллельно в том же прогоне. Измеряется весь init/check вызов, включаяnamespaceGit/метаданные/fsync/plan; не отдельнаяlatency fsync. Подготовка исключена.",
+    "решение": "Сохранить ремонт без дальнейшего сокращения оград:8малыхsamples не обосновывают изменение алгоритма/ресурсов. Предметный профиль14effects не повторён; ускорение, ROOT или power-loss не заявлены."
+  },
+  "имена_ROOT": {
+    "LinguisticKit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "таблица": ".Cyrl→.Latn .ru",
+    "pairs": [
+      {
+        "исходный": "Фабрика агентов",
+        "целевой": "fabrika-agentov"
+      },
+      {
+        "исходный": "Наблюдение",
+        "целевой": "nablyudeniye"
+      },
+      {
+        "исходный": "Аудит",
+        "целевой": "audit"
+      },
+      {
+        "исходный": "Узлы",
+        "целевой": "uzlyi"
+      }
+    ],
+    "names_sha256": "97274c7e75fd1e98312ade753f11a6f389deaa03380ce44d48005ad59d2a5e3b",
+    "library_sha256": "4d48526f6142f03c2f1df442151ac7fdfbb2b37a4ae1be8980ee6a701660c997",
+    "J": "10f426fc00e828e99910c838fd75056c60211dcfcad528ad736c7ecf87541e14.json",
+    "J_sha256": "a3c5c53d18874179211198544283f3ce58edfd91b3fe5e6502ef1d0345ccc897"
+  },
+  "RO_review": {
+    "zhurnal_sha256": "75d5b8716f8be1c83990ba0c57fc9c46a620a17d29d7e2495a1ecad29c38928e",
+    "вывод": "Новыхсущественныхдефектоввзаданноймоделиотказаненайдено; source-only, безновыхзапусков. SDKрефакторингусловноэквивалентентекущемуSDK, не межверсионно."
+  },
+  "прежняя_публикация": "PUB4/code1/f197 и старые отказы сохранены. Новая publication-selected: код0/full, ноль находок по неизменённой exactL policy. Реальные системные пути устранены SDK API; false nonpath/historical allow не добавлены. После записи исхода и обновления отчёта отдельная адресная проверка новых байтов Журнала следует до commit.",
+  "остаток": [
+    "Адресная публикационная проверка новых байтов Журнала, exact checkpoint/delivery.",
+    "После опубликованногоrepaircheckpoint — отдельное2path metadataexclusion стандартнымGit по точной постановке; наэтомcheckpointдваP.1 ещёприсутствуют иROOTacceptanceнезаявлена.",
+    "CommonCLI/liveRAW/ROOT21GB/старыеCreator/общаяNAV/Proyekcii вне этого допуска."
+  ],
+  "состояние": "Содержательный repaircheckpoint подготовлен; последующие checkpoint/delivery/child outcomes не выдуманы.",
+  "локальная_запись_исхода": {
+    "вид": "установлена",
+    "путь": "iskhodniki/aktualizaciya-putej/zhurnal/67721bd0ee7d51cd792595f4ffd9a11063dc47fb90f841ed8347a9686e9806c8.json",
+    "содержаниеSHA256": "c26088cb164670c3905a0a85645fbabcb55be580b00884fbe39121be0c2b1217"
+  },
+  "восстановление_контекста": "Свой exact JSONL: остаток --без-записи завершён producer3/full, stdoutSHA 6a081a674c55969f794dcb2502e3f79e2e75ed462314c78e220132239b003a13. Возвращён один человеческий оригинал CamelCase→kebab-case без записи обработки. Он не отменён; текущий Names/пакет и предметные проверки относятся к его исполнению, но текущая ограниченная ROOT-приёмка ещё не завершена. ROOT21GB не читался; завершение по этому коду не разрешается.",
+  "метаданные_модели": "Канонический новый импорт:21наблюдение,0gaps/tail,последнее gpt-6.1-sol/ultra в08:23:26.351Z. Между наблюдениями переключения неизвестны. ИсторияSHA feab1726c6583ea044c7be4e458c20fe89c2766732acab31e9b0cf26e9fa2c0a. Предыдущий вызов отказал код2 до эффектов, потому что приватный output сообщения уже существовал; прочитан исходник guard, сохранён старый output, выбран новый commit-message-v2 без слепого повтора."
+}

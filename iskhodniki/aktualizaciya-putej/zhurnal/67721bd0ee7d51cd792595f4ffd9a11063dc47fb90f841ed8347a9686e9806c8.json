@@ -1,0 +1,53 @@
+{
+  "входSHA256" : "5de921258aa7df58ebb9e3e220bf4d566e7faca7e06ff46de8dcee3e3bbde2c9",
+  "данные" : {
+    "время" : "2026-10-26T08:17:56Z",
+    "доставка" : [
+
+    ],
+    "исход" : "Адресные durable-init/PUB исправления и новые проверки выполнены. Готовится meaningfulrepaircheckpoint с постановкой дочернегоисключения. Два initialP.1 ещё присутствуют; полная ROOT-приёмка пока не состоялась.",
+    "область" : "iskhodniki/aktualizaciya-putej",
+    "остаток" : [
+      "Exactrepaircommit/push/readback, затем отдельный допускаемый ребёнок исключает только2P.1+свойJ, сохраняя весьостальнойtree/6JSONL.",
+      "После дочернейпоставки переносимость свидетельств/exactnet и передача ROOT.",
+      "Root21GB/legacy149/CommonCLI/liveRAW остаются вне."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Измеренные непересекающиеся init/check интервалы восьми samples",
+        "наносекунды" : 288674584,
+        "свидетельство" : "profilj-vosstanovleniya.json SHAa4da84977fd9bde7275d90a40420fe7dc3e0c204e68094acf3528e5ab0222ff0; init-profile-final3functionsGREEN/capture0. Подготовка/внешнийproducer исключены."
+      }
+    ],
+    "происхождение" : [
+      "Новый адресный ROOT-этап на exactL c6af44bf1ec061675b6205b9c6ee889d98264f28; f197 не принят и история не переписывается.",
+      "Пять ROOT-оригиналов сохранены в приватной капсуле SHA9992ac959fefc33de7a5aa8cf9916ada3952ede80fb1cd8c163b57961bfaeee4.",
+      "Точные capture коды/каналы/SHA и ограничения в собственном отчёте2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e.json."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Реальный parentfsync RED2cases/14issues сохранён. После локального leaf/intermediate ремонта persistentfailure не допускает namespace/marker/первый шаг; после снятия отказа sync действительно повторяется.",
+      "Current batch26total=24executedGREEN,2profile skips. SDK fakePATH/config/count/UTF8/failure baseline и afterGREEN, source-only final RO no new findings в заданной модели.",
+      "Принятые Darwin SDK константы реально дали прежний выбранный Git image и nullconfig; explicitposix_spawn/Cargv/GITcleanup без PATHsearch/globalenv mutation сохранены. НовыйSDK требует повторной сверки; это не криптографическая проверка каждого запуска.",
+      "Новый publication-selected0/full с нулём findings по unchangedpolicy exactL; прежний PUB4/code1 не переименован в успех. Никаких nonpath/historical деклараций для реальных системных путей.",
+      "Узкий initprofile8samples (4leaf/4nested) сохранён; две другие targetedфункции могли исполняться параллельно, ns относятся всемуinit/check, не чистомуfsync. Ремонт сохраняется без необоснованного сокращения оград/заявленияускорения.",
+      "Names/LK837 реальные4pairs сохранены отдельной записью текущей стадии; новой библиотеки/общегопрогона не было.",
+      "ROOT выбрал ровно один standard git rm с двумя exact pathspec в отдельном дочернемW/ref. Постановка опубликована в этомrepaircheckpoint; специализированная FUM-автоматизация/новыйbuilder не заявлены."
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 3,
+      "писатель" : "01a148a5-c088-7373-9665-a3f9b477565e",
+      "стадия" : "исправление-durable-init-batch9"
+    }
+  },
+  "идентификатор" : "67721bd0ee7d51cd792595f4ffd9a11063dc47fb90f841ed8347a9686e9806c8",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}

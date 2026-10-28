@@ -1,0 +1,26 @@
+{
+  "declarations": [
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "batch9-markdown-tilde-fence-regex",
+      "line": 611,
+      "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "reason": "Тильда входит в регулярное выражение границы Markdown-блока из трёх тильд. Это синтаксис ограждения, а не домашний каталог или адрес файловой системы."
+    },
+    {
+      "category": "report.historical",
+      "id": "batch9-root-original-system-literal",
+      "line": 4,
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Дословная доказательная цитата прежнего нативного поручения ROOT, сохранённая до текущего ремонта вместе с raw SHA и byte offsets. Она фиксирует первоначальное указание сохранить литерал и исход сканирования, не исполняет и не вводит текущий runtime-адрес."
+    },
+    {
+      "category": "report.historical",
+      "id": "batch9-agent-original-system-literal",
+      "line": 85,
+      "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+      "reason": "Дословная доказательная цитата прежнего ответа агента о системном литерале и ожидаемом отказе policy, с точным происхождением. Старые исходные байты не меняются; это цитата завершённой стадии, не действующий исполняемый литерал."
+    }
+  ],
+  "schema": "fum.machine-local-path-policy-update.v1"
+}

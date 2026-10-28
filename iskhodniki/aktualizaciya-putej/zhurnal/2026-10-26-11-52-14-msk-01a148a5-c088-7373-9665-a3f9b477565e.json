@@ -1,0 +1,318 @@
+{
+  "схема": "fum.приём-дочерней-metadata-поставки.1",
+  "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "координатор": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "время": "2026-10-26T09:49:27+00:00",
+  "программа": "2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/programma.json",
+  "источник_C": "5066379f9cf82c767929090d42fff6b16a50c3e3",
+  "receiving_L": "c6af44bf1ec061675b6205b9c6ee889d98264f28",
+  "дочерняя_поставка": {
+    "E": "655b0ee2f344b512647f8d0fe32fd0fbfbca492f",
+    "tree": "962eacad769678b5d88b250b59681f09ac95c1ca",
+    "parents": [
+      "5066379f9cf82c767929090d42fff6b16a50c3e3"
+    ],
+    "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local> 1793006959 +0400",
+    "raw_sha256": "1f86d7c0b1a1019081d2218c02d763dd7213f8a08c844719cb9b6cab3449a873",
+    "body_sha256": "c07fd3705173beddb8c6e4036fd1d629924a3161248a7a429d6c00984f972199",
+    "removed": [
+      "Журнал/2026-10-26_03-26-12_MSK_подготовить-пакетное-применение-имён-архива/запрос.md",
+      "Журнал/2026-10-26_03-26-12_MSK_подготовить-пакетное-применение-имён-архива/отчёт.md"
+    ],
+    "added": [
+      "iskhodniki/aktualizaciya-putej/zhurnal/isklyucheniye-dvukh-chernovikov/zhurnal/38ce27048c78bf9b6c19f7df5bb79167abae209f3cd43538f1ab22a3f7ec632c.json"
+    ],
+    "retained_count": 37407,
+    "retained_raw_sha256": "98fd6eab97c1580b690af9d92e5b9bc1547f872af84809e4b064dba3695c740a",
+    "remote": "Независимый coordinator ls-remote: code0/full, exactE",
+    "ref": "refs/heads/codex/isklyucheniye-dvukh-chernovikov-01a17761",
+    "writer_clean": true
+  },
+  "предкоммитное_слияние": {
+    "HEAD": "5066379f9cf82c767929090d42fff6b16a50c3e3",
+    "MERGE_HEAD": "655b0ee2f344b512647f8d0fe32fd0fbfbca492f",
+    "состояние": "merge --no-ff --no-commit выполнен без конфликтов; будущий коммит и его доставка ещё не заявлены."
+  },
+  "запуски": [
+    {
+      "id": "journal-start-plan",
+      "code": 0,
+      "full": true,
+      "manifest_sha256": "5dc0d442e0dcf4e183dc2416fec61e7b37acbfb86331d570f4f24c9bd2d0d1e1",
+      "stdout_sha256": "427967c9cba5c0a9d4ada1f7f7861513252302c04e0b8c8c6c8d45a492ab0f98",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "journal-start-apply",
+      "code": 0,
+      "full": true,
+      "manifest_sha256": "bb86338af5ee755211106cab2ad069a349e1fd1851500b1b80e02454bcd59e04",
+      "stdout_sha256": "883600ecaea9743ad62dd3ee61a90d7c561d6a3cf2b0fb50ec08cbf06ca07ec2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "journal-correction-plan",
+      "code": 0,
+      "full": true,
+      "manifest_sha256": "374982f6115be17cf085075d9df1b652e7280c54d121921e558ee82904c36527",
+      "stdout_sha256": "01a1459b4e501966f43698659528b64b4274b076c2d28f061e87165090f878a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "journal-correction-apply",
+      "code": 0,
+      "full": true,
+      "manifest_sha256": "74bd28d9aeb328ea47f1017d00ba9aa36b409ea5e151b9d6ba95912c6d577164",
+      "stdout_sha256": "c7f0f1d595b7e81a65554e8aa981aeb834823ee77e7dd340691c639477a6fa46",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "child-remote-readback",
+      "code": 0,
+      "full": true,
+      "manifest_sha256": "5869a1929bd05487dec0e74580a24bc8622013aaa3a1b3b3ce33b7ec53b24759",
+      "stdout_sha256": "0fc802ca41d6b1d3f531c2560bec10770f27baba20844a393db1b0f82628fa58",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "merge-child",
+      "code": 0,
+      "full": true,
+      "manifest_sha256": "8509db981657480548ab28f99e1b070b80904bb6dacfe2d2d18a203cfe1762f9",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "96bb6a194a796153cbd0c640642866371219451832063763d544b942a8d97c4e"
+    }
+  ],
+  "независимый_RO": {
+    "UUID": "01a17767-dd69-71c0-9993-f2af8fb846c1",
+    "вывод": "Полная дельта 2D+1A, ноль изменений сохранённых файлов; все 37 407 path/type/mode/blob совпадают. Шесть JSON из L, Package, gitlink и настройки точны. Remote E и чистый W подтверждены. Две длительности — runner timing, полного producer interval нет.",
+    "граница": "Тесты и scanner не повторялись; один вспомогательный SHA полного PUB в текстовой сводке имел опечатку, в этом отчёте используется первичный RAW SHA, самостоятельно проверенный координатором."
+  },
+  "переносимость_продуктовых_свидетельств": {
+    "source_report": "2026-10-26-10-20-09-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+    "основание": "Неизменны все сохранённые Git entries C, включая исходники, тесты, Package.swift, настройки, gitlink, fixtures, ресурсы и версионированные сводки. Удаляемые Markdown вне build/runtime inputs; новая J исключена Package из target.",
+    "фактические_прежние_запуски": "Parent-fsync RED:2cases/14issues, code1. Repair5GREEN, затем SDK before/after GREEN; final init-profile3GREEN и batch26total=24executedGREEN+2profile skips. Профиль init:8samples,4leaf/4nested, SHAa4da84977fd9bde7275d90a40420fe7dc3e0c204e68094acf3528e5ab0222ff0.",
+    "граница": "Это перенос прежнего свидетельства по точным входам, а не свежий тест или новое измерение. Старые37, полный профиль14effects, ROOT21GB и общие legacy-допуски не повторялись. Ускорение и межверсионная SDK-эквивалентность не заявляются."
+  },
+  "коррекция_времён": {
+    "исходная_дочерняя_запись_sha256": "500d54074d4644379e336c9898e0bbe23477a9210371cda87e80ca8678d15502",
+    "старые_наносекунды": [
+      8875,
+      10875
+    ],
+    "фактический_источник": "Tool wall_time_seconds: 0.000008875 и 0.000010875. По контракту это время ожидания вывода, а не полный интервал команд.",
+    "полные_длительности_команд": null,
+    "решение": "Трактовка как полной длительности отозвана; коды и эффекты проверены независимо. Повтора Git-эффекта или тестов нет.",
+    "корректирующая_запись": {
+      "вид": "установлена",
+      "путь": "iskhodniki/aktualizaciya-putej/zhurnal/2335480aef8c7615a77842222674c4eefb5aa7f20d0a1ea5ff14f385f7f8cc5d.json",
+      "содержаниеSHA256": "1b4c747bdecb320f81d72ba3bb13cc71f3abd2ccc1faa5b65fa5abd25aba95b9"
+    },
+    "программа_приёма": "Успешный код и SHA проверяются отдельно от времени. Typed elapsed для всей команды принимается лишь при самостоятельном интервале producer. Неизвестная полная длительность сохраняется как неизвестная; время ожидания не подставляется вместо неё."
+  },
+  "полный_PUB_ребёнка": {
+    "code": 2,
+    "finding_lines": 16166,
+    "errors": 230,
+    "stdout_bytes": 2328608,
+    "stdout_sha256": "2640c0e5728566bc33528e7c8c8d41428537fc7b1157e9e69a0cf3493d872268",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "own_child_lines": 0,
+    "граница": "Полный запуск вышел за выбранную адресную программу. Его реальный неуспех сохранён; глобальная publication readiness не подтверждена. Адресный PUB новой J прошёл отдельно."
+  },
+  "параллельная_RO_модель_Package": {
+    "source_C": "5066379f9cf82c767929090d42fff6b16a50c3e3",
+    "package_blob": "ec99ed9d3ac5912311c9f6fbb2fd39c7f4b7827f",
+    "package_sha256": "9114852afcaa278e133490cd14cf87a683161f502e5115cb812ce0791dfd4b26",
+    "model_sha256": "4bb972f17b912923fee6d6fdf9746a30fb45323eaa819abf428fc4ba6faf8158",
+    "model_bytes": 7114,
+    "targets": 10,
+    "products": 1,
+    "dependencies": 1,
+    "status": "RO candidate only; facade/dump/build not executed; no known a-b/a_b target pair, previous failure retained",
+    "child": "01a17494-5f9d-7a71-a5ee-bed5aace5860",
+    "boundary": "No model field for swiftSettings: existing generator fixes same Swift6/complete/warnings/actor flags. Not installed or accepted."
+  },
+  "исключённые_границы": [
+    "ROOT21GB, Creator, общая связность/NAV/Proyekcii не запускались.",
+    "Full PUB ребёнка реально завершился2; глобальная публикационная готовность не установлена.",
+    "Master, PR, общий CLI и live RAW не изменялись; ROOT-приёмка отдельна."
+  ],
+  "состояние": "Конечная поставка двух точных исключений и свой merge checkpoint подготовлены; остаются четыре точных PUB-контекста по действующей policy. ROOT принимает предлагаемую декларацию и решение по защищённому адаптеру отдельно. Создание/push/readback нового commit подтверждаются внешними фактическими квитанциями.",
+  "PUB_всего_ограниченного_net": {
+    "code": 1,
+    "full": true,
+    "files": 38,
+    "manifest_sha256": "9af1645bdeac2b30405e69053e4a4c49e7e067bdd2131b7896a075ad5e13c7c6",
+    "stdout_sha256": "71519a390583d5148f88188c09500eef243d7c9e3dd6e7ff2f1c38f9190480e2",
+    "policy_sha256": "e42aee20feb8ed3000f8b06cb84a90a501e99da98c2eaf3c9912f922d5ca371e",
+    "findings": [
+      {
+        "category": "error.home-expansion",
+        "line": 611,
+        "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 4,
+        "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 85,
+        "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 20,
+        "path": "iskhodniki/aktualizaciya-putej/zhurnal/perenesti-postanovku.swift"
+      }
+    ],
+    "смысл": "Расширенный состав относительно receiving L обнаружил четыре более ранних контекста, не охваченных phase5 changed-files PUB0. Исходный отказ не переименован в успех."
+  },
+  "предложение_policy": {
+    "схема": "fum.предложение-публикационных-контекстов.1",
+    "статус": "Точное предложение ROOT, не установленная policy и не разрешение публикации.",
+    "манифест": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-11-52-14-msk-01a148a5-c088-7373-9665-a3f9b477565e/manifest-publikacionnyikh-kontekstov.json",
+    "исходная_policy_sha256": "e42aee20feb8ed3000f8b06cb84a90a501e99da98c2eaf3c9912f922d5ca371e",
+    "выведенные_записи": [
+      {
+        "id": "batch9-markdown-tilde-fence-regex",
+        "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+        "kind": "home-expansion",
+        "line_sha256": "sha256:cced280b1db0f0c239f9eb587fb30b792db9cf9fdef3c0d7a2bf496aa9138b45",
+        "count": 1,
+        "category": "allow.nonpath-syntax",
+        "reason": "Тильда входит в регулярное выражение границы Markdown-блока из трёх тильд. Это синтаксис ограждения, а не домашний каталог или адрес файловой системы."
+      },
+      {
+        "id": "batch9-root-original-system-literal",
+        "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+        "kind": "posix-absolute",
+        "line_sha256": "sha256:7f4e4d5904c734f43d6e08947a5fd8d84918db047c758e0114ecc61687361ba0",
+        "count": 1,
+        "category": "report.historical",
+        "reason": "Дословная доказательная цитата прежнего нативного поручения ROOT, сохранённая до текущего ремонта вместе с raw SHA и byte offsets. Она фиксирует первоначальное указание сохранить литерал и исход сканирования, не исполняет и не вводит текущий runtime-адрес."
+      },
+      {
+        "id": "batch9-agent-original-system-literal",
+        "path": "iskhodniki/aktualizaciya-putej/zhurnal/2026-10-26-04-31-22-msk-01a148a5-c088-7373-9665-a3f9b477565e.json",
+        "kind": "posix-absolute",
+        "line_sha256": "sha256:09e033eed8089c6fcde7c69948d87a15c8d369c50345a132fdb4f51cc4d1fafb",
+        "count": 1,
+        "category": "report.historical",
+        "reason": "Дословная доказательная цитата прежнего ответа агента о системном литерале и ожидаемом отказе policy, с точным происхождением. Старые исходные байты не меняются; это цитата завершённой стадии, не действующий исполняемый литерал."
+      }
+    ],
+    "непокрытый_контекст": {
+      "путь": "iskhodniki/aktualizaciya-putej/zhurnal/perenesti-postanovku.swift",
+      "строка": 20,
+      "blob": "f88ef1e9416b26591d5e5d2a06b2804f7293e4ba",
+      "sha256": "84d11043d665f1974bd60e80596da617eb7d6a875944917f3ec6e61b42cbb3f9",
+      "причина": "Исполняемый системный литерал закрытой капсулы. Его нельзя назвать nonpath или исторической цитатой; закрытый enum существующего обновителя не имеет allow.system-runtime. Общая policy и старые свидетельства не меняются. Для изменения старого артефакта либо отдельного точного допуска требуется решение ROOT."
+    },
+    "граница": "Категории и семантику цитат принимает ROOT. Вывод fingerprint выполняет штатный read-only API существующего обновителя, без вызова update_policy и без записи общей policy."
+  },
+  "метаданные_нового_этапа": "Точные окончательные байты новых и изменённых метаданных сканируются отдельно перед commit; SHA и исход конечной квитанции связывает тело Git-коммита. Это не полный зелёный PUB ограниченного net.",
+  "решения_о_моделях": [
+    {
+      "узел": "01a17761-2ee2-78c1-aa09-731d3321c441",
+      "прежнее": {
+        "model": null,
+        "effort": null,
+        "причина": "Новый чат; прежний выбор неизвестен и не предполагается."
+      },
+      "requested": {
+        "model": "gpt-6-luna",
+        "effort": "max"
+      },
+      "accepted": {
+        "диспетчерский_запрос_принят": true,
+        "самостоятельное_подтверждение_модели_в_ответе_API": null
+      },
+      "observed": {
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "time": "2026-10-26T09:24:39.818Z",
+        "raw_sha256": "52d61ac83552e66ac5238858b6aed40f11b761ae9bd9207c2aab49bae2d59232",
+        "offset": [
+          7239798,
+          7241817
+        ]
+      },
+      "инициатор_конкретного_решения": "Координатор 01a148a5-c088-7373-9665-a3f9b477565e",
+      "основание": "Конечное дочернее назначение или новый RO-этап в разрешённой иерархии; полезный параллелизм по общей политике человека, переданной ROOT.",
+      "субъект_общей_политики": "Человек; ROOT передал общее указание. Это не инициатор каждого конкретного переключения.",
+      "инициатор_внутреннего_фактического_переключения": "unknown: runtime причинность отдельно не раскрыта; наблюдается совпадение последующего turn_context с принятым запросом.",
+      "граница": "Промежуточные ненаблюдённые переключения не реконструируются."
+    },
+    {
+      "узел": "01a17767-dd69-71c0-9993-f2af8fb846c1",
+      "прежнее": {
+        "model": null,
+        "effort": null,
+        "причина": "Новый чат; прежний выбор неизвестен и не предполагается."
+      },
+      "requested": {
+        "model": "gpt-6-luna",
+        "effort": "max"
+      },
+      "accepted": {
+        "диспетчерский_запрос_принят": true,
+        "самостоятельное_подтверждение_модели_в_ответе_API": null
+      },
+      "observed": {
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "time": "2026-10-26T08:51:01.263Z",
+        "offset": [
+          281655,
+          283698
+        ],
+        "raw_sha256": "cec526ea3e93ce8d42f763252ea10e45f33f2a1bd0f2cff37b4b7f67fefefc3f"
+      },
+      "инициатор_конкретного_решения": "Координатор 01a148a5-c088-7373-9665-a3f9b477565e",
+      "основание": "Конечное дочернее назначение или новый RO-этап в разрешённой иерархии; полезный параллелизм по общей политике человека, переданной ROOT.",
+      "субъект_общей_политики": "Человек; ROOT передал общее указание. Это не инициатор каждого конкретного переключения.",
+      "инициатор_внутреннего_фактического_переключения": "unknown: runtime причинность отдельно не раскрыта; наблюдается совпадение последующего turn_context с принятым запросом.",
+      "граница": "Промежуточные ненаблюдённые переключения не реконструируются."
+    },
+    {
+      "узел": "01a17494-5f9d-7a71-a5ee-bed5aace5860",
+      "прежнее": {
+        "model": "gpt-6.1-sol",
+        "effort": "ultra",
+        "time": "2026-10-26T03:41:26.263Z",
+        "offset": [
+          12534210,
+          12536235
+        ],
+        "raw_sha256": "55829ca11b9d5bcc02e7f0fd5ad08bdeab851b0f4d2c4399f188571b5e5085db"
+      },
+      "requested": {
+        "model": "gpt-6-luna",
+        "effort": "max"
+      },
+      "accepted": {
+        "диспетчерский_запрос_принят": true,
+        "самостоятельное_подтверждение_модели_в_ответе_API": null
+      },
+      "observed": {
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "time": "2026-10-26T08:50:34.914Z",
+        "offset": [
+          13733637,
+          13735656
+        ],
+        "raw_sha256": "e1b7e1dd6a435a4c8fd260a671d735f1886c3c63b9979915363df6a773f89b35"
+      },
+      "инициатор_конкретного_решения": "Координатор 01a148a5-c088-7373-9665-a3f9b477565e",
+      "основание": "Конечное дочернее назначение или новый RO-этап в разрешённой иерархии; полезный параллелизм по общей политике человека, переданной ROOT.",
+      "субъект_общей_политики": "Человек; ROOT передал общее указание. Это не инициатор каждого конкретного переключения.",
+      "инициатор_внутреннего_фактического_переключения": "unknown: runtime причинность отдельно не раскрыта; наблюдается совпадение последующего turn_context с принятым запросом.",
+      "граница": "Промежуточные ненаблюдённые переключения не реконструируются."
+    }
+  ]
+}
