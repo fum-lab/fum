@@ -11,7 +11,8 @@ private enum ОтказПредпроверкиПубликации: Error, Equa
 }
 
 private enum ПредпроверкаСоставаПубликации {
-    static let основа = "c55b341085688e034206c2b6ebb31cb9070de705"
+    static let ожидаемаяГолова = "a08a7cd4e1e5948f0a088ef3f78eaa56de2f535a"
+    static let базаСостава = "7fe3070af370b1cb6907465754a92509e9c88061"
     static let путьЗаписи = "Прототипы/память-структурирующих-операторов/zhurnal/371c41f5f2ccafa252e89780ecdcb03dbb5812984c70e38c2c6d9f7a57771d15.json"
     static let путьТеста = "iskhodniki/zhurnal/proverki/предпроверка-состава-публикации.swift"
     static let разрешённыеПути: Set<String> = [путьЗаписи, путьТеста]
@@ -25,7 +26,9 @@ private enum ПредпроверкаСоставаПубликации {
 
     static func проверитьJSON(_ данные: Data) throws {
         try ПубличноеПредставление.проверить(данные)
-        guard let объект = try JSONSerialization.jsonObject(with: данные) as? [String: Any],
+        let значение = try JSONSerialization.jsonObject(with: данные)
+        try ПубличноеПредставление.проверитьЗначения(значение)
+        guard let объект = значение as? [String: Any],
               let содержание = объект["данные"] as? [String: Any],
               let проверки = содержание["проверки"] as? [[String: Any]]
         else { throw ОтказПредпроверкиПубликации.json }
@@ -91,6 +94,15 @@ struct ТестыПредпроверкиСоставаПубликации {
     }
 }
 
+@Test func абсолютныйПутьСоСлешамиВUnicodeEscapeОтклоняется() throws {
+    let данные = Data(#"{"данные":{"проверки":[{"название":"read-only сверка worktree, ветки и remote","свидетельство":"ПУБЛИЧНАЯ ПРОЕКЦИЯ (не дословный исходный текст): \u002fUsers\u002ffixture\u002frepo"}]} }"#.utf8)
+    #expect(данные.range(of: Data(#"\u002fUsers"#.utf8)) != nil)
+    #expect(данные.range(of: Data("/Users".utf8)) == nil)
+    #expect(throws: ОтказЖурнала.публикация) {
+        try ПредпроверкаСоставаПубликации.проверитьJSON(данные)
+    }
+}
+
 @Test func непомеченнаяПроекцияJSONОтклоняется() throws {
     let данные = try JSONSerialization.data(withJSONObject: [
         "данные": [
@@ -113,10 +125,10 @@ func предпроверкаТекущейВходящейДельты() throws
     let корень = URL(fileURLWithPath: адресКорня, isDirectory: true)
     let голова = String(decoding: try ПредпроверкаСоставаПубликации.выполнитьGit(
         ["rev-parse", "HEAD"], корень: корень), as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
-    #expect(голова == ПредпроверкаСоставаПубликации.основа)
+    #expect(голова == ПредпроверкаСоставаПубликации.ожидаемаяГолова)
 
     let сырыеПути = try ПредпроверкаСоставаПубликации.выполнитьGit(
-        ["diff", "--cached", "--name-only", "-z", "--no-renames", ПредпроверкаСоставаПубликации.основа],
+        ["diff", "--cached", "--name-only", "-z", "--no-renames", ПредпроверкаСоставаПубликации.базаСостава],
         корень: корень)
     let пути = сырыеПути.split(separator: 0).map { String(decoding: $0, as: UTF8.self) }
     try ПредпроверкаСоставаПубликации.проверитьСостав(пути)
