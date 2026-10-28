@@ -519,12 +519,66 @@
         "Issue-328",
         "FUM-REQ-0044"
       ]
+    },
+    {
+      "semantic_key": "linked-knowledge-representation-provenance",
+      "numeric_id": null,
+      "allocation_status": "pending",
+      "status": "pending-root-acceptance",
+      "owner": "FUM requirements; cross-cutting consumers are FUMA, algorithmic-function distillation, and agent change-program persistence",
+      "statement": "One logical knowledge corpus may hold linked representations of a subject: explanations, formal models, checkable claims, and executable programs. Translations, derivations, and consistency checks retain provenance and leave source representations unchanged. Knowledge need not become executable immediately; a proposed description or hypothesis is distinguished from a program that has passed its declared checks.",
+      "acceptance_criteria": [
+        "When one knowledge item has more than one representation, each representation carries a stable item reference, representation type, and exact source or derivation reference.",
+        "Each translation, derivation, or consistency check records its input revision, method or version, output or compared claim, and observed result; it adds a derived record without rewriting the source.",
+        "Status distinguishes a proposed description or hypothesis, an executable candidate, and a program that passed its declared checks; code presence or a test plan alone is not a passing result.",
+        "Explanations, formal models, or checkable claims may remain without an executable representation; no immediate-execution requirement is implied."
+      ],
+      "consumers": [
+        "fuma-finite-aot-swift-lowering",
+        "fuma-environment-storage-adapter-contract",
+        "agent-git-memory-json-restore-entry",
+        "typed-inter-agent-input-packet-acknowledgement"
+      ],
+      "source_links": [],
+      "source_kind": "ROOT-relayed human principle",
+      "source_provenance": "Exact original wording is preserved in source_quote and linked to append-only event c197482165439264d346deb574dee64c1f8697f1bade13200cae90a82de2434a. The quote was relayed by ROOT; the native ROOT frame was not read.",
+      "source_quote": "Po suti zadacha roya agentov sokhranitj i opisatj  znaniya raznyimi sposobami, v tom chisle avtomaticheski ispolnyayemyimi.",
+      "related_work": [
+        {
+          "type": "existing-requirement",
+          "semantic_key": "fuma-finite-aot-swift-lowering",
+          "relationship": "FUMA-defined translator yields an executable Swift representation."
+        },
+        {
+          "type": "existing-requirement",
+          "semantic_key": "fuma-environment-storage-adapter-contract",
+          "relationship": "Agent change program persists its goal, provenance, per-step results, and resume checkpoint."
+        },
+        {
+          "type": "existing-requirement",
+          "semantic_key": "agent-git-memory-json-restore-entry",
+          "relationship": "Agent state, memory, and restore entry have committed provenance."
+        },
+        {
+          "type": "existing-requirement",
+          "semantic_key": "typed-inter-agent-input-packet-acknowledgement",
+          "relationship": "Source packet bytes and provenance remain exact across handoff."
+        },
+        {
+          "type": "conversation",
+          "conversation_id": "6ab1e0c1-73e8-83ed-86a6-738852b1de2a",
+          "title": "Дистилляция функций",
+          "relationship": "User framing of model distillation into algorithmic functions."
+        }
+      ],
+      "evidence_boundary": "The linked requirements cover bounded FUMA-to-Swift generation, a persisted agent change program, restore state, and exact packet handoff. They do not establish an implemented corpus-wide lineage or consistency verifier; ROOT acceptance remains pending."
     }
   ],
   "open_residue": [
     "Numeric requirement ID allocation remains pending; semantic keys are used without guessed numbers.",
     "Provider adapter compatibility, bootstrap restoration, and fresh external-effect readback have not been executed or accepted by this task.",
     "The parent-reported immutable AOT source commit 0bf0441efd445bd9f9f241fba5e959600ae1ebb1 does not contain the cited Swift translator/test filenames in the local tree examined; PR-437's open draft body is retained as reported evidence only.",
-    "ROOT acceptance and integration are not claimed."
+    "ROOT acceptance and integration are not claimed.",
+    "Cross-representation lineage, consistency-check recording, and proposal-versus-verified-program status remain pending implementation and ROOT acceptance."
   ]
 }
