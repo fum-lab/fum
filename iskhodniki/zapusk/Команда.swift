@@ -7,6 +7,12 @@ import МатериализацияУзлов
 @main
 struct Команда {
     static func main() async {
+        if CommandLine.arguments.dropFirst().first == "stop" {
+            let ответ = КомандаStop.выполнить(Array(CommandLine.arguments.dropFirst(2)))
+            do { try FileHandle.standardOutput.write(contentsOf: ответ) }
+            catch { Darwin.exit(2) }
+            return
+        }
         if CommandLine.arguments.dropFirst().first == "пакет-путей" {
             let текст: String
             do {
