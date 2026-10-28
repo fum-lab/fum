@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "1bd5eed303753c6e6bd85e5af96021d7adeb6c78",
+      "родитель": "4f955f026a259a6c4b623a65ffab178d75e43892",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "A avtovyidachu polnomochij mozhem sdelatj?",
-      "заголовок": "Слить принятую ROOT-контрольную точку в координатора",
-      "описание": "Выполнено явное двухродительское слияние принятой ROOT-контрольной точки 232aa7694ad75bc7aad01da97b3f1b2c6e3ff1c8 в собственную ветку координатора. Первым родителем остаётся собственный checkpoint, вторым точный ROOT OID. После readback ожидается только собственная дельта koordinaciya/** относительно ROOT commit; это не ROOT acceptance и не изменение ROOT checkout."
+      "исходныйЗапрос": "Уточнение ROOT: связать первый ожидаемый родитель слияния с родителем плана и закрепить расхождение тестом Swift Testing.",
+      "заголовок": "Связать первого родителя слияния с планом",
+      "описание": "CLI проверки сырого merge-коммита теперь до чтения stdin и запуска FUMA сравнивает первый элемент независимого expectedParents с plan.parent. Несовпадение закрывается с exit 1; совпадение продолжает полную проверку дерева, упорядоченных родителей, author/committer, байтов сообщения и ROOT trailer. Добавлены два Swift Testing случая: совпадение и mismatch. На исходнике HEAD 4f955f0 без исправления тесты дали RED из-за отсутствующего helper; итоговый source прошёл Swift Testing 2/2 в приватном минимальном harness с двумя production Swift source, TESTING define, complete strict concurrency и warnings-as-errors. Исторический результат 100/100 сохранён отдельно; диагностический расширенный прогон 102/102 состоялся до внутренней русификации новых имён и не переписывается. После русификации production CLI собран из точных source и mismatch/readback проверены отдельно. Это собственный source checkpoint; ROOT acceptance и общая интеграция остаются отдельными."
     }
   },
   "результатГенератораМетаданных": {
@@ -1573,5 +1573,36 @@
         }
       }
     }
+  },
+  "проверкаСвязиПервогоРодителяСлияния": {
+    "схема": "fum.координация.проверка-связи-первого-родителя-слияния.1",
+    "основание": {
+      "ownHead": "4f955f026a259a6c4b623a65ffab178d75e43892",
+      "ownRef": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "rootMergeBase": "232aa7694ad75bc7aad01da97b3f1b2c6e3ff1c8"
+    },
+    "исправление": "первый expectedParents сопоставляется с plan.parent до чтения raw commit и до вызова FUMA; mismatch завершает CLI с ошибкой",
+    "swiftTesting": {
+      "testSource": "koordinaciya/proverki-svyazi-roditelya-sliyaniya-s-planom.swift",
+      "testSourceSHA256": "969181d8d1c78406c258661b4f2451923766d108a6ce63045e324fea50f2d096",
+      "tests": 2,
+      "baseline": "RED: HEAD 4f955f0 не содержит финальный русскоязычный helper; два теста не компилируются",
+      "current": "GREEN: 2/2 Swift Testing после финальной русификации helper и тестов",
+      "harness": "private minimal SwiftPM target with exact coordinator.swift and metadata generator source; TESTING define; strict concurrency complete; warnings as errors; no package dependencies",
+      "command": "swift test --package-path <private-harness> --filter ПроверкиСвязиРодителейСлияния",
+      "harnessManifestSHA256": "7ef597379f390408352c8c7339cf94890bfa171fb617933e6b875baf93d485e0",
+      "redLogSHA256": "2d8e01a194596c40604d2a030fe2f01bebb9acc85411307b807d8cbeff3bbc73",
+      "greenLogSHA256": "c6ff2eb9cb0f357cc64a6750f860ced1cd1bd365a2dc5d0dc3d40114257538dc"
+    },
+    "production": {
+      "coordinatorSHA256": "3c5b178b6ab099c5426cebbf67915ec01f99c038b2a3e018c92cfc8b2db0dd86",
+      "diagnosticsSourceSHA256": "0eaaa2a6031f62dc17a664423fd43bb228cd5b2cd9f2ad79832af4f5c08172e5",
+      "metadataGeneratorSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+      "binarySHA256": "08a42e4cb1f18d22f87004a4c80041d9c3ba785799cfcb55941a9fd71d1cac6e",
+      "sourceHashBinding": "source hashes before and after standalone Swift 6 build match exactly; complete strict concurrency and warnings-as-errors",
+      "diagnosticHistory": "100/100 preserved in journal event 53; 102/102 preserved as pre-normalization run in event 56; current source compile-only confirmation, no re-run of unchanged suite",
+      "currentSwiftTesting": "2/2 after final code names"
+    },
+    "boundary": "own source checkpoint only; ROOT acceptance, merge of newer ROOT commit, and shared-package consumer remain pending; no full root Package build"
   }
 }

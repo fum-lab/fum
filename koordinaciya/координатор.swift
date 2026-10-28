@@ -536,6 +536,23 @@ enum ОценщикИдентичностиGit {
         return ошибки
     }
 
+    static func проверитьСвязьПервогоРодителяСлиянияСПланом(
+        ожидаемыеРодители: [String],
+        родительПлана: String
+    ) -> [String] {
+        guard let первыйОжидаемыйРодитель = ожидаемыеРодители.first else {
+            return ["нет-первого-ожидаемого-родителя-слияния"]
+        }
+        var ошибки: [String] = []
+        if !верныйOID(родительПлана) {
+            ошибки.append("неверный-родитель-плана")
+        }
+        if первыйОжидаемыйРодитель != родительПлана {
+            ошибки.append("первый-ожидаемый-родитель-не-совпадает-с-планом")
+        }
+        return ошибки
+    }
+
     private static func проверитьСыройКоммит(
         _ сыройКоммит: Data,
         метаданные: РезультатГенерацииМетаданныхКоммита,
@@ -1665,6 +1682,25 @@ struct ГлавнаяКоординатора {
                     throw NSError(domain: "RawMergeExpectation", code: 1,
                                   userInfo: [NSLocalizedDescriptionKey: "Unsupported merge expectation schema"])
                 }
+                let родительПлана = план.идентичностьСледующегоКоммита.родитель
+                let ошибкиСвязиРодителя = ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом(
+                    ожидаемыеРодители: ожидание.expectedParents,
+                    родительПлана: родительПлана
+                )
+                if !ошибкиСвязиРодителя.isEmpty {
+                    let вывод: [String: Any] = [
+                        "schema": ожидание.schema,
+                        "expectedParents": ожидание.expectedParents,
+                        "родительПлана": родительПлана,
+                        "expectedTree": ожидание.expectedTree,
+                        "проверено": false,
+                        "ошибки": ошибкиСвязиРодителя
+                    ]
+                    let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
+                    FileHandle.standardOutput.write(результат)
+                    FileHandle.standardOutput.write(Data([0x0a]))
+                    exit(EXIT_FAILURE)
+                }
                 let сыройОбъект = FileHandle.standardInput.readDataToEndOfFile()
                 let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID)
                 var ошибки = ОценщикИдентичностиGit.проверитьСыройMergeОбъект(
@@ -1679,6 +1715,7 @@ struct ГлавнаяКоординатора {
                 let вывод: [String: Any] = [
                     "schema": ожидание.schema,
                     "expectedParents": ожидание.expectedParents,
+                    "родительПлана": родительПлана,
                     "expectedTree": ожидание.expectedTree,
                     "проверено": ошибки.isEmpty,
                     "ошибки": ошибки
