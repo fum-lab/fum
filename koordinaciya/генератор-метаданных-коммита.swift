@@ -1,10 +1,10 @@
 import CryptoKit
 import Foundation
 
-/// Ограниченный источник выбора для дочерних вызовов collaboration.spawn_agent.
-/// Это не свидетельство модели провайдера или native turn_context.
-public enum ИсточникВыбораAPI: String, Codable, Equatable, Sendable {
-    case дочернийSpawnAgent = "collaboration.spawn_agent"
+/// Происхождение выбранных значений; ни один случай не удостоверяет модель провайдера.
+public enum ИсточникВыбораМодели: String, Codable, Equatable, Sendable {
+    case дочернийВызовSpawnAgent = "collaboration.spawn_agent"
+    case корневыеNativeClientMetadata = "native-codex-client-thread-metadata"
 }
 
 public struct ПараметрыВыбораAPI: Codable, Equatable, Sendable {
@@ -68,55 +68,129 @@ public struct СнимокNativeThreadMetadata: Codable, Equatable, Sendable {
     }
 }
 
-/// Локально сохранённая typed-проекция выбранных API-параметров и native metadata.
-/// Канонические байты и SHA-256 закрепляют содержимое, но не аутентифицируют API/backend.
-public struct СвидетельствоВыбораAPI: Codable, Equatable, Sendable {
+/// Локально сохранённая typed-проекция выбранных model/effort с точным источником.
+/// Хэши закрепляют байты проекции, но не аутентифицируют клиент или backend.
+public struct СвидетельствоВыбораМодели: Codable, Equatable, Sendable {
     public let схема: String
-    public let источник: ИсточникВыбораAPI
+    public let источник: ИсточникВыбораМодели
     public let rootUUID: String
-    public let childIdentity: ИдентичностьAPI
+    public let sessionIdentity: ИдентичностьAPI
     public let requestIdentity: ИдентичностьAPI
     public let responseIdentity: ИдентичностьAPI
-    public let nativeThread: СнимокNativeThreadMetadata
-    public let requested: ПараметрыВыбораAPI
-    public let acceptedSelection: ПараметрыВыбораAPI
+    public let nativeThread: СнимокNativeThreadMetadata?
+    public let requestedSelection: ПараметрыВыбораAPI?
+    public let selectedValue: ПараметрыВыбораAPI
+    public let nativeSelectionSourceSHA256: String?
     public let backendModel: НеизвестныйСтатусСведений
     public let nativeTurnContext: НеизвестныйСтатусСведений
 
+    private enum CodingKeys: String, CodingKey {
+        case схема, источник, rootUUID, sessionIdentity, childIdentity, requestIdentity, responseIdentity
+        case nativeThread, requestedSelection, requested, selectedValue, acceptedSelection
+        case nativeSelectionSourceSHA256, backendModel, nativeTurnContext
+    }
+
     public init(
-        схема: String = "fum.api-selection-receipt.1",
-        источник: ИсточникВыбораAPI,
+        схема: String = "fum.model-selection-receipt.1",
+        источник: ИсточникВыбораМодели,
         rootUUID: String,
-        childIdentity: ИдентичностьAPI,
+        sessionIdentity: ИдентичностьAPI,
         requestIdentity: ИдентичностьAPI,
         responseIdentity: ИдентичностьAPI,
-        nativeThread: СнимокNativeThreadMetadata,
-        requested: ПараметрыВыбораAPI,
-        acceptedSelection: ПараметрыВыбораAPI,
+        nativeThread: СнимокNativeThreadMetadata?,
+        requestedSelection: ПараметрыВыбораAPI?,
+        selectedValue: ПараметрыВыбораAPI,
+        nativeSelectionSourceSHA256: String? = nil,
         backendModel: НеизвестныйСтатусСведений,
         nativeTurnContext: НеизвестныйСтатусСведений
     ) {
         self.схема = схема
         self.источник = источник
         self.rootUUID = rootUUID
-        self.childIdentity = childIdentity
+        self.sessionIdentity = sessionIdentity
         self.requestIdentity = requestIdentity
         self.responseIdentity = responseIdentity
         self.nativeThread = nativeThread
-        self.requested = requested
-        self.acceptedSelection = acceptedSelection
+        self.requestedSelection = requestedSelection
+        self.selectedValue = selectedValue
+        self.nativeSelectionSourceSHA256 = nativeSelectionSourceSHA256
         self.backendModel = backendModel
         self.nativeTurnContext = nativeTurnContext
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let schema = try container.decode(String.self, forKey: .схема)
+        let source = try container.decode(ИсточникВыбораМодели.self, forKey: .источник)
+        let rootUUID = try container.decode(String.self, forKey: .rootUUID)
+        let requestIdentity = try container.decode(ИдентичностьAPI.self, forKey: .requestIdentity)
+        let responseIdentity = try container.decode(ИдентичностьAPI.self, forKey: .responseIdentity)
+        let nativeThread = try container.decodeIfPresent(СнимокNativeThreadMetadata.self, forKey: .nativeThread)
+        let backendModel = try container.decode(НеизвестныйСтатусСведений.self, forKey: .backendModel)
+        let nativeTurnContext = try container.decode(НеизвестныйСтатусСведений.self, forKey: .nativeTurnContext)
+        if schema == "fum.api-selection-receipt.1" {
+            self.init(
+                схема: schema,
+                источник: source,
+                rootUUID: rootUUID,
+                sessionIdentity: try container.decode(ИдентичностьAPI.self, forKey: .childIdentity),
+                requestIdentity: requestIdentity,
+                responseIdentity: responseIdentity,
+                nativeThread: nativeThread,
+                requestedSelection: try container.decode(ПараметрыВыбораAPI.self, forKey: .requested),
+                selectedValue: try container.decode(ПараметрыВыбораAPI.self, forKey: .acceptedSelection),
+                backendModel: backendModel,
+                nativeTurnContext: nativeTurnContext
+            )
+        } else {
+            self.init(
+                схема: schema,
+                источник: source,
+                rootUUID: rootUUID,
+                sessionIdentity: try container.decode(ИдентичностьAPI.self, forKey: .sessionIdentity),
+                requestIdentity: requestIdentity,
+                responseIdentity: responseIdentity,
+                nativeThread: nativeThread,
+                requestedSelection: try container.decodeIfPresent(ПараметрыВыбораAPI.self, forKey: .requestedSelection),
+                selectedValue: try container.decode(ПараметрыВыбораAPI.self, forKey: .selectedValue),
+                nativeSelectionSourceSHA256: try container.decodeIfPresent(String.self, forKey: .nativeSelectionSourceSHA256),
+                backendModel: backendModel,
+                nativeTurnContext: nativeTurnContext
+            )
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(схема, forKey: .схема)
+        try container.encode(источник, forKey: .источник)
+        try container.encode(rootUUID, forKey: .rootUUID)
+        try container.encode(requestIdentity, forKey: .requestIdentity)
+        try container.encode(responseIdentity, forKey: .responseIdentity)
+        try container.encode(backendModel, forKey: .backendModel)
+        try container.encode(nativeTurnContext, forKey: .nativeTurnContext)
+        if схема == "fum.api-selection-receipt.1" {
+            try container.encode(sessionIdentity, forKey: .childIdentity)
+            try container.encode(nativeThread, forKey: .nativeThread)
+            try container.encode(requestedSelection, forKey: .requested)
+            try container.encode(selectedValue, forKey: .acceptedSelection)
+        } else {
+            try container.encode(sessionIdentity, forKey: .sessionIdentity)
+            try container.encodeIfPresent(nativeThread, forKey: .nativeThread)
+            try container.encodeIfPresent(requestedSelection, forKey: .requestedSelection)
+            try container.encode(selectedValue, forKey: .selectedValue)
+            try container.encodeIfPresent(nativeSelectionSourceSHA256, forKey: .nativeSelectionSourceSHA256)
+        }
+    }
 }
 
-public struct КвитанцияВыбораAPI: Codable, Equatable, Sendable {
-    public let свидетельство: СвидетельствоВыбораAPI
+public struct КвитанцияВыбораМодели: Codable, Equatable, Sendable {
+    public let свидетельство: СвидетельствоВыбораМодели
     /// Base64 канонических JSON-байтов локальной проекции, не исходный wire payload.
     public let canonicalBytesBase64: String
     public let sha256: String
 
-    public init(свидетельство: СвидетельствоВыбораAPI, canonicalBytesBase64: String, sha256: String) {
+    public init(свидетельство: СвидетельствоВыбораМодели, canonicalBytesBase64: String, sha256: String) {
         self.свидетельство = свидетельство
         self.canonicalBytesBase64 = canonicalBytesBase64
         self.sha256 = sha256
@@ -125,12 +199,12 @@ public struct КвитанцияВыбораAPI: Codable, Equatable, Sendable {
 
 /// Независимо закреплённая ожиданием consumer копия receipt и его канонических байтов.
 /// Совпадение хэша показывает целостность согласованной проекции, не подлинность источника.
-public struct ОжидаемаяКвитанцияВыбораAPI: Codable, Equatable, Sendable {
-    public let свидетельство: СвидетельствоВыбораAPI
+public struct ОжидаемаяКвитанцияВыбораМодели: Codable, Equatable, Sendable {
+    public let свидетельство: СвидетельствоВыбораМодели
     public let canonicalBytesBase64: String
     public let sha256: String
 
-    public init(свидетельство: СвидетельствоВыбораAPI, canonicalBytesBase64: String, sha256: String) {
+    public init(свидетельство: СвидетельствоВыбораМодели, canonicalBytesBase64: String, sha256: String) {
         self.свидетельство = свидетельство
         self.canonicalBytesBase64 = canonicalBytesBase64
         self.sha256 = sha256
@@ -138,18 +212,195 @@ public struct ОжидаемаяКвитанцияВыбораAPI: Codable, Equa
 }
 
 public struct ОжидаемаяИдентичностьGit: Codable, Equatable, Sendable {
-    public let квитанцияВыбораAPI: КвитанцияВыбораAPI?
-    public let ожидаемаяКвитанцияВыбораAPI: ОжидаемаяКвитанцияВыбораAPI?
+    public let квитанцияВыбораМодели: КвитанцияВыбораМодели?
+    public let ожидаемаяКвитанцияВыбораМодели: ОжидаемаяКвитанцияВыбораМодели?
     public let родитель: String
 
+    private enum CodingKeys: String, CodingKey {
+        case квитанцияВыбораМодели = "квитанцияВыбораAPI"
+        case ожидаемаяКвитанцияВыбораМодели = "ожидаемаяКвитанцияВыбораAPI"
+        case родитель
+    }
+
     public init(
-        квитанцияВыбораAPI: КвитанцияВыбораAPI?,
-        ожидаемаяКвитанцияВыбораAPI: ОжидаемаяКвитанцияВыбораAPI?,
+        квитанцияВыбораМодели: КвитанцияВыбораМодели?,
+        ожидаемаяКвитанцияВыбораМодели: ОжидаемаяКвитанцияВыбораМодели?,
         родитель: String
     ) {
-        self.квитанцияВыбораAPI = квитанцияВыбораAPI
-        self.ожидаемаяКвитанцияВыбораAPI = ожидаемаяКвитанцияВыбораAPI
+        self.квитанцияВыбораМодели = квитанцияВыбораМодели
+        self.ожидаемаяКвитанцияВыбораМодели = ожидаемаяКвитанцияВыбораМодели
         self.родитель = родитель
+    }
+}
+
+/// Независимо выбранное ожидаемое состояние для read-only проверки Git после эффекта.
+/// `удалённыйOID == nil` означает, что ветка должна отсутствовать в origin.
+public struct ОжидаемоеПостЭффектноеСостояниеGit: Codable, Equatable, Sendable {
+    public let схема: String
+    public let oidКоммита: String
+    public let реф: String
+    public let адресOrigin: String
+    public let oidДерева: String
+    public let oidРодителя: String
+    public let удалённыйOID: String?
+
+    public init(
+        oidКоммита: String,
+        реф: String,
+        адресOrigin: String,
+        oidДерева: String,
+        oidРодителя: String,
+        удалённыйOID: String?
+    ) {
+        self.схема = "fum.git-post-effect-expectation.1"
+        self.oidКоммита = oidКоммита
+        self.реф = реф
+        self.адресOrigin = адресOrigin
+        self.oidДерева = oidДерева
+        self.oidРодителя = oidРодителя
+        self.удалённыйOID = удалённыйOID
+    }
+}
+
+public enum ОшибкаВыбораNativeClient: String, Error, Equatable, Sendable {
+    case некорректныйJSONИсточника = "native-client-source-json-invalid"
+    case ожидаласьОднаСтрока = "native-client-source-must-have-one-row"
+    case невернаяСессия = "native-client-source-thread-mismatch"
+    case отсутствуетМодель = "native-client-source-model-missing"
+    case отсутствуетУсилие = "native-client-source-effort-missing"
+    case дрейфВыбора = "native-client-selected-value-drift"
+}
+
+public struct ПараНезависимыхКвитанцийВыбораМодели: Codable, Equatable, Sendable {
+    public let фактическая: КвитанцияВыбораМодели
+    public let ожидаемая: ОжидаемаяКвитанцияВыбораМодели
+
+    public init(фактическая: КвитанцияВыбораМодели, ожидаемая: ОжидаемаяКвитанцияВыбораМодели) {
+        self.фактическая = фактическая
+        self.ожидаемая = ожидаемая
+    }
+}
+
+public struct ПубличнаяПроекцияRootNativeClient: Codable, Equatable, Sendable {
+    public let схема: String
+    public let источник: ИсточникВыбораМодели
+    public let корневойUUID: String
+    public let последнееПодтверждённоеВыбранноеЗначениеКлиента: ПараметрыВыбораAPI
+    public let идентичностьЗапросаAPI: СтатусИдентификатораAPI
+    public let идентичностьОтветаAPI: СтатусИдентификатораAPI
+    public let фактическаяМодельПровайдера: НеизвестныйСтатусСведений
+    public let контекстNativeХода: НеизвестныйСтатусСведений
+    public let хэшПроекцииИсточника: String
+    public let хэшНезависимойОжидаемойПроекции: String
+    public let хэшКвитанции: String
+    public let хэшНезависимойОжидаемойКвитанции: String
+
+    public init(пара: ПараНезависимыхКвитанцийВыбораМодели) {
+        схема = "fum.root-native-client-selection-projection.1"
+        источник = пара.фактическая.свидетельство.источник
+        корневойUUID = пара.фактическая.свидетельство.rootUUID
+        последнееПодтверждённоеВыбранноеЗначениеКлиента = пара.фактическая.свидетельство.selectedValue
+        идентичностьЗапросаAPI = пара.фактическая.свидетельство.requestIdentity.статус
+        идентичностьОтветаAPI = пара.фактическая.свидетельство.responseIdentity.статус
+        фактическаяМодельПровайдера = пара.фактическая.свидетельство.backendModel
+        контекстNativeХода = пара.фактическая.свидетельство.nativeTurnContext
+        хэшПроекцииИсточника = пара.фактическая.свидетельство.nativeSelectionSourceSHA256 ?? ""
+        хэшНезависимойОжидаемойПроекции = пара.ожидаемая.свидетельство.nativeSelectionSourceSHA256 ?? ""
+        хэшКвитанции = пара.фактическая.sha256
+        хэшНезависимойОжидаемойКвитанции = пара.ожидаемая.sha256
+    }
+}
+
+/// Ограниченный адаптер одной строки native-client metadata для корневой сессии.
+/// Принимает только отдельно прочитанные source и expected JSON строки; ключи БД и raw bytes остаются у caller.
+public enum АдаптерRootNativeClientMetadata {
+    private struct СтрокаСессии: Decodable {
+        let id: String
+        let model: String?
+        let reasoning_effort: String?
+    }
+
+    public static func построитьКвитанции(
+        источникJSON: Data,
+        независимоеОжиданиеJSON: Data,
+        expectedRootUUID: String
+    ) throws -> ПараНезависимыхКвитанцийВыбораМодели {
+        let источник = try прочитатьСтроку(источникJSON, expectedRootUUID: expectedRootUUID)
+        let ожидание = try прочитатьСтроку(независимоеОжиданиеJSON, expectedRootUUID: expectedRootUUID)
+        let фактическоеСвидетельство = try свидетельство(для: источник, исходныеБайты: источникJSON, rootUUID: expectedRootUUID)
+        let ожидаемоеСвидетельство = try свидетельство(для: ожидание, исходныеБайты: независимоеОжиданиеJSON, rootUUID: expectedRootUUID)
+        return ПараНезависимыхКвитанцийВыбораМодели(
+            фактическая: try ГенераторМетаданныхКоммита.квитанция(для: фактическоеСвидетельство),
+            ожидаемая: try ГенераторМетаданныхКоммита.ожидание(для: ожидаемоеСвидетельство)
+        )
+    }
+
+    public static func проверитьДрейф(
+        текущееJSON: Data,
+        ожидаемая: СвидетельствоВыбораМодели
+    ) throws {
+        guard ожидаемая.источник == .корневыеNativeClientMetadata,
+              let sessionUUID = ожидаемая.sessionIdentity.значение,
+              let selectionHash = ожидаемая.nativeSelectionSourceSHA256,
+              selectionHash.count == 64 else {
+            throw ОшибкаВыбораNativeClient.некорректныйJSONИсточника
+        }
+        let текущаяСтрока = try прочитатьСтроку(текущееJSON, expectedRootUUID: sessionUUID)
+        let модель = try обязательноеЗначение(текущаяСтрока.model, отсутствует: .отсутствуетМодель)
+        let усилие = try обязательноеЗначение(текущаяСтрока.reasoning_effort, отсутствует: .отсутствуетУсилие)
+        guard ожидаемая.selectedValue == ПараметрыВыбораAPI(model: модель, reasoningEffort: усилие) else {
+            throw ОшибкаВыбораNativeClient.дрейфВыбора
+        }
+    }
+
+    private static func прочитатьСтроку(_ data: Data, expectedRootUUID: String) throws -> СтрокаСессии {
+        guard let строки = try? JSONDecoder().decode([СтрокаСессии].self, from: data) else {
+            throw ОшибкаВыбораNativeClient.некорректныйJSONИсточника
+        }
+        guard строки.count == 1, let строка = строки.first else {
+            throw ОшибкаВыбораNativeClient.ожидаласьОднаСтрока
+        }
+        guard строка.id == expectedRootUUID else {
+            throw ОшибкаВыбораNativeClient.невернаяСессия
+        }
+        _ = try обязательноеЗначение(строка.model, отсутствует: .отсутствуетМодель)
+        _ = try обязательноеЗначение(строка.reasoning_effort, отсутствует: .отсутствуетУсилие)
+        return строка
+    }
+
+    private static func свидетельство(
+        для строка: СтрокаСессии,
+        исходныеБайты: Data,
+        rootUUID: String
+    ) throws -> СвидетельствоВыбораМодели {
+        let модель = try обязательноеЗначение(строка.model, отсутствует: .отсутствуетМодель)
+        let усилие = try обязательноеЗначение(строка.reasoning_effort, отсутствует: .отсутствуетУсилие)
+        let недоступно = ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil)
+        return СвидетельствоВыбораМодели(
+            источник: .корневыеNativeClientMetadata,
+            rootUUID: rootUUID,
+            sessionIdentity: ИдентичностьAPI(
+                статус: .доступен,
+                вид: .идентификаторNativeThreadMetadata,
+                значение: строка.id
+            ),
+            requestIdentity: недоступно,
+            responseIdentity: недоступно,
+            nativeThread: nil,
+            requestedSelection: nil,
+            selectedValue: ПараметрыВыбораAPI(model: модель, reasoningEffort: усилие),
+            nativeSelectionSourceSHA256: ГенераторМетаданныхКоммита.sha256Hex(исходныеБайты),
+            backendModel: .неизвестно,
+            nativeTurnContext: .неизвестно
+        )
+    }
+
+    private static func обязательноеЗначение(
+        _ value: String?,
+        отсутствует error: ОшибкаВыбораNativeClient
+    ) throws -> String {
+        guard let value, !value.isEmpty else { throw error }
+        return value
     }
 }
 
@@ -239,7 +490,7 @@ public struct ПакетВыходаГенератораFUMA: Codable, Equatable
 }
 
 public struct РезультатГенерацииМетаданныхКоммита: Codable, Equatable, Sendable {
-    public let выборAPI: СвидетельствоВыбораAPI
+    public let выборМодели: СвидетельствоВыбораМодели
     public let автор: ИдентификаторGit
     public let коммитер: ИдентификаторGit
     public let окружение: [String: String]
@@ -257,8 +508,8 @@ public enum ГенераторМетаданныхКоммита {
     private static let русскиеБуквы = CharacterSet(charactersIn: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя")
 
     public static func проверитьReceipt(
-        _ receipt: КвитанцияВыбораAPI?,
-        ожидаемый: ОжидаемаяКвитанцияВыбораAPI?,
+        _ receipt: КвитанцияВыбораМодели?,
+        ожидаемый: ОжидаемаяКвитанцияВыбораМодели?,
         expectedRootUUID: String? = nil
     ) -> [String] {
         guard let receipt else { return ["нет-квитанции-api-selection"] }
@@ -290,26 +541,26 @@ public enum ГенераторМетаданныхКоммита {
         return ошибки
     }
 
-    public static func квитанция(для свидетельства: СвидетельствоВыбораAPI) throws -> КвитанцияВыбораAPI {
+    public static func квитанция(для свидетельства: СвидетельствоВыбораМодели) throws -> КвитанцияВыбораМодели {
         let bytes = try canonicalBytes(свидетельства)
-        return КвитанцияВыбораAPI(
+        return КвитанцияВыбораМодели(
             свидетельство: свидетельства,
             canonicalBytesBase64: bytes.base64EncodedString(),
             sha256: sha256(bytes)
         )
     }
 
-    public static func ожидание(для свидетельства: СвидетельствоВыбораAPI) throws -> ОжидаемаяКвитанцияВыбораAPI {
+    public static func ожидание(для свидетельства: СвидетельствоВыбораМодели) throws -> ОжидаемаяКвитанцияВыбораМодели {
         let bytes = try canonicalBytes(свидетельства)
-        return ОжидаемаяКвитанцияВыбораAPI(
+        return ОжидаемаяКвитанцияВыбораМодели(
             свидетельство: свидетельства,
             canonicalBytesBase64: bytes.base64EncodedString(),
             sha256: sha256(bytes)
         )
     }
 
-    public static func проверитьСвидетельствоВыбораAPI(
-        _ свидетельство: СвидетельствоВыбораAPI,
+    public static func проверитьСвидетельствоВыбораМодели(
+        _ свидетельство: СвидетельствоВыбораМодели,
         expectedRootUUID: String? = nil
     ) -> [String] {
         проверитьСвидетельство(свидетельство, expectedRootUUID: expectedRootUUID)
@@ -321,14 +572,14 @@ public enum ГенераторМетаданныхКоммита {
         выходFUMA: ВыходГенератораGitMetadata
     ) -> РезультатПодготовкиОкруженияКоммита {
         var ошибки = проверитьReceipt(
-            ожидаемаяИдентичность.квитанцияВыбораAPI,
-            ожидаемый: ожидаемаяИдентичность.ожидаемаяКвитанцияВыбораAPI,
+            ожидаемаяИдентичность.квитанцияВыбораМодели,
+            ожидаемый: ожидаемаяИдентичность.ожидаемаяКвитанцияВыбораМодели,
             expectedRootUUID: expectedRootUUID
         )
-        guard let свидетельство = ожидаемаяИдентичность.квитанцияВыбораAPI?.свидетельство else {
+        guard let свидетельство = ожидаемаяИдентичность.квитанцияВыбораМодели?.свидетельство else {
             return РезультатПодготовкиОкруженияКоммита(выходFUMA: nil, ошибки: ошибки)
         }
-        let expectedAuthorName = "FUM Codex [\(свидетельство.acceptedSelection.model); effort=\(свидетельство.acceptedSelection.reasoningEffort)]"
+        let expectedAuthorName = "FUM Codex [\(свидетельство.selectedValue.model); effort=\(свидетельство.selectedValue.reasoningEffort)]"
         if выходFUMA.environment != ["GIT_AUTHOR_NAME": expectedAuthorName] {
             ошибки.append("fuma-environment-не-совпадает-с-accepted-selection")
         }
@@ -350,10 +601,10 @@ public enum ГенераторМетаданныхКоммита {
 
     /// Эталон для сверки с исполненным FUMA definition. Производственное формирование текста выполняет FUMA.
     public static func referenceOutput(
-        свидетельство: СвидетельствоВыбораAPI,
+        свидетельство: СвидетельствоВыбораМодели,
         план: ПланСообщенияКоммита
     ) -> ВыходГенератораGitMetadata {
-        let authorName = "FUM Codex [\(свидетельство.acceptedSelection.model); effort=\(свидетельство.acceptedSelection.reasoningEffort)]"
+        let authorName = "FUM Codex [\(свидетельство.selectedValue.model); effort=\(свидетельство.selectedValue.reasoningEffort)]"
         let message = "\(план.заголовок)\n\n\(план.описание)\n\nИсходный запрос:\n\(план.исходныйЗапрос)\n\nCodex-Thread-ID: \(свидетельство.rootUUID)\n"
         return ВыходГенератораGitMetadata(environment: ["GIT_AUTHOR_NAME": authorName], message: message)
     }
@@ -378,11 +629,11 @@ public enum ГенераторМетаданныхКоммита {
         план: ПланСообщенияКоммита,
         выходFUMA: ВыходГенератораGitMetadata
     ) -> РезультатГенерацииМетаданныхКоммита {
-        let свидетельство = ожидаемаяИдентичность.квитанцияВыбораAPI?.свидетельство
+        let свидетельство = ожидаемаяИдентичность.квитанцияВыбораМодели?.свидетельство
             ?? emptyWitness(rootUUID: expectedRootUUID)
         var ошибки = проверитьReceipt(
-            ожидаемаяИдентичность.квитанцияВыбораAPI,
-            ожидаемый: ожидаемаяИдентичность.ожидаемаяКвитанцияВыбораAPI,
+            ожидаемаяИдентичность.квитанцияВыбораМодели,
+            ожидаемый: ожидаемаяИдентичность.ожидаемаяКвитанцияВыбораМодели,
             expectedRootUUID: expectedRootUUID
         )
         ошибки.append(contentsOf: проверитьЗаголовок(план.заголовок))
@@ -405,7 +656,7 @@ public enum ГенераторМетаданныхКоммита {
             ошибки.append("автор-git-var-не-совпадает-с-fuma-environment")
         }
         return РезультатГенерацииМетаданныхКоммита(
-            выборAPI: свидетельство,
+            выборМодели: свидетельство,
             автор: author,
             коммитер: committer,
             окружение: выходFUMA.environment,
@@ -434,7 +685,7 @@ public enum ГенераторМетаданныхКоммита {
         (try? bytesForOutput(output)) ?? Data()
     }
 
-    private static func canonicalBytes(_ witness: СвидетельствоВыбораAPI) throws -> Data {
+    private static func canonicalBytes(_ witness: СвидетельствоВыбораМодели) throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
         return try encoder.encode(witness)
@@ -444,37 +695,70 @@ public enum ГенераторМетаданныхКоммита {
         SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 
+    public static func sha256Hex(_ data: Data) -> String {
+        sha256(data)
+    }
+
     private static func проверитьСвидетельство(
-        _ свидетельство: СвидетельствоВыбораAPI,
+        _ свидетельство: СвидетельствоВыбораМодели,
         expectedRootUUID: String?
     ) -> [String] {
         var ошибки: [String] = []
-        if свидетельство.схема != "fum.api-selection-receipt.1" { ошибки.append("неподдержанная-api-selection-схема") }
-        if !безопасныйТокен(свидетельство.requested.model) { ошибки.append("некорректный-requested-model") }
-        if !безопасныйТокен(свидетельство.requested.reasoningEffort) { ошибки.append("некорректный-requested-effort") }
-        if !безопасныйТокен(свидетельство.acceptedSelection.model) { ошибки.append("некорректный-accepted-model") }
-        if !безопасныйТокен(свидетельство.acceptedSelection.reasoningEffort) { ошибки.append("некорректный-accepted-effort") }
-        if свидетельство.requested != свидетельство.acceptedSelection {
-            ошибки.append("requested-и-accepted-selection-расходятся-для-этого-профиля")
+        let currentSchema = свидетельство.схема == "fum.model-selection-receipt.1"
+        let legacyChildSchema = свидетельство.схема == "fum.api-selection-receipt.1"
+            && свидетельство.источник == .дочернийВызовSpawnAgent
+        if !currentSchema && !legacyChildSchema { ошибки.append("unsupported-model-selection-receipt-schema") }
+        if !безопасныйТокен(свидетельство.selectedValue.model) { ошибки.append("selected-model-invalid") }
+        if !безопасныйТокен(свидетельство.selectedValue.reasoningEffort) { ошибки.append("selected-effort-invalid") }
+        if свидетельство.sessionIdentity.статус != .доступен
+            || свидетельство.sessionIdentity.вид != .идентификаторNativeThreadMetadata
+            || свидетельство.sessionIdentity.значение == nil {
+            ошибки.append("native-session-identity-invalid")
         }
-        if свидетельство.nativeThread.модель != свидетельство.acceptedSelection.model
-            || свидетельство.nativeThread.усилие != свидетельство.acceptedSelection.reasoningEffort {
-            ошибки.append("accepted-selection-не-связан-с-native-thread-metadata")
-        }
-        if свидетельство.nativeThread.threadUUID != свидетельство.childIdentity.значение {
-            ошибки.append("child-identity-не-связан-с-native-thread")
-        }
-        if свидетельство.nativeThread.agentPath.isEmpty {
-            ошибки.append("native-thread-agent-path-пуст")
-        }
-        if свидетельство.nativeThread.attachedThreadParentIDRaw != ""
-            || свидетельство.nativeThread.lineageСтатус != .неизвестно {
-            ошибки.append("parent-field-не-сохранён-как-unknown-lineage")
-        }
-        if свидетельство.childIdentity.статус != .доступен
-            || свидетельство.childIdentity.вид != .идентификаторNativeThreadMetadata
-            || свидетельство.childIdentity.значение != свидетельство.nativeThread.threadUUID {
-            ошибки.append("некорректная-child-thread-identity")
+        switch свидетельство.источник {
+        case .дочернийВызовSpawnAgent:
+            guard let requested = свидетельство.requestedSelection,
+                  let nativeThread = свидетельство.nativeThread else {
+                ошибки.append("child-profile-requires-requested-and-native-thread-metadata")
+                break
+            }
+            if !безопасныйТокен(requested.model) { ошибки.append("requested-model-invalid") }
+            if !безопасныйТокен(requested.reasoningEffort) { ошибки.append("requested-effort-invalid") }
+            if requested != свидетельство.selectedValue {
+                ошибки.append("child-request-and-selected-value-differ")
+            }
+            if nativeThread.модель != свидетельство.selectedValue.model
+                || nativeThread.усилие != свидетельство.selectedValue.reasoningEffort {
+                ошибки.append("child-selected-value-does-not-match-native-metadata")
+            }
+            if nativeThread.threadUUID != свидетельство.sessionIdentity.значение {
+                ошибки.append("child-session-identity-does-not-match-native-metadata")
+            }
+            if nativeThread.agentPath.isEmpty { ошибки.append("child-native-agent-path-empty") }
+            if nativeThread.attachedThreadParentIDRaw != ""
+                || nativeThread.lineageСтатус != .неизвестно {
+                ошибки.append("child-parent-lineage-must-remain-unknown")
+            }
+            if !каноническийUUID(nativeThread.threadUUID) { ошибки.append("invalid-child-native-thread-uuid") }
+            if свидетельство.nativeSelectionSourceSHA256 != nil {
+                ошибки.append("child-profile-must-not-claim-native-client-source-hash")
+            }
+        case .корневыеNativeClientMetadata:
+            if свидетельство.requestedSelection != nil {
+                ошибки.append("root-profile-must-not-claim-api-requested-selection")
+            }
+            if свидетельство.nativeThread != nil {
+                ошибки.append("root-profile-must-use-bounded-selection-row-only")
+            }
+            if свидетельство.sessionIdentity.значение != свидетельство.rootUUID {
+                ошибки.append("root-native-session-does-not-match-root-uuid")
+            }
+            guard let sourceHash = свидетельство.nativeSelectionSourceSHA256,
+                  sourceHash.count == 64,
+                  sourceHash.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) else {
+                ошибки.append("root-native-selection-source-hash-invalid")
+                break
+            }
         }
         if свидетельство.responseIdentity.статус != .недоступен
             || свидетельство.responseIdentity.вид != .идентификаторВызова
@@ -489,27 +773,24 @@ public enum ГенераторМетаданныхКоммита {
         if свидетельство.backendModel != .неизвестно { ошибки.append("backend-model-нельзя-выводить-из-api-selection") }
         if свидетельство.nativeTurnContext != .неизвестно { ошибки.append("native-turn-context-нельзя-выводить-из-api-selection") }
         if !каноническийUUID(свидетельство.rootUUID) { ошибки.append("некорректный-root-uuid") }
-        if !каноническийUUID(свидетельство.nativeThread.threadUUID) { ошибки.append("некорректный-native-thread-uuid") }
         if let expectedRootUUID, свидетельство.rootUUID != expectedRootUUID {
             ошибки.append("receipt-root-uuid-не-совпадает-с-ожиданием")
         }
         return ошибки
     }
 
-    private static func emptyWitness(rootUUID: String) -> СвидетельствоВыбораAPI {
+    private static func emptyWitness(rootUUID: String) -> СвидетельствоВыбораМодели {
         let unavailable = ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil)
         let unknownParams = ПараметрыВыбораAPI(model: "unknown", reasoningEffort: "unknown")
-        return СвидетельствоВыбораAPI(
-            источник: .дочернийSpawnAgent,
+        return СвидетельствоВыбораМодели(
+            источник: .дочернийВызовSpawnAgent,
             rootUUID: rootUUID,
-            childIdentity: unavailable,
+            sessionIdentity: unavailable,
             requestIdentity: unavailable,
             responseIdentity: unavailable,
-            nativeThread: СнимокNativeThreadMetadata(
-                threadUUID: "", agentPath: "", attachedThreadParentIDRaw: "", модель: "unknown",
-                усилие: "unknown", lineageСтатус: .неизвестно),
-            requested: unknownParams,
-            acceptedSelection: unknownParams,
+            nativeThread: nil,
+            requestedSelection: unknownParams,
+            selectedValue: unknownParams,
             backendModel: .неизвестно,
             nativeTurnContext: .неизвестно
         )

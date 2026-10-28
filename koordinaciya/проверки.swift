@@ -334,10 +334,10 @@ struct ПроверкиКоординатора {
 
         let childUUID = "01a18294-b6ff-7352-92e1-6b576d412172"
         let параметрыAPI = ПараметрыВыбораAPI(model: "gpt-6-luna", reasoningEffort: "max")
-        let свидетельствоВыбора = СвидетельствоВыбораAPI(
-            источник: .дочернийSpawnAgent,
+        let свидетельствоВыбора = СвидетельствоВыбораМодели(
+            источник: .дочернийВызовSpawnAgent,
             rootUUID: корневойUUID,
-            childIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata, значение: childUUID),
+            sessionIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata, значение: childUUID),
             requestIdentity: ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil),
             responseIdentity: ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil),
             nativeThread: СнимокNativeThreadMetadata(
@@ -348,54 +348,120 @@ struct ПроверкиКоординатора {
                 усилие: "max",
                 lineageСтатус: .неизвестно
             ),
-            requested: параметрыAPI,
-            acceptedSelection: параметрыAPI,
+            requestedSelection: параметрыAPI,
+            selectedValue: параметрыAPI,
             backendModel: .неизвестно,
             nativeTurnContext: .неизвестно
         )
         let квитанция = try! ГенераторМетаданныхКоммита.квитанция(для: свидетельствоВыбора)
         let ожидаемаяКвитанция = try! ГенераторМетаданныхКоммита.ожидание(для: свидетельствоВыбора)
         let ожидаемаяИдентичность = ОжидаемаяИдентичностьGit(
-            квитанцияВыбораAPI: квитанция,
-            ожидаемаяКвитанцияВыбораAPI: ожидаемаяКвитанция,
+            квитанцияВыбораМодели: квитанция,
+            ожидаемаяКвитанцияВыбораМодели: ожидаемаяКвитанция,
             родитель: свойРодитель
         )
-        проверить("API receipt разделяет child UUID из native metadata и unavailable request/response identity", ГенераторМетаданныхКоммита.проверитьReceipt(квитанция, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).isEmpty && свидетельствоВыбора.responseIdentity.статус == .недоступен)
-        проверить("native agent path сохраняется как поле наблюдения, а не зашивается в общий валидатор", свидетельствоВыбора.nativeThread.agentPath == "/root/koordinaciya" && ГенераторМетаданныхКоммита.проверитьСвидетельствоВыбораAPI(свидетельствоВыбора, expectedRootUUID: корневойUUID).isEmpty)
-        проверить("пустое поле parent не интерпретируется как отсутствие lineage", свидетельствоВыбора.nativeThread.attachedThreadParentIDRaw.isEmpty && свидетельствоВыбора.nativeThread.lineageСтатус == .неизвестно)
-        let ложнаяResponseIdentity = СвидетельствоВыбораAPI(
+        проверить("child profile binds native thread ID while API request and response IDs stay unavailable", ГенераторМетаданныхКоммита.проверитьReceipt(квитанция, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).isEmpty && свидетельствоВыбора.responseIdentity.статус == .недоступен)
+        проверить("child native agent path remains a recorded field, not a hardcoded validator", свидетельствоВыбора.nativeThread?.agentPath == "/root/koordinaciya" && ГенераторМетаданныхКоммита.проверитьСвидетельствоВыбораМодели(свидетельствоВыбора, expectedRootUUID: корневойUUID).isEmpty)
+        проверить("empty child parent field does not imply absent lineage", свидетельствоВыбора.nativeThread?.attachedThreadParentIDRaw.isEmpty == true && свидетельствоВыбора.nativeThread?.lineageСтатус == .неизвестно)
+        let ложнаяResponseIdentity = СвидетельствоВыбораМодели(
             источник: свидетельствоВыбора.источник,
             rootUUID: свидетельствоВыбора.rootUUID,
-            childIdentity: свидетельствоВыбора.childIdentity,
+            sessionIdentity: свидетельствоВыбора.sessionIdentity,
             requestIdentity: свидетельствоВыбора.requestIdentity,
             responseIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata, значение: childUUID),
             nativeThread: свидетельствоВыбора.nativeThread,
-            requested: свидетельствоВыбора.requested,
-            acceptedSelection: свидетельствоВыбора.acceptedSelection,
+            requestedSelection: свидетельствоВыбора.requestedSelection,
+            selectedValue: свидетельствоВыбора.selectedValue,
             backendModel: .неизвестно,
             nativeTurnContext: .неизвестно
         )
-        проверить("native metadata ID не выдаётся за API response ID", ГенераторМетаданныхКоммита.проверитьСвидетельствоВыбораAPI(ложнаяResponseIdentity, expectedRootUUID: корневойUUID).contains("api-response-identity-должен-оставаться-unavailable"))
-        проверить("отсутствующая API receipt закрывается отказом", ГенераторМетаданныхКоммита.проверитьReceipt(nil, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).contains("нет-квитанции-api-selection"))
-        var подменённыйPayload = свидетельствоВыбора
-        подменённыйPayload = СвидетельствоВыбораAPI(
-            источник: подменённыйPayload.источник,
-            rootUUID: подменённыйPayload.rootUUID,
-            childIdentity: подменённыйPayload.childIdentity,
-            requestIdentity: подменённыйPayload.requestIdentity,
-            responseIdentity: подменённыйPayload.responseIdentity,
-            nativeThread: подменённыйPayload.nativeThread,
-            requested: подменённыйPayload.requested,
-            acceptedSelection: ПараметрыВыбораAPI(model: "gpt-6-sol", reasoningEffort: "max"),
+        проверить("native metadata UUID is not an API response ID", ГенераторМетаданныхКоммита.проверитьСвидетельствоВыбораМодели(ложнаяResponseIdentity, expectedRootUUID: корневойUUID).contains("api-response-identity-должен-оставаться-unavailable"))
+        проверить("missing model-selection receipt is rejected", ГенераторМетаданныхКоммита.проверитьReceipt(nil, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).contains("нет-квитанции-api-selection"))
+        let подменённыйPayload = СвидетельствоВыбораМодели(
+            источник: свидетельствоВыбора.источник,
+            rootUUID: свидетельствоВыбора.rootUUID,
+            sessionIdentity: свидетельствоВыбора.sessionIdentity,
+            requestIdentity: свидетельствоВыбора.requestIdentity,
+            responseIdentity: свидетельствоВыбора.responseIdentity,
+            nativeThread: свидетельствоВыбора.nativeThread,
+            requestedSelection: свидетельствоВыбора.requestedSelection,
+            selectedValue: ПараметрыВыбораAPI(model: "gpt-6-sol", reasoningEffort: "max"),
             backendModel: .неизвестно,
             nativeTurnContext: .неизвестно
         )
         let подменённаяКвитанция = try! ГенераторМетаданныхКоммита.квитанция(для: подменённыйPayload)
-        проверить("изменённый payload и пересчитанный локальный hash расходятся с независимым ожиданием", ГенераторМетаданныхКоммита.проверитьReceipt(подменённаяКвитанция, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).contains("api-selection-не-совпадает-с-независимым-ожиданием"))
-        let повреждённаяКвитанция = КвитанцияВыбораAPI(свидетельство: свидетельствоВыбора, canonicalBytesBase64: квитанция.canonicalBytesBase64, sha256: String(repeating: "0", count: 64))
+        проверить("payload changed with a locally recomputed hash differs from independent expectation", ГенераторМетаданныхКоммита.проверитьReceipt(подменённаяКвитанция, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).contains("api-selection-не-совпадает-с-независимым-ожиданием"))
+        let повреждённаяКвитанция = КвитанцияВыбораМодели(свидетельство: свидетельствоВыбора, canonicalBytesBase64: квитанция.canonicalBytesBase64, sha256: String(repeating: "0", count: 64))
         проверить("изменённый digest закрывается отказом", ГенераторМетаданныхКоммита.проверитьReceipt(повреждённаяКвитанция, ожидаемый: ожидаемаяКвитанция, expectedRootUUID: корневойUUID).contains("api-selection-sha256-не-совпадает-с-независимым-ожиданием"))
 
+        let сыраяСтрокаRoot = Data("[\r\n  {\"id\":\"\(корневойUUID)\",\"model\":\"gpt-6.1-sol\",\"reasoning_effort\":\"ultra\"}\r\n]\r\n".utf8)
+        let независимаяСыраяСтрокаRoot = Data("[\r\n  {\"id\":\"\(корневойUUID)\",\"model\":\"gpt-6.1-sol\",\"reasoning_effort\":\"ultra\"}\r\n]\r\n".utf8)
+        let параКвитанцийRoot = try! АдаптерRootNativeClientMetadata.построитьКвитанции(
+            источникJSON: сыраяСтрокаRoot,
+            независимоеОжиданиеJSON: независимаяСыраяСтрокаRoot,
+            expectedRootUUID: корневойUUID
+        )
+        let rootWitness = параКвитанцийRoot.фактическая.свидетельство
+        let rootExpectedIdentity = ОжидаемаяИдентичностьGit(
+            квитанцияВыбораМодели: параКвитанцийRoot.фактическая,
+            ожидаемаяКвитанцияВыбораМодели: параКвитанцийRoot.ожидаемая,
+            родитель: свойРодитель
+        )
         let исходныйЗапросСТочнымиБайтами = " \r\nИсходная строка Codex-Thread-ID: quoted trailer\r\nрусский\t "
+        проверить("root profile accepts native client selection with no API request/response or backend claim", ГенераторМетаданныхКоммита.проверитьReceipt(параКвитанцийRoot.фактическая, ожидаемый: параКвитанцийRoot.ожидаемая, expectedRootUUID: корневойUUID).isEmpty && rootWitness.источник == .корневыеNativeClientMetadata && rootWitness.requestedSelection == nil && rootWitness.requestIdentity.статус == .недоступен && rootWitness.responseIdentity.статус == .недоступен && rootWitness.backendModel == .неизвестно)
+        проверить("root source receipt hashes exact raw SQLite JSON bytes including CRLF", rootWitness.nativeSelectionSourceSHA256 == ГенераторМетаданныхКоммита.sha256Hex(сыраяСтрокаRoot) && сыраяСтрокаRoot == независимаяСыраяСтрокаRoot)
+        let rootComposerPlan = ПланСообщенияКоммита(
+            исходныйЗапрос: исходныйЗапросСТочнымиБайтами,
+            заголовок: greenЗаголовок,
+            описание: "Root native client selection drives the common FUMA composer."
+        )
+        let rootFUMAOutput = ГенераторМетаданныхКоммита.referenceOutput(свидетельство: rootWitness, план: rootComposerPlan)
+        let rootPrepared = ГенераторМетаданныхКоммита.подготовитьОкружение(
+            ожидаемаяИдентичность: rootExpectedIdentity,
+            expectedRootUUID: корневойUUID,
+            выходFUMA: rootFUMAOutput
+        )
+        проверить("root native selection reaches the common author composer", rootPrepared.ошибки.isEmpty && rootPrepared.выходFUMA?.environment == ["GIT_AUTHOR_NAME": "FUM Codex [gpt-6.1-sol; effort=ultra]"])
+
+        func nativeClientFailure(_ source: Data, _ expected: Data, _ expectedError: ОшибкаВыбораNativeClient) -> Bool {
+            do {
+                _ = try АдаптерRootNativeClientMetadata.построитьКвитанции(
+                    источникJSON: source,
+                    независимоеОжиданиеJSON: expected,
+                    expectedRootUUID: корневойUUID
+                )
+                return false
+            } catch let error as ОшибкаВыбораNativeClient {
+                return error == expectedError
+            } catch {
+                return false
+            }
+        }
+        проверить("wrong root thread ID is rejected", nativeClientFailure(
+            Data("[{\"id\":\"01a18294-b6ff-7352-92e1-6b576d412172\",\"model\":\"gpt-6.1-sol\",\"reasoning_effort\":\"ultra\"}]".utf8),
+            независимаяСыраяСтрокаRoot,
+            .невернаяСессия
+        ))
+        проверить("missing model is rejected", nativeClientFailure(
+            Data("[{\"id\":\"\(корневойUUID)\",\"reasoning_effort\":\"ultra\"}]".utf8),
+            независимаяСыраяСтрокаRoot,
+            .отсутствуетМодель
+        ))
+        проверить("missing reasoning effort is rejected", nativeClientFailure(
+            Data("[{\"id\":\"\(корневойUUID)\",\"model\":\"gpt-6.1-sol\"}]".utf8),
+            независимаяСыраяСтрокаRoot,
+            .отсутствуетУсилие
+        ))
+        let дрейфМодели = Data("[{\"id\":\"\(корневойUUID)\",\"model\":\"gpt-6-sol\",\"reasoning_effort\":\"ultra\"}]".utf8)
+        do {
+            try АдаптерRootNativeClientMetadata.проверитьДрейф(текущееJSON: дрейфМодели, ожидаемая: rootWitness)
+            проверить("selection drift between selected source and current row is rejected", false)
+        } catch let error as ОшибкаВыбораNativeClient {
+            проверить("selection drift between selected source and current row is rejected", error == .дрейфВыбора)
+        } catch {
+            проверить("selection drift between selected source and current row is rejected", false)
+        }
+
         let запросСообщения = ПланСообщенияКоммита(
             исходныйЗапрос: исходныйЗапросСТочнымиБайтами,
             заголовок: greenЗаголовок,
@@ -420,21 +486,21 @@ struct ПроверкиКоординатора {
         )
         проверить("Swift reference совпадает с FUMA output, сохраняет exact source и последний root trailer", сгенерированныеМетаданные.ошибки.isEmpty && сгенерированныеМетаданные.сообщение.contains("Исходный запрос:\n\(исходныйЗапросСТочнымиБайтами)\n\n") && сгенерированныеМетаданные.сообщение.hasSuffix("Codex-Thread-ID: \(корневойUUID)\n"))
         проверить("committer и email берутся из git var, FUMA меняет только GIT_AUTHOR_NAME", сгенерированныеМетаданные.окружение == ["GIT_AUTHOR_NAME": "FUM Codex [gpt-6-luna; effort=max]"] && сгенерированныеМетаданные.автор.почта == "fum@local" && сгенерированныеМетаданные.коммитер == ИдентификаторGit(имя: "FUM", почта: "fum@local"))
-        let неверныйPayload = СвидетельствоВыбораAPI(
+        let неверныйPayload = СвидетельствоВыбораМодели(
             источник: свидетельствоВыбора.источник, rootUUID: свидетельствоВыбора.rootUUID,
-            childIdentity: свидетельствоВыбора.childIdentity, requestIdentity: свидетельствоВыбора.requestIdentity,
+            sessionIdentity: свидетельствоВыбора.sessionIdentity, requestIdentity: свидетельствоВыбора.requestIdentity,
             responseIdentity: свидетельствоВыбора.responseIdentity,
-            nativeThread: свидетельствоВыбора.nativeThread, requested: свидетельствоВыбора.requested,
-            acceptedSelection: свидетельствоВыбора.acceptedSelection, backendModel: .неизвестно,
+            nativeThread: свидетельствоВыбора.nativeThread, requestedSelection: свидетельствоВыбора.requestedSelection,
+            selectedValue: свидетельствоВыбора.selectedValue, backendModel: .неизвестно,
             nativeTurnContext: .неизвестно
         )
         let невернаяReceiptIdentity = ОжидаемаяИдентичностьGit(
-            квитанцияВыбораAPI: квитанция, ожидаемаяКвитанцияВыбораAPI: ожидаемаяКвитанция, родитель: свойРодитель
+            квитанцияВыбораМодели: квитанция, ожидаемаяКвитанцияВыбораМодели: ожидаемаяКвитанция, родитель: свойРодитель
         )
         let неверныйДопускАвторства = ОценщикИдентичностиGit.проверитьДоЭффекта(
             ожидаемая: невернаяReceiptIdentity,
             метаданные: РезультатГенерацииМетаданныхКоммита(
-                выборAPI: неверныйPayload,
+                выборМодели: неверныйPayload,
                 автор: ИдентификаторGit(имя: "FUM Писатель", почта: "fum@local"),
                 коммитер: ИдентификаторGit(имя: "FUM", почта: "fum@local"),
                 окружение: [:], сообщение: "", ошибки: []
@@ -447,27 +513,114 @@ struct ПроверкиКоординатора {
         let авторИдентичностьGit = "FUM Codex [gpt-6-luna; effort=max] <fum@local> 1793199687 +0400"
         let коммитерИдентичностьGit = "FUM <fum@local> 1793199687 +0400"
         let сыройКоммит = "tree \(ожидаемоеДерево)\nparent \(свойРодитель)\nauthor \(авторИдентичностьGit)\ncommitter \(коммитерИдентичностьGit)\n\n\(сгенерированныеМетаданные.сообщение)"
-        func rawCheck(_ source: String, tree: String? = nil) -> [String] {
+        func rawCheck(
+            _ source: Data,
+            tree: String? = nil,
+            metadata: РезультатГенерацииМетаданныхКоммита? = nil
+        ) -> [String] {
             ОценщикИдентичностиGit.проверитьСыройОбъект(
                 source,
-                метаданные: сгенерированныеМетаданные,
+                метаданные: metadata ?? сгенерированныеМетаданные,
                 ожидаемыйParent: свойРодитель,
                 ожидаемоеДерево: tree ?? ожидаемоеДерево
             )
         }
-        проверить("raw commit readback сверяет exact author, committer, parent, tree, message и конечный root trailer", rawCheck(сыройКоммит).isEmpty)
-        let сыройКоммитСНевернымДеревом = сыройКоммит.replacingOccurrences(of: ожидаемоеДерево, with: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+        проверить("raw commit readback compares exact object bytes and expected headers", rawCheck(Data(сыройКоммит.utf8)).isEmpty)
+        let сыройКоммитСНевернымДеревом = Data(сыройКоммит.replacingOccurrences(of: ожидаемоеДерево, with: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb").utf8)
         проверить("raw readback отклоняет 40-hex tree, отличный от независимого ожидания", rawCheck(сыройКоммитСНевернымДеревом).contains("сырой-tree-не-совпадает-с-ожидаемым"))
-        let сыройКоммитСНевернымАвтором = сыройКоммит.replacingOccurrences(of: "FUM Codex [gpt-6-luna; effort=max]", with: "FUM Писатель")
+        let сыройКоммитСНевернымАвтором = Data(сыройКоммит.replacingOccurrences(of: "FUM Codex [gpt-6-luna; effort=max]", with: "FUM Писатель").utf8)
         проверить("сырой readback отклоняет неверного автора", rawCheck(сыройКоммитСНевернымАвтором).contains("сырой-author-не-совпадает"))
-        let сыройКоммитСНевернымTrailer = сыройКоммит.replacingOccurrences(of: корневойUUID, with: "00000000-0000-0000-0000-000000000000")
+        let сыройКоммитСНевернымTrailer = Data(сыройКоммит.replacingOccurrences(of: корневойUUID, with: "00000000-0000-0000-0000-000000000000").utf8)
         проверить("сырой readback отклоняет подмену root trailer", rawCheck(сыройКоммитСНевернымTrailer).contains("сырой-корневой-trailer-не-совпадает"))
-        let сыройКоммитСНевернымРодителем = сыройКоммит.replacingOccurrences(of: "parent \(свойРодитель)", with: "parent 1111111111111111111111111111111111111111")
+        let сыройКоммитСНевернымРодителем = Data(сыройКоммит.replacingOccurrences(of: "parent \(свойРодитель)", with: "parent 1111111111111111111111111111111111111111").utf8)
         проверить("сырой readback отклоняет неправильный parent", rawCheck(сыройКоммитСНевернымРодителем).contains("сырой-parent-не-совпадает"))
-        let сыройКоммитСНевернымКоммитером = сыройКоммит.replacingOccurrences(of: "committer FUM <fum@local>", with: "committer FUM Писатель <fum@local>")
+        let сыройКоммитСНевернымКоммитером = Data(сыройКоммит.replacingOccurrences(of: "committer FUM <fum@local>", with: "committer FUM Писатель <fum@local>").utf8)
         проверить("сырой readback подтверждает неизменность committer", rawCheck(сыройКоммитСНевернымКоммитером).contains("сырой-committer-не-совпадает"))
-        let сыройКоммитСДругимСообщением = сыройКоммит.replacingOccurrences(of: greenЗаголовок, with: redЗаголовок)
+        let сыройКоммитСДругимСообщением = Data(сыройКоммит.replacingOccurrences(of: greenЗаголовок, with: redЗаголовок).utf8)
         проверить("raw readback отклоняет message вне общего генератора", rawCheck(сыройКоммитСДругимСообщением).contains("сырой-message-не-совпадает-с-генератором"))
+
+        let ожидаемыйOIDПостЭффекта = String(repeating: "a", count: 40)
+        let ожидаемыйУдалённыйOID = String(repeating: "c", count: 40)
+        let ожиданиеПостЭффекта = ОжидаемоеПостЭффектноеСостояниеGit(
+            oidКоммита: ожидаемыйOIDПостЭффекта,
+            реф: свойРеф,
+            адресOrigin: "https://github.com/fum-lab/fum.git",
+            oidДерева: ожидаемоеДерево,
+            oidРодителя: свойРодитель,
+            удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        let наблюдениеПостЭффекта = НаблюдениеПостЭффектаGit(
+            текущийHEAD: ожидаемыйOIDПостЭффекта,
+            реф: свойРеф,
+            адресаOrigin: ["https://github.com/fum-lab/fum.git"],
+            типОбъекта: "commit",
+            сыройКоммит: Data(сыройКоммит.utf8),
+            вычисленныйOID: ожидаемыйOIDПостЭффекта,
+            удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        func ошибкиПостЭффекта(
+            _ заданноеОжидание: ОжидаемоеПостЭффектноеСостояниеGit? = nil,
+            _ заданноеНаблюдение: НаблюдениеПостЭффектаGit? = nil
+        ) -> [String] {
+            АдаптерПостЭффектаGit.проверить(
+                ожидание: заданноеОжидание ?? ожиданиеПостЭффекта,
+                наблюдение: заданноеНаблюдение ?? наблюдениеПостЭффекта,
+                метаданные: сгенерированныеМетаданные
+            ).ошибки
+        }
+        проверить("сырой коммит связан с выбранными HEAD, ref, origin, tree, parent и remote OID", ошибкиПостЭффекта().isEmpty)
+        let ожиданиеСДругимOID = ОжидаемоеПостЭффектноеСостояниеGit(
+            oidКоммита: String(repeating: "b", count: 40), реф: свойРеф,
+            адресOrigin: "https://github.com/fum-lab/fum.git", oidДерева: ожидаемоеДерево,
+            oidРодителя: свойРодитель, удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        проверить("несовпавший независимо выбранный commit OID отклоняется", ошибкиПостЭффекта(ожиданиеСДругимOID).contains("head-oid-не-совпадает-с-независимым-ожиданием"))
+        let наблюдениеСДругимRef = НаблюдениеПостЭффектаGit(
+            текущийHEAD: ожидаемыйOIDПостЭффекта, реф: "refs/heads/other", адресаOrigin: наблюдениеПостЭффекта.адресаOrigin,
+            типОбъекта: "commit", сыройКоммит: Data(сыройКоммит.utf8), вычисленныйOID: ожидаемыйOIDПостЭффекта,
+            удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        проверить("другой symbolic ref отклоняется", ошибкиПостЭффекта(ожиданиеПостЭффекта, наблюдениеСДругимRef).contains("symbolic-ref-не-совпадает-с-независимым-ожиданием"))
+        let наблюдениеСДругимOrigin = НаблюдениеПостЭффектаGit(
+            текущийHEAD: ожидаемыйOIDПостЭффекта, реф: свойРеф, адресаOrigin: ["https://example.invalid/fum.git"],
+            типОбъекта: "commit", сыройКоммит: Data(сыройКоммит.utf8), вычисленныйOID: ожидаемыйOIDПостЭффекта,
+            удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        проверить("другой URL origin отклоняется", ошибкиПостЭффекта(ожиданиеПостЭффекта, наблюдениеСДругимOrigin).contains("origin-url-не-совпадает-с-независимым-ожиданием"))
+        let наблюдениеСДругимRawHash = НаблюдениеПостЭффектаGit(
+            текущийHEAD: ожидаемыйOIDПостЭффекта, реф: свойРеф, адресаOrigin: наблюдениеПостЭффекта.адресаOrigin,
+            типОбъекта: "commit", сыройКоммит: Data(сыройКоммит.utf8), вычисленныйOID: String(repeating: "d", count: 40),
+            удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        проверить("raw object с другим вычисленным OID отклоняется", ошибкиПостЭффекта(ожиданиеПостЭффекта, наблюдениеСДругимRawHash).contains("raw-object-hash-не-совпадает-с-независимым-oid"))
+        let ожиданиеСДругимУдалённымOID = ОжидаемоеПостЭффектноеСостояниеGit(
+            oidКоммита: ожидаемыйOIDПостЭффекта, реф: свойРеф,
+            адресOrigin: "https://github.com/fum-lab/fum.git", oidДерева: ожидаемоеДерево,
+            oidРодителя: свойРодитель, удалённыйOID: String(repeating: "e", count: 40)
+        )
+        проверить("изменившийся OID удалённого ref отклоняется", ошибкиПостЭффекта(ожиданиеСДругимУдалённымOID).contains("origin-ref-не-совпадает-с-независимым-ожиданием"))
+        let ожиданиеСДругимДеревом = ОжидаемоеПостЭффектноеСостояниеGit(
+            oidКоммита: ожидаемыйOIDПостЭффекта, реф: свойРеф,
+            адресOrigin: "https://github.com/fum-lab/fum.git", oidДерева: String(repeating: "f", count: 40),
+            oidРодителя: свойРодитель, удалённыйOID: ожидаемыйУдалённыйOID
+        )
+        проверить("дерево отличается от независимого ожидания и отклоняется", ошибкиПостЭффекта(ожиданиеСДругимДеревом).contains("сырой-tree-не-совпадает-с-ожидаемым"))
+
+        let nfc = "café"
+        let nfd = nfc.decomposedStringWithCanonicalMapping
+        let exactUnicodeMessage = "\(greenЗаголовок)\n\nОписание.\n\nИсходный запрос:\nЗапрос \(nfc)\n\nCodex-Thread-ID: \(корневойUUID)\n"
+        let unicodeMetadata = РезультатГенерацииМетаданныхКоммита(
+            выборМодели: свидетельствоВыбора,
+            автор: сгенерированныеМетаданные.автор,
+            коммитер: сгенерированныеМетаданные.коммитер,
+            окружение: сгенерированныеМетаданные.окружение,
+            сообщение: exactUnicodeMessage,
+            ошибки: []
+        )
+        let unicodeCommitPrefix = "tree \(ожидаемоеДерево)\nparent \(свойРодитель)\nauthor \(авторИдентичностьGit)\ncommitter \(коммитерИдентичностьGit)\n\n"
+        проверить("byte-exact raw reader accepts the exact NFC message bytes", rawCheck(Data((unicodeCommitPrefix + exactUnicodeMessage).utf8), metadata: unicodeMetadata).isEmpty)
+        let nfdMessage = exactUnicodeMessage.replacingOccurrences(of: nfc, with: nfd)
+        проверить("byte-exact raw reader rejects NFD bytes when NFC was expected", rawCheck(Data((unicodeCommitPrefix + nfdMessage).utf8), metadata: unicodeMetadata).contains("сырой-message-не-совпадает-с-генератором"))
 
         func переходСамообновления(
             обзорВыполнен: Bool = false,

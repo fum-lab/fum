@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "0674107e57ba2f5aac00e8f7e26881447c78d02a",
+    "собственныйКонтрольныйКоммит": "0e22651700affc4273be7d28304e8930834143d7",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "0674107e57ba2f5aac00e8f7e26881447c78d02a",
+      "родитель": "0e22651700affc4273be7d28304e8930834143d7",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -815,7 +815,7 @@
     "сообщениеСледующегоКоммита": {
       "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
       "заголовок": "Добавить общий генератор метаданных коммита",
-      "описание": "Формировать имя автора из принятого выбора API через FUMA, получать адреса автора и коммитера из git var, сохранять исходный текст без нормализации и связывать сообщение с типизированной квитанцией и UUID корневой задачи."
+      "описание": "Формировать авторство для дочернего API-selection и root native-client metadata единым FUMA composer; сохранять точные request bytes, а реальный Git post-effect проверять по independently selected commit/ref/origin/tree/remote readback. Не заявлять provider model и не подключать shared Package из этой области."
     }
   },
   "результатГенератораМетаданных": {
@@ -834,18 +834,20 @@
       "фикстураSHA256": "679447d7b57e8b13f78dda008f4c2eb80152fa1977c0a517648716418cffec67",
       "исполняемыйПродукт": "fum-оператор",
       "исполняемыйПродуктSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
-      "числоСценариев": 4,
+      "числоСценариев": 5,
       "сценарии": [
         "primary-user-request",
         "leading-trailing-crlf-russian-trailer-mention",
         "russian-title-with-technical-name",
-        "yo-and-markdown-name"
+        "yo-and-markdown-name",
+        "root-native-client-selection"
       ],
-      "байтыВыхода": 1663,
-      "sha256ФактическогоВыхода": "0c76b33510f675ac3addd26e756ac0a7220427b2bdc1777082407a1e3db7b8b2",
-      "sha256ЭталонногоВыхода": "0c76b33510f675ac3addd26e756ac0a7220427b2bdc1777082407a1e3db7b8b2",
-      "sha256ОтветаFUMA": "7afc692d434adf0c61c84d14321a678ebbddd7f6cb4e6c9820ba96b63fde553c",
-      "байтыСовпали": true
+      "байтыВыхода": 2192,
+      "sha256ФактическогоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+      "sha256ЭталонногоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+      "sha256ОтветаFUMA": "ad94e9a86388012c7334bce68acbf35f503e24a3925ba1aa4f68c8f3049bd88a",
+      "байтыСовпали": true,
+      "sha256СвидетельстваИсполнения": "505530fe110b50a21631d658f1a9d0750c6fec9d3975b302114e4f42541abd42"
     },
     "выборAPI": {
       "источник": "collaboration.spawn_agent",
@@ -875,9 +877,9 @@
       "замечание": "локальный SHA-256 фиксирует байты typed-проекции, но не аутентифицирует backend или источник"
     },
     "проверки": {
-      "swiftSelfCheck": "76/76",
+      "swiftSelfCheck": "92/92",
       "stateEvaluator": "valid=true; errors=[]",
-      "preEffect": "ready=true; errors=[]; final current binary",
+      "preEffect": "ready=true; errors=[]; latest FUMA composer + git var",
       "rawTreeComparator": "exact expected tree OID required; negative mismatch covered",
       "receiptNegatives": [
         "missing receipt",
@@ -893,22 +895,63 @@
           "FUMA: исправлена проверка",
           "Обновлён AGENTS.md"
         ]
-      }
+      },
+      "postEffectAdapter": "реальный HEAD, symbolic ref, origin, тип commit, cat-file raw bytes, hash-object OID и ls-remote; без записи",
+      "postEffectNegatives": [
+        "неверный выбранный commit OID",
+        "symbolic ref mismatch",
+        "origin URL mismatch",
+        "raw hash mismatch",
+        "remote ref OID mismatch",
+        "tree OID mismatch"
+      ],
+      "generatedMessageSHA256": "2528e7820313bbbe67f90d96b75cb1ba32f021646187545d10c757427637a77f"
     },
     "профильСекунд": {
       "swiftSelfCheckCompile": 4.246676458,
       "swiftSelfCheckRun": 0.49136175,
       "coordinatorCompile": 2.096654875,
       "stateEvaluation": null,
-      "fumaByteCompare": 0.06592875,
-      "preEffectFumaGitVar": 0.385822542
+      "fumaByteCompare": 0.443169167,
+      "preEffectFumaGitVar": 0.517,
+      "fumaRootNativeClientByteCompare": 0.443169167
     },
-    "оптимизация": "На четырёх фиксированных сценариях FUMA сравнение и preflight завершаются менее чем за секунду; усложнение графа не обосновано измерениями.",
+    "оптимизация": "На пяти фиксированных сценариях FUMA выход побайтно совпал с Swift reference; граф оставлен небольшим.",
     "ограничения": [
       "не подтверждает provider/backend model или native turn_context",
       "request/response identity не наблюдались; native child UUID хранится отдельно",
       "локальная реализация не подключена общему consumer",
-      "Package.swift и чужие области не изменялись"
-    ]
+      "Package.swift и чужие области не изменялись",
+      "root author означает последнее подтверждённое выбранное клиентом значение; backend model остаётся неизвестной",
+      "post-effect система проверена чистыми функциями и будет подтверждена фактическим Git readback после checkpoint"
+    ],
+    "исполнениеRootNativeClient": {
+      "схема": "fum.root-native-client-selection-projection.1",
+      "источник": "native-codex-client-thread-metadata",
+      "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "последнееПодтверждённоеВыбранноеЗначениеКлиента": {
+        "model": "gpt-6.1-sol",
+        "reasoningEffort": "ultra"
+      },
+      "хэшПроекцииИсточника": "d08b65584a27127251fa50fd6875826c712136f682a5c4b651671227831709a9",
+      "хэшНезависимойОжидаемойПроекции": "d08b65584a27127251fa50fd6875826c712136f682a5c4b651671227831709a9",
+      "хэшТекущейПовторнойСверки": "d08b65584a27127251fa50fd6875826c712136f682a5c4b651671227831709a9",
+      "хэшКвитанции": "f389bd4b007aa54149571760257dfc3b996e50e68524c8b3296a4fa58b39d1f3",
+      "хэшНезависимойОжидаемойКвитанции": "f389bd4b007aa54149571760257dfc3b996e50e68524c8b3296a4fa58b39d1f3",
+      "идентичностьЗапросаAPI": "недоступен",
+      "идентичностьОтветаAPI": "недоступен",
+      "фактическаяМодельПровайдера": "неизвестно",
+      "контекстNativeХода": "неизвестно",
+      "публичнаяПроекция": "koordinaciya/квитанция-root-native-client.json",
+      "исполнение": {
+        "числоСценариев": 5,
+        "байтыСовпали": true,
+        "байтыВыхода": 2192,
+        "sha256ФактическогоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+        "sha256ЭталонногоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+        "sha256СырогоОтвета": "ad94e9a86388012c7334bce68acbf35f503e24a3925ba1aa4f68c8f3049bd88a",
+        "sha256Свидетельства": "505530fe110b50a21631d658f1a9d0750c6fec9d3975b302114e4f42541abd42"
+      }
+    }
   }
 }
