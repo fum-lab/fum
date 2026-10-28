@@ -541,6 +541,29 @@ class ПроверкаОбработки(unittest.TestCase):
         проверка.assertEqual(len(json.loads(итог.stdout)["остаток"]), 1)
         проверка.assertEqual(sorted(str(п.relative_to(проверка.каталог)) for п in проверка.каталог.rglob("*")), до)
 
+    def test_командные_живые_страницы_реально_не_пишут_файлы(проверка):
+        def состояние():
+            return {str(п.relative_to(проверка.каталог)): (п.stat().st_ino, п.stat().st_mtime_ns,
+                    п.read_bytes() if п.is_file() else None)
+                    for п in проверка.каталог.rglob("*")}
+        до = состояние()
+        процесс = subprocess.Popen([sys.executable, "-B", str(КАТАЛОГ / "обработать-сообщения-задачи.py"),
+            "--корень-репозитория", str(проверка.корень), "--исходник", str(проверка.источник),
+            "--codex-thread-id", ЗАДАЧА, "живые-страницы", "--без-записи"],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        проверка.addCleanup(lambda: процесс.kill() if процесс.poll() is None else None)
+        проверка.addCleanup(процесс.stdin.close)
+        проверка.addCleanup(процесс.stdout.close)
+        проверка.addCleanup(процесс.stderr.close)
+        дескриптор = json.loads(процесс.stdout.readline())
+        проверка.assertTrue(дескриптор["живой_источник_перепроверен_при_создании_снимка"])
+        процесс.stdin.write(json.dumps({"схема": "fum.завершение-сеанса-живых-страниц.1",
+            "снимок_sha256": дескриптор["снимок_sha256"]}, ensure_ascii=False) + "\n")
+        процесс.stdin.close()
+        проверка.assertEqual(процесс.wait(timeout=30), 3, процесс.stderr.read())
+        проверка.assertEqual(процесс.stdout.read(), "")
+        проверка.assertEqual(состояние(), до)
+
     def test_изменение_служебного_префикса_между_чтениями_без_кэша_отклоняется(проверка):
         with проверка.источник.open("ab") as поток:
             поток.write(строка({"type": "event_msg", "payload": {"text": "старое"}}))
