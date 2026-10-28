@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "032af51bce3e32f1bb0ee8cfd8d3231f122c67af",
+    "собственныйКонтрольныйКоммит": "9b7992ff5f968845bb198b6e828188a5951df32a",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "032af51bce3e32f1bb0ee8cfd8d3231f122c67af",
+      "родитель": "9b7992ff5f968845bb198b6e828188a5951df32a",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -814,8 +814,8 @@
     },
     "сообщениеСледующегоКоммита": {
       "исходныйЗапрос": "A avtovyidachu polnomochij mozhem sdelatj?",
-      "заголовок": "Задать проверяемую политику автовыдачи полномочий",
-      "описание": "По поручению ROOT подготовить конечный FUMA-first контракт, оператор и безопасный dry executor для дочернего узла, которому передаётся только уже разрешённое родителем подмножество полномочий. Неизвестный исход удерживает повтор; действующие ручные пути не блокируются."
+      "заголовок": "Обновить статус постановки перед назначением контракта",
+      "описание": "Сохранить результаты собственного checkpoint 5972408876ec7cc5dcf9254112ec50a2db732762 и merge 9b7992ff5f968845bb198b6e828188a5951df32a с принятым ROOT f9f61840aa39c8db4cf8546a61c4a6efade0c33d. Конкретные новые адреса contract/operator/adapter будут внесены только после одного канонического slug от существующей автоматизации именования; до этого child не запускается и путь не материализуется."
     }
   },
   "результатГенератораМетаданных": {
@@ -969,7 +969,7 @@
   "автовыдачаПолномочий": {
     "схема": "fum.координация.автовыдачи.черновой-план.1",
     "идентификатор": "автовыдача-ограниченного-подмножества-v1",
-    "статус": "план-зафиксирован",
+    "статус": "постановка-зафиксирована; ожидается-канонический-slug",
     "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
     "основание": {
       "источник": "прямое-поручение-родителя",
@@ -1006,24 +1006,24 @@
     ],
     "цепочка": [
       {
-        "этап": "контракт",
-        "область": "koordinaciya/автовыдача/контракт/**",
-        "состояние": "ожидает-назначения"
+        "этап": "contract",
+        "область": "koordinaciya/<canonical-slug>/contract/**",
+        "состояние": "не-создано; ждёт slug"
       },
       {
-        "этап": "FUMA-оператор-и-фикстуры",
-        "область": "koordinaciya/автовыдача/оператор/**",
-        "состояние": "после-приёмки-контракта"
+        "этап": "operator",
+        "область": "koordinaciya/<canonical-slug>/operator/**",
+        "состояние": "после-приёмки-contract"
       },
       {
-        "этап": "Swift-адаптер-наблюдения-и-dry-executor",
-        "область": "koordinaciya/автовыдача/адаптер/**",
-        "состояние": "после-приёмки-FUMA-оператора"
+        "этап": "adapter",
+        "область": "koordinaciya/<canonical-slug>/adapter/**",
+        "состояние": "после-приёмки-operator"
       },
       {
-        "этап": "независимый-RO-review",
+        "этап": "independent-review",
         "область": "только-чтение",
-        "состояние": "после-проверок-оператора-и-адаптера"
+        "состояние": "после-implementation-checks"
       }
     ],
     "приёмочныеСлучаи": [
@@ -1042,6 +1042,30 @@
       "разрешено": "только-вызовы-фабрики-под-явно-переданным-и-проверенным-parent-grant",
       "unknownOutcome": "hold-без-повтора-до-независимого-readback"
     },
-    "неБарьерСуществующимПутям": true
+    "неБарьерСуществующимПутям": true,
+    "источникSlug": {
+      "состояние": "ожидается-ответ-инструментального-родителя-через-ROOT",
+      "переводчик": "существующая-автоматизация-именования/Lingvistika",
+      "получено": false,
+      "ручное-латинизирование-разрешено": false
+    },
+    "доставкаПостановки": {
+      "taskCheckpoint": "5972408876ec7cc5dcf9254112ec50a2db732762",
+      "taskCheckpointTree": "c31c99cb6d6bf1c8b54511a1580d0a8a2fdbaf88",
+      "taskCheckpointParent": "032af51bce3e32f1bb0ee8cfd8d3231f122c67af",
+      "rootMerge": "9b7992ff5f968845bb198b6e828188a5951df32a",
+      "rootMergeParents": [
+        "5972408876ec7cc5dcf9254112ec50a2db732762",
+        "f9f61840aa39c8db4cf8546a61c4a6efade0c33d"
+      ],
+      "rootMergeTree": "c31c99cb6d6bf1c8b54511a1580d0a8a2fdbaf88",
+      "remoteReadback": "9b7992ff5f968845bb198b6e828188a5951df32a",
+      "принятаяОсноваСовпадаетПоДереву": true
+    },
+    "дочернийУзел": {
+      "запущен": false,
+      "пустаяЗаготовкаСнята": true,
+      "следующийПереход": "после-получения-canonical-slug"
+    }
   }
 }
