@@ -499,6 +499,67 @@ enum ОценщикИдентичностиGit {
         ожидаемыйParent: String,
         ожидаемоеДерево: String
     ) -> [String] {
+        var ошибки = проверитьСыройКоммит(
+            сыройКоммит,
+            метаданные: метаданные,
+            ожидаемыеРодители: [ожидаемыйParent],
+            ожидаемоеДерево: ожидаемоеДерево,
+            ошибкаНабораРодителей: "сырой-parent-не-совпадает"
+        )
+        if !верныйOID(ожидаемыйParent) { ошибки.append("неверный-ожидаемый-parent") }
+        return ошибки
+    }
+
+    static func проверитьСыройMergeОбъект(
+        _ сыройКоммит: Data,
+        метаданные: РезультатГенерацииМетаданныхКоммита,
+        ожидаемыеРодители: [String],
+        ожидаемоеДерево: String
+    ) -> [String] {
+        var ошибки: [String] = []
+        if ожидаемыеРодители.count != 2 {
+            ошибки.append("неверное-число-ожидаемых-merge-родителей")
+        }
+        if ожидаемыеРодители.contains(where: { !верныйOID($0) }) {
+            ошибки.append("неверный-ожидаемый-merge-parent")
+        }
+        if Set(ожидаемыеРодители).count != ожидаемыеРодители.count {
+            ошибки.append("повторный-ожидаемый-merge-parent")
+        }
+        ошибки.append(contentsOf: проверитьСыройКоммит(
+            сыройКоммит,
+            метаданные: метаданные,
+            ожидаемыеРодители: ожидаемыеРодители,
+            ожидаемоеДерево: ожидаемоеДерево,
+            ошибкаНабораРодителей: "сырой-merge-parent-набор-не-совпадает"
+        ))
+        return ошибки
+    }
+
+    static func проверитьСвязьПервогоРодителяСлиянияСПланом(
+        ожидаемыеРодители: [String],
+        родительПлана: String
+    ) -> [String] {
+        guard let первыйОжидаемыйРодитель = ожидаемыеРодители.first else {
+            return ["нет-первого-ожидаемого-родителя-слияния"]
+        }
+        var ошибки: [String] = []
+        if !верныйOID(родительПлана) {
+            ошибки.append("неверный-родитель-плана")
+        }
+        if первыйОжидаемыйРодитель != родительПлана {
+            ошибки.append("первый-ожидаемый-родитель-не-совпадает-с-планом")
+        }
+        return ошибки
+    }
+
+    private static func проверитьСыройКоммит(
+        _ сыройКоммит: Data,
+        метаданные: РезультатГенерацииМетаданныхКоммита,
+        ожидаемыеРодители: [String],
+        ожидаемоеДерево: String,
+        ошибкаНабораРодителей: String
+    ) -> [String] {
         guard let разделитель = сыройКоммит.range(of: Data([0x0a, 0x0a])) else {
             return ["нет-границы-заголовка-и-сообщения"]
         }
@@ -515,7 +576,7 @@ enum ОценщикИдентичностиGit {
         let деревья = заголовки.filter { $0.hasPrefix("tree ") }.map { String($0.dropFirst("tree ".count)) }
         var ошибки = метаданные.ошибки
 
-        if родители != [ожидаемыйParent] { ошибки.append("сырой-parent-не-совпадает") }
+        if родители != ожидаемыеРодители { ошибки.append(ошибкаНабораРодителей) }
         let author = ГенераторМетаданныхКоммита.разобратьGitIdent(авторы.first.map { String($0.dropFirst("author ".count)) } ?? "")
         if авторы.count != 1 || author != метаданные.автор { ошибки.append("сырой-author-не-совпадает") }
         let committer = ГенераторМетаданныхКоммита.разобратьGitIdent(коммитеры.first.map { String($0.dropFirst("committer ".count)) } ?? "")
@@ -529,7 +590,6 @@ enum ОценщикИдентичностиGit {
         if !сообщение.hasSuffix("\n") || последняяНепустаяСтрока != точныйTrailer {
             ошибки.append("сырой-корневой-trailer-не-совпадает")
         }
-        if !верныйOID(ожидаемыйParent) { ошибки.append("неверный-ожидаемый-parent") }
         return ошибки
     }
 
@@ -1366,6 +1426,12 @@ enum Оценщик {
 }
 
 #if !TESTING
+private struct ОжиданиеСырогоMergeКоммита: Decodable {
+    let schema: String
+    let expectedParents: [String]
+    let expectedTree: String
+}
+
 @main
 struct ГлавнаяКоординатора {
     static func main() {
@@ -1593,6 +1659,73 @@ struct ГлавнаяКоординатора {
                 if !ошибки.isEmpty { exit(EXIT_FAILURE) }
             } catch {
                 fputs("Не удалось проверить identity до коммита: \(error.localizedDescription)\n", stderr)
+                exit(EXIT_FAILURE)
+            }
+            return
+        }
+        if аргументы.first == "--проверить-сырой-merge-коммит" {
+            guard аргументы.count == 3 else {
+                fputs("Ожидаются путь к состояние.json и путь к независимому ожиданию merge (schema, ordered expectedParents, expectedTree); сырой объект читается из stdin.\n", stderr)
+                exit(EXIT_FAILURE)
+            }
+            do {
+                let данные = try Data(contentsOf: URL(fileURLWithPath: аргументы[1]))
+                let состояние = try JSONDecoder().decode(СостояниеКоординации.self, from: данные)
+                guard let план = состояние.планСамообновления else {
+                    throw CocoaError(.coderValueNotFound)
+                }
+                let ожидание = try JSONDecoder().decode(
+                    ОжиданиеСырогоMergeКоммита.self,
+                    from: Data(contentsOf: URL(fileURLWithPath: аргументы[2]))
+                )
+                guard ожидание.schema == "fum.raw-merge-commit-expectation.1" else {
+                    throw NSError(domain: "RawMergeExpectation", code: 1,
+                                  userInfo: [NSLocalizedDescriptionKey: "Unsupported merge expectation schema"])
+                }
+                let родительПлана = план.идентичностьСледующегоКоммита.родитель
+                let ошибкиСвязиРодителя = ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом(
+                    ожидаемыеРодители: ожидание.expectedParents,
+                    родительПлана: родительПлана
+                )
+                if !ошибкиСвязиРодителя.isEmpty {
+                    let вывод: [String: Any] = [
+                        "schema": ожидание.schema,
+                        "expectedParents": ожидание.expectedParents,
+                        "родительПлана": родительПлана,
+                        "expectedTree": ожидание.expectedTree,
+                        "проверено": false,
+                        "ошибки": ошибкиСвязиРодителя
+                    ]
+                    let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
+                    FileHandle.standardOutput.write(результат)
+                    FileHandle.standardOutput.write(Data([0x0a]))
+                    exit(EXIT_FAILURE)
+                }
+                let сыройОбъект = FileHandle.standardInput.readDataToEndOfFile()
+                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID)
+                var ошибки = ОценщикИдентичностиGit.проверитьСыройMergeОбъект(
+                    сыройОбъект,
+                    метаданные: метаданные,
+                    ожидаемыеРодители: ожидание.expectedParents,
+                    ожидаемоеДерево: ожидание.expectedTree
+                )
+                if метаданные.выборМодели.rootUUID != состояние.корневойUUID {
+                    ошибки.append("model-selection-receipt-не-связан-с-корневым-uuid-состояния")
+                }
+                let вывод: [String: Any] = [
+                    "schema": ожидание.schema,
+                    "expectedParents": ожидание.expectedParents,
+                    "родительПлана": родительПлана,
+                    "expectedTree": ожидание.expectedTree,
+                    "проверено": ошибки.isEmpty,
+                    "ошибки": ошибки
+                ]
+                let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
+                FileHandle.standardOutput.write(результат)
+                FileHandle.standardOutput.write(Data([0x0a]))
+                if !ошибки.isEmpty { exit(EXIT_FAILURE) }
+            } catch {
+                fputs("Не удалось проверить сырой merge Git-объект: \(error.localizedDescription)\n", stderr)
                 exit(EXIT_FAILURE)
             }
             return

@@ -539,6 +539,45 @@ struct ПроверкиКоординатора {
         let сыройКоммитСДругимСообщением = Data(сыройКоммит.replacingOccurrences(of: greenЗаголовок, with: redЗаголовок).utf8)
         проверить("raw readback отклоняет message вне общего генератора", rawCheck(сыройКоммитСДругимСообщением).contains("сырой-message-не-совпадает-с-генератором"))
 
+        let второйРодитель = String(repeating: "4", count: 40)
+        let третийРодитель = String(repeating: "5", count: 40)
+        let совпадающаяСвязьСлиянияПлана = ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом(
+            ожидаемыеРодители: [свойРодитель, второйРодитель],
+            родительПлана: свойРодитель
+        )
+        проверить("независимые ожидания связывают первого родителя с планом", совпадающаяСвязьСлиянияПлана.isEmpty)
+        let несовпадающаяСвязьСлиянияПлана = ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом(
+            ожидаемыеРодители: [свойРодитель, второйРодитель],
+            родительПлана: третийРодитель
+        )
+        проверить("слияние отвергает первого ожидаемого родителя, отличного от плана", несовпадающаяСвязьСлиянияПлана.contains("первый-ожидаемый-родитель-не-совпадает-с-планом"))
+        func сыройMerge(_ parents: [String]) -> Data {
+            let строкиРодителей = parents.map { "parent \($0)\n" }.joined()
+            return Data("tree \(ожидаемоеДерево)\n\(строкиРодителей)author \(авторИдентичностьGit)\ncommitter \(коммитерИдентичностьGit)\n\n\(сгенерированныеМетаданные.сообщение)".utf8)
+        }
+        func rawMergeCheck(
+            _ source: Data,
+            parents: [String] = [свойРодитель, второйРодитель],
+            tree: String = ожидаемоеДерево
+        ) -> [String] {
+            ОценщикИдентичностиGit.проверитьСыройMergeОбъект(
+                source,
+                метаданные: сгенерированныеМетаданные,
+                ожидаемыеРодители: parents,
+                ожидаемоеДерево: tree
+            )
+        }
+        let точныйСыройMerge = сыройMerge([свойРодитель, второйРодитель])
+        проверить("merge raw readback принимает оба независимо ожидаемых родителя в заданном порядке", rawMergeCheck(точныйСыройMerge).isEmpty)
+        проверить("merge raw readback отклоняет переставленный parent order", rawMergeCheck(точныйСыройMerge, parents: [второйРодитель, свойРодитель]).contains("сырой-merge-parent-набор-не-совпадает"))
+        проверить("merge raw readback отклоняет фактически пропущенный parent", rawMergeCheck(сыройMerge([свойРодитель])).contains("сырой-merge-parent-набор-не-совпадает"))
+        проверить("merge raw readback отклоняет пропущенный ожидаемый parent", rawMergeCheck(точныйСыройMerge, parents: [свойРодитель]).contains("неверное-число-ожидаемых-merge-родителей"))
+        проверить("merge raw readback отклоняет подменённый expected parent", rawMergeCheck(точныйСыройMerge, parents: [свойРодитель, третийРодитель]).contains("сырой-merge-parent-набор-не-совпадает"))
+        проверить("merge raw readback отклоняет дополнительный фактический parent", rawMergeCheck(сыройMerge([свойРодитель, второйРодитель, третийРодитель])).contains("сырой-merge-parent-набор-не-совпадает"))
+        проверить("merge raw readback сохраняет точную независимую проверку tree", rawMergeCheck(точныйСыройMerge, tree: String(repeating: "6", count: 40)).contains("сырой-tree-не-совпадает-с-ожидаемым"))
+        let неверныйTrailerMerge = Data(String(decoding: точныйСыройMerge, as: UTF8.self).replacingOccurrences(of: корневойUUID, with: "00000000-0000-0000-0000-000000000000").utf8)
+        проверить("merge raw readback продолжает проверять ROOT trailer", rawMergeCheck(неверныйTrailerMerge).contains("сырой-корневой-trailer-не-совпадает"))
+
         let ожидаемыйOIDПостЭффекта = String(repeating: "a", count: 40)
         let ожидаемыйУдалённыйOID = String(repeating: "c", count: 40)
         let ожиданиеПостЭффекта = ОжидаемоеПостЭффектноеСостояниеGit(
