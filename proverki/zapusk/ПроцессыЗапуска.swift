@@ -49,7 +49,8 @@ actor ПроцессыЗапуска {
         return хэш.map { String(format: "%02x", $0) }.joined()
     }
 
-    func запустить(_ аргументы: [String]) async throws -> НаблюдениеПроцессаЗапуска {
+    func запустить(_ аргументы: [String], ввод: Data? = nil,
+                   окружение: [String: String]? = nil) async throws -> НаблюдениеПроцессаЗапуска {
         try Task.checkCancellation()
         _ = try проверенныйХэш()
         номер += 1
@@ -66,14 +67,22 @@ actor ПроцессыЗапуска {
         let процесс = Process()
         процесс.executableURL = среда.бинарник
         процесс.arguments = аргументы
+        if let окружение { процесс.environment = окружение }
         процесс.standardOutput = вывод
         процесс.standardError = ошибки
+        let каналВвода = ввод.map { _ in Pipe() }
+        if let каналВвода { процесс.standardInput = каналВвода }
+        defer { try? каналВвода?.fileHandleForWriting.close() }
         let часы = ContinuousClock()
         let начало = часы.now
         var запущен = false
         do {
             try процесс.run()
             запущен = true
+            if let ввод, let каналВвода {
+                try каналВвода.fileHandleForWriting.write(contentsOf: ввод)
+                try каналВвода.fileHandleForWriting.close()
+            }
             let предел = начало.advanced(by: .seconds(60))
             while процесс.isRunning {
                 try Task.checkCancellation()
