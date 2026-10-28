@@ -1,0 +1,27 @@
+{
+  "схема": "fum.native-swift-target-checkpoint.1",
+  "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дочерний_uuid": "01a17869-c953-7163-bb76-21716549be02",
+  "основа": "73e51abb3697aeefae870ff23eb908fe1fa6bae6",
+  "ref": "refs/heads/fum-lab/fum/pravila/master",
+  "target": "proverki-aktualizaciya-putej",
+  "команда_относительная": "swift test --package-path . --jobs 2 --build-system swiftbuild --disable-automatic-resolution --filter proverki_aktualizaciya_putej",
+  "начало_msk": "2026-10-28T23:00:51+03:00",
+  "окончание_msk": "2026-10-28T23:00:59+03:00",
+  "код_завершения": 0,
+  "исход": "42 теста целевого модуля прошли",
+  "исходные_файлы": [
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift",
+      "sha256": "f23e9cc5196fe6cab1b5b10d5c3ed6b98051ebe1f49cd19c2ef41a4fb96a6b25"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/vhod-agenta-tests.swift",
+      "sha256": "67c699e0f5ad9078278c54baca0fc3908410d0041f976a5af02a69d4749870a1"
+    }
+  ],
+  "строгие_настройки": ["Swift 6", "strict concurrency complete", "warnings as errors", "actor data race checks"],
+  "сырые_выводы": "Сохранены в приватной области; SHA-256 stdout=46c18e685b46d462b754eca3bc8a319a3d59756de68a564f6f640154bf80e9b8, stderr=0fa91ec2d6cebc06899a15b22bc19ad9eba863d72da860b93adae430561d7b35.",
+  "предшествующие_неуспешные_попытки": "Записаны в приватной трассе; исправлены только окружение и тестовые ожидания в этой задаче.",
+  "не_проверялось": ["FUMA operator", "массовая генерация", "Swift route/inventory validator", "полный ROOT JSONL", "глобальный Markdown индекс", "полный smoke-check"]
+}
