@@ -17,7 +17,8 @@ let package = Package(
     dependencies: [
         .package(name: "FUMStructuringOperatorMemory", path: "../../../Прототипы/память-структурирующих-операторов"),
         .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений"),
-        .package(name: "АрхивныйСнимокЗадачи", path: "../Packages/АрхивныйСнимокЗадачи")
+        .package(name: "АрхивныйСнимокЗадачи", path: "../Packages/АрхивныйСнимокЗадачи"),
+        .package(name: "Git", path: "../Packages/Git")
     ],
     targets: [
         .executableTarget(
@@ -47,10 +48,12 @@ let package = Package(
             "ПутиИсполнения",
             .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
             .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
-            .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
+            .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи"),
+            .product(name: "НаблюдательРепозитория", package: "Git")
         ]),
         .target(name: "FUMObservationJournal"),
-        .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
+        .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора",
+            .product(name: "НаблюдательРепозитория", package: "Git")]),
         .testTarget(name: "FUMObservationJournalTests", dependencies: ["FUMObservationJournal"]),
         .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
         .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
