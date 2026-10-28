@@ -1,0 +1,193 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "46d90ea34eb60fded34abc7fd501a9562f2a3be87fcae3705817bf335ab6f7b2",
+  "данные": {
+    "время": "2026-10-28T13:34:37Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "писатель": "repository-json-event; no prebuilt FUMA journal driver was issued or used",
+    "основа": {
+      "branch": "fum-lab/fum/trebovaniya/master",
+      "base_commit": "173c36c6ca55ede727ad1385832d43b5b7991279",
+      "common_source_commit": "6999fcb256d298302358d1329c2e57fead00a808",
+      "common_source_relationship": "Not an ancestor of the current base; the selected existing requirement blobs were verified identical."
+    },
+    "пакет_цитат": {
+      "own_copy": "trebovaniya/fuma-agent-quotes.json",
+      "source_filename": "zapros-trebovaniya-20261028-18.json",
+      "sha256": "a7d63811c2c6111a9d9847129f5a8b71a8ea79cca17ac80f872f3f2b0e7770eb",
+      "bytes": 3775,
+      "initial_quote_count": 18,
+      "duplicate_positions": [
+        11,
+        12
+      ],
+      "late_refinement_count": 5,
+      "chronology_boundary": "Поздняя передача пяти уточнений отдельная; расположение AOT-реплик в этом блоке не означает их позднее место в общем разговоре.",
+      "native_frame_sha256": null,
+      "root_jsonl_read": false
+    },
+    "пакет_требований": {
+      "path": "trebovaniya/fuma-agent-requirements.json",
+      "sha256": "6b520f1b06ffea0320949f846b1c89bcd5769971fabd940c74b40763c957fabb",
+      "bytes": 25726,
+      "semantic_keys": [
+        "agent-node-directory-addressing",
+        "agent-git-memory-json-restore-entry",
+        "fuma-environment-storage-adapter-contract",
+        "fuma-finite-aot-swift-lowering",
+        "typed-inter-agent-input-packet-acknowledgement"
+      ],
+      "numeric_requirement_ids": "pending-allocation"
+    },
+    "существующие_связи": [
+      {
+        "id": "FUM-REQ-0043",
+        "status": "🟡",
+        "path": "../Требования/🟡-дерево-ветвевых-fork-и-родительская-модерация.md"
+      },
+      {
+        "id": "FUM-REQ-0036",
+        "status": "🟡",
+        "path": "../Требования/🟡-управляемое-исполнение-цепочек-универсальными-fork-подузлами.md"
+      },
+      {
+        "id": "FUM-REQ-0044",
+        "status": "🟡",
+        "path": "../Требования/🟡-наблюдаемое-состояние-агентского-runtime-и-интерфейса.md"
+      },
+      {
+        "id": "FUM-REQ-0027",
+        "status": "✅",
+        "path": "../Требования/✅-репозиторная-композиция-долговечных-подузлов-и-проектов.md"
+      },
+      {
+        "id": "FUM-REQ-0020",
+        "status": "🚧",
+        "path": "../Требования/🚧-воспроизводимое-штатное-пополнение-памяти.md"
+      },
+      {
+        "id": "FUM-REQ-0048",
+        "status": "🟡",
+        "path": "../Требования/🟡-работа-FUMA-с-децентрализованными-сетями.md"
+      },
+      {
+        "id": "FUM-REQ-0075",
+        "status": "🟡",
+        "path": "../Требования/🟡-полная-переносимая-офлайн-автономность-FUM.md"
+      },
+      {
+        "id": "FUM-REQ-0067",
+        "status": "🟡",
+        "path": "../Требования/🟡-чистое-исполнение-операторов-и-UTF-32.md"
+      },
+      {
+        "id": "FUM-REQ-0045",
+        "status": "🟡",
+        "path": "../Требования/🟡-статистика-вызовов-для-развития-автоматизаций.md"
+      },
+      {
+        "id": "FUM-REQ-0019",
+        "status": "✅",
+        "path": "../Требования/✅-безоконный-Swift-контур-первого-коробочного-прототипа.md"
+      },
+      {
+        "id": "FUM-REQ-0029",
+        "status": "✅",
+        "path": "../Требования/✅-сквозной-проверяемый-одноагентный-эпизод-FUM.md"
+      },
+      {
+        "id": "FUM-REQ-0016",
+        "status": "✅",
+        "path": "../Требования/✅-выбор-следующего-шага-ветки-из-карточек-шагов.md"
+      },
+      {
+        "id": "FUM-REQ-0042",
+        "status": "✅",
+        "path": "../Требования/✅-обязательное-продолжение-Git-ветки-после-коммита.md"
+      }
+    ],
+    "потребители": [
+      {
+        "id": "FUM-STEP-0159",
+        "status": "active",
+        "url": null,
+        "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0159-собрать-снимок-агентского-runtime-и-интерфейса.md"
+      },
+      {
+        "id": "FUM-STEP-0183",
+        "status": "active",
+        "url": null,
+        "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0183-определить-адаптеры-децентрализованных-сетей.md"
+      },
+      {
+        "id": "FUM-STEP-0228",
+        "status": "active",
+        "url": null,
+        "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0228-контролировать-доставку-в-постоянную-ветку.md"
+      },
+      {
+        "id": "Issue-365",
+        "status": "open",
+        "url": "https://github.com/fum-lab/fum/issues/365",
+        "path": null
+      },
+      {
+        "id": "Issue-151",
+        "status": "open",
+        "url": "https://github.com/fum-lab/fum/issues/151",
+        "path": null
+      },
+      {
+        "id": "Issue-328",
+        "status": "open",
+        "url": "https://github.com/fum-lab/fum/issues/328",
+        "path": null
+      },
+      {
+        "id": "PR-437",
+        "status": "open-draft",
+        "url": "https://github.com/fum-lab/fum/pull/437",
+        "path": null
+      },
+      {
+        "id": "PR-441",
+        "status": "open-draft",
+        "url": "https://github.com/fum-lab/fum/pull/441",
+        "path": null
+      }
+    ],
+    "проверки": [
+      {
+        "название": "source quote packet hash and exact copy",
+        "исход": "успешно",
+        "свидетельство": "The provided SHA-256 matched before reading; the own copy was checked with byte-for-byte cmp and SHA-256."
+      },
+      {
+        "название": "JSON and relative source links",
+        "исход": "успешно",
+        "свидетельство": "Both JSON files parse; linked requirement and step paths exist; public files contain no absolute private path."
+      },
+      {
+        "название": "implementation, provider restore, and external effects",
+        "исход": "неПроверено",
+        "свидетельство": "This is a requirements-writing event; no implementation, build, test suite, connected provider, or live external effect was executed."
+      }
+    ],
+    "исход": "Five semantic requirements were prepared in the task-owned area, with exact source quote packet and existing links. The entry remains pending ROOT acceptance and numeric ID allocation.",
+    "решения": [
+      "Existing requirement cards and their statuses were not changed.",
+      "Agent behavioral policy remains assigned to the separate rules task.",
+      "No shared index, second common journal, duplicate reader, or ROOT Markdown request/report pair was created.",
+      "FUMA adapter and AOT evidence is linked with its current draft/implementation boundaries; it is not accepted or generalized here."
+    ],
+    "остаток": [
+      "Numeric requirement ID allocation remains pending; semantic keys are used without guessed numbers.",
+      "Provider adapter compatibility, bootstrap restoration, and fresh external-effect readback have not been executed or accepted by this task.",
+      "The parent-reported immutable AOT source commit 0bf0441efd445bd9f9f241fba5e959600ae1ebb1 does not contain the cited Swift translator/test filenames in the local tree examined; PR-437's open draft body is retained as reported evidence only.",
+      "ROOT acceptance and integration are not claimed."
+    ],
+    "доставка_на_момент_записи": "not-yet-published"
+  }
+}

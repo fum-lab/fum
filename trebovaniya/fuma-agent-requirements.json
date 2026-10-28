@@ -1,0 +1,503 @@
+{
+  "schema": "fum.пакет-канонических-требований.1",
+  "created": "2026-10-28",
+  "scope": "trebovaniya/**",
+  "status": "canonical-semantic-set-written-in-own-area",
+  "root_acceptance": "not-claimed",
+  "numeric_requirement_ids": "pending-allocation",
+  "source_context": {
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "own_writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "worktree_path": "omitted-from-public-record",
+    "branch": "fum-lab/fum/trebovaniya/master",
+    "base_commit": "173c36c6ca55ede727ad1385832d43b5b7991279",
+    "common_source_commit": "6999fcb256d298302358d1329c2e57fead00a808",
+    "common_source_relationship": "Not an ancestor of the current base; the selected existing requirement blobs were verified identical.",
+    "root_jsonl_read": false,
+    "native_human_frames_read": false,
+    "quote_provenance": "Буквальные реплики человека из основного разговора, повторно переданные ROOT; это не native human input получателя.",
+    "exact_quote_packet": {
+      "source_filename": "zapros-trebovaniya-20261028-18.json",
+      "source_sha256": "a7d63811c2c6111a9d9847129f5a8b71a8ea79cca17ac80f872f3f2b0e7770eb",
+      "bytes": 3775,
+      "own_copy": "fuma-agent-quotes.json",
+      "copy_verified_byte_for_byte": true,
+      "private_source_path_in_public_record": false,
+      "native_frame_sha256": null,
+      "full_root_jsonl_read": false,
+      "initial_quote_count": 18,
+      "duplicate_positions": [
+        11,
+        12
+      ],
+      "late_refinement_count": 5
+    },
+    "initial_human_replies": [
+      {
+        "номер": 1,
+        "текст": "Nam po suti nuzhen agent na kazhdyij katalog v fajlovoj sisteme."
+      },
+      {
+        "номер": 2,
+        "текст": "Git v etu zhe fajlovuyu sistemu budet sokhranyatj istoriyu."
+      },
+      {
+        "номер": 3,
+        "текст": "Nam po suti i nuzhno eto pervyim delom v rantajme FUMA realizovatj."
+      },
+      {
+        "номер": 4,
+        "текст": "Nam togda nuzhnyi adapter fajlovoj sistemyi,"
+      },
+      {
+        "номер": 5,
+        "текст": "adapter Git,"
+      },
+      {
+        "номер": 6,
+        "текст": "adapter Torrent,"
+      },
+      {
+        "номер": 7,
+        "текст": "Nam byi prorabotatj obsjhij stejt agenta, kotoryij dolzhen khranitjsya dlya kazhdogo agenta."
+      },
+      {
+        "номер": 8,
+        "текст": "I khranitj yego v JSON. Kak schitayeshj?"
+      },
+      {
+        "номер": 9,
+        "текст": "Eto tvoya zadacha vyiyavlyatj potrebnosti takikh sistemnyikh avtomatizacij, poleznyikh dlya kazhdogo agenta. U kazhdogo agenta dolzhen byitj putj k sobstvennoj pamyati s zapisjyu i k obsjhej pamyati v rezhime chteniya."
+      },
+      {
+        "номер": 10,
+        "текст": "Sobstvennyiye fajlyi i sobstvennyiye deti v vide papok — vot i vesj nekhitryij interfejs."
+      },
+      {
+        "номер": 11,
+        "текст": "Celj kazhdo agenta — dobitjsya avtomatizacii svoyej funkcii."
+      },
+      {
+        "номер": 12,
+        "текст": "Celj kazhdogo agenta — dobitjsya avtomatizacii svoyej funkcii."
+      },
+      {
+        "номер": 13,
+        "текст": "I v FUM tak rabotayem, i FUMA delayem tak."
+      },
+      {
+        "номер": 14,
+        "текст": "V konechnom schyote zadacha agenta — ostavitj posle sebya programmu."
+      },
+      {
+        "номер": 15,
+        "текст": "Voobsjhe eto kasayetsya kazhdogo agenta na lyubom urovne vlozhennosti."
+      },
+      {
+        "номер": 16,
+        "текст": "Vsem agentam v celom sleduyet datj maksimum avtonomii v organizacii svoyej pamyati."
+      },
+      {
+        "номер": 17,
+        "текст": "Agentyi mogut zakazyivatj razrabotku obsjhego instrumentariya, kotoryij im nuzhen vsem."
+      },
+      {
+        "номер": 18,
+        "текст": "Stejt pamyati v Git — eto i yestj struktura stejta agenta."
+      }
+    ],
+    "late_refinements": [
+      {
+        "position_in_block": 1,
+        "text": "Nam byi srazu byi sejchas zapustitj translyator s FUMA na Swift."
+      },
+      {
+        "position_in_block": 2,
+        "text": "Myi zh sejchas pishem na FUMA, i Swift generiruyem v ramkakh AOT konvejyera, tak?"
+      },
+      {
+        "position_in_block": 3,
+        "text": "Kommit — eto vsyo, chto nuzhno dlya vosstanovleniya agenta."
+      },
+      {
+        "position_in_block": 4,
+        "text": "Vetka — eto i yestj uzel."
+      },
+      {
+        "position_in_block": 5,
+        "text": "Realjnuyu muljtiagentnostj myi obespechim, yesli dlya kazhdoj sredyi: Codex Desktop, Claude, OpenCode i dr. myi obespechim svoyu pamyatj i svoyo raspredeleniye po vetkam."
+      }
+    ],
+    "late_refinements_chronology_boundary": "Поздняя передача пяти уточнений отдельная; расположение AOT-реплик в этом блоке не означает их позднее место в общем разговоре."
+  },
+  "scope_and_boundaries": {
+    "in_scope": [
+      "Canonical semantic requirements for directory-backed agent nodes, node memory and JSON restore entry points, FUMA environment and storage adapters, and finite AOT lowering to Swift.",
+      "Requirements retain their source provenance, existing requirement links, status, checkable criteria, consumers, and unresolved boundaries.",
+      "Typed inter-agent input-packet persistence, hash confirmation, and recipient-side exact-copy acknowledgement."
+    ],
+    "out_of_scope": [
+      "Agent behavioral policy is owned by a separate rules task.",
+      "No behavioral policy is duplicated in Документация.",
+      "No shared index, bulk migration, or duplicate ROOT Markdown request/report pair is created.",
+      "No FUMA runtime, external-provider integration, API, model, credential, or live service is claimed as implemented by this requirements package.",
+      "No numeric FUM-REQ identifier is guessed."
+    ],
+    "architecture_handoff": {
+      "branch_node_and_commit_restore_contract": "Owned by /root/arkhitektura; this package records the requirement and its acceptance link without repeating the architecture audit.",
+      "runtime_types_and_adapters": "Consumed by the FUMA implementation owner.",
+      "planning_queue": "Consumed by planning thread 01a08d77-2060-7701-9f44-ff04769d8a6e."
+    }
+  },
+  "existing_requirements": [
+    {
+      "id": "FUM-REQ-0043",
+      "path": "../Требования/🟡-дерево-ветвевых-fork-и-родительская-модерация.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Stable logical node identity, branch-tree shape, and exact recovery are already required; this package does not claim a universal provider bootstrap."
+    },
+    {
+      "id": "FUM-REQ-0036",
+      "path": "../Требования/🟡-управляемое-исполнение-цепочек-универсальными-fork-подузлами.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Universal fork execution is planned and partly prototyped; local profiles do not establish live host readback or multi-provider restore."
+    },
+    {
+      "id": "FUM-REQ-0044",
+      "path": "../Требования/🟡-наблюдаемое-состояние-агентского-runtime-и-интерфейса.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Stable identity, source/time/scope, unknown state, intent/action/result/observation/correction, and persistent readback are already covered; the separate restore fixture below adds provider rebinding criteria."
+    },
+    {
+      "id": "FUM-REQ-0027",
+      "path": "../Требования/✅-репозиторная-композиция-долговечных-подузлов-и-проектов.md",
+      "status_at_base": "✅",
+      "scope_and_limit": "Accepted only for the historical local-bare Git composition profile; it does not establish a live moving branch gitlink or a universal agent runtime."
+    },
+    {
+      "id": "FUM-REQ-0020",
+      "path": "../Требования/🚧-воспроизводимое-штатное-пополнение-памяти.md",
+      "status_at_base": "🚧",
+      "scope_and_limit": "Versioned JSON seed/events/replay and provenance are covered; the requested per-node restore entry and shared read-only memory boundary remain to be specified."
+    },
+    {
+      "id": "FUM-REQ-0048",
+      "path": "../Требования/🟡-работа-FUMA-с-децентрализованными-сетями.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Versioned decentralized-network capabilities, state, results, errors, cancellation, recovery, rights, and provenance are covered; implementation/registration is not claimed."
+    },
+    {
+      "id": "FUM-REQ-0075",
+      "path": "../Требования/🟡-полная-переносимая-офлайн-автономность-FUM.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Git manifests, filesystem objects, Torrent distribution, and offline profile are distinct requirements; full portability is not established."
+    },
+    {
+      "id": "FUM-REQ-0067",
+      "path": "../Требования/🟡-чистое-исполнение-операторов-и-UTF-32.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Finite pure operator execution and independent expectations are covered; AOT compilation and interpreter equivalence need their own finite subset contract."
+    },
+    {
+      "id": "FUM-REQ-0045",
+      "path": "../Требования/🟡-статистика-вызовов-для-развития-автоматизаций.md",
+      "status_at_base": "🟡",
+      "scope_and_limit": "Observed episodes may produce candidates with exact origin; this does not create a shared dispatcher or justify unobserved effects."
+    },
+    {
+      "id": "FUM-REQ-0019",
+      "path": "../Требования/✅-безоконный-Swift-контур-первого-коробочного-прототипа.md",
+      "status_at_base": "✅",
+      "scope_and_limit": "The first windowless Swift contour does not establish an independent agent runtime."
+    },
+    {
+      "id": "FUM-REQ-0029",
+      "path": "../Требования/✅-сквозной-проверяемый-одноагентный-эпизод-FUM.md",
+      "status_at_base": "✅",
+      "scope_and_limit": "A bounded one-agent episode is covered; it does not establish universal multi-vendor support."
+    },
+    {
+      "id": "FUM-REQ-0016",
+      "path": "../Требования/✅-выбор-следующего-шага-ветки-из-карточек-шагов.md",
+      "status_at_base": "✅",
+      "operational_status_at_base": "deferred",
+      "scope_and_limit": "A documentation prototype does not authorize the live selector or execution."
+    },
+    {
+      "id": "FUM-REQ-0042",
+      "path": "../Требования/✅-обязательное-продолжение-Git-ветки-после-коммита.md",
+      "status_at_base": "✅",
+      "operational_status_at_base": "deferred",
+      "scope_and_limit": "Historical continuation/FIFO semantics do not authorize automatic continuation in the current manual sequence."
+    }
+  ],
+  "existing_consumers_and_evidence": [
+    {
+      "id": "FUM-STEP-0159",
+      "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0159-собрать-снимок-агентского-runtime-и-интерфейса.md",
+      "status": "active",
+      "consumes": "Observable runtime state, first synthetically and separately with live evidence."
+    },
+    {
+      "id": "FUM-STEP-0183",
+      "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0183-определить-адаптеры-децентрализованных-сетей.md",
+      "status": "active",
+      "consumes": "Network adapter profiles; no implementation or registration is claimed here."
+    },
+    {
+      "id": "FUM-STEP-0228",
+      "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0228-контролировать-доставку-в-постоянную-ветку.md",
+      "status": "active",
+      "consumes": "Addressed delivery/selection and known blockers; it is not completed by this package."
+    },
+    {
+      "id": "Issue-365",
+      "url": "https://github.com/fum-lab/fum/issues/365",
+      "status": "open",
+      "consumes": "Address resolution, same-node restore/deploy, readiness confirmation, and delivery without duplicate writers."
+    },
+    {
+      "id": "Issue-151",
+      "url": "https://github.com/fum-lab/fum/issues/151",
+      "status": "open",
+      "consumes": "Evidence-backed readiness and the next useful blocker/consumer, with explicit unknowns."
+    },
+    {
+      "id": "Issue-328",
+      "url": "https://github.com/fum-lab/fum/issues/328",
+      "status": "open",
+      "consumes": "Observed episodes to automation candidates, independent validation, and no blind effect replay."
+    },
+    {
+      "id": "PR-437",
+      "url": "https://github.com/fum-lab/fum/pull/437",
+      "status": "open-draft",
+      "consumes": "Finite FUMA graph-to-Swift AOT example. The PR body reports 3/3 selected AOT checks including Swift compilation and exact JSON-byte comparison; this task did not rerun them, and the PR does not establish general AOT or ROOT acceptance."
+    },
+    {
+      "id": "PR-441",
+      "url": "https://github.com/fum-lab/fum/pull/441",
+      "status": "open-draft",
+      "consumes": "Plan-only response to a known delivery refusal; it does not apply external effects or establish general agent recovery."
+    }
+  ],
+  "requirements": [
+    {
+      "semantic_key": "agent-node-directory-addressing",
+      "numeric_id": null,
+      "allocation_status": "pending",
+      "status": "pending-root-acceptance",
+      "owner": "FUM requirements; FUMA runtime and node resolver are consumers",
+      "statement": "A declared node directory and repository/ref address resolve to one stable logical agent node independently of the incidental workspace path. A branch identifies the node; a process is only one incarnation. Ambiguous, stale, or unowned resolution returns an explicit state and never silently creates a second node or writer.",
+      "acceptance_criteria": [
+        "Given the same declared repository, node directory, and branch/ref in two different workspace paths, the resolver returns the same logical node identity and exact current commit.",
+        "An absent, ambiguous, stale, or foreign-owned path returns a typed result with its source and observation time; it does not select another agent or create a duplicate writer.",
+        "A concurrent second request joins or reports the existing node state; it cannot claim a second writable incarnation without an explicit ownership transition."
+      ],
+      "consumers": [
+        "FUM-REQ-0043",
+        "FUM-REQ-0036",
+        "Issue-365",
+        "FUM-STEP-0228"
+      ],
+      "source_links": [
+        "FUM-REQ-0043",
+        "FUM-REQ-0036",
+        "Issue-365"
+      ],
+      "source_quote_references": [
+        {
+          "packet_part": "реплики",
+          "positions": [
+            1,
+            2,
+            10,
+            18
+          ]
+        },
+        {
+          "packet_part": "поздниеУточнения",
+          "positions": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_key": "agent-git-memory-json-restore-entry",
+      "numeric_id": null,
+      "allocation_status": "pending",
+      "status": "pending-root-acceptance",
+      "owner": "FUM requirements; architecture owner /root/arkhitektura and FUMA bootstrap executor are consumers",
+      "statement": "One commit is a sufficient restore entry for a node when an explicitly declared bootstrap executor can materialize that node from the commit. The branch is the node identity, the committed Git tree contains its substantive state, memory, and child structure, and versioned JSON is the control record and entry point that selects the branch/ref and restore commit. Shared memory is explicitly read-only. The JSON does not mirror the Git tree and does not require the node's own future commit as an input.",
+      "acceptance_criteria": [
+        "A single restore cycle using a named bootstrap executor and one committed node state restores the same branch identity, exact commit, tree, own-memory root, child references, and shared read-only memory reference.",
+        "The restore JSON has a closed versioned schema and names the node/ref and selected restore commit; it contains no required future commit value and does not duplicate the contents of the Git tree.",
+        "Own writable memory and common shared read-only memory remain distinct after restore; the fixture rejects attempts to write through the common read-only reference.",
+        "External effects are checked by a separate fresh observation after restore, carrying source, time, and result; a committed intention or result record alone is not treated as proof of a live effect."
+      ],
+      "consumers": [
+        "FUM-REQ-0027",
+        "FUM-REQ-0020",
+        "FUM-REQ-0043",
+        "FUM-REQ-0036",
+        "FUM-REQ-0075",
+        "FUM-STEP-0159",
+        "FUM-STEP-0228",
+        "Issue-365",
+        "planning-01a08d77"
+      ],
+      "source_links": [
+        "FUM-REQ-0027",
+        "FUM-REQ-0020",
+        "FUM-REQ-0043",
+        "FUM-REQ-0036",
+        "Issue-365"
+      ],
+      "source_quote_references": [
+        {
+          "packet_part": "реплики",
+          "positions": [
+            7,
+            8,
+            9,
+            10,
+            18
+          ]
+        },
+        {
+          "packet_part": "поздниеУточнения",
+          "positions": [
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_key": "fuma-environment-storage-adapter-contract",
+      "numeric_id": null,
+      "allocation_status": "pending",
+      "status": "pending-root-acceptance",
+      "owner": "FUM requirements; FUMA runtime-types/adapters implementation owner is the consumer",
+      "statement": "FUMA uses typed, versioned adapter capabilities for Codex Desktop, Claude, OpenCode, filesystem, Git, and Torrent profiles. Each provider environment owns its workspace, memory, branch set, and process/session state; a common read-only memory view is explicit. Adapter state, capability, rights, provenance, action result, cancellation, recovery, and unknown outcome are reported as separate values. Provider APIs, model availability, and credentials are read at restore time and are not promised by a public commit.",
+      "acceptance_criteria": [
+        "A deterministic fixture restores one committed node through two provider adapter test doubles with separate workspaces, writable memory, branches, and sessions, while preserving the same logical node, selected commit, child graph, and shared read-only reference.",
+        "Each adapter reports its version, available capabilities, current state, required rights, source, observation time, and typed success/failure/cancel/unknown outcome; unsupported capabilities fail explicitly.",
+        "Filesystem and Git fixtures verify exact paths, refs, commit/tree identity, provenance, and no duplicate writer; Torrent input is handled only through the declared network capability profile linked to FUM-REQ-0048/FUM-STEP-0183.",
+        "Restore reads current API/model/credential availability as environment observations. None of those values is embedded as a promise in a public commit or inferred from a prior successful run.",
+        "The compatibility fixture uses local test doubles and does not invoke unconnected external services."
+      ],
+      "consumers": [
+        "FUM-REQ-0044",
+        "FUM-REQ-0048",
+        "FUM-REQ-0075",
+        "FUM-STEP-0183",
+        "FUM-STEP-0159",
+        "Issue-365",
+        "PR-437"
+      ],
+      "source_links": [
+        "FUM-REQ-0044",
+        "FUM-REQ-0048",
+        "FUM-REQ-0075",
+        "FUM-STEP-0183"
+      ],
+      "source_quote_references": [
+        {
+          "packet_part": "реплики",
+          "positions": [
+            1,
+            2,
+            4,
+            5,
+            6,
+            7,
+            9,
+            13,
+            17
+          ]
+        },
+        {
+          "packet_part": "поздниеУточнения",
+          "positions": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_key": "fuma-finite-aot-swift-lowering",
+      "numeric_id": null,
+      "allocation_status": "pending",
+      "status": "pending-root-acceptance",
+      "owner": "FUM requirements; FUMA AOT implementation owner is the consumer",
+      "statement": "For an explicitly bounded supported subset of FUMA graphs, FUMA deterministically lowers graph/string expressions to standalone Swift ahead of time. This is not JIT execution or translation of the whole FUMA language.",
+      "acceptance_criteria": [
+        "For every declared supported input, repeated translation emits identical Swift bytes; unsupported graph shapes produce a typed rejection without partial executable output.",
+        "Compile and run the generated Swift with the declared Swift toolchain and compare exact JSON output bytes with the interpreter using the same inputs.",
+        "The fixture includes Unicode text and budget boundaries at the exact configured limit and one unit below it; exceeding the limit returns the same declared typed refusal in interpreter and generated code.",
+        "Independent expected bytes are fixed outside both implementations; invoking one engine twice is not independent validation."
+      ],
+      "consumers": [
+        "FUM-REQ-0067",
+        "PR-437",
+        "FUMA implementation thread 01a1698f-bb98-7691-b1c1-31ec737ed070"
+      ],
+      "source_links": [
+        "FUM-REQ-0067",
+        "PR-437"
+      ],
+      "evidence_boundary": "PR-437 reports a narrow passing AOT compile/run slice in its current draft body. No full-language translation, general FUMA runtime, broad suite, merge, or ROOT acceptance is established here.",
+      "source_quote_references": [
+        {
+          "packet_part": "реплики",
+          "positions": [
+            3
+          ]
+        },
+        {
+          "packet_part": "поздниеУточнения",
+          "positions": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_key": "typed-inter-agent-input-packet-acknowledgement",
+      "numeric_id": null,
+      "allocation_status": "pending",
+      "status": "pending-root-acceptance",
+      "source_kind": "ROOT-derived automation requirement; not a human quote",
+      "source_provenance": "ROOT directed that the sender preserve a typed packet before dispatch and the receiver confirm its hash and exact local copy before lengthy work or compaction. This addresses the observed need to re-request the 18-line packet without reading the full ROOT JSONL.",
+      "owner": "FUM requirements; existing address-resolution and automation-selection consumers",
+      "statement": "Before dispatch, the sender persists the typed input packet with its schema, exact bytes, source provenance, ordering, and digest. Before prolonged work or compaction, the receiver verifies the digest, stores a byte-exact local copy, and returns a hash acknowledgement. A missing, mismatched, or unknown transfer outcome remains explicit; the source is recovered by its immutable packet identity rather than manual reconstruction. The flow reuses existing addressed delivery and observed automation; it creates no second common journal or duplicate reader.",
+      "acceptance_criteria": [
+        "A local sender/receiver fixture preserves the packet bytes, schema, sender/recipient identifiers, source provenance, order, and repeated entries; the receiver acknowledgement contains the same independently computed SHA-256.",
+        "The receiver checks the raw-byte SHA-256, saves its own exact packet copy, and acknowledges that hash before interpreting the request or starting long work/compaction; the original remains retrievable by its digest.",
+        "A corrupt, absent, or uncertain transfer produces a typed unresolved result and does not replace the packet with a paraphrase or reconstruct it from a large conversation log.",
+        "The flow uses existing address/delivery and observed-automation paths linked to Issue-365 and Issue-328; no second common journal or general reader is added."
+      ],
+      "consumers": [
+        "Issue-365",
+        "Issue-328",
+        "FUM-REQ-0044",
+        "FUM-STEP-0228"
+      ],
+      "source_links": [
+        "Issue-365",
+        "Issue-328",
+        "FUM-REQ-0044"
+      ]
+    }
+  ],
+  "open_residue": [
+    "Numeric requirement ID allocation remains pending; semantic keys are used without guessed numbers.",
+    "Provider adapter compatibility, bootstrap restoration, and fresh external-effect readback have not been executed or accepted by this task.",
+    "The parent-reported immutable AOT source commit 0bf0441efd445bd9f9f241fba5e959600ae1ebb1 does not contain the cited Swift translator/test filenames in the local tree examined; PR-437's open draft body is retained as reported evidence only.",
+    "ROOT acceptance and integration are not claimed."
+  ]
+}
