@@ -1,0 +1,223 @@
+{
+  "схема": "fum.git-memory-commit-audit.first-pass.v1",
+  "корневой_UUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "постановка": {
+    "человеческий_источник": {
+      "сообщение_ID": "01a1834d-3565-7a61-bdd1-71a52e8ed26d",
+      "точный_видимый_текст": "Sozdaj agenta auditora istorii kommitov v git-pamyati.\n",
+      "sha256_видимого_UTF8_с_LF": "9f1b7b156fce8284ba0e14b0615b60477f272bd77b3dc7c624957237375afe81",
+      "граница": "Хэширует показанный текст с LF; не утверждает хэш скрытого payload."
+    },
+    "ACK_координатора": {
+      "сообщение_ID": "msg_04ad6a1c476eb6ca016ae220569e4c87d2b19f206acd773000",
+      "sha256_видимого_UTF8_с_LF": "5a9d047eff0688e011193a6297e3664d7a0459d1e51dba95e58933cda3e5c43d"
+    },
+    "ACK_дочернего_писателя": {
+      "коммит_постановки": "41fcf21f544184aa684c847a5d2b6c65f85a4d8e",
+      "родитель": "6999fcb256d298302358d1329c2e57fead00a808",
+      "дерево": "8e03b3754e8d18d91200f5b8f80240313423dacd",
+      "тема": "Создать аудитора истории коммитов памяти FUM",
+      "граница": "Подтверждает получение поручения; не является ROOT-приёмкой или интеграцией."
+    }
+  },
+  "рабочая_привязка_перед_этим_этапом": {
+    "физический_W": "/Users/fum/.codex/worktrees/istoriya-kommitov-FUM",
+    "ref": "refs/heads/fum-lab/fum/audit/istoriya-kommitov/master",
+    "HEAD": "41fcf21f544184aa684c847a5d2b6c65f85a4d8e",
+    "статус": "чисто",
+    "индексное_дерево": "8e03b3754e8d18d91200f5b8f80240313423dacd",
+    "HEAD_дерево": "8e03b3754e8d18d91200f5b8f80240313423dacd",
+    "владение_ref": "В списке linked worktree найден ровно один checkout с этим symbolic ref."
+  },
+  "эффективная_версия_контракта": {
+    "путь": "Правила/агентов/Git-и-рабочая-сессия.md",
+    "blob_SHA": "9a3ebaa60203f46054a2e09bc8a26b8a1b2f0210",
+    "правила": [
+      {
+        "ID": "FUM-ПРАВИЛО-000063",
+        "смысл": "Для нового Codex-коммита точное имя автора содержит FUM Codex, модель и effort; committer и email не выводятся из этого правила."
+      },
+      {
+        "ID": "FUM-ПРАВИЛО-000201",
+        "смысл": "Тема и сообщение по-русски; точный запрос включён в body; последний Git trailer Codex-Thread-ID равен UUID корневой задачи."
+      }
+    ],
+    "доказательство_действия_на_момент_коммитов": "У каждого локального source commit в корпусе blob контракта в первом родителе равен указанному. Текущие головы PR также имеют этот blob в своём дереве и в дереве первого родителя. Совпадение проверено по Git object IDs, не по датам и не по позднему тексту.",
+    "применение_исторических_правил": "Классификация использует blob файла правил из первого родителя каждого коммита. Правила не экстраполируются назад с более поздней текущей головы."
+  },
+  "immutable_корпус": [
+    {
+      "роль": "принятый ROOT-контроль",
+      "принятость": "Принятая исходная ROOT-основа, не результат этой поставки.",
+      "OID": "6999fcb256d298302358d1329c2e57fead00a808",
+      "tree": "7a8f91b0bce765f826dd6849f6b0eab3576eb804",
+      "parents": [
+        "6f61e429bc1af904a212d4c7f8f392888019dd80",
+        "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25"
+      ],
+      "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>",
+      "committer": "FUM <fum@local>",
+      "тема": "Принять исходники ограниченного Swift Stop",
+      "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "классификация": {
+        "автор": "соответствует 000063",
+        "тема": "есть кириллица; это скриптовый сигнал, не лингвистическое доказательство русского языка",
+        "trailer": "соответствует 000201 и корневому UUID",
+        "родители": "2; ожидаемая контрольная merge-форма этого выбранного ROOT-коммита",
+        "роль": "ROOT author отличается от последующего автора 371ceea4…"
+      }
+    },
+    {
+      "роль": "локальный непринятый пример дочернего писателя",
+      "принятость": "Непринятый локальный commit; не считать ROOT-интеграцией независимо от темы и числа родителей.",
+      "OID": "371ceea4e06ddded8312890160a013e2941cd7cf",
+      "tree": "d1159a10579807475c9bf13cb9b974367876b49a",
+      "parents": [
+        "6999fcb256d298302358d1329c2e57fead00a808",
+        "5bc964ad765628bded5c90e99de3cf24a5ab3ac2"
+      ],
+      "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "committer": "FUM <fum@local>",
+      "тема": "Интегрировать первый сенсор файловой системы FUMA",
+      "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "классификация": {
+        "автор": "соответствует 000063 и отличается от автора ROOT",
+        "тема": "есть кириллица",
+        "trailer": "соответствует 000201 и корневому UUID",
+        "родители": "2; само число родителей не доказывает принятие",
+        "ограничение": "Локальная контрольная точка; не подтверждает общий запуск, доставку или ROOT-приёмку."
+      }
+    },
+    {
+      "роль": "prior checkpoint requirements PR442",
+      "принятость": "Предыдущая выбранная голова направления; не текущая голова PR.",
+      "OID": "516f524f0bdc47f1e2b6d75b77ea4754c2444fad",
+      "tree": "1c5217e114105646d6e6f68a31b6073a63876b5b",
+      "parents": [
+        "0b19e831e09e6a22fa3dae3379b76fa7d0e27a1f"
+      ],
+      "author": "FUM Писатель <fum@local>",
+      "committer": "FUM <fum@local>",
+      "тема": "Уточнить отдельные наблюдения FS и Git",
+      "trailer": null,
+      "классификация": {
+        "автор": "не соответствует 000063 для выбранного Codex-писательского коммита; известное ранее замечание, не новое finding",
+        "тема": "есть кириллица",
+        "trailer": "не содержит root Codex-Thread-ID; известное ранее замечание, не новое finding",
+        "родители": "1",
+        "источник_контракта": "Первый родитель 0b19e831… содержит blob 9a3ebaa…"
+      }
+    },
+    {
+      "роль": "prior checkpoint architecture PR443",
+      "принятость": "Предыдущая выбранная голова направления; не текущая голова PR.",
+      "OID": "003649e1d8e5e4fb104bbffbd38f3eb73594481a",
+      "tree": "54f1ebb914c6a6097a20b71a2215f969b361de61",
+      "parents": [
+        "6999fcb256d298302358d1329c2e57fead00a808"
+      ],
+      "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "committer": "FUM <fum@local>",
+      "тема": "Добавить архитектурную проверку привязки и восстановления",
+      "trailer": null,
+      "классификация": {
+        "автор": "соответствует 000063 и отличается от автора ROOT",
+        "тема": "есть кириллица",
+        "trailer": "историческое нарушение 000201: точный commit body и Git trailer parser не находят Codex-Thread-ID; не приписывать это нынешней голове PR443",
+        "родители": "1",
+        "источник_контракта": "Первый родитель 6999fcb… содержит blob 9a3ebaa…"
+      }
+    },
+    {
+      "роль": "общий генератор автора, граница владения",
+      "принятость": "Не consumer этого аудита; реализацию не копировать.",
+      "OID": "0674107e57ba2f5aac00e8f7e26881447c78d02a",
+      "tree": "792590d215ebff22071413130d09ed096a27f9b1",
+      "parents": [
+        "4e19c23f3a3062e2a71e28abf10866319af09c40"
+      ],
+      "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "committer": "FUM <fum@local>",
+      "тема": "Добавить общий генератор метаданных коммита",
+      "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "классификация": {
+        "роль": "читатель учитывает существующий генератор как внешний инструмент и владельца",
+        "источник_контракта": "Первый родитель 4e19c23… содержит blob 9a3ebaa…"
+      }
+    }
+  ],
+  "текущие_ограниченные_доставки": [
+    {
+      "направление": "requirements / PR442",
+      "PR": 442,
+      "статус_на_2026-10-28": "open, draft=true, merged=false",
+      "base_ref": "fum-lab/fum/master",
+      "base_OID": "6999fcb256d298302358d1329c2e57fead00a808",
+      "head_ref": "fum-lab/fum/trebovaniya/master",
+      "head_OID": "a4870370a78f993e014ae50a0a079dcce96dcfc4",
+      "head_tree": "61efc9d742b6517a1c1ea1d364282c3ffe56d7d1",
+      "head_parent": "b35319f016019ced3663bc77fe176c84741186df",
+      "head_author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "head_committer": "FUM <fum@local>",
+      "head_subject": "Связать формы знания и программы",
+      "head_trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "head_diff_paths": [
+        "trebovaniya/fuma-agent-requirements.json",
+        "trebovaniya/zhurnal/c197482165439264d346deb574dee64c1f8697f1bade13200cae90a82de2434a.json"
+      ],
+      "head_commit_date": "2026-10-28T20:11:48+04:00",
+      "lineage_from_candidate_516": {
+        "compare_status": "ahead",
+        "ahead_by": 4,
+        "behind_by": 0,
+        "merge_base": "516f524f0bdc47f1e2b6d75b77ea4754c2444fad",
+        "scope": "Сравнены только два явно выбранных OID; весь branch history не сканировался."
+      },
+      "контракт": "В дереве текущего head и его первого родителя Git-и-рабочая-сессия имеет тот же blob 9a3ebaa…; автор, русскоязычный скриптовый сигнал и trailer наблюдаются на сыром локальном commit object."
+    },
+    {
+      "направление": "architecture / PR443",
+      "PR": 443,
+      "статус_на_2026-10-28": "open, draft=true, merged=false",
+      "base_ref": "fum-lab/fum/master",
+      "base_OID": "6999fcb256d298302358d1329c2e57fead00a808",
+      "head_ref": "fum-lab/fum/arkhitektura/master",
+      "head_OID": "63b4559b2ebca19edca55f2ca1249ce150d44eb6",
+      "head_tree": "07ac6408fd8423bcaab9036170274086fac77553",
+      "head_parent": "c8dbb00df54f2b1b2ee95174220308033fc71ac5",
+      "head_author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+      "head_committer": "FUM <fum@local>",
+      "head_subject": "Провести пилот воспроизводимости Swift",
+      "head_trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "head_diff_paths": [
+        "arkhitektura/proverki/README.md",
+        "arkhitektura/proverki/пилот-сборки-swift.swift",
+        "arkhitektura/proverki/результат-пилота-сборки-swift.json",
+        "arkhitektura/история.jsonl",
+        "arkhitektura/состояние.json"
+      ],
+      "head_commit_date": "2026-10-28T19:33:21+04:00",
+      "lineage_from_candidate_003": {
+        "compare_status": "ahead",
+        "ahead_by": 2,
+        "behind_by": 0,
+        "merge_base": "003649e1d8e5e4fb104bbffbd38f3eb73594481a",
+        "scope": "Сравнены только два явно выбранных OID; весь branch history не сканировался."
+      },
+      "контракт": "В дереве текущего head и его первого родителя Git-и-рабочая-сессия имеет тот же blob 9a3ebaa…; текущая голова исправляет отсутствие trailer в prior checkpoint 003649e…."
+    }
+  ],
+  "выводы_и_остаток": {
+    "подтверждённое_историческое_наблюдение": "003649e1… не содержит Codex-Thread-ID в теле при действовавшем 000201. Это относится только к prior checkpoint; текущий head PR443 63b4559… содержит правильный trailer.",
+    "ранее_известное_не_переоткрытое": "Для prior requirements checkpoint 516f524… сохранены известные замечания автора и trailer. Текущий head PR442 a487037… имеет автора формата 000063 и root trailer.",
+    "нового_дефекта_в_текущих_heads": "Не подтверждено в выбранных metadata checks. Отсутствие исходного native ROOT frame для некоторых PR-коммитов не позволяет судить о требовании точного текста запроса в commit body; это unknown, не pass.",
+    "скриптовая_проверка_темы": "Первый проход определяет наличие кириллицы/только латиницу как сигнал. Он не заявляет автоматическое доказательство грамматического русского языка.",
+    "индекс_и_worktree_история": "Immutable commit objects задают committed tree; они не сохраняют прежнее состояние индекса или незакоммиченной рабочей копии. Для таких исторических состояний результат unknown. Текущая привязка HEAD/index/worktree будет проверена read-only после собственного checkpoint.",
+    "границы": [
+      "Только ROOT 6999fcb…, локальный unaccepted 371ceea…, выбранные prior checkpoints 516f524… и 003649e…, shared generator boundary 0674107…, и точечные текущие heads PR442/PR443.",
+      "Полный ROOT JSONL, RAW, полный Git log, 55 GiB gate и Python не использованы.",
+      "GitHub PR status — изменяемое внешнее состояние, зафиксированное на момент ответа; PRs не merged и не приняты ROOT.",
+      "Это локальная first-pass запись, не ROOT acceptance, merge или push."
+    ]
+  }
+}
