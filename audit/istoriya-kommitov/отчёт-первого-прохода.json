@@ -150,6 +150,8 @@
     {
       "направление": "requirements / PR442",
       "PR": 442,
+      "status_endpoint": "https://api.github.com/repos/fum-lab/fum/pulls/442",
+      "commit_metadata_source": "Локальный сырой Git commit object; git cat-file commit, без fetch и обновления ref.",
       "статус_на_2026-10-28": "open, draft=true, merged=false",
       "base_ref": "fum-lab/fum/master",
       "base_OID": "6999fcb256d298302358d1329c2e57fead00a808",
@@ -178,6 +180,8 @@
     {
       "направление": "architecture / PR443",
       "PR": 443,
+      "status_endpoint": "https://api.github.com/repos/fum-lab/fum/pulls/443",
+      "commit_metadata_source": "Локальный сырой Git commit object; git cat-file commit, без fetch и обновления ref.",
       "статус_на_2026-10-28": "open, draft=true, merged=false",
       "base_ref": "fum-lab/fum/master",
       "base_OID": "6999fcb256d298302358d1329c2e57fead00a808",
@@ -204,15 +208,51 @@
         "merge_base": "003649e1d8e5e4fb104bbffbd38f3eb73594481a",
         "scope": "Сравнены только два явно выбранных OID; весь branch history не сканировался."
       },
-      "контракт": "В дереве текущего head и его первого родителя Git-и-рабочая-сессия имеет тот же blob 9a3ebaa…; текущая голова исправляет отсутствие trailer в prior checkpoint 003649e…."
+      "контракт": "В дереве текущего head и его первого родителя Git-и-рабочая-сессия имеет тот же blob 9a3ebaa…; текущая голова содержит новый commit с trailer, тогда как prior checkpoint 003649e… остаётся неизменным."
     }
   ],
+  "реализация_и_проверки": {
+    "пакет": "audit/istoriya-kommitov/Package.swift",
+    "язык": "Swift 6.4; complete strict concurrency; warnings-as-errors; Swift Testing; зависимостей нет.",
+    "режим_чтения": "Ядро вызывает только git cat-file, git rev-parse, git diff --quiet и git ls-files; не вызывает fetch, log, write-tree, add или commit.",
+    "ограничители": "Для каждого чтения stdout не более 1 MiB; на проход не более 64 явных commit OID; нужна явная область diff, корень репозитория запрещён; OID берутся напрямую, автоматический обход истории отсутствует.",
+    "red": {
+      "команда": "swift test --scratch-path /tmp/istoriya-kommitov-swift-build -j 1",
+      "исход": "Ожидаемый RED на классификаторе-заглушке: сборка успешна, две ожидаемые позитивные проверки упали."
+    },
+    "green": {
+      "команда": "swift test --scratch-path /tmp/istoriya-kommitov-swift-build -j 1",
+      "исход": "3 Swift Testing tests passed, 0 failed; проверены author format, русский/латинский script signals, raw metadata, trailer, parent count и staged/worktree binding.",
+      "тестов": 3,
+      "ошибок": 0,
+      "длительность_тестов": "0.258 s",
+      "macOS_peak_memory_footprint_bytes": 185893944,
+      "macOS_maximum_resident_set_bytes": 335003648,
+      "лимит_256_MiB_байт": 268435456,
+      "пояснение": "Peak memory footprint ниже лимита; maximum RSS выше из-за shared pages. zsh отказал на ulimit -m, поэтому запуск шёл с -j 1, а память измерена /usr/bin/time -l."
+    },
+    "smoke": {
+      "исполняемый_файл": "/tmp/istoriya-kommitov-swift-build/out/Products/Debug/аудитор-истории-коммитов",
+      "OID_корпуса": [
+        "6999fcb256d298302358d1329c2e57fead00a808",
+        "371ceea4e06ddded8312890160a013e2941cd7cf",
+        "516f524f0bdc47f1e2b6d75b77ea4754c2444fad",
+        "003649e1d8e5e4fb104bbffbd38f3eb73594481a",
+        "0674107e57ba2f5aac00e8f7e26881447c78d02a",
+        "a4870370a78f993e014ae50a0a079dcce96dcfc4",
+        "63b4559b2ebca19edca55f2ca1249ce150d44eb6"
+      ],
+      "scope": "Правила/агентов/Git-и-рабочая-сессия.md",
+      "исход": "Exit 0; все 7 OID прочитаны из локальных объектов; правила из первого родителя дали blob 9a3ebaa…; scoped HEAD/index/worktree binding=true."
+    },
+    "материальный_остаток": "MAX RSS превышает 256 MiB, хотя измеренный peak footprint ниже лимита. Не запускать широкий сборочный профиль или всеобъемлющий FUMA build в этой поставке."
+  },
   "выводы_и_остаток": {
     "подтверждённое_историческое_наблюдение": "003649e1… не содержит Codex-Thread-ID в теле при действовавшем 000201. Это относится только к prior checkpoint; текущий head PR443 63b4559… содержит правильный trailer.",
     "ранее_известное_не_переоткрытое": "Для prior requirements checkpoint 516f524… сохранены известные замечания автора и trailer. Текущий head PR442 a487037… имеет автора формата 000063 и root trailer.",
     "нового_дефекта_в_текущих_heads": "Не подтверждено в выбранных metadata checks. Отсутствие исходного native ROOT frame для некоторых PR-коммитов не позволяет судить о требовании точного текста запроса в commit body; это unknown, не pass.",
     "скриптовая_проверка_темы": "Первый проход определяет наличие кириллицы/только латиницу как сигнал. Он не заявляет автоматическое доказательство грамматического русского языка.",
-    "индекс_и_worktree_история": "Immutable commit objects задают committed tree; они не сохраняют прежнее состояние индекса или незакоммиченной рабочей копии. Для таких исторических состояний результат unknown. Текущая привязка HEAD/index/worktree будет проверена read-only после собственного checkpoint.",
+    "индекс_и_worktree_история": "Immutable commit objects задают committed tree; они не сохраняют прежнее состояние индекса или незакоммиченной рабочей копии. Для таких исторических состояний результат unknown. Smoke-run проверил только заданный scope Правила/агентов/Git-и-рабочая-сессия.md и получил binding=true; чистота полного W после добавления реализации не заявляется.",
     "границы": [
       "Только ROOT 6999fcb…, локальный unaccepted 371ceea…, выбранные prior checkpoints 516f524… и 003649e…, shared generator boundary 0674107…, и точечные текущие heads PR442/PR443.",
       "Полный ROOT JSONL, RAW, полный Git log, 55 GiB gate и Python не использованы.",
