@@ -118,3 +118,76 @@ shasum -a 256 "$FUM_ARCH_BUILD_DIR/definition-preimage.json"
 ```
 
 Для сравнения raw-file hash считай непосредственно на JSON-файле через `shasum -a 256`; не подменяй им `definition_hash` из FUMA observation.
+
+## Пилот воспроизводимой сборки Swift
+
+В [`пилот-сборки-swift.swift`](пилот-сборки-swift.swift) сохранена одна простая CLI-фикстура. Результат и toolchain fingerprints находятся в [`результат-пилота-сборки-swift.json`](результат-пилота-сборки-swift.json). Пилот использует прямой `swiftc`, два свежих source-каталога и два свежих build-каталога; общий FUMA или отдельный SwiftPM-пакет не собирается.
+
+На macOS 27.0.1 arm64, Apple Swift 6.4 / driver 1.168.6, SDK macosx 27.0 build `26A425` и target `arm64-apple-macosx27.0.0` две чистые сборки с `-swift-version 6`, `-strict-concurrency=complete` и `-warnings-as-errors` совпали по executable SHA-256 `84f3b56a5d7cc991d6d08cf290ba4bebcab2cd32189ba621d0172b4f5c68ea22` и по 103 байтам stdout (`sha256:4932ba1c80d5be33589f4d697c2dccd273f4b4eabf29191b644c6b42fa856b10`). Источник имеет SHA-256 `b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b`. Swift linker создал встроенную ad-hoc подпись; distribution signing и notarization не оценивались.
+
+Воспроизведение для той же платформы и версии SDK выполняй из корня checkout. До создания scratch проверь свободное место: не менее 4 GiB. Сценарий создаёт новый уникальный каталог под существующим `TMPDIR`; собственный scratch после сборок должен оставаться не больше 256 MiB. Полный реальный путь scratch, compiler, SDK и каталогов эксперимента оставляй в приватном evidence, не в репозитории.
+
+```sh
+PILOT_TMP_PARENT="${TMPDIR:-/tmp}"
+test -d "$PILOT_TMP_PARENT"
+CHECKOUT_REAL="$(pwd -P)"
+PILOT_TMP_REAL="$(cd "$PILOT_TMP_PARENT" && pwd -P)"
+case "$PILOT_TMP_REAL/" in "$CHECKOUT_REAL/"*) exit 1 ;; esac
+FREE_KIB="$(df -Pk "$PILOT_TMP_PARENT" | awk 'NR == 2 { print $4 }')"
+test "$FREE_KIB" -ge 4194304
+FUM_SWIFT_PILOT_SCRATCH="$(mktemp -d "$PILOT_TMP_PARENT/fum-swift-pilot.XXXXXX")"
+mkdir -p \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-a" \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-b" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-a" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-b" \
+  "$FUM_SWIFT_PILOT_SCRATCH/tmp" \
+  "$FUM_SWIFT_PILOT_SCRATCH/home"
+cp arkhitektura/proverki/пилот-сборки-swift.swift \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-a/пилот-сборки-swift.swift"
+cp arkhitektura/proverki/пилот-сборки-swift.swift \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-b/пилот-сборки-swift.swift"
+cmp \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-a/пилот-сборки-swift.swift" \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-b/пилот-сборки-swift.swift"
+shasum -a 256 arkhitektura/proverki/пилот-сборки-swift.swift
+
+SWIFTC="$(xcrun --find swiftc)"
+SDK="$(xcrun --show-sdk-path --sdk macosx)"
+TARGET=arm64-apple-macosx27.0.0
+MODULE=FUMАрхитектурныйПилот
+test "$("$SWIFTC" --version | sed -n '1p')" = \
+  'swift-driver version: 1.168.6 Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)'
+test "$(xcrun --show-sdk-build-version --sdk macosx)" = 26A425
+test "$(arch)" = arm64
+
+for PAIR in a b; do
+  env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+    HOME="$FUM_SWIFT_PILOT_SCRATCH/home" \
+    TMPDIR="$FUM_SWIFT_PILOT_SCRATCH/tmp" LANG=C LC_ALL=C \
+    "$SWIFTC" -swift-version 6 -strict-concurrency=complete \
+    -warnings-as-errors -sdk "$SDK" -target "$TARGET" \
+    -module-name "$MODULE" \
+    -o "$FUM_SWIFT_PILOT_SCRATCH/build-$PAIR/$MODULE" \
+    "$FUM_SWIFT_PILOT_SCRATCH/source-$PAIR/пилот-сборки-swift.swift"
+  env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+    HOME="$FUM_SWIFT_PILOT_SCRATCH/home" \
+    TMPDIR="$FUM_SWIFT_PILOT_SCRATCH/tmp" LANG=C LC_ALL=C \
+    "$FUM_SWIFT_PILOT_SCRATCH/build-$PAIR/$MODULE" \
+    > "$FUM_SWIFT_PILOT_SCRATCH/stdout-$PAIR.txt"
+done
+
+cmp "$FUM_SWIFT_PILOT_SCRATCH/build-a/$MODULE" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-b/$MODULE"
+cmp "$FUM_SWIFT_PILOT_SCRATCH/stdout-a.txt" \
+  "$FUM_SWIFT_PILOT_SCRATCH/stdout-b.txt"
+shasum -a 256 \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-a/$MODULE" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-b/$MODULE" \
+  "$FUM_SWIFT_PILOT_SCRATCH/stdout-a.txt"
+test "$(du -sk "$FUM_SWIFT_PILOT_SCRATCH" | awk '{ print $1 }')" -le 262144
+```
+
+Для path drift также проверены поддержанные локальным `swiftc -help` `-file-prefix-map` и `-debug-prefix-map`. Версия фикстуры, печатавшая `#filePath`, закономерно дала разный stdout; эти опции не переписывают source-level строку. После удаления path-зависимого вывода две обычные сборки совпали. Вариант с `-g` всё ещё дал разные executable SHA даже с source/build prefix maps: Mach-O OSO symbols содержат случайные compiler temp-каталоги для временного `.swiftmodule` и object file. Этот debug-вариант остаётся непроверенным на воспроизводимость и не скрывается выключением warnings.
+
+Это доказательство для одной конфигурации macOS arm64, а не для других ОС, общего FUMA, SwiftPM-пакета или release-поставки. Подпись ad-hoc от Swift `ld` присутствует; подписывание для распространения и notarization остаются отдельным этапом. Следующим отдельным срезом сохранён pure FUMA контракт `metrics/allowedModels/history -> recommendation with reason/trial/keep/rollback`; оператор лишь рекомендует и не переключает модель. Общая поведенческая политика и симметричная эскалация/деэскалация пока не реализованы.
