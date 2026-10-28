@@ -4,19 +4,19 @@ import Testing
 @testable import FUMStructuringOperatorMemory
 
 @Test func кодированиеЛитералаСохраняетКаждыйСкалярВASCIIФорме() throws {
-  let scalarValues: [UInt32] = [0, 0x451, 0x65, 0x308, 0x22, 0x5C, 0x1F642, 0x10FFFF]
-  let scalars = scalarValues.compactMap(Unicode.Scalar.init)
-  #expect(scalars.count == scalarValues.count)
-  let input = String(String.UnicodeScalarView(scalars))
-  let actual = try КодированиеЛитералаSwift.кодировать(
-    input, пределИсходныхБайтов: 128, пределJSON: 256, операция: {})
-  let expected = #""\u{0}\u{451}\u{65}\u{308}\u{22}\u{5c}\u{1f642}\u{10ffff}""#
-  #expect(Array(actual.utf8) == Array(expected.utf8))
-  #expect(actual.unicodeScalars.map(\.value) == expected.unicodeScalars.map(\.value))
-  let jsonSize = try каноническиеДанные(УзелОпределения.строка(actual)).count
+  let значенияКодовСкаляров: [UInt32] = [0, 0x451, 0x65, 0x308, 0x22, 0x5C, 0x1F642, 0x10FFFF]
+  let скаляры = значенияКодовСкаляров.compactMap(Unicode.Scalar.init)
+  #expect(скаляры.count == значенияКодовСкаляров.count)
+  let входнаяСтрока = String(String.UnicodeScalarView(скаляры))
+  let фактическийИсходник = try КодированиеЛитералаSwift.кодировать(
+    входнаяСтрока, пределИсходныхБайтов: 128, пределJSON: 256, операция: {})
+  let ожидаемыйИсходник = #""\u{0}\u{451}\u{65}\u{308}\u{22}\u{5c}\u{1f642}\u{10ffff}""#
+  #expect(Array(фактическийИсходник.utf8) == Array(ожидаемыйИсходник.utf8))
+  #expect(фактическийИсходник.unicodeScalars.map(\.value) == ожидаемыйИсходник.unicodeScalars.map(\.value))
+  let размерJSON = try каноническиеДанные(УзелОпределения.строка(фактическийИсходник)).count
   do {
     _ = try КодированиеЛитералаSwift.кодировать(
-      input, пределИсходныхБайтов: 128, пределJSON: jsonSize - 1, операция: {})
+      входнаяСтрока, пределИсходныхБайтов: 128, пределJSON: размерJSON - 1, операция: {})
     Issue.record("Ожидался отказ на байт ниже фактического JSON-размера")
   } catch let ошибка as ОшибкаИсполнения {
     #expect(ошибка.код == "предел-результата")
@@ -51,11 +51,12 @@ import Testing
 }
 
 @Test func кодированиеЛитералаОтказываетДляНеСтрокиИРаботаетВГрафе() throws {
-  let input = #"{"текст":"ёe\u0301\"\\🙂"}"#
-  let output = try выполнитьГрафСЛитералом(input)
-  let source = #""\u{451}\u{65}\u{301}\u{22}\u{5c}\u{1f642}""#
-  let expectedJSON = String(decoding: try каноническиеДанные(УзелОпределения.строка(source)), as: UTF8.self)
-  #expect(output.результат == .текст(expectedJSON))
+  let входJSON = #"{"текст":"ёe\u0301\"\\🙂"}"#
+  let наблюдение = try выполнитьГрафСЛитералом(входJSON)
+  let ожидаемыйSwiftЛитерал = #""\u{451}\u{65}\u{301}\u{22}\u{5c}\u{1f642}""#
+  let ожидаемоеПредставление = String(
+    decoding: try каноническиеДанные(УзелОпределения.строка(ожидаемыйSwiftЛитерал)), as: UTF8.self)
+  #expect(наблюдение.результат == .текст(ожидаемоеПредставление))
 
   do {
     _ = try выполнитьГрафСЛитералом("{}", выражение: #"["литерал-свифт",17]"#)
@@ -66,15 +67,15 @@ import Testing
 }
 
 private func выполнитьГрафСЛитералом(
-  _ input: String,
+  _ вход: String,
   выражение: String = #"["литерал-свифт",["путь",["переменная","вход"],"текст"]]"#
 ) throws -> НаблюдениеОператора {
-  let source = """
+  let описаниеГрафа = """
     {"схема":"fum.определение-оператора.1","идентификатор":"литерал","версия":1,
     "правила":[],"шаги":[{"идентификатор":"литерал","оператор":"вычислить-JSON",
     "аргументы":{"граф":{"схема":"fuma.граф-JSON.1","числа":"целые64-без-дробей",
     "переменные":[],"результат":\(выражение)}}}]}
     """
   return try AutomationExecutor.выполнить(
-    ОпределениеОператора.разобрать(Data(source.utf8)), вход: .текст(input))
+    ОпределениеОператора.разобрать(Data(описаниеГрафа.utf8)), вход: .текст(вход))
 }
