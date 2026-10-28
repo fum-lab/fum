@@ -1,0 +1,969 @@
+{
+  "схема": "fum.координация.состояние.4",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "принятаяОснова": "6999fcb256d298302358d1329c2e57fead00a808",
+  "собственныйСтарт": {
+    "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "oid": "6999fcb256d298302358d1329c2e57fead00a808",
+    "чистоеДерево": true
+  },
+  "модельУзла": {
+    "веткаЯвляетсяУзлом": true,
+    "собственнаяПамять": "koordinaciya",
+    "дочерниеУзлы": [],
+    "деревоСодержит": [
+      "собственная-память",
+      "дочерние-узлы"
+    ],
+    "общаяПамять": "только-чтение",
+    "процесс": "инкарнация",
+    "полноеДеревоПовтореноВJSON": false,
+    "последнийКоммитВосстановления": null
+  },
+  "источникМоделиУзла": [
+    "Stejt pamyati v Git — eto i yestj struktura stejta agenta.",
+    "Kommit — eto vsyo, chto nuzhno dlya vosstanovleniya agenta.",
+    "Vetka — eto i yestj uzel."
+  ],
+  "источникМоделиПереходаСостояния": [
+    "Nablyudeniye stejta fajlovoj sistemyi, nablyudeniye stejta gita.",
+    "Upravleniye stejtom budet ekvivalentno obnovleniyu stejta fajlovoj sistemyi i gita."
+  ],
+  "свидетельствоЗапуска": {
+    "source": "collaboration.spawn_agent",
+    "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "childIdentity": {
+      "status": "available",
+      "kind": "native-thread-metadata",
+      "value": "01a18294-b6ff-7352-92e1-6b576d412172"
+    },
+    "requestIdentity": {
+      "status": "unavailable",
+      "kind": "api-call-id",
+      "value": null
+    },
+    "responseIdentity": {
+      "status": "unavailable",
+      "kind": "api-call-id",
+      "value": null
+    },
+    "requested": {
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max"
+    },
+    "acceptedSelection": {
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max"
+    },
+    "nativeMetadata": {
+      "threadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "agentPath": "/root/koordinaciya",
+      "attachedThreadParentIDRaw": "",
+      "модель": "gpt-6-luna",
+      "усилие": "max",
+      "lineageStatus": "unknown"
+    },
+    "backendModel": "unknown",
+    "nativeTurnContext": "unknown"
+  },
+  "окноСнимка": {
+    "начало": "2026-10-28T13:06:04Z",
+    "конец": "2026-10-28T13:10:42Z",
+    "ограничение": "источники читались последовательно в этом интервале; отдельное время каждого API-чтения не сообщалось"
+  },
+  "текущийСнимок": {
+    "время": "2026-10-28T14:10:25Z",
+    "основа": "6999fcb256d298302358d1329c2e57fead00a808",
+    "сведения": "bounded wait_threads snapshots по 7 адресным поручениям и 3 instrumentyi children; источник баланса узлов — один ограниченный ROOT dispatch input с независимо сверенным SHA-256; код принятых PR/path manifests не изменялся",
+    "ограничение": "источник dispatch содержит исторические before/after counts, не текущий глобальный список; 10 адресных turn snapshots прочитаны с полным охватом, но текущая независимая ROOT W проверка не повторялась; local private path и native thread binding не сохраняются в переносимом состоянии"
+  },
+  "корневойWorktree": {
+    "реф": "refs/heads/fum-lab/fum/master",
+    "oid": "371ceea4e06ddded8312890160a013e2941cd7cf",
+    "родители": [
+      "6999fcb256d298302358d1329c2e57fead00a808",
+      "5bc964ad765628bded5c90e99de3cf24a5ab3ac2"
+    ],
+    "автор": "FUM Codex [gpt-6-luna; effort=max]",
+    "коммитер": "FUM",
+    "датаАвтора": "2026-10-28T16:22:51+04:00",
+    "корневойUUIDВКоммите": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "изменённыеПути": [
+      "Журнал/2026-10-26_03-08-32_MSK_сохранить-приём-путей-и-границу-raw/запрос.md",
+      "Журнал/README.md"
+    ],
+    "новыеПути": [
+      "Журнал/2026-10-28_15-22-03_MSK_интегрировать-принятый-срез-fuma"
+    ],
+    "атрибуцияИсполнителя": "FUMA App-чат 01a1698f-bb98-7691-b1c1-31ec737ed070 сообщил о выполнении merge в этом W/ref; HEAD/ref/dirty paths независимо совпали при RO-чтении",
+    "авторСтарогоИзменённогоПути": "не установлен",
+    "поручениеИПолномочия": "не сверены",
+    "диагноз": "371 создан отдельным FUMA App-контекстом по self-report, совместимым с Git commit; это свидетельство второго writer-контекста того же корневого запроса, а не доказательство несанкционированного писателя. После явного ACK FUMA работает только в AOT W/ref. Старый изменённый запрос и README остаются без авторства; единственный post-ACK статус показывает тот же HEAD/ref и тот же unstaged/untracked состав.",
+    "текущаяЗаписьВЭтойОбластиЗапрещена": true,
+    "послеAckRO": {
+      "время": "2026-10-28T13:53:15Z",
+      "HEAD": "371ceea4e06ddded8312890160a013e2941cd7cf",
+      "реф": "refs/heads/fum-lab/fum/master",
+      "ветка": "локально ahead 2 относительно origin tracking snapshot",
+      "индекс": "git status не показывает staged entries; все наблюдённые изменения unstaged или untracked",
+      "ackFUMA": {
+        "threadId": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+        "revision": 22,
+        "содержание": "FUMA прямо подтвердила, что она и дети больше не пишут в ROOT W/ref; её приёмная ветка — refs/heads/fum-lab/fum/fuma/aot-join-strings-396, HEAD 0bf0441…; машинный путь исключён из публичной проекции",
+        "ограничение": "это self-report; post-ACK RO read подтверждает текущий снимок, но не непрерывное отсутствие будущих записей"
+      },
+      "diff371Против6999": {
+        "head": "371ceea4e06ddded8312890160a013e2941cd7cf",
+        "tree": "d1159a10579807475c9bf13cb9b974367876b49a",
+        "родители": [
+          "6999fcb256d298302358d1329c2e57fead00a808",
+          "5bc964ad765628bded5c90e99de3cf24a5ab3ac2"
+        ],
+        "автор": "FUM Codex [gpt-6-luna; effort=max]",
+        "коммитер": "FUM",
+        "время": "2026-10-28T16:22:51+04:00",
+        "исходноеПоручение": "Цель каждого агента — добиться автоматизации своей функции; в FUM и FUMA работаем так. Принимай и интегрируй своих детей по очереди как их родитель.",
+        "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "пути": [
+          {
+            "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+            "статус": "A",
+            "строк": 466,
+            "смысл": "типизированные снимки ограниченного временного каталога, provenance, сравнение и безопасное планирование/перенос fixture-данных"
+          },
+          {
+            "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ЦиклФайловойСистемыTests.swift",
+            "статус": "A",
+            "строк": 73,
+            "смысл": "один различающий Swift Testing сценарий"
+          },
+          {
+            "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/zhurnal-fs-first-sensor.jsonl",
+            "статус": "A",
+            "строк": 8,
+            "смысл": "локальный append-only источник FS slice"
+          }
+        ],
+        "подтверждение": "raw commit/tree read и FUMA self-report совпадают по merge; известные parent/body claims сохранены отдельно от terminal attribution"
+      },
+      "грязныеОбъекты": [
+        {
+          "тип": "tracked-modification",
+          "путь": "Журнал/2026-10-26_03-08-32_MSK_сохранить-приём-путей-и-границу-raw/запрос.md",
+          "индекс": "unstaged",
+          "baseBlob": "1a5612e58ecd4ab3560cfc55170472b92b0f2bcc",
+          "workingBlob": "8bdea173e3c67e64467f5d3f67d098af0fba1674",
+          "содержимое": "замена строки об открытой паре на явные Previous/Next links: предыдущий 2026-10-26 00:20:51 MSK и следующий 2026-10-28 15:22:03 MSK",
+          "происхождение": "автор и время изменения не установлены"
+        },
+        {
+          "тип": "tracked-modification",
+          "путь": "Журнал/README.md",
+          "индекс": "unstaged",
+          "baseBlob": "a80a5906bb948b793801168f08524bbc847ae836",
+          "workingBlob": "1b514b1e56f765fee9543111336f5fda6f871226",
+          "содержимое": "одна ссылка на отчёт 2026-10-28 15:22:03 MSK добавлена в список папок запросов",
+          "происхождение": "автор и время изменения не установлены"
+        },
+        {
+          "тип": "untracked-directory",
+          "путь": "Журнал/2026-10-28_15-22-03_MSK_интегрировать-принятый-срез-fuma/",
+          "положениеGit": "каталог не является самостоятельным Git-объектом; все три файла untracked",
+          "происхождение": "FUMA self-report говорит о создании пары Журнала; авторства файлов и terminal attribution Git не даёт",
+          "файлы": [
+            {
+              "путь": "запрос.md",
+              "байт": 11113,
+              "sha256": "beff93f2e2cf19e4d926fd9918951b7e383027da6ef82c7fdd885f7f772de899",
+              "gitBlob": "c3bbaa67ab1865b471ffd9af860753a3101808e8"
+            },
+            {
+              "путь": "отчёт.md",
+              "байт": 11063,
+              "sha256": "ceeaab89b6a04e21182b2c82504145a12a93ea0ca976b854721174efb96ae2a",
+              "gitBlob": "f401a7c6b23b5d104fd31fe0d8bbc7a9f1ffcc6c"
+            },
+            {
+              "путь": "материалы/запуски-проверок/1_fda297ec-630a-499d-83b9-713acbf45dce.json",
+              "байт": 1062,
+              "sha256": "6c1d56410fd76ef91e683d221087b01e1880978335451a88c3d1989cca2b7031",
+              "gitBlob": "eb6ab8f4455134195f9b8c72aee83a09fe810bc2",
+              "содержимое": "fum.test-run.v3; завершён/успешно; exit 0; 3.593393 s; observations=[]"
+            }
+          ],
+          "отчётныеГраницы": "request и report заявляют 1/1 Swift Testing и build/test около 0.26/0.009 s; JSONL receipt независимо содержит 3.593393 s, профиль времени не сверен; прежний XCTest signing отказ сохранён отдельно"
+        }
+      ],
+      "неизвестно": [
+        "автор и время двух modified Journal-файлов",
+        "соответствие Git author/committer конкретному процессу или native turn_context",
+        "точная причина и исполнение команд создания dirty Journal-пары",
+        "непрерывное отсутствие будущих записей после ACK"
+      ]
+    }
+  },
+  "задачи": [
+    {
+      "ключ": "root",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "ROOT возобновил узел планирования, описал очередь plan/execute/independent observation и сообщил об отправке FUMA требования ACK прекращения ROOT W/ref",
+      "ожидание": "получить ACK; после него подготовить RO-пакет diff 371↔699 и происхождения трёх dirty объектов; до ACK ROOT W не читать",
+      "граница": "отправка поручения отличается от фактического старта; текущий ROOT W только для чтения"
+    },
+    {
+      "ключ": "instrumentyi",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "Новая проверка показывает около 40 GiB свободного места при пороге 55; новые worktree и SwiftPM/heavy runs остановлены. Тот же recovery writer сохраняет staged область; малый source/RED и read-only анализ допустимы.",
+      "ожидание": "ждать освобождения ресурса до новых сборок/тестов; продолжить только разрешённые малые diff и RO",
+      "граница": "предложенная recovery-схема at-most-one; idempotency key и receiver-side dedup/ACK отсутствуют",
+      "ревизияWait": 33
+    },
+    {
+      "ключ": "FUMA",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "FUMA сверила 39 GiB и поставила сборки, тесты, коммиты и push пяти существующих линий на паузу; готовит малые source/test diffs и RO-review в собственных деревьях.",
+      "ожидание": "в AOT-отчёте остаются незаписанными результаты №11–14; не запускать тяжёлое до восстановления свободного места",
+      "граница": "staged изменения не расширены на чужие области; исходный merge 371 остаётся self-report FUMA; Stop требует native readers и конечный checkpoint",
+      "ревизияWait": 28
+    },
+    {
+      "ключ": "journal",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "После точного аудита объявлен узкий исполняемый валидатор шести полей; настоящий новый шестипольный контракт всё ещё ожидает формулирования.",
+      "ожидание": "закончить typed input №40 и определить фактическую шестипольную границу; PR439 source остаётся отдельным ранее reviewed JSON",
+      "ревизияWait": 16
+    },
+    {
+      "ключ": "board",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "Порученный этап остановлен до записи: локальный reader вернул code 2 из-за недоступного/повреждённого источника или истории; отделять этот отказ от ранее reviewed PR435 source.",
+      "ожидание": "не выводить содержательный blocker PR435 из отказа локального reader; exact source review и путь доступны ранее",
+      "ревизияWait": 9
+    },
+    {
+      "ключ": "rules",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "обновлён приватный diff 000171, SHA-256 c238d5ee313344673eb4fe3e3d5611eef27a9176f15b85dc2e77f08c87fdd592",
+      "ожидание": "ROOT получает diff/provenance после исправлений route validator; W/ref и общие правила не менялись",
+      "ревизияWait": 2
+    },
+    {
+      "ключ": "dependencies",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "В собственном W идёт чтение большого JSONL перед следующим read-only разбором; точный источник и завершённость чтения в этом снимке не установлены.",
+      "ожидание": "не считать source идентифицированным и не выводить полный результат; проверить, не пересекает ли чтение запрет ROOT JSONL до продолжения",
+      "ревизияWait": 3
+    },
+    {
+      "ключ": "requirements",
+      "статус": "idle",
+      "ход": "completed",
+      "ревизияWait": 6,
+      "последняяРабота": "Writer подтвердил порог 55 GiB; тяжёлые процессы не запускал, дерево чистое на 92f217ed, результат передан instrumentyi.",
+      "ожидание": "новых действий в этом ходе нет"
+    },
+    {
+      "ключ": "audit",
+      "статус": "idle",
+      "ход": "completed",
+      "ревизияWait": 2,
+      "последняяРабота": "RO-приёмка audit передана ROOT; PR442 содержит шесть добавленных JSON, прежнее расхождение 1A/1M не признано проблемой.",
+      "ожидание": "новых действий в этом ходе нет"
+    }
+  ],
+  "поставки": [
+    {
+      "идентификатор": "PR435",
+      "вид": "запрос-на-слияние",
+      "номер": 435,
+      "состояние": "open",
+      "слито": false,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "7dc45a20a2e5f87e53d22afd8793b9a77df9fae6",
+      "голова": "553a4718b0d0084602c6c66b1fbd7e232f9e5143",
+      "дерево": "ef92fdcfb0b0bebeb78447377690c70f62c29c04",
+      "родители": [
+        "847ac0355881145f0362be3184c2d0e3f86292fa"
+      ],
+      "пути": [
+        "doska-obyyavlenij/postanovka.json",
+        "doska-obyyavlenij/zhurnal/2026-10-28-remontyi-i-balans.json"
+      ],
+      "файловИзменено": 2,
+      "ожидаетсяФайлов": 2,
+      "обзор": "пройден",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": [
+        "FUMA-автоматизация и внедрение"
+      ],
+      "примечание": "два JSON; board turn сообщал mergeable=false, прямой GitHub PR metadata read в 13:25:48Z вернул true для того же head; временное расхождение наблюдений не трактуется как содержательный блокер"
+    },
+    {
+      "идентификатор": "PR439",
+      "вид": "запрос-на-слияние",
+      "номер": 439,
+      "состояние": "open",
+      "слито": false,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "голова": "33bed1419d66f21a85f22c1b56898a8a93219a2b",
+      "дерево": "8d17e4b09eb6464a6784a127a2a969ac1ad976bf",
+      "родители": [
+        "6f61e429bc1af904a212d4c7f8f392888019dd80"
+      ],
+      "пути": [
+        "zhurnal/2315893fbd51b047a21c8b4f402ea8a178879ff88e60fa27a92529ba131438a4.json"
+      ],
+      "файловИзменено": 1,
+      "ожидаетсяФайлов": 1,
+      "обзор": "пройден",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": [
+        "Swift-тесты",
+        "FS/Git/Torrent runtime-адаптеры",
+        "turn_aborted причина",
+        "тяжёлые/исключённые проверки"
+      ],
+      "запись": {
+        "путь": "zhurnal/2315893fbd51b047a21c8b4f402ea8a178879ff88e60fa27a92529ba131438a4.json",
+        "blob": "18edb220f0825fa1cea76fb0c4fa75293bc4fdef",
+        "sha256": "385c9d21b24dae08bb701f718d307a7d02d3d3d47b38d97ad1a96094424435d7",
+        "номер": 39,
+        "сообщений": 11,
+        "обзорКоординатора": "schema/provenance and public-path scan found no blocker; ten ROOT-transferred literal messages remain distinct from one public append-only comment"
+      },
+      "примечание": "RO review passed; current accepted ROOT 6999… differs from PR base 6f61…, so prepare the exact receiving candidate at current ROOT"
+    },
+    {
+      "идентификатор": "PR437",
+      "вид": "запрос-на-слияние",
+      "номер": 437,
+      "состояние": "open",
+      "слито": false,
+      "черновик": true,
+      "сходимость": true,
+      "основание": "6999fcb256d298302358d1329c2e57fead00a808",
+      "голова": "0bf0441efd445bd9f9f241fba5e959600ae1ebb1",
+      "дерево": "bd72269185eed67b7455ebe3a0924874dc0ff1fd",
+      "родители": [
+        "54c6a00e56307224972b7223b6d554953dbba20d",
+        "6999fcb256d298302358d1329c2e57fead00a808"
+      ],
+      "пути": [
+        "Приложения/FUMA/zhurnal-aot-join-strings-396.jsonl",
+        "Приложения/FUMA/zhurnal-swift-literal-396.jsonl",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КодированиеЛитералаSwift.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ТрансляторГрафаSwift.swift",
+        "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиЛитерала.swift",
+        "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиТрансляцииSwift.swift"
+      ],
+      "файловИзменено": 8,
+      "ожидаетсяФайлов": 8,
+      "обзор": "ожидает",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": [
+        "полная FUMA runtime-готовность"
+      ],
+      "примечание": "использован только объявленный immutable head 0bf…; новые локальные FS-изменения исключены; PR остаётся draft"
+    },
+    {
+      "идентификатор": "PR440",
+      "вид": "запрос-на-слияние",
+      "номер": 440,
+      "состояние": "closed",
+      "слито": true,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "голова": "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25",
+      "дерево": "10b05c041b174008439fcfa07fb71b7429cc7d75",
+      "родители": [
+        "07d60968edc895353ed72bf02a9d64173d189490"
+      ],
+      "пути": [
+        "Package.swift",
+        "iskhodniki/perekhod-vetok/proverki/proverki-polnomochij.swift",
+        "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json",
+        "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+        "iskhodniki/perekhod-vetok/zhurnal/53dc21854c6d60da9617727c5e612b63f3b0fc02e740d6052705bb8d8108b819.json",
+        "iskhodniki/perekhod-vetok/zhurnal/9cd78804e1d5fc3a6667120643c91d36868247bb30ff5b18b68de3b242b4865e.json",
+        "iskhodniki/perekhod-vetok/zhurnal/c5756b2c2dd2edf2c03d5e8ce49a1f2341154398f19d642855d4077da1f17462.json",
+        "iskhodniki/zapusk/Команда.swift",
+        "proverki/zapusk/ПроверкиStop.swift",
+        "proverki/zapusk/ПроцессыЗапуска.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift"
+      ],
+      "файловИзменено": 13,
+      "ожидаетсяФайлов": 13,
+      "обзор": "принят-источник",
+      "принятоКорнем": true,
+      "коммитПриёмки": "6999fcb256d298302358d1329c2e57fead00a808",
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [
+        "native readers для обязательств/истории",
+        "конечный completion/recency checkpoint",
+        "portable native bundle"
+      ],
+      "непроверенныеЗаявления": [
+        "живая установка",
+        "полный native Stop-протокол"
+      ],
+      "примечание": "принят и слит как source checkpoint; это не установка. Producer сообщил legacy v4/recency checkpoint blocker; требуется минимальный конечный native scope, не Python и не полный port всей истории"
+    },
+    {
+      "идентификатор": "PR390",
+      "вид": "запрос-на-слияние",
+      "номер": 390,
+      "состояние": "open",
+      "слито": false,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "голова": "f24541aa5d3fbddb831d01a2d45ead434c40520b",
+      "дерево": "162a045be94b7ce60ee843ebca0a4c1a17ded71c",
+      "родители": [
+        "541589c938f4f8ca31c2bf0fa98c4daff2a18de6"
+      ],
+      "пути": [
+        "zavisimosti/obzor.json",
+        "zavisimosti/pozhelaniya-avtomatizacii.json",
+        "zavisimosti/zhurnal/18cc5a5b73fd93ae97f5199079e9afd506e5ced998fd514edd1734502de75003.json",
+        "zavisimosti/zhurnal/29bfe7f3805f7a6b61ec8678cbc142f8f8493af238dfd8d1c4aa93b149db1fb1.json",
+        "zavisimosti/zhurnal/761464187045952c85149e240f8516d884c6fcabe20feb31d6661dc960697c7c.json",
+        "zavisimosti/zhurnal/f0a3082ca4e0c98b8a6eb6d1e03186467226e43697f61cd60976199de238a3dc.json"
+      ],
+      "файловИзменено": 6,
+      "ожидаетсяФайлов": 6,
+      "обзор": "ожидает",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": [
+        "build",
+        "runtime integration",
+        "upstream and network validation"
+      ],
+      "примечание": "PR открыт и mergeable; существующий fum-lab/libgit2 fork подтверждён, creator не приписан и не объявляется содержательным блокером; source нуждается в review и кандидате от текущей основы"
+    },
+    {
+      "идентификатор": "route-inventory-2a3",
+      "вид": "контрольная-точка",
+      "номер": null,
+      "состояние": "checkpoint",
+      "слито": false,
+      "черновик": null,
+      "сходимость": null,
+      "основание": "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "голова": "2a3fbb19b3003ecdcd6263d3e046bbe2855c6f3c",
+      "дерево": "9cec0cd9288b4f076061b60986f196d4d07c52fc",
+      "родители": [
+        "6f61e429bc1af904a212d4c7f8f392888019dd80"
+      ],
+      "внешнийРеф": "codex/swift-route-inventory-01a17797",
+      "пути": [
+        "Package.swift",
+        "iskhodniki/proverka-marshruta-pravil/granicy.swift",
+        "iskhodniki/proverka-marshruta-pravil/komanda/komanda.swift",
+        "iskhodniki/proverka-marshruta-pravil/modelj-inventarya.swift",
+        "iskhodniki/proverka-marshruta-pravil/opredeleniya/proveritj-marshrut.json",
+        "iskhodniki/proverka-marshruta-pravil/proverka.swift",
+        "iskhodniki/proverka-marshruta-pravil/zakryityij-json.swift",
+        "proverki/proverka-marshruta-pravil/proverki-marshruta.swift",
+        "Инструменты/fum-proverka-git-zavisimostej/swift/bootstrap-zavisimosti.swift",
+        "Инструменты/fum-proverka-git-zavisimostej/swift/komanda-bootstrap-zavisimosti.swift",
+        "Инструменты/fum-proverka-git-zavisimostej/swift/proverki-bootstrap-zavisimosti.swift"
+      ],
+      "файловИзменено": 11,
+      "ожидаетсяФайлов": 11,
+      "обзор": "нужны-исправления",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [
+        "три P1 route-validator findings; тот же writer исправляет"
+      ],
+      "непроверенныеЗаявления": [
+        "ROOT acceptance",
+        "PR publication",
+        "native Stop installation"
+      ],
+      "примечание": "предыдущие route 15/15 и bootstrap 3/3 не закрывают новые P1; ref не изменять"
+    }
+  ],
+  "переходыСостояния": [
+    {
+      "идентификатор": "merge-371-в-root-w",
+      "область": "файловая-система-и-git",
+      "планПодготовлен": null,
+      "отправлено": null,
+      "выполнениеНачато": true,
+      "применениеЗаявлено": true,
+      "независимыйВывод": "подтверждено",
+      "свидетельствоНезависимогоНаблюдения": "RO read подтвердил результирующие HEAD/ref/dirty paths; это не устанавливает автора команды или полномочия"
+    },
+    {
+      "идентификатор": "ack-прекращения-root-w",
+      "область": "файловая-система-и-git",
+      "планПодготовлен": true,
+      "отправлено": true,
+      "выполнениеНачато": true,
+      "применениеЗаявлено": true,
+      "независимыйВывод": null,
+      "свидетельствоНезависимогоНаблюдения": "FUMA final response revision 22 прямо подтвердила прекращение ROOT W/ref и указала собственный AOT W/ref; затем независимый RO snapshot увидел прежний 371/ref/status и тот же unstaged/untracked manifest. Наблюдение подтверждает только этот снимок, не будущую непрерывность."
+    }
+  ],
+  "переходыАвтоматизации": [
+    {
+      "вход": "компактный wait_threads summary/marker без tool args",
+      "автоматизируемаяРабота": "свести текущие роли и статус в версионированный JSON снимок; сравнить revision, не читать raw thread",
+      "остаётсяРучным": "семантический смысл summary, владение чужим деревом и выбор точного следующего поручения"
+    },
+    {
+      "вход": "GitHub PR metadata и immutable commit object",
+      "автоматизируемаяРабота": "проверить OID/tree/parents/base/path count, current-root drift, review flag и draft/mergeability gates",
+      "остаётсяРучным": "код-ревью, решение ROOT, merge, push, PR edits и установка"
+    },
+    {
+      "вход": "accepted Stop source checkpoint",
+      "автоматизируемаяРабота": "вывести отдельно source acceptance, completion/recency и bundle gates",
+      "остаётсяРучным": "ROOT-решение и установка после доказанного конечного native протокола"
+    },
+    {
+      "вход": "план изменения состояния файловой системы и Git",
+      "автоматизируемаяРабота": "разделить план, отправку, старт, заявление о применении и независимое наблюдение; сохранить witness и разногласия",
+      "остаётсяРучным": "получение ACK владельца, решение о допустимости мутации и интерпретация того, что наблюдение действительно покрывает"
+    },
+    {
+      "вход": "ограниченный ROOT dispatch input и актуальные wait_threads записи",
+      "автоматизируемаяРабота": "проверить SHA256 исходника, сохранить исторический баланс до/после, считать actual start по непустому startedAt и подтверждённому ходу, отдельно пометить уже шедший turn, усечение и неполное покрытие",
+      "остаётсяРучным": "семантическая допустимость задания, решение ROOT и запуск тяжёлых процессов при достаточном свободном месте"
+    },
+    {
+      "вход": "Git path manifests источника и точный manifest трёх ROOT dirty objects",
+      "автоматизируемаяРабота": "сравнить literal paths и вывести пересечение; при неполном dirty manifest результат остаётся неизвестным",
+      "остаётсяРучным": "ROOT выбирает exact receiving base и принимает merge candidate; неизвестный автор непересекающегося пути сам по себе не блокирует приёмку"
+    },
+    {
+      "вход": "усечённый или неполный вывод обхода",
+      "автоматизируемаяРабота": "различить found, absent и unknown; absent разрешён только при full coverage без truncation",
+      "остаётсяРучным": "человек определяет, достаточен ли конкретный scope обхода для утверждения о полном отсутствии"
+    }
+  ],
+  "снимокБалансировки": {
+    "источникСхема": "fum.root.dispatch-program.v1",
+    "источникSHA256": "34d49ac3f78e21c95bfea7ef09a09a2427cab2529ae78bcd5cf0af7f59a603ae",
+    "до": {
+      "активные": 4,
+      "бездействующие": 7,
+      "неЗагруженные": 28,
+      "видимые": 39
+    },
+    "после": {
+      "активные": 12,
+      "бездействующие": 3,
+      "неЗагруженные": 24,
+      "видимые": 39
+    },
+    "временнаяГраница": "один исторический ROOT before/after снимок; timezone не заявлена; не live status"
+  },
+  "пакетыПоручений": [
+    {
+      "группа": "прямые-поручения-root",
+      "числоНазначено": 7,
+      "числоНаблюдено": 7,
+      "выводУсечён": false,
+      "записи": [
+        {
+          "имя": "FUMA",
+          "статусХода": "inProgress",
+          "времяСтарта": 1793195797,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "requirements",
+          "статусХода": "completed",
+          "времяСтарта": 1793196311,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "instrumentyi",
+          "статусХода": "inProgress",
+          "времяСтарта": 1793151203,
+          "новыйСтарт": false,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "board",
+          "статусХода": "completed",
+          "времяСтарта": 1793195800,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "dependencies",
+          "статусХода": "inProgress",
+          "времяСтарта": 1793195801,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "audit",
+          "статусХода": "completed",
+          "времяСтарта": 1793195803,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "journal",
+          "статусХода": "inProgress",
+          "времяСтарта": 1793195805,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        }
+      ]
+    },
+    {
+      "группа": "дочерние-поручения-instrumentyi",
+      "числоНазначено": 3,
+      "числоНаблюдено": 3,
+      "выводУсечён": false,
+      "записи": [
+        {
+          "имя": "imena-katalogov",
+          "статусХода": "inProgress",
+          "времяСтарта": 1793196009,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "sinkhronizaciya",
+          "статусХода": "completed",
+          "времяСтарта": 1793195990,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        },
+        {
+          "имя": "perekhod-vetok",
+          "статусХода": "inProgress",
+          "времяСтарта": 1793195933,
+          "новыйСтарт": true,
+          "поручениеПодхвачено": true
+        }
+      ]
+    }
+  ],
+  "точныеГрязныеПути": [
+    "Журнал/2026-10-26_03-08-32_MSK_сохранить-приём-путей-и-границу-raw/запрос.md",
+    "Журнал/README.md",
+    "Журнал/2026-10-28_15-22-03_MSK_интегрировать-принятый-срез-fuma/запрос.md",
+    "Журнал/2026-10-28_15-22-03_MSK_интегрировать-принятый-срез-fuma/отчёт.md",
+    "Журнал/2026-10-28_15-22-03_MSK_интегрировать-принятый-срез-fuma/материалы/запуски-проверок/1_fda297ec-630a-499d-83b9-713acbf45dce.json"
+  ],
+  "точныеГрязныеПутиПолноеПокрытие": true,
+  "планСамообновления": {
+    "собственныйКонтрольныйКоммит": "8caccdf219ec348f0a4be9804ede472951781f92",
+    "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "собственнаяОбласть": "koordinaciya/**",
+    "текущаяВерсия": "fum.координация.состояние.4",
+    "источники": [
+      {
+        "источникРеф": "refs/heads/fum-lab/fum/pravila/master",
+        "источникOID": "e9206c75e431f7d2eda6467f2336208c1df8993a",
+        "источникДерево": "3acfacc0c3e4ffa44cdfd568cb59c2cf178ffae0",
+        "область": "Правила/агентов/**",
+        "назначение": "поведенческие нормы; известная версия-основание 17700 отстаёт от ROOT 17736",
+        "получено": true,
+        "обзор": null,
+        "принятие": null,
+        "обратноеСлияние": null,
+        "проверкаОбласти": null,
+        "собственныйACK": null,
+        "удержание": "устаревшее-основание; ждать исправленный RO-пакет владельца; независимая работа продолжается"
+      },
+      {
+        "источникРеф": "refs/heads/fum-lab/fum/instrumentyi/master",
+        "источникOID": "90ebaf9a7988d74c1bc3dae1a81d830ebca61627",
+        "источникДерево": "db91068206b848dcb1b55263db2eb8a686512ff0",
+        "область": "Инструменты/**",
+        "назначение": "транспорт и доставка поведения; читать как вход, не дублировать очередь или registry",
+        "получено": true,
+        "обзор": null,
+        "принятие": null,
+        "обратноеСлияние": null,
+        "проверкаОбласти": null,
+        "собственныйACK": null,
+        "удержание": null
+      }
+    ],
+    "требуетHEADРавныйROOT": false,
+    "требуетЧтениеROOTJSONL": false,
+    "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
+    "идентичностьСледующегоКоммита": {
+      "родитель": "8caccdf219ec348f0a4be9804ede472951781f92",
+      "квитанцияВыбораAPI": {
+        "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
+        "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
+        "свидетельство": {
+          "acceptedSelection": {
+            "model": "gpt-6-luna",
+            "reasoningEffort": "max"
+          },
+          "backendModel": "неизвестно",
+          "childIdentity": {
+            "вид": "идентификаторNativeThreadMetadata",
+            "значение": "01a18294-b6ff-7352-92e1-6b576d412172",
+            "статус": "доступен"
+          },
+          "nativeThread": {
+            "agentPath": "/root/koordinaciya",
+            "attachedThreadParentIDRaw": "",
+            "lineageСтатус": "неизвестно",
+            "threadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+            "модель": "gpt-6-luna",
+            "усилие": "max"
+          },
+          "nativeTurnContext": "неизвестно",
+          "requestIdentity": {
+            "вид": "идентификаторВызова",
+            "статус": "недоступен"
+          },
+          "requested": {
+            "model": "gpt-6-luna",
+            "reasoningEffort": "max"
+          },
+          "responseIdentity": {
+            "вид": "идентификаторВызова",
+            "статус": "недоступен"
+          },
+          "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "источник": "collaboration.spawn_agent",
+          "схема": "fum.api-selection-receipt.1"
+        }
+      },
+      "ожидаемаяКвитанцияВыбораAPI": {
+        "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
+        "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
+        "свидетельство": {
+          "acceptedSelection": {
+            "model": "gpt-6-luna",
+            "reasoningEffort": "max"
+          },
+          "backendModel": "неизвестно",
+          "childIdentity": {
+            "вид": "идентификаторNativeThreadMetadata",
+            "значение": "01a18294-b6ff-7352-92e1-6b576d412172",
+            "статус": "доступен"
+          },
+          "nativeThread": {
+            "agentPath": "/root/koordinaciya",
+            "attachedThreadParentIDRaw": "",
+            "lineageСтатус": "неизвестно",
+            "threadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+            "модель": "gpt-6-luna",
+            "усилие": "max"
+          },
+          "nativeTurnContext": "неизвестно",
+          "requestIdentity": {
+            "вид": "идентификаторВызова",
+            "статус": "недоступен"
+          },
+          "requested": {
+            "model": "gpt-6-luna",
+            "reasoningEffort": "max"
+          },
+          "responseIdentity": {
+            "вид": "идентификаторВызова",
+            "статус": "недоступен"
+          },
+          "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "источник": "collaboration.spawn_agent",
+          "схема": "fum.api-selection-receipt.1"
+        }
+      }
+    },
+    "сообщениеСледующегоКоммита": {
+      "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
+      "заголовок": "Зафиксировать проверенную доставку общего генератора",
+      "описание": "Первый checkpoint 8caccdf219ec348f0a4be9804ede472951781f92 прошёл точный raw Git readback и read-only адаптер до и после push. Независимый ls-remote подтвердил тот же OID refs/heads/fum-lab/fum/koordinaciya/master; источник FUMA остаётся отдельным от глобальной интеграции."
+    }
+  },
+  "результатГенератораМетаданных": {
+    "схема": "fum.генератор-метаданных.свидетельство-исполнения.1",
+    "статус": "исполнено-в-локальной-области",
+    "область": "koordinaciya/**",
+    "consumer": "не подключён к общему package; требуется действие владельца инструментария",
+    "fuma": {
+      "оператор": "вычислить-JSON",
+      "graph": "fuma.граф-JSON.1",
+      "применённыеОператоры": [
+        "отобразить",
+        "соединить"
+      ],
+      "определениеSHA256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+      "фикстураSHA256": "679447d7b57e8b13f78dda008f4c2eb80152fa1977c0a517648716418cffec67",
+      "исполняемыйПродукт": "fum-оператор",
+      "исполняемыйПродуктSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+      "числоСценариев": 5,
+      "сценарии": [
+        "primary-user-request",
+        "leading-trailing-crlf-russian-trailer-mention",
+        "russian-title-with-technical-name",
+        "yo-and-markdown-name",
+        "root-native-client-selection"
+      ],
+      "байтыВыхода": 2192,
+      "sha256ФактическогоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+      "sha256ЭталонногоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+      "sha256ОтветаFUMA": "ad94e9a86388012c7334bce68acbf35f503e24a3925ba1aa4f68c8f3049bd88a",
+      "байтыСовпали": true,
+      "sha256СвидетельстваИсполнения": "505530fe110b50a21631d658f1a9d0750c6fec9d3975b302114e4f42541abd42"
+    },
+    "выборAPI": {
+      "источник": "collaboration.spawn_agent",
+      "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "childUUIDИзNativeMetadata": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "запрос": {
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "статус": "accepted-selection"
+      },
+      "принятоеВыбираемоеЗначение": {
+        "model": "gpt-6-luna",
+        "effort": "max"
+      },
+      "requestIdentity": "unavailable",
+      "responseIdentity": "unavailable",
+      "nativeMetadata": {
+        "agentPath": "/root/koordinaciya",
+        "attachedThreadParentIDRaw": "",
+        "lineage": "unknown",
+        "model": "gpt-6-luna",
+        "effort": "max"
+      },
+      "backendModel": "unknown",
+      "nativeTurnContext": "unknown",
+      "каноническаяПроекцияSHA256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
+      "замечание": "локальный SHA-256 фиксирует байты typed-проекции, но не аутентифицирует backend или источник"
+    },
+    "проверки": {
+      "swiftSelfCheck": "92/92",
+      "stateEvaluator": "valid=true; errors=[]",
+      "preEffect": "ready=true; errors=[]; latest FUMA composer + git var",
+      "rawTreeComparator": "exact expected tree OID required; negative mismatch covered",
+      "receiptNegatives": [
+        "missing receipt",
+        "payload tamper with recomputed local hash",
+        "digest tamper",
+        "false response ID",
+        "root UUID mismatch"
+      ],
+      "titleCases": {
+        "rejected": "Clarify FUMA-defined AOT Swift translation",
+        "accepted": [
+          "Влить FUMA",
+          "FUMA: исправлена проверка",
+          "Обновлён AGENTS.md"
+        ]
+      },
+      "postEffectAdapter": "реальный read-only Git adapter прошёл до и после push первого checkpoint 8caccdf219ec348f0a4be9804ede472951781f92; HEAD/ref/origin/tree/parent/raw object/remote OID совпали",
+      "postEffectNegatives": [
+        "неверный выбранный commit OID",
+        "symbolic ref mismatch",
+        "origin URL mismatch",
+        "raw hash mismatch",
+        "remote ref OID mismatch",
+        "tree OID mismatch"
+      ],
+      "generatedMessageSHA256": "2528e7820313bbbe67f90d96b75cb1ba32f021646187545d10c757427637a77f"
+    },
+    "профильСекунд": {
+      "swiftSelfCheckCompile": 4.246676458,
+      "swiftSelfCheckRun": 0.49136175,
+      "coordinatorCompile": 2.096654875,
+      "stateEvaluation": null,
+      "fumaByteCompare": 0.443169167,
+      "preEffectFumaGitVar": 0.517,
+      "fumaRootNativeClientByteCompare": 0.443169167
+    },
+    "оптимизация": "На пяти фиксированных сценариях FUMA выход побайтно совпал с Swift reference; граф оставлен небольшим.",
+    "ограничения": [
+      "не подтверждает provider/backend model или native turn_context",
+      "request/response identity не наблюдались; native child UUID хранится отдельно",
+      "локальная реализация не подключена общему consumer",
+      "Package.swift и чужие области не изменялись",
+      "root author означает последнее подтверждённое выбранное клиентом значение; backend model остаётся неизвестной",
+      "read-only post-effect adapter фактически применён к точному commit и remote readback; общий Package consumer не подключён"
+    ],
+    "исполнениеRootNativeClient": {
+      "схема": "fum.root-native-client-selection-projection.1",
+      "источник": "native-codex-client-thread-metadata",
+      "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "последнееПодтверждённоеВыбранноеЗначениеКлиента": {
+        "model": "gpt-6.1-sol",
+        "reasoningEffort": "ultra"
+      },
+      "хэшПроекцииИсточника": "d08b65584a27127251fa50fd6875826c712136f682a5c4b651671227831709a9",
+      "хэшНезависимойОжидаемойПроекции": "d08b65584a27127251fa50fd6875826c712136f682a5c4b651671227831709a9",
+      "хэшТекущейПовторнойСверки": "d08b65584a27127251fa50fd6875826c712136f682a5c4b651671227831709a9",
+      "хэшКвитанции": "f389bd4b007aa54149571760257dfc3b996e50e68524c8b3296a4fa58b39d1f3",
+      "хэшНезависимойОжидаемойКвитанции": "f389bd4b007aa54149571760257dfc3b996e50e68524c8b3296a4fa58b39d1f3",
+      "идентичностьЗапросаAPI": "недоступен",
+      "идентичностьОтветаAPI": "недоступен",
+      "фактическаяМодельПровайдера": "неизвестно",
+      "контекстNativeХода": "неизвестно",
+      "публичнаяПроекция": "koordinaciya/квитанция-root-native-client.json",
+      "исполнение": {
+        "числоСценариев": 5,
+        "байтыСовпали": true,
+        "байтыВыхода": 2192,
+        "sha256ФактическогоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+        "sha256ЭталонногоВыхода": "8a1f08cd0bf3e6d72bd2dd136b6cd3cb7bcd781978b33071ccdc45b395a03cc4",
+        "sha256СырогоОтвета": "ad94e9a86388012c7334bce68acbf35f503e24a3925ba1aa4f68c8f3049bd88a",
+        "sha256Свидетельства": "505530fe110b50a21631d658f1a9d0750c6fec9d3975b302114e4f42541abd42"
+      }
+    },
+    "postEffectRun": {
+      "schema": "fum.git-post-effect-result.1",
+      "commitOID": "8caccdf219ec348f0a4be9804ede472951781f92",
+      "treeOID": "d8cbcaad7625e3da525e8a90dbc463d7afa6cd14",
+      "parentOID": "0e22651700affc4273be7d28304e8930834143d7",
+      "remoteOIDAfterPush": "8caccdf219ec348f0a4be9804ede472951781f92",
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "origin": "https://github.com/fum-lab/fum.git",
+      "prePushVerified": true,
+      "postPushVerified": true,
+      "errors": []
+    }
+  }
+}
