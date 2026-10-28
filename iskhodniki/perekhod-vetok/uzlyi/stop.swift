@@ -265,16 +265,23 @@ public enum КомандаStop {
     }
 
     static func прочитатьОбычныйФайл(_ путь: String) throws -> Data {
+        try прочитатьОбычныйФайл(путь, послеПредварительнойПроверки: { _ in })
+    }
+
+    static func прочитатьОбычныйФайл(
+        _ путь: String,
+        послеПредварительнойПроверки: (Int32) throws -> Void
+    ) throws -> Data {
         let дескриптор = try открытьБезСсылок(путь)
-        let файл = FileHandle(fileDescriptor: дескриптор, closeOnDealloc: true)
+        defer { _ = Darwin.close(дескриптор) }
         var до = stat()
         guard fstat(дескриптор, &до) == 0, (до.st_mode & S_IFMT) == S_IFREG,
               до.st_uid == geteuid(), до.st_nlink == 1, до.st_mode & 0o777 == 0o600,
               до.st_size >= 0, до.st_size <= 65_536 else {
-            try? файл.close()
             throw ОтказКомандыStop.метаданныеСостояния
         }
-        let данные = try файл.readToEnd() ?? Data()
+        try послеПредварительнойПроверки(дескриптор)
+        let данные = try прочитатьНеБольше(дескриптор, предел: 65_536)
         var после = stat()
         guard fstat(дескриптор, &после) == 0,
               до.st_dev == после.st_dev, до.st_ino == после.st_ino,
@@ -283,6 +290,33 @@ public enum КомандаStop {
               до.st_mtimespec.tv_nsec == после.st_mtimespec.tv_nsec,
               данные.count == Int(до.st_size)
         else { throw ОтказКомандыStop.дрейфСостояния }
+        return данные
+    }
+
+    private static func прочитатьНеБольше(_ дескриптор: Int32, предел: Int) throws -> Data {
+        var данные = Data(count: предел + 1)
+        var всегоПрочитано = 0
+        while всегоПрочитано < данные.count {
+            let прочитано = данные.withUnsafeMutableBytes { память -> Int in
+                guard let начало = память.baseAddress else { return -1 }
+                var результат: Int
+                repeat {
+                    результат = Darwin.read(
+                        дескриптор,
+                        начало.advanced(by: всегоПрочитано),
+                        память.count - всегоПрочитано
+                    )
+                } while результат < 0 && errno == EINTR
+                return результат
+            }
+            guard прочитано >= 0 else { throw ОтказКомандыStop.чтениеСостояния }
+            if прочитано == 0 { break }
+            всегоПрочитано += прочитано
+        }
+        guard всегоПрочитано <= предел else {
+            throw ОтказКомандыStop.превышенПределСостояния
+        }
+        данные.removeSubrange(всегоПрочитано..<данные.count)
         return данные
     }
 
@@ -321,6 +355,6 @@ public enum КомандаStop {
 
 enum ОтказКомандыStop: String, Error {
     case параметры, неабсолютныйПуть, неканоническийПуть, компонентОтсутствует
-    case символическаяСсылка, открытиеСостояния, метаданныеСостояния
-    case дрейфСостояния, ввод
+    case символическаяСсылка, открытиеСостояния, чтениеСостояния, метаданныеСостояния
+    case превышенПределСостояния, дрейфСостояния, ввод
 }

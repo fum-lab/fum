@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import Testing
 import FUMStructuringOperatorMemory
 @testable import МатериализацияУзлов
@@ -200,6 +201,62 @@ struct ПроверкиStop {
         #expect(throws: ОтказКомандыStop.self) {
             try КомандаStop.прочитатьОбычныйФайл(символическаяСсылка.path)
         }
+    }
+
+    @Test("Рост файла после предварительной проверки ограничивает чтение")
+    func ростПослеПредварительнойПроверкиОграничен() throws {
+        let корень = URL(fileURLWithPath: "/private/tmp", isDirectory: true)
+            .appendingPathComponent("fum-stop-growth-\(UUID().uuidString.lowercased())")
+        try FileManager.default.createDirectory(at: корень,
+            withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: корень) }
+        let путь = корень.appendingPathComponent("state.json")
+        try Data([0x7b]).write(to: путь, options: [.withoutOverwriting])
+        try FileManager.default.setAttributes([.posixPermissions: 0o600],
+            ofItemAtPath: путь.path)
+
+        var контрольныйДескриптор: Int32 = -1
+        defer {
+            if контрольныйДескриптор >= 0 {
+                _ = Darwin.close(контрольныйДескриптор)
+            }
+        }
+        #expect(throws: ОтказКомандыStop.превышенПределСостояния) {
+            try КомандаStop.прочитатьОбычныйФайл(
+                путь.path,
+                послеПредварительнойПроверки: { дескриптор in
+                    контрольныйДескриптор = Darwin.dup(дескриптор)
+                    guard контрольныйДескриптор >= 0 else {
+                        throw ОтказКомандыStop.открытиеСостояния
+                    }
+                    let писатель = Darwin.open(путь.path, O_WRONLY | O_CLOEXEC)
+                    guard писатель >= 0 else {
+                        throw ОтказКомандыStop.открытиеСостояния
+                    }
+                    defer { _ = Darwin.close(писатель) }
+                    guard Darwin.ftruncate(писатель, 131_072) == 0 else {
+                        throw ОтказКомандыStop.открытиеСостояния
+                    }
+                }
+            )
+        }
+        #expect(Darwin.lseek(контрольныйДескриптор, 0, SEEK_CUR) == 65_537)
+    }
+
+    @Test("Файл ровно на границе 65 536 байт принимается")
+    func файлНаГраницеПринимается() throws {
+        let корень = URL(fileURLWithPath: "/private/tmp", isDirectory: true)
+            .appendingPathComponent("fum-stop-limit-\(UUID().uuidString.lowercased())")
+        try FileManager.default.createDirectory(at: корень,
+            withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: корень) }
+        let путь = корень.appendingPathComponent("state.json")
+        let данные = Data(repeating: 0x20, count: 65_536)
+        try данные.write(to: путь, options: [.withoutOverwriting])
+        try FileManager.default.setAttributes([.posixPermissions: 0o600],
+            ofItemAtPath: путь.path)
+
+        #expect(try КомандаStop.прочитатьОбычныйФайл(путь.path) == данные)
     }
 }
 
