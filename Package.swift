@@ -9,7 +9,10 @@ let настройки: [SwiftSetting] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    products: [
+        .executable(name: "fuma", targets: ["КомандаЗапуска"]),
+        .library(name: "ОтветНаОтказПоставки", targets: ["ОтветНаОтказПоставки"])
+    ],
     dependencies: [
         .package(path: "Зависимости/LinguisticKit")
     ],
@@ -36,6 +39,12 @@ let package = Package(
         .target(name: "FUMStructuringOperatorMemory",
             path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
             resources: [.copy("Фикстуры"), .copy("Определения")], swiftSettings: настройки),
+        .target(name: "ОтветНаОтказПоставки", dependencies: ["FUMStructuringOperatorMemory"],
+            path: "Приложения/FUMA/Операторы/otvet-izvestnomu-otkazu-postavki/Sources/ОтветНаОтказПоставки",
+            resources: [.process("Resources")], swiftSettings: настройки),
+        .testTarget(name: "ПроверкиОтветаНаОтказПоставки", dependencies: ["ОтветНаОтказПоставки"],
+            path: "Приложения/FUMA/Операторы/otvet-izvestnomu-otkazu-postavki/Tests/ПроверкиОтветаНаОтказ",
+            swiftSettings: настройки),
         .target(name: "ЖурналУзла", dependencies: ["FUMStructuringOperatorMemory", "ОсноваЗапуска"],
             path: "iskhodniki/zhurnal", exclude: ["381.json", "publikacionnaya-politika.json", "karta-imyon.json", "primer.json", "profilj.json", "rukovodstvo.md", "zhurnal", "proverki", "uchyot-proverok.swift"],
             resources: [.copy("opredeleniya")], swiftSettings: настройки),
