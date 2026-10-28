@@ -1,0 +1,36 @@
+{
+  "схема": "fum.исход-полной-связности-контрольной-точки.1",
+  "инструмент": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+  "запрос": "Журнал/2026-10-29_00-45-03_MSK_добавить-адресный-обновитель-свежести/запрос.md",
+  "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "имя_автора": "FUM Codex [gpt-6-luna; effort=max]",
+  "результат": "код 1; полная проверка не пройдена",
+  "число_запусков": 2,
+  "первый_запуск": {
+    "переменная_GIT_AUTHOR_NAME": "не установлена",
+    "исход": "код 1 до предметной проверки",
+    "диагностика": "фактическое имя автора не совпадает с полным ожидаемым именем"
+  },
+  "второй_запуск": {
+    "переменная_GIT_AUTHOR_NAME": "FUM Codex [gpt-6-luna; effort=max]",
+    "исход": "код 1; около 50 с"
+  },
+  "усечение_ответа_инструментом": {
+    "полный_вывод_сохранён": false,
+    "указанный_размер_исходного_вывода_в_токенах": 167618,
+    "указано_строк": 2047,
+    "примечание": "Сохранены только явно полученные точные диагностики; полный вывод не восстанавливается и проверка не объявляется успешной."
+  },
+  "точные_диагностики": [
+    "request folder layout is invalid: request navigation has wrong следующий link: Журнал/2026-10-16_21-39-08_MSK_подготовить-предусловия-запуска-цепи/запрос.md",
+    "used tools section must link to the tools registry",
+    "used tools section must include fum-moskovskoye-vremya-rabochej-sessii for canonical MSK time",
+    "broken Markdown link in Журнал/2026-10-25_15-20-35_MSK_завершить-сохраняющее-слияние-планирования/запрос.md:512: ../../Proyekcii/Bratislavskaya-pamyatj/fajlyi/.mailmap",
+    "broken Markdown link in Журнал/2026-10-29_00-45-03_MSK_добавить-адресный-обновитель-свежести/запрос.md:5: ../2026-10-28_14-16-18_MSK_транслировать-поддержанный-join-граф-в-swift-aot-396/запрос.md",
+    "md recency check failed: stale recency metadata: Журнал/2026-10-28_14-16-18_MSK_транслировать-поддержанный-join-граф-в-swift-aot-396/запрос.md",
+    "md recency check failed: stale recency metadata: Журнал/2026-10-28_14-16-18_MSK_транслировать-поддержанный-join-граф-в-swift-aot-396/отчёт.md",
+    "md recency check failed: stale recency index: Индексы/markdown-файлы-по-времени-редактирования.md",
+    "unexpected Git status path diagnostics included the two old AOT Markdown files, the requested JSONL relocation, the current session materials and Swift package files."
+  ],
+  "применение": "Результат сохранён как основание для ручного адресного набора по FUM-ПРАВИЛО-НОВОЕ-000030. Чужие старые Markdown и глобальный индекс не изменяются; полный агрегатор повторно не запускать."
+}
