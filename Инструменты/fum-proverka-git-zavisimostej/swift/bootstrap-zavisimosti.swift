@@ -12,14 +12,20 @@ enum ОтказBootstrapЗависимости: Error, CustomStringConvertible {
     }
 }
 
-enum СостояниеBootstrapЗависимости: String, Codable, Sendable {
+package enum ЭтапДолговечностиBootstrap: String, Sendable {
+    case намерениеСинхронизировано
+    case материализацияСинхронизирована
+    case исходСинхронизирован
+}
+
+package enum СостояниеBootstrapЗависимости: String, Codable, Sendable {
     case отсутствует
     case намерение
     case готова
     case отказ
 }
 
-struct ПланBootstrapЗависимости: Codable, Equatable, Sendable {
+package struct ПланBootstrapЗависимости: Codable, Equatable, Sendable {
     let схема: String
     let корень: String
     let head: String
@@ -35,7 +41,7 @@ struct ПланBootstrapЗависимости: Codable, Equatable, Sendable {
     let состояние: СостояниеBootstrapЗависимости
 }
 
-struct ИсходBootstrapЗависимости: Codable, Equatable, Sendable {
+package struct ИсходBootstrapЗависимости: Codable, Equatable, Sendable {
     let схема: String
     let хэшПлана: String
     let состояние: СостояниеBootstrapЗависимости
@@ -62,11 +68,11 @@ private struct ЗаписьSubmodule {
     let upstream: String
 }
 
-enum BootstrapЗависимости {
+package enum BootstrapЗависимости {
     private static let схемаПлана = "fum.bootstrap-git-zavisimosti.1"
     private static let схемаИсхода = "fum.bootstrap-git-zavisimosti-outcome.1"
 
-    static func построитьПлан(корень исходныйКорень: URL, путь: String) throws
+    package static func построитьПлан(корень исходныйКорень: URL, путь: String) throws
         -> ПланBootstrapЗависимости
     {
         let корень = try физическийКаталог(исходныйКорень)
@@ -149,9 +155,17 @@ enum BootstrapЗависимости {
             adminGitDir: adminGitDir, состояние: состояние)
     }
 
-    static func применить(
+    package static func применить(
         план: ПланBootstrapЗависимости,
         квитанция: URL
+    ) throws -> ИсходBootstrapЗависимости {
+        try применить(план: план, квитанция: квитанция, наблюдатель: { _ in })
+    }
+
+    package static func применить(
+        план: ПланBootstrapЗависимости,
+        квитанция: URL,
+        наблюдатель: (ЭтапДолговечностиBootstrap) -> Void
     ) throws -> ИсходBootstrapЗависимости {
         guard план.схема == схемаПлана, план.состояние == .отсутствует else {
             throw отказ("Apply разрешён только для проверенного отсутствующего пути")
@@ -159,28 +173,34 @@ enum BootstrapЗависимости {
         let свежий = try построитьПлан(
             корень: URL(fileURLWithPath: план.корень, isDirectory: true), путь: план.путь)
         guard свежий == план else { throw отказ("План bootstrap изменился до применения") }
-        let квитанция = try проверитьПутьКвитанции(квитанция, план: план)
+        let граница = try ПриватнаяГраницаBootstrap(gitDir: план.gitDir, создать: true)
+        let имяКвитанции = try граница.имяФайла(квитанция)
         let хэшПлана = try хэшКаноническогоПлана(план)
         let намерение = ИсходBootstrapЗависимости(
             схема: схемаИсхода, хэшПлана: хэшПлана, состояние: .намерение,
             путь: план.путь, gitlinkOID: план.gitlinkOID,
             adminGitDir: план.adminGitDir, пояснение: nil)
-        try записатьЭксклюзивно(try каноническиеДанные(намерение), в: квитанция)
+        try граница.записатьЭксклюзивно(
+            try каноническиеДанные(намерение), имя: имяКвитанции)
+        наблюдатель(.намерениеСинхронизировано)
 
+        var материализацияДолговечна = false
         do {
             let destination = URL(fileURLWithPath: план.корень, isDirectory: true)
                 .appendingPathComponent(план.путь, isDirectory: true)
             let admin = URL(fileURLWithPath: план.adminGitDir, isDirectory: true)
+            guard Data(admin.deletingLastPathComponent().path.utf8)
+                    == Data(граница.каталог.path.utf8) else {
+                throw отказ("Admin Gitdir не является прямым ребёнком приватной границы")
+            }
             if FileManager.default.fileExists(atPath: destination.path) {
                 guard try FileManager.default.contentsOfDirectory(atPath: destination.path).isEmpty else {
                     throw отказ("Назначение перестало быть пустым после intent")
                 }
             }
-            guard !FileManager.default.fileExists(atPath: admin.path) else {
+            guard try граница.ребёнокОтсутствует(admin.lastPathComponent) else {
                 throw отказ("Admin Gitdir появился после intent")
             }
-            try FileManager.default.createDirectory(
-                at: admin.deletingLastPathComponent(), withIntermediateDirectories: true)
             _ = try gitУспешно([
                 "-c", "protocol.file.allow=always",
                 "clone", "--quiet", "--no-checkout", "--no-recurse-submodules",
@@ -191,33 +211,57 @@ enum BootstrapЗависимости {
             _ = try gitУспешно([
                 "checkout", "--quiet", "--detach", "--no-recurse-submodules", план.gitlinkOID,
             ], в: destination)
+            let adminFD = try граница.дочернийКаталог(
+                admin.lastPathComponent, укрепитьСозданный: true)
+            guard close(adminFD) == 0 else {
+                throw отказ("close admin Gitdir отказал")
+            }
             try проверитьГотовуюЗависимость(
                 destination: destination, adminGitDir: план.adminGitDir,
                 origin: план.originURL, upstream: план.upstreamURL, gitlink: план.gitlinkOID)
+            try ДолговечностьBootstrap.синхронизироватьМатериализацию(
+                adminGitDir: admin, destination: destination, граница: граница)
+            материализацияДолговечна = true
+            наблюдатель(.материализацияСинхронизирована)
             let исход = ИсходBootstrapЗависимости(
                 схема: схемаИсхода, хэшПлана: хэшПлана, состояние: .готова,
                 путь: план.путь, gitlinkOID: план.gitlinkOID,
                 adminGitDir: план.adminGitDir, пояснение: nil)
-            try заменитьАтомарно(try каноническиеДанные(исход), в: квитанция)
+            try граница.заменитьАтомарно(
+                try каноническиеДанные(исход), имя: имяКвитанции)
+            наблюдатель(.исходСинхронизирован)
             return исход
         } catch {
+            if материализацияДолговечна {
+                throw отказ(
+                    "Материализация долговечна, но terminal outcome неизвестен; "
+                    + "intent сохранён, автоматический повтор запрещён: \(error)")
+            }
             let исход = ИсходBootstrapЗависимости(
                 схема: схемаИсхода, хэшПлана: хэшПлана, состояние: .отказ,
                 путь: план.путь, gitlinkOID: план.gitlinkOID,
                 adminGitDir: план.adminGitDir, пояснение: String(describing: error))
-            try? заменитьАтомарно(try каноническиеДанные(исход), в: квитанция)
+            do {
+                try граница.заменитьАтомарно(
+                    try каноническиеДанные(исход), имя: имяКвитанции)
+            } catch {
+                throw отказ(
+                    "Bootstrap отказал, а terminal outcome не сохранён; "
+                    + "эффект неизвестен, intent сохранён, автоматический повтор запрещён: \(error)")
+            }
             throw error
         }
     }
 
-    static func проверитьПослеПрименения(
+    package static func проверитьПослеПрименения(
         план: ПланBootstrapЗависимости,
         квитанция: URL
     ) throws -> ИсходBootstrapЗависимости {
-        let квитанция = try проверитьПутьКвитанции(квитанция, план: план)
-        try потребоватьОбычныйФайлБезСсылки(квитанция)
+        let граница = try ПриватнаяГраницаBootstrap(gitDir: план.gitDir, создать: false)
+        let имяКвитанции = try граница.имяФайла(квитанция)
         let исход = try JSONDecoder().decode(
-            ИсходBootstrapЗависимости.self, from: Data(contentsOf: квитанция))
+            ИсходBootstrapЗависимости.self,
+            from: граница.прочитатьПриватныйФайл(имяКвитанции))
         guard исход.схема == схемаИсхода,
               исход.хэшПлана == (try хэшКаноническогоПлана(план)),
               исход.состояние == .готова,
@@ -244,22 +288,29 @@ enum BootstrapЗависимости {
         return исход
     }
 
-    static func данныеПлана(_ план: ПланBootstrapЗависимости) throws -> Data {
+    package static func данныеПлана(_ план: ПланBootstrapЗависимости) throws -> Data {
         try каноническиеДанные(план)
     }
 
-    static func записатьПлан(_ план: ПланBootstrapЗависимости, в путь: URL) throws {
-        let проверенный = try проверитьПутьПлана(путь, план: план)
-        try записатьЭксклюзивно(try каноническиеДанные(план), в: проверенный)
+    package static func записатьПлан(_ план: ПланBootstrapЗависимости, в путь: URL) throws {
+        let граница = try ПриватнаяГраницаBootstrap(gitDir: план.gitDir, создать: true)
+        let имя = try граница.имяФайла(путь)
+        try граница.записатьЭксклюзивно(try каноническиеДанные(план), имя: имя)
     }
 
-    static func прочитатьПлан(_ путь: URL) throws -> ПланBootstrapЗависимости {
-        try потребоватьОбычныйФайлБезСсылки(путь)
+    package static func прочитатьПлан(_ путь: URL) throws -> ПланBootstrapЗависимости {
+        let родитель = путь.deletingLastPathComponent()
+        guard родитель.lastPathComponent == "dependency-bootstrap" else {
+            throw отказ("План находится вне точного каталога dependency-bootstrap")
+        }
+        let gitDir = родитель.deletingLastPathComponent().path
+        let граница = try ПриватнаяГраницаBootstrap(gitDir: gitDir, создать: false)
+        let имя = try граница.имяФайла(путь)
         let план = try JSONDecoder().decode(
-            ПланBootstrapЗависимости.self, from: Data(contentsOf: путь))
-        let проверенный = try проверитьПутьПлана(путь, план: план)
-        guard проверенный.standardizedFileURL.path == путь.standardizedFileURL.path else {
-            throw отказ("Путь плана неканоничен")
+            ПланBootstrapЗависимости.self,
+            from: граница.прочитатьПриватныйФайл(имя))
+        guard Data(план.gitDir.utf8) == Data(gitDir.utf8) else {
+            throw отказ("gitDir внутри плана не совпадает с физическим родителем")
         }
         return план
     }
@@ -271,6 +322,20 @@ enum BootstrapЗависимости {
         upstream: String,
         gitlink: String
     ) throws {
+        let admin = URL(fileURLWithPath: adminGitDir, isDirectory: true)
+        let каталогBootstrap = admin.deletingLastPathComponent()
+        guard каталогBootstrap.lastPathComponent == "dependency-bootstrap" else {
+            throw отказ("Admin Gitdir находится вне точного каталога bootstrap")
+        }
+        let граница = try ПриватнаяГраницаBootstrap(
+            gitDir: каталогBootstrap.deletingLastPathComponent().path,
+            создать: false)
+        guard Data(граница.каталог.path.utf8) == Data(каталогBootstrap.path.utf8) else {
+            throw отказ("Физическая граница admin Gitdir не совпадает")
+        }
+        let adminFD = try граница.дочернийКаталог(
+            admin.lastPathComponent, укрепитьСозданный: false)
+        guard close(adminFD) == 0 else { throw отказ("close admin Gitdir отказал") }
         let dotGit = destination.appendingPathComponent(".git")
         try потребоватьОбычныйФайлБезСсылки(dotGit)
         let declared = String(decoding: try Data(contentsOf: dotGit), as: UTF8.self)
@@ -447,25 +512,6 @@ enum BootstrapЗависимости {
         return текущий
     }
 
-    private static func проверитьПутьПлана(
-        _ путь: URL, план: ПланBootstrapЗависимости
-    ) throws -> URL {
-        let каталог = URL(fileURLWithPath: план.gitDir, isDirectory: true)
-            .appendingPathComponent("dependency-bootstrap", isDirectory: true)
-        let проверенный = URL(fileURLWithPath: путь.path)
-        guard !путь.pathComponents.contains(".."),
-              находитсяВнутри(проверенный.path, корень: каталог.path) else {
-            throw отказ("План должен храниться внутри adminDir linked worktree")
-        }
-        return проверенный
-    }
-
-    private static func проверитьПутьКвитанции(
-        _ путь: URL, план: ПланBootstrapЗависимости
-    ) throws -> URL {
-        try проверитьПутьПлана(путь, план: план)
-    }
-
     private static func запретитьСимволическуюСсылку(_ путь: URL) throws {
         var сведения = stat()
         guard lstat(путь.path, &сведения) == 0 else {
@@ -565,53 +611,6 @@ enum BootstrapЗависимости {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
         return try encoder.encode(значение)
-    }
-
-    private static func записатьЭксклюзивно(_ данные: Data, в путь: URL) throws {
-        try FileManager.default.createDirectory(
-            at: путь.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let descriptor = open(путь.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, 0o600)
-        guard descriptor >= 0 else { throw отказ("Intent/outcome уже существует или небезопасен") }
-        do {
-            try записать(данные, descriptor: descriptor)
-            guard fsync(descriptor) == 0 else { throw отказ("fsync квитанции отказал") }
-        } catch {
-            close(descriptor)
-            throw error
-        }
-        guard close(descriptor) == 0 else { throw отказ("close квитанции отказал") }
-        try синхронизироватьКаталог(путь.deletingLastPathComponent())
-    }
-
-    private static func заменитьАтомарно(_ данные: Data, в путь: URL) throws {
-        let временный = путь.deletingLastPathComponent()
-            .appendingPathComponent(".\(путь.lastPathComponent).\(UUID().uuidString).tmp")
-        try записатьЭксклюзивно(данные, в: временный)
-        guard rename(временный.path, путь.path) == 0 else {
-            throw отказ("Атомарная замена outcome отказала")
-        }
-        try синхронизироватьКаталог(путь.deletingLastPathComponent())
-    }
-
-    private static func записать(_ данные: Data, descriptor: Int32) throws {
-        try данные.withUnsafeBytes { raw in
-            guard var адрес = raw.baseAddress else { return }
-            var остаток = raw.count
-            while остаток > 0 {
-                let число = Darwin.write(descriptor, адрес, остаток)
-                if число < 0 && errno == EINTR { continue }
-                guard число > 0 else { throw отказ("Запись квитанции отказала") }
-                адрес = адрес.advanced(by: число)
-                остаток -= число
-            }
-        }
-    }
-
-    private static func синхронизироватьКаталог(_ каталог: URL) throws {
-        let descriptor = open(каталог.path, O_RDONLY)
-        guard descriptor >= 0 else { throw отказ("Каталог квитанции недоступен") }
-        defer { close(descriptor) }
-        guard fsync(descriptor) == 0 else { throw отказ("fsync каталога квитанции отказал") }
     }
 
     private static func отказ(_ пояснение: String) -> ОтказBootstrapЗависимости {

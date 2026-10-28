@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import BootstrapЗависимости
 
 private enum ОшибкаКомандыBootstrap: Error, CustomStringConvertible {
     case аргументы(String)
