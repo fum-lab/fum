@@ -110,6 +110,29 @@ private func ожидатьОтказ(_ действие: () throws -> Void) thr
     throw ОшибкаФикстуры.ожидание("Ожидался закрытый отказ bootstrap")
 }
 
+private func состояниеOutcome(_ путь: URL) throws -> СостояниеBootstrapЗависимости {
+    let данные = try Data(contentsOf: путь)
+    return try JSONDecoder().decode(ИсходBootstrapЗависимости.self, from: данные).состояние
+}
+
+private func обычныеФайлы(_ корень: URL) throws -> [(dev_t, ino_t, nlink_t)] {
+    var результат: [(dev_t, ino_t, nlink_t)] = []
+    let перечислитель = FileManager.default.enumerator(
+        at: корень,
+        includingPropertiesForKeys: [.isRegularFileKey, .isSymbolicLinkKey],
+        options: [.skipsPackageDescendants])
+    while let путь = перечислитель?.nextObject() as? URL {
+        var сведения = stat()
+        guard lstat(путь.path, &сведения) == 0 else {
+            throw ОшибкаФикстуры.ожидание("Узел исчез при проверке inode")
+        }
+        if (сведения.st_mode & S_IFMT) == S_IFREG {
+            результат.append((сведения.st_dev, сведения.st_ino, сведения.st_nlink))
+        }
+    }
+    return результат
+}
+
 @Test func успешныйЦиклBootstrap() throws {
     let фикстура = try ФикстураBootstrap()
     defer { фикстура.удалить() }
@@ -182,6 +205,238 @@ private func ожидатьОтказ(_ действие: () throws -> Void) thr
             && (сведенияAdmin.st_mode & 0o777) == 0o700
             && сведенияAdmin.st_uid == geteuid(),
         "Admin Gitdir должен быть приватным каталогом владельца")
+}
+
+@Test func локальныйOriginНеДелитInodeСAdminClone() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    _ = try BootstrapЗависимости.применить(план: план, квитанция: квитанция)
+
+    let originObjects = try обычныеФайлы(
+        фикстура.origin.appendingPathComponent("objects", isDirectory: true))
+    let adminFiles = try обычныеФайлы(URL(fileURLWithPath: план.adminGitDir, isDirectory: true))
+    let originInodes = Set(originObjects.map { "\($0.0):\($0.1)" })
+    try ожидать(
+        adminFiles.allSatisfy { $0.2 == 1 },
+        "Каждый обычный файл admin clone должен иметь единственную hardlink-ссылку")
+    try ожидать(
+        adminFiles.allSatisfy { !originInodes.contains("\($0.0):\($0.1)") },
+        "Admin clone разделяет inode с локальным origin")
+}
+
+@Test func exactDigestОтклоняетИзменённыеTrackedБайты() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    _ = try BootstrapЗависимости.применить(план: план, квитанция: квитанция)
+    let readme = фикстура.корень
+        .appendingPathComponent("Зависимости/LinguisticKit/README.md")
+    try Data("tampered\n".utf8).write(to: readme)
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.проверитьПослеПрименения(
+            план: план, квитанция: квитанция)
+    }
+}
+
+@Test func exactDigestОтклоняетИзменённыйИндекс() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    _ = try BootstrapЗависимости.применить(план: план, квитанция: квитанция)
+    try Data().write(
+        to: URL(fileURLWithPath: план.adminGitDir, isDirectory: true)
+            .appendingPathComponent("index"))
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.проверитьПослеПрименения(
+            план: план, квитанция: квитанция)
+    }
+}
+
+@Test func mutationПослеDurableCallbackНеДаётГотовыйOutcome() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    let readme = фикстура.корень
+        .appendingPathComponent("Зависимости/LinguisticKit/README.md")
+    var ошибкаCallback: Error?
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.применить(
+            план: план,
+            квитанция: квитанция,
+            наблюдатель: { этап in
+                guard этап == .материализацияСинхронизирована else { return }
+                do {
+                    try Data("callback-tamper\n".utf8).write(to: readme)
+                } catch {
+                    ошибкаCallback = error
+                }
+            })
+    }
+    try ожидать(ошибкаCallback == nil, "Callback-фикстура не смогла изменить tracked файл")
+    let итоговоеСостояние = try состояниеOutcome(квитанция)
+    try ожидать(
+        итоговоеСостояние == .намерение,
+        "Mutation после durable callback не должна подтверждать готовый outcome")
+}
+
+@Test func mutationМеждуFsyncИPostDigestНеДаётГотовыйOutcome() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    let readme = фикстура.корень
+        .appendingPathComponent("Зависимости/LinguisticKit/README.md")
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.применить(
+            план: план,
+            квитанция: квитанция,
+            наблюдатель: { _ in },
+            послеFsyncПередDigest: {
+                try Data("post-fsync-tamper\n".utf8).write(to: readme)
+            })
+    }
+    let итоговоеСостояние = try состояниеOutcome(квитанция)
+    try ожидать(
+        итоговоеСостояние == .намерение,
+        "Mutation между fsync и post-digest не должна подтверждать готовый outcome")
+}
+
+@Test func толькоКаноническийOutcomeПоддерживаетApplyИReadback() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let каталог = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap", isDirectory: true)
+    let неканонический = каталог.appendingPathComponent("other.json")
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.применить(
+            план: план, квитанция: неканонический)
+    }
+    try ожидать(
+        !FileManager.default.fileExists(atPath: неканонический.path),
+        "Неканонический outcome не должен создаваться")
+    let канонический = каталог.appendingPathComponent("outcome.json")
+    _ = try BootstrapЗависимости.применить(
+        план: план, квитанция: канонический)
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.проверитьПослеПрименения(
+            план: план, квитанция: неканонический)
+    }
+}
+
+@Test func гонкаЗаменыРодителяЗависимостиНеВыводитGitЭффектНаружу() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let fm = FileManager.default
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    let зависимости = фикстура.корень.appendingPathComponent("Зависимости", isDirectory: true)
+    let удержанный = фикстура.корень.appendingPathComponent("Зависимости-held", isDirectory: true)
+    let внешний = фикстура.временныйКорень.appendingPathComponent("outside-dependency", isDirectory: true)
+    try fm.createDirectory(at: внешний, withIntermediateDirectories: false)
+
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.применить(
+            план: план,
+            квитанция: квитанция,
+            наблюдатель: { _ in },
+            передGitЭффектом: {
+                try fm.moveItem(at: зависимости, to: удержанный)
+                try fm.createSymbolicLink(
+                    atPath: зависимости.path, withDestinationPath: внешний.path)
+            })
+    }
+    let внешнееСодержимое = try fm.contentsOfDirectory(atPath: внешний.path)
+    let итоговоеСостояние = try состояниеOutcome(квитанция)
+    try ожидать(
+        внешнееСодержимое.isEmpty,
+        "Гонка родителя зависимости оставила Git-эффект снаружи")
+    try ожидать(
+        итоговоеСостояние != .готова,
+        "Outcome гонки родителя зависимости ошибочно готов")
+}
+
+@Test func гонкаЗаменыРодителяBootstrapНеВыводитGitЭффектНаружу() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let fm = FileManager.default
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    let каталог = квитанция.deletingLastPathComponent()
+    let удержанный = каталог.deletingLastPathComponent()
+        .appendingPathComponent("dependency-bootstrap-held", isDirectory: true)
+    let внешний = фикстура.временныйКорень.appendingPathComponent("outside-bootstrap", isDirectory: true)
+    try fm.createDirectory(at: внешний, withIntermediateDirectories: false)
+
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.применить(
+            план: план,
+            квитанция: квитанция,
+            наблюдатель: { _ in },
+            передGitЭффектом: {
+                try fm.moveItem(at: каталог, to: удержанный)
+                try fm.createSymbolicLink(atPath: каталог.path, withDestinationPath: внешний.path)
+            })
+    }
+    let внешнееСодержимое = try fm.contentsOfDirectory(atPath: внешний.path)
+    let удержанныйOutcome = удержанный.appendingPathComponent("outcome.json")
+    let итоговоеСостояние = try состояниеOutcome(удержанныйOutcome)
+    try ожидать(
+        внешнееСодержимое.isEmpty,
+        "Гонка родителя bootstrap оставила Git-эффект снаружи")
+    try ожидать(
+        итоговоеСостояние == .намерение,
+        "При неизвестном исходе гонки исходный intent должен сохраниться")
+}
+
+@Test func гонкаЗаменыПроверенногоGitdirНеДаётГотовыйOutcome() throws {
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let fm = FileManager.default
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let квитанция = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap/outcome.json")
+    let имяAdmin = URL(fileURLWithPath: план.adminGitDir).lastPathComponent
+    let staging = квитанция.deletingLastPathComponent()
+        .appendingPathComponent(".staging-\(имяAdmin)", isDirectory: true)
+
+    try ожидатьОтказ {
+        _ = try BootstrapЗависимости.применить(
+            план: план,
+            квитанция: квитанция,
+            наблюдатель: { _ in },
+            передРазделениемGit: {
+                let dotGit = staging.appendingPathComponent(".git", isDirectory: true)
+                let исходный = staging.appendingPathComponent(".git-original", isDirectory: true)
+                try fm.moveItem(at: dotGit, to: исходный)
+                try fm.copyItem(at: исходный, to: dotGit)
+            })
+    }
+    let итоговоеСостояние = try состояниеOutcome(квитанция)
+    try ожидать(
+        итоговоеСостояние == .намерение,
+        "Подмена уже проверенного .git не должна подтверждать готовый outcome")
 }
 
 @Test func дрейфМанифестаОтклоняется() throws {
@@ -310,51 +565,97 @@ private func ожидатьОтказ(_ действие: () throws -> Void) thr
     }
 }
 
-@Test func bootstrapЗапускаетсяПриПустомSubmodule() throws {
+@Test func bootstrapЗапускаетсяПриЧастичноМатериализованномSubmodule() throws {
     let fm = FileManager.default
-    let временный = fm.temporaryDirectory
-        .appendingPathComponent("fum-empty-bootstrap-\(UUID().uuidString)", isDirectory: true)
-    defer { try? fm.removeItem(at: временный) }
-    try fm.createDirectory(at: временный, withIntermediateDirectories: true)
     let файлТеста = URL(fileURLWithPath: #filePath)
     let кореньИсходников = файлТеста.deletingLastPathComponent()
         .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
-    try fm.copyItem(
-        at: кореньИсходников.appendingPathComponent("Package.swift"),
-        to: временный.appendingPathComponent("Package.swift"))
-    let каталогSwift = временный.appendingPathComponent(
-        "Инструменты/fum-proverka-git-zavisimostej/swift", isDirectory: true)
-    try fm.createDirectory(at: каталогSwift, withIntermediateDirectories: true)
-    for имя in [
-        "bootstrap-zavisimosti.swift",
-        "bezopasnaya-granica-bootstrap.swift",
-        "komanda-bootstrap-zavisimosti.swift",
-        "proverki-bootstrap-zavisimosti.swift",
-    ] {
-        try fm.copyItem(
-            at: файлТеста.deletingLastPathComponent().appendingPathComponent(имя),
-            to: каталогSwift.appendingPathComponent(имя))
-    }
-    try fm.createDirectory(
-        at: временный.appendingPathComponent("Зависимости/LinguisticKit", isDirectory: true),
-        withIntermediateDirectories: true)
+    let вложенныйManifest = файлТеста.deletingLastPathComponent().appendingPathComponent("Package.swift")
+    let использоватьВложенный = fm.fileExists(atPath: вложенныйManifest.path)
+    let manifestИсточник = использоватьВложенный
+        ? вложенныйManifest : кореньИсходников.appendingPathComponent("Package.swift")
 
-    let процесс = Process()
-    let вывод = Pipe()
-    процесс.executableURL = URL(fileURLWithPath: "/usr/bin/swift")
-    процесс.arguments = [
-        "run", "--package-path", временный.path,
-        "--scratch-path", временный.appendingPathComponent(".scratch").path,
-        "bootstrap-zavisimosti",
+    let фикстура = try ФикстураBootstrap()
+    defer { фикстура.удалить() }
+    let план = try BootstrapЗависимости.построитьПлан(
+        корень: фикстура.корень, путь: "Зависимости/LinguisticKit")
+    let приватныйКаталог = URL(fileURLWithPath: план.gitDir, isDirectory: true)
+        .appendingPathComponent("dependency-bootstrap", isDirectory: true)
+    let путьПлана = приватныйКаталог.appendingPathComponent("plan.json")
+    let путьOutcome = приватныйКаталог.appendingPathComponent("outcome.json")
+    try BootstrapЗависимости.записатьПлан(план, в: путьПлана)
+    let intent = ИсходBootstrapЗависимости(
+        схема: "fum.bootstrap-git-zavisimosti-outcome.2",
+        хэшПлана: "sha256:" + String(repeating: "0", count: 64),
+        состояние: .намерение,
+        путь: план.путь,
+        gitlinkOID: план.gitlinkOID,
+        adminGitDir: план.adminGitDir,
+        хэшМатериализации: nil,
+        пояснение: nil)
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+    let граница = try ПриватнаяГраницаBootstrap(gitDir: план.gitDir, создать: false)
+    try граница.записатьЭксклюзивно(try encoder.encode(intent), имя: "outcome.json")
+
+    let состояния: [(String, String?)] = [
+        ("empty", nil),
+        ("invalid", "// swift-tools-version: 6.0\nimport PackageDescription\nlet package =\n"),
+        ("valid-partial", "// swift-tools-version: 6.0\nimport PackageDescription\nlet package = Package(name: \"LinguisticKit\")\n"),
+        (
+            "valid-missing-path",
+            "// swift-tools-version: 6.0\nimport PackageDescription\n"
+                + "let package = Package(name: \"LinguisticKit\", "
+                + "products: [.library(name: \"LinguisticKit.static\", targets: [\"Missing\"])], "
+                + "targets: [.target(name: \"Missing\", path: \"Sources/Missing\")])\n"
+        ),
     ]
-    процесс.standardOutput = вывод
-    процесс.standardError = вывод
-    try процесс.run()
-    let данные = вывод.fileHandleForReading.readDataToEndOfFile()
-    процесс.waitUntilExit()
-    let текст = String(decoding: данные, as: UTF8.self)
-    try ожидать(процесс.terminationStatus == 1, "CLI без аргументов должен отказать")
-    try ожидать(
-        текст.contains("Нужна команда plan, apply или readback"),
-        "Bootstrap не дошёл до собственного CLI из пустого submodule: \(текст)")
+    for (имяСостояния, содержимоеManifest) in состояния {
+        let временный = fm.temporaryDirectory
+            .appendingPathComponent("fum-partial-bootstrap-\(UUID().uuidString)", isDirectory: true)
+        defer { try? fm.removeItem(at: временный) }
+        let каталогSwift = временный.appendingPathComponent(
+            "Инструменты/fum-proverka-git-zavisimostej/swift", isDirectory: true)
+        try fm.createDirectory(at: каталогSwift, withIntermediateDirectories: true)
+        let пакет = использоватьВложенный ? каталогSwift : временный
+        try fm.copyItem(at: manifestИсточник, to: пакет.appendingPathComponent("Package.swift"))
+        for имя in [
+            "bootstrap-zavisimosti.swift",
+            "bezopasnaya-granica-bootstrap.swift",
+            "komanda-bootstrap-zavisimosti.swift",
+            "proverki-bootstrap-zavisimosti.swift",
+        ] {
+            try fm.copyItem(
+                at: файлТеста.deletingLastPathComponent().appendingPathComponent(имя),
+                to: каталогSwift.appendingPathComponent(имя))
+        }
+        let dependency = временный.appendingPathComponent(
+            "Зависимости/LinguisticKit", isDirectory: true)
+        try fm.createDirectory(at: dependency, withIntermediateDirectories: true)
+        if let содержимоеManifest {
+            try Data(содержимоеManifest.utf8).write(
+                to: dependency.appendingPathComponent("Package.swift"))
+        }
+
+        let процесс = Process()
+        let вывод = Pipe()
+        процесс.executableURL = URL(fileURLWithPath: "/usr/bin/swift")
+        процесс.arguments = [
+            "run", "--package-path", пакет.path,
+            "--scratch-path", временный.appendingPathComponent(".scratch").path,
+            "bootstrap-zavisimosti", "readback",
+            "--plan", путьПлана.path,
+            "--outcome", путьOutcome.path,
+        ]
+        процесс.standardOutput = вывод
+        процесс.standardError = вывод
+        try процесс.run()
+        let данные = вывод.fileHandleForReading.readDataToEndOfFile()
+        процесс.waitUntilExit()
+        let текст = String(decoding: данные, as: UTF8.self)
+        try ожидать(процесс.terminationStatus == 1, "Readback intent должен отказать")
+        try ожидать(
+            текст.contains("Outcome не подтверждает успешное применение точного плана"),
+            "Bootstrap не дошёл до readback CLI для \(имяСостояния): \(текст)")
+    }
 }

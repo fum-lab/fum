@@ -1,5 +1,4 @@
 // swift-tools-version: 6.0
-import Foundation
 import PackageDescription
 
 let настройки: [SwiftSetting] = [
@@ -7,41 +6,12 @@ let настройки: [SwiftSetting] = [
     .unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors", "-enable-actor-data-race-checks"])
 ]
 
-let кореньПакета = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-let manifestLinguisticKit = кореньПакета
-    .appendingPathComponent("Зависимости/LinguisticKit/Package.swift")
-let linguisticKitМатериализован = FileManager.default.fileExists(atPath: manifestLinguisticKit.path)
-
-let продуктыBootstrap: [Product] = [
-    .executable(name: "bootstrap-zavisimosti", targets: ["КомандаBootstrapЗависимости"]),
-]
-
-let целиBootstrap: [Target] = [
-    .target(name: "BootstrapЗависимости",
-        path: "Инструменты/fum-proverka-git-zavisimostej/swift",
-        exclude: ["komanda-bootstrap-zavisimosti.swift", "proverki-bootstrap-zavisimosti.swift"],
-        sources: ["bootstrap-zavisimosti.swift", "bezopasnaya-granica-bootstrap.swift"],
-        swiftSettings: настройки),
-    .executableTarget(name: "КомандаBootstrapЗависимости",
-        dependencies: ["BootstrapЗависимости"],
-        path: "Инструменты/fum-proverka-git-zavisimostej/swift",
-        exclude: ["bootstrap-zavisimosti.swift", "bezopasnaya-granica-bootstrap.swift", "proverki-bootstrap-zavisimosti.swift"],
-        sources: ["komanda-bootstrap-zavisimosti.swift"],
-        swiftSettings: настройки),
-    .testTarget(name: "proverki-bootstrap-zavisimosti",
-        dependencies: ["BootstrapЗависимости"],
-        path: "Инструменты/fum-proverka-git-zavisimostej/swift",
-        exclude: ["bootstrap-zavisimosti.swift", "bezopasnaya-granica-bootstrap.swift", "komanda-bootstrap-zavisimosti.swift"],
-        sources: ["proverki-bootstrap-zavisimosti.swift"],
-        swiftSettings: настройки),
-]
-
-let продуктыПолногоПакета: [Product] = [
+let продукты: [Product] = [
     .executable(name: "fuma", targets: ["КомандаЗапуска"]),
     .executable(name: "proverka-marshruta-pravil", targets: ["КомандаМаршрутаПравил"]),
 ]
 
-let целиПолногоПакета: [Target] = [
+let цели: [Target] = [
     .target(name: "МатериализацияУзлов",
         path: "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya",
         sources: ["kontrakt-istochnika-kodeks.swift", "adapter-git-avtor-commita.swift"],
@@ -92,10 +62,10 @@ let целиПолногоПакета: [Target] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: продуктыBootstrap + (linguisticKitМатериализован ? продуктыПолногоПакета : []),
-    dependencies: linguisticKitМатериализован ? [
+    products: продукты,
+    dependencies: [
         .package(path: "Зависимости/LinguisticKit"),
-    ] : [],
-    targets: целиBootstrap + (linguisticKitМатериализован ? целиПолногоПакета : []),
+    ],
+    targets: цели,
     swiftLanguageModes: [.v6]
 )
