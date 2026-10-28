@@ -1,0 +1,54 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "e4d832cc99f9412f8bcf2073adad5688fccbcecb77c6ccbc7327f66336d8dacf",
+  "данные": {
+    "время": "2026-10-28T15:31:27Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "предыдущее_событие": "b805a775792159d8f7eddf0417486855ea499d84f40efe11f6cd293468eccec9",
+    "основа": {
+      "ветка": "fum-lab/fum/trebovaniya/master",
+      "предыдущий_commit": "17bbbff42806921d8503d28a58b5313951b6dfee",
+      "источник_задачи": "trebovaniya/postanovka.json"
+    },
+    "коррекция_заголовка_commit": {
+      "причина": "Английский subject нарушил требование русскогоязычных заголовков.",
+      "предыдущее_состояние": {
+        "commit": "b3244347075a77791d1097d7332ea558143f93f8",
+        "tree": "3cbf567127a63083f5a82bbaad30e2a67dd7f78b",
+        "parent": "92f217eddee20a406cb51a505cd5a54162977776",
+        "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local> 1793201113 +0400",
+        "committer": "FUM <fum@local> 1793201113 +0400",
+        "subject": "Clarify FUMA-defined AOT Swift translation",
+        "raw_commit_sha256": "dea23e9080c3a02010aaf7e6eea27ed407cb4567507e068e89fc82287897ef93",
+        "raw_commit_base64": "dHJlZSAzY2JmNTY3MTI3YTYzMDgzZjVhODJiYmFhZDMwZTJhNjdkZDdmNzhiCnBhcmVudCA5MmYyMTdlZGRlZTIwYTQwNmNiNTFhNTA1Y2Q1YTU0MTYyOTc3Nzc2CmF1dGhvciBGVU0gQ29kZXggW2dwdC02LWx1bmE7IGVmZm9ydD1tYXhdIDxmdW1AbG9jYWw+IDE3OTMyMDExMTMgKzA0MDAKY29tbWl0dGVyIEZVTSA8ZnVtQGxvY2FsPiAxNzkzMjAxMTEzICswNDAwCgpDbGFyaWZ5IEZVTUEtZGVmaW5lZCBBT1QgU3dpZnQgdHJhbnNsYXRpb24KClVzZXIgY2xhcmlmaWNhdGlvbjogIllhIHZvb2JzamhlIGR1bWFsIG5hIEZVTUEgdXpoZSB0cmFuc2x5YXRvciBpIG5hcGlzaGVtIHMgRlVNQSBuYSBTd2lmdC4iCgpDb2RleC1UaHJlYWQtSUQ6IDAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYgo="
+      },
+      "исправленный_commit": {
+        "commit": "17bbbff42806921d8503d28a58b5313951b6dfee",
+        "tree": "3cbf567127a63083f5a82bbaad30e2a67dd7f78b",
+        "parent": "92f217eddee20a406cb51a505cd5a54162977776",
+        "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local> 1793201113 +0400",
+        "committer": "FUM <fum@local> 1793201445 +0400",
+        "subject": "Уточнить трансляцию FUMA в Swift определениями FUMA",
+        "root_trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "tree_parent_author_and_trailer_preserved": true
+      },
+      "remote_before": "92f217eddee20a406cb51a505cd5a54162977776",
+      "remote_after_push": "17bbbff42806921d8503d28a58b5313951b6dfee",
+      "push": "один обычный fast-forward, успешен; remote readback совпал"
+    },
+    "проверки": [
+      {
+        "название": "Сохранение исходного raw commit object",
+        "исход": "успешно: git hash-object подтвердил точный OID b3244347075a77791d1097d7332ea558143f93f8"
+      },
+      {
+        "название": "Readback опубликованного исправленного checkpoint",
+        "исход": "успешно: ls-remote вернул 17bbbff42806921d8503d28a58b5313951b6dfee"
+      }
+    ],
+    "исход": "Создана новая append-only запись об исправлении subject. Старый commit сохранён как точные закодированные raw bytes; существующие события не переписывались. Эта запись пока не опубликована.",
+    "доставка_на_момент_записи": "corrected source checkpoint published; journal correction commit local-only"
+  }
+}
