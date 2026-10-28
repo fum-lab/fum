@@ -24,6 +24,14 @@ let package = Package(
       resources: [
         .copy("Фикстуры"),
         .copy("Определения"),
+      ],
+      swiftSettings: [
+        .swiftLanguageMode(.v6),
+        .unsafeFlags([
+          "-strict-concurrency=complete",
+          "-enable-actor-data-race-checks",
+          "-warnings-as-errors",
+        ])
       ]
     ),
     .executableTarget(
@@ -35,6 +43,19 @@ let package = Package(
       name: "FUMStructuringOperatorMemoryTests",
       dependencies: ["FUMStructuringOperatorMemory"],
       path: "Tests/FUMStructuringOperatorMemoryTests"
+    ),
+    .testTarget(
+      name: "FUMJSONLProjectionTests",
+      dependencies: ["FUMStructuringOperatorMemory"],
+      path: "proverki",
+      swiftSettings: [
+        .swiftLanguageMode(.v6),
+        .unsafeFlags([
+          "-strict-concurrency=complete",
+          "-enable-actor-data-race-checks",
+          "-warnings-as-errors",
+        ])
+      ]
     ),
   ]
 )
