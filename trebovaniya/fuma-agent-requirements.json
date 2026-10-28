@@ -458,9 +458,10 @@
       "numeric_id": null,
       "allocation_status": "pending",
       "status": "pending-root-acceptance",
-      "owner": "FUM requirements; FUMA AOT implementation owner is the consumer",
-      "statement": "For an explicitly bounded supported subset of FUMA graphs, FUMA deterministically lowers graph/string expressions to standalone Swift ahead of time. This is not JIT execution or translation of the whole FUMA language.",
+      "owner": "FUM requirements; FUMA parent thread 01a1698f-bb98-7691-b1c1-31ec737ed070 appoints the FUMA AOT implementation owner",
+      "statement": "For an explicitly bounded supported subset of FUMA graphs, FUMA deterministically lowers graph/string expressions to standalone Swift ahead of time through a translator defined in FUMA. This is not JIT execution, a wrapper around a prewritten Swift translator, or translation of the whole FUMA language. A Swift translator/reference may serve as bootstrap, but its existence does not establish a ready FUMA-defined translator.",
       "acceptance_criteria": [
+        "The translator definition is written in FUMA and is itself invoked to generate Swift for the bounded supported graph; wrapping or calling a prewritten Swift translator does not satisfy this criterion.",
         "For every declared supported input, repeated translation emits identical Swift bytes; unsupported graph shapes produce a typed rejection without partial executable output.",
         "Compile and run the generated Swift with the declared Swift toolchain and compare exact JSON output bytes with the interpreter using the same inputs.",
         "The fixture includes Unicode text and budget boundaries at the exact configured limit and one unit below it; exceeding the limit returns the same declared typed refusal in interpreter and generated code.",
@@ -475,7 +476,7 @@
         "FUM-REQ-0067",
         "PR-437"
       ],
-      "evidence_boundary": "PR-437 reports a narrow passing AOT compile/run slice in its current draft body. No full-language translation, general FUMA runtime, broad suite, merge, or ROOT acceptance is established here.",
+      "evidence_boundary": "PR-437 reports a narrow passing AOT compile/run slice in its current draft body. That slice and any Swift reference/bootstrap do not establish that the FUMA-defined translator is ready. This requirement does not establish a full-language translation, general FUMA runtime, broad suite, merge, ROOT acceptance, or the separate reproducible Swift-build and symmetric model escalation/de-escalation processes (policy package owner: pravila; pilot owner: arkhitektura).",
       "source_quote_references": [
         {
           "packet_part": "реплики",

@@ -1,0 +1,58 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "b805a775792159d8f7eddf0417486855ea499d84f40efe11f6cd293468eccec9",
+  "данные": {
+    "время": "2026-10-28T15:24:07Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "предыдущее_событие": "faae3bbe7dd8ce393ea5957c716606a21fd87010625cf0933dc131cc5e20c4fa",
+    "основа": {
+      "ветка": "fum-lab/fum/trebovaniya/master",
+      "предыдущий_commit": "92f217eddee20a406cb51a505cd5a54162977776",
+      "исходный_пользовательский_запрос": "trebovaniya",
+      "источник_задачи": "trebovaniya/postanovka.json",
+      "модель": {
+        "подтверждённая_конфигурация": "GPT-6 (Codex)",
+        "усилие": "не подтверждено",
+        "скрытый_backend": "неизвестен"
+      }
+    },
+    "точная_цитата_уточнения": "Ya voobsjhe dumal na FUMA uzhe translyator i napishem s FUMA na Swift.",
+    "изменение_существующего_требования": {
+      "semantic_key": "fuma-finite-aot-swift-lowering",
+      "путь": "trebovaniya/fuma-agent-requirements.json",
+      "дублирующее_требование_создано": false,
+      "numeric_id_назначен": false,
+      "owner": "FUM requirements; FUMA parent thread 01a1698f-bb98-7691-b1c1-31ec737ed070 appoints the FUMA AOT implementation owner",
+      "statement": "For an explicitly bounded supported subset of FUMA graphs, FUMA deterministically lowers graph/string expressions to standalone Swift ahead of time through a translator defined in FUMA. This is not JIT execution, a wrapper around a prewritten Swift translator, or translation of the whole FUMA language. A Swift translator/reference may serve as bootstrap, but its existence does not establish a ready FUMA-defined translator.",
+      "добавленный_критерий": "The translator definition is written in FUMA and is itself invoked to generate Swift for the bounded supported graph; wrapping or calling a prewritten Swift translator does not satisfy this criterion.",
+      "evidence_boundary": "PR-437 reports a narrow passing AOT compile/run slice in its current draft body. That slice and any Swift reference/bootstrap do not establish that the FUMA-defined translator is ready. This requirement does not establish a full-language translation, general FUMA runtime, broad suite, merge, ROOT acceptance, or the separate reproducible Swift-build and symmetric model escalation/de-escalation processes (policy package owner: pravila; pilot owner: arkhitektura)."
+    },
+    "смежная_работа": {
+      "воспроизводимая_сборка_Swift": "отдельный критерий/процесс, не заменяет проверку FUMA-defined translator",
+      "симметричная_эскалация_и_деэскалация_моделей": {
+        "отдельный_процесс": true,
+        "владелец_пакета_политики": "pravila",
+        "владелец_пилота": "arkhitektura"
+      }
+    },
+    "передача_реализации": {
+      "поток": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "обязанность": "FUMA parent thread назначает владельца AOT implementation",
+      "реализация_в_этой_контрольной_точке": "не начиналась"
+    },
+    "проверки": [
+      {
+        "название": "Проверка локальной JSON-структуры и точного diff",
+        "исход": "успешно: JSON parse, уникальность semantic_key и git diff --check"
+      },
+      {
+        "название": "Сборка, тесты, ROOT JSONL, ROOT acceptance",
+        "исход": "не выполнялись и не заявляются"
+      }
+    ],
+    "исход": "Существующее конечное AOT-требование уточнено: translator definition должна быть в FUMA и порождать Swift; Swift reference может быть bootstrap, но не доказывает готовность FUMA-defined translator. Новое требование и numeric ID не создавались.",
+    "доставка_на_момент_записи": "not-yet-published"
+  }
+}
