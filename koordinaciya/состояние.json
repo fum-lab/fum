@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "ce8798ebfc5a7285657583b3586177cebf3fc7c2",
+      "родитель": "caee078a3303c2f51c1c66e0acc85b3bffc18fb4",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Уточнение ROOT: зафиксировать фактическую доставку source checkpoint и двухродительского слияния принятого 32d74f5b00ccb93653df67d80ad1a0b217b6c44a; продолжение byte-exact consumer не блокирует этот результат.",
-      "заголовок": "Зафиксировать доставку слияния ROOT",
-      "описание": "Source checkpoint b1ee05ce152c05e248ac7a9490180b93b9939cfd доставлен обычным push и подтверждён удалённым readback. Ветка собственного координатора содержит merge-коммит ce8798ebfc5a7285657583b3586177cebf3fc7c2, tree 58cb75396835e2719deb3f187b9dfdc9a63e5898, parents [b1ee05ce152c05e248ac7a9490180b93b9939cfd,32d74f5b00ccb93653df67d80ad1a0b217b6c44a]; exact raw merge checker и удалённый OID прошли. ROOT master остался на 32d74f5. ROOT acceptance текущей поставки и общий Package consumer остаются отдельными. Child для byte-exact message consumer уже запущен в изолированной sparse ветке и продолжает независимую работу; он не удерживает этот checkpoint."
+      "исходныйЗапрос": "В своей существующей JSON-области сохрани переносимый профиль воспроизведения уже прошедших Swift Testing 2/2: точные байты использованного минимального Package.swift как шаблон/строка, mapping двух production source + одного test source из репозитория в Sources/Tests, TESTING/strict flags и argv с внешним произвольным scratch для чистого клона; без абсолютных локальных путей. Код/бинарник не меняются, сборок/тестов не повторять, общий Package не править. Один source/JSON checkpoint от caee + normal push/readback; дай точный S/tree. Дополнительно сохрани в очереди хост-адаптера различие отправки активному и возобновления completed/idle: send_message не будит, followup_task будит; не выдавать принятие сообщения API за ACK обработки. Сам consumer-child продолжает независимо. Его и contract_writer результаты затем принимаешь в следующем отдельном этапе, текущую поставку ими не задерживай.",
+      "заголовок": "Сохранить переносимый профиль Swift Testing",
+      "описание": "В koordinaciya/состояние.json сохранён точный ранее использованный Package.swift (1073 UTF-8 байта, SHA-256 7ef597379f390408352c8c7339cf94890bfa171fb617933e6b875baf93d485e0), mapping двух production source и теста в scratch чистого клона, Swift Tools 6, define TESTING, strict concurrency, warnings-as-errors и argv Swift Testing. Результат 2/2 сохранён как историческое свидетельство; сборка и тесты в этом этапе не повторялись. Очередь хост-адаптера различает send_message активному ходу и followup_task для idle/completed; принятие API отдельно от ACK обработки. Child delivery сохранён как self-report, независимая приёмка и общий Package consumer остаются отдельными."
     }
   },
   "результатГенератораМетаданных": {
@@ -1592,7 +1592,106 @@
       "command": "swift test --package-path <private-harness> --filter ПроверкиСвязиРодителейСлияния",
       "harnessManifestSHA256": "7ef597379f390408352c8c7339cf94890bfa171fb617933e6b875baf93d485e0",
       "redLogSHA256": "2d8e01a194596c40604d2a030fe2f01bebb9acc85411307b807d8cbeff3bbc73",
-      "greenLogSHA256": "c6ff2eb9cb0f357cc64a6750f860ced1cd1bd365a2dc5d0dc3d40114257538dc"
+      "greenLogSHA256": "c6ff2eb9cb0f357cc64a6750f860ced1cd1bd365a2dc5d0dc3d40114257538dc",
+      "профильВоспроизведения": {
+        "схема": "fum.swift-testing-reproduction-profile.1",
+        "packageManifest": {
+          "utf8": "// swift-tools-version: 6.0\nimport PackageDescription\n\nlet package = Package(\n    name: \"KoordinaciyaMergeVerifier\",\n    products: [\n        .library(name: \"KoordinaciyaMergeVerifier\", targets: [\"KoordinaciyaMergeVerifier\"])\n    ],\n    targets: [\n        .target(\n            name: \"KoordinaciyaMergeVerifier\",\n            path: \"Sources/KoordinaciyaMergeVerifier\",\n            sources: [\"координатор.swift\", \"генератор-метаданных-коммита.swift\"],\n            swiftSettings: [\n                .define(\"TESTING\"),\n                .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\"])\n            ]\n        ),\n        .testTarget(\n            name: \"KoordinaciyaMergeVerifierTests\",\n            dependencies: [\"KoordinaciyaMergeVerifier\"],\n            path: \"Tests/KoordinaciyaMergeVerifierTests\",\n            sources: [\"proverki-svyazi-roditelya-sliyaniya-s-planom.swift\"],\n            swiftSettings: [\n                .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\"])\n            ]\n        )\n    ]\n)\n",
+          "sha256": "7ef597379f390408352c8c7339cf94890bfa171fb617933e6b875baf93d485e0",
+          "bytes": 1073,
+          "materialize": "jq -j '.[\"проверкаСвязиПервогоРодителяСлияния\"][\"swiftTesting\"][\"профильВоспроизведения\"][\"packageManifest\"][\"utf8\"]' <repository-root>/koordinaciya/состояние.json > <scratch>/Package.swift"
+        },
+        "sourceMapping": [
+          {
+            "role": "production",
+            "repositoryPath": "koordinaciya/координатор.swift",
+            "scratchPath": "Sources/KoordinaciyaMergeVerifier/координатор.swift",
+            "sha256": "3c5b178b6ab099c5426cebbf67915ec01f99c038b2a3e018c92cfc8b2db0dd86"
+          },
+          {
+            "role": "production",
+            "repositoryPath": "koordinaciya/генератор-метаданных-коммита.swift",
+            "scratchPath": "Sources/KoordinaciyaMergeVerifier/генератор-метаданных-коммита.swift",
+            "sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+          },
+          {
+            "role": "swift-testing",
+            "repositoryPath": "koordinaciya/proverki-svyazi-roditelya-sliyaniya-s-planom.swift",
+            "scratchPath": "Tests/KoordinaciyaMergeVerifierTests/proverki-svyazi-roditelya-sliyaniya-s-planom.swift",
+            "sha256": "969181d8d1c78406c258661b4f2451923766d108a6ce63045e324fea50f2d096"
+          }
+        ],
+        "package": {
+          "swiftToolsVersion": "6.0",
+          "packageAndModule": "KoordinaciyaMergeVerifier",
+          "dependencies": [],
+          "productionTarget": {
+            "path": "Sources/KoordinaciyaMergeVerifier",
+            "sources": [
+              "координатор.swift",
+              "генератор-метаданных-коммита.swift"
+            ],
+            "define": [
+              "TESTING"
+            ],
+            "swiftSettings": [
+              "-strict-concurrency=complete",
+              "-warnings-as-errors"
+            ]
+          },
+          "testTarget": {
+            "path": "Tests/KoordinaciyaMergeVerifierTests",
+            "sources": [
+              "proverki-svyazi-roditelya-sliyaniya-s-planom.swift"
+            ],
+            "dependencies": [
+              "KoordinaciyaMergeVerifier"
+            ],
+            "swiftSettings": [
+              "-strict-concurrency=complete",
+              "-warnings-as-errors"
+            ]
+          }
+        },
+        "prepareArgv": [
+          [
+            "mkdir",
+            "-p",
+            "<scratch>/Sources/KoordinaciyaMergeVerifier",
+            "<scratch>/Tests/KoordinaciyaMergeVerifierTests"
+          ],
+          [
+            "cp",
+            "<repository-root>/koordinaciya/координатор.swift",
+            "<scratch>/Sources/KoordinaciyaMergeVerifier/координатор.swift"
+          ],
+          [
+            "cp",
+            "<repository-root>/koordinaciya/генератор-метаданных-коммита.swift",
+            "<scratch>/Sources/KoordinaciyaMergeVerifier/генератор-метаданных-коммита.swift"
+          ],
+          [
+            "cp",
+            "<repository-root>/koordinaciya/proverki-svyazi-roditelya-sliyaniya-s-planom.swift",
+            "<scratch>/Tests/KoordinaciyaMergeVerifierTests/proverki-svyazi-roditelya-sliyaniya-s-planom.swift"
+          ]
+        ],
+        "testArgv": [
+          "swift",
+          "test",
+          "--package-path",
+          "<scratch>",
+          "--filter",
+          "ПроверкиСвязиРодителейСлияния"
+        ],
+        "expectedResult": "2 Swift Testing cases pass",
+        "priorRun": {
+          "status": "reused as historical evidence; this packaging update did not rebuild or rerun tests",
+          "greenLogSHA256": "c6ff2eb9cb0f357cc64a6750f860ced1cd1bd365a2dc5d0dc3d40114257538dc",
+          "privateHarnessManifestSHA256": "7ef597379f390408352c8c7339cf94890bfa171fb617933e6b875baf93d485e0"
+        },
+        "scope": "clean clone; caller supplies repository root and arbitrary scratch directory; no absolute local paths; no root Package.swift change"
+      }
     },
     "production": {
       "coordinatorSHA256": "3c5b178b6ab099c5426cebbf67915ec01f99c038b2a3e018c92cfc8b2db0dd86",
@@ -1724,7 +1823,7 @@
     },
     "следующаяНезависимаяРабота": {
       "область": "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/** плюс минимальная правка существующего координатора при необходимости",
-      "статус": "отдельный sparse писатель активен; источник FUMA output предоставлен, код и тесты ещё не предъявлены",
+      "статус": "дочерний потребитель сообщил о source и delivery checkpoint; независимая приёмка ещё не выполнена и идёт отдельным этапом",
       "тестовыйКонтракт": {
         "отрицательный": "сообщение с дополнительным LF до Git effect отклоняется",
         "положительный": "байты побайтно равны точным байтам сообщения FUMA",
@@ -1740,7 +1839,96 @@
         "источник": "вызов collaboration.spawn_agent; backend неизвестен"
       },
       "интеграция": "не подключена; отдельное принятие владельцем остаётся требованием",
-      "последнееНаблюдение": "писатель проверил собственные HEAD/ref/чистоту, прочитал обязательный маршрут без Python по приоритетному запрету пользователя и получил доступ к фактическому FUMA output; ожидаются source/TDD результат и отдельный review"
+      "последнееНаблюдение": "Child self-report: source b69a2690ef45ff76a51ef6bcf7fb572201060435/tree 26f08edb8fd583cf53bb9c152cf6ccf88af50662 и delivery checkpoint 95431459773f3e99cc0edeaccd3e50aed5965239/tree cec7b7ceaa1073de5ce6e9dd7b927968b6d6a256; raw commit/message checks, exact push/readback, private Swift Testing 2/2 и Data byte compare заявлены ребёнком. Координаторская RO-приёмка остаётся отдельной.\n",
+      "семантикаХостовогоАдаптера": {
+        "схема": "fum.host-adapter-dispatch-observation.1",
+        "активныйХод": {
+          "операция": "collaboration.send_message",
+          "смысл": "передать сообщение уже активному ребёнку"
+        },
+        "ходIdleИлиCompleted": {
+          "операция": "collaboration.followup_task",
+          "смысл": "возобновить idle/completed ребёнка и начать новый ход"
+        },
+        "различимыеСостояния": [
+          "запрошено",
+          "API принял отправку",
+          "ход начался",
+          "получен ACK обработки",
+          "результат передан",
+          "проведена приёмка"
+        ],
+        "границаACK": "принятие запроса API не является подтверждением обработки ребёнком; отдельно наблюдать старт хода и ACK с содержанием",
+        "фактическоеОснование": "ROOT сообщил, что send_message после completed не запускал новый ход; followup_task был использован для явного пробуждения."
+      },
+      "последняяПоставка": {
+        "происхождение": "child report received in this task; not independently reviewed",
+        "sourceCommit": "b69a2690ef45ff76a51ef6bcf7fb572201060435",
+        "sourceTree": "26f08edb8fd583cf53bb9c152cf6ccf88af50662",
+        "deliveryCommit": "95431459773f3e99cc0edeaccd3e50aed5965239",
+        "deliveryTree": "cec7b7ceaa1073de5ce6e9dd7b927968b6d6a256",
+        "reportedRemoteOID": "95431459773f3e99cc0edeaccd3e50aed5965239",
+        "reportedSwiftTesting": "RED reproduced with disabled guard; restored guard GREEN 2/2 on exact copies",
+        "reportedFUMAOutputBytes": 270,
+        "reportedFUMAOutputSHA256": "cf5c4df85bb20f1b5670f37dd95fc8d9ead316be2008ec71eb27eead32c2ca24",
+        "remaining": "independent review, coordinator acceptance, and common consumer integration"
+      }
+    },
+    "контрольнаяТочкаУпаковки": {
+      "схема": "fum.координация.упаковка-профиля-swift-testing.1",
+      "доЭффекта": {
+        "готово": true,
+        "ошибки": [],
+        "ожидаемыйРодитель": "caee078a3303c2f51c1c66e0acc85b3bffc18fb4",
+        "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+        "определение": {
+          "источникКоммит": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a",
+          "путь": "koordinaciya/fuma/генератор-метаданных.json",
+          "sha256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a"
+        },
+        "операторSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+        "исполняемыйКоординаторSHA256": "08a42e4cb1f18d22f87004a4c80041d9c3ba785799cfcb55941a9fd71d1cac6e",
+        "выборМодели": {
+          "источник": "collaboration.spawn_agent и native metadata конкретного thread",
+          "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "threadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+          "model": "gpt-6-luna",
+          "reasoningEffort": "max",
+          "backendModel": "неизвестно"
+        },
+        "автор": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+        "коммитер": "FUM <fum@local>",
+        "сообщение": {
+          "utf8Bytes": 2533,
+          "sha256": "380ad64bbf19e0362d01c4056a9c9fddde1ed6431db7eaf4f6152d2d1d6efaae",
+          "извлеченоИзFUMA": "точные UTF-8 байты JSON message через jq -j; добавочный LF не добавлялся"
+        },
+        "исполнениеFUMA": {
+          "вход": {
+            "sha256": "63b117d7f4a0398fc23bed2c219845ef349f93787ff6b8c95a8db19e916f1033",
+            "bytes": 2639
+          },
+          "сыройОтвет": {
+            "sha256": "1552cabdf9bd99226721e12854fcce8147994bbf9e7ea439ed2c8ea1f91e6008",
+            "bytes": 4313
+          },
+          "типизированныйВыход": {
+            "sha256": "17658dc117af90bd28fc8e6cf688c0e3d71f13f891b613c104151dcc371c6986",
+            "bytes": 2661
+          },
+          "квитанция": {
+            "sha256": "843d964247587ce549c7749838dceaf804f0b15bcf9ea76f8333b87678d61ff8",
+            "bytes": 817
+          },
+          "выходСценария": {
+            "sha256": "18758c708601c0be005f36ebffc824b222e7c754b8bd8ef7bfd59426a11b7231",
+            "bytes": 2649
+          },
+          "файлыСвидетельстваСохранены": true
+        },
+        "sha256РезультатаПредварительнойПроверки": "324f9d9b9ab292af347f9bc2c37de999ba3ba0ed3bd95fc8fd403d4424a3e226"
+      },
+      "граница": "профиль и metadata preflight зафиксированы; Swift Testing/build не повторялись; ROOT acceptance и общий Package consumer остаются отдельными"
     }
   }
 }
