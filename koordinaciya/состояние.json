@@ -1,0 +1,337 @@
+{
+  "схема": "fum.координация.состояние.1",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "принятаяОснова": "6999fcb256d298302358d1329c2e57fead00a808",
+  "собственныйСтарт": {
+    "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "oid": "6999fcb256d298302358d1329c2e57fead00a808",
+    "чистоеДерево": true
+  },
+  "модельУзла": {
+    "веткаЯвляетсяУзлом": true,
+    "собственнаяПамять": "koordinaciya",
+    "дочерниеУзлы": [],
+    "деревоСодержит": ["собственная-память", "дочерние-узлы"],
+    "общаяПамять": "только-чтение",
+    "процесс": "инкарнация",
+    "полноеДеревоПовтореноВJSON": false,
+    "последнийКоммитВосстановления": null
+  },
+  "источникМоделиУзла": [
+    "Stejt pamyati v Git — eto i yestj struktura stejta agenta.",
+    "Kommit — eto vsyo, chto nuzhno dlya vosstanovleniya agenta.",
+    "Vetka — eto i yestj uzel."
+  ],
+  "свидетельствоЗапуска": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "max",
+    "fork_turns": "none",
+    "источник": "принятый вызов collaboration.spawn_agent; это API-свидетельство выбора, не native turn_context"
+  },
+  "окноСнимка": {
+    "начало": "2026-10-28T13:06:04Z",
+    "конец": "2026-10-28T13:10:42Z",
+    "ограничение": "источники читались последовательно в этом интервале; отдельное время каждого API-чтения не сообщалось"
+  },
+  "текущийСнимок": {
+    "время": "2026-10-28T13:31:11Z",
+    "основа": "6999fcb256d298302358d1329c2e57fead00a808",
+    "сведения": "bounded wait_threads summaries/markers, GitHub PR metadata и exact changed-path lists; текущие HEAD/ref/dirty paths ROOT W отдельно сверены read-only",
+    "ограничение": "переписку детей, tool arguments и содержимое невыбранных файлов не читали"
+  },
+  "корневойWorktree": {
+    "реф": "refs/heads/fum-lab/fum/master",
+    "oid": "371ceea4e06ddded8312890160a013e2941cd7cf",
+    "родители": [
+      "6999fcb256d298302358d1329c2e57fead00a808",
+      "5bc964ad765628bded5c90e99de3cf24a5ab3ac2"
+    ],
+    "автор": "FUM Codex [gpt-6-luna; effort=max]",
+    "коммитер": "FUM",
+    "датаАвтора": "2026-10-28T16:22:51+04:00",
+    "корневойUUIDВКоммите": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "изменённыеПути": [
+      "Журнал/2026-10-26_03-08-32_MSK_сохранить-приём-путей-и-границу-raw/запрос.md",
+      "Журнал/README.md"
+    ],
+    "новыеПути": [
+      "Журнал/2026-10-28_15-22-03_MSK_интегрировать-принятый-срез-fuma"
+    ],
+    "атрибуцияИсполнителя": "FUMA App-чат 01a1698f-bb98-7691-b1c1-31ec737ed070 сообщил о выполнении merge в этом W/ref; HEAD/ref/dirty paths независимо совпали при RO-чтении",
+    "авторСтарогоИзменённогоПути": "не установлен",
+    "поручениеИПолномочия": "не сверены",
+    "диагноз": "есть положительное свидетельство отдельного App-контекста, писавшего в ROOT W/ref; терминальная привязка исполнителя и поручение не проверены, старый путь Журнала имеет неизвестного автора; новая запись отражена Git как untracked каталог, его содержимое этим чтением не открывалось",
+    "текущаяЗаписьВЭтойОбластиЗапрещена": true
+  },
+  "задачи": [
+    {
+      "ключ": "root",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "ROOT возобновил узел планирования и назначает сохраняемую очередь: приоритет, ответственный, запуск, блокер и следующее действие",
+      "ожидание": "закрепить владельца и исполняемый переход; не писать в ROOT W до закрытия custody-сверки 371/dirty",
+      "граница": "отправка поручения отличается от фактического старта; текущий ROOT W только для чтения"
+    },
+    {
+      "ключ": "instrumentyi",
+      "статус": "active",
+      "ход": "inProgress",
+      "последняяРабота": "после GREEN bootstrap 9/9 и route 20/20 review обнаружил ещё два P1: неполный Package.swift ломает root manifest, path-based clone допускает TOCTOU родителя",
+      "ожидание": "тот же writer исправляет dependency-free entrypoint, fd-stable materialization и local-hardlink запрет; затем scratch-повтор и exact commit/push/readback",
+      "граница": "предложенная recovery-схема at-most-one; idempotency key и receiver-side dedup/ACK отсутствуют"
+    },
+    {
+      "ключ": "FUMA",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "после проверки истории чат сообщил, что выполнил merge 371ceea из ROOT W/ref с code 0 и создал новую пару Журнала",
+      "ожидание": "ROOT сверяет исходное поручение и custody; старый изменённый путь этим чатом не атрибутирован",
+      "граница": "самоотчёт не равен независимой terminal attribution; Stop всё ещё требует native readers и конечный checkpoint"
+    },
+    {
+      "ключ": "journal",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "writer подтвердил source 33bed…: один JSON №39, PR открыт; моя RO-проверка source не нашла блокеров",
+      "ожидание": "ROOT review и точная сборка приёмочного кандидата от текущей основы"
+    },
+    {
+      "ключ": "board",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "PR435 source 553a… содержит два JSON; независимая проверка источника не нашла блокеров",
+      "ожидание": "ROOT review и точная сборка приёмочного кандидата от текущей основы; board summary сообщал false, прямой GitHub metadata read 13:25:48Z вернул true для того же head"
+    },
+    {
+      "ключ": "rules",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "обновлён приватный diff 000171, SHA-256 c238d5ee313344673eb4fe3e3d5611eef27a9176f15b85dc2e77f08c87fdd592",
+      "ожидание": "ROOT получает diff/provenance после исправлений route validator; W/ref и общие правила не менялись"
+    },
+    {
+      "ключ": "dependencies",
+      "статус": "idle",
+      "ход": "completed",
+      "последняяРабота": "PR390 обновлён exact source f245…; существующий fork fum-lab/libgit2 и exact tag v1.9.7/OID сверены",
+      "ожидание": "ROOT review; creator fork неизвестен; никаких сборок или интеграций не было"
+    }
+  ],
+  "поставки": [
+    {
+      "идентификатор": "PR435",
+      "вид": "запрос-на-слияние",
+      "номер": 435,
+      "состояние": "open",
+      "слито": false,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "7dc45a20a2e5f87e53d22afd8793b9a77df9fae6",
+      "голова": "553a4718b0d0084602c6c66b1fbd7e232f9e5143",
+      "дерево": "ef92fdcfb0b0bebeb78447377690c70f62c29c04",
+      "родители": ["847ac0355881145f0362be3184c2d0e3f86292fa"],
+      "пути": ["doska-obyyavlenij/postanovka.json", "doska-obyyavlenij/zhurnal/2026-10-28-remontyi-i-balans.json"],
+      "файловИзменено": 2,
+      "ожидаетсяФайлов": 2,
+      "обзор": "пройден",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": ["FUMA-автоматизация и внедрение"],
+      "примечание": "два JSON; board turn сообщал mergeable=false, прямой GitHub PR metadata read в 13:25:48Z вернул true для того же head; временное расхождение наблюдений не трактуется как содержательный блокер"
+    },
+    {
+      "идентификатор": "PR439",
+      "вид": "запрос-на-слияние",
+      "номер": 439,
+      "состояние": "open",
+      "слито": false,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "голова": "33bed1419d66f21a85f22c1b56898a8a93219a2b",
+      "дерево": "8d17e4b09eb6464a6784a127a2a969ac1ad976bf",
+      "родители": ["6f61e429bc1af904a212d4c7f8f392888019dd80"],
+      "пути": ["zhurnal/2315893fbd51b047a21c8b4f402ea8a178879ff88e60fa27a92529ba131438a4.json"],
+      "файловИзменено": 1,
+      "ожидаетсяФайлов": 1,
+      "обзор": "пройден",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": ["Swift-тесты", "FS/Git/Torrent runtime-адаптеры", "turn_aborted причина", "тяжёлые/исключённые проверки"],
+      "запись": {
+        "путь": "zhurnal/2315893fbd51b047a21c8b4f402ea8a178879ff88e60fa27a92529ba131438a4.json",
+        "blob": "18edb220f0825fa1cea76fb0c4fa75293bc4fdef",
+        "sha256": "385c9d21b24dae08bb701f718d307a7d02d3d3d47b38d97ad1a96094424435d7",
+        "номер": 39,
+        "сообщений": 11,
+        "обзорКоординатора": "schema/provenance and public-path scan found no blocker; ten ROOT-transferred literal messages remain distinct from one public append-only comment"
+      },
+      "примечание": "RO review passed; current accepted ROOT 6999… differs from PR base 6f61…, so prepare the exact receiving candidate at current ROOT"
+    },
+    {
+      "идентификатор": "PR437",
+      "вид": "запрос-на-слияние",
+      "номер": 437,
+      "состояние": "open",
+      "слито": false,
+      "черновик": true,
+      "сходимость": true,
+      "основание": "6999fcb256d298302358d1329c2e57fead00a808",
+      "голова": "0bf0441efd445bd9f9f241fba5e959600ae1ebb1",
+      "дерево": "bd72269185eed67b7455ebe3a0924874dc0ff1fd",
+      "родители": [
+        "54c6a00e56307224972b7223b6d554953dbba20d",
+        "6999fcb256d298302358d1329c2e57fead00a808"
+      ],
+      "пути": [
+        "Приложения/FUMA/zhurnal-aot-join-strings-396.jsonl",
+        "Приложения/FUMA/zhurnal-swift-literal-396.jsonl",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КодированиеЛитералаSwift.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ТрансляторГрафаSwift.swift",
+        "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиЛитерала.swift",
+        "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиТрансляцииSwift.swift"
+      ],
+      "файловИзменено": 8,
+      "ожидаетсяФайлов": 8,
+      "обзор": "ожидает",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": ["полная FUMA runtime-готовность"],
+      "примечание": "использован только объявленный immutable head 0bf…; новые локальные FS-изменения исключены; PR остаётся draft"
+    },
+    {
+      "идентификатор": "PR440",
+      "вид": "запрос-на-слияние",
+      "номер": 440,
+      "состояние": "closed",
+      "слито": true,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "голова": "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25",
+      "дерево": "10b05c041b174008439fcfa07fb71b7429cc7d75",
+      "родители": ["07d60968edc895353ed72bf02a9d64173d189490"],
+      "пути": [
+        "Package.swift",
+        "iskhodniki/perekhod-vetok/proverki/proverki-polnomochij.swift",
+        "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json",
+        "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+        "iskhodniki/perekhod-vetok/zhurnal/53dc21854c6d60da9617727c5e612b63f3b0fc02e740d6052705bb8d8108b819.json",
+        "iskhodniki/perekhod-vetok/zhurnal/9cd78804e1d5fc3a6667120643c91d36868247bb30ff5b18b68de3b242b4865e.json",
+        "iskhodniki/perekhod-vetok/zhurnal/c5756b2c2dd2edf2c03d5e8ce49a1f2341154398f19d642855d4077da1f17462.json",
+        "iskhodniki/zapusk/Команда.swift",
+        "proverki/zapusk/ПроверкиStop.swift",
+        "proverki/zapusk/ПроцессыЗапуска.swift",
+        "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift"
+      ],
+      "файловИзменено": 13,
+      "ожидаетсяФайлов": 13,
+      "обзор": "принят-источник",
+      "принятоКорнем": true,
+      "коммитПриёмки": "6999fcb256d298302358d1329c2e57fead00a808",
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": ["native readers для обязательств/истории", "конечный completion/recency checkpoint", "portable native bundle"],
+      "непроверенныеЗаявления": ["живая установка", "полный native Stop-протокол"],
+      "примечание": "принят и слит как source checkpoint; это не установка. Producer сообщил legacy v4/recency checkpoint blocker; требуется минимальный конечный native scope, не Python и не полный port всей истории"
+    },
+    {
+      "идентификатор": "PR390",
+      "вид": "запрос-на-слияние",
+      "номер": 390,
+      "состояние": "open",
+      "слито": false,
+      "черновик": false,
+      "сходимость": true,
+      "основание": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+      "голова": "f24541aa5d3fbddb831d01a2d45ead434c40520b",
+      "дерево": "162a045be94b7ce60ee843ebca0a4c1a17ded71c",
+      "родители": ["541589c938f4f8ca31c2bf0fa98c4daff2a18de6"],
+      "пути": [
+        "zavisimosti/obzor.json",
+        "zavisimosti/pozhelaniya-avtomatizacii.json",
+        "zavisimosti/zhurnal/18cc5a5b73fd93ae97f5199079e9afd506e5ced998fd514edd1734502de75003.json",
+        "zavisimosti/zhurnal/29bfe7f3805f7a6b61ec8678cbc142f8f8493af238dfd8d1c4aa93b149db1fb1.json",
+        "zavisimosti/zhurnal/761464187045952c85149e240f8516d884c6fcabe20feb31d6661dc960697c7c.json",
+        "zavisimosti/zhurnal/f0a3082ca4e0c98b8a6eb6d1e03186467226e43697f61cd60976199de238a3dc.json"
+      ],
+      "файловИзменено": 6,
+      "ожидаетсяФайлов": 6,
+      "обзор": "ожидает",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": [],
+      "непроверенныеЗаявления": ["build", "runtime integration", "upstream and network validation"],
+      "примечание": "PR открыт и mergeable; существующий fum-lab/libgit2 fork подтверждён, creator не приписан и не объявляется содержательным блокером; source нуждается в review и кандидате от текущей основы"
+    },
+    {
+      "идентификатор": "route-inventory-2a3",
+      "вид": "контрольная-точка",
+      "номер": null,
+      "состояние": "checkpoint",
+      "слито": false,
+      "черновик": null,
+      "сходимость": null,
+      "основание": "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "голова": "2a3fbb19b3003ecdcd6263d3e046bbe2855c6f3c",
+      "дерево": "9cec0cd9288b4f076061b60986f196d4d07c52fc",
+      "родители": ["6f61e429bc1af904a212d4c7f8f392888019dd80"],
+      "внешнийРеф": "codex/swift-route-inventory-01a17797",
+      "пути": [
+        "Package.swift",
+        "iskhodniki/proverka-marshruta-pravil/granicy.swift",
+        "iskhodniki/proverka-marshruta-pravil/komanda/komanda.swift",
+        "iskhodniki/proverka-marshruta-pravil/modelj-inventarya.swift",
+        "iskhodniki/proverka-marshruta-pravil/opredeleniya/proveritj-marshrut.json",
+        "iskhodniki/proverka-marshruta-pravil/proverka.swift",
+        "iskhodniki/proverka-marshruta-pravil/zakryityij-json.swift",
+        "proverki/proverka-marshruta-pravil/proverki-marshruta.swift",
+        "Инструменты/fum-proverka-git-zavisimostej/swift/bootstrap-zavisimosti.swift",
+        "Инструменты/fum-proverka-git-zavisimostej/swift/komanda-bootstrap-zavisimosti.swift",
+        "Инструменты/fum-proverka-git-zavisimostej/swift/proverki-bootstrap-zavisimosti.swift"
+      ],
+      "файловИзменено": 11,
+      "ожидаетсяФайлов": 11,
+      "обзор": "нужны-исправления",
+      "принятоКорнем": false,
+      "коммитПриёмки": null,
+      "грязныйИсточникИспользован": false,
+      "установкаГотова": false,
+      "препятствия": ["три P1 route-validator findings; тот же writer исправляет"],
+      "непроверенныеЗаявления": ["ROOT acceptance", "PR publication", "native Stop installation"],
+      "примечание": "предыдущие route 15/15 и bootstrap 3/3 не закрывают новые P1; ref не изменять"
+    }
+  ],
+  "переходыАвтоматизации": [
+    {
+      "вход": "компактный wait_threads summary/marker без tool args",
+      "автоматизируемаяРабота": "свести текущие роли и статус в версионированный JSON снимок; сравнить revision, не читать raw thread",
+      "остаётсяРучным": "семантический смысл summary, владение чужим деревом и выбор точного следующего поручения"
+    },
+    {
+      "вход": "GitHub PR metadata и immutable commit object",
+      "автоматизируемаяРабота": "проверить OID/tree/parents/base/path count, current-root drift, review flag и draft/mergeability gates",
+      "остаётсяРучным": "код-ревью, решение ROOT, merge, push, PR edits и установка"
+    },
+    {
+      "вход": "accepted Stop source checkpoint",
+      "автоматизируемаяРабота": "вывести отдельно source acceptance, completion/recency и bundle gates",
+      "остаётсяРучным": "ROOT-решение и установка после доказанного конечного native протокола"
+    }
+  ]
+}
