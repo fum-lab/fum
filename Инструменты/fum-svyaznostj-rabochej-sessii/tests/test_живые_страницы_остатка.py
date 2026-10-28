@@ -208,6 +208,7 @@ class ПроверкаЖивыхСтраницОстатка(unittest.TestCase):
         проверка.assertEqual(код, 3, ошибки.getvalue())
         проверка.assertEqual(получить.call_count, 1)
         проверка.assertTrue(получить.call_args.kwargs["без_записи"])
+        проверка.assertTrue(получить.call_args.kwargs["закрепить_первый_снимок"])
         проверка.assertIsNone(получить.call_args.kwargs["кэш"])
         ответы = [json.loads(линия) for линия in выход.getvalue().splitlines()]
         проверка.assertEqual(len(ответы), 2)
@@ -231,6 +232,23 @@ class ПроверкаЖивыхСтраницОстатка(unittest.TestCase):
         проверка.assertEqual(получить.call_count, 0)
         проверка.assertEqual(выход.getvalue(), "")
         проверка.assertIn("--без-записи", ошибки.getvalue())
+
+    def test_cli_закрепляет_обычный_остаток_только_без_записи(проверка):
+        for без_записи in (False, True):
+            with проверка.subTest(без_записи=без_записи):
+                модуль = загрузить_cli()
+                исходный = снимок()
+                аргументы = ["обработать-сообщения-задачи.py", "--корень-репозитория", ".",
+                    "--исходник", "корневой.jsonl", "--codex-thread-id", исходный["задача"],
+                    "остаток"] + (["--без-записи"] if без_записи else [])
+                выход, ошибки = io.StringIO(), io.StringIO()
+                with mock.patch.object(sys, "argv", аргументы), mock.patch.object(sys, "stdout", выход), \
+                        mock.patch.object(sys, "stderr", ошибки), \
+                        mock.patch.object(модуль, "получить_остаток", return_value=исходный) as получить:
+                    код = модуль.выполнить()
+                проверка.assertEqual(код, 3, ошибки.getvalue())
+                проверка.assertEqual(получить.call_count, 1)
+                проверка.assertIs(получить.call_args.kwargs["закрепить_первый_снимок"], без_записи)
 
 
 if __name__ == "__main__":

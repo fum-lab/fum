@@ -146,6 +146,7 @@ class ДопускСообщений(unittest.TestCase):
                 mock.patch.object(sys, "stderr", io.StringIO()) as ошибки:
             это.assertEqual(модуль.выполнить(), 3)
         читатель.assert_called_once()
+        это.assertTrue(читатель.call_args.kwargs["закрепить_первый_снимок"])
         это.assertEqual(json.loads(вывод.getvalue())["решение"], "продолжить")
         это.assertEqual(json.loads(ошибки.getvalue().removeprefix("FUM-PROFILE "))["остаток_сообщений"], ожидаемый)
         это.assertNotIn('"профиль"', вывод.getvalue())
