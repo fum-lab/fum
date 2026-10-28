@@ -6,6 +6,13 @@ let настройки: [SwiftSetting] = [
     .unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors", "-enable-actor-data-race-checks"])
 ]
 
+let файлыЯзыковогоДопуска = [
+    "ЛексерЯзыковогоДопуска.swift", "ЯзыковойДопуск.swift", "ОрфографияОбъявлений.swift",
+    "ИсключенияЯзыковогоДопуска.swift", "СканерОбъявлений.swift", "ДопускИндекса.swift",
+    "ЧитательГитЯзыка.swift", "ИзменённыеСтроки.swift",
+    "ВнешнийКонтракт.swift", "КонтекстВнешнихИмён.swift", "КомандаЯзыковогоДопуска.swift", "ВнешниеИмена.json",
+]
+
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
@@ -57,11 +64,12 @@ let package = Package(
             path: "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи",
             swiftSettings: настройки),
         .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory"],
-            path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md", "zhurnal", "proverki"],
+            path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md", "zhurnal", "proverki", "hooks"],
+            resources: [.copy("ВнешниеИмена.json")],
             swiftSettings: настройки),
         .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла", "МатериализацияУзлов"],
             path: "iskhodniki/zapusk",
-            exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "vkhod-paketa-putej.swift", "obrabotchik-paketa-putej.swift", "priyomnik-fuma-jsonl.swift", "proverka-versionnoj-svyazi-priyomki.swift", "svyazj-kvitancii-modeli.swift", "README.md", "zhurnal", "proverki"],
+            exclude: ["ПоляЗапуска.swift", "АргументыЗапуска.swift", "ЦиклЗапуска.swift", "ПутьХранилища.swift", "vkhod-paketa-putej.swift", "obrabotchik-paketa-putej.swift", "priyomnik-fuma-jsonl.swift", "proverka-versionnoj-svyazi-priyomki.swift", "svyazj-kvitancii-modeli.swift", "README.md", "zhurnal", "proverki", "hooks"] + файлыЯзыковогоДопуска,
             sources: ["Команда.swift"], swiftSettings: настройки),
         .testTarget(name: "proverki-paketa-putej", dependencies: ["ОсноваЗапуска", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory", "КонтейнерНаблюдений"],
             path: "iskhodniki/zapusk/proverki", swiftSettings: настройки),
