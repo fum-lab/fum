@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "7fde895790f900881ebe895f8f471e834083d0e0",
+    "собственныйКонтрольныйКоммит": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "7fde895790f900881ebe895f8f471e834083d0e0",
+      "родитель": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
-      "заголовок": "Принять byte-consumer и контракт автовыдачи",
-      "описание": "После независимой проверки принять в собственную область две раздельные поставки. Потребитель точных байтов FUMA: источник b69a2690ef45ff76a51ef6bcf7fb572201060435, подтверждённая доставка 95431459773f3e99cc0edeaccd3e50aed5965239, четыре собственных пути, RED на отключённом Data guard и GREEN Swift Testing 2/2; точный typed output 270 байт совпал с подготовленным файлом. Узкий контракт автовыдачи: efafc15f4682bf50dc8f605000270d454a8d39db, два JSON-файла, 33 синтетических случая и независимая проверка структуры. Полная политика и общий Package consumer остаются отдельными незавершёнными работами. В этой же собственной области сохранён переносимый профиль точных metadata executable/FUMA definition/operator; его локальные пути находятся только в private manifest."
+      "исходныйЗапрос": "A avtovyidachu polnomochij mozhem sdelatj?",
+      "заголовок": "Принять JSON-контракт полномочий",
+      "описание": "Независимо приняты source efafc15f4682bf50dc8f605000270d454a8d39db и только два JSON-файла: закрытая входная/выходная схема контракта и 33 синтетические фикстуры для отдельного FUMA evaluator. Разобраны JSON, проверены уникальные идентификаторы, точные ключи результата, наборы allow/hold/escalate, безопасность child grant для отказов и негативные сценарии owner/parent/scope, capability expansion, stale base/generation, pause, unknown effect и replay. Проверка подтверждает только контракт и fixtures. FUMA evaluator, Swift adapter, factory, orchestration effect и полная политика не подключены."
     }
   },
   "результатГенератораМетаданных": {
@@ -1989,6 +1989,30 @@
           "общая интеграция в Package.swift не выполнена",
           "ROOT acceptance не выполнена этим собственным merge"
         ]
+      },
+      "coordinatorMerge": {
+        "oid": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+        "tree": "7eaf924f4bf397d3c63785a611af3cdfcd6d59c0",
+        "parents": [
+          "7fde895790f900881ebe895f8f471e834083d0e0",
+          "95431459773f3e99cc0edeaccd3e50aed5965239"
+        ],
+        "rawCheck": {
+          "passed": true,
+          "receiptSHA256": "84c86067decd8ef467af1e441aa06625c1739b5bc6fc22446c7f206ace7d4d40",
+          "rawObjectSHA256": "3cc1fb14e103f6d464c861b01326b97f1dde1043f1ac7d2076ba870c6931f953",
+          "exactFumaMessageBytes": {
+            "count": 1410,
+            "sha256": "c3cd824d2c215efca59135389a9d652b8aa30b0e85993f0ad333574abf712876"
+          }
+        },
+        "push": {
+          "kind": "ordinary exact-OID push",
+          "remoteOID": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+          "remoteReadback": "PASS",
+          "rootRefUnchanged": "9eec7d2f1f9f49b09812963f68ed637e96850090"
+        },
+        "rootAcceptance": "pending"
       }
     },
     {
@@ -2035,7 +2059,17 @@
         "Swift adapter and factory integration are not delivered",
         "full policy and external effects remain out of scope",
         "contract worktree has an untracked handoff.md; it was not read or changed and is outside the exact two-file acceptance"
-      ]
+      ],
+      "mergeCandidate": {
+        "status": "automatic merge passed, exact own source scope staged",
+        "firstParent": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+        "secondParent": "efafc15f4682bf50dc8f605000270d454a8d39db",
+        "expectedPaths": [
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/contract.json",
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/fixtures.json"
+        ],
+        "fullFUMAPolicyComplete": false
+      }
     }
   ],
   "профильИсполненияМетаданных": {
