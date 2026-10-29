@@ -118,7 +118,7 @@
 - Адресное отключение по №149 — [000030](Правила/агентов/проверки-коммит-и-публикация.md).
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000032 -->
-- Явный grant выбирает локальный source+JSON checkpoint. Swift сверяет только его целостность и два сценария; grant, live HEAD/ref/W, единственного писателя и допуск эффекта отдельно проверяет корень. Python/ROOT JSONL исключены, не проверены и не GREEN. Профиль не снимает STOP/custody/privacy/unknown-effect и не разрешает финальную передачу/приёмку.
+- Явный grant выбирает локальный source+JSON checkpoint. Swift-проверка из `000062` — лишь названный применимый runner с точными source/version, entrypoint, inputs и scope; только он сверяет checkpoint/сценарии. Absent/inapplicable runner = `UNKNOWN`, не право на замену, расширение или fallback. Отдельный прямой grant человека/уполномоченного родителя может разрешить source/WIP checkpoint с точными путями/эффектом и done/disabled/`UNKNOWN`, но не прохождение `НОВОЕ-000032`; без него commit fallback запрещён. Старые Python/ROOT JSONL исключены, не проверены, не `GREEN`. Профиль/checkpoint не снимают grant, live HEAD/ref/W, sole-writer, effect authority, STOP/custody/privacy/unknown-effect и не разрешают final handoff/acceptance.
 
 ## Безопасность и публикационная чистота
 
@@ -135,6 +135,6 @@
 - Перед коммитом сверь `git status --short`; включай только осмысленные изменения сессии.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-29 08:14:24 MSK -->
-<!-- content-sha256: sha256:7bb69d41272baffbe95235c33f9237c1aa44368959e5662ca2d02ca7bae90887 -->
+<!-- last-content-edit: 2026-10-29 12:17:52 MSK -->
+<!-- content-sha256: sha256:38ce19dff531bfe384aa4cf8a00ad1a926c6592b8ef996dfca70e25336169cff -->
 <!-- FUM-MD-RECENCY:END -->
