@@ -1,0 +1,25 @@
+{
+  "схема": "fum.опциональная-память-fuma-и-воспроизводимость.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дата": "2026-10-29",
+  "человеческое_сообщение": {
+    "текст": "FUMA do nekotorogo momenta svoyego razvitiya mozhet zhitj bez pamyati kak takovoj. Vse testovyiye zapuski ili rabochiye zapuski FUMA dolzhnyi byitj vosproizvodimyi iz git-pamyati FUM.",
+    "native_message_id": "01a1877d-29ae-79a0-a8de-d5fb6da9b428",
+    "происхождение": "native userMessage в компактной сводке ROOT",
+    "цитата_ROOT": "FUMA do nekotorogo momenta svoyego razvitiya mozhet zhitj bez pamyati kak takovoj. Vse testovyiye zapuski ili rabochiye zapuski FUMA dolzhnyi byitj vosproizvodimyi iz git-pamyati FUM"
+  },
+  "уточнение": {
+    "native_память_FUMA": "целевая отдельная сущность вне Git, но на раннем этапе опциональна и не является условием запуска или разработки",
+    "все_тестовые_и_рабочие_запуски": "должны быть воспроизводимы из Git-памяти FUM",
+    "состав_воспроизведения": ["исходники и pins зависимостей", "входы и фикстуры", "параметры и настройки", "команда запуска", "проверяемый смысловой ожидаемый результат"],
+    "внешняя_изменчивая_среда": "её наблюдения для replay сохраняются как входы",
+    "статус": "требование, а не утверждение о текущем полном покрытии"
+  },
+  "передача": {
+    "fuma": {"command_ID": "exec-23defc2b-61eb-485a-b268-28853bb36da6", "статус": "completed"},
+    "instruments": {"command_ID": "exec-406b46ce-cfc5-4d8f-855c-7dff0e50f020", "статус": "completed"},
+    "граница": "completed подтверждает отправку, но не ACK получателей или полное покрытие"
+  },
+  "связь": "Позднее уточнение к сохранённому обсуждению нативной памяти FUMA вне Git; прежний закрытый этап не переписывается.",
+  "границы": "ROOT JSONL, RAW, Python и тесты в этом этапе не запускались и не читались; чужие деревья, refs и блокировки не изменялись."
+}
