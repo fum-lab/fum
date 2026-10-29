@@ -1971,7 +1971,7 @@ public enum АдаптерВыполненияКомандGit {
         )
     }
 
-    fileprivate static func окружениеИзолированногоGit() -> [String: String] {
+    static func окружениеИзолированногоGit() -> [String: String] {
         var окружение = ProcessInfo.processInfo.environment
         for ключ in Array(окружение.keys) where ключ.hasPrefix("GIT_CONFIG_KEY_") || ключ.hasPrefix("GIT_CONFIG_VALUE_") {
             окружение.removeValue(forKey: ключ)
