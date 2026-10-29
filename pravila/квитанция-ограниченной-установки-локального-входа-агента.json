@@ -1,0 +1,234 @@
+{
+  "схема": "fum.квитанция-ограниченной-установки-локального-входа-агента.1",
+  "версия": 1,
+  "началоUTC": "2026-10-29 05:12:05 UTC",
+  "окончаниеUTC": "2026-10-29 05:12:15 UTC",
+  "результат": "created_readback_verified",
+  "узел": {
+    "логическийАдрес": "fum-lab/fum/pravila/master",
+    "родитель": "fum-lab/fum/master",
+    "путьКаталога": "Правила/агентов"
+  },
+  "worktree": {
+    "физическийКорень": "/Users/fum/.codex/worktrees/pravila/FUM",
+    "полныйRef": "refs/heads/fum-lab/fum/pravila/master",
+    "HEADдоЭффекта": "b1f83dc715ea44e66ea104163416fac76c2c72e2",
+    "HEADпослеЭффекта": "b1f83dc715ea44e66ea104163416fac76c2c72e2",
+    "refНеПеремещался": true
+  },
+  "grant": [
+    "pravila/описание-локального-входа-агента.json",
+    "pravila/происхождение-локального-входа-агента.json",
+    "pravila/квитанция-ограниченной-установки-локального-входа-агента.json",
+    "Правила/агентов/AGENTS.md"
+  ],
+  "единственныйПисатель": {
+    "результат": "подтверждён для целевого W и ref",
+    "родительскоеПоручение": "корень назначил этого исполнителя единственным писателем этого ограниченного пилота",
+    "worktreeСвидетельство": {
+      "наблюдениеUTC": "2026-10-29 05:13:10 UTC",
+      "источник": "git worktree list --porcelain",
+      "совпадающийW": "/Users/fum/.codex/worktrees/pravila/FUM",
+      "совпадающийRef": "refs/heads/fum-lab/fum/pravila/master",
+      "числоСовпаденийRef": 1
+    },
+    "активныеАгентыПриСверке": [
+      "/root",
+      "/root/pilot_installer"
+    ],
+    "аудиторы": "три независимых RO-аудитора завершили работу; они не меняли целевой W"
+  },
+  "принятыйRenderer": {
+    "acceptanceOID": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a",
+    "integrationOID": "ce8798ebfc5a7285657583b3586177cebf3fc7c2",
+    "путь": "iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift",
+    "blob": "533e9c757a6a0ba19bb5aad620a7e1da23355cdd",
+    "rawSHA256": "8b235db847e87d52f52ff871a06e1371fed5896b37eaa92781dd400b5e0892dc",
+    "проверка": "blob взят из integrationOID; raw SHA-256 точных исходных байтов независимо совпал до чтения, перед компиляцией и перед запуском"
+  },
+  "sourceDescription": {
+    "путь": "pravila/описание-локального-входа-агента.json",
+    "схема": "fum.семантическое-описание-локального-входа-агента.1",
+    "версия": 1,
+    "commit": "b1f83dc715ea44e66ea104163416fac76c2c72e2",
+    "blob": "eff966a5fbf4e689d45f6fc6b7dabcb5114bc494",
+    "rawSHA256": "8f42f6c7f6c40bcbff6d068a5f0792de85a55ff34b5cbd25e0acb115232943e5"
+  },
+  "wrapper": {
+    "путь": "pravila/происхождение-локального-входа-агента.json",
+    "схема": "fum.описание-локального-входа-агента.1",
+    "версия": 1,
+    "rawSHA256": "538780b6048630569e7d46487908d4e72a7af6c45d3db1e7e9e1293792b2f817",
+    "blobДоКоммитаB": "3b6a22a4306b10874810134c22917713a961eac9",
+    "semanticEqualityWithSource": true,
+    "sourceCommitAndSHAReferencesVerified": true,
+    "собственныйHashИCommitОтсутствуют": true
+  },
+  "rootRulesSource": {
+    "путь": "AGENTS.md",
+    "commit": "b1f83dc715ea44e66ea104163416fac76c2c72e2",
+    "blob": "af324540361de58a5fa3c27fcfe8708b9f9d2f58",
+    "rawSHA256ВCommit": "dd3472d67e6e6d7cb78a0df875d3f469707dcbc917b947cae2e0a0a16a194db4",
+    "rawSHA256ТекущихБайтов": "dd3472d67e6e6d7cb78a0df875d3f469707dcbc917b947cae2e0a0a16a194db4",
+    "совпадает": true
+  },
+  "target": {
+    "относительныйПуть": "Правила/агентов/AGENTS.md",
+    "каноническийПуть": "/Users/fum/.codex/worktrees/pravila/FUM/Правила/агентов/AGENTS.md",
+    "состояниеДо": "absent",
+    "исход": "created",
+    "типПосле": "regular file",
+    "режимПосле": "0644",
+    "rendered": {
+      "byteCount": 3237,
+      "SHA256": "086a7f496bca2ef1aec9532215099d393f73a388854b8f0ba4bcc228d0ccde55"
+    },
+    "readback": {
+      "byteCount": 3237,
+      "SHA256": "086a7f496bca2ef1aec9532215099d393f73a388854b8f0ba4bcc228d0ccde55",
+      "равенствоБайтRendererOutput": true
+    }
+  },
+  "атомарнаяУстановка": {
+    "временныйФайл": "тот же каталог, O_CREAT|O_EXCL|O_NOFOLLOW",
+    "публикация": "linkat(source-directory-fd, temporary-name, target-directory-fd, AGENTS.md, 0): эксклюзивная атомарная hard-link публикация; существующий путь не перезаписывается",
+    "гонкаEEXIST": "терминальная ветвь сравнивает no-follow readback; при равенстве не перезаписывает, при несовпадении отказывает",
+    "файловыйFsync": true,
+    "каталожныйFsync": true,
+    "noFollow": "начальный lstat; O_NOFOLLOW при открытии каталога и readback; fstat подтверждает regular file",
+    "readback": "после публикации файл прочитан через openat(O_RDONLY|O_NOFOLLOW), проверен fstat и сравнён с байтами результата принятого renderer"
+  },
+  "transientDriver": {
+    "путьИсходника": "/tmp/fum-local-input-pilot.8ErBB0/installer.swift",
+    "SHA256Исходника": "55e705ee66db32c49a7cc7324e2f1e8f90fa750873ecd2dc2eb4895d24cc684f",
+    "путьИсполняемогоФайла": "/tmp/fum-local-input-pilot.8ErBB0/installer",
+    "SHA256ИсполняемогоФайла": "93c683d0d3cb79ae6f1ec51f8190e13bcb897102e465e4e442e098280fee48dd",
+    "сохранёнВнеGit": true,
+    "компиляция": {
+      "команда": "swiftc -module-cache-path /tmp/fum-local-input-pilot.8ErBB0/module-cache -o /tmp/fum-local-input-pilot.8ErBB0/installer <точные байты принятого renderer> /tmp/fum-local-input-pilot.8ErBB0/installer.swift",
+      "код": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "исполнение": {
+      "команда": "/tmp/fum-local-input-pilot.8ErBB0/installer pravila/происхождение-локального-входа-агента.json",
+      "код": 0,
+      "stdout": {
+        "directoryFsync": true,
+        "equal": true,
+        "fileFsync": true,
+        "noFollow": "initial lstat plus openat(O_NOFOLLOW) and fstat regular-file readback",
+        "outcome": "created",
+        "prestate": "absent",
+        "publication": "same-directory temporary plus exclusive atomic linkat; no overwrite",
+        "readbackByteCount": 3237,
+        "readbackSHA256": "086a7f496bca2ef1aec9532215099d393f73a388854b8f0ba4bcc228d0ccde55",
+        "renderedByteCount": 3237,
+        "renderedSHA256": "086a7f496bca2ef1aec9532215099d393f73a388854b8f0ba4bcc228d0ccde55",
+        "result": "created",
+        "targetCanonical": "/Users/fum/.codex/worktrees/pravila/FUM/Правила/агентов/AGENTS.md",
+        "targetRelative": "Правила/агентов/AGENTS.md"
+      },
+      "stderr": ""
+    }
+  },
+  "readOnlyRendererVerification": {
+    "цель": "повторно сформировать байты только в памяти и сравнить с установленным файлом; target не записывался",
+    "исходник": "/tmp/fum-local-input-pilot.8ErBB0/render-check.swift",
+    "исходникSHA256": "347ec09978281f5c59c2cbb6ccd0be567ab8f1c7800515e2922693475e905798",
+    "исполняемыйФайл": "/tmp/fum-local-input-pilot.8ErBB0/render-check",
+    "исполняемыйSHA256": "c12f6ed06739415335bd3a4a1a9da84a9044fcffa779da198cad812ca0c1bd1c",
+    "сохраненоВнеGit": true,
+    "compileExitCode": 0,
+    "executionExitCode": 0,
+    "stdout": {
+      "equal": true,
+      "readbackByteCount": 3237,
+      "readbackSHA256": "086a7f496bca2ef1aec9532215099d393f73a388854b8f0ba4bcc228d0ccde55",
+      "readOnly": true,
+      "renderedByteCount": 3237,
+      "renderedSHA256": "086a7f496bca2ef1aec9532215099d393f73a388854b8f0ba4bcc228d0ccde55",
+      "targetRelative": "Правила/агентов/AGENTS.md"
+    },
+    "stderr": ""
+  },
+  "read_ack_status": "not_checked_not_created",
+  "маршрутизатор": {
+    "этотИсполнитель": "автоматический Python-маршрутизатор не запускал по прямому запрету",
+    "известноеОтклонениеКорневогоКонтура": {
+      "вызововPython": 1,
+      "командаНачало": "python3 Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py",
+      "назначение": "read-only маршрут",
+      "код": 0,
+      "неБылTestИлиSmoke": true,
+      "полныйArgvTriggerСохранён": false,
+      "дальнейшийPython": "по передаче корня после этого не запускался"
+    }
+  },
+  "наблюденияParentRef": [
+    {
+      "ref": "refs/heads/fum-lab/fum/master",
+      "OID": "fac375933085f82849e786752d8bb311aa84b417",
+      "времяUTC": "unavailable",
+      "источник": "parent handoff / read-only audit; timestamp и точный argv не переданы"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/master",
+      "OID": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "времяUTC": "2026-10-29 05:10:49 UTC",
+      "источник": "git show-ref и git ls-remote origin; local и remote совпали"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/master",
+      "OID": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "времяUTC": "2026-10-29 05:13:27 UTC",
+      "источник": "повторные git show-ref и git ls-remote origin; local и remote всё ещё совпали"
+    }
+  ],
+  "отклоненияИИсправления": [
+    {
+      "тип": "ошибочный локальный автор коммита A до публикации",
+      "OIDДоИсправления": "67687890624c8354c0fe69e5ef106469ee89157f",
+      "авторДоИсправления": "FUM Писатель <fum@local>",
+      "причина": "git -c user.name переопределил committer, но наследованный GIT_AUTHOR_NAME/GIT_AUTHOR_EMAIL сохранили автора FUM Писатель",
+      "исправленныйSourceCheckpoint": "b1f83dc715ea44e66ea104163416fac76c2c72e2",
+      "действие": "до публикации локально выполнен amend --reset-author с явными GIT_AUTHOR_* и GIT_COMMITTER_*; reflog сохраняет оба OID; дальнейших rewrite не было; опубликован обычным non-force push только исправленный OID",
+      "изменениеОпубликованногоRef": false
+    },
+    {
+      "тип": "ошибочный apply_patch путь вне W, очищен родителем",
+      "путь": "/Users/fum/.codex/worktrees/preserving-profile/pravila/FUM/pravila/описание-локального-входа-агента.json",
+      "причина": "первый относительный patch использовал ../pravila/FUM из preserving-profile/FUM вместо ../../pravila/FUM",
+      "очистка": "родитель удалил только созданный файл через apply_patch, затем rmdir трёх подтверждённо пустых каталогов; test ! -e для /Users/fum/.codex/worktrees/preserving-profile/pravila завершился 0; target W до правильного patch оставался чистым"
+    },
+    {
+      "тип": "первая jq equality-форма не разобрана",
+      "причина": "в jq-выражении кириллические ключи без bracket notation дали parser/compile error, exit 3",
+      "эффект": "только read-only; исправленная bracket-notation форма вернула true, exit 0"
+    },
+    {
+      "тип": "ошибочный read-only merge-tree вызов корневого RO-аудитора",
+      "команда": "git -C /Users/fum/.codex/worktrees/pravila/FUM merge-tree --write-tree --name-only f05c567f111673ffe5b09b609466bd992508ee07 9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c",
+      "код": 1,
+      "выведенноеДерево": "5d242baa4c4b4dba67f7b02f8ec473f96eb3fed1",
+      "objectDB": "команда могла записать недостижимые объекты; отсутствие эффекта в object DB не утверждается",
+      "worktreeIndexИTargetRef": "по аудиту остались на f05c567f111673ffe5b09b609466bd992508ee07",
+      "конкурентныйParentRemote": "во время аудита parent remote переместился с 9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c на fac375933085f82849e786752d8bb311aa84b417"
+    }
+  ],
+  "областьПилота": {
+    "installerКонтрактПринятВ446Или447": false,
+    "массовыйRollout": false,
+    "миграцияИстории": false,
+    "слияниеParent": false,
+    "ACKСоздан": false
+  },
+  "неПроверено": [
+    "не запускались tests, smoke, общий валидатор, глобальные индексы, ROOT JSONL, остаток сообщений и проверка продолжения задачи",
+    "не проверялись альтернативные ветви installer: identical existing file, differing regular file, symlink, non-regular target и race EEXIST",
+    "не выполнялись массовое развёртывание, миграция истории, изменение parent ref, merge, интеграция в master или production activation",
+    "не создан и не проверен version-specific ACK; отдельный Journal не входит в grant",
+    "новый installer и receipt остаются ограниченным локальным пилотом, не приняты PR 446/447",
+    "не выполнялась проверка продолжения задачи перед финальной передачей"
+  ]
+}
