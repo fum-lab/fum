@@ -1461,6 +1461,473 @@ enum Оценщик {
     }
 }
 
+public struct ПутьФизическогоРабочегоДереваGit: Equatable, Sendable {
+    public let путь: String
+
+    public init?(путь: String) {
+        guard путь.hasPrefix("/"), !путь.utf8.contains(0) else { return nil }
+        let url = URL(fileURLWithPath: путь, isDirectory: true)
+        guard url.standardizedFileURL.path == путь else { return nil }
+        var каталог: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: путь, isDirectory: &каталог), каталог.boolValue else {
+            return nil
+        }
+        guard url.resolvingSymlinksInPath().path == путь else { return nil }
+        self.путь = путь
+    }
+}
+
+public struct ПолныйРефGit: Equatable, Sendable {
+    public let реф: String
+
+    public init?(реф: String) {
+        guard реф.hasPrefix("refs/heads/"), реф != "refs/heads/", !реф.contains("@{") else { return nil }
+        let компоненты = реф.split(separator: "/", omittingEmptySubsequences: false)
+        guard компоненты.count >= 3 else { return nil }
+        let запрещённые: Set<UInt8> = [0x20, 0x7f, 0x7e, 0x5e, 0x3a, 0x3f, 0x2a, 0x5b, 0x5c]
+        guard реф.utf8.allSatisfy({ !($0 <= 0x1f || $0 == 0x7f) && !запрещённые.contains($0) }) else { return nil }
+        guard компоненты.dropFirst(2).allSatisfy({
+            !$0.isEmpty && $0 != "." && $0 != ".." &&
+                !$0.hasPrefix(".") && !$0.hasSuffix(".") && !$0.hasSuffix(".lock")
+        }) else { return nil }
+        guard !реф.contains("//"), !реф.contains("..") else { return nil }
+        self.реф = реф
+    }
+}
+
+public struct OIDКоммитаGit: Equatable, Sendable {
+    public let oid: String
+
+    public init?(oid: String) {
+        guard oid.utf8.count == 40,
+              oid.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) else {
+            return nil
+        }
+        self.oid = oid
+    }
+}
+
+public struct АдресУдалённогоGit: Equatable, Sendable {
+    public let адрес: String
+
+    public init?(адрес: String) {
+        guard let компоненты = URLComponents(string: адрес),
+              компоненты.scheme == "https",
+              компоненты.host == "github.com",
+              компоненты.user == nil,
+              компоненты.password == nil,
+              компоненты.port == nil,
+              компоненты.query == nil,
+              компоненты.fragment == nil,
+              компоненты.path.hasSuffix(".git") else { return nil }
+        self.адрес = адрес
+    }
+}
+
+public struct UUIDКорневойЗадачи: Equatable, Sendable {
+    public let uuid: String
+
+    public init?(uuid: String) {
+        guard let значение = UUID(uuidString: uuid), значение.uuidString.lowercased() == uuid else { return nil }
+        self.uuid = uuid
+    }
+}
+
+public struct UUIDНативногоПисателя: Equatable, Sendable {
+    public let uuid: String
+
+    public init?(uuid: String) {
+        guard let значение = UUID(uuidString: uuid), значение.uuidString.lowercased() == uuid else { return nil }
+        self.uuid = uuid
+    }
+}
+
+public struct СнимокСостоянияGit: Equatable, Sendable {
+    public let физическийКорень: ПутьФизическогоРабочегоДереваGit
+    public let реф: ПолныйРефGit
+    public let oidHEAD: OIDКоммитаGit
+    public let адресOrigin: АдресУдалённогоGit
+
+    public init(
+        физическийКорень: ПутьФизическогоРабочегоДереваGit,
+        реф: ПолныйРефGit,
+        oidHEAD: OIDКоммитаGit,
+        адресOrigin: АдресУдалённогоGit
+    ) {
+        self.физическийКорень = физическийКорень
+        self.реф = реф
+        self.oidHEAD = oidHEAD
+        self.адресOrigin = адресOrigin
+    }
+}
+
+public struct ОжидаемаяПривязкаИсполненияGit: Equatable, Sendable {
+    public let физическоеРабочееДерево: ПутьФизическогоРабочегоДереваGit
+    public let полныйРеф: ПолныйРефGit
+    public let ожидаемыйOID: OIDКоммитаGit
+    public let ожидаемыйАдресOrigin: АдресУдалённогоGit
+    public let общийUUIDКорневойЗадачи: UUIDКорневойЗадачи
+    public let ожидаемыйUUIDНативногоПисателя: UUIDНативногоПисателя
+    public let ожидаемыйПутьУзла: String
+    public let квитанцияВыбораМодели: СвидетельствоВыбораМодели
+    public let квитанцияВыбораМоделиСХэшем: КвитанцияВыбораМодели
+    public let независимоеОжиданиеВыбораМодели: ОжидаемаяКвитанцияВыбораМодели
+
+    public init?(
+        физическоеРабочееДерево: ПутьФизическогоРабочегоДереваGit,
+        полныйРеф: ПолныйРефGit,
+        ожидаемыйOID: OIDКоммитаGit,
+        ожидаемыйАдресOrigin: АдресУдалённогоGit,
+        общийUUIDКорневойЗадачи: UUIDКорневойЗадачи,
+        ожидаемыйUUIDНативногоПисателя: UUIDНативногоПисателя,
+        ожидаемыйПутьУзла: String,
+        квитанцияВыбораМодели: КвитанцияВыбораМодели,
+        независимоеОжиданиеВыбораМодели: ОжидаемаяКвитанцияВыбораМодели
+    ) {
+        guard полныйРеф.реф.hasPrefix("refs/heads/fum-lab/fum/koordinaciya/"),
+              ожидаемыйАдресOrigin.адрес == "https://github.com/fum-lab/fum.git",
+              ожидаемыйПутьУзла == "/root/koordinaciya" else { return nil }
+        self.физическоеРабочееДерево = физическоеРабочееДерево
+        self.полныйРеф = полныйРеф
+        self.ожидаемыйOID = ожидаемыйOID
+        self.ожидаемыйАдресOrigin = ожидаемыйАдресOrigin
+        self.общийUUIDКорневойЗадачи = общийUUIDКорневойЗадачи
+        self.ожидаемыйUUIDНативногоПисателя = ожидаемыйUUIDНативногоПисателя
+        self.ожидаемыйПутьУзла = ожидаемыйПутьУзла
+        self.квитанцияВыбораМодели = квитанцияВыбораМодели.свидетельство
+        self.квитанцияВыбораМоделиСХэшем = квитанцияВыбораМодели
+        self.независимоеОжиданиеВыбораМодели = независимоеОжиданиеВыбораМодели
+    }
+}
+
+public struct НаблюдаемаяПривязкаИсполненияGit: Sendable {
+    public let снимокGit: СнимокСостоянияGit
+    public let общийUUIDКорневойЗадачи: UUIDКорневойЗадачи
+    public let фактическийUUIDНативногоПисателя: UUIDНативногоПисателя
+    public let путьУзла: String
+
+    public init(
+        снимокGit: СнимокСостоянияGit,
+        общийUUIDКорневойЗадачи: UUIDКорневойЗадачи,
+        фактическийUUIDНативногоПисателя: UUIDНативногоПисателя,
+        путьУзла: String
+    ) {
+        self.снимокGit = снимокGit
+        self.общийUUIDКорневойЗадачи = общийUUIDКорневойЗадачи
+        self.фактическийUUIDНативногоПисателя = фактическийUUIDНативногоПисателя
+        self.путьУзла = путьУзла
+    }
+}
+
+public enum ОшибкаПривязкиИсполненияGit: Equatable, Sendable {
+    case физическоеРабочееДеревоНеСовпадает
+    case рефНеСовпадает
+    case oidНеСовпадает
+    case адресOriginНеСовпадает
+    case корневойUUIDНеСовпадает
+    case UUIDНативногоПисателяНеСовпадает
+    case путьУзлаНеСовпадает
+    case корневойUUIDКвитанцииНеСовпадает
+    case UUIDНативногоПисателяВКвитанцииНеСовпадает
+    case путьУзлаКвитанцииНеСовпадает
+    case выбранныеПоляНеСовпадают
+    case квитанцияНативногоПисателяНеполна
+    case квитанцияВыбораМоделиНеСовпадает
+    case командаНеПостроена
+}
+
+public struct ДовереннаяПривязкаИсполненияGit: Sendable {
+    public let рабочееДерево: ПутьФизическогоРабочегоДереваGit
+    public let реф: ПолныйРефGit
+    public let oid: OIDКоммитаGit
+    public let origin: АдресУдалённогоGit
+    public let общийUUIDКорневойЗадачи: UUIDКорневойЗадачи
+    public let uuidНативногоПисателя: UUIDНативногоПисателя
+    public let путьУзла: String
+
+    fileprivate init(ожидаемая: ОжидаемаяПривязкаИсполненияGit) {
+        рабочееДерево = ожидаемая.физическоеРабочееДерево
+        реф = ожидаемая.полныйРеф
+        oid = ожидаемая.ожидаемыйOID
+        origin = ожидаемая.ожидаемыйАдресOrigin
+        общийUUIDКорневойЗадачи = ожидаемая.общийUUIDКорневойЗадачи
+        uuidНативногоПисателя = ожидаемая.ожидаемыйUUIDНативногоПисателя
+        путьУзла = ожидаемая.ожидаемыйПутьУзла
+    }
+}
+
+public struct РезультатПроверкиПривязкиGit: Sendable {
+    public let ошибки: [ОшибкаПривязкиИсполненияGit]
+    public let довереннаяПривязка: ДовереннаяПривязкаИсполненияGit?
+}
+
+public enum ПроверкаПривязкиИсполненияGit {
+    public static func проверить(
+        ожидаемая: ОжидаемаяПривязкаИсполненияGit,
+        наблюдаемая: НаблюдаемаяПривязкаИсполненияGit
+    ) -> РезультатПроверкиПривязкиGit {
+        var ошибки: [ОшибкаПривязкиИсполненияGit] = []
+        if ожидаемая.физическоеРабочееДерево != наблюдаемая.снимокGit.физическийКорень {
+            ошибки.append(.физическоеРабочееДеревоНеСовпадает)
+        }
+        if ожидаемая.полныйРеф != наблюдаемая.снимокGit.реф {
+            ошибки.append(.рефНеСовпадает)
+        }
+        if ожидаемая.ожидаемыйOID != наблюдаемая.снимокGit.oidHEAD {
+            ошибки.append(.oidНеСовпадает)
+        }
+        if ожидаемая.ожидаемыйАдресOrigin != наблюдаемая.снимокGit.адресOrigin {
+            ошибки.append(.адресOriginНеСовпадает)
+        }
+        if ожидаемая.общийUUIDКорневойЗадачи != наблюдаемая.общийUUIDКорневойЗадачи {
+            ошибки.append(.корневойUUIDНеСовпадает)
+        }
+        if ожидаемая.ожидаемыйUUIDНативногоПисателя != наблюдаемая.фактическийUUIDНативногоПисателя {
+            ошибки.append(.UUIDНативногоПисателяНеСовпадает)
+        }
+        if ожидаемая.ожидаемыйПутьУзла != наблюдаемая.путьУзла {
+            ошибки.append(.путьУзлаНеСовпадает)
+        }
+
+        let ошибкиКвитанции = ГенераторМетаданныхКоммита.проверитьReceipt(
+            ожидаемая.квитанцияВыбораМоделиСХэшем,
+            ожидаемый: ожидаемая.независимоеОжиданиеВыбораМодели,
+            expectedRootUUID: ожидаемая.общийUUIDКорневойЗадачи.uuid
+        )
+        if !ошибкиКвитанции.isEmpty {
+            ошибки.append(.квитанцияВыбораМоделиНеСовпадает)
+        }
+        let receipt = ожидаемая.квитанцияВыбораМодели
+        if receipt.rootUUID != ожидаемая.общийUUIDКорневойЗадачи.uuid {
+            ошибки.append(.корневойUUIDКвитанцииНеСовпадает)
+        }
+        guard let native = receipt.nativeThread else {
+            ошибки.append(.квитанцияНативногоПисателяНеполна)
+            return РезультатПроверкиПривязкиGit(ошибки: ошибки, довереннаяПривязка: nil)
+        }
+        if receipt.sessionIdentity.статус != .доступен ||
+            receipt.sessionIdentity.вид != .идентификаторNativeThreadMetadata ||
+            receipt.sessionIdentity.значение != ожидаемая.ожидаемыйUUIDНативногоПисателя.uuid ||
+            native.threadUUID != ожидаемая.ожидаемыйUUIDНативногоПисателя.uuid {
+            ошибки.append(.UUIDНативногоПисателяВКвитанцииНеСовпадает)
+        }
+        if native.agentPath != ожидаемая.ожидаемыйПутьУзла {
+            ошибки.append(.путьУзлаКвитанцииНеСовпадает)
+        }
+        if native.модель != receipt.selectedValue.model || native.усилие != receipt.selectedValue.reasoningEffort {
+            ошибки.append(.выбранныеПоляНеСовпадают)
+        }
+        let доверенная = ошибки.isEmpty ? ДовереннаяПривязкаИсполненияGit(ожидаемая: ожидаемая) : nil
+        return РезультатПроверкиПривязкиGit(ошибки: ошибки, довереннаяПривязка: доверенная)
+    }
+}
+
+public struct СпецификацияОтправкиGit: Equatable, Sendable {
+    public let значение: String
+
+    public init?(значение: String) {
+        let части = значение.split(separator: ":", omittingEmptySubsequences: false)
+        guard части.count == 2,
+              let oid = OIDКоммитаGit(oid: String(части[0])),
+              let реф = ПолныйРефGit(реф: String(части[1])),
+              реф.реф.hasPrefix("refs/heads/fum-lab/fum/koordinaciya/") else { return nil }
+        self.значение = "\(oid.oid):\(реф.реф)"
+    }
+
+    fileprivate init?(oid: OIDКоммитаGit, реф: ПолныйРефGit) {
+        self.init(значение: "\(oid.oid):\(реф.реф)")
+    }
+}
+
+public struct КомандаGit: Sendable {
+    public let исполняемыйПуть: String
+    public let аргументы: [String]
+    public let рабочийКаталог: String
+    public let целевойРеф: String
+
+    fileprivate init(для привязки: ДовереннаяПривязкаИсполненияGit, спецификация: СпецификацияОтправкиGit) {
+        исполняемыйПуть = "/usr/bin/git"
+        аргументы = ["push", "origin", спецификация.значение]
+        рабочийКаталог = привязки.рабочееДерево.путь
+        целевойРеф = привязки.реф.реф
+    }
+}
+
+public enum ПостроительКомандыGit {
+    public static func отправитьВУдалённыйРепозиторий(для привязки: ДовереннаяПривязкаИсполненияGit) -> КомандаGit? {
+        guard let спецификация = СпецификацияОтправкиGit(oid: привязки.oid, реф: привязки.реф) else { return nil }
+        return КомандаGit(для: привязки, спецификация: спецификация)
+    }
+}
+
+public struct КвитанцияЗапускаGit: Sendable {
+    public let аргументы: [String]
+    public let рабочийКаталог: String
+    public let кодЗавершения: Int32
+    public let требуетсяУдалённоеЧтениеОбратно: Bool
+}
+
+public enum АдаптерВыполненияКомандGit {
+    fileprivate static func выполнить(_ команда: КомандаGit) throws -> КвитанцияЗапускаGit {
+        guard команда.исполняемыйПуть == "/usr/bin/git",
+              команда.аргументы.count == 3,
+              команда.аргументы[0] == "push",
+              команда.аргументы[1] == "origin",
+              let спецификация = СпецификацияОтправкиGit(значение: команда.аргументы[2]),
+              спецификация.значение.split(separator: ":").last.map(String.init) == команда.целевойРеф,
+              let путь = ПутьФизическогоРабочегоДереваGit(путь: команда.рабочийКаталог) else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        let процесс = Process()
+        процесс.executableURL = URL(fileURLWithPath: команда.исполняемыйПуть)
+        процесс.arguments = команда.аргументы
+        процесс.currentDirectoryURL = URL(fileURLWithPath: путь.путь, isDirectory: true)
+        процесс.environment = Self.окружениеИзолированногоGit()
+        процесс.standardOutput = FileHandle.nullDevice
+        процесс.standardError = FileHandle.nullDevice
+        try процесс.run()
+        процесс.waitUntilExit()
+        return КвитанцияЗапускаGit(
+            аргументы: команда.аргументы,
+            рабочийКаталог: путь.путь,
+            кодЗавершения: процесс.terminationStatus,
+            требуетсяУдалённоеЧтениеОбратно: true
+        )
+    }
+
+    fileprivate static func окружениеИзолированногоGit() -> [String: String] {
+        var окружение = ProcessInfo.processInfo.environment
+        for ключ in Array(окружение.keys) where ключ.hasPrefix("GIT_CONFIG_KEY_") || ключ.hasPrefix("GIT_CONFIG_VALUE_") {
+            окружение.removeValue(forKey: ключ)
+        }
+        for ключ in [
+            "GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE",
+            "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+            "GIT_CONFIG", "GIT_CONFIG_PARAMETERS", "GIT_CONFIG_SYSTEM", "GIT_CONFIG_COUNT",
+            "GIT_CEILING_DIRECTORIES", "GIT_DISCOVERY_ACROSS_FILESYSTEM", "GIT_NAMESPACE",
+            "GIT_SHALLOW_FILE", "GIT_QUARANTINE_PATH", "GIT_PREFIX"
+        ] {
+            окружение.removeValue(forKey: ключ)
+        }
+        окружение["GIT_CONFIG_NOSYSTEM"] = "1"
+        окружение["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        окружение["GIT_OPTIONAL_LOCKS"] = "0"
+        окружение["GIT_TERMINAL_PROMPT"] = "0"
+        return окружение
+    }
+}
+
+public enum ИтогПроверенногоPushGit: Sendable {
+    case удержан([ОшибкаПривязкиИсполненияGit])
+    case запущен(КвитанцияЗапускаGit)
+}
+
+public enum АдаптерПроверенногоPushGit {
+    /// Сначала повторно читает W/ref/HEAD/origin, затем сверяет отдельную native-идентичность и один раз вызывает executor.
+    /// Если executor выбросил ошибку, исход эффекта неизвестен; повтор запрещён до отдельного readback.
+    public static func выполнитьПроверенныйPush(
+        ожидаемая: ОжидаемаяПривязкаИсполненияGit,
+        наблюдаемыйUUIDКорневойЗадачи: UUIDКорневойЗадачи,
+        наблюдаемыйUUIDНативногоПисателя: UUIDНативногоПисателя,
+        наблюдаемыйПутьУзла: String,
+        исполнитель: ((КомандаGit) throws -> КвитанцияЗапускаGit)? = nil
+    ) throws -> ИтогПроверенногоPushGit {
+        let свежийGit = try НаблюдательРабочегоДереваGit.прочитать(
+            рабочееДерево: ожидаемая.физическоеРабочееДерево
+        )
+        let наблюдаемая = НаблюдаемаяПривязкаИсполненияGit(
+            снимокGit: свежийGit,
+            общийUUIDКорневойЗадачи: наблюдаемыйUUIDКорневойЗадачи,
+            фактическийUUIDНативногоПисателя: наблюдаемыйUUIDНативногоПисателя,
+            путьУзла: наблюдаемыйПутьУзла
+        )
+        let проверка = ПроверкаПривязкиИсполненияGit.проверить(
+            ожидаемая: ожидаемая,
+            наблюдаемая: наблюдаемая
+        )
+        guard let доверенная = проверка.довереннаяПривязка else {
+            return .удержан(проверка.ошибки)
+        }
+        guard let команда = ПостроительКомандыGit.отправитьВУдалённыйРепозиторий(для: доверенная) else {
+            return .удержан([.командаНеПостроена])
+        }
+        let квитанция: КвитанцияЗапускаGit
+        if let исполнитель {
+            квитанция = try исполнитель(команда)
+        } else {
+            квитанция = try АдаптерВыполненияКомандGit.выполнить(команда)
+        }
+        return .запущен(квитанция)
+    }
+}
+
+public enum НаблюдательРабочегоДереваGit {
+    public static func прочитать(рабочееДерево: ПутьФизическогоРабочегоДереваGit) throws -> СнимокСостоянияGit {
+        let rootАргументы = ["rev-parse", "--show-toplevel"]
+        let rootText = try выполнитьGit(rootАргументы, в: рабочееДерево)
+        let найденныйКорень = URL(fileURLWithPath: rootText, isDirectory: true)
+            .standardizedFileURL.resolvingSymlinksInPath().path
+        guard найденныйКорень == рабочееДерево.путь else {
+            throw ОшибкаСнимкаGit.кореньGitНеСовпадаетСПереданнымРабочимДеревом
+        }
+        let refАргументы = ["symbolic-ref", "--quiet", "HEAD"]
+        let refText = try выполнитьGit(refАргументы, в: рабочееДерево)
+        guard let ref = ПолныйРефGit(реф: refText) else { throw ОшибкаСнимкаGit.некорректныйВывод(refАргументы) }
+        let oidАргументы = ["rev-parse", "--verify", "HEAD^{commit}"]
+        let oidText = try выполнитьGit(oidАргументы, в: рабочееДерево)
+        guard let oid = OIDКоммитаGit(oid: oidText) else { throw ОшибкаСнимкаGit.некорректныйВывод(oidАргументы) }
+        let originАргументы = ["remote", "get-url", "origin"]
+        let originText = try выполнитьGit(originАргументы, в: рабочееДерево)
+        guard let origin = АдресУдалённогоGit(адрес: originText) else {
+            throw ОшибкаСнимкаGit.некорректныйВывод(originАргументы)
+        }
+        return СнимокСостоянияGit(
+            физическийКорень: рабочееДерево,
+            реф: ref,
+            oidHEAD: oid,
+            адресOrigin: origin
+        )
+    }
+
+    private static func выполнитьGit(_ аргументы: [String], в рабочееДерево: ПутьФизическогоРабочегоДереваGit) throws -> String {
+        let процесс = Process()
+        процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+        процесс.arguments = аргументы
+        процесс.currentDirectoryURL = URL(fileURLWithPath: рабочееДерево.путь, isDirectory: true)
+        процесс.environment = АдаптерВыполненияКомандGit.окружениеИзолированногоGit()
+        let вывод = Pipe()
+        процесс.standardOutput = вывод
+        процесс.standardError = FileHandle.nullDevice
+        try процесс.run()
+        процесс.waitUntilExit()
+        let данные = вывод.fileHandleForReading.readDataToEndOfFile()
+        guard процесс.terminationStatus == 0 else {
+            throw ОшибкаСнимкаGit.командаНеУспешна(аргументы, процесс.terminationStatus)
+        }
+        guard let строка = String(data: данные, encoding: .utf8) else {
+            throw ОшибкаСнимкаGit.некорректныйВывод(аргументы)
+        }
+        return строка.trimmingCharacters(in: .newlines)
+    }
+}
+
+public enum ОшибкаСнимкаGit: Error, Equatable, Sendable, CustomStringConvertible {
+    case командаНеУспешна([String], Int32)
+    case некорректныйВывод([String])
+    case кореньGitНеСовпадаетСПереданнымРабочимДеревом
+
+    public var description: String {
+        switch self {
+        case let .командаНеУспешна(аргументы, код):
+            return "git \(аргументы.joined(separator: " ")) завершился с кодом \(код)"
+        case let .некорректныйВывод(аргументы):
+            return "git \(аргументы.joined(separator: " ")) вернул неприемлемый результат"
+        case .кореньGitНеСовпадаетСПереданнымРабочимДеревом:
+            return "git обнаружил другой физический корень репозитория"
+        }
+    }
+}
+
 #if !TESTING
 private struct ОжиданиеСырогоMergeКоммита: Decodable {
     let schema: String
