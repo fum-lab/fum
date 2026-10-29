@@ -1,0 +1,14 @@
+{
+  "схема": "fum.семантическое-описание-локального-входа-агента.1",
+  "версия": 1,
+  "логическийАдрес": "fum-lab/fum/pravila/master",
+  "путьКаталога": "Правила/агентов",
+  "областьЗаписи": [
+    "Правила/агентов/AGENTS.md"
+  ],
+  "родитель": "fum-lab/fum/master",
+  "дети": [
+    "fum-lab/fum/pravila/lokaljnyij-vkhod/marshrutizaciya/master",
+    "fum-lab/fum/pravila/lokaljnyij-vkhod/postavka/master"
+  ]
+}

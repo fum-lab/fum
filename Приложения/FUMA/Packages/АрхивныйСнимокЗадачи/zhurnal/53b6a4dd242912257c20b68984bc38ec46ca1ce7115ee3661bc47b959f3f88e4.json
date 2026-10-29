@@ -1,0 +1,114 @@
+{
+  "входSHA256" : "1fb427846c1dc53b50655059d5c2291a07c86850a83ab5cb5a2d110714854da9",
+  "данные" : {
+    "время" : "2026-10-26T20:35:04Z",
+    "доставка" : [
+      {
+        "вид" : "Исходная программа",
+        "идентификатор" : "0e96b3b860cba409da17f4dde65c41bf45a58a99",
+        "свидетельство" : "tree fb8cda1f22b8dcd8c575d9ab7b7ae386a565f0bf; raw commit SHA-256 be7d89f4e79eb8f7552abf419d73ba7ea789458874493b1bf72da51ee97ee600."
+      },
+      {
+        "вид" : "Непринятая историческая поставка",
+        "идентификатор" : "ab6c3605843d00e7405625735e6d7fe01c4b8d81",
+        "свидетельство" : "История и blob сохранены; correction не объявляет ab6 принятой поставкой."
+      },
+      {
+        "вид" : "Закреплённый исполняемый образ журнала",
+        "идентификатор" : "689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b",
+        "свидетельство" : "Pin из correction-поручения; SHA-256 независимо проверен до help, plan и apply, без пересборки образа."
+      },
+      {
+        "вид" : "Приватная квитанция единственного тестового процесса",
+        "идентификатор" : "94d3acc4813d57ce652671cfda7e5234a71d925ce62b4acd6538c74be5fb8008",
+        "свидетельство" : "Адаптер независимо сверил одну терминальную пару с точными приватными каналами; test source SHA-256 закреплён отдельно."
+      }
+    ],
+    "исход" : "Scope/body-дефекты ab6 исправляются в том же UUID: 23 непрофильных пути возвращены к 0e96, различающий test-local post-fsync маркер прошёл одним адресным тестом, локальная Archive-запись формируется. Это не ROOT-приёмка, master-интеграция или live-доказательство.",
+    "область" : "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи",
+    "остаток" : [
+      "Установить ровно эту локальную запись frozen FUMA plan/apply и сверить её точные байты.",
+      "Проверить exact three-path diff к 0e96, индекс, JSON, whitespace, scoped publication code 0 и побайтовую сохранность Markdown и старого Root Journal.",
+      "Создать новый обычный коммит поверх ab6 с полным body, прочитать raw commit, выполнить exact normal push и независимый remote OID readback.",
+      "Приёмка непосредственного координатора FUMA и ROOT остаётся отдельной; дальнейшей автоматической работы после передачи нет."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Адресный тест восстановления после неясной синхронизации",
+        "наносекунды" : 5820659084,
+        "свидетельство" : "Ровно один отфильтрованный Swift Testing test прошёл. Test source SHA-256 b250fa02185bfafee27f3c3dc3ded7f444a0c3a0e0aaff0cc8164ac18a1c4a70; argv SHA-256 94d3acc4813d57ce652671cfda7e5234a71d925ce62b4acd6538c74be5fb8008; stdout 454 байта, SHA-256 e717e49ca55cad0e78783a4eb7d96d24462a32ade136f485d6fd601269003ebc; stderr 669 байт, SHA-256 07a8b44ba1a65f3cd5628a8181770dc356306636aff2645eb0ef2df740d60066. Existing Swift adapter измерил ContinuousClock от Process.run до завершения и закрытия каналов."
+      },
+      {
+        "исход" : "неПроверено",
+        "название" : "Не выполнявшиеся расширенные проверки",
+        "свидетельство" : "Старые 11 тестов, полный smoke, whole-repository scan, ROOT21, residual, continuation, legacyguard, 019, D512 и live ACT не запускались по явной границе correction-поручения."
+      }
+    ],
+    "происхождение" : [
+      "Исходная программа: C 0e96b3b860cba409da17f4dde65c41bf45a58a99, tree fb8cda1f22b8dcd8c575d9ab7b7ae386a565f0bf, parents [d45f5cc1f2acfa4ec866d06f17f34fb3dfe9057e,401f1f57ede92e873c971c0d90991c1dd087d0dc], raw commit SHA-256 be7d89f4e79eb8f7552abf419d73ba7ea789458874493b1bf72da51ee97ee600.",
+      "Непринятая поставка ab6c3605843d00e7405625735e6d7fe01c4b8d81, tree 57c731ba27845911b265c9a7513209b001cd7b3a, parent 0e96b3b860cba409da17f4dde65c41bf45a58a99: потребительская сверка выявила 23 пути вне Archive и отсутствие трёх transferred human quotes.",
+      "Точные 23 blob из ab6 до восстановления сохранены приватно с режимами, OID и SHA-256; tar SHA-256 958326c8bc617fa4e00cbd4790ca3dbe3a984547ffe3be1fe967fe203016ad96, манифест SHA-256 2fcb701dbe6b28b0e6d962def311d0e1568463358c8da46173a2cf2632d223a3.",
+      "Запрошенное FUMA повышение: gpt-5.6-sol и effort ultra; API принял этот режим для correction-turn.",
+      "Фактический native turn_context 2026-10-26T20:25:02.756Z отдельно подтвердил model gpt-5.6-sol и effort ultra; координатор исходного C имел отдельную идентичность gpt-6.1-sol/ultra.",
+      "Использован прежний frozen FUMA journal image SHA-256 689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b; образ не пересобирался."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Сохранить историю ab6 без amend, reset, rebase, force или удаления ref; исправление выполняется новым потомком.",
+      "После приватного сохранения вернуть три прежних blob точно к 0e96 и убрать из конечного дерева двадцать новых Root Journal-файлов; закрытый Root Journal не продолжать.",
+      "Оставить конечную дельту от 0e96 ровно из Package.swift, одного Swift Testing-файла и одной локальной Archive-записи.",
+      "Искусственный NSError создаётся только после успешного системного fsync; предикат различает его по POSIX-домену, EIO и уникальному userInfo-маркеру.",
+      "Производственный API не меняется. Тест доказывает same-process reopen после одного injected post-fsync отказа, но не power crash, реальный отказ fsync, 21 GiB, многосегментность или устойчивые cursors.",
+      "Полные argv, stdout, stderr, intent и outcome единственного тестового процесса остаются приватно вне checkout; публично сохраняются только размеры, хэши и наблюдённый исход."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Передано ROOT из видимого человеческого контекста; первичный человеческий native JSONL, путь и blob текущий писатель независимо не читал и не выдумывает.",
+        "роль" : "человек",
+        "текст" : "Shtatnoye razvyortyivaniye uzla dolzhno zapuskatjsya cherez swift run v korne sklonirovannogo repozitoriya."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Передано ROOT из видимого человеческого контекста; первичный человеческий native JSONL, путь и blob текущий писатель независимо не читал и не выдумывает.",
+        "роль" : "человек",
+        "текст" : "Po suti pervyij vkhod FUMA — eto JSONL Codex CLI."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Передано ROOT из видимого человеческого контекста; первичный человеческий native JSONL, путь и blob текущий писатель независимо не читал и не выдумывает.",
+        "роль" : "человек",
+        "текст" : "Novyij kod avtomatizaci, dazhe yesli on zaimstvuyetsya iz susjhestvuyusjhego na Python — yego uzhe pishem na Swift ili FUMA."
+      },
+      {
+        "вид" : "производное",
+        "оригинал" : {
+          "sha256" : "cca3dbef59fb52f89f17b9da2ddc4e253fc9ba544b07fe3c38f6bd29829c65b8",
+          "байтов" : 10775,
+          "источник" : "Точные приватные байты полного агентского назначения из raw body source 0e96"
+        },
+        "происхождение" : "Полное публично безопасное производное исходного агентского назначения FUMA из raw body source 0e96; отдельно от человеческих цитат. Одна синтаксическая slash-форма двух offsets заменена союзом без изменения чисел или смысла.",
+        "роль" : "агент",
+        "текст" : "Новый отдельный конечный кодовый этап прежней постоянной роли после завершённого RO-плана. Инициатор FUMA 01a1698f-bb98-7691-b1c1-31ec737ed070; корневой UUID 01a07d3d-d376-7ad2-aafc-67e4c25a67eb. Пользовательский объём сохранён в адресной программе, нового узла/дубликата не создавать.\n\nТочный опубликованный источник: C=0e96b3b860cba409da17f4dde65c41bf45a58a99, tree=fb8cda1f22b8dcd8c575d9ab7b7ae386a565f0bf, parents=[d45f5cc1f2acfa4ec866d06f17f34fb3dfe9057e,401f1f57ede92e873c971c0d90991c1dd087d0dc], raw SHA256=be7d89f4e79eb8f7552abf419d73ba7ea789458874493b1bf72da51ee97ee600. Полный путь iskhodniki/zapusk/zhurnal/cli-paketa-devyati-putej.json, 149981 bytes, SHA256=021f5f5c92224afd5e90d61037368c3069677179320b1847c33b4e290891c256, версия документа2. Выбери раздел следующие_срезы_сохранения_и_предложений, версия1, роль=arkhiv, писатель=01a174e4-ddbd-7761-a56d-c278626c01ac. Commit/source/normal push/remote readback проверены; это программа потребителя, не ROOT/master/live receipt.\n\nСначала exact ACK source/version и действительной nativeмодели/UUID/physicalW/ref/HEAD/clean, затем выполни новый bounded срез по следующей полной постановке. Свободный delivery ref указан буквально; старый properref/39/D512 сохраняется на прежнемC. Используй свой прежний cleanW и обычный безопасный switch -c от exact sourceC только после проверки коллизий tracked/untracked/ignoredprivate; не force/reset/rebase/delete, liveACTнеперепривязывать. Это не новая canonicalветка/узел, только изолированная доставка прежнего владельца. Если ownWвнезапноотсутствует или переход закрытоотказывает — точныйhostgap мне, не создаватьдубль.\n\nОбщие границы:\n- Это отдельный новый конечный этап прежнего UUID/логической роли, закрытый ACT не возобновляется; нового узла не создавать.\n- После получения закоммиченного sourceC/path/hash этой программы сначала проверить exact source и native модель, UUID/W/HEAD/ref/clean/sole writer.\n- Старые39c79/D512 и их proper refs сохранить неизменными. Для нового принятого base использовать свободный delivery ref в том же собственном clean W: обычный switch -c от точного sourceC после проверки отсутствия столкновений tracked/untracked/ignored private. Не force/reset/rebase/delete/rebind; если безопасный переход не подтверждён, остановить только этот переход и сообщить конкретную причину.\n- Новое имя файла только по действительному Names/LK837 mapper; не отклонённый backend apply. Swift6 complete concurrency warnings-as-errors SwiftTesting, русские собственные объявления/контракты/профиль; Python заморожен.\n- Чужие W/ref/index/config/старые runtime и приватные данные только RO. Никаких реальных Codex RAW, live producer, ROOT21/continuation/residual/legacyguard/019, HTTP/SDK/auth/LLM-запросов или нового сервера.\n- Один свой scratch/jobs2, сначала свежая доступность диска. Существующие метаданные frozen journal без новой сборки образа; не запускать исторические наборы только ради слияния.\n- Проверять лишь новый набор и необходимый профиль; локальная запись собственного этапа, exact diff/index/scoped PUB, body с честными transferred human цитатами и полной агентской программой, только GIT_AUTHOR_NAME; raw readback, normal exact push, независимый remote readback.\n- Final доставляет конечный результат непосредственному FUMA координатору; это не ROOT/master/live приёмка. Старый proper ref остаётся provenance, новый delivery ref не объявлять синхронизированным canonical head.\n\nСобственное назначение полностью:\n{\n  \"роль\": \"arkhiv\",\n  \"писатель\": \"01a174e4-ddbd-7761-a56d-c278626c01ac\",\n  \"адрес\": \"fum-lab/fum/fuma/arkhiv-codex/master\",\n  \"delivery_ref\": \"refs/heads/codex/fuma-arkhiv-fsync-v2\",\n  \"модель\": \"Сохранить фактически подтверждённую gpt-6-luna/max; ожидаемый fault RED не основание эскалации.\",\n  \"область\": [\n    \"Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/proverki: один новый SwiftTesting-файл в существующем test target ПроверкиПоследовательныхРамок\",\n    \"Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/zhurnal: одна собственная новая запись\",\n    \"Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Package.swift: только явная product dependency КонтейнерНаблюдений для existing ПроверкиПоследовательныхРамок; новые targets/переименования не нужны\"\n  ],\n  \"результат\": \"Вариант A: meaningful fixture доказательство принятого Сегмент+фреймер после injected EIO после успешного системного fsync; без импорта АрхивКодекса/D512.\",\n  \"контракт\": [\n    \"Исходник Примеры/записанный-префикс.jsonl уже публичный. Проверить480bytes/3LF/SHA72ee2e79981f0524c0fb9874ff7d7f64c4e57344999e23dd31b5129dae2abb16; удалить только последний LF в памяти,479bytes=233полныйпрефикс+246сыройхвост.\",\n    \"Сначала создать и закрыть пустой Сегмент с системными операциями: его init нового файла сам вызывает синхронизацию. Затем открыть existing с injected операциями; единственный append сохраняет заранее заданное ОписаниеНаблюдения целиком и exact Data. Синхронизация вызывает настоящий системный fsync и только после его успеха бросает EIO. Первый исход обязан оставаться явным отказом/неопределённостью, не успехом.\",\n    \"Не повторять запись в старом instance после ошибки. Закрыть, открыть новый Сегмент с обычнымиоперациями; извлечь тот же ID и сравнить exact Data, SHA и размер. Контейнер.естьХвост=false, но JSONL имеет сырой хвост246: проверить frame lengths104/129, offsets[0,104] и [104,233], prefix233/2строки, exacttail=Data479.suffix246.\",\n    \"Повтор того же полного ОписаниеНаблюдения и Data после восстановления подтверждает существующее наблюдение без второго экземпляра: metadata equality обязательна. Проверить реальным API либо неизменными байтами/размером маленького собственного segmentфайла, не счётчиком mock. Другие данные под тем же ID отклоняются до записи; original остаётся точным.\",\n    \"Только новый suite и малый ограниченный профиль при необходимости; production/API/fixture на диске неизменны. Package — лишь точная прямая dependency test target, без новых targets/rename. Если утверждение не проверяемо текущим API без productionправок, сначала сохранить конкретный gap.\",\n    \"Граница: sameprocess reopen и один injectedfault на малом syntheticData; не OS/power-crash, многосегментность, устойчивые offset/processed cursors, реальный21GB импорт или исполнение сохранённых инструментов.\",\n    \"Не использовать @unchecked Sendable/новые locks ради injectedcounter: bootstrap normal, ровно один append с closure системныйfsync→throwEIO, новый instance normal. Известный локальный CodeSign при сборке старого Unicode xctest не объявлять продуктовым дефектом; сохранять реальный исход и применять уже доказанный адресный запуск только нового собранного bundle/suite без SDKпереустановки/правок чужого target.\"\n  ]\n}\n\nДля metadata используй уже frozen journalartifact SHA689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b без imagebuild. Нативная authorмодель отдельноотsourceкоординатора6.1sol/ultra. Уровни result/pins/PUB/runtime/ROOT честно; неожиданныйeffectслепонеповторять. Нет реальногоRAW/network/LLM/producer/старогоACT. Передсборкойсвежийdf, свойтёплыйscratch/jobs2; чужиеcache/privateнеочищать. Конечныйрезультат мнечерезfinal exactC/tree/parents/actualchecks/normalpush/remote.\n"
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Полное quality-поручение непосредственного координатора FUMA из собственного native сообщения; отдельно от исходного назначения и человеческих цитат.",
+        "роль" : "агент",
+        "текст" : "Потребительский приём ab6c3605843d00e7405625735e6d7fe01c4b8d81/tree57c731ba27845911b265c9a7513209b001cd7b3a/parent0e96b3b860cba409da17f4dde65c41bf45a58a99 выявил два конкретных дефекта поставки: из25путей23вне явно назначенногоArchive (изменён закрытыйRootЖурнал03-08/запрос.md, создан новыйRootЖурнал с20файлами, измененыЖурнал/README иобщийMDindex); своейArchive/zhurnalзаписи нет. Вbodyab6 нет трёхtransferredhumanquotes, хотя точныецитаты доступнывrawbodysource0e96. AuthorLunaMax/committerFUM корректны, кодтеста/Package/язык в своейобласти предметно пригодны. Rootпоставкуab6непринимает; история/байтысохраняются.\n\nНазначаю ОДИН ограниченный добавочный correction этап в том же UUID01a174e4-ddbd-7761-a56d-c278626c01ac/Wd326/refrefs/heads/codex/fuma-arkhiv-fsync-v2. По двум независимым нарушениям явного source scope/body (неожидаемыйRED, неI/O/ожидание и не faultEIO) FUMA инициирует повышение модели до gpt-5.6-sol/ultra. API-запрос, accepted и фактическийnative отразить отдельно; после ACK прежде первой записи подтвердить nativeмодель/UUID/physicalW/HEADab6/ref/clean/solewriter. Не новыйузел, не D512/liveACTrebind; properстарыйrefD512сохраняется.\n\nКоррекция состава:\n1. Read-only сверь exact25pathdiff от source0e96. Сохрани внеcheckout точные23непрофильныхGitblobbytes/modes/oid/SHA сmanifest; ab6/historyнепереписывать. ВownW восстанови все эти23пути строго к дереву0e96: прежниеblob/modeвернуть, вновь добавленныеRootJпути убрать из конечногоtree только после сохранения. Чужиеcheckout/ref/index/config не трогать; force/reset/rebase/delete refs запрещены. ЗакрытыйRootЖурнал не продолжать. Это исправление своейошибочнойдельты, не новаяработавRootJ.\n2. Конечнаядельта от0e96: Archive/Package.swift с ровно уже принятойdirectContainerdependency existingtarget; один новыйтестArchive/proverki; одна новая ownArchive/zhurnal запись через ранее найденный frozenfumaSHA689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b. Итого3пути. Полные argv/stdout/stderr и intent/outcome Swiftадаптера держатьПРИВАТНО, не RootJ и не россыпьюpubliccapture. Не генерироватьRootJournal/индексы/MD/Proyekcii, не whole-reposcan/residual/continuation/019. Не копировать/импортироватьD512 код/старыйACT.\n3. Уточни одну границу proof теста: текущий ожидатель EIO не отличает artificialpost-fsyncEIO оттого же EIO самого реальногоfsync. Нужен минимальный test-local маркер только после успешного системногоfsync, безсчётчиков/locks/@unchecked. Предпочтительно сохранить POSIXdomain/codeEIO, добавить уникальный markerвuserInfo искусственногоNSError и проверить его впредикате #expect; исходныйErrorSegmentrethrows, проверь по API. Импорт API не менять; еслиструктурноerrorне сохраняется — конкретныйgap, не новыйproductionAPI. Bootstrapnormal→единственный injectedappend→oldinstanceбольше неповторять→normalreopen/479exact/prefix233/104+129/tail246→полныйsameОписание+Data replay безростафайла→changedData typedconflict/originalexact остаются. Это не powercrash/21GB/cursorsproof. После этой маленькой testправки только её1тест одинраз, тотже тёплыйscratch/jobs2, черезexistingSwiftadapter с wholeprocessclock/точнымиканалами и testsourceSHA отдельно отнеполногоcapture; известныйSDKCodeSign отдельно, старые11/полныйsmoke не нужны.\n4. НоваялокальнаяJ отражает конкретныйscope/bodyдефектab6 иисправление, не выдумываетRootприёмку или0/0residualдоказательство. Человеческие3цитаты возьми буквально изrawbody0e96, пометькакпереданныеROOT извидимогочеловеческогоконтекста; первичныйhumanJSONL/path/blob не выдумывать. Полноеagentназначение source0e96 иэтоqualityпоручение отдельно; privateмашинныеадреса не публиковать. Bodyactual5.6/ultra/author-only,committerFUM,одинпоследнийROOTtrailer01a07d3d-d376-7ad2-aafc-67e4c25a67eb.\n5. Exact3pathdiff/source/index/JSON/scopedPUB0, сохранностьMD/старыхRootJк0e96, actualrun1/receipt, rawcommit/body/tree/parents/identity→обычныйexactpush→независимыйremote. ab6историясохраняется, никакихforce/новогоPR. ПередайконечныйC/tree/полныйостатокчерезfinalмне. Другогорасширениясрезаилиследующейавтоработынет."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 1,
+      "писатель" : "01a174e4-ddbd-7761-a56d-c278626c01ac",
+      "стадия" : "коррекция-повтора-после-неясной-синхронизации"
+    }
+  },
+  "идентификатор" : "53b6a4dd242912257c20b68984bc38ec46ca1ce7115ee3661bc47b959f3f88e4",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
