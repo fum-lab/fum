@@ -1,0 +1,12 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "fuma-observation-temp-symlink-diagnostic",
+      "path": "Журнал/2026-10-29_03-21-44_MSK_подготовить-проверяемый-срез-наблюдения-FUMA/материалы/запуски-проверок/5_86bf7dd0-a23b-456b-8733-2401310fe34d.json",
+      "line": 14,
+      "category": "allow.path-validation-definition",
+      "reason": "Терминальная диагностическая квитанция закрепляет точный отклонённый символический компонент для проверки физической границы runtime, а не переносимый рабочий путь."
+    }
+  ]
+}
