@@ -5483,5 +5483,402 @@
       "generic checker454"
     ],
     "автоматическаяАктивация": false
+  },
+  "ремонтАккумулятораReplay452": {
+    "схема": "fum.координация.replay-accumulator-correction.1",
+    "исходноеПоручение": "Ревью03c завершено: P1 нет, один подтверждённый по коду P2 — init caller около233 guard var s = текущее удерживает второй alias растущей цепочка; s.цепочка.append(t) до обратного присваивания даёт Array COW prefix copy в Debug, потенциально O(N²). Один финальный core replay это не устраняет, текущие8/16/32счётчики COW не измеряют. В этом же срезе перед приёмкой исправь: один mutable аккумулятор без сохранённого второго владельца растущей цепочки; семантика prefix/epoch/legacy/STOP/pending неизменна. Если свежий reverse уже готов, сохрани его, новый add-only correction после него, историю не переписывать. Расширяю ранее128fixtureeventbudget только на ОДИН дополнительный адресный финальный smoke с разумным малым вводом и нужными существующими кейсами восстановления; не полный22rerun/Python. Source-структурой+целевым случаем подтвердить отличие, не обещать число COW-копий без измерения. Рецепт/исход/новые пины сразу в малыйreceipt. Если ещё физический процесс reverse идёт, дождись его известного исхода, не второй писатель. Обычный checkpoint/push/release в той же ветке; сообщи точный состав2файлов+state/segment, reviewsource9копий уже независимо прошёл. Это локальный ремонт установленной причины в текущем этапе, не новая задача для человека.\n",
+    "native": "01a18693-0478-7730-977b-33dea68e9970",
+    "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "model": "gpt-6.1-sol",
+    "effort": "ultra",
+    "backend": "UNKNOWN",
+    "parent": "9e6e6b3da52d2fd10bd60e0927f081c2ba880db5",
+    "reverse": {
+      "oid": "9e6e6b3da52d2fd10bd60e0927f081c2ba880db5",
+      "tree": "046f13edf74827915d1719b377a325d9e2eec311",
+      "orderedParents": [
+        "03c23119e4ae7ccc7d0794f64b1a856fc35fa3c7",
+        "09434983b35cf33a6a84f705d1be28abf7d67466"
+      ],
+      "blobs": [
+        {
+          "path": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "mode": "100644",
+          "type": "blob",
+          "oid": "be27246cb6540f9a485976b8e805f83c177d8b59",
+          "sha256": "734b962e02d3e901103ee8092c9773b177be29286ff7c55455fbcd36a8e04424"
+        },
+        {
+          "path": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "mode": "100644",
+          "type": "blob",
+          "oid": "a7e1dd4c9551d1e85492eb520e5aebbf53e8dcb9",
+          "sha256": "a2b58c2bb3ac9af60fc7d6cffbccaeb4330416d590865c1f1de5f5e3644f2dc0"
+        },
+        {
+          "path": "koordinaciya/segment-zhurnala-koordinacii.jsonl",
+          "mode": "100644",
+          "type": "blob",
+          "oid": "8d15d599e8a2bda20be073b54bcfc7c49fe2628f",
+          "sha256": "f55f4b5f82c5082dc45e9e333da1c5564f91034b41b8214d766e3aabd288d847"
+        },
+        {
+          "path": "koordinaciya/состояние.json",
+          "mode": "100644",
+          "type": "blob",
+          "oid": "3506a04de2f4c137554d8d332fcd42eae9ea67ad",
+          "sha256": "3aa07f603285a937b4b874ed09865ba63f702a156e0bd484334ff9da02c1f2d0"
+        }
+      ],
+      "sourceMap": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "734b962e02d3e901103ee8092c9773b177be29286ff7c55455fbcd36a8e04424"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "a2b58c2bb3ac9af60fc7d6cffbccaeb4330416d590865c1f1de5f5e3644f2dc0"
+        }
+      ],
+      "fourBlobsUnchanged": true,
+      "nineSourcePinsUnchanged": true,
+      "rawSHA256": "f22bde3239e821d6357a3611db09c110ebc22eb1f438810caf7b2a882b4282ef",
+      "rawCheckExit": 0,
+      "pushExit": 0,
+      "remoteOID": "9e6e6b3da52d2fd10bd60e0927f081c2ba880db5",
+      "clean": true,
+      "delta": [
+        "AGENTS.md",
+        "otchyot-integracij-2026-10-29-6.json",
+        "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md",
+        "Правила/агентов/инвентарь-правил.json",
+        "Правила/агентов/проверки-коммит-и-публикация.md"
+      ],
+      "testProcessesStarted": 0
+    },
+    "дефект": "guard var s = текущее сохранял второй alias растущего Array при append, вызывая prefix COW в Debug",
+    "исправление": "Один nonoptional mutable текущее; append прямо в него. Чтение let s после последнего append. Чистая начальная проекция не заменяет проверки genesis/существования checkpoint.",
+    "семантика": "Prefix/epoch/legacy/STOP/pending и storage schema не менялись",
+    "проверка": {
+      "status": "PASS",
+      "argv": [
+        "/usr/bin/swift",
+        "test",
+        "--package-path",
+        "<private-epoch-attempt>/fixture",
+        "--scratch-path",
+        "<private-epoch-attempt>/fixture/build",
+        "--cache-path",
+        "<private-epoch-attempt>/fixture/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "--filter",
+        "восстановлениеОднимАккумулятором|эпохаLegacyИPrefix|эпохаLegacyГраница|эпохаUnknownИStop|эпохаПотерянныйОтвет|исходныйОбъёмПослеПерезапуска"
+      ],
+      "exit": 0,
+      "testCount": 6,
+      "testNames": [
+        {
+          "name": "Replay32 v2-дельт одним аккумулятором сохраняет полную цепь",
+          "status": "passed"
+        },
+        {
+          "name": "Legacy требует независимого хвоста и не возвращается после V2",
+          "status": "passed"
+        },
+        {
+          "name": "Legacy v1 replay и будущий writer перед grant различаются",
+          "status": "passed"
+        },
+        {
+          "name": "Перенос не закрывает pending intent; STOP сохраняет приоритет",
+          "status": "passed"
+        },
+        {
+          "name": "SIMULATED fsync failure переноса: exact resync после потери ответа",
+          "status": "passed"
+        },
+        {
+          "name": "Принятый worklist переживает статус и RO restart",
+          "status": "passed"
+        }
+      ],
+      "sourceMapBefore": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "d9dde144991c6c7f5b8a9045dd4f3c536d0933774a6a5108f0bb155bc81657ea"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "d2e91e1d1b0f647f2a81049c6a034c8fab3683a40e3251f5787d611189e1a5f3"
+        }
+      ],
+      "sourceMapAfter": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "d9dde144991c6c7f5b8a9045dd4f3c536d0933774a6a5108f0bb155bc81657ea"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "d2e91e1d1b0f647f2a81049c6a034c8fab3683a40e3251f5787d611189e1a5f3"
+        }
+      ],
+      "stable": true,
+      "stdout": {
+        "path": "<private-cow-attempt>/smoke/stdout",
+        "sha256": "1252549ed625c06dc403977ec82f0d625563a9eb245c51e55a030e54a363fb6a"
+      },
+      "stderr": {
+        "path": "<private-cow-attempt>/smoke/stderr",
+        "sha256": "175f24f1d2f3749d66f49697505d7200d51713669abdcfbfd4e58e9da7c49b59"
+      },
+      "seconds": 12.943508542,
+      "profile": [
+        "ПРОФИЛЬ single-accumulator records=33 deltas=32 elapsed=0.047074291 seconds; COW copies not measured"
+      ],
+      "COWCopies": "NOT MEASURED",
+      "speedup": "NOT CLAIMED",
+      "priorTests": "A2/A3 not rerun; this is the one additional addressed correction smoke"
+    },
+    "бюджет": {
+      "additionalFixtureFrames": 54,
+      "originalFrames": 127,
+      "totalFrames": 181,
+      "additionalSmokeRuns": 1,
+      "dataBytes": 319953,
+      "workingScratchAllocatedBytes": 101732352,
+      "RootGrant": "128fixture budget explicitly extended for this one addressed smoke",
+      "COWCopies": "NOT MEASURED"
+    },
+    "структура": {
+      "singleAccumulator": true,
+      "directAppend": true,
+      "oldGuardAliasAbsent": true,
+      "COWCopies": "NOT MEASURED"
+    },
+    "измерения": {
+      "restoration32": "0.047074291с,33records/32deltas/1core replay; сценарий отличается от раннего смешанного8/16/32",
+      "числоCOWкопий": "НЕ ИЗМЕРЕНО",
+      "ускорение": "НЕ ЗАЯВЛЯЕТСЯ"
+    },
+    "воспроизведение": {
+      "schema": "fum.координация.epoch-fixture.1",
+      "sourceMap": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "d9dde144991c6c7f5b8a9045dd4f3c536d0933774a6a5108f0bb155bc81657ea"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "d2e91e1d1b0f647f2a81049c6a034c8fab3683a40e3251f5787d611189e1a5f3"
+        }
+      ],
+      "manifestUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\nlet flags: [SwiftSetting] = [.unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"FUMWorklistCallerFixture\", platforms: [.macOS(.v14)], products: [\n    .executable(name: \"worklist-consumer\", targets: [\"WorklistConsumerCLI\"])\n], targets: [\n    .target(name: \"КонтейнерНаблюдений\", path: \"Sources/Container\", swiftSettings: flags),\n    .target(name: \"WorklistCaller\", dependencies: [\"КонтейнерНаблюдений\"], path: \"Sources/WorklistCaller\", swiftSettings: [.define(\"TESTING\")] + flags),\n    .executableTarget(name: \"WorklistConsumerCLI\", dependencies: [\"WorklistCaller\"], path: \"Sources/CLI\", swiftSettings: flags),\n    .testTarget(name: \"WorklistCallerTests\", dependencies: [\"WorklistCaller\", \"КонтейнерНаблюдений\"], path: \"Tests/WorklistCallerTests\", swiftSettings: flags)\n], swiftLanguageModes: [.v6])\n",
+      "entrypointUTF8": "import Darwin\nimport WorklistCaller\nexit(await КомандаПотребителяСписка.выполнить())\n",
+      "manifestSHA256": "cd833c2a077837aad86c83cb741fc379316d9144201ce395d5859f20b397bea5",
+      "SDK": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "SDKSettingsSHA256": "90a738dbf3fd88e7f6d35646e19d3a8a716923b9773ce1b67260466d9ceed370",
+      "compiler": "Apple Swift6.4 swiftlang6.4.0.34.1 clang2100.3.34.1",
+      "binarySHA256": "c43e739c14903fc8812c9680d00d31704f3c7bd4b693d59d5a017c04ee854840",
+      "commonArgv": [
+        "--package-path",
+        "<private-epoch-attempt>/fixture",
+        "--scratch-path",
+        "<private-epoch-attempt>/fixture/build",
+        "--cache-path",
+        "<private-epoch-attempt>/fixture/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      ],
+      "strictFlags": [
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-enable-actor-data-race-checks"
+      ],
+      "liveContextRecipe": "Перед каждым run derive physicalW/HEAD/ref/native заново RO Git с очищенной GIT_* средой; actual parents из git show -s --format=%P HEAD. Никогда не переиспользовать context прежнего fixture-runtime.",
+      "hostBoundary": "Для нового epoch CLI: <dataRoot> --допуск-эпохи <immutableHostJSON> <expectedSHA256>; hostJSON/SHA выбирает доверенная сторона отдельно отstdin. CLI сверяет actualGit/native/executableSHA. model/effort — наблюдениеhost, backend UNKNOWN.",
+      "legacy": "V1 only contiguous initialprefix; non-genesis legacy tail receipt selected independently via host. Old bytes unchanged; V1 after V2 rejected.",
+      "stateHash": "fum.координация.якорь-состояния.1 = SHA canonical {snapshotSHA, linked lastTraceSHA, traceCount}; preserves linked history without hashing growingfullarray on each transfer",
+      "correction": "Single mutable replay accumulator; persistent prefix alias removed. No allocation count/speedup claim."
+    },
+    "изменённыеПути": [
+      "koordinaciya/potrebitelj-spiska-rabot.swift",
+      "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+      "koordinaciya/состояние.json",
+      "koordinaciya/segment-zhurnala-koordinacii.jsonl"
+    ],
+    "сохранение": {
+      "segmentPrefixBytes": 65454,
+      "segmentPrefixSHA256": "f55f4b5f82c5082dc45e9e333da1c5564f91034b41b8214d766e3aabd288d847",
+      "core15RootPackage": "Без изменений",
+      "исходный03cИА2А3": "Закрытые receipts и копии не переписаны"
+    },
+    "граница": "Адресный P2 source repair после сохранённого reverse; не полная приёмка, production/pre-resume/454 не активированы",
+    "UNKNOWN": [
+      "Общий checker032/454",
+      "Real ENOSPC/powerloss",
+      "ROOT acceptance"
+    ],
+    "исключено": [
+      "Full22/23 rerun",
+      "Python",
+      "ROOT JSONL",
+      "Native Stop",
+      "Внешние инструментальные эффекты"
+    ]
   }
 }

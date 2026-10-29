@@ -99,6 +99,25 @@ private func вызватьКоманду(_ программа: Программ
 
 @Suite(.serialized)
 struct ПроверкиДолговечногоПотребителя {
+    @Test("Replay32 v2-дельт одним аккумулятором сохраняет полную цепь")
+    func восстановлениеОднимАккумулятором() async throws {
+        let root = try каталогФикстуры("single-accumulator-32")
+        var p = try программаФикстуры(); p.пределСобытий = 64
+        let writer = try ХранилищеСпискаРабот(корень: root, программа: p, запись: true, создать: true)
+        var before = try await writer.прочитать()
+        for i in 0..<32 {
+            before = try await writer.принять(шаг(p, before, СобытиеСписка(идентификатор: "delta-\(i)", вид: .наблюдение)))
+        }
+        await writer.закрыть()
+        let start = ContinuousClock.now
+        let reader = try ХранилищеСпискаРабот(корень: root, программа: чтение(p), запись: false)
+        let after = try await reader.прочитать()
+        #expect(after.состояние == before.состояние && after.квитанция == before.квитанция)
+        #expect(after.состояние.цепочка.map(\.номер) == Array(0..<32))
+        #expect(after.обход?.записей == 33 && after.обход?.дельт == 32 && after.обход?.полныхПроверокЯдра == 1)
+        print("ПРОФИЛЬ single-accumulator records=33 deltas=32 elapsed=\(start.duration(to: .now)); COW copies not measured")
+        await reader.закрыть()
+    }
     @Test("Legacy требует независимого хвоста и не возвращается после V2")
     func эпохаLegacyГраница() async throws {
         struct Legacy: Codable {
