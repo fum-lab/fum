@@ -4319,5 +4319,499 @@
       "Независимая ROOT приёмка точного нового OID и объёма; этот checkpoint не закрывает Issue452"
     ],
     "автоматическаяАктивация": false
+  },
+  "потребительСписка452Финальный96": {
+    "схема": "fum.координация.caller-final-candidate.1",
+    "оригиналПоручения": "Новый конечный этап после checkpoint a84c98a6d10b74caf97ccb4e902798e034948d98. Свежий и опубликованный ROOT M=96bc1c28e2201b86b05ad4466b17172201358169, tree1244d52ad6d8498e16c305ac71e2f32f3e73606f, parent a8ed77f2e3b874ec6fa96284bc1172dd983c82fa. Включи только M явным reverse merge в прежнюю свою W/ref после clean/sole-writer/HEAD проверки. Конфликт или неизвестный эффект — ROOT, не человек. Четыре собственных файла не менять кроме необходимых конечных JSON-свидетельств; код и11-я регрессия уже в a84. Подтверди полную разницу транзитивных входов (core + шесть Container + caller/tests), затем разрешён ОДИН адресный финальный прогон всех новых11 тестов на новой основе с jobs1 и тремя строгими флагами. Старые15/fullsuite не запускаются. Штатный приватный SwiftPM-стенд, ASCII test product, не собственный Testing SPI. Zero selector — явный REJECTED, не GREEN. Сразу сохраняй маленький результат: actual argv/exit/test names/count/до-после SHA/ссылки на исходный stdout/stderr, без RAW/полных снимков. Если нужны изменения по реальному новому отказу в этих четырёх путях — действуй по принятому ограниченному бюджету и дай конкретный исход; не создавай новую внешнюю зависимость. После положительного исхода exact raw metadata/обычный push/remote/обновление462 и writerrelease/manifest. Реальный ENOSPC/powerloss и epoch-transfer остаются явно UNKNOWN/не реализованы. Текущее ordinary source-only принятие не объявлять Root completion. ROOT M постараюсь удержать до твоей конечной поставки; если перейдёт только отчётная запись, это не блокирует собственный checkpoint.",
+    "предыдущийЗакрытыйCheckpoint": "a84c98a6d10b74caf97ccb4e902798e034948d98",
+    "новаяОсноваROOT": "96bc1c28e2201b86b05ad4466b17172201358169",
+    "treeROOT": "1244d52ad6d8498e16c305ac71e2f32f3e73606f",
+    "expectedParents": [
+      "a84c98a6d10b74caf97ccb4e902798e034948d98",
+      "96bc1c28e2201b86b05ad4466b17172201358169"
+    ],
+    "native": "01a18693-0478-7730-977b-33dea68e9970",
+    "model": "gpt-6.1-sol",
+    "effort": "ultra",
+    "backend": "UNKNOWN",
+    "sourceMapBefore": [
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "target": "Sources/Container/Ввод.swift",
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "target": "Sources/Container/Контракт.swift",
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+        "sha256": "87c0cc2d1f7a6ecee2ee3c28a9939f4020ef5a171f2d2eedeccc7508d379b8ff"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "target": "Sources/Container/Сегмент.swift",
+        "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "target": "Sources/Container/Файлы.swift",
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "target": "Sources/Container/Формат.swift",
+        "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+      },
+      {
+        "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+        "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+        "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+      },
+      {
+        "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+        "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+        "sha256": "fbfe7e6228521af5f68b8963c52aa785ec92ed18685edfc10e8dcfcbf4a7faa5"
+      },
+      {
+        "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+        "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+        "sha256": "162c8002b0ee4324d745bdf0a4ac626159e7a4ecf69e56201b2cb6865131db53"
+      }
+    ],
+    "sourceMapAfter": [
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "target": "Sources/Container/Ввод.swift",
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "target": "Sources/Container/Контракт.swift",
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "target": "Sources/Container/Сегмент.swift",
+        "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "target": "Sources/Container/Файлы.swift",
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "target": "Sources/Container/Формат.swift",
+        "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+      },
+      {
+        "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+        "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+        "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+      },
+      {
+        "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+        "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+        "sha256": "fbfe7e6228521af5f68b8963c52aa785ec92ed18685edfc10e8dcfcbf4a7faa5"
+      },
+      {
+        "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+        "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+        "sha256": "162c8002b0ee4324d745bdf0a4ac626159e7a4ecf69e56201b2cb6865131db53"
+      }
+    ],
+    "transitiveDelta": [
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+      }
+    ],
+    "кодСвойНеМенялсяПослеA84": true,
+    "SwiftPM": {
+      "testProduct": "WorklistCallerTests",
+      "jobs": 1,
+      "swift6": true,
+      "flags": [
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-enable-actor-data-race-checks"
+      ],
+      "manifestSHA256": "cd833c2a077837aad86c83cb741fc379316d9144201ce395d5859f20b397bea5",
+      "entrypoint": "SwiftPM generated; no own Testing SPI"
+    },
+    "первыйПрогон": {
+      "status": "NOT GREEN",
+      "actualArgv": [
+        "/usr/bin/swift",
+        "test",
+        "--package-path",
+        "<private-attempt>/fixture",
+        "--scratch-path",
+        "<private-attempt>/fixture/build",
+        "--cache-path",
+        "<private-attempt>/fixture/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "--filter",
+        "ПроверкиДолговечногоПотребителя"
+      ],
+      "exit": 1,
+      "testCount": 11,
+      "testNames": [
+        {
+          "name": "Приватный корень данных не может совпадать с checkout даже при0700",
+          "status": "passed"
+        },
+        {
+          "name": "Принятый worklist переживает статус и RO restart",
+          "status": "passed"
+        },
+        {
+          "name": "Отсутствующий checkpoint не создаёт новый genesis",
+          "status": "passed"
+        },
+        {
+          "name": "Durable intent без outcome удерживает новый attempt после restart",
+          "status": "passed"
+        },
+        {
+          "name": "Повтор после потери ответа возвращает прежнюю квитанцию до нового CAS",
+          "status": "passed"
+        },
+        {
+          "name": "SIMULATED ENOSPC на fsync: UNKNOWN, close/replay, exact re-sync",
+          "status": "passed"
+        },
+        {
+          "name": "Stale CAS, writer lock и явная torn-tail fixture не меняют старые байты",
+          "status": "passed"
+        },
+        {
+          "name": "Source bytes, независимый scope, ROOT и native context связаны",
+          "status": "passed"
+        },
+        {
+          "name": "STOP имеет резерв после обычного лимита и pending intent",
+          "status": "passed"
+        },
+        {
+          "name": "Профиль caller N1/2/4; реальные обычные write+fsync",
+          "status": "passed"
+        },
+        {
+          "name": "Свежий CLI-процесс восстанавливает записанный checkpoint без нового события",
+          "status": "failed"
+        }
+      ],
+      "sourceMapBefore": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "87c0cc2d1f7a6ecee2ee3c28a9939f4020ef5a171f2d2eedeccc7508d379b8ff"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "fbfe7e6228521af5f68b8963c52aa785ec92ed18685edfc10e8dcfcbf4a7faa5"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "162c8002b0ee4324d745bdf0a4ac626159e7a4ecf69e56201b2cb6865131db53"
+        }
+      ],
+      "sourceMapAtRun": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "fbfe7e6228521af5f68b8963c52aa785ec92ed18685edfc10e8dcfcbf4a7faa5"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "162c8002b0ee4324d745bdf0a4ac626159e7a4ecf69e56201b2cb6865131db53"
+        }
+      ],
+      "sourceMapAfter": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "fbfe7e6228521af5f68b8963c52aa785ec92ed18685edfc10e8dcfcbf4a7faa5"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "162c8002b0ee4324d745bdf0a4ac626159e7a4ecf69e56201b2cb6865131db53"
+        }
+      ],
+      "stable": true,
+      "stdout": {
+        "path": "final96-tests/stdout",
+        "sha256": "964723a8008d3f5548c43bc11d02a1c1741bb3302cd017989c58ed23ee6e634b"
+      },
+      "stderr": {
+        "path": "final96-tests/stderr",
+        "sha256": "f3fb98538c87291c1147a07bbbe36ab325a2a8ca1671197220e93ed90808dac4"
+      },
+      "seconds": 3.904458333,
+      "profile": [
+        "ПРОФИЛЬ caller N=1 append+sync=0.001102166 seconds",
+        "ПРОФИЛЬ caller N=2 append+sync=0.002383333 seconds",
+        "ПРОФИЛЬ caller N=4 append+sync=0.005967292 seconds"
+      ],
+      "realENOSPC": "UNKNOWN; only SIMULATED",
+      "powerLoss": "UNKNOWN",
+      "zeroSelector": "REJECTED; preserved A3, not re-run"
+    },
+    "адресноеВосстановление": {
+      "status": "PASS",
+      "exit": 0,
+      "testCount": 1,
+      "actualArgv": [
+        "/usr/bin/swift",
+        "test",
+        "--package-path",
+        "<private-attempt>/fixture",
+        "--scratch-path",
+        "<private-attempt>/fixture/build",
+        "--cache-path",
+        "<private-attempt>/fixture/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "--skip-build",
+        "--filter",
+        "перезапускКоманды"
+      ],
+      "actualContext": {
+        "дерево": "/Users/fum/.codex/worktrees/koordinaciya/FUM",
+        "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+        "коммит": "a84c98a6d10b74caf97ccb4e902798e034948d98",
+        "писатель": "01a18693-0478-7730-977b-33dea68e9970"
+      },
+      "sourceMap": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "fbfe7e6228521af5f68b8963c52aa785ec92ed18685edfc10e8dcfcbf4a7faa5"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "162c8002b0ee4324d745bdf0a4ac626159e7a4ecf69e56201b2cb6865131db53"
+        }
+      ],
+      "sourceStable": true,
+      "stdout": {
+        "path": "final96-cli-recovery/stdout",
+        "sha256": "7b0d58c1a64432df0bad44cc3645edffd197bc68c62660bb5db9ac7e1e66d15d"
+      },
+      "stderr": {
+        "path": "final96-cli-recovery/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "newCommittedRecordsMax": 3
+    },
+    "итог": "11 различных новых тестов имеют PASS:10 в первом11-test процессе +1 CLI recovery после исправления только fixturecontext. Первый процессexit1 сохранён; единого11GREEN процесса нет.",
+    "причинаИИсправление": {
+      "ошибка": "Private driver переносил context7b из прежнего fixture-runtime; actualHEAD ужеa84. CLIguardправильно отказал до storage.",
+      "исправлено": "Для recovery контекст собран из liveHEAD/ref/ownnative; тот же собранный код и9sourceSHA. Выбрантолько перезапускКоманды, без повторения остальных10."
+    },
+    "zeroSelector": "REJECTED сохранённогоA3; exit0/0tests не GREEN, не повторялся",
+    "профиль": [
+      "ПРОФИЛЬ caller N=1 append+sync=0.001102166 seconds",
+      "ПРОФИЛЬ caller N=2 append+sync=0.002383333 seconds",
+      "ПРОФИЛЬ caller N=4 append+sync=0.005967292 seconds"
+    ],
+    "бюджет": {
+      "jobs": 1,
+      "полныхАдресныхПрогонов": 1,
+      "адресныхRecoveryПрогонов": 1,
+      "fixtureCommittedRecordsMax": 31,
+      "eventsMax": 32,
+      "dataBytes": 220557,
+      "scratchAllocatedBytes": 97878016,
+      "dataMax": 16777216,
+      "scratchMax": 268435456
+    },
+    "ROReview": "11-я regression различающая; readonly physicalRoot не меняет storage format. Полные9SHA сверены; первый FAIL не замаскирован.",
+    "остаток": {
+      "epochTransfer": "НЕ РЕАЛИЗОВАН; один принятыйHEAD/actorcontext. Нужен отдельный подтверждённый переход без замены первичногоscope и без self-hash dependency.",
+      "реальныйENOSPC": "UNKNOWN; failure case SIMULATED",
+      "powerLoss": "UNKNOWN",
+      "productionExecutor": "НЕ ПОДКЛЮЧЁН",
+      "Stop": "НЕ АКТИВИРОВАН",
+      "canonicalMapping452": "НЕ ПОДКЛЮЧЁН",
+      "ROOTAcceptance": "ОЖИДАЕТ независимой приёмки exact commit",
+      "Issue452": "НЕ ЗАВЕРШЁН"
+    },
+    "исключено": [
+      "Python",
+      "ROOTJSONL",
+      "старые15tests",
+      "fullsuite",
+      "общийsmoke",
+      "genericchecker454"
+    ],
+    "writerRelease": "После exact commit/raw/push/remote/PR update запись прекращается до адресногоROOT допуска",
+    "ремонтRecipe": {
+      "правило": "Перед КАЖДЫМ тестовым запуском derive live context заново; fixture-runtime старого этапа не источникHEAD. Кэшировать можно SDK/argv/sourceMap, context нельзя.",
+      "javascript": "const fs = require('node:fs'), cp = require('node:child_process');\nconst ownW = fs.realpathSync(process.cwd());\nconst gitEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')));\nObject.assign(gitEnv, {GIT_OPTIONAL_LOCKS:'0', GIT_CONFIG_NOSYSTEM:'1', GIT_CONFIG_GLOBAL:'/dev/null'});\nconst gitRO = args => cp.execFileSync('/usr/bin/git', ['--no-replace-objects', '-C', ownW, ...args], {cwd:ownW, env:gitEnv, encoding:'utf8'}).trim();\nconst context = {дерево:ownW, реф:gitRO(['symbolic-ref','HEAD']), коммит:gitRO(['rev-parse','HEAD']), писатель:process.env.CODEX_THREAD_ID};\nif (!context.писатель) throw Error('missing native UUID');\nconst fixtureEnv = {...process.env, КОНТЕКСТ_ФИКСТУРЫ:JSON.stringify(context), КАТАЛОГ_ФИКСТУР:'<new-own-0700-fixtures>', ПУТЬ_КЛИ_ПОТРЕБИТЕЛЯ:'<fresh-built-CLI>'};\n// spawn swift test with fixtureEnv, explicit cwd ownW, and pinned sourceMap/argv; save terminal bytes once.\n",
+      "validatedRecovery": {
+        "HEAD": "a84c98a6d10b74caf97ccb4e902798e034948d98",
+        "sourceMap": "sourceMapAfter",
+        "receipt": "final96-cli-recovery-result.json",
+        "status": "1PASS; closed fixture not resumed after futureHEAD"
+      }
+    }
   }
 }
