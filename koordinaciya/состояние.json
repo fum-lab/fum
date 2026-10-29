@@ -6571,5 +6571,434 @@
         "статус": "сохранены без перезаписи; прежние результаты не являются новым прогоном"
       }
     }
+  },
+  "программаПриёмкиROOT472": {
+    "schema": "fum.root-acceptance-program.1",
+    "origin": "ff511b469aa2571a4fd1236c8bdafbcccbbfd818",
+    "acceptedR": "d83a0a4fd44ae14cda82a5662cd01e0de75ba9d2",
+    "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "nativeUUID": "01a18693-0478-7730-977b-33dea68e9970",
+    "clientModel": "gpt-6.1-sol",
+    "effort": "ultra",
+    "backend": "UNKNOWN",
+    "humanQuote": "A chto yesli tyi budeshj ne vruchnuyu vyizyivatj avtomatizacii odnu za drugoj, a iznachaljno sostavlyatj cepochku vyizovov dlya trebuyemoj posledovateljnosti, i toljko potom yeyo zapuskatj?",
+    "quoteProvenance": "ROOT-transferred; native offset UNKNOWN",
+    "назначение": "Конечный кандидат FUMA-программы ROOT-приёмки: prepare → exact inputs/index → explicit merge/commit → raw check → normal push → independent readback.",
+    "исполнение": {
+      "FUMA": "Фактическое выполнение graph.1 оператором0f9; выбирает действие и следующую стадию. Swift исполняет фиксированные эффекты и проверяет контекст, а не только хранит описание.",
+      "directGraphProcesses": 62,
+      "metadataCLIProcesses": 27,
+      "fixtureGitVerbs": {
+        "rev-parse": 238,
+        "status": 26,
+        "remote": 88,
+        "config": 112,
+        "symbolic-ref": 85,
+        "merge": 7,
+        "write-tree": 13,
+        "merge-base": 7,
+        "diff": 7,
+        "ls-remote": 7,
+        "cat-file": 17,
+        "hash-object": 17,
+        "push": 4,
+        "commit": 6
+      },
+      "scope": "Только новые локальные fixture refs/bare remotes; ROOT-ref не активирован."
+    },
+    "контракт": {
+      "authority": "Подготовленный host-контекст не Decodable; отдельные источник поручения/ожидаемый SHA/native/STOP/revocation. JSON/checkpoint не назначает полномочия.",
+      "environment": "Полные выбранные FUMA definition/operator/run-root и runtime/memory roots проверены до Git и сохраняются в одном контексте. Executable/argv абсолютны; shell/path переменная не используется.",
+      "physical": "Выбранный dependency locator сначала POSIX realpath у host, затем exact physical equality+SHA в Swift. Foundation convenience URL не используется как доказательство физического pin. Alias/чужие пути отвергаются.",
+      "inputs": "Источник сравнивается merge-base(L,M)→M; independent expected merge tree не приравнивается Mtree. Before commit проверяются MERGE_HEAD/index tree/HEAD; сообщение FUMA побайтно.",
+      "effects": "Долговечный intent подтверждается Segment до эффекта. Свежие custody/STOP/pins/W/ref guards непосредственно перед merge, commit, push; hooks/filters/customdrivers удерживаются; signing/submodule side effects ограничены.",
+      "replay": "Целостность Segment отдельно от семантики: фактическая FUMA-программа сверяет intent next; outcome/commit handoff проверены. Terminal delivered требует exact known C/raw/independent remote.",
+      "unknown": "Pending commit/push сначала readback, без повторного эффекта. Потерянное acknowledgement intent остаётся UNKNOWN; append failure закрывает экземпляр до reopen/resync.",
+      "scope": "Старый ordinary caller, self-update scope и ограниченный coordinator push builder неизменны; нового Creator/daemon/registry нет.",
+      "cost": "Финитный предел128 checkpoint records. Сериализация/хэширование/COW и общая сложность не измерены; ускорение/линейность не заявлены."
+    },
+    "runtime": {
+      "metadataCLI": "088496af75a6261bfaec03c696b519d884847187b7a4e1e1160383355ccfa470",
+      "metadataSourceR": "d83a0a4fd44ae14cda82a5662cd01e0de75ba9d2",
+      "metadataSourcePins": {
+        "coordinator": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+        "generator": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+      },
+      "operator": "0f9eaaa023a23ffe8fceb4f51dbd75bc2dee5bbc3270e2d17dadcb1a05f2720b",
+      "operatorAcceptedROOT": "b83fd9fc32380506872d07c1f13571e5be679ca0",
+      "operatorAcceptanceReceiptSHA256": "04167a2004c43e21df6512fe64ae27cfa22ca33996c7777335b35c0630534bbe",
+      "definition": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+      "rebuilt": false,
+      "distinction": "Существующий metadata helper из принятого R; изменённый candidate coordinator с единственной access-level правкой проверен private SwiftPM, а не выдан за пересобранный helper."
+    },
+    "проверки": {
+      "A1": "Compile PASS; real runtime8:4PASS/4FAIL file:// observer. Сохранён; parser count correction add-only.",
+      "A2": "8PASS на прежнем operator3682; отдельный исторический исход, не новый0f9 GREEN.",
+      "A3": "Compile PASS/selected10/10FAIL до program/Git: build/debug alias; не переписан.",
+      "A4": "Compile PASS/selected10/10FAIL до program/Git: Foundation physical comparison; не переписан.",
+      "A5": "10PASS/exit0 на canonical operator0f9; 11source pins+runtime pins stable.",
+      "A4A5Authority": "Отдельные адресные ROOT-grants после известных pre-effect отказов; не слепой повтор UNKNOWN.",
+      "topLevelBuildTests": 5,
+      "tests": [
+        "✔ Test ПодменаCheckpointНеПодтверждаетДоставку() passed after 0.431 seconds.",
+        "✔ Test TerminalReceiptТребуетСвежийRemote() passed after 3.661 seconds.",
+        "✔ Test обязательноеОкружениеПроверяетсяДоЭффекта() passed after 0.919 seconds.",
+        "✔ Test реальнаяЦепочкаСМетасимволамиИДубликат() passed after 3.545 seconds.",
+        "✔ Test чужиеCustodyRefИЗанятыйИндексУдерживаются() passed after 2.655 seconds.",
+        "✔ Test неправильныеДеревоИПорядокРодителейОтклоняются() passed after 3.589 seconds.",
+        "✔ Test известныйCommitПриRawFAILНеПубликуется() passed after 2.080 seconds.",
+        "✔ Test неизвестныйCommitВосстанавливаетсяЧтением() passed after 2.203 seconds.",
+        "✔ Test неизвестныйPushНеПовторяетсяПослеReadback() passed after 3.679 seconds.",
+        "✔ Test STOPОтзывИНеПодтверждённыйIntent() passed after 2.215 seconds."
+      ],
+      "selectorZero": "REJECTED; wrapper требует exit0+exact10+stable pins; отдельный zero-selector Swift process не запускался.",
+      "oldSuites": "Не запускались",
+      "fullProfile": "UNKNOWN; не GREEN"
+    },
+    "ресурсы": {
+      "fixtureBytes": 16267018,
+      "fixtureLimit": 16777216,
+      "scratchKiB": 142960,
+      "scratchLimitMiB": 512,
+      "jobs": "SwiftPM argv --jobs1; verbose Swift child driver содержит -j10. Эффективная вложенная параллельность1 не доказана; actual descendants сохранены отдельно.",
+      "descendants": [
+        {
+          "attempt": 1,
+          "observed": 144
+        },
+        {
+          "attempt": 2,
+          "observed": 165
+        },
+        {
+          "attempt": 3,
+          "observed": 82
+        },
+        {
+          "attempt": 4,
+          "observed": 62
+        },
+        {
+          "attempt": 5,
+          "observed": 217
+        }
+      ],
+      "sampling": "100ms observations; короткоживущие не наблюдённые children UNKNOWN; явные process.json содержат actual argv/exit/stdout/stderr SHA."
+    },
+    "sourcePins": [
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "target": "Sources/Container/Ввод.swift",
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "target": "Sources/Container/Контракт.swift",
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "target": "Sources/Container/Сегмент.swift",
+        "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "target": "Sources/Container/Файлы.swift",
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "target": "Sources/Container/Формат.swift",
+        "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+      },
+      {
+        "source": "koordinaciya/координатор.swift",
+        "target": "Sources/RootAcceptance/координатор.swift",
+        "sha256": "0faff5e6659faa846b7c1a8213883d1884112a39953f9856968bde77b5b3cc48"
+      },
+      {
+        "source": "koordinaciya/генератор-метаданных-коммита.swift",
+        "target": "Sources/RootAcceptance/генератор-метаданных-коммита.swift",
+        "sha256": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+      },
+      {
+        "source": "koordinaciya/priyom-root.swift",
+        "target": "Sources/RootAcceptance/priyom-root.swift",
+        "sha256": "e2b457ac18e222edcaf15c8e7f1040f60cc58f338d10cf062447f6dc9716520c"
+      },
+      {
+        "source": "koordinaciya/proverki-priyoma-root.swift",
+        "target": "Tests/RootAcceptanceTests/proverki-priyoma-root.swift",
+        "sha256": "405468f4a5ddcef803529b126942f31c813278be4846f7733cb92b3a1b657e2c"
+      },
+      {
+        "source": "koordinaciya/fuma/priyom-root.json",
+        "target": "Resources/priyom-root.json",
+        "sha256": "3ffd22cff0fe3dc9317b4e5063ac781d84fcc4981c7f07fb95eeec467f1cf65c"
+      }
+    ],
+    "recipe": {
+      "manifest": "// swift-tools-version: 6.0\nimport PackageDescription\nlet strict: [SwiftSetting] = [.unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"FUMRootAcceptanceFixture\", platforms: [.macOS(.v14)], targets: [\n.target(name: \"КонтейнерНаблюдений\", path: \"Sources/Container\", swiftSettings: strict),\n.target(name: \"RootAcceptance\", dependencies: [\"КонтейнерНаблюдений\"], path: \"Sources/RootAcceptance\", swiftSettings: [.define(\"TESTING\")] + strict),\n.testTarget(name: \"RootAcceptanceTests\", dependencies: [\"RootAcceptance\", \"КонтейнерНаблюдений\"], path: \"Tests/RootAcceptanceTests\", swiftSettings: strict)\n], swiftLanguageModes: [.v6])\n",
+      "manifestSHA256": "80d0276d023e0f9f34cccb7b82727053d62e074556ab4b4e6c1456279a1d723e",
+      "sourceMap": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift"
+        },
+        {
+          "source": "koordinaciya/координатор.swift",
+          "target": "Sources/RootAcceptance/координатор.swift"
+        },
+        {
+          "source": "koordinaciya/генератор-метаданных-коммита.swift",
+          "target": "Sources/RootAcceptance/генератор-метаданных-коммита.swift"
+        },
+        {
+          "source": "koordinaciya/priyom-root.swift",
+          "target": "Sources/RootAcceptance/priyom-root.swift"
+        },
+        {
+          "source": "koordinaciya/proverki-priyoma-root.swift",
+          "target": "Tests/RootAcceptanceTests/proverki-priyoma-root.swift"
+        },
+        {
+          "source": "koordinaciya/fuma/priyom-root.json",
+          "target": "Resources/priyom-root.json"
+        }
+      ],
+      "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "setup": "// Входы host: FUM_SOURCE_ROOT, FUM_FIXTURE_ROOT, ROOT_METADATA_CLI,\n// ROOT_FUMA_OPERATOR (выбранный locator), ROOT_FUMA_DEFINITION,\n// ROOT_METADATA_TEMPLATE и его ожидаемый SHA. Приватные пути в Git не сохраняются.\nconst fs=require('fs'),path=require('path'),crypto=require('crypto');\nconst W=fs.realpathSync.native(process.env.FUM_SOURCE_ROOT),P=fs.realpathSync.native(process.env.FUM_FIXTURE_ROOT);\nconst hash=b=>crypto.createHash('sha256').update(b).digest('hex');\nconst stage=JSON.parse(fs.readFileSync(path.join(W,'koordinaciya/состояние.json'),'utf8')).программаПриёмкиROOT472;\nconst H=path.join(P,'harness');fs.mkdirSync(H,{mode:0o700});\nfor(const x of stage.recipe.sourceMap){const b=fs.readFileSync(path.join(W,x.source));const t=path.join(H,x.target);fs.mkdirSync(path.dirname(t),{recursive:true,mode:0o700});fs.writeFileSync(t,b,{flag:'wx',mode:0o600})}\nfs.writeFileSync(path.join(H,'Package.swift'),stage.recipe.manifest,{flag:'wx',mode:0o600});\nconst dependencies=[['ROOT_METADATA_CLI',stage.runtime.metadataCLI],['ROOT_FUMA_OPERATOR',stage.runtime.operator],['ROOT_FUMA_DEFINITION',stage.runtime.definition]];\nconst pins=dependencies.map(([key,expected])=>{const physical=fs.realpathSync.native(process.env[key]);if(hash(fs.readFileSync(physical))!==expected)throw Error('dependency SHA');return{путь:physical,sha256:expected}});\nconst template=fs.realpathSync.native(process.env.ROOT_METADATA_TEMPLATE);\nif(hash(fs.readFileSync(template))!==process.env.ROOT_METADATA_TEMPLATE_SHA256)throw Error('host template SHA');\nfor(const x of stage.recipe.sourceMap)pins.push({путь:path.join(H,x.target),sha256:hash(fs.readFileSync(path.join(H,x.target)))});\nconst environment={KOORDINACIYA_FUMA_DEFINITION:pins[2].путь,KOORDINACIYA_FUMA_OPERATOR:pins[1].путь};\nconst config={metadataCLI:pins[0].путь,template,program:path.join(H,'Resources/priyom-root.json'),environment,pins};\nfs.writeFileSync(path.join(P,'fixture-config.json'),JSON.stringify(config),{flag:'wx',mode:0o600});\n// Создать P/fixtures (0700); ROOT_FIXTURE_CONFIG=P/fixture-config.json,\n// ROOT_FIXTURE_ROOT=P/fixtures, CODEX_THREAD_ID = фактический native host.\n// Запустить argv из recipe.command; ожидаются ровно10 Swift Testing PASS.\n// Тесты сами создают отдельные runtime/memory/run roots и локальные test refs.\n",
+      "command": [
+        "/usr/bin/swift",
+        "test",
+        "--package-path",
+        "<P>/harness",
+        "--scratch-path",
+        "<P>/harness/build",
+        "--cache-path",
+        "<P>/harness/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "<host-selected pinned SDK>",
+        "--filter",
+        "ПроверкиПрограммыПриёмаROOT",
+        "--verbose"
+      ],
+      "privateInputs": "Host предоставляет проверенный metadata template с наблюдённой actual native/client-selection; полная приёмка/ROOT JSONL этим не заменяется. Fixture оставляет только Decodable-поля metadata и не копирует закрытые отчёты.",
+      "tested": "Private ASCII SwiftPM target RootAcceptanceTests; Swift6/complete concurrency/warnings-as-errors/actor checks. Чистый clone без private host inputs не проверялся."
+    },
+    "ремонт": {
+      "старыеROOTОтказы": "Окружение raw CLI потеряно после commit; ручная zsh path повредила PATH до Git. Происхождение — поручение ROOT, первичные receipts не предоставлены/UNKNOWN; ROOT JSONL не читался.",
+      "новыеОтказы": "A1 file transport; A1 count parser; A3 alias binding; A4 Foundation physical guard. Исходы сохранены, классифицированы; исправлены локальная программа/recipe без ослабления gate.",
+      "потребностьАвтоматизации": "Доверенный locator нормализовать POSIX realpath до prepared context; fingerprint связывать с точными входами/условиями. Наблюдённые отказы и corrections сохранять add-only.",
+      "координация": "Непосредственный ROOT; локальный ремонт — владелец программы."
+    },
+    "остаток": [
+      "ROOT acceptance отдельно",
+      "Production ROOT executor/transport/activation отсутствуют",
+      "ENOSPC/powerloss UNKNOWN; failpoints явно simulated",
+      "Полный PUB/global guard/Python/ROOT JSONL исключены, UNKNOWN",
+      "Вложенная compiler parallelism1 не доказана"
+    ],
+    "поставка": {
+      "source": "Последующее внешнее Git-наблюдение; без self-commit OID dependency",
+      "writer": "ACTIVE до отдельного release"
+    },
+    "реальныйConsumer": {
+      "rootMode": "Production prepare требует actual native == ROOT, отдельный trusted grant и metadata binding; ordinary fixture capability только TESTING.",
+      "dirtyRoot": "Текущий exact/merge guard требует пустой status. Описанный ROOT protected dirty snapshot (две tracked правки Журнала и untracked папка, index пуст) сейчас fail-closed: поддержка точного protected snapshot не реализована. Ни staging, ни перезапись, ни cleanup Root W не разрешены.",
+      "baselinePatchSHA256": "93637e916395cffe3995a0b2c73d3ad0bc3fb4cfb97a5e463adfe9e3ee405fc4",
+      "provenance": "Адресное сообщение ROOT после A5; живой чужой W/исходные bytes в этом этапе не проверялись.",
+      "readyWholeROOT": false
+    },
+    "NamesReceiptSHA256": "197c57bcc5b950cc60d64002ea85f30923ce3d73fab6001e719241a04f670b01"
+  },
+  "обратнаяДоставкаПриёмкиROOT339": {
+    "schema": "fum.root-acceptance-reverse-evidence.1",
+    "ROOT": "3398c143dc85be6e0038ece993f4b6bc98de8cd5",
+    "origin": "b6ca897f6a3be6f0aa83050b691d99080f42d1cb",
+    "parents": [
+      "478bae2debcc63143f156c0c6588b1c9fb20a2c8",
+      "3398c143dc85be6e0038ece993f4b6bc98de8cd5"
+    ],
+    "source": "478bae2debcc63143f156c0c6588b1c9fb20a2c8",
+    "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "actor": "01a18693-0478-7730-977b-33dea68e9970",
+    "model": "gpt-6.1-sol",
+    "effort": "ultra",
+    "backend": "UNKNOWN",
+    "sixDuringReverse": "mode/blob/size/SHA ровно сохранены; вне6 дерево равно ROOT",
+    "dependencyDelta": {
+      "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+      "A5": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e",
+      "A6": "6d282217b748f902db86ee99b865fdda7c36a21794ab5acbd5de065bf1ba01ed",
+      "reason": "ROOT скорректировал предположение о непересечении: это реальный compiled input A5; отдельно разрешён A6."
+    },
+    "A6": {
+      "exit": 0,
+      "selectedTests": 10,
+      "status": "PASS",
+      "sourcepins": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "6d282217b748f902db86ee99b865fdda7c36a21794ab5acbd5de065bf1ba01ed"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/координатор.swift",
+          "target": "Sources/RootAcceptance/координатор.swift",
+          "sha256": "0faff5e6659faa846b7c1a8213883d1884112a39953f9856968bde77b5b3cc48"
+        },
+        {
+          "source": "koordinaciya/генератор-метаданных-коммита.swift",
+          "target": "Sources/RootAcceptance/генератор-метаданных-коммита.swift",
+          "sha256": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+        },
+        {
+          "source": "koordinaciya/priyom-root.swift",
+          "target": "Sources/RootAcceptance/priyom-root.swift",
+          "sha256": "e2b457ac18e222edcaf15c8e7f1040f60cc58f338d10cf062447f6dc9716520c"
+        },
+        {
+          "source": "koordinaciya/proverki-priyoma-root.swift",
+          "target": "Tests/RootAcceptanceTests/proverki-priyoma-root.swift",
+          "sha256": "405468f4a5ddcef803529b126942f31c813278be4846f7733cb92b3a1b657e2c"
+        },
+        {
+          "source": "koordinaciya/fuma/priyom-root.json",
+          "target": "Resources/priyom-root.json",
+          "sha256": "3ffd22cff0fe3dc9317b4e5063ac781d84fcc4981c7f07fb95eeec467f1cf65c"
+        }
+      ],
+      "runtimePins": [
+        {
+          "sha256": "088496af75a6261bfaec03c696b519d884847187b7a4e1e1160383355ccfa470",
+          "role": "metadataCLI"
+        },
+        {
+          "sha256": "0f9eaaa023a23ffe8fceb4f51dbd75bc2dee5bbc3270e2d17dadcb1a05f2720b",
+          "role": "operator"
+        },
+        {
+          "sha256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+          "role": "definition"
+        }
+      ],
+      "sourceRuntimeStable": true,
+      "actualGraphProcesses": 62,
+      "gitVerbs": {
+        "symbolic-ref": 85,
+        "config": 112,
+        "rev-parse": 238,
+        "remote": 88,
+        "status": 26,
+        "merge": 7,
+        "merge-base": 7,
+        "hash-object": 17,
+        "cat-file": 17,
+        "write-tree": 13,
+        "ls-remote": 7,
+        "diff": 7,
+        "push": 4,
+        "commit": 6
+      },
+      "argv": [
+        "test",
+        "--package-path",
+        "<private-stage>/harness",
+        "--scratch-path",
+        "<private-stage>/harness/build",
+        "--cache-path",
+        "<private-stage>/harness/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "<pinned SDK>",
+        "--filter",
+        "ПроверкиПрограммыПриёмаROOT"
+      ],
+      "stdoutSHA256": "91f545c88199dcd33c7127dec054c471d85349c831d9a1398cceb74b0565e124",
+      "stderrSHA256": "9e5723a3d3025ddf84af523ff0e8b01f725b791d2e2a66bafaf4cbeb98202b84",
+      "receiptSHA256": "8c52b33c8ba3fa676d1391913e81366fc78117c20cf471d2d861b1262fe24c2b",
+      "executionProofSHA256": "3b3a006e539e7320096d0725422eb80df792e36807d1cfd5a9c85ce7646750c8",
+      "noVerbose": true,
+      "oldWarning": "A5 verbose manifest-command warning и старые receipts сохранены; warning-prefix0 для всего этапа не заявляется."
+    },
+    "resources": {
+      "fixtureBytes": 3564564,
+      "newFixtureBudget": 16777216,
+      "totalScratchKiB": 263108,
+      "totalScratchLimitKiB": 524288,
+      "jobs": "SwiftPM --jobs1; -j10 descendants/compile evidence прежнего контура сохранены. Эффективная вложенная параллельность1 не доказана."
+    },
+    "provenance": {
+      "humanQuoteSHA256": "3e3ee5f6bc6c77c6403633511dd245406c45baab6cdc7786eda29e86365a8f50",
+      "ROOTTransferredNativeOffset": "UNKNOWN",
+      "oldA5ReceiptSHA256": "da261aa7b9357f1772eaa8db9ecf5c22af7ca952cebdbf245d52468da982d039",
+      "oldArtifacts": "Не переписаны; A6 отдельный harness/attempt6"
+    },
+    "limitations": [
+      "Source-only NEW000032; ROOT acceptance отдельно",
+      "Dirty real ROOT consumer/protectedSnapshot gap остаётся; нового WRITE на protectedSnapshot нет",
+      "ROOT bridge/transport не активирован",
+      "Python/ROOT JSONL/fullPUB/global guard исключены, UNKNOWN",
+      "ENOSPC/powerloss UNKNOWN; simulated acknowledgement loss отдельно",
+      "Никаких metadata/operator rebuild"
+    ],
+    "localPreparationRepair": "RO receipt-name collision до Git-эффекта классифицирован; источник счётчика исправлен, первая квитанция сохранена.",
+    "delivery": "Последующее внешнее Git-наблюдение; нет self-commit hash dependency"
   }
 }
