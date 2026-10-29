@@ -156,6 +156,12 @@ public struct ПланНаблюденийСостояния: Codable, Equatable
         return try кодировщик.encode(self) + Data([0x0a])
     }
 
+    public func каноническаяСтрокаJSONL() throws -> Data {
+        let кодировщик = JSONEncoder()
+        кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return try кодировщик.encode(self) + Data([0x0a])
+    }
+
     private enum CodingKeys: String, CodingKey {
         case схема
         case порядок
@@ -179,7 +185,7 @@ public struct СистемныйПоставщикНаблюденийСосто
     ) async throws -> ПроекцияФайловойСистемы {
         let снимок = try НаблюдениеФайловойСистемы.наблюдать(корень: корень, источник: источник)
         return ПроекцияФайловойСистемы(
-            физическийКорень: корень.path,
+            физическийКорень: снимок.физическийКорень.path,
             источник: снимок.источник,
             предшественник: снимок.предшественник,
             идентификатор: снимок.идентификатор,
