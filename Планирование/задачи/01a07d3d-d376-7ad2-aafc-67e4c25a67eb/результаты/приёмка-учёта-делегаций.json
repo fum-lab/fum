@@ -344,6 +344,67 @@
     "состояние": "сохранена-root-source-приёмка-pr-457",
     "граница": "Production caller, native Stop, durable executor и canonical mapping №452 не подключены. Приёмка PR №457 не завершает Issue №452 и не доказывает полное recovery. ROOT worktree/ref этой записью не изменялись."
   },
+  "следующая_root_приёмка_pr_459_и_последующие_состояния": {
+    "источник": {
+      "путь": "Планирование/задачи/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/результаты/источник-root-приёмки-pr-459-и-последующих-состояний-2026-10-29.json",
+      "sha256": "8f55a60f9b04c7927e28d28439578752bd69404ccec93c9eed3c9bbeb2f689dc"
+    },
+    "точная_нормализованная_запись": {
+      "путь": "Источники/URL/https/github.com/fum-lab/fum/pull/459/запись-приёмки.json",
+      "sha256": "3c02b23b734711269a336433bc0716cba510b1453ec519778cecb7f9c3760f20",
+      "размер_в_байтах": 12327,
+      "строк": 117,
+      "схема": "fum.запись-приёмки-pr.1",
+      "transport": "нормализованное происхождение сообщено ROOT; raw HTTP, status и headers отсутствуют"
+    },
+    "pr_459": {
+      "состояние": "closed, merged=true",
+      "base": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "head": "2b11dae0c9426a477b1b7e0e336776203346efcc",
+      "merge": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+      "дерево": "ec87149dd3d8ab105bb9a2e513a56706ddb332de",
+      "родители_по_порядку": [
+        "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+        "2b11dae0c9426a477b1b7e0e336776203346efcc"
+      ],
+      "путей": 49,
+      "aggregate_mode_blob_path_sha256": "1d1e50542a39b5759833e2bed6e07faa6ce9e2972d70c29901d4b14ca2fee373",
+      "вне_49": "дерево равно принимающей основе",
+      "удалённый_oid_подтверждён": true
+    },
+    "комментарий": {
+      "id": 6493273233,
+      "url": "https://github.com/fum-lab/fum/pull/459#issuecomment-6493273233",
+      "байтов": 1347,
+      "sha256": "7c5bc60e09241b6018606dc07bfe9ed881b8b29e59895a14b46cd5c85f6565d9"
+    },
+    "durable_caller": {
+      "write_grant_четырёх_путей": "ROOT-reported",
+      "новый_опубликованный_результат": "не доказан"
+    },
+    "fuma": {
+      "checkpoint_572": "CodeSign exit 1 до тестов; 2/2 не заявлены",
+      "checkpoint_65d": "2 выбранных теста, 3 issues, exit 1",
+      "checkpoint_a9e": "2 passed, 0 issues, exit 0; удалённый OID подтверждён",
+      "draft_pr_461": "open, draft, 5 путей, +410/-5",
+      "ROOT_acceptance": false,
+      "restart_power_durability": "не доказана"
+    },
+    "rules_pr_460": {
+      "состояние": "open, mergeable",
+      "head": "62d270a7b3032decd094514daa6402be254f200a",
+      "reverse_merge_ROOT3ddd": "завершён и опубликован",
+      "RO_review_без_P1": "ROOT-reported",
+      "ROOT_acceptance": false
+    },
+    "проверки": {
+      "raw_delta_49_commit_parents_tree_push_remote": "PASS",
+      "сборка_воспроизводимость_general_coverage": "UNKNOWN",
+      "Python_и_ROOT_JSONL": "не запускались и не GREEN"
+    },
+    "состояние": "сохранена-root-source-приёмка-pr-459-и-последующие-ограниченные-состояния",
+    "граница": "Исторические 198 PASS + 1 SKIP не проверяют новую основу. Руководство пропускает DTO, исторический public-facade test отсутствует. Рабочая миграция, ACL apply, live activation и production-ready не заявлены. Предыдущий закрытый checkpoint не переоткрыт."
+  },
   "поставка": "0e688997b174f8e16617e80033263fe9d16337f3",
   "выбранное_поручение": {
     "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",

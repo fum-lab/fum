@@ -1,0 +1,117 @@
+{
+  "схема": "fum.запись-приёмки-pr.1",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "PR": {
+    "url": "https://github.com/fum-lab/fum/pull/459",
+    "название": "Сохранить исходники общей миграции путей конечным пакетом",
+    "до": {
+      "url": "https://github.com/fum-lab/fum/pull/459",
+      "number": 459,
+      "state": "open",
+      "merged": false,
+      "mergeable": false,
+      "draft": false,
+      "body": "Старая линия Names приносила 106 путей вместе с непринятой историей. Этот пакет сохраняет ровно 49 путей на принятой ROOT-основе: 45 файлов программы, проверок и руководства, три исторических служебных файла и новый JSON этапа.\n\nParent/base: `4f4fc05a44fa20f2e15c0f996a5c097767fa75e3`.\nHead: `173a2500bf03b569b26a04a900413c39b5e85399`.\nTree: `58e02c08f1535cc6bb844c984f9ddbafe0e2a455`.\nИсходные 48 blobs сохранены через проверенный срез `137319c…`; его ancestry и посторонняя история receiver исключены. Точная дельта: 46 добавлений, три изменения, без удалений.\n\nПроверено независимо: все 49 Git modes/blobs/размеров/SHA-256 (1 291 467 байт), raw commit/единственный parent/author/committer/trailer, отсутствие лишних путей и ancestry, whitespace, normal exact push и отдельный remote readback. Два RO review состава и нового JSON дали ноль замечаний. Владельцем нового ref запись прекращена; прежние checkout, индекс и refs сохранены.\n\n[JSON этапа](https://github.com/fum-lab/fum/blob/173a2500bf03b569b26a04a900413c39b5e85399/iskhodniki/aktualizaciya-putej/kontraktyi/paket-iskhodnikov.json) связывает источник, предыдущий JSON, приёмку исходного среза узлом instrumentyi, ROOT-основу и фактическую подготовку. Его SHA-256: `cd446811e39c061346e7faf271124e407e3f39c619239d5f155150c9caf3f6a0`.\n\nЭто сохранение исходного среза. Новая сборка и воспроизведение не выполнялись и остаются UNKNOWN. Исторические 198 PASS + один full-corpus SKIP не являются проверками новой основы. Известны два ограничения: команда руководства пропускает входящий в пакет DTO-файл; файл проверки публичного фасада из исторического typecheck отсутствует в новой базе/срезе. Эти ограничения сохранены явно; исторические blobs здесь не исправляются.\n\nОбщие приёмочные проверки, рабочая миграция, ACL apply и live activation не заявлены. Общий Swift checker отслеживается отдельно в #454 и не блокирует этот source checkpoint.",
+      "title": "Сохранить исходники общей миграции путей конечным пакетом",
+      "base": "fum-lab/fum/master",
+      "base_sha": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "head": "fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov-root/master",
+      "head_sha": "2b11dae0c9426a477b1b7e0e336776203346efcc",
+      "head_repo_id": 1285958028,
+      "head_repo_full_name": "fum-lab/fum",
+      "merge_commit_sha": "bbbe733c5dd73c7cc61a5a70e3744364f21aeb95",
+      "user": {
+        "login": "Roman-Kerimov",
+        "name": "Roman-Kerimov",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+        "id": 22149544
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-29T08:42:05Z",
+      "updated_at": "2026-10-29T09:26:14Z",
+      "closed_at": null,
+      "merged_at": null,
+      "commits": 2,
+      "changed_files": 49,
+      "additions": 20604,
+      "deletions": 17,
+      "display_url": "https://github.com/fum-lab/fum/pull/459",
+      "display_title": "Сохранить исходники общей миграции путей конечным пакетом"
+    },
+    "после": {
+      "url": "https://github.com/fum-lab/fum/pull/459",
+      "number": 459,
+      "state": "closed",
+      "merged": true,
+      "mergeable": false,
+      "draft": false,
+      "body": "Старая линия Names приносила 106 путей вместе с непринятой историей. Этот пакет сохраняет ровно 49 путей на принятой ROOT-основе: 45 файлов программы, проверок и руководства, три исторических служебных файла и новый JSON этапа.\n\nParent/base: `4f4fc05a44fa20f2e15c0f996a5c097767fa75e3`.\nHead: `173a2500bf03b569b26a04a900413c39b5e85399`.\nTree: `58e02c08f1535cc6bb844c984f9ddbafe0e2a455`.\nИсходные 48 blobs сохранены через проверенный срез `137319c…`; его ancestry и посторонняя история receiver исключены. Точная дельта: 46 добавлений, три изменения, без удалений.\n\nПроверено независимо: все 49 Git modes/blobs/размеров/SHA-256 (1 291 467 байт), raw commit/единственный parent/author/committer/trailer, отсутствие лишних путей и ancestry, whitespace, normal exact push и отдельный remote readback. Два RO review состава и нового JSON дали ноль замечаний. Владельцем нового ref запись прекращена; прежние checkout, индекс и refs сохранены.\n\n[JSON этапа](https://github.com/fum-lab/fum/blob/173a2500bf03b569b26a04a900413c39b5e85399/iskhodniki/aktualizaciya-putej/kontraktyi/paket-iskhodnikov.json) связывает источник, предыдущий JSON, приёмку исходного среза узлом instrumentyi, ROOT-основу и фактическую подготовку. Его SHA-256: `cd446811e39c061346e7faf271124e407e3f39c619239d5f155150c9caf3f6a0`.\n\nЭто сохранение исходного среза. Новая сборка и воспроизведение не выполнялись и остаются UNKNOWN. Исторические 198 PASS + один full-corpus SKIP не являются проверками новой основы. Известны два ограничения: команда руководства пропускает входящий в пакет DTO-файл; файл проверки публичного фасада из исторического typecheck отсутствует в новой базе/срезе. Эти ограничения сохранены явно; исторические blobs здесь не исправляются.\n\nОбщие приёмочные проверки, рабочая миграция, ACL apply и live activation не заявлены. Общий Swift checker отслеживается отдельно в #454 и не блокирует этот source checkpoint.",
+      "title": "Сохранить исходники общей миграции путей конечным пакетом",
+      "base": "fum-lab/fum/master",
+      "base_sha": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "head": "fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov-root/master",
+      "head_sha": "2b11dae0c9426a477b1b7e0e336776203346efcc",
+      "head_repo_id": 1285958028,
+      "head_repo_full_name": "fum-lab/fum",
+      "merge_commit_sha": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+      "user": {
+        "login": "Roman-Kerimov",
+        "name": "Roman-Kerimov",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+        "id": 22149544
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-29T08:42:05Z",
+      "updated_at": "2026-10-29T09:41:34Z",
+      "closed_at": "2026-10-29T09:39:55Z",
+      "merged_at": "2026-10-29T09:39:55Z",
+      "commits": 2,
+      "changed_files": 49,
+      "additions": 20604,
+      "deletions": 17,
+      "display_url": "https://github.com/fum-lab/fum/pull/459",
+      "display_title": "Сохранить исходники общей миграции путей конечным пакетом"
+    }
+  },
+  "ROOT": {
+    "основа": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+    "коммит": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+    "дерево": "ec87149dd3d8ab105bb9a2e513a56706ddb332de",
+    "родители": [
+      "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "2b11dae0c9426a477b1b7e0e336776203346efcc"
+    ],
+    "remoteOID": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3"
+  },
+  "комментарий": {
+    "id": 6493273233,
+    "url": "https://github.com/fum-lab/fum/pull/459#issuecomment-6493273233",
+    "текст": "**FUM Codex**\n\nПринят сохраняющий source-пакет: ROOT merge `3ddd1ffc94889fa43f31071f2637813fcddfe1c3`, tree `ec87149dd3d8ab105bb9a2e513a56706ddb332de`, ordered parents `[0dfa0853c389f9ccecff8177d64be4504e20b59b, 2b11dae0c9426a477b1b7e0e336776203346efcc]`. Точный normal push и независимый remote OID подтверждены.\n\nПосле обратной доставки ROOT сохранены все 49 путей, режимы и blobs; полная дельта совпала с исходным пакетом, вне этих путей дерево равно принимающей основе. Независимое RO-ревью не нашло P1 против границы сохранения исходников. Старые 58 лишних путей и их история не импортированы.\n\nСборка, воспроизводимость и общее покрытие остаются UNKNOWN: команда руководства пропускает имеющийся необходимый исходник кандидатов, исторический тест отсутствует в пакете/базе. Это не подтверждение производственной готовности или применения автоматизации."
+  },
+  "проверки": {
+    "rawДельта49": "PASS — полные mode/OID/path совпали с первоначальным пакетом; вне49 дерево равно принимающему",
+    "сыройКоммит": "PASS — C051 и точные родители/дерево",
+    "авторМодель": "FUM Codex [gpt-6.1-sol; effort=ultra]; клиент наблюдён, backend неизвестен",
+    "защищённаяГрязь": "Не изменена",
+    "normalPushRemote": "PASS",
+    "историческаяВоспроизводимость": "UNKNOWN",
+    "сборка": "UNKNOWN",
+    "generalCoverage": "UNKNOWN",
+    "PythonROOTJSONL": "Не запускались, не GREEN"
+  },
+  "источник": {
+    "source": "2b11dae0c9426a477b1b7e0e336776203346efcc",
+    "rawSHA256": "e745042c91cb78a4f3300fdaa310a2cb0baeb4eb23a7c8c6013559cbf20256e6",
+    "manifestSHA256": "b9527ca79d4f54882b12674c7faa44062d913dad20bd4f4373c151b0d952913b",
+    "writerReleaseSHA256": "155f4cddd4d45d40ad3f48d8c6f067c438d589a7d0d4cba11560c879d9b273a4"
+  },
+  "граница": "Сохранены исходники; готовность действующего публичного фасада и автоматической миграции не подтверждена."
+}
