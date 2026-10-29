@@ -1,0 +1,51 @@
+{
+  "схема": "fum.владение-писателем-и-поиск-доступной-работы.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дата": "2026-10-29",
+  "человеческие_реплики": [
+    {"текст": "Nam pokhozhe nuzhen agent, kotoryij postoyanno budet zadavatjsya voprosom, kakuyu yesjhyo rabotu mozhno zapustitj.", "native_message_id": "01a18773-4b66-7e21-b328-9847aec83c25", "происхождение": "native userMessage в компактной сводке ROOT; переданная цитата без заключительной точки сохранена отдельно", "цитата_ROOT": "Nam pokhozhe nuzhen agent, kotoryij postoyanno budet zadavatjsya voprosom, kakuyu yesjhyo rabotu mozhno zapustitj"},
+    {"текст": "Chto za vopros otstviya vtorogo pisatelya?", "native_message_id": "01a18774-fe77-7412-9e0b-fda4e4bf04d0", "происхождение": "native userMessage в компактной сводке ROOT"},
+    {"текст": "I voobsjhe koordinator li, ili eto dolzhen byitj obsjhij mekhanizm rantajma agenta?", "native_message_id": "01a18776-2124-7c72-9cc5-a2b4bedf51ed", "происхождение": "native userMessage в компактной сводке ROOT"},
+    {"текст": "Ya i v tom chisle mekhanizm zapuska kazhdogo podagenta.", "native_message_id": "01a18777-12d8-7fb1-a4ea-bbe55c4f1288", "цитата_ROOT": "Ya i v tom chisle mekhanizm zapuska kazhdogo podagenta", "происхождение": "native userMessage в компактной сводке ROOT"},
+    {"текст": "Kak budto byi eto dolzhen byitj odin instrumentarij rasseleniya agentov po fajlovoj sisteme proyekta.", "native_message_id": "01a18777-8287-7503-b03e-489afd3b97ab", "цитата_ROOT": "Kak budto byi eto dolzhen byitj odin instrumentarij rasseleniya agentov po fajlovoj sisteme proyekta", "происхождение": "native userMessage в компактной сводке ROOT"},
+    {"текст": "Da, v tom chisle na glubine otdeljnyikh mashin i uzlov, forkov i t. d.", "native_message_id": "01a18778-bc5c-7823-af9a-836d0b5ba6a3", "происхождение": "native userMessage в компактной сводке ROOT"}
+  ],
+  "решение": {
+    "runtime_каждого_узла": "обеспечивает владение писателя рабочим деревом и ref, недопущение двойного запуска и безопасную передачу владения при запуске или возобновлении",
+    "координатор": "выбирает работу, приоритет и получателя",
+    "центральной_ручной_проверкой_не_ограничивается": true,
+    "статус": "целевая архитектура и переданная постановка; готовность реализации не заявлена",
+    "границы": [
+      "не считать старый процесс мёртвым без свидетельства",
+      "не снимать чужую блокировку",
+      "не повторять эффект с неизвестным исходом",
+      "первый Swift-срез переиспользуется FUMA; центральный daemon не предполагается"
+    ],
+    "передача_Instruments": {"command_ID": "exec-860554f5-9500-40a0-823c-5364bf21f671", "статус": "completed", "происхождение": "компактная сводка ROOT"}
+  },
+  "поиск_работы": {
+    "имя": "poisk_dostupnoj_raboty",
+    "режим": "ограниченное чтение",
+    "назначение": "составить первый список доступной работы и найти существующего владельца планирования",
+    "native_thread": "01a18774-64d2-7350-9075-adbc92173a33",
+    "наблюдение": "subAgentActivity started, затем interacted",
+    "передача": {"command_ID": "exec-36592766-3c20-4ce1-9b0c-9b9467c2d9a3", "статус": "completed"},
+    "результат": "завершённый список в этой проверке не подтверждён",
+    "постоянный_сервис": "не заявлен"
+  },
+  "единая_фабрика_агентов": {
+    "цель": "единый существующий инструментарий фабрики и материализации для launch, resume, recovery и child spawn на всех уровнях",
+    "pre_resume_triage": "клиент общего инструментария, а не отдельная конкурирующая система",
+    "родитель": "задаёт адрес, задачу и область",
+    "общий_runtime": "связывает память, W, ref, native, model и worklist, защищает владение и исход",
+    "передача_Instruments": {"command_ID": "exec-e91cab7d-4c39-4435-8221-e6aef42f7eba", "статус": "completed", "объём": "найти существующего владельца, применить конечный пилот до трёх старых узлов без второго владельца и переписывания готовых частей"},
+    "ACK_и_готовность": "не подтверждены; постоянная работа в production не заявлена",
+    "разные_машины_узлы_и_форки": {
+      "логическая_идентичность": "repository identity, branch и memory path отделены от execution host и native incarnation",
+      "fork": "не hardcode на fum-lab; режимы чтения и писателя разделены",
+      "передача_Instruments": {"command_ID": "exec-cec9f3c9-3f6b-4956-982e-a540b68fb670", "статус": "completed"},
+      "граница": "локальный PID или lock не доказывает распределённого владения; первый локальный пилот не доказывает сетевой стек или готовую распределённую реализацию"
+    }
+  },
+  "границы": "ROOT JSONL, RAW, Python и тесты не запускались; чужие деревья, refs и блокировки не изменялись. Предыдущий закрытый этап не переоткрывался."
+}
