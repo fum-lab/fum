@@ -2,13 +2,14 @@ import Foundation
 import Darwin
 
 private func входнойФайл(_ путь: String) throws -> Data {
-    let д = Darwin.open(путь, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+    let д = Darwin.open(путь, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
     guard д >= 0 else { throw ОтказЦелостности("ввод-вывод", 2) }
     let файл = FileHandle(fileDescriptor: д, closeOnDealloc: true)
     defer { try? файл.close() }
     var до = stat()
-    guard fstat(д, &до) == 0, до.st_mode & S_IFMT == S_IFREG,
-          до.st_size >= 0, до.st_size <= ПределыЦелостности.манифест else { throw ОтказЦелостности("предел", 2) }
+    guard fstat(д, &до) == 0 else { throw ОтказЦелостности("ввод-вывод", 2) }
+    guard до.st_mode & S_IFMT == S_IFREG else { throw ОтказЦелостности("тип-входа", 2) }
+    guard до.st_size >= 0, до.st_size <= ПределыЦелостности.манифест else { throw ОтказЦелостности("предел", 2) }
     var данные = Data()
     while данные.count <= ПределыЦелостности.манифест {
         let часть = try файл.read(upToCount: min(16_384, ПределыЦелостности.манифест + 1 - данные.count)) ?? Data()

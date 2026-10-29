@@ -22,6 +22,12 @@ private enum СбойЗапуска: Error { case параметры, преде
 private struct ИсходПроцесса {
     let код: Int32
     let сигнал: Int32?
+    let процесс: Int32
+    let группа: Int32
+    let времяИстекло: Bool
+    let выводПревышен: Bool
+    let остановленПоСроку: Bool
+    let посланныеСигналы: [Int32]
     let наносекунды: UInt64
     let потокВыхода: URL
     let потокОшибок: URL
@@ -168,10 +174,13 @@ struct ЗапускПроверок {
 
     private static func исход(
         _ исполняемыйФайл: String, _ аргументыПроцесса: [String], _ рабочийКаталог: URL,
-        _ окружение: [String: String], _ каталог: URL, _ имя: String
+        _ окружение: [String: String], _ каталог: URL, _ имя: String, режимFIFO: Bool = false
     ) throws -> ИсходПроцесса {
         guard FileManager.default.currentDirectoryPath == рабочийКаталог.path,
               !([исполняемыйФайл] + аргументыПроцесса).contains(where: { $0.contains("\0") }) else { throw СбойЗапуска.параметры }
+        let пределПроцесса: UInt64 = режимFIFO ? 500_000_000 : 150_000_000_000
+        let пределОчистки: UInt64 = режимFIFO ? 1_000_000_000 : 2_000_000_000
+        let пределыВывода = режимFIFO ? [8192, 2048] : [1_048_576, 1_048_576]
         let выход = каталог.appendingPathComponent(имя + ".stdout")
         let ошибки = каталог.appendingPathComponent(имя + ".stderr")
         func открыть(_ путь: URL) throws -> FileHandle {
@@ -225,12 +234,17 @@ struct ЗапускПроверок {
         guard getpgid(дочерний) == дочерний else { throw СбойЗапуска.узел(210) }
         var якорь = true
         var собран = false
+        var посланныеСигналы: [Int32] = []
         func сигнал(_ номер: Int32) throws {
             guard якорь, !собран else { throw СбойЗапуска.узел(214) }
-            if Darwin.kill(-дочерний, номер) != 0 && errno != ESRCH { throw СбойЗапуска.узел(215) }
+            let ответСигнала = Darwin.kill(-дочерний, номер)
+            if ответСигнала != 0 {
+                if errno != ESRCH { throw СбойЗапуска.узел(215) }
+            } else { посланныеСигналы.append(номер) }
         }
         defer {
-            if якорь && !собран {
+            // Ошибка FIFO сохраняет UNKNOWN, без второго цикла сигналов после срока.
+            if !режимFIFO && якорь && !собран {
                 try? сигнал(SIGKILL)
                 var статус: Int32 = 0
                 if waitpid(дочерний, &статус, WNOHANG) == дочерний { собран = true }
@@ -253,55 +267,101 @@ struct ЗапускПроверок {
         var остановка: UInt64?
         var убийство = false
         var превышено = false
+        var времяИстекло = false
+        var выводПревышен = false
+        var остановленПоСроку = false
+        var крайОчисткиFIFO: UInt64?
         while true {
             let сейчас = DispatchTime.now().uptimeNanoseconds
+            var подтверждёнЖивойЛидер = false
             if !завершился {
                 var сведения = siginfo_t()
                 let ожидание = waitid(P_PID, id_t(дочерний), &сведения, WEXITED | WNOHANG | WNOWAIT)
                 if ожидание != 0 {
-                    if errno == EINTR { continue }
-                    if errno == ECHILD { якорь = false }
-                    throw СбойЗапуска.ожидание
+                    let ошибкаОжидания = errno
+                    if ошибкаОжидания == EINTR {
+                        if !режимFIFO { continue }
+                    } else {
+                        if ошибкаОжидания == ECHILD || режимFIFO { якорь = false }
+                        throw СбойЗапуска.ожидание
+                    }
+                } else {
+                    завершился = сведения.si_pid == дочерний
+                    подтверждёнЖивойЛидер = сведения.si_pid == 0
+                    if завершился {
+                        завершение = сейчас
+                        if режимFIFO && крайОчисткиFIFO == nil { крайОчисткиFIFO = сейчас + пределОчистки }
+                    }
                 }
-                завершился = сведения.si_pid == дочерний
-                if завершился { завершение = сейчас }
             }
             guard сейчас >= начало && сейчас >= началоКонтроллера else { throw СбойЗапуска.предел }
-            if сейчас - начало > 150_000_000_000 || сейчас - началоКонтроллера > 170_000_000_000 {
+            if режимFIFO {
+                if !завершился && сейчас - начало >= пределПроцесса {
+                    превышено = true
+                    времяИстекло = true
+                }
+                if let крайОчисткиFIFO, сейчас >= крайОчисткиFIFO { throw СбойЗапуска.узел(258) }
+            } else if сейчас - начало > пределПроцесса || сейчас - началоКонтроллера > 170_000_000_000 {
                 превышено = true
+                времяИстекло = true
             }
             if завершился && конец.allSatisfy({ $0 }) { break }
-            if превышено && остановка == nil { try сигнал(SIGTERM); остановка = сейчас }
+            if превышено && остановка == nil {
+                try сигнал(SIGTERM)
+                остановка = сейчас
+                if режимFIFO {
+                    if крайОчисткиFIFO == nil { крайОчисткиFIFO = сейчас + пределОчистки }
+                    остановленПоСроку = времяИстекло && подтверждёнЖивойЛидер && !завершился && !выводПревышен && посланныеСигналы.contains(SIGTERM)
+                }
+            }
             if let остановка, сейчас - остановка > 200_000_000 && !убийство { try сигнал(SIGKILL); убийство = true }
-            if let остановка, сейчас - остановка > 2_000_000_000 { throw СбойЗапуска.узел(258) }
+            if let остановка, сейчас - остановка > пределОчистки { throw СбойЗапуска.узел(258) }
             var события = каналы.enumerated().map { pollfd(fd: конец[$0.offset] ? -1 : $0.element, events: Int16(POLLIN | POLLHUP), revents: 0) }
             let результат = события.withUnsafeMutableBufferPointer { poll($0.baseAddress, nfds_t($0.count), 20) }
             if результат < 0 { if errno == EINTR { continue }; throw СбойЗапуска.узел(262) }
             for индекс in 0..<2 where !конец[индекс] && события[индекс].revents != 0 {
-                let остаток = max(1, 1_048_577 - размеры[индекс])
+                let остаток = max(1, пределыВывода[индекс] + 1 - размеры[индекс])
                 var буфер = [UInt8](repeating: 0, count: min(65_536, остаток))
                 let прочитано = буфер.withUnsafeMutableBytes { Darwin.read(каналы[индекс], $0.baseAddress, $0.count) }
                 if прочитано > 0 {
-                    let сохранить = min(прочитано, max(0, 1_048_576 - размеры[индекс]))
+                    let сохранить = min(прочитано, max(0, пределыВывода[индекс] - размеры[индекс]))
                     размеры[индекс] += прочитано
                     if сохранить > 0 { try файлы[индекс].write(contentsOf: Data(буфер.prefix(сохранить))) }
-                    if размеры[индекс] > 1_048_576 { превышено = true }
+                    if размеры[индекс] > пределыВывода[индекс] { превышено = true; выводПревышен = true }
                 } else if прочитано == 0 { конец[индекс] = true }
                 else if errno != EAGAIN && errno != EINTR { throw СбойЗапуска.узел(274) }
             }
-            if let завершение, сейчас - завершение > 500_000_000, !конец.allSatisfy({ $0 }), остановка == nil { try сигнал(SIGTERM); остановка = сейчас }
+            if let завершение, сейчас - завершение > 500_000_000, !конец.allSatisfy({ $0 }), остановка == nil {
+                try сигнал(SIGTERM); остановка = сейчас
+                if режимFIFO && крайОчисткиFIFO == nil { крайОчисткиFIFO = сейчас + пределОчистки }
+            }
         }
         // Нормальный выход и EOF не требуют сигналов. WNOWAIT удерживает leader до reap.
         var статус: Int32 = 0
-        while waitpid(дочерний, &статус, 0) != дочерний {
-            if errno == ECHILD { якорь = false }
-            if errno != EINTR { throw СбойЗапуска.узел(284) }
+        while true {
+            if режимFIFO {
+                guard let крайОчисткиFIFO, DispatchTime.now().uptimeNanoseconds < крайОчисткиFIFO else { throw СбойЗапуска.узел(284) }
+            }
+            let ответСбора = waitpid(дочерний, &статус, режимFIFO ? WNOHANG : 0)
+            if ответСбора == дочерний { break }
+            if ответСбора < 0 {
+                if errno == ECHILD { якорь = false }
+                if errno != EINTR { throw СбойЗапуска.узел(284) }
+            } else if режимFIFO {
+                guard let крайОчисткиFIFO else { throw СбойЗапуска.узел(284) }
+                let сейчас = DispatchTime.now().uptimeNanoseconds
+                guard сейчас < крайОчисткиFIFO,
+                      дождатьсяМонотонногоСрока(min(крайОчисткиFIFO, сейчас + 2_000_000)) else { throw СбойЗапуска.узел(284) }
+            }
         }
         собран = true
         якорь = false
         // Signal 0 — только RO проверка существования; при новой/оставшейся группе UNKNOWN.
         var группыНет = false
-        let пределЗакрытияГруппы = DispatchTime.now().uptimeNanoseconds + 1_000_000_000
+        let теперьЗакрытия = DispatchTime.now().uptimeNanoseconds
+        let обычныйПределЗакрытия = теперьЗакрытия + 1_000_000_000
+        guard !режимFIFO || крайОчисткиFIFO != nil else { throw СбойЗапуска.группа }
+        let пределЗакрытияГруппы = режимFIFO ? (крайОчисткиFIFO ?? теперьЗакрытия) : обычныйПределЗакрытия
         while DispatchTime.now().uptimeNanoseconds < пределЗакрытияГруппы {
             errno = 0
             if Darwin.kill(-дочерний, 0) == -1 && errno == ESRCH { группыНет = true; break }
@@ -311,12 +371,93 @@ struct ЗапускПроверок {
         }
         операцииЗакрыты = группыНет
         guard группыНет else { throw СбойЗапуска.группа }
-        guard !превышено else { throw СбойЗапуска.предел }
+        guard !превышено || режимFIFO else { throw СбойЗапуска.предел }
         let номерСигнала = статус & 0x7f
         return .init(код: номерСигнала == 0 ? (статус >> 8) & 0xff : -1,
                      сигнал: номерСигнала == 0 ? nil : номерСигнала,
+                     процесс: дочерний, группа: дочерний, времяИстекло: времяИстекло, выводПревышен: выводПревышен,
+                      остановленПоСроку: остановленПоСроку, посланныеСигналы: посланныеСигналы,
                      наносекунды: DispatchTime.now().uptimeNanoseconds - начало,
                      потокВыхода: выход, потокОшибок: ошибки)
+    }
+
+
+    // Закрытая native-проверка FIFO; старый SwiftTesting-контур не запускается.
+    private static func проверитьВходFIFO(_ корень: URL, _ сборка: URL, _ режим: String) throws {
+        let аренда = try владение(сборка, корень)
+        defer { flock(аренда, LOCK_UN); Darwin.close(аренда) }
+        let среда = ProcessInfo.processInfo.environment
+        guard let программа = среда["ФУМ_ПРОВЕРЯЮЩИЙ"], программа.hasPrefix("/"),
+              let ожидаемыйХэш = среда["ФУМ_ХЭШ_ПРОВЕРЯЮЩЕГО"], ожидаемыйХэш.utf8.count == 64 else { throw СбойЗапуска.параметры }
+        let бинарник = try ограниченно(URL(fileURLWithPath: программа), 4_194_304)
+        let хэшБинарника = SHA256.hash(data: бинарник).map { String(format: "%02x", $0) }.joined()
+        guard хэшБинарника == ожидаемыйХэш else { throw СбойЗапуска.вход }
+        let вход = сборка.appendingPathComponent("input.fifo")
+        let привязка = сборка.appendingPathComponent("fifo-binding.json")
+        if режим == "fifo-red" {
+            guard mkfifo(вход.path, 0o600) == 0 else { throw СбойЗапуска.вход }
+        }
+        var сведения = Darwin.stat()
+        guard lstat(вход.path, &сведения) == 0, сведения.st_mode & S_IFMT == S_IFIFO,
+              сведения.st_uid == getuid(), сведения.st_mode & 0o777 == 0o600, сведения.st_size == 0 else { throw СбойЗапуска.вход }
+        let устройство = Int64(сведения.st_dev), номерУзла = UInt64(сведения.st_ino)
+        if режим == "fifo-red" {
+            var байты = try JSONSerialization.data(withJSONObject: ["устройство": устройство, "inode": номерУзла, "писатель_открыт": false], options: [.prettyPrinted, .sortedKeys])
+            байты.append(10)
+            try исключительно(байты, привязка)
+        } else {
+            let байты = try ограниченно(привязка, 4096)
+            guard let объект = try JSONSerialization.jsonObject(with: байты) as? [String: Any],
+                  (объект["устройство"] as? NSNumber)?.int64Value == устройство,
+                  (объект["inode"] as? NSNumber)?.uint64Value == номерУзла,
+                  объект["писатель_открыт"] as? Bool == false else { throw СбойЗапуска.вход }
+        }
+        let каталог = сборка.appendingPathComponent(UUID().uuidString.lowercased())
+        try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false)
+        текущаяПопытка = каталог
+        try исключительно(Data("{\"схема\":\"fum.намерение-контура-проверок.1\"}\n".utf8), каталог.appendingPathComponent("намерение.json"))
+        let ответ = try исход(программа, ["--корень", корень.path, "--манифест", вход.path], корень,
+                             ["PATH": "/usr/bin:/bin", "LC_ALL": "C"], каталог, "fifo", режимFIFO: true)
+        let вывод = try ограниченно(ответ.потокВыхода, 8192)
+        let ошибки = try ограниченно(ответ.потокОшибок, 2048)
+        var после = Darwin.stat()
+        guard lstat(вход.path, &после) == 0, Int64(после.st_dev) == устройство, UInt64(после.st_ino) == номерУзла,
+              после.st_mode & S_IFMT == S_IFIFO, после.st_size == 0 else { throw СбойЗапуска.вход }
+        let результат = (try? JSONSerialization.jsonObject(with: вывод)) as? [String: Any]
+        let профиль = (try? JSONSerialization.jsonObject(with: ошибки)) as? [String: Any]
+        let типОтклонён = ответ.код == 2 && ответ.сигнал == nil && ответ.посланныеСигналы.isEmpty && !ответ.времяИстекло && !ответ.выводПревышен
+            && (результат?["код"] as? Int) == 2 && (результат?["причина"] as? String) == "тип-входа"
+            && (результат?["целостность"] as? Bool) == false && (профиль?["вызовы_Git"] as? Int) == 0
+        let красный = ответ.остановленПоСроку && ответ.времяИстекло && !ответ.выводПревышен
+            && ответ.сигнал.map { ответ.посланныеСигналы.contains($0) } == true
+            && (ответ.сигнал == SIGTERM || ответ.сигнал == SIGKILL) && вывод.isEmpty && ошибки.isEmpty
+        let успех = режим == "fifo-red" ? красный : типОтклонён
+        var наблюдение: [String: Any] = [
+            "схема": "fum.native-проверка-типа-входа.1", "режим": режим, "успех": успех,
+            "PID": ответ.процесс, "PGID": ответ.группа, "родитель": getpid(),
+            "код_CLI": ответ.код, "таймаут": ответ.времяИстекло, "превышен_вывод": ответ.выводПревышен,
+            "собран": true, "группа_закрыта": операцииЗакрыты,
+            "устройство": устройство, "inode": номерУзла, "FIFO_размер": после.st_size, "писатель_открыт": false,
+            "бинарник_sha256": хэшБинарника, "наносекунды": ответ.наносекунды,
+            "stdout_sha256": SHA256.hash(data: вывод).map { String(format: "%02x", $0) }.joined(),
+            "stderr_sha256": SHA256.hash(data: ошибки).map { String(format: "%02x", $0) }.joined(),
+            "stdout_байты": вывод.count, "stderr_байты": ошибки.count,
+            "RED_подтверждён": красный, "тип_отклонён": типОтклонён,
+            "остановлен_по_сроку": ответ.остановленПоСроку, "посланные_сигналы": ответ.посланныеСигналы,
+            "дедлайн_мс": 500, "grace_мс": 200, "cleanup_мс": 1000,
+            "граница": "Только собственная созданная PGID; escaped descendants UNKNOWN; native-контур не является SwiftTesting @Test"
+        ]
+        if let сигнал = ответ.сигнал { наблюдение["сигнал"] = сигнал }
+        if let код = результат?["код"] as? Int { наблюдение["результат_код"] = код }
+        if let причина = результат?["причина"] as? String { наблюдение["причина"] = причина }
+        if let целостность = результат?["целостность"] as? Bool { наблюдение["целостность"] = целостность }
+        if let вызовы = профиль?["вызовы_Git"] as? Int { наблюдение["вызовы_Git"] = вызовы }
+        var байты = try JSONSerialization.data(withJSONObject: наблюдение, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes])
+        байты.append(10)
+        try исключительно(байты, каталог.appendingPathComponent("fifo-case.json"))
+        try вывести(наблюдение)
+        try закрытьПопытку(успех ? 0 : 1)
+        exit(успех ? 0 : 1)
     }
 
     private static func выполнить() throws {
@@ -326,7 +467,11 @@ struct ЗапускПроверок {
         let корень = URL(fileURLWithPath: аргументы[1]).standardizedFileURL
         let сборка = URL(fileURLWithPath: аргументы[3]).standardizedFileURL
         let режим = аргументы[5]
-        guard ["проба", "красный", "проверки"].contains(режим) else { throw СбойЗапуска.параметры }
+        guard ["проба", "красный", "проверки", "fifo-red", "fifo-green"].contains(режим) else { throw СбойЗапуска.параметры }
+        if режим == "fifo-red" || режим == "fifo-green" {
+            try проверитьВходFIFO(корень, сборка, режим)
+            return
+        }
         let файлы = FileManager.default
         let аренда = try владение(сборка, корень)
         defer { flock(аренда, LOCK_UN); Darwin.close(аренда) }
