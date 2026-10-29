@@ -111,5 +111,5 @@ symlink отклоняются. В P0 явно называются режим �
 
 <!-- FUM-MD-RECENCY:BEGIN -->
 <!-- last-content-edit: 2026-10-29 12:56:14 MSK -->
-<!-- content-sha256: sha256:275f1a42526ad9db34b343950f65ecafe8b662168b97a082286298298a54c86c -->
+<!-- content-sha256: sha256:9c9be075de3876067dcbc177a5390351da6dcbf79438072e52ec48b3cbf2b128 -->
 <!-- FUM-MD-RECENCY:END -->
