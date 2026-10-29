@@ -7,8 +7,8 @@ import КонтейнерНаблюдений
 // Рецепт из корня Git FUM; все package-зависимости — локальные пути того же коммита.
 // Сначала зафиксировать `git rev-parse HEAD` и версию `swift --version`.
 // SCRATCH — существующий приватный каталог вне checkout, объём которого ограничен.
-// swift build --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --build-system native --jobs 1 --product fum-оператор -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
-// env 'ФУМА_ПРОВЕРКА_ОПЕРАТОРА=1' "ФУМА_КОМАНДА_ОПЕРАТОРА=$SCRATCH/debug/fum-оператор" swift test --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --build-system native --jobs 1 --disable-xctest --enable-swift-testing --filter ПроверкиОператорногоЦикла -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
+// swift build --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --jobs 1 --product fum-оператор -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
+// env 'ФУМА_ПРОВЕРКА_ОПЕРАТОРА=1' "ФУМА_КОМАНДА_ОПЕРАТОРА=$SCRATCH/debug/fum-оператор" swift test --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --jobs 1 --disable-xctest --enable-swift-testing --filter ПроверкиОператорногоЦикла -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
 // Фикстура создаёт временные FS, Git с refs/heads/проверка и внешний 0700 Segment.
 // Ожидаются одна завершённая рамка и сводка Git без учёта подмодулей; replay читает сохранённый вход,
 // даже если FS/Git изменены. Отказ графа после цикла оставляет план и отказ исполнения.
@@ -283,8 +283,23 @@ struct ПроверкиОператорногоЦикла {
         let аргументы = ["--исполнить-цикл-наблюдений", "--корень-файловой-системы", файлы.path,
             "--источник-файловой-системы", "проверка", "--корень-репозитория", репозиторий.path,
             "--определение", определение.path, "--журнал", метаданные.path]
+        let отдельнаяИстория = корень.appendingPathComponent("история")
+        try FileManager.default.createDirectory(at: отдельнаяИстория, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        var контрольныеАргументы = аргументы
+        контрольныеАргументы[контрольныеАргументы.count - 1] = отдельнаяИстория.path
+        let контроль = try команда(бинарник, контрольныеАргументы, каталог: корень)
+        try #require(контроль.0 == 0, "\(String(decoding: контроль.2, as: UTF8.self))")
+        let ответ = try JSONDecoder().decode(ОтветСреза.self, from: контроль.1)
+        #expect(ответ.запись.отказ == nil)
+        #expect(ответ.запись.рамки.count == 1)
+        let читатель = try Сегмент(кореньДанных: отдельнаяИстория, запись: false, создать: false)
+        defer { читатель.закрыть() }
+        #expect(читатель.записи.filter { $0.описание.тип == "fuma.план-наблюдений-состояния.jsonl.1" }.count == 1)
+        читатель.закрыть()
         let исход = try команда(бинарник, аргументы, каталог: корень)
         #expect(исход.0 != 0)
+        #expect(String(decoding: исход.2, as: UTF8.self).contains("приватныйКаталог"))
         #expect(!FileManager.default.fileExists(atPath: метаданные.appendingPathComponent("сегмент.fumobs").path))
     }
 }
