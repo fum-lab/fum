@@ -76,7 +76,7 @@ enum КомандаУстановщикаЛокальногоВходаАген�
     }
 
     private static func прочитатьОбёртку(_ путь: String) throws -> Data {
-        let файлFD = open(path, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+        let файлFD = open(путь, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
         guard файлFD >= 0 else {
             throw ОшибкаУстановщикаЛокальногоВхода.системная(
                 операция: "open обёртки без перехода по ссылке", код: errno
