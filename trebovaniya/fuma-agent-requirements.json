@@ -218,7 +218,120 @@
       "id": "FUM-REQ-0045",
       "path": "../Требования/🟡-статистика-вызовов-для-развития-автоматизаций.md",
       "status_at_base": "🟡",
-      "scope_and_limit": "Observed episodes may produce candidates with exact origin; this does not create a shared dispatcher or justify unobserved effects."
+      "scope_and_limit": "Observed episodes may produce candidates with exact origin; this does not create a shared dispatcher or justify unobserved effects.",
+      "next_slice_refinements": {
+        "status": "Предложенное уточнение следующего среза; реализация и фактические значения UNKNOWN; принятие ROOT не заявлено.",
+        "source_links": [
+          {
+            "type": "existing-requirement",
+            "id": "FUM-REQ-0045",
+            "path": "../Требования/🟡-статистика-вызовов-для-развития-автоматизаций.md"
+          },
+          {
+            "type": "existing-step",
+            "id": "FUM-STEP-0160",
+            "path": "../Планирование/карточки-шагов/🟡-FUM-STEP-0160-накапливать-статистику-вызовов.md"
+          },
+          {
+            "type": "existing-map",
+            "id": "FUM-MAP-AUTO-01",
+            "path": "../Документация/28-реестр-карточек-соответствия-FUM/FUM-MAP-AUTO-01.md"
+          },
+          {
+            "type": "source-document",
+            "path": "../Документация/дистилляция-GPT-в-операторы-FUMA.md"
+          },
+          {
+            "type": "root-report",
+            "path": "../otchyot-integracij-2026-10-29-7.json",
+            "commit": "b83fd9fc32380506872d07c1f13571e5be679ca0",
+            "blob": "7e3273b718fab1c0fbebde5b41d6e3e1101e78e7",
+            "sha256": "93ab0b65e74597e333ebd2a3ede0c464bb705ea27b158e6599b0f84e343bbc0d"
+          },
+          {
+            "type": "issue-comment",
+            "url": "https://github.com/fum-lab/fum/issues/328#issuecomment-6499516426"
+          }
+        ],
+        "criteria": [
+          {
+            "key": "llm-request-replacement",
+            "primary-measure": "Наблюдённые прямые запросы к LLM на один сопоставимый принятый полезный результат.",
+            "secondary-measure": "Доля допустимых эпизодов, завершённых проверенной программой без LLM.",
+            "required-context": [
+              "период",
+              "класс принятого результата",
+              "знаменатель",
+              "охват и неизвестные данные"
+            ],
+            "optional-metrics-when-source-data-exists": [
+              "токены",
+              "стоимость",
+              "время",
+              "отказы",
+              "исправления и повторная работа"
+            ],
+            "rules": [
+              "Вызовы инструментов не подменяют прямые запросы к LLM.",
+              "Отсутствие источника или неполный охват обозначается UNKNOWN, а не нулём."
+            ]
+          },
+          {
+            "key": "decision-to-fuma-replacement-map",
+            "required-links": [
+              "исходная проблема или эпизод",
+              "текущий механизм FUM",
+              "целевой оператор или механизм FUMA",
+              "кандидат замены"
+            ],
+            "required-evidence": [
+              "проверка равнозначности результата",
+              "измеренный выигрыш при наличии исходных данных",
+              "условие пересмотра"
+            ],
+            "reuse": [
+              "FUM-MAP-AUTO-01",
+              "FUM-REQ-0045",
+              "FUM-STEP-0160"
+            ],
+            "rule": "Количество карточек соответствий само по себе не является уровнем автоматизации."
+          },
+          {
+            "key": "measured-fum-fuma-balance",
+            "measures": [
+              "затраты по направлениям при наличии измеримых источников",
+              "принятые полезные результаты по направлениям"
+            ],
+            "fum-repair-gate": "У ремонта FUM есть конкретный потребитель FUMA либо явно обоснованная самостоятельная цель и условие завершения.",
+            "separate-categories": [
+              "координация",
+              "ожидание",
+              "проверки",
+              "повторная работа"
+            ],
+            "interval-rule": "Перекрывающиеся интервалы не суммируются как независимое календарное время.",
+            "attention-triggers": [
+              "доступная задача FUMA без блокера простаивает",
+              "ремонт FUM не связан с потребителем или условием выхода",
+              "измеренная стоимость растёт без принятого полезного результата"
+            ],
+            "threshold-rule": "Порог и метод расчёта предварительно задаются для конкретного эксперимента; произвольный целевой процент не вводится.",
+            "runtime-boundary": "Работающий регулятор не заявляется до подключения наблюдений."
+          }
+        ],
+        "current-values": {
+          "direct-llm-requests-per-result": "UNKNOWN",
+          "eligible-episodes-completed-without-llm": "UNKNOWN",
+          "period": "UNKNOWN",
+          "denominator": "UNKNOWN",
+          "coverage": "UNKNOWN",
+          "fum-fuma-cost-balance": "UNKNOWN",
+          "accepted-useful-results-by-direction": "UNKNOWN"
+        },
+        "implementation": "UNKNOWN",
+        "root-acceptance": "not-claimed",
+        "numeric-ids": "Новые числовые идентификаторы не назначаются; уточнение относится к существующему FUM-REQ-0045."
+      }
     },
     {
       "id": "FUM-REQ-0019",
