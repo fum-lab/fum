@@ -1,6 +1,7 @@
 // swift-tools-version: 6.0
 
 import PackageDescription
+import Foundation
 
 let package = Package(
     name: "FUMA",
@@ -50,7 +51,8 @@ let package = Package(
             .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
         ]),
         .target(name: "FUMObservationJournal"),
-        .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
+        .testTarget(name: "FUMAOperatorExecutionTests", dependencies: ["ИсполнениеОператора"],
+            path: "Tests/ИсполнениеОператораTests"),
         .testTarget(name: "FUMObservationJournalTests", dependencies: ["FUMObservationJournal"]),
         .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
         .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
@@ -58,3 +60,10 @@ let package = Package(
         .testTarget(name: "ПутиИсполненияTests", dependencies: ["ПутиИсполнения"])
     ]
 )
+
+// Адресный тестовый граф не собирает GUI и соседние executable targets.
+if ProcessInfo.processInfo.environment["ФУМА_ПРОВЕРКА_ОПЕРАТОРА"] == "1" {
+    package.products = []
+    let имена: Set<String> = ["ПутиИсполнения", "ИсполнениеОператора", "FUMAOperatorExecutionTests"]
+    package.targets = package.targets.filter { имена.contains($0.name) }
+}
