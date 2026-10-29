@@ -287,6 +287,63 @@
     "состояние": "сохранён-текущий-план-и-новый-блокер-без-root-приёмки",
     "граница": "PR №457/459 не интегрированы; первый малый цикл FUMA не завершён; production Stop и полный recovery не готовы. Python, ROOT JSONL, полные сканы и RAW-копии не запускались. Эта append-only запись не пишет ROOT W/ref и не заявляет ROOT-приёмку."
   },
+  "следующая_root_приёмка_pr_457": {
+    "точная_нормализованная_запись": {
+      "путь": "Источники/URL/https/github.com/fum-lab/fum/pull/457/запись-приёмки.json",
+      "sha256": "3b62ffd196847f913c4ce88d3d48e18b3afec6f9268f603a49c2a31d51efe61d",
+      "размер_в_байтах": 12924,
+      "строк": 126,
+      "схема": "fum.запись-приёмки-pr.1",
+      "transport": "нормализованное происхождение сообщено ROOT; raw HTTP, status и headers в пакете отсутствуют"
+    },
+    "pr": {
+      "номер": 457,
+      "url": "https://github.com/fum-lab/fum/pull/457",
+      "название": "Сохранять исходный список работ при уточнениях",
+      "состояние": "closed, merged=true",
+      "base": "81391dd926aa824ae1374c46b7876443179a0645",
+      "head": "67f3e66756b5dee11fbd28c04ea688d09c313e93",
+      "путей": 4,
+      "состав": "+1517/-0",
+      "merged_at_UTC": "2026-10-29T09:14:53Z"
+    },
+    "root_merge": {
+      "коммит": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "дерево": "14921a2cd4aef915a6fecc25f524e69b3421190a",
+      "родители_по_порядку": [
+        "81391dd926aa824ae1374c46b7876443179a0645",
+        "67f3e66756b5dee11fbd28c04ea688d09c313e93"
+      ],
+      "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>",
+      "backend": "UNKNOWN",
+      "message_байтов": 936,
+      "message_sha256": "a2f302d5c8a8c4cfd76eec42086480c2891c2dae11edabd409286bf282d71359",
+      "удалённый_oid_подтверждён": true
+    },
+    "комментарий": {
+      "id": 6492740754,
+      "url": "https://github.com/fum-lab/fum/pull/457#issuecomment-6492740754",
+      "автор": "Roman-Kerimov",
+      "байтов": 1406,
+      "sha256": "b41353bf333ed1a6936dd52238b418f4b448d3d465b28ba6062776c66c836a98"
+    },
+    "неизменные_входы": {
+      "koordinaciya/proverki-spiska-rabot.swift": "3b1d548e9b41e9551ac6ed8829694a20d9539d1f",
+      "koordinaciya/ustojchivyij-spisok-rabot.swift": "d175bfdb42b0f25c1a0e1375cdd3a46f8f6166f4",
+      "koordinaciya/segment-zhurnala-koordinacii.jsonl": "eb5ba377a54d70fe7c2135d00d5f7a72011a8827"
+    },
+    "проверки": {
+      "точное_дерево_родители_raw_commit_push_remote": "PASS",
+      "исходные_15_Swift_тестов": "сохранены по прежним SHA, не повторялись",
+      "Python_и_ROOT_JSONL": "не запускались и не GREEN",
+      "исправленные_проекции": [
+        "готовность вместо готово",
+        "готово вместо проверено"
+      ]
+    },
+    "состояние": "сохранена-root-source-приёмка-pr-457",
+    "граница": "Production caller, native Stop, durable executor и canonical mapping №452 не подключены. Приёмка PR №457 не завершает Issue №452 и не доказывает полное recovery. ROOT worktree/ref этой записью не изменялись."
+  },
   "поставка": "0e688997b174f8e16617e80033263fe9d16337f3",
   "выбранное_поручение": {
     "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",

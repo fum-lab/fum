@@ -1,0 +1,126 @@
+{
+  "схема": "fum.запись-приёмки-pr.1",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "PR": {
+    "url": "https://github.com/fum-lab/fum/pull/457",
+    "название": "Сохранять исходный список работ при уточнениях",
+    "источникДо": "3d6a37d9d0a3431cb9a9ead1a4ef47bf17144029",
+    "источникПосле": "67f3e66756b5dee11fbd28c04ea688d09c313e93",
+    "до": {
+      "url": "https://github.com/fum-lab/fum/pull/457",
+      "number": 457,
+      "state": "open",
+      "merged": false,
+      "mergeable": true,
+      "draft": false,
+      "body": "Статусный вопрос или техническое уточнение сохраняет первоначальные обязательства в чистой типизированной проекции существующего state. Поздние принятые команды имеют отдельные SHA; поколения и бюджет привязаны к содержательному списку работ. ACK, commit, push и ROOT acceptance различаются. Intent без outcome возвращает UNKNOWN; точный повтор восстанавливает прежний исход, а human STOP сохраняет приоритет даже при заполненной цепи.\n\nВходы закрепляют source scope, отдельные человеческий оригинал и дочернюю постановку, W/ref/HEAD/native UUID, зависимости и критерии приёмки. Отдельный CLI вычисляет JSON. Память остаётся в существующем state; повреждённый исторический журнал и прежние закрытые snapshots сохранены.\n\nВключён только ROOT `81391dd926aa824ae1374c46b7876443179a0645` явным обратным merge `67f3e66756b5dee11fbd28c04ea688d09c313e93`, tree `14921a2cd4aef915a6fecc25f524e69b3421190a`, ordered parents `[3d6a37d9d0a3431cb9a9ead1a4ef47bf17144029, 81391dd926aa824ae1374c46b7876443179a0645]`. Входящая дельта из17 путей совпала точно. Два Swift исходника452 и принятый segment побайтно совпадают с исходным source checkpoint; собственная добавка нового этапа — отдельная JSON-запись в state.\n\nСохранены результаты исходного checkpoint `3d6a37d9d0a3431cb9a9ead1a4ef47bf17144029`: RED/GREEN для14 различающих сценариев, 15 Swift Testing тестов PASS с Swift6, complete concurrency, warnings-as-errors и actor data race checks; четыре регрессии RO review, bounded profile и fresh-process CLI. Полный набор повторно не запускался: исходники неизменны. Для нового merge выполнены FUMA preflight и C051 raw merge-check с независимым ожиданием дерева/родителей; точный normal push и независимый remote OID подтверждены. Старый C051/FUMA-контур не пересобирался.\n\nСвязано с #452. ROOT source acceptance ожидается отдельно. Production caller, durable executor, native Stop и canonical mapping452 не входят. Python, ROOT JSONL, большой smoke и общий checker не запускались и не объявляются GREEN.",
+      "title": "Сохранять исходный список работ при уточнениях",
+      "base": "fum-lab/fum/master",
+      "base_sha": "81391dd926aa824ae1374c46b7876443179a0645",
+      "head": "fum-lab/fum/koordinaciya/master",
+      "head_sha": "67f3e66756b5dee11fbd28c04ea688d09c313e93",
+      "head_repo_id": 1285958028,
+      "head_repo_full_name": "fum-lab/fum",
+      "merge_commit_sha": "5f2b9c05272d88e248f004562977f291b1e7728e",
+      "user": {
+        "login": "Roman-Kerimov",
+        "name": "Roman-Kerimov",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+        "id": 22149544
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-29T08:21:04Z",
+      "updated_at": "2026-10-29T09:09:24Z",
+      "closed_at": null,
+      "merged_at": null,
+      "commits": 3,
+      "changed_files": 4,
+      "additions": 1517,
+      "deletions": 0,
+      "display_url": "https://github.com/fum-lab/fum/pull/457",
+      "display_title": "Сохранять исходный список работ при уточнениях"
+    },
+    "после": {
+      "url": "https://github.com/fum-lab/fum/pull/457",
+      "number": 457,
+      "state": "closed",
+      "merged": true,
+      "mergeable": false,
+      "draft": false,
+      "body": "Статусный вопрос или техническое уточнение сохраняет первоначальные обязательства в чистой типизированной проекции существующего state. Поздние принятые команды имеют отдельные SHA; поколения и бюджет привязаны к содержательному списку работ. ACK, commit, push и ROOT acceptance различаются. Intent без outcome возвращает UNKNOWN; точный повтор восстанавливает прежний исход, а human STOP сохраняет приоритет даже при заполненной цепи.\n\nВходы закрепляют source scope, отдельные человеческий оригинал и дочернюю постановку, W/ref/HEAD/native UUID, зависимости и критерии приёмки. Отдельный CLI вычисляет JSON. Память остаётся в существующем state; повреждённый исторический журнал и прежние закрытые snapshots сохранены.\n\nВключён только ROOT `81391dd926aa824ae1374c46b7876443179a0645` явным обратным merge `67f3e66756b5dee11fbd28c04ea688d09c313e93`, tree `14921a2cd4aef915a6fecc25f524e69b3421190a`, ordered parents `[3d6a37d9d0a3431cb9a9ead1a4ef47bf17144029, 81391dd926aa824ae1374c46b7876443179a0645]`. Входящая дельта из17 путей совпала точно. Два Swift исходника452 и принятый segment побайтно совпадают с исходным source checkpoint; собственная добавка нового этапа — отдельная JSON-запись в state.\n\nСохранены результаты исходного checkpoint `3d6a37d9d0a3431cb9a9ead1a4ef47bf17144029`: RED/GREEN для14 различающих сценариев, 15 Swift Testing тестов PASS с Swift6, complete concurrency, warnings-as-errors и actor data race checks; четыре регрессии RO review, bounded profile и fresh-process CLI. Полный набор повторно не запускался: исходники неизменны. Для нового merge выполнены FUMA preflight и C051 raw merge-check с независимым ожиданием дерева/родителей; точный normal push и независимый remote OID подтверждены. Старый C051/FUMA-контур не пересобирался.\n\nСвязано с #452. ROOT source acceptance ожидается отдельно. Production caller, durable executor, native Stop и canonical mapping452 не входят. Python, ROOT JSONL, большой smoke и общий checker не запускались и не объявляются GREEN.",
+      "title": "Сохранять исходный список работ при уточнениях",
+      "base": "fum-lab/fum/master",
+      "base_sha": "81391dd926aa824ae1374c46b7876443179a0645",
+      "head": "fum-lab/fum/koordinaciya/master",
+      "head_sha": "67f3e66756b5dee11fbd28c04ea688d09c313e93",
+      "head_repo_id": 1285958028,
+      "head_repo_full_name": "fum-lab/fum",
+      "merge_commit_sha": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "user": {
+        "login": "Roman-Kerimov",
+        "name": "Roman-Kerimov",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+        "id": 22149544
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-29T08:21:04Z",
+      "updated_at": "2026-10-29T09:15:45Z",
+      "closed_at": "2026-10-29T09:14:53Z",
+      "merged_at": "2026-10-29T09:14:53Z",
+      "commits": 3,
+      "changed_files": 4,
+      "additions": 1517,
+      "deletions": 0,
+      "display_url": "https://github.com/fum-lab/fum/pull/457",
+      "display_title": "Сохранять исходный список работ при уточнениях"
+    }
+  },
+  "ROOT": {
+    "основа": "81391dd926aa824ae1374c46b7876443179a0645",
+    "коммит": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+    "дерево": "14921a2cd4aef915a6fecc25f524e69b3421190a",
+    "родители": [
+      "81391dd926aa824ae1374c46b7876443179a0645",
+      "67f3e66756b5dee11fbd28c04ea688d09c313e93"
+    ],
+    "remoteOID": "0dfa0853c389f9ccecff8177d64be4504e20b59b"
+  },
+  "комментарий": {
+    "id": 6492740754,
+    "url": "https://github.com/fum-lab/fum/pull/457#issuecomment-6492740754",
+    "текст": "**FUM Codex**\n\nПринято в `fum-lab/fum/master` явным merge-коммитом `0dfa0853c389f9ccecff8177d64be4504e20b59b`, tree `14921a2cd4aef915a6fecc25f524e69b3421190a`, ordered parents `[81391dd926aa824ae1374c46b7876443179a0645, 67f3e66756b5dee11fbd28c04ea688d09c313e93]`. Точный обычный push и независимый remote OID подтверждены.\n\nПриняты четыре пути после независимого RO-ревью и обратной доставки ROOT81391. Два Swift-исходника и сегмент сохранились по SHA; новая запись состояния добавлена без изменения прежних свойств. Результаты 15 Swift Testing-тестов относятся к неизменённым исходникам и повторно не запускались. Принимающая сторона проверила точное дерево, родителей, автора и фактический Git-объект C051/FUMA-контуром.\n\nГраница: чистый типизированный переход JSON. Production caller, долговечный исполнитель, native Stop и каноническое сопоставление задач ещё не подключены. Это слияние не закрывает общий объём #452."
+  },
+  "проверки": {
+    "точноеДерево": "PASS",
+    "дваРодителя": "PASS",
+    "сыройКоммит": "PASS",
+    "авторМодель": "gpt-6.1-sol/ultra — наблюдение клиента, backend неизвестен",
+    "сохранностьСобственнойГрязи": "PASS",
+    "обычныйPushRemote": "PASS",
+    "исходные15Тестов": "Сохранены по точным SHA, не повторялись",
+    "старыеPythonROOTJSONL": "Отключены; не проверены, не GREEN",
+    "productionStop": "Не подключён",
+    "durableExecutor": "Не подключён"
+  },
+  "наблюдённыеНеточностиОтчётнойПроекции": [
+    {
+      "этап": "pre-effect",
+      "ошибка": "Для краткой проекции ошибочно прочитан ключ готовность вместо готово",
+      "исход": "Исправлена проекция; готово==true и ошибки==[] проверены до Git-эффекта; pre-effect не повторялся"
+    },
+    {
+      "этап": "raw-check",
+      "ошибка": "Для краткой проекции ошибочно прочитан ключ готово вместо проверено",
+      "исход": "Прочитан фактический JSON; проверено==true и ошибки==[] проверены до push; raw-check не повторялся"
+    }
+  ],
+  "граница": "Source-приёмка не означает завершения Issue452 или готовности восстановления всего узла."
+}
