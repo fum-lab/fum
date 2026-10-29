@@ -1,5 +1,6 @@
 {
-  "схема": "fum.preserving-checkpoint.1",
+  "схема": "fum.preserving-checkpoint.2",
+  "sourceOwnNativeUUID": "01a17869-c953-7163-bb76-21716549be02",
   "грант": {
     "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
     "основаниеSHA256": "83a74e233ddac00019b4316862ca673336641f7bcadc71cbaf8dce0e9027a6bd",
@@ -31,8 +32,8 @@
     "commit": "9eec7d2f1f9f49b09812963f68ed637e96850090",
     "tree": "869f19a1edea79dbf6652570834f477619ae4bbe"
   },
-  "автор": "FUM Codex [gpt-6-luna; effort=high]",
-  "модель": "gpt-6-luna",
+  "автор": "FUM Codex [gpt-5.6-sol; effort=ultra]",
+  "модель": "gpt-5.6-sol",
   "наблюдениеАвторства": {
     "источник": "state_5.sqlite:threads",
     "id": "01a17869-c953-7163-bb76-21716549be02",
@@ -47,14 +48,24 @@
     "наблюденоВSQLite": { "model": "gpt-6.1-sol", "effort": "ultra" },
     "backend": "неизвестно"
   },
+  "коррекцияПроисхождения": {
+    "ошибочныйКоммит": "f51640731bba74b4150ce1abbce84b120a41d77f",
+    "ошибочноВыбранныйNativeUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "собственнаяМодель": "gpt-5.6-sol",
+    "собственноеУсилие": "ultra",
+    "проекцияАвтора": "FUM Codex [gpt-5.6-sol; effort=ultra]",
+    "строкаSHA256": "f2b2c419f42e2b76cb831fc27f7a79141ed691b9b887fdb7270d41b2d2712536",
+    "байтыВнеGit": "sessions/2026/10/29/01a17869-c953-7163-bb76-21716549be02/own-model-observation.tsv",
+    "историческийBackend": "неизвестно"
+  },
   "проверки": {
     "native_swift_positive": {
       "исход": "выполнено",
-      "основание": "обычный и --disable-xctest запуски: codesign code object is not signed at all в подкомпоненте bundle с NFD кириллицей; swift test --build-system native --disable-xctest --enable-swift-testing passed принимаетУзкийПрофильСЯвноНезапущеннымиПроверками с -warnings-as-errors и -strict-concurrency=complete; native deprecated"
+      "основание": "после наблюдённого RED swift test --build-system native --disable-xctest --enable-swift-testing passed принимаетУзкийПрофильСЯвноНезапущеннымиПроверками с -warnings-as-errors и -strict-concurrency=complete; native deprecated"
     },
     "native_swift_negative": {
       "исход": "выполнено",
-      "основание": "обычный и --disable-xctest запуски: codesign code object is not signed at all в подкомпоненте bundle с NFD кириллицей; swift test --build-system native --disable-xctest --enable-swift-testing passed отклоняетФиктивныйУспехИсключённойПроверки с -warnings-as-errors и -strict-concurrency=complete; native deprecated"
+      "основание": "тот же GREEN запуск passed отклоняетПолностьюСогласованнуюПодстановкуКорневогоUUID, отклоняетДругойВалидныйOIDВКоррекции и отклоняетФиктивныйУспехИсключённойПроверки; native deprecated"
     },
     "legacy_python": {
       "исход": "не запускалось",
@@ -66,7 +77,7 @@
     },
     "publication": {
       "исход": "не запускалось",
-      "основание": "commit и push не выполнялись; состояние публикации не заявляется"
+      "основание": "для текущей add-only коррекции commit и push ещё не выполнялись; опубликованный f516 сохраняется историческим входом"
     }
   },
   "отклонение": {
@@ -79,6 +90,7 @@
     "старый Python-профильный валидатор и его полный набор Python-тестов не запускались",
     "полный ROOT JSONL и остаток сообщений не читались и не обрабатывались",
     "SwiftPM --build-system native deprecated; предыдущие обычные сборки ломались на codesign для кириллического bundle-пути, поэтому нужна будущая portable-проверка обхода",
+    "ошибочный author опубликованного f516 сохраняется в истории и исправляется только следующей add-only записью",
     "PR и финальная приёмка остаются отдельными границами и в этой контрольной точке не заявляются"
   ]
 }
