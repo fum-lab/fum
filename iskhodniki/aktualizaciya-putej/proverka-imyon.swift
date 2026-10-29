@@ -7,10 +7,15 @@ struct ТранслитераторПутей: Sendable {
 }
 
 enum ИменаПутей {
+    static func компоненты(_ путь: String, сохранятьПустые: Bool = false) -> [String] {
+        путь.utf8.split(separator: 47, omittingEmptySubsequences: !сохранятьПустые).map { String(decoding: $0, as: UTF8.self) }
+    }
+    static func имеетПрефикс(_ путь: String, _ префикс: String) -> Bool { путь.utf8.starts(with: префикс.utf8) }
     static func проверитьПуть(_ путь: String) throws {
-        let части = путь.split(separator: "/", omittingEmptySubsequences: false)
-        guard !путь.isEmpty, путь.utf8.count <= 1024,
-              !путь.contains("\\"),
+        guard !путь.isEmpty, путь.utf8.count <= 1024 else { throw ОшибкаПутей.отказ("Небезопасный относительный путь") }
+        let части = компоненты(путь, сохранятьПустые: true)
+        guard
+              !путь.utf8.contains(92),
               !путь.unicodeScalars.contains(where: { $0.value < 32 || $0.value == 127 }),
               части.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && $0 != ".git"
                   && $0.utf8.count <= 255 }) else {
@@ -63,7 +68,7 @@ enum ИменаПутей {
     }
 
     static func исключение(_ путь: String) -> ИсключениеИмени? {
-        let части = путь.split(separator: "/").map(String.init)
+        let части = компоненты(путь)
         guard let имя = части.last else { return nil }
         if Data(имя.utf8) == Data("Package.swift".utf8) {
             return ИсключениеИмени(путь: путь, имя: имя, причина: "точное имя манифеста SwiftPM",
