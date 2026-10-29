@@ -1,0 +1,297 @@
+{
+  "схема": "fum.координация.проверка-безопасности-отправки-git.1",
+  "область": {
+    "основа": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+    "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "origin": "https://github.com/fum-lab/fum.git",
+    "статус": "source candidate; remote push was not executed by these checks"
+  },
+  "имя": {
+    "русское": "Проверка безопасности отправки Git",
+    "компонент": "proverka-bezopasnosti-otpravki-git",
+    "сервис": "LinguisticKit .Cyrl -> .Latn, table .ru",
+    "закреплённаяРевизия": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "свидетельства": {
+      "преобразовательSHA256": "2482a04bdd3afbb1f9f86f8c0bc22b4beb58a85a786f13f91812046b077feea9",
+      "нормализаторSHA256": "45d5a15faee1629b2651e963c89dfcaa25d3665902369ee0f2ee1e8404bb49c4",
+      "входSHA256": "812ca25c5c5d16b4689a77ad8abd85d43748bde89625390a5c7b1e11e9d1eec0",
+      "транслитерацияSHA256": "0cf8199d3f8a0c40a3b60f48aa44ba5e1c921c33c65e2ff86d84ee1af8a7b200",
+      "выходSHA256": "293481d031c273c48736a53d9b83d08d87eeccef2cf8f7ccd5af8ed47ddabe3c"
+    }
+  },
+  "защитаPush": {
+    "назначение": "сверять одну фактическую push-цель и ограничивать эффекты Git точным OID:ref",
+    "наблюдениеАдреса": [
+      "git",
+      "remote",
+      "get-url",
+      "--push",
+      "--all",
+      "origin"
+    ],
+    "областьИзоляции": "тот же GIT_*-очищенный environment, отключены system/global config, задан абсолютный физический W",
+    "проверкиКонфигурации": [
+      "ровно один эффективный push URL и точное совпадение с ожидаемой целью",
+      "remote.origin.mirror",
+      "remote.origin.push",
+      "push.pushOption",
+      "remote.origin.receivepack",
+      "core.hooksPath и исполняемый pre-push hook",
+      "push.autoSetupRemote",
+      "push.recurseSubmodules"
+    ],
+    "фиксированнаяКоманда": [
+      "-c",
+      "remote.origin.mirror=false",
+      "-c",
+      "push.followTags=false",
+      "-c",
+      "push.recurseSubmodules=no",
+      "-c",
+      "push.gpgSign=false",
+      "push",
+      "--no-mirror",
+      "--no-follow-tags",
+      "--recurse-submodules=no",
+      "--no-set-upstream",
+      "--no-signed",
+      "origin",
+      "<точный OID>:<полный собственный ref>"
+    ],
+    "расширенияЭффектаЗапрещены": [
+      "дополнительные push URL",
+      "настроенные push refspec",
+      "push options",
+      "mirror",
+      "follow tags",
+      "submodule push",
+      "custom receive-pack",
+      "active hook"
+    ],
+    "областьЧтенияКонфигурации": "git config --includes --null в изолированном окружении; GIT_CONFIG_NOSYSTEM=1 и GIT_CONFIG_GLOBAL=/dev/null, поэтому проверяются фактические local/worktree/include значения без system/global",
+    "worktreeOptions": "extensions.worktreeConfig=true плюс push.pushOption удерживаются до executor; isolated bare receiver regression доказала отсутствие marker и ref effect"
+  },
+  "freshProcessRawCheck": {
+    "программаВИсходниках": "koordinaciya/координатор.swift",
+    "командаCLI": [
+      "--проверить-сырой-merge-коммит",
+      "koordinaciya/состояние.json",
+      "<independent-expectation.json>"
+    ],
+    "сборка": {
+      "argv": [
+        "swiftc",
+        "-swift-version",
+        "6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "koordinaciya/координатор.swift",
+        "koordinaciya/генератор-метаданных-коммита.swift",
+        "-o",
+        "<private>/koordinator-push-safety"
+      ],
+      "toolchain": "swift-driver 1.168.6; Apple Swift 6.4; arm64-apple-macosx27.0.0",
+      "результатСборки": 0,
+      "исходники": [
+        {
+          "путь": "koordinaciya/координатор.swift",
+          "sha256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490"
+        },
+        {
+          "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+          "sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+        }
+      ],
+      "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e"
+    },
+    "environmentTemplate": {
+      "PATH": "/usr/bin:/bin",
+      "GIT_CONFIG_NOSYSTEM": "1",
+      "GIT_CONFIG_GLOBAL": "/dev/null",
+      "GIT_AUTHOR_EMAIL": "fum@local",
+      "GIT_AUTHOR_DATE": "@1793252352 +0400",
+      "GIT_COMMITTER_NAME": "FUM",
+      "GIT_COMMITTER_EMAIL": "fum@local",
+      "GIT_COMMITTER_DATE": "@1793252352 +0400",
+      "FUM_RUNTIME_ROOT": "<private>/fum-runtime",
+      "FUM_MEMORY_ROOT": "<private>/fum-memory",
+      "KOORDINACIYA_FUMA_DEFINITION": "<private>/definitions/генератор-метаданных.json",
+      "KOORDINACIYA_FUMA_OPERATOR": "<private>/bin/fum-оператор",
+      "KOORDINACIYA_FUMA_RUN_ROOT": "<private>/fum-runs",
+      "GIT_AUTHOR_NAME": "provided by the FUMA-generated environment"
+    },
+    "freshProcessInvocationTemplate": "Run from <repository-root>; save `git cat-file commit <OID>` bytes to a private raw file; invoke a new process with `env -i` and the environment above: `<private>/koordinator-push-safety --проверить-сырой-merge-коммит koordinaciya/состояние.json <expectation.json> < <private>/raw`; retain stdout, stderr, exit status, FUMA run inputs/outputs and hashes.",
+    "independentExpectation": {
+      "schema": "fum.raw-merge-commit-expectation.1",
+      "expectedParents": [
+        "c399da65f0fe07327998aac2f383755aef6bc0b2",
+        "b2440d61e63de801e0999e899a36b2343542e94c"
+      ],
+      "expectedTree": "7c733ee6bc5eaf86e1e6a4357203a991246099b1"
+    },
+    "actualRun": {
+      "checkedCommit": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+      "rawObjectSHA256": "682991192264672c52ca149a50fbf3310a8f99a0b1ea1daf9f24f6f4ce41cb38",
+      "exit": 0,
+      "stdoutSHA256": "dd56004bab054b8decf874340d6289a28922160e0afd4fd54725d4802bdfd11a",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "проверено": true,
+      "сыроеСообщениеСравненоПобайтно": true,
+      "gitEffect": false,
+      "fumaEvidence": {
+        "rawResponseSHA256": "f54a46c2e79ffed838e39d078d251fccf6e0c8589bf3576bffe644d32928818a",
+        "executionEvidenceSHA256": "0c5b9f7e7b66dc3b7cea047f2c22b0dfc7024036e70fdf3fe81e34f06d7e3266",
+        "inputSHA256": "9ad8e0db8cc3bac212a312843fbbf682e29560981f4db20e2b70166410776a8f",
+        "resultSHA256": "89a298116a333f51201737dadafba5fd8f1a1a8a8622cd2c7ffe899c87c5d208"
+      }
+    },
+    "nextRun": "pending: exact staged tree and next source commit must be checked using this rebuilt binary",
+    "статус": "new source compiled; the listed actualRun is historical for c525 and must not be attributed to the new source",
+    "historicalBuild": {
+      "координаторSHA256": "577b5f4a4e9c4f1e5fdc7fff1748e154a41821ab8acadc94640b7a838d5cfed6",
+      "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+      "binarySHA256": "87b1e8e696a1d30740f1c8fbb48c2341ca3ee85ffc16ca53c0bae09fdf7528f4",
+      "checkedCommit": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2"
+    },
+    "nextCheck": {
+      "expectedParents": [
+        "c52577dbe736d0f4c348f47e3c866cb4751cd5f2"
+      ],
+      "expectedTree": "pending exact staged tree",
+      "sourceSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+      "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
+      "status": "pending"
+    },
+    "latestPreflight": {
+      "preflightOutputSHA256": "7e9306b0ae9c059d9e1f2d3e897567f33f6be53f084425616e18fb3ca95d6d6e",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit": 0,
+      "ready": true,
+      "errors": [],
+      "generatedMessageSHA256": "d20c967e3cb5328133d4ef22c398cf2dc8e295b5dc5bbb8ed7ae26bfb6194ab0",
+      "messageByteCount": 3337,
+      "rootTrailerPresent": true,
+      "author": {
+        "name": "FUM Codex [gpt-6-luna; effort=max]",
+        "email": "fum@local"
+      },
+      "committer": {
+        "name": "FUM",
+        "email": "fum@local"
+      },
+      "selection": {
+        "nativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max",
+        "backend": "unknown"
+      },
+      "gitEffect": false,
+      "status": "pre-effect only; exact tree/raw commit check pending",
+      "planProjectionSHA256": "32ac661c4429516649e1ea3794c96eef6807a2b1287ab1a24559bb305f48e30b"
+    }
+  },
+  "swiftTesting": {
+    "reproducibleHarness": {
+      "manifestSHA256": "87ee009f24cfb2d6330b99cab4fdb08368bb541f8477008fd79f26d8a95e5507",
+      "manifestUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\nlet package = Package(\n    name: \"Koordinaciya\",\n    products: [.library(name: \"Koordinaciya\", targets: [\"Koordinaciya\"])],\n    targets: [\n        .target(name: \"Koordinaciya\", path: \"Sources/Koordinaciya\"),\n        .testTarget(name: \"KoordinaciyaTests\", dependencies: [\"Koordinaciya\"], path: \"Tests/KoordinaciyaTests\")\n    ],\n    swiftLanguageModes: [.v6]\n)\n",
+      "mapping": [
+        {
+          "из": "koordinaciya/координатор.swift",
+          "в": "Sources/Koordinaciya/координатор.swift"
+        },
+        {
+          "из": "koordinaciya/генератор-метаданных-коммита.swift",
+          "в": "Sources/Koordinaciya/генератор-метаданных-коммита.swift"
+        },
+        {
+          "из": "koordinaciya/proverki-privyazki-ispolneniya-git.swift",
+          "в": "Tests/KoordinaciyaTests/proverki-privyazki-ispolneniya-git.swift"
+        }
+      ],
+      "argv": [
+        "swift",
+        "test",
+        "-Xswiftc",
+        "-DTESTING",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors"
+      ],
+      "зависимости": []
+    },
+    "red": {
+      "основа": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+      "sourceSHA256": "a59a75ad9b25ec140febbf4432c0b64a002517166d8e585b26811f971d0c4f34",
+      "testSHA256": "1bc3fae3bd6c44eb4be5572db5af4668875f6e2a880bb92b5366ac9e517be1c0",
+      "status": "runtime RED: foreign single/multiple push destinations and pushInsteadOf rewrite invoked the old path; mirror/followTags could expand effects",
+      "exit": 1,
+      "stdoutSHA256": "23506588b460894af3e8d649a0ee33e29d47b84bb0bc245d3c26db2d0d5f7664",
+      "stderrSHA256": "268c2419a8c423d51edea4260be46655e932c5e0be383d3c4ca59981437f260c"
+    },
+    "green": {
+      "count": 26,
+      "exit": 0,
+      "testSourceSHA256": "6e2cb02c8cd012868eb54c650e59e62839be066b8624387f6c41cab0198deda0",
+      "stdoutSHA256": "5adc4827de877797064deff78ac02b35ef543033cc588b5d8f7d387acadcf8ea",
+      "stderrSHA256": "b607c026176646c819ea96ce8affe9225001e795969757273ca03000235f8402",
+      "добавочныйTargeted": {
+        "сценарий": "custom core.hooksPath называет фактический pre-push hook; отказ не вызывает hook и не меняет refs",
+        "count": 1,
+        "exit": 0,
+        "testSourceSHA256": "a0b657f2185a3431d55a5d17f8b5d81292e850af49838ba1567b96f721f7e07a",
+        "stdoutSHA256": "09b97f7261e2eb1fcbde97661a05cdb0a7e8219c21db2c738eda1fa91aa4dac1"
+      }
+    },
+    "фактическиеПределы": [
+      "Чужой URL, несколько URL, URL rewrite и запрещённые local push-настройки удерживаются до executor; bare refs остаются неизменными.",
+      "Реальный локальный bare push подтвердил отсутствие annotated tag при followTags=true и отсутствие submodule ref при recurseSubmodules=on-demand.",
+      "Реальный внешний push не запускался; обычный remote readback остаётся отдельным пост-эффектным требованием."
+    ],
+    "актуальныеАдресныеПроверки": {
+      "источникКоординатораSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+      "источникГенератораSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+      "источникТестовSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+      "newWorktreeConfig": {
+        "RED": {
+          "exit": 1,
+          "sourceSHA256": "577b5f4a4e9c4f1e5fdc7fff1748e154a41821ab8acadc94640b7a838d5cfed6",
+          "observations": [
+            "not refused",
+            "receiver marker created",
+            "bare ref set changed"
+          ]
+        },
+        "GREEN": {
+          "exit": 0,
+          "logSHA256": "187e64659ea4e3c3e3c4444acf989a21fddfa6eae1369d3904d50897b984b01a",
+          "sameTestSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1"
+        },
+        "receiptsSHA256": "5c8c8ed2aef5cde95a3ff3967494d66bd6c00be3a0c0e22cfc30f189d5c1cd67"
+      },
+      "relatedSettings": {
+        "count": 14,
+        "exit": 0,
+        "logSHA256": "6deb04cb813ddd343d9b43cc786d5b9647ce4641cdc6eb7ef9d142cfae8de1f2"
+      },
+      "edgeSettings": {
+        "count": 3,
+        "exit": 0,
+        "logSHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
+      }
+    }
+  },
+  "сохранённыеСбои": [
+    "Предыдущие cwd/harness/closure/trailing-slash ошибки сохранены в частных диагностических квитанциях; поздний зелёный исход их не переписывает.",
+    "В предыдущем ходе один Python-вызов изменил только приватный temporary commit-helper; он был признан нарушением запрета, не попал в Git, больше не повторялся."
+  ],
+  "ограничения": [
+    "Код должен быть принят и доставлен через точный source checkpoint/PR; общий production consumer ещё не интегрирован.",
+    "Локальный bare repository проверяет zero-extra-ref эффект для сценариев, но не доказывает сеть, GitHub credential identity или remote-side policy.",
+    "Свежий raw-check — read-only подтверждение сырого Git object, не долговечный push executor и не автоматическое разрешение нового эффекта."
+  ],
+  "фактическиеПределы": [
+    "Текущее изменение покрывает per-worktree config через эффективное чтение; реальные внешние pushes и адреса вне локальных bare fixtures не проверялись."
+  ],
+  "freshProcessInvocationTemplate": "From <repository-root>, save `git cat-file commit <OID>` bytes in the private run directory; invoke the new binary in env -i using explicit FUMA roots/operator/definition and the generated GIT_AUTHOR_NAME; run --проверить-сырой-коммит <state.json> <independent-expectation.json> < <raw>; keep stdout/stderr/exit and raw hashes."
+}

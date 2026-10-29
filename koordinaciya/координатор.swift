@@ -1524,6 +1524,31 @@ public struct АдресУдалённогоGit: Equatable, Sendable {
     }
 }
 
+/// Фактический URL назначения push после применения remote.pushurl и URL rewrite.
+/// Для production его значение сверяется с отдельным принятым origin, но тип также
+/// допускает file:// только для локальных bare-репозиториев в регрессионных тестах.
+public struct АдресНазначенияPushGit: Equatable, Sendable {
+    public let адрес: String
+
+    public init?(адрес: String) {
+        guard let компоненты = URLComponents(string: адрес),
+              ["https", "ssh", "git", "file"].contains(компоненты.scheme ?? ""),
+              компоненты.user == nil,
+              компоненты.password == nil,
+              компоненты.query == nil,
+              компоненты.fragment == nil,
+              (компоненты.path.hasSuffix(".git") || (компоненты.scheme == "file" && компоненты.path.hasSuffix(".git/"))) else { return nil }
+        if компоненты.scheme == "file" {
+            guard компоненты.host == nil || компоненты.host == "" || компоненты.host == "localhost",
+                  компоненты.port == nil else { return nil }
+        } else {
+            guard компоненты.host != nil,
+                  компоненты.port == nil else { return nil }
+        }
+        self.адрес = адрес
+    }
+}
+
 public struct UUIDКорневойЗадачи: Equatable, Sendable {
     public let uuid: String
 
@@ -1542,22 +1567,59 @@ public struct UUIDНативногоПисателя: Equatable, Sendable {
     }
 }
 
+public struct НастройкиЭффектовPushGit: Equatable, Sendable {
+    public let фактическиеАдресаPush: [String]
+    public let mirrorЗначения: [Bool]
+    public let followTagsЗначения: [Bool]
+    public let recurseSubmodulesЗначения: [String]
+    public let настроенныеPushRefspecs: [String]
+    public let pushOptions: [String]
+    public let receivePackКоманды: [String]
+    public let autoSetupRemoteЗначения: [Bool]
+    public let активныйPrePushHook: Bool
+
+    public init(
+        фактическиеАдресаPush: [String] = [],
+        mirrorЗначения: [Bool] = [],
+        followTagsЗначения: [Bool] = [],
+        recurseSubmodulesЗначения: [String] = [],
+        настроенныеPushRefspecs: [String] = [],
+        pushOptions: [String] = [],
+        receivePackКоманды: [String] = [],
+        autoSetupRemoteЗначения: [Bool] = [],
+        активныйPrePushHook: Bool = false
+    ) {
+        self.фактическиеАдресаPush = фактическиеАдресаPush
+        self.mirrorЗначения = mirrorЗначения
+        self.followTagsЗначения = followTagsЗначения
+        self.recurseSubmodulesЗначения = recurseSubmodulesЗначения
+        self.настроенныеPushRefspecs = настроенныеPushRefspecs
+        self.pushOptions = pushOptions
+        self.receivePackКоманды = receivePackКоманды
+        self.autoSetupRemoteЗначения = autoSetupRemoteЗначения
+        self.активныйPrePushHook = активныйPrePushHook
+    }
+}
+
 public struct СнимокСостоянияGit: Equatable, Sendable {
     public let физическийКорень: ПутьФизическогоРабочегоДереваGit
     public let реф: ПолныйРефGit
     public let oidHEAD: OIDКоммитаGit
     public let адресOrigin: АдресУдалённогоGit
+    public let настройкиPush: НастройкиЭффектовPushGit
 
     public init(
         физическийКорень: ПутьФизическогоРабочегоДереваGit,
         реф: ПолныйРефGit,
         oidHEAD: OIDКоммитаGit,
-        адресOrigin: АдресУдалённогоGit
+        адресOrigin: АдресУдалённогоGit,
+        настройкиPush: НастройкиЭффектовPushGit = НастройкиЭффектовPushGit()
     ) {
         self.физическийКорень = физическийКорень
         self.реф = реф
         self.oidHEAD = oidHEAD
         self.адресOrigin = адресOrigin
+        self.настройкиPush = настройкиPush
     }
 }
 
@@ -1624,6 +1686,15 @@ public enum ОшибкаПривязкиИсполненияGit: Equatable, Send
     case рефНеСовпадает
     case oidНеСовпадает
     case адресOriginНеСовпадает
+    case количествоАдресовPushНеСовпадает
+    case адресPushНеСовпадает
+    case mirrorPushВключён
+    case pushRefspecsНастроены
+    case pushOptionsНастроены
+    case receivePackПереопределён
+    case prePushHookАктивен
+    case autoSetupRemoteВключён
+    case recurseSubmodulesНеПоддержан
     case корневойUUIDНеСовпадает
     case UUIDНативногоПисателяНеСовпадает
     case путьУзлаНеСовпадает
@@ -1636,11 +1707,59 @@ public enum ОшибкаПривязкиИсполненияGit: Equatable, Send
     case командаНеПостроена
 }
 
+public enum ПроверкаНастроекPushGit {
+    public static func ошибки(
+        настройки: НастройкиЭффектовPushGit,
+        ожидаемыйАдресPush: АдресНазначенияPushGit
+    ) -> [ОшибкаПривязкиИсполненияGit] {
+        var ошибки: [ОшибкаПривязкиИсполненияGit] = []
+        if настройки.фактическиеАдресаPush.count != 1 {
+            ошибки.append(.количествоАдресовPushНеСовпадает)
+        }
+        if настройки.фактическиеАдресаPush != [ожидаемыйАдресPush.адрес] {
+            ошибки.append(.адресPushНеСовпадает)
+        }
+        if настройки.mirrorЗначения.contains(true) {
+            ошибки.append(.mirrorPushВключён)
+        }
+        if !настройки.настроенныеPushRefspecs.isEmpty {
+            ошибки.append(.pushRefspecsНастроены)
+        }
+        if !настройки.pushOptions.isEmpty {
+            ошибки.append(.pushOptionsНастроены)
+        }
+        if !настройки.receivePackКоманды.isEmpty {
+            ошибки.append(.receivePackПереопределён)
+        }
+        if настройки.активныйPrePushHook {
+            ошибки.append(.prePushHookАктивен)
+        }
+        if настройки.autoSetupRemoteЗначения.contains(true) {
+            ошибки.append(.autoSetupRemoteВключён)
+        }
+        if настройки.recurseSubmodulesЗначения.contains(where: { !["no", "check", "on-demand", "only"].contains($0) }) {
+            ошибки.append(.recurseSubmodulesНеПоддержан)
+        }
+        return ошибки
+    }
+
+    public static func ошибки(
+        настройки: НастройкиЭффектовPushGit,
+        ожидаемыйАдресPush: АдресУдалённогоGit
+    ) -> [ОшибкаПривязкиИсполненияGit] {
+        guard let адрес = АдресНазначенияPushGit(адрес: ожидаемыйАдресPush.адрес) else {
+            return [.адресPushНеСовпадает]
+        }
+        return ошибки(настройки: настройки, ожидаемыйАдресPush: адрес)
+    }
+}
+
 public struct ДовереннаяПривязкаИсполненияGit: Sendable {
     public let рабочееДерево: ПутьФизическогоРабочегоДереваGit
     public let реф: ПолныйРефGit
     public let oid: OIDКоммитаGit
     public let origin: АдресУдалённогоGit
+    public let адресPush: АдресНазначенияPushGit
     public let общийUUIDКорневойЗадачи: UUIDКорневойЗадачи
     public let uuidНативногоПисателя: UUIDНативногоПисателя
     public let путьУзла: String
@@ -1650,10 +1769,30 @@ public struct ДовереннаяПривязкаИсполненияGit: Senda
         реф = ожидаемая.полныйРеф
         oid = ожидаемая.ожидаемыйOID
         origin = ожидаемая.ожидаемыйАдресOrigin
+        адресPush = АдресНазначенияPushGit(адрес: ожидаемая.ожидаемыйАдресOrigin.адрес)!
         общийUUIDКорневойЗадачи = ожидаемая.общийUUIDКорневойЗадачи
         uuidНативногоПисателя = ожидаемая.ожидаемыйUUIDНативногоПисателя
         путьУзла = ожидаемая.ожидаемыйПутьУзла
     }
+
+    #if TESTING
+    init(
+        дляЛокальнойФикстуры рабочееДерево: ПутьФизическогоРабочегоДереваGit,
+        реф: ПолныйРефGit,
+        oid: OIDКоммитаGit,
+        origin: АдресУдалённогоGit,
+        адресPush: АдресНазначенияPushGit
+    ) {
+        self.рабочееДерево = рабочееДерево
+        self.реф = реф
+        self.oid = oid
+        self.origin = origin
+        self.адресPush = адресPush
+        self.общийUUIDКорневойЗадачи = UUIDКорневойЗадачи(uuid: "01a07d3d-d376-7ad2-aafc-67e4c25a67eb")!
+        self.uuidНативногоПисателя = UUIDНативногоПисателя(uuid: "01a18294-b6ff-7352-92e1-6b576d412172")!
+        self.путьУзла = "/root/koordinaciya"
+    }
+    #endif
 }
 
 public struct РезультатПроверкиПривязкиGit: Sendable {
@@ -1679,6 +1818,10 @@ public enum ПроверкаПривязкиИсполненияGit {
         if ожидаемая.ожидаемыйАдресOrigin != наблюдаемая.снимокGit.адресOrigin {
             ошибки.append(.адресOriginНеСовпадает)
         }
+        ошибки.append(contentsOf: ПроверкаНастроекPushGit.ошибки(
+            настройки: наблюдаемая.снимокGit.настройкиPush,
+            ожидаемыйАдресPush: ожидаемая.ожидаемыйАдресOrigin
+        ))
         if ожидаемая.общийUUIDКорневойЗадачи != наблюдаемая.общийUUIDКорневойЗадачи {
             ошибки.append(.корневойUUIDНеСовпадает)
         }
@@ -1744,12 +1887,25 @@ public struct КомандаGit: Sendable {
     public let аргументы: [String]
     public let рабочийКаталог: String
     public let целевойРеф: String
+    public let целевойOID: String
+    public let ожидаемыйOrigin: String
+    public let ожидаемыйАдресPush: String
 
     fileprivate init(для привязки: ДовереннаяПривязкаИсполненияGit, спецификация: СпецификацияОтправкиGit) {
         исполняемыйПуть = "/usr/bin/git"
-        аргументы = ["push", "origin", спецификация.значение]
+        аргументы = [
+            "-c", "remote.origin.mirror=false",
+            "-c", "push.followTags=false",
+            "-c", "push.recurseSubmodules=no",
+            "-c", "push.gpgSign=false",
+            "push", "--no-mirror", "--no-follow-tags", "--recurse-submodules=no",
+            "--no-set-upstream", "--no-signed", "origin", спецификация.значение
+        ]
         рабочийКаталог = привязки.рабочееДерево.путь
         целевойРеф = привязки.реф.реф
+        целевойOID = привязки.oid.oid
+        ожидаемыйOrigin = привязки.origin.адрес
+        ожидаемыйАдресPush = привязки.адресPush.адрес
     }
 }
 
@@ -1768,14 +1924,34 @@ public struct КвитанцияЗапускаGit: Sendable {
 }
 
 public enum АдаптерВыполненияКомандGit {
-    fileprivate static func выполнить(_ команда: КомандаGit) throws -> КвитанцияЗапускаGit {
+    static func выполнить(_ команда: КомандаGit) throws -> КвитанцияЗапускаGit {
+        let спецификацияОжидания = команда.целевойOID + ":" + команда.целевойРеф
+        let аргументыОжидания = [
+            "-c", "remote.origin.mirror=false",
+            "-c", "push.followTags=false",
+            "-c", "push.recurseSubmodules=no",
+            "-c", "push.gpgSign=false",
+            "push", "--no-mirror", "--no-follow-tags", "--recurse-submodules=no",
+            "--no-set-upstream", "--no-signed", "origin", спецификацияОжидания
+        ]
         guard команда.исполняемыйПуть == "/usr/bin/git",
-              команда.аргументы.count == 3,
-              команда.аргументы[0] == "push",
-              команда.аргументы[1] == "origin",
-              let спецификация = СпецификацияОтправкиGit(значение: команда.аргументы[2]),
+              команда.аргументы == аргументыОжидания,
+              let спецификация = СпецификацияОтправкиGit(значение: спецификацияОжидания),
               спецификация.значение.split(separator: ":").last.map(String.init) == команда.целевойРеф,
-              let путь = ПутьФизическогоРабочегоДереваGit(путь: команда.рабочийКаталог) else {
+              let путь = ПутьФизическогоРабочегоДереваGit(путь: команда.рабочийКаталог),
+              let ожидаемыйАдресPush = АдресНазначенияPushGit(адрес: команда.ожидаемыйАдресPush),
+              let ожидаемыйOrigin = АдресУдалённогоGit(адрес: команда.ожидаемыйOrigin) else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        let свежийСнимок = try НаблюдательРабочегоДереваGit.прочитать(рабочееДерево: путь)
+        guard свежийСнимок.физическийКорень == путь,
+              свежийСнимок.реф.реф == команда.целевойРеф,
+              свежийСнимок.oidHEAD.oid == команда.целевойOID,
+              свежийСнимок.адресOrigin == ожидаемыйOrigin,
+              ПроверкаНастроекPushGit.ошибки(
+                настройки: свежийСнимок.настройкиPush,
+                ожидаемыйАдресPush: ожидаемыйАдресPush
+              ).isEmpty else {
             throw CocoaError(.fileReadCorruptFile)
         }
         let процесс = Process()
@@ -1805,8 +1981,12 @@ public enum АдаптерВыполненияКомандGit {
             "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES",
             "GIT_CONFIG", "GIT_CONFIG_PARAMETERS", "GIT_CONFIG_SYSTEM", "GIT_CONFIG_COUNT",
             "GIT_CEILING_DIRECTORIES", "GIT_DISCOVERY_ACROSS_FILESYSTEM", "GIT_NAMESPACE",
-            "GIT_SHALLOW_FILE", "GIT_QUARANTINE_PATH", "GIT_PREFIX"
+            "GIT_SHALLOW_FILE", "GIT_QUARANTINE_PATH", "GIT_PREFIX", "GIT_EXEC_PATH",
+            "GIT_PUSH_OPTION_COUNT"
         ] {
+            окружение.removeValue(forKey: ключ)
+        }
+        for ключ in Array(окружение.keys) where ключ.hasPrefix("GIT_PUSH_OPTION_") {
             окружение.removeValue(forKey: ключ)
         }
         окружение["GIT_CONFIG_NOSYSTEM"] = "1"
@@ -1881,12 +2061,103 @@ public enum НаблюдательРабочегоДереваGit {
         guard let origin = АдресУдалённогоGit(адрес: originText) else {
             throw ОшибкаСнимкаGit.некорректныйВывод(originАргументы)
         }
+        let pushАргументы = ["remote", "get-url", "--push", "--all", "origin"]
+        let pushOutput = try выполнитьGitСырые(pushАргументы, в: рабочееДерево)
+        guard pushOutput.status == 0,
+              let pushText = String(data: pushOutput.stdout, encoding: .utf8),
+              pushText.hasSuffix("\n") else {
+            throw ОшибкаСнимкаGit.некорректныйВывод(pushАргументы)
+        }
+        let фактическиеАдресаPush = String(pushText.dropLast()).components(separatedBy: "\n")
+        let mirror = try значенияBoolКонфига("remote.origin.mirror", в: рабочееДерево)
+        let followTags = try значенияBoolКонфига("push.followTags", в: рабочееДерево)
+        let autoSetupRemote = try значенияBoolКонфига("push.autoSetupRemote", в: рабочееДерево)
+        let recurseSubmodules = try значенияСтроковогоКонфига("push.recurseSubmodules", в: рабочееДерево)
+        let pushRefspecs = try значенияСтроковогоКонфига("remote.origin.push", в: рабочееДерево)
+        let pushOptions = try значенияСтроковогоКонфига("push.pushOption", в: рабочееДерево)
+        let receivePack = try значенияСтроковогоКонфига("remote.origin.receivepack", в: рабочееДерево)
+        let hookPathText = try выполнитьGit(["rev-parse", "--git-path", "hooks/pre-push"], в: рабочееДерево)
+        let hookURL = hookPathText.hasPrefix("/")
+            ? URL(fileURLWithPath: hookPathText)
+            : URL(fileURLWithPath: hookPathText, relativeTo: URL(fileURLWithPath: рабочееДерево.путь, isDirectory: true)).standardizedFileURL
+        let настройкиPush = НастройкиЭффектовPushGit(
+            фактическиеАдресаPush: фактическиеАдресаPush,
+            mirrorЗначения: mirror,
+            followTagsЗначения: followTags,
+            recurseSubmodulesЗначения: recurseSubmodules,
+            настроенныеPushRefspecs: pushRefspecs,
+            pushOptions: pushOptions,
+            receivePackКоманды: receivePack,
+            autoSetupRemoteЗначения: autoSetupRemote,
+            активныйPrePushHook: FileManager.default.isExecutableFile(atPath: hookURL.path)
+        )
         return СнимокСостоянияGit(
             физическийКорень: рабочееДерево,
             реф: ref,
             oidHEAD: oid,
-            адресOrigin: origin
+            адресOrigin: origin,
+            настройкиPush: настройкиPush
         )
+    }
+
+    private static func значенияBoolКонфига(
+        _ ключ: String,
+        в рабочееДерево: ПутьФизическогоРабочегоДереваGit
+    ) throws -> [Bool] {
+        let данные = try значенияКонфига(ключ, тип: "bool", в: рабочееДерево)
+        return try данные.map { значение in
+            switch значение {
+            case "true": return true
+            case "false": return false
+            default: throw ОшибкаСнимкаGit.некорректныйВывод(["config", ключ])
+            }
+        }
+    }
+
+    private static func значенияСтроковогоКонфига(
+        _ ключ: String,
+        в рабочееДерево: ПутьФизическогоРабочегоДереваGit
+    ) throws -> [String] {
+        try значенияКонфига(ключ, тип: nil, в: рабочееДерево)
+    }
+
+    private static func значенияКонфига(
+        _ ключ: String,
+        тип: String?,
+        в рабочееДерево: ПутьФизическогоРабочегоДереваGit
+    ) throws -> [String] {
+        // The isolated environment disables system/global config, while effective config also
+        // includes per-worktree values when extensions.worktreeConfig is enabled.
+        var аргументы = ["config", "--includes", "--null"]
+        if let тип { аргументы.append(contentsOf: ["--type=" + тип]) }
+        аргументы.append(contentsOf: ["--get-all", ключ])
+        let результат = try выполнитьGitСырые(аргументы, в: рабочееДерево)
+        if результат.status == 1 && результат.stdout.isEmpty { return [] }
+        guard результат.status == 0,
+              let текст = String(data: результат.stdout, encoding: .utf8),
+              текст.hasSuffix("\0") else {
+            throw ОшибкаСнимкаGit.некорректныйВывод(аргументы)
+        }
+        return текст.split(separator: "\0", omittingEmptySubsequences: false)
+            .dropLast()
+            .map(String.init)
+    }
+
+    private static func выполнитьGitСырые(
+        _ аргументы: [String],
+        в рабочееДерево: ПутьФизическогоРабочегоДереваGit
+    ) throws -> (stdout: Data, status: Int32) {
+        let процесс = Process()
+        процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+        процесс.arguments = аргументы
+        процесс.currentDirectoryURL = URL(fileURLWithPath: рабочееДерево.путь, isDirectory: true)
+        процесс.environment = АдаптерВыполненияКомандGit.окружениеИзолированногоGit()
+        let вывод = Pipe()
+        процесс.standardOutput = вывод
+        процесс.standardError = FileHandle.nullDevice
+        try процесс.run()
+        процесс.waitUntilExit()
+        return (вывод.fileHandleForReading.readDataToEndOfFile(), процесс.terminationStatus)
     }
 
     private static func выполнитьGit(_ аргументы: [String], в рабочееДерево: ПутьФизическогоРабочегоДереваGit) throws -> String {

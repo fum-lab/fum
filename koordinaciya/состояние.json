@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "c399da65f0fe07327998aac2f383755aef6bc0b2",
+    "собственныйКонтрольныйКоммит": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.5",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "c399da65f0fe07327998aac2f383755aef6bc0b2",
+      "родитель": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Первый конечный срез: typed trustedExecutionBinding с физическим W, полным ref и OID; commonRootTaskUUID отдельно от actualWriterNativeUUID; структурированный Process.arguments для Git push без shell; ошибочные источник, W, ref, OID и UUID должны удерживать эффект.",
-      "заголовок": "Привязать команду Git к рабочему дереву и писателю",
-      "описание": "Добавлены типизированные ожидаемая и наблюдаемая привязки: физическое рабочее дерево, полный собственный ref, OID HEAD, origin, общий UUID корневой задачи и отдельный UUID/путь native-писателя. Пара фактической и независимой квитанций API-selection проверяется существующим генератором с точными canonical bytes и SHA-256; ROOT UUID не подменяет UUID писателя. Git-снимок читается через Process.arguments из заданного cwd и повторно сверяется прямо перед построением команды. Push-команда содержит только origin и точный OID:refspec; shell и глобальная Git-конфигурация не используются. Проверены 15 Swift Testing сценариев, включая отказ до вызова исполнителя для неверного native UUID. Реальную сетевую отправку в тестах не выполняли; успешный код Git всё равно требует независимого удалённого readback. Общий consumer не подключён."
+      "исходныйЗапрос": "Продолжи #363 в своём существующем W/ref, без #452 до ROOT-приёмки. RO reviewer нашёл два P1 в c52577dbe736d0f4c348f47e3c866cb4751cd5f2: (1) строка 1879 сверяет fetch `remote get-url origin`, а push использует origin: чужой pushurl/несколько pushurl/URL rewriting обходят контроль. Проверяй ровно одно фактическое push destination в том же изолированном env и связывай с эффектом. (2) push строка 1750 допускает local push.followTags=true, дополнительные annotated tags. Явно исключи расширение эффектов: no-follow-tags, проверь mirror/recurseSubmodules и другие применимые локальные настройки. Нужны отрицательные регрессии с нулём лишних ref-эффектов, не только injected argv assertions. Сохрани прошлые отказы и Python-нарушение, ничего не переписывай. Полный fresh-process env/raw-check должен быть воспроизводимой программой в Git в твоей зоне, не только private helper; unknown/readback не выдавай за долговечный executor. Текущий принятый ROOT 383327e805d41da22ed508931152cc9e1ba96bce. После исправления сначала влей этот ROOT в свою ветку явным merge, проверь конечный ограниченный состав и подготовь PR в fum-lab/fum/master. Нового ROOT JSONL/Python/full build/глобального индекса не требуется. Если подходящая автоматизация или тест уже есть, используй её. Перед записью восстанови свой HEAD/ref/владение; исходники и точный manifest сохранить. Поставь конечный коммит, push/readback и верни полный OID/tree/parents/PR/покрытие. #452 уже записан ROOT 383, следующий этап только после принятия #363. Обычные обратимые решения реализации принимай сам, уточнения ко мне.",
+      "заголовок": "Учитывать настройки рабочего дерева при отправке Git",
+      "описание": "Проверка push теперь читает эффективные local, worktree и include настройки в отдельном процессе с отключённой system/global конфигурацией. Исправлен обнаруженный пробел: push.pushOption из config.worktree удерживается до executor; Swift Testing доказал, что receiver hook и ref не меняются. Сохранены проверки единственного push URL, rewrite, mirror, followTags, recurseSubmodules, refspec, receive-pack и hooks. Проверки выполнялись только на локальных bare fixtures; внешний push не запускался."
     }
   },
   "результатГенератораМетаданных": {
@@ -2940,5 +2940,66 @@
       "Сама эта source поставка ещё не подключена к общему production consumer.",
       "Никакой реальный remote push этим тестовым пакетом не выполнен."
     ]
+  },
+  "проверкаБезопасностиPush": {
+    "схема": "fum.координация.проверка-безопасности-push.1",
+    "время": "2026-10-29T06:24:18Z",
+    "основа": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+    "планируемыйРодитель": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+    "профиль": "koordinaciya/proverka-bezopasnosti-otpravki-git.json",
+    "профильSHA256": "01b8e34c3d60ce1f063e5ff97beff888b474dd4d6c5b19bc3d1f5d593a1700b3",
+    "собственныйRef": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "собственныйUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "выбор": {
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "backend": "unknown"
+    },
+    "проверки": {
+      "swiftTesting": "current-source addressable Swift Testing: 14 push-related tests + 3 mirror/receive-pack/auto-setup edges + the isolated worktree-config regression all PASS; previous 26/26 remains historical",
+      "rawCheck": "previous c525 raw check used pre-fix source and is historical; rebuilt c0511ce binary matches coordinator 88d38e and generator cd23df; exact staged tree and new commit raw check pending",
+      "pushSafety": "git config --includes --null observes local, worktree and include values under disabled system/global config; local bare receiver RED/GREEN confirms configured worktree push option is refused before hook/ref effect; no external push"
+    },
+    "сохранённыеНарушения": [
+      "сохранённые cwd/harness/closure/trailing-slash отказы не удалялись",
+      "предыдущий приватный Python-вызов признан нарушением; код и рабочее дерево не менял",
+      "Один промежуточный harness copy использовал неверный относительный cwd и повторно запустил старый RED; исправленная копия затем дала GREEN.",
+      "Один title-based Swift Testing filter не совпал с именем теста и сообщил 0 tests; проверка перезапущена по function-name и включена в 14-test GREEN.",
+      "Первый metadata preflight был готов, но сохранил старую тему: изменение попало в неправильный вложенный узел plan; preflight не использован для Git-эффекта и заменяется исправленным запуском."
+    ],
+    "исправлениеWorktreeConfig": {
+      "регрессия": "extensions.worktreeConfig=true; push.pushOption=fixture-option in config.worktree; bare pre-receive marker and refs checked before/after",
+      "RED": {
+        "exit": 1,
+        "sourceSHA256": "577b5f4a4e9c4f1e5fdc7fff1748e154a41821ab8acadc94640b7a838d5cfed6",
+        "testSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+        "результат": "receiver marker and remote ref changed; observer had read --local only"
+      },
+      "GREEN": {
+        "exit": 0,
+        "sourceSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+        "testSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+        "receiptSHA256": "5c8c8ed2aef5cde95a3ff3967494d66bd6c00be3a0c0e22cfc30f189d5c1cd67"
+      },
+      "related14SHA256": "6deb04cb813ddd343d9b43cc786d5b9647ce4641cdc6eb7ef9d142cfae8de1f2",
+      "edge3SHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
+    },
+    "статус": "effective per-worktree config fix implemented; targeted tests GREEN; refreshed standalone binary built; exact preflight/raw check and own checkpoint/push/ROOT reverse merge pending",
+    "текущийИсточник": {
+      "координаторSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+      "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+      "тестыSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+      "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
+      "buildManifestSHA256": "43bea5ccda6933d82852dae2a0d6ace7f8b7119da943540d35c445721a4d2bc5",
+      "nativeSelection": {
+        "uuid": "01a18294-b6ff-7352-92e1-6b576d412172",
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "backend": "unknown",
+        "freshExactRowRead": true,
+        "observedAt": "2026-10-29T06:22:21Z"
+      }
+    },
+    "поручениеДополнение": "ROOT: close P1s by binding exactly one effective push destination, disabling mirror/followTags/recurseSubmodules expansion, checking other applicable local configuration, and proving negative cases with no extra refs; keep #452 after ROOT acceptance"
   }
 }
