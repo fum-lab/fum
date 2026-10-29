@@ -6224,5 +6224,352 @@
       "writer": "ACTIVE до финальной доставки/release; release отдельной квитанцией",
       "PR": "После source checkpoint draft; ROOT принимает отдельно"
     }
+  },
+  "предпросмотрПродолжения": {
+    "схема": "fum.координация.RO-предпросмотр-продолжения.1",
+    "origin": "580f8c0ff9d6a39bfdcedc5f33c756b9c269e1ae",
+    "принятоеОснование": "5f46a158207dd998d195b3a92cbd62e96382ef8f",
+    "полученоОтROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "исполнитель": "01a18693-0478-7730-977b-33dea68e9970",
+    "поручение": {
+      "исходныйТекстSHA256": "023aa06ba46c31bd2431bd227779e530ee399902e2775da95afadbe484b605ea",
+      "источник": "Дословное конечное поручение ROOT сохранено приватно; принятое основание5f и реальные имена проверены RO до записи",
+      "дочерняяПостановка": "Проверяемый RO-preview существующего решения списка работ; источник команд/исходный объём не заменяются"
+    },
+    "модель": {
+      "selected": "gpt-6.1-sol",
+      "effort": "ultra",
+      "backend": "UNKNOWN",
+      "источник": "Собственное native наблюдение и неизменённое назначение ROOT"
+    },
+    "пути": [
+      "koordinaciya/ustojchivyij-spisok-rabot.swift",
+      "koordinaciya/potrebitelj-spiska-rabot.swift",
+      "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+      "koordinaciya/состояние.json",
+      "koordinaciya/segment-zhurnala-koordinacii.jsonl"
+    ],
+    "контракт": {
+      "вход": "СписокРабот.предпросмотр(состояние, допуск, контекст) throws; модульный API совместной исходной компиляции",
+      "проверка": "Тот же полный replay/context guard, что у перехода, включая пустую цепь; прежние validation и mutation/reentry tail дословно сохранены",
+      "выход": "Прежнее решение ядра: продолжить/ждатьРодителя/завершитьПоручение/остановлено/неизвестно",
+      "потребитель": "ХранилищеСпискаРабот.прочитать использует сохранённую область, активную эпоху и проверенное множество исторических писателей. CLI режим прочитать отдаёт текущий preview в существующем поле решение.",
+      "запись": "Preview не создаёт события, попытки, intent, счётчики или кадры сегмента. Write/reentry outcomes сохраняют прежнюю семантику; nil такого outcome не означает completion.",
+      "границы": "Конечное принятое поручение отличается от этапа, постоянной сессии и всего ROOT; закрываетROOT остаётся false. Статус, делегирование и checkpoint не снимают работу. Предварительный ответ не даёт нового полномочия на внешний эффект.",
+      "STOPUNKNOWN": "Полный replay проверяется до решения; прежний приоритет и формулировки durable STOP/UNKNOWN сохранены.",
+      "стоимость": "Полный replay выполняет N шагов для N записей. Общая стоимость зависит от суммы размеров сериализуемых и хэшируемых проекций и других операций; стоимость сериализации, хэширования растущих проекций и COW отдельно не измерена. Линейность общей стоимости по числу записей не доказана. Предпросмотр не вызывается в цикле восстановления каждой записи; прежний счётчик обхода конструктора не измеряет общую стоимость. Ускорение не заявлено."
+    },
+    "доказательствоИзвлечения": {
+      "accepted": "5f46a158207dd998d195b3a92cbd62e96382ef8f",
+      "validationBodyUnchanged": true,
+      "validationSHA256": "adebb24bce079d8b20d8d716fba35806431aff4e2fc08f173f680862f7083073",
+      "mutationAndReentryTailUnchanged": true,
+      "tailSHA256": "47832ee67f0834502a5c64a89c3500f092f31aff699927bb98686f830a7eae7b",
+      "coreVersionUnchanged": true,
+      "receipt": {
+        "файл": "core-extraction-proof.json",
+        "sha256": "c1a53df29f12f80906979772e9e68d41366bcbb45410a9ec4f76ba95105ec060"
+      }
+    },
+    "проверки": {
+      "A1": {
+        "исход": "Ожидаемый runtime RED на реальном прежнем nil, без stub",
+        "exit": 1,
+        "новыхТестов": 1,
+        "receipt": {
+          "файл": "attempt1-result.json",
+          "sha256": "d69dfc74242ff235a328c1630d2cce87ce365ff21bcf46ad35793a8a9569d87c"
+        }
+      },
+      "A2": {
+        "исход": "Compile FAIL двух новых #expect с бросающим Data внутри &&",
+        "exit": 1,
+        "тестов": 0,
+        "receipt": {
+          "файл": "attempt2-result.json",
+          "sha256": "f99f9e9a99eec68cf4aaad3c2de9de2474b9754182bee62e1768023cc575c3c4"
+        }
+      },
+      "A3": {
+        "исход": "PASS",
+        "exit": 0,
+        "новыхТестов": 8,
+        "suites": 1,
+        "sourceStable": true,
+        "receipt": {
+          "файл": "attempt3-result.json",
+          "sha256": "1c9aab2dffd1ae77d76e44b6911dd984be850d4525b5a8fbf7c79d2df91b7dbe"
+        }
+      },
+      "селекция": "ПредпросмотрПродолженияРабот; GREEN только при exit0/8tests/stable9pins; старые suites скомпилированы из прежнего файла, не выполнялись",
+      "флаги": [
+        "Swift6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-enable-actor-data-race-checks",
+        "--jobs 1"
+      ],
+      "наблюдения": [
+        "Статус/делегирование оставляют доступный шаг",
+        "После принятия возвращённого результата доступен следующий шаг",
+        "Пустой/частичный/непринятый объём ждёт; только принятие конечного поручения даёт completion без ROOT",
+        "STOP побеждает pending UNKNOWN",
+        "Preview не расходует budget; исторический outcome не заменяется текущим ожиданием",
+        "Независимая доступная работа выбирается при blocker",
+        "Подмена snapshot/trace/proof/writer и forged STOP отвергается",
+        "RO reopen с новой подтверждённой инкарнацией сохраняет scope/generation/budget и общий ROOT UUID"
+      ]
+    },
+    "ремонт": {
+      "owner": "01a18693-0478-7730-977b-33dea68e9970",
+      "классификация": "Локальная ошибка assertions Swift Testing",
+      "причина": "Бросающее чтение сегмента внутри RHS && в #expect",
+      "мера": "Два чтения вынесены в let до assertions; production source не менялся после A2",
+      "исход": "A3PASS",
+      "свидетельство": {
+        "файл": "attempt3-repair.json",
+        "sha256": "6d3743518480598123962417c6686c5db87b5c9c7b2145bd3945fb51e28407f7"
+      },
+      "ROreview": "Повторный direct-child followup отклонён threadlimit; новых агентов/попыток не создавалось. Исходный дизайн ребёнка получен RO; exact extraction и TDD проверены самим владельцем."
+    },
+    "бюджет": {
+      "attempts": [
+        {
+          "attempt": "attempt1-data",
+          "bytes": 24795,
+          "frames": 9,
+          "records": 3,
+          "files": [
+            {
+              "file": "attempt1-data/preview-status/сегмент.fumobs",
+              "bytes": 16797,
+              "frames": 9,
+              "records": 3
+            }
+          ]
+        },
+        {
+          "attempt": "attempt2-data",
+          "bytes": 0,
+          "frames": 0,
+          "records": 0,
+          "files": []
+        },
+        {
+          "attempt": "attempt3-data",
+          "bytes": 107727,
+          "frames": 48,
+          "records": 16,
+          "files": [
+            {
+              "file": "attempt3-data/preview-budget/сегмент.fumobs",
+              "bytes": 18478,
+              "frames": 9,
+              "records": 3
+            },
+            {
+              "file": "attempt3-data/preview-epoch/сегмент.fumobs",
+              "bytes": 26362,
+              "frames": 12,
+              "records": 4
+            },
+            {
+              "file": "attempt3-data/preview-result/сегмент.fumobs",
+              "bytes": 19798,
+              "frames": 9,
+              "records": 3
+            },
+            {
+              "file": "attempt3-data/preview-status/сегмент.fumobs",
+              "bytes": 16797,
+              "frames": 9,
+              "records": 3
+            },
+            {
+              "file": "attempt3-data/preview-stop/сегмент.fumobs",
+              "bytes": 18144,
+              "frames": 9,
+              "records": 3
+            }
+          ]
+        }
+      ],
+      "total": {
+        "bytes": 132522,
+        "frames": 57,
+        "records": 19
+      },
+      "limits": {
+        "data": 16777216,
+        "scratch": 268435456
+      },
+      "counting": "FUMOBS01/OBS1 BE lengths; source Format.swift pinned; frame count diagnostic, not generic checker",
+      "данныхБайт": 132522,
+      "записей": 19,
+      "физическихКадров": 57,
+      "scratch": "Отдельный private harness до256MiB; финальный фактический размер во внешнем manifest"
+    },
+    "воспроизведение": {
+      "статус": "Проверено в своём W; clean clone не проверялся",
+      "подготовкаСтенда": [
+        "const фс=require('node:fs'), путь=require('node:path'), крипто=require('node:crypto'), процессы=require('node:child_process');",
+        "const корень=фс.realpathSync(process.argv[2]), каталог=process.argv[3];",
+        "if (!process.env.CODEX_THREAD_ID || фс.existsSync(каталог)) throw Error('Нужны native UUID обычного ребёнка и новый private fixture');",
+        "фс.mkdirSync(каталог,{mode:0o700}); const источники=[{\"исходник\":\"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift\",\"назначение\":\"Sources/Container/Ввод.swift\",\"sha256\":\"83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb\"},{\"исходник\":\"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift\",\"назначение\":\"Sources/Container/Контракт.swift\",\"sha256\":\"b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160\"},{\"исходник\":\"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift\",\"назначение\":\"Sources/Container/НаблюдениеФайловойСистемы.swift\",\"sha256\":\"89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6\"},{\"исходник\":\"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift\",\"назначение\":\"Sources/Container/Сегмент.swift\",\"sha256\":\"b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e\"},{\"исходник\":\"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift\",\"назначение\":\"Sources/Container/Файлы.swift\",\"sha256\":\"6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f\"},{\"исходник\":\"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift\",\"назначение\":\"Sources/Container/Формат.swift\",\"sha256\":\"6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07\"},{\"исходник\":\"koordinaciya/ustojchivyij-spisok-rabot.swift\",\"назначение\":\"Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift\",\"sha256\":\"4a2575ee7e5ca500cc910f98664f6a48f36984789e78cd3b43a96fcd981d101d\"},{\"исходник\":\"koordinaciya/potrebitelj-spiska-rabot.swift\",\"назначение\":\"Sources/WorklistCaller/potrebitelj-spiska-rabot.swift\",\"sha256\":\"9525ec01584df52df2ad099166419d356dcfa7d87f9f98bed7bfca0533870d95\"},{\"исходник\":\"koordinaciya/proverki-potrebitelya-spiska-rabot.swift\",\"назначение\":\"Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift\",\"sha256\":\"e48a80663130c791dbf4bc9c76b26bc723bcd3293112cf08c2239bcc0b7d5cfc\"}];",
+        "for(const запись of источники){const байты=фс.readFileSync(путь.join(корень,запись.исходник));if(крипто.createHash('sha256').update(байты).digest('hex')!==запись.sha256)throw Error('Source pin drift');const файл=путь.join(каталог,запись.назначение);фс.mkdirSync(путь.dirname(файл),{recursive:true,mode:0o700});фс.writeFileSync(файл,байты,{flag:'wx',mode:0o600});}",
+        "фс.writeFileSync(путь.join(каталог,'Package.swift'),\"// swift-tools-version: 6.0\\nimport PackageDescription\\nlet flags: [SwiftSetting] = [.unsafeFlags([\\\"-strict-concurrency=complete\\\", \\\"-warnings-as-errors\\\", \\\"-enable-actor-data-race-checks\\\"])]\\nlet package = Package(name: \\\"FUMWorklistPreviewFixture\\\", platforms: [.macOS(.v14)], products: [.executable(name: \\\"worklist-consumer\\\", targets: [\\\"WorklistConsumerCLI\\\"])], targets: [\\n .target(name: \\\"КонтейнерНаблюдений\\\", path: \\\"Sources/Container\\\", swiftSettings: flags),\\n .target(name: \\\"WorklistCaller\\\", dependencies: [\\\"КонтейнерНаблюдений\\\"], path: \\\"Sources/WorklistCaller\\\", swiftSettings: [.define(\\\"TESTING\\\")] + flags),\\n .executableTarget(name: \\\"WorklistConsumerCLI\\\", dependencies: [\\\"WorklistCaller\\\"], path: \\\"Sources/CLI\\\", swiftSettings: flags),\\n .testTarget(name: \\\"WorklistCallerTests\\\", dependencies: [\\\"WorklistCaller\\\", \\\"КонтейнерНаблюдений\\\"], path: \\\"Tests/WorklistCallerTests\\\", swiftSettings: flags)\\n], swiftLanguageModes: [.v6])\\n\",{flag:'wx',mode:0o600});",
+        "фс.mkdirSync(путь.join(каталог,'Sources/CLI'),{mode:0o700});фс.writeFileSync(путь.join(каталог,'Sources/CLI/main.swift'),\"import Darwin\\nimport WorklistCaller\\nexit(await КомандаПотребителяСписка.выполнить())\\n\",{flag:'wx',mode:0o600});",
+        "const наблюдатьРепозиторий=(...аргументы)=>процессы.execFileSync('/usr/bin/git',['-C',корень,...аргументы],{cwd:корень,env:{...process.env,GIT_OPTIONAL_LOCKS:'0'},encoding:'utf8'}).trim();",
+        "const контекст={дерево:корень,реф:наблюдатьРепозиторий('symbolic-ref','HEAD'),коммит:наблюдатьРепозиторий('rev-parse','HEAD'),писатель:process.env.CODEX_THREAD_ID};",
+        "фс.writeFileSync(путь.join(каталог,'контекст.json'),JSON.stringify(контекст),{flag:'wx',mode:0o600});фс.mkdirSync(путь.join(каталог,'data'),{mode:0o700});",
+        "console.log('Подготовлен private ASCII harness; контекст получен из live W/ref/HEAD/native. Проверка ещё не запускалась.');"
+      ],
+      "какПодготовить": "Сохранить строки подготовкиСтенда с LF как новый private prepare.cjs; node prepare.cjs FUM_ROOT OWN_SCRATCH/fixture. ROOT UUID фикстуры сохраняется отдельно; CODEX_THREAD_ID обычного ребёнка используется только как actor.",
+      "sourceMap": [
+        {
+          "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "назначение": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "назначение": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "назначение": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "назначение": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "назначение": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "назначение": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "исходник": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "назначение": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "4a2575ee7e5ca500cc910f98664f6a48f36984789e78cd3b43a96fcd981d101d"
+        },
+        {
+          "исходник": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "назначение": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "9525ec01584df52df2ad099166419d356dcfa7d87f9f98bed7bfca0533870d95"
+        },
+        {
+          "исходник": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "назначение": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "e48a80663130c791dbf4bc9c76b26bc723bcd3293112cf08c2239bcc0b7d5cfc"
+        }
+      ],
+      "manifestSHA256": "76affb0dd79bfa71a1ff1e4d0f7f1cb5f1a4d6708ad941d6b9ddf4f3e6ae3c1d",
+      "entrypoint": "import Darwin\nimport WorklistCaller\nexit(await КомандаПотребителяСписка.выполнить())\n",
+      "argv": [
+        "swift",
+        "test",
+        "--package-path",
+        "${SCRATCH}/fixture",
+        "--scratch-path",
+        "${SCRATCH}/fixture/build",
+        "--cache-path",
+        "${SCRATCH}/fixture/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "--filter",
+        "ПредпросмотрПродолженияРабот"
+      ],
+      "окружение": {
+        "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "КАТАЛОГ_ФИКСТУР": "${SCRATCH}/fixture/data",
+        "КОНТЕКСТ_ФИКСТУРЫ": "UTF8 содержимое fixture/контекст.json; derived live, stale fixtureHEAD не подставляется",
+        "ПУТЬ_КЛИ_ПОТРЕБИТЕЛЯ": "${SCRATCH}/fixture/build/debug/worklist-consumer"
+      },
+      "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "зависимости": [
+        "Apple Swift6.4",
+        "Swift Testing2084",
+        "Xcode MacOSX27.0 SDK",
+        "git",
+        "Node builtin APIs",
+        "9точныхисходников; RootPackage не используется"
+      ]
+    },
+    "приёмка468": {
+      "ROOT": "5f46a158207dd998d195b3a92cbd62e96382ef8f",
+      "tree": "65087024e0919ce4a3d70e563b67186450c66d9c",
+      "источник": "Адресное сообщение ROOT и actual Git object; закрытый отчёт467 не переписывается"
+    },
+    "следующаяОснова": {
+      "наблюдена": "ef76649a653541244ef61728dc7a3abbf931d5dd",
+      "delta": [
+        "otchyot-integracij-2026-10-29-7.json"
+      ],
+      "измененийПравил": 0,
+      "измененийДевятиВходов": 0,
+      "статус": "Обратное слияние после собственного source checkpoint; не новый тестовый прогон из-за JSON"
+    },
+    "исключено": [
+      "Python",
+      "полный ROOT JSONL",
+      "глобальный guard/generic checker",
+      "старые suites",
+      "корневой Package.swift",
+      "чужие W/index/refs",
+      "live transport/Desktop auto-continuation/Stop configuration"
+    ],
+    "остаток": [
+      "Принятый durable caller остаётся ordinary-only: native!=commonRoot",
+      "Preview не исполняет выбранный шаг и не является Desktop авто-продолжением",
+      "Реальный ENOSPC/powerloss не проверялись",
+      "Generic checker UNKNOWN; прямой адресный source grant не является его GREEN",
+      "Source checkpoint/push/PR не Root acceptance"
+    ],
+    "поставка": {
+      "sourceCommit": "Последующее внешнее Git-наблюдение, без самозависимости от собственного OID",
+      "writer": "ACTIVE до конечного release; release отдельной квитанцией"
+    },
+    "коррекцияСтоимостногоУтверждения": {
+      "схема": "fum.координация.коррекция-утверждения.1",
+      "origin": "d72d4ee46a778d8bf02256f1126985a57be035e1",
+      "основание": "Адресное RO-ревью PR471: на каждом шаге ядро повторно хэширует растущую проекцию; один цикл не доказывает линейную общую стоимость.",
+      "источникПорученияSHA256": "9c80a3c0dd0d37de19325870f32b72b874ce191af317a768020f9b9f40cbae5b",
+      "происхождениеЦитаты": "Дословное адресное поручение ROOT; отдельный исходный человеческий текст не предоставлен.",
+      "отозванноеУтверждение": "Preview выполняет полный O(N) replay при чтении; не вызывается в цикле восстановления каждой записи. Обход конструктора остаётся отдельным прежним счётчиком; ускорение не заявлено.",
+      "действующееУтверждение": "Полный replay выполняет N шагов для N записей. Общая стоимость зависит от суммы размеров сериализуемых и хэшируемых проекций и других операций; стоимость сериализации, хэширования растущих проекций и COW отдельно не измерена. Линейность общей стоимости по числу записей не доказана. Предпросмотр не вызывается в цикле восстановления каждой записи; прежний счётчик обхода конструктора не измеряет общую стоимость. Ускорение не заявлено.",
+      "потребностьАвтоматизации": {
+        "статус": "сохранённая потребность; автоматическая проверка не реализована",
+        "правило": "Связывать заявления Big-O с размерами данных, точными операциями и измеренными счётчиками; число циклов или обходов отдельно не доказывает общую стоимость.",
+        "исполнитель": "владелец локального утверждения",
+        "координация": "непосредственный родитель"
+      },
+      "границы": {
+        "runtime": "не изменён",
+        "девятьИсходников": "побайтно прежние",
+        "сборкиИПрогоны": "не выполнялись",
+        "полныйПрофиль": "UNKNOWN; не GREEN",
+        "новыйReverse": "не требуется: b83fd9fc32380506872d07c1f13571e5be679ca0 уже включён",
+        "приёмкаROOT": "отдельный последующий этап"
+      },
+      "прежниеКвитанции": {
+        "manifestSHA256": "4362ff35f11a412959cdb70486b3332442a0d6d23e616d307016c957a257da06",
+        "writerReleaseSHA256": "37c76b37e34b4932af078fd8ee9e2c0c3be72cd14227db0b4c543c8ad9943112",
+        "attempt3ResultSHA256": "1c9aab2dffd1ae77d76e44b6911dd984be850d4525b5a8fbf7c79d2df91b7dbe",
+        "статус": "сохранены без перезаписи; прежние результаты не являются новым прогоном"
+      }
+    }
   }
 }
