@@ -8,7 +8,6 @@ struct ПроверкиЦиклаВводаJSONL {
     @Test("Точные байты и границы после закрытия")
     func точнаяЗапись() throws {
         let история = try временнаяИсторияВвода()
-        defer { try? FileManager.default.removeItem(at: история) }
         let данные = Data("один\r\n\nхвост".utf8)
         let цикл = ЦиклВводаJSONL()
         let первый = try записанныйПакет(цикл.принять(
@@ -26,7 +25,6 @@ struct ПроверкиЦиклаВводаJSONL {
     @Test("Повтор и одинаковые строки на разных смещениях")
     func повторИРазныеСмещения() throws {
         let история = try временнаяИсторияВвода()
-        defer { try? FileManager.default.removeItem(at: история) }
         let цикл = ЦиклВводаJSONL()
         let строка = Data("x\n".utf8)
         let первый = try записанныйПакет(цикл.принять(
@@ -50,7 +48,6 @@ struct ПроверкиЦиклаВводаJSONL {
     @Test("Хвост завершается после нескольких открытий")
     func завершениеХвоста() throws {
         let история = try временнаяИсторияВвода()
-        defer { try? FileManager.default.removeItem(at: история) }
         let цикл = ЦиклВводаJSONL()
         let первый = try записанныйПакет(цикл.принять(
             Data("a".utf8), источник: "источник", поколение: "1", после: nil, история: история))
@@ -71,7 +68,6 @@ struct ПроверкиЦиклаВводаJSONL {
     @Test("Смена поколения, дрейф и бюджет не записывают вход")
     func дрейфИПредел() throws {
         let история = try временнаяИсторияВвода()
-        defer { try? FileManager.default.removeItem(at: история) }
         let цикл = ЦиклВводаJSONL(пределБайтов: 8)
         let первый = try записанныйПакет(цикл.принять(
             Data("a\nх".utf8), источник: "источник", поколение: "1", после: nil, история: история))
@@ -100,24 +96,37 @@ struct ПроверкиЦиклаВводаJSONL {
         let неизвестно = try цикл.принять(
             Data("a\nх\n".utf8), источник: "источник", поколение: "1",
             после: первый.идентификатор, история: история, операции: операции)
-        guard case .неизвестныйИсход(let идентификатор, let хэш) = неизвестно,
+        guard case .неизвестныйИсход(let идентификатор, let хэш, let диагностика) = неизвестно,
               let идентификатор, let хэш else { Issue.record("Ожидался неизвестный исход с привязкой"); return }
+        #expect(диагностика.стадия == .добавление)
+        #expect(диагностика.причина == .другая)
         #expect(try цикл.подтвердить(идентификатор, sha256Пакета: хэш, история: история))
         #expect(try цикл.прочитать(идентификатор, история: история).сырыеНовыеБайты == Data("\n".utf8))
     }
 }
 
-private enum ОшибкаПроверкиВвода: Error { case нетПакета, сбойСинхронизации }
+private enum ОшибкаПроверкиВвода: Error { case нетПакета(ИсходВводаJSONL), сбойСинхронизации }
 
 private func записанныйПакет(_ исход: ИсходВводаJSONL) throws -> СсылкаПакетаВводаJSONL {
-    guard case .записано(let ссылка) = исход else { throw ОшибкаПроверкиВвода.нетПакета }
+    guard case .записано(let ссылка) = исход else { throw ОшибкаПроверкиВвода.нетПакета(исход) }
     return ссылка
 }
 
 private func временнаяИсторияВвода() throws -> URL {
+    if let путь = ProcessInfo.processInfo.environment["ФУМА_ДИАГНОСТИЧЕСКАЯ_ИСТОРИЯ"] {
+        let родитель = URL(fileURLWithPath: путь, isDirectory: true)
+        let новый = родитель.appendingPathComponent("fuma-case-" + UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(
+            at: новый, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        let адрес = новый.resolvingSymlinksInPath()
+        print("Приватная синтетическая история: \(адрес.path)")
+        return адрес
+    }
     let адрес = FileManager.default.temporaryDirectory.appendingPathComponent(
         "fuma-vvod-jsonl-" + UUID().uuidString, isDirectory: true)
     try FileManager.default.createDirectory(
         at: адрес, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
-    return адрес.resolvingSymlinksInPath()
+    let физический = адрес.resolvingSymlinksInPath()
+    print("Приватная синтетическая история: \(физический.path)")
+    return физический
 }
