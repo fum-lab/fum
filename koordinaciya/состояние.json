@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "1bd5eed303753c6e6bd85e5af96021d7adeb6c78",
+    "собственныйКонтрольныйКоммит": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "caee078a3303c2f51c1c66e0acc85b3bffc18fb4",
+      "родитель": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "В своей существующей JSON-области сохрани переносимый профиль воспроизведения уже прошедших Swift Testing 2/2: точные байты использованного минимального Package.swift как шаблон/строка, mapping двух production source + одного test source из репозитория в Sources/Tests, TESTING/strict flags и argv с внешним произвольным scratch для чистого клона; без абсолютных локальных путей. Код/бинарник не меняются, сборок/тестов не повторять, общий Package не править. Один source/JSON checkpoint от caee + normal push/readback; дай точный S/tree. Дополнительно сохрани в очереди хост-адаптера различие отправки активному и возобновления completed/idle: send_message не будит, followup_task будит; не выдавать принятие сообщения API за ACK обработки. Сам consumer-child продолжает независимо. Его и contract_writer результаты затем принимаешь в следующем отдельном этапе, текущую поставку ими не задерживай.",
-      "заголовок": "Сохранить переносимый профиль Swift Testing",
-      "описание": "В koordinaciya/состояние.json сохранён точный ранее использованный Package.swift (1073 UTF-8 байта, SHA-256 7ef597379f390408352c8c7339cf94890bfa171fb617933e6b875baf93d485e0), mapping двух production source и теста в scratch чистого клона, Swift Tools 6, define TESTING, strict concurrency, warnings-as-errors и argv Swift Testing. Результат 2/2 сохранён как историческое свидетельство; сборка и тесты в этом этапе не повторялись. Очередь хост-адаптера различает send_message активному ходу и followup_task для idle/completed; принятие API отдельно от ACK обработки. Child delivery сохранён как self-report, независимая приёмка и общий Package consumer остаются отдельными."
+      "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
+      "заголовок": "Добавить переносимый профиль потребителя байтов",
+      "описание": "В собственной области сохранён переносимый профиль Swift Testing для потребителя байтов: точные UTF-8 байты минимального Package.swift, mapping двух производственных исходников и одного тестового исходника, define TESTING, строгие флаги, фикстура и происхождение среды исполнения, шаблоны argv и переменных окружения. Историческая квитанция 2/2 и её SHA журнала сохранены без повторного запуска; публичный manifest является новым шаблоном воспроизведения и не объявляется побайтно равным прежнему закрытому тестовому каркасу. Для повтора нужен внешний fum-оператор с указанным SHA; его команда сборки неизвестна. Общий потребитель Package остаётся неподключённым, полная политика FUMA и фабрика не реализованы. Обратный merge ROOT cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e опубликован; PR 449 открыт, приёмка ROOT ожидает проверки. Исходные повреждённые строки 66–67 общего журнала не изменялись; полный журнал не объявляется валидным JSONL."
     }
   },
   "результатГенератораМетаданных": {
@@ -964,6 +964,38 @@
       "prePushVerified": true,
       "postPushVerified": true,
       "errors": []
+    },
+    "последнееПрименение": {
+      "schema": "fum.координация.генерация-сообщения.1",
+      "profileVersion": "08a42e4cb1f18d22",
+      "metadataExecutableSHA256": "08a42e4cb1f18d22f87004a4c80041d9c3ba785799cfcb55941a9fd71d1cac6e",
+      "fumaOperatorSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+      "fumaDefinitionSHA256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+      "freshSelectionProjectionSHA256": "8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1",
+      "acceptedSelection": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max"
+      },
+      "backendModel": "unknown",
+      "nativeTurnContext": "unknown",
+      "preflightReady": true,
+      "preflightSHA256": "fcf24f8b3bc268ca15c3a4d357bc946ad3a0746ce999d3a44acd4c34a9f9d6ef",
+      "fumaRunID": "fuma-cc868d64-758f-47bb-9bd4-d39ff69945d3",
+      "actualFUMAMessage": {
+        "byteCount": 1297,
+        "sha256": "111ab3faf4c98d4ba0f32243ec37a7ed6d83601c200ba48b0686fb36d5eb5446",
+        "preparedBytesEqual": true,
+        "rootTrailerPresent": true
+      },
+      "author": {
+        "имя": "FUM Codex [gpt-6-luna; effort=max]",
+        "почта": "fum@local"
+      },
+      "committer": {
+        "имя": "FUM",
+        "почта": "fum@local"
+      },
+      "gitEffect": "pending"
     }
   },
   "автовыдачаПолномочий": {
@@ -1930,5 +1962,317 @@
       },
       "граница": "профиль и metadata preflight зафиксированы; Swift Testing/build не повторялись; ROOT acceptance и общий Package consumer остаются отдельными"
     }
+  },
+  "дочерниеПоставки": [
+    {
+      "id": "delivery-byte-consumer-fuma-20261029",
+      "kind": "независимая приёмка дочерней поставки",
+      "rootTaskUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "childThreadUUID": "01a184af-6041-79d0-88b1-17a9489d54a4",
+      "source": {
+        "oid": "b69a2690ef45ff76a51ef6bcf7fb572201060435",
+        "tree": "26f08edb8fd583cf53bb9c152cf6ccf88af50662",
+        "parent": "b1ee05ce152c05e248ac7a9490180b93b9939cfd"
+      },
+      "delivery": {
+        "oid": "95431459773f3e99cc0edeaccd3e50aed5965239",
+        "tree": "cec7b7ceaa1073de5ce6e9dd7b927968b6d6a256",
+        "parent": "b69a2690ef45ff76a51ef6bcf7fb572201060435",
+        "branch": "refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master",
+        "remoteOID": "95431459773f3e99cc0edeaccd3e50aed5965239",
+        "remoteReadback": "PASS"
+      },
+      "scope": {
+        "filesFromSourceBase": 4,
+        "paths": [
+          "koordinaciya/координатор.swift",
+          "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/ПроверкиПотребителяБайтСообщенияFUMA.swift",
+          "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/state.json",
+          "koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/журнал.jsonl"
+        ],
+        "commonPackageConsumerIntegrated": false
+      },
+      "independentReview": {
+        "status": "accepted by coordinator as bounded source slice",
+        "sourceAndTreeOIDs": "verified from local Git objects",
+        "childWorktree": "clean at exact delivery OID",
+        "remoteRef": "independently read back exact delivery OID",
+        "privateManifestSHA256": "bf9c8701b39eb362e64f8e14665a3e7d75f16b01c00c7c3f59571138929b05c0",
+        "red": {
+          "exit": 1,
+          "logSHA256": "a34b872ce81795618d8253ac551bdfbe5f29ac013b9c7f6ccbbdcda84610ba80",
+          "outcome": "после удаления Data equality guard дополнительный LF достигал callback"
+        },
+        "green": {
+          "exit": 0,
+          "swiftTesting": "2/2",
+          "logSHA256": "094c82df66626ea4ad526e2022d31cfd4e2298b689bc0c849a23ec339896defe",
+          "coordinatorSourceSHA256": "f9ea424f342e19b4d1e88850eb26a613358d0dce21e61fd6ae7f912165712792",
+          "testSourceSHA256": "868a6a90d3222e13b4f842b851a5fc75ce7911d7f5a20bab4518533688aacb34"
+        },
+        "typedFumaBytes": {
+          "count": 270,
+          "sourceAndPreparedSHA256": "cf5c4df85bb20f1b5670f37dd95fc8d9ead316be2008ec71eb27eead32c2ca24",
+          "extraLFCount": 271,
+          "extraLFSHA256": "12d45b99e91085d9bb4d62e462267878ac02a2829a317f402d5c702213bde3aa",
+          "profileSHA256": "9d11ce52c5f4c4723974d4b4d038aec57108abed51424d6b5ca32eacfc6ac60f"
+        },
+        "limits": [
+          "общая интеграция в Package.swift не выполнена",
+          "ROOT acceptance не выполнена этим собственным merge"
+        ]
+      },
+      "coordinatorMerge": {
+        "oid": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+        "tree": "7eaf924f4bf397d3c63785a611af3cdfcd6d59c0",
+        "parents": [
+          "7fde895790f900881ebe895f8f471e834083d0e0",
+          "95431459773f3e99cc0edeaccd3e50aed5965239"
+        ],
+        "rawCheck": {
+          "passed": true,
+          "receiptSHA256": "84c86067decd8ef467af1e441aa06625c1739b5bc6fc22446c7f206ace7d4d40",
+          "rawObjectSHA256": "3cc1fb14e103f6d464c861b01326b97f1dde1043f1ac7d2076ba870c6931f953",
+          "exactFumaMessageBytes": {
+            "count": 1410,
+            "sha256": "c3cd824d2c215efca59135389a9d652b8aa30b0e85993f0ad333574abf712876"
+          }
+        },
+        "push": {
+          "kind": "ordinary exact-OID push",
+          "remoteOID": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+          "remoteReadback": "PASS",
+          "rootRefUnchanged": "9eec7d2f1f9f49b09812963f68ed637e96850090"
+        },
+        "rootAcceptance": "pending"
+      }
+    },
+    {
+      "id": "delegation-contract-json-fixtures-v1-20261029",
+      "status": "accepted separately as JSON contract and fixtures only",
+      "source": {
+        "oid": "efafc15f4682bf50dc8f605000270d454a8d39db",
+        "tree": "d7ef9acaa05d59251ea7a4b8460b02a961f69628",
+        "parent": "af9511e25fc3e5d949d4ad67203b84e27739d30e"
+      },
+      "branch": "refs/heads/fum-lab/fum/koordinaciya/avtovyidacha-polnomochij/kontrakt/master",
+      "remoteOID": "efafc15f4682bf50dc8f605000270d454a8d39db",
+      "files": [
+        "koordinaciya/avtovyidacha-polnomochij/kontrakt/contract.json",
+        "koordinaciya/avtovyidacha-polnomochij/kontrakt/fixtures.json"
+      ],
+      "checks": {
+        "jsonParse": "PASS",
+        "independentNodeShapeCheck": "PASS",
+        "caseCount": 33,
+        "uniqueIDs": true,
+        "decisionCounts": {
+          "allow": 4,
+          "hold": 19,
+          "escalate": 10
+        },
+        "closedInputAndOutputSchemas": true,
+        "nonAllowNeverIssuesGrant": true,
+        "noFactoryCallOrExactlyOnceClaim": true,
+        "negativeScenarios": [
+          "foreign-owner",
+          "foreign-parent",
+          "foreign-scope",
+          "capability-expansion",
+          "stale-base",
+          "stale-generation",
+          "paused",
+          "unknown-effect-no-retry",
+          "exact-replay-known-receipt"
+        ]
+      },
+      "limits": [
+        "FUMA evaluator is not implemented or run",
+        "Swift adapter and factory integration are not delivered",
+        "full policy and external effects remain out of scope",
+        "contract worktree has an untracked handoff.md; it was not read or changed and is outside the exact two-file acceptance"
+      ],
+      "mergeCandidate": {
+        "status": "automatic merge passed, exact own source scope staged",
+        "firstParent": "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+        "secondParent": "efafc15f4682bf50dc8f605000270d454a8d39db",
+        "expectedPaths": [
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/contract.json",
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/fixtures.json"
+        ],
+        "fullFUMAPolicyComplete": false
+      },
+      "coordinatorMerge": {
+        "oid": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
+        "tree": "9c23315bf81a8fed9d4b503479bb7b371d5cf554",
+        "parents": [
+          "f9a7b2c977c2ca77f577d66840df4e1ba250e799",
+          "efafc15f4682bf50dc8f605000270d454a8d39db"
+        ],
+        "rawCheck": {
+          "passed": true,
+          "receiptSHA256": "787b17c0d34a1be5f5079d305575e886ffcd9248641c126b359c9189534e2f78",
+          "rawObjectSHA256": "d3e075ef71c3b5a52b418a0dd4fc520d412161506eed2baf1b717d6f8cae6b52",
+          "exactFumaMessageBytes": {
+            "count": 1065,
+            "sha256": "c63f5aa371ba147d8e6fd27536272f780ee9f0947318f54f1720807c4285b25f"
+          }
+        },
+        "push": {
+          "kind": "ordinary exact-OID push",
+          "remoteOID": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
+          "remoteReadback": "PASS",
+          "rootRefUnchanged": "9eec7d2f1f9f49b09812963f68ed637e96850090"
+        },
+        "scope": [
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/contract.json",
+          "koordinaciya/avtovyidacha-polnomochij/kontrakt/fixtures.json"
+        ],
+        "rootAcceptance": "pending",
+        "fullFUMAPolicyComplete": false
+      }
+    }
+  ],
+  "профильИсполненияМетаданных": {
+    "schema": "fum.координация.portableMetadataRuntime.1",
+    "version": "08a42e4cb1f18d22",
+    "privateProfileSHA256": "48840b5a5adbad53e915d13750b3422423341a3f68bd7edd4f5b5584d1b385db",
+    "privateLocator": "<private-runtime>/koordinaciya/metadata-runtime/versions/08a42e4cb1f18d22",
+    "rootTaskUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "ownThreadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "selection": {
+      "source": "API selection independently matched to the exact scoped native thread row",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "backendModel": "unknown",
+      "nativeTurnContext": "unknown",
+      "nativeRowProjectionSHA256": "8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1",
+      "refreshBeforeUse": true
+    },
+    "metadataExecutable": {
+      "privatePath": "<private-runtime>/bin/координатор-parent-bound-final-ru",
+      "sha256": "08a42e4cb1f18d22f87004a4c80041d9c3ba785799cfcb55941a9fd71d1cac6e",
+      "sourceCommit": "b1ee05ce152c05e248ac7a9490180b93b9939cfd",
+      "sourceTree": "13e85eca713b4a766d1aa7a844e953b426b73f23",
+      "sourceFiles": [
+        {
+          "path": "koordinaciya/координатор.swift",
+          "sha256": "3c5b178b6ab099c5426cebbf67915ec01f99c038b2a3e018c92cfc8b2db0dd86"
+        },
+        {
+          "path": "koordinaciya/генератор-метаданных-коммита.swift",
+          "sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+        }
+      ],
+      "buildManifestSHA256": "78a75c525cc63856e7dc549c3b4586f0dc1523b50b2be1c6d6a036d964b8ad12",
+      "buildToolchain": "swift-driver 1.168.6; Apple Swift 6.4; arm64-apple-macosx27.0.0",
+      "buildArgv": [
+        "swiftc",
+        "-swift-version",
+        "6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "koordinaciya/координатор.swift",
+        "koordinaciya/генератор-метаданных-коммита.swift",
+        "-o",
+        "<private-runtime>/bin/координатор-parent-bound-final-ru"
+      ]
+    },
+    "operator": {
+      "privatePath": "<private-runtime>/bin/fum-оператор",
+      "sha256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+      "sourceCommit": "0674107e57ba2f5aac00e8f7e26881447c78d02a",
+      "packageTree": "367d8eea5055aaedb65242c088266a2ff1320649",
+      "packagePath": "Приложения/FUMA/macOS",
+      "packageManifestSHA256": "e70425adf288c72909022e3852b671316f8c5a4a2a2d407e392d8accc8641d58",
+      "buildCommand": "not retained"
+    },
+    "definition": {
+      "privatePath": "<private-runtime>/definitions/генератор-метаданных.json",
+      "sha256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+      "sourceCommit": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a",
+      "sourcePath": "koordinaciya/fuma/генератор-метаданных.json"
+    },
+    "freshShellEnvironment": {
+      "FUM_RUNTIME_ROOT": "<private-runtime>/fum-runtime",
+      "FUM_MEMORY_ROOT": "<private-runtime>/fum-memory",
+      "KOORDINACIYA_FUMA_DEFINITION": "<private-runtime>/definitions/генератор-метаданных.json",
+      "KOORDINACIYA_FUMA_OPERATOR": "<private-runtime>/bin/fum-оператор",
+      "KOORDINACIYA_FUMA_RUN_ROOT": "<private-runtime>/fum-runs",
+      "GIT_AUTHOR_EMAIL": "fum@local",
+      "GIT_COMMITTER_NAME": "FUM",
+      "GIT_COMMITTER_EMAIL": "fum@local",
+      "GIT_AUTHOR_NAME": "take only from FUMA-generated environment result; never default"
+    },
+    "argvTemplates": {
+      "preflight": [
+        "<private-runtime>/bin/координатор-parent-bound-final-ru",
+        "--проверить-перед-коммитом",
+        "<repository-root>/koordinaciya/состояние.json"
+      ],
+      "rawMergeCheck": [
+        "<private-runtime>/bin/координатор-parent-bound-final-ru",
+        "--проверить-сырой-merge-коммит",
+        "<repository-root>/koordinaciya/состояние.json",
+        "<independent-expectation.json>"
+      ],
+      "operatorInternal": [
+        "fum-оператор",
+        "--выполнить-оператор",
+        "--определение",
+        "<private-runtime>/definitions/генератор-метаданных.json",
+        "--вход",
+        "<private-run>/вход.json",
+        "--тип-входа",
+        "текст",
+        "--журнал",
+        "<private-run>/журнал"
+      ]
+    },
+    "gitConfigChanged": false,
+    "globalModelChanged": false
+  },
+  "проверкаЦелостностиЖурнала": {
+    "schema": "fum.координация.проверка-jsonl.1",
+    "checkedAtUTC": "2026-10-28T23:53:08.332Z",
+    "source": "koordinaciya/журнал.jsonl",
+    "preCorrectionJournal": {
+      "bytes": 121636,
+      "sha256": "bdaa271cf8811378d4804f168fa69542307348a3d35e0b407b05c515f6203463"
+    },
+    "malformedEventOrder": 66,
+    "preservedPhysicalFragments": [
+      {
+        "line": 66,
+        "bytes": 1636,
+        "sha256": "e79a087700b5c5864c7627e9e88c0ea6f87c8c881634367e2da81a898832c6d7",
+        "hashScope": "content-without-LF"
+      },
+      {
+        "line": 67,
+        "bytes": 257,
+        "sha256": "cd1cc8df868321a7a50ee890044f84f8b52291d6dbcb05fc66cdb77333357c26",
+        "hashScope": "content-without-LF"
+      }
+    ],
+    "correctionEventOrder": 67,
+    "originalBytesRewritten": false,
+    "validPrefixEntries": 65,
+    "correctionAppended": true
+  },
+  "проверкаВыбораТекущейСессии": {
+    "checkedAtUTC": "2026-10-28T23:53:08.332Z",
+    "source": "read-only SQLite exact-row query",
+    "ownThreadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "agentPathMatches": true,
+    "model": "gpt-6-luna",
+    "reasoningEffort": "max",
+    "rowCount": 1,
+    "projectionSHA256": "8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1",
+    "projectionMatchesSavedPrivateBytes": true,
+    "backendModel": "unknown",
+    "nativeTurnContext": "unknown",
+    "attachedThreadParentIDSQLiteJSON": null,
+    "lineageStatus": "unknown"
   }
 }

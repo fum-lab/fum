@@ -246,6 +246,42 @@ struct ПланСамообновления: Codable {
     let сообщениеСледующегоКоммита: ПланСообщенияКоммита
 }
 
+enum ОшибкаПотребителяБайтСообщенияFUMA: Error, Equatable {
+    case сообщениеНеЯвляетсяUTF8
+    case подготовленныеБайтыНеСовпадают
+}
+
+enum ПотребительБайтСообщенияFUMA {
+    static func подготовить(
+        фактическиеБайтыFUMA: Data,
+        вФайл файл: URL
+    ) throws -> Data {
+        guard String(data: фактическиеБайтыFUMA, encoding: .utf8) != nil else {
+            throw ОшибкаПотребителяБайтСообщенияFUMA.сообщениеНеЯвляетсяUTF8
+        }
+        try фактическиеБайтыFUMA.write(to: файл, options: .atomic)
+        let подготовленныеБайты = try Data(contentsOf: файл)
+        guard подготовленныеБайты == фактическиеБайтыFUMA else {
+            throw ОшибкаПотребителяБайтСообщенияFUMA.подготовленныеБайтыНеСовпадают
+        }
+        return подготовленныеБайты
+    }
+
+    static func выполнитьПередGitЭффектом<T>(
+        исходныеБайтыFUMA: Data,
+        подготовленныеБайты: Data,
+        выполнитьGitЭффект: () throws -> T
+    ) throws -> T {
+        guard String(data: исходныеБайтыFUMA, encoding: .utf8) != nil else {
+            throw ОшибкаПотребителяБайтСообщенияFUMA.сообщениеНеЯвляетсяUTF8
+        }
+        guard подготовленныеБайты == исходныеБайтыFUMA else {
+            throw ОшибкаПотребителяБайтСообщенияFUMA.подготовленныеБайтыНеСовпадают
+        }
+        return try выполнитьGitЭффект()
+    }
+}
+
 struct РезультатСамообновления: Codable {
     let контрольныйКоммит: String
     let независимаяРаботаРазрешена: Bool
@@ -284,7 +320,7 @@ private struct FUMAОбёрткаОтвета: Decodable {
     let наблюдение: Наблюдение
 }
 
-private struct РезультатЗапускаFUMA {
+struct РезультатЗапускаFUMA {
     let пакет: ПакетВыходаГенератораFUMA
     let canonicalOutput: Data
     let response: Data
@@ -303,7 +339,7 @@ private struct СвидетельствоЗапускаFUMA: Encodable {
     let хэшиВыходовСценариев: [String: String]
 }
 
-private enum ИсполнительГенератораFUMA {
+enum ИсполнительГенератораFUMA {
     static func выполнить(
         input: ПакетВходаГенератораFUMA,
         definitionPath: String,
