@@ -75,9 +75,11 @@ public struct ОшибкаПрофиля: Error, Equatable, Sendable {
     public init(_ причина: String) { self.причина = причина }
 }
 
+/// Checks internal consistency of this task-scoped checkpoint only. It does not verify independent grant or live Git authority.
 public enum ПроверкаСохраняющегоПрофиля {
     public static let схема = "fum.preserving-checkpoint.1"
 
+    // This exact allowlist is local to the explicit task grant, not a repository-wide FUM admission policy.
     private static let областьПоУмолчанию: Set<String> = [
         "AGENTS.md",
         "Правила/агентов/журнал-и-происхождение.md",

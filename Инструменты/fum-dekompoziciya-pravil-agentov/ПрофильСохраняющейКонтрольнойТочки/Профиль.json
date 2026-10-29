@@ -40,6 +40,13 @@
     "строкаSHA256": "4c7df04e8ad47d5196394e8d3d0f8928026b336ab54faaa8f97b0f9392b74088",
     "байтыВнеGit": "sessions/2026/10/29/01a17869-c953-7163-bb76-21716549be02/model-observation.tsv"
   },
+  "наблюдениеВыбораМодели": {
+    "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "до": { "model": "gpt-6-luna", "effort": "high" },
+    "запрошеноПосле": { "model": "gpt-5.6-sol", "effort": "ultra" },
+    "наблюденоВSQLite": { "model": "gpt-6.1-sol", "effort": "ultra" },
+    "backend": "неизвестно"
+  },
   "проверки": {
     "native_swift_positive": {
       "исход": "выполнено",

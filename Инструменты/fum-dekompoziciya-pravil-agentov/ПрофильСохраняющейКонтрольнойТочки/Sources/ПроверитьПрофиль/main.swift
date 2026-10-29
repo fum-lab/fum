@@ -14,7 +14,7 @@ do {
         источник: источник,
         кореньWorktree: FileManager.default.currentDirectoryPath
     )
-    print("ПРОФИЛЬ ПРИНЯТ: \(результат.схема); проверки и неизвестный остаток сохранены")
+    print("ЛОКАЛЬНЫЙ CHECKPOINT СОГЛАСОВАН: \(результат.схема); это не проверка допуска или разрешение эффекта")
 } catch let ошибка as ОшибкаПрофиля {
     FileHandle.standardError.write(Data(("ПРОФИЛЬ ОТКЛОНЁН: " + ошибка.причина + "\n").utf8))
     exit(1)
