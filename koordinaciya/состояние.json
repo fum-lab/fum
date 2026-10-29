@@ -692,10 +692,10 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "416776221dfd1a672eef004fc02921386d0f9fa7",
+    "собственныйКонтрольныйКоммит": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
-    "текущаяВерсия": "fum.координация.состояние.4",
+    "текущаяВерсия": "fum.координация.состояние.5",
     "источники": [
       {
         "источникРеф": "refs/heads/fum-lab/fum/pravila/master",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "416776221dfd1a672eef004fc02921386d0f9fa7",
+      "родитель": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Поручение координатора ROOT: после reader checkpoint интегрировать опубликованный 1abfd2af20d62b8f80d46c9abd226db2e4b70ebe обратным merge в собственную ветку; ROOT W не менять.",
-      "заголовок": "Влить обновление ROOT в ветку координатора",
-      "описание": "Поручение ROOT, ограниченная область koordinaciya/**. Подготовлен merge-коммит с упорядоченными родителями [416776221dfd1a672eef004fc02921386d0f9fa7, 1abfd2af20d62b8f80d46c9abd226db2e4b70ebe]. Первый родитель — собственная доставленная reader-контрольная точка; второй — актуальный опубликованный ROOT master. Относительно второго родителя собственная дельта содержит только koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift, koordinaciya/proverki-chteniya-povrezhdyonnogo-zhurnala.swift, koordinaciya/segment-zhurnala-koordinacii.jsonl и koordinaciya/состояние.json. ROOT добавил отчёт otchyot-integracij-2026-10-29-2.json в своей исходной точке; этот файл не редактировался. Собственный журнал до сих пор повреждён в строках 66–67, 66 событий сохранены структурным reader; исходные байты не изменялись. Уже выполненные адресные Swift Testing 4/4 и segment scan 1/1 не повторялись, текущий merge verifier получает точные parents и tree отдельно. Это обратное слияние source в собственную ветку, не ROOT acceptance и не production activation. Следующий собственный срез после доставки — explicit physical worktree/ref/HEAD Git adapter, включая отказ shell-refspec из root report и проверку Process.arguments."
+      "исходныйЗапрос": "RO аудит fixed416 выявил trap: Data.SubSequence может иметь startIndex не ноль. Исправить reader относительными индексами без копирования всего входа; добавить sliced-Data регрессию и ограниченный N/2N/4N профиль с отдельными этапами чтения, JSON-разбора и SHA-256. Проверить новые русские имена собственных API, сохранить границы повреждённого журнала и не начинать большой рефакторинг.",
+      "заголовок": "Исправить индексацию срезов Data",
+      "описание": "Reader переводит относительные смещения через Data.startIndex и distance(from:to:); копирует только ограниченные записи. RED: sliced Data с ненулевым startIndex аварийно завершался. GREEN: Swift Testing 6/6 на точной исходной паре, включая sliced Data. Профиль N/2N/4N: 256/512/1024 записи, максимум 231252 байта; чтение, JSON-разбор, SHA-256 и полный reader измерялись раздельно. Время зависит от debug I/O, поэтому ускорение не заявляется. Изменены только reader, тест, состояние и append-only сегмент. Первичный журнал не переписывался: строки 66–67 повреждены; общий Package consumer не подключён. Следующий срез: явные физические W/ref/OID, безопасные Process.arguments, и раздельная проверка commonRootTaskUUID и actualWriterNativeUUID; backend остаётся неизвестным."
     }
   },
   "результатГенератораМетаданных": {
@@ -2567,6 +2567,203 @@
           "gitEffectAtCheckedAt": "not performed"
         },
         "scope": "Pre-effect metadata result only; ordered-parent and exact-tree raw verification remains a separate required check."
+      },
+      "slicedDataCorrection": {
+        "схема": "fum.координация.исправление-среза-data.1",
+        "наблюдение": "Data.SubSequence с ненулевым startIndex передавался в парсер, который индексировал с нуля и аварийно завершался до результата.",
+        "изменение": "Парсер переводит относительные байтовые смещения через Data.index(startIndex, offsetBy:) и distance(from:startIndex:); материализуются только ограниченные записи, весь вход не нормализуется копированием.",
+        "исходныйReaderSHA256": "475061f884c226a1c6bbe00058d6b47b5d2a9fec54892bf6e32915384f0351ea",
+        "новыйReaderSHA256": "1bbf798c5904cd32d8ceb436dcea187df5e24b496cb6c9b6d27c61cd8e2c628a",
+        "testSource": "koordinaciya/proverki-chteniya-povrezhdyonnogo-zhurnala.swift",
+        "testSourceSHA256": "f47f11db1634cbb076fd672af22f423810dc60137eb26e2b4ed8bd642ec36f6c",
+        "harnessManifestSHA256": "2b357b5aedd834c3943d7e5b0d6703ff6354d0065aed98eea51981153c9aab6d",
+        "toolchain": "Swift 6.4; target arm64-apple-macosx27.0.0; Swift Testing library 2084; debug; strict concurrency and warnings-as-errors.",
+        "red": {
+          "test": "срезDataСохраняетОтносительныеСмещения",
+          "sourceSHA256": "475061f884c226a1c6bbe00058d6b47b5d2a9fec54892bf6e32915384f0351ea",
+          "testSHA256": "f47f11db1634cbb076fd672af22f423810dc60137eb26e2b4ed8bd642ec36f6c",
+          "exitCode": 1,
+          "outcome": "Swift Testing helper завершился unexpected signal code 5 при разборе среза с ненулевым индексом.",
+          "stdoutSHA256": "7b4b611c36dc7a2d361eaef9f3d774b1f10de2d46530758e80bc96de4d0fa8f3",
+          "stderrSHA256": "a2d600ea76d78fb663ec57353b36b2769860f35ced4e339d57532f77ba58257b"
+        },
+        "green": {
+          "command": "swift test --package-path <harness> --scratch-path <scratch>",
+          "sourceMappingVerifiedByCmp": true,
+          "sourceSHA256": "1bbf798c5904cd32d8ceb436dcea187df5e24b496cb6c9b6d27c61cd8e2c628a",
+          "testSHA256": "f47f11db1634cbb076fd672af22f423810dc60137eb26e2b4ed8bd642ec36f6c",
+          "tests": 6,
+          "exitCode": 0,
+          "stdoutSHA256": "c43fbdf1c7512604b03a78ad12a5676988c2cbc7766ed3784256c35eb2f3383a",
+          "stderrSHA256": "8a8706655be51025505b01114f7360f198ea661bba11029516355e88d78b4552"
+        },
+        "профиль": {
+          "N": 256,
+          "размерыБайт": [
+            57636,
+            115492,
+            231252
+          ],
+          "лимитБайт": 2000000,
+          "лимитЗаписей": 4096,
+          "раздельныеЭтапы": [
+            "чтение-файла",
+            "разбор-JSON-записей",
+            "SHA256-записей",
+            "полный-проход-reader"
+          ],
+          "до": {
+            "sourceSHA256": "475061f884c226a1c6bbe00058d6b47b5d2a9fec54892bf6e32915384f0351ea",
+            "records": [
+              {
+                "n": 256,
+                "readNS": 66749,
+                "parseNS": 1458708,
+                "hashNS": 809083,
+                "readerNS": 26608499
+              },
+              {
+                "n": 512,
+                "readNS": 94124,
+                "parseNS": 2896125,
+                "hashNS": 2341666,
+                "readerNS": 77759291
+              },
+              {
+                "n": 1024,
+                "readNS": 84666,
+                "parseNS": 6437750,
+                "hashNS": 7368749,
+                "readerNS": 149890916
+              }
+            ],
+            "stdoutSHA256": "166597b8e1f0b528bb78ad337ecb7d953bebaf4c8e05c6472c2c8ffe88cb1b76"
+          },
+          "после": {
+            "sourceSHA256": "1bbf798c5904cd32d8ceb436dcea187df5e24b496cb6c9b6d27c61cd8e2c628a",
+            "records": [
+              {
+                "n": 256,
+                "readNS": 88250,
+                "parseNS": 1429208,
+                "hashNS": 821458,
+                "readerNS": 26488333
+              },
+              {
+                "n": 512,
+                "readNS": 46041,
+                "parseNS": 2675083,
+                "hashNS": 1530625,
+                "readerNS": 52492249
+              },
+              {
+                "n": 1024,
+                "readNS": 70333,
+                "parseNS": 5295625,
+                "hashNS": 3029833,
+                "readerNS": 108878583
+              }
+            ],
+            "stdoutSHA256": "d40af1fbd5bcbaeff3292954a7ce575d0e19f664ac263c08ca5a7aff10b7a04e"
+          },
+          "решение": "Синтетические серии остаются в заданных пределах и сохраняют правильный результат; времена чтения и debug-прогона вариативны, поэтому ускорение не заявляется и дальнейшая алгоритмическая оптимизация не добавляется."
+        },
+        "непринятыйHarnessЗапуск": {
+          "exitCode": 0,
+          "причина": "SwiftPM сообщил unhandled source из-за неверного имени файла в private harness; прогон не засчитывается.",
+          "последствие": "после исправления mapping исходник и файл harness побайтно сверены; актуальный полный Swift Testing 6/6 выше"
+        },
+        "ограничения": [
+          "исходный scan собственного журнала 66 валидных событий и два повреждённых диапазона выполнен до этой коррекции; текущая регрессия проверяет sliced Data, но повторный scan исходного журнала не выполнялся.",
+          "профиль синтетический и не измеряет ROOT JSONL или полную корневую историю.",
+          "reader пока не подключён к production consumer общего Package."
+        ],
+        "appendOnlyEvent": {
+          "схема": "fum.координация.событие-сегмента.1",
+          "порядок": 69,
+          "идентификатор": "исправить-срез-data-reader-20261029",
+          "хэшСобытияСLF": "b57a43bf8857ae795d37f08b29ce42072cd527acd2d6f9b3a366de4c5db380c0",
+          "хэшСегментаДо": "3bb1e7352ec6e0beb7ea46ba5cf07fa87d0e57d8c0602105320c817a507562b2",
+          "хэшСегментаПосле": "e55d3b646a6c74f4c9f3b9e0eb4c7e26105a40bf1de0be03cd72f81e9d0cda9f",
+          "валидныхСтрокСегмента": 2,
+          "первичныйПовреждённыйЖурналПереписан": false
+        },
+        "непринятыеПопытки": [
+          {
+            "id": "сбой-компиляции-профильного-теста",
+            "exitCode": 1,
+            "outcome": "Первая версия тестовой пробы использовала SHA256Digest.first как свойство; Swift разрешил first(where:) и компиляция отказала до запуска.",
+            "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSHA256": "e839f535b8ad21583e14629c7d3b7aa873eedd3c55aa82d93297408dd2408667",
+            "recovery": "Исправлено в приватном тестовом источнике через Array(digest).first; последующий исходный профиль прошёл."
+          },
+          {
+            "id": "harness-source-mapping-warning",
+            "exitCode": 0,
+            "outcome": "SwiftPM сообщил unhandled source: private reader был скопирован под именем вне списка Sources; выход 6/6 не засчитывается.",
+            "stdoutSHA256": "7807adf574cb5fcbd35be3525f8413c055ada574f912869c37657cddec012240",
+            "stderrSHA256": "34236db52b5519a0af804dc6b7f59761d1f3b028b159ffe418bc5c3fa914eb6e",
+            "recovery": "Лишний созданный файл удалён; cp по точному basename восстановил mapping, cmp подтвердил sourceSHA, отдельный green 6/6 прошёл."
+          },
+          {
+            "id": "raw-merge-verifier-неверный-private-path",
+            "exitCode": 1,
+            "outcome": "CLI сообщил The file couldn’t be opened because it doesn’t exist; путь к принятому definition не совпал.",
+            "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSHA256": "9e435f3d87a62907c91b330a4802a64611c79f0a2ae66ce11815215fbf4d7b3e",
+            "последствие": "Эта попытка не подтверждает проверку; успешный raw merge verifier выполнен в отдельном свежем 0700-каталоге."
+          }
+        ],
+        "preEffect": {
+          "готово": true,
+          "cliSHA256": "08a42e4cb1f18d22f87004a4c80041d9c3ba785799cfcb55941a9fd71d1cac6e",
+          "operatorSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+          "definitionSHA256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+          "inputSHA256": "dc95334f090d5149e2433c159b07ed235630e114908a3eba20131ec0d9e5ac6c",
+          "actualOutputSHA256": "f05cc4dee044af93ae59628f86f0a775339aea965d20b63a1188030cb4104897",
+          "responseSHA256": "1b93e8e55ca81ef6cdb329df27ae5b334b00ed1fbe872756925c0adac410b2e4",
+          "witnessSHA256": "acd4cb6381818947a415fb645322fd42f46872b9625f781b44833211cc0b684b",
+          "preflightSHA256": "ea5cebad16d88fcd2ce2f5741d4ef45bd0e47168d5313484e7b25e73b75a2b81",
+          "messageSHA256": "45130d316a44d26d6af97f74602ae515630399cad8c1b3e640f25cf1ea352bb3",
+          "messageByteEqual": true,
+          "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+          "committer": "FUM <fum@local>",
+          "actualWriterNativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+          "rootTrailerUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "backend": "unknown",
+          "errors": [],
+          "времяUTC": "2026-10-29T04:39:34Z",
+          "событиеSHA256": "f062e5f5d0c301521b231371bac98cb1cbf4605695e3579fa1f0d32b796c2d54",
+          "источникВыбраннойИдентичности": "свежая точечная read-only native metadata строка собственного thread; backend unknown",
+          "источникСтатуса": "saved exact-source Swift Testing and bounded profile receipts"
+        }
+      },
+      "mergeOutcome": {
+        "схема": "fum.координация.raw-merge-delivery.1",
+        "коммит": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
+        "дерево": "6983c6f3bf88317be0880c1f8aecb6e6e80064a3",
+        "родители": [
+          "416776221dfd1a672eef004fc02921386d0f9fa7",
+          "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe"
+        ],
+        "хэшСырогоКоммита": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
+        "хэшСообщения": "f1411ebdb92f9263b140da40edfa7478566c7478962e26319bd59f43baed5fe0",
+        "хэшОжидания": "c8b82ba6afe964fc8bd822848d33e290c5be18866133061b092e8f31a3974641",
+        "сыройПроверитель": {
+          "проверено": true,
+          "ошибки": [],
+          "первыйРодительСовпадаетСПланом": true,
+          "хэшВывода": "6ce4ed60b983c776f4b1247018215f336ca36485570f9aa421add7b1560ab587"
+        },
+        "собственнаяДельта": [
+          "koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift",
+          "koordinaciya/proverki-chteniya-povrezhdyonnogo-zhurnala.swift",
+          "koordinaciya/segment-zhurnala-koordinacii.jsonl",
+          "koordinaciya/состояние.json"
+        ],
+        "ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+        "удалённыйOID": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
+        "общийПотребитель": "не подключён"
       }
     }
   },
@@ -2587,16 +2784,18 @@
   },
   "остатокКоординатора": {
     "status": "active; no production activation claimed",
-    "currentStage": "bounded JSONL reader source/test and own-journal scan checkpoint",
+    "currentStage": "sliced-Data reader correction verified; FUMA pre-effect PASS; own source commit and delivery pending",
     "nextStage": {
       "id": "explicit-git-worktree-ref-oid-adapter",
-      "state": "queued after reader checkpoint",
+      "state": "queued after current reader-correction checkpoint",
       "scope": "Replace ambient FileManager.default.currentDirectoryPath for coordinator Git calls with an explicitly supplied physical worktree and expected full ref/HEAD OID; fail closed before Git effect on wrong cwd, foreign ref or stale OID.",
       "negativeCases": [
         "wrong physical cwd",
         "foreign symbolic ref",
         "stale expected HEAD",
-        "primary checkout fallback"
+        "primary checkout fallback",
+        "source UUID equals common root task UUID while actual writer native UUID differs",
+        "missing or mismatched actual writer native UUID"
       ],
       "productionConsumerNotConnected": true
     },
@@ -2606,6 +2805,23 @@
       "commitWasRepeated": false,
       "historyWasRewritten": false,
       "futureFix": "Construct refspec as typed String/Data and pass it via Process.arguments; test malformed refspec rejection before effect and independently verify expected remote ref/OID."
+    },
+    "observedIdentityMismatch": {
+      "схема": "fum.координация.разделение-идентичности.1",
+      "префиксНаблюдённогоКоммита": "f516407",
+      "потокИсполнителя": "01a17869-c953-7163-bb76-21716549be02",
+      "commonRootTaskUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "модельКорня": {
+        "model": "gpt-6.1-sol",
+        "reasoningEffort": "ultra"
+      },
+      "выборИсполнителя": {
+        "model": "gpt-5.6-sol",
+        "reasoningEffort": "ultra"
+      },
+      "наблюдение": "ROOT подтвердил, что executor правил прочитал SQLite-строку ROOT вместо собственной; опубликованный commit использовал чужую пару автора.",
+      "состояние": "ROOT сообщил, что владелец готовит correction; историю не переписывать.",
+      "будущаяПроверка": "actualWriterNativeUUID должен совпадать с expectedWriterNativeUUID независимого назначения; commonRootTaskUUID остаётся только в trailer; backend остаётся unknown"
     }
   }
 }
