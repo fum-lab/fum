@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -37,10 +38,18 @@ import метаданные_наблюдений as наблюдения
 MANIFEST_SCHEMA_V1 = "fum.machine-local-path-policy-update.v1"
 MANIFEST_SCHEMA_V2 = "fum.machine-local-path-policy-update.v2"
 СХЕМА_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ = "fum.machine-local-path-policy-update.v3"
+СХЕМА_МАНИФЕСТА_ЧЕТВЁРТОЙ_ВЕРСИИ = "fum.machine-local-path-policy-update.v4"
 MANIFEST_V1_KEYS = frozenset({"schema", "declarations"})
 MANIFEST_V2_KEYS = frozenset({"schema", "declarations", "retirements"})
 ПОЛЯ_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ = MANIFEST_V2_KEYS | {"метаданные"}
+ПОЛЯ_МАНИФЕСТА_ЧЕТВЁРТОЙ_ВЕРСИИ = ПОЛЯ_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ | {
+    "байтовые_фикстуры",
+    "отмены_байтовых_фикстур",
+}
 DECLARATION_KEYS = frozenset({"id", "path", "line", "category", "reason"})
+ПОЛЯ_ЗАЯВКИ_БАЙТОВОЙ_ФИКСТУРЫ = frozenset(
+    {"идентификатор", "путь", "вид", "категория", "причина"}
+)
 
 
 class UpdateError(ValueError):
@@ -57,10 +66,21 @@ class Declaration:
 
 
 @dataclass(frozen=True)
+class ЗаявкаБайтовойФикстуры:
+    идентификатор: str
+    путь: str
+    вид: str
+    категория: str
+    причина: str
+
+
+@dataclass(frozen=True)
 class UpdatePlan:
     declarations: tuple[Declaration, ...]
     retirements: tuple[object, ...]
     метаданные: tuple[object, ...] = ()
+    байтовые_фикстуры: tuple[ЗаявкаБайтовойФикстуры, ...] = ()
+    отмены_байтовых_фикстур: tuple[object, ...] = ()
 
 
 def _canonical_json(value: object) -> str:
@@ -155,6 +175,68 @@ def _parse_declarations(values: Iterable[object], *, допускается_пу
     return declarations
 
 
+def _разобрать_заявку_байтовой_фикстуры(
+    значение: object,
+    метка: str,
+) -> ЗаявкаБайтовойФикстуры:
+    if not isinstance(значение, dict):
+        raise UpdateError(f"{метка} должна быть объектом")
+    _require_exact_keys(значение, ПОЛЯ_ЗАЯВКИ_БАЙТОВОЙ_ФИКСТУРЫ, метка)
+    идентификатор = значение.get("идентификатор")
+    if (
+        not isinstance(идентификатор, str)
+        or scanner.EXCEPTION_ID_RE.fullmatch(идентификатор) is None
+    ):
+        raise UpdateError(f"{метка} имеет неверный идентификатор")
+    try:
+        путь = scanner._проверить_путь_байтовой_фикстуры(значение.get("путь"))
+    except scanner.PolicyError as ошибка:
+        raise UpdateError(str(ошибка)) from ошибка
+    вид = значение.get("вид")
+    if вид != "неполный-хвост-UTF-8":
+        raise UpdateError(f"{метка} имеет неподдерживаемый вид")
+    категория = значение.get("категория")
+    if категория != "allow.test-fixture":
+        raise UpdateError(f"{метка} имеет неподдерживаемую категорию")
+    причина = значение.get("причина")
+    if (
+        not isinstance(причина, str)
+        or причина != причина.strip()
+        or unicodedata.normalize("NFC", причина) != причина
+        or len(причина) < 20
+    ):
+        raise UpdateError(f"{метка} должна иметь каноническую содержательную причину")
+    return ЗаявкаБайтовойФикстуры(
+        идентификатор,
+        путь,
+        вид,
+        категория,
+        причина,
+    )
+
+
+def _разобрать_заявки_байтовых_фикстур(
+    значения: Iterable[object],
+) -> tuple[ЗаявкаБайтовойФикстуры, ...]:
+    заявки = tuple(
+        _разобрать_заявку_байтовой_фикстуры(
+            значение,
+            f"байтовая фикстура {индекс}",
+        )
+        for индекс, значение in enumerate(значения)
+    )
+    идентификаторы: set[str] = set()
+    пути: set[str] = set()
+    for заявка in заявки:
+        if заявка.идентификатор in идентификаторы:
+            raise UpdateError("коллизия идентификатора байтовой фикстуры")
+        if заявка.путь in пути:
+            raise UpdateError("коллизия пути байтовой фикстуры")
+        идентификаторы.add(заявка.идентификатор)
+        пути.add(заявка.путь)
+    return заявки
+
+
 def _parse_retirement(value: object, label: str) -> object:
     if isinstance(value, scanner.ExactException):
         return value
@@ -197,12 +279,57 @@ def _parse_retirements(values: Iterable[object]) -> tuple[object, ...]:
     return retirements
 
 
+def _разобрать_отмену_байтовой_фикстуры(значение: object, метка: str) -> object:
+    if isinstance(значение, scanner.БайтоваяФикстура):
+        return значение
+    if not isinstance(значение, dict):
+        raise UpdateError(f"{метка} должна быть объектом")
+    try:
+        policy = scanner.parse_policy(
+            {
+                "schema": scanner.СХЕМА_БАЙТОВОЙ_ПОЛИТИКИ,
+                "exceptions": [],
+                "метаданные": [],
+                "байтовые_фикстуры": [значение],
+            }
+        )
+    except scanner.PolicyError as ошибка:
+        raise UpdateError(
+            f"{метка} должна быть точным объектом байтовой политики"
+        ) from ошибка
+    return policy.байтовые_фикстуры[0]
+
+
+def _разобрать_отмены_байтовых_фикстур(
+    значения: Iterable[object],
+) -> tuple[object, ...]:
+    отмены = tuple(
+        _разобрать_отмену_байтовой_фикстуры(
+            значение,
+            f"отмена байтовой фикстуры {индекс}",
+        )
+        for индекс, значение in enumerate(значения)
+    )
+    идентификаторы: set[str] = set()
+    пути: set[str] = set()
+    for отмена in отмены:
+        if отмена.идентификатор in идентификаторы:
+            raise UpdateError("коллизия идентификатора отмены байтовой фикстуры")
+        if отмена.путь in пути:
+            raise UpdateError("коллизия пути отмены байтовой фикстуры")
+        идентификаторы.add(отмена.идентификатор)
+        пути.add(отмена.путь)
+    return отмены
+
+
 def load_update_plan(path: str | Path) -> UpdatePlan:
     manifest = _load_canonical_json(Path(path), "manifest")
     if not isinstance(manifest, dict):
         raise UpdateError("manifest root must be an object")
     schema = manifest.get("schema")
     метаданные = ()
+    исходные_байтовые: object = []
+    исходные_байтовые_отмены: object = []
     if schema == MANIFEST_SCHEMA_V1:
         _require_exact_keys(manifest, MANIFEST_V1_KEYS, "manifest")
         исходные_отмены: object = []
@@ -217,6 +344,16 @@ def load_update_plan(path: str | Path) -> UpdatePlan:
         except наблюдения.ОшибкаМетаданных as ошибка:
             raise UpdateError("неверные заявки метаданных") from ошибка
         метаданные = tuple(manifest["метаданные"])
+    elif schema == СХЕМА_МАНИФЕСТА_ЧЕТВЁРТОЙ_ВЕРСИИ:
+        _require_exact_keys(manifest, ПОЛЯ_МАНИФЕСТА_ЧЕТВЁРТОЙ_ВЕРСИИ, "manifest")
+        исходные_отмены = manifest.get("retirements")
+        исходные_байтовые = manifest.get("байтовые_фикстуры")
+        исходные_байтовые_отмены = manifest.get("отмены_байтовых_фикстур")
+        try:
+            наблюдения.разобрать_заявки(manifest["метаданные"])
+        except наблюдения.ОшибкаМетаданных as ошибка:
+            raise UpdateError("неверные заявки метаданных") from ошибка
+        метаданные = tuple(manifest["метаданные"])
     else:
         raise UpdateError("unsupported manifest schema")
     raw_declarations = manifest.get("declarations")
@@ -224,10 +361,31 @@ def load_update_plan(path: str | Path) -> UpdatePlan:
         raise UpdateError("manifest declarations must be an array")
     if not isinstance(исходные_отмены, list):
         raise UpdateError("manifest retirements must be an array")
+    if not isinstance(исходные_байтовые, list):
+        raise UpdateError("поле байтовые_фикстуры манифеста должно быть массивом")
+    if not isinstance(исходные_байтовые_отмены, list):
+        raise UpdateError("поле отмены_байтовых_фикстур манифеста должно быть массивом")
+    разобранные_байтовые_фикстуры = _разобрать_заявки_байтовых_фикстур(
+        исходные_байтовые
+    )
+    разобранные_отмены = _parse_retirements(исходные_отмены)
+    разобранные_отмены_байтовых_фикстур = _разобрать_отмены_байтовых_фикстур(
+        исходные_байтовые_отмены
+    )
     return UpdatePlan(
-        declarations=_parse_declarations(raw_declarations, допускается_пустой=bool(метаданные)),
-        retirements=_parse_retirements(исходные_отмены),
+        declarations=_parse_declarations(
+            raw_declarations,
+            допускается_пустой=bool(
+                метаданные
+                or разобранные_байтовые_фикстуры
+                or разобранные_отмены
+                or разобранные_отмены_байтовых_фикстур
+            ),
+        ),
+        retirements=разобранные_отмены,
         метаданные=метаданные,
+        байтовые_фикстуры=разобранные_байтовые_фикстуры,
+        отмены_байтовых_фикстур=разобранные_отмены_байтовых_фикстур,
     )
 
 
@@ -279,6 +437,23 @@ def _reject_symlink_components(root: Path, relative: str, label: str) -> None:
             raise UpdateError(f"{label} path contains a symlink")
 
 
+def _отклонить_символические_компоненты_байтового_пути(
+    корень: Path,
+    относительный: str,
+) -> None:
+    текущий = корень
+    for часть in PurePosixPath(относительный).parts:
+        текущий = текущий / часть
+        try:
+            режим = текущий.lstat().st_mode
+        except OSError as ошибка:
+            raise UpdateError("путь байтовой фикстуры отсутствует") from ошибка
+        if stat.S_ISLNK(режим):
+            raise UpdateError(
+                "путь байтовой фикстуры содержит символическую ссылку"
+            )
+
+
 def _load_policy_value(policy_path: Path) -> dict[str, object]:
     value = _load_canonical_json(policy_path, "policy")
     if not isinstance(value, dict):
@@ -326,6 +501,65 @@ def _read_target_text(
         return data.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise UpdateError("declaration path is not UTF-8") from exc
+
+
+def _прочитать_байтовую_цель(
+    корень: Path,
+    заявка: ЗаявкаБайтовойФикстуры,
+    инвентарь: dict[str, object],
+) -> bytes:
+    _отклонить_символические_компоненты_байтового_пути(корень, заявка.путь)
+    запись = инвентарь.get(заявка.путь)
+    if запись is None:
+        raise UpdateError("путь байтовой фикстуры отсутствует в Git-инвентаре")
+    if запись.mode == "120000":
+        raise UpdateError("путь байтовой фикстуры является отслеживаемой символической ссылкой")
+    if запись.mode != "100644":
+        raise UpdateError("путь байтовой фикстуры должен иметь Git-режим 100644")
+    цель = корень / заявка.путь
+    try:
+        режим = цель.lstat().st_mode
+        данные = цель.read_bytes()
+    except OSError as ошибка:
+        raise UpdateError("путь байтовой фикстуры невозможно прочитать") from ошибка
+    if not stat.S_ISREG(режим):
+        raise UpdateError("путь байтовой фикстуры не является обычным файлом")
+    if b"\0" in данные:
+        raise UpdateError("путь байтовой фикстуры содержит NUL")
+    размер_префикса = scanner._размер_префикса_оборванной_кодовой_последовательности(
+        данные
+    )
+    if размер_префикса is None or not 1 <= len(данные) - размер_префикса <= 3:
+        raise UpdateError("байтовая фикстура не оканчивается неполной UTF-8-последовательностью")
+    return данные
+
+
+def _вывести_байтовую_фикстуру(
+    корень: Path,
+    заявка: ЗаявкаБайтовойФикстуры,
+    инвентарь: dict[str, object],
+    кэш_источников: dict[str, bytes],
+) -> object:
+    данные = кэш_источников.get(заявка.путь)
+    if данные is None:
+        данные = _прочитать_байтовую_цель(корень, заявка, инвентарь)
+        кэш_источников[заявка.путь] = данные
+    размер_префикса = scanner._размер_префикса_оборванной_кодовой_последовательности(
+        данные
+    )
+    assert размер_префикса is not None
+    return scanner.БайтоваяФикстура(
+        идентификатор=заявка.идентификатор,
+        путь=заявка.путь,
+        режим="100644",
+        размер=len(данные),
+        хэш="sha256:" + hashlib.sha256(данные).hexdigest(),
+        вид=заявка.вид,
+        размер_префикса=размер_префикса,
+        шестнадцатеричный_хвост=данные[размер_префикса:].hex(),
+        категория=заявка.категория,
+        причина=заявка.причина,
+    )
 
 
 def _derive_exception(
@@ -391,6 +625,21 @@ def _exception_value(exception: object) -> dict[str, object]:
     }
 
 
+def _значение_байтовой_фикстуры(фикстура: object) -> dict[str, object]:
+    return {
+        "идентификатор": фикстура.идентификатор,
+        "путь": фикстура.путь,
+        "режим": фикстура.режим,
+        "размер": фикстура.размер,
+        "хэш": фикстура.хэш,
+        "вид": фикстура.вид,
+        "размер_префикса": фикстура.размер_префикса,
+        "шестнадцатеричный_хвост": фикстура.шестнадцатеричный_хвост,
+        "категория": фикстура.категория,
+        "причина": фикстура.причина,
+    }
+
+
 def _atomic_write(path: Path, content: bytes, expected: bytes, *, проверить_источники=None) -> None:
     descriptor, temporary_name = tempfile.mkstemp(
         dir=path.parent,
@@ -428,6 +677,8 @@ def update_policy(
     *,
     retirements: Iterable[object] = (),
     метаданные: Iterable[object] = (),
+    байтовые_фикстуры: Iterable[object | ЗаявкаБайтовойФикстуры] = (),
+    отмены_байтовых_фикстур: Iterable[object] = (),
 ) -> int:
     input_root = Path(repo_root).absolute()
     root = input_root.resolve()
@@ -436,6 +687,22 @@ def update_policy(
         выбранные = наблюдения.разобрать_заявки(заявки)
     except наблюдения.ОшибкаМетаданных as ошибка:
         raise UpdateError("неверные заявки метаданных") from ошибка
+    разобранные_байтовые_заявки = _разобрать_заявки_байтовых_фикстур(
+        ({
+            "идентификатор": значение.идентификатор,
+            "путь": значение.путь,
+            "вид": значение.вид,
+            "категория": значение.категория,
+            "причина": значение.причина,
+        }
+        if isinstance(значение, ЗаявкаБайтовойФикстуры)
+        else значение
+        for значение in байтовые_фикстуры)
+    )
+    parsed_retirements = _parse_retirements(retirements)
+    разобранные_отмены_байтовых_фикстур = _разобрать_отмены_байтовых_фикстур(
+        отмены_байтовых_фикстур
+    )
     parsed_declarations = _parse_declarations(
         ({
             "id": value.identifier,
@@ -446,9 +713,18 @@ def update_policy(
         }
         if isinstance(value, Declaration)
         else value
-        for value in declarations), допускается_пустой=bool(выбранные)
+        for value in declarations),
+        допускается_пустой=bool(
+            выбранные
+            or разобранные_байтовые_заявки
+            or parsed_retirements
+            or разобранные_отмены_байтовых_фикстур
+        ),
     )
-    parsed_retirements = _parse_retirements(retirements)
+    if {
+        declaration.identifier for declaration in parsed_declarations
+    }.intersection(заявка.идентификатор for заявка in разобранные_байтовые_заявки):
+        raise UpdateError("declaration identifier collision")
     policy = _relative_policy_path(root, input_root, Path(policy_path))
     original = policy.read_bytes()
     value = _load_policy_value(policy)
@@ -460,6 +736,21 @@ def update_policy(
         новые_метаданные = наблюдения.вывести_декларации(заявки, данные_метаданных)
     except наблюдения.ОшибкаМетаданных as ошибка:
         raise UpdateError("источник метаданных не соответствует заявке") from ошибка
+
+    кэш_байтовых_источников: dict[str, bytes] = {}
+    выведенные_байтовые_фикстуры = tuple(
+        _вывести_байтовую_фикстуру(
+            root,
+            заявка,
+            inventory,
+            кэш_байтовых_источников,
+        )
+        for заявка in разобранные_байтовые_заявки
+    )
+    выведенные_по_идентификатору = {
+        фикстура.идентификатор: фикстура
+        for фикстура in выведенные_байтовые_фикстуры
+    }
 
     current_by_id = {
         exception.identifier: exception for exception in current_policy.exceptions
@@ -474,6 +765,32 @@ def update_policy(
             raise UpdateError("policy retirement mismatch")
         retired_ids.add(retirement.identifier)
         изменений += 1
+
+    текущие_байтовые_по_идентификатору = {
+        фикстура.идентификатор: фикстура
+        for фикстура in current_policy.байтовые_фикстуры
+    }
+    отменённые_байтовые_идентификаторы: set[str] = set()
+    for отмена in разобранные_отмены_байтовых_фикстур:
+        существующая = текущие_байтовые_по_идентификатору.get(отмена.идентификатор)
+        желаемая = выведенные_по_идентификатору.get(отмена.идентификатор)
+        if существующая is None:
+            continue
+        if существующая == отмена:
+            if желаемая == существующая:
+                continue
+            отменённые_байтовые_идентификаторы.add(отмена.идентификатор)
+            изменений += 1
+            continue
+        if желаемая is not None and существующая == желаемая:
+            continue
+        raise UpdateError("отмена байтовой фикстуры не совпала с политикой")
+
+    обновлённые_байтовые_фикстуры = [
+        фикстура
+        for фикстура in current_policy.байтовые_фикстуры
+        if фикстура.идентификатор not in отменённые_байтовые_идентификаторы
+    ]
 
     updated_exceptions = [
         exception
@@ -499,6 +816,11 @@ def update_policy(
             inventory,
             text_cache,
         )
+        if any(
+            фикстура.идентификатор == derived.identifier
+            for фикстура in обновлённые_байтовые_фикстуры
+        ):
+            raise UpdateError("policy identifier collision")
         existing_id = existing_by_id.get(derived.identifier)
         if existing_id is not None:
             if existing_id == derived:
@@ -536,6 +858,28 @@ def update_policy(
         existing_by_fingerprint[fingerprint] = derived
         изменений += 1
 
+    байтовые_по_идентификатору = {
+        фикстура.идентификатор: фикстура for фикстура in обновлённые_байтовые_фикстуры
+    }
+    байтовые_по_пути = {
+        фикстура.путь: фикстура for фикстура in обновлённые_байтовые_фикстуры
+    }
+    for выведенная in выведенные_байтовые_фикстуры:
+        if выведенная.идентификатор in existing_by_id:
+            raise UpdateError("policy identifier collision")
+        существующая = байтовые_по_идентификатору.get(выведенная.идентификатор)
+        if существующая is not None:
+            if существующая == выведенная:
+                continue
+            raise UpdateError("коллизия идентификатора байтовой политики")
+        существующая_по_пути = байтовые_по_пути.get(выведенная.путь)
+        if существующая_по_пути is not None:
+            raise UpdateError("коллизия пути байтовой политики")
+        обновлённые_байтовые_фикстуры.append(выведенная)
+        байтовые_по_идентификатору[выведенная.идентификатор] = выведенная
+        байтовые_по_пути[выведенная.путь] = выведенная
+        изменений += 1
+
     обновлённые_метаданные = list(current_policy.метаданные)
     по_пути = {запись.путь: запись for запись in обновлённые_метаданные}
     for запись in новые_метаданные:
@@ -555,7 +899,14 @@ def update_policy(
             _exception_value(exception) for exception in updated_exceptions
         ],
     }
-    if value["schema"] == наблюдения.СХЕМА_ПОЛИТИКИ or обновлённые_метаданные:
+    if value["schema"] == scanner.СХЕМА_БАЙТОВОЙ_ПОЛИТИКИ or обновлённые_байтовые_фикстуры:
+        updated_value["schema"] = scanner.СХЕМА_БАЙТОВОЙ_ПОЛИТИКИ
+        updated_value["метаданные"] = наблюдения.сериализовать_декларации(обновлённые_метаданные)
+        updated_value["байтовые_фикстуры"] = [
+            _значение_байтовой_фикстуры(фикстура)
+            for фикстура in обновлённые_байтовые_фикстуры
+        ]
+    elif value["schema"] == наблюдения.СХЕМА_ПОЛИТИКИ or обновлённые_метаданные:
         updated_value["schema"] = наблюдения.СХЕМА_ПОЛИТИКИ
         updated_value["метаданные"] = наблюдения.сериализовать_декларации(обновлённые_метаданные)
     try:
@@ -563,13 +914,19 @@ def update_policy(
     except scanner.PolicyError as exc:
         raise UpdateError("derived policy is invalid") from exc
     encoded = _canonical_json(updated_value).encode("utf-8")
-    if выбранные:
+    if выбранные or кэш_байтовых_источников:
         def проверить_источники():
             актуальный = _inventory_by_path(root)
             for запись in выбранные:
                 сырые = _read_target_text(root, SimpleNamespace(path=запись.путь), актуальный).encode("utf-8")
                 if сырые != данные_метаданных[запись.путь]:
                     raise UpdateError("источник метаданных изменился перед заменой политики")
+            for заявка in разобранные_байтовые_заявки:
+                сырые = _прочитать_байтовую_цель(root, заявка, актуальный)
+                if сырые != кэш_байтовых_источников[заявка.путь]:
+                    raise UpdateError(
+                        "источник байтовой фикстуры изменился перед заменой политики"
+                    )
         _atomic_write(policy, encoded, original, проверить_источники=проверить_источники)
     else:
         _atomic_write(policy, encoded, original)
@@ -624,6 +981,8 @@ def main(argv: list[str] | None = None) -> int:
             plan.declarations,
             retirements=plan.retirements,
             метаданные=plan.метаданные,
+            байтовые_фикстуры=plan.байтовые_фикстуры,
+            отмены_байтовых_фикстур=plan.отмены_байтовых_фикстур,
         )
     except (UpdateError, OSError) as exc:
         print(f"error.policy-update: {exc}", file=sys.stderr)

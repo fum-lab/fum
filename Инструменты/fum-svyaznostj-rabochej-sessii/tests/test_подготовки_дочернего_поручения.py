@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import sys
 import subprocess
+import tempfile
 import unittest
 from unittest import mock
 
@@ -66,6 +67,34 @@ class ФорматПостановки(unittest.TestCase):
                 (текст, текст.encode(), 'Планирование/другая.md')]:
             with сам.subTest(исходный=исходный, сырые=сырые, путь=путь), сам.assertRaises(ValueError):
                 сам.сверить(исходный, сырые, путь='Планирование/постановка.md', выбранный=путь)
+
+    def test_будущие_материалы_явно_отказывают_байтовой_политике_без_доказанного_режима(сам):
+        путь = 'fixtures/incomplete.jsonl'
+        содержимое = b'clean\n\xf0\x9f'
+        политика = {
+            'schema': 'fum.machine-local-path-policy.v4',
+            'exceptions': [],
+            'метаданные': [],
+            'байтовые_фикстуры': [{
+                'идентификатор': 'incomplete-jsonl-tail',
+                'путь': путь,
+                'режим': '100644',
+                'размер': len(содержимое),
+                'хэш': 'sha256:' + hashlib.sha256(содержимое).hexdigest(),
+                'вид': 'неполный-хвост-UTF-8',
+                'размер_префикса': len(содержимое) - 2,
+                'шестнадцатеричный_хвост': 'f09f',
+                'категория': 'allow.test-fixture',
+                'причина': 'Закрепляет точную открытую фикстуру неполного UTF-8-хвоста.',
+            }],
+        }
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            файл = корень / 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json'
+            файл.parent.mkdir(parents=True)
+            файл.write_bytes((json.dumps(политика, ensure_ascii=False, indent=2) + '\n').encode())
+            with сам.assertRaisesRegex(ValueError, 'байтов'):
+                сам.м.публикация(корень, {путь: содержимое})
 
 
 class ПодготовкаПоручения(unittest.TestCase):

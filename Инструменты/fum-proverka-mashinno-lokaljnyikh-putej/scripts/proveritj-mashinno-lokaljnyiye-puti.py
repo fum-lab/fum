@@ -16,6 +16,7 @@ import stat
 import subprocess
 import sys
 import tokenize
+import unicodedata
 from dataclasses import dataclass, replace
 from pathlib import Path, PurePosixPath
 from typing import Iterable
@@ -35,12 +36,29 @@ import метаданные_наблюдений as метаданные  # noqa
 
 
 POLICY_SCHEMA = "fum.machine-local-path-policy.v2"
+СХЕМА_БАЙТОВОЙ_ПОЛИТИКИ = "fum.machine-local-path-policy.v4"
 POLICY_KEYS = frozenset({"schema", "exceptions"})
+ПОЛЯ_БАЙТОВОЙ_ПОЛИТИКИ = POLICY_KEYS | {"метаданные", "байтовые_фикстуры"}
 EXCEPTION_KEYS = frozenset(
     {"id", "path", "kind", "line_sha256", "count", "category", "reason"}
 )
+ПОЛЯ_БАЙТОВОЙ_ФИКСТУРЫ = frozenset(
+    {
+        "идентификатор",
+        "путь",
+        "режим",
+        "размер",
+        "хэш",
+        "вид",
+        "размер_префикса",
+        "шестнадцатеричный_хвост",
+        "категория",
+        "причина",
+    }
+)
 EXCEPTION_ID_RE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 SHA256_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
+ШАБЛОН_БАЙТОВОГО_ХВОСТА = re.compile(r"(?:[0-9a-f]{2}){1,3}\Z")
 MAX_EXCEPTION_COUNT = 16
 POLICY_CATEGORY_BASES = frozenset(
     {
@@ -155,9 +173,24 @@ class ExactException:
 
 
 @dataclass(frozen=True)
+class БайтоваяФикстура:
+    идентификатор: str
+    путь: str
+    режим: str
+    размер: int
+    хэш: str
+    вид: str
+    размер_префикса: int
+    шестнадцатеричный_хвост: str
+    категория: str
+    причина: str
+
+
+@dataclass(frozen=True)
 class Policy:
     exceptions: tuple[ExactException, ...]
     метаданные: tuple[метаданные.ДекларацияМетаданных, ...] = ()
+    байтовые_фикстуры: tuple[БайтоваяФикстура, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -224,12 +257,36 @@ def _validate_policy_path(raw_path: object) -> str:
     return raw_path
 
 
+def _проверить_путь_байтовой_фикстуры(сырой_путь: object) -> str:
+    путь = _validate_policy_path(сырой_путь)
+    if unicodedata.normalize("NFC", путь) != путь:
+        raise PolicyError("путь байтовой фикстуры должен быть в канонической NFC-форме")
+    return путь
+
+
+def _размер_префикса_оборванной_кодовой_последовательности(данные: bytes) -> int | None:
+    try:
+        данные.decode("utf-8")
+    except UnicodeDecodeError as ошибка:
+        if ошибка.reason != "unexpected end of data" or ошибка.end != len(данные):
+            return None
+        try:
+            данные[:ошибка.start].decode("utf-8")
+        except UnicodeDecodeError:
+            return None
+        return ошибка.start
+    return None
+
+
 def parse_policy(value: object) -> Policy:
     if not isinstance(value, dict):
         raise PolicyError("policy root must be an object")
-    новая = value.get("schema") == метаданные.СХЕМА_ПОЛИТИКИ
-    _require_exact_keys(value, POLICY_KEYS | {"метаданные"} if новая else POLICY_KEYS, "policy")
-    if value.get("schema") != POLICY_SCHEMA and not новая:
+    схема = value.get("schema")
+    новая = схема == метаданные.СХЕМА_ПОЛИТИКИ
+    байтовая = схема == СХЕМА_БАЙТОВОЙ_ПОЛИТИКИ
+    ожидаемые = ПОЛЯ_БАЙТОВОЙ_ПОЛИТИКИ if байтовая else POLICY_KEYS | {"метаданные"} if новая else POLICY_KEYS
+    _require_exact_keys(value, ожидаемые, "policy")
+    if схема != POLICY_SCHEMA and not новая and not байтовая:
         raise PolicyError("unsupported policy schema")
     raw_exceptions = value.get("exceptions")
     if not isinstance(raw_exceptions, list):
@@ -287,18 +344,105 @@ def parse_policy(value: object) -> Policy:
                 reason=reason.strip(),
             )
         )
+    сырые_байтовые_фикстуры = value["байтовые_фикстуры"] if байтовая else []
+    if not isinstance(сырые_байтовые_фикстуры, list):
+        raise PolicyError("байтовые_фикстуры должны быть массивом")
+    байтовые_фикстуры: list[БайтоваяФикстура] = []
+    байтовые_пути: set[str] = set()
+    for индекс, сырая_фикстура in enumerate(сырые_байтовые_фикстуры):
+        if not isinstance(сырая_фикстура, dict):
+            raise PolicyError(f"байтовая фикстура {индекс} должна быть объектом")
+        _require_exact_keys(
+            сырая_фикстура,
+            ПОЛЯ_БАЙТОВОЙ_ФИКСТУРЫ,
+            f"байтовая фикстура {индекс}",
+        )
+        идентификатор = сырая_фикстура.get("идентификатор")
+        if (
+            not isinstance(идентификатор, str)
+            or EXCEPTION_ID_RE.fullmatch(идентификатор) is None
+            or идентификатор in identifiers
+        ):
+            raise PolicyError(
+                f"байтовая фикстура {индекс} имеет неверный или повторный идентификатор"
+            )
+        identifiers.add(идентификатор)
+        путь = _проверить_путь_байтовой_фикстуры(сырая_фикстура.get("путь"))
+        if путь in байтовые_пути:
+            raise PolicyError(f"байтовая фикстура {индекс} повторяет путь")
+        байтовые_пути.add(путь)
+        режим = сырая_фикстура.get("режим")
+        if режим != "100644":
+            raise PolicyError(f"байтовая фикстура {индекс} имеет неподдерживаемый режим")
+        размер = сырая_фикстура.get("размер")
+        if type(размер) is not int or размер <= 0:
+            raise PolicyError(f"байтовая фикстура {индекс} имеет неверный размер")
+        хэш = сырая_фикстура.get("хэш")
+        if not isinstance(хэш, str) or SHA256_RE.fullmatch(хэш) is None:
+            raise PolicyError(f"байтовая фикстура {индекс} имеет неверный хэш")
+        вид = сырая_фикстура.get("вид")
+        if вид != "неполный-хвост-UTF-8":
+            raise PolicyError(f"байтовая фикстура {индекс} имеет неподдерживаемый вид")
+        размер_префикса = сырая_фикстура.get("размер_префикса")
+        шестнадцатеричный_хвост = сырая_фикстура.get("шестнадцатеричный_хвост")
+        if (
+            type(размер_префикса) is not int
+            or not 0 <= размер_префикса < размер
+            or not isinstance(шестнадцатеричный_хвост, str)
+            or ШАБЛОН_БАЙТОВОГО_ХВОСТА.fullmatch(шестнадцатеричный_хвост) is None
+            or размер_префикса + len(шестнадцатеричный_хвост) // 2 != размер
+            or _размер_префикса_оборванной_кодовой_последовательности(
+                bytes.fromhex(шестнадцатеричный_хвост)
+            )
+            != 0
+        ):
+            raise PolicyError(f"байтовая фикстура {индекс} имеет неверную границу UTF-8")
+        категория = сырая_фикстура.get("категория")
+        if категория != "allow.test-fixture":
+            raise PolicyError(f"байтовая фикстура {индекс} имеет неподдерживаемую категорию")
+        причина = сырая_фикстура.get("причина")
+        if (
+            not isinstance(причина, str)
+            or причина != причина.strip()
+            or unicodedata.normalize("NFC", причина) != причина
+            or len(причина) < 20
+        ):
+            raise PolicyError(f"байтовая фикстура {индекс} должна объяснять узкую причину")
+        байтовые_фикстуры.append(
+            БайтоваяФикстура(
+                идентификатор=идентификатор,
+                путь=путь,
+                режим=режим,
+                размер=размер,
+                хэш=хэш,
+                вид=вид,
+                размер_префикса=размер_префикса,
+                шестнадцатеричный_хвост=шестнадцатеричный_хвост,
+                категория=категория,
+                причина=причина,
+            )
+        )
     try:
-        декларации = метаданные.разобрать_декларации(value["метаданные"]) if новая else ()
+        декларации = метаданные.разобрать_декларации(value["метаданные"]) if новая or байтовая else ()
     except метаданные.ОшибкаМетаданных as ошибка:
         raise PolicyError(str(ошибка)) from ошибка
-    return Policy(exceptions=tuple(exceptions), метаданные=декларации)
+    if байтовые_пути.intersection(запись.путь for запись in декларации):
+        raise PolicyError("путь байтовой фикстуры повторяет декларацию метаданных")
+    return Policy(
+        exceptions=tuple(exceptions),
+        метаданные=декларации,
+        байтовые_фикстуры=tuple(байтовые_фикстуры),
+    )
 
 
 def выбрать_политику(политика: Policy, пути) -> Policy:
     """Полная политика разбирается до отбора; выбранная запись не сокращается."""
     выбранные = frozenset(пути)
-    return Policy(tuple(э for э in политика.exceptions if э.path in выбранные),
-        tuple(э for э in политика.метаданные if э.путь in выбранные))
+    return Policy(
+        tuple(э for э in политика.exceptions if э.path in выбранные),
+        tuple(э for э in политика.метаданные if э.путь in выбранные),
+        tuple(э for э in политика.байтовые_фикстуры if э.путь in выбранные),
+    )
 
 
 def позиции_метаданных(политика: Policy, данные):
@@ -839,6 +983,123 @@ def _policy_display_path(policy_path: Path, repo_root: Path) -> str:
         return policy_path.name
 
 
+def _путь_содержит_символический_компонент(
+    корень: Path,
+    относительный: str,
+) -> bool:
+    текущий = корень
+    for часть in PurePosixPath(относительный).parts:
+        текущий = текущий / часть
+        try:
+            режим = текущий.lstat().st_mode
+        except OSError:
+            return False
+        if stat.S_ISLNK(режим):
+            return True
+    return False
+
+
+def _совпадает_байтовая_фикстура(
+    фикстура: БайтоваяФикстура,
+    режим: str | None,
+    данные: bytes,
+) -> bool:
+    if режим != фикстура.режим or len(данные) != фикстура.размер or b"\0" in данные:
+        return False
+    if "sha256:" + hashlib.sha256(данные).hexdigest() != фикстура.хэш:
+        return False
+    if (
+        данные[фикстура.размер_префикса :].hex()
+        != фикстура.шестнадцатеричный_хвост
+    ):
+        return False
+    return (
+        _размер_префикса_оборванной_кодовой_последовательности(данные)
+        == фикстура.размер_префикса
+    )
+
+
+def сканировать_байты_файла(
+    путь: str,
+    режим: str | None,
+    данные: bytes,
+    политика: Policy,
+    пути_запросов: frozenset[str] = frozenset(),
+) -> tuple[str | None, tuple[Finding, ...], bool, str | None]:
+    """Классифицировать точные байты и открыть только доказанный UTF-8-префикс."""
+    фикстура = next(
+        (элемент for элемент in политика.байтовые_фикстуры if элемент.путь == путь),
+        None,
+    )
+    if b"\0" in данные:
+        категория = (
+            "report.external-source.binary"
+            if _is_external_source(путь)
+            or _это_бинарное_вложение_запроса(путь, пути_запросов)
+            else "error.binary-input"
+        )
+        return (
+            None,
+            (Finding(path=путь, line=0, category=категория),),
+            категория.startswith("error."),
+            None,
+        )
+    try:
+        текст = данные.decode("utf-8")
+    except UnicodeDecodeError:
+        if (
+            фикстура is not None
+            and _совпадает_байтовая_фикстура(фикстура, режим, данные)
+        ):
+            префикс = данные[: фикстура.размер_префикса].decode("utf-8")
+            return (
+                префикс,
+                (
+                    Finding(
+                        path=путь,
+                        line=0,
+                        category=f"{фикстура.категория}.{фикстура.вид}",
+                    ),
+                ),
+                False,
+                фикстура.идентификатор,
+            )
+        категория = (
+            "report.external-source.non-utf8"
+            if _is_external_source(путь)
+            else "error.non-utf8-input"
+        )
+        return (
+            None,
+            (Finding(path=путь, line=0, category=категория),),
+            категория.startswith("error."),
+            None,
+        )
+    return текст, (), False, None
+
+
+def _находки_байтовой_политики(
+    политика: Policy,
+    совпавшие_идентификаторы: frozenset[str],
+    отображаемый_путь_политики: str,
+) -> tuple[list[Finding], bool]:
+    отсутствующие = [
+        фикстура
+        for фикстура in политика.байтовые_фикстуры
+        if фикстура.идентификатор not in совпавшие_идентификаторы
+    ]
+    if not отсутствующие:
+        return [], False
+    return [
+        Finding(
+            path=отображаемый_путь_политики,
+            line=0,
+            category="error.несовпадение-байтовой-фикстуры-политики",
+        )
+        for _фикстура in отсутствующие
+    ], True
+
+
 def _apply_policy(
     candidates: list[Candidate],
     policy: Policy,
@@ -899,6 +1160,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
     fixed_findings: list[Finding] = []
     текстовые_файлы: list[tuple[str, str]] = []
     сырые_файлы: dict[str, bytes] = {}
+    совпавшие_байтовые_фикстуры: set[str] = set()
     inventory_failed = False
     инвентарь = tuple(git_inventory(root))
     запросы = frozenset(
@@ -928,6 +1190,16 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
             continue
 
         absolute = root / entry.path
+        if _путь_содержит_символический_компонент(root, entry.path):
+            inventory_failed = True
+            fixed_findings.append(
+                Finding(
+                    path=entry.path,
+                    line=0,
+                    category="error.символический-компонент-пути-входа",
+                )
+            )
+            continue
         try:
             mode = absolute.lstat().st_mode
         except OSError:
@@ -950,25 +1222,18 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
                 Finding(path=entry.path, line=0, category="error.unreadable-input")
             )
             continue
-        if b"\0" in data:
-            category = (
-                "report.external-source.binary"
-                if _is_external_source(entry.path) or _это_бинарное_вложение_запроса(entry.path, запросы)
-                else "error.binary-input"
-            )
-            fixed_findings.append(Finding(path=entry.path, line=0, category=category))
-            inventory_failed = inventory_failed or category.startswith("error.")
-            continue
-        try:
-            text = data.decode("utf-8")
-        except UnicodeDecodeError:
-            category = (
-                "report.external-source.non-utf8"
-                if _is_external_source(entry.path)
-                else "error.non-utf8-input"
-            )
-            fixed_findings.append(Finding(path=entry.path, line=0, category=category))
-            inventory_failed = inventory_failed or category.startswith("error.")
+        text, байтовые_находки, байтовый_отказ, совпавший = сканировать_байты_файла(
+            entry.path,
+            entry.mode,
+            data,
+            policy,
+            запросы,
+        )
+        fixed_findings.extend(байтовые_находки)
+        inventory_failed = inventory_failed or байтовый_отказ
+        if совпавший is not None:
+            совпавшие_байтовые_фикстуры.add(совпавший)
+        if text is None:
             continue
         текстовые_файлы.append((entry.path, text))
         сырые_файлы[entry.path] = data
@@ -999,6 +1264,13 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
         policy,
         policy_display,
     )
+    находки_байтовой_политики, отказ_байтовой_политики = _находки_байтовой_политики(
+        policy,
+        frozenset(совпавшие_байтовые_фикстуры),
+        policy_display,
+    )
+    policy_findings.extend(находки_байтовой_политики)
+    policy_failed = policy_failed or отказ_байтовой_политики
     findings = sorted(
         {
             *fixed_findings,
