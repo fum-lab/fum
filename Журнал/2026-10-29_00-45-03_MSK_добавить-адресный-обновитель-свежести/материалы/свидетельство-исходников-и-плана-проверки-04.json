@@ -1,0 +1,68 @@
+{
+  "base_head": "9f2a862a7539e4547b142f3d50a5abc86c3f49fa",
+  "names_primitive": {
+    "declaration": "static func проверитьПуть(_ путь: String) throws",
+    "source_blob": "28cb87599896d29719d5bfa1e2d665aa8b4fcaaf",
+    "source_commit": "3e4ad89c49ef17fd6c377698f7828351aecfa051",
+    "source_path": "iskhodniki/aktualizaciya-putej/proverka-imyon.swift"
+  },
+  "private_originals": {
+    "manifests": [
+      {
+        "name": "свидетельство-исходников-и-плана-проверки.json",
+        "sha256": "cb8dabb1107b3e70b2406d9a6c37c42d5e6b3fd4f5cfe5670d916618df0eda2f"
+      },
+      {
+        "name": "свидетельство-исходников-и-плана-проверки-02.json",
+        "sha256": "2726707b8539ffef14a8d0d99aa8e82f2994abb0161bbc64b0c94cd9b185bfec"
+      },
+      {
+        "name": "свидетельство-исходников-и-плана-проверки-03.json",
+        "sha256": "9a15813b99ffc791ce22f6ec92d11a1b309b2de504922fe6534e987ba26a498c"
+      }
+    ],
+    "profile_sha256": "d30f04e3d75625bf08408e0e0683b429aad0649a61c8ba6bc3cba7a576802729",
+    "storage": "побайтные оригиналы сохранены снаружи репозитория в каталоге владельца 0700; локальный адрес опущен"
+  },
+  "profile_summary": {
+    "path": "Журнал/2026-10-29_00-45-03_MSK_добавить-адресный-обновитель-свежести/материалы/профиль-адресного-обновления-сводка.json",
+    "raw_profile_sha256": "d30f04e3d75625bf08408e0e0683b429aad0649a61c8ba6bc3cba7a576802729",
+    "sha256": "6828537fb7116fbc60f89cc64b15cdef5200c079decbec26c9c6fbb39a1e08bc",
+    "runner_uuid": "50930a48-e837-4e43-8435-ad545c1ab74f"
+  },
+  "schema": "fum.swift-source-test-manifest.v4",
+  "session_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "sources": [
+    {
+      "path": "Инструменты/fum-svezhestj-markdown/swift/Package.swift",
+      "sha256": "46f219257a93f7a41cd232b9b3366b68312f528342f87b6cbdd6103c275b44a0"
+    },
+    {
+      "path": "Инструменты/fum-svezhestj-markdown/swift/Sources/ОбновительСвежести/ОбновительСвежести.swift",
+      "sha256": "0af71fb3319dd1918f665315d85cd0004f1e444b929aaa6d3824315926438574"
+    },
+    {
+      "path": "Инструменты/fum-svezhestj-markdown/swift/Sources/ОбновитьСвежесть/main.swift",
+      "sha256": "187f9cb4464b96af9bb8f6a4c9af10e5c5d3f5cb7258a0de21a444313ce19cea"
+    },
+    {
+      "path": "Инструменты/fum-svezhestj-markdown/swift/Tests/ОбновительСвежестиTests/ТестыОбновителяСвежести.swift",
+      "sha256": "de4281c95021d1236d1124ef14efc7497a91145d1af6bbd7db7ca04eaf925fbe"
+    },
+    {
+      "path": "Журнал/2026-10-29_00-45-03_MSK_добавить-адресный-обновитель-свежести/материалы/профиль-адресного-обновления.py",
+      "sha256": "55618cc1081a97f125636710f8d8aba9c61b7b31ba46f3cde864a310f13c7361"
+    }
+  ],
+  "supersedes": "свидетельство-исходников-и-плана-проверки-03.json",
+  "test": {
+    "class": "адресная",
+    "receipt_path": "Журнал/2026-10-29_00-45-03_MSK_добавить-адресный-обновитель-свежести/материалы/запуски-проверок/15_1aee7fb3-373a-41e1-9a47-38b1dee35ba9.json",
+    "receipt_sha256": "ddc503f4bb8613e20c9e67e9a2a95cba1f950394305c53dac0a2822f1988ebf6",
+    "result": {
+      "status": "успешно",
+      "snapshot_sha256": "4c0ea4f2af57cd0f05c1be52250c2ae38252d60124f7abab701437bb279ad04b"
+    },
+    "run_uuid": "1aee7fb3-373a-41e1-9a47-38b1dee35ba9"
+  }
+}
