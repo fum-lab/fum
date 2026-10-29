@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import Testing
 import КонтейнерНаблюдений
 @testable import КомпозицияНаблюдений
@@ -98,6 +99,7 @@ struct ПроверкиЦиклаВводаJSONL {
             после: первый.идентификатор, история: история, операции: операции)
         guard case .неизвестныйИсход(let идентификатор, let хэш, let диагностика) = неизвестно,
               let идентификатор, let хэш else { Issue.record("Ожидался неизвестный исход с привязкой"); return }
+        print("Неизвестный исход: история=\(история.path), идентификатор=\(идентификатор), sha256=\(хэш), стадия=\(диагностика.стадия), причина=\(диагностика.причина)")
         #expect(диагностика.стадия == .добавление)
         #expect(диагностика.причина == .другая)
         #expect(try цикл.подтвердить(идентификатор, sha256Пакета: хэш, история: история))
@@ -105,7 +107,9 @@ struct ПроверкиЦиклаВводаJSONL {
     }
 }
 
-private enum ОшибкаПроверкиВвода: Error { case нетПакета(ИсходВводаJSONL), сбойСинхронизации }
+private enum ОшибкаПроверкиВвода: Error {
+    case нетПакета(ИсходВводаJSONL), сбойСинхронизации, невозможноРазрешить(Int32), путьИзменён
+}
 
 private func записанныйПакет(_ исход: ИсходВводаJSONL) throws -> СсылкаПакетаВводаJSONL {
     guard case .записано(let ссылка) = исход else { throw ОшибкаПроверкиВвода.нетПакета(исход) }
@@ -113,20 +117,23 @@ private func записанныйПакет(_ исход: ИсходВводаJS
 }
 
 private func временнаяИсторияВвода() throws -> URL {
+    let адрес: URL
     if let путь = ProcessInfo.processInfo.environment["ФУМА_ДИАГНОСТИЧЕСКАЯ_ИСТОРИЯ"] {
         let родитель = URL(fileURLWithPath: путь, isDirectory: true)
-        let новый = родитель.appendingPathComponent("fuma-case-" + UUID().uuidString, isDirectory: true)
-        try FileManager.default.createDirectory(
-            at: новый, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
-        let адрес = новый.resolvingSymlinksInPath()
-        print("Приватная синтетическая история: \(адрес.path)")
-        return адрес
+        адрес = родитель.appendingPathComponent("fuma-case-" + UUID().uuidString, isDirectory: true)
+    } else {
+        адрес = FileManager.default.temporaryDirectory.appendingPathComponent(
+            "fuma-vvod-jsonl-" + UUID().uuidString, isDirectory: true)
     }
-    let адрес = FileManager.default.temporaryDirectory.appendingPathComponent(
-        "fuma-vvod-jsonl-" + UUID().uuidString, isDirectory: true)
     try FileManager.default.createDirectory(
         at: адрес, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
-    let физический = адрес.resolvingSymlinksInPath()
+    guard let указатель = realpath(адрес.path, nil) else {
+        throw ОшибкаПроверкиВвода.невозможноРазрешить(errno)
+    }
+    defer { free(указатель) }
+    let путь = String(cString: указатель)
+    let физический = URL(fileURLWithPath: путь, isDirectory: true)
+    guard физический.path == путь else { throw ОшибкаПроверкиВвода.путьИзменён }
     print("Приватная синтетическая история: \(физический.path)")
     return физический
 }
