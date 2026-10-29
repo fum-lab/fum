@@ -13,19 +13,22 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../КонтейнерНаблюдений"),
-        .package(path: "../Git")
+        .package(path: "../Git"),
+        .package(path: "../АрхивныйСнимокЗадачи")
     ],
     targets: [
         .target(
             name: "КомпозицияНаблюдений",
             dependencies: [
                 .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
-                .product(name: "НаблюдательРепозитория", package: "Git")
+                .product(name: "НаблюдательРепозитория", package: "Git"),
+                .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
             ],
             swiftSettings: строгиеНастройки),
         .testTarget(
-            name: "КомпозицияНаблюденийTests",
+            name: "FUMAObservationCompositionTests",
             dependencies: ["КомпозицияНаблюдений"],
+            path: "Tests/КомпозицияНаблюденийTests",
             swiftSettings: строгиеНастройки)
     ],
     swiftLanguageModes: [.v6])
