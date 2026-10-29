@@ -322,7 +322,7 @@
     "wrapper после чтения не привязывается повторным name/stat сравнением к тому же inode",
     "закрытый randomized temp перед linkat не открывается повторно и не привязывается к сохранённым dev/ino",
     "ошибки close read-only descriptor для wrapper, каталогов и target по-прежнему игнорируются",
-    "SIGPIPE и post-install stdout проверены только bounded closed-stdout fixture; cleanup unlink/fsync/close остаются UNKNOWN/source-only/not rollout-ready и не GREEN",
+    "bounded fixture с exec 1>&- динамически проверяет только закрытый stdout/EBADF и exit 74; SIG_IGN статически проверен в исходнике C и C успешно скомпилирован, но EPIPE/SIGPIPE динамически не проверялись; cleanup unlink/fsync/close остаются UNKNOWN/source-only/not rollout-ready и не GREEN",
     "отключённые Python, ROOT JSONL, общий smoke и Journal-проверки не являются GREEN",
     "локальные коммиты и target не означают push, ROOT-приёмку, интеграцию или production"
   ]
