@@ -1,7 +1,7 @@
 {
   "схема": "fum.квитанция-ограниченной-установки-локального-входа-агента.1",
   "версия": 1,
-  "зафиксировано": "2026-10-29T09:47:09+04:00",
+  "зафиксировано": "2026-10-29T09:59:00+04:00",
   "корневойUUID": "01a17869-c953-7163-bb76-21716549be02",
   "режим": "локальный-source-json-профиль",
   "рабочаяСессия": {
@@ -12,6 +12,10 @@
     "деревоКоммитаS": "c27ec37c29bd2007427dd4812638223bbf3052f7",
     "итоговыйКоммитИсходниковS2": "730fa5115e60e82d688340019c7652081b6ae161",
     "деревоКоммитаS2": "1e81e9184db087a9996180160462acade035c3a5",
+    "коммитУстановкиB": "9938d36dc2a52add83715dd61c11fea123d5973d",
+    "деревоКоммитаB": "1dac486be2e6bbaf0a71bf709077413d1e00ae8f",
+    "итоговыйКоммитУстановщикаC": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+    "деревоКоммитаC": "43c63ae4f44d939f5588921b1deacc0d2539defb",
     "единственныйПисательПодтверждён": true,
     "авторИСоздатель": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>"
   },
@@ -56,9 +60,10 @@
     },
     "установщик": {
       "путь": "iskhodniki/aktualizaciya-putej/ustanovsjhik-lokaljnogo-vkhoda-agenta.swift",
-      "коммит": "730fa5115e60e82d688340019c7652081b6ae161",
-      "blob": "824f2b84036075d5a853bce2b8d74f24e364a4a2",
-      "sha256": "a3c106ff14af6f19b9e6ff057629dd99096a6bf0ab745e361a054d0404a81fac"
+      "коммит": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+      "дерево": "43c63ae4f44d939f5588921b1deacc0d2539defb",
+      "blob": "08c49b1a59254c515305aaf23f19218224c866c9",
+      "sha256": "4eddaf40ce7e41f84cab7d70720d80267ff9d34618fed1851d8e1710b299d381"
     },
     "проверкиУстановщика": {
       "путь": "proverki/aktualizaciya-putej/proverki-ustanovsjhika-lokaljnogo-vkhoda-agenta.swift",
@@ -125,7 +130,9 @@
           "устаревшийХэшКорняОтказываетДоЭффектаНаЦель"
         ],
         "послеS2НеПовторялись": true,
-        "основаниеНеповтора": "S2 меняет только conditional CLI open(path) на open(путь); библиотечный код тестов неизменен"
+        "послеCНеПовторялись": true,
+        "основаниеНеповтораS2": "S2 меняет только conditional CLI open(path) на open(путь); библиотечный код тестов неизменен",
+        "основаниеНеповтораC": "явный repair-resume запретил tests; cleanup/output fault paths не объявлены GREEN"
       },
       {
         "имя": "direct-cli-compile",
@@ -139,13 +146,40 @@
           "коммит": "730fa5115e60e82d688340019c7652081b6ae161",
           "изменение": "open(path, ...) → open(путь, ...)"
         },
-        "итоговаяПопыткаПослеRepair": {
+        "успешнаяПопыткаS2ПередПилотом": {
           "исход": 0,
           "stdoutБайтов": 0,
           "stderrБайтов": 0,
           "binarySHA256": "42df4cdd123848b1d3c5f7dd3390bdaf4c185baebfd12047a4d922cd098423ec",
           "binaryБайтов": 266968
+        },
+        "успешнаяПопыткаCБезЗапускаБинарника": {
+          "коммитИсходников": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+          "деревоИсходников": "43c63ae4f44d939f5588921b1deacc0d2539defb",
+          "исход": 0,
+          "stdoutБайтов": 0,
+          "stderrБайтов": 0,
+          "binarySHA256": "cbef9cac64a75a8fbb5d63367f2af706c905d7265dda0dd20444bdb93abd75e7",
+          "binaryБайтов": 283592,
+          "бинарникЗапускалсяНаActualTarget": false,
+          "бинарникЗапускалсяТолькоВИзолированномFixture": true
         }
+      },
+      {
+        "имя": "bounded-negative-CLI-closed-stdout-C",
+        "команда": "/bin/sh -c 'exec 1>&-; exec \"$@\"' fum-closed-stdout /tmp/fum-local-entry.IPoclE/ustanovsjhik-lokaljnogo-vkhoda-agenta --корень /tmp/fum-local-entry.IPoclE/stdout-fixture --обёртка /tmp/fum-local-entry.IPoclE/stdout-fixture/pravila/proiskhozhdeniye-lokaljnogo-vkhoda-agenta.json",
+        "binarySHA256": "cbef9cac64a75a8fbb5d63367f2af706c905d7265dda0dd20444bdb93abd75e7",
+        "исход": 74,
+        "ожидаемыйИсход": 74,
+        "stderrБайтов": 177,
+        "stderrSHA256": "4517ef4d7e7c14b6f0444715fb8844b55f2aa723ac7b93f5a647d413df8ed6af",
+        "fixtureTargetSHA256До": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81",
+        "fixtureTargetSHA256После": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81",
+        "fixtureTargetStatДо": "16777236:153895305:3210:100600",
+        "fixtureTargetStatПосле": "16777236:153895305:3210:100600",
+        "временныеФайлыПосле": [],
+        "actualTargetЗапускался": false,
+        "граница": "проверена только changed post-install/output ветвь; cleanup fault paths не проверялись"
       }
     ],
     "отключённые": [
@@ -168,12 +202,24 @@
         "имя": "отчётная-Journal-обёртка",
         "статус": "не создавалась и не GREEN",
         "основание": "Journal явно вне allowlist"
+      },
+      {
+        "имя": "fault-injection-cleanup-unlink-fsync-close",
+        "статус": "не запускалась и не GREEN",
+        "основание": "ветви остаются UNKNOWN/source-only/not rollout-ready; инженерия cleanup fault injection явно отложена"
       }
     ]
   },
   "пилот": {
     "команда": "/tmp/fum-local-entry.IPoclE/ustanovsjhik-lokaljnogo-vkhoda-agenta --корень /Users/fum/.codex/worktrees/lokaljnyij-vkhod-prinyataya-osnova/FUM --обёртка /Users/fum/.codex/worktrees/lokaljnyij-vkhod-prinyataya-osnova/FUM/pravila/proiskhozhdeniye-lokaljnogo-vkhoda-agenta.json",
+    "исполняемыйКоммитИсходников": "730fa5115e60e82d688340019c7652081b6ae161",
+    "исполняемыйInstallerBlob": "824f2b84036075d5a853bce2b8d74f24e364a4a2",
+    "исполняемыйInstallerSHA256": "a3c106ff14af6f19b9e6ff057629dd99096a6bf0ab745e361a054d0404a81fac",
+    "исполняемыйBinarySHA256": "42df4cdd123848b1d3c5f7dd3390bdaf4c185baebfd12047a4d922cd098423ec",
     "числоРеальныхЗапусковЦели": 1,
+    "послеКоммитаCНеПовторялся": true,
+    "binaryCНеЗапускалсяНаActualTarget": true,
+    "binaryCЗапускалсяТолькоВИзолированномFixture": true,
     "доЗапуска": {
       "цельОтсутствовала": true,
       "цельНеБылаSymlink": true,
@@ -222,6 +268,9 @@
     "передУспешнымTargetedTest": "около 1.2 GiB свободно",
     "privateBuildScratchMiB": 248,
     "послеПилотаСвободноKiB": 960088,
+    "privateScratchMiBПослеCompileC": 249,
+    "послеCompileCСвободноKiB": 932192,
+    "послеBoundedOutputCheckСвободноKiB": 935084,
     "чужиеКэшиНеОчищались": true
   },
   "отклонения": [
@@ -253,6 +302,10 @@
     "fsync использован как требовалось, но не является macOS F_FULLFSYNC",
     "принятый renderer сохраняет окно TOCTOU между lstat корневого AGENTS.md и Data(contentsOf:)",
     "ветвь EEXIST реализована с точным no-follow сравнением, но отдельная детерминированная race-инъекция в этот ограниченный набор не включена",
+    "wrapper после чтения не привязывается повторным name/stat сравнением к тому же inode",
+    "закрытый randomized temp перед linkat не открывается повторно и не привязывается к сохранённым dev/ino",
+    "ошибки close read-only descriptor для wrapper, каталогов и target по-прежнему игнорируются",
+    "SIGPIPE и post-install stdout проверены только bounded closed-stdout fixture; cleanup unlink/fsync/close остаются UNKNOWN/source-only/not rollout-ready и не GREEN",
     "отключённые Python, ROOT JSONL, общий smoke и Journal-проверки не являются GREEN",
     "локальные коммиты и target не означают push, ROOT-приёмку, интеграцию или production"
   ]
