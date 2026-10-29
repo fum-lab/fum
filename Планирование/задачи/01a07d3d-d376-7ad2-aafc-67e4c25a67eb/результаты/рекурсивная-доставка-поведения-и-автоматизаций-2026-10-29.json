@@ -1,0 +1,32 @@
+{
+  "схема": "fum.рекурсивная-доставка-поведения-и-автоматизаций.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дата": "2026-10-29",
+  "человеческие_сообщения": [
+    {"native_message_id": "01a1878f-f461-7872-9579-a1a76f44d83f", "текст": "Dumayu nam stoit opisatj, formalizovatj i podderzhivatj mekhanizm dostavki obsjhego povedeniya vsem subagentam. Naprimer, yesli tebe nuzhno zabotitjsya o svoikh dochernikh agentakh, to i tvoim dochernim tozhe nuzhno, eto dolzhno byitj elementom obsjhej pamyati pravil.\n"},
+    {"native_message_id": "01a18790-f20d-76a3-9ab2-ff925d909d01", "текст": "Nam nuzhno prosleditj i obespechitj mekhanizm dostavki novyikh avtomatizacij tuda.\n"},
+    {"native_message_id": "01a18791-2378-7b51-88e4-b0f48e606d4f", "текст": "Na osnove obsjhej praktiki.\n"}
+  ],
+  "решение": {
+    "rules": {"объём": "нормативная рекурсивная доставка общего поведения; непосредственный родитель отвечает за детей на каждом уровне", "command_ID": "exec-d5754c13-c50c-4df6-b4cf-6c10587d4039", "передача": "completed; ACK и готовность не доказываются"},
+    "instruments": {"объём": "техническая доставка поведения и автоматизаций с повторным использованием selfupdate, reverse, ACK и доски", "command_ID": "exec-3dc65c84-fd96-4185-8202-89f15aa7963b", "передача": "completed; ACK и готовность не доказываются"},
+    "состояния": ["доступно", "доставлено", "применимость и собственный read/applied ACK", "первое фактическое использование"],
+    "ROOT": "не универсальный рутинный исполнитель дочерних направлений",
+    "готовая_реализация": "не заявляется"
+  },
+  "issue_464": {
+    "url": "https://github.com/fum-lab/fum/issues/464",
+    "состояние": "open",
+    "body_байтов": 4713,
+    "body_sha256": "7c83d17e1d368458a09cdb293dd3f99b45e8d83047287be5a48d569a03b6211a",
+    "комментарий_id": 6496166824,
+    "комментарий_байтов": 1734,
+    "комментарий_sha256": "e979be8ee174f1fc76827b80f3255ab8c9b3946275a5ecdb1f3eb92b835b9974",
+    "собственная_копия": "Источники/URL/https/github.com/fum-lab/fum/issues/464/снимок-issue-и-комментария.json",
+    "собственная_копия_sha256": "a15490d49aaab4d0958dd7051899102617080fb6eb81a45fb908f7dcf54c5aa1",
+    "сохранение_владельцем_в_Git": "UNKNOWN: private intent/outcome существуют, но в адресно проверенных областях двух refs Instruments полные body и комментарий не обнаружены; иные refs и пути не исключены",
+    "граница": "собственная копия текущей задачи не является доказательством сохранения владельцем или ROOT-интеграции"
+  },
+  "issue_328": "Инициативное выявление потребности ремонта уточнено в существующем комментарии 6496132364; №464 предназначена для технического маршрута доставки, а не второго выбора работы.",
+  "границы": "Общая практика указана человеком как основание; самостоятельное внешнее исследование в этом этапе не проведено. ROOT JSONL, RAW, Python и тесты не запускались и не читались; чужие деревья и refs не изменялись."
+}
