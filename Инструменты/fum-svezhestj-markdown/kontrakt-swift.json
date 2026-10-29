@@ -11,8 +11,8 @@
     "Инструменты/fum-svezhestj-markdown/tests/proverki-svezhesti-markdown.swift",
     "Инструменты/fum-svezhestj-markdown/kontrakt-swift.json"
   ],
-  "scope": "Один обычный отслеживаемый Markdown по явным physical root и relative path, strictUTF8, input/output<=1MiB. CRLF/CR→LF, SHA только canonical body без правильного последнего блока, старое время при неизменном SHA, изменённое время Europe/Moscow. Ограждённые маркеры/прежние блоки являются содержимым; malformed final/unclosed fence fail closed. Повтор без содержательной перемены идемпотентен",
-  "unsupported": "Никакого общего обхода/NAV/index. Канонические Journal/<session>/отчёт.md и ChatGPT share archive paths закрыто отклоняются: специальные CHECK-RUNS/archive правила не портируются. Первичная дата чистого файла из Git-истории не поддерживается; применяется текущее Europe/Moscow. Это не полный Python-parity",
+  "scope": "Один обычный отслеживаемый Markdown по явным physical root и relative path, strictUTF8, input/output<=1MiB. CRLF/CR→LF, SHA только canonical body без правильного последнего блока, старое время при неизменном SHA, изменённое время Europe/Moscow. Маркеры внутри закрытых оград являются содержимым. Прежние блоки снаружи оград остаются в body при наличии корректной новой конечной метки; из SHA исключается только эта конечная метка. Malformed final/unclosed fence fail closed. Повтор без содержательной перемены идемпотентен",
+  "unsupported": "Никакого общего обхода/NAV/index. Канонические Journal/<session>/отчёт.md и ChatGPT share archive paths закрыто отклоняются: специальные CHECK-RUNS/archive правила не портируются. Исторический корректный блок снаружи оград и обычный текст после него без новой корректной конечной метки — известный отказ без записи; поддержка этого случая требует отдельного этапа. Первичная дата чистого файла из Git-истории не поддерживается; применяется текущее Europe/Moscow. Это не полный Python-parity",
   "interface": "argv --корень <physical absolute root> --путь <relative.md> [--проверить]; альтернативно --stdin [--проверить] с ограниченным JSON ровно корень/путь. stdin<=8KiB, без неоднозначных/повторных ключей. stdout JSON result, error code2, unknown post-write effect code3; check stale code1 without writes",
   "precondition": "Caller владеет W и pathname исключительно весь интервал. FD/nofollow/revalidation+atomic rename не является kernel CAS против внешнего несотрудничающего редактора; вне этой предпосылки безопасность гонки UNKNOWN, не GREEN",
   "harness": {
@@ -235,7 +235,7 @@
     "1 mixed CRLF/CR/new recency/SHA/canonical LF без trim",
     "2 тот же SHA и повтор на следующий день сохраняют время и байты",
     "3 изменённый body обновляет время с переходом даты в Europe/Moscow",
-    "4 предыдущий pending/старый block остаётся в SHA; исключается только последний",
+    "4 предыдущий pending/старый block остаётся в SHA перед корректной новой конечной меткой; из SHA исключается только эта конечная метка",
     "5 markers внутри закрытых backtick/tilde fences остаются body; короткая ограда не закрывает длинную",
     "6 malformed последний block отвергается, старый block не fallback",
     "7 unclosed fence отвергается",
@@ -477,6 +477,7 @@
   },
   "deliveryState": "Снимок предметного результата после process4, до Git-доставки. Последующие commit/merge/push/PR/release закрепляются внешней exact3 receipt; здесь они не утверждаются",
   "reviewCorrections": [
-    "RO review обнаружил неопределённые XCODE_SWIFT/XCODE_SWIFTC placeholders; добавлена точная RO resolution и physical target/hash binding без новой сборки/изменения tested Swift source"
+    "RO review обнаружил неопределённые XCODE_SWIFT/XCODE_SWIFTC placeholders; добавлена точная RO resolution и physical target/hash binding без новой сборки/изменения tested Swift source",
+    "Независимый RO review ROOT обнаружил P2: обещание о прежних блоках было шире parser. Scope/unsupported/target4 ограничены фактической поддержкой; исторический блок с последующим текстом без новой конечной метки явно отклоняется. Исправлены только метаданные; Swift source/tests/binary и прежние исходы не менялись, новых compile/test/runtime не было. Поддержка этого случая отложена в отдельный этап"
   ]
 }
