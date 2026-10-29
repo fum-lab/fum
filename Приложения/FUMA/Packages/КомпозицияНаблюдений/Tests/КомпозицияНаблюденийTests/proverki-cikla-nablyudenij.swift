@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import Testing
 @testable import КомпозицияНаблюдений
 
@@ -138,13 +139,21 @@ struct ПроверкиЦиклаНаблюдений {
 
 private func временныйКорень(_ префикс: String) throws -> URL {
     let родитель = FileManager.default.temporaryDirectory
-        .resolvingSymlinksInPath()
-        .standardizedFileURL
     let адрес = родитель.appendingPathComponent(
         префикс + "-" + UUID().uuidString,
         isDirectory: true)
     try создатьКаталог(адрес)
-    return адрес.resolvingSymlinksInPath().standardizedFileURL
+    guard let физический = realpath(адрес.path, nil) else {
+        throw ОшибкаВременногоКорня.невозможноРазрешить(errno)
+    }
+    defer { free(физический) }
+    return URL(
+        fileURLWithPath: String(cString: физический),
+        isDirectory: true)
+}
+
+private enum ОшибкаВременногоКорня: Error, Sendable {
+    case невозможноРазрешить(Int32)
 }
 
 private func создатьКаталог(_ адрес: URL) throws {
