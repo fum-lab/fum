@@ -1,0 +1,9 @@
+{
+  "kind": "local-push-argv-construction",
+  "exit": 1,
+  "commit": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+  "error": "src refspec 1abfd2af20d62b8f80d46c9abd226db2e4b70ebeefs/heads/fum-lab/fum/master does not match any",
+  "diagnosis": "В zsh выражение $root_report_oid:refs разобрано как подстановка с модификатором. Нужна граница переменной ${root_report_oid}:refs либо структурированный argv без shell.",
+  "remoteOutcome": "После отказа ещё не проверен; следующая операция только readback.",
+  "localCommit": "Сохранён, raw single-parent check PASS; не повторять commit."
+}
