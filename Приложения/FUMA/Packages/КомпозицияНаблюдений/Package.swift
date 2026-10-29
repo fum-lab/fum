@@ -1,0 +1,31 @@
+// swift-tools-version: 6.0
+import PackageDescription
+
+let строгиеНастройки: [SwiftSetting] = [
+    .unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors", "-enable-actor-data-race-checks"])
+]
+
+let package = Package(
+    name: "КомпозицияНаблюдений",
+    platforms: [.macOS(.v14)],
+    products: [
+        .library(name: "КомпозицияНаблюдений", targets: ["КомпозицияНаблюдений"])
+    ],
+    dependencies: [
+        .package(path: "../КонтейнерНаблюдений"),
+        .package(path: "../Git")
+    ],
+    targets: [
+        .target(
+            name: "КомпозицияНаблюдений",
+            dependencies: [
+                .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
+                .product(name: "НаблюдательРепозитория", package: "Git")
+            ],
+            swiftSettings: строгиеНастройки),
+        .testTarget(
+            name: "КомпозицияНаблюденийTests",
+            dependencies: ["КомпозицияНаблюдений"],
+            swiftSettings: строгиеНастройки)
+    ],
+    swiftLanguageModes: [.v6])

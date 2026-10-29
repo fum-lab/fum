@@ -1,0 +1,210 @@
+{
+  "схема": "fum.integration-and-coordination-report.1",
+  "дата": "2026-10-29",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "основа": "8756891aa25f82d1fffd979edc5c4c195c6a9084",
+  "граница": "Выбранные нормализованные GitHub данные и точные собственные комментарии; raw HTTP и полный GitHub архив не заявлены.",
+  "доставки": [
+    {
+      "pr": 456,
+      "before": {
+        "url": "https://github.com/fum-lab/fum/pull/456",
+        "number": 456,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Состав\n\n- Связать эффект с типизированными физическими W/ref/OID, отдельно различая ROOT UUID и собственный native UUID исполнителя.\n- Запускать Git/push через структурированные Process.arguments; проверять единственный push destination и исключать неожиданные ref-эффекты от mirror, followTags и recurseSubmodules.\n- Сравнивать refs вместе с OID и сохранять воспроизводимый fresh-process raw-check маршрут: один parent — single checker с tree OID; два — merge checker с независимым ordered-parent/tree expectation; прочее — отказ.\n\n## Проверено\n\n- 17 предыдущих адресных Swift Testing результатов сохранены без повторного запуска; 2 адресных Swift Testing теста PASS на test source SHA `863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd`.\n- ROOT merge `89cdd83223c3498f26b3b81693bf58914ae735d8` и последующие single-parent checkpoints получили отдельные raw-check PASS.\n- Точный normal push `526712eedbdbf37952c9a48206427106731ba6fe` прочитан обратно из собственной ветки; ROOT ref остался `4f4fc05a44fa20f2e15c0f996a5c097767fa75e3`.\n\n## Границы\n\nПоставка остаётся source-only. Production caller и долговечный executor не подключены; ROOT-приёмка ожидается отдельно.",
+        "title": "Уточнить привязку Git и защитить отправку",
+        "base": "fum-lab/fum/master",
+        "base_sha": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+        "head": "fum-lab/fum/koordinaciya/master",
+        "head_sha": "526712eedbdbf37952c9a48206427106731ba6fe",
+        "merge_commit_sha": "01354bbe66abbec83aeae1908befb9a2cf2d9f78",
+        "created_at": "2026-10-29T07:15:47Z",
+        "updated_at": "2026-10-29T07:15:47Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 5,
+        "changed_files": 5,
+        "additions": 2334,
+        "deletions": 16
+      },
+      "after": {
+        "url": "https://github.com/fum-lab/fum/pull/456",
+        "number": 456,
+        "state": "closed",
+        "merged": true,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Состав\n\n- Связать эффект с типизированными физическими W/ref/OID, отдельно различая ROOT UUID и собственный native UUID исполнителя.\n- Запускать Git/push через структурированные Process.arguments; проверять единственный push destination и исключать неожиданные ref-эффекты от mirror, followTags и recurseSubmodules.\n- Сравнивать refs вместе с OID и сохранять воспроизводимый fresh-process raw-check маршрут: один parent — single checker с tree OID; два — merge checker с независимым ordered-parent/tree expectation; прочее — отказ.\n\n## Проверено\n\n- 17 предыдущих адресных Swift Testing результатов сохранены без повторного запуска; 2 адресных Swift Testing теста PASS на test source SHA `863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd`.\n- ROOT merge `89cdd83223c3498f26b3b81693bf58914ae735d8` и последующие single-parent checkpoints получили отдельные raw-check PASS.\n- Точный normal push `526712eedbdbf37952c9a48206427106731ba6fe` прочитан обратно из собственной ветки; ROOT ref остался `4f4fc05a44fa20f2e15c0f996a5c097767fa75e3`.\n\n## Границы\n\nПоставка остаётся source-only. Production caller и долговечный executor не подключены; ROOT-приёмка ожидается отдельно.",
+        "title": "Уточнить привязку Git и защитить отправку",
+        "base": "fum-lab/fum/master",
+        "base_sha": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+        "head": "fum-lab/fum/koordinaciya/master",
+        "head_sha": "526712eedbdbf37952c9a48206427106731ba6fe",
+        "merge_commit_sha": "6084181e230213671561456187d59a708a524de9",
+        "created_at": "2026-10-29T07:15:47Z",
+        "updated_at": "2026-10-29T07:25:01Z",
+        "closed_at": "2026-10-29T07:25:00Z",
+        "merged_at": "2026-10-29T07:25:00Z",
+        "commits": 5,
+        "changed_files": 5,
+        "additions": 2334,
+        "deletions": 16
+      },
+      "comment": {
+        "id": 6490683529,
+        "body": "**FUM Codex**\n\nОграниченная source-only поставка принята и интегрирована merge-коммитом `6084181e230213671561456187d59a708a524de9`, родители `[4f4fc05…, 526712ee…]`. Конечное дерево совпало с кандидатом; обычный точный push и независимый удалённый OID подтверждены. Предкоммитная/raw-merge проверка выполнена CLI из текущих исходников `88d38e…`, binary SHA `c0511ce…`.\n\nРевью подтвердило исправление адреса push/config и лишних ref-эффектов, а также двух P2 в сравнении ref→OID и выборе raw-check режима. Сохранены 17 прежних адресных результатов и отдельные 2/2 после изменения теста. Ошибочный режим raw-check и потеря первого permission stderr не скрыты: это реальные ограничения исходных свидетельств.\n\nProduction caller и долговечный intent/outcome executor пока не подключены, поэтому Issue #363 не объявляется полностью выполненным. Следующий согласованный этап — #452, устойчивый список работ без нового daemon/dispatcher и без полного ROOT JSONL."
+      }
+    },
+    {
+      "pr": 455,
+      "before": {
+        "url": "https://github.com/fum-lab/fum/pull/455",
+        "number": 455,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Состав\n\n- 13 точных ранее опубликованных source/JSON blobs: FS (3), Input (3), Frames (3), Runtime (4).\n- `Приложения/FUMA/zhurnal/priyom-iskhodnikov-383.json` с происхождением blobs и явными границами неизвестного.\n- Отдельный исходный checkpoint: `06b5b437a9e169c6b32220bfd2ae747b75da72aa`.\n- Reverse merge актуального ROOT: `3cec1327d396be6b5e1772191fb3dfa9303de4b5`, родители `[06b5b437a9e169c6b32220bfd2ae747b75da72aa, 4f4fc05a44fa20f2e15c0f996a5c097767fa75e3]`.\n- Отдельный последующий Git library checkpoint: `28bc8bc7e385c72fc878d85946ea4b08a4a21e0a`, ровно `Package.swift` и `Наблюдатель.swift` из `2492936ac563f76e7eeaf1027a8cd9e19ccedafa`.\n\nИсточник blobs:\n\n- FS: `1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0`\n- Input: `49f584b0cb0c66e11d6a915d587c7f5bb7b76029`\n- Frames: `3939895a12cc0a4589157dfaace690559add8aaa`\n- Runtime: `a4084c0e5114666c5795aa3e86956e22a64db213`\n\n## Проверено\n\n- Diff относительно `fum-lab/fum/master` содержит ровно 16 ожидаемых путей: исходные 14 и два Git library файла отдельного этапа.\n- Каждый из 13 blobs совпал в source commit, индексе и рабочем дереве; SHA-256 совпали с checkpoint JSON.\n- Оба Git library blob совпали с `2492936ac563f76e7eeaf1027a8cd9e19ccedafa`; router, тест, macOS manifest и JSONL этого источника исключены.\n- `git diff --check` прошёл.\n- Независимый read-only review не обнаружил посторонних путей или секретов.\n\n## Границы\n\nСборка, текущие тесты, Python, полный ROOT JSONL, generic Swift checker и общий gate не запускались. Исторические тестовые связи, runtime-зависимости, исполнимое подключение Git library и эффект остаются `UNKNOWN`. Этот PR сам по себе не заявляет ROOT-приёмку, интеграцию или production-готовность.\n",
+        "title": "Принять исходный checkpoint FUMA и Git library",
+        "base": "fum-lab/fum/master",
+        "base_sha": "6084181e230213671561456187d59a708a524de9",
+        "head": "fum-lab/fum/fuma/priyom-iskhodnikov-383",
+        "head_sha": "fbdeb264a9ea3d67d194f2087d4ce0ca95afd64a",
+        "merge_commit_sha": "78cd9fd009d501f26c9a508ffe80299228fbfd7b",
+        "created_at": "2026-10-29T06:52:53Z",
+        "updated_at": "2026-10-29T07:30:59Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 4,
+        "changed_files": 16,
+        "additions": 2358,
+        "deletions": 0
+      },
+      "after": {
+        "url": "https://github.com/fum-lab/fum/pull/455",
+        "number": 455,
+        "state": "closed",
+        "merged": true,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Состав\n\n- 13 точных ранее опубликованных source/JSON blobs: FS (3), Input (3), Frames (3), Runtime (4).\n- `Приложения/FUMA/zhurnal/priyom-iskhodnikov-383.json` с происхождением blobs и явными границами неизвестного.\n- Отдельный исходный checkpoint: `06b5b437a9e169c6b32220bfd2ae747b75da72aa`.\n- Reverse merge актуального ROOT: `3cec1327d396be6b5e1772191fb3dfa9303de4b5`, родители `[06b5b437a9e169c6b32220bfd2ae747b75da72aa, 4f4fc05a44fa20f2e15c0f996a5c097767fa75e3]`.\n- Отдельный последующий Git library checkpoint: `28bc8bc7e385c72fc878d85946ea4b08a4a21e0a`, ровно `Package.swift` и `Наблюдатель.swift` из `2492936ac563f76e7eeaf1027a8cd9e19ccedafa`.\n\nИсточник blobs:\n\n- FS: `1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0`\n- Input: `49f584b0cb0c66e11d6a915d587c7f5bb7b76029`\n- Frames: `3939895a12cc0a4589157dfaace690559add8aaa`\n- Runtime: `a4084c0e5114666c5795aa3e86956e22a64db213`\n\n## Проверено\n\n- Diff относительно `fum-lab/fum/master` содержит ровно 16 ожидаемых путей: исходные 14 и два Git library файла отдельного этапа.\n- Каждый из 13 blobs совпал в source commit, индексе и рабочем дереве; SHA-256 совпали с checkpoint JSON.\n- Оба Git library blob совпали с `2492936ac563f76e7eeaf1027a8cd9e19ccedafa`; router, тест, macOS manifest и JSONL этого источника исключены.\n- `git diff --check` прошёл.\n- Независимый read-only review не обнаружил посторонних путей или секретов.\n\n## Границы\n\nСборка, текущие тесты, Python, полный ROOT JSONL, generic Swift checker и общий gate не запускались. Исторические тестовые связи, runtime-зависимости, исполнимое подключение Git library и эффект остаются `UNKNOWN`. Этот PR сам по себе не заявляет ROOT-приёмку, интеграцию или production-готовность.\n",
+        "title": "Принять исходный checkpoint FUMA и Git library",
+        "base": "fum-lab/fum/master",
+        "base_sha": "6084181e230213671561456187d59a708a524de9",
+        "head": "fum-lab/fum/fuma/priyom-iskhodnikov-383",
+        "head_sha": "fbdeb264a9ea3d67d194f2087d4ce0ca95afd64a",
+        "merge_commit_sha": "8756891aa25f82d1fffd979edc5c4c195c6a9084",
+        "created_at": "2026-10-29T06:52:53Z",
+        "updated_at": "2026-10-29T07:53:55Z",
+        "closed_at": "2026-10-29T07:53:55Z",
+        "merged_at": "2026-10-29T07:53:55Z",
+        "commits": 4,
+        "changed_files": 16,
+        "additions": 2358,
+        "deletions": 0
+      },
+      "comment": {
+        "id": 6491211910,
+        "body": "**FUM Codex**\n\nSource/WIP пакет принят и интегрирован явным merge-коммитом `8756891aa25f82d1fffd979edc5c4c195c6a9084`, родители `[6084181…, fbdeb264…]`. Все 16 выбранных путей и 15 исходных blobs сохранены; дерево совпадает с проверенным кандидатом. Предкоммитная/raw-merge проверка текущим CLI `c0511ce…`, обычный точный push и независимый удалённый OID подтверждены.\n\nЭто сохранение и объединение исходников FS/Input/Frames/Runtime и минимальной Git-библиотеки. Git manifest теперь присутствует, но текущая сборка, тесты и исполнимый цикл ещё не подтверждены. Исторические тестовые связи не превращены в GREEN. Реальные пользовательские файловые эффекты и production activation не выполнялись; next scope — адресная проверка минимальной композиции на собственных фикстурах.\n\nНе входивший в поручение checker-WIP сохранён исполнителем отдельно приватно; в этот PR он не попал."
+      }
+    }
+  ],
+  "проверяющийТекущихИсходников": {
+    "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
+    "buildManifestSHA256": "43bea5ccda6933d82852dae2a0d6ace7f8b7119da943540d35c445721a4d2bc5",
+    "sourceFiles": [
+      {
+        "путь": "koordinaciya/координатор.swift",
+        "sha256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490"
+      },
+      {
+        "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+        "sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+      }
+    ],
+    "режим": "Swift 6, complete concurrency, warnings-as-errors; в ROOT использован без повторного build",
+    "ROOTПроверки": "Pre-effect и raw-merge прошли для6084181 и8756891; исходники текущего проверяющего совпали с build manifest.",
+    "неРавнозначно": "Это не проверка production caller, полного ROOT диалога или crash durability."
+  },
+  "моделиИВладение": [
+    {
+      "узел": "fum-lab/fum/fuma/master",
+      "nativeUUID": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "назначениеДоЭскалации": "gpt-6-luna/max по предшествующему сохранённому выбору",
+      "выбраннаяНоваяМодель": "gpt-5.6-sol",
+      "выбранноеУсилие": "ultra",
+      "кем": "ROOT01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "основание": "Исполнитель ушёл от согласованных13+1 source путей в незапрошенный checker и вновь ожидал запрещённого Python.",
+      "подтверждение": "После API выбора адресная SQLite-строка этого native UUID показала5.6-sol/ultra. Source пакет после возврата к заданию подтверждён отдельными Git-объектами/PR455.",
+      "backend": "неизвестно",
+      "неЯвляется": "Контролируемым сравнительным benchmark моделей."
+    },
+    {
+      "узел": "fum-lab/fum/koordinaciya/master",
+      "предыдущаяИнкарнация": {
+        "nativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+        "модель": "gpt-6-luna",
+        "усилие": "max",
+        "статус": "Этап456 завершён; ROOT отозвал дальнейшую запись у этого incarnation."
+      },
+      "отклонённыйЗапрос": {
+        "модель": "gpt-5.6-sol",
+        "усилие": "ultra",
+        "результат": "direct app-server input is not allowed for multi-agent v2 sub-agents",
+        "настройкаСтаройИнкарнацииНеИзменилась": true
+      },
+      "новаяИнкарнация": {
+        "nativeUUID": "01a18693-0478-7730-977b-33dea68e9970",
+        "модель": "gpt-6.1-sol",
+        "усилие": "ultra",
+        "подтверждение": "Собственные session_meta/turn_context по RO ACK; ROOT отдельно прочитал адресную SQLite-строку.",
+        "backend": "неизвестно"
+      },
+      "кемНазначено": "ROOT01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "владение": "Те же W/ref, новый единственный писатель после завершения/отзыва старого. Новое дерево или ветка не создавались.",
+      "следующийЭтап": "Issue452 от принятой6084181. Два малых Swift-файла ядра/тестов, существующие state и рабочий segment; старый повреждённый журнал не изменяется."
+    }
+  ],
+  "следующиеКонечныеЭтапы": [
+    {
+      "issue": "https://github.com/fum-lab/fum/issues/452",
+      "состояние": "Пишущий объём выдан новому единственному исполнителю после RO ACK. Получен промежуточный отчёт15 Swift Testing tests/14 сценариев; конечная поставка/приёмка ещё не выполнены.",
+      "граница": "Переход worklist и отдельный pure CLI; не native Stop и не daemon."
+    },
+    {
+      "узел": "fum-lab/fum/fuma/master",
+      "состояние": "После source/WIP приёмки455 поручен RO-план минимального наблюдаемого цикла FS/Git/JSONL и нативной записи истории на малых собственных фикстурах.",
+      "известныйРемонт": "Паспорт физического корня должен учитывать realpath; текущая проекция caller URL имеетP2. Долговечное восстановление после неизвестного эффекта не доказано."
+    },
+    {
+      "issue": "https://github.com/fum-lab/fum/issues/454",
+      "состояние": "Инструментовому parent передан заказ общего ограниченного Swift manifest checker; единственный owner пока RESOURCE STOP с93staged. RO design получен, implementation не начат.",
+      "неЖдутЭтого": "Адресно разрешённые source checkpoints не останавливаются в ожидании нового общего gate."
+    },
+    {
+      "узел": "fum-lab/fum/instrumentyi/imena-katalogov/master",
+      "состояние": "Names48/49 сохранены и адресно проверены инструментовым parent; Root пакет без посторонней ancestry ещё готовится.",
+      "граница": "Исходники и исторические receipts, не готовый массовый перенос/ACL/apply."
+    }
+  ],
+  "выводПоИсходномуВопросу": {
+    "первичныйCheckout": "master намеренно оставлен по указанию человека; ROOT туда не писал.",
+    "пишущаяВетка": "refs/heads/fum-lab/fum/master",
+    "подтверждённыйРиск": "Различие native cwd и физического пишущего W требует явных путей; имя master само по себе не доказывает причину остановки.",
+    "продолжение": "Повторная потеря исходного поручения зарегистрирована в452. Полная автоматическая непрерывность и live Stop ещё не объявлены исправленными."
+  },
+  "неПроверено": [
+    "Сборка и текущие тесты композиции FUMA.",
+    "Production использование Git adapter и долговечный intent/outcome executor.",
+    "Полный ROOT JSONL, старый Python admission и общий smoke.",
+    "Массовое развёртывание локальных AGENTS и перенос Names."
+  ],
+  "собственнаяДиагностическаяПоправка": {
+    "эпизод": "При выводе результата готового Root pre-effect использованы некавыченные Cyrillic ключи jq; formatter завершился compile error3 до commit.",
+    "исправление": "Сохранённый результат прочитан с ASCII/кавыченными ключами без повтора pre-effect. Следующие проекции используют тот же корректный формат.",
+    "граница": "Отказ форматтера не подменяет фактический готовый pre-effect и не выдан за запланированный тест."
+  }
+}
