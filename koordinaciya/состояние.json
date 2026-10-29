@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+      "родитель": "15eea52580f6b719fff26c9a63066da53f3144b6",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "ROOT: Неполноту первого stderr сохрани именно как потерю raw, без восстановления текстом. Для оставшихся вызовов сразу используй новый уникальный каталог попытки 0700 и откажись от перезаписи уже существующих stdout/stderr/exit файлов. Это правило последовательности внеси в сохранённый рецепт, чтобы следующий запуск не повторял потерю; не нужно заново воспроизводить старую permission-ошибку. Новые свежие raw-check outputs сохраняются отдельно от исторических 872/c525. Родительская приёмка остаётся source-only: production caller и долговечный executor не объявляются готовыми. Продолжай конечный commit/PR; это не причина возвращать общий gate.",
-      "заголовок": "Сохранить raw-проверку и уникальные квитанции",
-      "описание": "Merge commit 89cdd83223c3498f26b3b81693bf58914ae735d8 включает ROOT4f4fc05 и raw-check PASS: tree ae49bba8e2f31b106a4194b3c26693ae16ffc2b0, родители [872ae1d,4f4fc05], сырой SHA b93b3e20. Сохранены 17 исторических адресных результатов и 2 текущих Swift Testing PASS на test SHA 863e0114. Этот коммит сохраняет уникальную политику квитанций; первый permission stderr остаётся отмечен как потерянный raw. Ветка ещё не отправлена, ROOT-приёмка и production caller/executor не заявляются."
+      "исходныйЗапрос": "ROOT: Это реальный случай неверной последовательности/выбора режима, а не запланированный negative test: не называй accidental refusal заранее ожидаемым прогоном. Закрепи в сохранённой программе явный выбор по фактическому числу parent raw-объекта:1→обычный checker с tree OID;2→merge checker с независимым JSON expectation; иной состав→отказ. Не подставляй expected merge в ещё однородительский исходник. Теперь закончи15eea single-parent проверкой в новой попытке, затем отдельно выполни настоящий reverse merge ROOT4f4fc05 и его raw-merge проверку. Два разных объекта/дерева/попытки. Нового полного suite не нужно. PR455 готов к source-only приёмке, но ROOT4f держу ради твоего конечного окна ещё до этого завершения. Если есть настоящий блокер — сообщи точно; готовый код не откладываем из-за новых общих рамок.",
+      "заголовок": "Развести raw-проверку source и merge-коммитов",
+      "описание": "Однородительский source checkpoint 15eea52580f6b719fff26c9a63066da53f3144b6, parent 89cdd83223c3498f26b3b81693bf58914ae735d8, tree 78d42b2e33157925fbbb042b8539e0b1f9c4d300 прошёл single-parent raw checker: raw SHA d076b7e0, stdout SHA d10f9d30, exit 0. Отдельная первая попытка ошибочно выбрала merge checker для одного parent и получила отказ «неверное-число-ожидаемых-merge-родителей»; это случай неверного выбора пути, сохранённый как observed refusal, не planned negative test. Профиль выбирает checker по фактическому числу родителей raw-объекта: один — single checker с tree OID; два — merge checker с independent ordered-parent/tree JSON; любое другое число — отказ. Ранее сохранённое событие 81 фиксировало дерево eaf5c5 на тот момент; окончательный свежий staged tree для 15eea был 78d42 после добавления JSON/JSONL-записей. ROOT4f отдельно включён merge-коммитом 89cdd с родителями [872ae1d,4f4fc05], tree ae49bba8e2f31b106a4194b3c26693ae16ffc2b0 и raw merge-check PASS; это другой объект, дерево и попытка. Неизменённый suite повторно не запускался. Push/readback/PR ещё не выполнены; ROOT acceptance и production caller/executor не заявляются."
     }
   },
   "результатГенератораМетаданных": {
@@ -2957,7 +2957,7 @@
     },
     "проверки": {
       "swiftTesting": "17 прежних targeted Swift Testing результатов сохранены на test SHA 1cda11; после усиления submodule snapshots 2 целевых Swift Testing теста PASS на test SHA 863e01, stdout 0f16e4 и stderr 1f62d7",
-      "rawCheck": "FUMA preflight root 4f PASS, exact message bytes SHA b7e06c76 (1946 bytes); fresh-process merge raw check with independently validated parent/tree expectation remains pending",
+      "rawCheck": "ROOT4f merge 89cdd raw-check PASS (tree ae49bba8, parents [872ae1d,4f4fc05]); single-parent status checkpoint 15eea raw-check PASS (tree 78d42b2e, parent 89cdd); profile now distinguishes the two CLI modes",
       "pushSafety": "normal exact push of 872ae1d to own ref succeeded; one effective HTTPS push URL, no pushOption/refspec/custom receive-pack, no executable pre-push hook; independent ls-remote matched; ROOT ref unchanged"
     },
     "сохранённыеНарушения": [
@@ -2984,7 +2984,7 @@
       "related14SHA256": "6deb04cb813ddd343d9b43cc786d5b9647ce4641cdc6eb7ef9d142cfae8de1f2",
       "edge3SHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
     },
-    "статус": "89cdd ROOT4f merge raw-check PASS; append-only status checkpoint FUMA preflight PASS; its raw check and own push/readback/PR pending",
+    "статус": "89cdd ROOT4f merge raw-check PASS; 15eea single-parent status checkpoint raw-check PASS; own push/readback/PR pending; ROOT acceptance and production caller/executor not claimed",
     "текущийИсточник": {
       "координаторSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
       "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
@@ -3040,7 +3040,16 @@
     },
     "исправлениеПрофиляRawCheck": {
       "ошибка": "legacy freshProcessInvocationTemplate passed an expectation JSON path to --проверить-сырой-коммит, which expects a tree OID string",
-      "исправление": "template now uses --проверить-сырой-merge-коммит with independently validated schema, ordered parents and expectedTree",
+      "исправление": "profile selects from the parsed raw object's actual parent count: one parent uses --проверить-сырой-коммит with expected tree OID; two ordered parents use --проверить-сырой-merge-коммит with independent schema-checked parents/tree; every other count refuses",
+      "историческийОтказВыбораРежима": {
+        "commitOID": "15eea52580f6b719fff26c9a63066da53f3144b6",
+        "modeSelected": "merge checker for one-parent source checkpoint",
+        "exit": 1,
+        "stdoutSHA256": "9dfac38a8ac400daf999fa54775e1428c34e680a22f1668959e342de71e32ddf",
+        "error": "неверное-число-ожидаемых-merge-родителей",
+        "classification": "observed invocation mistake; not a planned negative test",
+        "gitEffect": false
+      },
       "historicalSourceCheckpoint872RawCheckPreserved": true
     },
     "mergePreflight": {
@@ -3072,6 +3081,23 @@
       "messageSHA256": "44ee1909c1161d7de74d491c049923ffe365ffbf9886e07dbb8fa609fd37d922",
       "gitEffect": false,
       "attemptMode": "0700 unique"
+    },
+    "statusCheckpointRawCheck": {
+      "commitOID": "15eea52580f6b719fff26c9a63066da53f3144b6",
+      "treeOID": "78d42b2e33157925fbbb042b8539e0b1f9c4d300",
+      "parent": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+      "rawObjectSHA256": "d076b7e042dac5dcc1b54dce777e1af80d5a9d3b62308d5b662edf9bc9e5c218",
+      "cli": "--проверить-сырой-коммит state.json expectedTreeOID",
+      "exit": 0,
+      "stdoutSHA256": "d10f9d306202aa473a16f8e3819ad371187b290859d987ed3978203d498a60e4",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
+      "fumaRunID": "fuma-ef5dcab3-7c13-4226-acb3-5f20142bf838",
+      "fumaInputSHA256": "d3c9754d58c45b21cef7f450fea5418f7af2d7c82d7b5108a39f356c3fd13a6e",
+      "fumaResponseSHA256": "770d1cd83234e223674337ed54e0440ac99fb4cdaf07f160f0b48582bd04008f",
+      "fumaExecutionEvidenceSHA256": "a7904dbbc34599c14a4f8c3ece786d925285b0ebebacd9c6295db0fa2ec58b1b",
+      "verified": true,
+      "gitEffect": false
     }
   }
 }

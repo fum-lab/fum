@@ -120,7 +120,7 @@
       "KOORDINACIYA_FUMA_RUN_ROOT": "<private>/fum-runs",
       "GIT_AUTHOR_NAME": "provided by the FUMA-generated environment"
     },
-    "freshProcessInvocationTemplate": "Run from <repository-root>; save `git cat-file commit <OID>` bytes to a private raw file; invoke a new process with `env -i` and the environment above: `<private>/koordinator-push-safety --проверить-сырой-merge-коммит koordinaciya/состояние.json <expectation.json> < <private>/raw`; retain stdout, stderr, exit status, FUMA run inputs/outputs and hashes.",
+    "freshProcessInvocationTemplate": "For each invocation create a fresh unique private 0700 attempt directory and fresh runtime, memory and run roots beneath it; use only new stdout/stderr/exit/raw/expectation files and never overwrite an earlier attempt. Save exact `git cat-file commit <OID>` bytes and select the checker from the parsed raw object's actual parent count: one parent uses `--проверить-сырой-коммит <state.json> <expectedTreeOID> < <raw>`; two ordered parents use `--проверить-сырой-merge-коммит <state.json> <independent-expectation.json> < <raw>` with the exact tree; every other parent count fails closed. The merge CLI checks the first expected parent against plan.parent. Run in a fresh `env -i` process and retain stdout, stderr, exit status, FUMA inputs/outputs and hashes.",
     "independentExpectation": {
       "schema": "fum.raw-merge-commit-expectation.1",
       "expectedParents": [
@@ -145,24 +145,29 @@
         "resultSHA256": "89a298116a333f51201737dadafba5fd8f1a1a8a8622cd2c7ffe899c87c5d208"
       }
     },
-    "nextRun": "pending: exact staged tree and next source commit must be checked using this rebuilt binary",
-    "статус": "source checkpoint 872ae1d raw-check PASS and exact own-ref push/readback PASS; pending merge raw-check for current ROOT 4f4fc05",
+    "nextRun": "the historical c525 run is followed by the separately recorded ROOT4f merge check and single-parent 15eea status check; own push/readback/PR remain pending",
+    "статус": "872 source checkpoint, 89cdd ROOT4f merge, and 15eea single-parent status checkpoint each have their matching raw-check profile; no current raw check is pending",
     "historicalBuild": {
       "координаторSHA256": "577b5f4a4e9c4f1e5fdc7fff1748e154a41821ab8acadc94640b7a838d5cfed6",
       "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
       "binarySHA256": "87b1e8e696a1d30740f1c8fbb48c2341ca3ee85ffc16ca53c0bae09fdf7528f4",
       "checkedCommit": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2"
     },
-    "nextCheck": {
-      "kind": "merge",
+    "root4fMergeCheck": {
+      "kind": "two-parent merge",
       "expectedParents": [
         "872ae1d750961b67d00f948b11d83f9077f785c5",
         "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
       ],
-      "expectedTree": "pending exact staged merge tree",
+      "expectedTree": "ae49bba8e2f31b106a4194b3c26693ae16ffc2b0",
+      "commitOID": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+      "rawObjectSHA256": "b93b3e204d46cebee19186edacc2d971584a956fba0ea0f29b170194c00833e4",
       "sourceSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
       "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
-      "status": "pending raw merge check"
+      "exit": 0,
+      "stdoutSHA256": "ab3f00f5fd664fc52723a40cadb753cea214bcfeda120ea2d2a5dee70c1173c5",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "PASS; separate raw object and attempt from 15eea single-parent checkpoint"
     },
     "latestPreflight": {
       "preflightOutputSHA256": "7e9306b0ae9c059d9e1f2d3e897567f33f6be53f084425616e18fb3ca95d6d6e",
@@ -402,7 +407,7 @@
   "фактическиеПределы": [
     "Текущее изменение покрывает per-worktree config через эффективное чтение; реальные внешние pushes и адреса вне локальных bare fixtures не проверялись."
   ],
-  "freshProcessInvocationTemplate": "For every invocation create a fresh unique private attempt directory with mode 0700. Create fresh runtime, memory and run roots under that attempt. Use new, non-existing stdout/stderr/exit/raw/expectation paths; never overwrite an earlier attempt. Save raw `git cat-file commit <OID>` bytes and invoke `--проверить-сырой-merge-коммит <state.json> <independent-expectation.json> < <raw>` in a fresh env -i process. The independent JSON is schema-checked and carries ordered parents and exact expectedTree; one parent is valid.",
+  "freshProcessInvocationTemplate": "For each invocation create a fresh unique private 0700 attempt directory and fresh runtime, memory and run roots beneath it; use only new stdout/stderr/exit/raw/expectation files and never overwrite an earlier attempt. Save exact `git cat-file commit <OID>` bytes and select the checker from the parsed raw object's actual parent count: one parent uses `--проверить-сырой-коммит <state.json> <expectedTreeOID> < <raw>`; two ordered parents use `--проверить-сырой-merge-коммит <state.json> <independent-expectation.json> < <raw>` with the exact tree; every other parent count fails closed. The merge CLI checks the first expected parent against plan.parent. Run in a fresh `env -i` process and retain stdout, stderr, exit status, FUMA inputs/outputs and hashes.",
   "mergePreflight": {
     "runID": "fuma-2a735adf-f713-45d4-98ad-dac86ca2b05c",
     "exit": 0,
@@ -455,15 +460,32 @@
     "verified": true,
     "gitEffect": false
   },
-  "nextCheck": {
-    "kind": "single-parent status checkpoint",
-    "expectedParents": [
-      "89cdd83223c3498f26b3b81693bf58914ae735d8"
-    ],
-    "expectedTree": "pending exact staged tree",
-    "status": "pending raw check of append-only status checkpoint"
+  "statusCheckpointRawCheck": {
+    "commitOID": "15eea52580f6b719fff26c9a63066da53f3144b6",
+    "treeOID": "78d42b2e33157925fbbb042b8539e0b1f9c4d300",
+    "expectedParents": ["89cdd83223c3498f26b3b81693bf58914ae735d8"],
+    "rawObjectSHA256": "d076b7e042dac5dcc1b54dce777e1af80d5a9d3b62308d5b662edf9bc9e5c218",
+    "exit": 0,
+    "stdoutSHA256": "d10f9d306202aa473a16f8e3819ad371187b290859d987ed3978203d498a60e4",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fumaRunID": "fuma-ef5dcab3-7c13-4226-acb3-5f20142bf838",
+    "fumaInputSHA256": "d3c9754d58c45b21cef7f450fea5418f7af2d7c82d7b5108a39f356c3fd13a6e",
+    "fumaResponseSHA256": "770d1cd83234e223674337ed54e0440ac99fb4cdaf07f160f0b48582bd04008f",
+    "fumaExecutionEvidenceSHA256": "a7904dbbc34599c14a4f8c3ece786d925285b0ebebacd9c6295db0fa2ec58b1b",
+    "verified": true,
+    "gitEffect": false
   },
-  "status": "89cdd ROOT4f merge raw-check PASS; status checkpoint FUMA preflight PASS in unique 0700 attempt; exact tree/raw check and own push/readback/PR pending",
+  "failedMergeCheckerAttempt": {
+    "commitOID": "15eea52580f6b719fff26c9a63066da53f3144b6",
+    "attempt": "fresh 0700; retained separately",
+    "commandProfile": "merge raw checker mistakenly selected for a one-parent source checkpoint",
+    "exit": 1,
+    "stdoutSHA256": "9dfac38a8ac400daf999fa54775e1428c34e680a22f1668959e342de71e32ddf",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observedError": "неверное-число-ожидаемых-merge-родителей",
+    "gitEffect": false
+  },
+  "status": "89cdd ROOT4f merge raw-check PASS; 15eea single-parent source raw-check PASS; FUMA single-vs-merge invocation profile corrected; own push/readback/PR pending",
   "statusCheckpointPreflight": {
     "runID": "fuma-bb9e8f64-c2c8-4ddd-b739-3860ed70bd42",
     "exit": 0,
