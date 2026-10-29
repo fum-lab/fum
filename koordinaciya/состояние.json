@@ -3099,5 +3099,680 @@
       "verified": true,
       "gitEffect": false
     }
+  },
+  "списокРабот452": {
+    "схема": "fum.координация.source-checkpoint-списка-работ.1",
+    "Issue": "https://github.com/fum-lab/fum/issues/452",
+    "статус": "Исходники, адресные проверки и чистый CLI готовы к source checkpoint; ROOT acceptance, production Stop и durable executor не выполнены",
+    "основаЭтапа": "59386d686173e8e9dbc183722fd179bfee2810e0",
+    "предшествующаяПриёмка": "6084181e230213671561456187d59a708a524de9",
+    "включениеПриёмки": {
+      "oid": "59386d686173e8e9dbc183722fd179bfee2810e0",
+      "tree": "1b34e045998d2166dd5d86b3d01552f085641f5f",
+      "parents": [
+        "526712eedbdbf37952c9a48206427106731ba6fe",
+        "6084181e230213671561456187d59a708a524de9"
+      ],
+      "rawSHA256": "84d162d93539f5f69faf90bb11ab100007e8c19d3b8fb40e0059100abae0d40c",
+      "rawCheck": 0
+    },
+    "источники": {
+      "источник": {
+        "коммит": "6084181e230213671561456187d59a708a524de9",
+        "путь": "zakaz-ustojchivogo-spiska-rabot.json",
+        "хэш": "6f0a4fdca2ae5927ad8bdb048cc33e5df8f0e0c3fed7fa658e02a25067856cc6"
+      },
+      "blob": "82a065164cfd8f8abf9edcb00744f3b2ed499ebc",
+      "каноническийРеестр": {
+        "коммит": "6084181e230213671561456187d59a708a524de9",
+        "путь": "Планирование/задачи/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/обязательства.json",
+        "хэш": "bde14474339f0dbaa53020a70824016a1904283faa803cb40750688c2befbeee",
+        "схема": "fum.обязательства-задачи.3",
+        "покрытие": "частичное",
+        "обязательств": 9,
+        "работ": 13,
+        "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+        "связанныеРаботы": [
+          "FUM-ОСТАТОК-РЕЕСТР",
+          "FUM-ПЛАН-НЕЗАВЕРШЁННЫХ-ОБЯЗАТЕЛЬСТВ",
+          "FUMA-УЧЁТ-ПРИНЯТОЙ-ДЕЛЕГАЦИИ"
+        ],
+        "собственныйКаноническийID452": "не зарегистрирован; локальные ID только проекция конечных результатов заказа"
+      },
+      "человеческоеОснование": {
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "путь": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "хэш": "b9e5907aefb210e3855b3bfb93a217e368a539799b7b710b05d05240fc5f2ae5"
+      },
+      "точныйЧеловеческийТекст": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?",
+      "полнотаДиалогаROOT": "UNKNOWN; ROOT JSONL исключён"
+    },
+    "типПостановки": "Агентское адресное поручение ROOT; не сообщение человека",
+    "переходИнкарнации": {
+      "назначил": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "прежняя": {
+        "native": "01a18294-b6ff-7352-92e1-6b576d412172",
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "запись": "отозвана ROOT"
+      },
+      "текущая": {
+        "native": "01a18693-0478-7730-977b-33dea68e9970",
+        "model": "gpt-6.1-sol",
+        "effort": "ultra"
+      },
+      "backend": "UNKNOWN",
+      "отклонённыйВыбор": {
+        "model": "gpt-5.6-sol",
+        "effort": "ultra",
+        "исход": "App rejected direct app-server input for multi-agent v2 sub-agents; прежняя конфигурация не менялась"
+      },
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "HEAD": "526712eedbdbf37952c9a48206427106731ba6fe",
+      "источник": "ROOT grant + собственный native session_meta/turn_context; ROOT separately confirmed live SQLite",
+      "физическийWSHA256": "38cea69f16c928b739662dc4f9b14928843f904f1c15bfe0207eac7c9cda2c02",
+      "уточнениеROOT": "ROOT адресно подтвердил live SQLite: новый native01a18693-0478-7730-977b-33dea68e9970 = gpt-6.1-sol/ultra; старый01a18294-b6ff-7352-92e1-6b576d412172 остаётся gpt-6-luna/max. App-попытка5.6 была отклонена и старую настройку не меняла. В следующей разрешённой записи сохрани явный transfer old incarnation→new incarnation, кто ROOT назначил, прежние snapshots не переписывай. Backend UNKNOWN. Это уточнение происхождения, filelist/RO_SCOPE прежние."
+    },
+    "старыеСнимки": [
+      "свидетельствоЗапуска",
+      "профильИсполненияМетаданных",
+      "планСамообновления",
+      "остатокКоординатора"
+    ],
+    "границаСтарыхСнимков": "Сохранены без изменения как происхождение предыдущих этапов; не являются текущим источником модели, автора или завершения452",
+    "имена": {
+      "поставщик": "Принятая Names CLI; LinguisticKit .Cyrl → .Latn, table .ru",
+      "pin": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+      "результаты": [
+        {
+          "исходное": "устойчивый список работ",
+          "транслитерация": "ustojchivyij spisok rabot",
+          "компонент": "ustojchivyij-spisok-rabot",
+          "сегментированное": "устойчивый список работ"
+        },
+        {
+          "компонент": "proverki-spiska-rabot",
+          "транслитерация": "proverki spiska rabot",
+          "исходное": "проверки списка работ",
+          "сегментированное": "проверки списка работ"
+        }
+      ],
+      "переводчикSHA256": "2482a04bdd3afbb1f9f86f8c0bc22b4beb58a85a786f13f91812046b077feea9",
+      "нормализаторSHA256": "45d5a15faee1629b2651e963c89dfcaa25d3665902369ee0f2ee1e8404bb49c4",
+      "входSHA256": "f94cae6fb3ac33672502c504732f4d7f6926f1ece5e17baf10f13c838a0cee02",
+      "rawSHA256": "b14c5ef5348c21f1bd6586e2ad4d89ced1fffbeee111da6d33c00f0cb9aa7fa5",
+      "выходSHA256": "4444d7757560962f94783876adc60790187709ac30d930927c2fd6bee4dafa9e"
+    },
+    "конечныйСостав": [
+      "koordinaciya/ustojchivyij-spisok-rabot.swift",
+      "koordinaciya/proverki-spiska-rabot.swift",
+      "koordinaciya/состояние.json",
+      "koordinaciya/segment-zhurnala-koordinacii.jsonl"
+    ],
+    "контракт": {
+      "версия": "fum.координация.переход-списка-работ.1",
+      "интерфейс": "СписокРабот.начать / переход; stdin JSON → stdout форматированный JSON; отказ → stderr и exit1",
+      "память": "Существующий state координатора. Локальные IDs — типизированная проекция четырёх результатов принятого заказа; канонический ROOT registry и акт делегации не заменяются",
+      "происхождение": "Исторический человеческий оригинал отдельно от точной дочерней постановки в фикстуре; полнота человеческого ROOT диалога UNKNOWN",
+      "допуск": "Независимый вызывающий владелец выбирает принятый source scope, команды и наблюдение W/ref/HEAD/native. CLI сверяет переданные значения; не читает live Git и не удостоверяет полномочия",
+      "поколения": "Неизменный anchor исходного scope. Поздние команды добавляются отдельно; использованный текст/source команды закрепляется SHA в trace. Только содержательное изменение todo меняет generation",
+      "решения": [
+        "продолжить с ID разрешённого доступного действия",
+        "ждатьРодителя с точными blockers и без доступной независимой работы",
+        "завершитьПоручение только после полной конечной приёмки",
+        "остановлено при STOP",
+        "неизвестно для intent без outcome"
+      ],
+      "intentOutcome": "Intent/outcome связывают attempt, вход/выход SHA, before/after, code version, generation и writer. Exact replay и same-attempt recovery не создают нового решения; изменённый payload отвергается",
+      "бюджет": "Worklist/generation/содержательный fingerprint; статус, доставка, новый attempt и смена actor его не сбрасывают. Числа3/512 относятся к открытой фикстуре, не к откалиброванной production policy",
+      "остановка": "Один отдельный STOP slot сохраняет приоритет при заполненной обычной цепи. Дальнейший вызов возвращает STOP без добавления работы",
+      "приёмка": "ACK/progress/commit/push и ROOT acceptance различаются; тип документа не закрывает реализацию; результат закрываетROOT=false",
+      "эффект": "Только вычисление JSON. Persist-before-outcome, аутентификация источника и исполнение внешнего эффекта остаются обязанностью ещё не подключённого caller/executor"
+    },
+    "фикстураCLI": {
+      "допуск": {
+        "область": {
+          "идентификатор": "452:82a065164cfd8f8abf9edcb00744f3b2ed499ebc",
+          "источник": {
+            "коммит": "6084181e230213671561456187d59a708a524de9",
+            "путь": "zakaz-ustojchivogo-spiska-rabot.json",
+            "хэш": "6f0a4fdca2ae5927ad8bdb048cc33e5df8f0e0c3fed7fa658e02a25067856cc6"
+          },
+          "оригиналыЧеловека": [
+            "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+          ],
+          "дочерняяПостановка": "RO ACK принят; разрешаю конечный пишущий этап452 в этом W/ref. Уточняю filelist по ранее принятому требованию декомпозиции Swift: не наращивай огромные координатор.swift/проверки.swift основной новой логикой. Разрешены два новых малых файла в koordinaciya/: ядро «устойчивый список работ» и тесты «проверки списка работ» (точные ASCII kebab имена вычисли существующим Names CLI), существующие состояние.json и segment-zhurnala-koordinacii.jsonl. Максимум пятый путь координатор.swift — только тонкое CLI-подключение, если без него нельзя; не новый монолит. Новые типы/файлы не являются вторым registry: память остаётся в существующем state. Не дописывай повреждённый исторический журнал.jsonl и не меняй его прошлые байты. Рабочий segment уже принят; append-only.\n\nИсходная логика14cases, чистый переход/UNKNOWN/replay и bounded profile одобрены. Standalone CLI может вычислять/выдавать JSON без live-эффектов; production Stop/durability не активировать. Source+тесты проверяются адресно Swift Testing, complete concurrency, warnings-as-errors; исключённый старый Python/ROOTJSONL не GREEN. Сначала явным merge включи принятую608 (история/приёмка, даже если tree совпадает), затем новый этап со своим snapshot; старые закрытые receipts не переоткрывать. Сохрани transfer старого native01a18294→твой01a18693, назначил ROOT01a07, old6LunaMax→new6.1SolUltra, failed App5.6 selection отдельно, backendUNKNOWN.\n\nПри мутациях проверяй фактический HEAD/ref/W, единоличность. Свой native actor для автора/модели, commonRoot только координация. Current CLIc051 и оператор/definition pins известны, не rebuild их без изменения этих исходников. Если новые исходники требуют обновления CLI — отдельный точный source-map/current build; старый gate не запускать. Уникальные0700 попытки и no-overwrite outputs. После meaningful source checkpoint — точный push/lsremote и PR; никаких дополнительных рутинных разрешений не жди. Источник заказа608/82a06516/SHA6f0a4fd… сохранить. Новых child-писателей в тот же W не создавать, RO можно. Ресурс~650MiB, без новых W/fullPackage/больших корпусов. Готовый объём не задерживай новым общим checker454; он у другого owner. Мне верни полныйOID/tree/parents/PR, проверки и честные остатки.",
+          "обязательства": [
+            {
+              "идентификатор": "452/чистый-переход",
+              "тип": "реализация",
+              "критерий": "Swift/FUMA исходник чистого перехода",
+              "действие": "Swift/FUMA исходник чистого перехода",
+              "зависимости": [],
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА"
+            },
+            {
+              "идентификатор": "452/адресные-проверки",
+              "тип": "проверки",
+              "критерий": "Адресные Swift Testing регрессии",
+              "действие": "Адресные Swift Testing регрессии",
+              "зависимости": [],
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА"
+            },
+            {
+              "идентификатор": "452/контракт",
+              "тип": "контракт",
+              "критерий": "Форматированный JSON-контракт и постановка",
+              "действие": "Форматированный JSON-контракт и постановка",
+              "зависимости": [],
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА"
+            },
+            {
+              "идентификатор": "452/собственная-память",
+              "тип": "память",
+              "критерий": "Точный собственный state владельца",
+              "действие": "Точный собственный state владельца",
+              "зависимости": [],
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА"
+            }
+          ],
+          "команды": [],
+          "бюджет": 3,
+          "пределЗаписей": 512,
+          "полныйОхватПоручения": true
+        },
+        "контекст": {
+          "дерево": "/tmp/fum-worklist-452-reproduction",
+          "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+          "коммит": "59386d686173e8e9dbc183722fd179bfee2810e0",
+          "писатель": "01a18693-0478-7730-977b-33dea68e9970"
+        },
+        "писатели": [
+          "01a18693-0478-7730-977b-33dea68e9970"
+        ]
+      },
+      "контекст": {
+        "дерево": "/tmp/fum-worklist-452-reproduction",
+        "реф": "refs/heads/fum-lab/fum/koordinaciya/master",
+        "коммит": "59386d686173e8e9dbc183722fd179bfee2810e0",
+        "писатель": "01a18693-0478-7730-977b-33dea68e9970"
+      },
+      "событие": {
+        "идентификатор": "452-CLI-intent",
+        "вид": "намерение",
+        "попытка": "452-CLI-only",
+        "свидетельство": "Чистая фикстура; полномочий на внешний эффект нет"
+      }
+    },
+    "фикстурнаяПроекцияПослеOutcome": {
+      "снимок": {
+        "идентификатор": "452:82a065164cfd8f8abf9edcb00744f3b2ed499ebc",
+        "команды": [],
+        "область": "ecde5894d08fb8706508027d9fabf6bc04d88422e0321cf4abc09021816c1055",
+        "остановлен": false,
+        "позиции": [
+          {
+            "описание": {
+              "действие": "Swift/FUMA исходник чистого перехода",
+              "зависимости": [],
+              "идентификатор": "452/чистый-переход",
+              "критерий": "Swift/FUMA исходник чистого перехода",
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+              "тип": "реализация"
+            },
+            "свидетельства": [],
+            "статус": "ожидает"
+          },
+          {
+            "описание": {
+              "действие": "Адресные Swift Testing регрессии",
+              "зависимости": [],
+              "идентификатор": "452/адресные-проверки",
+              "критерий": "Адресные Swift Testing регрессии",
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+              "тип": "проверки"
+            },
+            "свидетельства": [],
+            "статус": "ожидает"
+          },
+          {
+            "описание": {
+              "действие": "Форматированный JSON-контракт и постановка",
+              "зависимости": [],
+              "идентификатор": "452/контракт",
+              "критерий": "Форматированный JSON-контракт и постановка",
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+              "тип": "контракт"
+            },
+            "свидетельства": [],
+            "статус": "ожидает"
+          },
+          {
+            "описание": {
+              "действие": "Точный собственный state владельца",
+              "зависимости": [],
+              "идентификатор": "452/собственная-память",
+              "критерий": "Точный собственный state владельца",
+              "родитель": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+              "тип": "память"
+            },
+            "свидетельства": [],
+            "статус": "ожидает"
+          }
+        ],
+        "поколение": 0,
+        "попытки": [
+          {
+            "вход": "21b03b283994bd8dffbbbcb3fd68a43d3d9e0d17ff1d20f80f0fe2e108aeb9b4",
+            "до": "36312849943cc83f146ef5ffc5219ce7c63ea3e59f21a482986b49c084f4c842",
+            "идентификатор": "452-CLI-only",
+            "исходЗаписан": true,
+            "отпечаток": "97f2cd0563480202a32a96335ce836c4063fdf017cfac3b857e86a58a0f69b4a",
+            "поколение": 0,
+            "решение": {
+              "вид": "продолжить",
+              "закрываетROOT": false,
+              "обязательство": "452/чистый-переход",
+              "препятствия": []
+            },
+            "событие": "452-CLI-intent"
+          }
+        ],
+        "поручениеПринято": false,
+        "счётчики": {
+          "0:97f2cd0563480202a32a96335ce836c4063fdf017cfac3b857e86a58a0f69b4a": 1
+        }
+      },
+      "цепочка": [
+        {
+          "версияКода": "fum.координация.переход-списка-работ.1",
+          "вход": "21b03b283994bd8dffbbbcb3fd68a43d3d9e0d17ff1d20f80f0fe2e108aeb9b4",
+          "выход": "c6a8a08f878d3a0d85324ce656f42c13690664252fca1b1de185c53195ab43dc",
+          "до": "36312849943cc83f146ef5ffc5219ce7c63ea3e59f21a482986b49c084f4c842",
+          "номер": 0,
+          "писатель": "01a18693-0478-7730-977b-33dea68e9970",
+          "после": "8c984b6a890b246921a843800d5364559947b388e7ea4e8ec868337db5d759b1",
+          "предыдущая": "ecde5894d08fb8706508027d9fabf6bc04d88422e0321cf4abc09021816c1055",
+          "решение": {
+            "вид": "неизвестно",
+            "закрываетROOT": false,
+            "препятствия": [
+              "ожидается-outcome:452-CLI-only"
+            ]
+          },
+          "событие": {
+            "вид": "намерение",
+            "идентификатор": "452-CLI-intent",
+            "попытка": "452-CLI-only",
+            "свидетельство": "Чистая фикстура; полномочий на внешний эффект нет"
+          }
+        },
+        {
+          "версияКода": "fum.координация.переход-списка-работ.1",
+          "вход": "ec1133ecae214d2259ff7c224318cecc3e4ac7d0e71928b6126867eab02fb901",
+          "выход": "56e38a81641f154f5aca79db009b769fc29306fa6185afe1e234de9baaaa9e24",
+          "до": "8c984b6a890b246921a843800d5364559947b388e7ea4e8ec868337db5d759b1",
+          "номер": 1,
+          "писатель": "01a18693-0478-7730-977b-33dea68e9970",
+          "после": "05228ce8ba661ec4b2ccd4e2c24b379b4ce5e3edd7ef602ab94eb89378efe203",
+          "предыдущая": "43a8075f53222e740b64dc34f0aac7eac3324697c5ee308104802e8e575d2c77",
+          "решение": {
+            "вид": "продолжить",
+            "закрываетROOT": false,
+            "обязательство": "452/чистый-переход",
+            "препятствия": []
+          },
+          "событие": {
+            "вид": "исход",
+            "входНамерения": "21b03b283994bd8dffbbbcb3fd68a43d3d9e0d17ff1d20f80f0fe2e108aeb9b4",
+            "идентификатор": "452-CLI-outcome",
+            "попытка": "452-CLI-only",
+            "свидетельство": ""
+          }
+        }
+      ]
+    },
+    "воспроизведение": {
+      "manifestUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\nlet package = Package(name: \"СписокРабот\", targets: [\n    .target(name: \"СписокРабот\", swiftSettings: [.define(\"TESTING\"), .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]),\n    .testTarget(name: \"ПроверкиСпискаРабот\", dependencies: [\"СписокРабот\"], swiftSettings: [.unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])])\n], swiftLanguageModes: [.v6])\n",
+      "sourceMap": [
+        {
+          "path": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "path": "koordinaciya/proverki-spiska-rabot.swift",
+          "sha256": "3587b71a4a6bcf13d0fa20bf18d8565fc496d0e4d7d03c643c47a51fc31d7170"
+        }
+      ],
+      "подготовка": "В собственном пустом0700 каталоге создать manifestUTF8 как Package.swift; скопировать два закреплённых исходника в Sources/СписокРабот и Tests/ПроверкиСпискаРабот; общий Package FUM не запускать",
+      "testArgv": [
+        "swift",
+        "test",
+        "--package-path",
+        "<scratch>",
+        "--scratch-path",
+        "<scratch>/build",
+        "--cache-path",
+        "<scratch>/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1"
+      ],
+      "CLI": {
+        "schema": "fum.координация.worklist-source-map.1",
+        "version": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+        "sources": [
+          {
+            "path": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+            "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+          }
+        ],
+        "binarySHA256": "28a6bb12763d6eace1b51569289ad59646b28364c58f28b5419405343162e3a0",
+        "argv": [
+          "-swift-version",
+          "6",
+          "-strict-concurrency=complete",
+          "-warnings-as-errors",
+          "-enable-actor-data-race-checks",
+          "-module-cache-path",
+          "<private-attempt>/swift-tests/module-cache",
+          "-parse-as-library",
+          "<repository-root>/koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "-o",
+          "<private-attempt>/current/spisok-rabot"
+        ],
+        "exit": 0,
+        "sourceOnly": true,
+        "productionStop": false,
+        "durableExecutor": false
+      },
+      "запускCLI": "Сериализовать фикстураCLI в обычный входной файл. Запустить отдельный CLI с этим stdin; сохранить intent JSON. Передать его состояние в следующий вход события исход с теми же attempt и входНамерения. Ни один этап сам не сохраняет файл состояния и не запускает выбранное действие"
+    },
+    "проверки": {
+      "различающиеСлучаи": [
+        "pending todo → status question → status answer → прежний pending todo",
+        "additive steering сохраняет original",
+        "child commit оставляет parent todo",
+        "waiting answer блокирует только зависимое",
+        "document не закрывает implementation",
+        "item loss отклоняется",
+        "unsupported cancel отклоняется",
+        "crash между intent/outcome даёт UNKNOWN",
+        "три старых continuation плюс новая generation",
+        "повтор same fingerprint",
+        "human STOP",
+        "bad W/ref/HEAD/native UUID",
+        "broken chain/reentry",
+        "partial history не даёт complete"
+      ],
+      "SwiftTesting": "15 тестов PASS:14 различающих сценариев, пять параметризованных mismatches и отдельный bounded profile; Swift6 complete concurrency, warnings-as-errors, actor data race checks",
+      "прямыеЗапуски": [
+        {
+          "попытка": "worklist-red",
+          "код": 1,
+          "сигнал": null,
+          "секунд": 34.400050625,
+          "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSHA256": "5ecca865226952d9dc17778280a5ec9930409753a0404128c663a1f818e87769",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1"
+          ]
+        },
+        {
+          "попытка": "worklist-green-1",
+          "код": 0,
+          "сигнал": null,
+          "секунд": 34.802975375,
+          "stdoutSHA256": "91bce1b3267da95aa1244fa37f258a6690be22bcf5d8004e7380f3c30af7a3ab",
+          "stderrSHA256": "f8fa440dd946f38d15db2dc43d4b82a0f4c753c5b5497cf7555b9d5c8c72c91c",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1"
+          ]
+        },
+        {
+          "попытка": "worklist-review-red",
+          "код": 1,
+          "сигнал": null,
+          "секунд": 6.221641625,
+          "stdoutSHA256": "58285ec802a1c23fae64cc6dc2b7e5032ef9bef45d6dc8f5a4031d7b0ea7dcad",
+          "stderrSHA256": "329aac3ac3e4ec8063efc72b097079ec6967e9e672a3c4a21a9a02647d27dbaf",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1",
+            "--filter",
+            "уточнениеДополняет|стопИмеетПриоритет|цепьИПовтор"
+          ]
+        },
+        {
+          "попытка": "worklist-intent-replay-red",
+          "код": 1,
+          "сигнал": null,
+          "секунд": 4.619711291,
+          "stdoutSHA256": "4787b58254bf4be7f5e30af1952eeb35f5584ae1ad717236414b7921d1dc6104",
+          "stderrSHA256": "64284890e8ae15a6da82cd5eeb3b0bfbfec78e1b947fa6d20fcf13ff8eb36e27",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1",
+            "--filter",
+            "цепьИПовтор"
+          ]
+        },
+        {
+          "попытка": "worklist-green-2",
+          "код": 1,
+          "сигнал": null,
+          "секунд": 3.177558042,
+          "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSHA256": "964130d1bef93ed5f66d45768fb4965f5d4f7f6cbcac971809c6ba5c5d627ae9",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1"
+          ]
+        },
+        {
+          "попытка": "worklist-green-3",
+          "код": 0,
+          "сигнал": null,
+          "секунд": 10.932590291,
+          "stdoutSHA256": "3381cd84b7aa5a2ca9ce09bed46aec482a8e969e064a2b72e026ea0e5917b8ec",
+          "stderrSHA256": "cae091dc3729189437f962646f142c4a1f2fea98f19d951b3f09232d2a95d078",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1"
+          ]
+        },
+        {
+          "попытка": "worklist-final-green",
+          "код": 0,
+          "сигнал": null,
+          "секунд": 9.881357625,
+          "stdoutSHA256": "c762665f693f8c24199574a7a0cfb5fc8d531accb0bdb3aebdea7495a5353c30",
+          "stderrSHA256": "75d8508478db2c328039674f44eef63e2d18c2e27f6616831ad2111d1eed7096",
+          "команда": "swift",
+          "аргументы": [
+            "test",
+            "--package-path",
+            "<private-attempt>/swift-tests",
+            "--scratch-path",
+            "<private-attempt>/swift-tests/build",
+            "--cache-path",
+            "<private-attempt>/swift-tests/cache",
+            "--disable-sandbox",
+            "--jobs",
+            "1"
+          ]
+        },
+        {
+          "попытка": "cli-build",
+          "код": 0,
+          "сигнал": null,
+          "секунд": 7.153425583,
+          "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "команда": "swiftc",
+          "аргументы": [
+            "-swift-version",
+            "6",
+            "-strict-concurrency=complete",
+            "-warnings-as-errors",
+            "-enable-actor-data-race-checks",
+            "-module-cache-path",
+            "<private-attempt>/swift-tests/module-cache",
+            "-parse-as-library",
+            "<repository-root>/koordinaciya/ustojchivyij-spisok-rabot.swift",
+            "-o",
+            "<private-attempt>/current/spisok-rabot"
+          ]
+        },
+        {
+          "попытка": "cli-positive-intent",
+          "код": 0,
+          "сигнал": null,
+          "секунд": 0.444668708,
+          "stdoutSHA256": "6f25cd71a4cc479226a8d5252d31e0b3f16dc98b4e10c33b304f5637f4b0a63b",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "команда": "spisok-rabot",
+          "аргументы": []
+        },
+        {
+          "попытка": "cli-positive-outcome",
+          "код": 0,
+          "сигнал": null,
+          "секунд": 0.007513083,
+          "stdoutSHA256": "3fb5d853a3bdd2ceab31af248aa9a6fb8ada8fe2a7c33d352ff95116a6ab3961",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "команда": "spisok-rabot",
+          "аргументы": []
+        },
+        {
+          "попытка": "cli-negative-writer",
+          "код": 1,
+          "сигнал": null,
+          "секунд": 0.005502084,
+          "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSHA256": "e32f04698581709afcf80a681563198cc02895bb53c8b04847f605f81c0cdb1c",
+          "команда": "spisok-rabot",
+          "аргументы": []
+        }
+      ],
+      "суммаСекунд": 111.646994332,
+      "профиль": [
+        "ПРОФИЛЬ worklist N=16 решений=8 секунд=0.133260333 seconds записей=16",
+        "ПРОФИЛЬ worklist N=32 решений=8 секунд=0.169521208 seconds записей=16",
+        "ПРОФИЛЬ worklist N=64 решений=8 секунд=0.273740959 seconds записей=16"
+      ],
+      "оптимизация": "N16/32/64, по8 решений и16 trace records:0.133260333/0.169521208/0.273740959с. В этом малом сценарии изменение алгоритма не оправдано; сохраняется полная сверка цепи. Ускорение и пригодность для большой истории не заявляются",
+      "ROReview": "Независимый ребёнок выявил4 дефекта; все получили RED/GREEN. После исправлений новых существенных дефектов в адресной области не найдено; review не считается тестом",
+      "наблюдённыеОшибки": [
+        {
+          "фаза": "подготовка private metadata overlay",
+          "код": 1,
+          "сообщение": "spawnSync /opt/homebrew/bin/rg ENOENT",
+          "эффектGit": false,
+          "FUMAЗапущен": false,
+          "исправление": "Новая версия private builder использует rg через текущий PATH вместо выдуманного absolute locator",
+          "rawStderr": "Только tool transcript; отдельный байтовый stderr отсутствует"
+        },
+        {
+          "отказ": "child-parent-lineage-must-remain-unknown",
+          "rawAttempt": "merge608-preflight",
+          "эффектGit": false,
+          "причина": "Старый v1 child receipt запрещает непустой attachedThreadParentIDRaw, независимо от доступного нового native session_meta",
+          "исправление": "В новой попытке compatibility field остаётся пустым/unknown; фактический observed native parent сохраняется отдельно в incarnation evidence",
+          "наблюдённыйNativeParent": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
+        },
+        {
+          "попытка": "worklist-green-2",
+          "исход": "Ошибка компиляции: throwing && expression без внешнего try. Исправлено; последующие GREEN3 и final GREEN успешны. Это реальная ошибка реализации, не planned RED"
+        }
+      ],
+      "исключено": {
+        "старыйPython": "ОТКЛЮЧЁН / НЕ ПРОВЕРЕНО",
+        "ROOTJSONL": "ИСКЛЮЧЁН / ПОЛНОТА UNKNOWN",
+        "genericCheckpoint32": "UNKNOWN; частный прототип не применялся как общий gate",
+        "manifestChecker454": "Отдельный owner, здесь не реализован",
+        "общийSmoke": "НЕ ЗАПУСКАЛСЯ; выбран адресный source+JSON checkpoint"
+      }
+    },
+    "сохранение": {
+      "повреждённыйЖурналSHA256": "d491f77bfd9d801a9af1788e55958224efd3646f1fed042c373aad769c2836d8",
+      "старыеБайтыНеИзменены": true,
+      "принятыйSegmentPrefixSHA256": "2bc7858dc6e2f25a1182e060e971a9b6de69fb2a30b4f505a36a92a5f4330ef5",
+      "принятыйSegmentPrefixBytes": 51142,
+      "старыйStateSHA256": "86e92922e0a2d26c6901bb8a9f3dc27dd7a7c15cfd381f859596f3f538603115",
+      "приватныеПопытки": "Уникальные0700; stdout/stderr/exit без перезаписи. Закрытые прежние receipts не переоткрывались"
+    },
+    "осталось": [
+      "Независимая ROOT приёмка точного source checkpoint и canonical mapping452 в существующем планировании",
+      "Адресный следующий заказ native Stop владельцу perekhod-vetok после ресурсного восстановления и его ACK",
+      "Production caller с независимым допуском и durable persist-before-outcome executor; сейчас не подключены",
+      "Калибровка production budget и крупной истории; полнота ROOT диалога не проверялась"
+    ],
+    "живыеЭффекты": {
+      "новыйRegistry": false,
+      "daemon": false,
+      "heartbeat": false,
+      "dispatcher": false,
+      "liveStop": false,
+      "чужойWorktree": false,
+      "старыйCLIRebuild": false,
+      "productionActivation": false
+    }
   }
 }
