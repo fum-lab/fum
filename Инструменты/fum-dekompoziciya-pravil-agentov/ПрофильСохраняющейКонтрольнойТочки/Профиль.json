@@ -1,0 +1,77 @@
+{
+  "схема": "fum.preserving-checkpoint.1",
+  "грант": {
+    "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "основаниеSHA256": "83a74e233ddac00019b4316862ca673336641f7bcadc71cbaf8dce0e9027a6bd",
+    "область": [
+      "AGENTS.md",
+      "Правила/агентов/журнал-и-происхождение.md",
+      "Правила/агентов/проверки-коммит-и-публикация.md",
+      "Правила/агентов/инвентарь-правил.json",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/tests/фикстуры/профили-продолжения.json",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Источник.md",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Профиль.json",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Package.swift",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Sources/ПрофильСохраняющейКонтрольнойТочки/Проверка.swift",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Sources/ПроверитьПрофиль/main.swift",
+      "Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Tests/ПрофильСохраняющейКонтрольнойТочкиTests/ПроверкаTests.swift"
+    ],
+    "писателей": 1,
+    "остановкаСохранена": true
+  },
+  "основа": {
+    "commit": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+    "tree": "1bb324e54067fd606806203a7e6aeff01946261e",
+    "ref": "refs/heads/codex/preserving-profile",
+    "кореньWorktreeSHA256": "8508f88ae244b7996f0aa722ebee7414916829536705ab62574deceaa33db828"
+  },
+  "первоначальнаяОснова": {
+    "commit": "9eec7d2f1f9f49b09812963f68ed637e96850090",
+    "tree": "869f19a1edea79dbf6652570834f477619ae4bbe"
+  },
+  "автор": "FUM Codex [gpt-6-luna; effort=high]",
+  "модель": "gpt-6-luna",
+  "наблюдениеАвторства": {
+    "источник": "state_5.sqlite:threads",
+    "id": "01a17869-c953-7163-bb76-21716549be02",
+    "effort": "high",
+    "строкаSHA256": "4c7df04e8ad47d5196394e8d3d0f8928026b336ab54faaa8f97b0f9392b74088",
+    "байтыВнеGit": "sessions/2026/10/29/01a17869-c953-7163-bb76-21716549be02/model-observation.tsv"
+  },
+  "проверки": {
+    "native_swift_positive": {
+      "исход": "выполнено",
+      "основание": "обычный и --disable-xctest запуски: codesign code object is not signed at all в подкомпоненте bundle с NFD кириллицей; swift test --build-system native --disable-xctest --enable-swift-testing passed принимаетУзкийПрофильСЯвноНезапущеннымиПроверками с -warnings-as-errors и -strict-concurrency=complete; native deprecated"
+    },
+    "native_swift_negative": {
+      "исход": "выполнено",
+      "основание": "обычный и --disable-xctest запуски: codesign code object is not signed at all в подкомпоненте bundle с NFD кириллицей; swift test --build-system native --disable-xctest --enable-swift-testing passed отклоняетФиктивныйУспехИсключённойПроверки с -warnings-as-errors и -strict-concurrency=complete; native deprecated"
+    },
+    "legacy_python": {
+      "исход": "не запускалось",
+      "основание": "прямой запрет ROOT; не объявлять GREEN"
+    },
+    "root_jsonl": {
+      "исход": "не запускалось",
+      "основание": "прямой запрет ROOT; источник не запрашивался"
+    },
+    "publication": {
+      "исход": "не запускалось",
+      "основание": "commit и push не выполнялись; состояние публикации не заявляется"
+    }
+  },
+  "отклонение": {
+    "исход": "один успешный read-only вызов Python-маршрутизатора после прямого запрета",
+    "команда": "python3 Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py --корень-репозитория . маршрут --триггер диалог --триггер изменение --триггер код --триггер проверки --триггер инструменты --триггер git --триггер правила",
+    "кодВыхода": 0,
+    "эффект": "изменений файлов не было; повторов не будет"
+  },
+  "неизвестныйОстаток": [
+    "старый Python-профильный валидатор и его полный набор Python-тестов не запускались",
+    "полный ROOT JSONL и остаток сообщений не читались и не обрабатывались",
+    "SwiftPM --build-system native deprecated; предыдущие обычные сборки ломались на codesign для кириллического bundle-пути, поэтому нужна будущая portable-проверка обхода",
+    "PR и финальная приёмка остаются отдельными границами и в этой контрольной точке не заявляются"
+  ]
+}
