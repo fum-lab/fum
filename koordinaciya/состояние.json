@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
+    "собственныйКонтрольныйКоммит": "89cdd83223c3498f26b3b81693bf58914ae735d8",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.5",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "bd0ad2001446abad8c1afb7c81571b7baa57b3a8",
+      "родитель": "15eea52580f6b719fff26c9a63066da53f3144b6",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "RO аудит fixed416 выявил trap: Data.SubSequence может иметь startIndex не ноль. Исправить reader относительными индексами без копирования всего входа; добавить sliced-Data регрессию и ограниченный N/2N/4N профиль с отдельными этапами чтения, JSON-разбора и SHA-256. Проверить новые русские имена собственных API, сохранить границы повреждённого журнала и не начинать большой рефакторинг.",
-      "заголовок": "Исправить индексацию срезов Data",
-      "описание": "Reader переводит относительные смещения через Data.startIndex и distance(from:to:); копирует только ограниченные записи. RED: sliced Data с ненулевым startIndex аварийно завершался. GREEN: Swift Testing 6/6 на точной исходной паре, включая sliced Data. Профиль N/2N/4N: 256/512/1024 записи, максимум 231252 байта; чтение, JSON-разбор, SHA-256 и полный reader измерялись раздельно. Время зависит от debug I/O, поэтому ускорение не заявляется. Изменены только reader, тест, состояние и append-only сегмент. Первичный журнал не переписывался: строки 66–67 повреждены; общий Package consumer не подключён. Следующий срез: явные физические W/ref/OID, безопасные Process.arguments, и раздельная проверка commonRootTaskUUID и actualWriterNativeUUID; backend остаётся неизвестным."
+      "исходныйЗапрос": "ROOT: Это реальный случай неверной последовательности/выбора режима, а не запланированный negative test: не называй accidental refusal заранее ожидаемым прогоном. Закрепи в сохранённой программе явный выбор по фактическому числу parent raw-объекта:1→обычный checker с tree OID;2→merge checker с независимым JSON expectation; иной состав→отказ. Не подставляй expected merge в ещё однородительский исходник. Теперь закончи15eea single-parent проверкой в новой попытке, затем отдельно выполни настоящий reverse merge ROOT4f4fc05 и его raw-merge проверку. Два разных объекта/дерева/попытки. Нового полного suite не нужно. PR455 готов к source-only приёмке, но ROOT4f держу ради твоего конечного окна ещё до этого завершения. Если есть настоящий блокер — сообщи точно; готовый код не откладываем из-за новых общих рамок.",
+      "заголовок": "Развести raw-проверку source и merge-коммитов",
+      "описание": "Однородительский source checkpoint 15eea52580f6b719fff26c9a63066da53f3144b6, parent 89cdd83223c3498f26b3b81693bf58914ae735d8, tree 78d42b2e33157925fbbb042b8539e0b1f9c4d300 прошёл single-parent raw checker: raw SHA d076b7e0, stdout SHA d10f9d30, exit 0. Отдельная первая попытка ошибочно выбрала merge checker для одного parent и получила отказ «неверное-число-ожидаемых-merge-родителей»; это случай неверного выбора пути, сохранённый как observed refusal, не planned negative test. Профиль выбирает checker по фактическому числу родителей raw-объекта: один — single checker с tree OID; два — merge checker с independent ordered-parent/tree JSON; любое другое число — отказ. Ранее сохранённое событие 81 фиксировало дерево eaf5c5 на тот момент; окончательный свежий staged tree для 15eea был 78d42 после добавления JSON/JSONL-записей. ROOT4f отдельно включён merge-коммитом 89cdd с родителями [872ae1d,4f4fc05], tree ae49bba8e2f31b106a4194b3c26693ae16ffc2b0 и raw merge-check PASS; это другой объект, дерево и попытка. Неизменённый suite повторно не запускался. Push/readback/PR ещё не выполнены; ROOT acceptance и production caller/executor не заявляются."
     }
   },
   "результатГенератораМетаданных": {
@@ -2784,20 +2784,21 @@
   },
   "остатокКоординатора": {
     "status": "active; no production activation claimed",
-    "currentStage": "sliced-Data reader correction verified; FUMA pre-effect PASS; own source commit and delivery pending",
+    "currentStage": "typed Git execution binding and argv gate implemented; 15/15 Swift Testing passed; source merge candidate includes ROOT base b2440d6; commit/push pending",
     "nextStage": {
-      "id": "explicit-git-worktree-ref-oid-adapter",
-      "state": "queued after current reader-correction checkpoint",
-      "scope": "Replace ambient FileManager.default.currentDirectoryPath for coordinator Git calls with an explicitly supplied physical worktree and expected full ref/HEAD OID; fail closed before Git effect on wrong cwd, foreign ref or stale OID.",
+      "id": "source-checkpoint-and-ordinary-delivery-of-explicit-git-binding",
+      "state": "ready",
+      "scope": "Commit the exact staged merge candidate with parents [c399da6, b2440d6], validate raw commit/tree/identity, and push the exact OID to the own branch. Then continue the available #363 work by wiring the typed native identity observation into the intended consumer; no production activation is claimed by this source slice.",
       "negativeCases": [
-        "wrong physical cwd",
-        "foreign symbolic ref",
-        "stale expected HEAD",
-        "primary checkout fallback",
-        "source UUID equals common root task UUID while actual writer native UUID differs",
-        "missing or mismatched actual writer native UUID"
+        "wrong physical worktree",
+        "foreign branch namespace",
+        "stale HEAD OID",
+        "wrong origin",
+        "common ROOT UUID substituted for writer native UUID",
+        "receipt/native UUID mismatch",
+        "malformed refspec"
       ],
-      "productionConsumerNotConnected": true
+      "productionConsumerConnected": false
     },
     "observedZshRefspecRefusal": {
       "sourceCommit": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
@@ -2822,6 +2823,281 @@
       "наблюдение": "ROOT подтвердил, что executor правил прочитал SQLite-строку ROOT вместо собственной; опубликованный commit использовал чужую пару автора.",
       "состояние": "ROOT сообщил, что владелец готовит correction; историю не переписывать.",
       "будущаяПроверка": "actualWriterNativeUUID должен совпадать с expectedWriterNativeUUID независимого назначения; commonRootTaskUUID остаётся только в trailer; backend остаётся unknown"
+    }
+  },
+  "проверкаПривязкиИсполненияGit": {
+    "схема": "fum.координация.проверка-привязки-git.1",
+    "время": "2026-10-29T05:33:18Z",
+    "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "собственныйNativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "собственныйВыбор": {
+      "модель": "gpt-6-luna",
+      "усилие": "max",
+      "источник": "свежая адресная native metadata строка для собственного UUID",
+      "backend": "unknown"
+    },
+    "источники": {
+      "собственныйHEAD": "c399da65f0fe07327998aac2f383755aef6bc0b2",
+      "принятыйROOTMerge": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "собственныйRef": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "origin": "https://github.com/fum-lab/fum.git"
+    },
+    "контракт": {
+      "общийUUIDКорневойЗадачи": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "actualWriterNativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "независимы": true,
+      "квитанцияИОжиданиеПроверяются": "существующий ГенераторМетаданныхКоммита.проверитьReceipt, canonical bytes, independent SHA-256",
+      "источникBackend": "unknown"
+    },
+    "эффект": {
+      "наблюдение": "физический корень, symbolic ref, HEAD commit OID и origin читаются Process.arguments с заданным физическим cwd",
+      "команда": [
+        "/usr/bin/git",
+        "push",
+        "origin",
+        "<точный OID>:<точный refs/heads/fum-lab/fum/koordinaciya/...>"
+      ],
+      "shell": false,
+      "проверкаСразуПередВызовом": true,
+      "вызовИсполнителя": "не больше одного внутри вызова; при исключении исход неизвестен и повтор без readback запрещён",
+      "удалённыйReadback": "обязателен после реального push",
+      "productionConsumerПодключён": false
+    },
+    "исходники": [
+      {
+        "роль": "production adapter",
+        "путь": "koordinaciya/координатор.swift",
+        "sha256": "a59a75ad9b25ec140febbf4432c0b64a002517166d8e585b26811f971d0c4f34"
+      },
+      {
+        "роль": "Swift Testing",
+        "путь": "koordinaciya/proverki-privyazki-ispolneniya-git.swift",
+        "sha256": "1bc3fae3bd6c44eb4be5572db5af4668875f6e2a880bb92b5366ac9e517be1c0"
+      },
+      {
+        "роль": "accepted metadata generator, unchanged",
+        "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+        "sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+      }
+    ],
+    "проверки": {
+      "TDD": {
+        "red": "exit 1; Swift Testing compilation reported missing ОжидаемаяПривязкаИсполненияGit and НаблюдаемаяПривязкаИсполненияGit",
+        "green": "15/15 Swift Testing; exit 0; exact source mapping matched; standalone bounded package; no root Package build"
+      },
+      "различающиеСценарии": [
+        "valid own W/ref/OID/root/writer receipt",
+        "wrong W",
+        "wrong ref",
+        "wrong OID",
+        "wrong origin",
+        "wrong common ROOT UUID",
+        "ROOT UUID cannot stand in for native writer UUID",
+        "native receipt UUID mismatch",
+        "native agent path mismatch",
+        "independent receipt/model mismatch",
+        "foreign ref namespace",
+        "malformed refspec",
+        "explicit cwd read while test cwd differs",
+        "bad UUID prevented executor callback",
+        "valid binding calls injected executor once"
+      ],
+      "pushActuallyExecuted": false
+    },
+    "воспроизведение": {
+      "профиль": "private minimal SwiftPM harness; repository has no new Package",
+      "packageManifestUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\nlet package = Package(\n    name: \"Koordinaciya\",\n    products: [.library(name: \"Koordinaciya\", targets: [\"Koordinaciya\"])],\n    targets: [\n        .target(name: \"Koordinaciya\", path: \"Sources/Koordinaciya\"),\n        .testTarget(name: \"KoordinaciyaTests\", dependencies: [\"Koordinaciya\"], path: \"Tests/KoordinaciyaTests\")\n    ],\n    swiftLanguageModes: [.v6]\n)\n",
+      "packageManifestSHA256": "87ee009f24cfb2d6330b99cab4fdb08368bb541f8477008fd79f26d8a95e5507",
+      "sourceMapping": [
+        {
+          "repository": "koordinaciya/координатор.swift",
+          "scratch": "Sources/Koordinaciya/координатор.swift"
+        },
+        {
+          "repository": "koordinaciya/генератор-метаданных-коммита.swift",
+          "scratch": "Sources/Koordinaciya/генератор-метаданных-коммита.swift"
+        },
+        {
+          "repository": "koordinaciya/proverki-privyazki-ispolneniya-git.swift",
+          "scratch": "Tests/KoordinaciyaTests/proverki-privyazki-ispolneniya-git.swift"
+        }
+      ],
+      "swiftVersion": "Swift 6.4; arm64-apple-macosx27.0.0",
+      "argv": [
+        "swift",
+        "test",
+        "-Xswiftc",
+        "-DTESTING",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors"
+      ],
+      "dependencies": []
+    },
+    "ограничения": [
+      "API выбора модели берётся из принятого typed producer и точного текущего собственного native metadata read; backend неизвестен.",
+      "Сама эта source поставка ещё не подключена к общему production consumer.",
+      "Никакой реальный remote push этим тестовым пакетом не выполнен."
+    ]
+  },
+  "проверкаБезопасностиPush": {
+    "схема": "fum.координация.проверка-безопасности-push.1",
+    "время": "2026-10-29T06:56:39Z",
+    "основа": "872ae1d750961b67d00f948b11d83f9077f785c5",
+    "планируемыйРодитель": "872ae1d750961b67d00f948b11d83f9077f785c5",
+    "профиль": "koordinaciya/proverka-bezopasnosti-otpravki-git.json",
+    "профильSHA256": "6686b8fbbd20ae9b94e6dad5b549351e82c583a3271134acaf92e89995483a0d",
+    "собственныйRef": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "собственныйUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "выбор": {
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "backend": "unknown"
+    },
+    "проверки": {
+      "swiftTesting": "17 прежних targeted Swift Testing результатов сохранены на test SHA 1cda11; после усиления submodule snapshots 2 целевых Swift Testing теста PASS на test SHA 863e01, stdout 0f16e4 и stderr 1f62d7",
+      "rawCheck": "ROOT4f merge 89cdd raw-check PASS (tree ae49bba8, parents [872ae1d,4f4fc05]); single-parent status checkpoint 15eea raw-check PASS (tree 78d42b2e, parent 89cdd); profile now distinguishes the two CLI modes",
+      "pushSafety": "normal exact push of 872ae1d to own ref succeeded; one effective HTTPS push URL, no pushOption/refspec/custom receive-pack, no executable pre-push hook; independent ls-remote matched; ROOT ref unchanged"
+    },
+    "сохранённыеНарушения": [
+      "сохранённые cwd/harness/closure/trailing-slash отказы не удалялись",
+      "предыдущий приватный Python-вызов признан нарушением; код и рабочее дерево не менял",
+      "Один промежуточный harness copy использовал неверный относительный cwd и повторно запустил старый RED; исправленная копия затем дала GREEN.",
+      "Один title-based Swift Testing filter не совпал с именем теста и сообщил 0 tests; проверка перезапущена по function-name и включена в 14-test GREEN.",
+      "Первый metadata preflight был готов, но сохранил старую тему: изменение попало в неправильный вложенный узел plan; preflight не использован для Git-эффекта и заменяется исправленным запуском."
+    ],
+    "исправлениеWorktreeConfig": {
+      "регрессия": "extensions.worktreeConfig=true; push.pushOption=fixture-option in config.worktree; bare pre-receive marker and refs checked before/after",
+      "RED": {
+        "exit": 1,
+        "sourceSHA256": "577b5f4a4e9c4f1e5fdc7fff1748e154a41821ab8acadc94640b7a838d5cfed6",
+        "testSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+        "результат": "receiver marker and remote ref changed; observer had read --local only"
+      },
+      "GREEN": {
+        "exit": 0,
+        "sourceSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+        "testSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+        "receiptSHA256": "5c8c8ed2aef5cde95a3ff3967494d66bd6c00be3a0c0e22cfc30f189d5c1cd67"
+      },
+      "related14SHA256": "6deb04cb813ddd343d9b43cc786d5b9647ce4641cdc6eb7ef9d142cfae8de1f2",
+      "edge3SHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
+    },
+    "статус": "89cdd ROOT4f merge raw-check PASS; 15eea single-parent status checkpoint raw-check PASS; own push/readback/PR pending; ROOT acceptance and production caller/executor not claimed",
+    "текущийИсточник": {
+      "координаторSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+      "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+      "тестыSHA256": "863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd",
+      "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
+      "buildManifestSHA256": "43bea5ccda6933d82852dae2a0d6ace7f8b7119da943540d35c445721a4d2bc5",
+      "nativeSelection": {
+        "uuid": "01a18294-b6ff-7352-92e1-6b576d412172",
+        "model": "gpt-6-luna",
+        "effort": "max",
+        "backend": "unknown",
+        "freshExactRowRead": true,
+        "observedAt": "2026-10-29T06:22:21Z"
+      },
+      "sourceCommit": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "tree": "7b8f4aa65917a3d5d259590e9709b70e7144554b",
+      "remoteReadbackOID": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "remoteReadbackSHA256": "9bc629fc9877f0d3064345a0aad604c8b59f50f37659e810719b4877239c3a97"
+    },
+    "поручениеДополнение": "ROOT: close P1s by binding exactly one effective push destination, disabling mirror/followTags/recurseSubmodules expansion, checking other applicable local configuration, and proving negative cases with no extra refs; keep #452 after ROOT acceptance",
+    "актуальнаяОсноваROOT": {
+      "commit": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+      "tree": "e1a75695f81394c51b8fb7b65218f58c6e6c20bb",
+      "ref": "refs/heads/fum-lab/fum/master",
+      "remoteVerified": true,
+      "mergeBase": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "conflicts": false,
+      "sourceAndTestUnchanged": true
+    },
+    "свежееНаблюдениеСобственнойСессии": {
+      "nativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "agentPath": "/root/koordinaciya",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "rawRowSHA256": "75b7d5ad98ebfb128067cb30106de81d85c2e1ee74294d4e91a6de757e2aecfe",
+      "observedAt": "2026-10-29T06:56:39Z",
+      "backend": "unknown"
+    },
+    "планируемыеРодители": [
+      "89cdd83223c3498f26b3b81693bf58914ae735d8"
+    ],
+    "адреснаяПроверкаOIDRefs": {
+      "testSHA256": "863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd",
+      "targetedCount": 2,
+      "exit": 0,
+      "stdoutSHA256": "0f16e4f242048a202fda3910b669b2bfe65487eb97d28f805cdce3c4daa28b9f",
+      "stderrSHA256": "1f62d7d57a731565028dbe317afb8b0a6d9d2245de2542c814ed62d75e300968",
+      "testFunctions": [
+        "снимокBareRefsОтличаетПродвижениеOID",
+        "recurseSubmodulesНеПубликуетПодмодульныеRefs"
+      ],
+      "scope": "local bare Git fixtures"
+    },
+    "исправлениеПрофиляRawCheck": {
+      "ошибка": "legacy freshProcessInvocationTemplate passed an expectation JSON path to --проверить-сырой-коммит, which expects a tree OID string",
+      "исправление": "profile selects from the parsed raw object's actual parent count: one parent uses --проверить-сырой-коммит with expected tree OID; two ordered parents use --проверить-сырой-merge-коммит with independent schema-checked parents/tree; every other count refuses",
+      "историческийОтказВыбораРежима": {
+        "commitOID": "15eea52580f6b719fff26c9a63066da53f3144b6",
+        "modeSelected": "merge checker for one-parent source checkpoint",
+        "exit": 1,
+        "stdoutSHA256": "9dfac38a8ac400daf999fa54775e1428c34e680a22f1668959e342de71e32ddf",
+        "error": "неверное-число-ожидаемых-merge-родителей",
+        "classification": "observed invocation mistake; not a planned negative test",
+        "gitEffect": false
+      },
+      "historicalSourceCheckpoint872RawCheckPreserved": true
+    },
+    "mergePreflight": {
+      "exit": 0,
+      "ready": true,
+      "errors": [],
+      "outputSHA256": "66201049d43b78e121fcc4fece905b5247f8c046cca99a884c569abd62417c21",
+      "messageSHA256": "b7e06c76e7fbc285529f37f098519cb6c14ab51d040b4b8c5bec9bf14ba6fa68",
+      "gitEffect": false,
+      "status": "pre-effect only"
+    },
+    "root4fMergeRawCheck": {
+      "commitOID": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+      "treeOID": "ae49bba8e2f31b106a4194b3c26693ae16ffc2b0",
+      "parents": [
+        "872ae1d750961b67d00f948b11d83f9077f785c5",
+        "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
+      ],
+      "rawObjectSHA256": "b93b3e204d46cebee19186edacc2d971584a956fba0ea0f29b170194c00833e4",
+      "rawCheckExit": 0,
+      "rawCheckJSONSHA256": "ab3f00f5fd664fc52723a40cadb753cea214bcfeda120ea2d2a5dee70c1173c5",
+      "verified": true,
+      "gitEffect": false
+    },
+    "statusCheckpointPreflight": {
+      "exit": 0,
+      "ready": true,
+      "outputSHA256": "bb8062f5b4d0347401a7342b63e4f34ad009774075236db42ee63c6459fcaaf0",
+      "messageSHA256": "44ee1909c1161d7de74d491c049923ffe365ffbf9886e07dbb8fa609fd37d922",
+      "gitEffect": false,
+      "attemptMode": "0700 unique"
+    },
+    "statusCheckpointRawCheck": {
+      "commitOID": "15eea52580f6b719fff26c9a63066da53f3144b6",
+      "treeOID": "78d42b2e33157925fbbb042b8539e0b1f9c4d300",
+      "parent": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+      "rawObjectSHA256": "d076b7e042dac5dcc1b54dce777e1af80d5a9d3b62308d5b662edf9bc9e5c218",
+      "cli": "--проверить-сырой-коммит state.json expectedTreeOID",
+      "exit": 0,
+      "stdoutSHA256": "d10f9d306202aa473a16f8e3819ad371187b290859d987ed3978203d498a60e4",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
+      "fumaRunID": "fuma-ef5dcab3-7c13-4226-acb3-5f20142bf838",
+      "fumaInputSHA256": "d3c9754d58c45b21cef7f450fea5418f7af2d7c82d7b5108a39f356c3fd13a6e",
+      "fumaResponseSHA256": "770d1cd83234e223674337ed54e0440ac99fb4cdaf07f160f0b48582bd04008f",
+      "fumaExecutionEvidenceSHA256": "a7904dbbc34599c14a4f8c3ece786d925285b0ebebacd9c6295db0fa2ec58b1b",
+      "verified": true,
+      "gitEffect": false
     }
   }
 }
