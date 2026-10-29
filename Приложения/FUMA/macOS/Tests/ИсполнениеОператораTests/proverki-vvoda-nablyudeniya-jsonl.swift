@@ -13,6 +13,99 @@ private final class СчётчикСинхронизацииВвода: @uncheck
 
 @Suite("Ввод наблюдения JSONL через команду", .serialized)
 struct ПроверкиВводаНаблюденияJSONL {
+    private func ограниченнаяФикстура(_ байты: Data) throws -> (URL, URL, URL, [String]) {
+        let временный = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString.lowercased())
+        try FileManager.default.createDirectory(at: временный, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        let указатель = try #require(realpath(временный.path, nil))
+        defer { free(указатель) }
+        let корень = URL(fileURLWithPath: String(cString: указатель), isDirectory: true)
+        let вход = корень.appendingPathComponent("вход", isDirectory: true)
+        let история = корень.appendingPathComponent("история", isDirectory: true)
+        for каталог in [вход, история] {
+            try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+        }
+        let файл = вход.appendingPathComponent("данные.jsonl")
+        try #require(FileManager.default.createFile(atPath: файл.path, contents: байты,
+            attributes: [.posixPermissions: 0o600]))
+        let пакет = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let определение = пакет.appendingPathComponent("Операторы/тождество-байтов.json")
+        return (корень, файл, история, ["--ввод-наблюдения-JSONL", "--корень-файловой-системы", вход.path,
+            "--имя-файла", "данные.jsonl", "--источник", "фикстура",
+            "--определение", определение.path, "--журнал", история.path])
+    }
+
+    @Test("Граница поколения проверяется до первой записи")
+    func пределПоколенияДоПервойЗаписи() throws {
+        let (корень, _, история, аргументы) = try ограниченнаяФикстура(Data("{}\n".utf8))
+        var завершено = false
+        defer {
+            if завершено { try? FileManager.default.removeItem(at: корень) }
+            else { print("Приватная фикстура границы поколения: \(корень.path)") }
+        }
+        let большое = String(repeating: "ё", count: 128) + "a"
+        let допустимое = String(repeating: "ё", count: 128)
+        try #require(большое.utf8.count == 257 && допустимое.utf8.count == 256)
+        var отказАргументов = false
+        do { _ = try МостВводаНаблюденияJSONL.выполнить(аргументы: аргументы + ["--поколение", большое]) }
+        catch ОшибкаКомандногоИсполнения.аргументы { отказАргументов = true }
+        #expect(отказАргументов)
+        try #require(try FileManager.default.contentsOfDirectory(atPath: история.path).isEmpty)
+        try #require(отказАргументов)
+        let ответ = try МостВводаНаблюденияJSONL.выполнить(аргументы: аргументы + ["--поколение", допустимое])
+        let объект = try #require(JSONSerialization.jsonObject(with: ответ) as? [String: Any])
+        try #require(объект["состояние"] as? String == "записано")
+        let ссылка = try #require(объект["пакет"] as? String)
+        let цикл = ЦиклВводаJSONL()
+        try #require(цикл.прочитать(ссылка, история: история).поколение == допустимое)
+        try #require(цикл.восстановить(ссылка, история: история) == Data("{}\n".utf8))
+        завершено = true
+    }
+
+    @Test("Предел строки проверяется до первой записи")
+    func пределСтрокиДоПервойЗаписи() throws {
+        let (корень, файл, история, аргументы) = try ограниченнаяФикстура(Data(repeating: 97, count: 262_145))
+        var завершено = false
+        defer {
+            if завершено { try? FileManager.default.removeItem(at: корень) }
+            else { print("Приватная фикстура границы строки: \(корень.path)") }
+        }
+        let данные = try МостВводаНаблюденияJSONL.выполнить(аргументы: аргументы + ["--поколение", "1"])
+        let ответ = try #require(JSONSerialization.jsonObject(with: данные) as? [String: Any])
+        #expect(ответ["состояние"] as? String == "предел")
+        try #require(try FileManager.default.contentsOfDirectory(atPath: история.path).isEmpty)
+        try #require(ответ["состояние"] as? String == "предел")
+        try Data("{}\n".utf8).write(to: файл)
+        let пригодные = try МостВводаНаблюденияJSONL.выполнить(аргументы: аргументы + ["--поколение", "1"])
+        let подтверждение = try #require(JSONSerialization.jsonObject(with: пригодные) as? [String: Any])
+        try #require(подтверждение["состояние"] as? String == "записано")
+        завершено = true
+    }
+
+    @Test("Предшественник без истории отвергается до первой записи")
+    func предшественникБезИсторииДоПервойЗаписи() throws {
+        let (корень, _, история, аргументы) = try ограниченнаяФикстура(Data("{}\n".utf8))
+        var завершено = false
+        defer {
+            if завершено { try? FileManager.default.removeItem(at: корень) }
+            else { print("Приватная фикстура отсутствующей истории: \(корень.path)") }
+        }
+        var отказАргументов = false
+        do {
+            _ = try МостВводаНаблюденияJSONL.выполнить(аргументы: аргументы +
+                ["--поколение", "1", "--после", "отсутствует", "--подтверждение", "отсутствует"])
+        } catch ОшибкаКомандногоИсполнения.аргументы { отказАргументов = true }
+        #expect(отказАргументов)
+        try #require(try FileManager.default.contentsOfDirectory(atPath: история.path).isEmpty)
+        try #require(отказАргументов)
+        let данные = try МостВводаНаблюденияJSONL.выполнить(аргументы: аргументы + ["--поколение", "1"])
+        let ответ = try #require(JSONSerialization.jsonObject(with: данные) as? [String: Any])
+        try #require(ответ["состояние"] as? String == "записано")
+        завершено = true
+    }
+
     @Test("Хвост, повтор и дрейф через реальный CLI")
     func хвостПовторИДрейф() throws {
         let бинарник = try #require(ProcessInfo.processInfo.environment["ФУМА_КОМАНДА_ОПЕРАТОРА"])
