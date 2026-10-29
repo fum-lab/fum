@@ -7,8 +7,8 @@ import КонтейнерНаблюдений
 // Рецепт из корня Git FUM; все package-зависимости — локальные пути того же коммита.
 // Сначала зафиксировать `git rev-parse HEAD` и версию `swift --version`.
 // SCRATCH — существующий приватный каталог вне checkout, объём которого ограничен.
-// swift build --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --jobs 1 --product fum-оператор -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
-// env 'ФУМА_ПРОВЕРКА_ОПЕРАТОРА=1' "ФУМА_КОМАНДА_ОПЕРАТОРА=$SCRATCH/debug/fum-оператор" swift test --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --jobs 1 --disable-xctest --enable-swift-testing --filter ПроверкиОператорногоЦикла -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
+// swift build --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --jobs 1 --product fum-оператор -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
+// env 'ФУМА_ПРОВЕРКА_ОПЕРАТОРА=1' "ФУМА_КОМАНДА_ОПЕРАТОРА=$SCRATCH/debug/fum-оператор" swift test --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --jobs 1 --disable-xctest --enable-swift-testing --filter ПроверкиОператорногоЦикла -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
 // Фикстура создаёт временные FS, Git с refs/heads/проверка и внешний 0700 Segment.
 // Ожидаются одна завершённая рамка и сводка Git без учёта подмодулей; replay читает сохранённый вход,
 // даже если FS/Git изменены. Отказ графа после цикла оставляет план и отказ исполнения.
