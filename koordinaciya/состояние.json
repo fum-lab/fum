@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
+    "собственныйКонтрольныйКоммит": "2d76fd79c875ea5de2f2bf1b525cb0a3eff3013e",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
+      "родитель": "2d76fd79c875ea5de2f2bf1b525cb0a3eff3013e",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
-      "заголовок": "Добавить переносимый профиль потребителя байтов",
-      "описание": "В собственной области сохранён переносимый профиль Swift Testing для потребителя байтов: точные UTF-8 байты минимального Package.swift, mapping двух производственных исходников и одного тестового исходника, define TESTING, строгие флаги, фикстура и происхождение среды исполнения, шаблоны argv и переменных окружения. Историческая квитанция 2/2 и её SHA журнала сохранены без повторного запуска; публичный manifest является новым шаблоном воспроизведения и не объявляется побайтно равным прежнему закрытому тестовому каркасу. Для повтора нужен внешний fum-оператор с указанным SHA; его команда сборки неизвестна. Общий потребитель Package остаётся неподключённым, полная политика FUMA и фабрика не реализованы. Обратный merge ROOT cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e опубликован; PR 449 открыт, приёмка ROOT ожидает проверки. Исходные повреждённые строки 66–67 общего журнала не изменялись; полный журнал не объявляется валидным JSONL."
+      "исходныйЗапрос": "Поручение ROOT: Да, compact structured reader в собственной зоне входит в ремонт обнаруженного дефекта. Сохрани исходные строки без переписывания, отдельный валидный текущий сегмент допустим; offsets в байтах, valid-event inventory, damaged ranges и статус damaged, без ложного полного допуска.",
+      "заголовок": "Добавить структурное чтение повреждённого журнала",
+      "описание": "Поручение ROOT, ограниченная область koordinaciya/**. Добавлен bounded structured reader в koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift и адресные Swift Testing проверки. Он сохранил 66 валидных событий из 68 физических записей собственного koordinaciya/журнал.jsonl и отдельно локализовал две повреждённые записи: строка 66, байты [119741,121378), тело SHA-256 e79a087700b5c5864c7627e9e88c0ea6f87c8c881634367e2da81a898832c6d7; строка 67, [121378,121636), тело SHA-256 cd1cc8df868321a7a50ee890044f84f8b52291d6dbcb05fc66cdb77333357c26. Проверка охватила все 124626 байт; состояние журнала остаётся «повреждён». Исходный файл SHA-256 d491f77bfd9d801a9af1788e55958224efd3646f1fed042c373aad769c2836d8 до и после чтения совпал. В отдельный koordinaciya/segment-zhurnala-koordinacii.jsonl добавлен один валидный сегмент с инвентарём метаданных событий и хэшами диапазонов без исходных тел; сам сегмент прошёл полный scan как 1/1. Targeted Swift Testing: RED затем GREEN 4/4; переносимый профиль с точными байтами Package.swift, mapping исходников, strict flags и командами добавлен в состояние. Нет восстановления/реконструкции повреждённых фрагментов, подключения к общему Package или production consumer. Следующий собственный срез — явный physical worktree/ref/HEAD для Git до эффекта, включая отрицательные случаи wrong cwd/foreign ref/stale OID; туда же занесён отказ zsh при формировании refspec отчёта 1abfd2af20d62b8f80d46c9abd226db2e4b70ebe, последовавшая успешная доставка того же OID и требование строить refspec как аргумент Process, не shell interpolation."
     }
   },
   "результатГенератораМетаданных": {
@@ -2258,7 +2258,244 @@
     "correctionEventOrder": 67,
     "originalBytesRewritten": false,
     "validPrefixEntries": 65,
-    "correctionAppended": true
+    "correctionAppended": true,
+    "structuredReader": {
+      "schema": "fum.koordinaciya.structured-jsonl-reader.1",
+      "checkedAtUTC": "2026-10-29T04:10:02Z",
+      "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "source": {
+        "path": "koordinaciya/журнал.jsonl",
+        "bytes": 124626,
+        "sha256Before": "d491f77bfd9d801a9af1788e55958224efd3646f1fed042c373aad769c2836d8",
+        "sha256After": "d491f77bfd9d801a9af1788e55958224efd3646f1fed042c373aad769c2836d8",
+        "originalBytesRewritten": false
+      },
+      "scan": {
+        "status": "повреждён",
+        "fullCoverage": true,
+        "bytesExamined": 124626,
+        "recordsExamined": 68,
+        "validEventCount": 66,
+        "validEventInventorySHA256": "25a4dce766cd1c99d4f8f14918559807fa140f3e60c6851a95a801b19ec1fc68",
+        "knownDamagedRanges": [
+          {
+            "line": 66,
+            "recordStart": 119741,
+            "recordEnd": 121378,
+            "bodyStart": 119741,
+            "bodyEnd": 121377,
+            "reason": "некорректныйJSON",
+            "bodyIsJSON": false,
+            "bodySHA256": "e79a087700b5c5864c7627e9e88c0ea6f87c8c881634367e2da81a898832c6d7",
+            "recordSHA256": "c8f440c379cbfc417bdd45e942778d886f01a655368e174dd3b15fa70b1ead17"
+          },
+          {
+            "line": 67,
+            "recordStart": 121378,
+            "recordEnd": 121636,
+            "bodyStart": 121378,
+            "bodyEnd": 121635,
+            "reason": "некорректныйJSON",
+            "bodyIsJSON": false,
+            "bodySHA256": "cd1cc8df868321a7a50ee890044f84f8b52291d6dbcb05fc66cdb77333357c26",
+            "recordSHA256": "cddf8214f196e3f88f723a768c74f09b9ebb62731afeb928546d076b2aa1c261"
+          }
+        ],
+        "limits": {
+          "maxBytes": 2000000,
+          "maxRecords": 4096
+        }
+      },
+      "segment": {
+        "path": "koordinaciya/segment-zhurnala-koordinacii.jsonl",
+        "sha256": "3bb1e7352ec6e0beb7ea46ba5cf07fa87d0e57d8c0602105320c817a507562b2",
+        "lineCount": 1,
+        "scanReportSHA256": "b54b2e8c13070ff4967a31d6c18a03086846ba38cd00d12b005eed59188f15f3",
+        "status": "полный",
+        "validEventCount": 1,
+        "damagedRangeCount": 0
+      },
+      "readerSource": {
+        "path": "koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift",
+        "sha256": "475061f884c226a1c6bbe00058d6b47b5d2a9fec54892bf6e32915384f0351ea",
+        "publicAPI": [
+          "ЧтениеЖурналаJSONL.разобрать",
+          "РезультатРазбораЖурналаJSONL",
+          "СобытиеЖурналаJSONL",
+          "ПовреждённыйДиапазонJSONL"
+        ],
+        "coverageSemantics": "status damaged remains separate from full byte coverage; limits produce an unknown remainder range"
+      },
+      "standaloneBuild": {
+        "toolchain": "swift-driver 1.168.6; Apple Swift 6.4.0.34.1; arm64-apple-macosx27.0.0",
+        "argv": [
+          "swiftc",
+          "-D",
+          "TESTING",
+          "-strict-concurrency=complete",
+          "-warnings-as-errors",
+          "-enable-actor-data-race-checks",
+          "-o",
+          "<private>/bin/scan-own-journal",
+          "koordinaciya/координатор.swift",
+          "koordinaciya/генератор-метаданных-коммита.swift",
+          "koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift",
+          "<private>/scan-own-journal.swift"
+        ],
+        "exitCode": 0,
+        "binarySHA256": "e8b134130318e849b7ca8e2a805433747baf26b4acfba2090acb33b5b3c7ba87",
+        "privateRunManifestSHA256": "8a1adf24f144beddb0859610e8a40cf9b8fa3fd2e034fdcd712791808221fd40",
+        "privateScanReportSHA256": "8995e9e4995ff1502cbeebeae55d20149f45e94997004ab45368864d0634bfe2",
+        "sourceSHA256": {
+          "koordinaciya/координатор.swift": "f9ea424f342e19b4d1e88850eb26a613358d0dce21e61fd6ae7f912165712792",
+          "koordinaciya/генератор-метаданных-коммита.swift": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+          "koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift": "475061f884c226a1c6bbe00058d6b47b5d2a9fec54892bf6e32915384f0351ea",
+          "privateDriver": "9db4dccedffcea2d2b311ef5960f4942947fe38d8c9fb56a93f269ee55e619a9"
+        }
+      },
+      "swiftTesting": {
+        "status": "4/4 passed",
+        "testSource": "koordinaciya/proverki-chteniya-povrezhdyonnogo-zhurnala.swift",
+        "testSourceSHA256": "c9ccdfdc1f9ba43a4bfdd322cbe3ccc681ba83e1aa99bc40b0567d79e5237e4c",
+        "harness": {
+          "packageManifestSHA256": "2b357b5aedd834c3943d7e5b0d6703ff6354d0065aed98eea51981153c9aab6d",
+          "packageManifestByteCount": 1166,
+          "packageManifestUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\n\nlet package = Package(\n    name: \"KoordinaciyaJSONLReader\",\n    products: [\n        .library(name: \"KoordinaciyaJSONLReader\", targets: [\"KoordinaciyaJSONLReader\"])\n    ],\n    targets: [\n        .target(\n            name: \"KoordinaciyaJSONLReader\",\n            path: \"Sources/KoordinaciyaJSONLReader\",\n            sources: [\"координатор.swift\", \"генератор-метаданных-коммита.swift\", \"chteniye-povrezhdyonnogo-zhurnala.swift\"],\n            swiftSettings: [\n                .define(\"TESTING\"),\n                .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])\n            ]\n        ),\n        .testTarget(\n            name: \"KoordinaciyaJSONLReaderTests\",\n            dependencies: [\"KoordinaciyaJSONLReader\"],\n            path: \"Tests/KoordinaciyaJSONLReaderTests\",\n            sources: [\"proverki-chteniya-povrezhdyonnogo-zhurnala.swift\"],\n            swiftSettings: [\n                .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])\n            ]\n        )\n    ]\n)\n",
+          "mapping": [
+            {
+              "repositoryPath": "koordinaciya/координатор.swift",
+              "scratchPath": "Sources/KoordinaciyaJSONLReader/координатор.swift",
+              "sha256": "f9ea424f342e19b4d1e88850eb26a613358d0dce21e61fd6ae7f912165712792"
+            },
+            {
+              "repositoryPath": "koordinaciya/генератор-метаданных-коммита.swift",
+              "scratchPath": "Sources/KoordinaciyaJSONLReader/генератор-метаданных-коммита.swift",
+              "sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+            },
+            {
+              "repositoryPath": "koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift",
+              "scratchPath": "Sources/KoordinaciyaJSONLReader/chteniye-povrezhdyonnogo-zhurnala.swift",
+              "sha256": "475061f884c226a1c6bbe00058d6b47b5d2a9fec54892bf6e32915384f0351ea"
+            },
+            {
+              "repositoryPath": "koordinaciya/proverki-chteniya-povrezhdyonnogo-zhurnala.swift",
+              "scratchPath": "Tests/KoordinaciyaJSONLReaderTests/proverki-chteniya-povrezhdyonnogo-zhurnala.swift",
+              "sha256": "c9ccdfdc1f9ba43a4bfdd322cbe3ccc681ba83e1aa99bc40b0567d79e5237e4c"
+            }
+          ],
+          "commands": [
+            "mkdir -p \"$TEST_SCRATCH/Sources/KoordinaciyaJSONLReader\" \"$TEST_SCRATCH/Tests/KoordinaciyaJSONLReaderTests\"",
+            "jq -j '.[\"проверкаЦелостностиЖурнала\"][\"structuredReader\"][\"swiftTesting\"][\"harness\"][\"packageManifestUTF8\"]' \"$REPO_ROOT/koordinaciya/состояние.json\" > \"$TEST_SCRATCH/Package.swift\"",
+            "cp \"$REPO_ROOT/koordinaciya/координатор.swift\" \"$TEST_SCRATCH/Sources/KoordinaciyaJSONLReader/\"",
+            "cp \"$REPO_ROOT/koordinaciya/генератор-метаданных-коммита.swift\" \"$TEST_SCRATCH/Sources/KoordinaciyaJSONLReader/\"",
+            "cp \"$REPO_ROOT/koordinaciya/chteniye-povrezhdyonnogo-zhurnala.swift\" \"$TEST_SCRATCH/Sources/KoordinaciyaJSONLReader/\"",
+            "cp \"$REPO_ROOT/koordinaciya/proverki-chteniya-povrezhdyonnogo-zhurnala.swift\" \"$TEST_SCRATCH/Tests/KoordinaciyaJSONLReaderTests/\"",
+            "swift test --package-path \"$TEST_SCRATCH\" --scratch-path \"$TEST_SCRATCH/.build\" --filter ПроверкиЧтенияПовреждённогоЖурнала --jobs 1"
+          ],
+          "defines": [
+            "TESTING"
+          ],
+          "strictFlags": [
+            "-strict-concurrency=complete",
+            "-warnings-as-errors",
+            "-enable-actor-data-race-checks"
+          ],
+          "fixtures": [
+            "повреждённая середина с сохранением соседей и смещений",
+            "валидный JSON без завершающего LF",
+            "валидное последнее событие после повреждения",
+            "превышение лимита байтов с unknown remainder"
+          ],
+          "red": {
+            "classification": "targeted Swift Testing runtime RED",
+            "stdoutSHA256": "50ec94ba43b2014cc8e99ab61d7a8553477e6227557dee039b95569f40f07267",
+            "stderrSHA256": "6e0bf0f90877163b2bc2ff171e5addd8e1397ded77127c985959ad8b5c22ed87"
+          },
+          "green": {
+            "classification": "targeted Swift Testing",
+            "stdoutSHA256": "e8ebc163fb4efc1ae369f8b0bead54e0f0caaff6643f0e3c4579446bb4233472",
+            "stderrSHA256": "cf16205b55dec0a60ebdb21157de44fa15d0744f508175579ff6f38114a0f761"
+          },
+          "initialHarnessAttempt": "Separate earlier crash from test indexing was corrected; it is not counted as reader RED.",
+          "packageBoundary": "private minimal harness; no root Package.swift change; no external dependencies"
+        }
+      },
+      "limitations": [
+        "The source journal remains damaged; no damaged fragment was reconstructed or rewritten.",
+        "Full byte coverage does not mean a valid journal.",
+        "The standalone scan and test harness do not connect the reader to the production consumer or global Package.",
+        "The private scan report retains event metadata and hashes; public segment retains metadata but no original event bodies."
+      ],
+      "commitPreparation": {
+        "schema": "fum.koordinaciya.commit-metadata-preparation.1",
+        "checkedAtUTC": "2026-10-29T04:14:12.278Z",
+        "status": "pre-effect-ready; recorded before own Git commit",
+        "coordinatorCLI": {
+          "sha256": "6bf33ac6d19310921c6e604343f837acee7c59d77dacb5bf8d2db8930ec6e712",
+          "buildManifestSHA256": "2341bb4e249f9b31a7e17604b6ebc9157148fe57f6ff1e5ea33bfedb977b83ac",
+          "sourceCommit": "b61472477299a90651fe817caabab099297edd15",
+          "sourceTree": "9757e54884cb8124f4799f439887f064b16f4806",
+          "sourceSHA256": {
+            "koordinaciya/координатор.swift": "f9ea424f342e19b4d1e88850eb26a613358d0dce21e61fd6ae7f912165712792",
+            "koordinaciya/генератор-метаданных-коммита.swift": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c"
+          }
+        },
+        "fuma": {
+          "definitionSHA256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+          "operatorSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+          "runID": "fuma-dd57bbb6-2de3-44a0-aa9f-6c5347c78098",
+          "runEvidenceSHA256": "7e680aae9e6f6d32fcdb502d63392629cebce637fbe25af0f19b6ab42ca0b9e9",
+          "inputSHA256": "322f2b68be9dea2cce5c63a93c678772d9372e44d609c03f13130f794f394c83",
+          "rawResponseSHA256": "57b859e8fcaeddca4c732a2ccadf53f7453f8143a9b2eb3af14d196519fd89c4",
+          "resultSHA256": "f46a26369af44d3f441f298e857475774c37d83875399b46592a5e5ec11da562",
+          "scenarioOutputSHA256": "33e9847c6f611950118fc15085d506ddd211c53321c4b8b597fcb5730d24aaa7"
+        },
+        "selection": {
+          "source": "collaboration.spawn_agent",
+          "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "nativeThreadUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+          "selectedModel": "gpt-6-luna",
+          "selectedEffort": "max",
+          "nativeMetadataFreshlyMatched": true,
+          "nativeSelectionProjectionSHA256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
+          "backendModel": "unknown",
+          "nativeTurnContext": "unknown",
+          "requestIdentity": "unavailable",
+          "responseIdentity": "unavailable"
+        },
+        "preflight": {
+          "ready": true,
+          "errors": [],
+          "stdoutSHA256": "8210e8b966bbdc2fecd985c00efecfa3ce4d0f353eec64f6fe5677d83be5309e",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "author": {
+            "name": "FUM Codex [gpt-6-luna; effort=max]",
+            "email": "fum@local"
+          },
+          "committer": {
+            "name": "FUM",
+            "email": "fum@local"
+          },
+          "generatedMessageSHA256": "1836dc87e43e7c69a09d1ae904d26ec5d5b3fe0f49acc536b194612432215f3f",
+          "generatedMessageBytes": 2940,
+          "rootTrailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "gitEffect": "not performed"
+        },
+        "preflightFailures": [
+          {
+            "kind": "FUMA private-run-root permission refusal",
+            "observedMode": "0755",
+            "error": "fileWriteNoPermission",
+            "stderrSHA256": "8b8c0f3681d957c600c630efaa15c728f372a1afcf540506af2751d2f5f9ff78",
+            "stdoutBytes": 0,
+            "operatorStarted": false,
+            "correction": "fresh private run roots with mode 0700 passed the same pre-effect path"
+          }
+        ],
+        "scope": "Pre-effect metadata result only; it does not assert subsequent commit, push or acceptance.",
+        "gitEffectAtCheckedAt": "not performed"
+      }
+    }
   },
   "проверкаВыбораТекущейСессии": {
     "checkedAtUTC": "2026-10-28T23:53:08.332Z",
@@ -2274,5 +2511,28 @@
     "nativeTurnContext": "unknown",
     "attachedThreadParentIDSQLiteJSON": null,
     "lineageStatus": "unknown"
+  },
+  "остатокКоординатора": {
+    "status": "active; no production activation claimed",
+    "currentStage": "bounded JSONL reader source/test and own-journal scan checkpoint",
+    "nextStage": {
+      "id": "explicit-git-worktree-ref-oid-adapter",
+      "state": "queued after reader checkpoint",
+      "scope": "Replace ambient FileManager.default.currentDirectoryPath for coordinator Git calls with an explicitly supplied physical worktree and expected full ref/HEAD OID; fail closed before Git effect on wrong cwd, foreign ref or stale OID.",
+      "negativeCases": [
+        "wrong physical cwd",
+        "foreign symbolic ref",
+        "stale expected HEAD",
+        "primary checkout fallback"
+      ],
+      "productionConsumerNotConnected": true
+    },
+    "observedZshRefspecRefusal": {
+      "sourceCommit": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+      "outcome": "zsh parsed colon-r as a modifier in interpolated variable refspec; Git refused locally before remote change; exact literal refspec then pushed the same OID and independent ls-remote readback matched.",
+      "commitWasRepeated": false,
+      "historyWasRewritten": false,
+      "futureFix": "Construct refspec as typed String/Data and pass it via Process.arguments; test malformed refspec rejection before effect and independently verify expected remote ref/OID."
+    }
   }
 }
