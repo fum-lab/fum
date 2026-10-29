@@ -1,0 +1,166 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "http://baltlease.ru/lizing/equipment/it-oborudovanie/#service",
+      "name": "IT-оборудоваие",
+      "serviceType": "IT-оборудоваие",
+      "description": "IT-оборудование в лизинг - современное финансирование, удобные условия.",
+      "url": "http://baltlease.ru/lizing/equipment/it-oborudovanie/",
+      "provider": {
+        "@id": "http://baltlease.ru/#organization"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Россия"
+      },
+      "audience": {
+        "@type": "BusinessAudience",
+        "name": "Юридические лица и ИП"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "description": "Аванс от 0%, срок лизинга от 12 до 84 месяцев",
+        "seller": {
+          "@id": "http://baltlease.ru/#organization"
+        }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Что такое лизинг IT-оборудования?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Это долгосрочная аренда с правом выкупа в конце договора. Такой способ финансирования позволяет обновить серверную или офис без капитальных вложений на старте, распределив финансовую нагрузку на несколько лет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "В чем реальная выгода по сравнению с покупкой?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Бизнесу не нужно искать крупный первый взнос – договор можно оформить с минимальными вложениями. Кроме того, лизинг позволяет отнести платежи по договору на затраты, тем самым сократив налог на прибыль и обеспечив право на вычет НДС."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Можно ли оформить договор без аванса?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, формат без аванса (нулевой первый взнос) реален для компаний с прозрачной бухгалтерией. Это отличный способ масштабировать штат или запустить новый отдел разработки, не вложив на старте значительных сумм в оборудование."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как рассчитать ежемесячную нагрузку на бюджет?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нужно выбрать желаемую технику у поставщика и направить заявку на лизинг. Менеджер уточнит, какой аванс и срок лизинга вы рассматриваете, и предложит расчёт с указанием ежемесячных платежей и итоговым удорожанием. На этом этапе можно рассмотреть разные варианты графиков и подобрать оптимальный."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какие документы потребуются для договора?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Чтобы подготовить договор лизинга хватит анкеты, реквизитов компании и свежей финансовой отчетности. Всю сделку можно провести через ЭДО."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Реально ли включить в сделку программное обеспечение?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, мы проводим комплексные сделки: в один договор лизинга «зашивается» и само оборудование, и необходимое программное обеспечение (лицензии, софт, подписки). Вы получаете полностью готовое к работе устройство, оплачивая его одним чеком раз в месяц."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Кто владеет техникой, пока я за нее плачу?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "До финального выкупа собственником остается лизинговая компания, но имущество числится на вашем балансе. Это огромный плюс: вы используете ускоренную амортизацию и быстрее списываете стоимость активов, чем при обычном владении."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Главная",
+          "item": "http://baltlease.ru/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Финансовый лизинг",
+          "item": "http://baltlease.ru/lizing/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Оборудование",
+          "item": "http://baltlease.ru/lizing/equipment/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "IT-оборудование в лизинг",
+          "item": "http://baltlease.ru/lizing/equipment/it-oborudovanie/"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "http://baltlease.ru/#organization",
+      "name": "Балтийский лизинг",
+      "legalName": "ООО «Балтийский лизинг»",
+      "url": "http://baltlease.ru/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "http://baltlease.ru/web-app-manifest-512x512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "http://baltlease.ru/web-app-manifest-512x512.png",
+      "telephone": "+7-800-222-05-55",
+      "email": "spb@baltlease.ru",
+      "taxID": "7826705374",
+      "vatID": "7826705374",
+      "foundingDate": "1990",
+      "numberOfEmployees": 1500,
+      "hasCredential": "Лицензия № 0001 Министерства экономики РФ, зарегистрирована 2 сентября 1996 года",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. 10-я Красноармейская, д. 22, лит. А, БЦ «Келлерман»",
+        "addressLocality": "Санкт-Петербург",
+        "postalCode": "190020",
+        "addressCountry": "RU"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+7-800-222-05-55",
+          "contactType": "customer service",
+          "areaServed": "RU",
+          "availableLanguage": [
+            "Russian"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://vk.com/baltlease",
+        "https://dzen.ru/baltlease",
+        "https://max.ru/id7826705374_biz"
+      ]
+    }
+  ]
+}

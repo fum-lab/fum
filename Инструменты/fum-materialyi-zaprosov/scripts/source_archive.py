@@ -426,7 +426,7 @@ def очистить_поля_скрипта(тело: str) -> str:
         начало = поле.end() + длина
     части.append(тело[начало:])
     тело = ''.join(части)
-    шаблон = r'("(?:visitorData|VISITOR_DATA|EVENT_ID|remoteHost|requestId|countryCode|device|cspNonce|cspScriptNonce|uploadToken|traceId|traceTime|clickTrackingParams|trackingParams|trackingParam|rolloutToken|deviceExperimentId|auth_hydro_click_hmac)"\s*:\s*")(?:\\.|[^"\\])*(")'
+    шаблон = r'("(?:visitorData|VISITOR_DATA|EVENT_ID|remoteHost|requestId|countryCode|device|cspNonce|cspScriptNonce|uploadToken|traceId|traceTime|clickTrackingParams|trackingParams|trackingParam|rolloutToken|deviceExperimentId|auth_hydro_click_hmac|bitrix_sessid)"\s*:\s*")(?:\\.|[^"\\])*(")'
     тело = re.sub(шаблон, lambda поле: поле[1] + '[REDACTED: request metadata]' + поле[2], тело)
     return re.sub(r'("continuationCommand"\s*:\s*\{[^{}]*?"token"\s*:\s*")(?:\\.|[^"\\])*(")', lambda поле: поле[1] + '[REDACTED: request metadata]' + поле[2], тело)
 
@@ -438,7 +438,7 @@ def очистить_служебную_разметку(текст: str) -> str
         return совпадение[1] + тело + совпадение[3]
     атрибут = r'\s+[^\s=/>"\x27]+(?:\s*=\s*(?:"[^"]*"|\x27[^\x27]*\x27|[^\s"\x27=<>`]+))?'
     текст = re.sub(r'(<(?i:script)(?:' + атрибут + r')*?\s+(?i:id)\s*=\s*(?:"app-config"|\x27app-config\x27)(?:' + атрибут + r')*\s*>)(.*?)(</(?i:script)\s*>)', очистить_конфигурацию, текст, flags=re.S)
-    имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token)"
+    имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token|sessid)"
     def очистить_тег(совпадение):
         тег = совпадение.group(0)
         if not re.search(r'\b(?:name|id)\s*=\s*[\"\x27]?(?:' + имена + r'|pdata|fetch-nonce|html-safe-nonce|request-id|visitor-hmac|visitor-payload|dd-trace-id|dd-trace-time)(?:[\"\x27\s>])', тег, re.I):
@@ -801,7 +801,7 @@ def write_report(
         "- Значения X-GitHub-Edge-Region и X-Served-By заменены на `[REDACTED: request metadata]`; продолжения удалены. Служебные сведения маршрута ответа не используются для вывода о стране пользователя.",
         "- Значения Server-Timing, Report-To и Reporting-Endpoints удалены; одноразовый параметр code скрыт в Location и Effective URL без изменения других параметров адреса.",
         "- В блоке script с id app-config очищен служебный websocket.token; видимый текст документа сохраняется.",
-        "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
+        "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, Bitrix sessid, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
         "- В блоках script очищены известные JSON-поля идентификаторов посетителя, nonce, запроса и токенов загрузки; в meta очищены точные служебные nonce, request-id и visitor-поля. Содержательный текст сохранён.",
         "- Телеметрия YouTube и токен continuationCommand очищены в script; подписи GitHub очищены в HTML-атрибуте и script, _csrf — в адресе HTML-атрибута. Снимок не предназначен для повторения сеансового запроса продолжения.",
         "",

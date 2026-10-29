@@ -1,12 +1,12 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://sponsr.ru/conditions/
-- Время извлечения UTC: 2026-09-14T11:55:16.013306+00:00
-- Транспорт: Повторная очистка ранее сохранённого HTTP-ответа без сети
-- Effective URL:
+- Время извлечения UTC: 2026-10-29T01:03:41.649734+00:00
+- Транспорт: curl
+- Effective URL: https://sponsr.ru/conditions/
 - HTTP-код: 200
-- Content-Type: text/html
-- Размер загрузки:  байт
+- Content-Type: text/html; charset=UTF-8
+- Размер загрузки: 210841 байт
 - Извлечено блоков JSON-LD: 0
 
 ## Редакции перед сохранением
@@ -15,8 +15,13 @@
 - Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.
 - Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.
 - Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, Trace-Id, X-Forwarded-For, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.
+- Из HTTP-заголовков удалены дополнительные идентификаторы трассировки и метаданные страны и устройства запроса; продолжения этих заголовков удалены.
+- Значения X-GitHub-Edge-Region и X-Served-By заменены на `[REDACTED: request metadata]`; продолжения удалены. Служебные сведения маршрута ответа не используются для вывода о стране пользователя.
+- Значения Server-Timing, Report-To и Reporting-Endpoints удалены; одноразовый параметр code скрыт в Location и Effective URL без изменения других параметров адреса.
 - В блоке script с id app-config очищен служебный websocket.token; видимый текст документа сохраняется.
 - До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.
+- В блоках script очищены известные JSON-поля идентификаторов посетителя, nonce, запроса и токенов загрузки; в meta очищены точные служебные nonce, request-id и visitor-поля. Содержательный текст сохранён.
+- Телеметрия YouTube и токен continuationCommand очищены в script; подписи GitHub очищены в HTML-атрибуте и script, _csrf — в адресе HTML-атрибута. Снимок не предназначен для повторения сеансового запроса продолжения.
 
 ## Ограничения извлечения
 
@@ -33,6 +38,6 @@
 - `source-url.txt`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:58:26 MSK -->
-<!-- content-sha256: sha256:6304f05cb9c3f27e6056a595ffc4d3495167dd1f88d06b60d123cdffce000b26 -->
+<!-- last-content-edit: 2026-10-29 04:09:09 MSK -->
+<!-- content-sha256: sha256:56c189aff5baf42ef73bb8cfacdd3307b189c6fb52af681928d1b1fa08ba67d6 -->
 <!-- FUM-MD-RECENCY:END -->

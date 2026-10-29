@@ -12,6 +12,21 @@ import source_archive as архив
 
 
 class ОчисткаИсточников(unittest.TestCase):
+    def test_сеансовые_идентификаторы_Bitrix_очищаются_адресно(сам):
+        тело = (
+            '<input type="hidden" name="sessid" value="synthetic-private-input">'
+            '<input name="public-sessid" value="открытый-пример">'
+            '<script>BX.message({"bitrix_sessid":"synthetic-private-script",'
+            '"public_bitrix_sessid":"открытый-пример"});</script>'
+            '<p>Поле sessid используется Bitrix.</p>'
+        )
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn("synthetic-private", итог)
+        сам.assertIn('<input name="public-sessid" value="открытый-пример">', итог)
+        сам.assertIn('"public_bitrix_sessid":"открытый-пример"', итог)
+        сам.assertIn("Поле sessid используется Bitrix.", итог)
+        сам.assertEqual(архив.очистить_служебную_разметку(итог), итог)
+
     def test_идентификаторы_посетителя_и_адрес_запроса_в_script(сам):
         тело = ('<script>ytcfg.set({"VISITOR_DATA":"synthetic-private-a",'
                 '"visitorData":"synthetic-private-b",'

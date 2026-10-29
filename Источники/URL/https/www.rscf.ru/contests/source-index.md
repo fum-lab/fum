@@ -22,6 +22,6 @@
 - `source-url.txt`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:53:44 MSK -->
+<!-- last-content-edit: 2026-10-29 04:24:48 MSK -->
 <!-- content-sha256: sha256:2a00d2f0b126d2a08c9e57847d8cf5af4eeca663ddeb6d45449e48a198fc3ec8 -->
 <!-- FUM-MD-RECENCY:END -->

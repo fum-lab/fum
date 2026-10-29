@@ -1,13 +1,13 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://baltlease.ru/lizing/equipment/it-oborudovanie/
-- Время извлечения UTC: 2026-09-15T16:14:21.709844+00:00
+- Время извлечения UTC: 2026-10-29T01:21:18.627432+00:00
 - Транспорт: curl
 - Effective URL: https://baltlease.ru/lizing/equipment/it-oborudovanie/
 - HTTP-код: 200
 - Content-Type: text/html; charset=UTF-8
-- Размер загрузки: 229135 байт
-- Извлечено блоков JSON-LD: 0
+- Размер загрузки: 237164 байт
+- Извлечено блоков JSON-LD: 1
 
 ## Редакции перед сохранением
 
@@ -15,8 +15,13 @@
 - Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.
 - Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.
 - Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, Trace-Id, X-Forwarded-For, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.
+- Из HTTP-заголовков удалены дополнительные идентификаторы трассировки и метаданные страны и устройства запроса; продолжения этих заголовков удалены.
+- Значения X-GitHub-Edge-Region и X-Served-By заменены на `[REDACTED: request metadata]`; продолжения удалены. Служебные сведения маршрута ответа не используются для вывода о стране пользователя.
+- Значения Server-Timing, Report-To и Reporting-Endpoints удалены; одноразовый параметр code скрыт в Location и Effective URL без изменения других параметров адреса.
 - В блоке script с id app-config очищен служебный websocket.token; видимый текст документа сохраняется.
-- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.
+- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, Bitrix sessid, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.
+- В блоках script очищены известные JSON-поля идентификаторов посетителя, nonce, запроса и токенов загрузки; в meta очищены точные служебные nonce, request-id и visitor-поля. Содержательный текст сохранён.
+- Телеметрия YouTube и токен continuationCommand очищены в script; подписи GitHub очищены в HTML-атрибуте и script, _csrf — в адресе HTML-атрибута. Снимок не предназначен для повторения сеансового запроса продолжения.
 
 ## Ограничения извлечения
 
@@ -31,8 +36,9 @@
 - `snapshot-manifest.json`
 - `source-index.md`
 - `source-url.txt`
+- `structured-data.json`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:22:27 MSK -->
-<!-- content-sha256: sha256:e07d4cb0d6ac59b0511bd4152f20e2fb429c0121e37fe00bc783c3fe20bdcee7 -->
+<!-- last-content-edit: 2026-10-29 04:24:48 MSK -->
+<!-- content-sha256: sha256:152f04a2d865b41663dcf8d5b14dfb3a89d854ed73e250b27ed42a796b3dd948 -->
 <!-- FUM-MD-RECENCY:END -->
