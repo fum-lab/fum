@@ -26,8 +26,9 @@ let package = Package(
             ],
             swiftSettings: строгиеНастройки),
         .testTarget(
-            name: "КомпозицияНаблюденийTests",
+            name: "FUMAObservationCompositionTests",
             dependencies: ["КомпозицияНаблюдений"],
+            path: "Tests/КомпозицияНаблюденийTests",
             swiftSettings: строгиеНастройки)
     ],
     swiftLanguageModes: [.v6])

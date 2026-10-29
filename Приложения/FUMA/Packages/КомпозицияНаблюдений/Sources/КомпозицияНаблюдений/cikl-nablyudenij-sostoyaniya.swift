@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import АрхивныйСнимокЗадачи
 import КонтейнерНаблюдений
 
@@ -37,13 +38,11 @@ public struct ЦиклНаблюденийСостояния<
             источникФайловойСистемы: источникФайловойСистемы,
             кореньРепозитория: кореньРепозитория)
 
-        let физическийКореньИстории = кореньИстории
-            .resolvingSymlinksInPath()
-            .standardizedFileURL
-        let физическийКореньРепозитория = URL(
-            fileURLWithPath: план.репозиторий.физическийКорень,
-            isDirectory: true)
-            .standardizedFileURL
+        let физическийКореньИстории = try разрешитьФизическийКаталог(кореньИстории)
+        let физическийКореньРепозитория = try разрешитьФизическийКаталог(
+            URL(
+                fileURLWithPath: план.репозиторий.физическийКорень,
+                isDirectory: true))
         guard !физическийКореньИстории.pathComponents.starts(
             with: физическийКореньРепозитория.pathComponents)
         else {
@@ -140,4 +139,19 @@ private func проверитьОднуРамкуJSONL(
         throw ОшибкаЦиклаНаблюденийСостояния.неОднаЗавершённаяРамка
     }
     return курсор
+}
+
+private func разрешитьФизическийКаталог(_ адрес: URL) throws -> URL {
+    guard адрес.isFileURL,
+          адрес.path.hasPrefix("/"),
+          !адрес.path.utf8.contains(0) else {
+        throw ОшибкаКонтейнера.небезопасныйПуть
+    }
+    guard let физический = realpath(адрес.path, nil) else {
+        throw ОшибкаКонтейнера.система(errno)
+    }
+    defer { free(физический) }
+    return URL(
+        fileURLWithPath: String(cString: физический),
+        isDirectory: true)
 }
