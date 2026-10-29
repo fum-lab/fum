@@ -2,6 +2,21 @@ import Foundation
 import CryptoKit
 import Darwin
 
+// Синхронный системный адаптер: повтор EINTR не меняет абсолютный срок.
+func дождатьсяМонотонногоСрока(_ срок: UInt64) -> Bool {
+    var предыдущее = DispatchTime.now().uptimeNanoseconds
+    while предыдущее < срок {
+        let остаток = срок - предыдущее
+        var пауза = timespec(tv_sec: Int(остаток / 1_000_000_000), tv_nsec: Int(остаток % 1_000_000_000))
+        let код = nanosleep(&пауза, nil)
+        let ошибка = errno
+        let сейчас = DispatchTime.now().uptimeNanoseconds
+        guard сейчас >= предыдущее, код == 0 || ошибка == EINTR else { return false }
+        предыдущее = сейчас
+    }
+    return true
+}
+
 private enum СбойЗапуска: Error { case параметры, предел, исход, вход, квитанция, группа, ожидание
     case узел(Int) }
 private struct ИсходПроцесса {
@@ -286,10 +301,13 @@ struct ЗапускПроверок {
         якорь = false
         // Signal 0 — только RO проверка существования; при новой/оставшейся группе UNKNOWN.
         var группыНет = false
-        for _ in 0..<50 {
+        let пределЗакрытияГруппы = DispatchTime.now().uptimeNanoseconds + 1_000_000_000
+        while DispatchTime.now().uptimeNanoseconds < пределЗакрытияГруппы {
             errno = 0
             if Darwin.kill(-дочерний, 0) == -1 && errno == ESRCH { группыНет = true; break }
-            Thread.sleep(forTimeInterval: 0.02)
+            let сейчас = DispatchTime.now().uptimeNanoseconds
+            guard сейчас < пределЗакрытияГруппы else { break }
+            guard дождатьсяМонотонногоСрока(min(пределЗакрытияГруппы, сейчас + 20_000_000)) else { throw СбойЗапуска.группа }
         }
         операцииЗакрыты = группыНет
         guard группыНет else { throw СбойЗапуска.группа }

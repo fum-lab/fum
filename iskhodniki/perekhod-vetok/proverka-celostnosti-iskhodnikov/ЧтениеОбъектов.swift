@@ -1,6 +1,21 @@
 import Foundation
 import Darwin
 
+// Синхронный системный адаптер: повтор EINTR не меняет абсолютный срок.
+func дождатьсяМонотонногоСрока(_ срок: UInt64) -> Bool {
+    var предыдущее = DispatchTime.now().uptimeNanoseconds
+    while предыдущее < срок {
+        let остаток = срок - предыдущее
+        var пауза = timespec(tv_sec: Int(остаток / 1_000_000_000), tv_nsec: Int(остаток % 1_000_000_000))
+        let код = nanosleep(&пауза, nil)
+        let ошибка = errno
+        let сейчас = DispatchTime.now().uptimeNanoseconds
+        guard сейчас >= предыдущее, код == 0 || ошибка == EINTR else { return false }
+        предыдущее = сейчас
+    }
+    return true
+}
+
 struct ОтветGit: Sendable {
     let код: Int32
     let выход: Data
@@ -78,14 +93,19 @@ func ограниченныйПроцесс(
                     break
                 }
                 if код != 0 && errno != EINTR { return false }
-                Thread.sleep(forTimeInterval: 0.01)
+                let сейчас = DispatchTime.now().uptimeNanoseconds
+                guard сейчас < пределОжидания else { break }
+                guard дождатьсяМонотонногоСрока(min(пределОжидания, сейчас + 10_000_000)) else { return false }
             }
         }
         guard собран else { return false }
-        for _ in 0..<50 {
+        let пределЗакрытияГруппы = DispatchTime.now().uptimeNanoseconds + 500_000_000
+        while DispatchTime.now().uptimeNanoseconds < пределЗакрытияГруппы {
             let код = Darwin.kill(-ребёнок, 0), ошибка = errno
             if код == -1 && ошибка == ESRCH { return true }
-            Thread.sleep(forTimeInterval: 0.01)
+            let сейчас = DispatchTime.now().uptimeNanoseconds
+            guard сейчас < пределЗакрытияГруппы else { break }
+            guard дождатьсяМонотонногоСрока(min(пределЗакрытияГруппы, сейчас + 10_000_000)) else { return false }
         }
         return false
     }
@@ -144,10 +164,13 @@ func ограниченныйПроцесс(
     }
     собран = true; якорь = false
     var закрыта = false
-    for _ in 0..<50 {
+    let пределЗакрытияГруппы = DispatchTime.now().uptimeNanoseconds + 500_000_000
+    while DispatchTime.now().uptimeNanoseconds < пределЗакрытияГруппы {
         let код = Darwin.kill(-ребёнок, 0), ошибка = errno
         if код == -1 && ошибка == ESRCH { закрыта = true; break }
-        Thread.sleep(forTimeInterval: 0.01)
+        let сейчас = DispatchTime.now().uptimeNanoseconds
+        guard сейчас < пределЗакрытияГруппы else { break }
+        guard дождатьсяМонотонногоСрока(min(пределЗакрытияГруппы, сейчас + 10_000_000)) else { throw ОтказЦелостности("неизвестное-владение", 2) }
     }
     guard закрыта else { throw ОтказЦелостности("неизвестное-владение", 2) }
     guard !отказ else { throw ОтказЦелостности("предел", 2) }
