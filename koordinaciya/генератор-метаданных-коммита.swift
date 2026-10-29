@@ -5,6 +5,27 @@ import Foundation
 public enum ИсточникВыбораМодели: String, Codable, Equatable, Sendable {
     case дочернийВызовSpawnAgent = "collaboration.spawn_agent"
     case корневыеNativeClientMetadata = "native-codex-client-thread-metadata"
+    case метаданныеДочернегоКлиента = "native-codex-child-client-metadata"
+}
+
+/// Ожидание выбирает непосредственный родитель/host независимо от receipt.
+/// UUID связывают наблюдение с этапом; сами по себе они не доказывают родство.
+public struct КонтекстОбычногоРебёнка: Codable, Equatable, Sendable {
+    public var корневойUUID: String
+    public var сессия: String
+    public var непосредственныйРодитель: String
+    public var этап: String
+    public var попытка: String
+    public var запрошено: ПараметрыВыбораAPI?
+    public var наблюдённыйACK: String
+
+    public init(корневойUUID: String, сессия: String, непосредственныйРодитель: String,
+                этап: String, попытка: String, запрошено: ПараметрыВыбораAPI? = nil,
+                наблюдённыйACK: String = "UNKNOWN") {
+        self.корневойUUID = корневойUUID; self.сессия = сессия
+        self.непосредственныйРодитель = непосредственныйРодитель; self.этап = этап
+        self.попытка = попытка; self.запрошено = запрошено; self.наблюдённыйACK = наблюдённыйACK
+    }
 }
 
 public struct ПараметрыВыбораAPI: Codable, Equatable, Sendable {
@@ -83,11 +104,13 @@ public struct СвидетельствоВыбораМодели: Codable, Equat
     public let nativeSelectionSourceSHA256: String?
     public let backendModel: НеизвестныйСтатусСведений
     public let nativeTurnContext: НеизвестныйСтатусСведений
+    public let дочернийКонтекст: КонтекстОбычногоРебёнка?
 
     private enum CodingKeys: String, CodingKey {
         case схема, источник, rootUUID, sessionIdentity, childIdentity, requestIdentity, responseIdentity
         case nativeThread, requestedSelection, requested, selectedValue, acceptedSelection
         case nativeSelectionSourceSHA256, backendModel, nativeTurnContext
+        case дочернийКонтекст
     }
 
     public init(
@@ -102,7 +125,8 @@ public struct СвидетельствоВыбораМодели: Codable, Equat
         selectedValue: ПараметрыВыбораAPI,
         nativeSelectionSourceSHA256: String? = nil,
         backendModel: НеизвестныйСтатусСведений,
-        nativeTurnContext: НеизвестныйСтатусСведений
+        nativeTurnContext: НеизвестныйСтатусСведений,
+        дочернийКонтекст: КонтекстОбычногоРебёнка? = nil
     ) {
         self.схема = схема
         self.источник = источник
@@ -116,6 +140,7 @@ public struct СвидетельствоВыбораМодели: Codable, Equat
         self.nativeSelectionSourceSHA256 = nativeSelectionSourceSHA256
         self.backendModel = backendModel
         self.nativeTurnContext = nativeTurnContext
+        self.дочернийКонтекст = дочернийКонтекст
     }
 
     public init(from decoder: Decoder) throws {
@@ -140,7 +165,8 @@ public struct СвидетельствоВыбораМодели: Codable, Equat
                 requestedSelection: try container.decode(ПараметрыВыбораAPI.self, forKey: .requested),
                 selectedValue: try container.decode(ПараметрыВыбораAPI.self, forKey: .acceptedSelection),
                 backendModel: backendModel,
-                nativeTurnContext: nativeTurnContext
+                nativeTurnContext: nativeTurnContext,
+                дочернийКонтекст: try container.decodeIfPresent(КонтекстОбычногоРебёнка.self, forKey: .дочернийКонтекст)
             )
         } else {
             self.init(
@@ -155,7 +181,8 @@ public struct СвидетельствоВыбораМодели: Codable, Equat
                 selectedValue: try container.decode(ПараметрыВыбораAPI.self, forKey: .selectedValue),
                 nativeSelectionSourceSHA256: try container.decodeIfPresent(String.self, forKey: .nativeSelectionSourceSHA256),
                 backendModel: backendModel,
-                nativeTurnContext: nativeTurnContext
+                nativeTurnContext: nativeTurnContext,
+                дочернийКонтекст: try container.decodeIfPresent(КонтекстОбычногоРебёнка.self, forKey: .дочернийКонтекст)
             )
         }
     }
@@ -169,6 +196,7 @@ public struct СвидетельствоВыбораМодели: Codable, Equat
         try container.encode(responseIdentity, forKey: .responseIdentity)
         try container.encode(backendModel, forKey: .backendModel)
         try container.encode(nativeTurnContext, forKey: .nativeTurnContext)
+        try container.encodeIfPresent(дочернийКонтекст, forKey: .дочернийКонтекст)
         if схема == "fum.api-selection-receipt.1" {
             try container.encode(sessionIdentity, forKey: .childIdentity)
             try container.encode(nativeThread, forKey: .nativeThread)
@@ -353,6 +381,36 @@ public enum АдаптерRootNativeClientMetadata {
         }
     }
 
+    /// Версионное расширение для ordinary child. Оба чтения и независимый
+    /// контекст выбирает вызывающий parent, а не предлагаемая квитанция.
+    public static func построитьКвитанцииОбычногоРебёнка(
+        источникJSON: Data, независимоеОжиданиеJSON: Data,
+        ожидаемыйКонтекст: КонтекстОбычногоРебёнка
+    ) throws -> ПараНезависимыхКвитанцийВыбораМодели {
+        func построить(_ данные: Data) throws -> СвидетельствоВыбораМодели {
+            let строка = try прочитатьСтроку(данные, expectedRootUUID: ожидаемыйКонтекст.сессия)
+            let недоступно = ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil)
+            return СвидетельствоВыбораМодели(
+                схема: "fum.model-selection-receipt.2", источник: .метаданныеДочернегоКлиента,
+                rootUUID: ожидаемыйКонтекст.корневойUUID,
+                sessionIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata, значение: строка.id),
+                requestIdentity: недоступно, responseIdentity: недоступно, nativeThread: nil,
+                requestedSelection: ожидаемыйКонтекст.запрошено,
+                selectedValue: ПараметрыВыбораAPI(model: try обязательноеЗначение(строка.model, отсутствует: .отсутствуетМодель),
+                    reasoningEffort: try обязательноеЗначение(строка.reasoning_effort, отсутствует: .отсутствуетУсилие)),
+                nativeSelectionSourceSHA256: ГенераторМетаданныхКоммита.sha256Hex(данные), backendModel: .неизвестно,
+                nativeTurnContext: .неизвестно, дочернийКонтекст: ожидаемыйКонтекст)
+        }
+        let факт = try построить(источникJSON), ожидание = try построить(независимоеОжиданиеJSON)
+        let пара = ПараНезависимыхКвитанцийВыбораМодели(фактическая: try ГенераторМетаданныхКоммита.квитанция(для: факт),
+            ожидаемая: try ГенераторМетаданныхКоммита.ожидание(для: ожидание))
+        guard ГенераторМетаданныхКоммита.проверитьReceipt(пара.фактическая, ожидаемый: пара.ожидаемая,
+            expectedRootUUID: ожидаемыйКонтекст.корневойUUID, ожидаемыйДочернийКонтекст: ожидаемыйКонтекст).isEmpty else {
+            throw ОшибкаВыбораNativeClient.дрейфВыбора
+        }
+        return пара
+    }
+
     private static func прочитатьСтроку(_ data: Data, expectedRootUUID: String) throws -> СтрокаСессии {
         guard let строки = try? JSONDecoder().decode([СтрокаСессии].self, from: data) else {
             throw ОшибкаВыбораNativeClient.некорректныйJSONИсточника
@@ -510,12 +568,13 @@ public enum ГенераторМетаданныхКоммита {
     public static func проверитьReceipt(
         _ receipt: КвитанцияВыбораМодели?,
         ожидаемый: ОжидаемаяКвитанцияВыбораМодели?,
-        expectedRootUUID: String? = nil
+        expectedRootUUID: String? = nil,
+        ожидаемыйДочернийКонтекст: КонтекстОбычногоРебёнка? = nil
     ) -> [String] {
         guard let receipt else { return ["нет-квитанции-api-selection"] }
         guard let ожидаемый else { return ["нет-ожидаемой-квитанции-api-selection"] }
-        var ошибки = проверитьСвидетельство(receipt.свидетельство, expectedRootUUID: expectedRootUUID)
-        ошибки.append(contentsOf: проверитьСвидетельство(ожидаемый.свидетельство, expectedRootUUID: expectedRootUUID))
+        var ошибки = проверитьСвидетельство(receipt.свидетельство, expectedRootUUID: expectedRootUUID, ожидаемыйДочернийКонтекст: ожидаемыйДочернийКонтекст)
+        ошибки.append(contentsOf: проверитьСвидетельство(ожидаемый.свидетельство, expectedRootUUID: expectedRootUUID, ожидаемыйДочернийКонтекст: ожидаемыйДочернийКонтекст))
         do {
             let actualData = try canonicalBytes(receipt.свидетельство)
             let expectedData = try canonicalBytes(ожидаемый.свидетельство)
@@ -561,20 +620,23 @@ public enum ГенераторМетаданныхКоммита {
 
     public static func проверитьСвидетельствоВыбораМодели(
         _ свидетельство: СвидетельствоВыбораМодели,
-        expectedRootUUID: String? = nil
+        expectedRootUUID: String? = nil,
+        ожидаемыйДочернийКонтекст: КонтекстОбычногоРебёнка? = nil
     ) -> [String] {
-        проверитьСвидетельство(свидетельство, expectedRootUUID: expectedRootUUID)
+        проверитьСвидетельство(свидетельство, expectedRootUUID: expectedRootUUID, ожидаемыйДочернийКонтекст: ожидаемыйДочернийКонтекст)
     }
 
     public static func подготовитьОкружение(
         ожидаемаяИдентичность: ОжидаемаяИдентичностьGit,
         expectedRootUUID: String,
-        выходFUMA: ВыходГенератораGitMetadata
+        выходFUMA: ВыходГенератораGitMetadata,
+        ожидаемыйДочернийКонтекст: КонтекстОбычногоРебёнка? = nil
     ) -> РезультатПодготовкиОкруженияКоммита {
         var ошибки = проверитьReceipt(
             ожидаемаяИдентичность.квитанцияВыбораМодели,
             ожидаемый: ожидаемаяИдентичность.ожидаемаяКвитанцияВыбораМодели,
-            expectedRootUUID: expectedRootUUID
+            expectedRootUUID: expectedRootUUID,
+            ожидаемыйДочернийКонтекст: ожидаемыйДочернийКонтекст
         )
         guard let свидетельство = ожидаемаяИдентичность.квитанцияВыбораМодели?.свидетельство else {
             return РезультатПодготовкиОкруженияКоммита(выходFUMA: nil, ошибки: ошибки)
@@ -627,14 +689,16 @@ public enum ГенераторМетаданныхКоммита {
         authorGitVar: String,
         committerGitVar: String,
         план: ПланСообщенияКоммита,
-        выходFUMA: ВыходГенератораGitMetadata
+        выходFUMA: ВыходГенератораGitMetadata,
+        ожидаемыйДочернийКонтекст: КонтекстОбычногоРебёнка? = nil
     ) -> РезультатГенерацииМетаданныхКоммита {
         let свидетельство = ожидаемаяИдентичность.квитанцияВыбораМодели?.свидетельство
             ?? emptyWitness(rootUUID: expectedRootUUID)
         var ошибки = проверитьReceipt(
             ожидаемаяИдентичность.квитанцияВыбораМодели,
             ожидаемый: ожидаемаяИдентичность.ожидаемаяКвитанцияВыбораМодели,
-            expectedRootUUID: expectedRootUUID
+            expectedRootUUID: expectedRootUUID,
+            ожидаемыйДочернийКонтекст: ожидаемыйДочернийКонтекст
         )
         ошибки.append(contentsOf: проверитьЗаголовок(план.заголовок))
         if план.описание.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -701,13 +765,20 @@ public enum ГенераторМетаданныхКоммита {
 
     private static func проверитьСвидетельство(
         _ свидетельство: СвидетельствоВыбораМодели,
-        expectedRootUUID: String?
+        expectedRootUUID: String?,
+        ожидаемыйДочернийКонтекст: КонтекстОбычногоРебёнка?
     ) -> [String] {
         var ошибки: [String] = []
         let currentSchema = свидетельство.схема == "fum.model-selection-receipt.1"
         let legacyChildSchema = свидетельство.схема == "fum.api-selection-receipt.1"
             && свидетельство.источник == .дочернийВызовSpawnAgent
-        if !currentSchema && !legacyChildSchema { ошибки.append("unsupported-model-selection-receipt-schema") }
+        let обычнаяСхема = свидетельство.схема == "fum.model-selection-receipt.2"
+            && свидетельство.источник == .метаданныеДочернегоКлиента
+        if ожидаемыйДочернийКонтекст != nil && !обычнаяСхема {
+            ошибки.append("ordinary-context-requires-versioned-child-profile")
+        }
+        if !currentSchema && !legacyChildSchema && !обычнаяСхема { ошибки.append("unsupported-model-selection-receipt-schema") }
+        if !обычнаяСхема && свидетельство.дочернийКонтекст != nil { ошибки.append("ordinary-context-in-legacy-profile") }
         if !безопасныйТокен(свидетельство.selectedValue.model) { ошибки.append("selected-model-invalid") }
         if !безопасныйТокен(свидетельство.selectedValue.reasoningEffort) { ошибки.append("selected-effort-invalid") }
         if свидетельство.sessionIdentity.статус != .доступен
@@ -716,6 +787,28 @@ public enum ГенераторМетаданныхКоммита {
             ошибки.append("native-session-identity-invalid")
         }
         switch свидетельство.источник {
+        case .метаданныеДочернегоКлиента:
+            guard обычнаяСхема, let контекст = свидетельство.дочернийКонтекст,
+                  let ожидание = ожидаемыйДочернийКонтекст, контекст == ожидание,
+                  expectedRootUUID == ожидание.корневойUUID else {
+                ошибки.append("ordinary-child-requires-independent-context"); break
+            }
+            if !каноническийUUID(контекст.корневойUUID) || !каноническийUUID(контекст.сессия) ||
+                !каноническийUUID(контекст.непосредственныйРодитель) || контекст.сессия == контекст.корневойUUID ||
+                контекст.сессия == контекст.непосредственныйРодитель || контекст.этап.isEmpty || контекст.попытка.isEmpty ||
+                контекст.корневойUUID != свидетельство.rootUUID || контекст.сессия != свидетельство.sessionIdentity.значение ||
+                контекст.запрошено != свидетельство.requestedSelection ||
+                !["UNKNOWN", "accepted", "rejected"].contains(контекст.наблюдённыйACK) {
+                ошибки.append("ordinary-child-context-invalid")
+            }
+            if let запрошено = контекст.запрошено,
+                !безопасныйТокен(запрошено.model) || !безопасныйТокен(запрошено.reasoningEffort) {
+                ошибки.append("ordinary-child-request-invalid")
+            }
+            if свидетельство.nativeThread != nil || свидетельство.nativeSelectionSourceSHA256?.count != 64 ||
+                свидетельство.nativeSelectionSourceSHA256?.allSatisfy({ "0123456789abcdef".contains($0) }) != true {
+                ошибки.append("ordinary-child-source-invalid")
+            }
         case .дочернийВызовSpawnAgent:
             guard let requested = свидетельство.requestedSelection,
                   let nativeThread = свидетельство.nativeThread else {
