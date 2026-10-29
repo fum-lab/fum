@@ -9,11 +9,13 @@ description: Безопасно переименовывать отслежив�
 
 ## Команды
 
+Активный вход — Swift-команда существующего компонента актуализации путей. Собственный бинарник `fum-puti` собирается по конечному рецепту ниже. Значения `mode` в JSON остаются `plan` и `apply` ради совместимости. Python-скрипт и его тесты сохранены как закреплённый источник происхождения; этот Swift-вход их не запускает.
+
 Сначала построить детерминированный план без изменений рабочего дерева, индекса и истории:
 
 ```bash
-python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py \
-  plan \
+'<собственный-каталог-сборки>/fum-puti' \
+  план-файла \
   --source '<прежний-путь-от-корня>' \
   --destination '<новый-путь-от-корня>' \
   --repo-root .
@@ -22,8 +24,8 @@ python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/
 Применить тот же контракт после полного preflight:
 
 ```bash
-python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py \
-  apply \
+'<собственный-каталог-сборки>/fum-puti' \
+  применить-файл \
   --source '<прежний-путь-от-корня>' \
   --destination '<новый-путь-от-корня>' \
   --repo-root .
@@ -50,6 +52,16 @@ python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/
 
 Карточки шагов в `Планирование/карточки-шагов/` не переименовываются общей командой. Для них обязательно используется `Инструменты/fum-reyestr-planirovaniya/scripts/rename-step-card.py`, потому что доменная операция дополнительно синхронизирует статус, полный индекс и веточный рабочий набор. Другой доменный формат также должен получить отдельный явный адаптер, если простого переноса файла и Markdown-ссылок недостаточно для сохранения его инвариантов.
 
+## Границы однофайлового Swift-входа
+
+Версия `one-file.1` закрыто отклоняет вложенные Markdown-ссылки/изображения внутри подписи, включая `[![badge](target.md)](https://example.invalid)`: внешняя цель не доказывает несвязанность вложенной ссылки. Простая встроенная ссылка с кодом в подписи сохраняется только при доказанно неизменяемом адресе относительно прежнего и будущего документа. Если адрес требуется изменить либо доказательство неоднозначно, команда отказывает до записи. Для локальной исходящей цели перемещаемого документа дополнительно обязательны существование и прежние проверки регистра, NFC и алиасов, как для обычной ссылки.
+
+Голые пробелы в адресе, например `[text](directory with spaces/file.md)`, закрыто отклоняются. Поддержанные формы — адрес в угловых скобках или с percent-encoding. Полной эквивалентности всем случаям Python-реализации не заявлено; её молчаливый пропуск неподдержанной формы не переносится в этот контракт. Несвязанная wiki-ссылка допускается, значимая wiki-ссылка на переносимый файл блокирует перенос.
+
+Локальные цели, извлечённые тем же лексером, получают отдельную проверку каждого физического компонента пути без следования символическим ссылкам. Gitignore не доказывает отсутствия алиаса: проверка действует также для игнорируемых целей и повторяется на независимых границах применения и отката. Отсутствующая несвязанная цель другого документа может остаться неизменной, но сломанная исходящая цель самого перемещаемого документа блокирует операцию.
+
+Предел одного входного и итогового файла — 8 MiB, суммарных документов — 256 MiB; размер и остаток проверяются до чтения следующего файла. Проверки входных имён и ссылок различают точные UTF-8 байты, регистр и NFC-алиасы. Автоматизация не выбирает новое имя: CamelCase → lowercase-kebab задаёт существующий Names/LinguisticKit, а перенос получает одну явную пару.
+
 ## План, применение и откат
 
 Режим `plan` выполняет тот же read-only preflight, что и `apply`, и возвращает устойчивый JSON-отчёт. Поля `source`, `destination` и `renamed_file` описывают перенос, `rewritten_files` перечисляет файлы с изменёнными байтами, `updated_files` — все итоговые пути затронутых файлов, а `updated_links` — число реально изменённых адресов. Preflight проверяет Git-идентичность и чистоту источника, безопасность назначения, отсутствие коллизии, разбор всех поддержанных входящих и исходящих ссылок, отсутствие сломанных исходящих целей и конфликтов в защищённых или доменных зонах. Read-only Git-вызовы отключают optional locks, все пути передаются как буквальные pathspec, а унаследованные `GIT_*` не могут перенаправить репозиторий, рабочее дерево или индекс.
@@ -58,17 +70,98 @@ python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/
 
 Обязательный path-based-вызов `git mv` оставляет короткое неустранимое окно для враждебной одновременной подмены каталога между последним lstat-fence и системным обращением Git. Контракт рассчитан на сотрудничающие процессы одного checkout: любое наблюдаемое изменение закрывается повторными снимками, но автоматизация не является защитой от процесса, который намеренно выигрывает системную гонку имён файлов.
 
-## Автономные тесты
+## Сборка и автономные проверки Swift
 
-Тесты запускаются локально без сети и секретов:
+Рецепт выполняется из физического корня checkout на macOS с Xcode/Swift 6 и SDK macOS. Во всех заполнителях нужно выбрать собственные каталоги вне Git; fixture и профиль должны отсутствовать до подготовки. Исходный gitlink LinguisticKit — `837e2ce107b97ee7b9d3344c9fe99142281fe393`, продукт — `LinguisticKit.static`. При необходимости настоящий статический продукт строится из зарегистрированного исходника:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
-  -s Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/tests \
-  -p 'test_*.py'
+xcrun swift build --package-path Зависимости/LinguisticKit \
+  --scratch-path '<собственный-каталог-сборки-LK>' \
+  --build-system xcode --jobs 1 --product LinguisticKit.static
 ```
 
-Фикстуры создают временные Git-репозитории и проверяют read-only-план, успешное применение, поддержанные формы Markdown-ссылок, пересчёт входящих и исходящих целей, точность совпадения, защищённые и доменные границы, небезопасные пути, коллизии, неразрешимые ссылки, сохранение CRLF и исполняемого режима, а также полный откат при внедрённой ошибке установки.
+Его каталог `out/Products/Debug` далее подставляется вместо `<готовый-каталог-LK>`. В данном этапе использован ранее построенный настоящий продукт с проверенными SHA; свежая сборка зависимости и воспроизведение из чистого клона не выполнялись. Это отражено в [отчёте порта](../../iskhodniki/aktualizaciya-putej/kontraktyi/port-pereimenovaniya-fajla.json).
+
+Конечный список исходников и сборка CLI; `$@` — стандартные позиционные параметры оболочки:
+
+```bash
+mkdir -p '<собственный-каталог-сборки>/module-cache'
+set -- \
+  iskhodniki/aktualizaciya-putej/modelj-obshchej-migracii.swift \
+  iskhodniki/aktualizaciya-putej/modelj-plana.swift \
+  iskhodniki/aktualizaciya-putej/proverka-imyon.swift \
+  iskhodniki/aktualizaciya-putej/chteniye-snimka.swift \
+  iskhodniki/aktualizaciya-putej/publichnyiye-imena.swift \
+  iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift \
+  iskhodniki/aktualizaciya-putej/snimok-obshchej-migracii.swift \
+  iskhodniki/aktualizaciya-putej/komanda-obshchej-migracii.swift \
+  iskhodniki/aktualizaciya-putej/tokenyi-json-migracii.swift \
+  iskhodniki/aktualizaciya-putej/adapter-politiki-lokaljnyikh-putej.swift \
+  iskhodniki/aktualizaciya-putej/korpus-ssyilok-migracii.swift \
+  iskhodniki/aktualizaciya-putej/vyibor-oblastej-snimka.swift \
+  iskhodniki/aktualizaciya-putej/snimok-korpusa-dokumentov.swift \
+  iskhodniki/aktualizaciya-putej/ozhidaniye-korpusa-iz-git.swift \
+  iskhodniki/aktualizaciya-putej/svideteljstva-razmeshcheniya-teksta.swift \
+  iskhodniki/aktualizaciya-putej/istoricheskij-manifest-proyekcii.swift \
+  iskhodniki/aktualizaciya-putej/prostranstvo-imyon-git.swift \
+  iskhodniki/aktualizaciya-putej/perechenj-adresov-markdown.swift \
+  iskhodniki/aktualizaciya-putej/kandidatyi-razresheniya-adresov.swift \
+  iskhodniki/aktualizaciya-putej/perekhod-prostranstva-adresov.swift \
+  iskhodniki/aktualizaciya-putej/porcii-kandidatov-adresov.swift \
+  iskhodniki/aktualizaciya-putej/paket-kandidatov-adresov.swift \
+  iskhodniki/aktualizaciya-putej/uchyot-artefaktov-kandidatov.swift \
+  iskhodniki/aktualizaciya-putej/okna-diagnostiki-kandidatov.swift \
+  iskhodniki/aktualizaciya-putej/svyazj-upravleniya-okna.swift \
+  iskhodniki/aktualizaciya-putej/kollekciya-kandidatov-na-diske.swift \
+  iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift \
+  iskhodniki/aktualizaciya-putej/proveritj-puti.swift \
+  iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift
+xcrun --sdk macosx swiftc -j 1 -parse-as-library -swift-version 6 \
+  -strict-concurrency=complete -warnings-as-errors -enable-actor-data-race-checks \
+  -sdk "$(xcrun --sdk macosx --show-sdk-path)" \
+  -module-cache-path '<собственный-каталог-сборки>/module-cache' \
+  -I '<готовый-каталог-LK>' '<готовый-каталог-LK>/libLinguisticKit.static.a' \
+  -D ФУМ_КОМАНДА_ПУТЕЙ "$@" -o '<собственный-каталог-сборки>/fum-puti'
+```
+
+Автономный набор использует тот же список `$@`, единственный собственный тестовый файл и прозрачный запуск Swift Testing:
+
+```bash
+cat >'<собственный-каталог-сборки>/запуск.swift' <<'SWIFT'
+import Testing
+import Darwin
+@main struct ЗапускПроверок {
+    static func main() async {
+        let код: CInt = await Testing.__swiftPMEntryPoint()
+        exit(код)
+    }
+}
+SWIFT
+xcrun --sdk macosx swiftc -j 1 -parse-as-library -swift-version 6 \
+  -strict-concurrency=complete -warnings-as-errors -enable-actor-data-race-checks \
+  -sdk "$(xcrun --sdk macosx --show-sdk-path)" \
+  -module-cache-path '<собственный-каталог-сборки>/module-cache' \
+  -I '<готовый-каталог-LK>' '<готовый-каталог-LK>/libLinguisticKit.static.a' \
+  "$@" proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift \
+  '<собственный-каталог-сборки>/запуск.swift' \
+  -F "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/Library/Frameworks" \
+  -framework Testing -Xlinker -rpath -Xlinker "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/Library/Frameworks" \
+  -plugin-path "$(xcode-select -p)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing" \
+  -o '<собственный-каталог-сборки>/проверки'
+mkdir -p '<собственная-фикстура>/docs'
+printf '# Документ\n' >'<собственная-фикстура>/docs/old.md'
+printf '[Ссылка](docs/old.md#part)\n' >'<собственная-фикстура>/index.md'
+git -C '<собственная-фикстура>' init --quiet
+git -C '<собственная-фикстура>' add -- docs/old.md index.md
+git -C '<собственная-фикстура>' -c user.name='FUM Fixture' -c user.email=fixture@example.invalid commit -qm 'Открытая фикстура'
+env 'ФУМ_ФИКСТУРА_ПЕРЕИМЕНОВАНИЯ=<собственная-фикстура>' \
+  'ФУМ_ПРОФИЛЬ_ПЕРЕИМЕНОВАНИЯ=<собственный-каталог-сборки>/профиль.json' \
+  '<собственный-каталог-сборки>/проверки' --no-parallel
+```
+
+Первый тест проверяет CLI на заданной fixture без изменений; остальные создают собственные временные Git-репозитории. Проверяются поддержанные ссылки, точные причины отказов, защищённые зоны, байты CRLF, исполняемый режим, точный индекс, чужие изменения, частичный эффект и сохранение резервов. Профиль содержит три независимых одинаковых сценария с раздельными подготовкой, планом и применением. Сеть, секреты, Python и полный корпус FUM не используются.
+
+При неизвестном исходе Git сохраняются синхронизированное намерение, прежний индекс и резервные копии; новый автоматический повтор или неподтверждённый откат не выполняется. При известном отказе второй установки независимые резервы удерживаются до успешной сверки отката. Дрейф при этой сверке даёт явный неполный откат с адресами сохранённых резервов.
 
 ## Граница автоматизации
 
@@ -80,6 +173,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:5547f302172df25226da4951eba7a301f8e06fc9c0b464e9d0ce4ee8640f6831 -->
+<!-- last-content-edit: 2026-10-29 17:35:14 MSK -->
+<!-- content-sha256: sha256:fe8a83ee21258124c6f677205e9aacbf59649081e9ed56b53d20b8fd8c6f9999 -->
 <!-- FUM-MD-RECENCY:END -->
