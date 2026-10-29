@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
+    "собственныйКонтрольныйКоммит": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.4",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "8815103a0e000ed47a8a4e205fadb99d6320dcc3",
+      "родитель": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "A avtovyidachu polnomochij mozhem sdelatj?",
-      "заголовок": "Исправить запись журнала и закрепить приёмку",
-      "описание": "Физические строки 66–67 собственного JSONL содержат разрезанное событие 66; исходные байты и их SHA сохранены, append-only коррекция 67 добавлена. В собственной ветке отдельно приняты byte consumer merge f9a7b2c977c2ca77f577d66840df4e1ba250e799 и JSON-only contract merge 8815103a0e000ed47a8a4e205fadb99d6320dcc3; точные деревья, родители, raw receipts и push/readback сохранены в состоянии. Свежая read-only native metadata row для собственного thread показала те же выбранные gpt-6-luna/max и совпала с сохранённой частной проекцией SHA 8f77937e045cc36a1fd6006cfd9d854829c8de0e4283b108e6346bd1eeeedaa1; backend и native turn context неизвестны. ROOT acceptance остаётся pending; полная FUMA policy, общий Package consumer и запуск фабрики не объявляются готовыми."
+      "исходныйЗапрос": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu.",
+      "заголовок": "Добавить переносимый профиль потребителя байтов",
+      "описание": "В собственной области сохранён переносимый профиль Swift Testing для потребителя байтов: точные UTF-8 байты минимального Package.swift, mapping двух производственных исходников и одного тестового исходника, define TESTING, строгие флаги, фикстура и происхождение среды исполнения, шаблоны argv и переменных окружения. Историческая квитанция 2/2 и её SHA журнала сохранены без повторного запуска; публичный manifest является новым шаблоном воспроизведения и не объявляется побайтно равным прежнему закрытому тестовому каркасу. Для повтора нужен внешний fum-оператор с указанным SHA; его команда сборки неизвестна. Общий потребитель Package остаётся неподключённым, полная политика FUMA и фабрика не реализованы. Обратный merge ROOT cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e опубликован; PR 449 открыт, приёмка ROOT ожидает проверки. Исходные повреждённые строки 66–67 общего журнала не изменялись; полный журнал не объявляется валидным JSONL."
     }
   },
   "результатГенератораМетаданных": {
