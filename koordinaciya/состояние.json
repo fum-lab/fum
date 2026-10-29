@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "872ae1d750961b67d00f948b11d83f9077f785c5",
+    "собственныйКонтрольныйКоммит": "89cdd83223c3498f26b3b81693bf58914ae735d8",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.5",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "родитель": "89cdd83223c3498f26b3b81693bf58914ae735d8",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "ROOT: PR453 source-only интегрирован в 4f4fc05a44fa20f2e15c0f996a5c097767fa75e3. Перед конечным PR включить актуальный ROOT 4f4fc05 в собственную ветку явным обратным merge; уже отправленный source checkpoint 872ae1d не переоткрывать. Для #363 и #452 различать общий task UUID и actual writer native UUID; модель брать из своей свежей строки, backend оставлять unknown. #452 не начинать до ROOT-приёмки #363.",
-      "заголовок": "Влить актуальную основу ROOT в поставку проверки push",
-      "описание": "Source checkpoint 872ae1d750961b67d00f948b11d83f9077f785c5 прошёл точную raw-проверку и независимый readback. Merge включает актуальную основу ROOT 4f4fc05a44fa20f2e15c0f996a5c097767fa75e3 и исправляет ослабленное доказательство submodule refs: снимки теперь сравнивают ref→OID, включая тест с продвижением OID при неизменном наборе имён. Воспроизводимая команда raw-check исправлена на merge CLI с независимым expectation JSON, где проверяются порядок родителей, связь первого родителя с планом и точное дерево. 17 прежних targeted Swift Testing receipts сохранены как исторический результат; 2 новых адресных теста прошли на текущем test SHA. Это source/JSON поставка для PR, не ROOT-приёмка, production consumer или активация. #452 остаётся после ROOT-приёмки #363."
+      "исходныйЗапрос": "ROOT: Неполноту первого stderr сохрани именно как потерю raw, без восстановления текстом. Для оставшихся вызовов сразу используй новый уникальный каталог попытки 0700 и откажись от перезаписи уже существующих stdout/stderr/exit файлов. Это правило последовательности внеси в сохранённый рецепт, чтобы следующий запуск не повторял потерю; не нужно заново воспроизводить старую permission-ошибку. Новые свежие raw-check outputs сохраняются отдельно от исторических 872/c525. Родительская приёмка остаётся source-only: production caller и долговечный executor не объявляются готовыми. Продолжай конечный commit/PR; это не причина возвращать общий gate.",
+      "заголовок": "Сохранить raw-проверку и уникальные квитанции",
+      "описание": "Merge commit 89cdd83223c3498f26b3b81693bf58914ae735d8 включает ROOT4f4fc05 и raw-check PASS: tree ae49bba8e2f31b106a4194b3c26693ae16ffc2b0, родители [872ae1d,4f4fc05], сырой SHA b93b3e20. Сохранены 17 исторических адресных результатов и 2 текущих Swift Testing PASS на test SHA 863e0114. Этот коммит сохраняет уникальную политику квитанций; первый permission stderr остаётся отмечен как потерянный raw. Ветка ещё не отправлена, ROOT-приёмка и production caller/executor не заявляются."
     }
   },
   "результатГенератораМетаданных": {
@@ -2943,11 +2943,11 @@
   },
   "проверкаБезопасностиPush": {
     "схема": "fum.координация.проверка-безопасности-push.1",
-    "время": "2026-10-29T06:39:31Z",
+    "время": "2026-10-29T06:56:39Z",
     "основа": "872ae1d750961b67d00f948b11d83f9077f785c5",
     "планируемыйРодитель": "872ae1d750961b67d00f948b11d83f9077f785c5",
     "профиль": "koordinaciya/proverka-bezopasnosti-otpravki-git.json",
-    "профильSHA256": "23d335f413c725ab43f8f7a44bbaca1fa6bd686bdcdaff4b96b05d423b5efa9a",
+    "профильSHA256": "6686b8fbbd20ae9b94e6dad5b549351e82c583a3271134acaf92e89995483a0d",
     "собственныйRef": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственныйUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
     "выбор": {
@@ -2984,7 +2984,7 @@
       "related14SHA256": "6deb04cb813ddd343d9b43cc786d5b9647ce4641cdc6eb7ef9d142cfae8de1f2",
       "edge3SHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
     },
-    "статус": "ROOT 4f reverse merge staged; FUMA identity/message preflight passed; exact tree/raw merge check and commit/push/readback/PR pending; ROOT acceptance and production activation not claimed",
+    "статус": "89cdd ROOT4f merge raw-check PASS; append-only status checkpoint FUMA preflight PASS; its raw check and own push/readback/PR pending",
     "текущийИсточник": {
       "координаторSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
       "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
@@ -3020,12 +3020,11 @@
       "model": "gpt-6-luna",
       "reasoningEffort": "max",
       "rawRowSHA256": "75b7d5ad98ebfb128067cb30106de81d85c2e1ee74294d4e91a6de757e2aecfe",
-      "observedAt": "2026-10-29T06:39:31Z",
+      "observedAt": "2026-10-29T06:56:39Z",
       "backend": "unknown"
     },
     "планируемыеРодители": [
-      "872ae1d750961b67d00f948b11d83f9077f785c5",
-      "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
+      "89cdd83223c3498f26b3b81693bf58914ae735d8"
     ],
     "адреснаяПроверкаOIDRefs": {
       "testSHA256": "863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd",
@@ -3052,6 +3051,27 @@
       "messageSHA256": "b7e06c76e7fbc285529f37f098519cb6c14ab51d040b4b8c5bec9bf14ba6fa68",
       "gitEffect": false,
       "status": "pre-effect only"
+    },
+    "root4fMergeRawCheck": {
+      "commitOID": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+      "treeOID": "ae49bba8e2f31b106a4194b3c26693ae16ffc2b0",
+      "parents": [
+        "872ae1d750961b67d00f948b11d83f9077f785c5",
+        "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
+      ],
+      "rawObjectSHA256": "b93b3e204d46cebee19186edacc2d971584a956fba0ea0f29b170194c00833e4",
+      "rawCheckExit": 0,
+      "rawCheckJSONSHA256": "ab3f00f5fd664fc52723a40cadb753cea214bcfeda120ea2d2a5dee70c1173c5",
+      "verified": true,
+      "gitEffect": false
+    },
+    "statusCheckpointPreflight": {
+      "exit": 0,
+      "ready": true,
+      "outputSHA256": "bb8062f5b4d0347401a7342b63e4f34ad009774075236db42ee63c6459fcaaf0",
+      "messageSHA256": "44ee1909c1161d7de74d491c049923ffe365ffbf9886e07dbb8fa609fd37d922",
+      "gitEffect": false,
+      "attemptMode": "0700 unique"
     }
   }
 }

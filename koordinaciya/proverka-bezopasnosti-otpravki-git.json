@@ -402,7 +402,7 @@
   "фактическиеПределы": [
     "Текущее изменение покрывает per-worktree config через эффективное чтение; реальные внешние pushes и адреса вне локальных bare fixtures не проверялись."
   ],
-  "freshProcessInvocationTemplate": "From a repository-root working directory, capture raw `git cat-file commit <OID>` bytes and invoke a fresh env -i process with the FUMA environment template: `koordinator-push-safety --проверить-сырой-merge-коммит <state.json> <independent-expectation.json> < <raw>`. The independent JSON must carry schema fum.raw-merge-commit-expectation.1, ordered expectedParents (one parent is valid for a source checkpoint), and expectedTree; the CLI validates the schema, binds first parent to plan parent, then checks the exact tree and raw metadata. Do not pass the expectation path to --проверить-сырой-коммит; that option accepts a tree OID string.",
+  "freshProcessInvocationTemplate": "For every invocation create a fresh unique private attempt directory with mode 0700. Create fresh runtime, memory and run roots under that attempt. Use new, non-existing stdout/stderr/exit/raw/expectation paths; never overwrite an earlier attempt. Save raw `git cat-file commit <OID>` bytes and invoke `--проверить-сырой-merge-коммит <state.json> <independent-expectation.json> < <raw>` in a fresh env -i process. The independent JSON is schema-checked and carries ordered parents and exact expectedTree; one parent is valid.",
   "mergePreflight": {
     "runID": "fuma-2a735adf-f713-45d4-98ad-dac86ca2b05c",
     "exit": 0,
@@ -438,5 +438,66 @@
     "gitEffect": false,
     "timestamp": "@1793256529 +0400",
     "status": "pre-effect only; exact staged tree/raw merge check and commit pending"
+  },
+  "root4fMergeRawCheck": {
+    "commitOID": "89cdd83223c3498f26b3b81693bf58914ae735d8",
+    "treeOID": "ae49bba8e2f31b106a4194b3c26693ae16ffc2b0",
+    "expectedParents": [
+      "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
+    ],
+    "rawObjectSHA256": "b93b3e204d46cebee19186edacc2d971584a956fba0ea0f29b170194c00833e4",
+    "expectationSHA256": "9477ac50117a67a5ce626b2809ff45c3d8e39dd99bd2d09ce1d5d14fd1eafc59",
+    "exit": 0,
+    "stdoutSHA256": "ab3f00f5fd664fc52723a40cadb753cea214bcfeda120ea2d2a5dee70c1173c5",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "messageSHA256": "b7e06c76e7fbc285529f37f098519cb6c14ab51d040b4b8c5bec9bf14ba6fa68",
+    "verified": true,
+    "gitEffect": false
+  },
+  "nextCheck": {
+    "kind": "single-parent status checkpoint",
+    "expectedParents": [
+      "89cdd83223c3498f26b3b81693bf58914ae735d8"
+    ],
+    "expectedTree": "pending exact staged tree",
+    "status": "pending raw check of append-only status checkpoint"
+  },
+  "status": "89cdd ROOT4f merge raw-check PASS; status checkpoint FUMA preflight PASS in unique 0700 attempt; exact tree/raw check and own push/readback/PR pending",
+  "statusCheckpointPreflight": {
+    "runID": "fuma-bb9e8f64-c2c8-4ddd-b739-3860ed70bd42",
+    "exit": 0,
+    "ready": true,
+    "errors": [],
+    "preflightOutputSHA256": "bb8062f5b4d0347401a7342b63e4f34ad009774075236db42ee63c6459fcaaf0",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "messageSHA256": "44ee1909c1161d7de74d491c049923ffe365ffbf9886e07dbb8fa609fd37d922",
+    "messageBytes": 1939,
+    "author": {
+      "name": "FUM Codex [gpt-6-luna; effort=max]",
+      "email": "fum@local"
+    },
+    "committer": {
+      "name": "FUM",
+      "email": "fum@local"
+    },
+    "nativeSelection": {
+      "uuid": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "backend": "unknown"
+    },
+    "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "fumaEvidence": {
+      "inputSHA256": "d3c9754d58c45b21cef7f450fea5418f7af2d7c82d7b5108a39f356c3fd13a6e",
+      "rawResponseSHA256": "1ce54592edf1307331320c58b72cebba31ca27d01978cde9d8b98fbf7b99e179",
+      "canonicalOutputSHA256": "c655227c8c41ad698f995a55b6c784eee996bb0e704e3a19bc0b2916236f5277",
+      "receiptSHA256": "debc49c7f2e74bd456b86f3e95ab011c8ff8c20b372db03a19c82cc25e635bcc"
+    },
+    "timestamp": "@1793257005 +0400",
+    "attemptDirectoryMode": "0700",
+    "writeOnceOutputs": true,
+    "gitEffect": false,
+    "status": "pre-effect only; exact staged tree and raw check pending"
   }
 }
