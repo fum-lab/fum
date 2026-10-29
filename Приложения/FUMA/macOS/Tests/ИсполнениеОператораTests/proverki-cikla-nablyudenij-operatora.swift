@@ -4,6 +4,15 @@ import Testing
 import КонтейнерНаблюдений
 @testable import ИсполнениеОператора
 
+// Рецепт из корня Git FUM; все package-зависимости — локальные пути того же коммита.
+// Сначала зафиксировать `git rev-parse HEAD` и версию `swift --version`.
+// SCRATCH — существующий приватный каталог вне checkout, объём которого ограничен.
+// swift build --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --build-system native --jobs 1 --product fum-оператор -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
+// env 'ФУМА_ПРОВЕРКА_ОПЕРАТОРА=1' "ФУМА_КОМАНДА_ОПЕРАТОРА=$SCRATCH/debug/fum-оператор" swift test --package-path Приложения/FUMA/macOS --scratch-path "$SCRATCH" --build-system native --jobs 1 --disable-xctest --enable-swift-testing --filter ПроверкиОператорногоЦикла -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks
+// Фикстура создаёт временные FS, Git с refs/heads/проверка и внешний 0700 Segment.
+// Ожидаются одна завершённая рамка и сводка Git без учёта подмодулей; replay читает сохранённый вход,
+// даже если FS/Git изменены. Отказ графа после цикла оставляет план и отказ исполнения.
+
 @Suite("Операторный цикл наблюдений", .serialized)
 struct ПроверкиОператорногоЦикла {
     private func команда(_ бинарник: URL, _ аргументы: [String], каталог: URL) throws -> (Int32, Data, Data) {
@@ -97,7 +106,7 @@ struct ПроверкиОператорногоЦикла {
         #expect(сводкаРепозитория["ссылка"] as? String == "refs/heads/проверка")
         #expect(сводкаРепозитория["числоИзменённыхПутей"] as? Int == 0)
         #expect(сводкаРепозитория["числоНеотслеживаемыхПутей"] as? Int == 0)
-        #expect(сводкаРепозитория["чист"] as? Bool == true)
+        #expect(сводкаРепозитория["чистБезУчётаПодмодулей"] as? Bool == true)
         let сегмент = try Сегмент(кореньДанных: история, запись: false, создать: false)
         let план = try #require(сегмент.записи.first { $0.описание.тип == "fuma.план-наблюдений-состояния.jsonl.1" })
         let вход = ответ.запись.сыройВход
@@ -111,6 +120,11 @@ struct ПроверкиОператорногоЦикла {
         let планОбъект = try объект(байтыПлана)
         let планРепозитория = try #require(планОбъект["репозиторий"] as? [String: Any])
         #expect((сводкаРепозитория["коммит"] as? String) == (планРепозитория["коммит"] as? String))
+        #expect((сводка["схемаПлана"] as? String) == (планОбъект["схема"] as? String))
+        #expect((сводка["порядок"] as? [String]) == ["файловая-система", "репозиторий"])
+        let планФайлов = try #require(планОбъект["файловаяСистема"] as? [String: Any])
+        #expect((сводкаФайлов["идентификатор"] as? String) == (планФайлов["идентификатор"] as? String))
+        #expect((сводкаФайлов["источник"] as? String) == "проверка")
         сегмент.закрыть()
         try FileManager.default.removeItem(at: определение)
         try Data("изменено\n".utf8).write(to: файлы.appendingPathComponent("пример.txt"))
@@ -143,8 +157,16 @@ struct ПроверкиОператорногоЦикла {
         let частичноеИсполнение = try #require(частичныйЧитатель.записи.first { $0.описание.тип == "исполнение-JSONL" })
         let записьОтказа = try JSONDecoder().decode(ЗаписьСреза.self,
             from: частичныйЧитатель.извлечь(частичноеИсполнение.описание.идентификатор))
+        let ответОтказа = try JSONDecoder().decode(ОтветСреза.self, from: частичный.1)
+        #expect(ответОтказа.квитанция == частичноеИсполнение)
+        #expect(ответОтказа.запись == записьОтказа)
         #expect(записьОтказа.отказ?.стадия == "исполнение")
         #expect(записьОтказа.рамки.isEmpty)
+        let планОтказа = try #require(частичныйЧитатель.записи.first { $0.описание.тип == "fuma.план-наблюдений-состояния.jsonl.1" })
+        let сыройОтказ = записьОтказа.сыройВход
+        #expect(планОтказа.хэш == сыройОтказ.хэш)
+        #expect(планОтказа.размер == сыройОтказ.размер)
+        #expect(try частичныйЧитатель.извлечь(планОтказа.описание.идентификатор) == частичныйЧитатель.извлечь(сыройОтказ.описание.идентификатор))
     }
 
     @Test("Допустимая программа запускает реальный selector")
@@ -193,31 +215,76 @@ struct ПроверкиОператорногоЦикла {
         let указатель = try #require(realpath(каталог.path, nil))
         defer { free(указатель) }
         let физический = String(cString: указатель)
-        let невернаяПрограмма = ["--исполнить-цикл-наблюдений", "--корень-файловой-системы", физический,
-            "--источник-файловой-системы", "проверка", "--корень-репозитория", физический,
-            "--определение", физический + "/отсутствует.json", "--журнал", физический]
+        let корень = URL(fileURLWithPath: физический, isDirectory: true)
+        let файлы = корень.appendingPathComponent("файлы")
+        let репозиторий = корень.appendingPathComponent("репозиторий")
+        let история = корень.appendingPathComponent("история")
+        for путь in [файлы, репозиторий, история] {
+            try FileManager.default.createDirectory(at: путь, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+        }
+        let git = URL(fileURLWithPath: "/usr/bin/git")
+        try #require(команда(git, ["init", "--quiet"], каталог: репозиторий).0 == 0)
+        try #require(команда(git, ["symbolic-ref", "HEAD", "refs/heads/проверка"], каталог: репозиторий).0 == 0)
+        try #require(команда(git, ["-c", "commit.gpgsign=false", "-c", "core.hooksPath=/dev/null", "commit", "--allow-empty", "--quiet", "-m", "проверка"], каталог: репозиторий).0 == 0)
+        let файлСегмента = история.appendingPathComponent("сегмент.fumobs")
+        let невернаяПрограмма = ["--исполнить-цикл-наблюдений", "--корень-файловой-системы", файлы.path,
+            "--источник-файловой-системы", "проверка", "--корень-репозитория", репозиторий.path,
+            "--определение", физический + "/отсутствует.json", "--журнал", история.path]
         let отказ = try команда(бинарник, невернаяПрограмма, каталог: каталог)
         #expect(отказ.0 != 0)
-        #expect(!FileManager.default.fileExists(atPath: каталог.appendingPathComponent("сегмент.fumobs").path))
-        let повторныйПараметр = невернаяПрограмма + ["--журнал", физический]
-        let смешанныеРежимы = невернаяПрограмма + ["--повторить-JSONL", "неизвестно"]
+        #expect(!FileManager.default.fileExists(atPath: файлСегмента.path))
+        let валидноеОпределение = URL(fileURLWithPath: физический).appendingPathComponent("валидное.json")
+        let валидныйТекст = #"{"схема":"fum.определение-оператора.1","идентификатор":"тождество","версия":1,"правила":[],"шаги":[]}"#
+        try Data(валидныйТекст.utf8).write(to: валидноеОпределение)
+        var допустимыеАргументы = невернаяПрограмма
+        допустимыеАргументы[допустимыеАргументы.count - 3] = валидноеОпределение.path
+        let повторныйПараметр = допустимыеАргументы + ["--журнал", история.path]
+        let смешанныеРежимы = допустимыеАргументы + ["--повторить-JSONL", "неизвестно"]
         for аргументы in [повторныйПараметр, смешанныеРежимы] {
             #expect(try команда(бинарник, аргументы, каталог: каталог).0 != 0)
-            #expect(!FileManager.default.fileExists(atPath: каталог.appendingPathComponent("сегмент.fumobs").path))
+            #expect(!FileManager.default.fileExists(atPath: файлСегмента.path))
         }
         let неверноеОпределение = URL(fileURLWithPath: физический).appendingPathComponent("неверное.json")
         try Data("{неверный JSON".utf8).write(to: неверноеОпределение)
         var неверныйJSON = невернаяПрограмма
         неверныйJSON[неверныйJSON.count - 3] = неверноеОпределение.path
         #expect(try команда(бинарник, неверныйJSON, каталог: каталог).0 != 0)
-        #expect(!FileManager.default.fileExists(atPath: каталог.appendingPathComponent("сегмент.fumobs").path))
-        let валидноеОпределение = URL(fileURLWithPath: физический).appendingPathComponent("валидное.json")
-        let валидныйТекст = #"{"схема":"fum.определение-оператора.1","идентификатор":"тождество","версия":1,"правила":[],"шаги":[]}"#
-        try Data(валидныйТекст.utf8).write(to: валидноеОпределение)
-        var неприватныйЖурнал = неверныйJSON
-        неприватныйЖурнал[неприватныйЖурнал.count - 3] = валидноеОпределение.path
-        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: физический)
-        #expect(try команда(бинарник, неприватныйЖурнал, каталог: каталог).0 != 0)
-        #expect(!FileManager.default.fileExists(atPath: каталог.appendingPathComponent("сегмент.fumobs").path))
+        #expect(!FileManager.default.fileExists(atPath: файлСегмента.path))
+        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: история.path)
+        #expect(try команда(бинарник, допустимыеАргументы, каталог: каталог).0 != 0)
+        #expect(!FileManager.default.fileExists(atPath: файлСегмента.path))
+    }
+
+    @Test("История не размещается в отдельном Git-каталоге")
+    func отказИсторииВМетаданныхGit() throws {
+        let бинарник = URL(fileURLWithPath: try #require(ProcessInfo.processInfo.environment["ФУМА_КОМАНДА_ОПЕРАТОРА"]))
+        let временный = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString.lowercased())
+        try FileManager.default.createDirectory(at: временный, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        let указатель = try #require(realpath(временный.path, nil))
+        defer { free(указатель); try? FileManager.default.removeItem(at: временный) }
+        let корень = URL(fileURLWithPath: String(cString: указатель), isDirectory: true)
+        let файлы = корень.appendingPathComponent("файлы")
+        let репозиторий = корень.appendingPathComponent("репозиторий")
+        let метаданные = корень.appendingPathComponent("метаданные")
+        for каталог in [файлы, репозиторий] {
+            try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+        }
+        let git = URL(fileURLWithPath: "/usr/bin/git")
+        try #require(команда(git, ["init", "--quiet", "--separate-git-dir", метаданные.path], каталог: репозиторий).0 == 0)
+        try #require(команда(git, ["symbolic-ref", "HEAD", "refs/heads/проверка"], каталог: репозиторий).0 == 0)
+        try #require(команда(git, ["-c", "commit.gpgsign=false", "-c", "core.hooksPath=/dev/null", "commit", "--allow-empty", "--quiet", "-m", "проверка"], каталог: репозиторий).0 == 0)
+        try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: метаданные.path)
+        let определение = корень.appendingPathComponent("оператор.json")
+        let текст = #"{"схема":"fum.определение-оператора.1","идентификатор":"тождество","версия":1,"правила":[],"шаги":[]}"#
+        try Data(текст.utf8).write(to: определение)
+        let аргументы = ["--исполнить-цикл-наблюдений", "--корень-файловой-системы", файлы.path,
+            "--источник-файловой-системы", "проверка", "--корень-репозитория", репозиторий.path,
+            "--определение", определение.path, "--журнал", метаданные.path]
+        let исход = try команда(бинарник, аргументы, каталог: корень)
+        #expect(исход.0 != 0)
+        #expect(!FileManager.default.fileExists(atPath: метаданные.appendingPathComponent("сегмент.fumobs").path))
     }
 }
