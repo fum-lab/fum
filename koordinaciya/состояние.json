@@ -692,7 +692,7 @@
   ],
   "точныеГрязныеПутиПолноеПокрытие": true,
   "планСамообновления": {
-    "собственныйКонтрольныйКоммит": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+    "собственныйКонтрольныйКоммит": "872ae1d750961b67d00f948b11d83f9077f785c5",
     "собственныйРеф": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственнаяОбласть": "koordinaciya/**",
     "текущаяВерсия": "fum.координация.состояние.5",
@@ -730,7 +730,7 @@
     "требуетЧтениеROOTJSONL": false,
     "старыйГлобальныйПорогДискаДляИсточникаГиБ": null,
     "идентичностьСледующегоКоммита": {
-      "родитель": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+      "родитель": "872ae1d750961b67d00f948b11d83f9077f785c5",
       "квитанцияВыбораAPI": {
         "canonicalBytesBase64": "eyJhY2NlcHRlZFNlbGVjdGlvbiI6eyJtb2RlbCI6ImdwdC02LWx1bmEiLCJyZWFzb25pbmdFZmZvcnQiOiJtYXgifSwiYmFja2VuZE1vZGVsIjoi0L3QtdC40LfQstC10YHRgtC90L4iLCJjaGlsZElkZW50aXR5Ijp7ItCy0LjQtCI6ItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGATmF0aXZlVGhyZWFkTWV0YWRhdGEiLCLQt9C90LDRh9C10L3QuNC1IjoiMDFhMTgyOTQtYjZmZi03MzUyLTkyZTEtNmI1NzZkNDEyMTcyIiwi0YHRgtCw0YLRg9GBIjoi0LTQvtGB0YLRg9C/0LXQvSJ9LCJuYXRpdmVUaHJlYWQiOnsiYWdlbnRQYXRoIjoiL3Jvb3Qva29vcmRpbmFjaXlhIiwiYXR0YWNoZWRUaHJlYWRQYXJlbnRJRFJhdyI6IiIsImxpbmVhZ2XQodGC0LDRgtGD0YEiOiLQvdC10LjQt9Cy0LXRgdGC0L3QviIsInRocmVhZFVVSUQiOiIwMWExODI5NC1iNmZmLTczNTItOTJlMS02YjU3NmQ0MTIxNzIiLCLQvNC+0LTQtdC70YwiOiJncHQtNi1sdW5hIiwi0YPRgdC40LvQuNC1IjoibWF4In0sIm5hdGl2ZVR1cm5Db250ZXh0Ijoi0L3QtdC40LfQstC10YHRgtC90L4iLCJyZXF1ZXN0SWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyZXF1ZXN0ZWQiOnsibW9kZWwiOiJncHQtNi1sdW5hIiwicmVhc29uaW5nRWZmb3J0IjoibWF4In0sInJlc3BvbnNlSWRlbnRpdHkiOnsi0LLQuNC0Ijoi0LjQtNC10L3RgtC40YTQuNC60LDRgtC+0YDQktGL0LfQvtCy0LAiLCLRgdGC0LDRgtGD0YEiOiLQvdC10LTQvtGB0YLRg9C/0LXQvSJ9LCJyb290VVVJRCI6IjAxYTA3ZDNkLWQzNzYtN2FkMi1hYWZjLTY3ZTRjMjVhNjdlYiIsItC40YHRgtC+0YfQvdC40LoiOiJjb2xsYWJvcmF0aW9uLnNwYXduX2FnZW50Iiwi0YHRhdC10LzQsCI6ImZ1bS5hcGktc2VsZWN0aW9uLXJlY2VpcHQuMSJ9",
         "sha256": "09058f2c9f8a7a4efaa08002ff16ab2ac0f8068154929219451d431679a209d7",
@@ -813,9 +813,9 @@
       }
     },
     "сообщениеСледующегоКоммита": {
-      "исходныйЗапрос": "Продолжи #363 в своём существующем W/ref, без #452 до ROOT-приёмки. RO reviewer нашёл два P1 в c52577dbe736d0f4c348f47e3c866cb4751cd5f2: (1) строка 1879 сверяет fetch `remote get-url origin`, а push использует origin: чужой pushurl/несколько pushurl/URL rewriting обходят контроль. Проверяй ровно одно фактическое push destination в том же изолированном env и связывай с эффектом. (2) push строка 1750 допускает local push.followTags=true, дополнительные annotated tags. Явно исключи расширение эффектов: no-follow-tags, проверь mirror/recurseSubmodules и другие применимые локальные настройки. Нужны отрицательные регрессии с нулём лишних ref-эффектов, не только injected argv assertions. Сохрани прошлые отказы и Python-нарушение, ничего не переписывай. Полный fresh-process env/raw-check должен быть воспроизводимой программой в Git в твоей зоне, не только private helper; unknown/readback не выдавай за долговечный executor. Текущий принятый ROOT 383327e805d41da22ed508931152cc9e1ba96bce. После исправления сначала влей этот ROOT в свою ветку явным merge, проверь конечный ограниченный состав и подготовь PR в fum-lab/fum/master. Нового ROOT JSONL/Python/full build/глобального индекса не требуется. Если подходящая автоматизация или тест уже есть, используй её. Перед записью восстанови свой HEAD/ref/владение; исходники и точный manifest сохранить. Поставь конечный коммит, push/readback и верни полный OID/tree/parents/PR/покрытие. #452 уже записан ROOT 383, следующий этап только после принятия #363. Обычные обратимые решения реализации принимай сам, уточнения ко мне.",
-      "заголовок": "Учитывать настройки рабочего дерева при отправке Git",
-      "описание": "Проверка push теперь читает эффективные local, worktree и include настройки в отдельном процессе с отключённой system/global конфигурацией. Исправлен обнаруженный пробел: push.pushOption из config.worktree удерживается до executor; Swift Testing доказал, что receiver hook и ref не меняются. Сохранены проверки единственного push URL, rewrite, mirror, followTags, recurseSubmodules, refspec, receive-pack и hooks. Проверки выполнялись только на локальных bare fixtures; внешний push не запускался."
+      "исходныйЗапрос": "ROOT: PR453 source-only интегрирован в 4f4fc05a44fa20f2e15c0f996a5c097767fa75e3. Перед конечным PR включить актуальный ROOT 4f4fc05 в собственную ветку явным обратным merge; уже отправленный source checkpoint 872ae1d не переоткрывать. Для #363 и #452 различать общий task UUID и actual writer native UUID; модель брать из своей свежей строки, backend оставлять unknown. #452 не начинать до ROOT-приёмки #363.",
+      "заголовок": "Влить актуальную основу ROOT в поставку проверки push",
+      "описание": "Source checkpoint 872ae1d750961b67d00f948b11d83f9077f785c5 прошёл точную raw-проверку и независимый readback. Merge включает актуальную основу ROOT 4f4fc05a44fa20f2e15c0f996a5c097767fa75e3 и исправляет ослабленное доказательство submodule refs: снимки теперь сравнивают ref→OID, включая тест с продвижением OID при неизменном наборе имён. Воспроизводимая команда raw-check исправлена на merge CLI с независимым expectation JSON, где проверяются порядок родителей, связь первого родителя с планом и точное дерево. 17 прежних targeted Swift Testing receipts сохранены как исторический результат; 2 новых адресных теста прошли на текущем test SHA. Это source/JSON поставка для PR, не ROOT-приёмка, production consumer или активация. #452 остаётся после ROOT-приёмки #363."
     }
   },
   "результатГенератораМетаданных": {
@@ -2943,11 +2943,11 @@
   },
   "проверкаБезопасностиPush": {
     "схема": "fum.координация.проверка-безопасности-push.1",
-    "время": "2026-10-29T06:24:18Z",
-    "основа": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
-    "планируемыйРодитель": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2",
+    "время": "2026-10-29T06:39:31Z",
+    "основа": "872ae1d750961b67d00f948b11d83f9077f785c5",
+    "планируемыйРодитель": "872ae1d750961b67d00f948b11d83f9077f785c5",
     "профиль": "koordinaciya/proverka-bezopasnosti-otpravki-git.json",
-    "профильSHA256": "01b8e34c3d60ce1f063e5ff97beff888b474dd4d6c5b19bc3d1f5d593a1700b3",
+    "профильSHA256": "23d335f413c725ab43f8f7a44bbaca1fa6bd686bdcdaff4b96b05d423b5efa9a",
     "собственныйRef": "refs/heads/fum-lab/fum/koordinaciya/master",
     "собственныйUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
     "выбор": {
@@ -2956,9 +2956,9 @@
       "backend": "unknown"
     },
     "проверки": {
-      "swiftTesting": "current-source addressable Swift Testing: 14 push-related tests + 3 mirror/receive-pack/auto-setup edges + the isolated worktree-config regression all PASS; previous 26/26 remains historical",
-      "rawCheck": "previous c525 raw check used pre-fix source and is historical; rebuilt c0511ce binary matches coordinator 88d38e and generator cd23df; exact staged tree and new commit raw check pending",
-      "pushSafety": "git config --includes --null observes local, worktree and include values under disabled system/global config; local bare receiver RED/GREEN confirms configured worktree push option is refused before hook/ref effect; no external push"
+      "swiftTesting": "17 прежних targeted Swift Testing результатов сохранены на test SHA 1cda11; после усиления submodule snapshots 2 целевых Swift Testing теста PASS на test SHA 863e01, stdout 0f16e4 и stderr 1f62d7",
+      "rawCheck": "FUMA preflight root 4f PASS, exact message bytes SHA b7e06c76 (1946 bytes); fresh-process merge raw check with independently validated parent/tree expectation remains pending",
+      "pushSafety": "normal exact push of 872ae1d to own ref succeeded; one effective HTTPS push URL, no pushOption/refspec/custom receive-pack, no executable pre-push hook; independent ls-remote matched; ROOT ref unchanged"
     },
     "сохранённыеНарушения": [
       "сохранённые cwd/harness/closure/trailing-slash отказы не удалялись",
@@ -2984,11 +2984,11 @@
       "related14SHA256": "6deb04cb813ddd343d9b43cc786d5b9647ce4641cdc6eb7ef9d142cfae8de1f2",
       "edge3SHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
     },
-    "статус": "effective per-worktree config fix implemented; targeted tests GREEN; refreshed standalone binary built; exact preflight/raw check and own checkpoint/push/ROOT reverse merge pending",
+    "статус": "ROOT 4f reverse merge staged; FUMA identity/message preflight passed; exact tree/raw merge check and commit/push/readback/PR pending; ROOT acceptance and production activation not claimed",
     "текущийИсточник": {
       "координаторSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
       "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
-      "тестыSHA256": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1",
+      "тестыSHA256": "863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd",
       "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
       "buildManifestSHA256": "43bea5ccda6933d82852dae2a0d6ace7f8b7119da943540d35c445721a4d2bc5",
       "nativeSelection": {
@@ -2998,8 +2998,60 @@
         "backend": "unknown",
         "freshExactRowRead": true,
         "observedAt": "2026-10-29T06:22:21Z"
-      }
+      },
+      "sourceCommit": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "tree": "7b8f4aa65917a3d5d259590e9709b70e7144554b",
+      "remoteReadbackOID": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "remoteReadbackSHA256": "9bc629fc9877f0d3064345a0aad604c8b59f50f37659e810719b4877239c3a97"
     },
-    "поручениеДополнение": "ROOT: close P1s by binding exactly one effective push destination, disabling mirror/followTags/recurseSubmodules expansion, checking other applicable local configuration, and proving negative cases with no extra refs; keep #452 after ROOT acceptance"
+    "поручениеДополнение": "ROOT: close P1s by binding exactly one effective push destination, disabling mirror/followTags/recurseSubmodules expansion, checking other applicable local configuration, and proving negative cases with no extra refs; keep #452 after ROOT acceptance",
+    "актуальнаяОсноваROOT": {
+      "commit": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+      "tree": "e1a75695f81394c51b8fb7b65218f58c6e6c20bb",
+      "ref": "refs/heads/fum-lab/fum/master",
+      "remoteVerified": true,
+      "mergeBase": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "conflicts": false,
+      "sourceAndTestUnchanged": true
+    },
+    "свежееНаблюдениеСобственнойСессии": {
+      "nativeUUID": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "agentPath": "/root/koordinaciya",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "rawRowSHA256": "75b7d5ad98ebfb128067cb30106de81d85c2e1ee74294d4e91a6de757e2aecfe",
+      "observedAt": "2026-10-29T06:39:31Z",
+      "backend": "unknown"
+    },
+    "планируемыеРодители": [
+      "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
+    ],
+    "адреснаяПроверкаOIDRefs": {
+      "testSHA256": "863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd",
+      "targetedCount": 2,
+      "exit": 0,
+      "stdoutSHA256": "0f16e4f242048a202fda3910b669b2bfe65487eb97d28f805cdce3c4daa28b9f",
+      "stderrSHA256": "1f62d7d57a731565028dbe317afb8b0a6d9d2245de2542c814ed62d75e300968",
+      "testFunctions": [
+        "снимокBareRefsОтличаетПродвижениеOID",
+        "recurseSubmodulesНеПубликуетПодмодульныеRefs"
+      ],
+      "scope": "local bare Git fixtures"
+    },
+    "исправлениеПрофиляRawCheck": {
+      "ошибка": "legacy freshProcessInvocationTemplate passed an expectation JSON path to --проверить-сырой-коммит, which expects a tree OID string",
+      "исправление": "template now uses --проверить-сырой-merge-коммит with independently validated schema, ordered parents and expectedTree",
+      "historicalSourceCheckpoint872RawCheckPreserved": true
+    },
+    "mergePreflight": {
+      "exit": 0,
+      "ready": true,
+      "errors": [],
+      "outputSHA256": "66201049d43b78e121fcc4fece905b5247f8c046cca99a884c569abd62417c21",
+      "messageSHA256": "b7e06c76e7fbc285529f37f098519cb6c14ab51d040b4b8c5bec9bf14ba6fa68",
+      "gitEffect": false,
+      "status": "pre-effect only"
+    }
   }
 }

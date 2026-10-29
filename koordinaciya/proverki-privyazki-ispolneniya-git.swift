@@ -420,6 +420,56 @@ private func ссылкиBare(_ bare: URL, at корень: URL) throws -> [Stri
     return value.split(whereSeparator: \.isNewline).map(String.init).sorted()
 }
 
+private func снимокСсылокИOIDBare(_ bare: URL, at корень: URL) throws -> [String: String] {
+    let процесс = Process()
+    процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+    процесс.arguments = ["--git-dir", bare.path, "for-each-ref", "--format=%(refname)%09%(objectname)"]
+    процесс.currentDirectoryURL = корень
+    процесс.environment = ProcessInfo.processInfo.environment
+    let stdout = Pipe()
+    процесс.standardOutput = stdout
+    процесс.standardError = FileHandle.nullDevice
+    try процесс.run()
+    процесс.waitUntilExit()
+    let bytes = stdout.fileHandleForReading.readDataToEndOfFile()
+    guard процесс.terminationStatus == 0, let value = String(data: bytes, encoding: .utf8) else {
+        Issue.record("Не удалось прочитать refs и OID временного bare-репозитория.")
+        return [:]
+    }
+    var snapshot: [String: String] = [:]
+    for line in value.split(whereSeparator: \.isNewline) {
+        let columns = line.split(separator: "\t", maxSplits: 1, omittingEmptySubsequences: false)
+        guard columns.count == 2 else {
+            Issue.record("Формат ref/OID временного bare-репозитория повреждён.")
+            continue
+        }
+        snapshot[String(columns[0])] = String(columns[1])
+    }
+    return snapshot
+}
+
+@Test("Снимок bare refs отличает продвижение OID при неизменном наборе refs")
+func снимокBareRefsОтличаетПродвижениеOID() throws {
+    let fixture = try создатьФикстуруЭффектаPush()
+    defer { try? FileManager.default.removeItem(at: fixture.корень) }
+
+    let ref = "refs/heads/fum-lab/fum/koordinaciya/fixture"
+    try выполнитьКомандуGit(["push", "origin", "HEAD:\(ref)"], at: fixture.рабочееДерево)
+    let before = try снимокСсылокИOIDBare(fixture.удалённыйBare, at: fixture.корень)
+    let firstOID = try #require(before[ref])
+
+    try Data("second commit\n".utf8).write(to: fixture.рабочееДерево.appendingPathComponent("second.txt"))
+    try выполнитьКомандуGit(["add", "second.txt"], at: fixture.рабочееДерево)
+    try выполнитьКомандуGit(["-c", "user.name=Fixture", "-c", "user.email=fixture@local", "commit", "--quiet", "--message", "advance same ref"], at: fixture.рабочееДерево)
+    try выполнитьКомандуGit(["push", "origin", "HEAD:\(ref)"], at: fixture.рабочееДерево)
+
+    let after = try снимокСсылокИOIDBare(fixture.удалённыйBare, at: fixture.корень)
+    #expect(Set(before.keys) == Set(after.keys))
+    #expect(after[ref] != nil)
+    #expect(after[ref] != firstOID)
+    #expect(after != before)
+}
+
 private func выполнитьСФиктивнымИсполнителем(_ fixture: ФикстураЭффектаPush, вызов: @escaping (КомандаGit) -> Void) throws -> ИтогПроверенногоPushGit {
     let expected = ожидание(
         worktree: fixture.путь.путь,
@@ -656,7 +706,7 @@ func recurseSubmodulesНеПубликуетПодмодульныеRefs() throw
     try выполнитьКомандуGit(["-c", "user.name=Fixture", "-c", "user.email=fixture@local", "commit", "--quiet", "--message", "submodule baseline"], at: submoduleSeed)
     try выполнитьКомандуGit(["remote", "add", "origin", URL(fileURLWithPath: submoduleBare.path).absoluteString], at: submoduleSeed)
     try выполнитьКомандуGit(["push", "origin", "HEAD:refs/heads/main"], at: submoduleSeed)
-    let submoduleRefsBefore = try ссылкиBare(submoduleBare, at: fixture.корень)
+    let submoduleRefsBefore = try снимокСсылокИOIDBare(submoduleBare, at: fixture.корень)
 
     let submoduleURL = URL(fileURLWithPath: submoduleBare.path).absoluteString
     try выполнитьКомандуGit(["-c", "protocol.file.allow=always", "submodule", "add", submoduleURL, "nested/submodule"], at: fixture.рабочееДерево)
@@ -685,7 +735,7 @@ func recurseSubmodulesНеПубликуетПодмодульныеRefs() throw
 
     #expect(receipt.кодЗавершения == 0)
     #expect(try ссылкиBare(fixture.удалённыйBare, at: fixture.корень) == ["refs/heads/fum-lab/fum/koordinaciya/fixture"])
-    #expect(try ссылкиBare(submoduleBare, at: fixture.корень) == submoduleRefsBefore)
+    #expect(try снимокСсылокИOIDBare(submoduleBare, at: fixture.корень) == submoduleRefsBefore)
 }
 
 @Test("A configured core.hooksPath cannot run a push hook or change a remote ref")

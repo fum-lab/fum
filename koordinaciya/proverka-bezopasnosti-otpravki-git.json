@@ -146,7 +146,7 @@
       }
     },
     "nextRun": "pending: exact staged tree and next source commit must be checked using this rebuilt binary",
-    "статус": "new source compiled; the listed actualRun is historical for c525 and must not be attributed to the new source",
+    "статус": "source checkpoint 872ae1d raw-check PASS and exact own-ref push/readback PASS; pending merge raw-check for current ROOT 4f4fc05",
     "historicalBuild": {
       "координаторSHA256": "577b5f4a4e9c4f1e5fdc7fff1748e154a41821ab8acadc94640b7a838d5cfed6",
       "генераторSHA256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
@@ -154,13 +154,15 @@
       "checkedCommit": "c52577dbe736d0f4c348f47e3c866cb4751cd5f2"
     },
     "nextCheck": {
+      "kind": "merge",
       "expectedParents": [
-        "c52577dbe736d0f4c348f47e3c866cb4751cd5f2"
+        "872ae1d750961b67d00f948b11d83f9077f785c5",
+        "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
       ],
-      "expectedTree": "pending exact staged tree",
+      "expectedTree": "pending exact staged merge tree",
       "sourceSHA256": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
       "binarySHA256": "c0511ce430520d02841829f2ea0a64262c2d98844ffcd7a760a7ee81c6945b3e",
-      "status": "pending"
+      "status": "pending raw merge check"
     },
     "latestPreflight": {
       "preflightOutputSHA256": "7e9306b0ae9c059d9e1f2d3e897567f33f6be53f084425616e18fb3ca95d6d6e",
@@ -188,6 +190,87 @@
       "gitEffect": false,
       "status": "pre-effect only; exact tree/raw commit check pending",
       "planProjectionSHA256": "32ac661c4429516649e1ea3794c96eef6807a2b1287ab1a24559bb305f48e30b"
+    },
+    "sourceCheckpointRun": {
+      "commitOID": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "treeOID": "7b8f4aa65917a3d5d259590e9709b70e7144554b",
+      "parents": [
+        "c52577dbe736d0f4c348f47e3c866cb4751cd5f2"
+      ],
+      "rawObjectSHA256": "0ba93f4ce9e1aefb674097b6ab9c5a039d5af0944071f3e5d605c3ca5556bbb7",
+      "rawCheckExit": 0,
+      "rawCheckJSONSHA256": "d10f9d306202aa473a16f8e3819ad371187b290859d987ed3978203d498a60e4",
+      "rawChecked": true,
+      "generatedMessageSHA256": "d20c967e3cb5328133d4ef22c398cf2dc8e295b5dc5bbb8ed7ae26bfb6194ab0",
+      "messageBytes": 3337,
+      "author": {
+        "name": "FUM Codex [gpt-6-luna; effort=max]",
+        "email": "fum@local"
+      },
+      "committer": {
+        "name": "FUM",
+        "email": "fum@local"
+      },
+      "sourceSHA256": {
+        "coordinator": "88d38e11d36ae3e4a1eb47a86972bfaa0c8c7663a1792bca2617948511212490",
+        "generator": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+        "test": "1cda11382399751ae0f77836fd25e4efbd6efa1cd01a0be059341c9071cd2ec1"
+      },
+      "pushWasRun": true,
+      "remoteOID": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "remoteReadbackSHA256": "9bc629fc9877f0d3064345a0aad604c8b59f50f37659e810719b4877239c3a97"
+    },
+    "pushDelivery": {
+      "commitOID": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "origin": "https://github.com/fum-lab/fum.git",
+      "effectivePushURLs": [
+        "https://github.com/fum-lab/fum.git"
+      ],
+      "pushOptions": {
+        "configStatus": 1,
+        "bytes": 0
+      },
+      "configuredPushRefspecs": {
+        "configStatus": 1,
+        "bytes": 0
+      },
+      "customReceivePack": {
+        "configStatus": 1,
+        "bytes": 0
+      },
+      "prePushHook": "none",
+      "flags": [
+        "--no-mirror",
+        "--no-follow-tags",
+        "--recurse-submodules=no",
+        "--no-set-upstream",
+        "--no-signed"
+      ],
+      "pushExit": 0,
+      "remoteReadbackOID": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "remoteReadbackSHA256": "9bc629fc9877f0d3064345a0aad604c8b59f50f37659e810719b4877239c3a97",
+      "rootRefChanged": false,
+      "productionConsumerActivated": false
+    },
+    "rootMerge": {
+      "rootCommit": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+      "rootRef": "refs/heads/fum-lab/fum/master",
+      "rootRemoteVerified": true,
+      "mergeBase": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "coordinationDeltaFromMergeBase": false,
+      "mergeHead": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+      "conflicts": false,
+      "expectedParents": [
+        "872ae1d750961b67d00f948b11d83f9077f785c5",
+        "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3"
+      ]
+    },
+    "nextPreflight": {
+      "kind": "merge commit",
+      "planParent": "872ae1d750961b67d00f948b11d83f9077f785c5",
+      "mergeHead": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+      "status": "pending"
     }
   },
   "swiftTesting": {
@@ -279,6 +362,32 @@
         "exit": 0,
         "logSHA256": "94aa44e8ef246220d2f25f5da10f682507feb9515f2be91c7679b89e14bb0a3e"
       }
+    },
+    "кодПослеПоставки": "coordinator and test source hashes are identical between source checkpoint 872ae1d and current ROOT merge candidate; the 17 targeted PASS receipts are reused, no full Package build or test rerun",
+    "submoduleOIDRegression": {
+      "sourceTestSHA256": "863e0114a0da75a57aa6baa55c9ab5fc02bb171a38e620a06f57e3e191eb00fd",
+      "manifestSHA256": "87ee009f24cfb2d6330b99cab4fdb08368bb541f8477008fd79f26d8a95e5507",
+      "argv": [
+        "swift",
+        "test",
+        "--filter",
+        "снимокBareRefsОтличаетПродвижениеOID|recurseSubmodulesНеПубликуетПодмодульныеRefs",
+        "-Xswiftc",
+        "-DTESTING",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors"
+      ],
+      "exit": 0,
+      "testCount": 2,
+      "stdoutSHA256": "0f16e4f242048a202fda3910b669b2bfe65487eb97d28f805cdce3c4daa28b9f",
+      "stderrSHA256": "1f62d7d57a731565028dbe317afb8b0a6d9d2245de2542c814ed62d75e300968",
+      "checks": [
+        "ref name set stayed identical while main OID advanced in local bare fixture",
+        "recurseSubmodules on-demand left submodule refs and OIDs unchanged"
+      ],
+      "scope": "targeted local bare Git regression only"
     }
   },
   "сохранённыеСбои": [
@@ -293,5 +402,41 @@
   "фактическиеПределы": [
     "Текущее изменение покрывает per-worktree config через эффективное чтение; реальные внешние pushes и адреса вне локальных bare fixtures не проверялись."
   ],
-  "freshProcessInvocationTemplate": "From <repository-root>, save `git cat-file commit <OID>` bytes in the private run directory; invoke the new binary in env -i using explicit FUMA roots/operator/definition and the generated GIT_AUTHOR_NAME; run --проверить-сырой-коммит <state.json> <independent-expectation.json> < <raw>; keep stdout/stderr/exit and raw hashes."
+  "freshProcessInvocationTemplate": "From a repository-root working directory, capture raw `git cat-file commit <OID>` bytes and invoke a fresh env -i process with the FUMA environment template: `koordinator-push-safety --проверить-сырой-merge-коммит <state.json> <independent-expectation.json> < <raw>`. The independent JSON must carry schema fum.raw-merge-commit-expectation.1, ordered expectedParents (one parent is valid for a source checkpoint), and expectedTree; the CLI validates the schema, binds first parent to plan parent, then checks the exact tree and raw metadata. Do not pass the expectation path to --проверить-сырой-коммит; that option accepts a tree OID string.",
+  "mergePreflight": {
+    "runID": "fuma-2a735adf-f713-45d4-98ad-dac86ca2b05c",
+    "exit": 0,
+    "ready": true,
+    "errors": [],
+    "preflightOutputSHA256": "66201049d43b78e121fcc4fece905b5247f8c046cca99a884c569abd62417c21",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "messageSHA256": "b7e06c76e7fbc285529f37f098519cb6c14ab51d040b4b8c5bec9bf14ba6fa68",
+    "messageBytes": 1946,
+    "author": {
+      "name": "FUM Codex [gpt-6-luna; effort=max]",
+      "email": "fum@local"
+    },
+    "committer": {
+      "name": "FUM",
+      "email": "fum@local"
+    },
+    "nativeSelection": {
+      "uuid": "01a18294-b6ff-7352-92e1-6b576d412172",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "max",
+      "backend": "unknown"
+    },
+    "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "definitionSHA256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a",
+    "operatorSHA256": "3682ee2bff8f06a75416922be6b3c8d64957bf6de52db3701a045ea254e334a8",
+    "fumaEvidence": {
+      "inputSHA256": "cd385971e124bd4fffed83fd3ea46fdc291466d84c67ef8e413b699511161983",
+      "rawResponseSHA256": "e0ee68b5cf4a94028ad66e5421ea842acc3876ab5299c382a161a1d3c6317758",
+      "canonicalOutputSHA256": "645cd6cc88db92e0501170613885884089ce186b15e20adf12ae506b9ea1ffeb",
+      "receiptSHA256": "0bc8ee4178ef700846e2eb32d8654790fd208f24e3cd39b91604b6a717ff7395"
+    },
+    "gitEffect": false,
+    "timestamp": "@1793256529 +0400",
+    "status": "pre-effect only; exact staged tree/raw merge check and commit pending"
+  }
 }
