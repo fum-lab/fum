@@ -136,5 +136,5 @@
 
 <!-- FUM-MD-RECENCY:BEGIN -->
 <!-- last-content-edit: 2026-10-29 12:56:14 MSK -->
-<!-- content-sha256: sha256:29eff79b9fd4f14d2cafc01fa94191ab78490622cebc76db9c135dba65d129d5 -->
+<!-- content-sha256: sha256:347018c6ff08ca2c49fb27ab337d3a347e5de31327541f04a2dfeb9623926e81 -->
 <!-- FUM-MD-RECENCY:END -->
