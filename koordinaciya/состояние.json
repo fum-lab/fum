@@ -4813,5 +4813,675 @@
         "status": "1PASS; closed fixture not resumed after futureHEAD"
       }
     }
+  },
+  "переносЭпохи452": {
+    "схема": "fum.координация.epoch-source-checkpoint.1",
+    "статус": "Source delivery, приёмка ROOT отдельно",
+    "оригиналПоручения": "ROOT принял462 и опубликовал R=8af69b8739b8318c724c07555dc4b57de80711a6, tree1efaf6ee7c7d70a891605edbea69ae50b20eaf42, parents[96bc1c28e2201b86b05ad4466b17172201358169,5be215438136ab8203a2570dbb225126992469ee], remote exact. Новый конечный WRITE-grant: реализуй предложенный явный перенос epoch/context в прежних четырёх koordinaciya путях. W/ref прежние, ожидаемый L5be/clean, единственный писатель ты; сначала включи только R явным reverse. Ядро/старые15tests/RootPackage и чужие области не менять.\nДоверенное поручение переноса и наблюдение нового контекста должны выбираться вызывающей доверенной стороной отдельно от stdin и предлагаемого checkpoint. Одного rootUUID/спискаUUID во входе недостаточно. Малый CLI может принимать отдельный закреплённый источник поручения+его ожидаемый SHA через доверенный параметр; это граница доверия host, не новая PKI и не полномочие произвольного JSON. Проверяй старую receipt/epoch/stateHash, допустимые Git own-commit/ordered-merge, W/ref/native/code pin и подтверждённую смену писателя. Исторический scope/команды/поколения/budget/STOP/attempt outcomes неизменны; pending intent остаётся UNKNOWN. Model/effort switch и автор решения фиксируются событием состояния, без сброса worklist. Код backend не угадывает. Старые записи читаются без переписывания. Потерянный ответ — exact duplicate/resync, не новый эффект.\nReplay подтверждённых эпох должен быть последовательным: будущий writer не получает права на более ранние записи; не пересканируй всю растущую цепь для каждой записи. Сохрани простые счётчики обходов на малом8/16/32 профиле, без общего performance-проекта.\nTDD: отдельные случаи own commit, incoming accepted merge, новая incarnation, model switch, чужой/stale/неподтверждённый перенос, pending intent/STOP, потерянный ответ. Штатный приватный SwiftPM/ASCII test product, jobs1, complete concurrency/warnings-as-errors/actor checks. Общий предел≤128fixtureevents,≤16MiBdata,≤256MiBscratch; до3 обоснованно новых targeted попыток после исправлений, не повтор неизменённого снимка. Прежние11 consumer tests при изменённом caller являются релевантной регрессией, core15 не повторять. JSON receipt с argv/exit/selected tests/sourcepins/stdoutstderr сразу. Python/ROOTJSONL/fullglobalguard/NativeStop/внешниеинструментальныеэффекты не входят, genericchecker не gate этого прямого grant. После source checkpoint exact raw/normalpush/remote/PR/release. Обычный checkpoint не ждёт сдвига непересекающегося Root; перед приёмом отдельный reverse актуальной основы. Конфликт/unknown — ROOT, не человек. Текущая6.1SolUltra сохраняется, Astra запрещена;5.6Sol в дальнейшем заменена6.1Terra.\n",
+    "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "native": "01a18693-0478-7730-977b-33dea68e9970",
+    "модельАгента": {
+      "selected": "gpt-6.1-sol",
+      "effort": "ultra",
+      "backend": "UNKNOWN",
+      "назначил": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
+    },
+    "правилоМоделей": {
+      "Astra": "Новый выбор запрещён",
+      "прежняя56Sol": "Новый выбор —6.1Terra с прежним effort; исторические receipts сохраняются",
+      "текущая61SolUltra": "Не менялась"
+    },
+    "принятаяОсноваROOT": "8af69b8739b8318c724c07555dc4b57de80711a6",
+    "обратноеСлияние": {
+      "oid": "c4e89573152d656753a68678c53a6ca34adc90b1",
+      "tree": "1efaf6ee7c7d70a891605edbea69ae50b20eaf42",
+      "parents": [
+        "5be215438136ab8203a2570dbb225126992469ee",
+        "8af69b8739b8318c724c07555dc4b57de80711a6"
+      ],
+      "rawSHA256": "9406e3cc9ebf4bfebf8c77bc55a1da2c6869b3289e6997c05d380f3569e9ac5e",
+      "rawCheckExit": 0,
+      "pushExit": 0,
+      "remoteOID": "c4e89573152d656753a68678c53a6ca34adc90b1"
+    },
+    "историческийОбъём": {
+      "путь": "списокРабот452",
+      "источник": "6084181e230213671561456187d59a708a524de9:zakaz-ustojchivogo-spiska-rabot.json",
+      "SHA256": "6f0a4fdca2ae5927ad8bdb048cc33e5df8f0e0c3fed7fa658e02a25067856cc6",
+      "productionMapping": false
+    },
+    "контракт": {
+      "переход": "receiptQ/epochE/stateAnchor + независимый host grant + проверенный context/code/model → одна append+fsync → новая receipt/epochE+1/ТО ЖЕ semantic state",
+      "host": "Отдельный argv: <dataRoot> --допуск-эпохи <hostJSON> <expectedSHA>. Host выбирает источник/SHA отдельно от stdin/checkpoint. API получает сторону отдельным аргументом. Это граница доверия host, не PKI.",
+      "наблюдение": "CLI сверяет physicalW/ref/HEAD/native, actual ordered parents и SHA исполняемого артефакта. Model/effort наблюдены host; backend UNKNOWN.",
+      "разделение": "Исторические worklist/source/genesis остаются прежними. Текущий code pin, Git context, incarnation, client selection принадлежат эпохе.",
+      "проверки": "Old receipt/epoch/state anchor, immutable domain, requester ROOT, new W/ref/native/code, отзыв прежнего писателя. Own commit имеет единственного oldHEAD parent; accepted merge имеет ordered [oldHEAD, explicit acceptedROOT].",
+      "семантика": "Позиции, команды, порядок, generation, fingerprint, counters, budget, STOP, attempts/outcomes неизменны. Pending intent остаётся UNKNOWN. Эпоха не поколение.",
+      "unknown": "Exact duplicate до CAS; resync той же записи. Ambiguous fsync блокирует instance до close/reopen. Новый effect/attempt не выдаётся.",
+      "selfDependency": "Сегмент находится вне Git. CommitC сначала существует/наблюдается, затем перенос ссылается наC. Репозиторный checkpoint содержит известный origin/parent; собственный итоговый OID только последующий readback.",
+      "stateAnchor": "fum.координация.якорь-состояния.1 = SHA canonical {snapshotSHA, linked lastTraceSHA, traceCount}; preserves linked history without hashing growingfullarray on each transfer",
+      "команды": "Новые V2/apply/read замораживают полный принятый domain checkpoint. Новые команды stdin не получают полномочий; отдельный будущий steering grant не реализован.",
+      "legacy": "V1 — только непрерывный начальный prefix без новых epoch/transfer полей. Рабочий legacy tail требует независимой host receipt. V1 после V2 запрещён. Старые bytes не переписываются.",
+      "replay": "Права проверяются по префиксу до активации будущего writer. Кэш отдельных trace SHA для legacy; V2 содержит snapshot+один trace либо transfer без trace. Финальный core replay один раз проверяет весь смысл, через duplicate последнего trace без нового события."
+    },
+    "проверки": {
+      "A1": {
+        "status": "EXPECTED RUNTIME RED",
+        "exit": 1,
+        "argv": [
+          "/usr/bin/swift",
+          "test",
+          "--package-path",
+          "<private-epoch-attempt>/fixture",
+          "--scratch-path",
+          "<private-epoch-attempt>/fixture/build",
+          "--cache-path",
+          "<private-epoch-attempt>/fixture/cache",
+          "--disable-sandbox",
+          "--jobs",
+          "1",
+          "--sdk",
+          "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+          "--filter",
+          "эпохаСобственныйКоммит"
+        ],
+        "stdoutSHA256": "a7a8d230dddea1379c5d937738f13c26ac6a34c2db81c47b5a81b19a5d3615df",
+        "stderrSHA256": "6dbed93f15794d82fbc2dc91e13c8646c39250db5e59bff4889defe54c23627b"
+      },
+      "A2": {
+        "status": "PASS",
+        "exit": 0,
+        "selectedTests": 21,
+        "testNames": [
+          {
+            "name": "CLI выбирает grant вне stdin и проверяет actual ordered Git parents/code/native",
+            "status": "passed"
+          },
+          {
+            "name": "Legacy v1 replay и будущий writer перед grant различаются",
+            "status": "passed"
+          },
+          {
+            "name": "Ordered accepted merge сохраняет первичный scope",
+            "status": "passed"
+          },
+          {
+            "name": "Новая incarnation требует отзыва; replay разрешает прошлых writers только по префиксу",
+            "status": "passed"
+          },
+          {
+            "name": "Model/effort и автор решения меняют эпоху, а backend остаётся UNKNOWN",
+            "status": "passed"
+          },
+          {
+            "name": "Чужой, stale, неподтверждённый grant и запрещённая модель не дают полномочий",
+            "status": "passed"
+          },
+          {
+            "name": "Перенос не закрывает pending intent; STOP сохраняет приоритет",
+            "status": "passed"
+          },
+          {
+            "name": "SIMULATED fsync failure переноса: exact resync после потери ответа",
+            "status": "passed"
+          },
+          {
+            "name": "Профиль8/16/32: sequential epoch prefix, один полный core replay",
+            "status": "passed"
+          },
+          {
+            "name": "ROOT разрешает own commit; поколение и бюджет прежние",
+            "status": "passed"
+          },
+          {
+            "name": "Приватный корень данных не может совпадать с checkout даже при0700",
+            "status": "passed"
+          },
+          {
+            "name": "Принятый worklist переживает статус и RO restart",
+            "status": "passed"
+          },
+          {
+            "name": "Отсутствующий checkpoint не создаёт новый genesis",
+            "status": "passed"
+          },
+          {
+            "name": "Durable intent без outcome удерживает новый attempt после restart",
+            "status": "passed"
+          },
+          {
+            "name": "Повтор после потери ответа возвращает прежнюю квитанцию до нового CAS",
+            "status": "passed"
+          },
+          {
+            "name": "SIMULATED ENOSPC на fsync: UNKNOWN, close/replay, exact re-sync",
+            "status": "passed"
+          },
+          {
+            "name": "Stale CAS, writer lock и явная torn-tail fixture не меняют старые байты",
+            "status": "passed"
+          },
+          {
+            "name": "Source bytes, независимый scope, ROOT и native context связаны",
+            "status": "passed"
+          },
+          {
+            "name": "STOP имеет резерв после обычного лимита и pending intent",
+            "status": "passed"
+          },
+          {
+            "name": "Профиль caller N1/2/4; реальные обычные write+fsync",
+            "status": "passed"
+          },
+          {
+            "name": "Свежий CLI-процесс восстанавливает записанный checkpoint без нового события",
+            "status": "passed"
+          }
+        ],
+        "argv": [
+          "/usr/bin/swift",
+          "test",
+          "--package-path",
+          "<private-epoch-attempt>/fixture",
+          "--scratch-path",
+          "<private-epoch-attempt>/fixture/build",
+          "--cache-path",
+          "<private-epoch-attempt>/fixture/cache",
+          "--disable-sandbox",
+          "--jobs",
+          "1",
+          "--sdk",
+          "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+          "--filter",
+          "ПроверкиДолговечногоПотребителя"
+        ],
+        "sourceMap": [
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+            "target": "Sources/Container/Ввод.swift",
+            "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+            "target": "Sources/Container/Контракт.swift",
+            "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+            "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+            "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+            "target": "Sources/Container/Сегмент.swift",
+            "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+            "target": "Sources/Container/Файлы.swift",
+            "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+            "target": "Sources/Container/Формат.swift",
+            "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+          },
+          {
+            "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+            "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+            "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+          },
+          {
+            "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+            "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+            "sha256": "ffee57d500347851a9f18ed903ef10f11c12e4dd6a6e9c7cb332ca9968b4ba84"
+          },
+          {
+            "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+            "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+            "sha256": "46b2f1f4b5622a31c9c2c52368aabcd2452c569786002d9faf37d72dd0c4913d"
+          }
+        ],
+        "stable": true,
+        "stdout": {
+          "path": "attempt2-tests/stdout",
+          "sha256": "ecbdfb15cc5c869384328d0dd34148d14343456908415c846f3c006d94d678b5"
+        },
+        "stderr": {
+          "path": "attempt2-tests/stderr",
+          "sha256": "559b80d2c2c780106acfaa714eadddfc846f1908b1518811efc5354ecb0eefbf"
+        },
+        "profile": [
+          "ПРОФИЛЬ epoch N=8 records=9 transfers=4 deltas=4 core=1 elapsed=0.011925084 seconds",
+          "ПРОФИЛЬ epoch N=16 records=17 transfers=8 deltas=8 core=1 elapsed=0.022736875 seconds",
+          "ПРОФИЛЬ epoch N=32 records=33 transfers=16 deltas=16 core=1 elapsed=0.043512791 seconds",
+          "ПРОФИЛЬ caller N=1 append+sync=0.001176542 seconds",
+          "ПРОФИЛЬ caller N=2 append+sync=0.002789167 seconds",
+          "ПРОФИЛЬ caller N=4 append+sync=0.006383792 seconds"
+        ]
+      },
+      "A3": {
+        "status": "PASS",
+        "exit": 0,
+        "selectedTests": 2,
+        "testNames": [
+          {
+            "name": "Legacy требует независимого хвоста и не возвращается после V2",
+            "status": "passed"
+          },
+          {
+            "name": "Чужой, stale, неподтверждённый grant и запрещённая модель не дают полномочий",
+            "status": "passed"
+          }
+        ],
+        "argv": [
+          "/usr/bin/swift",
+          "test",
+          "--package-path",
+          "<private-epoch-attempt>/fixture",
+          "--scratch-path",
+          "<private-epoch-attempt>/fixture/build",
+          "--cache-path",
+          "<private-epoch-attempt>/fixture/cache",
+          "--disable-sandbox",
+          "--jobs",
+          "1",
+          "--sdk",
+          "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+          "--filter",
+          "эпохаОтказы|эпохаLegacyГраница"
+        ],
+        "sourceMap": [
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+            "target": "Sources/Container/Ввод.swift",
+            "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+            "target": "Sources/Container/Контракт.swift",
+            "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+            "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+            "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+            "target": "Sources/Container/Сегмент.swift",
+            "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+            "target": "Sources/Container/Файлы.swift",
+            "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+            "target": "Sources/Container/Формат.swift",
+            "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+          },
+          {
+            "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+            "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+            "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+          },
+          {
+            "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+            "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+            "sha256": "734b962e02d3e901103ee8092c9773b177be29286ff7c55455fbcd36a8e04424"
+          },
+          {
+            "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+            "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+            "sha256": "a2b58c2bb3ac9af60fc7d6cffbccaeb4330416d590865c1f1de5f5e3644f2dc0"
+          }
+        ],
+        "stable": true,
+        "stdout": {
+          "path": "attempt3-hardening/stdout",
+          "sha256": "b9a46c4e4f1749c69c5ed5ff82ef8b0dcd8616e6ffe12a261b828fdc42547236"
+        },
+        "stderr": {
+          "path": "attempt3-hardening/stderr",
+          "sha256": "40723d1e68fa5b82ef2cc6d74aad2ee63ca71a6055e2ba89b70925194317979a"
+        }
+      },
+      "итог": "21 baseline PASS до RO hardening +2 target PASS на final source;22 различных теста. Единого22-test GREEN нет. Все22 теста компилируются Swift6/complete concurrency/warnings-as-errors/actor checks.",
+      "RO": "Закрыты command injection, downgrade V1 и invalid host до genesis. Новых P1 в адресной RO области не найдено; review не тест.",
+      "reconstruction": {
+        "method": "Bounded inverse of explicit RO hardening patches; hash checked against immutable original A2 receipt. No test repeated; reconstructed copy clearly labelled.",
+        "results": [
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+            "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb",
+            "expected": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb",
+            "exact": true
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+            "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+            "expected": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+            "exact": true
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+            "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6",
+            "expected": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6",
+            "exact": true
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+            "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e",
+            "expected": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e",
+            "exact": true
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+            "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f",
+            "expected": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f",
+            "exact": true
+          },
+          {
+            "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+            "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07",
+            "expected": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07",
+            "exact": true
+          },
+          {
+            "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+            "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d",
+            "expected": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d",
+            "exact": true
+          },
+          {
+            "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+            "sha256": "ffee57d500347851a9f18ed903ef10f11c12e4dd6a6e9c7cb332ca9968b4ba84",
+            "expected": "ffee57d500347851a9f18ed903ef10f11c12e4dd6a6e9c7cb332ca9968b4ba84",
+            "exact": true
+          },
+          {
+            "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+            "sha256": "46b2f1f4b5622a31c9c2c52368aabcd2452c569786002d9faf37d72dd0c4913d",
+            "expected": "46b2f1f4b5622a31c9c2c52368aabcd2452c569786002d9faf37d72dd0c4913d",
+            "exact": true
+          }
+        ],
+        "exact": true
+      },
+      "legacyComplexity": "V2 — один record visit и один финальный core replay. Legacy стоимость пропорциональна физическим вложенным bytes; линейность по числу V1 records не заявлена.",
+      "реальныйFsync": "SUCCESS системных write+fsync, не power-loss proof",
+      "реальныйENOSPC": "UNKNOWN; failure cases только SIMULATED",
+      "powerLoss": "UNKNOWN",
+      "подготовительнаяОшибка": {
+        "command": "private checkpoint preparation",
+        "exit": 1,
+        "error": "ENOENT koordinaciya/генератор-метаданных.swift",
+        "cause": "Ошибочно сокращён реальный basename генератор-метаданных-коммита.swift",
+        "stateOrSegmentWrites": false,
+        "rawStderr": "Tool transcript only; отдельный byte-exact stderr не сохранён",
+        "repair": "Прочитан rg --files; новая подготовка с фактическим basename, новые output names"
+      }
+    },
+    "воспроизведение": {
+      "schema": "fum.координация.epoch-fixture.1",
+      "sourceMap": [
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/Container/Ввод.swift",
+          "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/Container/Контракт.swift",
+          "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/Container/НаблюдениеФайловойСистемы.swift",
+          "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/Container/Сегмент.swift",
+          "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/Container/Файлы.swift",
+          "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/Container/Формат.swift",
+          "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+        },
+        {
+          "source": "koordinaciya/ustojchivyij-spisok-rabot.swift",
+          "target": "Sources/WorklistCaller/ustojchivyij-spisok-rabot.swift",
+          "sha256": "b76deabc55b4a045bd058d746bc7c69d279bc264561c3ba60b58d1558d6f635d"
+        },
+        {
+          "source": "koordinaciya/potrebitelj-spiska-rabot.swift",
+          "target": "Sources/WorklistCaller/potrebitelj-spiska-rabot.swift",
+          "sha256": "734b962e02d3e901103ee8092c9773b177be29286ff7c55455fbcd36a8e04424"
+        },
+        {
+          "source": "koordinaciya/proverki-potrebitelya-spiska-rabot.swift",
+          "target": "Tests/WorklistCallerTests/proverki-potrebitelya-spiska-rabot.swift",
+          "sha256": "a2b58c2bb3ac9af60fc7d6cffbccaeb4330416d590865c1f1de5f5e3644f2dc0"
+        }
+      ],
+      "manifestUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\nlet flags: [SwiftSetting] = [.unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"FUMWorklistCallerFixture\", platforms: [.macOS(.v14)], products: [\n    .executable(name: \"worklist-consumer\", targets: [\"WorklistConsumerCLI\"])\n], targets: [\n    .target(name: \"КонтейнерНаблюдений\", path: \"Sources/Container\", swiftSettings: flags),\n    .target(name: \"WorklistCaller\", dependencies: [\"КонтейнерНаблюдений\"], path: \"Sources/WorklistCaller\", swiftSettings: [.define(\"TESTING\")] + flags),\n    .executableTarget(name: \"WorklistConsumerCLI\", dependencies: [\"WorklistCaller\"], path: \"Sources/CLI\", swiftSettings: flags),\n    .testTarget(name: \"WorklistCallerTests\", dependencies: [\"WorklistCaller\", \"КонтейнерНаблюдений\"], path: \"Tests/WorklistCallerTests\", swiftSettings: flags)\n], swiftLanguageModes: [.v6])\n",
+      "entrypointUTF8": "import Darwin\nimport WorklistCaller\nexit(await КомандаПотребителяСписка.выполнить())\n",
+      "manifestSHA256": "cd833c2a077837aad86c83cb741fc379316d9144201ce395d5859f20b397bea5",
+      "SDK": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "SDKSettingsSHA256": "90a738dbf3fd88e7f6d35646e19d3a8a716923b9773ce1b67260466d9ceed370",
+      "compiler": "Apple Swift6.4 swiftlang6.4.0.34.1 clang2100.3.34.1",
+      "binarySHA256": "84458abd9fe15a8f4d92fdded1b9ff8fbf882f641dcd3773bbe04a780d34d3f9",
+      "commonArgv": [
+        "--package-path",
+        "<private-epoch-attempt>/fixture",
+        "--scratch-path",
+        "<private-epoch-attempt>/fixture/build",
+        "--cache-path",
+        "<private-epoch-attempt>/fixture/cache",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      ],
+      "strictFlags": [
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-enable-actor-data-race-checks"
+      ],
+      "liveContextRecipe": "Перед каждым run derive physicalW/HEAD/ref/native заново RO Git с очищенной GIT_* средой; actual parents из git show -s --format=%P HEAD. Никогда не переиспользовать context прежнего fixture-runtime.",
+      "hostBoundary": "Для нового epoch CLI: <dataRoot> --допуск-эпохи <immutableHostJSON> <expectedSHA256>; hostJSON/SHA выбирает доверенная сторона отдельно отstdin. CLI сверяет actualGit/native/executableSHA. model/effort — наблюдениеhost, backend UNKNOWN.",
+      "legacy": "V1 only contiguous initialprefix; non-genesis legacy tail receipt selected independently via host. Old bytes unchanged; V1 after V2 rejected.",
+      "stateHash": "fum.координация.якорь-состояния.1 = SHA canonical {snapshotSHA, linked lastTraceSHA, traceCount}; preserves linked history without hashing growingfullarray on each transfer"
+    },
+    "бюджет": {
+      "committedFixtureFrames": 127,
+      "maxEvents": 128,
+      "dataBytes": 847407,
+      "maxData": 16777216,
+      "scratchAllocatedBytes": 102281216,
+      "maxScratch": 268435456,
+      "jobs": 1,
+      "rows": [
+        {
+          "path": "fixture/fixtures-red/epoch-own/сегмент.fumobs",
+          "frames": 3,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/binding/сегмент.fumobs",
+          "frames": 1,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/cli/сегмент.fumobs",
+          "frames": 3,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/duplicate/сегмент.fumobs",
+          "frames": 3,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-cli/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-deny/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-future-writer/сегмент.fumobs",
+          "frames": 3,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-legacy/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-lost/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-merge/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-model/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-native/сегмент.fumobs",
+          "frames": 4,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-own/сегмент.fumobs",
+          "frames": 4,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-pending/сегмент.fumobs",
+          "frames": 4,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-profile-16/сегмент.fumobs",
+          "frames": 17,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-profile-32/сегмент.fumobs",
+          "frames": 33,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/epoch-profile-8/сегмент.fumobs",
+          "frames": 9,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/pending/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/profile-1/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/profile-2/сегмент.fumobs",
+          "frames": 3,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/profile-4/сегмент.fumobs",
+          "frames": 5,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/simulated-sync/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/status-restart/сегмент.fumobs",
+          "frames": 5,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/stop/сегмент.fumobs",
+          "frames": 4,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-green/tail-lock/сегмент.fumobs",
+          "frames": 1,
+          "tail": 3
+        },
+        {
+          "path": "fixture/fixtures-hardening/epoch-anchored-legacy/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-hardening/epoch-deny/сегмент.fumobs",
+          "frames": 2,
+          "tail": 0
+        },
+        {
+          "path": "fixture/fixtures-hardening/epoch-downgrade/сегмент.fumobs",
+          "frames": 3,
+          "tail": 0
+        }
+      ],
+      "method": "Diagnostic frame count only, not a second semantic validator"
+    },
+    "сохранение": {
+      "segmentPrefixBytes": 62391,
+      "segmentPrefixSHA256": "ab4b093f2130058810321d72d9969b2091f746d70606a36847540f59bdddb97c",
+      "core15TestsRootPackage": "Не менялись",
+      "старыеStateReceipts": "Не переписаны",
+      "повреждённыйЖурнал": "Не менялся, append только в принятый segment",
+      "fixtures": "Synthetic unit host observations; отдельный CLI case проверяет actual Git/native/artifact."
+    },
+    "предВозобновлением": {
+      "покрыто": "Фактически включённая accepted ROOT основа внутри конкретного merge grant и явный context transfer без сброса worklist",
+      "отдельнаяПотребность": "Сравнение этой основы с новой требуемой currentBasis перед resume остаётся host/планированию. Новый global gate/monitor не вводился."
+    },
+    "остаток": [
+      "Независимая ROOT приёмка точного source OID/tree/parents",
+      "Перед приёмом отдельный reverse актуального ROOT по адресному grant",
+      "Production Stop/native injection/executor/canonical mapping452 не активированы",
+      "Новый steering command set после frozen checkpoint требует отдельного допуска",
+      "Real ENOSPC/power-loss UNKNOWN"
+    ],
+    "исключено": [
+      "Python",
+      "ROOT JSONL",
+      "core15tests",
+      "fullPackage/fullsuite",
+      "общий smoke/globalguard",
+      "generic checker454"
+    ],
+    "автоматическаяАктивация": false
   }
 }
