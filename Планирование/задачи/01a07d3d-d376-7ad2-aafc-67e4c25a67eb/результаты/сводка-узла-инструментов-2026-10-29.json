@@ -1,0 +1,92 @@
+{
+  "схема": "fum.сводка-узла-инструментов.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "узел": "fum-lab/fum/instrumentyi/master",
+  "исполнитель_координатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "дата": "2026-10-29",
+  "источник_состояния": {
+    "собственный_HEAD": "2302d1e18eee74bb0d4c8438eb360fd3238af7fc",
+    "собственный_ref": "refs/heads/codex/live-residual-pages-01a17797",
+    "checkout_не_изменялся": true,
+    "полный_ROOT_JSONL": "исключён; полнота общего остатка не установлена"
+  },
+  "принятые_результаты": [
+    {
+      "результат": "Конечный source-срез Names",
+      "PR": 459,
+      "source": "2b11dae0c9426a477b1b7e0e336776203346efcc",
+      "ROOT_merge": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+      "дерево": "ec87149dd3d8ab105bb9a2e513a56706ddb332de",
+      "родители_source": [
+        "173a2500bf03b569b26a04a900413c39b5e85399",
+        "0dfa0853c389f9ccecff8177d64be4504e20b59b"
+      ],
+      "пути": 49,
+      "байты": 1291467,
+      "descriptor_sha256": "1e185016ca0e2e9f472a1bb125ccffb254630569e6b5a62dc4ea27319957d7ab",
+      "состав": "46 добавлений,3 изменения,0 удалений;49 mode/blob неизменны;вне49 source равно ROOT M",
+      "граница": "source-preservation принята;build/reproduction/general coverage UNKNOWN;live не активирован",
+      "ограничения": [
+        "команда руководства пропускает имеющийся DTO-файл",
+        "исторический facade test отсутствует в новой базе/срезе"
+      ]
+    }
+  ],
+  "текущая_работа": [
+    {
+      "Issue": 454,
+      "ответственный": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "статус": "точный implementation grant активен; создание отдельного W и runner probe ещё ожидаются",
+      "основа": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master",
+      "source_C_пути": 8,
+      "manifest_D_пути": 1,
+      "grant_sha256": "d07d78ed4a4ef57e6daa1cb495859eccdaeb35c71576990ab69e7cd3165be870",
+      "приёмка_метода": "private SwiftPM harness явно допущен;pass/fail/no-tests probe предшествует реализации",
+      "вне_области": [
+        "frozen93",
+        "ROOT JSONL/Python",
+        "общий Package",
+        "rules/config/Stop/live",
+        "общий разрешающий gate"
+      ]
+    },
+    {
+      "Issue": 458,
+      "ответственный": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+      "статус": "bounded RO inventory принят;Swift/FUMA metadata-reference реализация отдельным следующим этапом",
+      "наблюдение": {
+        "каталоги": 2,
+        "entries": 274,
+        "малые_файлы": 77,
+        "metadata_байты_два_чтения": 952840,
+        "giant_RAW_read_hash_copy": 0
+      },
+      "покрытие": "целая private-линия PARTIAL;exact S177 path UNKNOWN",
+      "кандидаты_cleanup": 0,
+      "ACT_cleanup": "не выдан",
+      "receipt_sha256": "d7b5a6e5981618c396e7039ec61ee2b9a212c7d54541d68f6d7814c49eef534e"
+    },
+    {
+      "Issue": 452,
+      "статус": "заказ устойчивого worklist сохранён ROOT383327e805d41da22ed508931152cc9e1ba96bce;существующий koordinaciya owner после checkpoint363;реализация не объявлена завершённой"
+    }
+  ],
+  "ресурс": {
+    "человек_сообщил": "Ya osvobodil poka 429 GB.",
+    "наблюдённый_df_available_KiB": 417901352,
+    "очистка_координатором": 0,
+    "вывод": "прежний capacity blocker снят;прежние unknown-effect/custody ограничения сохраняются",
+    "APFS": "logical/du-accounted/shared extents/available не суммируются как unique physical"
+  },
+  "остаток": [
+    "454:newW/ref,probe,код,meaningful RED/GREEN14/48,profile/PUB,source C→D и отдельный приём",
+    "458:metadata-reference код в отдельном scope;S177 адрес и byte/custody доказательства неизвестны;никакой массовой очистки",
+    "прежний общий ROOT остаток не заменён этой сводкой;Root-source и child-stage завершения различаются"
+  ],
+  "происхождение": {
+    "оригиналы_управляющих_поручений": "сохранены в native и приватных неизменяемых квитанциях;не выдаются за сообщения человека",
+    "ROOT_приёмка_Names": "подтверждена raw/remote и GitHub merged",
+    "машинные_квитанции": "точные SHA в полях;частные абсолютные пути и RAW исключены"
+  }
+}

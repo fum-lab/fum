@@ -1,0 +1,166 @@
+{
+  "схема": "fum.источник-root-checkpoint-96bc-и-сводки-инструментов.1",
+  "корневая_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дата_по_клиенту": "2026-10-29",
+  "часовой_пояс_клиента": "Europe/Saratov",
+  "сообщение_ROOT": {
+    "происхождение": "Управляющее сообщение непосредственного ROOT; приватный адрес пакета не публикуется.",
+    "содержание": "Передан ROOT checkpoint 96bc с общим отчётом, принятой PR №461 и сохранённой provenance прежнего запуска 2/2; отдельно передана публичная сводка Instruments и текущие границы №454/460/462.",
+    "приватный_путь_сводки_не_публикуется": true
+  },
+  "root_checkpoint": {
+    "коммит": "96bc1c28e2201b86b05ad4466b17172201358169",
+    "дерево": "1244d52ad6d8498e16c305ac71e2f32f3e73606f",
+    "родитель": "a8ed77f2e3b874ec6fa96284bc1172dd983c82fa",
+    "ref": "refs/heads/fum-lab/fum/master",
+    "удалённый_oid_подтверждён": true,
+    "дельта": "ровно один добавленный отчёт",
+    "отчёт": {
+      "путь": "otchyot-integracij-2026-10-29-5.json",
+      "режим": "100644",
+      "blob": "9fb8e580d6250cbb8565b564f541f3b0b500a013",
+      "размер_в_байтах": 42331,
+      "sha256": "498d0b201c783c3df10460092701b41d654eba2c8af02d4366d1624e72a5209c",
+      "схема": "fum.снимок-координации-и-приёмки.1",
+      "основан_на": "a8ed77f2e3b874ec6fa96284bc1172dd983c82fa"
+    },
+    "человеческие_реплики": [
+      "Ya osvobodil poka 429 GB.",
+      "Kakoj nash tekusjhij plan?"
+    ],
+    "границы": [
+      "ROOT JSONL и Python не запускались и не GREEN.",
+      "Generic runner остаётся UNKNOWN.",
+      "Полное восстановление узла не введено.",
+      "Отдельный Журнал и поставка 03d086 не объявлены ROOT-интеграцией."
+    ]
+  },
+  "pr_461": {
+    "url": "https://github.com/fum-lab/fum/pull/461",
+    "состояние": "closed, merged=true, draft=false",
+    "base": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+    "head": "cd1c3b4715badaba574cf490fa6570d28358066e",
+    "merge": "a8ed77f2e3b874ec6fa96284bc1172dd983c82fa",
+    "дерево_merge": "9ba4d9c7919fbd7ed3e098a99047d39f730ffc91",
+    "родители_merge": [
+      "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+      "cd1c3b4715badaba574cf490fa6570d28358066e"
+    ],
+    "путей": 5,
+    "пять_source_blobs": "идентичны в a9e930, cd1c3b и a8ed77",
+    "комментарий": {
+      "id": 6493868616,
+      "байтов": 1978,
+      "sha256": "257146f393570a73c6f20afce9e8ddeac90c981cd291da0c7d2e97848b080e52"
+    },
+    "body": {
+      "байтов": 5250,
+      "sha256": "b0294e407ded321e21fd2b74006a4060cb8b464c2dc19fb75c9356c8b454b20c"
+    },
+    "provenance_2_из_2": {
+      "checked_source": "a9e930876e7fac03d01661fa4ad4c0127a6ec58c",
+      "native_UUID": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "turn_ID": "01a186fb-fb4e-7330-a5bc-752e0b9b5a84",
+      "command_ID": "exec-70ebdcb6-f2d1-4399-8d66-065bf72fae0c",
+      "chunk": "2fbaee",
+      "exit": 0,
+      "output_усечён": false,
+      "tests": 2,
+      "passed": 2,
+      "issues": 0,
+      "warnings": 0,
+      "test_time_seconds": 0.427,
+      "restored_copy_sha256": "6ca9a47e324481ff7ee9323350b839c5d6e85a8778235486293a7aa86fd4c39b",
+      "классификация": "независимо reviewed восстановленная копия прежнего commandExecution, не новый запуск",
+      "полный_environment_и_split_stdout_stderr": "UNKNOWN",
+      "пересчёт_приватных_runtime_байтов_этой_задачей": false
+    }
+  },
+  "сводка_узла_инструментов": {
+    "путь": "Планирование/задачи/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/результаты/сводка-узла-инструментов-2026-10-29.json",
+    "sha256": "2b4260ec90f14ff4fb16e05228925be51a0f5277423455c12c4aaa8a010acbd0",
+    "размер_в_байтах": 5391,
+    "строк": 92,
+    "схема": "fum.сводка-узла-инструментов.1",
+    "узел": "fum-lab/fum/instrumentyi/master",
+    "координатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "собственный_HEAD": "2302d1e18eee74bb0d4c8438eb360fd3238af7fc",
+    "собственный_ref": "refs/heads/codex/live-residual-pages-01a17797",
+    "gate_поставкам": false,
+    "полнота_общего_остатка": "не установлена"
+  },
+  "снимок_instruments": {
+    "issue_454": "implementation grant активен; на момент сводки отдельный W и runner probe ожидались",
+    "issue_458": {
+      "bounded_RO_inventory": "принят",
+      "каталоги": 2,
+      "entries": 274,
+      "малые_файлы": 77,
+      "metadata_байты_два_чтения": 952840,
+      "giant_RAW_read_hash_copy": 0,
+      "exact_S177_path": "UNKNOWN",
+      "кандидаты_cleanup": 0,
+      "ACT_cleanup": "не выдан"
+    },
+    "resource": {
+      "человек_сообщил": "Ya osvobodil poka 429 GB.",
+      "df_available_KiB": 417901352,
+      "очистка_координатором": 0,
+      "причина_освобождения_координатору_не_приписана": true
+    }
+  },
+  "актуальные_последующие_состояния": {
+    "issue_454": {
+      "состояние": "open",
+      "новый_W": "создан",
+      "логическое_имя_W": "proverka-celostnosti-iskhodnikov",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master",
+      "HEAD": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+      "незарегистрированные_каталоги": 2,
+      "удалённый_ref": "отсутствует",
+      "коммит_поставка_приёмка": "не доказаны",
+      "gate_поставкам": false
+    },
+    "pr_460": {
+      "url": "https://github.com/fum-lab/fum/pull/460",
+      "состояние": "open, mergeable, draft=false",
+      "base": "3ddd1ffc94889fa43f31071f2637813fcddfe1c3",
+      "head": "1e578e509ed243164da227ee1e37ebf5729e5503",
+      "дерево_head": "3e3c183e2b599f060b6534e5a4f52d16f4e13b98",
+      "родитель_head": "62d270a7b3032decd094514daa6402be254f200a",
+      "путей": 4,
+      "состав": "+16/-14",
+      "языковой_ремонт": "опубликован",
+      "RO_review_без_P1": "ROOT-reported",
+      "ROOT_acceptance": false,
+      "общий_checker_и_профиль_000032": "UNKNOWN",
+      "локальные_staged_вне_PR": "пять путей; не входят в опубликованный head"
+    },
+    "pr_462": {
+      "url": "https://github.com/fum-lab/fum/pull/462",
+      "состояние": "open, draft, mergeable",
+      "base": "a8ed77f2e3b874ec6fa96284bc1172dd983c82fa",
+      "head": "a84c98a6d10b74caf97ccb4e902798e034948d98",
+      "дерево_head": "75b714c2b9c038248115b68cfb2b9d5e8b568f1b",
+      "родитель_head": "7b620c233b962704373331d9546b203e64f3b3d1",
+      "путей": 4,
+      "состав": "+816/-0",
+      "новые_тесты": "10 PASS на A2 по body",
+      "rootData_равен_W_и_11_регрессия": "ожидаются",
+      "final_compile": "UNKNOWN",
+      "ENOSPC": "SIMULATED; реальный UNKNOWN",
+      "power_loss_restart_durability": "UNKNOWN",
+      "fresh_ROOT96_grant": "сообщён ROOT; первичный grant отдельно не доступен",
+      "ROOT_acceptance": false
+    }
+  },
+  "границы": {
+    "отдельный_Журнал_автоматически_ROOT_интегрирован": false,
+    "публичная_сводка_является_gate": false,
+    "новые_тесты_для_2_из_2_запускались": false,
+    "ROOT_JSONL_или_RAW_прочитаны": false,
+    "Python": false,
+    "чужие_W_refs_index_изменены": false,
+    "предыдущие_закрытые_этапы_переоткрыты": false
+  }
+}
