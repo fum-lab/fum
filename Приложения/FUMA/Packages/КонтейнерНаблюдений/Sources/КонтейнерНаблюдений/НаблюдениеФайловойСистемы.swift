@@ -24,7 +24,7 @@ public struct СнимокФайловойСистемы: Equatable, Sendable {
     public let записи: [ЗаписьФайловойСистемы]
     public let идентификатор: String
     public let границаСогласованности: ГраницаСогласованностиСнимкаФайловойСистемы
-    let физическийКорень: URL
+    public let физическийКорень: URL
 }
 
 public enum ГраницаСогласованностиСнимкаФайловойСистемы: String, Codable, Sendable {
