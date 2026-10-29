@@ -1,0 +1,106 @@
+{
+  "схема": "fum.манифест-порта-переименования-файла.1",
+  "статус": "Сохраняющая доставка исходников; отдельная приёмка и реальное применение не выполнены",
+  "корневой_UUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель_UUID": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "родитель_UUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "полный_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/pereimenovaniye-fajla-s-obnovleniyem-ssyilok/master",
+  "физический_корень_sha256": "2031c6d976e7b41aaf1fa43a28a1071695a10142c29f2735ec41ee30d87d2ef0",
+  "адресный_grant_sha256": "95ce4bd890b1a27a8fb25a84fe44d257a17e10b2cfc2e9cd1bd2917473ac2973",
+  "поставка_C": {
+    "коммит": "22f11aba2c047acd20cb9037ec0a04f6527d4428",
+    "дерево": "d847a654fd18e8366841a07453e5b90c39ea8134",
+    "родители": [
+      "96bc1c28e2201b86b05ad4466b17172201358169"
+    ],
+    "сырой_коммит_sha256": "32af2095576a1b8d40ec9b0c769c4610ef333802718f72f613145afba290eb16",
+    "сообщение_sha256": "e6f3ab2337df1f3539209f9509a469606ab2591ed46266f462a327a7578ce785",
+    "author": "author FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1793285236 +0400",
+    "committer": "committer FUM <fum@local> 1793285236 +0400",
+    "число_путей": 6,
+    "полный_состав": [
+      {
+        "путь": "iskhodniki/aktualizaciya-putej/kontraktyi/port-pereimenovaniya-fajla.json",
+        "режим": "100644",
+        "blob": "2cb2e4ba951bddbb27b97510036dff59776c13d5",
+        "байт": 67922,
+        "sha256": "0ce94a332347b61a26777fa32c5235c586844b00f78cf0f0ceee82e6d2ad7c74"
+      },
+      {
+        "путь": "iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift",
+        "режим": "100644",
+        "blob": "f9ad2255719407d2571a485f0336866157a7f8be",
+        "байт": 46753,
+        "sha256": "92d88e68f0e7cd98dd02b24e52df202c3ca6c50bc81f1aba2b7619214a855451"
+      },
+      {
+        "путь": "iskhodniki/aktualizaciya-putej/proveritj-puti.swift",
+        "режим": "100644",
+        "blob": "3e27264d0bd757024729e6ea197f55f0e67e8f71",
+        "байт": 10043,
+        "sha256": "9bcf77037ee6323fa2f328fe98e7e735b4956b04d41c46ec6419180179d09339"
+      },
+      {
+        "путь": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+        "режим": "100644",
+        "blob": "02f9534b7e610c3bc86acd4d650f848c7641cd1e",
+        "байт": 132687,
+        "sha256": "94b3861a18c5e549cb025bc8169adac3678585636ca7469050da18394d819783"
+      },
+      {
+        "путь": "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
+        "режим": "100644",
+        "blob": "4b3b4aa58cbd1e3fbf1116efeb1687199fd16af0",
+        "байт": 39377,
+        "sha256": "b973e52eb1a9224038097ef7b1bcefe58650bdfc691fb63b545338b386b8733b"
+      },
+      {
+        "путь": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md",
+        "режим": "100644",
+        "blob": "30a758a45444c784e30ddc96657c6786ab29bc28",
+        "байт": 23124,
+        "sha256": "d1838eb073ca804a55e1a6aab4ec240aed6b3cc4e23ae75f9a8dde9115f40bfb"
+      }
+    ]
+  },
+  "подтверждённая_доставка_C": {
+    "обычный_exact_push_код": 0,
+    "независимый_ls_remote_код": 0,
+    "удалённый_OID": "22f11aba2c047acd20cb9037ec0a04f6527d4428",
+    "точное_совпадение": true
+  },
+  "исходный_текст_человека": {
+    "байт": 68,
+    "sha256": "3b712d8a6cb0ed7e372d28e6fdf8a4dbc1bf5f41b124e91d6128b587412a6fc8",
+    "сохранение": "Дословно в сообщении C и исходном частном источнике; агентское поручение не подменяет человека"
+  },
+  "наблюдённая_модель": {
+    "наблюдение": "gpt-6.1-sol",
+    "усилие": "ultra",
+    "источник": "Native metadata этой задачи; не выбор по имени роли",
+    "backend": "UNKNOWN"
+  },
+  "проверки": {
+    "native": "34 функции,63 сценария GREEN; strict Swift6 compiler и29production standalone CLI",
+    "bounded_PUB": "ПолныйC6, UTF8/LF/mode/pins и ограниченные контентные шаблоны; ноль блокирующих совпадений, три открытых отрицательных примера; legacy PUB не GREEN",
+    "recency_тела_SKILL": {
+      "заявлен": "fe8a83ee21258124c6f677205e9aacbf59649081e9ed56b53d20b8fd8c6f9999",
+      "фактический": "fe8a83ee21258124c6f677205e9aacbf59649081e9ed56b53d20b8fd8c6f9999"
+    },
+    "RO_ревью": "Финальный pins4 review через directparent: прежнийP2 закрыт, новыхP1/P2 в проверенных областях нет; STATIC",
+    "предпросмотр": "real-preview3: известныйexit2 на голом пробеле в href, неизменность всех5004canonicalMD/C6/HEAD/ref/index/status/guide/destination; не успешный план и не ACTready",
+    "контур": "Отключённый router/Python/ROOT JSONL не проверялись и не GREEN; общего профиля000032 нет"
+  },
+  "остаток": [
+    "Реальный rename руководства и live ссылки не выполнялись; нужен отдельный compatibility adapter для адресного grammar blocker, затем новый проверенный preflight и отдельный ACT",
+    "Внешняя приёмка конечного C6/D1 и проверенная обратная граница R выполняются отдельно; sourceWIP не означает приёмку",
+    "Общая миграция, интеграция в master, ROOT final и production вне этапа",
+    "SourceWIP и manifest подтверждают целостность, но не полномочия/живое владение/допуск эффекта; Python/router/ROOT JSONL и legacy PUB не GREEN"
+  ],
+  "принятые_правила_R": {
+    "коммит": "1c28c0ad16a6dd02c0baf9ab8e1b3a144701a287",
+    "дерево": "e81daf2fe2076a6cd11c5e2d7e01fb5bbc07a3b4",
+    "граница": "Прочитаны и ACK отдельно от usage; проверенная обратная граница до отдельной приёмки, без самовольного merge"
+  },
+  "граница_манифеста": "Закрепляет только уже существующий C и его полный шестипутевой delta. Собственный или будущий Git OID не задаётся; полномочия, владение и приёмку проверяют отдельно"
+}
