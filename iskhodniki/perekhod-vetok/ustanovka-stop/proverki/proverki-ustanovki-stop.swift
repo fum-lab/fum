@@ -3,6 +3,199 @@ import Darwin
 import Testing
 @testable import УстановкаStop
 
+@Suite("Кооперативный publisher и устойчивая попытка", .serialized)
+struct ПроверкиПротоколаПубликацииStop {
+    private enum Инъекция: Error { case отказ }
+    private struct Фикстура {
+        let root: URL
+        var lock: URL { root.appendingPathComponent("current.json.lock") }
+        var config: URL { root.appendingPathComponent("hooks.json") }
+        init() throws {
+            root = URL(fileURLWithPath: "/private/tmp/fum-stop-protocol-" + UUID().uuidString.lowercased())
+            try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+            try Self.write(Data(), lock)
+        }
+        static func write(_ data: Data, _ path: URL, mode: Int = 0o600) throws {
+            if FileManager.default.fileExists(atPath: path.path) {
+                try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: path.path)
+            }
+            try data.write(to: path)
+            try FileManager.default.setAttributes([.posixPermissions: mode], ofItemAtPath: path.path)
+        }
+        static func json(_ o: [String: Any]) throws -> Data {
+            try JSONSerialization.data(withJSONObject: o, options: [.sortedKeys, .withoutEscapingSlashes])
+        }
+        func pin() throws -> СсылкаЗамкаStop {
+            var s = Darwin.stat()
+            guard lstat(lock.path, &s) == 0 else { throw Инъекция.отказ }
+            return СсылкаЗамкаStop(path: lock.path, device: Int64(s.st_dev), inode: UInt64(s.st_ino))
+        }
+        func cleanup() {
+            do { try FileManager.default.removeItem(at: root) }
+            catch { Issue.record("Собственная fixture не удалена: \(error)") }
+        }
+    }
+    private func refused(_ body: () throws -> Void) {
+        do { try body(); Issue.record("Ожидался отказ до эффекта") } catch { }
+    }
+
+    @Test func busyНеДаётЭффектаИОсвобождаетсяПослеУспехаИОшибки() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let pin = try f.pin()
+        var effects = 0
+        try ЗамокТекущегоStop.выполнить(pin) { check in
+            try check()
+            refused { try ЗамокТекущегоStop.выполнить(pin) { _ in effects += 1 } }
+        }
+        #expect(effects == 0)
+        refused { try ЗамокТекущегоStop.выполнить(pin) { _ in throw Инъекция.отказ } }
+        try ЗамокТекущегоStop.выполнить(pin) { check in try check(); effects += 1 }
+        #expect(effects == 1)
+    }
+
+    @Test func ссылкиПраваРазмерИПодменаInodeОтклоняются() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let original = try f.pin()
+        let link = f.root.appendingPathComponent("hard")
+        try FileManager.default.linkItem(at: f.lock, to: link)
+        refused { _ = try ЗамокТекущегоStop.выполнить(original) { _ in Issue.record("hardlink принят") } }
+        try FileManager.default.removeItem(at: link)
+        for mode in [0o644, 0o400] {
+            try FileManager.default.setAttributes([.posixPermissions: mode], ofItemAtPath: f.lock.path)
+            refused { _ = try ЗамокТекущегоStop.выполнить(original) { _ in Issue.record("mode принят") } }
+        }
+        try Фикстура.write(Data([1]), f.lock)
+        refused { _ = try ЗамокТекущегоStop.выполнить(original) { _ in Issue.record("size принят") } }
+        try Фикстура.write(Data(), f.lock)
+        let pin = try f.pin()
+        try ЗамокТекущегоStop.выполнить(pin) { check in
+            let replacement = f.root.appendingPathComponent("new-lock")
+            try Фикстура.write(Data(), replacement)
+            #expect(Darwin.rename(replacement.path, f.lock.path) == 0)
+            refused { try check() }
+        }
+        refused { _ = try ЗамокТекущегоStop.выполнить(pin) { _ in Issue.record("old inode принят") } }
+        try FileManager.default.removeItem(at: f.lock)
+        try FileManager.default.createSymbolicLink(at: f.lock, withDestinationURL: link)
+        refused { _ = try ЗамокТекущегоStop.выполнить(original) { _ in Issue.record("symlink принят") } }
+    }
+
+    @Test func другойPlanPathHEADИВремяНеОбходятIntentБезOutcome() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let sha = String(repeating: "a", count: 64), candidate = String(repeating: "b", count: 64)
+        let first = try УстановщикStop.receiptPaths(config: f.config.path, oldSHA: sha, candidateSHA: candidate)
+        #expect(first.intent.hasPrefix(f.root.path + "/.fum-stop-install-"))
+        try УстановщикStop.receipt(first.intent,
+            ["planPath": f.root.path + "/one/plan.json", "HEAD": "old", "time": 1])
+        let second = try УстановщикStop.receiptPaths(config: f.config.path, oldSHA: sha, candidateSHA: candidate)
+        #expect(first.intent == second.intent && first.key == second.key)
+        refused { try УстановщикStop.receipt(second.intent,
+            ["planPath": f.root.path + "/two/plan.json", "HEAD": "new", "time": 2]) }
+        #expect(!FileManager.default.fileExists(atPath: first.outcome))
+        let saved = try Data(contentsOf: URL(fileURLWithPath: first.intent))
+        #expect(saved.range(of: Data("old".utf8)) != nil)
+    }
+
+    @Test func частичныйIntentИUNKNOWNНеУдаляютсяИНеПовторяются() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        for (index, partial) in [true, false].enumerated() {
+            let p = try УстановщикStop.receiptPaths(config: f.config.path,
+                oldSHA: String(repeating: "a", count: 64), candidateSHA: String(repeating: String(index), count: 64))
+            if partial { try Фикстура.write(Data("{".utf8), URL(fileURLWithPath: p.intent)) }
+            else {
+                try УстановщикStop.receipt(p.intent, ["status": "INTENT"])
+                try УстановщикStop.receipt(p.outcome, ["status": "UNKNOWN"])
+            }
+            let before = try Data(contentsOf: URL(fileURLWithPath: p.intent))
+            var effects = 0
+            do { try УстановщикStop.receipt(p.intent, ["status": "INTENT"]); effects += 1 } catch { }
+            #expect(effects == 0)
+            #expect(try Data(contentsOf: URL(fileURLWithPath: p.intent)) == before)
+        }
+    }
+
+    @Test func первоеСозданиеАтомарноИСохраняетПоявившуюсяЦель() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let target = f.root.appendingPathComponent("current.json")
+        let data = Data("first".utf8), foreign = Data("foreign".utf8)
+        let r = try АтомарныеБайтыStop.создатьЕслиОтсутствует(target.path, новыми: data)
+        #expect(r.данные == data)
+        refused { _ = try АтомарныеБайтыStop.создатьЕслиОтсутствует(target.path, новыми: foreign) }
+        #expect(try Data(contentsOf: target) == data)
+        try FileManager.default.removeItem(at: target)
+        var points = ТочкиАтомарнойЗаменыStop()
+        points.передRename = { try Фикстура.write(foreign, target) }
+        refused { _ = try АтомарныеБайтыStop.записать(target.path,
+            ожидаемыйSHA256: nil, новыми: data, точки: points) }
+        #expect(try Data(contentsOf: target) == foreign)
+    }
+
+    @Test func publisherCLIПроверяетСоздаётИЗаменяетПодТемЖеЗамком() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let root = f.root.path, common = root + "/git", gitDir = common + "/worktrees/synthetic"
+        let w = root + "/W", ref = "refs/heads/fum/synthetic/master"
+        for p in [gitDir, common + "/refs/heads/fum/synthetic", w] {
+            try FileManager.default.createDirectory(atPath: p, withIntermediateDirectories: true,
+                attributes: [.posixPermissions: 0o700])
+        }
+        for (path, text) in [(w + "/.git", "gitdir: \(gitDir)\n"),
+            (gitDir + "/gitdir", "\(w)/.git\n"), (gitDir + "/commondir", "../..\n"),
+            (gitDir + "/HEAD", "ref: \(ref)\n"), (common + "/" + ref, String(repeating: "b", count: 40) + "\n")] {
+            try Фикстура.write(Data(text.utf8), URL(fileURLWithPath: path))
+        }
+        let current = root + "/current.json", source = String(repeating: "a", count: 40)
+        let headerURL = f.root.appendingPathComponent("header.json")
+        let header: [String: Any] = ["схема": "fum.stop-заголовок.2",
+            "задача": "00000000-0000-4000-8000-000000000001", "узел": "synthetic",
+            "область": "test", "поколение": "generation1", "cwd": w, "дерево": w,
+            "ref": ref, "gitDir": gitDir, "commonGitDir": common, "backend": "files",
+            "objectFormat": "sha1", "исходники": source, "состояние": current,
+            "каталогКвитанций": root, "максимальныйВозрастСекунд": 900]
+        let headerData = try Фикстура.json(header)
+        try Фикстура.write(headerData, headerURL, mode: 0o400)
+        let headerSHA = АтомарныеБайтыStop.sha256(headerData)
+        var snapshot: [String: Any] = ["схема": "fum.текущие-обязательства-stop.2",
+            "заголовокSHA256": headerSHA, "задача": header["задача"]!, "узел": "synthetic",
+            "область": "test", "поколение": "generation1",
+            "управление": ["действие": "стоп", "основание": "Синтетическая проверка"]]
+        let pin = try f.pin()
+        let candidateURL = f.root.appendingPathComponent("candidate.json")
+        let planURL = f.root.appendingPathComponent("plan.json")
+        func run(_ initiallyAbsent: Bool, expected: String?, check: Bool) throws -> Int32 {
+            let bytes = try Фикстура.json(snapshot)
+            try Фикстура.write(bytes, candidateURL)
+            var plan: [String: Any] = ["schema": "fum.stop-current-publication.1", "source": source,
+                "header": ["path": headerURL.path, "bytes": headerData.count, "sha256": headerSHA, "mode": 0o400],
+                "candidate": ["path": candidateURL.path, "bytes": bytes.count, "sha256": АтомарныеБайтыStop.sha256(bytes), "mode": 0o600],
+                "current": ["path": current, "mode": 0o600, "maxBytes": 32768,
+                    "lock": ["path": pin.path, "device": pin.device, "inode": pin.inode]],
+                "initiallyAbsent": initiallyAbsent]
+            if let expected { plan["expectedSHA256"] = expected }
+            let data = try Фикстура.json(plan); try Фикстура.write(data, planURL)
+            var argv = ["--опубликовать-текущий", "--план", planURL.path,
+                "--хэш-плана", АтомарныеБайтыStop.sha256(data)]
+            argv += check ? ["--проверить"] : ["--применить", АтомарныеБайтыStop.sha256(bytes)]
+            return УстановщикStop.команда(argv)
+        }
+        #expect(try run(true, expected: nil, check: true) == 0)
+        #expect(!FileManager.default.fileExists(atPath: current))
+        #expect(try run(true, expected: nil, check: false) == 0)
+        let first = try АтомарныеБайтыStop.прочитать(current)
+        #expect(first.данные == (try Фикстура.json(snapshot)))
+        #expect(try run(true, expected: nil, check: false) != 0)
+        snapshot["управление"] = ["действие": "пауза", "основание": "Следующий синтетический снимок"]
+        #expect(try run(false, expected: first.sha256, check: false) == 0)
+        #expect(try АтомарныеБайтыStop.прочитать(current).данные == Фикстура.json(snapshot))
+        #expect(try run(false, expected: first.sha256, check: false) != 0)
+        let finalSHA = try АтомарныеБайтыStop.sha256(Фикстура.json(snapshot))
+        try ЗамокТекущегоStop.выполнить(pin) { _ in
+            let busyCode = try run(false, expected: finalSHA, check: true)
+            #expect(busyCode != 0)
+        }
+    }
+}
+
 @Suite("Атомарные байты Stop: собственные filesystem fixtures", .serialized)
 struct ПроверкиАтомарныхБайтовStop {
     private enum Инъекция: Error { case отказ }

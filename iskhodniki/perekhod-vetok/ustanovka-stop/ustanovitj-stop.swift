@@ -56,7 +56,7 @@ public enum АтомарныеБайтыStop {
                   && t.tv_nsec >= 0 && t.tv_nsec < 1_000_000_000)
         return UInt64(t.tv_sec) * 1_000_000_000 + UInt64(t.tv_nsec)
     }
-    private static func родитель(_ путь: String) throws -> (Int32, String) {
+    fileprivate static func родитель(_ путь: String) throws -> (Int32, String) {
         let части = путь.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
         try нужно(путь.utf8.count <= 4096 && !путь.utf8.contains(0)
                   && части.count >= 2 && части.first == ""
@@ -133,6 +133,15 @@ public enum АтомарныеБайтыStop {
     }
     static func заменить(_ путь: String, ожидаемыйSHA256: String, новыми данные: Data,
                           точки: ТочкиАтомарнойЗаменыStop) throws -> СнимокБайтовStop {
+        try записать(путь, ожидаемыйSHA256: ожидаемыйSHA256, новыми: данные, точки: точки)
+    }
+    /// Только первое создание: RENAME_EXCL сохраняет любой появившийся target.
+    public static func создатьЕслиОтсутствует(_ путь: String,
+        новыми данные: Data) throws -> СнимокБайтовStop {
+        try записать(путь, ожидаемыйSHA256: nil, новыми: данные, точки: ТочкиАтомарнойЗаменыStop())
+    }
+    static func записать(_ путь: String, ожидаемыйSHA256: String?, новыми данные: Data,
+        точки: ТочкиАтомарнойЗаменыStop) throws -> СнимокБайтовStop {
         var p: Int32 = -1, oldFD: Int32 = -1, tempFD: Int32 = -1
         var имя = "", temp = "", фаза = "вход"
         var renamed = false
@@ -141,17 +150,25 @@ public enum АтомарныеБайтыStop {
             for fd in [oldFD, tempFD, p] where fd >= 0 { Darwin.close(fd) }
         }
         do {
-            try нужно(данные.count <= пределЗамены && ожидаемыйSHA256.utf8.count == 64
-                      && ожидаемыйSHA256.utf8.allSatisfy {
+            try нужно(данные.count <= пределЗамены && (ожидаемыйSHA256.map {
+                $0.utf8.count == 64 && $0.utf8.allSatisfy {
                           (48...57).contains($0) || (97...102).contains($0)
-                      })
+                }
+            } ?? true))
             (p, имя) = try родитель(путь)
-            oldFD = try открыть(p, имя)
-            фаза = "чтение-старого"
-            let old = try снять(oldFD, p, имя, 0o600, пределЗамены)
-            наблюдаемый = old.sha256
-            фаза = "ожидаемый-SHA"
-            try нужно(old.sha256 == ожидаемыйSHA256)
+            var old: СнимокБайтовStop?
+            if let ожидаемыйSHA256 {
+                oldFD = try открыть(p, имя)
+                фаза = "чтение-старого"
+                let snapshot = try снять(oldFD, p, имя, 0o600, пределЗамены)
+                old = snapshot; наблюдаемый = snapshot.sha256
+                фаза = "ожидаемый-SHA"
+                try нужно(snapshot.sha256 == ожидаемыйSHA256)
+            } else {
+                фаза = "ожидаемое-отсутствие"
+                var named = Darwin.stat()
+                try нужно(fstatat(p, имя, &named, AT_SYMLINK_NOFOLLOW) != 0 && errno == ENOENT)
+            }
             фаза = "создание-временного"
             temp = ".fum-stop-" + UUID().uuidString.lowercased() + ".tmp"
             tempFD = openat(p, temp, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
@@ -178,15 +195,23 @@ public enum АтомарныеБайтыStop {
             try нужно(имя == againName && fstat(p, &a) == 0 && fstat(againP, &b) == 0
                       && a.st_dev == b.st_dev && a.st_ino == b.st_ino)
             фаза = "сверка-старого"
-            let again = try снять(oldFD, p, имя, 0o600, пределЗамены)
-            наблюдаемый = again.sha256
-            try нужно(again.отпечаток == old.отпечаток && again.данные == old.данные
-                      && again.sha256 == ожидаемыйSHA256)
+            if let old {
+                let again = try снять(oldFD, p, имя, 0o600, пределЗамены)
+                наблюдаемый = again.sha256
+                try нужно(again.отпечаток == old.отпечаток && again.данные == old.данные
+                          && again.sha256 == ожидаемыйSHA256)
+            } else {
+                var named = Darwin.stat()
+                try нужно(fstatat(p, имя, &named, AT_SYMLINK_NOFOLLOW) != 0 && errno == ENOENT)
+            }
             фаза = "сверка-временного"
             let prepared = try снять(tempFD, p, temp, 0o600, пределЗамены)
             try нужно(prepared.данные == данные)
             фаза = "rename"
-            guard renameat(p, temp, p, имя) == 0 else { throw СбойБайтовStop.система(errno) }
+            let moved = ожидаемыйSHA256 == nil
+                ? renameatx_np(p, temp, p, имя, UInt32(RENAME_EXCL))
+                : renameat(p, temp, p, имя)
+            guard moved == 0 else { throw СбойБайтовStop.система(errno) }
             renamed = true
             наблюдаемый = nil // Старое наблюдение не описывает состояние после эффекта.
             фаза = "fsync-каталога"
@@ -223,6 +248,55 @@ public enum АтомарныеБайтыStop {
     }
 }
 
+/// Один неизменяемый inode для всех кооперативных писателей current.
+/// Создаёт и закрепляет ROOT до вызова; файл никогда не заменяется и не удаляется.
+public struct СсылкаЗамкаStop: Codable, Sendable {
+    public let path: String
+    public let device: Int64
+    public let inode: UInt64
+    public init(path: String, device: Int64, inode: UInt64) {
+        self.path = path; self.device = device; self.inode = inode
+    }
+}
+public enum ЗамокТекущегоStop {
+    /// Действие синхронное. Замок удерживается до выхода, в том числе при ошибке.
+    /// Каждый publisher обязан брать тот же замок на весь replacement/readback.
+    /// flock не защищает от писателя, который нарушает этот протокол.
+    public static func выполнить<T>(_ pin: СсылкаЗамкаStop,
+        _ действие: (_ проверить: () throws -> Void) throws -> T) throws -> T {
+        guard pin.device > 0, pin.inode > 0 else { throw E("L0") }
+        let (dir, name) = try АтомарныеБайтыStop.родитель(pin.path)
+        defer { _ = Darwin.close(dir) }
+        var parent = Darwin.stat()
+        guard fstat(dir, &parent) == 0, parent.st_mode & 0o7777 == 0o700 else {
+            throw E("L1", pin.path)
+        }
+        let fd = openat(dir, name, O_RDWR | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+        guard fd >= 0 else { throw E("L2", pin.path) }
+        defer { _ = Darwin.close(fd) }
+        func проверить() throws {
+            let (again, againName) = try АтомарныеБайтыStop.родитель(pin.path)
+            defer { _ = Darwin.close(again) }
+            var a = Darwin.stat(), named = Darwin.stat(), p = Darwin.stat()
+            guard againName == name, fstat(again, &p) == 0,
+                p.st_dev == parent.st_dev, p.st_ino == parent.st_ino,
+                p.st_mode & 0o7777 == 0o700,
+                fstat(fd, &a) == 0, fstatat(dir, name, &named, AT_SYMLINK_NOFOLLOW) == 0,
+                a.st_mode & S_IFMT == S_IFREG, a.st_mode & 0o7777 == 0o600,
+                a.st_uid == geteuid(), a.st_nlink == 1, a.st_size == 0,
+                Int64(a.st_dev) == pin.device, UInt64(a.st_ino) == pin.inode,
+                ОтпечатокФайлаStop(a) == ОтпечатокФайлаStop(named) else {
+                throw E("L3", pin.path)
+            }
+        }
+        try проверить()
+        guard flock(fd, LOCK_EX | LOCK_NB) == 0 else { throw E("Lbusy", pin.path) }
+        // close освобождает flock и при thrown body; named inode проверяется после захвата.
+        try проверить()
+        return try действие(проверить)
+    }
+}
+
 // --применить не доказывает ROOT authority, custody или Native trust.
 // Повторные чтения point-in-time: это не CAS и не доказательство custody.
 // Коды: P/path-plan, F/file, D/delta, A/argv, E/env, H/header, S/stage, G/git, C/current, R/receipt.
@@ -250,7 +324,16 @@ private struct MPin: Decodable {
 let path: String; let bytes: Int; let sha256: String; let mode: UInt32
 let files: Int; let resourceMode: UInt32
 }
-private struct CPin: Decodable { let path: String; let maxBytes: Int; let mode: UInt32 }
+private struct CPin: Decodable {
+let path: String; let maxBytes: Int; let mode: UInt32; let lock: СсылкаЗамкаStop
+}
+private struct Publication: Decodable {
+let schema, source: String
+let header, candidate: Pin
+let current: CPin
+let initiallyAbsent: Bool
+let expectedSHA256: String?
+}
 private struct Plan: Decodable {
 let schema, profile, source, sourceOriginC3, sourceTree: String
 let header, candidate, handler: Pin; let old: Old; let command: Cmd
@@ -287,7 +370,7 @@ private struct Ctx {
 let planPath, planSHA, config, parent: String
 let p: Plan; let current: Cur?; let head: String
 }
-private struct RPaths { let intent, outcome: String }
+struct RPaths { let intent, outcome, key: String }
 public enum УстановщикStop {
 private typealias AB = АтомарныеБайтыStop
 private typealias Stamp = ОтпечатокФайлаStop
@@ -343,7 +426,7 @@ private static func plan(_ path: String, _ sha: String) throws -> Plan {
  let s = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
  try need(s.sha256 == sha, "P3", path)
  let p = try dec(Plan.self, s.данные)
- try need(p.schema == "fum.stop-installer-plan.2"
+ try need(p.schema == "fum.stop-installer-plan.3"
  && p.profile == "fum.native-stop.install.1"
  && hex(p.source, 40) && hex(p.sourceOriginC3, 40) && hex(p.sourceTree, 40),
  "P4", path)
@@ -440,7 +523,9 @@ private static func header(_ h: H, _ p: Plan) throws -> String {
  try need([h.cwd, h.дерево, h.gitDir, h.commonGitDir, h.состояние,
  h.каталогКвитанций].allSatisfy(abs), "H1")
  try need(p.current.path == h.состояние && p.current.mode == 0o600
- && p.current.maxBytes > 0 && p.current.maxBytes <= 32_768, "C0")
+ && p.current.maxBytes > 0 && p.current.maxBytes <= 32_768
+ && p.current.lock.path == h.состояние + ".lock"
+ && p.current.lock.device > 0 && p.current.lock.inode > 0, "C0")
  try need(p.command.argv.count == 18 && p.command.argv[0] == p.handler.path
  && p.command.argv[1] == "stop", "A4")
  let expected = ["--идентификатор-обработчика", "fum.stop-handler.1",
@@ -512,28 +597,36 @@ private static func git(_ h: H) throws -> String {
 }
 private static func current(_ p: Plan, _ h: H, _ headerSHA: String,
  _ head: String) throws -> Cur? {
+ try current(p.current, h, headerSHA, head)
+}
+private static func current(_ pin: CPin, _ h: H, _ headerSHA: String,
+ _ head: String) throws -> Cur? {
  var st = Darwin.stat()
- if lstat(p.current.path, &st) != 0 {
+ if lstat(pin.path, &st) != 0 {
  if errno == ENOENT { return nil }
- throw E("C1", p.current.path)
+ throw E("C1", pin.path)
  }
- let raw = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
- let e = try dec(Envelope.self, raw.данные)
+ let raw = try AB.прочитать(pin.path, ожидаемыйРежим: 0o600, предел: pin.maxBytes)
+ return try currentBytes(raw.данные, raw.sha256, h, headerSHA, head)
+}
+private static func currentBytes(_ bytes: Data, _ sha: String, _ h: H,
+ _ headerSHA: String, _ head: String) throws -> Cur {
+ let e = try dec(Envelope.self, bytes)
  try need(e.схема == "fum.текущие-обязательства-stop.2"
  && e.заголовокSHA256 == headerSHA && e.задача == h.задача
  && e.узел == h.узел && e.область == h.область && e.поколение == h.поколение
  && text(e.управление.основание)
  && ["продолжать", "стоп", "пауза"].contains(e.управление.действие),
- "C2", p.current.path)
- let state = Cur(sha: raw.sha256, action: e.управление.действие)
+ "C2", h.состояние)
+ let state = Cur(sha: sha, action: e.управление.действие)
  if state.action != "продолжать" { return state }
- let m = try dec(Meta.self, raw.данные)
+ let m = try dec(Meta.self, bytes)
  try need(m.cwd == h.cwd && m.дерево == h.дерево && m.ref == h.ref
- && m.HEAD == head && hex(m.HEAD, 40), "C3", p.current.path)
+ && m.HEAD == head && hex(m.HEAD, 40), "C3", h.состояние)
  let clock = Int64(Date().timeIntervalSince1970), age = h.максимальныйВозрастСекунд
  try need(m.выпущен >= 0 && m.выпущен <= clock && clock - m.выпущен <= age
  && m.действуетДо >= clock && m.действуетДо >= m.выпущен
- && m.действуетДо - m.выпущен <= age, "C4", p.current.path)
+ && m.действуетДо - m.выпущен <= age, "C4", h.состояние)
  return state
 }
 private static func config(_ p: Plan, _ path: String) throws {
@@ -581,19 +674,29 @@ private static func directory(_ path: String) throws -> Int32 {
  return fd
  } catch { _ = Darwin.close(fd); throw error }
 }
-private static func receiptPaths(_ parent: String) -> RPaths {
- RPaths(intent: parent + "/stop-install-intent-\(UUID().uuidString.lowercased()).json",
- outcome: parent + "/stop-install-outcome-\(UUID().uuidString.lowercased()).json")
+static func receiptPaths(config: String, oldSHA: String, candidateSHA: String,
+ publication: Bool = false) throws -> RPaths {
+ try need(hex(oldSHA, 64) && hex(candidateSHA, 64), "Rkey")
+ let dir = try parent(config)
+ let domain = publication ? "publish" : "install"
+ let key = AB.sha256(Data(("fum.stop-" + domain + "-operation.1\u{0}" + config
+  + "\u{0}" + oldSHA + "\u{0}" + candidateSHA).utf8))
+ let stem = dir + "/.fum-stop-" + domain + "-" + key
+ return RPaths(intent: stem + ".intent.json", outcome: stem + ".outcome.json", key: key)
 }
-private static func receipt(_ path: String, _ object: [String: Any]) throws {
+// Этот адрес не зависит от planPath, HEAD, времени или UUID попытки.
+// Любой оставшийся intent (включая частичный) блокирует повтор. Очистки здесь нет.
+static func receipt(_ path: String, _ object: [String: Any]) throws {
  var data = try JSONSerialization.data(withJSONObject: object, options: .sortedKeys)
  data.append(10)
  try need(data.count <= 32_768, "R4", path)
  let p = try parent(path), name = String(path.dropFirst(p.count + 1))
  try need(rel(name) && !name.contains("/"), "R5", path)
- let dir = try directory(p)
+ let (dir, checkedName) = try AB.родитель(path)
  defer { _ = Darwin.close(dir) }
+ try need(checkedName == name, "R5", path)
  let fd = openat(dir, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+ if fd < 0 && errno == EEXIST { throw E("Rexists", path) }
  try need(fd >= 0, "R6", path)
  defer { _ = Darwin.close(fd) }
  try need(fchmod(fd, 0o600) == 0, "R7", path)
@@ -619,6 +722,9 @@ private static func base(_ c: Ctx) -> [String: Any] {
  "planSHA256": c.planSHA, "candidateSHA256": c.p.candidate.sha256,
  "rootHEAD": c.head, "externalApprovalRequired": true
  ]
+ o["worklistCompleteness"] = "ROOT_REQUIRED"
+ o["acceptedSourceAncestry"] = "ROOT_REQUIRED"
+ o["activationAuthorized"] = false
  if let cur = c.current {
  o["currentSHA256"] = cur.sha
  o["currentAction"] = cur.action
@@ -635,14 +741,23 @@ private static func apply(_ c: Ctx) -> Int32 {
  common["status"] = "BLOCKED"; common["phase"] = "root-control-\(initial.action)"
  emit(common); return 3
  }
-let paths = receiptPaths(c.parent)
+ let paths: RPaths
+ do { paths = try receiptPaths(config: c.config, oldSHA: c.p.old.sha256,
+  candidateSHA: c.p.candidate.sha256) } catch {
+  common["status"] = "FAILED"; common["phase"] = "operation-key"
+  common["error"] = String(describing: error); emit(common); return 2
+ }
+ common["operationKey"] = paths.key
  common["intentReceipt"] = paths.intent
  common["outcomeReceipt"] = paths.outcome
  var intent = common
  intent["status"] = "INTENT"; intent["phase"] = "before-effect"
  do { try receipt(paths.intent, intent) } catch {
  var failed = common
- failed["status"] = "FAILED"; failed["phase"] = "intent-receipt"
+ let exists = (error as? E)?.description.hasPrefix("Rexists:") == true
+ failed["status"] = exists ? "BLOCKED" : "FAILED"
+ failed["phase"] = exists ? "operation-already-reserved" : "intent-receipt"
+ failed["automaticRetry"] = false
  failed["error"] = String(describing: error)
  emit(failed); return 2
  }
@@ -654,21 +769,27 @@ let paths = receiptPaths(c.parent)
  try config(p, c.config)
  let a = try artifacts(p)
  try sys(p.systemEnv)
- phase = "root-recheck"
- let head = try git(a.h)
- let cur = try current(p, a.h, p.header.sha256, head)
- try need(head == c.head && cur?.sha == initial.sha
-  && cur?.action == "продолжать", "C5")
- phase = "atomic"
- var points = ТочкиАтомарнойЗаменыStop()
- points.передRename = {
- let latestHead = try git(a.h)
- let latest = try current(p, a.h, p.header.sha256, latestHead)
- try need(latestHead == c.head && latest?.sha == initial.sha
-  && latest?.action == "продолжать", "C6")
+ phase = "current-lock"
+ let result = try ЗамокТекущегоStop.выполнить(p.current.lock) { проверитьЗамок in
+  phase = "root-recheck"
+  let head = try git(a.h)
+  let cur = try current(p, a.h, p.header.sha256, head)
+  try need(head == c.head && cur?.sha == initial.sha
+   && cur?.action == "продолжать", "C5")
+  phase = "atomic"
+  return try withoutActuallyEscaping(проверитьЗамок) { check in
+   var points = ТочкиАтомарнойЗаменыStop()
+   points.передRename = {
+    try check()
+    let latestHead = try git(a.h)
+    let latest = try current(p, a.h, p.header.sha256, latestHead)
+    try need(latestHead == c.head && latest?.sha == initial.sha
+     && latest?.action == "продолжать", "C6")
+   }
+   return try AB.заменить(c.config, ожидаемыйSHA256: p.old.sha256,
+    новыми: a.candidate, точки: points)
+  }
  }
- let result = try AB.заменить(c.config, ожидаемыйSHA256: p.old.sha256,
-  новыми: a.candidate, точки: points)
  status = "APPLIED"; phase = "readback"; boundary = "afterRename"
  observed = result.sha256; code = 0
  } catch let f as ОтказАтомарнойЗаменыStop {
@@ -703,16 +824,118 @@ let paths = receiptPaths(c.parent)
  }
  return code
 }
+// Вызываемый ROOT publisher. Это единственный предусмотренный здесь писатель current.
+// Передача pinned плана не доказывает полномочий или полноты worklist.
+private static func publicationInputs(_ path: String, _ sha: String)
+ throws -> (Publication, H, Data, String) {
+ try need(abs(path) && hex(sha, 64), "Ppub0")
+ let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+ try need(raw.sha256 == sha, "Ppub1", path)
+ let p = try dec(Publication.self, raw.данные)
+ try need(p.schema == "fum.stop-current-publication.1" && hex(p.source, 40)
+  && (p.initiallyAbsent ? p.expectedSHA256 == nil : hex(p.expectedSHA256 ?? "", 64)),
+  "Ppub2", path)
+ let h = try dec(H.self, read(p.header, 0o400, 32_768).данные)
+ try need(h.схема == "fum.stop-заголовок.2" && uuid(h.задача)
+  && token(h.узел) && token(h.область) && token(h.поколение) && ref(h.ref)
+  && h.backend == "files" && h.objectFormat == "sha1" && h.исходники == p.source
+  && (1...3_600).contains(h.максимальныйВозрастСекунд)
+  && [h.cwd, h.дерево, h.gitDir, h.commonGitDir, h.состояние,
+      h.каталогКвитанций].allSatisfy(abs), "Hpub0")
+ try need(p.current.path == h.состояние && p.current.mode == 0o600
+  && p.current.maxBytes > 0 && p.current.maxBytes <= 32_768
+  && p.current.lock.path == p.current.path + ".lock"
+  && p.current.lock.device > 0 && p.current.lock.inode > 0
+  && p.candidate.path != p.current.path, "Cpub0")
+ let candidate = try read(p.candidate, 0o600, p.current.maxBytes).данные
+ let head = try git(h)
+ _ = try currentBytes(candidate, p.candidate.sha256, h, p.header.sha256, head)
+ if p.initiallyAbsent {
+  var st = Darwin.stat()
+  try need(lstat(p.current.path, &st) != 0 && errno == ENOENT, "Cpub1")
+ } else {
+  let old = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600,
+   предел: p.current.maxBytes)
+  try need(old.sha256 == p.expectedSHA256, "Cpub2")
+ }
+ return (p, h, candidate, head)
+}
+private static func publish(_ argv: [String]) throws -> Int32 {
+ let (path, sha, mode) = try args(argv)
+ let (p, _, _, head) = try publicationInputs(path, sha)
+ if case .apply(let value) = mode { try need(value == p.candidate.sha256, "Apub") }
+ var common: [String: Any] = ["operation": "publish-current", "planSHA256": sha,
+  "rootHEAD": head, "candidateSHA256": p.candidate.sha256,
+  "worklistCompleteness": "ROOT_REQUIRED", "acceptedSourceAncestry": "ROOT_REQUIRED",
+  "authorityChecked": false, "automaticRetry": false, "automaticRollback": false]
+ if case .check = mode {
+  try ЗамокТекущегоStop.выполнить(p.current.lock) { check in try check() }
+  common["status"] = "METADATA_CHECKED"; common["metadataChecked"] = true
+  common["writes"] = 0; emit(common); return 0
+ }
+ let oldKey = p.expectedSHA256 ?? AB.sha256(Data("ABSENT".utf8))
+ let paths = try receiptPaths(config: p.current.path, oldSHA: oldKey,
+  candidateSHA: p.candidate.sha256, publication: true)
+ common["operationKey"] = paths.key
+ common["intentReceipt"] = paths.intent; common["outcomeReceipt"] = paths.outcome
+ var intent = common; intent["status"] = "INTENT"; intent["phase"] = "before-effect"
+ do { try receipt(paths.intent, intent) } catch {
+  common["status"] = "BLOCKED"; common["phase"] = "intent-receipt"
+  common["error"] = String(describing: error); emit(common); return 2
+ }
+ var status = "FAILED", phase = "current-lock", boundary = "beforeRename"
+ var observed: String?, errorText: String?, temporary: String?
+ var code: Int32 = 2
+ do {
+  let result = try ЗамокТекущегоStop.выполнить(p.current.lock) { check in
+   let (fresh, h, candidate, freshHead) = try publicationInputs(path, sha)
+   try need(freshHead == head, "Gpub")
+   phase = "atomic"
+   return try withoutActuallyEscaping(check) { verify in
+    var points = ТочкиАтомарнойЗаменыStop()
+    points.передRename = {
+     try verify()
+     let (_, _, _, latestHead) = try publicationInputs(path, sha)
+     try need(latestHead == head && (try git(h)) == head, "Gpub2")
+    }
+    return try AB.записать(fresh.current.path, ожидаемыйSHA256: fresh.expectedSHA256,
+     новыми: candidate, точки: points)
+   }
+  }
+  observed = result.sha256; status = "PUBLISHED"; phase = "readback"
+  boundary = "afterRename"; code = 0
+ } catch let f as ОтказАтомарнойЗаменыStop {
+  phase = f.фаза; observed = f.наблюдаемыйSHA256; errorText = f.причина
+  temporary = f.оставленныйВременныйФайл
+  if f.граница == .послеRename { status = "UNKNOWN"; boundary = "afterRename"; code = 4 }
+  if temporary != nil { status = "UNKNOWN"; code = 4 }
+ } catch {
+  errorText = String(describing: error)
+  if phase == "atomic" { status = "UNKNOWN"; boundary = "unknown-after-call"; code = 4 }
+ }
+ common["status"] = status; common["phase"] = phase; common["boundary"] = boundary
+ if let observed { common["observedCurrentSHA256"] = observed }
+ if let errorText { common["error"] = errorText }
+ if let temporary { common["temporaryPath"] = temporary }
+ do { try receipt(paths.outcome, common); emit(common) } catch {
+  common["status"] = "UNKNOWN"; common["phase"] = "outcome-receipt"
+  common["effectStatus"] = status; common["receiptError"] = String(describing: error)
+  emit(common); return 5
+ }
+ return code
+}
 public static func команда(_ args: [String]) -> Int32 {
  do {
+ if args.first == "--опубликовать-текущий" { return try publish(Array(args.dropFirst())) }
  let (c, mode) = try load(args)
  switch mode {
  case .check:
+  try ЗамокТекущегоStop.выполнить(c.p.current.lock) { check in try check() }
   var o = base(c)
-  let ready = c.current?.action == "продолжать"
-  o["status"] = c.current == nil ? "UNKNOWN" : (ready ? "CHECKED" : "BLOCKED")
-  o["ready"] = ready; o["writes"] = 0
-  emit(o); return ready ? 0 : 3
+  let checked = c.current?.action == "продолжать"
+  o["status"] = c.current == nil ? "UNKNOWN" : (checked ? "METADATA_CHECKED" : "BLOCKED")
+  o["metadataChecked"] = checked; o["writes"] = 0
+  emit(o); return checked ? 0 : 3
  case .apply:
   return apply(c)
  }
