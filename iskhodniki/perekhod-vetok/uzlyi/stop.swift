@@ -70,7 +70,7 @@ public enum ОбработчикStop {
               вход.hookEventName == "Stop",
               вход.cwd == ожидаемыйРабочийКаталог,
               !вход.turnID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        else { return остановить("неверный целевой вход") }
+        else { return блокировать("неверный целевой вход; проверь совместимость Native-полей и привязку cwd") }
         _ = вход.stopHookActive
 
         let данныеНаблюдений: Data

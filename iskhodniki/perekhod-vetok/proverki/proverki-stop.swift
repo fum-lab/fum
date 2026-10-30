@@ -4,7 +4,7 @@ import Testing
 import FUMStructuringOperatorMemory
 @testable import МатериализацияУзлов
 
-private let задачаStop = "01a17797-519b-73c1-bcc8-fd295cdfe9b0"
+private let задачаStop = "00000000-0000-4000-8000-000000000479"
 private let рабочийКаталогStop = "/tmp/fum-stop-tests"
 private let узелStop = "fum-lab/fum/master"
 
@@ -72,7 +72,7 @@ struct ПроверкиStop {
 
     @Test("Ошибка argv не принимает идентичность из native события")
     func ошибкаПараметровСохраняетГраницуЗадачи() throws {
-        let чужаяЗадача = "01a17797-519b-73c1-bcc8-fd295cdfe9b9"
+        let чужаяЗадача = "00000000-0000-4000-8000-000000000480"
         let аргументы = ["--codex-thread-id", задачаStop, "--неизвестный-флаг", "значение"]
         let чужой = try объектОтвета(КомандаStop.выполнить(аргументы,
             ввод: try событиеStop(задача: чужаяЗадача)))
@@ -80,8 +80,9 @@ struct ПроверкиStop {
 
         let целевой = try объектОтвета(КомандаStop.выполнить(аргументы,
             ввод: try событиеStop()))
-        #expect(целевой["continue"] as? Bool == false)
-        #expect((целевой["stopReason"] as? String)?.contains("неверный целевой вход") == true)
+        #expect(целевой["decision"] as? String == "block")
+        #expect(целевой["continue"] == nil)
+        #expect((целевой["reason"] as? String)?.contains("неверный целевой вход") == true)
 
         let неоднозначный = try объектОтвета(КомандаStop.выполнить(
             ["--codex-thread-id", задачаStop, "--codex-thread-id", чужаяЗадача],
@@ -104,7 +105,7 @@ struct ПроверкиStop {
     @Test("Чужое событие не читает локальные наблюдения")
     func чужоеСобытиеНеЧитаетНаблюдения() throws {
         let ответ = try объектОтвета(ОбработчикStop.ответ(
-            событие: try событиеStop(задача: "01a17797-519b-73c1-bcc8-fd295cdfe9b9"),
+            событие: try событиеStop(задача: "00000000-0000-4000-8000-000000000480"),
             наблюдения: { throw CocoaError(.fileNoSuchFile) },
             ожидаемаяЗадача: задачаStop,
             ожидаемыйУзел: узелStop,
