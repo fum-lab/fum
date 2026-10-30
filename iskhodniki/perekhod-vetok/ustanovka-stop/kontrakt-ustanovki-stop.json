@@ -325,5 +325,73 @@
       "Python/router/ROOT RAW/JSONL/fullprofile/RootPackage/LinguisticKit",
       "ROOT source acceptance, runtime activation и Native trust/probe"
     ]
+  },
+  "частичнаяРусификация": {
+    "состояние": "Применены точные байты автоматизации; языковой остаток открыт, ROOT приёмка и runtime отсутствуют",
+    "исходныйКоммит": "b294845c0f1d06708b97adc929bc047cdf63766b",
+    "коммитИнструмента": "8e26101b1bd45108407f935a3388d847d21c28c1",
+    "план": {
+      "путь": "iskhodniki/zapusk/zhurnal/план-перевода-контроллера-стоп.json",
+      "хэш": "c01ca818a716ec3a0afffc8647eaabf5856c44e997dceb5e5f42e5315a666540"
+    },
+    "патч": {
+      "путь": "iskhodniki/zapusk/zhurnal/перевод-контроллера-стоп.patch",
+      "хэш": "a69f53b225e95fdea38bde69f35a77cf4910fb003d72f08102ccda8f9a861e66"
+    },
+    "карта": {
+      "привязок": 71,
+      "позиций": 413,
+      "хэш": "78368ef4c76217995d09ecb75068fd581e35978a5679b3914e298bee8e57839c"
+    },
+    "полученныеФайлы": [
+      {
+        "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift",
+        "байт": 405,
+        "хэш": "b88f30a1b70d6b3b1fb2e849b5075ed7d77128da9fe365f8ac0efbccf3b42c64"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+        "байт": 67869,
+        "хэш": "21465f82ba6808189d42a2fc815cb6088de2c3ea5ebbec185f97608e81cc3ab8"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+        "байт": 85837,
+        "хэш": "94926347426119d5152c0e3fd758c77c37ffe7c8ad513df624389b8c4d5494b4"
+      }
+    ],
+    "проверка": {
+      "применение": "git apply --check и одно применение завершились кодом0; все3 будущих SHA совпали с полным выводом planner",
+      "хвостТестов": {
+        "исходноеСмещение": 30190,
+        "хэш": "70e728e9f8c4a7e413580e8bb42a403f3901e51fbac5cffb778f80b96ddff496",
+        "побайтноСохранён": true
+      },
+      "пакет": "Package.swift не менялся, SHA ff4f8c30644613945f54daf93f58b94acf5268bb492bb201005361b99e2bfdd5",
+      "функциональная": "Сохранённое наблюдение языкового владельца:29 тестов/4 набора на точных3 будущих Swift и том же Package. Здесь compiler/runtime повторно не запускались",
+      "граница": "Проверка точных исходников и прежняя локальная регрессия; source/build provenance прежнего объекта зависимости не аттестован полностью, чистый клон UNKNOWN"
+    },
+    "остаток": [
+      "4 новых DTO и33stored properties сохраняют текущие synthesized JSON keys; нужен отдельный адаптер или согласованная миграция",
+      "28 собственных output keys и26status literals не русифицированы; inherited wire contract не менялся",
+      "Часть собственных locals/parameters/shadow bindings, наблюдаемыйSHA256 и test current/input остаются",
+      "Исторический хвост тестов после исходного байта30190 сохранён без перевода",
+      "Полнота связей declaration/use задана авторской картой; семантический resolver отсутствует",
+      "Packed refs исправляется отдельным владельцем и в этот checkpoint не включено"
+    ],
+    "исключено": [
+      "Python и router",
+      "ROOT RAW/JSONL",
+      "Полный профиль и общий smoke",
+      "RootPackage/LinguisticKit",
+      "ROOT source acceptance/production/Native trust"
+    ],
+    "правилоИсходов": "Исключённое UNKNOWN, не GREEN; это сохранение исходников, без финальной приёмки",
+    "исполнитель": {
+      "идентификатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "наблюдаемаяМодель": "gpt-6.1-sol",
+      "наблюдаемоеУсилие": "ultra",
+      "граница": "Фактическая локальная метаинформация клиента; не аттестация провайдера. Прежний опубликованный author UNKNOWN не переписан"
+    }
   }
 }

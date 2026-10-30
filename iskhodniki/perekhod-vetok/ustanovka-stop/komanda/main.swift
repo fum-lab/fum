@@ -1,9 +1,9 @@
 import Foundation
 import Darwin
 import УстановкаStop
-let arguments = Array(CommandLine.arguments.dropFirst())
-if arguments.first == "--поддерживать-текущий" {
-    exit(await УстановщикStop.поддерживатьТекущий(Array(arguments.dropFirst())))
+let аргументы = Array(CommandLine.arguments.dropFirst())
+if аргументы.first == "--поддерживать-текущий" {
+    exit(await УстановщикStop.поддерживатьТекущий(Array(аргументы.dropFirst())))
 } else {
-    exit(УстановщикStop.команда(arguments))
+    exit(УстановщикStop.команда(аргументы))
 }

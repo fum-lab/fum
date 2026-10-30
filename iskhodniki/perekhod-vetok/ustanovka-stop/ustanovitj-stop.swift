@@ -264,23 +264,23 @@ public enum ЗамокТекущегоStop {
     /// flock не защищает от писателя, который нарушает этот протокол.
     public static func выполнить<T>(_ pin: СсылкаЗамкаStop,
         _ действие: (_ проверить: () throws -> Void) throws -> T) throws -> T {
-        let held = try УдерживаемыйЗамокStop.открыть(pin)
-        defer { held.закрыть() }
-        return try действие(held.проверить)
+        let удержанныйЗамок = try УдерживаемыйЗамокСтоп.открыть(pin)
+        defer { удержанныйЗамок.закрыть() }
+        return try действие(удержанныйЗамок.проверить)
     }
 }
-fileprivate final class УдерживаемыйЗамокStop {
+fileprivate final class УдерживаемыйЗамокСтоп {
     private var fd: Int32
     private var dir: Int32
     private let pin: СсылкаЗамкаStop
     private let name: String
-    private let parentDevice: dev_t
-    private let parentInode: ino_t
+    private let устройствоРодителя: dev_t
+    private let номерУзлаРодителя: ino_t
     private init(fd: Int32, dir: Int32, pin: СсылкаЗамкаStop, name: String, parent: Darwin.stat) {
         self.fd = fd; self.dir = dir; self.pin = pin; self.name = name
-        parentDevice = parent.st_dev; parentInode = parent.st_ino
+        устройствоРодителя = parent.st_dev; номерУзлаРодителя = parent.st_ino
     }
-    static func открыть(_ pin: СсылкаЗамкаStop) throws -> УдерживаемыйЗамокStop {
+    static func открыть(_ pin: СсылкаЗамкаStop) throws -> УдерживаемыйЗамокСтоп {
         guard pin.device > 0, pin.inode > 0 else { throw E("L0") }
         let (dir, name) = try АтомарныеБайтыStop.родитель(pin.path)
         var parent = Darwin.stat()
@@ -290,13 +290,13 @@ fileprivate final class УдерживаемыйЗамокStop {
         }
         let fd = openat(dir, name, O_RDWR | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
         guard fd >= 0 else { _ = Darwin.close(dir); throw E("L2", pin.path) }
-        let held = УдерживаемыйЗамокStop(fd: fd, dir: dir, pin: pin, name: name, parent: parent)
+        let новыйУдержанныйЗамок = УдерживаемыйЗамокСтоп(fd: fd, dir: dir, pin: pin, name: name, parent: parent)
         do {
-            try held.проверить()
+            try новыйУдержанныйЗамок.проверить()
             guard flock(fd, LOCK_EX | LOCK_NB) == 0 else { throw E("Lbusy", pin.path) }
-            try held.проверить()
-            return held
-        } catch { held.закрыть(); throw error }
+            try новыйУдержанныйЗамок.проверить()
+            return новыйУдержанныйЗамок
+        } catch { новыйУдержанныйЗамок.закрыть(); throw error }
     }
     func проверить() throws {
             guard fd >= 0, dir >= 0 else { throw E("Lclosed", pin.path) }
@@ -304,7 +304,7 @@ fileprivate final class УдерживаемыйЗамокStop {
             defer { _ = Darwin.close(again) }
             var a = Darwin.stat(), named = Darwin.stat(), p = Darwin.stat()
             guard againName == name, fstat(again, &p) == 0,
-                p.st_dev == parentDevice, p.st_ino == parentInode,
+                p.st_dev == устройствоРодителя, p.st_ino == номерУзлаРодителя,
                 p.st_mode & 0o7777 == 0o700,
                 fstat(fd, &a) == 0, fstatat(dir, name, &named, AT_SYMLINK_NOFOLLOW) == 0,
                 a.st_mode & S_IFMT == S_IFREG, a.st_mode & 0o7777 == 0o600,
@@ -882,7 +882,7 @@ private static func publicationInputs(_ path: String, _ sha: String)
   && p.current.lock.device > 0 && p.current.lock.inode > 0
   && p.candidate.path != p.current.path, "Cpub0")
  let candidate = try read(p.candidate, 0o600, p.current.maxBytes).данные
- let envelope = try boundEnvelope(candidate, h, p.header.sha256)
+ let envelope = try проверитьСвязанныйКонверт(candidate, h, p.header.sha256)
  let head: String?
  if envelope.управление.действие == "продолжать" {
   let observed = try git(h)
@@ -970,7 +970,7 @@ private static func publish(_ argv: [String]) throws -> Int32 {
 }
 public static func команда(_ args: [String]) -> Int32 {
  do {
- if args.first == "--передать-вход-издателя" { return try publishMaintainerInput(Array(args.dropFirst())) }
+ if args.first == "--передать-вход-издателя" { return try опубликоватьВходИздателя(Array(args.dropFirst())) }
  if args.first == "--опубликовать-текущий" { return try publish(Array(args.dropFirst())) }
  let (c, mode) = try load(args)
  switch mode {
@@ -996,68 +996,68 @@ subscript(safe index: Index) -> Element? { indices.contains(index) ? self[index]
 
 // Lifecycle рабочего издателя не создаёт финальную диспозицию и не продлевает
 // подтверждение содержания. ROOT выдаёт отдельную конечную аренду входа.
-final class СостояниеИздателяStop {
-    var последнийSHA256: String?
+final class СостояниеИздателяСтоп {
+    var последнийХэш: String?
     var ревизия: Int64 = 0
     var завершён = false
     var ошибка: String?
-    fileprivate var замок: УдерживаемыйЗамокStop?
-    fileprivate var requestSHA: String?
-    fileprivate var inputSHA: String?
-    fileprivate var lastClock: Int64?
-    fileprivate var startedAt: Int64?
-    fileprivate var reserved = false
-    fileprivate var tick = 0
-    fileprivate var terminal: String?
-    fileprivate var terminalSHA: String?
+    fileprivate var замок: УдерживаемыйЗамокСтоп?
+    fileprivate var хэшЗапросаИздателя: String?
+    fileprivate var хэшВходаИздателя: String?
+    fileprivate var последниеЧасы: Int64?
+    fileprivate var времяНачала: Int64?
+    fileprivate var намерениеСохранено = false
+    fileprivate var номерШага = 0
+    fileprivate var конечныйСтатус: String?
+    fileprivate var конечныйХэш: String?
 }
-struct ИтогПоддержанияStop: Sendable {
+struct ИтогПоддержанияСтоп: Sendable {
     let статус: String
     let наблюдаемыйSHA256: String?
 }
-private struct MaintainerRequest: Decodable {
+private struct ЗапросИздателяСтоп: Decodable {
     let schema, runID: String
     let header: Pin
     let current: CPin
     let singleton: СсылкаЗамкаStop
-    let input: MaintainerInputPath
+    let input: ПутьВходаИздателяСтоп
     let initialCurrentSHA256, requiredUnknownID, headPolicy: String
     let intervalSeconds, ttlSeconds, maxTicks, maxRunSeconds: Int
 }
-private struct MaintainerInputPath: Decodable {
+private struct ПутьВходаИздателяСтоп: Decodable {
     let path: String
     let mode: UInt32
     let maxBytes: Int
 }
-private struct MaintainerInput: Decodable {
+private struct ВходИздателяСтоп: Decodable {
     let schema, root, node, scope, generation, headerSHA256: String
     let revision, approvedAt, validUntil: Int64
     let action, reason: String
     let payload: Pin?
 }
-private struct MaintainerInputPublication: Decodable {
+private struct ПубликацияВходаИздателяСтоп: Decodable {
     let schema: String
     let request, candidate: Pin
     let initiallyAbsent: Bool
     let expectedSHA256: String?
 }
-private struct УсловияВходаИздателяStop: Decodable {
+private struct УсловияВходаИздателяСтоп: Decodable {
     let свояОбласть, естьПолномочия, неизвестныйОпасныйЭффект: Bool
     let естьНакопленноеПродвижение, можноБезопасноПродолжать, доступнаНезависимаяРабота: Bool
     let локальнаяИсправимаяПроблема, остановкаЗадачи, естьБезопасныйСледующийШаг: Bool
 }
 extension УстановщикStop {
-    private static func finishMaintainer(_ state: СостояниеИздателяStop, _ status: String,
-        _ sha: String? = nil) -> ИтогПоддержанияStop {
-        state.завершён = true; state.terminal = status; state.terminalSHA = sha
+    private static func завершитьИздателя(_ state: СостояниеИздателяСтоп, _ status: String,
+        _ sha: String? = nil) -> ИтогПоддержанияСтоп {
+        state.завершён = true; state.конечныйСтатус = status; state.конечныйХэш = sha
         state.замок?.закрыть(); state.замок = nil
-        return ИтогПоддержанияStop(статус: status, наблюдаемыйSHA256: sha)
+        return ИтогПоддержанияСтоп(статус: status, наблюдаемыйSHA256: sha)
     }
-    private static func maintainerRequest(_ path: String, _ sha: String) throws -> (MaintainerRequest, H) {
+    private static func прочитатьЗапросИздателя(_ path: String, _ sha: String) throws -> (ЗапросИздателяСтоп, H) {
         try need(abs(path) && hex(sha, 64), "MR0")
         let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
         try need(raw.sha256 == sha, "MR1", path)
-        let p = try dec(MaintainerRequest.self, raw.данные)
+        let p = try dec(ЗапросИздателяСтоп.self, raw.данные)
         let h = try dec(H.self, read(p.header, 0o400, 32_768).данные)
         try need(p.schema == "fum.stop-maintainer-request.1" && uuid(p.runID)
             && token(p.requiredUnknownID) && ["strict", "observe-with-unknown"].contains(p.headPolicy)
@@ -1077,7 +1077,7 @@ extension УстановщикStop {
             && (1...65_536).contains(p.input.maxBytes) && hex(p.initialCurrentSHA256, 64), "MR3")
         return (p, h)
     }
-    private static func boundEnvelope(_ bytes: Data, _ h: H, _ headerSHA: String) throws -> Envelope {
+    private static func проверитьСвязанныйКонверт(_ bytes: Data, _ h: H, _ headerSHA: String) throws -> Envelope {
         let e = try dec(Envelope.self, bytes)
         try need(e.схема == "fum.текущие-обязательства-stop.2" && e.заголовокSHA256 == headerSHA
             && e.задача == h.задача && e.узел == h.узел && e.область == h.область
@@ -1085,24 +1085,24 @@ extension УстановщикStop {
             && ["продолжать", "стоп", "пауза"].contains(e.управление.действие), "ME0")
         return e
     }
-    private static func maintainerInput(_ p: MaintainerRequest, _ h: H)
-        throws -> (MaintainerInput, СнимокБайтовStop) {
+    private static func прочитатьВходИздателя(_ p: ЗапросИздателяСтоп, _ h: H)
+        throws -> (ВходИздателяСтоп, СнимокБайтовStop) {
         let raw = try AB.прочитать(p.input.path, ожидаемыйРежим: 0o600, предел: p.input.maxBytes)
-        return (try decodeMaintainerInput(raw.данные, p, h), raw)
+        return (try декодироватьВходИздателя(raw.данные, p, h), raw)
     }
-    private static func decodeMaintainerInput(_ bytes: Data, _ p: MaintainerRequest, _ h: H) throws -> MaintainerInput {
-        let v = try dec(MaintainerInput.self, bytes)
+    private static func декодироватьВходИздателя(_ bytes: Data, _ p: ЗапросИздателяСтоп, _ h: H) throws -> ВходИздателяСтоп {
+        let v = try dec(ВходИздателяСтоп.self, bytes)
         try need(v.schema == "fum.stop-maintainer-input.1" && v.root == h.задача
             && v.node == h.узел && v.scope == h.область && v.generation == h.поколение
             && v.headerSHA256 == p.header.sha256 && v.revision >= 0 && text(v.reason)
             && ["обновлять", "остановить-издатель", "стоп", "пауза"].contains(v.action), "MI0")
         return v
     }
-    private static func maintainerPayload(_ p: MaintainerRequest, _ h: H,
-        _ v: MaintainerInput, inputSHA: String, requestSHA: String, head: String, now: Int64) throws -> Data {
+    private static func сформироватьРабочийСнимок(_ p: ЗапросИздателяСтоп, _ h: H,
+        _ v: ВходИздателяСтоп, inputSHA: String, requestSHA: String, head: String, now: Int64) throws -> Data {
         guard let pin = v.payload else { throw E("MIpayload") }
         let raw = try read(pin, 0o600, p.current.maxBytes)
-        let e = try boundEnvelope(raw.данные, h, p.header.sha256)
+        let e = try проверитьСвязанныйКонверт(raw.данные, h, p.header.sha256)
         let m = try dec(Meta.self, raw.данные)
         try need(e.управление.действие == "продолжать" && m.cwd == h.cwd && m.дерево == h.дерево
             && m.ref == h.ref && hex(m.HEAD, 40), "MIpayloadMeta")
@@ -1123,7 +1123,7 @@ extension УстановщикStop {
         else { throw E("MIworkingOnly") }
         // JSONDecoder Bool отвергает числовые 0/1, которые NSNumber может
         // неявно представить как Bool при чтении JSONSerialization.
-        let проверенныеУсловия = try dec(УсловияВходаИздателяStop.self,
+        let проверенныеУсловия = try dec(УсловияВходаИздателяСтоп.self,
             JSONSerialization.data(withJSONObject: conditions))
         try need(!проверенныеУсловия.остановкаЗадачи, "MIworkingOnly")
         var ids: Set<String> = []
@@ -1155,18 +1155,18 @@ extension УстановщикStop {
         _ = try currentBytes(bytes, AB.sha256(bytes), h, p.header.sha256, head, clock: now)
         return bytes
     }
-    private static func inputPublication(_ path: String, _ sha: String)
-        throws -> (MaintainerInputPublication, MaintainerRequest, H, СнимокБайтовStop, MaintainerInput) {
+    private static func прочитатьПубликациюВхода(_ path: String, _ sha: String)
+        throws -> (ПубликацияВходаИздателяСтоп, ЗапросИздателяСтоп, H, СнимокБайтовStop, ВходИздателяСтоп) {
         try need(abs(path) && hex(sha, 64), "MP0")
         let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
         try need(raw.sha256 == sha, "MP1")
-        let plan = try dec(MaintainerInputPublication.self, raw.данные)
+        let plan = try dec(ПубликацияВходаИздателяСтоп.self, raw.данные)
         try need(plan.schema == "fum.stop-maintainer-input-publication.1"
             && (plan.initiallyAbsent ? plan.expectedSHA256 == nil : hex(plan.expectedSHA256 ?? "", 64)), "MP2")
         _ = try read(plan.request, 0o600, 65_536)
-        let (p, h) = try maintainerRequest(plan.request.path, plan.request.sha256)
+        let (p, h) = try прочитатьЗапросИздателя(plan.request.path, plan.request.sha256)
         let candidate = try read(plan.candidate, 0o600, p.input.maxBytes)
-        let v = try decodeMaintainerInput(candidate.данные, p, h)
+        let v = try декодироватьВходИздателя(candidate.данные, p, h)
         if v.action == "обновлять" {
             let now = Int64(Date().timeIntervalSince1970)
             try need(v.revision >= 1 && v.approvedAt >= 0 && v.approvedAt <= now
@@ -1175,16 +1175,16 @@ extension УстановщикStop {
             guard let pin = v.payload else { throw E("MPpayload") }
             let payload = try read(pin, 0o600, p.current.maxBytes)
             let meta = try dec(Meta.self, payload.данные)
-            _ = try maintainerPayload(p, h, v, inputSHA: candidate.sha256,
+            _ = try сформироватьРабочийСнимок(p, h, v, inputSHA: candidate.sha256,
                 requestSHA: plan.request.sha256, head: meta.HEAD, now: now)
         }
         return (plan, p, h, candidate, v)
     }
-    private static func publishMaintainerInput(_ argv: [String]) throws -> Int32 {
+    private static func опубликоватьВходИздателя(_ argv: [String]) throws -> Int32 {
         let (path, sha, mode) = try args(argv)
-        let (_, initial, _, _, _) = try inputPublication(path, sha)
+        let (_, initial, _, _, _) = try прочитатьПубликациюВхода(path, sha)
         return try ЗамокТекущегоStop.выполнить(initial.current.lock) { check in
-            let (plan, p, _, candidate, v) = try inputPublication(path, sha)
+            let (plan, p, _, candidate, v) = try прочитатьПубликациюВхода(path, sha)
             if case .apply(let value) = mode { try need(value == candidate.sha256, "MPcandidate") }
             if plan.initiallyAbsent {
                 var s = Darwin.stat()
@@ -1192,8 +1192,8 @@ extension УстановщикStop {
             } else {
                 let old = try AB.прочитать(p.input.path, ожидаемыйРежим: 0o600, предел: p.input.maxBytes)
                 try need(old.sha256 == plan.expectedSHA256, "MPold")
-                let oldVersion = try dec(MaintainerInput.self, old.данные)
-                try need(v.revision > oldVersion.revision, "MPrev")
+                let прежняяРевизияВхода = try dec(ВходИздателяСтоп.self, old.данные)
+                try need(v.revision > прежняяРевизияВхода.revision, "MPrev")
             }
             var common: [String: Any] = ["operation": "publish-maintainer-input", "planSHA256": sha,
                 "requestSHA256": plan.request.sha256, "candidateSHA256": candidate.sha256,
@@ -1203,17 +1203,17 @@ extension УстановщикStop {
                 common["status"] = "METADATA_CHECKED"; common["writes"] = 0; emit(common); return 0
             }
             // Обычный busy уже обработан до резервирования стабильного намерения.
-            let paths = try receiptPaths(config: p.input.path,
+            let путиКвитанцийИздателя = try receiptPaths(config: p.input.path,
                 oldSHA: plan.expectedSHA256 ?? AB.sha256(Data("ABSENT".utf8)),
                 candidateSHA: candidate.sha256, publication: true)
-            common["intentReceipt"] = paths.intent; common["outcomeReceipt"] = paths.outcome
+            common["intentReceipt"] = путиКвитанцийИздателя.intent; common["outcomeReceipt"] = путиКвитанцийИздателя.outcome
             var intent = common; intent["status"] = "INTENT"
-            try receipt(paths.intent, intent)
+            try receipt(путиКвитанцийИздателя.intent, intent)
             var code: Int32 = 2
             do {
                 let result = try withoutActuallyEscaping(check) { verify in
                     var points = ТочкиАтомарнойЗаменыStop()
-                    points.передRename = { try verify(); _ = try inputPublication(path, sha) }
+                    points.передRename = { try verify(); _ = try прочитатьПубликациюВхода(path, sha) }
                     return try AB.записать(p.input.path, ожидаемыйSHA256: plan.expectedSHA256,
                         новыми: candidate.данные, точки: points)
                 }
@@ -1226,60 +1226,60 @@ extension УстановщикStop {
                 common["error"] = e.причина; code = unknown ? 4 : 2
                 if let seen = e.наблюдаемыйSHA256 { common["observedInputSHA256"] = seen }
             } catch { common["status"] = "UNKNOWN"; common["error"] = String(describing: error); code = 4 }
-            do { try receipt(paths.outcome, common) } catch {
+            do { try receipt(путиКвитанцийИздателя.outcome, common) } catch {
                 common["status"] = "UNKNOWN"; common["receiptError"] = String(describing: error); code = 5
             }
             emit(common); return code
         }
     }
     static func шагПоддержания(_ путь: String, хэш: String,
-        состояние: СостояниеИздателяStop, сейчас: Int64,
+        состояние: СостояниеИздателяСтоп, сейчас: Int64,
         точки: ТочкиАтомарнойЗаменыStop = ТочкиАтомарнойЗаменыStop(),
-        часыПередRename: @escaping () throws -> Int64 = { Int64(Date().timeIntervalSince1970) }) throws -> ИтогПоддержанияStop {
+        часыПередRename: @escaping () throws -> Int64 = { Int64(Date().timeIntervalSince1970) }) throws -> ИтогПоддержанияСтоп {
         let state = состояние
-        if state.завершён { return ИтогПоддержанияStop(статус: state.terminal ?? "STOPPED", наблюдаемыйSHA256: state.terminalSHA) }
+        if state.завершён { return ИтогПоддержанияСтоп(статус: state.конечныйСтатус ?? "STOPPED", наблюдаемыйSHA256: state.конечныйХэш) }
         do {
-            let (p, h) = try maintainerRequest(путь, хэш)
+            let (p, h) = try прочитатьЗапросИздателя(путь, хэш)
             try need(сейчас >= 0 && сейчас <= Int64.max - 86_400, "Mclock")
-            if let requestSHA = state.requestSHA, requestSHA != хэш { return finishMaintainer(state, "REQUEST_CHANGED") }
+            if let requestSHA = state.хэшЗапросаИздателя, requestSHA != хэш { return завершитьИздателя(state, "REQUEST_CHANGED") }
             if state.замок == nil {
-                do { state.замок = try УдерживаемыйЗамокStop.открыть(p.singleton) }
-                catch let e as E where e.description.hasPrefix("Lbusy:") { return finishMaintainer(state, "SINGLETON_BUSY") }
+                do { state.замок = try УдерживаемыйЗамокСтоп.открыть(p.singleton) }
+                catch let e as E where e.description.hasPrefix("Lbusy:") { return завершитьИздателя(state, "SINGLETON_BUSY") }
             }
-            state.requestSHA = хэш
-            if state.startedAt == nil { state.startedAt = сейчас }
+            state.хэшЗапросаИздателя = хэш
+            if state.времяНачала == nil { state.времяНачала = сейчас }
             return try ЗамокТекущегоStop.выполнить(p.current.lock) { checkLock in
-                try state.замок?.проверить(); _ = try maintainerRequest(путь, хэш)
+                try state.замок?.проверить(); _ = try прочитатьЗапросИздателя(путь, хэш)
                 let old = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
-                let oldEnvelope = try boundEnvelope(old.данные, h, p.header.sha256)
-                if oldEnvelope.управление.действие != "продолжать" { return finishMaintainer(state, "ROOT_CONTROL", old.sha256) }
-                let stem = try parent(p.current.path) + "/.fum-stop-maintainer-" + хэш
-                let attempt = stem + ".attempt.json"
-                if !state.reserved {
+                let прежнийКонверт = try проверитьСвязанныйКонверт(old.данные, h, p.header.sha256)
+                if прежнийКонверт.управление.действие != "продолжать" { return завершитьИздателя(state, "ROOT_CONTROL", old.sha256) }
+                let основаПопыткиИздателя = try parent(p.current.path) + "/.fum-stop-maintainer-" + хэш
+                let путьПопыткиИздателя = основаПопыткиИздателя + ".attempt.json"
+                if !state.намерениеСохранено {
                     var s = Darwin.stat()
-                    if lstat(attempt, &s) == 0 { return finishMaintainer(state, "RECOVERY_REQUIRED", old.sha256) }
+                    if lstat(путьПопыткиИздателя, &s) == 0 { return завершитьИздателя(state, "RECOVERY_REQUIRED", old.sha256) }
                     try need(errno == ENOENT, "Mattempt")
                 }
-                if old.sha256 != (state.последнийSHA256 ?? p.initialCurrentSHA256) {
-                    return finishMaintainer(state, "MANUAL_TAKEOVER", old.sha256)
+                if old.sha256 != (state.последнийХэш ?? p.initialCurrentSHA256) {
+                    return завершитьИздателя(state, "MANUAL_TAKEOVER", old.sha256)
                 }
-                let (input, inputRaw) = try maintainerInput(p, h)
-                if input.action == "остановить-издатель" { return finishMaintainer(state, "SERVICE_STOPPED", old.sha256) }
+                let (input, inputRaw) = try прочитатьВходИздателя(p, h)
+                if input.action == "остановить-издатель" { return завершитьИздателя(state, "SERVICE_STOPPED", old.sha256) }
                 if input.action == "обновлять" {
-                    if let prior = state.lastClock, сейчас < prior { return finishMaintainer(state, "CLOCK_REGRESSION", old.sha256) }
-                    if input.revision < state.ревизия { return finishMaintainer(state, "INPUT_REVISION_ROLLBACK", old.sha256) }
-                    if let prior = state.inputSHA, input.revision == state.ревизия && prior != inputRaw.sha256 {
-                        return finishMaintainer(state, "INPUT_REVISION_REUSED", old.sha256)
+                    if let prior = state.последниеЧасы, сейчас < prior { return завершитьИздателя(state, "CLOCK_REGRESSION", old.sha256) }
+                    if input.revision < state.ревизия { return завершитьИздателя(state, "INPUT_REVISION_ROLLBACK", old.sha256) }
+                    if let prior = state.хэшВходаИздателя, input.revision == state.ревизия && prior != inputRaw.sha256 {
+                        return завершитьИздателя(state, "INPUT_REVISION_REUSED", old.sha256)
                     }
                     try need(input.revision >= 1 && input.approvedAt >= 0 && input.approvedAt <= сейчас
                         && input.approvedAt <= Int64.max - 86_400
                         && input.validUntil >= input.approvedAt && input.validUntil - input.approvedAt <= 86_400, "MIlease")
-                    if input.validUntil <= сейчас { return finishMaintainer(state, "SOURCE_EXPIRED", old.sha256) }
-                    if state.tick >= p.maxTicks || сейчас - (state.startedAt ?? сейчас) >= Int64(p.maxRunSeconds) {
-                        return finishMaintainer(state, "RUN_LIMIT", old.sha256)
+                    if input.validUntil <= сейчас { return завершитьИздателя(state, "SOURCE_EXPIRED", old.sha256) }
+                    if state.номерШага >= p.maxTicks || сейчас - (state.времяНачала ?? сейчас) >= Int64(p.maxRunSeconds) {
+                        return завершитьИздателя(state, "RUN_LIMIT", old.sha256)
                     }
                 }
-                state.lastClock = сейчас
+                state.последниеЧасы = сейчас
                 let candidate: Data
                 var observedHead: String?
                 if ["стоп", "пауза"].contains(input.action) {
@@ -1294,39 +1294,39 @@ extension УстановщикStop {
                     if p.headPolicy == "strict", let pin = input.payload {
                         let raw = try read(pin, 0o600, p.current.maxBytes)
                         let meta = try dec(Meta.self, raw.данные)
-                        if head != meta.HEAD { return finishMaintainer(state, "HEAD_CHANGED", old.sha256) }
+                        if head != meta.HEAD { return завершитьИздателя(state, "HEAD_CHANGED", old.sha256) }
                     }
-                    candidate = try maintainerPayload(p, h, input, inputSHA: inputRaw.sha256,
+                    candidate = try сформироватьРабочийСнимок(p, h, input, inputSHA: inputRaw.sha256,
                         requestSHA: хэш, head: head, now: сейчас)
                 }
                 if candidate == old.данные {
-                    state.ревизия = input.revision; state.inputSHA = inputRaw.sha256
-                    state.последнийSHA256 = old.sha256
-                    return ИтогПоддержанияStop(статус: "NO_CHANGE", наблюдаемыйSHA256: old.sha256)
+                    state.ревизия = input.revision; state.хэшВходаИздателя = inputRaw.sha256
+                    state.последнийХэш = old.sha256
+                    return ИтогПоддержанияСтоп(статус: "NO_CHANGE", наблюдаемыйSHA256: old.sha256)
                 }
-                if !state.reserved {
-                    try receipt(attempt, ["schema": "fum.stop-maintainer-attempt.1", "requestSHA256": хэш,
+                if !state.намерениеСохранено {
+                    try receipt(путьПопыткиИздателя, ["schema": "fum.stop-maintainer-attempt.1", "requestSHA256": хэш,
                         "runID": p.runID, "root": h.задача, "inputSHA256": inputRaw.sha256,
                         "expectedCurrentSHA256": old.sha256, "status": "INTENT", "automaticRetry": false])
-                    state.reserved = true
+                    state.намерениеСохранено = true
                 }
-                state.tick += 1
-                let tickStem = stem + ".tick-" + String(format: "%08d", state.tick)
-                let intentPath = tickStem + ".intent.json", outcomePath = tickStem + ".outcome.json"
+                state.номерШага += 1
+                let основаКвитанцииШага = основаПопыткиИздателя + ".tick-" + String(format: "%08d", state.номерШага)
+                let путьНамеренияШага = основаКвитанцииШага + ".intent.json", outcomePath = основаКвитанцииШага + ".outcome.json"
                 var outcome: [String: Any] = ["requestSHA256": хэш, "inputSHA256": inputRaw.sha256,
-                    "revision": input.revision, "tick": state.tick, "expectedCurrentSHA256": old.sha256,
+                    "revision": input.revision, "tick": state.номерШага, "expectedCurrentSHA256": old.sha256,
                     "candidateSHA256": AB.sha256(candidate), "automaticRetry": false, "automaticRollback": false]
                 var intent = outcome; intent["status"] = "INTENT"
-                try receipt(intentPath, intent)
+                try receipt(путьНамеренияШага, intent)
                 var observed: String?, status = "FAILED", terminal = false
                 do {
                     let result = try withoutActuallyEscaping(checkLock) { verify in
                         var points = точки
-                        let caller = points.передRename
+                        let проверкаВызывающего = points.передRename
                         points.передRename = {
-                            try caller?(); try verify(); try state.замок?.проверить()
-                            _ = try maintainerRequest(путь, хэш)
-                            let (_, latestInput) = try maintainerInput(p, h)
+                            try проверкаВызывающего?(); try verify(); try state.замок?.проверить()
+                            _ = try прочитатьЗапросИздателя(путь, хэш)
+                            let (_, latestInput) = try прочитатьВходИздателя(p, h)
                             try need(latestInput.sha256 == inputRaw.sha256, "MIchanged")
                             let latestCurrent = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
                             try need(latestCurrent.sha256 == old.sha256, "MCchanged")
@@ -1365,65 +1365,65 @@ extension УстановщикStop {
                 outcome["status"] = status
                 if let observed { outcome["observedCurrentSHA256"] = observed }
                 do { try receipt(outcomePath, outcome) } catch {
-                    return finishMaintainer(state, "UNKNOWN", observed)
+                    return завершитьИздателя(state, "UNKNOWN", observed)
                 }
-                if terminal { return finishMaintainer(state, status, observed) }
+                if terminal { return завершитьИздателя(state, status, observed) }
                 if status == "HEAD_RECHECK" {
-                    return ИтогПоддержанияStop(статус: status, наблюдаемыйSHA256: old.sha256)
+                    return ИтогПоддержанияСтоп(статус: status, наблюдаемыйSHA256: old.sha256)
                 }
-                state.последнийSHA256 = observed; state.ревизия = input.revision; state.inputSHA = inputRaw.sha256
-                if ["стоп", "пауза"].contains(input.action) { return finishMaintainer(state, "ROOT_CONTROL_PUBLISHED", observed) }
-                return ИтогПоддержанияStop(статус: "UPDATED", наблюдаемыйSHA256: observed)
+                state.последнийХэш = observed; state.ревизия = input.revision; state.хэшВходаИздателя = inputRaw.sha256
+                if ["стоп", "пауза"].contains(input.action) { return завершитьИздателя(state, "ROOT_CONTROL_PUBLISHED", observed) }
+                return ИтогПоддержанияСтоп(статус: "UPDATED", наблюдаемыйSHA256: observed)
             }
         } catch let e as E where e.description.hasPrefix("Lbusy:") {
-            return ИтогПоддержанияStop(статус: "CURRENT_BUSY", наблюдаемыйSHA256: state.последнийSHA256)
+            return ИтогПоддержанияСтоп(статус: "CURRENT_BUSY", наблюдаемыйSHA256: state.последнийХэш)
         } catch {
             state.ошибка = String(describing: error)
-            return finishMaintainer(state, "FAILED", state.последнийSHA256)
+            return завершитьИздателя(state, "FAILED", state.последнийХэш)
         }
     }
     public static func поддерживатьТекущий(_ аргументы: [String]) async -> Int32 {
-        let state = СостояниеИздателяStop()
+        let state = СостояниеИздателяСтоп()
         do {
             try need(аргументы.count == 4 && аргументы[0] == "--план"
                 && аргументы[2] == "--хэш-плана", "MA0")
             let path = аргументы[1], sha = аргументы[3]
-            let (p, _) = try maintainerRequest(path, sha)
+            let (p, _) = try прочитатьЗапросИздателя(path, sha)
             let clock = ContinuousClock(), began = clock.now
             var busySince: ContinuousClock.Instant?
             emit(["status": "STARTING", "requestSHA256": sha,
                 "authorityChecked": false, "worklistCompleteness": "UNKNOWN"])
             while !state.завершён {
-                if Task.isCancelled { _ = finishMaintainer(state, "SERVICE_CANCELLED", state.последнийSHA256); break }
+                if Task.isCancelled { _ = завершитьИздателя(state, "SERVICE_CANCELLED", state.последнийХэш); break }
                 if began.duration(to: clock.now).components.seconds >= Int64(p.maxRunSeconds) {
-                    _ = finishMaintainer(state, "RUN_LIMIT", state.последнийSHA256); break
+                    _ = завершитьИздателя(state, "RUN_LIMIT", state.последнийХэш); break
                 }
                 let now = Int64(Date().timeIntervalSince1970)
                 let result = try шагПоддержания(path, хэш: sha, состояние: state, сейчас: now)
                 if result.статус == "CURRENT_BUSY" {
                     if busySince == nil { busySince = clock.now }
                     if let busySince, busySince.duration(to: clock.now).components.seconds >= Int64(min(5, p.intervalSeconds)) {
-                        _ = finishMaintainer(state, "CURRENT_BUSY_TIMEOUT", state.последнийSHA256); break
+                        _ = завершитьИздателя(state, "CURRENT_BUSY_TIMEOUT", state.последнийХэш); break
                     }
                     try await Task.sleep(for: .milliseconds(100))
                     continue
                 }
                 busySince = nil
-                if state.tick >= p.maxTicks, !state.завершён {
-                    _ = finishMaintainer(state, "RUN_LIMIT", state.последнийSHA256)
+                if state.номерШага >= p.maxTicks, !state.завершён {
+                    _ = завершитьИздателя(state, "RUN_LIMIT", state.последнийХэш)
                 }
                 if !state.завершён { try await Task.sleep(for: .seconds(p.intervalSeconds)) }
             }
-            var outcome: [String: Any] = ["status": state.terminal ?? "STOPPED", "requestSHA256": sha,
-                "ticks": state.tick, "revision": state.ревизия, "automaticRetry": false,
+            var outcome: [String: Any] = ["status": state.конечныйСтатус ?? "STOPPED", "requestSHA256": sha,
+                "ticks": state.номерШага, "revision": state.ревизия, "automaticRetry": false,
                 "worklistCompleteness": "UNKNOWN", "sourceLeaseRenewedByTimer": false]
-            if let seen = state.terminalSHA ?? state.последнийSHA256 { outcome["observedCurrentSHA256"] = seen }
+            if let seen = state.конечныйХэш ?? state.последнийХэш { outcome["observedCurrentSHA256"] = seen }
             if let error = state.ошибка { outcome["error"] = error }
             emit(outcome)
             return ["SERVICE_STOPPED", "SERVICE_CANCELLED", "ROOT_CONTROL", "ROOT_CONTROL_PUBLISHED",
-                "MANUAL_TAKEOVER", "RUN_LIMIT"].contains(state.terminal ?? "") ? 0 : 3
+                "MANUAL_TAKEOVER", "RUN_LIMIT"].contains(state.конечныйСтатус ?? "") ? 0 : 3
         } catch {
-            _ = finishMaintainer(state, "UNKNOWN", state.последнийSHA256)
+            _ = завершитьИздателя(state, "UNKNOWN", state.последнийХэш)
             emit(["status": "UNKNOWN", "error": String(describing: error), "automaticRetry": false])
             return 4
         }
