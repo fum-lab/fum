@@ -47,6 +47,7 @@ struct ПодготовленныйКонтекстПриёмаROOT {
     let хэш: String
     let среда: СредаПриёмаROOT
     let окружение: [String: String]
+    let кандидатЗапуска: КандидатПодготовкиЗапускаКодекс
     let native: () -> String
     let stop: () -> Bool
     let revoked: () -> Bool
@@ -93,10 +94,32 @@ struct ПодготовленныйКонтекстПриёмаROOT {
             try требоватьПриём(try физическийПутьПриёмаROOT(dir.path) == dir.path && dir.path != p.W && !dir.path.hasPrefix(p.W + "/") &&
                 perms != nil && perms!.intValue & 0o077 == 0, "private-directory")
         }
-        var isolated = АдаптерВыполненияКомандGit.окружениеИзолированногоGit()
-        // Вход не переопределяет PATH/GIT_*; FUMA/runtime параметры выбирает host.
-        for (k,v) in env.переменные where k.hasPrefix("KOORDINACIYA_FUMA_") || k == "FUM_RUNTIME_ROOT" || k == "FUM_MEMORY_ROOT" { isolated[k] = v }
-        return Self(поручение: p, хэш: expected, среда: env, окружение: isolated, native: native, stop: stop, revoked: revoked)
+        let разрешённыеВходы = Set(keys + ["FUM_RUNTIME_ROOT", "FUM_MEMORY_ROOT",
+            "FUM_COMMIT_PREPARATION", "FUM_COMMIT_PREPARATION_SHA256"])
+        try требоватьПриём(Set(env.переменные.keys).isSubset(of: разрешённыеВходы), "unknown-runtime-input")
+        guard let selector = env.переменные["FUM_COMMIT_PREPARATION"],
+              let selectorSHA = env.переменные["FUM_COMMIT_PREPARATION_SHA256"] else {
+            throw ОшибкаПриёмаROOT.отказ("missing-commit-preparation")
+        }
+        let кандидат: КандидатПодготовкиЗапускаКодекс
+        do { кандидат = try ЧитательПодготовкиЗапускаКодекс.загрузить(селектор: selector, sha256: selectorSHA) }
+        catch { throw ОшибкаПриёмаROOT.отказ("invalid-commit-preparation") }
+        let k = кандидат.ожидаемыйКонтекст, r = кандидат.средаГенератора
+        try требоватьПриём(k.идентификаторКорневойЗадачи == p.ROOT &&
+            k.идентификаторЭтапа.utf8.elementsEqual(p.писатель.utf8) &&
+            k.физическийКорень.utf8.elementsEqual(p.W.utf8) && k.полныйRef == p.ref &&
+            k.исходныйOID == p.L && k.деревоКоммита == p.дерево && k.родители == [p.L, p.M], "preparation-host-context")
+        try требоватьПриём(r.исполняемыйФайлМетаданных.путь == env.metadataCLI &&
+            r.состояниеМетаданных.путь == env.metadataState, "preparation-metadata-input")
+        for key in keys + ["FUM_RUNTIME_ROOT", "FUM_MEMORY_ROOT"] {
+            try требоватьПриём(env.переменные[key] == кандидат.окружениеМетаданных[key], "preparation-runtime-input")
+        }
+        for pin in кандидат.закреплённыеФайлы {
+            try требоватьПриём(p.pins.contains { $0.путь.utf8.elementsEqual(pin.путь.utf8) && $0.sha256 == pin.хэш }, "preparation-unadmitted-pin")
+        }
+        return Self(поручение: p, хэш: expected, среда: env,
+            окружение: кандидат.окружениеМетаданных, кандидатЗапуска: кандидат,
+            native: native, stop: stop, revoked: revoked)
     }
 }
 struct ПроцессПриёмаROOT: Codable {
@@ -129,8 +152,32 @@ final class ПрограммаПриёмаROOT {
     var послеMerge: (() -> Void)? = nil
     #endif
 
-    init(_ context: ПодготовленныйКонтекстПриёмаROOT, операции: ФайловыеОперации = .системные) throws {
+    private let наблюденияФикстуры: ((String, [String]) throws -> (Int32, Data)?)?
+    private let шагФикстуры: ((String) throws -> (String, String))?
+
+    convenience init(_ context: ПодготовленныйКонтекстПриёмаROOT, операции: ФайловыеОперации = .системные) throws {
+        try self.init(context, операции: операции, наблюденияФикстуры: nil, шагФикстуры: nil)
+    }
+    #if TESTING
+    convenience init(_ context: ПодготовленныйКонтекстПриёмаROOT,
+        наблюденияФикстуры: @escaping (String, [String]) throws -> (Int32, Data)?,
+        шагФикстуры: @escaping (String) throws -> (String, String)) throws {
+        try self.init(context, операции: .системные, наблюденияФикстуры: наблюденияФикстуры, шагФикстуры: шагФикстуры)
+    }
+    func сохранитьНамерениеMergeДляФикстуры() throws {
+        try сохранить("intent", "prepare", "exact")
+        try сохранить("outcome", "prepare", "exact")
+        try сохранить("intent", "exact", "merge")
+        try сохранить("outcome", "exact", "merge")
+        try сохранить("intent", "merge", "raw")
+    }
+    #endif
+    private init(_ context: ПодготовленныйКонтекстПриёмаROOT, операции: ФайловыеОперации,
+        наблюденияФикстуры: ((String, [String]) throws -> (Int32, Data)?)?,
+        шагФикстуры: ((String) throws -> (String, String))?) throws {
         c = context
+        self.наблюденияФикстуры = наблюденияФикстуры
+        self.шагФикстуры = шагФикстуры
         segment = try Сегмент(кореньДанных: c.среда.segment, запись: true, операции: операции)
         do {
             try проверитьPins()
@@ -162,12 +209,20 @@ final class ПрограммаПриёмаROOT {
         try требоватьПриём(!закрыт && записи.count < 128, "closed-or-budget")
         let e = ЗаписьПриёмаROOT(context: c.хэш, номер: записи.count, предыдущая: хвост, вид: kind, стадия: stage, следующая: next, commit: commit)
         do {
-            let r = try segment.добавить(ОписаниеНаблюдения(идентификатор: c.поручение.идентификатор + "-" + String(записи.count), тип: "root-acceptance", источник: "FUMA", спецификация: Data(c.хэш.utf8)), данные: байтыПриёмаROOT(e))
+            #if TESTING
+            let источникЗаписи = шагФикстуры == nil ? "FUMA" : "synthetic-policy-fixture"
+            #else
+            let источникЗаписи = "FUMA"
+            #endif
+            let r = try segment.добавить(ОписаниеНаблюдения(идентификатор: c.поручение.идентификатор + "-" + String(записи.count), тип: "root-acceptance", источник: источникЗаписи, спецификация: Data(c.хэш.utf8)), данные: байтыПриёмаROOT(e))
             записи.append(e); хвост = r.хэш
             if kind == "intent" { pending = e } else { pending = nil; фаза = next }
         } catch { закрыть(); throw ОшибкаПриёмаROOT.неизвестно("Segment append; close/reopen/readback") }
     }
-    private func процесс(_ executable: String, _ args: [String], input: Data? = nil, author: [String: String] = [:]) throws -> (Int32, Data) {
+    private func процесс(_ executable: String, _ args: [String], input: Data? = nil, полноеОкружение: [String: String]? = nil) throws -> (Int32, Data) {
+        #if TESTING
+        if let result = try наблюденияФикстуры?(executable, args) { return result }
+        #endif
         let dir = c.среда.logs.appendingPathComponent(UUID().uuidString.lowercased())
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
         let out = dir.appendingPathComponent("stdout"), err = dir.appendingPathComponent("stderr")
@@ -177,7 +232,7 @@ final class ПрограммаПриёмаROOT {
         let oh = try FileHandle(forWritingTo: out), eh = try FileHandle(forWritingTo: err)
         defer { try? oh.close(); try? eh.close() }
         let p = Process(); p.executableURL = URL(fileURLWithPath: executable); p.arguments = args
-        p.currentDirectoryURL = URL(fileURLWithPath: c.поручение.W); p.environment = c.окружение.merging(author) { _, b in b }
+        p.currentDirectoryURL = URL(fileURLWithPath: c.поручение.W); p.environment = полноеОкружение ?? (executable == "/usr/bin/git" ? c.кандидатЗапуска.окружениеGit : c.окружение)
         p.standardOutput = oh; p.standardError = eh
         let pipe = Pipe(); p.standardInput = pipe
         var launched = false
@@ -193,13 +248,14 @@ final class ПрограммаПриёмаROOT {
         try байтыПриёмаROOT(r).write(to: dir.appendingPathComponent("process.json"), options: .withoutOverwriting)
         return (p.terminationStatus, bytes)
     }
-    private func git(_ args: [String], input: Data? = nil, author: [String: String] = [:]) throws -> Data {
-        let r = try процесс("/usr/bin/git", ["-c", "core.fsmonitor=false", "-C", c.поручение.W] + args, input: input, author: author)
+    private func git(_ args: [String], input: Data? = nil) throws -> Data {
+        let r = try процесс("/usr/bin/git", ["-c", "core.fsmonitor=false", "-C", c.поручение.W] + args, input: input)
         try требоватьПриём(r.0 == 0, "git-exit-" + String(r.0)); return r.1
     }
     private func строка(_ args: [String]) throws -> String { String(decoding: try git(args), as: UTF8.self).trimmingCharacters(in: .newlines) }
     private func проверитьPins() throws {
         try требоватьПриём(c.native() == c.поручение.писатель, "custody-changed")
+        try ЧитательПодготовкиЗапускаКодекс.сверитьПины(c.кандидатЗапуска)
         for p in c.поручение.pins { try требоватьПриём(хэшПриёмаROOT(try Data(contentsOf: URL(fileURLWithPath: p.путь))) == p.sha256, "pin-changed") }
         try требоватьПриём(try строка(["rev-parse", "--show-toplevel"]) == c.поручение.W && строка(["symbolic-ref", "HEAD"]) == c.поручение.ref, "W-ref-changed")
         try требоватьПриём(try строка(["remote", "get-url", "origin"]) == c.поручение.origin, "fetch-origin-changed")
@@ -219,7 +275,7 @@ final class ПрограммаПриёмаROOT {
         try требоватьПриём(!c.stop() && !c.revoked(), "STOP-or-revoked")
         try требоватьПриём(try строка(["rev-parse", "HEAD"]) == head, "exact-HEAD")
         if merged {
-            try требоватьПриём(try строка(["rev-parse", "MERGE_HEAD"]) == c.поручение.M && строка(["write-tree"]) == c.поручение.дерево, "commit-index")
+            try требоватьПриём(try строка(["rev-parse", "MERGE_HEAD"]) == c.поручение.M && git(["diff", "--cached", "--quiet", "--no-ext-diff", "--no-textconv", c.поручение.дерево, "--"]).isEmpty, "commit-index")
         } else { try требоватьПриём(try git(["status", "--porcelain=v1", "-z"]).isEmpty, "dirty-before-effect") }
     }
     private func известныйCommit() throws -> String {
@@ -246,6 +302,12 @@ final class ПрограммаПриёмаROOT {
     }
     private func шаг(стадия: String? = nil, исторический: Bool = false) throws -> ШагПриёмаROOT {
         let stage = стадия ?? фаза
+        #if TESTING
+        if let шагФикстуры {
+            let transition = try шагФикстуры(stage)
+            return ШагПриёмаROOT(схема: "fum.root-acceptance-step.1", действие: transition.0, следующая: transition.1)
+        }
+        #endif
         let input: [String: Any] = ["стадия": stage, "STOP": исторический ? false : c.stop(), "отозвано": исторический ? false : c.revoked()]
         let bytes = try JSONSerialization.data(withJSONObject: input, options: [.sortedKeys])
         let file = c.среда.logs.appendingPathComponent(UUID().uuidString + ".json")
@@ -263,7 +325,8 @@ final class ПрограммаПриёмаROOT {
     }
     private func метаданные() throws -> [String: Any] {
         if let metadata { return metadata }
-        let r = try процесс(c.среда.metadataCLI, ["--сгенерировать-метаданные-коммита", c.среда.metadataState])
+        let command = c.кандидатЗапуска.командаМетаданных
+        let r = try процесс(command.исполняемыйФайл, command.аргументы, полноеОкружение: command.окружение)
         let obj = try JSONSerialization.jsonObject(with: r.1) as? [String: Any]
         try требоватьПриём(r.0 == 0 && obj?["готово"] as? Bool == true && obj?["метаданные"] is [String: Any], "metadata-prepare")
         let typed = try JSONDecoder().decode(РезультатГенерацииМетаданныхКоммита.self, from: JSONSerialization.data(withJSONObject: obj!["метаданные"]!))
@@ -271,18 +334,20 @@ final class ПрограммаПриёмаROOT {
         metadata = obj!; return obj!
     }
     private func raw(_ oid: String) throws {
-        let expected: [String: Any] = ["schema": "fum.raw-merge-commit-expectation.1", "expectedParents": [c.поручение.L, c.поручение.M], "expectedTree": c.поручение.дерево]
-        var value = expected
         #if TESTING
-        if failpoint == .raw { value["expectedTree"] = String(repeating: "0", count: 40) }
+        if failpoint == .raw { throw ОшибкаПриёмаROOT.отказ("injected-full-raw") }
         #endif
-        let file = c.среда.logs.appendingPathComponent(UUID().uuidString + ".json")
-        try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]).write(to: file, options: .withoutOverwriting)
         let bytes = try git(["cat-file", "commit", oid])
-        let hashed = String(decoding: try git(["hash-object", "-t", "commit", "--stdin"], input: bytes), as: UTF8.self).trimmingCharacters(in: .newlines)
-        try требоватьПриём(hashed == oid, "raw-OID")
-        let r = try процесс(c.среда.metadataCLI, ["--проверить-сырой-merge-коммит", c.среда.metadataState, file.path], input: bytes)
-        try требоватьПриём(r.0 == 0, "raw-FAIL")
+        let receipt = try ПолнаяПроверкаСырогоКоммитаКодекс.проверить(
+            байты: bytes, наблюдаемыйOID: oid, ожидание: c.кандидатЗапуска.ожиданиеСырогоКоммита)
+        let expected = c.кандидатЗапуска.ожидаемыйКонтекст
+        let proof: [String: Any] = ["schema": "fum.full-commit-readback.1",
+            "checkedOID": oid, "rawSHA256": хэшПриёмаROOT(bytes),
+            "expectedContext": try JSONSerialization.jsonObject(with: байтыПриёмаROOT(expected)),
+            "authorBodyReceipt": try JSONSerialization.jsonObject(with: байтыПриёмаROOT(receipt)),
+            "checker": "ПолнаяПроверкаСырогоКоммитаКодекс", "modelAuthenticated": false]
+        let file = c.среда.logs.appendingPathComponent(UUID().uuidString + ".full-readback.json")
+        try JSONSerialization.data(withJSONObject: proof, options: [.sortedKeys]).write(to: file, options: .withoutOverwriting)
     }
     private func remote() throws -> String {
         let rows = try строка(["ls-remote", "--exit-code", "--refs", "origin", c.поручение.ref]).split(separator: "\n")
@@ -319,6 +384,7 @@ final class ПрограммаПриёмаROOT {
         #if TESTING
         if failpoint == .intent { закрыть(); throw ОшибкаПриёмаROOT.неизвестно("simulated intent acknowledgement loss") }
         #endif
+        var изменяющийЗапускНачат = false
         do {
             switch s.действие {
             case "prepare": _ = try метаданные()
@@ -331,19 +397,22 @@ final class ПрограммаПриёмаROOT {
                 try требоватьПриём(try строка(["rev-parse", "HEAD"]) == c.поручение.L && git(["status", "--porcelain=v1", "-z"]).isEmpty, "merge-custody")
                 let m = try метаданные(), meta = m["метаданные"] as! [String: Any]
                 let message = Data((meta["сообщение"] as! String).utf8)
-                let file = c.среда.logs.appendingPathComponent(UUID().uuidString + ".message")
-                let checked = try ПотребительБайтСообщенияFUMA.подготовить(фактическиеБайтыFUMA: message, вФайл: file)
+                try требоватьПриём(message == Data(c.кандидатЗапуска.ожиданиеСырогоКоммита.путь.телоСообщенияДляПроверкиСырогоКоммита.utf8), "prepared-message-source")
                 try передЭффектом(c.поручение.L)
+                изменяющийЗапускНачат = true
                 _ = try git(["-c", "submodule.recurse=false", "merge", "--no-commit", "--no-ff", c.поручение.M])
                 #if TESTING
                 послеMerge?()
                 #endif
-                try требоватьПриём(try строка(["rev-parse", "MERGE_HEAD"]) == c.поручение.M && строка(["write-tree"]) == c.поручение.дерево, "merge-index")
-                _ = try ПотребительБайтСообщенияFUMA.выполнитьПередGitЭффектом(исходныеБайтыFUMA: message, подготовленныеБайты: checked) {
-                    try передЭффектом(c.поручение.L, merged: true)
-                    try требоватьПриём(try Data(contentsOf: file) == message, "message-file-changed")
-                    return try git(["commit", "--no-gpg-sign", "--cleanup=verbatim", "-F", file.path], author: m["переменныеОкруженияКИзменению"] as! [String: String])
-                }
+                try требоватьПриём(try строка(["rev-parse", "MERGE_HEAD"]) == c.поручение.M && git(["diff", "--cached", "--quiet", "--no-ext-diff", "--no-textconv", c.поручение.дерево, "--"]).isEmpty, "merge-index")
+                let observed = try НаблюдательКонтекстаПодготовкиКодекс.прочитать(c.кандидатЗапуска, доверенныйROOT: c.поручение.ROOT, доверенныйЭтап: c.поручение.писатель) { try git($0) }
+                let launch = try ФабрикаПодтверждённогоЗапускаКодекс.подтвердить(c.кандидатЗапуска, наблюдённыйКонтекст: observed)
+                try передЭффектом(c.поручение.L, merged: true)
+                try ЧитательПодготовкиЗапускаКодекс.сверитьПины(c.кандидатЗапуска)
+                try требоватьПриём(launch.запускGit.стандартныйВвод == message, "immutable-message-bytes")
+                let execution = try процесс(launch.запускGit.исполняемыйФайл, launch.запускGit.аргументы,
+                    input: launch.запускGit.стандартныйВвод, полноеОкружение: launch.запускGit.окружение)
+                try требоватьПриём(execution.0 == 0, "prepared-commit-exit")
                 commit = try строка(["rev-parse", "HEAD"])
                 #if TESTING
                 if failpoint == .ответCommit { throw ОшибкаПриёмаROOT.неизвестно("simulated lost commit response") }
@@ -362,7 +431,7 @@ final class ПрограммаПриёмаROOT {
             default: throw ОшибкаПриёмаROOT.отказ("unknown-action")
             }
         } catch {
-            if s.действие == "merge" || s.действие == "push" { throw ОшибкаПриёмаROOT.неизвестно("effect requires readback: " + String(describing: error)) }
+            if (s.действие == "merge" && изменяющийЗапускНачат) || s.действие == "push" { throw ОшибкаПриёмаROOT.неизвестно("effect requires readback: " + String(describing: error)) }
             try сохранить("outcome", s.действие, "held"); throw error
         }
         try сохранить("outcome", s.действие, s.следующая)
