@@ -1,0 +1,1115 @@
+--- a/iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift
++++ b/iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift
+@@ -1,9 +1,9 @@
+ import Foundation
+ import Darwin
+ import УстановкаStop
+-let arguments = Array(CommandLine.arguments.dropFirst())
+-if arguments.first == "--поддерживать-текущий" {
+-    exit(await УстановщикStop.поддерживатьТекущий(Array(arguments.dropFirst())))
++let аргументы = Array(CommandLine.arguments.dropFirst())
++if аргументы.first == "--поддерживать-текущий" {
++    exit(await УстановщикStop.поддерживатьТекущий(Array(аргументы.dropFirst())))
+ } else {
+-    exit(УстановщикStop.команда(arguments))
++    exit(УстановщикStop.команда(аргументы))
+ }
+--- a/iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift
++++ b/iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift
+@@ -4,26 +4,26 @@
+ @testable import УстановкаStop
+ 
+ @Suite("Конечная ROOT-аренда рабочего издателя", .serialized)
+-struct ПроверкиПоддержанияТекущегоStop {
++struct ПроверкиПоддержанияТекущегоСтоп {
+     private enum Инъекция: Error { case отказ }
+     private struct Фикстура {
+-        let root: URL
+-        let base: Int64
+-        let headerSHA: String
+-        let currentSHA: String
+-        let currentLock: СсылкаЗамкаStop
+-        let singleton: СсылкаЗамкаStop
+-        let payload: Data
+-        var request: URL { root.appendingPathComponent("request.json") }
+-        var current: URL { root.appendingPathComponent("current.json") }
+-        var input: URL { root.appendingPathComponent("current.json.producer-input.json") }
+-        var refFile: URL { root.appendingPathComponent("git/refs/heads/fum/synthetic/master") }
++        let кореньФикстуры: URL
++        let начальноеВремяФикстуры: Int64
++        let хэшЗаголовкаФикстуры: String
++        let хэшТекущегоФикстуры: String
++        let текущийЗамокФикстуры: СсылкаЗамкаStop
++        let замокИздателяФикстуры: СсылкаЗамкаStop
++        let снимокФикстуры: Data
++        var запросФикстуры: URL { кореньФикстуры.appendingPathComponent("request.json") }
++        var current: URL { кореньФикстуры.appendingPathComponent("current.json") }
++        var input: URL { кореньФикстуры.appendingPathComponent("current.json.producer-input.json") }
++        var файлВеткиФикстуры: URL { кореньФикстуры.appendingPathComponent("git/refs/heads/fum/synthetic/master") }
+         init(headPolicy: String = "strict") throws {
+-            root = URL(fileURLWithPath: "/private/tmp/fum-maintainer-" + UUID().uuidString.lowercased())
+-            base = Int64(Date().timeIntervalSince1970)
+-            try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false,
++            кореньФикстуры = URL(fileURLWithPath: "/private/tmp/fum-maintainer-" + UUID().uuidString.lowercased())
++            начальноеВремяФикстуры = Int64(Date().timeIntervalSince1970)
++            try FileManager.default.createDirectory(at: кореньФикстуры, withIntermediateDirectories: false,
+                 attributes: [.posixPermissions: 0o700])
+-            let path = root.path, common = path + "/git", gitDir = common + "/worktrees/synthetic"
++            let path = кореньФикстуры.path, common = path + "/git", gitDir = common + "/worktrees/synthetic"
+             let w = path + "/W", ref = "refs/heads/fum/synthetic/master"
+             for dir in [gitDir, common + "/refs/heads/fum/synthetic", w] {
+                 try FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true,
+@@ -33,161 +33,161 @@
+                 (gitDir + "/gitdir", "\(w)/.git\n"), (gitDir + "/commondir", "../..\n"),
+                 (gitDir + "/HEAD", "ref: \(ref)\n"),
+                 (common + "/" + ref, String(repeating: "b", count: 40) + "\n")] {
+-                try Self.write(Data(text.utf8), URL(fileURLWithPath: file))
++                try Self.записатьФикстуру(Data(text.utf8), URL(fileURLWithPath: file))
+             }
+-            let currentPath = path + "/current.json"
+-            let lockURL = URL(fileURLWithPath: currentPath + ".lock")
+-            let singletonURL = URL(fileURLWithPath: currentPath + ".producer.lock")
+-            try Self.write(Data(), lockURL); try Self.write(Data(), singletonURL)
+-            func pin(_ url: URL) throws -> СсылкаЗамкаStop {
++            let путьТекущегоФикстуры = path + "/current.json"
++            let адресЗамкаФикстуры = URL(fileURLWithPath: путьТекущегоФикстуры + ".lock")
++            let адресЗамкаИздателяФикстуры = URL(fileURLWithPath: путьТекущегоФикстуры + ".producer.lock")
++            try Self.записатьФикстуру(Data(), адресЗамкаФикстуры); try Self.записатьФикстуру(Data(), адресЗамкаИздателяФикстуры)
++            func закрепитьЗамокФикстуры(_ url: URL) throws -> СсылкаЗамкаStop {
+                 var s = Darwin.stat()
+                 guard lstat(url.path, &s) == 0 else { throw Инъекция.отказ }
+                 return СсылкаЗамкаStop(path: url.path, device: Int64(s.st_dev), inode: UInt64(s.st_ino))
+             }
+-            currentLock = try pin(lockURL); singleton = try pin(singletonURL)
++            текущийЗамокФикстуры = try закрепитьЗамокФикстуры(адресЗамкаФикстуры); замокИздателяФикстуры = try закрепитьЗамокФикстуры(адресЗамкаИздателяФикстуры)
+             let id = "00000000-0000-4000-8000-000000000001"
+             let h: [String: Any] = ["схема": "fum.stop-заголовок.2", "задача": id,
+                 "узел": "synthetic", "область": "test", "поколение": "generation1",
+                 "cwd": w, "дерево": w, "ref": ref, "gitDir": gitDir,
+                 "commonGitDir": common, "backend": "files", "objectFormat": "sha1",
+-                "исходники": String(repeating: "a", count: 40), "состояние": currentPath,
++                "исходники": String(repeating: "a", count: 40), "состояние": путьТекущегоФикстуры,
+                 "каталогКвитанций": path, "максимальныйВозрастСекунд": 900]
+-            let header = try Self.json(h); headerSHA = АтомарныеБайтыStop.sha256(header)
+-            let headerURL = root.appendingPathComponent("header.json")
+-            try Self.write(header, headerURL, mode: 0o400)
+-            let conditions: [String: Bool] = ["свояОбласть": true, "естьПолномочия": true,
++            let header = try Self.сериализоватьФикстуру(h); хэшЗаголовкаФикстуры = АтомарныеБайтыStop.sha256(header)
++            let адресЗаголовкаФикстуры = кореньФикстуры.appendingPathComponent("header.json")
++            try Self.записатьФикстуру(header, адресЗаголовкаФикстуры, mode: 0o400)
++            let условияФикстуры: [String: Bool] = ["свояОбласть": true, "естьПолномочия": true,
+                 "неизвестныйОпасныйЭффект": false, "естьНакопленноеПродвижение": true,
+                 "можноБезопасноПродолжать": true, "доступнаНезависимаяРабота": true,
+                 "локальнаяИсправимаяПроблема": false, "остановкаЗадачи": false,
+                 "естьБезопасныйСледующийШаг": true]
+-            let snapshot: [String: Any] = ["схема": "fum.текущие-обязательства-stop.2",
+-                "заголовокSHA256": headerSHA, "задача": id, "узел": "synthetic",
++            let текущийСнимокФикстуры: [String: Any] = ["схема": "fum.текущие-обязательства-stop.2",
++                "заголовокSHA256": хэшЗаголовкаФикстуры, "задача": id, "узел": "synthetic",
+                 "область": "test", "поколение": "generation1", "cwd": w, "дерево": w,
+-                "ref": ref, "HEAD": String(repeating: "b", count: 40), "выпущен": base,
+-                "действуетДо": base + 900,
++                "ref": ref, "HEAD": String(repeating: "b", count: 40), "выпущен": начальноеВремяФикстуры,
++                "действуетДо": начальноеВремяФикстуры + 900,
+                 "управление": ["действие": "продолжать", "основание": "Синтетическое поручение ROOT"],
+                 "пункты": [["id": "unverified", "область": "test", "состояние": "блокирован",
+                     "уровень": "исходники", "основание": "Непроверенный остаток остаётся UNKNOWN"]],
+                 "неизвестныеНамерения": ["unverified"],
+                 "наблюдения": ["схема": "fum.stop-наблюдения.1", "задача": id, "узел": "synthetic",
+-                    "следующаяРабота": "Проверить новый вход ROOT", "условия": conditions]]
+-            payload = try Self.json(snapshot); currentSHA = АтомарныеБайтыStop.sha256(payload)
+-            let payloadURL = root.appendingPathComponent("payload.json")
+-            try Self.write(payload, payloadURL)
+-            try Self.write(payload, URL(fileURLWithPath: currentPath))
+-            let lease: [String: Any] = ["schema": "fum.stop-maintainer-input.1", "root": id,
++                    "следующаяРабота": "Проверить новый вход ROOT", "условия": условияФикстуры]]
++            снимокФикстуры = try Self.сериализоватьФикстуру(текущийСнимокФикстуры); хэшТекущегоФикстуры = АтомарныеБайтыStop.sha256(снимокФикстуры)
++            let адресСнимкаФикстуры = кореньФикстуры.appendingPathComponent("payload.json")
++            try Self.записатьФикстуру(снимокФикстуры, адресСнимкаФикстуры)
++            try Self.записатьФикстуру(снимокФикстуры, URL(fileURLWithPath: путьТекущегоФикстуры))
++            let арендаФикстуры: [String: Any] = ["schema": "fum.stop-maintainer-input.1", "root": id,
+                 "node": "synthetic", "scope": "test", "generation": "generation1",
+-                "headerSHA256": headerSHA, "revision": 1, "approvedAt": base,
+-                "validUntil": base + 7200, "action": "обновлять", "reason": "Разрешённая конечная аренда",
+-                "payload": ["path": payloadURL.path, "bytes": payload.count, "sha256": currentSHA, "mode": 0o600]]
+-            try Self.write(try Self.json(lease), root.appendingPathComponent("current.json.producer-input.json"))
+-            let req: [String: Any] = ["schema": "fum.stop-maintainer-request.1",
++                "headerSHA256": хэшЗаголовкаФикстуры, "revision": 1, "approvedAt": начальноеВремяФикстуры,
++                "validUntil": начальноеВремяФикстуры + 7200, "action": "обновлять", "reason": "Разрешённая конечная аренда",
++                "payload": ["path": адресСнимкаФикстуры.path, "bytes": снимокФикстуры.count, "sha256": хэшТекущегоФикстуры, "mode": 0o600]]
++            try Self.записатьФикстуру(try Self.сериализоватьФикстуру(арендаФикстуры), кореньФикстуры.appendingPathComponent("current.json.producer-input.json"))
++            let запросПланаФикстуры: [String: Any] = ["schema": "fum.stop-maintainer-request.1",
+                 "runID": UUID().uuidString.lowercased(),
+-                "header": ["path": headerURL.path, "bytes": header.count, "sha256": headerSHA, "mode": 0o400],
+-                "current": ["path": currentPath, "maxBytes": 32768, "mode": 0o600,
+-                    "lock": ["path": currentLock.path, "device": currentLock.device, "inode": currentLock.inode]],
+-                "singleton": ["path": singleton.path, "device": singleton.device, "inode": singleton.inode],
+-                "input": ["path": currentPath + ".producer-input.json", "mode": 0o600, "maxBytes": 65536],
+-                "initialCurrentSHA256": currentSHA, "requiredUnknownID": "unverified",
++                "header": ["path": адресЗаголовкаФикстуры.path, "bytes": header.count, "sha256": хэшЗаголовкаФикстуры, "mode": 0o400],
++                "current": ["path": путьТекущегоФикстуры, "maxBytes": 32768, "mode": 0o600,
++                    "lock": ["path": текущийЗамокФикстуры.path, "device": текущийЗамокФикстуры.device, "inode": текущийЗамокФикстуры.inode]],
++                "singleton": ["path": замокИздателяФикстуры.path, "device": замокИздателяФикстуры.device, "inode": замокИздателяФикстуры.inode],
++                "input": ["path": путьТекущегоФикстуры + ".producer-input.json", "mode": 0o600, "maxBytes": 65536],
++                "initialCurrentSHA256": хэшТекущегоФикстуры, "requiredUnknownID": "unverified",
+                 "intervalSeconds": 30, "ttlSeconds": 600, "maxTicks": 100,
+                 "maxRunSeconds": 7200, "headPolicy": headPolicy]
+-            try Self.write(try Self.json(req), root.appendingPathComponent("request.json"))
++            try Self.записатьФикстуру(try Self.сериализоватьФикстуру(запросПланаФикстуры), кореньФикстуры.appendingPathComponent("request.json"))
+         }
+-        static func json(_ value: [String: Any]) throws -> Data {
++        static func сериализоватьФикстуру(_ value: [String: Any]) throws -> Data {
+             try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys, .withoutEscapingSlashes])
+         }
+-        static func write(_ data: Data, _ path: URL, mode: Int = 0o600) throws {
++        static func записатьФикстуру(_ data: Data, _ path: URL, mode: Int = 0o600) throws {
+             try data.write(to: path)
+             try FileManager.default.setAttributes([.posixPermissions: mode], ofItemAtPath: path.path)
+         }
+-        static func object(_ path: URL) throws -> [String: Any] {
++        static func прочитатьОбъектФикстуры(_ path: URL) throws -> [String: Any] {
+             guard let value = try JSONSerialization.jsonObject(with: Data(contentsOf: path)) as? [String: Any]
+             else { throw Инъекция.отказ }
+             return value
+         }
+-        func mutateInput(_ action: (inout [String: Any]) -> Void) throws {
+-            var value = try Self.object(input); action(&value)
++        func изменитьВходФикстуры(_ action: (inout [String: Any]) -> Void) throws {
++            var value = try Self.прочитатьОбъектФикстуры(input); action(&value)
+             _ = try АтомарныеБайтыStop.заменить(input.path,
+-                ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: input)), новыми: Self.json(value))
++                ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: input)), новыми: Self.сериализоватьФикстуру(value))
+         }
+-        func step(_ state: СостояниеИздателяStop, _ now: Int64,
++        func шагФикстуры(_ state: СостояниеИздателяСтоп, _ now: Int64,
+             points: ТочкиАтомарнойЗаменыStop = ТочкиАтомарнойЗаменыStop(),
+-            времяПередRename: Int64? = nil) throws -> ИтогПоддержанияStop {
+-            try УстановщикStop.шагПоддержания(request.path,
+-                хэш: АтомарныеБайтыStop.sha256(Data(contentsOf: request)),
++            времяПередRename: Int64? = nil) throws -> ИтогПоддержанияСтоп {
++            try УстановщикStop.шагПоддержания(запросФикстуры.path,
++                хэш: АтомарныеБайтыStop.sha256(Data(contentsOf: запросФикстуры)),
+                 состояние: state, сейчас: now, точки: points,
+                 часыПередRename: { времяПередRename ?? now })
+         }
+-        func cleanup() {
+-            do { try FileManager.default.removeItem(at: root) }
++        func очиститьФикстуру() {
++            do { try FileManager.default.removeItem(at: кореньФикстуры) }
+             catch { Issue.record("Собственная fixture издателя не удалена: \(error)") }
+         }
+     }
+ 
+     @Test func транспортПосле900НеПродлеваетПодтверждениеИсточника() throws {
+-        let f = try Фикстура(); defer { f.cleanup() }
+-        let state = СостояниеИздателяStop(), input = try Data(contentsOf: f.input)
+-        #expect(try f.step(state, f.base + 1).статус == "UPDATED")
+-        #expect(try f.step(state, f.base + 901).статус == "UPDATED")
+-        let current = try Фикстура.object(f.current)
+-        #expect(current["выпущен"] as? Int64 == f.base + 901)
+-        #expect(current["действуетДо"] as? Int64 == f.base + 1501)
++        let f = try Фикстура(); defer { f.очиститьФикстуру() }
++        let state = СостояниеИздателяСтоп(), input = try Data(contentsOf: f.input)
++        #expect(try f.шагФикстуры(state, f.начальноеВремяФикстуры + 1).статус == "UPDATED")
++        #expect(try f.шагФикстуры(state, f.начальноеВремяФикстуры + 901).статус == "UPDATED")
++        let current = try Фикстура.прочитатьОбъектФикстуры(f.current)
++        #expect(current["выпущен"] as? Int64 == f.начальноеВремяФикстуры + 901)
++        #expect(current["действуетДо"] as? Int64 == f.начальноеВремяФикстуры + 1501)
+         let maintenance = try #require(current["поддержание"] as? [String: Any])
+-        #expect(maintenance["подтвержденоВ"] as? Int64 == f.base)
+-        #expect(maintenance["подтвержденоДо"] as? Int64 == f.base + 7200)
++        #expect(maintenance["подтвержденоВ"] as? Int64 == f.начальноеВремяФикстуры)
++        #expect(maintenance["подтвержденоДо"] as? Int64 == f.начальноеВремяФикстуры + 7200)
+         #expect(current["неизвестныеНамерения"] as? [String] == ["unverified"])
+         #expect(try Data(contentsOf: f.input) == input)
+-        #expect(try Фикстура.object(f.root.appendingPathComponent("payload.json"))["выпущен"] as? Int64 == f.base)
++        #expect(try Фикстура.прочитатьОбъектФикстуры(f.кореньФикстуры.appendingPathComponent("payload.json"))["выпущен"] as? Int64 == f.начальноеВремяФикстуры)
+     }
+ 
+     @Test func истечениеИсточникаИСкачокЧасовНеВыдумываютУсловия() throws {
+         for backwards in [false, true] {
+-            let f = try Фикстура(); defer { f.cleanup() }
+-            let state = СостояниеИздателяStop()
+-            _ = try f.step(state, f.base + 1)
++            let f = try Фикстура(); defer { f.очиститьФикстуру() }
++            let state = СостояниеИздателяСтоп()
++            _ = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 1)
+             let before = try Data(contentsOf: f.current)
+-            let r = try f.step(state, backwards ? f.base : f.base + 7201)
++            let r = try f.шагФикстуры(state, backwards ? f.начальноеВремяФикстуры : f.начальноеВремяФикстуры + 7201)
+             #expect(r.статус == (backwards ? "CLOCK_REGRESSION" : "SOURCE_EXPIRED"))
+             #expect(state.завершён)
+             #expect(try Data(contentsOf: f.current) == before)
+         }
+         for случай in ["lease", "transport", "clock"] {
+-            let фикстура = try Фикстура(); defer { фикстура.cleanup() }
++            let фикстура = try Фикстура(); defer { фикстура.очиститьФикстуру() }
+             if случай == "lease" {
+-                try фикстура.mutateInput { $0["validUntil"] = фикстура.base + 3 }
++                try фикстура.изменитьВходФикстуры { $0["validUntil"] = фикстура.начальноеВремяФикстуры + 3 }
+             }
+-            let состояние = СостояниеИздателяStop()
++            let состояние = СостояниеИздателяСтоп()
+             let прежде = try Data(contentsOf: фикстура.current)
+-            let позднееВремя = случай == "lease" ? фикстура.base + 3
+-                : (случай == "transport" ? фикстура.base + 602 : фикстура.base)
+-            let итог = try фикстура.step(состояние, фикстура.base + 1, времяПередRename: позднееВремя)
++            let позднееВремя = случай == "lease" ? фикстура.начальноеВремяФикстуры + 3
++                : (случай == "transport" ? фикстура.начальноеВремяФикстуры + 602 : фикстура.начальноеВремяФикстуры)
++            let итог = try фикстура.шагФикстуры(состояние, фикстура.начальноеВремяФикстуры + 1, времяПередRename: позднееВремя)
+             #expect(итог.статус == "FAILED")
+             #expect(состояние.ошибка == (случай == "clock" ? "MclockBeforeRename" : "MleaseBeforeRename"))
+             #expect(try Data(contentsOf: фикстура.current) == прежде)
+         }
+     }
+ 
+-    @Test func явныйКонтрольСохраняетсяБезGitИТехническийSTOPНеЧеловеческий() throws {
++    @Test func явныйКонтрольСохраняетсяБезГитИТехническаяОстановкаНеЧеловеческая() throws {
+         for action in ["ручная-пауза", "пауза", "остановить-издатель"] {
+-            let f = try Фикстура(); defer { f.cleanup() }
+-            let state = СостояниеИздателяStop()
+-            _ = try f.step(state, f.base + 1)
+-            var current = try Фикстура.object(f.current)
++            let f = try Фикстура(); defer { f.очиститьФикстуру() }
++            let state = СостояниеИздателяСтоп()
++            _ = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 1)
++            var current = try Фикстура.прочитатьОбъектФикстуры(f.current)
+             if action == "ручная-пауза" {
+                 current["управление"] = ["действие": "пауза", "основание": "Явная fixture-команда"]
+-                let bytes = try Фикстура.json(current)
++                let bytes = try Фикстура.сериализоватьФикстуру(current)
+                 _ = try АтомарныеБайтыStop.заменить(f.current.path,
+                     ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: f.current)), новыми: bytes)
+             } else {
+-                try f.mutateInput { $0["revision"] = 2; $0["action"] = action }
++                try f.изменитьВходФикстуры { $0["revision"] = 2; $0["action"] = action }
+             }
+-            try FileManager.default.removeItem(at: f.refFile)
++            try FileManager.default.removeItem(at: f.файлВеткиФикстуры)
+             let before = try Data(contentsOf: f.current)
+-            let r = try f.step(state, f.base + 2)
++            let r = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 2)
+             #expect(state.завершён)
+             if action == "пауза" {
+                 #expect(r.статус == "ROOT_CONTROL_PUBLISHED")
+-                let seen = try Фикстура.object(f.current)
++                let seen = try Фикстура.прочитатьОбъектФикстуры(f.current)
+                 #expect((seen["управление"] as? [String: Any])?["действие"] as? String == "пауза")
+             } else {
+                 #expect(r.статус == (action == "ручная-пауза" ? "ROOT_CONTROL" : "SERVICE_STOPPED"))
+@@ -196,62 +196,62 @@
+         }
+     }
+ 
+-    @Test func singletonBusyИРучнаяПубликацияНеСоздаютПовторнойЗаписи() throws {
+-        let f = try Фикстура(); defer { f.cleanup() }
+-        let state = СостояниеИздателяStop(), other = СостояниеИздателяStop()
+-        _ = try f.step(state, f.base + 1)
++    @Test func занятыйИздательИРучнаяПубликацияНеСоздаютПовторнойЗаписи() throws {
++        let f = try Фикстура(); defer { f.очиститьФикстуру() }
++        let state = СостояниеИздателяСтоп(), other = СостояниеИздателяСтоп()
++        _ = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 1)
+         let first = try Data(contentsOf: f.current)
+-        #expect(try f.step(other, f.base + 2).статус == "SINGLETON_BUSY")
+-        let before = try FileManager.default.contentsOfDirectory(atPath: f.root.path).sorted()
+-        try ЗамокТекущегоStop.выполнить(f.currentLock) { _ in
+-            let busy = try f.step(state, f.base + 2)
++        #expect(try f.шагФикстуры(other, f.начальноеВремяФикстуры + 2).статус == "SINGLETON_BUSY")
++        let before = try FileManager.default.contentsOfDirectory(atPath: f.кореньФикстуры.path).sorted()
++        try ЗамокТекущегоStop.выполнить(f.текущийЗамокФикстуры) { _ in
++            let busy = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 2)
+             #expect(busy.статус == "CURRENT_BUSY")
+         }
+-        #expect(try FileManager.default.contentsOfDirectory(atPath: f.root.path).sorted() == before)
++        #expect(try FileManager.default.contentsOfDirectory(atPath: f.кореньФикстуры.path).sorted() == before)
+         #expect(try Data(contentsOf: f.current) == first)
+-        #expect(try f.step(state, f.base + 3).статус == "UPDATED")
+-        var manual = try Фикстура.object(f.current); manual["ручнаяПубликация"] = true
+-        let manualBytes = try Фикстура.json(manual)
++        #expect(try f.шагФикстуры(state, f.начальноеВремяФикстуры + 3).статус == "UPDATED")
++        var manual = try Фикстура.прочитатьОбъектФикстуры(f.current); manual["ручнаяПубликация"] = true
++        let manualBytes = try Фикстура.сериализоватьФикстуру(manual)
+         _ = try АтомарныеБайтыStop.заменить(f.current.path,
+             ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: f.current)), новыми: manualBytes)
+-        #expect(try f.step(state, f.base + 4).статус == "MANUAL_TAKEOVER")
++        #expect(try f.шагФикстуры(state, f.начальноеВремяФикстуры + 4).статус == "MANUAL_TAKEOVER")
+         #expect(try Data(contentsOf: f.current) == manualBytes)
+     }
+ 
+-    @Test func послеRenameUNKNOWNИНовыйЭкземплярТолькоЧитают() throws {
+-        let f = try Фикстура(); defer { f.cleanup() }
+-        let state = СостояниеИздателяStop()
++    @Test func послеЗаменыНеизвестныйИсходИНовыйЭкземплярТолькоЧитают() throws {
++        let f = try Фикстура(); defer { f.очиститьФикстуру() }
++        let state = СостояниеИздателяСтоп()
+         var points = ТочкиАтомарнойЗаменыStop()
+         points.синхронизацияКаталога = { _ in throw Инъекция.отказ }
+-        #expect(try f.step(state, f.base + 1, points: points).статус == "UNKNOWN")
++        #expect(try f.шагФикстуры(state, f.начальноеВремяФикстуры + 1, points: points).статус == "UNKNOWN")
+         let after = try АтомарныеБайтыStop.прочитать(f.current.path)
+-        #expect(after.sha256 != f.currentSHA)
+-        _ = try f.step(state, f.base + 2)
++        #expect(after.sha256 != f.хэшТекущегоФикстуры)
++        _ = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 2)
+         #expect(try Data(contentsOf: f.current) == after.данные)
+-        let restarted = СостояниеИздателяStop()
+-        let recovery = try f.step(restarted, f.base + 3)
++        let restarted = СостояниеИздателяСтоп()
++        let recovery = try f.шагФикстуры(restarted, f.начальноеВремяФикстуры + 3)
+         #expect(recovery.статус == "RECOVERY_REQUIRED")
+         #expect(recovery.наблюдаемыйSHA256 == after.sha256)
+         #expect(try Data(contentsOf: f.current) == after.данные)
+     }
+ 
+-    @Test func ревизииИПолитикаHEADСохраняютUNKNOWN() throws {
++    @Test func ревизииИПолитикаВершиныСохраняютНеизвестныйИсход() throws {
+         for kind in ["new", "same", "rollback", "head-strict", "head-observed"] {
+             let f = try Фикстура(headPolicy: kind == "head-observed" ? "observe-with-unknown" : "strict")
+-            defer { f.cleanup() }
+-            let state = СостояниеИздателяStop()
+-            _ = try f.step(state, f.base + 1)
++            defer { f.очиститьФикстуру() }
++            let state = СостояниеИздателяСтоп()
++            _ = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 1)
+             let before = try Data(contentsOf: f.current)
+             if kind.hasPrefix("head-") {
+-                try Фикстура.write(Data((String(repeating: "c", count: 40) + "\n").utf8), f.refFile)
++                try Фикстура.записатьФикстуру(Data((String(repeating: "c", count: 40) + "\n").utf8), f.файлВеткиФикстуры)
+             } else {
+-                try f.mutateInput {
++                try f.изменитьВходФикстуры {
+                     $0["reason"] = "Новая явная ревизия"
+-                    if kind == "new" { $0["revision"] = 2; $0["approvedAt"] = f.base + 2 }
++                    if kind == "new" { $0["revision"] = 2; $0["approvedAt"] = f.начальноеВремяФикстуры + 2 }
+                     if kind == "rollback" { $0["revision"] = 0 }
+                 }
+             }
+-            let r = try f.step(state, f.base + 2)
++            let r = try f.шагФикстуры(state, f.начальноеВремяФикстуры + 2)
+             switch kind {
+             case "new": #expect(r.статус == "UPDATED"); #expect(state.ревизия == 2)
+             case "same": #expect(r.статус == "INPUT_REVISION_REUSED"); #expect(try Data(contentsOf: f.current) == before)
+@@ -259,7 +259,7 @@
+             case "head-strict": #expect(r.статус == "HEAD_CHANGED"); #expect(try Data(contentsOf: f.current) == before)
+             default:
+                 #expect(r.статус == "UPDATED")
+-                let seen = try Фикстура.object(f.current)
++                let seen = try Фикстура.прочитатьОбъектФикстуры(f.current)
+                 #expect(seen["HEAD"] as? String == String(repeating: "c", count: 40))
+                 #expect((seen["неизвестныеНамерения"] as? [String])?.contains("root-head-after-approved-input") == true)
+                 #expect((seen["поддержание"] as? [String: Any])?["исходныйHEAD"] as? String == String(repeating: "b", count: 40))
+@@ -267,26 +267,26 @@
+         }
+     }
+ 
+-    @Test func входПубликуетсяПодОбщимЗамкомИПринимаетЯвныйSTOPБезGit() throws {
+-        let фикстура = try Фикстура(); defer { фикстура.cleanup() }
++    @Test func входПубликуетсяПодОбщимЗамкомИПринимаетЯвнуюОстановкуБезГит() throws {
++        let фикстура = try Фикстура(); defer { фикстура.очиститьФикстуру() }
+         var номер = 0
+         func подготовить(_ изменить: (inout [String: Any]) -> Void) throws -> ([String], Data) {
+             номер += 1
+             let прежний = try Data(contentsOf: фикстура.input)
+-            var вход = try Фикстура.object(фикстура.input); изменить(&вход)
+-            let новыеБайты = try Фикстура.json(вход)
+-            let кандидат = фикстура.root.appendingPathComponent("input-candidate-\(номер).json")
+-            let план = фикстура.root.appendingPathComponent("input-plan-\(номер).json")
+-            let запрос = try Data(contentsOf: фикстура.request)
+-            try Фикстура.write(новыеБайты, кандидат)
++            var вход = try Фикстура.прочитатьОбъектФикстуры(фикстура.input); изменить(&вход)
++            let новыеБайты = try Фикстура.сериализоватьФикстуру(вход)
++            let кандидат = фикстура.кореньФикстуры.appendingPathComponent("input-candidate-\(номер).json")
++            let план = фикстура.кореньФикстуры.appendingPathComponent("input-plan-\(номер).json")
++            let запрос = try Data(contentsOf: фикстура.запросФикстуры)
++            try Фикстура.записатьФикстуру(новыеБайты, кандидат)
+             let объект: [String: Any] = ["schema": "fum.stop-maintainer-input-publication.1",
+-                "request": ["path": фикстура.request.path, "bytes": запрос.count,
++                "request": ["path": фикстура.запросФикстуры.path, "bytes": запрос.count,
+                     "sha256": АтомарныеБайтыStop.sha256(запрос), "mode": 0o600],
+                 "candidate": ["path": кандидат.path, "bytes": новыеБайты.count,
+                     "sha256": АтомарныеБайтыStop.sha256(новыеБайты), "mode": 0o600],
+                 "initiallyAbsent": false, "expectedSHA256": АтомарныеБайтыStop.sha256(прежний)]
+-            let байтыПлана = try Фикстура.json(объект)
+-            try Фикстура.write(байтыПлана, план)
++            let байтыПлана = try Фикстура.сериализоватьФикстуру(объект)
++            try Фикстура.записатьФикстуру(байтыПлана, план)
+             return (["--передать-вход-издателя", "--план", план.path,
+                 "--хэш-плана", АтомарныеБайтыStop.sha256(байтыПлана)], новыеБайты)
+         }
+@@ -295,11 +295,11 @@
+         #expect(УстановщикStop.команда(аргументы + ["--проверить"]) == 0)
+         #expect(try Data(contentsOf: фикстура.input) == исходный)
+         let применить = аргументы + ["--применить", АтомарныеБайтыStop.sha256(кандидат)]
+-        let составДо = try FileManager.default.contentsOfDirectory(atPath: фикстура.root.path).sorted()
+-        try ЗамокТекущегоStop.выполнить(фикстура.currentLock) { _ in
++        let составДо = try FileManager.default.contentsOfDirectory(atPath: фикстура.кореньФикстуры.path).sorted()
++        try ЗамокТекущегоStop.выполнить(фикстура.текущийЗамокФикстуры) { _ in
+             #expect(УстановщикStop.команда(применить) != 0)
+         }
+-        #expect(try FileManager.default.contentsOfDirectory(atPath: фикстура.root.path).sorted() == составДо)
++        #expect(try FileManager.default.contentsOfDirectory(atPath: фикстура.кореньФикстуры.path).sorted() == составДо)
+         #expect(try Data(contentsOf: фикстура.input) == исходный)
+         #expect(УстановщикStop.команда(применить) == 0)
+         #expect(try Data(contentsOf: фикстура.input) == кандидат)
+@@ -311,22 +311,22 @@
+             $0["revision"] = 3; $0["action"] = "стоп"; $0.removeValue(forKey: "payload")
+             $0["approvedAt"] = 0; $0["validUntil"] = 0
+         }
+-        try FileManager.default.removeItem(at: фикстура.refFile)
++        try FileManager.default.removeItem(at: фикстура.файлВеткиФикстуры)
+         #expect(УстановщикStop.команда(остановить + ["--проверить"]) == 0)
+         #expect(УстановщикStop.команда(остановить + ["--применить",
+             АтомарныеБайтыStop.sha256(байтыОстановки)]) == 0)
+-        let итог = try фикстура.step(СостояниеИздателяStop(), фикстура.base + 2)
++        let итог = try фикстура.шагФикстуры(СостояниеИздателяСтоп(), фикстура.начальноеВремяФикстуры + 2)
+         #expect(итог.статус == "ROOT_CONTROL_PUBLISHED")
+-        let снимок = try Фикстура.object(фикстура.current)
++        let снимок = try Фикстура.прочитатьОбъектФикстуры(фикстура.current)
+         #expect((снимок["управление"] as? [String: Any])?["действие"] as? String == "стоп")
+         #expect(снимок["HEAD"] == nil)
+     }
+ 
+-    @Test func неверныйТекстИЧислаВместоBoolНеПеревыпускаются() throws {
++    @Test func неверныйТекстИЧислаВместоЛогическогоНеПеревыпускаются() throws {
+         for случай in ["пробелы", "длинный", "управляющий", "ноль", "единица"] {
+-            let фикстура = try Фикстура(); defer { фикстура.cleanup() }
+-            let путь = фикстура.root.appendingPathComponent("payload.json")
+-            var снимок = try Фикстура.object(путь)
++            let фикстура = try Фикстура(); defer { фикстура.очиститьФикстуру() }
++            let путь = фикстура.кореньФикстуры.appendingPathComponent("payload.json")
++            var снимок = try Фикстура.прочитатьОбъектФикстуры(путь)
+             var наблюдения = try #require(снимок["наблюдения"] as? [String: Any])
+             switch случай {
+             case "пробелы": наблюдения["следующаяРабота"] = " "
+@@ -338,71 +338,71 @@
+                 наблюдения["условия"] = условия
+             }
+             снимок["наблюдения"] = наблюдения
+-            let байты = try Фикстура.json(снимок)
+-            try Фикстура.write(байты, путь)
+-            try фикстура.mutateInput {
++            let байты = try Фикстура.сериализоватьФикстуру(снимок)
++            try Фикстура.записатьФикстуру(байты, путь)
++            try фикстура.изменитьВходФикстуры {
+                 $0["payload"] = ["path": путь.path, "bytes": байты.count,
+                     "sha256": АтомарныеБайтыStop.sha256(байты), "mode": 0o600]
+             }
+             let до = try Data(contentsOf: фикстура.current)
+-            let состояние = СостояниеИздателяStop()
+-            #expect(try фикстура.step(состояние, фикстура.base + 1).статус == "FAILED")
++            let состояние = СостояниеИздателяСтоп()
++            #expect(try фикстура.шагФикстуры(состояние, фикстура.начальноеВремяФикстуры + 1).статус == "FAILED")
+             #expect(try Data(contentsOf: фикстура.current) == до)
+-            #expect(try !FileManager.default.contentsOfDirectory(atPath: фикстура.root.path)
++            #expect(try !FileManager.default.contentsOfDirectory(atPath: фикстура.кореньФикстуры.path)
+                 .contains(where: { $0.contains(".attempt.json") }))
+         }
+     }
+ 
+-    @Test func дрейфПередRenameИСбойКвитанцииСохраняютГраницуЭффекта() throws {
++    @Test func дрейфПередЗаменойИСбойКвитанцииСохраняютГраницуЭффекта() throws {
+         for случай in ["current", "input", "header", "request", "singleton", "lock", "head", "outcome"] {
+-            let фикстура = try Фикстура(headPolicy: "observe-with-unknown"); defer { фикстура.cleanup() }
+-            let состояние = СостояниеИздателяStop()
++            let фикстура = try Фикстура(headPolicy: "observe-with-unknown"); defer { фикстура.очиститьФикстуру() }
++            let состояние = СостояниеИздателяСтоп()
+             let исходный = try Data(contentsOf: фикстура.current)
+             var ожидаемый = исходный
+-            let хэшЗапроса = try АтомарныеБайтыStop.sha256(Data(contentsOf: фикстура.request))
+-            let квитанция = фикстура.root.appendingPathComponent(
++            let хэшЗапроса = try АтомарныеБайтыStop.sha256(Data(contentsOf: фикстура.запросФикстуры))
++            let квитанция = фикстура.кореньФикстуры.appendingPathComponent(
+                 ".fum-stop-maintainer-" + хэшЗапроса + ".tick-00000001.outcome.json")
+             let чужаяКвитанция = Data("{\"preserve\":true}\n".utf8)
+             var точки = ТочкиАтомарнойЗаменыStop()
+             точки.передRename = {
+                 switch случай {
+                 case "current":
+-                    var объект = try Фикстура.object(фикстура.current)
++                    var объект = try Фикстура.прочитатьОбъектФикстуры(фикстура.current)
+                     объект["управление"] = ["действие": "стоп", "основание": "Поздний явный ROOT STOP"]
+-                    ожидаемый = try Фикстура.json(объект)
++                    ожидаемый = try Фикстура.сериализоватьФикстуру(объект)
+                     _ = try АтомарныеБайтыStop.заменить(фикстура.current.path,
+-                        ожидаемыйSHA256: фикстура.currentSHA, новыми: ожидаемый)
++                        ожидаемыйSHA256: фикстура.хэшТекущегоФикстуры, новыми: ожидаемый)
+                 case "input":
+-                    try фикстура.mutateInput { $0["revision"] = 2; $0["action"] = "пауза" }
++                    try фикстура.изменитьВходФикстуры { $0["revision"] = 2; $0["action"] = "пауза" }
+                 case "header", "request":
+-                    let путь = случай == "header" ? фикстура.root.appendingPathComponent("header.json") : фикстура.request
++                    let путь = случай == "header" ? фикстура.кореньФикстуры.appendingPathComponent("header.json") : фикстура.запросФикстуры
+                     var байты = try Data(contentsOf: путь); байты.append(32)
+                     try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: путь.path)
+-                    try Фикстура.write(байты, путь, mode: случай == "header" ? 0o400 : 0o600)
++                    try Фикстура.записатьФикстуру(байты, путь, mode: случай == "header" ? 0o400 : 0o600)
+                 case "singleton", "lock":
+-                    let путь = случай == "singleton" ? фикстура.singleton.path : фикстура.currentLock.path
+-                    let замена = фикстура.root.appendingPathComponent("replacement-lock")
+-                    try Фикстура.write(Data(), замена)
++                    let путь = случай == "singleton" ? фикстура.замокИздателяФикстуры.path : фикстура.текущийЗамокФикстуры.path
++                    let замена = фикстура.кореньФикстуры.appendingPathComponent("replacement-lock")
++                    try Фикстура.записатьФикстуру(Data(), замена)
+                     #expect(Darwin.rename(замена.path, путь) == 0)
+                 case "head":
+-                    try Фикстура.write(Data((String(repeating: "c", count: 40) + "\n").utf8), фикстура.refFile)
+-                default: try Фикстура.write(чужаяКвитанция, квитанция)
++                    try Фикстура.записатьФикстуру(Data((String(repeating: "c", count: 40) + "\n").utf8), фикстура.файлВеткиФикстуры)
++                default: try Фикстура.записатьФикстуру(чужаяКвитанция, квитанция)
+                 }
+             }
+-            let итог = try фикстура.step(состояние, фикстура.base + 1, points: точки)
++            let итог = try фикстура.шагФикстуры(состояние, фикстура.начальноеВремяФикстуры + 1, points: точки)
+             if случай == "outcome" {
+                 #expect(итог.статус == "UNKNOWN")
+                 #expect(состояние.завершён)
+                 let после = try Data(contentsOf: фикстура.current)
+                 #expect(после != исходный)
+                 #expect(try Data(contentsOf: квитанция) == чужаяКвитанция)
+-                _ = try фикстура.step(состояние, фикстура.base + 2)
++                _ = try фикстура.шагФикстуры(состояние, фикстура.начальноеВремяФикстуры + 2)
+                 #expect(try Data(contentsOf: фикстура.current) == после)
+             } else if случай == "head" {
+                 #expect(итог.статус == "HEAD_RECHECK")
+                 #expect(!состояние.завершён)
+                 #expect(try Data(contentsOf: фикстура.current) == исходный)
+-                #expect(try фикстура.step(состояние, фикстура.base + 2).статус == "UPDATED")
++                #expect(try фикстура.шагФикстуры(состояние, фикстура.начальноеВремяФикстуры + 2).статус == "UPDATED")
+             } else {
+                 #expect(итог.статус == "FAILED")
+                 #expect(состояние.завершён)
+--- a/iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift
++++ b/iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift
+@@ -264,23 +264,23 @@
+     /// flock не защищает от писателя, который нарушает этот протокол.
+     public static func выполнить<T>(_ pin: СсылкаЗамкаStop,
+         _ действие: (_ проверить: () throws -> Void) throws -> T) throws -> T {
+-        let held = try УдерживаемыйЗамокStop.открыть(pin)
+-        defer { held.закрыть() }
+-        return try действие(held.проверить)
++        let удержанныйЗамок = try УдерживаемыйЗамокСтоп.открыть(pin)
++        defer { удержанныйЗамок.закрыть() }
++        return try действие(удержанныйЗамок.проверить)
+     }
+ }
+-fileprivate final class УдерживаемыйЗамокStop {
++fileprivate final class УдерживаемыйЗамокСтоп {
+     private var fd: Int32
+     private var dir: Int32
+     private let pin: СсылкаЗамкаStop
+     private let name: String
+-    private let parentDevice: dev_t
+-    private let parentInode: ino_t
++    private let устройствоРодителя: dev_t
++    private let номерУзлаРодителя: ino_t
+     private init(fd: Int32, dir: Int32, pin: СсылкаЗамкаStop, name: String, parent: Darwin.stat) {
+         self.fd = fd; self.dir = dir; self.pin = pin; self.name = name
+-        parentDevice = parent.st_dev; parentInode = parent.st_ino
++        устройствоРодителя = parent.st_dev; номерУзлаРодителя = parent.st_ino
+     }
+-    static func открыть(_ pin: СсылкаЗамкаStop) throws -> УдерживаемыйЗамокStop {
++    static func открыть(_ pin: СсылкаЗамкаStop) throws -> УдерживаемыйЗамокСтоп {
+         guard pin.device > 0, pin.inode > 0 else { throw E("L0") }
+         let (dir, name) = try АтомарныеБайтыStop.родитель(pin.path)
+         var parent = Darwin.stat()
+@@ -290,13 +290,13 @@
+         }
+         let fd = openat(dir, name, O_RDWR | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+         guard fd >= 0 else { _ = Darwin.close(dir); throw E("L2", pin.path) }
+-        let held = УдерживаемыйЗамокStop(fd: fd, dir: dir, pin: pin, name: name, parent: parent)
++        let новыйУдержанныйЗамок = УдерживаемыйЗамокСтоп(fd: fd, dir: dir, pin: pin, name: name, parent: parent)
+         do {
+-            try held.проверить()
++            try новыйУдержанныйЗамок.проверить()
+             guard flock(fd, LOCK_EX | LOCK_NB) == 0 else { throw E("Lbusy", pin.path) }
+-            try held.проверить()
+-            return held
+-        } catch { held.закрыть(); throw error }
++            try новыйУдержанныйЗамок.проверить()
++            return новыйУдержанныйЗамок
++        } catch { новыйУдержанныйЗамок.закрыть(); throw error }
+     }
+     func проверить() throws {
+             guard fd >= 0, dir >= 0 else { throw E("Lclosed", pin.path) }
+@@ -304,7 +304,7 @@
+             defer { _ = Darwin.close(again) }
+             var a = Darwin.stat(), named = Darwin.stat(), p = Darwin.stat()
+             guard againName == name, fstat(again, &p) == 0,
+-                p.st_dev == parentDevice, p.st_ino == parentInode,
++                p.st_dev == устройствоРодителя, p.st_ino == номерУзлаРодителя,
+                 p.st_mode & 0o7777 == 0o700,
+                 fstat(fd, &a) == 0, fstatat(dir, name, &named, AT_SYMLINK_NOFOLLOW) == 0,
+                 a.st_mode & S_IFMT == S_IFREG, a.st_mode & 0o7777 == 0o600,
+@@ -882,7 +882,7 @@
+   && p.current.lock.device > 0 && p.current.lock.inode > 0
+   && p.candidate.path != p.current.path, "Cpub0")
+  let candidate = try read(p.candidate, 0o600, p.current.maxBytes).данные
+- let envelope = try boundEnvelope(candidate, h, p.header.sha256)
++ let envelope = try проверитьСвязанныйКонверт(candidate, h, p.header.sha256)
+  let head: String?
+  if envelope.управление.действие == "продолжать" {
+   let observed = try git(h)
+@@ -970,7 +970,7 @@
+ }
+ public static func команда(_ args: [String]) -> Int32 {
+  do {
+- if args.first == "--передать-вход-издателя" { return try publishMaintainerInput(Array(args.dropFirst())) }
++ if args.first == "--передать-вход-издателя" { return try опубликоватьВходИздателя(Array(args.dropFirst())) }
+  if args.first == "--опубликовать-текущий" { return try publish(Array(args.dropFirst())) }
+  let (c, mode) = try load(args)
+  switch mode {
+@@ -996,68 +996,68 @@
+ 
+ // Lifecycle рабочего издателя не создаёт финальную диспозицию и не продлевает
+ // подтверждение содержания. ROOT выдаёт отдельную конечную аренду входа.
+-final class СостояниеИздателяStop {
+-    var последнийSHA256: String?
++final class СостояниеИздателяСтоп {
++    var последнийХэш: String?
+     var ревизия: Int64 = 0
+     var завершён = false
+     var ошибка: String?
+-    fileprivate var замок: УдерживаемыйЗамокStop?
+-    fileprivate var requestSHA: String?
+-    fileprivate var inputSHA: String?
+-    fileprivate var lastClock: Int64?
+-    fileprivate var startedAt: Int64?
+-    fileprivate var reserved = false
+-    fileprivate var tick = 0
+-    fileprivate var terminal: String?
+-    fileprivate var terminalSHA: String?
++    fileprivate var замок: УдерживаемыйЗамокСтоп?
++    fileprivate var хэшЗапросаИздателя: String?
++    fileprivate var хэшВходаИздателя: String?
++    fileprivate var последниеЧасы: Int64?
++    fileprivate var времяНачала: Int64?
++    fileprivate var намерениеСохранено = false
++    fileprivate var номерШага = 0
++    fileprivate var конечныйСтатус: String?
++    fileprivate var конечныйХэш: String?
+ }
+-struct ИтогПоддержанияStop: Sendable {
++struct ИтогПоддержанияСтоп: Sendable {
+     let статус: String
+     let наблюдаемыйSHA256: String?
+ }
+-private struct MaintainerRequest: Decodable {
++private struct ЗапросИздателяСтоп: Decodable {
+     let schema, runID: String
+     let header: Pin
+     let current: CPin
+     let singleton: СсылкаЗамкаStop
+-    let input: MaintainerInputPath
++    let input: ПутьВходаИздателяСтоп
+     let initialCurrentSHA256, requiredUnknownID, headPolicy: String
+     let intervalSeconds, ttlSeconds, maxTicks, maxRunSeconds: Int
+ }
+-private struct MaintainerInputPath: Decodable {
++private struct ПутьВходаИздателяСтоп: Decodable {
+     let path: String
+     let mode: UInt32
+     let maxBytes: Int
+ }
+-private struct MaintainerInput: Decodable {
++private struct ВходИздателяСтоп: Decodable {
+     let schema, root, node, scope, generation, headerSHA256: String
+     let revision, approvedAt, validUntil: Int64
+     let action, reason: String
+     let payload: Pin?
+ }
+-private struct MaintainerInputPublication: Decodable {
++private struct ПубликацияВходаИздателяСтоп: Decodable {
+     let schema: String
+     let request, candidate: Pin
+     let initiallyAbsent: Bool
+     let expectedSHA256: String?
+ }
+-private struct УсловияВходаИздателяStop: Decodable {
++private struct УсловияВходаИздателяСтоп: Decodable {
+     let свояОбласть, естьПолномочия, неизвестныйОпасныйЭффект: Bool
+     let естьНакопленноеПродвижение, можноБезопасноПродолжать, доступнаНезависимаяРабота: Bool
+     let локальнаяИсправимаяПроблема, остановкаЗадачи, естьБезопасныйСледующийШаг: Bool
+ }
+ extension УстановщикStop {
+-    private static func finishMaintainer(_ state: СостояниеИздателяStop, _ status: String,
+-        _ sha: String? = nil) -> ИтогПоддержанияStop {
+-        state.завершён = true; state.terminal = status; state.terminalSHA = sha
++    private static func завершитьИздателя(_ state: СостояниеИздателяСтоп, _ status: String,
++        _ sha: String? = nil) -> ИтогПоддержанияСтоп {
++        state.завершён = true; state.конечныйСтатус = status; state.конечныйХэш = sha
+         state.замок?.закрыть(); state.замок = nil
+-        return ИтогПоддержанияStop(статус: status, наблюдаемыйSHA256: sha)
++        return ИтогПоддержанияСтоп(статус: status, наблюдаемыйSHA256: sha)
+     }
+-    private static func maintainerRequest(_ path: String, _ sha: String) throws -> (MaintainerRequest, H) {
++    private static func прочитатьЗапросИздателя(_ path: String, _ sha: String) throws -> (ЗапросИздателяСтоп, H) {
+         try need(abs(path) && hex(sha, 64), "MR0")
+         let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+         try need(raw.sha256 == sha, "MR1", path)
+-        let p = try dec(MaintainerRequest.self, raw.данные)
++        let p = try dec(ЗапросИздателяСтоп.self, raw.данные)
+         let h = try dec(H.self, read(p.header, 0o400, 32_768).данные)
+         try need(p.schema == "fum.stop-maintainer-request.1" && uuid(p.runID)
+             && token(p.requiredUnknownID) && ["strict", "observe-with-unknown"].contains(p.headPolicy)
+@@ -1077,7 +1077,7 @@
+             && (1...65_536).contains(p.input.maxBytes) && hex(p.initialCurrentSHA256, 64), "MR3")
+         return (p, h)
+     }
+-    private static func boundEnvelope(_ bytes: Data, _ h: H, _ headerSHA: String) throws -> Envelope {
++    private static func проверитьСвязанныйКонверт(_ bytes: Data, _ h: H, _ headerSHA: String) throws -> Envelope {
+         let e = try dec(Envelope.self, bytes)
+         try need(e.схема == "fum.текущие-обязательства-stop.2" && e.заголовокSHA256 == headerSHA
+             && e.задача == h.задача && e.узел == h.узел && e.область == h.область
+@@ -1085,24 +1085,24 @@
+             && ["продолжать", "стоп", "пауза"].contains(e.управление.действие), "ME0")
+         return e
+     }
+-    private static func maintainerInput(_ p: MaintainerRequest, _ h: H)
+-        throws -> (MaintainerInput, СнимокБайтовStop) {
++    private static func прочитатьВходИздателя(_ p: ЗапросИздателяСтоп, _ h: H)
++        throws -> (ВходИздателяСтоп, СнимокБайтовStop) {
+         let raw = try AB.прочитать(p.input.path, ожидаемыйРежим: 0o600, предел: p.input.maxBytes)
+-        return (try decodeMaintainerInput(raw.данные, p, h), raw)
++        return (try декодироватьВходИздателя(raw.данные, p, h), raw)
+     }
+-    private static func decodeMaintainerInput(_ bytes: Data, _ p: MaintainerRequest, _ h: H) throws -> MaintainerInput {
+-        let v = try dec(MaintainerInput.self, bytes)
++    private static func декодироватьВходИздателя(_ bytes: Data, _ p: ЗапросИздателяСтоп, _ h: H) throws -> ВходИздателяСтоп {
++        let v = try dec(ВходИздателяСтоп.self, bytes)
+         try need(v.schema == "fum.stop-maintainer-input.1" && v.root == h.задача
+             && v.node == h.узел && v.scope == h.область && v.generation == h.поколение
+             && v.headerSHA256 == p.header.sha256 && v.revision >= 0 && text(v.reason)
+             && ["обновлять", "остановить-издатель", "стоп", "пауза"].contains(v.action), "MI0")
+         return v
+     }
+-    private static func maintainerPayload(_ p: MaintainerRequest, _ h: H,
+-        _ v: MaintainerInput, inputSHA: String, requestSHA: String, head: String, now: Int64) throws -> Data {
++    private static func сформироватьРабочийСнимок(_ p: ЗапросИздателяСтоп, _ h: H,
++        _ v: ВходИздателяСтоп, inputSHA: String, requestSHA: String, head: String, now: Int64) throws -> Data {
+         guard let pin = v.payload else { throw E("MIpayload") }
+         let raw = try read(pin, 0o600, p.current.maxBytes)
+-        let e = try boundEnvelope(raw.данные, h, p.header.sha256)
++        let e = try проверитьСвязанныйКонверт(raw.данные, h, p.header.sha256)
+         let m = try dec(Meta.self, raw.данные)
+         try need(e.управление.действие == "продолжать" && m.cwd == h.cwd && m.дерево == h.дерево
+             && m.ref == h.ref && hex(m.HEAD, 40), "MIpayloadMeta")
+@@ -1123,7 +1123,7 @@
+         else { throw E("MIworkingOnly") }
+         // JSONDecoder Bool отвергает числовые 0/1, которые NSNumber может
+         // неявно представить как Bool при чтении JSONSerialization.
+-        let проверенныеУсловия = try dec(УсловияВходаИздателяStop.self,
++        let проверенныеУсловия = try dec(УсловияВходаИздателяСтоп.self,
+             JSONSerialization.data(withJSONObject: conditions))
+         try need(!проверенныеУсловия.остановкаЗадачи, "MIworkingOnly")
+         var ids: Set<String> = []
+@@ -1155,18 +1155,18 @@
+         _ = try currentBytes(bytes, AB.sha256(bytes), h, p.header.sha256, head, clock: now)
+         return bytes
+     }
+-    private static func inputPublication(_ path: String, _ sha: String)
+-        throws -> (MaintainerInputPublication, MaintainerRequest, H, СнимокБайтовStop, MaintainerInput) {
++    private static func прочитатьПубликациюВхода(_ path: String, _ sha: String)
++        throws -> (ПубликацияВходаИздателяСтоп, ЗапросИздателяСтоп, H, СнимокБайтовStop, ВходИздателяСтоп) {
+         try need(abs(path) && hex(sha, 64), "MP0")
+         let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+         try need(raw.sha256 == sha, "MP1")
+-        let plan = try dec(MaintainerInputPublication.self, raw.данные)
++        let plan = try dec(ПубликацияВходаИздателяСтоп.self, raw.данные)
+         try need(plan.schema == "fum.stop-maintainer-input-publication.1"
+             && (plan.initiallyAbsent ? plan.expectedSHA256 == nil : hex(plan.expectedSHA256 ?? "", 64)), "MP2")
+         _ = try read(plan.request, 0o600, 65_536)
+-        let (p, h) = try maintainerRequest(plan.request.path, plan.request.sha256)
++        let (p, h) = try прочитатьЗапросИздателя(plan.request.path, plan.request.sha256)
+         let candidate = try read(plan.candidate, 0o600, p.input.maxBytes)
+-        let v = try decodeMaintainerInput(candidate.данные, p, h)
++        let v = try декодироватьВходИздателя(candidate.данные, p, h)
+         if v.action == "обновлять" {
+             let now = Int64(Date().timeIntervalSince1970)
+             try need(v.revision >= 1 && v.approvedAt >= 0 && v.approvedAt <= now
+@@ -1175,16 +1175,16 @@
+             guard let pin = v.payload else { throw E("MPpayload") }
+             let payload = try read(pin, 0o600, p.current.maxBytes)
+             let meta = try dec(Meta.self, payload.данные)
+-            _ = try maintainerPayload(p, h, v, inputSHA: candidate.sha256,
++            _ = try сформироватьРабочийСнимок(p, h, v, inputSHA: candidate.sha256,
+                 requestSHA: plan.request.sha256, head: meta.HEAD, now: now)
+         }
+         return (plan, p, h, candidate, v)
+     }
+-    private static func publishMaintainerInput(_ argv: [String]) throws -> Int32 {
++    private static func опубликоватьВходИздателя(_ argv: [String]) throws -> Int32 {
+         let (path, sha, mode) = try args(argv)
+-        let (_, initial, _, _, _) = try inputPublication(path, sha)
++        let (_, initial, _, _, _) = try прочитатьПубликациюВхода(path, sha)
+         return try ЗамокТекущегоStop.выполнить(initial.current.lock) { check in
+-            let (plan, p, _, candidate, v) = try inputPublication(path, sha)
++            let (plan, p, _, candidate, v) = try прочитатьПубликациюВхода(path, sha)
+             if case .apply(let value) = mode { try need(value == candidate.sha256, "MPcandidate") }
+             if plan.initiallyAbsent {
+                 var s = Darwin.stat()
+@@ -1192,8 +1192,8 @@
+             } else {
+                 let old = try AB.прочитать(p.input.path, ожидаемыйРежим: 0o600, предел: p.input.maxBytes)
+                 try need(old.sha256 == plan.expectedSHA256, "MPold")
+-                let oldVersion = try dec(MaintainerInput.self, old.данные)
+-                try need(v.revision > oldVersion.revision, "MPrev")
++                let прежняяРевизияВхода = try dec(ВходИздателяСтоп.self, old.данные)
++                try need(v.revision > прежняяРевизияВхода.revision, "MPrev")
+             }
+             var common: [String: Any] = ["operation": "publish-maintainer-input", "planSHA256": sha,
+                 "requestSHA256": plan.request.sha256, "candidateSHA256": candidate.sha256,
+@@ -1203,17 +1203,17 @@
+                 common["status"] = "METADATA_CHECKED"; common["writes"] = 0; emit(common); return 0
+             }
+             // Обычный busy уже обработан до резервирования стабильного намерения.
+-            let paths = try receiptPaths(config: p.input.path,
++            let путиКвитанцийИздателя = try receiptPaths(config: p.input.path,
+                 oldSHA: plan.expectedSHA256 ?? AB.sha256(Data("ABSENT".utf8)),
+                 candidateSHA: candidate.sha256, publication: true)
+-            common["intentReceipt"] = paths.intent; common["outcomeReceipt"] = paths.outcome
++            common["intentReceipt"] = путиКвитанцийИздателя.intent; common["outcomeReceipt"] = путиКвитанцийИздателя.outcome
+             var intent = common; intent["status"] = "INTENT"
+-            try receipt(paths.intent, intent)
++            try receipt(путиКвитанцийИздателя.intent, intent)
+             var code: Int32 = 2
+             do {
+                 let result = try withoutActuallyEscaping(check) { verify in
+                     var points = ТочкиАтомарнойЗаменыStop()
+-                    points.передRename = { try verify(); _ = try inputPublication(path, sha) }
++                    points.передRename = { try verify(); _ = try прочитатьПубликациюВхода(path, sha) }
+                     return try AB.записать(p.input.path, ожидаемыйSHA256: plan.expectedSHA256,
+                         новыми: candidate.данные, точки: points)
+                 }
+@@ -1226,60 +1226,60 @@
+                 common["error"] = e.причина; code = unknown ? 4 : 2
+                 if let seen = e.наблюдаемыйSHA256 { common["observedInputSHA256"] = seen }
+             } catch { common["status"] = "UNKNOWN"; common["error"] = String(describing: error); code = 4 }
+-            do { try receipt(paths.outcome, common) } catch {
++            do { try receipt(путиКвитанцийИздателя.outcome, common) } catch {
+                 common["status"] = "UNKNOWN"; common["receiptError"] = String(describing: error); code = 5
+             }
+             emit(common); return code
+         }
+     }
+     static func шагПоддержания(_ путь: String, хэш: String,
+-        состояние: СостояниеИздателяStop, сейчас: Int64,
++        состояние: СостояниеИздателяСтоп, сейчас: Int64,
+         точки: ТочкиАтомарнойЗаменыStop = ТочкиАтомарнойЗаменыStop(),
+-        часыПередRename: @escaping () throws -> Int64 = { Int64(Date().timeIntervalSince1970) }) throws -> ИтогПоддержанияStop {
++        часыПередRename: @escaping () throws -> Int64 = { Int64(Date().timeIntervalSince1970) }) throws -> ИтогПоддержанияСтоп {
+         let state = состояние
+-        if state.завершён { return ИтогПоддержанияStop(статус: state.terminal ?? "STOPPED", наблюдаемыйSHA256: state.terminalSHA) }
++        if state.завершён { return ИтогПоддержанияСтоп(статус: state.конечныйСтатус ?? "STOPPED", наблюдаемыйSHA256: state.конечныйХэш) }
+         do {
+-            let (p, h) = try maintainerRequest(путь, хэш)
++            let (p, h) = try прочитатьЗапросИздателя(путь, хэш)
+             try need(сейчас >= 0 && сейчас <= Int64.max - 86_400, "Mclock")
+-            if let requestSHA = state.requestSHA, requestSHA != хэш { return finishMaintainer(state, "REQUEST_CHANGED") }
++            if let requestSHA = state.хэшЗапросаИздателя, requestSHA != хэш { return завершитьИздателя(state, "REQUEST_CHANGED") }
+             if state.замок == nil {
+-                do { state.замок = try УдерживаемыйЗамокStop.открыть(p.singleton) }
+-                catch let e as E where e.description.hasPrefix("Lbusy:") { return finishMaintainer(state, "SINGLETON_BUSY") }
++                do { state.замок = try УдерживаемыйЗамокСтоп.открыть(p.singleton) }
++                catch let e as E where e.description.hasPrefix("Lbusy:") { return завершитьИздателя(state, "SINGLETON_BUSY") }
+             }
+-            state.requestSHA = хэш
+-            if state.startedAt == nil { state.startedAt = сейчас }
++            state.хэшЗапросаИздателя = хэш
++            if state.времяНачала == nil { state.времяНачала = сейчас }
+             return try ЗамокТекущегоStop.выполнить(p.current.lock) { checkLock in
+-                try state.замок?.проверить(); _ = try maintainerRequest(путь, хэш)
++                try state.замок?.проверить(); _ = try прочитатьЗапросИздателя(путь, хэш)
+                 let old = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
+-                let oldEnvelope = try boundEnvelope(old.данные, h, p.header.sha256)
+-                if oldEnvelope.управление.действие != "продолжать" { return finishMaintainer(state, "ROOT_CONTROL", old.sha256) }
+-                let stem = try parent(p.current.path) + "/.fum-stop-maintainer-" + хэш
+-                let attempt = stem + ".attempt.json"
+-                if !state.reserved {
++                let прежнийКонверт = try проверитьСвязанныйКонверт(old.данные, h, p.header.sha256)
++                if прежнийКонверт.управление.действие != "продолжать" { return завершитьИздателя(state, "ROOT_CONTROL", old.sha256) }
++                let основаПопыткиИздателя = try parent(p.current.path) + "/.fum-stop-maintainer-" + хэш
++                let путьПопыткиИздателя = основаПопыткиИздателя + ".attempt.json"
++                if !state.намерениеСохранено {
+                     var s = Darwin.stat()
+-                    if lstat(attempt, &s) == 0 { return finishMaintainer(state, "RECOVERY_REQUIRED", old.sha256) }
++                    if lstat(путьПопыткиИздателя, &s) == 0 { return завершитьИздателя(state, "RECOVERY_REQUIRED", old.sha256) }
+                     try need(errno == ENOENT, "Mattempt")
+                 }
+-                if old.sha256 != (state.последнийSHA256 ?? p.initialCurrentSHA256) {
+-                    return finishMaintainer(state, "MANUAL_TAKEOVER", old.sha256)
++                if old.sha256 != (state.последнийХэш ?? p.initialCurrentSHA256) {
++                    return завершитьИздателя(state, "MANUAL_TAKEOVER", old.sha256)
+                 }
+-                let (input, inputRaw) = try maintainerInput(p, h)
+-                if input.action == "остановить-издатель" { return finishMaintainer(state, "SERVICE_STOPPED", old.sha256) }
++                let (input, inputRaw) = try прочитатьВходИздателя(p, h)
++                if input.action == "остановить-издатель" { return завершитьИздателя(state, "SERVICE_STOPPED", old.sha256) }
+                 if input.action == "обновлять" {
+-                    if let prior = state.lastClock, сейчас < prior { return finishMaintainer(state, "CLOCK_REGRESSION", old.sha256) }
+-                    if input.revision < state.ревизия { return finishMaintainer(state, "INPUT_REVISION_ROLLBACK", old.sha256) }
+-                    if let prior = state.inputSHA, input.revision == state.ревизия && prior != inputRaw.sha256 {
+-                        return finishMaintainer(state, "INPUT_REVISION_REUSED", old.sha256)
++                    if let prior = state.последниеЧасы, сейчас < prior { return завершитьИздателя(state, "CLOCK_REGRESSION", old.sha256) }
++                    if input.revision < state.ревизия { return завершитьИздателя(state, "INPUT_REVISION_ROLLBACK", old.sha256) }
++                    if let prior = state.хэшВходаИздателя, input.revision == state.ревизия && prior != inputRaw.sha256 {
++                        return завершитьИздателя(state, "INPUT_REVISION_REUSED", old.sha256)
+                     }
+                     try need(input.revision >= 1 && input.approvedAt >= 0 && input.approvedAt <= сейчас
+                         && input.approvedAt <= Int64.max - 86_400
+                         && input.validUntil >= input.approvedAt && input.validUntil - input.approvedAt <= 86_400, "MIlease")
+-                    if input.validUntil <= сейчас { return finishMaintainer(state, "SOURCE_EXPIRED", old.sha256) }
+-                    if state.tick >= p.maxTicks || сейчас - (state.startedAt ?? сейчас) >= Int64(p.maxRunSeconds) {
+-                        return finishMaintainer(state, "RUN_LIMIT", old.sha256)
++                    if input.validUntil <= сейчас { return завершитьИздателя(state, "SOURCE_EXPIRED", old.sha256) }
++                    if state.номерШага >= p.maxTicks || сейчас - (state.времяНачала ?? сейчас) >= Int64(p.maxRunSeconds) {
++                        return завершитьИздателя(state, "RUN_LIMIT", old.sha256)
+                     }
+                 }
+-                state.lastClock = сейчас
++                state.последниеЧасы = сейчас
+                 let candidate: Data
+                 var observedHead: String?
+                 if ["стоп", "пауза"].contains(input.action) {
+@@ -1294,39 +1294,39 @@
+                     if p.headPolicy == "strict", let pin = input.payload {
+                         let raw = try read(pin, 0o600, p.current.maxBytes)
+                         let meta = try dec(Meta.self, raw.данные)
+-                        if head != meta.HEAD { return finishMaintainer(state, "HEAD_CHANGED", old.sha256) }
++                        if head != meta.HEAD { return завершитьИздателя(state, "HEAD_CHANGED", old.sha256) }
+                     }
+-                    candidate = try maintainerPayload(p, h, input, inputSHA: inputRaw.sha256,
++                    candidate = try сформироватьРабочийСнимок(p, h, input, inputSHA: inputRaw.sha256,
+                         requestSHA: хэш, head: head, now: сейчас)
+                 }
+                 if candidate == old.данные {
+-                    state.ревизия = input.revision; state.inputSHA = inputRaw.sha256
+-                    state.последнийSHA256 = old.sha256
+-                    return ИтогПоддержанияStop(статус: "NO_CHANGE", наблюдаемыйSHA256: old.sha256)
++                    state.ревизия = input.revision; state.хэшВходаИздателя = inputRaw.sha256
++                    state.последнийХэш = old.sha256
++                    return ИтогПоддержанияСтоп(статус: "NO_CHANGE", наблюдаемыйSHA256: old.sha256)
+                 }
+-                if !state.reserved {
+-                    try receipt(attempt, ["schema": "fum.stop-maintainer-attempt.1", "requestSHA256": хэш,
++                if !state.намерениеСохранено {
++                    try receipt(путьПопыткиИздателя, ["schema": "fum.stop-maintainer-attempt.1", "requestSHA256": хэш,
+                         "runID": p.runID, "root": h.задача, "inputSHA256": inputRaw.sha256,
+                         "expectedCurrentSHA256": old.sha256, "status": "INTENT", "automaticRetry": false])
+-                    state.reserved = true
++                    state.намерениеСохранено = true
+                 }
+-                state.tick += 1
+-                let tickStem = stem + ".tick-" + String(format: "%08d", state.tick)
+-                let intentPath = tickStem + ".intent.json", outcomePath = tickStem + ".outcome.json"
++                state.номерШага += 1
++                let основаКвитанцииШага = основаПопыткиИздателя + ".tick-" + String(format: "%08d", state.номерШага)
++                let путьНамеренияШага = основаКвитанцииШага + ".intent.json", outcomePath = основаКвитанцииШага + ".outcome.json"
+                 var outcome: [String: Any] = ["requestSHA256": хэш, "inputSHA256": inputRaw.sha256,
+-                    "revision": input.revision, "tick": state.tick, "expectedCurrentSHA256": old.sha256,
++                    "revision": input.revision, "tick": state.номерШага, "expectedCurrentSHA256": old.sha256,
+                     "candidateSHA256": AB.sha256(candidate), "automaticRetry": false, "automaticRollback": false]
+                 var intent = outcome; intent["status"] = "INTENT"
+-                try receipt(intentPath, intent)
++                try receipt(путьНамеренияШага, intent)
+                 var observed: String?, status = "FAILED", terminal = false
+                 do {
+                     let result = try withoutActuallyEscaping(checkLock) { verify in
+                         var points = точки
+-                        let caller = points.передRename
++                        let проверкаВызывающего = points.передRename
+                         points.передRename = {
+-                            try caller?(); try verify(); try state.замок?.проверить()
+-                            _ = try maintainerRequest(путь, хэш)
+-                            let (_, latestInput) = try maintainerInput(p, h)
++                            try проверкаВызывающего?(); try verify(); try state.замок?.проверить()
++                            _ = try прочитатьЗапросИздателя(путь, хэш)
++                            let (_, latestInput) = try прочитатьВходИздателя(p, h)
+                             try need(latestInput.sha256 == inputRaw.sha256, "MIchanged")
+                             let latestCurrent = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
+                             try need(latestCurrent.sha256 == old.sha256, "MCchanged")
+@@ -1365,65 +1365,65 @@
+                 outcome["status"] = status
+                 if let observed { outcome["observedCurrentSHA256"] = observed }
+                 do { try receipt(outcomePath, outcome) } catch {
+-                    return finishMaintainer(state, "UNKNOWN", observed)
++                    return завершитьИздателя(state, "UNKNOWN", observed)
+                 }
+-                if terminal { return finishMaintainer(state, status, observed) }
++                if terminal { return завершитьИздателя(state, status, observed) }
+                 if status == "HEAD_RECHECK" {
+-                    return ИтогПоддержанияStop(статус: status, наблюдаемыйSHA256: old.sha256)
++                    return ИтогПоддержанияСтоп(статус: status, наблюдаемыйSHA256: old.sha256)
+                 }
+-                state.последнийSHA256 = observed; state.ревизия = input.revision; state.inputSHA = inputRaw.sha256
+-                if ["стоп", "пауза"].contains(input.action) { return finishMaintainer(state, "ROOT_CONTROL_PUBLISHED", observed) }
+-                return ИтогПоддержанияStop(статус: "UPDATED", наблюдаемыйSHA256: observed)
++                state.последнийХэш = observed; state.ревизия = input.revision; state.хэшВходаИздателя = inputRaw.sha256
++                if ["стоп", "пауза"].contains(input.action) { return завершитьИздателя(state, "ROOT_CONTROL_PUBLISHED", observed) }
++                return ИтогПоддержанияСтоп(статус: "UPDATED", наблюдаемыйSHA256: observed)
+             }
+         } catch let e as E where e.description.hasPrefix("Lbusy:") {
+-            return ИтогПоддержанияStop(статус: "CURRENT_BUSY", наблюдаемыйSHA256: state.последнийSHA256)
++            return ИтогПоддержанияСтоп(статус: "CURRENT_BUSY", наблюдаемыйSHA256: state.последнийХэш)
+         } catch {
+             state.ошибка = String(describing: error)
+-            return finishMaintainer(state, "FAILED", state.последнийSHA256)
++            return завершитьИздателя(state, "FAILED", state.последнийХэш)
+         }
+     }
+     public static func поддерживатьТекущий(_ аргументы: [String]) async -> Int32 {
+-        let state = СостояниеИздателяStop()
++        let state = СостояниеИздателяСтоп()
+         do {
+             try need(аргументы.count == 4 && аргументы[0] == "--план"
+                 && аргументы[2] == "--хэш-плана", "MA0")
+             let path = аргументы[1], sha = аргументы[3]
+-            let (p, _) = try maintainerRequest(path, sha)
++            let (p, _) = try прочитатьЗапросИздателя(path, sha)
+             let clock = ContinuousClock(), began = clock.now
+             var busySince: ContinuousClock.Instant?
+             emit(["status": "STARTING", "requestSHA256": sha,
+                 "authorityChecked": false, "worklistCompleteness": "UNKNOWN"])
+             while !state.завершён {
+-                if Task.isCancelled { _ = finishMaintainer(state, "SERVICE_CANCELLED", state.последнийSHA256); break }
++                if Task.isCancelled { _ = завершитьИздателя(state, "SERVICE_CANCELLED", state.последнийХэш); break }
+                 if began.duration(to: clock.now).components.seconds >= Int64(p.maxRunSeconds) {
+-                    _ = finishMaintainer(state, "RUN_LIMIT", state.последнийSHA256); break
++                    _ = завершитьИздателя(state, "RUN_LIMIT", state.последнийХэш); break
+                 }
+                 let now = Int64(Date().timeIntervalSince1970)
+                 let result = try шагПоддержания(path, хэш: sha, состояние: state, сейчас: now)
+                 if result.статус == "CURRENT_BUSY" {
+                     if busySince == nil { busySince = clock.now }
+                     if let busySince, busySince.duration(to: clock.now).components.seconds >= Int64(min(5, p.intervalSeconds)) {
+-                        _ = finishMaintainer(state, "CURRENT_BUSY_TIMEOUT", state.последнийSHA256); break
++                        _ = завершитьИздателя(state, "CURRENT_BUSY_TIMEOUT", state.последнийХэш); break
+                     }
+                     try await Task.sleep(for: .milliseconds(100))
+                     continue
+                 }
+                 busySince = nil
+-                if state.tick >= p.maxTicks, !state.завершён {
+-                    _ = finishMaintainer(state, "RUN_LIMIT", state.последнийSHA256)
++                if state.номерШага >= p.maxTicks, !state.завершён {
++                    _ = завершитьИздателя(state, "RUN_LIMIT", state.последнийХэш)
+                 }
+                 if !state.завершён { try await Task.sleep(for: .seconds(p.intervalSeconds)) }
+             }
+-            var outcome: [String: Any] = ["status": state.terminal ?? "STOPPED", "requestSHA256": sha,
+-                "ticks": state.tick, "revision": state.ревизия, "automaticRetry": false,
++            var outcome: [String: Any] = ["status": state.конечныйСтатус ?? "STOPPED", "requestSHA256": sha,
++                "ticks": state.номерШага, "revision": state.ревизия, "automaticRetry": false,
+                 "worklistCompleteness": "UNKNOWN", "sourceLeaseRenewedByTimer": false]
+-            if let seen = state.terminalSHA ?? state.последнийSHA256 { outcome["observedCurrentSHA256"] = seen }
++            if let seen = state.конечныйХэш ?? state.последнийХэш { outcome["observedCurrentSHA256"] = seen }
+             if let error = state.ошибка { outcome["error"] = error }
+             emit(outcome)
+             return ["SERVICE_STOPPED", "SERVICE_CANCELLED", "ROOT_CONTROL", "ROOT_CONTROL_PUBLISHED",
+-                "MANUAL_TAKEOVER", "RUN_LIMIT"].contains(state.terminal ?? "") ? 0 : 3
++                "MANUAL_TAKEOVER", "RUN_LIMIT"].contains(state.конечныйСтатус ?? "") ? 0 : 3
+         } catch {
+-            _ = finishMaintainer(state, "UNKNOWN", state.последнийSHA256)
++            _ = завершитьИздателя(state, "UNKNOWN", state.последнийХэш)
+             emit(["status": "UNKNOWN", "error": String(describing: error), "automaticRetry": false])
+             return 4
+         }
