@@ -684,6 +684,16 @@ static func receiptPaths(config: String, oldSHA: String, candidateSHA: String,
  let stem = dir + "/.fum-stop-" + domain + "-" + key
  return RPaths(intent: stem + ".intent.json", outcome: stem + ".outcome.json", key: key)
 }
+// Общая точка preflight для обоих CLI. Тестовая точка моделирует публикацию
+// между первоначальным выбором lock pin и захватом стабильного inode.
+static func предварительнаяПроверка<T>(_ pin: СсылкаЗамкаStop,
+ передЗамком: (() throws -> Void)? = nil, наблюдать: () throws -> T) throws -> T {
+ try передЗамком?()
+ return try ЗамокТекущегоStop.выполнить(pin) { check in
+  try check()
+  return try наблюдать()
+ }
+}
 // Этот адрес не зависит от planPath, HEAD, времени или UUID попытки.
 // Любой оставшийся intent (включая частичный) блокирует повтор. Очистки здесь нет.
 static func receipt(_ path: String, _ object: [String: Any]) throws {
@@ -869,7 +879,10 @@ private static func publish(_ argv: [String]) throws -> Int32 {
   "worklistCompleteness": "ROOT_REQUIRED", "acceptedSourceAncestry": "ROOT_REQUIRED",
   "authorityChecked": false, "automaticRetry": false, "automaticRollback": false]
  if case .check = mode {
-  try ЗамокТекущегоStop.выполнить(p.current.lock) { check in try check() }
+  let (_, _, _, freshHead) = try предварительнаяПроверка(p.current.lock) {
+   try publicationInputs(path, sha)
+  }
+  common["rootHEAD"] = freshHead
   common["status"] = "METADATA_CHECKED"; common["metadataChecked"] = true
   common["writes"] = 0; emit(common); return 0
  }
@@ -930,10 +943,10 @@ public static func команда(_ args: [String]) -> Int32 {
  let (c, mode) = try load(args)
  switch mode {
  case .check:
-  try ЗамокТекущегоStop.выполнить(c.p.current.lock) { check in try check() }
-  var o = base(c)
-  let checked = c.current?.action == "продолжать"
-  o["status"] = c.current == nil ? "UNKNOWN" : (checked ? "METADATA_CHECKED" : "BLOCKED")
+  let (fresh, _) = try предварительнаяПроверка(c.p.current.lock) { try load(args) }
+  var o = base(fresh)
+  let checked = fresh.current?.action == "продолжать"
+  o["status"] = fresh.current == nil ? "UNKNOWN" : (checked ? "METADATA_CHECKED" : "BLOCKED")
   o["metadataChecked"] = checked; o["writes"] = 0
   emit(o); return checked ? 0 : 3
  case .apply:

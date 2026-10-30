@@ -54,6 +54,29 @@ struct ПроверкиПротоколаПубликацииStop {
         #expect(effects == 1)
     }
 
+    @Test func preflightВидитПубликациюПередЗамкомИЧитаетТолькоПодЗамком() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let pin = try f.pin(), path = f.root.appendingPathComponent("current.json")
+        let old = Data("old-HEAD/continue".utf8), new = Data("new-HEAD/pause".utf8)
+        try Фикстура.write(old, path)
+        var unlockedReads = 0
+        let seen = try УстановщикStop.предварительнаяПроверка(pin, передЗамком: {
+            try ЗамокТекущегоStop.выполнить(pin) { _ in
+                _ = try АтомарныеБайтыStop.заменить(path.path,
+                    ожидаемыйSHA256: АтомарныеБайтыStop.sha256(old), новыми: new)
+            }
+        }, наблюдать: {
+            // Независимый open FD того же inode не должен получить flock.
+            do { try ЗамокТекущегоStop.выполнить(pin) { _ in unlockedReads += 1 } }
+            catch { }
+            return try АтомарныеБайтыStop.прочитать(path.path).данные
+        })
+        #expect(seen == new)
+        #expect(unlockedReads == 0)
+        #expect(try Data(contentsOf: path) == new)
+        try ЗамокТекущегоStop.выполнить(pin) { check in try check() }
+    }
+
     @Test func ссылкиПраваРазмерИПодменаInodeОтклоняются() throws {
         let f = try Фикстура(); defer { f.cleanup() }
         let original = try f.pin()

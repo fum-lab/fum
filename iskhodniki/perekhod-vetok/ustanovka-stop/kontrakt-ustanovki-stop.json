@@ -1,11 +1,11 @@
 {
   "схема": "fum.контракт-установки-stop.1",
-  "состояние": "GREEN4:19tests в3suites PASS, compileOK/warnings0; correction3 compilefailure сохранён отдельно. Установка и ROOT приёмка не выполнены",
+  "состояние": "GREEN6:20tests в3suites PASS, compileOK/warnings0; P2 stalepreflight подтверждён RED5 и исправлен. Установка и ROOT приёмка не выполнены",
   "исходныйROOT": "82babe15d2a54153fdb1f499780a0aa6188400fc",
   "issue": "https://github.com/fum-lab/fum/issues/479",
   "программа": {
     "цель": "Одна адресная замена команды Native FUM Stop через Swift с точными hashes/дрейфом/readback",
-    "текущее": "Общий stable lock, guard рядом сconfig и вызываемый ROOT publisher проверены на собственных синтетических файлах. Production effect и отдельный CLI runtime ещё не выполнялись",
+    "текущее": "Общий stable lock, guard рядом сconfig, ROOT publisher и preflight чтение подзамком проверены на собственных синтетических файлах. Production effect и отдельный CLI runtime ещё не выполнялись",
     "следующее": [
       "Source checkpoint и exact normal push",
       "Проверка ROOT исходников/артефакта и текущего состояния",
@@ -31,8 +31,8 @@
       "iskhodniki/perekhod-vetok/ustanovka-stop/kontrakt-ustanovki-stop.json"
     ],
     "tests": "Только собственные синтетические filesystem fixtures",
-    "topUsed": 4,
-    "topMax": 4,
+    "topUsed": 6,
+    "topMax": 6,
     "productionConfigWrites": 0,
     "currentWrites": 0,
     "NativeProbes": 0,
@@ -129,7 +129,9 @@
     ],
     "compileFailure3": {"exit": 1, "warnings": 0, "wallSeconds": 6.57, "maxRSS": 271728640, "runtimeTests": "Не запускались", "cause": "Шесть compiler diagnostics только новых tests; не functionalRED"},
     "GREEN4": {"exit": 0, "tests": 19, "suites": 3, "warnings": 0, "wallSeconds": 5.30, "buildSeconds": 3.17, "runtimeSeconds": 0.036, "maxRSS": 268926976, "scope": "10filesystem/3pure/6protocol: busy/release/errors, links/mode/inode, stableguard, initialexclusivecreate и in-processpublisherCLI"},
-    "исходникиВоВремяПрогона": "GREEN4: Package+3Swift побайтно равны tested harness; после результата изменён только описательный JSON, исключённый из compile targets. Все пять финальных файлов не объявляются исходными входами прогона"
+    "RED5": {"exit": 1, "tests": 7, "passed": 6, "failed": 1, "issues": 2, "warnings": 0, "wallSeconds": 8.77, "buildSeconds": 5.12, "runtimeSeconds": 0.039, "maxRSS": 271810560, "scope": "Подтверждён P2 preflight: oldseen и unlockedReads1 в кооперативной гонке доflock; compileOK"},
+    "GREEN6": {"exit": 0, "tests": 20, "suites": 3, "warnings": 0, "wallSeconds": 4.37, "buildSeconds": 2.52, "runtimeSeconds": 0.036, "maxRSS": 238338048, "scope": "SameREDtest безослабления, freshнаблюдениевнутриstablelock плюс прежние19regressions"},
+    "исходникиВоВремяПрогона": "GREEN6: Package+3Swift побайтно равны tested harness; после результата изменён только описательный JSON, исключённый из compile targets. Все пять финальных файлов не объявляются исходными входами прогона"
   },
   "дополнительныеТесты": [
     "Только selected command token и все остальные bytes неизменны",
@@ -145,7 +147,7 @@
     "текущийСнимок": "ТолькоROOTпубликуетactualcurrent; отсутствующий/stale/несвязанныйснимок не даётready",
     "исходы": "Стабильный intent/outcome рядом с physicalconfig, ключ path+oldSHA+candidateSHA; не зависит от planPath/HEAD/time. Любой оставшийся intent блокирует новую попытку; очистки, rollback и автоповтора нет",
     "замок": "Все ROOT publisher и installer используют один pre-existing empty0600 current.json.lock с закреплённым device/inode в0700parent; flock nonblocking держится от finalcurrent/HEAD check до rename/fsync/readback. Lock inode не заменяется/не удаляется. Писатели, нарушающие протокол, и RootHEAD/artifact custody остаются внешними предпосылками",
-    "проверить": "metadataChecked; worklistCompleteness/acceptedSourceAncestry=ROOT_REQUIRED. Exit0 не разрешает активацию",
+    "проверить": "Оба preflight повторяют полное чтение и валидацию current/HEAD под общим lock и выводят свежие данные. metadataChecked; worklistCompleteness/acceptedSourceAncestry=ROOT_REQUIRED. Exit0 не разрешает активацию",
     "publisher": {
       "argv": ["ustanovitj-stop", "--опубликовать-текущий", "--план", "<pinned-publication-plan>", "--хэш-плана", "<sha256>", "--проверить | --применить <candidateSHA256>"],
       "schema": "fum.stop-current-publication.1",
@@ -171,5 +173,13 @@
     "testSwiftSHA256": "a06115028f174ac778b5a038ff34682f5b012e1c3a37606c246ab52031ca11a2",
     "runtime": "Dispatcher publisher вызван внутри синтетического теста. Отдельный product process, production current/config и настоящий Native Stop не запускались",
     "linking": "Только системные Foundation/CryptoKit/Swift/Darwin; private build dylibs не найдены"
+  },
+  "артефактGREEN6": {
+    "name": "ustanovitj-stop",
+    "bytes": 789328,
+    "sha256": "53cf697300ffc531c0ef5a72975a8e7cbb39222f1fa461751686e2acf86a81e7",
+    "sourceSwiftSHA256": "2ee939c7c1dbead4f41f97ee3e69512172a2556f4022d5b3edb50af212ab7226",
+    "testSwiftSHA256": "d1996e949e35bb41b68cecc1f42e2da33dd5a5f95b32dd06ae77ba64c961dc6d",
+    "runtime": "Только synthetic in-process dispatcher/fixtures, production config/current и настоящий Native Stop не запускались"
   }
 }
