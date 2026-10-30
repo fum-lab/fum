@@ -211,15 +211,8 @@ private final class ФикстураПриёмаROOT {
         #expect(try f2.число("merge") == 0)
     }
     @Test func неправильныеДеревоИПорядокРодителейОтклоняются() throws {
-        let f = try ФикстураПриёмаROOT(), c = try f.контекст(), r = try ПрограммаПриёмаROOT(c)
-        let done = try f.завершить(r); r.закрыть()
-        let raw = try ФикстураПриёмаROOT.команда("/usr/bin/git", ["-C", f.W.path, "cat-file", "commit", done.commit!], cwd: f.dir, logs: f.dir.appendingPathComponent("negative"))
-        for (parents, tree) in [([f.M,f.L],f.tree),([f.L,f.M],String(repeating:"0",count:40))] {
-            let file = f.dir.appendingPathComponent(UUID().uuidString + ".expected.json")
-            try JSONSerialization.data(withJSONObject: ["schema":"fum.raw-merge-commit-expectation.1","expectedParents":parents,"expectedTree":tree]).write(to:file)
-            let bad = try ФикстураПриёмаROOT.команда(f.среда.metadataCLI,["--проверить-сырой-merge-коммит",f.среда.metadataState,file.path],cwd:f.W,logs:f.dir.appendingPathComponent("negative"),env:c.окружение,input:raw.1)
-            #expect(bad.0 != 0)
-        }
+        // Тот же подготовленный parser/raw-handler, положительный контроль и точные отказы.
+        try проверитьАдресныеRawОтказы363()
     }
     @Test func известныйCommitПриRawFAILНеПубликуется() throws {
         let f = try ФикстураПриёмаROOT(), r = try ПрограммаПриёмаROOT(f.контекст())
@@ -287,7 +280,7 @@ private final class ФикстураПриёмаROOT {
 }
 
 // Адресная регрессия №363; общая историческая suite не входит в выбранный запуск.
-private func документыЛичности363(
+func документыЛичности363(
     rootUUID: String,
     stageUUID: String,
     W: String,
@@ -346,7 +339,7 @@ private func документыЛичности363(
     ]
 }
 
-private struct СинтетическаяСреда363 {
+struct СинтетическаяСреда363 {
     static let rootUUID = "f0000000-0000-4000-8000-000000000001"
     static let stageUUID = "f0000000-0000-4000-8000-000000000002"
 
@@ -535,18 +528,18 @@ import CryptoKit
 // Нативные проверки используют существующий helper с явным полным окружением.
 // Нового исполнителя процессов в этом дополнении нет.
 
-private func кодироватьПроверку363(_ o: [String: Any]) throws -> Data {
+func кодироватьПроверку363(_ o: [String: Any]) throws -> Data {
     try JSONSerialization.data(withJSONObject: o, options: [.sortedKeys, .withoutEscapingSlashes])
 }
-private func объектПроверки363(_ d: Data) throws -> [String: Any] {
+func объектПроверки363(_ d: Data) throws -> [String: Any] {
     guard let o = try JSONSerialization.jsonObject(with: d) as? [String: Any] else {
         throw ОшибкаПриёмаROOT.отказ("fixture-363-json")
     }; return o
 }
-private func отказПроверки363(_ f: () throws -> Void) -> Bool {
+func отказПроверки363(_ f: () throws -> Void) -> Bool {
     do { try f(); return false } catch { return true }
 }
-private struct ВходПроверки363 {
+struct ВходПроверки363 {
     let path: String
     var data: Data
     var sha: String
@@ -568,7 +561,7 @@ private struct ВходПроверки363 {
         data = try кодироватьПроверку363(s); sha = хэшПриёмаROOT(data); docs[path] = data
     }
 }
-private func входПроверки363(_ f: СинтетическаяСреда363) throws -> ВходПроверки363 {
+func входПроверки363(_ f: СинтетическаяСреда363) throws -> ВходПроверки363 {
     let g = try JSONDecoder().decode(ПоручениеПриёмаROOT.self, from: Data(contentsOf: f.поручение))
     var d: [String: Data] = [:]
     for p in g.pins { d[p.путь] = try Data(contentsOf: URL(fileURLWithPath: p.путь)) }
@@ -576,7 +569,7 @@ private func входПроверки363(_ f: СинтетическаяСред
     return ВходПроверки363(path: p, data: d[p]!,
         sha: f.среда.переменные["FUM_COMMIT_PREPARATION_SHA256"]!, docs: d)
 }
-private func наблюдениеПроверки363(
+func наблюдениеПроверки363(
     _ e: КонтекстЗапускаКодекс, root: String? = nil, stage: String? = nil,
     W: String? = nil, ref: String? = nil, head: String? = nil,
     sourceTree: String? = nil, indexTree: String? = nil, parents: [String]? = nil
@@ -588,11 +581,11 @@ private func наблюдениеПроверки363(
         исходныйOID: head ?? e.исходныйOID, исходноеДерево: sourceTree ?? e.исходноеДерево,
         деревоИндекса: indexTree ?? e.деревоКоммита, родители: parents ?? e.родители)
 }
-private func идентификаторПроверки363(_ d: Data) -> String {
+func идентификаторПроверки363(_ d: Data) -> String {
     var framed = Data("commit \(d.count)\u{0}".utf8); framed.append(d)
     return Insecure.SHA1.hash(data: framed).map { String(format: "%02x", $0) }.joined()
 }
-private func сыройКоммитПроверки363(
+func сыройКоммитПроверки363(
     _ c: КандидатПодготовкиЗапускаКодекс, body: Data, tree: String? = nil,
     parents: [String]? = nil, author: String? = nil, authorEmail: String? = nil,
     authorDate: String? = nil, committer: String? = nil,
@@ -972,4 +965,25 @@ private final class ФикстураВозобновления363 {
         }
         throw ОшибкаПриёмаROOT.отказ("unexpected-fixture-read")
     }
+}
+
+// Только синтетический результат callback: этот helper не запускает FUMA и не удостоверяет backend.
+func метаданныеПроверки363(_ c: КандидатПодготовкиЗапускаКодекс) throws -> РезультатГенерацииМетаданныхКоммита {
+    let e = c.ожиданиеСырогоКоммита
+    let snapshot = try JSONDecoder().decode(СнимокИдентичностиКодекс.self, from: e.данныеСнимка)
+    let unavailable = ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil)
+    let witness = СвидетельствоВыбораМодели(источник: .корневыеNativeClientMetadata,
+        rootUUID: c.ожидаемыйКонтекст.идентификаторКорневойЗадачи,
+        sessionIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata,
+            значение: c.ожидаемыйКонтекст.идентификаторЭтапа),
+        requestIdentity: unavailable, responseIdentity: unavailable, nativeThread: nil,
+        requestedSelection: nil,
+        selectedValue: ПараметрыВыбораAPI(model: snapshot.модель, reasoningEffort: snapshot.усилие),
+        nativeSelectionSourceSHA256: хэшПриёмаROOT(e.данныеСнимка),
+        backendModel: .неизвестно, nativeTurnContext: .неизвестно)
+    return РезультатГенерацииМетаданныхКоммита(выборМодели: witness,
+        автор: ИдентификаторGit(имя: e.имяАвтора, почта: e.почтаАвтора),
+        коммитер: ИдентификаторGit(имя: e.имяКоммиттера, почта: e.почтаКоммиттера),
+        окружение: ["GIT_AUTHOR_NAME": e.имяАвтора],
+        сообщение: e.путь.телоСообщенияДляПроверкиСырогоКоммита, ошибки: [])
 }

@@ -40,6 +40,38 @@ struct СредаПриёмаROOT {
     let переменные: [String: String]
     let segment: URL
     let logs: URL
+
+    static func собрать(селектор: String, sha256: String, поручение: URL,
+        хэшПоручения: String, ROOT: String, этап: String,
+        программа: String, segment: URL, logs: URL) throws -> Self {
+        let bytes = try ЧитательПодготовкиЗапускаКодекс.файл(поручение.path, предел: 1_048_576)
+        try требоватьПриём(хэшПриёмаROOT(bytes) == хэшПоручения, "поручение-SHA")
+        let p = try JSONDecoder().decode(ПоручениеПриёмаROOT.self, from: bytes)
+        let candidate = try ЧитательПодготовкиЗапускаКодекс.загрузить(селектор: селектор, sha256: sha256)
+        let c = candidate.ожидаемыйКонтекст, r = candidate.средаГенератора
+        try требоватьПриём(p.схема == "fum.root-acceptance-program.1" && p.ROOT == ROOT && p.писатель == этап &&
+            c.идентификаторКорневойЗадачи.utf8.elementsEqual(ROOT.utf8) &&
+            c.идентификаторЭтапа.utf8.elementsEqual(этап.utf8) &&
+            c.физическийКорень.utf8.elementsEqual(p.W.utf8) && c.полныйRef == p.ref &&
+            c.исходныйOID == p.L && c.деревоКоммита == p.дерево && c.родители == [p.L, p.M],
+            "preparation-host-context")
+        for pin in candidate.закреплённыеФайлы {
+            try требоватьПриём(p.pins.contains { $0.путь.utf8.elementsEqual(pin.путь.utf8) && $0.sha256 == pin.хэш },
+                "preparation-unadmitted-pin")
+        }
+        let programBytes = try ЧитательПодготовкиЗапускаКодекс.файл(программа, предел: 1_048_576)
+        try требоватьПриём(p.pins.contains { $0.путь.utf8.elementsEqual(программа.utf8) &&
+            $0.sha256 == хэшПриёмаROOT(programBytes) }, "preparation-unadmitted-program")
+        // Producer не создаёт поручение. Этот host получает отдельный принятый SHA и проверяет pins.
+        return Self(metadataCLI: r.исполняемыйФайлМетаданных.путь,
+            metadataState: r.состояниеМетаданных.путь, программа: программа,
+            переменные: ["KOORDINACIYA_FUMA_DEFINITION": r.определение.путь,
+                "KOORDINACIYA_FUMA_OPERATOR": r.оператор.путь,
+                "KOORDINACIYA_FUMA_RUN_ROOT": r.кореньЗапуска,
+                "FUM_RUNTIME_ROOT": r.кореньRuntime, "FUM_MEMORY_ROOT": r.кореньПамяти,
+                "FUM_COMMIT_PREPARATION": селектор, "FUM_COMMIT_PREPARATION_SHA256": sha256],
+            segment: segment, logs: logs)
+    }
 }
 // Не Decodable: предложенный JSON не может восстановить полномочие host.
 struct ПодготовленныйКонтекстПриёмаROOT {
@@ -325,7 +357,7 @@ final class ПрограммаПриёмаROOT {
     }
     private func метаданные() throws -> [String: Any] {
         if let metadata { return metadata }
-        let command = c.кандидатЗапуска.командаМетаданных
+        let command = try c.кандидатЗапуска.командаКоординатора(.сгенерироватьМетаданные)
         let r = try процесс(command.исполняемыйФайл, command.аргументы, полноеОкружение: command.окружение)
         let obj = try JSONSerialization.jsonObject(with: r.1) as? [String: Any]
         try требоватьПриём(r.0 == 0 && obj?["готово"] as? Bool == true && obj?["метаданные"] is [String: Any], "metadata-prepare")
