@@ -1,6 +1,6 @@
 {
   "схема": "fum.совместимость-исторических-ссылок.1",
-  "статус": "линейный префикс контейнера исправлен, адресный RED/GREEN и3малыепарыпроверены; полныйреальныйпланнеполучен, actualmove0",
+  "статус": "Нативный наблюдатель сохранён как наработка: zombie API-срез различён RED/exactarg1, но весь выбранный набор NOTGREEN (orphanUNKNOWN); CLIbindingUNKNOWN, полныйROплан0, actualmove0",
   "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "исполнитель": "01a148a5-c088-7373-9665-a3f9b477565e",
   "родитель": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
@@ -268,16 +268,18 @@
       "атомарная свежесть изменённых Markdown",
       "один проверенный перенос guide в kebab-case"
     ],
-    "текущее": "correctedGREEN70/4top/6CLIpairsзавершены; отчет/recencyготовы, подготовкаexact4sourcecheckpoint",
+    "текущее": "реализация и5/7T готовыиfrozen; READYGREEN2/CLI3передан, тяжёлыйслотожидается",
     "следующее": [
-      "завершитьexact4sourcecheckpoint/normalpush/remoteOIDreadback",
-      "передатьродителюконечныепины/фактическиесчётчикииисходUnicodeремонта",
-      "следующийfiniteэтаптолькопоROOT;fullcorpus/applyнеразрешены"
+      "получитьcoordinatedheavyслот",
+      "GREEN2compile иодинselectedruntime≤30s",
+      "послеGREENCLI3compile и1bindingSmoke",
+      "nativeSKILLrecency/exact4sourcecheckpoint/normalpush",
+      "1freshinstrumentedROplanпослеintent/inventory;noapply"
     ],
     "зависимости": [
-      "бюджет4top/6CLIисчерпан, новыхruntimeэтимнеразрешено",
-      "проверенныйреальныйпланещёнеполучен",
-      "причинапрежнего180сSTOPUNKNOWN"
+      "тяжёлыйслотзанят#363",
+      "GREEN/bindingещёнеполучены",
+      "fullRootprofile/wholeexecutoracceptanceUNKNOWN"
     ],
     "условияВозврата": [
       "компиляция/runtime не пройдены — сохранить исход, не выполнять move",
@@ -1274,5 +1276,593 @@
       "Python/router/ROOTJSONL/RAW/private/foreign/projection",
       "сохраняющийпрофильНОВОЕ000032/ROOTфинальнаяприёмка"
     ]
+  },
+  "этапНативногоНаблюдения": {
+    "основа": "1322821f983512a3ba2256f6bd5fd3ee87458f37",
+    "допуск": "адресныйsourceACK Instruments наJSONproposal8691f55c…; оригинальныйтекстдоставленвтекущийконтекст; отдельныйnativehistorysnapshotUNKNOWN",
+    "пути": [
+      "iskhodniki/aktualizaciya-putej/nablyudatelj-gruppyi-processov.swift",
+      "proverki/aktualizaciya-putej/proverki-nablyudatelya-gruppyi-processov.swift",
+      "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md",
+      "iskhodniki/aktualizaciya-putej/kontraktyi/otchyot-sovmestimosti-ssyilok.json"
+    ],
+    "имена": {
+      "inputSHA256": "f70d5c078a2ab687e82cb7f7391372a5046643eb2b1bcb9f407bb2931f57e1b6",
+      "outputSHA256": "391abc10faf17e717c11e516634250274cb6cd926b414ea841506938292fa0c1",
+      "actual": [
+        "nablyudatelj-gruppyi-processov",
+        "proverki-nablyudatelya-gruppyi-processov"
+      ],
+      "calls": 2,
+      "builds": 0
+    },
+    "повторноеИспользование": {
+      "область": [
+        "iskhodniki/**.swift",
+        "Инструменты/**.swift",
+        "Приложения/FUMA/macOS/Sources/**.swift",
+        "Прототипы/память-структурирующих-операторов/**.swift",
+        "FUM MCP toolmetadata"
+      ],
+      "готовыйПринятыйWatcher": "не найден в выбранной области; не globalabsenceclaim",
+      "частичныеКандидаты": [
+        {
+          "path": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЧтениеОбъектов.swift",
+          "sha256": "5606afd2e5600f72aa88aefd20a5bafa5408424f71e4e187b23d473c2fe533bd",
+          "status": "partial existing source, not accepted watcher wall+livegroupRSS+cleanup"
+        },
+        {
+          "path": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+          "sha256": "c064c11d206c813611acdfb030798bdb3f7b6a8a972ebd5a901de03df13f5c1f",
+          "status": "partial existing source, not accepted watcher wall+livegroupRSS+cleanup"
+        },
+        {
+          "path": "Инструменты/fum-svezhestj-markdown/scripts/obnovitj-svezhestj-markdown.swift",
+          "sha256": "53b721faa081b39d88bb74b72ad63908303e66fe1fb05daeb9c7a1a6dc0bd1b3",
+          "status": "partial existing source, not accepted watcher wall+livegroupRSS+cleanup"
+        },
+        {
+          "path": "Приложения/FUMA/macOS/Sources/komanda-operatora/КомандаОператора.swift",
+          "sha256": "68c710e894a5b3439ca92d6c705c692d01c83f46df102c759130124f3e9dbcf4",
+          "status": "partial existing source, not accepted watcher wall+livegroupRSS+cleanup"
+        }
+      ],
+      "вывод": "existingprocessgroup/time patterns useful; no liveRSS group watcher oracceptedbinding; productionAutomationExecutor is operator interpreter, notprocesswatcher"
+    },
+    "бюджет": {
+      "верхнеуровневыхКомпиляций": 7,
+      "sourceInputs": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2
+      ],
+      "названия": [
+        "watcherREDtests",
+        "watcherGREENtests",
+        "watcherCLI"
+      ],
+      "секундКомпиляции": 180,
+      "jobs": 1,
+      "selectedRuntime": 5,
+      "секундRuntimeНеБолее": 30,
+      "fixtureRSSНеБолее": 134217728,
+      "fixtureOutputНеБолее": 65536,
+      "watcherCLIBindingSmoke": 1,
+      "сеть": false,
+      "fullSwiftPM": false,
+      "LKRebuild": false,
+      "прошедшие50_OBS21_PREFIX70НеПовторять": true,
+      "исходный": "max3/[2,2,1], maxruntime2",
+      "поправки": [
+        "max4 после literalenv compilefailure",
+        "max5/runtime3 после Foundationphysicalpath preflightfailure"
+      ],
+      "последнийДопуск": "top6REDarg0/top7exactv3arg1, тотжеT5functions8cases; безCLI/binding/fullreader/apply"
+    },
+    "потрачено": {
+      "top": 7,
+      "maxTop": 7,
+      "sourceInputs": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2
+      ],
+      "selectedRuntime": 5,
+      "maxSelectedRuntime": 5,
+      "binding": 1,
+      "maxBinding": 1,
+      "fullReader": 0,
+      "apply": 0,
+      "newCLIafterv3": 0
+    },
+    "план": {
+      "текущее": "NOTGREENтерминалсохранён, max7/max5/binding1 исчерпаны",
+      "следующее": [
+        "адресныйnonGREENsourcecheckpoint exact4 сэтимоткрытымостатком",
+        "отдельныйsource-onlydiff удержанияfixtureсвидетельств",
+        "новаясборка/регрессия/CLIbinding/fullreader требуютновогорешения"
+      ],
+      "зависимости": [
+        "orphanUNKNOWN rootcauseнедоступна",
+        "exactV3CLIнепроверен; oldbindingUNKNOWNнеповторялся",
+        "ROOTпрофиль/приёмкаUNKNOWN"
+      ],
+      "условияВозврата": [
+        "неповторятьUNKNOWN",
+        "необъявлятьwhole suiteGREENпозомбиcase",
+        "никакогоapply/fullreader"
+      ]
+    },
+    "уточненияРевью": [
+      "leaderheldWNOWAITдоокончаниявсехsignals;послеreapтолькоabsencecheckбезkill",
+      "границатолькоobservedPGID,неclaimRSSвсехFoundation/Gitпотомков",
+      "attemptmarkerсвязываетgeneration/requestSHA/exeSHAиfsyncfile+dirдоspawn;сохраняетсяпослеUNKNOWN",
+      "stopreasonlatched;completedтолькотerminal+EOF2+absentgroup+noUNKNOWN",
+      "membercap32строжеproposalmax1024дляmetadatareceipt16KiB;overflowUNKNOWNнеpartialGREEN"
+    ],
+    "будущийROПлан": {
+      "программаSHA256": "2244c6f038ee9b58ac990f1d46e5363aa7a215800b762d0b04fdb12c53641ace",
+      "состав29SHA256": "9dddd9c8afc17dc2be44919c6ceb5008b62fdfad50e148258f341d0c24513d54",
+      "запусков": 1,
+      "новоеПоколение": true,
+      "свежийDeclaredInventory": true,
+      "wallСекунд": 180,
+      "RSSБайтов": 536870912,
+      "childOutputБайтов": 65536,
+      "cleanup": "внутри180s резерв1s, TERMнепозднее179s; typedUNKNOWNеслинеуспел",
+      "метаданныеReceiptБайтовНеБолее": 16384,
+      "условия": [
+        "watcher tests GREEN andsource/executable binding",
+        "saved intent beforechildspawn",
+        "fullcanonicalMDdeclared read asdata, protectedMDallowedRO",
+        "RAW/service/nativeJSONL/private/foreign/Proyekcii excluded",
+        "guide/caller untouched; actualapply0",
+        "no retryfailedorUNKNOWN"
+      ],
+      "состояние": "НЕЗАПУЩЕН: whole selected suite NOTGREEN и CLIbindingUNKNOWN"
+    },
+    "RED": {
+      "компиляция": {
+        "id": "watcher-red-compile1",
+        "exit": 0,
+        "signal": null,
+        "durationNS": "5649914000",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true
+      },
+      "runtime": {
+        "id": "watcher-red-runtime1",
+        "exit": 1,
+        "signal": null,
+        "durationNS": "493357292",
+        "stdoutBytes": 0,
+        "stderrBytes": 4054,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "ae347b2ff616b84aa8a242921e18dedab8b5beb026d154add8f536f2d1516904",
+        "sourcesHeld": true
+      },
+      "свидетельствоSHA256": "0badc81a1d934d862dc758be8266c6465c81a8a854758dbf4f777a066073cdf5",
+      "функций": 5,
+      "случаев": 7,
+      "ошибок": 7,
+      "смысл": "новыйentryunimplemented; доchildspawn. Неявляетсядефектомпрежнихreader.",
+      "sourceManifestSHA256": "462e221a5e0b330701dccb137d9c4ee83fb780bb9cb9ecf6f24b32ad90fd5291"
+    },
+    "реализация": {
+      "sourceSHA256": "bfa2dc216ac9f9213d5e31244a002fc42c1075fcd41f20f7942a1a1cf2ff65d6",
+      "sourceБайтов": 37334,
+      "T_SHA256": "266c1296a6d743231f61faeec8fd1c506b8e7e799a6077f51ce2e6d863d73ae6",
+      "TБайтов": 11589,
+      "TнеИзменёнСRED": false,
+      "TИзменение": "physicalrealpath + согласованный8йcase реальногоverifiednonleaderSZOMB; прежние7assertionsсохранены",
+      "CLI_SHA256": "e9788d57d39bc7980c23552b5999d38abc40dc5b9cb0b1f941eb1fb66a4bce0a",
+      "готовность": "NOTGREEN/orphanUNKNOWN/binding1UNKNOWN; runtime readiness не доказана",
+      "предварительныеНеисполненныеРецепты": [
+        "CLI3/dbbf295f…",
+        "CLI4/edb2b00a…"
+      ],
+      "группа": "WNOWAITякорьдоlastsignal;afterreaponlykill0,UNKNOWNнеразрешаетearlybreakбезfullmembership/KILLconfirm;recordspawnfsync;lastfullsnapshotсохраняется",
+      "CLISourceSHA256": "c5cebdc0a8604f7773b0bd50c7034e50519f9b03f9f06432d4e234d3598e0bd7",
+      "exactV3CLI": "НЕсобирался иНЕзапускался",
+      "диагностика": "первыйsamplerfailure numericmetadata/time, существующиеAPIrc/errno/status/start/UID, максимум2peek/2signalattempts; UNKNOWNsticky/EPERMнеослаблен"
+    },
+    "компиляции": [
+      {
+        "id": "watcher-red-compile1",
+        "exit": 0,
+        "signal": null,
+        "durationNS": "5649914000",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "источников": 2,
+        "свидетельствоSHA256": "0577d42acefd773e8e5ec2dff77e1735d6fd0e56405e6c643c92fba80b6b17ab",
+        "составSHA256": "462e221a5e0b330701dccb137d9c4ee83fb780bb9cb9ecf6f24b32ad90fd5291"
+      },
+      {
+        "id": "watcher-green-compile2",
+        "exit": 1,
+        "signal": null,
+        "durationNS": "1405000916",
+        "stdoutBytes": 0,
+        "stderrBytes": 3037,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "f65c5e87352c9d163c434215cd794a56b8a776468731da629265a94b6463762a",
+        "sourcesHeld": true,
+        "источников": 2,
+        "свидетельствоSHA256": "db1063c3dcf1921937df08aec94970d2b143ac731a02095b7fe11193973fa8b9",
+        "составSHA256": "817b9bbf8a21ee840962fe9ffc55a8662044998c5a887387e148b156b1d48984"
+      },
+      {
+        "id": "watcher-corrected-compile3",
+        "exit": 0,
+        "signal": null,
+        "durationNS": "2604925750",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "источников": 2,
+        "свидетельствоSHA256": "1b3dd7b34f11e5b13e23be5c1aaf46391e26193d6d1478a065622070076d94bb",
+        "составSHA256": "342301b32fb0784fbe7f816c506be044b5fc7658172e10936f8aaf654377f43c"
+      },
+      {
+        "id": "watcher-physical-compile4",
+        "exit": 0,
+        "signal": null,
+        "durationNS": "2487973417",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "источников": 2,
+        "свидетельствоSHA256": "478cc12274739c5565967ddf512e04e5b97732a5837815ec7fca2c19489fe591",
+        "составSHA256": "a84a623dbb48db03232e6507f0503be092e502ae642e36e819df19148e93048c"
+      },
+      {
+        "id": "watcher-cli-compile5",
+        "exit": 0,
+        "signal": null,
+        "durationNS": "2620649708",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "источников": 1,
+        "свидетельствоSHA256": "57097487e7324286b706669ee17f074dc63ffb0fd92e4e83f8ad4904797816eb",
+        "составSHA256": "350c203c8d112b5fd8f0c42e53b86839f0def1e762b19a1a366e48d5e017c03c"
+      },
+      {
+        "id": "watcher-zombie-red-compile6",
+        "role": "REDmutant arg0 only vs exactv3instrumentation/constantT266c8cases",
+        "intentSHA256": "be4328470a663a348d58925db32d62fffbd9b3762b31c3cb1f4ae45de40f9a62",
+        "exit": 0,
+        "signal": null,
+        "unknown": [],
+        "durationNS": "2832370583",
+        "maxSampledGroupRSSBytes": 35962880,
+        "maxSampledGroupMembers": 1,
+        "resourceSamples": 50,
+        "helperProcesses": {
+          "node": 1,
+          "ps": 50,
+          "maxPS": 3600,
+          "intervalMS": 50,
+          "perPSTimeoutMS": 500,
+          "perPSMaxBuffer": 32768,
+          "retainedCombinedOutputCap": 65536,
+          "fixtureLeadersAtMost": 8,
+          "fixtureGrandchildrenAtMost": 4,
+          "scope": "sourceInputs2 excludes instrumentation/ps/Swiftcompiler internal subprocesses; observedPGID only"
+        },
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesCompilerSDKHeld": true,
+        "executableHeld": true,
+        "groupAbsent": true,
+        "signalAttempts": [],
+        "scope": "ad hoc compiler/test instrumentation, sampledRSS only; not nativewatcher readiness",
+        "источников": 2,
+        "свидетельствоSHA256": "1f59fc78777e978280202c539f3fa273b99befe3e5323e841e5e96a421ead851",
+        "составSHA256": "f69ae37442023af32c373cff21b859ec7e77b0aa5ba0ee5d1100dfab99aa99df"
+      },
+      {
+        "id": "watcher-zombie-green-compile7",
+        "role": "GREENexactv3BSDarg1/constantT266c5functions8cases",
+        "intentSHA256": "777d23e41ed81e64a8dd56ef76d2033e9fb05efca8e07d288fb1fa255119d94a",
+        "exit": 0,
+        "signal": null,
+        "unknown": [],
+        "durationNS": "2037232625",
+        "maxSampledGroupRSSBytes": 36044800,
+        "maxSampledGroupMembers": 1,
+        "resourceSamples": 34,
+        "helperProcesses": {
+          "node": 1,
+          "ps": 34,
+          "maxPS": 3600,
+          "intervalMS": 50,
+          "perPSTimeoutMS": 500,
+          "perPSMaxBuffer": 32768,
+          "retainedCombinedOutputCap": 65536,
+          "fixtureLeadersAtMost": 8,
+          "fixtureGrandchildrenAtMost": 4,
+          "scope": "sourceInputs2 excludes instrumentation/ps/Swiftcompiler internal subprocesses; observedPGID only"
+        },
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesCompilerSDKHeld": true,
+        "executableHeld": true,
+        "groupAbsent": true,
+        "signalAttempts": [],
+        "scope": "ad hoc compiler/test instrumentation, sampledRSS only; not nativewatcher readiness",
+        "источников": 2,
+        "свидетельствоSHA256": "85f78e8157bb3200f4ce2193ed556da98310e6f0c2c633ffcb918bdbc38e0506",
+        "составSHA256": "3ed1dd521bba65be9f2fb606054fd49e1978cc49fb6381f76c2e638bb6e55378"
+      }
+    ],
+    "исправленияДоGREEN": [
+      {
+        "причина": "literalarray inference для strdup",
+        "failed": "watcher-green-compile2",
+        "sourceBefore": "bcfdb5fd4173da9907c232c9871a9d0773295b509de61bbb360d52ab3b04a403",
+        "sourceAfter": "46522a9e42ea98c710363e5cca17cc5357235fe92f5f38dd5ad53429ba945ae6",
+        "проверка": "top3 compile0, runtime2 stopped preflight path-node"
+      },
+      {
+        "причина": "Foundation standardization оставляет /var symlink и переписывает physical/private/var в /var",
+        "failed": "watcher-green-runtime2",
+        "sourceAfter": "c5cebdc0a8604f7773b0bd50c7034e50519f9b03f9f06432d4e234d3598e0bd7",
+        "TAfter": "b8a6c0d129113cdd8e0fc584d184102421f8084865e3fbb1d00248e4d2944e18",
+        "TDelta": "только fixture root Darwin.realpath copy/free; все5функций7случаев/assertions сохранены",
+        "граница": "лексические absolute components; прежний eachprefix lstat/no-symlink, root/отклонён"
+      }
+    ],
+    "неуспешныйRuntime": {
+      "id": "watcher-green-runtime2",
+      "exit": 1,
+      "signal": null,
+      "durationNS": "513683167",
+      "stdoutBytes": 0,
+      "stderrBytes": 3732,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "612139c6d85824b5add12876d3578e38fa7a6f2f00b29d17ba19ca0904e2d20d",
+      "sourcesHeld": true,
+      "причина": "все7 preflightpath-node доspawn/attempt",
+      "свидетельствоSHA256": "e2ac9fed8f75e8343c95f0e5eef5fdab8b46b812119837c5d9f8ac27f4cac5f4"
+    },
+    "GREEN": {
+      "id": "watcher-zombie-green-runtime5",
+      "role": "GREENexactv3arg1/constantT266c5func8cases",
+      "intentSHA256": "c412abf919a9e595b24c9bd1b7914174a87fa03e5a91b69008c52e80e650cc0c",
+      "exit": 1,
+      "signal": null,
+      "unknown": [],
+      "durationNS": "3502476750",
+      "maxSampledGroupRSSBytes": 13418496,
+      "maxSampledGroupMembers": 1,
+      "resourceSamples": 64,
+      "helperProcesses": {
+        "node": 1,
+        "ps": 64,
+        "maxPS": 3600,
+        "intervalMS": 50,
+        "perPSTimeoutMS": 500,
+        "perPSMaxBuffer": 32768,
+        "retainedCombinedOutputCap": 65536,
+        "fixtureLeadersAtMost": 8,
+        "fixtureGrandchildrenAtMost": 4,
+        "scope": "sourceInputs2 excludes instrumentation/ps/Swiftcompiler internal subprocesses; observedPGID only"
+      },
+      "stdoutBytes": 0,
+      "stderrBytes": 3245,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "1dad771fdd604d137073baa40c61b1374e7542e3cdd316ba5a0ff6d857f388b3",
+      "sourcesCompilerSDKHeld": true,
+      "executableHeld": true,
+      "groupAbsent": true,
+      "signalAttempts": [],
+      "scope": "ad hoc compiler/test instrumentation, sampledRSS only; not nativewatcher readiness",
+      "функций": 5,
+      "случаев": 8,
+      "статус": "NOTGREEN",
+      "ошибок": 2,
+      "сценарий": "orphan",
+      "утверждения": [
+        "итог.статусUNKNOWN вместоstopped",
+        "итог.группаОтсутствуетfalse"
+      ],
+      "независимыйПоследующийKill0": "assertESRCH неfailed; это не доказательство отсутствия вмоментreceipt",
+      "свидетельствоSHA256": "cf35d1186f7f40af7e8af3d1f41178d27827f6648507ccab8f3f375f038cf470"
+    },
+    "CLIBinding": {
+      "статус": "UNKNOWN",
+      "id": "watcher-cli-binding1",
+      "exit": 3,
+      "signal": null,
+      "durationNS": "429783833",
+      "stdoutBytes": 1187,
+      "stderrBytes": 0,
+      "stdoutSHA256": "9d6d707bbdb72b87e795b310c74991c04b860f20be906eda8cfe6f41418a626a",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourcesHeld": true,
+      "свидетельствоSHA256": "4f34b34f3e504d3901a8f17c09f5a298d0dabbb34e0722006ed41d9adabb8f7b",
+      "receiptSHA256": "9d6d707bbdb72b87e795b310c74991c04b860f20be906eda8cfe6f41418a626a",
+      "CLIИDurableСовпали": true,
+      "программаТестовSHA256": "dd9f5dc615de5056279c0a8d58b20bdad049ff3cfc5a800657e55e13c5695539",
+      "кодРебёнка": 0,
+      "группаОтсутствует": true,
+      "независимоеОтсутствие": true,
+      "выводы": "точныеokLF/errLF",
+      "неизвестное": [
+        "member-identity",
+        "signal-15-errno-1"
+      ],
+      "программаСохранена": true,
+      "исходникиСохранены": true,
+      "сигнал": "TERM attempted, rc!=0/errno1; успешнаядоставка не доказана",
+      "причина": "UNKNOWN: member-identity перегружен; APIreturn/errno/status не сохранены, exit/exec/permission не различаются",
+      "повтор": false
+    },
+    "границы": [
+      "локальныйPGID, sampledRSS, неpeak",
+      "не kerneldeadline/descendantcontainment/exactlyonce",
+      "монотонныйchilddeadline включаетcleanupreserve; блокирующиеsyscall/fsync не kernelbounded",
+      "Nodeтолькоbuild/test/bindingorchestrator, неwatcher/fullreader",
+      "selectedtests неfullprofile/wholepackage/cleanclonereplay",
+      "actual guide/caller move0",
+      "top6/7 иruntime4/5: privateNode/ps buildinstrumentation отдельноот2Swiftinputs; PGIDsampledRSS неall-descendant/hardkernelcap; helperscounts/50ms/500ms/32768B/65536B втерминалах",
+      "тестовыйUNKNOWNreceipt неretained: текущийнаборне являетсяполнымпротоколомпроизводственногохранения"
+    ],
+    "GREENРанее5x7": {
+      "id": "watcher-green-runtime3",
+      "exit": 0,
+      "signal": null,
+      "durationNS": "2304414417",
+      "stdoutBytes": 0,
+      "stderrBytes": 2123,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "ff139e511e037e81ccbe9a64293fb6207624bd20ed014d46e27a890642797c14",
+      "sourcesHeld": true,
+      "функций": 5,
+      "случаев": 7,
+      "свидетельствоSHA256": "d94e6473449ffc53748f3620cd49898a8b66215e25d2dfe76b7c6fc85d92b309",
+      "проверено": [
+        "обычныйstdout/stderr/code0/groupabsent",
+        "TERMнепослушныйпотомок иleaderexitwithmembers, KILL иkill0ESRCH",
+        "memory/output distinctbudgets",
+        "groupcapacity→UNKNOWN+cleanup",
+        "начатая и неполная attemptmarker не повторяются"
+      ]
+    },
+    "различающийAPIСрез": {
+      "поправка": "PROC_PIDTBSDINFO arg0→1 длянамеренногоzombiefallback; точныеPID/PGID остаютсяобязательны",
+      "primarySource": "https://raw.githubusercontent.com/apple-oss-distributions/xnu/main/bsd/kern/proc_info.c",
+      "runningKernel": "xnu-13432.1.9~1; exactsource tag404; currentmain не приравнен runningkernel",
+      "RED": {
+        "id": "watcher-zombie-red-runtime4",
+        "role": "REDmutantBSDarg0/constantv3T266c5functions8cases",
+        "intentSHA256": "5757b26dcb74bfc19014247780386034c474782d9d35b84809e5140af2ab1d57",
+        "exit": 1,
+        "signal": null,
+        "unknown": [],
+        "durationNS": "2561400291",
+        "maxSampledGroupRSSBytes": 13582336,
+        "maxSampledGroupMembers": 1,
+        "resourceSamples": 46,
+        "helperProcesses": {
+          "node": 1,
+          "ps": 46,
+          "maxPS": 3600,
+          "intervalMS": 50,
+          "perPSTimeoutMS": 500,
+          "perPSMaxBuffer": 32768,
+          "retainedCombinedOutputCap": 65536,
+          "fixtureLeadersAtMost": 8,
+          "fixtureGrandchildrenAtMost": 4,
+          "scope": "sourceInputs2 excludes instrumentation/ps/Swiftcompiler internal subprocesses; observedPGID only"
+        },
+        "stdoutBytes": 0,
+        "stderrBytes": 3854,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e6235940afd74c14ab907901de5f6d88d2ea40b58ccff095776a11b7f2cb7f62",
+        "sourcesCompilerSDKHeld": true,
+        "executableHeld": true,
+        "groupAbsent": true,
+        "signalAttempts": [],
+        "scope": "ad hoc compiler/test instrumentation, sampledRSS only; not nativewatcher readiness",
+        "ошибок": 3,
+        "сценарий": "zombie",
+        "детали": [
+          "UNKNOWN вместоstopped",
+          "observation-failed вместоtime-budget",
+          "verifiednonleaderSZOMB0"
+        ],
+        "старые7Случаев": "passed",
+        "свидетельствоSHA256": "7b19fffd86a2457227d09461200d77267d2be48dd9c7bb887f9f1ba1429dfe3e"
+      },
+      "exactArg1Case": "zombie case passed, включаяassertverifiednonleaderSZOMB>0; численноезначениене записано",
+      "soleDiffBytewiseChecked": true,
+      "TОдинаков": true,
+      "источникRED": "a75c0b55c2cc782d238c43c3408e0675b8d6936b467b0b48b4e61266c2f9d88c",
+      "источникExact": "bfa2dc216ac9f9213d5e31244a002fc42c1075fcd41f20f7942a1a1cf2ff65d6",
+      "T": "266c1296a6d743231f61faeec8fd1c506b8e7e799a6077f51ce2e6d863d73ae6",
+      "общийИсход": "NOTGREEN изотдельногоorphanUNKNOWN; неrootcauseстарогоbinding1"
+    },
+    "диагностическаяГраница": {
+      "пробел": "fullperfixtureUNKNOWNreceipt/locator неretainedвнешнимлогом; fixturedeinit пытаетсяудалитьownedtempdir, исходудаленияUNKNOWN",
+      "первичнаяПричина": "недоступна; assertions не заменяют receipt, невыводитьизтайминга/EPERM",
+      "следующийSourceDiff": "удержатьownedfixtures иboundedlocator доattempt; неослаблятьassertions/таймауты/UNKNOWN",
+      "вывод": "никакихновыхисполнений/общегоGREEN/финальнойприёмки"
+    },
+    "предкоммитныйСнимок": "source-onlycandidate; не подтверждениеcommit/push, неROOTприёмка",
+    "планПодтверждения": "source diff/index/recency приадресномcheckpointдопуске; общиеPython/ROOTJSONL/Smoke/profileисключены/UNKNOWN",
+    "сохранениеНаработки": {
+      "допуски": [
+        {
+          "name": "grant-names-watcher-source-preservation-v1.json",
+          "bytes": 6333,
+          "sha256": "4a06e21181554ef4c616155de7cf9a75fe8596850ec86980726a23a1f4634584"
+        },
+        {
+          "name": "grant-names-watcher-source-preservation-clarification-v2.json",
+          "bytes": 1539,
+          "sha256": "52cac0f1a0a520b4de49e2cf8def7acd59c82f4f2dfd36636d4f9e03118b9db7"
+        }
+      ],
+      "основание": "НОВОЕ000032 explicitnonGREENsourcepreservation; не пройденныйпрофиль",
+      "HEAD": "1322821f983512a3ba2256f6bd5fd3ee87458f37",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/sovmestimostj-ssyilok-s-probelami/master",
+      "actor": "01a148a5-c088-7373-9665-a3f9b477565e",
+      "soleWriter": "own root only; ROchild completed no writes/runs; parent explicitcustody exact4; otherW/ref/index/config RO",
+      "retentionDelta": "НЕПРИМЕНЯЛАСЬ; PENDING, sourcebfa2/T266c byteidentical measured",
+      "новыйRuntime": 0,
+      "метаданныеАвтора": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "ultra",
+        "источник": "ROonly ownnative state_5.sqlite row id/model/reasoning_effort/cwd/updated_at; matchedcurrentW",
+        "backend": "UNKNOWN; notproviderproof"
+      },
+      "legacyHooks": "отключены адреснымsourcegrant; неGREEN"
+    },
+    "локальныеПроверкиСохранения": {
+      "точныйDiff": "READY review: ровно4paths, передcommitпроверяетсяstageddiff",
+      "свежестьSKILL": {
+        "коды": [
+          1,
+          0,
+          0
+        ],
+        "итоговыйSHA256": "d534a9cdeb543a3da47f4e8866cfeec31e5ee72bbe853893afa8faf582b5c421",
+        "bodySHA256": "8c501779c3827e7467780307cc8c6208e4d6655c2c394a658be67bc7e79def0b",
+        "bodyСохранён": true,
+        "footerСовпадает": true,
+        "indexСохранён": true,
+        "свидетельствоSHA256": "bb453ed5402ff069bf6efe8dc8a8a0cab3544c23de93ff79049d88ac92a5a4b8",
+        "инструмент": "тотже принятыйPR478 nativebinary6312daee/source53b721fa; 3calls внутриодногоявногодопуска, неwatcherruntime"
+      },
+      "публикационнаяЧистота": "source/doc/report reviewed manually; no private runtime/RAW/locators included; общаяпроверкаUNKNOWN",
+      "общийПрофиль": "UNKNOWN; исключённыескрипты/ROOTJSONL неисполнялись"
+    }
   }
 }
