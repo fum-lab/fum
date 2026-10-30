@@ -54,10 +54,8 @@ public struct СнимокМодельногоРантайма: Codable, Equatab
         let кодировщик = JSONEncoder()
         кодировщик.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         кодировщик.dateEncodingStrategy = .custom { дата, кодировщик in
-            let формат = ISO8601DateFormatter()
-            формат.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             var контейнер = кодировщик.singleValueContainer()
-            try контейнер.encode(формат.string(from: дата))
+            try контейнер.encode(Self.строкаДаты(дата))
         }
         var данные = try кодировщик.encode(self)
         данные.append(0x0a)
@@ -69,6 +67,7 @@ public struct СнимокМодельногоРантайма: Codable, Equatab
         декодировщик.dateDecodingStrategy = .custom { декодировщик in
             let контейнер = try декодировщик.singleValueContainer()
             let строка = try контейнер.decode(String.self)
+            if let дата = датаИзСтрокиUTC(строка) { return дата }
             let дробныйФормат = ISO8601DateFormatter()
             дробныйФормат.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             if let дата = дробныйФормат.date(from: строка) { return дата }
@@ -78,6 +77,39 @@ public struct СнимокМодельногоРантайма: Codable, Equatab
             throw DecodingError.dataCorruptedError(in: контейнер, debugDescription: "Некорректная метка времени наблюдения")
         }
         return try декодировщик.decode(Self.self, from: данные)
+    }
+
+    private static func строкаДаты(_ дата: Date) throws -> String {
+        let интервал = дата.timeIntervalSince1970
+        guard интервал.isFinite else {
+            throw EncodingError.invalidValue(дата, .init(codingPath: [], debugDescription: "Невозможно кодировать нечисловую дату"))
+        }
+        var секунды = floor(интервал)
+        var наносекунды = Int(((интервал - секунды) * 1_000_000_000).rounded())
+        if наносекунды == 1_000_000_000 {
+            секунды += 1
+            наносекунды = 0
+        }
+        let формат = ISO8601DateFormatter()
+        формат.formatOptions = [.withInternetDateTime]
+        let основа = формат.string(from: Date(timeIntervalSince1970: секунды))
+        guard наносекунды > 0 else { return основа }
+        let дробь = String(format: "%09d", locale: Locale(identifier: "en_US_POSIX"), наносекунды)
+            .replacingOccurrences(of: "0+$", with: "", options: .regularExpression)
+        return String(основа.dropLast()) + "." + дробь + "Z"
+    }
+
+    private static func датаИзСтрокиUTC(_ строка: String) -> Date? {
+        guard строка.hasSuffix("Z"), let точка = строка.lastIndex(of: ".") else { return nil }
+        let цифрыНачало = строка.index(after: точка)
+        let цифрыКонец = строка.index(before: строка.endIndex)
+        let цифры = строка[цифрыНачало..<цифрыКонец]
+        guard (1...9).contains(цифры.count), цифры.allSatisfy({ $0.isASCII && $0.isNumber }) else { return nil }
+        let основа = String(строка[..<точка]) + "Z"
+        let формат = ISO8601DateFormatter()
+        формат.formatOptions = [.withInternetDateTime]
+        guard let целаяДата = формат.date(from: основа), let доля = Double("0." + цифры) else { return nil }
+        return Date(timeIntervalSince1970: целаяДата.timeIntervalSince1970 + доля)
     }
 }
 
