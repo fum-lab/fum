@@ -1,0 +1,331 @@
+{
+  "схема": "fum.передача-исходников-имён-fuma.1",
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "исполнитель": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "назначение": "Минимальное исходное ядро имён и планирования для последующего приёма FUMA; формат новых имён — lowercase ASCII kebab-case.",
+  "происхождение": {
+    "исходныйКоммит": "0321f277022d13e3153c28e215ba24758c31ced2",
+    "базаFUMA": "e79cb924459dc3ad6e290e6256cb718efa03524d",
+    "общийПредок": "32ba28d1ba2e4c7c59a5c0f2af9851136d8a4dbd",
+    "метод": "Копирование только перечисленных точных Git blobs без слияния истории Names.",
+    "зависимость": {
+      "путь": "Зависимости/LinguisticKit",
+      "gitlink": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+      "url": "https://github.com/fum-lab/LinguisticKit.git",
+      "изменена": false,
+      "материализованаЭтимЭтапом": false
+    }
+  },
+  "пакет": {
+    "путь": "Package.swift",
+    "доSHA256": "e708b78cc979f1d871c89bc828c90a02bde2e10882be9f7ded46cd744295a693",
+    "послеSHA256": "0070a6e8af09cd957a465712c07cb3e5ef4f9050a3ebf68271349b5245056486",
+    "новаяБиблиотека": "АктуализацияПутей",
+    "новаяЦельПроверок": "proverki-aktualizaciya-putej",
+    "сохраненыЦелиFUMA": [
+      "КонтейнерНаблюдений",
+      "ОсноваЗапуска",
+      "КомандаЗапуска",
+      "ПроверкиЗапуска"
+    ],
+    "связьСИсполнителемFUMA": "Следующий отдельный этап; зависимости существующих целей не меняются."
+  },
+  "исходники": [
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/modelj-obshchej-migracii.swift",
+      "режим": "100644",
+      "blob": "0370b5f1b40fe131b6eea7fd43028f17608bb6b4",
+      "байт": 18670,
+      "sha256": "9900cd0a952250ca4281fc58e6669803730eeb5fa15e9b6d594d1ace131d36c6",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+      "режим": "100644",
+      "blob": "e9c92a742634deadf56871734bc5b0fa6e72a2cb",
+      "байт": 9613,
+      "sha256": "287712c986f1db7e6675d46527c23a027fa4ac995d8ce90c6a5a02a0b0dc121c",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+      "режим": "100644",
+      "blob": "5bf8b8897099de641e5d9adfcb37aead17722b82",
+      "байт": 5363,
+      "sha256": "b7c62bd3cdb362a616d461942f239a9c86448eada9ccc3cdcdd430b1cf30bd1c",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+      "режим": "100644",
+      "blob": "cc1d309cd847a66591467feb886d4429d11df136",
+      "байт": 26017,
+      "sha256": "8399c4af63706ec99c20d2053ef473d4561d22250746ad46a6a015fc4ae12de7",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/publichnyiye-imena.swift",
+      "режим": "100644",
+      "blob": "532d3e019289df7abb0c4e0a4d288aae0d73e9f9",
+      "байт": 10391,
+      "sha256": "6bf2515347bbb9a91e8e8059e296e58381693c83976ff760b2eee15bbf959ef6",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "режим": "100644",
+      "blob": "d33ece3a6edbfcaaeb7745e2084cb9f2acf033ad",
+      "байт": 152983,
+      "sha256": "03db9d65fb9fe13103170274722eb684647a3c23aefe5bed9eacfd26024b4f12",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/snimok-obshchej-migracii.swift",
+      "режим": "100644",
+      "blob": "ea296822ebc9e1358b967e92628a9cfd08bfbdd9",
+      "байт": 13838,
+      "sha256": "7f275fc76a6fb0f839895572a5e262162aa7f66281861c7723261be7ad43ac70",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/komanda-obshchej-migracii.swift",
+      "режим": "100644",
+      "blob": "aa37280a7faee44ac08b45e5bffd670f2118960b",
+      "байт": 2605,
+      "sha256": "69bc08e173fe53ca2c0a403fb601398ea75efab002f1bc3d44549ce2c7c6855e",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/tokenyi-json-migracii.swift",
+      "режим": "100644",
+      "blob": "ded41eb17d435778b428dfe8f9f686f7ba9ea0dc",
+      "байт": 8444,
+      "sha256": "15ca5532356d9c39a8e1225fd65c785026306b25b58c8f7e9484d6c65cdb4eec",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/adapter-politiki-lokaljnyikh-putej.swift",
+      "режим": "100644",
+      "blob": "8eee246fb78a3736d784d1d51cdf730a0da2e27e",
+      "байт": 11967,
+      "sha256": "993bc0fae05d30512f90c0cb670c1a671f1a3348c350b7c37556c417f8478245",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/korpus-ssyilok-migracii.swift",
+      "режим": "100644",
+      "blob": "52e9ad4b8c6664310a2d599eeb2b084d66b290a3",
+      "байт": 16102,
+      "sha256": "2e0ea8e3bf4434fc9c525add38c008f4d627064ca3a99edbc6fbff130f763992",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/vyibor-oblastej-snimka.swift",
+      "режим": "100644",
+      "blob": "02bae69f8ea6127832867d9905c8b51650e2381d",
+      "байт": 1565,
+      "sha256": "7dcc03eaf92f2e15f48aba1e81c0d5802fa34a2c5987d2340799a3d43911f067",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/snimok-korpusa-dokumentov.swift",
+      "режим": "100644",
+      "blob": "40ecf3ba4fec3b1097e6b3e3a5887729ae596c86",
+      "байт": 25115,
+      "sha256": "13096d3a541a0976407edd56168a63ae91c98dd1f4848ce0888e8b09418a3a57",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/ozhidaniye-korpusa-iz-git.swift",
+      "режим": "100644",
+      "blob": "48121d104bbfddc061405cd7568c7d206cf266b2",
+      "байт": 20345,
+      "sha256": "64430e479b580ed4c6142fa584d83123c0d59bb43f2d14b6ad557e85c9c69346",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/svideteljstva-razmeshcheniya-teksta.swift",
+      "режим": "100644",
+      "blob": "b208ff0742dacedcbb68b0b1ca4955fd11a16d7b",
+      "байт": 12299,
+      "sha256": "846b5a0ac5ebebd6bd1792818c14b4ba7ac8d4e23ed7fb801eaa2f2af90bf8b8",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/istoricheskij-manifest-proyekcii.swift",
+      "режим": "100644",
+      "blob": "c1c4ec61c5fa5bf3bbd90d4d910a6c948e75c006",
+      "байт": 24600,
+      "sha256": "779cafbc98c346b4b4da09b11151555a128704779047f8da5e7c141391140094",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/prostranstvo-imyon-git.swift",
+      "режим": "100644",
+      "blob": "18fd07371acaf70f621a50e69452e09eefe613d9",
+      "байт": 12862,
+      "sha256": "dab4b016baaf52f61dd3bdaabd853b190d9dd3b4f7f04357e8f96c3bae2a593f",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/perechenj-adresov-markdown.swift",
+      "режим": "100644",
+      "blob": "bef106174414315b33bc74944247d3d0145906ee",
+      "байт": 1936,
+      "sha256": "18e906de12e1eff16748aa2aa4f5d268b47941be5e12fe8f401b407bdcec0616",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/kandidatyi-razresheniya-adresov.swift",
+      "режим": "100644",
+      "blob": "072167b76b2c113016efc9b1c63633bf06f87eab",
+      "байт": 10725,
+      "sha256": "cda10c94fe77204650dd6079b5f38039d5cec6ffd3409ba239940bddd9a2f5c5",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/perekhod-prostranstva-adresov.swift",
+      "режим": "100644",
+      "blob": "255605806534072c179d83f8504881527588e733",
+      "байт": 14031,
+      "sha256": "9cff4864cb9b20e1825e6e97c4234153790c16d29b28164f3b63e5433374eae4",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/porcii-kandidatov-adresov.swift",
+      "режим": "100644",
+      "blob": "fdbc456545a3fc979faef35e24b0ba41ad519ae9",
+      "байт": 8435,
+      "sha256": "bd063f83229b6b6c06555ed0ed4e1eeca3c4eb0c7549e7dcad0b1766791d7226",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/paket-kandidatov-adresov.swift",
+      "режим": "100644",
+      "blob": "16fb36234122a5dbc700bc29bbc81d15d872d9c7",
+      "байт": 23424,
+      "sha256": "7a79bfb3c46e3a725b01c4f88f117317a9c0bac0ed51c30e0ec5a53e5e3c6d99",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/uchyot-artefaktov-kandidatov.swift",
+      "режим": "100644",
+      "blob": "c93d7f378442f688a41f6ee57f833f8872743ff6",
+      "байт": 7722,
+      "sha256": "ed4b9f8904b980c95bd1605dd6c25f6427fe544b4abbe873c21a8a8cb3da9dfa",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/okna-diagnostiki-kandidatov.swift",
+      "режим": "100644",
+      "blob": "e66b9d01abe734e6cc57e413d7c44de838fa06b2",
+      "байт": 22141,
+      "sha256": "e3becca55ee3e3cc47734a5210772d55e580c6e36ffda9b600fc5f4be56ade9c",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/svyazj-upravleniya-okna.swift",
+      "режим": "100644",
+      "blob": "8711a391c46d17a06d6fcbc329e0eaf186857ff0",
+      "байт": 12413,
+      "sha256": "64544b916142547b551ce5e97a5bb368ec4f7e0af766bda13eb2b3a9fdb462c1",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/kollekciya-kandidatov-na-diske.swift",
+      "режим": "100644",
+      "blob": "8f9ab72672005b7575bf387658e6740815954a3b",
+      "байт": 21225,
+      "sha256": "28b761044a9bc11a8e8547c5a7ef485a06de66113c4f403e3e2fbea691760667",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift",
+      "режим": "100644",
+      "blob": "e81df07bd16dd75a6035a2e72076fcdcdebad01a",
+      "байт": 15575,
+      "sha256": "9680a93d035776dc370f95c554672c3049afbdedb2971bea1290d366f2c351ac",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/proveritj-puti.swift",
+      "режим": "100644",
+      "blob": "3e27264d0bd757024729e6ea197f55f0e67e8f71",
+      "байт": 10043,
+      "sha256": "9bcf77037ee6323fa2f328fe98e7e735b4956b04d41c46ec6419180179d09339",
+      "роль": "исходник"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift",
+      "режим": "100644",
+      "blob": "30c7d2d0d6609936ceedde9da5a92acfe9fecc56",
+      "байт": 56156,
+      "sha256": "452cf042bc1e6198dc6747ea0f3475f8d4d87ce813f6facd6de530fe12b8d2a2",
+      "роль": "исходник"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/proverki-putej.swift",
+      "режим": "100644",
+      "blob": "f81a45d77990e4ae2226ea4e6c0a46db60366225",
+      "байт": 29731,
+      "sha256": "06bca3e3ac364f786078a35ff39862169976e201280ee83e23ad7d6b92ff23d6",
+      "роль": "проверка"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/proverki-obshchej-migracii.swift",
+      "режим": "100644",
+      "blob": "8d032389356e438795112e2e37a55ab4774ffc00",
+      "байт": 36964,
+      "sha256": "178df3bd056df67e9fe3a9bdb6dcb4ecc7b8967a798d222ba91a2f2f1b02d738",
+      "роль": "проверка"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
+      "режим": "100644",
+      "blob": "11fc9f52a72275fc8f58c380373b6d01dc7a26ac",
+      "байт": 75750,
+      "sha256": "28d94ad1f6b22701dfe920e4f03c1d5d9dc35fbd583b5770f941a004afdb5f0b",
+      "роль": "проверка"
+    }
+  ],
+  "граница": {
+    "сохранениеИсходников": true,
+    "сборка": "UNKNOWN — не запускалась",
+    "исполнениеПроверок": "UNKNOWN — не запускалось",
+    "полныйПрофиль": "UNKNOWN",
+    "независимаяПриёмкаFUMA": "Требуется отдельно",
+    "самоприменениеКандидата": "Не выполнялось",
+    "переносКаталога": "Не выполнялся; существующий apply относится только к одному файлу.",
+    "интеграцияВFUMA": "Не выполнялась",
+    "интеграцияВMaster": "Не выполнялась",
+    "активация": "Не выполнялась"
+  },
+  "целевойКонтракт": {
+    "статус": "Требование к последующей реализации, не заявление о готовности.",
+    "самоприменение": "Checkout допускает самоприменение и самоперевод на произвольной глубине вложенности; корень и рабочая область передаются явно, относительная глубина не зашита.",
+    "композиция": "Узлы связывают надсистему, систему и подсистемы; составной план сохраняет входы, зависимости, версии, происхождение имён и точные проверяемые отображения.",
+    "приёмка": "Проверяющий из принятой базы с собственными закреплёнными зависимостями проверяет кандидат отдельно от проверки и самоприменения самого кандидата.",
+    "воспроизведение": "Фиксируются источник, версия, Git commit/tree, blob/SHA-256 входов, ref, физический корень, индекс, единственный писатель, точные tool/argv и intent/outcome. Пропуск проверки сохраняется как UNKNOWN.",
+    "границаПрефикса": "Перенос Приложения/FUMA → fuma задаётся отдельно: новый компонент создаёт ПубличныйФасадИмён, старые suffix и байты сохраняются; внешние callers, относительные зависимости и приватный runtime учитывает владелец.",
+    "неизвестныйЭффект": "Восстановление читает сохранённые intent/outcome и фактическое состояние; неизвестный эффект не повторяется автоматически.",
+    "независимаяРабота": "Незавершённость целевого контракта не вводит глобальный запрет на независимые допущенные этапы."
+  },
+  "историческиеКонстанты": "ПубличныйФасадИмён сохраняет исходную константу происхождения алгоритма c6af44bf1ec061675b6205b9c6ee889d98264f28 и старые SHA; это историческое происхождение, не отпечаток текущей сборки. Текущие байты задаёт список исходники этого снимка.",
+  "воспроизведение": {
+    "условия": [
+      "Чистый clone точного коммита доставки; инициализированная внешняя зависимость на объявленном gitlink; macOS/Swift6; свободный согласованный слот; scratch и кэши вне checkout.",
+      "Перед исполнением назначить точные tool/argv/лимиты; команды ниже в этом этапе не выполнялись."
+    ],
+    "командыПослеДопуска": [
+      "git submodule update --init -- Зависимости/LinguisticKit",
+      "swift test --scratch-path <абсолютный-внешний-каталог> --filter proverki-aktualizaciya-putej"
+    ],
+    "ограничения": "Три файла проверок перенесены без изменения. Их наличие и прежняя сборка29исходников не доказывают совместную сборку нового Package, полноту directory apply или независимую приёмку."
+  },
+  "остаток": [
+    "Отдельный приём точного source checkpoint владельцем FUMA.",
+    "Независимая сборка и применимые тесты по отдельному допуску и свободному слоту.",
+    "Реальный directory-prefix apply с обновлением внешних callers, полным инвентарём и сохранением данных в области владельца FUMA.",
+    "Оригинальный первый перенос руководства и caller в Names остаётся отдельным незавершённым этапом."
+  ]
+}
