@@ -53,7 +53,12 @@ public struct СнимокМодельногоРантайма: Codable, Equatab
     public func кодировать() throws -> Data {
         let кодировщик = JSONEncoder()
         кодировщик.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-        кодировщик.dateEncodingStrategy = .iso8601
+        кодировщик.dateEncodingStrategy = .custom { дата, кодировщик in
+            let формат = ISO8601DateFormatter()
+            формат.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            var контейнер = кодировщик.singleValueContainer()
+            try контейнер.encode(формат.string(from: дата))
+        }
         var данные = try кодировщик.encode(self)
         данные.append(0x0a)
         return данные
@@ -61,7 +66,17 @@ public struct СнимокМодельногоРантайма: Codable, Equatab
 
     public static func декодировать(_ данные: Data) throws -> Self {
         let декодировщик = JSONDecoder()
-        декодировщик.dateDecodingStrategy = .iso8601
+        декодировщик.dateDecodingStrategy = .custom { декодировщик in
+            let контейнер = try декодировщик.singleValueContainer()
+            let строка = try контейнер.decode(String.self)
+            let дробныйФормат = ISO8601DateFormatter()
+            дробныйФормат.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            if let дата = дробныйФормат.date(from: строка) { return дата }
+            let обычныйФормат = ISO8601DateFormatter()
+            обычныйФормат.formatOptions = [.withInternetDateTime]
+            if let дата = обычныйФормат.date(from: строка) { return дата }
+            throw DecodingError.dataCorruptedError(in: контейнер, debugDescription: "Некорректная метка времени наблюдения")
+        }
         return try декодировщик.decode(Self.self, from: данные)
     }
 }
@@ -69,11 +84,16 @@ public struct СнимокМодельногоРантайма: Codable, Equatab
 public enum НаблюдательМодельногоРантайма {
     public static func состояние(желательное: String?, выбранное: String?, подтверждённое: String?,
                                  время: Date?, срокСекунд: TimeInterval, сейчас: Date) -> СостояниеНаблюдения {
-        guard let время, let срокСекунд = срокСекунд.isFinite ? срокСекунд : nil,
-              срокСекунд >= 0, сейчас.timeIntervalSince(время) <= срокСекунд else { return .устарело }
+        guard let время, время.timeIntervalSince1970.isFinite, сейчас.timeIntervalSince1970.isFinite,
+              срокСекунд.isFinite, срокСекунд >= 0 else { return .неизвестно }
+        let разница = сейчас.timeIntervalSince(время)
+        guard разница.isFinite else { return .неизвестно }
+        if разница < 0 { return .неизвестно }
+        if разница > срокСекунд { return .устарело }
         guard let выбранное else { return .неизвестно }
-        if let подтверждённое, подтверждённое != выбранное { return .конфликт }
         if let желательное, желательное != выбранное { return .конфликт }
+        guard let подтверждённое else { return .неизвестно }
+        if подтверждённое != выбранное { return .конфликт }
         return .актуально
     }
 }
