@@ -47,17 +47,19 @@ struct ПланПереименованияФайла: Sendable {
     let индекс: Data
     let записиИндекса: Data
     let режимИндекса: mode_t
+    let времяСвежести: String?
 
     func представление(_ режим: String) throws -> Data {
         // Имена полей сохранены по опубликованному Python public_payload.
         let переписанные = правки.map(\.итоговый).sorted(by: порядокПутей)
-        let ответ: [String: Any] = [
+        var ответ: [String: Any] = [
             "source": исходный, "destination": целевой, "mode": режим,
             "renamed_file": ["source": исходный, "destination": целевой],
             "rewritten_files": переписанные,
             "updated_files": Array(Set(переписанные + [целевой])).sorted(by: порядокПутей),
             "updated_links": правки.reduce(0) { $0 + $1.числоСсылок }
         ]
+        if let времяСвежести { ответ["время_свежести"] = времяСвежести }
         return try JSONSerialization.data(withJSONObject: ответ, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]) + Data([10])
     }
 }
@@ -241,8 +243,21 @@ enum ПереименованиеФайла {
         }
     }
     static func построить(корень: URL, исходный: String, целевой: String,
-        пределФайла: Int = 8_388_608, пределВсехБайтов: Int = 268_435_456) throws -> ПланПереименованияФайла {
+        пределФайла: Int = 8_388_608, пределВсехБайтов: Int = 268_435_456,
+        времяСвежести: String? = nil) throws -> ПланПереименованияФайла {
         try требовать((0...8_388_608).contains(пределФайла) && (0...268_435_456).contains(пределВсехБайтов), "Недопустимые конечные бюджеты")
+        if let времяСвежести {
+            let формат = DateFormatter()
+            формат.locale = Locale(identifier: "en_US_POSIX")
+            guard let мск = TimeZone(identifier: "Europe/Moscow") else { throw ОшибкаПутей.отказ("Неизвестен часовой пояс MSK") }
+            формат.timeZone = мск
+            формат.dateFormat = "yyyy-MM-dd HH:mm:ss 'MSK'"
+            формат.isLenient = false
+            try требовать(времяСвежести.utf8.count == 23
+                && времяСвежести.range(of: #"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} MSK$"#, options: .regularExpression) != nil
+                && формат.date(from: времяСвежести).map { формат.string(from: $0) == времяСвежести } == true,
+                "Неверное время свежести MSK")
+        }
         let контекст = КонтекстЧтения()
         try требовать(Data(корень.path.utf8) == Data(корень.standardizedFileURL.resolvingSymlinksInPath().path.utf8), "Нужен физический корень Git-worktree")
         let обнаруженный = URL(fileURLWithPath: try строка(гит(корень, ["rev-parse", "--show-toplevel"]))).resolvingSymlinksInPath().standardizedFileURL
@@ -273,8 +288,57 @@ enum ПереименованиеФайла {
             исходный: исходный, целевой: целевой, пути: состав.пути, алиасы: состав.алиасы,
             пределФайла: пределФайла, пределБайтов: пределВсехБайтов - (исходный.hasSuffix(".md") ? 0 : источник.байты.count))
         try проверитьПрефиксыЦелей(корень, разбор.локальныеЦели)
-        let правки = разбор.правки
+        var правки = разбор.правки
+        for номер in правки.indices where правки[номер].итоговый.hasSuffix(".md") {
+            let правка = правки[номер]
+            guard let текст = String(data: правка.байты, encoding: .utf8) else { throw ОшибкаПутей.отказ("Не UTF-8 для свежести") }
+            let естьМаркеры = текст.contains("FUM-MD-RECENCY:BEGIN") || текст.contains("FUM-MD-RECENCY:END")
+            guard let времяСвежести else {
+                try требовать(!естьМаркеры, "Нужно явное время свежести при существующих метках")
+                continue
+            }
+            if естьМаркеры {
+                let шаблон = #"(?:\A|\r?\n)<!-- FUM-MD-RECENCY:BEGIN -->\r?\n<!-- last-content-edit: ([^>]+) -->\r?\n<!-- content-sha256: sha256:([0-9a-f]{64}) -->\r?\n<!-- FUM-MD-RECENCY:END -->\r?\n?\z"#
+                let выражение = try NSRegularExpression(pattern: шаблон)
+                try требовать(текст.components(separatedBy: "FUM-MD-RECENCY:BEGIN").count == 2
+                    && текст.components(separatedBy: "FUM-MD-RECENCY:END").count == 2
+                    && выражение.firstMatch(in: текст, range: NSRange(текст.startIndex..., in: текст)) != nil,
+                    "Повреждённая структура свежести")
+            }
+            let естьВозвратКаретки = правка.байты.contains(13)
+            if естьВозвратКаретки {
+                let знаки = Array(правка.байты)
+                var курсор = 0
+                while курсор < знаки.count {
+                    if знаки[курсор] == 13 {
+                        try требовать(курсор + 1 < знаки.count && знаки[курсор + 1] == 10, "Смешанные переводы строк свежести")
+                        курсор += 2
+                    } else {
+                        try требовать(знаки[курсор] != 10, "Смешанные переводы строк свежести")
+                        курсор += 1
+                    }
+                }
+            }
+            // Общий обновитель получает LF; обратное преобразование проверяется
+            // побайтно и сохраняет исходное тело uniform CRLF вне href/footer.
+            let дляОбновителя = естьВозвратКаретки ? Data(текст.replacingOccurrences(of: "\r\n", with: "\n").utf8) : правка.байты
+            if естьВозвратКаретки {
+                let обратно = String(decoding: дляОбновителя, as: UTF8.self).replacingOccurrences(of: "\n", with: "\r\n")
+                try требовать(Data(обратно.utf8) == правка.байты, "Необратимая нормализация CRLF свежести")
+            }
+            var обновлённые = try РешательСсылокПакета.обновитьСвежесть(дляОбновителя, путь: правка.итоговый, время: времяСвежести)
+            if естьВозвратКаретки {
+                let единые = String(decoding: обновлённые, as: UTF8.self).replacingOccurrences(of: "\r\n", with: "\n")
+                обновлённые = Data(единые.replacingOccurrences(of: "\n", with: "\r\n").utf8)
+            }
+            правки[номер] = .init(исходный: правка.исходный, итоговый: правка.итоговый,
+                байты: обновлённые, числоСсылок: правка.числоСсылок)
+        }
         try требовать(правки.allSatisfy { $0.байты.count <= пределФайла }, "Превышен бюджет итоговой правки")
+        let размерыДо = Dictionary(uniqueKeysWithValues: файлы.map { (Data($0.путь.utf8), $0.байты.count) })
+        let итогВсехБайтов = файлы.reduce(0) { $0 + $1.байты.count }
+            + правки.reduce(0) { $0 + $1.байты.count - (размерыДо[Data($1.исходный.utf8)] ?? 0) }
+        try требовать(итогВсехБайтов <= пределВсехБайтов, "Превышен общий бюджет итоговой свежести")
         let адресИндекса = URL(fileURLWithPath: try строка(гит(корень, ["rev-parse", "--path-format=absolute", "--git-path", "index"])))
         let индексСостояние = try СостояниеФайлаПереименования(адресИндекса)
         try требовать(индексСостояние.обычный, "Индекс не обычный файл")
@@ -283,7 +347,8 @@ enum ПереименованиеФайла {
             голова: try гит(корень, ["rev-parse", "--verify", "HEAD"]), ветка: try гит(корень, ["symbolic-ref", "-q", "HEAD"], коды: [0, 1]),
             статус: try гит(корень, ["status", "--porcelain=v1", "-z", "--untracked-files=all"]),
             адресИндекса: адресИндекса, индекс: try прочитатьОбычный(адресИндекса, предел: 33_554_432),
-            записиИндекса: try гит(корень, ["ls-files", "--stage", "-z"]), режимИндекса: индексСостояние.режим & 0o7777)
+            записиИндекса: try гит(корень, ["ls-files", "--stage", "-z"]), режимИндекса: индексСостояние.режим & 0o7777,
+            времяСвежести: времяСвежести)
         try сверить(план)
         return план
     }
@@ -482,12 +547,12 @@ enum ПереименованиеФайла {
         var параметры: [String: String] = [:], номер = 1
         while номер < аргументы.count {
             let имя = аргументы[номер]
-            try требовать(["--source", "--destination", "--repo-root"].contains(имя) && номер + 1 < аргументы.count && параметры[имя] == nil, "Неизвестный, повторный или неполный параметр")
+            try требовать(["--source", "--destination", "--repo-root", "--время-свежести"].contains(имя) && номер + 1 < аргументы.count && параметры[имя] == nil, "Неизвестный, повторный или неполный параметр")
             параметры[имя] = аргументы[номер + 1]; номер += 2
         }
         guard let исходный = параметры["--source"], let целевой = параметры["--destination"] else { throw ОшибкаПутей.отказ("Нужна одна explicit-пара source/destination") }
         let корень = URL(fileURLWithPath: параметры["--repo-root"] ?? файловаяСистема.currentDirectoryPath).standardizedFileURL
-        let план = try построить(корень: корень, исходный: исходный, целевой: целевой)
+        let план = try построить(корень: корень, исходный: исходный, целевой: целевой, времяСвежести: параметры["--время-свежести"])
         if команда == "применить-файл" { try применить(план) }
         return try план.представление(команда == "план-файла" ? "plan" : "apply")
     }

@@ -6,6 +6,7 @@ import Testing
 #endif
 
 // Открытая конечная Git-фикстура; расположение задаёт запускающая сторона.
+#if !ФУМ_ПРОВЕРКИ_СВЕЖЕСТИ_ПЕРЕИМЕНОВАНИЯ
 @Test func однофайловыйПланЧерезСуществующуюКоманду() async throws {
     let адрес = try #require(ProcessInfo.processInfo.environment["ФУМ_ФИКСТУРА_ПЕРЕИМЕНОВАНИЯ"])
     let корень = URL(fileURLWithPath: адрес)
@@ -21,6 +22,7 @@ import Testing
     #expect(FileManager.default.fileExists(atPath: корень.appendingPathComponent("docs/old.md").path))
     #expect(!FileManager.default.fileExists(atPath: корень.appendingPathComponent("docs/new.md").path))
 }
+#endif
 
 private final class ФикстураПереименования {
     let корень: URL
@@ -78,6 +80,7 @@ private func ожидатьОтказ<Значение>(_ причина: String
     catch { #expect(String(describing: error).contains(причина)) }
 }
 
+#if !ФУМ_ПРОВЕРКИ_СВЕЖЕСТИ_ПЕРЕИМЕНОВАНИЯ
 @Test func точныеЦелиВсеФормыИДетерминированныйПлан() throws {
     let текст = """
     [inline](docs/old.md?view=1#top "Title")
@@ -483,13 +486,251 @@ func поздниеБарьерыОстанавливаютДоПереноса(
     #expect(план.правки[0].байты == Data(текст.replacingOccurrences(of: "(docs/old.md)", with: "(docs/new.md)").utf8))
 }
 
-@Test(arguments: [false, true]) func голыеПробелыВАдресеЗакрытоОтвергнуты(_ значимая: Bool) throws {
+@Test func историческиеПробелыВходящейСсылкиПрименены() throws {
+    let исходный = "docs/old file.md"
+    let текст = Data("[target](docs/old file.md?view=1#top)\n".utf8)
+    let фикстура = try ФикстураПереименования([исходный: Data("# old\n".utf8), "index.md": текст])
+    let до = try фикстура.подпись()
+    let план = try фикстура.план(исходный, "archive/new.md")
+    #expect(try фикстура.подпись() == до)
+    #expect(план.правки.count == 1)
+    #expect(план.правки[0].числоСсылок == 1)
+    try ПереименованиеФайла.применить(план)
+    #expect(try фикстура.читать("index.md") == Data("[target](archive/new.md?view=1#top)\n".utf8))
+    #expect(try фикстура.читать("archive/new.md") == Data("# old\n".utf8))
+    #expect(!FileManager.default.fileExists(atPath: фикстура.корень.appendingPathComponent(исходный).path))
+}
+
+@Test func историческиеПробелыИсходящейСсылкиПрименены() throws {
+    let текст = Data("[target](../../other directory/target.md?view=1#top)\n".utf8)
+    let фикстура = try ФикстураПереименования([
+        "docs/deep/old.md": текст,
+        "other directory/target.md": Data("# Target\n".utf8)
+    ])
+    let план = try фикстура.план("docs/deep/old.md", "archive/new.md")
+    try ПереименованиеФайла.применить(план)
+    #expect(try фикстура.читать("archive/new.md") == Data("[target](../other%20directory/target.md?view=1#top)\n".utf8))
+    #expect(try фикстура.читать("other directory/target.md") == Data("# Target\n".utf8))
+}
+
+@Test func историческиеПробелыТочногоБлокераСохранены() throws {
+    let строка = Data("- [Вопрос и ответ](../../Вопросы и ответы/2026-09-15_16-09-02_MSK_уточнить-оболочку-API-и-стоимость-IPC.md), [индекс ответов](../../Вопросы и ответы/README.md).\n".utf8)
+    #expect(строка.count == 240)
+    #expect(хэшПутей(строка) == "caf67ebd0a418a71a9807601ce8ab0ac99af9d363c211a0a8fad69b2484f87eb")
+    let текст = Data("# Открытая фикстура\n\n## Текст запроса\n\nНеизменяемый оригинал.\n\n## Производное\n\n".utf8) + строка
+    let документ = "Журнал/2026-09-15_16-09-02_MSK_уточнить-оболочку-API-и-стоимость-IPC/запрос.md"
+    let фикстура = try ФикстураПереименования([
+        документ: текст,
+        "Вопросы и ответы/2026-09-15_16-09-02_MSK_уточнить-оболочку-API-и-стоимость-IPC.md": Data("# Ответ\n".utf8),
+        "Вопросы и ответы/README.md": Data("# Индекс\n".utf8)
+    ])
+    let до = try фикстура.подпись()
+    let план = try фикстура.план()
+    #expect(try фикстура.подпись() == до)
+    #expect(!план.правки.contains { $0.исходный == документ })
+    try ПереименованиеФайла.применить(план)
+    #expect(try фикстура.читать(документ) == текст)
+}
+
+@Test(arguments: [
+    "docs/old file.md \"Title\"", "docs/old file.md 'Title'",
+    "docs/old file.md (Title)", "docs/old\tfile.md",
+    "docs/old file.md\nTitle", " docs/old file.md", "docs/old file.md ",
+    "docs/old file.md<tail>", "docs/old.md?label=two words", "docs/old.md#two words",
+    "docs/old file.md?label=two words", "docs/old file.md#two words"
+]) func историческиеПробелыНеоднозначнойФормыОтвергнуты(_ адрес: String) throws {
+    let текст = Data("[target](\(адрес))\n".utf8)
+    let фикстура = try ФикстураПереименования(["docs/old file.md": Data("# old\n".utf8), "index.md": текст])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("неполная-встроенная-ссылка") {
+        try фикстура.план("docs/old file.md", "archive/new.md")
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == текст)
+}
+
+@Test(arguments: ["docs/Old file.md", "missing directory/target.md"])
+func историческиеПробелыНеточнойЦелиОтвергнуты(_ адрес: String) throws {
+    let текст = Data("[target](\(адрес))\n".utf8)
+    let фикстура = try ФикстураПереименования(["docs/old file.md": Data("# old\n".utf8), "index.md": текст])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("сломанная-исходящая-или-case-NFC-symlink-цель") {
+        try фикстура.план("docs/old file.md", "archive/new.md")
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == текст)
+}
+
+@Test func историческиеПробелыЗащищённойСсылкиОтвергнуты() throws {
+    let текст = Data("[target](../docs/old file.md)\n".utf8)
+    let фикстура = try ФикстураПереименования([
+        "docs/old file.md": Data("# old\n".utf8), "Источники/raw.md": текст
+    ])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("защищённая-живая-ссылка-блокирует-перенос") {
+        try фикстура.план("docs/old file.md", "archive/new.md")
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("Источники/raw.md") == текст)
+}
+
+@Test func историческиеПробелыСимволическойЦелиОтвергнуты() throws {
+    let текст = Data("[target](alias directory/target.md)\n".utf8)
+    let фикстура = try ФикстураПереименования([
+        "real directory/target.md": Data("# Target\n".utf8), "index.md": текст
+    ])
+    try FileManager.default.createSymbolicLink(atPath: фикстура.корень.path + "/alias directory", withDestinationPath: "real directory")
+    try фикстура.коммит()
+    let до = try фикстура.подпись()
+    ожидатьОтказ("сломанная-исходящая-или-case-NFC-symlink-цель") { try фикстура.план() }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == текст)
+}
+
+@Test(arguments: ["docs/old file.md", "other directory/target.md"])
+func историческиеПробелыОпределенияНеПропущены(_ адрес: String) throws {
+    let текст = Data("[ref][id]\n[id]: \(адрес)\n".utf8)
+    let фикстура = try ФикстураПереименования([
+        "docs/old file.md": Data("# old\n".utf8),
+        "other directory/target.md": Data("# Target\n".utf8), "index.md": текст
+    ])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("one-file-неподдержанное-reference-определение") {
+        try фикстура.план("docs/old file.md", "archive/new.md")
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == текст)
+}
+
+@Test(arguments: [false, true]) func историческиеПробелыПодКодовойПодписью(_ значимая: Bool) throws {
     let исходный = значимая ? "docs/old file.md" : "docs/old.md"
     let адрес = значимая ? исходный : "other directory/target.md"
-    let текст = Data("[target](\(адрес))\n".utf8)
-    let фикстура = try ФикстураПереименования([исходный: Data("# old\n".utf8), "index.md": текст])
-    ожидатьОтказ("неполная-встроенная-ссылка") {
-        try фикстура.план(исходный, "docs/new.md")
+    let текст = Data("[`meta`](\(адрес))\n".utf8)
+    let фикстура = try ФикстураПереименования([
+        исходный: Data("# old\n".utf8), "index.md": текст,
+        "other directory/target.md": Data("# Target\n".utf8)
+    ])
+    let до = try фикстура.подпись()
+    if значимая {
+        ожидатьОтказ("one-file-код-в-подписи") { try фикстура.план(исходный, "archive/new.md") }
+        #expect(try фикстура.подпись() == до)
+    } else {
+        let план = try фикстура.план(исходный, "archive/new.md")
+        #expect(try фикстура.подпись() == до)
+        try ПереименованиеФайла.применить(план)
     }
     #expect(try фикстура.читать("index.md") == текст)
+}
+
+#endif
+
+private func байтыФикстурыСвежести(_ тело: String, время: String, перевод: String = "\n") -> Data {
+    let текст = тело + "\n<!-- FUM-MD-RECENCY:BEGIN -->\n<!-- last-content-edit: \(время) -->\n<!-- content-sha256: sha256:\(хэшПутей(Data(тело.utf8))) -->\n<!-- FUM-MD-RECENCY:END -->\n"
+    return Data(текст.replacingOccurrences(of: "\n", with: перевод).utf8)
+}
+
+@Test(arguments: ["\n", "\r\n"]) func свежестьВызывающегоДокументаВходитВТотЖеПланИПрименение(_ перевод: String) throws {
+    let время = "2026-10-30 12:34:56 MSK"
+    let прежде = байтыФикстурыСвежести("[target](docs/old.md)\n", время: "2020-01-01 00:00:00 MSK", перевод: перевод)
+    if перевод == "\r\n" {
+        #expect(прежде.contains(13))
+        #expect(прежде.filter { $0 == 13 }.count == прежде.filter { $0 == 10 }.count)
+    }
+    let источник = байтыФикстурыСвежести("# Old\n", время: "2020-01-01 00:00:00 MSK", перевод: перевод)
+    let ожидание = байтыФикстурыСвежести("[target](archive/new.md)\n", время: время, перевод: перевод)
+    let фикстура = try ФикстураПереименования(["docs/old.md": источник, "index.md": прежде])
+    let до = try фикстура.подпись()
+    let план = try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", времяСвежести: время)
+    let повтор = try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", времяСвежести: время)
+    #expect(try план.представление("plan") == повтор.представление("plan"))
+    #expect(план.правки.count == 1)
+    #expect(план.правки[0].байты == ожидание)
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == прежде)
+    try ПереименованиеФайла.применить(план)
+    #expect(try фикстура.читать("index.md") == ожидание)
+    #expect(try фикстура.читать("archive/new.md") == источник)
+}
+
+@Test func свежестьТребуетЯвноеВремяПриСуществующихМетках() throws {
+    let прежде = байтыФикстурыСвежести("[target](docs/old.md)\n", время: "2020-01-01 00:00:00 MSK")
+    let фикстура = try ФикстураПереименования(["index.md": прежде])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("Нужно явное время свежести") { try фикстура.план() }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == прежде)
+}
+
+@Test(arguments: ["2026-02-30 12:34:56 MSK", "2026-10-30 12:34:56 UTC", "2026-10-30 12:34:56 MSK\n", "2026-1-30 12:34:56 MSK"])
+func свежестьОтвергаетНеверноеВремя(_ время: String) throws {
+    let фикстура = try ФикстураПереименования()
+    let до = try фикстура.подпись()
+    ожидатьОтказ("Неверное время свежести MSK") {
+        try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", времяСвежести: время)
+    }
+    #expect(try фикстура.подпись() == до)
+}
+
+@Test func свежестьОтвергаетНеполнуюСтруктуру() throws {
+    let прежде = Data("[target](docs/old.md)\n\n<!-- FUM-MD-RECENCY:BEGIN -->\n".utf8)
+    let фикстура = try ФикстураПереименования(["index.md": прежде])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("Повреждённая структура свежести") {
+        try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", времяСвежести: "2026-10-30 12:34:56 MSK")
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == прежде)
+}
+
+@Test func свежестьОтвергаетСмешанныеПереводыСтрок() throws {
+    let полный = String(decoding: байтыФикстурыСвежести("[target](docs/old.md)\n", время: "2020-01-01 00:00:00 MSK"), as: UTF8.self)
+    let прежде = Data(полный.replacingOccurrences(of: "(docs/old.md)\n", with: "(docs/old.md)\r\n").utf8)
+    #expect(прежде.filter { $0 == 13 }.count == 1)
+    #expect(прежде.filter { $0 == 10 }.count > 1)
+    let фикстура = try ФикстураПереименования(["index.md": прежде])
+    let до = try фикстура.подпись()
+    ожидатьОтказ("Смешанные переводы строк свежести") {
+        try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", времяСвежести: "2026-10-30 12:34:56 MSK")
+    }
+    #expect(try фикстура.подпись() == до)
+}
+
+@Test(arguments: [false, true]) func свежестьУчитываетсяВКонечныхБюджетах(_ общий: Bool) throws {
+    let фикстура = try ФикстураПереименования([
+        "docs/old.md": Data("# Old\n".utf8), "index.md": Data("[target](docs/old.md)\n".utf8)
+    ], толькоЗаданные: true)
+    let до = try фикстура.подпись()
+    ожидатьОтказ(общий ? "Превышен общий бюджет итоговой свежести" : "Превышен бюджет итоговой правки") {
+        try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "docs/new.md",
+            пределФайла: общий ? 8_388_608 : 64, пределВсехБайтов: общий ? 64 : 268_435_456, времяСвежести: "2026-10-30 12:34:56 MSK")
+    }
+    #expect(try фикстура.подпись() == до)
+}
+
+@Test func свежестьВосстанавливаетсяПриЧастичнойУстановке() throws {
+    let прежде = байтыФикстурыСвежести("[target](docs/old.md)\n", время: "2020-01-01 00:00:00 MSK")
+    let фикстура = try ФикстураПереименования(["index.md": прежде, "second.md": прежде])
+    let до = try фикстура.подпись()
+    let план = try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", времяСвежести: "2026-10-30 12:34:56 MSK")
+    ожидатьОтказ("откат проверен") {
+        try ПереименованиеФайла.применить(план, передУстановкой: { номер in
+            if номер == 2 { throw ОшибкаПутей.отказ("Отказ второй установки свежести") }
+        })
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать("index.md") == прежде)
+    #expect(try фикстура.читать("second.md") == прежде)
+}
+
+@Test func свежестьЧерезСуществующуюКоманду() async throws {
+    let время = "2026-10-30 12:34:56 MSK"
+    let прежде = байтыФикстурыСвежести("[target](docs/old.md)\n", время: "2020-01-01 00:00:00 MSK")
+    let фикстура = try ФикстураПереименования(["index.md": прежде])
+    let результат = try await КомандаПутей.выполнить([
+        "применить-файл", "--repo-root", фикстура.корень.path,
+        "--source", "docs/old.md", "--destination", "archive/new.md", "--время-свежести", время
+    ])
+    let ответ = try #require(JSONSerialization.jsonObject(with: результат) as? [String: Any])
+    #expect(ответ["время_свежести"] as? String == время)
+    #expect(try фикстура.читать("index.md") == байтыФикстурыСвежести("[target](archive/new.md)\n", время: время))
 }
