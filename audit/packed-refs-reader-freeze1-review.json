@@ -1,0 +1,97 @@
+{
+  "схема": "fum.audit.packed-refs-reader-review.v1",
+  "корневой_codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "координатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "исполнитель": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+  "дата": "2026-10-30",
+  "основа": {
+    "commit": "f0adb65031b44f4b25fcf257cfae530164fd47c9",
+    "ref": "refs/heads/fum-lab/fum/audit/master"
+  },
+  "поручение": "Приоритетное независимое RO-ревью двух production readers расширения loose+packed refs. Ожидание immutable freeze через координатора, без чтения живого worktree. Проверить точные frozen copies и manifest, loose precedence с ENOENT-only fallback, файловые ограничения и drift bookends, initial/mid/final publisher wiring, handler Чтение. Не менять root refs/config/current/binaries; не запускать компилятор/runtime и не создавать temporary auditors. Владелец сообщил 49 shared vectors, 98 reader checks и один full-handler-entry; они не компилировались.",
+  "входы": {
+    "допуск_исходников_sha256": "5fec11abbbbc56c549954eb00f37560a16a9d7af266951dbcae22918e54997a1",
+    "манифест_sha256": "0d3b0db9debb1414e9c6eba4950bd4b579f3db121cc29ba83807d92735fa956c",
+    "publisher": {
+      "файл": "production-freeze-1/publisher.swift",
+      "байтов": 68995,
+      "режим": "0400",
+      "sha256": "b64eb2343f079b3a7aa4fed04d65a90bc1e34598c7b1b01942b995879f368273",
+      "исходный_blob": "08eb3b41a0597081fac1a90e3e99acb1e0419f98",
+      "исходный_sha256": "2ee939c7c1dbead4f41f97ee3e69512172a2556f4022d5b3edb50af212ab7226"
+    },
+    "handler": {
+      "файл": "production-freeze-1/handler.swift",
+      "байтов": 68246,
+      "режим": "0400",
+      "sha256": "ea6d0b9f5444eec632ef3a4c8804e99496f140977f1acc75bdc5ab402be4b97b",
+      "исходный_blob": "7f29e59b0241a1ffc21f1b067ff67172472a1dd0",
+      "исходный_sha256": "bdaaa9d54b06081a88c1cb5b33679a73fcf537e9520d283761d47c5cb6da986b"
+    }
+  },
+  "проверка_общего_блока": {
+    "байты_читателя_обоих_файлов_совпадают": true,
+    "sha256_выделенного_фрагмента": "f6e7f42a3aa0cda383bf5737bc0424883d1dc99abc0276941af858927a7c8dbf",
+    "commonBlockSHA256_из_манифеста": "065c5c1fce9e07d3420eebd17447feb106dac17320930b7f05a827cc6736e120",
+    "граница_вычисления_манифестного_хэша": "Не описана в манифесте; данное расхождение не классифицировано как дефект. Полные файлы независимо совпали с закреплёнными SHA-256."
+  },
+  "охват": {
+    "проверено": [
+      "Точные private freeze copies и связи с manifest, source grant и неизменяемыми baseline Git blobs.",
+      "Одинаковый общий reader block в publisher и handler; loose precedence, ENOENT включая отсутствующие parent components, отказ на небезопасной ошибке/типе, reftable/detached/unborn границы.",
+      "Packed-refs формат SHA-1, заголовок, peeled строки, sorted-флаг, byte ordering, точный target и duplicates; лимиты байтов и записей.",
+      "Безопасное открытие без symlink, regular/UID/nlink/mode, bounded pread и сверка fd/name metadata; повторное подтверждение packed/ref/HEAD/backlinks и проверки post-selection loose absence.",
+      "Publisher: начальная привязка перед текущим состоянием, проверка после lock и в pre-rename, отдельно для apply и ROOT publication.",
+      "Handler: Чтение хранит ref snapshots; подтвердить вызывается для снимков refs при всех продолжениях и возвратах решения."
+    ],
+    "строки": {
+      "publisher_parser": "34-119",
+      "publisher_observation": "127-204",
+      "publisher_initial": "782-857",
+      "publisher_apply_mid_final": "983-1005",
+      "publisher_publication_initial_mid_final": "1045-1129",
+      "handler_parser": "34-120",
+      "handler_observation": "128-208",
+      "handler_read_context": "660-729",
+      "handler_git_and_read_confirm": "848-861; 743-808"
+    },
+    "контракт_git_2_54": [
+      "https://github.com/git/git/blob/v2.54.0/refs/packed-backend.c#L3301-L3422",
+      "https://github.com/git/git/blob/v2.54.0/refs/packed-backend.c#L3723-L3777"
+    ]
+  },
+  "находки": [
+    {
+      "идентификатор": "P2-packed-refs-prevalidation-split-allocation",
+      "приоритет": "P2",
+      "состояние": "открыта",
+      "заголовок": "Число строк не ограничено до eager materialization",
+      "проявление": "Оба reader сначала вызывают Data.split(...omittingEmptySubsequences: false).map { Data($0) } (publisher: строка 54; handler: строка 55), создавая массив всех строк до любой проверки формата и счётчика. Проверка записей ≤16_384 выполняется только внутри последующего цикла (publisher: строки 65-84; handler: строки 66-84). Поэтому вход до разрешённого 1 MiB из LF/пустых или иных ранних отклоняемых строк создаёт до миллиона элементов Data до первой проверки. Физическая память на каждый элемент зависит от реализации Data, но массив уже несёт высокие затраты по памяти и CPU; byte cap сырого входа не обеспечивает заявленную границу records до allocation.",
+      "влияние": "Нарушается заявленная граница 16_384 records до обработки; malformed local ref store может вызвать заметный allocation spike, задержку или отказ процесса до fail-closed результата. Корректность loose/packed выбора для нормального файла этой находкой не оспаривается.",
+      "исправление": "Разбирать байтовый буфер по LF за один проход без массива всех строк/копий; считать строки/записи и прекращать обход до materialization после установленного предела, сохранив byte и per-line bounds. Добавить в shared vectors 1 MiB line-flood и проверить ранний bounded отказ без создания большого числа Data-элементов.",
+      "доказательства": [
+        {
+          "файл": "production-freeze-1/publisher.swift",
+          "строки": "54-55, 63-84"
+        },
+        {
+          "файл": "production-freeze-1/handler.swift",
+          "строки": "55-56, 64-84"
+        }
+      ]
+    }
+  ],
+  "вывод": {
+    "класс": "Статический RO review freeze1; один открытый P2 resource-bound gap в общем reader.",
+    "действие": "Закрыть eager split/map до компиляции и полного handler test; текущую frozen пару принимать только как reviewable source boundary с указанным P2 остатком.",
+    "не_выполнялось": [
+      "компиляция",
+      "Swift runtime",
+      "49 shared vectors",
+      "98 reader checks",
+      "full-handler-entry",
+      "git/P4 effects",
+      "root refs/config/current/binaries changes"
+    ]
+  }
+}
