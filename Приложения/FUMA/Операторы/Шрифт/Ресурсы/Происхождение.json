@@ -1,0 +1,22 @@
+{
+  "schema": "fum.font-source-provenance.v1",
+  "family": "Synthax",
+  "style": "Regular",
+  "version": "1.000",
+  "format": "TrueType sfnt",
+  "source_repository": "https://github.com/sevavar/synthax",
+  "source_commit": "131f5dbcf129fb8a26c3a7f52ccb2f085c1c98b3",
+  "source_path": "Synthax-Regular/Synthax-Regular.ttf",
+  "source_blob_sha1": "65b1d33aba5099bb9c995fdc697af24a1e1c7b0c",
+  "source_sha256": "11d5ad87547c00e771dcf3d666b14f36ebc383f7c21f95c9b9201b3536d01d4a",
+  "source_size_bytes": 61592,
+  "license": "CC0-1.0",
+  "license_url": "https://github.com/sevavar/synthax/blob/131f5dbcf129fb8a26c3a7f52ccb2f085c1c98b3/LICENSE",
+  "license_blob_sha1": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+  "coverage": {
+    "verified_tool": "fc-query",
+    "verified_ranges": ["U+0020-U+007E", "U+00A0-U+00A5", "U+00A7", "U+00A9", "U+00AB", "U+00AE", "U+00B0-U+00B1", "U+00B4-U+00B6", "U+00BB", "U+00BF-U+0117", "U+011A-U+0137", "U+0139-U+013E", "U+0141-U+0149", "U+014C-U+017F", "U+01F8-U+01F9", "U+0218-U+0219", "U+0228-U+0229", "U+02BC", "U+0300-U+0301", "U+0400-U+045F", "U+0490-U+0491", "U+2013-U+2014", "U+2022", "U+20AC", "U+20BD", "U+2122"],
+    "pilot_missing": ["U+2191", "U+2193"]
+  },
+  "integration_status": "source fixture only; FUMA parsing, composition, geometry, editing, and rendering remain unimplemented"
+}
