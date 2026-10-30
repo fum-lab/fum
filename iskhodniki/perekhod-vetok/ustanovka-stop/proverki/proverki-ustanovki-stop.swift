@@ -3,6 +3,415 @@ import Darwin
 import Testing
 @testable import УстановкаStop
 
+@Suite("Конечная ROOT-аренда рабочего издателя", .serialized)
+struct ПроверкиПоддержанияТекущегоStop {
+    private enum Инъекция: Error { case отказ }
+    private struct Фикстура {
+        let root: URL
+        let base: Int64
+        let headerSHA: String
+        let currentSHA: String
+        let currentLock: СсылкаЗамкаStop
+        let singleton: СсылкаЗамкаStop
+        let payload: Data
+        var request: URL { root.appendingPathComponent("request.json") }
+        var current: URL { root.appendingPathComponent("current.json") }
+        var input: URL { root.appendingPathComponent("current.json.producer-input.json") }
+        var refFile: URL { root.appendingPathComponent("git/refs/heads/fum/synthetic/master") }
+        init(headPolicy: String = "strict") throws {
+            root = URL(fileURLWithPath: "/private/tmp/fum-maintainer-" + UUID().uuidString.lowercased())
+            base = Int64(Date().timeIntervalSince1970)
+            try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+            let path = root.path, common = path + "/git", gitDir = common + "/worktrees/synthetic"
+            let w = path + "/W", ref = "refs/heads/fum/synthetic/master"
+            for dir in [gitDir, common + "/refs/heads/fum/synthetic", w] {
+                try FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true,
+                    attributes: [.posixPermissions: 0o700])
+            }
+            for (file, text) in [(w + "/.git", "gitdir: \(gitDir)\n"),
+                (gitDir + "/gitdir", "\(w)/.git\n"), (gitDir + "/commondir", "../..\n"),
+                (gitDir + "/HEAD", "ref: \(ref)\n"),
+                (common + "/" + ref, String(repeating: "b", count: 40) + "\n")] {
+                try Self.write(Data(text.utf8), URL(fileURLWithPath: file))
+            }
+            let currentPath = path + "/current.json"
+            let lockURL = URL(fileURLWithPath: currentPath + ".lock")
+            let singletonURL = URL(fileURLWithPath: currentPath + ".producer.lock")
+            try Self.write(Data(), lockURL); try Self.write(Data(), singletonURL)
+            func pin(_ url: URL) throws -> СсылкаЗамкаStop {
+                var s = Darwin.stat()
+                guard lstat(url.path, &s) == 0 else { throw Инъекция.отказ }
+                return СсылкаЗамкаStop(path: url.path, device: Int64(s.st_dev), inode: UInt64(s.st_ino))
+            }
+            currentLock = try pin(lockURL); singleton = try pin(singletonURL)
+            let id = "00000000-0000-4000-8000-000000000001"
+            let h: [String: Any] = ["схема": "fum.stop-заголовок.2", "задача": id,
+                "узел": "synthetic", "область": "test", "поколение": "generation1",
+                "cwd": w, "дерево": w, "ref": ref, "gitDir": gitDir,
+                "commonGitDir": common, "backend": "files", "objectFormat": "sha1",
+                "исходники": String(repeating: "a", count: 40), "состояние": currentPath,
+                "каталогКвитанций": path, "максимальныйВозрастСекунд": 900]
+            let header = try Self.json(h); headerSHA = АтомарныеБайтыStop.sha256(header)
+            let headerURL = root.appendingPathComponent("header.json")
+            try Self.write(header, headerURL, mode: 0o400)
+            let conditions: [String: Bool] = ["свояОбласть": true, "естьПолномочия": true,
+                "неизвестныйОпасныйЭффект": false, "естьНакопленноеПродвижение": true,
+                "можноБезопасноПродолжать": true, "доступнаНезависимаяРабота": true,
+                "локальнаяИсправимаяПроблема": false, "остановкаЗадачи": false,
+                "естьБезопасныйСледующийШаг": true]
+            let snapshot: [String: Any] = ["схема": "fum.текущие-обязательства-stop.2",
+                "заголовокSHA256": headerSHA, "задача": id, "узел": "synthetic",
+                "область": "test", "поколение": "generation1", "cwd": w, "дерево": w,
+                "ref": ref, "HEAD": String(repeating: "b", count: 40), "выпущен": base,
+                "действуетДо": base + 900,
+                "управление": ["действие": "продолжать", "основание": "Синтетическое поручение ROOT"],
+                "пункты": [["id": "unverified", "область": "test", "состояние": "блокирован",
+                    "уровень": "исходники", "основание": "Непроверенный остаток остаётся UNKNOWN"]],
+                "неизвестныеНамерения": ["unverified"],
+                "наблюдения": ["схема": "fum.stop-наблюдения.1", "задача": id, "узел": "synthetic",
+                    "следующаяРабота": "Проверить новый вход ROOT", "условия": conditions]]
+            payload = try Self.json(snapshot); currentSHA = АтомарныеБайтыStop.sha256(payload)
+            let payloadURL = root.appendingPathComponent("payload.json")
+            try Self.write(payload, payloadURL)
+            try Self.write(payload, URL(fileURLWithPath: currentPath))
+            let lease: [String: Any] = ["schema": "fum.stop-maintainer-input.1", "root": id,
+                "node": "synthetic", "scope": "test", "generation": "generation1",
+                "headerSHA256": headerSHA, "revision": 1, "approvedAt": base,
+                "validUntil": base + 7200, "action": "обновлять", "reason": "Разрешённая конечная аренда",
+                "payload": ["path": payloadURL.path, "bytes": payload.count, "sha256": currentSHA, "mode": 0o600]]
+            try Self.write(try Self.json(lease), root.appendingPathComponent("current.json.producer-input.json"))
+            let req: [String: Any] = ["schema": "fum.stop-maintainer-request.1",
+                "runID": UUID().uuidString.lowercased(),
+                "header": ["path": headerURL.path, "bytes": header.count, "sha256": headerSHA, "mode": 0o400],
+                "current": ["path": currentPath, "maxBytes": 32768, "mode": 0o600,
+                    "lock": ["path": currentLock.path, "device": currentLock.device, "inode": currentLock.inode]],
+                "singleton": ["path": singleton.path, "device": singleton.device, "inode": singleton.inode],
+                "input": ["path": currentPath + ".producer-input.json", "mode": 0o600, "maxBytes": 65536],
+                "initialCurrentSHA256": currentSHA, "requiredUnknownID": "unverified",
+                "intervalSeconds": 30, "ttlSeconds": 600, "maxTicks": 100,
+                "maxRunSeconds": 7200, "headPolicy": headPolicy]
+            try Self.write(try Self.json(req), root.appendingPathComponent("request.json"))
+        }
+        static func json(_ value: [String: Any]) throws -> Data {
+            try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys, .withoutEscapingSlashes])
+        }
+        static func write(_ data: Data, _ path: URL, mode: Int = 0o600) throws {
+            try data.write(to: path)
+            try FileManager.default.setAttributes([.posixPermissions: mode], ofItemAtPath: path.path)
+        }
+        static func object(_ path: URL) throws -> [String: Any] {
+            guard let value = try JSONSerialization.jsonObject(with: Data(contentsOf: path)) as? [String: Any]
+            else { throw Инъекция.отказ }
+            return value
+        }
+        func mutateInput(_ action: (inout [String: Any]) -> Void) throws {
+            var value = try Self.object(input); action(&value)
+            _ = try АтомарныеБайтыStop.заменить(input.path,
+                ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: input)), новыми: Self.json(value))
+        }
+        func step(_ state: СостояниеИздателяStop, _ now: Int64,
+            points: ТочкиАтомарнойЗаменыStop = ТочкиАтомарнойЗаменыStop(),
+            времяПередRename: Int64? = nil) throws -> ИтогПоддержанияStop {
+            try УстановщикStop.шагПоддержания(request.path,
+                хэш: АтомарныеБайтыStop.sha256(Data(contentsOf: request)),
+                состояние: state, сейчас: now, точки: points,
+                часыПередRename: { времяПередRename ?? now })
+        }
+        func cleanup() {
+            do { try FileManager.default.removeItem(at: root) }
+            catch { Issue.record("Собственная fixture издателя не удалена: \(error)") }
+        }
+    }
+
+    @Test func транспортПосле900НеПродлеваетПодтверждениеИсточника() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let state = СостояниеИздателяStop(), input = try Data(contentsOf: f.input)
+        #expect(try f.step(state, f.base + 1).статус == "UPDATED")
+        #expect(try f.step(state, f.base + 901).статус == "UPDATED")
+        let current = try Фикстура.object(f.current)
+        #expect(current["выпущен"] as? Int64 == f.base + 901)
+        #expect(current["действуетДо"] as? Int64 == f.base + 1501)
+        let maintenance = try #require(current["поддержание"] as? [String: Any])
+        #expect(maintenance["подтвержденоВ"] as? Int64 == f.base)
+        #expect(maintenance["подтвержденоДо"] as? Int64 == f.base + 7200)
+        #expect(current["неизвестныеНамерения"] as? [String] == ["unverified"])
+        #expect(try Data(contentsOf: f.input) == input)
+        #expect(try Фикстура.object(f.root.appendingPathComponent("payload.json"))["выпущен"] as? Int64 == f.base)
+    }
+
+    @Test func истечениеИсточникаИСкачокЧасовНеВыдумываютУсловия() throws {
+        for backwards in [false, true] {
+            let f = try Фикстура(); defer { f.cleanup() }
+            let state = СостояниеИздателяStop()
+            _ = try f.step(state, f.base + 1)
+            let before = try Data(contentsOf: f.current)
+            let r = try f.step(state, backwards ? f.base : f.base + 7201)
+            #expect(r.статус == (backwards ? "CLOCK_REGRESSION" : "SOURCE_EXPIRED"))
+            #expect(state.завершён)
+            #expect(try Data(contentsOf: f.current) == before)
+        }
+        for случай in ["lease", "transport", "clock"] {
+            let фикстура = try Фикстура(); defer { фикстура.cleanup() }
+            if случай == "lease" {
+                try фикстура.mutateInput { $0["validUntil"] = фикстура.base + 3 }
+            }
+            let состояние = СостояниеИздателяStop()
+            let прежде = try Data(contentsOf: фикстура.current)
+            let позднееВремя = случай == "lease" ? фикстура.base + 3
+                : (случай == "transport" ? фикстура.base + 602 : фикстура.base)
+            let итог = try фикстура.step(состояние, фикстура.base + 1, времяПередRename: позднееВремя)
+            #expect(итог.статус == "FAILED")
+            #expect(состояние.ошибка == (случай == "clock" ? "MclockBeforeRename" : "MleaseBeforeRename"))
+            #expect(try Data(contentsOf: фикстура.current) == прежде)
+        }
+    }
+
+    @Test func явныйКонтрольСохраняетсяБезGitИТехническийSTOPНеЧеловеческий() throws {
+        for action in ["ручная-пауза", "пауза", "остановить-издатель"] {
+            let f = try Фикстура(); defer { f.cleanup() }
+            let state = СостояниеИздателяStop()
+            _ = try f.step(state, f.base + 1)
+            var current = try Фикстура.object(f.current)
+            if action == "ручная-пауза" {
+                current["управление"] = ["действие": "пауза", "основание": "Явная fixture-команда"]
+                let bytes = try Фикстура.json(current)
+                _ = try АтомарныеБайтыStop.заменить(f.current.path,
+                    ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: f.current)), новыми: bytes)
+            } else {
+                try f.mutateInput { $0["revision"] = 2; $0["action"] = action }
+            }
+            try FileManager.default.removeItem(at: f.refFile)
+            let before = try Data(contentsOf: f.current)
+            let r = try f.step(state, f.base + 2)
+            #expect(state.завершён)
+            if action == "пауза" {
+                #expect(r.статус == "ROOT_CONTROL_PUBLISHED")
+                let seen = try Фикстура.object(f.current)
+                #expect((seen["управление"] as? [String: Any])?["действие"] as? String == "пауза")
+            } else {
+                #expect(r.статус == (action == "ручная-пауза" ? "ROOT_CONTROL" : "SERVICE_STOPPED"))
+                #expect(try Data(contentsOf: f.current) == before)
+            }
+        }
+    }
+
+    @Test func singletonBusyИРучнаяПубликацияНеСоздаютПовторнойЗаписи() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let state = СостояниеИздателяStop(), other = СостояниеИздателяStop()
+        _ = try f.step(state, f.base + 1)
+        let first = try Data(contentsOf: f.current)
+        #expect(try f.step(other, f.base + 2).статус == "SINGLETON_BUSY")
+        let before = try FileManager.default.contentsOfDirectory(atPath: f.root.path).sorted()
+        try ЗамокТекущегоStop.выполнить(f.currentLock) { _ in
+            let busy = try f.step(state, f.base + 2)
+            #expect(busy.статус == "CURRENT_BUSY")
+        }
+        #expect(try FileManager.default.contentsOfDirectory(atPath: f.root.path).sorted() == before)
+        #expect(try Data(contentsOf: f.current) == first)
+        #expect(try f.step(state, f.base + 3).статус == "UPDATED")
+        var manual = try Фикстура.object(f.current); manual["ручнаяПубликация"] = true
+        let manualBytes = try Фикстура.json(manual)
+        _ = try АтомарныеБайтыStop.заменить(f.current.path,
+            ожидаемыйSHA256: АтомарныеБайтыStop.sha256(Data(contentsOf: f.current)), новыми: manualBytes)
+        #expect(try f.step(state, f.base + 4).статус == "MANUAL_TAKEOVER")
+        #expect(try Data(contentsOf: f.current) == manualBytes)
+    }
+
+    @Test func послеRenameUNKNOWNИНовыйЭкземплярТолькоЧитают() throws {
+        let f = try Фикстура(); defer { f.cleanup() }
+        let state = СостояниеИздателяStop()
+        var points = ТочкиАтомарнойЗаменыStop()
+        points.синхронизацияКаталога = { _ in throw Инъекция.отказ }
+        #expect(try f.step(state, f.base + 1, points: points).статус == "UNKNOWN")
+        let after = try АтомарныеБайтыStop.прочитать(f.current.path)
+        #expect(after.sha256 != f.currentSHA)
+        _ = try f.step(state, f.base + 2)
+        #expect(try Data(contentsOf: f.current) == after.данные)
+        let restarted = СостояниеИздателяStop()
+        let recovery = try f.step(restarted, f.base + 3)
+        #expect(recovery.статус == "RECOVERY_REQUIRED")
+        #expect(recovery.наблюдаемыйSHA256 == after.sha256)
+        #expect(try Data(contentsOf: f.current) == after.данные)
+    }
+
+    @Test func ревизииИПолитикаHEADСохраняютUNKNOWN() throws {
+        for kind in ["new", "same", "rollback", "head-strict", "head-observed"] {
+            let f = try Фикстура(headPolicy: kind == "head-observed" ? "observe-with-unknown" : "strict")
+            defer { f.cleanup() }
+            let state = СостояниеИздателяStop()
+            _ = try f.step(state, f.base + 1)
+            let before = try Data(contentsOf: f.current)
+            if kind.hasPrefix("head-") {
+                try Фикстура.write(Data((String(repeating: "c", count: 40) + "\n").utf8), f.refFile)
+            } else {
+                try f.mutateInput {
+                    $0["reason"] = "Новая явная ревизия"
+                    if kind == "new" { $0["revision"] = 2; $0["approvedAt"] = f.base + 2 }
+                    if kind == "rollback" { $0["revision"] = 0 }
+                }
+            }
+            let r = try f.step(state, f.base + 2)
+            switch kind {
+            case "new": #expect(r.статус == "UPDATED"); #expect(state.ревизия == 2)
+            case "same": #expect(r.статус == "INPUT_REVISION_REUSED"); #expect(try Data(contentsOf: f.current) == before)
+            case "rollback": #expect(r.статус == "INPUT_REVISION_ROLLBACK"); #expect(try Data(contentsOf: f.current) == before)
+            case "head-strict": #expect(r.статус == "HEAD_CHANGED"); #expect(try Data(contentsOf: f.current) == before)
+            default:
+                #expect(r.статус == "UPDATED")
+                let seen = try Фикстура.object(f.current)
+                #expect(seen["HEAD"] as? String == String(repeating: "c", count: 40))
+                #expect((seen["неизвестныеНамерения"] as? [String])?.contains("root-head-after-approved-input") == true)
+                #expect((seen["поддержание"] as? [String: Any])?["исходныйHEAD"] as? String == String(repeating: "b", count: 40))
+            }
+        }
+    }
+
+    @Test func входПубликуетсяПодОбщимЗамкомИПринимаетЯвныйSTOPБезGit() throws {
+        let фикстура = try Фикстура(); defer { фикстура.cleanup() }
+        var номер = 0
+        func подготовить(_ изменить: (inout [String: Any]) -> Void) throws -> ([String], Data) {
+            номер += 1
+            let прежний = try Data(contentsOf: фикстура.input)
+            var вход = try Фикстура.object(фикстура.input); изменить(&вход)
+            let новыеБайты = try Фикстура.json(вход)
+            let кандидат = фикстура.root.appendingPathComponent("input-candidate-\(номер).json")
+            let план = фикстура.root.appendingPathComponent("input-plan-\(номер).json")
+            let запрос = try Data(contentsOf: фикстура.request)
+            try Фикстура.write(новыеБайты, кандидат)
+            let объект: [String: Any] = ["schema": "fum.stop-maintainer-input-publication.1",
+                "request": ["path": фикстура.request.path, "bytes": запрос.count,
+                    "sha256": АтомарныеБайтыStop.sha256(запрос), "mode": 0o600],
+                "candidate": ["path": кандидат.path, "bytes": новыеБайты.count,
+                    "sha256": АтомарныеБайтыStop.sha256(новыеБайты), "mode": 0o600],
+                "initiallyAbsent": false, "expectedSHA256": АтомарныеБайтыStop.sha256(прежний)]
+            let байтыПлана = try Фикстура.json(объект)
+            try Фикстура.write(байтыПлана, план)
+            return (["--передать-вход-издателя", "--план", план.path,
+                "--хэш-плана", АтомарныеБайтыStop.sha256(байтыПлана)], новыеБайты)
+        }
+        let (аргументы, кандидат) = try подготовить { $0["revision"] = 2 }
+        let исходный = try Data(contentsOf: фикстура.input)
+        #expect(УстановщикStop.команда(аргументы + ["--проверить"]) == 0)
+        #expect(try Data(contentsOf: фикстура.input) == исходный)
+        let применить = аргументы + ["--применить", АтомарныеБайтыStop.sha256(кандидат)]
+        let составДо = try FileManager.default.contentsOfDirectory(atPath: фикстура.root.path).sorted()
+        try ЗамокТекущегоStop.выполнить(фикстура.currentLock) { _ in
+            #expect(УстановщикStop.команда(применить) != 0)
+        }
+        #expect(try FileManager.default.contentsOfDirectory(atPath: фикстура.root.path).sorted() == составДо)
+        #expect(try Data(contentsOf: фикстура.input) == исходный)
+        #expect(УстановщикStop.команда(применить) == 0)
+        #expect(try Data(contentsOf: фикстура.input) == кандидат)
+        #expect(УстановщикStop.команда(применить) != 0)
+        let (откат, _) = try подготовить { $0["revision"] = 1 }
+        #expect(УстановщикStop.команда(откат + ["--проверить"]) != 0)
+        #expect(try Data(contentsOf: фикстура.input) == кандидат)
+        let (остановить, байтыОстановки) = try подготовить {
+            $0["revision"] = 3; $0["action"] = "стоп"; $0.removeValue(forKey: "payload")
+            $0["approvedAt"] = 0; $0["validUntil"] = 0
+        }
+        try FileManager.default.removeItem(at: фикстура.refFile)
+        #expect(УстановщикStop.команда(остановить + ["--проверить"]) == 0)
+        #expect(УстановщикStop.команда(остановить + ["--применить",
+            АтомарныеБайтыStop.sha256(байтыОстановки)]) == 0)
+        let итог = try фикстура.step(СостояниеИздателяStop(), фикстура.base + 2)
+        #expect(итог.статус == "ROOT_CONTROL_PUBLISHED")
+        let снимок = try Фикстура.object(фикстура.current)
+        #expect((снимок["управление"] as? [String: Any])?["действие"] as? String == "стоп")
+        #expect(снимок["HEAD"] == nil)
+    }
+
+    @Test func неверныйТекстИЧислаВместоBoolНеПеревыпускаются() throws {
+        for случай in ["пробелы", "длинный", "управляющий", "ноль", "единица"] {
+            let фикстура = try Фикстура(); defer { фикстура.cleanup() }
+            let путь = фикстура.root.appendingPathComponent("payload.json")
+            var снимок = try Фикстура.object(путь)
+            var наблюдения = try #require(снимок["наблюдения"] as? [String: Any])
+            switch случай {
+            case "пробелы": наблюдения["следующаяРабота"] = " "
+            case "длинный": наблюдения["следующаяРабота"] = String(repeating: "я", count: 2049)
+            case "управляющий": наблюдения["следующаяРабота"] = "работа\u{0001}"
+            default:
+                var условия = try #require(наблюдения["условия"] as? [String: Any])
+                условия["естьПолномочия"] = случай == "ноль" ? 0 : 1
+                наблюдения["условия"] = условия
+            }
+            снимок["наблюдения"] = наблюдения
+            let байты = try Фикстура.json(снимок)
+            try Фикстура.write(байты, путь)
+            try фикстура.mutateInput {
+                $0["payload"] = ["path": путь.path, "bytes": байты.count,
+                    "sha256": АтомарныеБайтыStop.sha256(байты), "mode": 0o600]
+            }
+            let до = try Data(contentsOf: фикстура.current)
+            let состояние = СостояниеИздателяStop()
+            #expect(try фикстура.step(состояние, фикстура.base + 1).статус == "FAILED")
+            #expect(try Data(contentsOf: фикстура.current) == до)
+            #expect(try !FileManager.default.contentsOfDirectory(atPath: фикстура.root.path)
+                .contains(where: { $0.contains(".attempt.json") }))
+        }
+    }
+
+    @Test func дрейфПередRenameИСбойКвитанцииСохраняютГраницуЭффекта() throws {
+        for случай in ["current", "input", "header", "request", "singleton", "lock", "head", "outcome"] {
+            let фикстура = try Фикстура(headPolicy: "observe-with-unknown"); defer { фикстура.cleanup() }
+            let состояние = СостояниеИздателяStop()
+            let исходный = try Data(contentsOf: фикстура.current)
+            var ожидаемый = исходный
+            let хэшЗапроса = try АтомарныеБайтыStop.sha256(Data(contentsOf: фикстура.request))
+            let квитанция = фикстура.root.appendingPathComponent(
+                ".fum-stop-maintainer-" + хэшЗапроса + ".tick-00000001.outcome.json")
+            let чужаяКвитанция = Data("{\"preserve\":true}\n".utf8)
+            var точки = ТочкиАтомарнойЗаменыStop()
+            точки.передRename = {
+                switch случай {
+                case "current":
+                    var объект = try Фикстура.object(фикстура.current)
+                    объект["управление"] = ["действие": "стоп", "основание": "Поздний явный ROOT STOP"]
+                    ожидаемый = try Фикстура.json(объект)
+                    _ = try АтомарныеБайтыStop.заменить(фикстура.current.path,
+                        ожидаемыйSHA256: фикстура.currentSHA, новыми: ожидаемый)
+                case "input":
+                    try фикстура.mutateInput { $0["revision"] = 2; $0["action"] = "пауза" }
+                case "header", "request":
+                    let путь = случай == "header" ? фикстура.root.appendingPathComponent("header.json") : фикстура.request
+                    var байты = try Data(contentsOf: путь); байты.append(32)
+                    try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: путь.path)
+                    try Фикстура.write(байты, путь, mode: случай == "header" ? 0o400 : 0o600)
+                case "singleton", "lock":
+                    let путь = случай == "singleton" ? фикстура.singleton.path : фикстура.currentLock.path
+                    let замена = фикстура.root.appendingPathComponent("replacement-lock")
+                    try Фикстура.write(Data(), замена)
+                    #expect(Darwin.rename(замена.path, путь) == 0)
+                case "head":
+                    try Фикстура.write(Data((String(repeating: "c", count: 40) + "\n").utf8), фикстура.refFile)
+                default: try Фикстура.write(чужаяКвитанция, квитанция)
+                }
+            }
+            let итог = try фикстура.step(состояние, фикстура.base + 1, points: точки)
+            if случай == "outcome" {
+                #expect(итог.статус == "UNKNOWN")
+                #expect(состояние.завершён)
+                let после = try Data(contentsOf: фикстура.current)
+                #expect(после != исходный)
+                #expect(try Data(contentsOf: квитанция) == чужаяКвитанция)
+                _ = try фикстура.step(состояние, фикстура.base + 2)
+                #expect(try Data(contentsOf: фикстура.current) == после)
+            } else if случай == "head" {
+                #expect(итог.статус == "HEAD_RECHECK")
+                #expect(!состояние.завершён)
+                #expect(try Data(contentsOf: фикстура.current) == исходный)
+                #expect(try фикстура.step(состояние, фикстура.base + 2).статус == "UPDATED")
+            } else {
+                #expect(итог.статус == "FAILED")
+                #expect(состояние.завершён)
+                #expect(try Data(contentsOf: фикстура.current) == ожидаемый)
+            }
+        }
+    }
+}
+
 @Suite("Кооперативный publisher и устойчивая попытка", .serialized)
 struct ПроверкиПротоколаПубликацииStop {
     private enum Инъекция: Error { case отказ }
@@ -201,6 +610,9 @@ struct ПроверкиПротоколаПубликацииStop {
             argv += check ? ["--проверить"] : ["--применить", АтомарныеБайтыStop.sha256(bytes)]
             return УстановщикStop.команда(argv)
         }
+        // Доверенный минимальный STOP и пауза должны публиковаться даже при
+        // недоступных Git-метаданных и без срока рабочего снимка.
+        try FileManager.default.removeItem(atPath: common + "/" + ref)
         #expect(try run(true, expected: nil, check: true) == 0)
         #expect(!FileManager.default.fileExists(atPath: current))
         #expect(try run(true, expected: nil, check: false) == 0)
