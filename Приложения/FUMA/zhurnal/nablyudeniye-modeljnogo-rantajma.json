@@ -39,12 +39,12 @@
   },
   "результаты_адресных_проверок": [
     {
-      "команда": "swift test --package-path . --scratch-path /tmp/fuma-model-runtime-observer-2bdc994 --jobs 1 --filter ПроверкиНаблюденияМодельногоРантайма",
+      "команда": "swift test --package-path . --scratch-path <выделенный scratch вне checkout> --jobs 1 --filter ПроверкиНаблюденияМодельногоРантайма",
       "попытка": 1,
       "результат": "ошибка компиляции: тестовый файл не импортировал модуль ОсноваЗапуска; типы наблюдателя не были видны; RED не получен"
     },
     {
-      "команда": "swift test --package-path . --scratch-path /tmp/fuma-model-runtime-observer-2bdc994 --jobs 1 --filter ПроверкиНаблюденияМодельногоРантайма",
+      "команда": "swift test --package-path . --scratch-path <выделенный scratch вне checkout> --jobs 1 --filter ПроверкиНаблюденияМодельногоРантайма",
       "попытка": 2,
       "результат": "успешно: сборка завершена за 3.64 с; 2 теста в 1 suite прошли"
     }
