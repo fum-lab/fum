@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import ОсноваЗапуска
 
 @Suite("Наблюдение модельного runtime")
 struct ПроверкиНаблюденияМодельногоРантайма {
