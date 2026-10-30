@@ -3,6 +3,223 @@ import Darwin
 import CryptoKit
 import FUMStructuringOperatorMemory
 
+// Ограниченный снимок файлового хранилища. Внешний формат Git сохраняется; подпроцессов нет.
+enum ОтказФайловойСсылки: String, Error { case путь, метаданные, формат, отсутствие, неоднозначность, дрейф }
+enum ИсточникФайловойСсылки: String { case обычныйФайл = "обычный-файл", упакованныйФайл = "упакованный-файл" }
+fileprivate struct КаталогФайловойСсылки { let путь: String; let сведения: stat }
+fileprivate struct ФайлФайловойСсылки {
+    let путь: String; let предел: Int; let данные: Data; let сведения: stat
+    let каталоги: [КаталогФайловойСсылки]
+}
+fileprivate struct ОтсутствиеФайловойСсылки {
+    let путь: String; let отсутствующийКомпонент: String; let каталоги: [КаталогФайловойСсылки]
+}
+fileprivate enum НаблюдениеФайловойСсылки {
+    case файл(ФайлФайловойСсылки), отсутствие(ОтсутствиеФайловойСсылки)
+}
+struct СнимокФайловойСсылки {
+    let идентификаторОбъекта: String
+    let источник: ИсточникФайловойСсылки
+    fileprivate let файлы: [ФайлФайловойСсылки]
+    fileprivate let отсутствия: [ОтсутствиеФайловойСсылки]
+    func данные(_ путь: String) -> Data? {
+        файлы.first { $0.путь.utf8.elementsEqual(путь.utf8) }?.данные
+    }
+    func подтвердить() throws {
+        for файл in файлы { try ЧитательФайловойСсылки.подтвердить(файл) }
+        // Конечная граница упакованного выбора повторно доказывает отсутствие отдельной ссылки.
+        for отсутствие in отсутствия { try ЧитательФайловойСсылки.подтвердить(отсутствие) }
+    }
+}
+enum ЧитательФайловойСсылки {
+    static let пределУпакованных = 1_048_576
+    private static func имя(_ строка: String) -> Bool {
+        строка.hasPrefix("refs/") && строка.utf8.count <= 4_000
+            && !строка.contains("..") && !строка.contains("@{")
+            && !строка.unicodeScalars.contains { $0.value <= 0x20 || $0.value == 0x7f }
+            && !строка.contains { "~^:?*[\\".contains($0) }
+            && строка.split(separator: "/", omittingEmptySubsequences: false).allSatisfy {
+                !$0.isEmpty && !$0.hasPrefix(".") && !$0.hasSuffix(".") && !$0.hasSuffix(".lock")
+            }
+    }
+    private static func объект(_ байты: Data) -> String? {
+        guard байты.count == 40, байты.contains(where: { $0 != 48 }),
+              байты.allSatisfy({ (48...57).contains($0) || (65...70).contains($0) || (97...102).contains($0) })
+        else { return nil }
+        return String(decoding: байты, as: UTF8.self).lowercased()
+    }
+    static func разобратьУпакованные(_ данные: Data, ссылка: String) throws -> String {
+        guard данные.count <= пределУпакованных, данные.last == 10, !данные.contains(0), имя(ссылка)
+        else { throw ОтказФайловойСсылки.формат }
+        var упорядочены = false, можноСнятие = false
+        var имена = Set<Data>(), прежнееИмя: Data?, выбранный: String?
+        var позиция = 0, физическихСтрок = 0, записей = 0
+        while позиция < данные.count {
+            физическихСтрок += 1
+            guard физическихСтрок <= 32_769 else { throw ОтказФайловойСсылки.формат }
+            let начало = позиция
+            while позиция < данные.count, данные[позиция] != 10 {
+                позиция += 1
+                guard позиция - начало <= 4_096 else { throw ОтказФайловойСсылки.формат }
+            }
+            guard позиция < данные.count, позиция > начало else { throw ОтказФайловойСсылки.формат }
+            let конец = позиция
+            позиция += 1
+            let первыйБайт = данные[начало]
+            if физическихСтрок == 1, первыйБайт == 35 {
+                let префикс = "# pack-refs with: "
+                guard let текст = String(data: данные.subdata(in: начало..<конец), encoding: .utf8),
+                      текст.hasPrefix(префикс) else { throw ОтказФайловойСсылки.формат }
+                упорядочены = текст.dropFirst(префикс.count).split(separator: " ").contains("sorted")
+                continue
+            }
+            // Лимиты проверены до создания очередных Data; весь файл не разбивается на массив строк.
+            if первыйБайт != 94 {
+                записей += 1
+                guard записей <= 16_384 else { throw ОтказФайловойСсылки.формат }
+            }
+            let строка = данные.subdata(in: начало..<конец)
+            if первыйБайт == 94 {
+                guard можноСнятие, объект(Data(строка.dropFirst())) != nil else { throw ОтказФайловойСсылки.формат }
+                можноСнятие = false
+                continue
+            }
+            guard строка.count >= 43, let идентификатор = объект(Data(строка.prefix(40))),
+                  [UInt8(9), 11, 12, 13, 32].contains(строка[40])
+            else { throw ОтказФайловойСсылки.формат }
+            let имяБайтами = Data(строка.dropFirst(41))
+            guard let имяСтрокой = String(data: имяБайтами, encoding: .utf8), имя(имяСтрокой)
+            else { throw ОтказФайловойСсылки.формат }
+            guard имена.insert(имяБайтами).inserted else { throw ОтказФайловойСсылки.неоднозначность }
+            if упорядочены, let прежнееИмя {
+                guard прежнееИмя.lexicographicallyPrecedes(имяБайтами) else { throw ОтказФайловойСсылки.формат }
+            }
+            прежнееИмя = имяБайтами; можноСнятие = true
+            if имяБайтами.elementsEqual(ссылка.utf8) { выбранный = идентификатор }
+        }
+        guard let выбранный else { throw ОтказФайловойСсылки.отсутствие }
+        return выбранный
+    }
+    static func прочитать(общийКаталог: String, ссылка: String,
+        связанныеФайлы: [String] = []) throws -> СнимокФайловойСсылки {
+        guard ссылка.hasPrefix("refs/heads/"), имя(ссылка) else { throw ОтказФайловойСсылки.путь }
+        var файлы: [ФайлФайловойСсылки] = [], отсутствия: [ОтсутствиеФайловойСсылки] = []
+        // Маркер reftable не разрешает чтение оставшегося packed-refs.
+        switch try наблюдать(общийКаталог + "/reftable", предел: 4_096) {
+        case .файл: throw ОтказФайловойСсылки.формат
+        case .отсутствие(let свидетельство): отсутствия.append(свидетельство)
+        }
+        for путь in связанныеФайлы {
+            guard case .файл(let файл) = try наблюдать(путь, предел: 4_096)
+            else { throw ОтказФайловойСсылки.отсутствие }
+            файлы.append(файл)
+        }
+        let источник: ИсточникФайловойСсылки, идентификатор: String
+        switch try наблюдать(общийКаталог + "/" + ссылка, предел: 4_096) {
+        case .файл(let файл):
+            guard файл.данные.count == 41, файл.данные.last == 10,
+                  let значение = объект(Data(файл.данные.dropLast())) else { throw ОтказФайловойСсылки.формат }
+            файлы.append(файл); источник = .обычныйФайл; идентификатор = значение
+        case .отсутствие(let свидетельство):
+            отсутствия.append(свидетельство)
+            guard case .файл(let файл) = try наблюдать(общийКаталог + "/packed-refs", предел: пределУпакованных)
+            else { throw ОтказФайловойСсылки.отсутствие }
+            идентификатор = try разобратьУпакованные(файл.данные, ссылка: ссылка)
+            файлы.append(файл); источник = .упакованныйФайл
+        }
+        let снимок = СнимокФайловойСсылки(идентификаторОбъекта: идентификатор,
+            источник: источник, файлы: файлы, отсутствия: отсутствия)
+        try снимок.подтвердить()
+        return снимок
+    }
+    private static func время() throws -> UInt64 {
+        var момент = timespec()
+        guard clock_gettime(CLOCK_MONOTONIC, &момент) == 0, момент.tv_sec >= 0,
+              момент.tv_nsec >= 0, момент.tv_nsec < 1_000_000_000 else { throw ОтказФайловойСсылки.метаданные }
+        return UInt64(момент.tv_sec) * 1_000_000_000 + UInt64(момент.tv_nsec)
+    }
+    private static func равны(_ а: stat, _ б: stat) -> Bool {
+        а.st_dev == б.st_dev && а.st_ino == б.st_ino && а.st_uid == б.st_uid
+            && а.st_nlink == б.st_nlink && а.st_mode == б.st_mode && а.st_size == б.st_size
+            && а.st_mtimespec.tv_sec == б.st_mtimespec.tv_sec && а.st_mtimespec.tv_nsec == б.st_mtimespec.tv_nsec
+            && а.st_ctimespec.tv_sec == б.st_ctimespec.tv_sec && а.st_ctimespec.tv_nsec == б.st_ctimespec.tv_nsec
+    }
+    private static func теЖеКаталоги(_ а: [КаталогФайловойСсылки], _ б: [КаталогФайловойСсылки]) -> Bool {
+        а.count == б.count && zip(а, б).allSatisfy { пара in
+            пара.0.путь.utf8.elementsEqual(пара.1.путь.utf8) && пара.0.сведения.st_dev == пара.1.сведения.st_dev
+                && пара.0.сведения.st_ino == пара.1.сведения.st_ino && пара.0.сведения.st_mode == пара.1.сведения.st_mode
+                && пара.0.сведения.st_uid == пара.1.сведения.st_uid
+        }
+    }
+    fileprivate static func подтвердить(_ файл: ФайлФайловойСсылки) throws {
+        guard case .файл(let свежий) = try наблюдать(файл.путь, предел: файл.предел),
+              файл.данные == свежий.данные, равны(файл.сведения, свежий.сведения),
+              теЖеКаталоги(файл.каталоги, свежий.каталоги) else { throw ОтказФайловойСсылки.дрейф }
+    }
+    fileprivate static func подтвердить(_ отсутствие: ОтсутствиеФайловойСсылки) throws {
+        guard case .отсутствие(let свежее) = try наблюдать(отсутствие.путь, предел: 4_096),
+              отсутствие.отсутствующийКомпонент.utf8.elementsEqual(свежее.отсутствующийКомпонент.utf8),
+              теЖеКаталоги(отсутствие.каталоги, свежее.каталоги) else { throw ОтказФайловойСсылки.дрейф }
+    }
+    private static func наблюдать(_ путь: String, предел: Int) throws -> НаблюдениеФайловойСсылки {
+        let части = путь.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+        guard путь.utf8.count <= 4_096, части.count >= 2, части.first == "",
+              !путь.unicodeScalars.contains(where: { $0.value < 0x20 || $0.value == 0x7f }),
+              части.dropFirst().allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." })
+        else { throw ОтказФайловойСсылки.путь }
+        var каталог = Darwin.open("/", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard каталог >= 0 else { throw ОтказФайловойСсылки.метаданные }
+        defer { Darwin.close(каталог) }
+        var каталоги: [КаталогФайловойСсылки] = [], префикс = ""
+        for номер in 1..<части.count {
+            var сведения = stat()
+            guard fstat(каталог, &сведения) == 0, сведения.st_mode & S_IFMT == S_IFDIR
+            else { throw ОтказФайловойСсылки.метаданные }
+            каталоги.append(КаталогФайловойСсылки(путь: префикс.isEmpty ? "/" : префикс, сведения: сведения))
+            префикс += "/" + части[номер]
+            let последний = номер == части.count - 1
+            if последний {
+                guard сведения.st_uid == geteuid(), сведения.st_mode & 0o022 == 0
+                else { throw ОтказФайловойСсылки.метаданные }
+            }
+            let флаги = последний ? O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC
+                : O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC
+            let следующий = openat(каталог, части[номер], флаги)
+            if следующий < 0 {
+                guard errno == ENOENT else { throw ОтказФайловойСсылки.метаданные }
+                guard сведения.st_uid == geteuid(), сведения.st_mode & 0o022 == 0
+                else { throw ОтказФайловойСсылки.метаданные }
+                return .отсутствие(ОтсутствиеФайловойСсылки(путь: путь,
+                    отсутствующийКомпонент: префикс, каталоги: каталоги))
+            }
+            if !последний { Darwin.close(каталог); каталог = следующий; continue }
+            defer { Darwin.close(следующий) }
+            var до = stat(), после = stat(), имя = stat()
+            guard fstat(следующий, &до) == 0, до.st_mode & S_IFMT == S_IFREG,
+                  до.st_uid == geteuid(), до.st_nlink == 1, до.st_mode & 0o7022 == 0,
+                  до.st_size >= 0, до.st_size <= Int64(предел) else { throw ОтказФайловойСсылки.метаданные }
+            let край = try время() + 5_000_000_000
+            var данные = Data(), буфер = [UInt8](repeating: 0, count: 16_384)
+            while данные.count <= предел {
+                guard try время() < край else { throw ОтказФайловойСсылки.метаданные }
+                let прочитано = буфер.withUnsafeMutableBytes {
+                    Darwin.pread(следующий, $0.baseAddress, min($0.count, предел + 1 - данные.count), off_t(данные.count))
+                }
+                if прочитано < 0 && errno == EINTR { continue }
+                guard прочитано >= 0 else { throw ОтказФайловойСсылки.метаданные }
+                if прочитано == 0 { break }
+                данные.append(contentsOf: буфер.prefix(прочитано))
+            }
+            guard fstat(следующий, &после) == 0, равны(до, после), данные.count == Int(до.st_size), данные.count <= предел,
+                  fstatat(каталог, части[номер], &имя, AT_SYMLINK_NOFOLLOW) == 0, равны(после, имя)
+            else { throw ОтказФайловойСсылки.дрейф }
+            return .файл(ФайлФайловойСсылки(путь: путь, предел: предел,
+                данные: данные, сведения: после, каталоги: каталоги))
+        }
+        throw ОтказФайловойСсылки.путь
+    }
+}
+
 public struct НаблюденияStop: Codable, Sendable {
     public static let текущаяСхема = "fum.stop-наблюдения.1"
 
@@ -455,6 +672,13 @@ private enum ТекущиеОбязательстваStop {
     }
     private struct Чтение {
         var файлы: [Файл] = []
+        var ссылки: [СнимокФайловойСсылки] = []
+
+        mutating func взятьСсылку(общийКаталог: String, ссылка: String) throws -> String {
+            let снимок = try ЧитательФайловойСсылки.прочитать(общийКаталог: общийКаталог, ссылка: ссылка)
+            ссылки.append(снимок)
+            return снимок.идентификаторОбъекта
+        }
 
         mutating func взять(_ путь: String, режим: mode_t?, предел: Int) throws -> Data {
             let файл = try Self.прочитать(путь, режим: режим, предел: предел)
@@ -469,6 +693,7 @@ private enum ТекущиеОбязательстваStop {
                       Self.равны(файл.метаданные, после.метаданные)
                 else { throw Отказ.дрейфФайла }
             }
+            for ссылка in ссылки { try ссылка.подтвердить() }
         }
 
         private static func равны(_ a: stat, _ b: stat) -> Bool {
@@ -638,12 +863,12 @@ private enum ТекущиеОбязательстваStop {
         let backlink = try чтение.взять(h.gitDir + "/gitdir", режим: nil, предел: 4096)
         let common = try чтение.взять(h.gitDir + "/commondir", режим: nil, предел: 4096)
         let head = try чтение.взять(h.gitDir + "/HEAD", режим: nil, предел: 4096)
-        // Поддержан только известный loose ref linked worktree. Packed/reftable,
-        // detached/unborn и отсутствие выбранного файла дают block, без fallback.
-        let oid = try чтение.взять(h.commonGitDir + "/" + h.ref, режим: nil, предел: 4096)
+        // Упакованная ссылка выбирается только после безопасно наблюдённого ENOENT.
+        // Снимок и отсутствие отдельной ссылки подтверждаются конечной границей чтения.
+        let oid = try чтение.взятьСсылку(общийКаталог: h.commonGitDir, ссылка: h.ref)
         guard dotGit == Data("gitdir: \(h.gitDir)\n".utf8),
               backlink == Data("\(h.дерево)/.git\n".utf8),
-              head == Data("ref: \(h.ref)\n".utf8), oid == Data("\(HEAD)\n".utf8),
+              head == Data("ref: \(h.ref)\n".utf8), oid == HEAD,
               let строка = String(data: common, encoding: .utf8), строка.hasSuffix("\n"),
               !строка.dropLast().contains("\n")
         else { throw Отказ.привязкаGit }
