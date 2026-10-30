@@ -1,0 +1,828 @@
+{
+  "схема": "fum.контракт-текущих-обязательств-stop.2",
+  "задача": "Восстановить Native Stop и удерживать преждевременный final при текущем остатке",
+  "источникЗапроса": {
+    "оригинал": "Tyi opyatj osnanovilsya, i raneye eta problema byila kakim-to obrazom reshena.",
+    "issue": "https://github.com/fum-lab/fum/issues/479",
+    "граница": "Исходники, установка, доверие Native и фактическая проба принимаются отдельно. Issue не закрывается исходным коммитом."
+  },
+  "происхождение": {
+    "база": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209",
+    "частичноеИсправление": "531215f58af861aefae1ffb1b3d93a3cf1132f9a",
+    "стараяСхема": "fum.stop-наблюдения.1",
+    "новаяСхема": "fum.текущие-обязательства-stop.2",
+    "политика": "Существующая СамостоятельностьУзла / FUMA AutomationExecutor, без замены ядра и таблицы полномочий."
+  },
+  "эффекты": {
+    "reader": "Только чтение выбранных ограниченных файлов. Без Git subprocess, обхода object graph, записи счётчиков и автоматического повторения эффекта.",
+    "публикацияСнимка": "Единственный уполномоченный ROOT; приватный каталог0700, current.json0600, атомарная замена. Installer и тесты не пишут production current.",
+    "принадлежность": "UUID и Native cwd из отдельно проверенной конфигурации; header SHA256 передан argv. Это не аттестация UUID ядром ОС и не kernel CAS.",
+    "ограниченноеЗавершение": "Пустой hook-ответ допускает только закрытие текущего assignment. Не доказывает завершение всего ROOT/узла/исторического backlog."
+  },
+  "argv": [
+    "stop",
+    "--идентификатор-обработчика",
+    "fum.stop-handler.1",
+    "--codex-thread-id",
+    "<synthetic-or-authorized-UUID>",
+    "--идентификатор-узла",
+    "<node>",
+    "--ожидаемый-cwd",
+    "<absolute-native-cwd>",
+    "--состояние",
+    "<absolute-current.json>",
+    "--профиль-наблюдений",
+    "fum.текущие-обязательства-stop.2",
+    "--заголовок",
+    "<absolute-header.json>",
+    "--хэш-заголовка",
+    "<64-lower-hex>"
+  ],
+  "приоритет": [
+    "Чужие session_id / hook_event_name: пустой ответ до чтения header/state.",
+    "Неполный целевой Native event: diagnostic block; continue:false не применяется.",
+    "Проверенные header400/SHA и минимальный связанный control envelope; стоп/пауза человека выше stale, HEAD и неполного рабочего остатка.",
+    "Продолжать: полный snapshot, freshness, фактические file bindings HEAD/ref, пункты и evidence.",
+    "Доступный шаг, ожидание ребёнка, доставленный результат до интеграции, unknown effect и неизвестные намерения не означают completed.",
+    "stop_hook_active не отменяет проверки и не разрешает слепой повтор."
+  ],
+  "файлы": {
+    "header": {
+      "схема": "fum.stop-заголовок.2",
+      "поля": [
+        "задача",
+        "узел",
+        "область",
+        "поколение",
+        "cwd",
+        "дерево",
+        "ref",
+        "gitDir",
+        "commonGitDir",
+        "backend",
+        "objectFormat",
+        "исходники",
+        "состояние",
+        "каталогКвитанций",
+        "максимальныйВозрастСекунд"
+      ],
+      "режим": "0400",
+      "пределБайтов": 32768,
+      "backend": "files",
+      "objectFormat": "sha1",
+      "возраст": "1..3600 секунд; production первоначально900; будущий event/turn ID не требуется"
+    },
+    "snapshot": {
+      "схема": "fum.текущие-обязательства-stop.2",
+      "поля": [
+        "заголовокSHA256",
+        "задача",
+        "узел",
+        "область",
+        "поколение",
+        "cwd",
+        "дерево",
+        "ref",
+        "HEAD",
+        "выпущен",
+        "действуетДо",
+        "управление",
+        "пункты",
+        "неизвестныеНамерения",
+        "наблюдения"
+      ],
+      "необязательное": [
+        "диспозиция:{путь,sha256}"
+      ],
+      "управление": {
+        "действие": [
+          "продолжать",
+          "стоп",
+          "пауза"
+        ],
+        "основание": "непустое, ≤2048 UTF-8 байтов"
+      },
+      "режим": "0600",
+      "пределБайтов": 32768,
+      "время": "целые Unix seconds, выпущен≤now≤действуетДо, interval/age≤header bound"
+    },
+    "пункт": {
+      "поля": [
+        "id",
+        "область",
+        "состояние",
+        "уровень",
+        "основание"
+      ],
+      "состояние": [
+        "доступен",
+        "ожидает-ребёнка",
+        "доставлен",
+        "закрыт",
+        "блокирован",
+        "неактивен"
+      ],
+      "уровень": [
+        "исходники",
+        "native"
+      ],
+      "граница": "1..128 уникальных id. Чужая область допускается только закрытая/неактивная с основанием. Неизвестная активная область закрыто отвергается."
+    },
+    "metadata": "Компоненты nofollow, regular file текущего UID, nlink1, без group/world write, ≤4096 байтов; точные .git/gitdir/commondir/HEAD/loose ref; до/после inode/mode/size/mtime/ctime и named-entry readback. State600 V1 не ослаблен. commondir: exact canonical absolute либо ведущие ../ с последующими простыми компонентами; x/../ отвергается, Foundation alias-normalization не используется.",
+    "неПоддержано": [
+      "packed-only выбранный ref",
+      "reftable",
+      "detached/unborn HEAD",
+      "неизвестный backend",
+      "символическая ссылка/неоднозначная привязка",
+      "неполная квитанция"
+    ]
+  },
+  "квитанции": {
+    "схема": "fum.stop-диспозиция.2",
+    "ссылка": "Только basename *.json внутри header-каталога, SHA256 точных bytes, regular owner nlink1/0600/≤32768/no symlink.",
+    "поля": [
+      "задача",
+      "узел",
+      "область",
+      "поколение",
+      "HEAD",
+      "исход",
+      "пункты",
+      "основание",
+      "ответственный",
+      "условиеВозврата"
+    ],
+    "bounded-complete": "Все текущие ids/уровни совпадают receipt, нет active/unknown intent/dangerous effect/safe next work; пункты закрыты/неактивны. Одного bool недостаточно.",
+    "source": "Для каждого source item доставка S, интеграция M, 1..8 base64 raw commits≤8192 байтов каждый. SHA1 Git object commit N NUL raw: первый равен actual HEAD, следующий является parent предыдущего. Последний M имеет ровно2 различных parents, включая S. Это bounded доказательство по сохранённым bytes, не полный Git аудит.",
+    "native": "Для native item отдельная квитанцияNative:{путь,sha256}. fum.native-stop-проба.1 связывает задачу/область/поколение/HEAD, решение:block и SHA256 бинарника, определения hook и сохранённого наблюдения. Появляется после фактической Root-пробы; до неё пункт открыт.",
+    "blocked-return": "Конкретное основание, ответственный=ROOT задачи, условиеВозврата, блокерSHA256 и точное принятие remaining ids + unknown intentions; нет available/pending/delivered/safe independent work. Это принятая передача блокера, не автоматическая ошибка как completion."
+  },
+  "проверка": {
+    "профиль": "Явная локальная source-only граница НОВОЕ-000032. Общая финальная приёмка не разрешена.",
+    "исключено": [
+      "Python/router/ROOT JSONL",
+      "полный корневой package",
+      "LinguisticKit",
+      "исторический guard/реестр",
+      "Proyekcii",
+      "общая публикационная проверка"
+    ],
+    "исключённоеНеGREEN": true,
+    "этапы": [
+      "C1 RED:1 test/exit1/3 assertion issues;43.61s;25 SwiftPM setup warnings сохранены.",
+      "C1 GREEN:1 test/exit0/0 warnings;7.06s;не source V2.",
+      "V2 RED:8 tests/3 failed/5 passed/8 issues;compileOK/exit1/warnings0;12.65s.",
+      "V2 GREEN attempt #4 FAILED: compileOK/warnings0;27unit18passed9failed20issues;9CLIpassed наH4;лишний старыйCLIfailed доspawn из-заstage race;33.37s/RSS412090368. Реальный дефект physical /private/tmp binding сохранён и исправлен.",
+      "V2 #5 PASSED:27unit+1finalCLI/privateTmp,compileOK/exit0/warnings0;9.47s,build6.70s,RSS311214080. СтарыйCLI и прежние9 явно skipped и не GREEN этим запуском."
+    ],
+    "nativeTopUsed": 5,
+    "nativeTopMax": 5,
+    "CLIChildrenPlanned": 9,
+    "realNativeProbe": "UNKNOWN; не выполнялась",
+    "hooksConfigEffect": 0,
+    "CLIChildrenActualBefore5": 9,
+    "CLIChildrenMax": 10,
+    "CLIChildrenActual": 10,
+    "итог": {
+      "unit": 27,
+      "unitPassed": 27,
+      "CLI9H4": "passed on prior source hashes from #4; #4 total failed",
+      "CLI1H5": "passed on final source; no rerun9",
+      "Native": "UNKNOWN;0",
+      "sourceOnly": true
+    }
+  },
+  "воспроизведение": {
+    "платформа": "macOS14 arm64, Swift6; toolchain с CryptoKit/Foundation/Darwin/Testing",
+    "компилятор": {
+      "invocation": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift",
+      "physical": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend",
+      "bytes": 173118384,
+      "sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+      "version": "6.4 inherited observation of exact same executable hash"
+    },
+    "SDK": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+    "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+    "target": "arm64-apple-macosx14.0",
+    "manifest": "// swift-tools-version: 6.0\nimport PackageDescription\nlet settings: [SwiftSetting] = [.swiftLanguageMode(.v6), .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"FUMA\", platforms: [.macOS(.v14)], products: [.executable(name: \"fuma\", targets: [\"КомандаЗапуска\"])], targets: [\n        .target(\n            name: \"МатериализацияУзлов\",\n            dependencies: [\"FUMStructuringOperatorMemory\"],\n            path: \"iskhodniki/perekhod-vetok/uzlyi\",\n            sources: [\"sinkhronizaciya/kontrakt-istochnika-kodeks.swift\",\"sinkhronizaciya/adapter-git-avtor-commita.swift\",\"polnomochiya.swift\",\"stop.swift\"],\n            resources: [.copy(\"opredeleniya\")],\n            swiftSettings: settings\n        ),\n        .target(\n            name: \"FUMStructuringOperatorMemory\",\n            dependencies: [],\n            path: \"Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory\",\n            resources: [.copy(\"Фикстуры\"), .copy(\"Определения\")],\n            swiftSettings: settings\n        ),\n        .target(\n            name: \"ЖурналУзла\",\n            dependencies: [\"FUMStructuringOperatorMemory\",\"ОсноваЗапуска\"],\n            path: \"iskhodniki/zhurnal\",\n            resources: [.copy(\"opredeleniya\")],\n            swiftSettings: settings\n        ),\n        .target(\n            name: \"КонтейнерНаблюдений\",\n            dependencies: [],\n            path: \"Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений\",\n            swiftSettings: settings\n        ),\n        .target(\n            name: \"СнимокАгентскойЗадачи\",\n            dependencies: [\"КонтейнерНаблюдений\"],\n            path: \"Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи\",\n            swiftSettings: settings\n        ),\n        .target(\n            name: \"АрхивныйСнимокЗадачи\",\n            dependencies: [\"КонтейнерНаблюдений\",\"СнимокАгентскойЗадачи\"],\n            path: \"Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи\",\n            swiftSettings: settings\n        ),\n        .target(\n            name: \"ОсноваЗапуска\",\n            dependencies: [\"КонтейнерНаблюдений\",\"АрхивныйСнимокЗадачи\",\"FUMStructuringOperatorMemory\"],\n            path: \"iskhodniki/zapusk\",\n            exclude: [\"Команда.swift\"],\n            swiftSettings: settings\n        ),\n        .executableTarget(\n            name: \"КомандаЗапуска\",\n            dependencies: [\"ОсноваЗапуска\",\"ЖурналУзла\",\"МатериализацияУзлов\"],\n            path: \"iskhodniki/zapusk\",\n            exclude: [\"obrabotchik-paketa-putej.swift\",\"priyomnik-fuma-jsonl.swift\",\"proverka-versionnoj-svyazi-priyomki.swift\",\"svyazj-kvitancii-modeli.swift\",\"vkhod-paketa-putej.swift\",\"АргументыЗапуска.swift\",\"ПоляЗапуска.swift\",\"ПутьХранилища.swift\",\"ЦиклЗапуска.swift\"],\n            sources: [\"Команда.swift\"],\n            swiftSettings: settings\n        ),\n        .testTarget(\n            name: \"ПроверкиМатериализацииУзлов\",\n            dependencies: [\"МатериализацияУзлов\",\"FUMStructuringOperatorMemory\"],\n            path: \"iskhodniki/perekhod-vetok/proverki\",\n            sources: [\"proverki-stop.swift\"],\n            swiftSettings: settings\n        ),\n        .testTarget(\n            name: \"ПроверкиЗапуска\",\n            dependencies: [\"ОсноваЗапуска\",\"КонтейнерНаблюдений\",\"МатериализацияУзлов\"],\n            path: \"proverki/zapusk\",\n            sources: [\"ПроверкиStop.swift\",\"ПроцессыЗапуска.swift\"],\n            swiftSettings: settings\n        )\n    ], swiftLanguageModes: [.v6])\n",
+    "файлы": [
+      {
+        "path": "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+        "bytes": 56465,
+        "sha256": "cfb1056fe55c296748aab3ff12b6422871ca3bd216e666042f5f244a6ebebce6",
+        "kind": "test",
+        "source": "writer WIP from C1"
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json",
+        "bytes": 3415,
+        "sha256": "9e3a0fd3e35aec1077a12db8ca4b9fd87dbd0982689813048925329c94777aec",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift",
+        "bytes": 4878,
+        "sha256": "e1efb4ab3fd69b6da5d105e28cd905a435fd4d69189f8d647eb4b654ad6c7e29",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "bytes": 15138,
+        "sha256": "1858a3c7d320964c64548d6cf588fadb00b11d2054bf6d07acd6d3f00a3abda9",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+        "bytes": 45772,
+        "sha256": "4f1c12439852d364f74cac347a50b309bf6f155048affaa11f77dccdf0dcef81",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+        "bytes": 50704,
+        "sha256": "bdaaa9d54b06081a88c1cb5b33679a73fcf537e9520d283761d47c5cb6da986b",
+        "kind": "production",
+        "source": "writer WIP from C1"
+      },
+      {
+        "path": "iskhodniki/zapusk/obrabotchik-paketa-putej.swift",
+        "bytes": 8334,
+        "sha256": "2210968b0a5a2d292bb0b072daac7f5eef45a32aee1f621d9a8c8ed278f1c77e",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/priyomnik-fuma-jsonl.swift",
+        "bytes": 2309,
+        "sha256": "26f76aea51ae70891a3a683ed058368276c90e3afa75ac108164250b51388cb8",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/proverka-versionnoj-svyazi-priyomki.swift",
+        "bytes": 8472,
+        "sha256": "4771a3e99e455caee7aadd9b892aa1217aa11d5cdcd85028a2e8dfdb3a43f440",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/svyazj-kvitancii-modeli.swift",
+        "bytes": 2234,
+        "sha256": "6c8e96b9db104bb38c8b10706dd358811d16a1627fad40c3ba4fbee4dc4598a4",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/vkhod-paketa-putej.swift",
+        "bytes": 4321,
+        "sha256": "87e7f7ed36ce3d1734a972efbf9f774b6ffebb049e2cf4a1a04cabd63d33a4db",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/АргументыЗапуска.swift",
+        "bytes": 6374,
+        "sha256": "75f40e20d7c9a7397f590579238e04f7b134a9c6d32d18c5977ec239be5ff975",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/Команда.swift",
+        "bytes": 12004,
+        "sha256": "3799dd344dc6845964adb1cf75275447eb41c355290e86ff016341775c1c607b",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/ПоляЗапуска.swift",
+        "bytes": 4293,
+        "sha256": "f182132aef4cd14f410a3b151706ba29792bb261ddcc777c99cb5d1f5c08f0fc",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/ПутьХранилища.swift",
+        "bytes": 4905,
+        "sha256": "0af7013fcdca7427a28bd0a346c1f1c96aa6a5d6cd1209d4bb2a42c4a861adab",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zapusk/ЦиклЗапуска.swift",
+        "bytes": 8698,
+        "sha256": "f5a22c01bd73a83b8ee883eedf3c8445cd38170024ce413791f9c9167713a9c5",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zhurnal/fajlovyij-adapter.swift",
+        "bytes": 12477,
+        "sha256": "050a8678163461b050235d195d1d7d297720fa583624d7f906993dde8e884ff8",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zhurnal/komanda-zhurnala.swift",
+        "bytes": 5704,
+        "sha256": "c4927940d9521373be8709deafab8e1fe7a5407b9a83605a88ce6ecab24305a3",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zhurnal/modelj-zapisi.swift",
+        "bytes": 9569,
+        "sha256": "6766c463045531a1beaf4830f7bc20e69a64a5467fe39a337d7c3cc46490772c",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zhurnal/opredeleniya/sformirovatj-zapisj.json",
+        "bytes": 691,
+        "sha256": "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "iskhodniki/zhurnal/plan-zapisi.swift",
+        "bytes": 7257,
+        "sha256": "9f6b2f8561e59eede119dccb1fba3e5d32b1c1ebb2d484debcd965aab142347f",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "proverki/zapusk/ПроверкиStop.swift",
+        "bytes": 29061,
+        "sha256": "227d8b8f87bea7e7fd711022abec282e6a9a70ae41d1db27911fd970afd77251",
+        "kind": "test",
+        "source": "writer WIP from C1"
+      },
+      {
+        "path": "proverki/zapusk/ПроцессыЗапуска.swift",
+        "bytes": 26354,
+        "sha256": "f41473b8e63f48c9d82de90ab3bdbdea933954cd2ddb4263e8b4f353169de809",
+        "kind": "test",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/posledovatelnyje-ramki-jsonl.swift",
+        "bytes": 9124,
+        "sha256": "7bfd5d2dcba31adebbd9d8451094c3524503320c86848fcd78515994e3f81ebf",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Архив.swift",
+        "bytes": 8701,
+        "sha256": "abc2a949211307c12377adb489884b438f5e867dfb5d9a8327e3d982e516e205",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/ГраницаКурсораJSONL.swift",
+        "bytes": 14074,
+        "sha256": "3cc438eacb6b1580b88e986e7f412ec7d1755401739b77d3599f837c0fc96b1d",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Контракт.swift",
+        "bytes": 3426,
+        "sha256": "b6ecc4a1aa3f8405288d9ff96827fe4b992314a1ceb3ff4965e2fb11784aac12",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Разбор.swift",
+        "bytes": 10564,
+        "sha256": "ff330397aae3d6768a9991873f761ed928e7b3189743428a5fc8182445970790",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/РамкиJSONL.swift",
+        "bytes": 8132,
+        "sha256": "ff1d79722bac4eab290b2ad8b85be145b2bd94a70b8c94c156e00db6afea8bd3",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Снимок.swift",
+        "bytes": 14735,
+        "sha256": "f9bc1fdab7df3c9d7ce1273edbd87aea59ae2d2c18d7147cf436e1911309b522",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Чтение.swift",
+        "bytes": 3319,
+        "sha256": "09fb29f719a22cb429c2d0ba52d632a642232a1ac9bfe2b7d39241edd7dc1dec",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "bytes": 1969,
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "bytes": 2663,
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "bytes": 43264,
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "bytes": 19762,
+        "sha256": "647907d41454b7aab0d6459326cd277862086d107127d8d675eb5ef35ebbaa90",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "bytes": 4320,
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "bytes": 10793,
+        "sha256": "01a84b297ac38ac52572df36ccf1e584482085da9647030d42b3b0159f401daf",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Истолкование.swift",
+        "bytes": 10207,
+        "sha256": "1bda3a1f55999560d9f577edc7002fa28762fa7142cb486176005e4dc10d24e6",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Контракт.swift",
+        "bytes": 7611,
+        "sha256": "ce279309db2c8625d5c770fdfaa325077d23b9b207c5396f1c40a86031794069",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Представление.swift",
+        "bytes": 3513,
+        "sha256": "703cdc5e3cb0de7573d796916ac6aa9c985b0034f2a171d6be05cb54dcffbcb0",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Пример.swift",
+        "bytes": 3916,
+        "sha256": "2adf2226806da3c08123a265105980a8d38194a7cfa311db1e79ee232847db32",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Профиль.swift",
+        "bytes": 6431,
+        "sha256": "175d56c1063b3e87d29e4df6f1382cb039c6981a551ad96cd358629397e0b366",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Редуктор.swift",
+        "bytes": 11413,
+        "sha256": "823e8e155222942b6d0208f9e8215f2e08883c665ceb4df06a694060e5a8832e",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Хранилище.swift",
+        "bytes": 10045,
+        "sha256": "05d0efb17430146440152ed61798f7c2d1ebb52ca715c0039210462203a06989",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+        "bytes": 9497,
+        "sha256": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+        "bytes": 12953,
+        "sha256": "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Domain.swift",
+        "bytes": 19688,
+        "sha256": "12e1df61f025ccc217ab920c2ccc28d33bebe30757f32ed66c311a0361fcb1bf",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Engine.swift",
+        "bytes": 30091,
+        "sha256": "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+        "bytes": 14928,
+        "sha256": "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/vkhod-jsonl.swift",
+        "bytes": 23951,
+        "sha256": "bff89e24c715cc9a2eea31f7070a23f4ca39e557bc51585427c8c6ee79b0206c",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+        "bytes": 17871,
+        "sha256": "b30fbbe86574af3d77b9bb70325cb5add4eac98e07e7a27d334d480ccce76faf",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+        "bytes": 7483,
+        "sha256": "13a6a25c59f3ee437c933618a3077cfbea0fbb567c4ff9c787f2c16d7aaae26b",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+        "bytes": 10394,
+        "sha256": "7ae018ba2347e91cd2b41acc2f86c1ff7bc0927126c7f8b1d60fcb52618a28fa",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+        "bytes": 32284,
+        "sha256": "dab7b52639c92fed633a3eda3e7abea169ff08c06280fef15650360bb6132651",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift",
+        "bytes": 6625,
+        "sha256": "93e81ddca96164c3d09cafbbec0f63843699ef3adfd4e507c8df3aed616f8166",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+        "bytes": 3911,
+        "sha256": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+        "bytes": 19242,
+        "sha256": "e9b20904fa21e66a26843fccf9423c43c5ed346a23b225a23bc47eec1d31d9be",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+        "bytes": 6617,
+        "sha256": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json",
+        "bytes": 4778,
+        "sha256": "eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+        "bytes": 641,
+        "sha256": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+        "bytes": 8814,
+        "sha256": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/РазмерСоединенияСтрок.swift",
+        "bytes": 3060,
+        "sha256": "64a91c6ceaf67ef6fb7d431d0b91ba9cb87be637af229d65dc5b5121dd3b4cc6",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+        "bytes": 18252,
+        "sha256": "1c2262433f80a3d7a630238fa9a806329afc12f941c5d292c1c5afc6bb9904b8",
+        "kind": "production",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+        "bytes": 202,
+        "sha256": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      },
+      {
+        "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+        "bytes": 49897,
+        "sha256": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292",
+        "kind": "resource",
+        "source": "792e6fdb49fccf3b8c39c4b884a36aa3658ff209"
+      }
+    ],
+    "подготовка": "В пустой private harness скопировать только перечисленные файлы с сохранением относительных путей, проверить каждый SHA256, сохранить manifest как Package.swift. Все исходники/ресурсы отслеживаются в FUM. Строгие флаги включены в manifest. Полный Root Package.swift не запускать.",
+    "testFilter": "ПроверкиStop|ПроверкиТекущихОбязательствStop",
+    "CLIEnv": {
+      "ФУМА_ПРОДУКТЫ_STOP": "<scratch>/out/Products/Debug",
+      "ФУМА_БИНАРНИК_ЗАПУСКА": "<private-parent>/stage/fuma",
+      "ФУМА_СВИДЕТЕЛЬСТВА_ЗАПУСКА": "<existing-private-witness-dir>",
+      "ФУМА_ПРОФИЛЬ_STOP": "v2-full"
+    },
+    "runtime": "CLI-suite сама один раз копирует fuma и три обязательных bundles в отдельный stage и сверяет bytes/hash; environment дочерних CLI содержит только пустой PATH. Stage не является production activation.",
+    "ресурсы": [
+      "FUMA_МатериализацияУзлов.bundle",
+      "FUMA_FUMStructuringOperatorMemory.bundle",
+      "FUMA_ЖурналУзла.bundle"
+    ],
+    "helper": "Существующий ПроцессыЗапуска.swift не меняется: timeout60s/завершение5s/raw logs. PGID/32KiB output этим helper не доказаны.",
+    "повторResolver": "resolver-only: только27 unit и1 CLI на physical /private/tmp; старый CLI и прошлые9 явно skipped, не GREEN"
+  },
+  "активация": {
+    "состояние": "Не выполнена; исходники не означают activation.",
+    "порядок": [
+      "Принять source и exact artifact pins.",
+      "Проверить staged binary+resources/header/16argv и единственную замену FUM Stop command в hooks.json; foreign hooks/timeout не менять.",
+      "Адресное ROOT решение по конфигурации и sole-writer custody.",
+      "Нативное доверие новому hash hook — без обхода trust.",
+      "ROOT публикует свежий текущий snapshot. Первая реальная ROOT Stop-проба diagnostic block, а не release.",
+      "Сохранить Native receipt; ROOT публикует следующую диспозицию bounded scope."
+    ],
+    "старыйPython": "Удаление лишь после замены и переключения необходимых consumers; массовое удаление не разрешено."
+  },
+  "планУзла": {
+    "цель": "Адресно восстановить Stop479: source→artifact/resources→config/trust→реальная проба→bounded disposition",
+    "текущее": "#5 прошёл в адресной границе; исход #4 сохранён, установка не выполнена",
+    "следующее": "Source checkpoint, явный merge792e/readback, ROOT acceptance; затем concrete installer/header/config decision и Native trust",
+    "зависимости": [
+      "ROOT принял792e и удерживает relevant base до результата",
+      "ROOT единственный publisher production current",
+      "Native доверие hook и реальное событие только после установки"
+    ],
+    "возврат": "При недоставке/неизвестном эффекте сначала чтение outcome, без повтора; при неподдержанном backend block и адресный ROOT handoff",
+    "дети": "Непосредственные RO-подзадачи завершены; Names owner выполняет отдельно утверждённый pilot. Документ не активирует автоматизацию."
+  },
+  "артефакт": {
+    "граница": "Final H5 binary+bundles copied byte-for-byte before1CLI; no production activation. Debug-generated accessors choose bundle beside executable; exact generated accessor hashes retained privately.",
+    "схема": "fum.stop-cli-staging.1",
+    "файлы": [
+      {
+        "sha256": "e6bd19f71e327f74c723c59966604ac1199b115617069da078fe98b832276871",
+        "байтов": 2494,
+        "путь": "FUMA_МатериализацияУзлов.bundle/Contents/_CodeSignature/CodeResources"
+      },
+      {
+        "sha256": "31fcc521576e48ba66f46aa5b2a967df89ffa9f7f4ef370cc75cac48b02fd8c9",
+        "байтов": 214,
+        "путь": "FUMA_МатериализацияУзлов.bundle/Contents/_CodeSignature/CodeDirectory"
+      },
+      {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "байтов": 0,
+        "путь": "FUMA_МатериализацияУзлов.bundle/Contents/_CodeSignature/CodeSignature"
+      },
+      {
+        "sha256": "987920904eab650e75788c054aa0b0524e6a80bfc71aa32df8d237a61743f986",
+        "байтов": 12,
+        "путь": "FUMA_МатериализацияУзлов.bundle/Contents/_CodeSignature/CodeRequirements"
+      },
+      {
+        "sha256": "9e3a0fd3e35aec1077a12db8ca4b9fd87dbd0982689813048925329c94777aec",
+        "байтов": 3415,
+        "путь": "FUMA_МатериализацияУзлов.bundle/Contents/Resources/opredeleniya/samostoyateljnostj.json"
+      },
+      {
+        "sha256": "cb9a4213cf45351633d5095cef2fceb02f190adad392783152c322515bf0cca4",
+        "байтов": 1166,
+        "путь": "FUMA_МатериализацияУзлов.bundle/Contents/Info.plist"
+      },
+      {
+        "sha256": "abfcaad0b3746f89d13d0c424cc6b73da8a747a1aa44ac1a08b2445deb9022f4",
+        "байтов": 3678,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/_CodeSignature/CodeResources"
+      },
+      {
+        "sha256": "8d498d4d252a08f5b5041847c9ae46624867a9c9ec6f0e5278ca0cf93335746a",
+        "байтов": 223,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/_CodeSignature/CodeDirectory"
+      },
+      {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "байтов": 0,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/_CodeSignature/CodeSignature"
+      },
+      {
+        "sha256": "987920904eab650e75788c054aa0b0524e6a80bfc71aa32df8d237a61743f986",
+        "байтов": 12,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/_CodeSignature/CodeRequirements"
+      },
+      {
+        "sha256": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f",
+        "байтов": 202,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/Resources/Фикстуры/malformed-llm-envelope.json"
+      },
+      {
+        "sha256": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292",
+        "байтов": 49897,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/Resources/Фикстуры/scenarios.json"
+      },
+      {
+        "sha256": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588",
+        "байтов": 641,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/Resources/Определения/нормализация.json"
+      },
+      {
+        "sha256": "eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba",
+        "байтов": 4778,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/Resources/Определения/vkhod-jsonl-fuma.json"
+      },
+      {
+        "sha256": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de",
+        "байтов": 6617,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/Resources/Определения/UTF-8-в-UTF-32LE.json"
+      },
+      {
+        "sha256": "ac2083903e4daa09a393f99361885ab0efa8e185c30de2a34d491431a1f30626",
+        "байтов": 1165,
+        "путь": "FUMA_FUMStructuringOperatorMemory.bundle/Contents/Info.plist"
+      },
+      {
+        "sha256": "3e69e6ccaa127194963a5847e7b6f0552848fb52a24d04d80fb8dcf616fbb160",
+        "байтов": 7526992,
+        "путь": "fuma"
+      },
+      {
+        "sha256": "22d4d28d861405167a120ff6127235a5e3043d96a2300ad3d7ee02c19dd79937",
+        "байтов": 2496,
+        "путь": "FUMA_ЖурналУзла.bundle/Contents/_CodeSignature/CodeResources"
+      },
+      {
+        "sha256": "40b8a85f29c095044d161fa794885cfb76df1122342d0c89c84d0fe4fbfe6e24",
+        "байтов": 205,
+        "путь": "FUMA_ЖурналУзла.bundle/Contents/_CodeSignature/CodeDirectory"
+      },
+      {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "байтов": 0,
+        "путь": "FUMA_ЖурналУзла.bundle/Contents/_CodeSignature/CodeSignature"
+      },
+      {
+        "sha256": "987920904eab650e75788c054aa0b0524e6a80bfc71aa32df8d237a61743f986",
+        "байтов": 12,
+        "путь": "FUMA_ЖурналУзла.bundle/Contents/_CodeSignature/CodeRequirements"
+      },
+      {
+        "sha256": "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+        "байтов": 691,
+        "путь": "FUMA_ЖурналУзла.bundle/Contents/Resources/opredeleniya/sformirovatj-zapisj.json"
+      },
+      {
+        "sha256": "9dcead5e9040d28d579b3c83e10f95ac53740cf0e1173d7212b0ae7254a32825",
+        "байтов": 1139,
+        "путь": "FUMA_ЖурналУзла.bundle/Contents/Info.plist"
+      }
+    ]
+  }
+}
