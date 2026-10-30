@@ -1,6 +1,6 @@
 {
   "схема": "fum.совместимость-исторических-ссылок.1",
-  "статус": "ограниченное наблюдение реализовано и проверено на малых входах; полный реальный RO-план не получен, actual move0",
+  "статус": "линейный префикс контейнера исправлен, адресный RED/GREEN и3малыепарыпроверены; полныйреальныйпланнеполучен, actualmove0",
   "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "исполнитель": "01a148a5-c088-7373-9665-a3f9b477565e",
   "родитель": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
@@ -250,7 +250,17 @@
       "свидетельствоSHA256": "e56a3976923fbd5587b4ceabaf532e66ee3aeb45a14f1c26b3e56b1b645d546f",
       "статус": "подтверждённый импортROOT в собственную ветку; приёмка нашей ветки ROOT отдельно не выполнена"
     },
-    "реальныйПеренос": "не выполнен; необходимый проверенный план не получен"
+    "реальныйПеренос": "не выполнен; необходимый проверенный план не получен",
+    "наблюдение": {
+      "коммит": "768174c90ec1df82feae001d9062f9eb87dbb440",
+      "дерево": "e5acbd552710f3859dc7293b1f342f6d90835a7e",
+      "родитель": "7b72dda323b3ae161b09ea121be2a2bfa312f63d",
+      "rawCommitSHA256": "9b6f564f473aa0305a5ac82314f4890d745b597b8739991236e64d95dbe88a9c",
+      "normalPushКод": 0,
+      "независимыйУдалённыйOID": "768174c90ec1df82feae001d9062f9eb87dbb440",
+      "свидетельствоSHA256": "8fcabf8094430ec96ca0ae3692134731c79258704e4388bb9e0a9bde773f5bc2",
+      "граница": "sourcecheckpoint; неROOTприёмка и неactualmove"
+    }
   },
   "планУзла": {
     "цели": [
@@ -258,17 +268,16 @@
       "атомарная свежесть изменённых Markdown",
       "один проверенный перенос guide в kebab-case"
     ],
-    "текущее": "bounded observer+selectedtests+9малыхизмерений завершены; результаты сохранены; подготовка sourcecheckpoint и exactpush",
+    "текущее": "correctedGREEN70/4top/6CLIpairsзавершены; отчет/recencyготовы, подготовкаexact4sourcecheckpoint",
     "следующее": [
-      "сохранить sourcecheckpoint с пятью точными путями и normal exactpush/readback",
-      "передать родителю конечный observer результат и точные нелинейные счётчики",
-      "дождаться нового конечного допуска: instrumentedROreader либо адресная оптимизация; текущие2compile/9probes исчерпаны",
-      "actualmove только после будущего проверенного плана и свежей custody"
+      "завершитьexact4sourcecheckpoint/normalpush/remoteOIDreadback",
+      "передатьродителюконечныепины/фактическиесчётчикииисходUnicodeремонта",
+      "следующийfiniteэтаптолькопоROOT;fullcorpus/applyнеразрешены"
     ],
     "зависимости": [
-      "новый явный budget до дополнительных compile/probe/fullreader",
-      "проверенный полный план не получен; реальная позиция старогоSTOP UNKNOWN",
-      "ограниченный handoff ownerЖурнала сохраняет1href+footer; нужна свежая custody"
+      "бюджет4top/6CLIисчерпан, новыхruntimeэтимнеразрешено",
+      "проверенныйреальныйпланещёнеполучен",
+      "причинапрежнего180сSTOPUNKNOWN"
     ],
     "условияВозврата": [
       "компиляция/runtime не пройдены — сохранить исход, не выполнять move",
@@ -281,7 +290,7 @@
         "имя": "bare_space_links_ro",
         "область": "адресный статический анализ и review",
         "записьРазрешена": false,
-        "состояние": "RO static observer/testreview завершён, конкретные P2 исправлены и проверены, записей/запусков0",
+        "состояние": "ROreviewold/newprefix/Unicodehelperзавершён; actualGREENподтвердилисправление; записей/запусковребёнка0",
         "план": {
           "цели": [
             "установить статические границы сложности одногоexistingonefilepass",
@@ -810,6 +819,460 @@
       "Python/router/ROOTJSONL/Proyekcii",
       "сохраняющийпрофильНОВОЕ000032",
       "ROOTприёмка/реальныйперенос"
+    ]
+  },
+  "этапЛинейногоПрефикса": {
+    "основа": "768174c90ec1df82feae001d9062f9eb87dbb440",
+    "область": [
+      "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
+      "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md",
+      "iskhodniki/aktualizaciya-putej/kontraktyi/otchyot-sovmestimosti-ssyilok.json"
+    ],
+    "допуск": "новыйконечныйROOTgrant через Instruments:singleline началоКонтейнера,4paths; первоначально3top, адреснодобавленtop4после2knownUnicodeissues; coordinatedheavyслотыразрешеныиосвобождены",
+    "план": {
+      "цели": [
+        "заменить повторное декодирование remainingline линейным UTF8prefixscan с той же грамматикой",
+        "сохранить terminal$/Unicode/EOF oracle, маски, будущиебайты и независимыеguards",
+        "доказать functionalRED/GREEN и ограниченный рост на32/64/128"
+      ],
+      "текущее": "correctedGREEN70/4top/6CLIpairsзавершены; отчет/recencyготовы, подготовкаexact4sourcecheckpoint",
+      "следующее": [
+        "завершитьexact4sourcecheckpoint/normalpush/remoteOIDreadback",
+        "передатьродителюконечныепины/фактическиесчётчикииисходUnicodeремонта",
+        "следующийfiniteэтаптолькопоROOT;fullcorpus/applyнеразрешены"
+      ],
+      "зависимости": [
+        "бюджет4top/6CLIисчерпан, новыхruntimeэтимнеразрешено",
+        "проверенныйреальныйпланещёнеполучен",
+        "причинапрежнего180сSTOPUNKNOWN"
+      ],
+      "условияВозврата": [
+        "неожиданныйRED/Unicode/semanticoutcome — сохранитьтерминал иуточнитьдоfix",
+        "новыйruntime/budget нерасширять",
+        "неизвестныйэффектнеповторять",
+        "source/HEAD/ref/indexdrift илидругойwriter — STOP"
+      ]
+    },
+    "бюджет": {
+      "top": 4,
+      "inputs": [
+        31,
+        31,
+        31,
+        29
+      ],
+      "секундКомпиляции": 180,
+      "jobs": 1,
+      "пар": 3,
+      "CLIЗапусков": 6,
+      "секундCLI": 10,
+      "RSSCLIБайт": 134217728,
+      "выводCLIБайт": 65536,
+      "использованоTop": 4,
+      "использованоCLI": 6,
+      "исходноTop": 3,
+      "дополнение": "прямое согласование Instruments:top3=31correctedtests,+top4=29CLIпослеGREEN;обоснованы2realUnicodeграфемы",
+      "исчерпан": true,
+      "heavyСлот": "освобождёнпослетерминалов"
+    },
+    "исключения": [
+      "genericinlinecodeM2",
+      "bracketescape",
+      "причинапрежнего180сSTOPUNKNOWN",
+      "полныйкорпус0",
+      "actualapply0",
+      "Python/router/ROOTJSONL/RAW/private/foreign/projection"
+    ],
+    "исходникиПодготовки": [
+      {
+        "путь": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+        "sha256": "00b969352521fc4ca14cd95c17026c433f648c051e36259cab04915218648ac4"
+      },
+      {
+        "путь": "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
+        "sha256": "28d94ad1f6b22701dfe920e4f03c1d5d9dc35fbd583b5770f941a004afdb5f0b"
+      }
+    ],
+    "компиляции": [
+      {
+        "id": "prefix-red-compile1",
+        "источников": 31,
+        "exit": 0,
+        "signal": null,
+        "durationNS": "14604833166",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "составSHA256": "939d36e4e835e3bfaaf0667c75ff37646ac11f743b80846be7f4abe8fbf7112d",
+        "свидетельствоSHA256": "092dac2f7dfb54bdeeab94fbe1b36b8f89e13fe5af1431a9a07a3a4d9941965a"
+      },
+      {
+        "id": "prefix-green-compile2",
+        "источников": 31,
+        "exit": 0,
+        "signal": null,
+        "durationNS": "11179917083",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "составSHA256": "bc03caf2d617e0f1823416bfbb880637a6efebed9aae8d080433d8f3a1eced3d",
+        "свидетельствоSHA256": "bbdf7c56955bf9a200b01a3db8a29053428d24f88ef75f1368a3f384d8f39500"
+      },
+      {
+        "id": "prefix-corrected-compile3",
+        "источников": 31,
+        "exit": 0,
+        "signal": null,
+        "durationNS": "11563030791",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "составSHA256": "920e443183527a09e083eb1dee7e877caa3521c89171a6f58f02798c920af7a4",
+        "свидетельствоSHA256": "518fbd6b90efcc80b608865156d250a5b5e97569e555d4e86a2b97b6e0c54d7a"
+      },
+      {
+        "id": "prefix-cli-compile4",
+        "источников": 29,
+        "exit": 0,
+        "signal": null,
+        "durationNS": "11369736709",
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourcesHeld": true,
+        "составSHA256": "9dddd9c8afc17dc2be44919c6ceb5008b62fdfad50e148258f341d0c24513d54",
+        "свидетельствоSHA256": "94a42d2f346b2e1758d10a27fabea37b2a6d31f2ada068bf9d2d2458966688c8"
+      }
+    ],
+    "RED": {
+      "id": "prefix-red-runtime1",
+      "exit": 1,
+      "signal": null,
+      "durationNS": "521035666",
+      "stdoutBytes": 0,
+      "stderrBytes": 14500,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "7380536df1f63a52d72ebc96d544a761e6381855ffabb8e57e02178bf9e1c6b5",
+      "sourcesHeld": true,
+      "функций": 3,
+      "случаев": 70,
+      "ошибок": 3,
+      "причина": "linearbound:4084/11892/39796 против2744/4024/6584; остальные67прошли",
+      "свидетельствоSHA256": "ff77de39e96b7f5f2c67e312d571f86a6e64c27f2ad7a2e2adf896e159b28fea"
+    },
+    "первыйGREEN": {
+      "id": "prefix-green-runtime2",
+      "exit": 1,
+      "signal": null,
+      "durationNS": "593075208",
+      "stdoutBytes": 0,
+      "stderrBytes": 13497,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "271a5df573ad9ee004c711940a68d4947ea1d6c9bee5522d8b79aab42520315b",
+      "sourcesHeld": true,
+      "функций": 3,
+      "случаев": 70,
+      "ошибок": 2,
+      "граница": "неGREEN:Unicodecombining offsets5/7 vsold4/4;18mask/3growthpassed",
+      "свидетельствоSHA256": "b54699f266de022cecf5e93ee3bbefa5155a635756d87e3c72d25bcb68522e63"
+    },
+    "ремонтГрафемы": {
+      "code": 1,
+      "issues": 2,
+      "cases": [
+        ">́x",
+        "1. ́x"
+      ],
+      "actualOffsets": [
+        5,
+        7
+      ],
+      "oracleOffsets": [
+        4,
+        4
+      ],
+      "growthCases": "3passed",
+      "maskCases": "18passed",
+      "cause": "String.range rejects ASCII match end inside extended grapheme; sourcefix adds one terminating legacy boundary fallback before nonASCII",
+      "testsSHA256": "28d94ad1f6b22701dfe920e4f03c1d5d9dc35fbd583b5770f941a004afdb5f0b",
+      "repairSourceSHA256": "03db9d65fb9fe13103170274722eb684647a3c23aefe5bed9eacfd26024b4f12",
+      "outcomeSHA256": "b54699f266de022cecf5e93ee3bbefa5155a635756d87e3c72d25bcb68522e63",
+      "stderrSHA256": "271a5df573ad9ee004c711940a68d4947ea1d6c9bee5522d8b79aab42520315b",
+      "newNativeRuns": 0
+    },
+    "исправленныйGREEN": {
+      "id": "prefix-corrected-runtime3",
+      "exit": 0,
+      "signal": null,
+      "durationNS": "492532708",
+      "stdoutBytes": 0,
+      "stderrBytes": 12417,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA256": "bfb79d7f80c2c5ff226ddbe06d209b51b338768b1fa0aae07d306886dcb8efaa",
+      "sourcesHeld": true,
+      "функций": 3,
+      "случаев": 70,
+      "грамматика": 49,
+      "маскиИБудущиеБайты": 18,
+      "границаРоста": 3,
+      "TбайтыНеИзмененыСRED": true,
+      "T_SHA256": "28d94ad1f6b22701dfe920e4f03c1d5d9dc35fbd583b5770f941a004afdb5f0b",
+      "программаSHA256": "c1b789ecaf9bb2849d789b546d2b3b84465aa6720e01572c7da936bdc1af0733",
+      "свидетельствоSHA256": "5aef26da92db2ada9ad353bde7e0e0d5d30b66b6c9643101392fc50e0f05f5c2"
+    },
+    "исправление": {
+      "алгоритм": "монотонныйASCIIUTF8prefixscan; legacyString.range тольконаодном завершающемсуффиксе передUnicodeграфемой илидляterminal$",
+      "sourceSHA256": "03db9d65fb9fe13103170274722eb684647a3c23aefe5bed9eacfd26024b4f12",
+      "граница": "обаfallbackнемедленновозвращают, вместе≤1suffixdecode; generic/fixed9/bracketescapeнеизменены; fencesнеубраны"
+    },
+    "парныйПрофиль": {
+      "подготовкаNS": "179000583",
+      "прежняяПрограммаSHA256": "64589b1f673201298e0c05860566ac8d9956f65bfaef9fcfa46b9bdb88189848",
+      "новаяПрограммаSHA256": "2244c6f038ee9b58ac990f1d46e5363aa7a215800b762d0b04fdb12c53641ace",
+      "свидетельствоSHA256": "c1a9970b0b5245578b8b292fe302c7711a7c4a291509ab11ffa6384d95208f48",
+      "измерения": [
+        {
+          "id": "pair-container-32-old",
+          "вариант": "old",
+          "глубина": 32,
+          "внешниеNS": "367989875",
+          "наблюдённыйRSSГруппыБайт": 14204928,
+          "выводБайтов": 6230,
+          "счётчики": {
+            "байтыДекодирования": 4084,
+            "байтыПрочитаны": 234,
+            "контейнеры": 6,
+            "полныеИнвентари": 2,
+            "проверкиЭкранирования": 0,
+            "работа": 5578,
+            "строкиОбщихМасок": 0,
+            "файлыПрочитаны": 6,
+            "шагиПоиска": 236
+          },
+          "время": "0.30 real         0.10 user         0.08 sys",
+          "пиковыйRSS": "13254656  maximum resident set size",
+          "stdoutSHA256": "750181ce15bc243331a73f63fbf89695a5e7908a3149ebb6077f7fe06c34454e",
+          "stderrSHA256": "dae93be2075870120f54b8f5872b27c5c6f8ab3533dd84b675c58bc951953c10",
+          "фикстураСохранена": true,
+          "исходникиСохранены": true,
+          "свидетельствоSHA256": "c6aee225ec20a495d5e82da6e377ebc4b07006bcdb88de71b506f1f5fa77295a"
+        },
+        {
+          "id": "pair-container-32-new",
+          "вариант": "new",
+          "глубина": 32,
+          "внешниеNS": "826617208",
+          "наблюдённыйRSSГруппыБайт": 13189120,
+          "выводБайтов": 6221,
+          "счётчики": {
+            "байтыДекодирования": 528,
+            "байтыПрочитаны": 234,
+            "контейнеры": 6,
+            "полныеИнвентари": 2,
+            "проверкиЭкранирования": 0,
+            "работа": 2156,
+            "строкиОбщихМасок": 0,
+            "файлыПрочитаны": 6,
+            "шагиПоиска": 236
+          },
+          "время": "0.79 real         0.10 user         0.08 sys",
+          "пиковыйRSS": "13156352  maximum resident set size",
+          "stdoutSHA256": "750181ce15bc243331a73f63fbf89695a5e7908a3149ebb6077f7fe06c34454e",
+          "stderrSHA256": "774b8c0251f495f5dd8aa8b9a1e2582e740846dbbda879648d0a91092df6a91c",
+          "фикстураСохранена": true,
+          "исходникиСохранены": true,
+          "свидетельствоSHA256": "6b7ab6a0534bb8a05910443e2571203ec6e2e7b55fc446dacfed16cfe8737d01"
+        },
+        {
+          "id": "pair-container-64-old",
+          "вариант": "old",
+          "глубина": 64,
+          "внешниеNS": "316951958",
+          "наблюдённыйRSSГруппыБайт": 13254656,
+          "выводБайтов": 6233,
+          "счётчики": {
+            "байтыДекодирования": 11892,
+            "байтыПрочитаны": 362,
+            "контейнеры": 6,
+            "полныеИнвентари": 2,
+            "проверкиЭкранирования": 0,
+            "работа": 14218,
+            "строкиОбщихМасок": 0,
+            "файлыПрочитаны": 6,
+            "шагиПоиска": 364
+          },
+          "время": "0.20 real         0.10 user         0.07 sys",
+          "пиковыйRSS": "13172736  maximum resident set size",
+          "stdoutSHA256": "750181ce15bc243331a73f63fbf89695a5e7908a3149ebb6077f7fe06c34454e",
+          "stderrSHA256": "049ced5242015ace09aa44cfeb5d0bccffefcc9256b61fa2ae44b99e3a66e6f7",
+          "фикстураСохранена": true,
+          "исходникиСохранены": true,
+          "свидетельствоSHA256": "fd3a87fa2e692d6a7a6acab69f0ad18776fc40ceea665408fdd0fc3d1fe6e1fe"
+        },
+        {
+          "id": "pair-container-64-new",
+          "вариант": "new",
+          "глубина": 64,
+          "внешниеNS": "266446375",
+          "наблюдённыйRSSГруппыБайт": 13008896,
+          "выводБайтов": 6221,
+          "счётчики": {
+            "байтыДекодирования": 784,
+            "байтыПрочитаны": 362,
+            "контейнеры": 6,
+            "полныеИнвентари": 2,
+            "проверкиЭкранирования": 0,
+            "работа": 3372,
+            "строкиОбщихМасок": 0,
+            "файлыПрочитаны": 6,
+            "шагиПоиска": 364
+          },
+          "время": "0.20 real         0.10 user         0.07 sys",
+          "пиковыйRSS": "13107200  maximum resident set size",
+          "stdoutSHA256": "750181ce15bc243331a73f63fbf89695a5e7908a3149ebb6077f7fe06c34454e",
+          "stderrSHA256": "e3e1366e46683e3c365c271245de978e899e2418390ce85eb9043e45390326bf",
+          "фикстураСохранена": true,
+          "исходникиСохранены": true,
+          "свидетельствоSHA256": "2d20d0e689ad6db7ee7dc5a7ee450e2b42d5e9a11b61b0e775b71dd4b15dea0c"
+        },
+        {
+          "id": "pair-container-128-old",
+          "вариант": "old",
+          "глубина": 128,
+          "внешниеNS": "356984666",
+          "наблюдённыйRSSГруппыБайт": 13303808,
+          "выводБайтов": 6233,
+          "счётчики": {
+            "байтыДекодирования": 39796,
+            "байтыПрочитаны": 618,
+            "контейнеры": 6,
+            "полныеИнвентари": 2,
+            "проверкиЭкранирования": 0,
+            "работа": 43786,
+            "строкиОбщихМасок": 0,
+            "файлыПрочитаны": 6,
+            "шагиПоиска": 620
+          },
+          "время": "0.20 real         0.10 user         0.07 sys",
+          "пиковыйRSS": "13172736  maximum resident set size",
+          "stdoutSHA256": "750181ce15bc243331a73f63fbf89695a5e7908a3149ebb6077f7fe06c34454e",
+          "stderrSHA256": "858d796c22bfbf3b1c909d5ef83a5518880bd2254402febfed73d6426ba1135a",
+          "фикстураСохранена": true,
+          "исходникиСохранены": true,
+          "свидетельствоSHA256": "5d56817bf027ffbf1c724802c972afcac2f079fb05c56e8617946826c7efa13b"
+        },
+        {
+          "id": "pair-container-128-new",
+          "вариант": "new",
+          "глубина": 128,
+          "внешниеNS": "506011458",
+          "наблюдённыйRSSГруппыБайт": 13303808,
+          "выводБайтов": 6225,
+          "счётчики": {
+            "байтыДекодирования": 1296,
+            "байтыПрочитаны": 618,
+            "контейнеры": 6,
+            "полныеИнвентари": 2,
+            "проверкиЭкранирования": 0,
+            "работа": 5804,
+            "строкиОбщихМасок": 0,
+            "файлыПрочитаны": 6,
+            "шагиПоиска": 620
+          },
+          "время": "0.41 real         0.10 user         0.08 sys",
+          "пиковыйRSS": "13254656  maximum resident set size",
+          "stdoutSHA256": "750181ce15bc243331a73f63fbf89695a5e7908a3149ebb6077f7fe06c34454e",
+          "stderrSHA256": "e96a679f89e423dd90f120bfa45e956ffa66dfc2251969285999107d06d25ece",
+          "фикстураСохранена": true,
+          "исходникиСохранены": true,
+          "свидетельствоSHA256": "5ff5590a4cc904c63a01b31b0770e99bf207bd4a5cf8b0013877e6edd4802a6f"
+        }
+      ],
+      "планыПопарноБайтовоСовпали": true,
+      "всеФикстурыСохранены": true,
+      "измереноДекодирование": {
+        "old": [
+          4084,
+          11892,
+          39796
+        ],
+        "new": [
+          528,
+          784,
+          1296
+        ]
+      },
+      "статическийПрогнозНеВыдаётсяЗаИзмерение": [
+        520,
+        712,
+        1096
+      ],
+      "граница": "same3smallfixtures;кэш/нагрузкахостанеуправлялись,wall/CPUнепоказываютустойчивогообщегоускорения;причинапрежнегоcorpusSTOPUNKNOWN;вложенныевременанескладываются"
+    },
+    "свежесть": {
+      "rows": [
+        {
+          "op": "before",
+          "exit": 1,
+          "signal": null,
+          "stdoutSHA256": "1936c7985f8fb83af35201412c30192b5a9c72b6b48adc6dc83583ef918ad9fb",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "op": "update",
+          "exit": 0,
+          "signal": null,
+          "stdoutSHA256": "abfc67f2aadbaaee3af3de9f0531f3e815fe7dbbda349b8abc151b92d1115eef",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "op": "after",
+          "exit": 0,
+          "signal": null,
+          "stdoutSHA256": "50b3625c4c369db0d516c70eafd7b2a9d4a3dfad146cd2cc32b459d4e3e765e3",
+          "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "bodyHeld": true,
+      "indexHeld": true,
+      "footerMatches": true,
+      "afterSHA256": "825b9a6b36d48dfdf4df6d29d6aab001e22345845a1fab0d2d9b1a7e850d0881",
+      "bodySHA256": "dbf12148738c73f66ea0834ee23ca66e996b2912eae13943a629e7d1df28bd70",
+      "свидетельствоSHA256": "5fc00215d0f3ca88cba4f72d3ed9628022b01cfedadc7e36a46887d220b3105d",
+      "программаSHA256": "6312daee7a8296818eddc33aa3ca6e637540cef1e02272bb3d1f729e96683c36",
+      "исходникSHA256": "53b721faa081b39d88bb74b72ad63908303e66fe1fb05daeb9c7a1a6dc0bd1b3"
+    },
+    "исходникиКонечногоСнимка": [
+      {
+        "путь": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+        "байты": 152983,
+        "sha256": "03db9d65fb9fe13103170274722eb684647a3c23aefe5bed9eacfd26024b4f12"
+      },
+      {
+        "путь": "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
+        "байты": 75750,
+        "sha256": "28d94ad1f6b22701dfe920e4f03c1d5d9dc35fbd583b5770f941a004afdb5f0b"
+      },
+      {
+        "путь": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md",
+        "байты": 34444,
+        "sha256": "825b9a6b36d48dfdf4df6d29d6aab001e22345845a1fab0d2d9b1a7e850d0881"
+      }
+    ],
+    "неПроверено": [
+      "fullSwiftPM/общийsmoke",
+      "полныйстарый50иOBS21наэтойреализации",
+      "fullcorpusreader/реальныйперенос",
+      "Python/router/ROOTJSONL/RAW/private/foreign/projection",
+      "сохраняющийпрофильНОВОЕ000032/ROOTфинальнаяприёмка"
     ]
   }
 }
