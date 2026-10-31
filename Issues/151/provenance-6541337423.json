@@ -1,0 +1,84 @@
+{
+  "schema": "fum.github-issue-comment-provenance.1",
+  "captured_at_utc": "2026-10-31T08:49:23Z",
+  "source": {
+    "repository": "fum-lab/fum",
+    "issue_number": 151,
+    "issue_url": "https://github.com/fum-lab/fum/issues/151",
+    "issue_snapshot_path": "Issues/151/issue-151-readback-20261031.json",
+    "issue_snapshot_sha256": "d36fe7fcc7e1be994ec52faffe62238e83edbe871ae2142b831500e9eeaa80b6",
+    "issue_snapshot_commit": "01c39dfc415d92fb71e6495f705f24d0c09650b6",
+    "issue_updated_at": "2026-10-30T15:14:09Z",
+    "comments_before": 81,
+    "comments_after": 82,
+    "duplicate_search": {
+      "scope": "all 81 issue comments",
+      "exact_covering_comment_found": false,
+      "related_prior_comments": [
+        6523148671,
+        6525570567
+      ],
+      "related_issue_479_comment": 6525531052
+    },
+    "new_comment_id": 6541337423,
+    "new_comment_url": "https://github.com/fum-lab/fum/issues/151#issuecomment-6541337423",
+    "readback_operation": "github_fetch_issue_comments",
+    "readback_confirmed": true,
+    "new_post_performed": true
+  },
+  "verified_source": {
+    "commit": "150111cff19978d82e48aed5f36129f28dd226fe",
+    "stop_swift_path": "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+    "stop_swift_sha256": "4e51b2fdf2c35ac68c73950bd1317296788d77e4d6565796ee8ab1b8adcc7f0a",
+    "stop_swift_lines": [
+      "716-730",
+      "1285-1293"
+    ],
+    "installer_path": "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+    "installer_sha256": "b699927e9018d2fa1ced9a50f6facefa8bfc1d171c4fff5b66763485cc83e4dd",
+    "installer_lines": "799-805",
+    "private_data_sha256": "c2930f16db4f3aa26d5fc4561b9d49e13293439af3bb47f9c7db3eb19bbf58bb",
+    "private_path_or_config_bytes_included": false,
+    "effect_counts": {
+      "config_writes": 0,
+      "current_writes": 0,
+      "native_starts": 0,
+      "trust_changes": 0
+    },
+    "confirmed": "Static source dataflow binds current HEAD to observation SHA, header to epoch/operation/lease/observation SHA, and command to exact header SHA; time-only refresh does not extend lease or free claim; metadata check does not prove binding.",
+    "unknown": [
+      "Desktop currentHash dependency on command",
+      "target hook currentHash and trustStatus",
+      "actual Native callback",
+      "stable trust anchor",
+      "human settings confirmation"
+    ]
+  },
+  "boundary": {
+    "allowed_paths": [
+      "Issues/151/comment-6541337423.json",
+      "Issues/151/provenance-6541337423.json"
+    ],
+    "source_only_checkpoint": true,
+    "no_shared_markdown": true,
+    "no_existing_checkpoint_edits": true,
+    "no_root_config_bytes": true,
+    "no_private_absolute_paths": true
+  },
+  "git_prewrite": {
+    "branch_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "base_head": "01c39dfc415d92fb71e6495f705f24d0c09650b6",
+    "base_tree": "4f8d12167442fbed98abf9127ec41b4ee923d231",
+    "index_tree_before": "4f8d12167442fbed98abf9127ec41b4ee923d231",
+    "remote_name": "origin",
+    "remote_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "remote_oid_before": "01c39dfc415d92fb71e6495f705f24d0c09650b6",
+    "worktrees_on_ref": 1,
+    "index_clean_before": true,
+    "preexisting_worktree_changes_retained": true
+  },
+  "excluded_checks": {
+    "python_router_root_jsonl_full_legacy_profile": "unknown_not_run",
+    "current_app_model_effort_state": "unknown_not_read"
+  }
+}
