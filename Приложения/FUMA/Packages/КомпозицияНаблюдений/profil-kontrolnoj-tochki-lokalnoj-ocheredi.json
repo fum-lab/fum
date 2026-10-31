@@ -9,17 +9,17 @@
   "входы": [
     {
       "путь": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/РаспределениеЛокальнойОчереди.swift",
-      "sha256": "6f743fefe3e18a7ad49571cdf9a69024d65eec6a2d73fdbcf5d7f08b59166d86",
+      "sha256": "cd4b8b7376ccdaec59d0984e1b69b006ac7f8591dcf42b170abb11d2d6849525",
       "точкаВхода": "РаспределительЛокальнойОчереди.упорядочить"
     },
     {
       "путь": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Tests/КомпозицияНаблюденийTests/ПроверкиЛокальнойОчереди.swift",
       "sha256": "2a1ce7d2d633fdc61c062b03e85f2853cb0bdfe3423dad268dcfbafd3711e0b3",
-      "точкаВхода": "Swift Testing suite ПроверкиЛокальнойОчереди; запуск не выполнялся"
+      "точкаВхода": "набор Swift Testing ПроверкиЛокальнойОчереди; пройдено 8/8"
     },
     {
       "путь": "Приложения/FUMA/Packages/КомпозицияНаблюдений/kontrakt-lokalnoj-ocheredi.json",
-      "sha256": "fc9a569f64e0dd99a7e2544bb34fc4012325be469b2114d6b4a21823237bb34d",
+      "sha256": "8b5b3a4cfa8152894d69585f8a1e24891750e787c73101003d7d98ad0c51a634",
       "точкаВхода": "JSON-контракт fuma.контракт-локальной-очереди.1"
     }
   ],
@@ -47,16 +47,14 @@
     ]
   },
   "исходы": {
-    "swiftTesting": "NOT_RUN: общий compiler slot закреплён за Font",
-    "swiftBuild": "NOT_RUN",
+    "swiftTesting": "GREEN: FUMAObservationCompositionTests.ПроверкиЛокальнойОчереди — 8/8; команда swift test --package-path Приложения/FUMA/Packages/КомпозицияНаблюдений --scratch-path /tmp/segment-poseshcheniya-359-c1ef5ecfd.aGaJAO --no-parallel --filter FUMAObservationCompositionTests.ПроверкиЛокальнойОчереди; первая компиляция остановилась на неизвестном внутреннем имени каталогу, сигнатура исправлена, повторный запуск прошёл",
+    "swiftBuild": "GREEN: построение завершилось в адресном swift test",
     "jsonSyntax": "GREEN: jq empty на контракте и профиле",
     "diffCheck": "GREEN: git diff --check на новых исходниках и изменениях merge-базы",
-    "publication": "source checkpoint остаётся отдельной границей этого профиля",
+    "publication": "контрольная точка исходников остаётся отдельной границей этого профиля",
     "rootAcceptance": "UNKNOWN"
   },
   "неизвестно": [
-    "компилируемость нового Swift-кода",
-    "результаты новых Swift Testing сценариев",
     "совместимость со свежим clean clone",
     "профиль исполнения или масштабируемость",
     "пригодность внешнего вызова очереди к записи/исполнению"
