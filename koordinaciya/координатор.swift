@@ -1,5 +1,6 @@
 import CryptoKit
 import Foundation
+import Darwin
 
 struct СостояниеКоординации: Codable {
     let схема: String
@@ -344,7 +345,9 @@ enum ИсполнительГенератораFUMA {
         input: ПакетВходаГенератораFUMA,
         definitionPath: String,
         operatorPath: String,
-        privateRunRoot: String
+        privateRunRoot: String,
+        окружение: [String: String]? = nil,
+        рабочийКаталог: String? = nil
     ) throws -> РезультатЗапускаFUMA {
         guard let definition = физическийПуть(definitionPath),
               let executable = физическийПуть(operatorPath),
@@ -355,7 +358,7 @@ enum ИсполнительГенератораFUMA {
         }
         guard let rootPermissions = try FileManager.default.attributesOfItem(atPath: runRoot)[.posixPermissions] as? NSNumber,
               rootPermissions.intValue & 0o077 == 0,
-              !внутриGit(runRoot) else {
+              !внутриGit(runRoot, окружение: окружение, рабочийКаталог: рабочийКаталог) else {
             throw CocoaError(.fileWriteNoPermission)
         }
 
@@ -393,7 +396,8 @@ enum ИсполнительГенератораFUMA {
             "--тип-входа", "текст",
             "--журнал", journalURL.path,
         ]
-        process.environment = ProcessInfo.processInfo.environment
+        process.environment = окружение ?? ProcessInfo.processInfo.environment
+        if let рабочийКаталог { process.currentDirectoryURL = URL(fileURLWithPath: рабочийКаталог) }
         process.standardOutput = outputHandle
         process.standardError = errorHandle
         try process.run()
@@ -464,11 +468,12 @@ enum ИсполнительГенератораFUMA {
         return String(cString: pointer)
     }
 
-    static func внутриGit(_ path: String) -> Bool {
+    static func внутриGit(_ path: String, окружение: [String: String]? = nil, рабочийКаталог: String? = nil) -> Bool {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/git")
         process.arguments = ["rev-parse", "--show-toplevel"]
-        process.currentDirectoryURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        process.currentDirectoryURL = URL(fileURLWithPath: рабочийКаталог ?? FileManager.default.currentDirectoryPath)
+        if let окружение { process.environment = окружение }
         let output = Pipe()
         process.standardOutput = output
         process.standardError = FileHandle.nullDevice
@@ -658,16 +663,17 @@ struct ИтогПостЭффектнойПроверкиGit: Codable {
 }
 
 enum АдаптерПостЭффектаGit {
-    static func прочитать(ожидание: ОжидаемоеПостЭффектноеСостояниеGit) throws -> НаблюдениеПостЭффектаGit {
-        let head = try строкаGit(["rev-parse", "--verify", "HEAD"])
-        let ref = try строкаGit(["symbolic-ref", "--quiet", "HEAD"])
-        let urls = try строкаGit(["remote", "get-url", "--all", "origin"])
+    static func прочитать(ожидание: ОжидаемоеПостЭффектноеСостояниеGit,
+        окружение: [String: String], рабочийКаталог: String) throws -> НаблюдениеПостЭффектаGit {
+        let head = try строкаGit(["rev-parse", "--verify", "HEAD"], окружение: окружение, рабочийКаталог: рабочийКаталог)
+        let ref = try строкаGit(["symbolic-ref", "--quiet", "HEAD"], окружение: окружение, рабочийКаталог: рабочийКаталог)
+        let urls = try строкаGit(["remote", "get-url", "--all", "origin"], окружение: окружение, рабочийКаталог: рабочийКаталог)
             .split(whereSeparator: \.isNewline)
             .map(String.init)
-        let тип = try строкаGit(["cat-file", "-t", ожидание.oidКоммита])
-        let сыройКоммит = try выполнитьGit(["cat-file", "commit", ожидание.oidКоммита])
-        let вычисленныйOID = try строкаGit(["hash-object", "-t", "commit", "--stdin"], stdin: сыройКоммит)
-        let удалённыеСтроки = try строкаGit(["ls-remote", "--heads", "origin", ожидание.реф])
+        let тип = try строкаGit(["cat-file", "-t", ожидание.oidКоммита], окружение: окружение, рабочийКаталог: рабочийКаталог)
+        let сыройКоммит = try выполнитьGit(["cat-file", "commit", ожидание.oidКоммита], окружение: окружение, рабочийКаталог: рабочийКаталог)
+        let вычисленныйOID = try строкаGit(["hash-object", "-t", "commit", "--stdin"], окружение: окружение, рабочийКаталог: рабочийКаталог, stdin: сыройКоммит)
+        let удалённыеСтроки = try строкаGit(["ls-remote", "--heads", "origin", ожидание.реф], окружение: окружение, рабочийКаталог: рабочийКаталог)
             .split(whereSeparator: \.isNewline)
         let удалённыеЗаписи = удалённыеСтроки.compactMap { line -> (String, String)? in
             let parts = line.split(separator: "\t", maxSplits: 1, omittingEmptySubsequences: false)
@@ -729,22 +735,20 @@ enum АдаптерПостЭффектаGit {
         )
     }
 
-    private static func строкаGit(_ аргументы: [String], stdin: Data? = nil) throws -> String {
-        let data = try выполнитьGit(аргументы, stdin: stdin)
+    private static func строкаGit(_ аргументы: [String], окружение: [String: String], рабочийКаталог: String, stdin: Data? = nil) throws -> String {
+        let data = try выполнитьGit(аргументы, окружение: окружение, рабочийКаталог: рабочийКаталог, stdin: stdin)
         guard let value = String(data: data, encoding: .utf8) else {
             throw CocoaError(.fileReadInapplicableStringEncoding)
         }
         return value.trimmingCharacters(in: .newlines)
     }
 
-    private static func выполнитьGit(_ аргументы: [String], stdin: Data? = nil) throws -> Data {
+    private static func выполнитьGit(_ аргументы: [String], окружение: [String: String], рабочийКаталог: String, stdin: Data? = nil) throws -> Data {
         let процесс = Process()
         процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
         процесс.arguments = аргументы
-        процесс.currentDirectoryURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
-        var environment = ProcessInfo.processInfo.environment
-        environment["GIT_TERMINAL_PROMPT"] = "0"
-        процесс.environment = environment
+        процесс.currentDirectoryURL = URL(fileURLWithPath: рабочийКаталог, isDirectory: true)
+        процесс.environment = окружение
         let вывод = Pipe()
         let ввод = Pipe()
         процесс.standardOutput = вывод
@@ -2199,17 +2203,287 @@ public enum ОшибкаСнимкаGit: Error, Equatable, Sendable, CustomStrin
     }
 }
 
-#if !TESTING
-private struct ОжиданиеСырогоMergeКоммита: Decodable {
+// Чтение объявленных входов не создаёт дочерних процессов.
+enum ЧитательПодготовкиЗапускаКодекс {
+    static func файл(_ путь: String, предел: Int = 65_536) throws -> Data {
+        let части = путь.split(separator: "/", omittingEmptySubsequences: false)
+        guard путь.hasPrefix("/"), путь.utf8.count <= 4096, части.count > 1,
+              !путь.unicodeScalars.contains(where: CharacterSet.controlCharacters.contains),
+              части.dropFirst().allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." })
+        else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        var каталог = Darwin.open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW)
+        guard каталог >= 0 else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        defer { Darwin.close(каталог) }
+        for часть in части.dropFirst().dropLast() {
+            let следующий = Darwin.openat(каталог, String(часть), O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW)
+            guard следующий >= 0 else { throw ОтказПодготовкиЗапускаКодекс.источник }
+            Darwin.close(каталог); каталог = следующий
+        }
+        let имя = String(части.last!)
+        let fd = Darwin.openat(каталог, имя, O_RDONLY | O_NONBLOCK | O_CLOEXEC | O_NOFOLLOW)
+        guard fd >= 0 else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        defer { Darwin.close(fd) }
+        var до = stat(), после = stat(), имяПосле = stat()
+        guard fstat(fd, &до) == 0, до.st_mode & mode_t(S_IFMT) == mode_t(S_IFREG),
+              до.st_uid == getuid(), до.st_nlink == 1, до.st_size >= 0,
+              до.st_size <= off_t(предел)
+        else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        var данные = Data(), буфер = [UInt8](repeating: 0, count: 65_536)
+        let срок = DispatchTime.now().uptimeNanoseconds + 5_000_000_000
+        while true {
+            guard DispatchTime.now().uptimeNanoseconds < срок else {
+                throw ОтказПодготовкиЗапускаКодекс.источник
+            }
+            let число = буфер.withUnsafeMutableBytes {
+                Darwin.read(fd, $0.baseAddress!, min($0.count, предел + 1 - данные.count))
+            }
+            if число < 0 {
+                if errno == EINTR { continue }
+                throw ОтказПодготовкиЗапускаКодекс.источник
+            }
+            if число == 0 { break }
+            данные.append(contentsOf: буфер.prefix(число))
+            guard данные.count <= предел else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        }
+        guard fstat(fd, &после) == 0,
+              fstatat(каталог, имя, &имяПосле, AT_SYMLINK_NOFOLLOW) == 0,
+              одинаковые(до, после), одинаковые(после, имяПосле),
+              после.st_size == off_t(данные.count)
+        else { throw ОтказПодготовкиЗапускаКодекс.изменилось }
+        return данные
+    }
+
+    private static func одинаковые(_ а: stat, _ б: stat) -> Bool {
+        а.st_dev == б.st_dev && а.st_ino == б.st_ino && а.st_mode == б.st_mode
+            && а.st_uid == б.st_uid && а.st_nlink == б.st_nlink && а.st_size == б.st_size
+            && а.st_mtimespec.tv_sec == б.st_mtimespec.tv_sec
+            && а.st_mtimespec.tv_nsec == б.st_mtimespec.tv_nsec
+            && а.st_ctimespec.tv_sec == б.st_ctimespec.tv_sec
+            && а.st_ctimespec.tv_nsec == б.st_ctimespec.tv_nsec
+    }
+
+    static func загрузить(селектор путь: String, sha256: String) throws -> КандидатПодготовкиЗапускаКодекс {
+        let выбор = try файл(путь)
+        guard хэш(выбор) == sha256 else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        let селектор = try канонически(СелекторПодготовкиЗапускаКодекс.self, выбор)
+        let подготовка = try файл(селектор.подготовка.путь)
+        guard хэш(подготовка) == селектор.подготовка.хэш else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        let вход = try канонически(ПодготовкаЗапускаКоммитаКодекс.self, подготовка)
+        var документы = [селектор.подготовка.путь: подготовка]
+        let ссылки = [вход.документы.снимок, вход.документы.выборИсточника,
+            вход.документы.личность, вход.документы.сообщение, вход.документы.файлСообщения,
+            вход.среда.исполняемыйФайлМетаданных, вход.среда.состояниеМетаданных,
+            вход.среда.определение, вход.среда.оператор]
+        for ссылка in ссылки {
+            let исполняемый = ссылка == вход.среда.исполняемыйФайлМетаданных || ссылка == вход.среда.оператор
+            let данные = try файл(ссылка.путь, предел: исполняемый ? 64 * 1_048_576 : 1_048_576)
+            guard хэш(данные) == ссылка.хэш else { throw ОтказПодготовкиЗапускаКодекс.источник }
+            документы[ссылка.путь] = данные
+        }
+        let кандидат = try ФабрикаПодтверждённогоЗапускаКодекс.подготовить(
+            выбор: ДокументПодготовкиКодекс(путь: путь, данные: выбор),
+            ожидаемыйSHA256Выбора: sha256, документы: документы)
+        for исполняемый in [вход.среда.исполняемыйФайлМетаданных, вход.среда.оператор] {
+            guard FileManager.default.isExecutableFile(atPath: исполняемый.путь) else {
+                throw ОтказПодготовкиЗапускаКодекс.среда
+            }
+        }
+        for каталог in [вход.среда.кореньЗапуска, вход.среда.кореньRuntime, вход.среда.кореньПамяти] {
+            let url = URL(fileURLWithPath: каталог)
+            let attrs = try FileManager.default.attributesOfItem(atPath: каталог)
+            guard url.resolvingSymlinksInPath().path == каталог,
+                  attrs[.type] as? FileAttributeType == .typeDirectory,
+                  (attrs[.ownerAccountID] as? NSNumber)?.uint32Value == getuid(),
+                  let mode = attrs[.posixPermissions] as? NSNumber, mode.intValue & 0o077 == 0,
+                  каталог != вход.контекст.физическийКорень,
+                  !каталог.hasPrefix(вход.контекст.физическийКорень + "/")
+            else { throw ОтказПодготовкиЗапускаКодекс.среда }
+        }
+        guard URL(fileURLWithPath: вход.контекст.физическийКорень).resolvingSymlinksInPath().path
+                == вход.контекст.физическийКорень else { throw ОтказПодготовкиЗапускаКодекс.контекст }
+        return кандидат
+    }
+
+    private static func канонически<T: Codable>(_ тип: T.Type, _ данные: Data) throws -> T {
+        do {
+            let объект = try JSONDecoder().decode(тип, from: данные)
+            let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+            guard try encoder.encode(объект) == данные else { throw ОтказПодготовкиЗапускаКодекс.каноническийJSON }
+            return объект
+        } catch { throw ОтказПодготовкиЗапускаКодекс.каноническийJSON }
+    }
+
+    static func сверитьПины(_ кандидат: КандидатПодготовкиЗапускаКодекс) throws {
+        for пин in кандидат.закреплённыеФайлы {
+            guard хэш(try файл(пин.путь, предел: 64 * 1_048_576)) == пин.хэш else {
+                throw ОтказПодготовкиЗапускаКодекс.изменилось
+            }
+        }
+    }
+
+    private static func хэш(_ данные: Data) -> String {
+        SHA256.hash(data: данные).map { String(format: "%02x", $0) }.joined()
+    }
+}
+
+// Фиксированный читающий контур. Равенство индекса известному дереву доказывает
+// diff --cached --quiet; write-tree и новый разбор Git index не используются.
+enum НаблюдательКонтекстаПодготовкиКодекс {
+    static func прочитать(_ кандидат: КандидатПодготовкиЗапускаКодекс,
+        доверенныйROOT: String, доверенныйЭтап: String,
+        выполнитьGit: ([String]) throws -> Data) throws -> НаблюдённыйКонтекстЗапускаКодекс {
+        func строки(_ bytes: Data) throws -> [String] {
+            guard bytes.count <= 8192, let value = String(data: bytes, encoding: .utf8),
+                  value.hasSuffix("\n"), !value.contains("\r"), !value.contains("\0") else {
+                throw ОтказПодготовкиЗапускаКодекс.изменилось
+            }
+            return String(value.dropLast()).components(separatedBy: "\n")
+        }
+        let expected = кандидат.ожидаемыйКонтекст
+        guard доверенныйROOT.utf8.elementsEqual(expected.идентификаторКорневойЗадачи.utf8),
+              доверенныйЭтап.utf8.elementsEqual(expected.идентификаторЭтапа.utf8) else {
+            throw ОтказПодготовкиЗапускаКодекс.контекст
+        }
+        let triple = try строки(выполнитьGit(["rev-parse", "--show-toplevel", "HEAD", "HEAD^{tree}"]))
+        let ref = try строки(выполнитьGit(["symbolic-ref", "HEAD"]))
+        let mergePath = try строки(выполнитьGit(["rev-parse", "--git-path", "MERGE_HEAD"]))
+        guard triple.count == 3, ref.count == 1, mergePath.count == 1 else {
+            throw ОтказПодготовкиЗапускаКодекс.изменилось
+        }
+        let mergeURL = URL(fileURLWithPath: mergePath[0], relativeTo:
+            URL(fileURLWithPath: expected.физическийКорень, isDirectory: true)).standardizedFileURL
+        var родители = [triple[1]]
+        var info = stat()
+        if lstat(mergeURL.path, &info) == 0 {
+            let merge = try строки(ЧитательПодготовкиЗапускаКодекс.файл(mergeURL.path, предел: 65))
+            guard merge.count == 1 else { throw ОтказПодготовкиЗапускаКодекс.изменилось }
+            родители.append(merge[0])
+        } else if errno != ENOENT {
+            throw ОтказПодготовкиЗапускаКодекс.изменилось
+        }
+        let diff = try выполнитьGit(["diff", "--cached", "--quiet", "--no-ext-diff", "--no-textconv",
+            "--ignore-submodules=none", expected.деревоКоммита, "--"])
+        guard diff.isEmpty else { throw ОтказПодготовкиЗапускаКодекс.изменилось }
+        return НаблюдённыйКонтекстЗапускаКодекс(
+            идентификаторКорневойЗадачи: доверенныйROOT,
+            идентификаторЭтапа: доверенныйЭтап,
+            физическийКорень: triple[0], полныйRef: ref[0], исходныйOID: triple[1],
+            исходноеДерево: triple[2], деревоИндекса: expected.деревоКоммита, родители: родители)
+    }
+}
+
+struct ОжиданиеСырогоMergeКоммита: Codable {
     let schema: String
     let expectedParents: [String]
     let expectedTree: String
 }
 
+struct РазборПодготовленнойКомандыКодекс {
+    let аргументы: [String]
+    let кандидат: КандидатПодготовкиЗапускаКодекс
+    let ROOT: String
+    let этап: String
+
+    static let команды: Set<String> = ["--проверить-перед-коммитом", "--сгенерировать-метаданные-коммита",
+        "--проверить-сырой-merge-коммит", "--проверить-сырой-коммит", "--проверить-пост-эффектный-git"]
+    static func прочитать(_ вход: [String]) throws -> Self? {
+        guard let команда = вход.first, команды.contains(команда) else { return nil }
+        guard вход.count >= 10,
+              вход[вход.count - 8] == "--подготовка-запуска",
+              вход[вход.count - 6] == "--sha256",
+              вход[вход.count - 4] == "--root-uuid",
+              вход[вход.count - 2] == "--stage-uuid" else {
+            throw ОтказПодготовкиЗапускаКодекс.источник
+        }
+        let selector = вход[вход.count - 7], sha = вход[вход.count - 5]
+        let root = вход[вход.count - 3], stage = вход[вход.count - 1]
+        let аргументы = Array(вход.dropLast(8))
+        let число = (команда == "--проверить-перед-коммитом" || команда == "--сгенерировать-метаданные-коммита") ? 2 : 3
+        guard аргументы.count == число else { throw ОтказПодготовкиЗапускаКодекс.контекст }
+        let кандидат = try ЧитательПодготовкиЗапускаКодекс.загрузить(селектор: selector, sha256: sha)
+        guard UUIDКорневойЗадачи(uuid: root) != nil, UUIDНативногоПисателя(uuid: stage) != nil,
+              root.utf8.elementsEqual(кандидат.ожидаемыйКонтекст.идентификаторКорневойЗадачи.utf8),
+              stage.utf8.elementsEqual(кандидат.ожидаемыйКонтекст.идентификаторЭтапа.utf8),
+              аргументы[1].utf8.elementsEqual(кандидат.средаГенератора.состояниеМетаданных.путь.utf8) else {
+            throw ОтказПодготовкиЗапускаКодекс.контекст
+        }
+        return Self(аргументы: аргументы, кандидат: кандидат, ROOT: root, этап: stage)
+    }
+}
+
+struct ОтветСыройПроверкиКоординатора {
+    let данные: Data
+    let код: Int32
+}
+
+enum ОбработчикСырогоMergeКоординатора {
+    static func выполнить(
+        разбор: РазборПодготовленнойКомандыКодекс, ожидание: Data,
+        прочитатьСыройОбъект: () throws -> Data,
+        метаданные: () throws -> РезультатГенерацииМетаданныхКоммита
+    ) throws -> ОтветСыройПроверкиКоординатора {
+        guard разбор.аргументы.first == "--проверить-сырой-merge-коммит", разбор.аргументы.count == 3 else {
+            throw ОтказПодготовкиЗапускаКодекс.контекст
+        }
+        try ЧитательПодготовкиЗапускаКодекс.сверитьПины(разбор.кандидат)
+        let state = try JSONDecoder().decode(СостояниеКоординации.self,
+            from: ЧитательПодготовкиЗапускаКодекс.файл(разбор.аргументы[1], предел: 1_048_576))
+        let context = разбор.кандидат.ожидаемыйКонтекст
+        guard let план = state.планСамообновления, state.корневойUUID == разбор.ROOT,
+              план.собственныйРеф == context.полныйRef,
+              план.идентичностьСледующегоКоммита.родитель == context.исходныйOID else {
+            throw ОтказПодготовкиЗапускаКодекс.контекст
+        }
+        guard ожидание.count <= 65_536 else { throw ОтказПодготовкиЗапускаКодекс.источник }
+        let expected = try JSONDecoder().decode(ОжиданиеСырогоMergeКоммита.self, from: ожидание)
+        guard expected.schema == "fum.raw-merge-commit-expectation.1" else {
+            throw ОтказПодготовкиЗапускаКодекс.схема
+        }
+        let parent = план.идентичностьСледующегоКоммита.родитель
+        var ошибки = ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом(
+            ожидаемыеРодители: expected.expectedParents, родительПлана: parent)
+        if ошибки.isEmpty {
+            let raw = try прочитатьСыройОбъект()
+            guard raw.count <= 1_048_576 else { throw ОтказПодготовкиЗапускаКодекс.источник }
+            let metadata = try метаданные()
+            ошибки = ОценщикИдентичностиGit.проверитьСыройMergeОбъект(raw, метаданные: metadata,
+                ожидаемыеРодители: expected.expectedParents, ожидаемоеДерево: expected.expectedTree)
+            if metadata.выборМодели.rootUUID != разбор.ROOT {
+                ошибки.append("model-selection-receipt-не-связан-с-корневым-uuid-состояния")
+            }
+        }
+        let data = try JSONSerialization.data(withJSONObject: [
+            "schema": expected.schema, "expectedParents": expected.expectedParents,
+            "родительПлана": parent, "expectedTree": expected.expectedTree,
+            "проверено": ошибки.isEmpty, "ошибки": ошибки,
+        ], options: [.sortedKeys, .withoutEscapingSlashes])
+        return ОтветСыройПроверкиКоординатора(данные: data, код: ошибки.isEmpty ? 0 : 1)
+    }
+}
+
+#if !TESTING
 @main
 struct ГлавнаяКоординатора {
     static func main() {
-        let аргументы = Array(CommandLine.arguments.dropFirst())
+        var аргументы = Array(CommandLine.arguments.dropFirst())
+        if let ответ = КомандаПодготовкиЗапускаКоммитаV1.перехватить(аргументы) {
+            FileHandle.standardOutput.write(ответ.данные)
+            exit(ответ.код)
+        }
+        var кандидатЗапуска: КандидатПодготовкиЗапускаКодекс?
+        var доверенныйЭтап: String?
+        var подготовленнаяКоманда: РазборПодготовленнойКомандыКодекс?
+        do {
+            if let разбор = try РазборПодготовленнойКомандыКодекс.прочитать(аргументы) {
+                подготовленнаяКоманда = разбор
+                аргументы = разбор.аргументы
+                кандидатЗапуска = разбор.кандидат
+                доверенныйЭтап = разбор.этап
+            }
+        } catch {
+            fputs("Отказ подготовки до запуска: \(error).\n", stderr)
+            exit(EXIT_FAILURE)
+        }
         if аргументы.first == "--сохранить-квитанцию-root-native-client" {
             guard аргументы.count == 7 else {
                 fputs("Ожидаются source, independent expected, current selection JSON, root UUID, private receipt path и собственный public projection path.\n", stderr)
@@ -2406,9 +2680,9 @@ struct ГлавнаяКоординатора {
                 guard let план = состояние.планСамообновления else {
                     throw CocoaError(.coderValueNotFound)
                 }
-                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID)
-                let head = try выполнитьGit(["rev-parse", "HEAD"], окружение: ProcessInfo.processInfo.environment)
-                let реф = try выполнитьGit(["symbolic-ref", "HEAD"], окружение: ProcessInfo.processInfo.environment)
+                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID, кандидатЗапуска: кандидатЗапуска, доверенныйЭтап: доверенныйЭтап, проверитьЖивойКонтекст: аргументы.first == "--проверить-перед-коммитом")
+                let head = try выполнитьGit(["rev-parse", "HEAD"], окружение: кандидатЗапуска!.окружениеGit, рабочийКаталог: кандидатЗапуска!.ожидаемыйКонтекст.физическийКорень)
+                let реф = try выполнитьGit(["symbolic-ref", "HEAD"], окружение: кандидатЗапуска!.окружениеGit, рабочийКаталог: кандидатЗапуска!.ожидаемыйКонтекст.физическийКорень)
                 var ошибки = ОценщикИдентичностиGit.проверитьДоЭффекта(
                     ожидаемая: план.идентичностьСледующегоКоммита,
                     метаданные: метаданные,
@@ -2438,66 +2712,22 @@ struct ГлавнаяКоординатора {
             return
         }
         if аргументы.first == "--проверить-сырой-merge-коммит" {
-            guard аргументы.count == 3 else {
-                fputs("Ожидаются путь к состояние.json и путь к независимому ожиданию merge (schema, ordered expectedParents, expectedTree); сырой объект читается из stdin.\n", stderr)
-                exit(EXIT_FAILURE)
-            }
             do {
-                let данные = try Data(contentsOf: URL(fileURLWithPath: аргументы[1]))
-                let состояние = try JSONDecoder().decode(СостояниеКоординации.self, from: данные)
-                guard let план = состояние.планСамообновления else {
-                    throw CocoaError(.coderValueNotFound)
-                }
-                let ожидание = try JSONDecoder().decode(
-                    ОжиданиеСырогоMergeКоммита.self,
-                    from: Data(contentsOf: URL(fileURLWithPath: аргументы[2]))
-                )
-                guard ожидание.schema == "fum.raw-merge-commit-expectation.1" else {
-                    throw NSError(domain: "RawMergeExpectation", code: 1,
-                                  userInfo: [NSLocalizedDescriptionKey: "Unsupported merge expectation schema"])
-                }
-                let родительПлана = план.идентичностьСледующегоКоммита.родитель
-                let ошибкиСвязиРодителя = ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом(
-                    ожидаемыеРодители: ожидание.expectedParents,
-                    родительПлана: родительПлана
-                )
-                if !ошибкиСвязиРодителя.isEmpty {
-                    let вывод: [String: Any] = [
-                        "schema": ожидание.schema,
-                        "expectedParents": ожидание.expectedParents,
-                        "родительПлана": родительПлана,
-                        "expectedTree": ожидание.expectedTree,
-                        "проверено": false,
-                        "ошибки": ошибкиСвязиРодителя
-                    ]
-                    let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
-                    FileHandle.standardOutput.write(результат)
-                    FileHandle.standardOutput.write(Data([0x0a]))
-                    exit(EXIT_FAILURE)
-                }
-                let сыройОбъект = FileHandle.standardInput.readDataToEndOfFile()
-                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID)
-                var ошибки = ОценщикИдентичностиGit.проверитьСыройMergeОбъект(
-                    сыройОбъект,
-                    метаданные: метаданные,
-                    ожидаемыеРодители: ожидание.expectedParents,
-                    ожидаемоеДерево: ожидание.expectedTree
-                )
-                if метаданные.выборМодели.rootUUID != состояние.корневойUUID {
-                    ошибки.append("model-selection-receipt-не-связан-с-корневым-uuid-состояния")
-                }
-                let вывод: [String: Any] = [
-                    "schema": ожидание.schema,
-                    "expectedParents": ожидание.expectedParents,
-                    "родительПлана": родительПлана,
-                    "expectedTree": ожидание.expectedTree,
-                    "проверено": ошибки.isEmpty,
-                    "ошибки": ошибки
-                ]
-                let результат = try JSONSerialization.data(withJSONObject: вывод, options: [.sortedKeys])
-                FileHandle.standardOutput.write(результат)
+                guard let разбор = подготовленнаяКоманда else { throw ОтказПодготовкиЗапускаКодекс.контекст }
+                let expected = try ЧитательПодготовкиЗапускаКодекс.файл(аргументы[2])
+                let ответ = try ОбработчикСырогоMergeКоординатора.выполнить(
+                    разбор: разбор, ожидание: expected,
+                    прочитатьСыройОбъект: { FileHandle.standardInput.readDataToEndOfFile() },
+                    метаданные: {
+                        let state = try JSONDecoder().decode(СостояниеКоординации.self,
+                            from: ЧитательПодготовкиЗапускаКодекс.файл(аргументы[1], предел: 1_048_576))
+                        guard let plan = state.планСамообновления else { throw ОтказПодготовкиЗапускаКодекс.контекст }
+                        return try сгенерироватьМетаданные(plan, expectedRootUUID: state.корневойUUID,
+                            кандидатЗапуска: разбор.кандидат, доверенныйЭтап: разбор.этап)
+                    })
+                FileHandle.standardOutput.write(ответ.данные)
                 FileHandle.standardOutput.write(Data([0x0a]))
-                if !ошибки.isEmpty { exit(EXIT_FAILURE) }
+                if ответ.код != 0 { exit(ответ.код) }
             } catch {
                 fputs("Не удалось проверить сырой merge Git-объект: \(error.localizedDescription)\n", stderr)
                 exit(EXIT_FAILURE)
@@ -2516,7 +2746,7 @@ struct ГлавнаяКоординатора {
                     throw CocoaError(.coderValueNotFound)
                 }
                 let сыройОбъект = FileHandle.standardInput.readDataToEndOfFile()
-                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID)
+                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID, кандидатЗапуска: кандидатЗапуска, доверенныйЭтап: доверенныйЭтап)
                 var ошибкиСырогоОбъекта = ОценщикИдентичностиGit.проверитьСыройОбъект(
                     сыройОбъект,
                     метаданные: метаданные,
@@ -2551,8 +2781,10 @@ struct ГлавнаяКоординатора {
                       ожидание.oidРодителя == план.идентичностьСледующегоКоммита.родитель else {
                     throw CocoaError(.coderValueNotFound)
                 }
-                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID)
-                let наблюдение = try АдаптерПостЭффектаGit.прочитать(ожидание: ожидание)
+                let метаданные = try сгенерироватьМетаданные(план, expectedRootUUID: состояние.корневойUUID, кандидатЗапуска: кандидатЗапуска, доверенныйЭтап: доверенныйЭтап)
+                let наблюдение = try АдаптерПостЭффектаGit.прочитать(ожидание: ожидание,
+                    окружение: кандидатЗапуска!.окружениеGit,
+                    рабочийКаталог: кандидатЗапуска!.ожидаемыйКонтекст.физическийКорень)
                 let итог = АдаптерПостЭффектаGit.проверить(
                     ожидание: ожидание,
                     наблюдение: наблюдение,
@@ -2601,75 +2833,84 @@ struct ГлавнаяКоординатора {
     }
 
     private static func сгенерироватьМетаданные(
-        _ план: ПланСамообновления,
-        expectedRootUUID: String
+        _ план: ПланСамообновления, expectedRootUUID: String,
+        кандидатЗапуска: КандидатПодготовкиЗапускаКодекс?, доверенныйЭтап: String?, проверитьЖивойКонтекст: Bool = false
     ) throws -> РезультатГенерацииМетаданныхКоммита {
-        guard let receipt = план.идентичностьСледующегоКоммита.квитанцияВыбораМодели else {
-            throw CocoaError(.coderValueNotFound)
+        guard let кандидат = кандидатЗапуска, let доверенныйЭтап,
+              кандидат.ожидаемыйКонтекст.идентификаторЭтапа.utf8.elementsEqual(доверенныйЭтап.utf8),
+              let receipt = план.идентичностьСледующегоКоммита.квитанцияВыбораМодели,
+              кандидат.ожидаемыйКонтекст.идентификаторКорневойЗадачи == expectedRootUUID,
+              кандидат.ожидаемыйКонтекст.полныйRef == план.собственныйРеф,
+              кандидат.ожидаемыйКонтекст.исходныйOID == план.идентичностьСледующегоКоммита.родитель else {
+            throw ОтказПодготовкиЗапускаКодекс.контекст
         }
         let witness = receipt.свидетельство
-        let input = ПакетВходаГенератораFUMA(cases: [
-            ВходСлучаяГенератораFUMA(
-                id: "commit-metadata",
-                acceptedSelection: witness.selectedValue,
-                rootUUID: witness.rootUUID,
-                title: план.сообщениеСледующегоКоммита.заголовок,
-                description: план.сообщениеСледующегоКоммита.описание,
-                rawRequest: план.сообщениеСледующегоКоммита.исходныйЗапрос
-            )
-        ])
-        let environment = ProcessInfo.processInfo.environment
-        guard let definition = environment["KOORDINACIYA_FUMA_DEFINITION"],
-              let executable = environment["KOORDINACIYA_FUMA_OPERATOR"],
-              let runRoot = environment["KOORDINACIYA_FUMA_RUN_ROOT"] else {
-            throw NSError(domain: "FUMAOperator", code: 1,
-                          userInfo: [NSLocalizedDescriptionKey: "Set KOORDINACIYA_FUMA_DEFINITION, KOORDINACIYA_FUMA_OPERATOR and KOORDINACIYA_FUMA_RUN_ROOT."])
+        let ошибкиИсточника = ГенераторМетаданныхКоммита.проверитьReceipt(receipt,
+            ожидаемый: план.идентичностьСледующегоКоммита.ожидаемаяКвитанцияВыбораМодели,
+            expectedRootUUID: expectedRootUUID)
+        guard ошибкиИсточника.isEmpty,
+              кандидат.окружениеGit["GIT_AUTHOR_NAME"] == "FUM Codex [\(witness.selectedValue.model); effort=\(witness.selectedValue.reasoningEffort)]" else {
+            throw ОтказПодготовкиЗапускаКодекс.личность
         }
-        let run = try ИсполнительГенератораFUMA.выполнить(
-            input: input,
-            definitionPath: definition,
-            operatorPath: executable,
-            privateRunRoot: runRoot
-        )
-        guard let outputCase = run.пакет.cases.first,
-              run.пакет.cases.count == 1,
-              outputCase.id == "commit-metadata" else {
-            throw NSError(domain: "FUMAOperator", code: 2,
-                          userInfo: [NSLocalizedDescriptionKey: "FUMA returned an unexpected case set."])
+        try ЧитательПодготовкиЗапускаКодекс.сверитьПины(кандидат)
+        if проверитьЖивойКонтекст {
+            let наблюдение = try НаблюдательКонтекстаПодготовкиКодекс.прочитать(кандидат, доверенныйROOT: expectedRootUUID, доверенныйЭтап: доверенныйЭтап) {
+                try выполнитьGitСырые($0, окружение: кандидат.окружениеGit,
+                    рабочийКаталог: кандидат.ожидаемыйКонтекст.физическийКорень)
+            }
+            _ = try ФабрикаПодтверждённогоЗапускаКодекс.подтвердить(кандидат, наблюдённыйКонтекст: наблюдение)
         }
-        let output = ВыходГенератораGitMetadata(environment: outputCase.environment, message: outputCase.message)
+        let input = ПакетВходаГенератораFUMA(cases: [ВходСлучаяГенератораFUMA(
+            id: "commit-metadata", acceptedSelection: witness.selectedValue, rootUUID: witness.rootUUID,
+            title: план.сообщениеСледующегоКоммита.заголовок,
+            description: план.сообщениеСледующегоКоммита.описание,
+            rawRequest: план.сообщениеСледующегоКоммита.исходныйЗапрос)])
+        let runtime = кандидат.средаГенератора
+        let run = try ИсполнительГенератораFUMA.выполнить(input: input,
+            definitionPath: runtime.определение.путь, operatorPath: runtime.оператор.путь,
+            privateRunRoot: runtime.кореньЗапуска, окружение: кандидат.окружениеМетаданных,
+            рабочийКаталог: кандидат.ожидаемыйКонтекст.физическийКорень)
+        guard let result = run.пакет.cases.first, run.пакет.cases.count == 1,
+              result.id == "commit-metadata" else { throw ОтказПодготовкиЗапускаКодекс.среда }
+        let output = ВыходГенератораGitMetadata(environment: result.environment, message: result.message)
         let prepared = ГенераторМетаданныхКоммита.подготовитьОкружение(
             ожидаемаяИдентичность: план.идентичностьСледующегоКоммита,
-            expectedRootUUID: expectedRootUUID,
-            выходFUMA: output
-        )
-        guard prepared.ошибки.isEmpty, let checkedOutput = prepared.выходFUMA else {
-            throw NSError(domain: "FUMAOperator", code: 2,
-                          userInfo: [NSLocalizedDescriptionKey: "FUMA output or API selection receipt failed pre-effect validation: \(prepared.ошибки.joined(separator: ", "))"])
+            expectedRootUUID: expectedRootUUID, выходFUMA: output)
+        guard prepared.ошибки.isEmpty, let checked = prepared.выходFUMA,
+              checked.environment == ["GIT_AUTHOR_NAME": кандидат.ожиданиеСырогоКоммита.имяАвтора] else {
+            throw ОтказПодготовкиЗапускаКодекс.личность
         }
-        var authorEnvironment = environment
-        for (key, value) in checkedOutput.environment { authorEnvironment[key] = value }
-        let authorGitVar = try выполнитьGit(["var", "GIT_AUTHOR_IDENT"], окружение: authorEnvironment)
-        let committerGitVar = try выполнитьGit(["var", "GIT_COMMITTER_IDENT"], окружение: environment)
-        return ГенераторМетаданныхКоммита.сгенерироватьЭталон(
-            ожидаемаяИдентичность: план.идентичностьСледующегоКоммита,
-            expectedRootUUID: expectedRootUUID,
-            authorGitVar: authorGitVar,
-            committerGitVar: committerGitVar,
-            план: план.сообщениеСледующегоКоммита,
-            выходFUMA: checkedOutput
-        )
+        let expected = кандидат.ожиданиеСырогоКоммита
+        let reference = ГенераторМетаданныхКоммита.сгенерироватьЭталон(
+            ожидаемаяИдентичность: план.идентичностьСледующегоКоммита, expectedRootUUID: expectedRootUUID,
+            authorGitVar: "\(expected.имяАвтора) <\(expected.почтаАвтора)> \(expected.датаАвтора.значениеЗаголовка)",
+            committerGitVar: "\(expected.имяКоммиттера) <\(expected.почтаКоммиттера)> \(expected.датаКоммиттера.значениеЗаголовка)",
+            план: план.сообщениеСледующегоКоммита, выходFUMA: checked)
+        // Готовое тело берётся из закреплённого verifiedPath. Старый FUMA reference
+        // проверяет свой результат отдельно и не удостоверяет формат другого тела.
+        return РезультатГенерацииМетаданныхКоммита(выборМодели: reference.выборМодели,
+            автор: reference.автор, коммитер: reference.коммитер,
+            окружение: checked.environment,
+            сообщение: expected.путь.телоСообщенияДляПроверкиСырогоКоммита,
+            ошибки: reference.ошибки)
     }
 
     private static func sha256(_ data: Data) -> String {
         SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 
-    private static func выполнитьGit(_ аргументы: [String], окружение: [String: String]) throws -> String {
+    private static func выполнитьGit(_ аргументы: [String], окружение: [String: String], рабочийКаталог: String? = nil) throws -> String {
+        let данные = try выполнитьGitСырые(аргументы, окружение: окружение, рабочийКаталог: рабочийКаталог)
+        guard let строка = String(data: данные, encoding: .utf8) else { throw CocoaError(.fileReadCorruptFile) }
+        return строка.trimmingCharacters(in: .newlines)
+    }
+
+    private static func выполнитьGitСырые(_ аргументы: [String], окружение: [String: String], рабочийКаталог: String? = nil) throws -> Data {
         let процесс = Process()
         процесс.executableURL = URL(fileURLWithPath: "/usr/bin/git")
-        процесс.arguments = аргументы
+        процесс.arguments = ["--no-optional-locks", "--no-replace-objects", "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null", "-c", "gc.auto=0", "-c", "maintenance.auto=false"] + аргументы
         процесс.environment = окружение
+        if let рабочийКаталог { процесс.currentDirectoryURL = URL(fileURLWithPath: рабочийКаталог) }
         let вывод = Pipe()
         let ошибки = Pipe()
         процесс.standardOutput = вывод
@@ -2681,10 +2922,7 @@ struct ГлавнаяКоординатора {
             throw NSError(domain: "Координатор.Гит", code: Int(процесс.terminationStatus), userInfo: [NSLocalizedDescriptionKey: текстОшибки])
         }
         let данные = вывод.fileHandleForReading.readDataToEndOfFile()
-        guard let строка = String(data: данные, encoding: .utf8) else {
-            throw CocoaError(.fileReadInapplicableStringEncoding)
-        }
-        return строка.trimmingCharacters(in: .newlines)
+        return данные
     }
 }
 #endif
