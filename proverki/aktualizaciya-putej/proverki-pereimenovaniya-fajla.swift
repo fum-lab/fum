@@ -155,7 +155,9 @@ func префиксКонтейнераОграниченЛинейнымОбъ�
 
 private final class ФикстураПереименования {
     let корень: URL
-    init(_ файлы: [String: Data] = [:], толькоЗаданные: Bool = false) throws {
+    let сохранить: Bool
+    init(_ файлы: [String: Data] = [:], толькоЗаданные: Bool = false, сохранить: Bool = false) throws {
+        self.сохранить = сохранить
         let созданный = FileManager.default.temporaryDirectory.appendingPathComponent("fum-single-file-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: созданный, withIntermediateDirectories: true)
         корень = созданный.resolvingSymlinksInPath().standardizedFileURL
@@ -167,7 +169,7 @@ private final class ФикстураПереименования {
         _ = try гит(["init", "-q"])
         try коммит()
     }
-    deinit { try? FileManager.default.removeItem(at: корень) }
+    deinit { if !сохранить { try? FileManager.default.removeItem(at: корень) } }
     func записать(_ путь: String, _ байты: Data) throws {
         // URL-based Foundation write на macOS создаёт NFD-компоненты.
         // Открытая fixture должна сохранять заданные UTF8 имена, как git checkout.
@@ -210,6 +212,59 @@ private func ожидатьОтказ<Значение>(_ причина: String
 }
 
 #if !ФУМ_ПРОВЕРКИ_СВЕЖЕСТИ_ПЕРЕИМЕНОВАНИЯ && !ФУМ_ПРОВЕРКИ_НАБЛЮДЕНИЯ_ПЕРЕИМЕНОВАНИЯ && !ФУМ_ПРОВЕРКИ_ПРЕФИКСОВ_ПЕРЕИМЕНОВАНИЯ
+@Test(arguments: [mode_t(0o600), mode_t(0o644)])
+func индексПослеПереносаСохраняетРежимПриОграниченномUmask(_ режим: mode_t) throws {
+    let фикстура = try ФикстураПереименования(сохранить: true)
+    print("Сохранённая mode-фикстура: \(фикстура.корень.path)")
+    let проба = фикстура.корень.path + "/umask-probe.bin"
+    let дескриптор = open(проба, O_CREAT | O_EXCL | O_NOFOLLOW | O_WRONLY, 0o666)
+    #expect(дескриптор >= 0)
+    if дескриптор >= 0 { close(дескриптор) }
+    let режимПробы = try СостояниеФайлаПереименования(URL(fileURLWithPath: проба)).режим & 0o7777
+    print("Наблюдаемый режим umask-пробы: \(String(режимПробы, radix: 8))")
+    try FileManager.default.removeItem(atPath: проба)
+    let первый = try фикстура.план()
+    #expect(chmod(первый.адресИндекса.path, режим) == 0)
+    let план = try фикстура.план()
+    #expect(план.режимИндекса == режим)
+    try ПереименованиеФайла.применить(план)
+    #expect(try СостояниеФайлаПереименования(план.адресИндекса).режим & 0o7777 == режим)
+    #expect(try фикстура.читать("archive/new.md") == Data("# Старый\n".utf8))
+    #expect(!FileManager.default.fileExists(atPath: фикстура.корень.path + "/docs/old.md"))
+}
+
+@Test func откатВКириллическомКаталогеСохраняетПятьЧужихИзменений() throws {
+    let каталог = "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей"
+    let путь = каталог + "/note.md", похожаяКопия = каталог + "/.fum-rename-backup-foreign"
+    let исходные = Data("[Ссылка](../../docs/old.md)\n".utf8)
+    let фикстура = try ФикстураПереименования([
+        путь: исходные, "foreign2.txt": Data("принято\n".utf8)
+    ], сохранить: true)
+    print("Сохранённая rollback-фикстура: \(фикстура.корень.path)")
+    let индекс = try фикстура.план().адресИндекса
+    #expect(chmod(индекс.path, 0o600) == 0)
+    try фикстура.записать("foreign.txt", Data("первое чужое изменение\n".utf8))
+    try фикстура.записать("foreign2.txt", Data("второе чужое изменение\n".utf8))
+    try фикстура.записать("loose/deep/one.txt", Data("один\n".utf8))
+    try фикстура.записать("loose/deep/two.txt", Data("два\n".utf8))
+    try фикстура.записать(похожаяКопия, Data("чужой файл, не резерв автоматизации\n".utf8))
+    let план = try фикстура.план(), до = try фикстура.подпись()
+    #expect(план.статус.split(separator: 0).count == 5)
+    #expect(try фикстура.гит(["ls-files", "-z"]).split(separator: 0).contains(Data(путь.utf8)))
+    let физическийРодитель = фикстура.корень.appendingPathComponent(путь).deletingLastPathComponent()
+    print("Логический родитель UTF8: \(Data(каталог.utf8).map { String(format: "%02x", $0) }.joined())")
+    print("Родитель URL UTF8: \(Data(физическийРодитель.path.dropFirst(фикстура.корень.path.count + 1).utf8).map { String(format: "%02x", $0) }.joined())")
+    ожидатьОтказ("откат проверен") {
+        try ПереименованиеФайла.применить(план, передУстановкой: { _ in
+            throw ОшибкаПутей.отказ("Внедрённый отказ до установки")
+        })
+    }
+    #expect(try фикстура.подпись() == до)
+    #expect(try фикстура.читать(путь) == исходные)
+    #expect(try фикстура.читать(похожаяКопия) == Data("чужой файл, не резерв автоматизации\n".utf8))
+    #expect(!FileManager.default.fileExists(atPath: фикстура.корень.path + "/archive/new.md"))
+}
+
 @Test func точныеЦелиВсеФормыИДетерминированныйПлан() throws {
     let текст = """
     [inline](docs/old.md?view=1#top "Title")
