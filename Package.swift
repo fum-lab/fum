@@ -9,11 +9,23 @@ let настройки: [SwiftSetting] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    products: [
+        .executable(name: "fuma", targets: ["КомандаЗапуска"]),
+        .executable(name: "proveritj-paryi-norm-vetki", targets: ["КомандаПроверкиПарНорм"])
+    ],
     dependencies: [
         .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
+        .target(name: "ПроверкаПарНормВетки",
+            path: "Инструменты/fum-dekompoziciya-pravil-agentov/iskhodniki",
+            swiftSettings: настройки),
+        .executableTarget(name: "КомандаПроверкиПарНорм", dependencies: ["ПроверкаПарНормВетки"],
+            path: "Инструменты/fum-dekompoziciya-pravil-agentov/komanda",
+            swiftSettings: настройки),
+        .testTarget(name: "ПроверкиПарНормВетки", dependencies: ["ПроверкаПарНормВетки"],
+            path: "Инструменты/fum-dekompoziciya-pravil-agentov/proverki",
+            swiftSettings: настройки),
         .target(
             name: "МатериализацияУзлов",
             dependencies: ["FUMStructuringOperatorMemory"],
