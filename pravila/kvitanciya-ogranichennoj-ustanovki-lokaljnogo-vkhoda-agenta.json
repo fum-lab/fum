@@ -1,0 +1,329 @@
+{
+  "схема": "fum.квитанция-ограниченной-установки-локального-входа-агента.1",
+  "версия": 1,
+  "зафиксировано": "2026-10-29T10:02:05+04:00",
+  "корневойUUID": "01a17869-c953-7163-bb76-21716549be02",
+  "режим": "локальный-source-json-профиль",
+  "рабочаяСессия": {
+    "физическийКорень": "/Users/fum/.codex/worktrees/lokaljnyij-vkhod-prinyataya-osnova/FUM",
+    "ref": "refs/heads/fum-lab/fum/pravila/ustanovka-lokaljnogo-vkhoda/master",
+    "начальныйHEAD": "b2440d61e63de801e0999e899a36b2343542e94c",
+    "семантическийКоммитS": "6574ad7a4634187467ebab9bc515fd913f4b1676",
+    "деревоКоммитаS": "c27ec37c29bd2007427dd4812638223bbf3052f7",
+    "итоговыйКоммитИсходниковS2": "730fa5115e60e82d688340019c7652081b6ae161",
+    "деревоКоммитаS2": "1e81e9184db087a9996180160462acade035c3a5",
+    "коммитУстановкиB": "9938d36dc2a52add83715dd61c11fea123d5973d",
+    "деревоКоммитаB": "1dac486be2e6bbaf0a71bf709077413d1e00ae8f",
+    "итоговыйКоммитУстановщикаC": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+    "деревоКоммитаC": "43c63ae4f44d939f5588921b1deacc0d2539defb",
+    "единственныйПисательПодтверждён": true,
+    "авторИСоздатель": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>"
+  },
+  "граница": {
+    "разрешённыеПути": [
+      "pravila/opisaniye-lokaljnogo-vkhoda-agenta.json",
+      "pravila/proiskhozhdeniye-lokaljnogo-vkhoda-agenta.json",
+      "pravila/kvitanciya-ogranichennoj-ustanovki-lokaljnogo-vkhoda-agenta.json",
+      "Правила/агентов/AGENTS.md",
+      "iskhodniki/aktualizaciya-putej/ustanovsjhik-lokaljnogo-vkhoda-agenta.swift",
+      "proverki/aktualizaciya-putej/proverki-ustanovsjhika-lokaljnogo-vkhoda-agenta.swift"
+    ],
+    "изменённыеПутиВнеСписка": [],
+    "PythonЗапускалсяПисателем": false,
+    "ROOTJSONLЧиталсяИлиЗапускался": false,
+    "PackageSwiftИзменён": false,
+    "ЖурналИзменён": false
+  },
+  "источники": {
+    "base": {
+      "коммит": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "дерево": "5d3eb803f6a2c5cd1bb1e3bb775625cb3eaa3aeb"
+    },
+    "семантическоеОписание": {
+      "путь": "pravila/opisaniye-lokaljnogo-vkhoda-agenta.json",
+      "коммит": "730fa5115e60e82d688340019c7652081b6ae161",
+      "blob": "eff966a5fbf4e689d45f6fc6b7dabcb5114bc494",
+      "sha256": "8f42f6c7f6c40bcbff6d068a5f0792de85a55ff34b5cbd25e0acb115232943e5"
+    },
+    "корневыеПравила": {
+      "путь": "AGENTS.md",
+      "коммит": "b2440d61e63de801e0999e899a36b2343542e94c",
+      "blob": "3e06afd297f8b368aa053f1c24703068e9d8f498",
+      "sha256": "b8cd8e75b8c2eb7db059c01c71ff3c36b2467694476a51cf658991724df29f20"
+    },
+    "принятыйRenderer": {
+      "путь": "iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift",
+      "blob": "533e9c757a6a0ba19bb5aad620a7e1da23355cdd",
+      "sha256": "8b235db847e87d52f52ff871a06e1371fed5896b37eaa92781dd400b5e0892dc",
+      "коммитПриёмки": "32d74f5b00ccb93653df67d80ad1a0b217b6c44a",
+      "коммитИнтеграции": "ce8798ebfc5a7285657583b3586177cebf3fc7c2"
+    },
+    "установщик": {
+      "путь": "iskhodniki/aktualizaciya-putej/ustanovsjhik-lokaljnogo-vkhoda-agenta.swift",
+      "коммит": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+      "дерево": "43c63ae4f44d939f5588921b1deacc0d2539defb",
+      "blob": "08c49b1a59254c515305aaf23f19218224c866c9",
+      "sha256": "4eddaf40ce7e41f84cab7d70720d80267ff9d34618fed1851d8e1710b299d381"
+    },
+    "проверкиУстановщика": {
+      "путь": "proverki/aktualizaciya-putej/proverki-ustanovsjhika-lokaljnogo-vkhoda-agenta.swift",
+      "коммит": "6574ad7a4634187467ebab9bc515fd913f4b1676",
+      "blob": "c4a21b659c86c3574a17390afc89a1999d1eb3ef",
+      "sha256": "d12e8f98c71f74f46b1e144b248a4743dd51d12974d5754187f6e8c600c8b2f0"
+    },
+    "wrapper": {
+      "путь": "pravila/proiskhozhdeniye-lokaljnogo-vkhoda-agenta.json",
+      "sha256": "483de16cb7ab2e166cfe6a7e32b3af71931daabc1ef49da141325f0b1277ba53"
+    }
+  },
+  "Names837": {
+    "алгоритм": "fum.пути.unicode-boundary.Cyrl-Latn.ru.ascii-lower-kebab.1",
+    "revision": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "inputSHA256": "17ee043d6635c5ae2395080095f40df572a4d94149bb7e14ea58024c55c0e891",
+    "mappingSHA256": "9fe653c36d55af204c876af1bde9395283e585dc259e2531f3ed3351831cf0e2",
+    "planSHA256": "d0ba21f6bbbd9f9a4bc632a53f124ba12c535239aeb2945c5931741264ba1767",
+    "препятствия": [],
+    "применениеРазрешено": false
+  },
+  "зависимость": {
+    "путь": "Зависимости/LinguisticKit",
+    "gitlink": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "подготовленаКорнемПослеПервогоОтказа": true,
+    "командаПодготовки": "git -c core.hooksPath=/dev/null -c core.fsmonitor=false -c core.fileMode=true submodule update --init --checkout -- 'Зависимости/LinguisticKit'",
+    "исходПодготовки": 0,
+    "detached": true,
+    "clean": true,
+    "shallow": false,
+    "origin": "https://github.com/fum-lab/LinguisticKit.git",
+    "upstream": "https://github.com/Roman-Kerimov/LinguisticKit.git",
+    "fetchOriginИUpstream": "по одному успешному --prune запуску корнем; писатель не повторял",
+    "superprojectGitlinkИзменён": false
+  },
+  "проверки": {
+    "включённые": [
+      {
+        "имя": "ручное-чтение-маршрута-и-живой-контекст",
+        "исход": "пройдено",
+        "свидетельство": "HEAD/ref/W/root AGENTS, все темы правила, инвентарь и локальный SKILL прочитаны без Python; sole-writer и allowlist проверены"
+      },
+      {
+        "имя": "targeted-swift-tests",
+        "команда": "swift test --package-path /Users/fum/.codex/worktrees/lokaljnyij-vkhod-prinyataya-osnova/FUM --scratch-path /tmp/fum-local-entry.IPoclE/build --disable-automatic-resolution --filter 'отсутствующаяЦельСоздаётсяИТочноЧитаетсяОбратно|совпадающаяЦельИдемпотентнаБезЗамены|отличающаясяЦельСохраняетсяИОтклоняется|символическаяСсылкаСохраняетсяИНеПереходитКАдресату|устаревшийХэшКорняОтказываетДоЭффектаНаЦель'",
+        "перваяПопытка": {
+          "исход": 1,
+          "компиляцияНачалась": false,
+          "причина": "отсутствовал Зависимости/LinguisticKit/Package.swift"
+        },
+        "повторПослеМатериальногоИзмененияКорнем": {
+          "исход": 0,
+          "сборкаСекунд": 34.77,
+          "числоТестов": 5,
+          "числоУспешных": 5,
+          "тестовоеВремяСекунд": 0.007,
+          "scratchMiBПослеСборки": 248
+        },
+        "сценарии": [
+          "отсутствующаяЦельСоздаётсяИТочноЧитаетсяОбратно",
+          "совпадающаяЦельИдемпотентнаБезЗамены",
+          "отличающаясяЦельСохраняетсяИОтклоняется",
+          "символическаяСсылкаСохраняетсяИНеПереходитКАдресату",
+          "устаревшийХэшКорняОтказываетДоЭффектаНаЦель"
+        ],
+        "послеS2НеПовторялись": true,
+        "послеCНеПовторялись": true,
+        "основаниеНеповтораS2": "S2 меняет только conditional CLI open(path) на open(путь); библиотечный код тестов неизменен",
+        "основаниеНеповтораC": "full Package tests не повторялись по resource correction; changed stdout path проверен отдельно bounded fixture; cleanup fault paths остаются не GREEN"
+      },
+      {
+        "имя": "direct-cli-compile",
+        "команда": "swiftc -swift-version 6 -strict-concurrency=complete -warnings-as-errors -parse-as-library -D ФУМ_КОМАНДА_УСТАНОВЩИКА_ЛОКАЛЬНОГО_ВХОДА iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift iskhodniki/aktualizaciya-putej/ustanovsjhik-lokaljnogo-vkhoda-agenta.swift -o /tmp/fum-local-entry.IPoclE/ustanovsjhik-lokaljnogo-vkhoda-agenta",
+        "перваяПопытка": {
+          "коммитИсходников": "6574ad7a4634187467ebab9bc515fd913f4b1676",
+          "исход": 1,
+          "диагностика": "cannot find 'path' in scope at installer line 79"
+        },
+        "addOnlyRepair": {
+          "коммит": "730fa5115e60e82d688340019c7652081b6ae161",
+          "изменение": "open(path, ...) → open(путь, ...)"
+        },
+        "успешнаяПопыткаS2ПередПилотом": {
+          "исход": 0,
+          "stdoutБайтов": 0,
+          "stderrБайтов": 0,
+          "binarySHA256": "42df4cdd123848b1d3c5f7dd3390bdaf4c185baebfd12047a4d922cd098423ec",
+          "binaryБайтов": 266968
+        },
+        "успешнаяКомпиляцияC": {
+          "коммитИсходников": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+          "деревоИсходников": "43c63ae4f44d939f5588921b1deacc0d2539defb",
+          "исход": 0,
+          "stdoutБайтов": 0,
+          "stderrБайтов": 0,
+          "binarySHA256": "cbef9cac64a75a8fbb5d63367f2af706c905d7265dda0dd20444bdb93abd75e7",
+          "binaryБайтов": 283592,
+          "бинарникЗапускалсяНаActualTarget": false,
+          "бинарникЗапускалсяТолькоВИзолированномFixture": true
+        }
+      },
+      {
+        "имя": "bounded-negative-CLI-closed-stdout-C",
+        "команда": "/bin/sh -c 'exec 1>&-; exec \"$@\"' fum-closed-stdout /tmp/fum-local-entry.IPoclE/ustanovsjhik-lokaljnogo-vkhoda-agenta --корень /tmp/fum-local-entry.IPoclE/stdout-fixture --обёртка /tmp/fum-local-entry.IPoclE/stdout-fixture/pravila/proiskhozhdeniye-lokaljnogo-vkhoda-agenta.json",
+        "binarySHA256": "cbef9cac64a75a8fbb5d63367f2af706c905d7265dda0dd20444bdb93abd75e7",
+        "исход": 74,
+        "ожидаемыйИсход": 74,
+        "stderrБайтов": 177,
+        "stderrSHA256": "4517ef4d7e7c14b6f0444715fb8844b55f2aa723ac7b93f5a647d413df8ed6af",
+        "fixtureTargetSHA256До": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81",
+        "fixtureTargetSHA256После": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81",
+        "fixtureTargetStatДо": "16777236:153895305:3210:100600",
+        "fixtureTargetStatПосле": "16777236:153895305:3210:100600",
+        "временныеФайлыПосле": [],
+        "actualTargetЗапускался": false,
+        "граница": "проверена только changed post-install/output ветвь; cleanup fault paths не проверялись"
+      }
+    ],
+    "отключённые": [
+      {
+        "имя": "Python-маршрутизатор-и-валидатор-декомпозиции",
+        "статус": "не запускались и не GREEN",
+        "основание": "явный профиль и запрет Python"
+      },
+      {
+        "имя": "ROOT-JSONL-и-остаток-без-записи",
+        "статус": "не читались, не запускались и не GREEN",
+        "основание": "явный профиль исключает ROOT JSONL"
+      },
+      {
+        "имя": "общий-smoke-и-полный-suite",
+        "статус": "не запускались и не GREEN",
+        "основание": "адресный Swift-профиль, ограниченный allowlist и диск"
+      },
+      {
+        "имя": "отчётная-Journal-обёртка",
+        "статус": "не создавалась и не GREEN",
+        "основание": "Journal явно вне allowlist"
+      },
+      {
+        "имя": "fault-injection-cleanup-unlink-fsync-close",
+        "статус": "не запускалась и не GREEN",
+        "основание": "ветви остаются UNKNOWN/source-only/not rollout-ready; инженерия cleanup fault injection явно отложена"
+      }
+    ]
+  },
+  "пилот": {
+    "команда": "/tmp/fum-local-entry.IPoclE/ustanovsjhik-lokaljnogo-vkhoda-agenta --корень /Users/fum/.codex/worktrees/lokaljnyij-vkhod-prinyataya-osnova/FUM --обёртка /Users/fum/.codex/worktrees/lokaljnyij-vkhod-prinyataya-osnova/FUM/pravila/proiskhozhdeniye-lokaljnogo-vkhoda-agenta.json",
+    "исполняемыйКоммитИсходников": "730fa5115e60e82d688340019c7652081b6ae161",
+    "исполняемыйInstallerBlob": "824f2b84036075d5a853bce2b8d74f24e364a4a2",
+    "исполняемыйInstallerSHA256": "a3c106ff14af6f19b9e6ff057629dd99096a6bf0ab745e361a054d0404a81fac",
+    "исполняемыйBinarySHA256": "42df4cdd123848b1d3c5f7dd3390bdaf4c185baebfd12047a4d922cd098423ec",
+    "числоРеальныхЗапусковЦели": 1,
+    "послеКоммитаCНеПовторялся": true,
+    "binaryCНеЗапускалсяНаActualTarget": true,
+    "binaryCЗапускалсяТолькоВИзолированномFixture": true,
+    "доЗапуска": {
+      "цельОтсутствовала": true,
+      "цельНеБылаSymlink": true,
+      "временныеФайлыОтсутствовали": true,
+      "HEAD": "730fa5115e60e82d688340019c7652081b6ae161",
+      "wrapperSHA256": "483de16cb7ab2e166cfe6a7e32b3af71931daabc1ef49da141325f0b1277ba53"
+    },
+    "исход": 0,
+    "stdout": {
+      "байтов": 299,
+      "sha256": "e6396ca0a43d68f0fc6df01267d72dac86345d2d1c5ff4c4e7fce1eff17fd598",
+      "json": {
+        "исход": "создан",
+        "путь": "Правила/агентов/AGENTS.md",
+        "схема": "fum.результат-установки-локального-входа-агента.1",
+        "хэшSHA256": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81",
+        "числоБайтов": 3210
+      }
+    },
+    "stderr": {
+      "байтов": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "цель": {
+      "путь": "Правила/агентов/AGENTS.md",
+      "blob": "ff593016080f71acb83514cfcf332843892a84a8",
+      "sha256": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81",
+      "байтов": 3210,
+      "режим": "100644",
+      "обычныйФайл": true,
+      "точноеЧтениеПослеПубликации": true,
+      "временныеФайлыПослеПубликации": []
+    }
+  },
+  "публикационныйСтатус": {
+    "исходныйПилотS2": {
+      "коммитИсходников": "730fa5115e60e82d688340019c7652081b6ae161",
+      "статус": "терминально создан и прочитан обратно",
+      "targetSHA256": "7ef4b073ab252bcb6a7cee16825a9eb8d58072b3c92c33d0ce1b2d5335d63f81"
+    },
+    "итоговыйУстановщикC": {
+      "коммитИсходников": "d711aa3602753a33ead8f6efb6d72ef918f2f89a",
+      "статус": "source-only",
+      "cleanupFaultPaths": "UNKNOWN",
+      "rolloutReady": false
+    },
+    "push": false,
+    "pullRequest": false,
+    "remoteПубликацияВетки": false,
+    "ROOTПриёмка": false,
+    "интеграцияВMaster": false,
+    "productionАктивация": false
+  },
+  "диск": {
+    "первоеНаблюдение": "около 2.2 GiB свободно",
+    "передУспешнымTargetedTest": "около 1.2 GiB свободно",
+    "privateBuildScratchMiB": 248,
+    "послеПилотаСвободноKiB": 960088,
+    "privateScratchMiBПослеCompileC": 249,
+    "послеCompileCСвободноKiB": 932192,
+    "послеBoundedOutputCheckСвободноKiB": 935084,
+    "чужиеКэшиНеОчищались": true
+  },
+  "отклонения": [
+    {
+      "событие": "первая read-only jq-сверка инвентаря",
+      "исход": 3,
+      "причина": "jq compile error из-за обращения к кириллическим ключам без bracket notation",
+      "эффектЗаписи": false,
+      "последующаяСверка": "отдельная bracket-notation команда успешна; первый исход не замаскирован"
+    },
+    {
+      "событие": "несколько вызовов apply_patch или test были aborted before dispatch из-за управляющих сообщений",
+      "эффектЗаписиИлиЗапуска": false
+    },
+    {
+      "событие": "первый targeted Swift test до подготовки зависимости",
+      "исход": 1,
+      "эффектНаЦель": false,
+      "решение": "остановка; повтор только после точной подготовки зависимости корнем"
+    },
+    {
+      "событие": "первая direct CLI compile",
+      "исход": 1,
+      "эффектНаЦель": false,
+      "решение": "отдельный add-only S2 по явному repair-resume; итоговая compile успешна"
+    },
+    {
+      "событие": "поздняя корневая read-only jq object-construction сверка",
+      "исход": 3,
+      "причина": "jq compile error в форме object-construction",
+      "эффектЗаписи": false,
+      "последующаяСверка": "исправленная отдельная bracket-form команда завершилась успешно; exit 3 не замаскирован"
+    }
+  ],
+  "остатки": [
+    "fsync использован как требовалось, но не является macOS F_FULLFSYNC",
+    "принятый renderer сохраняет окно TOCTOU между lstat корневого AGENTS.md и Data(contentsOf:)",
+    "ветвь EEXIST реализована с точным no-follow сравнением, но отдельная детерминированная race-инъекция в этот ограниченный набор не включена",
+    "wrapper после чтения не привязывается повторным name/stat сравнением к тому же inode",
+    "закрытый randomized temp перед linkat не открывается повторно и не привязывается к сохранённым dev/ino",
+    "ошибки close read-only descriptor для wrapper, каталогов и target по-прежнему игнорируются",
+    "bounded fixture с exec 1>&- динамически проверяет только закрытый stdout/EBADF и exit 74; SIG_IGN статически проверен в исходнике C и C успешно скомпилирован, но EPIPE/SIGPIPE динамически не проверялись; cleanup unlink/fsync/close остаются UNKNOWN/source-only/not rollout-ready и не GREEN",
+    "отключённые Python, ROOT JSONL, общий smoke и Journal-проверки не являются GREEN",
+    "локальные коммиты и target не означают push, ROOT-приёмку, интеграцию или production"
+  ]
+}

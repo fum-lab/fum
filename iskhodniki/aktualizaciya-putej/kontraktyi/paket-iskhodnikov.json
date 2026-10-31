@@ -1,0 +1,620 @@
+{
+  "схема": "fum.конечный-пакет-исходников-для-ROOT.1",
+  "назначение": "Точное выделение исторических исходников от принятой ROOT-базы для отдельного PR координатора; готовность автоматизации и интеграция не удостоверяются",
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "координатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "фактическийПисатель": "01a148a5-c088-7373-9665-a3f9b477565e",
+  "допуск": {
+    "sha256": "58f090085ce5ff170bb4ae72dc43b694364aa80528ef80a9e0f9015d4ac614e8",
+    "область": "48 неизменных исторических blob и один новый JSON; свежий частный индекс и отдельный новый ref",
+    "собственнаяИсторияНеПереписывается": true
+  },
+  "базаПолучателя": {
+    "коммит": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+    "дерево": "e1a75695f81394c51b8fb7b65218f58c6e6c20bb",
+    "граница": "Принятая выбранная ROOT-база; новый коммит имеет ровно одного этого родителя, ROOT/master не изменяется"
+  },
+  "источник": {
+    "коммит": "137319cee3134cbe07c9c8503fec3f0f328c25c1",
+    "дерево": "5d566af94340698c07d031f6e0d175548ff2182d",
+    "родитель": "2302d1e18eee74bb0d4c8438eb360fd3238af7fc",
+    "предыдущийJSON": {
+      "path": "iskhodniki/aktualizaciya-putej/kontraktyi/paket-iskhodnikov.json",
+      "blob": "31c00dcf4cce7c50d8e2a7189b5fe1d946068fd1",
+      "bytes": 28780,
+      "sha256": "ff89285bed0486d3beec21ae016d528ad293988d4a434631d529ca215ef82272"
+    },
+    "source15SHA256": "0e87f729cd2ba43524e102db0a78d203586b3d961d53177daccf3cce6b07318a",
+    "упорядоченные48SHA256": "1b8454d34a975b78bcf6aa8f31a44940a3c3645299198ca6f33566d12435f975",
+    "кодированиеХэша": "compact JSON массива path/mode/blob/bytes/sha256 в указанном порядке, UTF-8 и завершающий LF",
+    "байтов": 1260289
+  },
+  "упорядоченные48": [
+    {
+      "path": "iskhodniki/aktualizaciya-putej/adapter-politiki-lokaljnyikh-putej.swift",
+      "mode": "100644",
+      "blob": "8eee246fb78a3736d784d1d51cdf730a0da2e27e",
+      "bytes": 11967,
+      "sha256": "993bc0fae05d30512f90c0cb670c1a671f1a3348c350b7c37556c417f8478245"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+      "mode": "100644",
+      "blob": "cc1d309cd847a66591467feb886d4429d11df136",
+      "bytes": 26017,
+      "sha256": "8399c4af63706ec99c20d2053ef473d4561d22250746ad46a6a015fc4ae12de7"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/istoricheskij-manifest-proyekcii.swift",
+      "mode": "100644",
+      "blob": "c1c4ec61c5fa5bf3bbd90d4d910a6c948e75c006",
+      "bytes": 24600,
+      "sha256": "779cafbc98c346b4b4da09b11151555a128704779047f8da5e7c141391140094"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/kandidatyi-razresheniya-adresov.swift",
+      "mode": "100644",
+      "blob": "072167b76b2c113016efc9b1c63633bf06f87eab",
+      "bytes": 10725,
+      "sha256": "cda10c94fe77204650dd6079b5f38039d5cec6ffd3409ba239940bddd9a2f5c5"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/kollekciya-kandidatov-na-diske.swift",
+      "mode": "100644",
+      "blob": "8f9ab72672005b7575bf387658e6740815954a3b",
+      "bytes": 21225,
+      "sha256": "28b761044a9bc11a8e8547c5a7ef485a06de66113c4f403e3e2fbea691760667"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/komanda-obshchej-migracii.swift",
+      "mode": "100644",
+      "blob": "aa37280a7faee44ac08b45e5bffd670f2118960b",
+      "bytes": 2605,
+      "sha256": "69bc08e173fe53ca2c0a403fb601398ea75efab002f1bc3d44549ce2c7c6855e"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/kontraktyi/руководство-общей-миграции.md",
+      "mode": "100644",
+      "blob": "af314f374c50b7f7bf0388866b176445de5c0bab",
+      "bytes": 83225,
+      "sha256": "812c755f586e172c9d38453e6ba4a827b817d1baf4db4f9415a9c8f53d066a95"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/korpus-ssyilok-migracii.swift",
+      "mode": "100644",
+      "blob": "52e9ad4b8c6664310a2d599eeb2b084d66b290a3",
+      "bytes": 16102,
+      "sha256": "2e0ea8e3bf4434fc9c525add38c008f4d627064ca3a99edbc6fbff130f763992"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/modelj-obshchej-migracii.swift",
+      "mode": "100644",
+      "blob": "0370b5f1b40fe131b6eea7fd43028f17608bb6b4",
+      "bytes": 18670,
+      "sha256": "9900cd0a952250ca4281fc58e6669803730eeb5fa15e9b6d594d1ace131d36c6"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+      "mode": "100644",
+      "blob": "e9c92a742634deadf56871734bc5b0fa6e72a2cb",
+      "bytes": 9613,
+      "sha256": "287712c986f1db7e6675d46527c23a027fa4ac995d8ce90c6a5a02a0b0dc121c"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/okna-diagnostiki-kandidatov.swift",
+      "mode": "100644",
+      "blob": "e66b9d01abe734e6cc57e413d7c44de838fa06b2",
+      "bytes": 22141,
+      "sha256": "e3becca55ee3e3cc47734a5210772d55e580c6e36ffda9b600fc5f4be56ade9c"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/ozhidaniye-korpusa-iz-git.swift",
+      "mode": "100644",
+      "blob": "48121d104bbfddc061405cd7568c7d206cf266b2",
+      "bytes": 20345,
+      "sha256": "64430e479b580ed4c6142fa584d83123c0d59bb43f2d14b6ad557e85c9c69346"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/paket-kandidatov-adresov.swift",
+      "mode": "100644",
+      "blob": "16fb36234122a5dbc700bc29bbc81d15d872d9c7",
+      "bytes": 23424,
+      "sha256": "7a79bfb3c46e3a725b01c4f88f117317a9c0bac0ed51c30e0ec5a53e5e3c6d99"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/perechenj-adresov-markdown.swift",
+      "mode": "100644",
+      "blob": "bef106174414315b33bc74944247d3d0145906ee",
+      "bytes": 1936,
+      "sha256": "18e906de12e1eff16748aa2aa4f5d268b47941be5e12fe8f401b407bdcec0616"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/perekhod-prostranstva-adresov.swift",
+      "mode": "100644",
+      "blob": "255605806534072c179d83f8504881527588e733",
+      "bytes": 14031,
+      "sha256": "9cff4864cb9b20e1825e6e97c4234153790c16d29b28164f3b63e5433374eae4"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/porcii-kandidatov-adresov.swift",
+      "mode": "100644",
+      "blob": "fdbc456545a3fc979faef35e24b0ba41ad519ae9",
+      "bytes": 8435,
+      "sha256": "bd063f83229b6b6c06555ed0ed4e1eeca3c4eb0c7549e7dcad0b1766791d7226"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/prostranstvo-imyon-git.swift",
+      "mode": "100644",
+      "blob": "18fd07371acaf70f621a50e69452e09eefe613d9",
+      "bytes": 12862,
+      "sha256": "dab4b016baaf52f61dd3bdaabd853b190d9dd3b4f7f04357e8f96c3bae2a593f"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+      "mode": "100644",
+      "blob": "5bf8b8897099de641e5d9adfcb37aead17722b82",
+      "bytes": 5363,
+      "sha256": "b7c62bd3cdb362a616d461942f239a9c86448eada9ccc3cdcdd430b1cf30bd1c"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/publichnyiye-imena.swift",
+      "mode": "100644",
+      "blob": "532d3e019289df7abb0c4e0a4d288aae0d73e9f9",
+      "bytes": 10391,
+      "sha256": "6bf2515347bbb9a91e8e8059e296e58381693c83976ff760b2eee15bbf959ef6"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/snimok-korpusa-dokumentov.swift",
+      "mode": "100644",
+      "blob": "40ecf3ba4fec3b1097e6b3e3a5887729ae596c86",
+      "bytes": 25115,
+      "sha256": "13096d3a541a0976407edd56168a63ae91c98dd1f4848ce0888e8b09418a3a57"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/snimok-obshchej-migracii.swift",
+      "mode": "100644",
+      "blob": "ea296822ebc9e1358b967e92628a9cfd08bfbdd9",
+      "bytes": 13838,
+      "sha256": "7f275fc76a6fb0f839895572a5e262162aa7f66281861c7723261be7ad43ac70"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+      "mode": "100644",
+      "blob": "5e509e1b13f134b138a1bdc6b1bfc3a02414e19e",
+      "bytes": 107222,
+      "sha256": "d5d7fba8e3f8dca8e88e27d4e8cc4d2b39d5efccd65f7993dd4cfe5cbfaa6bc9"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/svideteljstva-razmeshcheniya-teksta.swift",
+      "mode": "100644",
+      "blob": "b208ff0742dacedcbb68b0b1ca4955fd11a16d7b",
+      "bytes": 12299,
+      "sha256": "846b5a0ac5ebebd6bd1792818c14b4ba7ac8d4e23ed7fb801eaa2f2af90bf8b8"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/svyazj-upravleniya-okna.swift",
+      "mode": "100644",
+      "blob": "8711a391c46d17a06d6fcbc329e0eaf186857ff0",
+      "bytes": 12413,
+      "sha256": "64544b916142547b551ce5e97a5bb368ec4f7e0af766bda13eb2b3a9fdb462c1"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/tokenyi-json-migracii.swift",
+      "mode": "100644",
+      "blob": "ded41eb17d435778b428dfe8f9f686f7ba9ea0dc",
+      "bytes": 8444,
+      "sha256": "15ca5532356d9c39a8e1225fd65c785026306b25b58c8f7e9484d6c65cdb4eec"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/uchyot-artefaktov-kandidatov.swift",
+      "mode": "100644",
+      "blob": "c93d7f378442f688a41f6ee57f833f8872743ff6",
+      "bytes": 7722,
+      "sha256": "ed4b9f8904b980c95bd1605dd6c25f6427fe544b4abbe873c21a8a8cb3da9dfa"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/vyibor-oblastej-snimka.swift",
+      "mode": "100644",
+      "blob": "02bae69f8ea6127832867d9905c8b51650e2381d",
+      "bytes": 1565,
+      "sha256": "7dcc03eaf92f2e15f48aba1e81c0d5802fa34a2c5987d2340799a3d43911f067"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-adaptera-politiki.swift",
+      "mode": "100644",
+      "blob": "636cd8e991f7850929505cfeacc3f9514f560ab5",
+      "bytes": 14298,
+      "sha256": "48c2aeb56e1a2ab3c29192624043931805873d73ffb18deae491265a7650d675"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-kandidatov-adresov.swift",
+      "mode": "100644",
+      "blob": "eb9f8c5dcb378a4609e413c7c0a50f39787dbda0",
+      "bytes": 18526,
+      "sha256": "ad70073a58d06109c32fcf4c04331f1692c80f9466027930e97c55052f765c1a"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-kollekcii-na-diske.swift",
+      "mode": "100644",
+      "blob": "7399752975d564c7b8cafc474a4d43f878a23b97",
+      "bytes": 24182,
+      "sha256": "1ca1c6fe009d0562594b5a9ce4b1e47f19413d905966459a2ca2e06a1cea322a"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-korpusa-ssyilok.swift",
+      "mode": "100644",
+      "blob": "7fc28f878d5f66fb0cde5c157e706922523792a3",
+      "bytes": 10352,
+      "sha256": "9ac051bc00347ea531f87597b56fcfb0aa059ef4a6bc448dcdab59669ec1d4f2"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-manifesta-proyekcii.swift",
+      "mode": "100644",
+      "blob": "8c2c9e7e1bab663d495932cd1ee31707b238e5e2",
+      "bytes": 17427,
+      "sha256": "5fa98e687183fc7cf6b0e86b7548fd8d0b99910bc6c616d1f7b680f750173e89"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-obshchej-migracii.swift",
+      "mode": "100644",
+      "blob": "8d032389356e438795112e2e37a55ab4774ffc00",
+      "bytes": 36964,
+      "sha256": "178df3bd056df67e9fe3a9bdb6dcb4ecc7b8967a798d222ba91a2f2f1b02d738"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-okon-kandidatov.swift",
+      "mode": "100644",
+      "blob": "35f4b2cf39283cd268e9a496c2beb513ce65f466",
+      "bytes": 23275,
+      "sha256": "b5ddce2218680499c03fcada2c1eec9d2fe174549afa400da2027341728dff13"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-ozhidaniya-korpusa.swift",
+      "mode": "100644",
+      "blob": "a9037d013972db420263e701b1023532ac1db238",
+      "bytes": 14912,
+      "sha256": "3a47d2030fe0c99f572ea0ca058fe5d479bd2c010aca4b4b9d5463aa403a613b"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-paketa-kandidatov.swift",
+      "mode": "100644",
+      "blob": "d7a2875d1de1991ee6ccfbdc34a10c18d271acf0",
+      "bytes": 21743,
+      "sha256": "1822b8936908ba1f8d6f0c142fbc29073836496f289c93ad874e977e3292742c"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-perechnya-adresov.swift",
+      "mode": "100644",
+      "blob": "8b36923cc5aebf963ccb386db58fb4b526951390",
+      "bytes": 35031,
+      "sha256": "4d4242932c650e4096dcbc924c5c42511075a6c73d0a0e196e040d8d3757f581"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-perekhoda-prostranstva.swift",
+      "mode": "100644",
+      "blob": "fc74ce1de77968b88d9b86947e24e686e64631c1",
+      "bytes": 14920,
+      "sha256": "f67e150e179569427fd56e5d7e3612744ce416fa3dc06330560be6f8f4cd5806"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-porcij-kandidatov.swift",
+      "mode": "100644",
+      "blob": "0375f791c6a4737a980abb411f72bf0165f48dfc",
+      "bytes": 9824,
+      "sha256": "fc07aa2b02b8fe42a9c2ab62950844b1c938ed6733ee83f210a564acc365c901"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-prostranstva-imyon-git.swift",
+      "mode": "100644",
+      "blob": "598639d0a9703a6d5034eef71977edd732712bc1",
+      "bytes": 16821,
+      "sha256": "ba9ad00215fe5c96b45d4c173d198fb4956049cf95bf3f51840f1a2d9155710d"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-razmeshcheniya-teksta.swift",
+      "mode": "100644",
+      "blob": "b1b0fa08e0794871424492007571486e1a31ecbe",
+      "bytes": 18256,
+      "sha256": "49df6a6c9f27f0c61988b1de1e733e4ca734e8bfd1db08b594d055c2eb6c9f10"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-snimka-korpusa.swift",
+      "mode": "100644",
+      "blob": "ed9d19bdf0bcd3569d823fdc5f355ea048b99234",
+      "bytes": 11576,
+      "sha256": "df0f96cf8f7891de7dbf18456a405076f25780943091769fee063f04ffde0d3b"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-uchyota-artefaktov.swift",
+      "mode": "100644",
+      "blob": "8d5d3f242589463e0266125b875314cda64c6d8a",
+      "bytes": 9386,
+      "sha256": "c7f89d526344a7e1fc26be0cbd81617a3014403ae869457d76f506ad8b90f23e"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-upravleniya-okna.swift",
+      "mode": "100644",
+      "blob": "1b7fecb982ea5d26b63471d4b347ead7df431a23",
+      "bytes": 20244,
+      "sha256": "4ef791958e8117938b3b0cf37c28cf279fb81198797ed0e13743721146320c35"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-vyibora-oblastej.swift",
+      "mode": "100644",
+      "blob": "9579d20cc1f77c9b184ae72c65d50ebf60b1c7c7",
+      "bytes": 2955,
+      "sha256": "7dc0ac5bd39d50df6e187ebd647a9d678169befd83627716cbd019b16378bee9"
+    },
+    {
+      "path": "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/запрос.md",
+      "mode": "100644",
+      "blob": "b112e355d9a2ff3c4c351e42296becdd6a6813fa",
+      "bytes": 13861,
+      "sha256": "3507b357972f5272560b19364e13bfa738b0468fe1a1b0b6c4128af0fcfc6aae"
+    },
+    {
+      "path": "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/отчёт.md",
+      "mode": "100644",
+      "blob": "4ae822e28e62389620096d3017cb304855042f3b",
+      "bytes": 58565,
+      "sha256": "5cb9665995601764d99dd839e6d684cb37e1cc245a345614d6e738683b3f5390"
+    },
+    {
+      "path": "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/материалы/контрольная-точка-исходников.json",
+      "mode": "100644",
+      "blob": "ea661d7e1c252e87db5d98be2473b65207984c1e",
+      "bytes": 334876,
+      "sha256": "47788e550681579795f217d38b56e6c68c92733cb059ba7130159cfc020b715f"
+    }
+  ],
+  "историческаяСлужебнаяТройка": [
+    {
+      "path": "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/запрос.md",
+      "mode": "100644",
+      "blob": "b112e355d9a2ff3c4c351e42296becdd6a6813fa",
+      "bytes": 13861,
+      "sha256": "3507b357972f5272560b19364e13bfa738b0468fe1a1b0b6c4128af0fcfc6aae"
+    },
+    {
+      "path": "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/отчёт.md",
+      "mode": "100644",
+      "blob": "4ae822e28e62389620096d3017cb304855042f3b",
+      "bytes": 58565,
+      "sha256": "5cb9665995601764d99dd839e6d684cb37e1cc245a345614d6e738683b3f5390"
+    },
+    {
+      "path": "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/материалы/контрольная-точка-исходников.json",
+      "mode": "100644",
+      "blob": "ea661d7e1c252e87db5d98be2473b65207984c1e",
+      "bytes": 334876,
+      "sha256": "47788e550681579795f217d38b56e6c68c92733cb059ba7130159cfc020b715f"
+    }
+  ],
+  "новаяЦель": "iskhodniki/aktualizaciya-putej/kontraktyi/paket-iskhodnikov.json",
+  "конечные49": [
+    "iskhodniki/aktualizaciya-putej/adapter-politiki-lokaljnyikh-putej.swift",
+    "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+    "iskhodniki/aktualizaciya-putej/istoricheskij-manifest-proyekcii.swift",
+    "iskhodniki/aktualizaciya-putej/kandidatyi-razresheniya-adresov.swift",
+    "iskhodniki/aktualizaciya-putej/kollekciya-kandidatov-na-diske.swift",
+    "iskhodniki/aktualizaciya-putej/komanda-obshchej-migracii.swift",
+    "iskhodniki/aktualizaciya-putej/kontraktyi/руководство-общей-миграции.md",
+    "iskhodniki/aktualizaciya-putej/korpus-ssyilok-migracii.swift",
+    "iskhodniki/aktualizaciya-putej/modelj-obshchej-migracii.swift",
+    "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+    "iskhodniki/aktualizaciya-putej/okna-diagnostiki-kandidatov.swift",
+    "iskhodniki/aktualizaciya-putej/ozhidaniye-korpusa-iz-git.swift",
+    "iskhodniki/aktualizaciya-putej/paket-kandidatov-adresov.swift",
+    "iskhodniki/aktualizaciya-putej/perechenj-adresov-markdown.swift",
+    "iskhodniki/aktualizaciya-putej/perekhod-prostranstva-adresov.swift",
+    "iskhodniki/aktualizaciya-putej/porcii-kandidatov-adresov.swift",
+    "iskhodniki/aktualizaciya-putej/prostranstvo-imyon-git.swift",
+    "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+    "iskhodniki/aktualizaciya-putej/publichnyiye-imena.swift",
+    "iskhodniki/aktualizaciya-putej/snimok-korpusa-dokumentov.swift",
+    "iskhodniki/aktualizaciya-putej/snimok-obshchej-migracii.swift",
+    "iskhodniki/aktualizaciya-putej/ssyilki-paketa.swift",
+    "iskhodniki/aktualizaciya-putej/svideteljstva-razmeshcheniya-teksta.swift",
+    "iskhodniki/aktualizaciya-putej/svyazj-upravleniya-okna.swift",
+    "iskhodniki/aktualizaciya-putej/tokenyi-json-migracii.swift",
+    "iskhodniki/aktualizaciya-putej/uchyot-artefaktov-kandidatov.swift",
+    "iskhodniki/aktualizaciya-putej/vyibor-oblastej-snimka.swift",
+    "proverki/aktualizaciya-putej/proverki-adaptera-politiki.swift",
+    "proverki/aktualizaciya-putej/proverki-kandidatov-adresov.swift",
+    "proverki/aktualizaciya-putej/proverki-kollekcii-na-diske.swift",
+    "proverki/aktualizaciya-putej/proverki-korpusa-ssyilok.swift",
+    "proverki/aktualizaciya-putej/proverki-manifesta-proyekcii.swift",
+    "proverki/aktualizaciya-putej/proverki-obshchej-migracii.swift",
+    "proverki/aktualizaciya-putej/proverki-okon-kandidatov.swift",
+    "proverki/aktualizaciya-putej/proverki-ozhidaniya-korpusa.swift",
+    "proverki/aktualizaciya-putej/proverki-paketa-kandidatov.swift",
+    "proverki/aktualizaciya-putej/proverki-perechnya-adresov.swift",
+    "proverki/aktualizaciya-putej/proverki-perekhoda-prostranstva.swift",
+    "proverki/aktualizaciya-putej/proverki-porcij-kandidatov.swift",
+    "proverki/aktualizaciya-putej/proverki-prostranstva-imyon-git.swift",
+    "proverki/aktualizaciya-putej/proverki-razmeshcheniya-teksta.swift",
+    "proverki/aktualizaciya-putej/proverki-snimka-korpusa.swift",
+    "proverki/aktualizaciya-putej/proverki-uchyota-artefaktov.swift",
+    "proverki/aktualizaciya-putej/proverki-upravleniya-okna.swift",
+    "proverki/aktualizaciya-putej/proverki-vyibora-oblastej.swift",
+    "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/запрос.md",
+    "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/отчёт.md",
+    "Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей/материалы/контрольная-точка-исходников.json",
+    "iskhodniki/aktualizaciya-putej/kontraktyi/paket-iskhodnikov.json"
+  ],
+  "конечные49SHA256": "0cc30c4186dfd02d02dca59aecc56ff36ebb7ccfc48b03538c440e5d131af825",
+  "ветка": {
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov-root/master",
+    "логическиеКомпоненты": [
+      "instrumentyi",
+      "imena-katalogov",
+      "paket-iskhodnikov-root"
+    ],
+    "контрактNames": "fum.полная-ссылка-ветки.1",
+    "вид": "Композиция уже канонических ASCII-компонентов штатного Names-контракта",
+    "свежийRuntime": "UNKNOWN; адресный grant допускает только этот source-пакет",
+    "gitCheckRefFormat": 0
+  },
+  "команда": {
+    "назначение": "Сформировать отдельный ROOT source-пакет без переноса ancestry137/2302",
+    "шаги": [
+      "Прочитать точную принятую ROOT-базу в свежий собственный GIT_INDEX_FILE вне checkout",
+      "Добавить ровно48 существующих blob/mode через update-index",
+      "Добавить только этот новый JSON через hash-object и update-index",
+      "Проверить точную дельту49 без удалений и записать дерево",
+      "Создать commit-tree с единственным parent ROOT-базы и CAS-create нового ref при expected zero",
+      "Выполнить обычный push точного OID в тот же ref и независимо прочитать remote",
+      "Освободить запись нового ref для review координатора; PR создаёт координатор после отдельного допуска"
+    ],
+    "argvПриватен": true,
+    "исходникиНеКопируются": true,
+    "старыйCheckoutИндексHEADRefСохраняются": true
+  },
+  "намерение": {
+    "состояние": "Подготовка отдельного source-пакета разрешена конечным допуском",
+    "путей": 49,
+    "родителейКоммита": 1,
+    "ожидаемыйРодитель": "4f4fc05a44fa20f2e15c0f996a5c097767fa75e3",
+    "запрещены": [
+      "новый worktree",
+      "Python",
+      "build",
+      "полный корпус",
+      "изменение исторических blob",
+      "Package и общие индексы",
+      "live и ACL apply",
+      "PR и ROOT-приёмка"
+    ]
+  },
+  "терминалПодготовки": {
+    "граница": "Фактически выполненные read-tree ROOT-базы, добавление48исторических blob и сверка их дельты; последующие49-я цель/commit/push не включены в этот терминал",
+    "квитанцияSHA256": "8d9c42df97c63f0d801e0425dbf5f7b1d30f55cde10693918917b215257bed79",
+    "состояние": "завершено",
+    "исход": 0,
+    "добавлений": 45,
+    "изменений": 3,
+    "удалений": 0,
+    "процессы": [
+      {
+        "фаза": "read-tree",
+        "код": 0,
+        "длительность": {
+          "единица": "нс",
+          "значение": "882463208"
+        },
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "фаза": "update-source48",
+        "код": 0,
+        "длительность": {
+          "единица": "нс",
+          "значение": "187281958"
+        },
+        "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "фаза": "diff-source48",
+        "код": 0,
+        "длительность": {
+          "единица": "нс",
+          "значение": "19623375"
+        },
+        "stdoutSHA256": "8671be1d8046a3ae53d13f59e56d9f6f78d0e0bf9a721619169330ec875e9ad0",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "фаза": "status-source48",
+        "код": 0,
+        "длительность": {
+          "единица": "нс",
+          "значение": "19046042"
+        },
+        "stdoutSHA256": "7b0b288b0874d98aa5ad4385636b31879346dc78ee8eaf47f49fd4aa0940bdf8",
+        "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "наблюдённыйАвтор": {
+    "nativeID": "01a148a5-c088-7373-9665-a3f9b477565e",
+    "имя": "FUM Codex [gpt-6.1-sol; effort=ultra]",
+    "model": "gpt-6.1-sol",
+    "effort": "ultra",
+    "квитанцияSHA256": "c86e676de71e666e2b8a4e6fe5991b69bf386a503511add90ab8888e706d0361",
+    "последнееНаблюдение": {
+      "model": "gpt-6.1-sol",
+      "effort": "ultra",
+      "timestamp": "2026-10-29T06:40:42.308Z",
+      "begin": 120954680,
+      "end": 120956706,
+      "rawSHA256": "2348166bb154e6d7756a9fe8adb0d6d42bc53e63d23f14602f6f0feb92f8464f"
+    },
+    "межнаблюдательныеПереключенияИзвестны": false,
+    "committer": "FUM <fum@local>"
+  },
+  "историческиеИзмерения": {
+    "статус": "Только сохранённые результаты прежней базы; новой GREEN-приёмкой не являются",
+    "runtime": {
+      "выполненныхPASS": 198,
+      "fullcorpusSKIP": 1,
+      "квитанцияSHA256": "8fe64a15860de5b6f2902a872920646bc7254d3512b86a188fa0172218159a2f"
+    },
+    "snapshot": {
+      "документов": 5005,
+      "байтовТел": 89099433,
+      "квитанцияSHA256": "6d38861cf1a549745c45d51fcd793ed501918a0cc76052439754061de18f0811",
+      "текущиеРолиСсылкиКонтекстПрименение": false
+    }
+  },
+  "проверки": {
+    "source48RawGitBlobs": "48 mode/blob сверены с деревом137; size/SHA связаны с теми же неизменными Git OID и подтверждённым review узла. Нового полного обхода тел не было.",
+    "готовностьКомандыРуководства": "UNKNOWN; известен пропущенный вход",
+    "полнаяИсторияВходящего": "Не переносится; этот пакет доказывает только конечную дельту от базы",
+    "общийChecker": "UNKNOWN; исторический прототип не запускался",
+    "pythonAPI": "Не выполнен по явному ограничению; машинные истории и managed markers не подделываются",
+    "полныйКорпус": "Не запускался",
+    "текущаяГоловаРезервOSКонтроллер": "UNKNOWN",
+    "языкFacadeBootstrapСемантикаЦелиЯкоря": "UNKNOWN",
+    "применение": false,
+    "интеграция": false,
+    "PR": false,
+    "ROOTПриёмка": false,
+    "базаROOTПлюс48Build": "UNKNOWN; сборки не выполнялись",
+    "приёмкаИсходнойПоставкиУзлом": "Только source-preservation по указанной квитанции; не ROOT-приёмка"
+  },
+  "ограничения": [
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/kontraktyi/руководство-общей-миграции.md",
+      "строка": 25,
+      "дефект": "В CLI-команде пропущен kandidatyi-razresheniya-adresov.swift; его DTO безусловно нужны ssyilki-paketa.swift:902–903. Файл есть в пакете; команда не исправляется при точном выделении исторических blob."
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/proverki-publichnyikh-imyon.swift",
+      "граница": "Отсутствует в базе и выбранных48. Исторический typecheck19 не является проверкой нового состава."
+    }
+  ],
+  "границаСамоссылки": "Этот JSON не содержит собственного SHA, будущего дерева или OID нового коммита. Факты commit/ref/push и прекращения записи сохраняются отдельными приватными терминальными квитанциями после фиксации и передаются координатору.",
+  "приёмкаУзлом": {
+    "координатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "квитанцияSHA256": "d13a310d537ab250ee88fd160c5cc97f0faead032ac19ed03c4151fe13a06dfc",
+    "коммит": "137319cee3134cbe07c9c8503fec3f0f328c25c1",
+    "дерево": "5d566af94340698c07d031f6e0d175548ff2182d",
+    "решение": "Принято instrumentyi для сохранения исходников и подготовки конечного ROOT PR-пакета",
+    "провереноФайлов": 49,
+    "провереноБайтов": 1289069,
+    "состав49SHA256": "2a56eedb60c2a4b3f7d1e49b7ae193b5dd7c6672400f4ad6c6d88fb38a04c7e6",
+    "независимыхROПроверок": 2,
+    "замечаний": 0,
+    "сборка": "UNKNOWN",
+    "воспроизведение": "UNKNOWN",
+    "интеграция": false,
+    "ROOTПриёмка": false
+  },
+  "границаПравил": {
+    "кореньOwnWSHA256": "8e9831234fd7d3168ff0b6e40c9faf99ac5cbc2bc9c4ce062a3b3c61b37faa9d",
+    "кореньROOTБазыSHA256": "b8cd8e75b8c2eb7db059c01c71ff3c36b2467694476a51cf658991724df29f20",
+    "смысл": "Правила собственного W не переписываются. ROOT-база задаёт дерево назначения; адресный grant не активирует исторический Swift-прототип или общий checker. Отсутствующее покрытие UNKNOWN."
+  }
+}
