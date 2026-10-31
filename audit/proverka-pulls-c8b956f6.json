@@ -260,7 +260,7 @@
     "requestedEffort": "max after the reported repeated low-effort acknowledgement-only failure",
     "observedModel": "gpt-6-luna",
     "observedEffort": "max",
-    "observedAtMs": 1793473031138,
+    "observedAtMs": 1793473218201,
     "limitation": "Fresh Codex app thread-selection SQLite row; app selection is not proof of backend execution."
   },
   "additionalContext": {
@@ -269,5 +269,26 @@
     "reportedTree": "efd2717ae16e503453372da378f01be79550cf8a",
     "reportedStatus": "ROOT says exact four-file delivery, normal push, and independent parent readback succeeded",
     "auditTreatment": "additional input only; not independently audited here and does not change the primary source C, manifest, or one-file scope"
+  },
+  "inputOutcomes": {
+    "primaryArchiveAudit": {
+      "sourceCommit": "c8b956f69ec400625fcfb60d6b4c2d6e2bcf37c9",
+      "sourceManifest": "Issues/fum-lab/fum/наблюдение-запросов-на-слияние-491-493-2026-10-31.json",
+      "resultPath": "audit/proverka-pulls-c8b956f6.json",
+      "resultCommitBeforeThisOutcomeUpdate": "44f92ec72a233df9a8f34868543dc3d9e6684464",
+      "resultSha256BeforeThisOutcomeUpdate": "f36e8a50d62c1e2c471b4a230ba2819b291b99e1e66d5472872804ce60f0be80",
+      "outcome": "BOUNDED_AUDIT_COMMITTED_AND_EXACT_REMOTE_READBACK_CONFIRMED",
+      "archiveCompleteness": "NOT_ESTABLISHED"
+    },
+    "secondaryFactory85eReview": {
+      "sourceCommit": "85e99b19646d6997ffa3d48302b94fc13ad8326f",
+      "reportedParent": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+      "reportedTree": "efd2717ae16e503453372da378f01be79550cf8a",
+      "reportedIntegratedMerge": "785ba577",
+      "integrationStatus": "ROOT_REPORTED_ACCEPTED_AND_INTEGRATED; not independently checked in this audit",
+      "reviewOutcome": "NOT_PERFORMED; ROOT marked the request secondary/queued and no longer needed after PR497 integration",
+      "repeatTestsOrNewBranch": "NOT_REQUESTED",
+      "scopeRelation": "additional input only; does not replace the primary archive C or alter the one-path scope"
+    }
   }
 }
