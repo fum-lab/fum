@@ -3,7 +3,7 @@ import Darwin
 import Testing
 
 struct ПроверкиЗахвата {
-    #if !ДИАГНОСТИКА && !РЕСУРСЫ
+    #if !ДИАГНОСТИКА && !РЕСУРСЫ && !ТОЛЬКО_МЕТРИКА
     @Test
     #endif
     static func проверитьЗахват() throws {
@@ -77,6 +77,66 @@ struct ПроверкиЗахвата {
         try проверить(!сверитьПоток(дескриптор, путь: путьПотока, тождество: тождество, объём: 3, ожидаемыйХэш: хэш(байты), предел: 100), "named entry replacement")
         print("Адресные фикстуры захвата завершены")
     }
+
+    #if ТОЛЬКО_МЕТРИКА
+    @Test static func проверитьРежимТолькоМетрики() throws {
+        let общий = try #require(ProcessInfo.processInfo.environment["ФУМ_КАТАЛОГ_ФИКСТУР"])
+        let бинарник = try #require(ProcessInfo.processInfo.environment["ФУМ_ЗАХВАТ_КОМАНДЫ"])
+        let корень = общий + "/только-метрика"
+        try FileManager.default.createDirectory(atPath: корень, withIntermediateDirectories: false)
+        try Data([1, 2, 3]).write(to: URL(fileURLWithPath: корень + "/контроль"))
+        let обычный = БюджетХранилища(корень: корень, метрика: .выделенныеФайловойСистемойБайты,
+            пределБайт: 1_048_576, пределОбъектов: 100, пределГлубины: 8, секунд: 2)
+        let до = try снятьРасход(обычный, срок: DispatchTime.now().uptimeNanoseconds + 2_000_000_000)
+        func запустить(_ имя: String, _ бюджет: БюджетХранилища, _ код: Int32, _ состояние: String, неверныйХэш: Bool = false) throws {
+            let данные = try JSONEncoder().encode(бюджет), путь = общий + "/" + имя + ".json"
+            try данные.write(to: URL(fileURLWithPath: путь))
+            let ожидаемый = неверныйХэш ? String(repeating: "0", count: 64) : хэш(данные)
+            let процесс = Process(), вывод = Pipe(), ошибки = Pipe()
+            процесс.executableURL = URL(fileURLWithPath: бинарник)
+            процесс.arguments = ["--только-метрика", путь, ожидаемый]
+            процесс.standardOutput = вывод; процесс.standardError = ошибки
+            try процесс.run(); процесс.waitUntilExit()
+            let байты = вывод.fileHandleForReading.readDataToEndOfFile()
+            let байтыОшибок = ошибки.fileHandleForReading.readDataToEndOfFile()
+            #expect(процесс.terminationStatus == код)
+            #expect(байтыОшибок.isEmpty)
+            #expect(байты.count <= 16384)
+            let итог = try #require(try JSONSerialization.jsonObject(with: байты) as? [String: Any])
+            #expect(итог["ребёнокЗапущен"] as? Bool == false)
+            if неверныйХэш {
+                #expect(итог["состояние"] as? String == "вход-отклонён")
+                #expect((итог["причина"] as? String)?.contains("SHA бюджета не совпал") == true)
+            } else {
+                #expect(итог["хэшБюджета"] as? String == ожидаемый)
+                let наблюдение = try #require(итог["наблюдениеХранилища"] as? [String: Any])
+                #expect(наблюдение["состояние"] as? String == состояние)
+                #expect(наблюдение["метрика"] as? String == бюджет.метрика.rawValue)
+            }
+            // Дословные CLI stdout доступны в outer capture с именем различающего случая.
+            print(имя + ": " + String(decoding: байты, as: UTF8.self))
+        }
+        try запустить("ниже-порога", обычный, 0, "разрешён")
+        try запустить("выше-порога", БюджетХранилища(корень: корень, метрика: .логическиеБайты,
+            пределБайт: 0, пределОбъектов: 100, пределГлубины: 8, секунд: 2), 3, "превышен")
+        try запустить("неизвестно", БюджетХранилища(корень: корень, метрика: .логическиеБайты,
+            пределБайт: 1_048_576, пределОбъектов: 1, пределГлубины: 8, секунд: 2), 5, "неизвестно")
+        try запустить("запрещённый-корень", БюджетХранилища(корень: "/", метрика: .логическиеБайты,
+            пределБайт: 1_048_576, пределОбъектов: 100, пределГлубины: 8, секунд: 2), 4, "отказ")
+        try запустить("неверный-хэш", обычный, 2, "вход-отклонён", неверныйХэш: true)
+        var измерительВызван = false
+        do {
+            _ = try измеритьЗакреплённыйБюджет(общий + "/неверный-хэш.json", ожидаемыйХэш: String(repeating: "0", count: 64)) { _ in
+                измерительВызван = true; return [:]
+            }
+            #expect(Bool(false), "Неверный SHA обязан отказать до измерителя/root")
+        } catch { #expect(!измерительВызван) }
+        let после = try снятьРасход(обычный, срок: DispatchTime.now().uptimeNanoseconds + 2_000_000_000)
+        #expect(до == после)
+        #expect(try Data(contentsOf: URL(fileURLWithPath: корень + "/контроль")) == Data([1, 2, 3]))
+        #expect(try FileManager.default.contentsOfDirectory(atPath: корень).sorted() == ["контроль"])
+    }
+    #endif
 
     #if ДИАГНОСТИКА
     @Test static func диагностироватьЗомбиПослеОжидания() throws {

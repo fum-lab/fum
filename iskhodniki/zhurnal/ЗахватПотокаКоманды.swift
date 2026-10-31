@@ -497,9 +497,45 @@ func захватить(_ запрос: ЗапросЗахвата, хэшЗап
     }
 }
 
+// Read-only вход существующей математической функции; root не открывается до SHA.
+func измеритьЗакреплённыйБюджет(_ путь: String, ожидаемыйХэш: String,
+    измеритель: (БюджетХранилища) -> [String: Any] = { измеритьБюджетХранилища($0) }) throws -> [String: Any] {
+    let данные = try прочитатьФайл(путь, предел: 1048576)
+    guard ожидаемыйХэш.count == 64, ожидаемыйХэш.allSatisfy({ "0123456789abcdef".contains($0) }),
+          хэш(данные) == ожидаемыйХэш else { throw ОшибкаЗахвата.отказ("SHA бюджета не совпал") }
+    let бюджет = try JSONDecoder().decode(БюджетХранилища.self, from: данные)
+    return ["схема": "fum.наблюдение-только-метрики.1", "хэшБюджета": ожидаемыйХэш,
+        "ребёнокЗапущен": false, "наблюдениеХранилища": измеритель(бюджет)]
+}
+
+func кодТолькоМетрики(_ итог: [String: Any]) -> Int32 {
+    let наблюдение = итог["наблюдениеХранилища"] as? [String: Any]
+    switch наблюдение?["состояние"] as? String {
+    case "разрешён": return 0
+    case "превышен": return 3
+    case "отказ": return 4
+    default: return 5
+    }
+}
+
 #if !ПРОВЕРКИ
 @main struct ВходЗахвата {
     static func main() {
+        if CommandLine.arguments.dropFirst().first == "--только-метрика" {
+            do {
+                guard CommandLine.arguments.count == 4 else { throw ОшибкаЗахвата.отказ("Нужны budget JSON и независимый SHA256") }
+                let итог = try измеритьЗакреплённыйБюджет(CommandLine.arguments[2], ожидаемыйХэш: CommandLine.arguments[3])
+                let данные = try JSONSerialization.data(withJSONObject: итог, options: [.sortedKeys, .withoutEscapingSlashes])
+                print(String(decoding: данные, as: UTF8.self)); exit(кодТолькоМетрики(итог))
+            } catch {
+                let отказ: [String: Any] = ["схема": "fum.наблюдение-только-метрики.1",
+                    "состояние": "вход-отклонён", "ребёнокЗапущен": false, "причина": String(describing: error)]
+                if let данные = try? JSONSerialization.data(withJSONObject: отказ, options: [.sortedKeys, .withoutEscapingSlashes]) {
+                    print(String(decoding: данные, as: UTF8.self))
+                }
+                exit(2)
+            }
+        }
         do {
             guard CommandLine.arguments.count == 3 else { throw ОшибкаЗахвата.отказ("Нужны JSON-запрос и ожидаемый SHA256") }
             let (запрос, закреплённыйХэш) = try закреплённыйЗапрос(CommandLine.arguments[1], ожидаемыйХэш: CommandLine.arguments[2])

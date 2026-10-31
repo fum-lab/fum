@@ -1,5 +1,5 @@
 {
-  "схема": "fum.контракт-захвата-потока-команды.3-предложение",
+  "схема": "fum.контракт-захвата-потока-команды.3-метрика-только-чтение-предложение",
   "назначение": "Ограниченный native захват существующей команды без семантического разбора",
   "вход": "CLI принимает абсолютный JSON-путь и отдельно закреплённый ожидаемый SHA256. Nofollow regular pread до 1 MiB сверяет before/after FD и named metadata, затем SHA до intent/child. JSON ЗапросЗахвата: попытка, исполняемый, хэшИсполняемого, аргументы, вывод, ошибки, намерение, процесс, исход, секунд, пределВывода, пределОшибок",
   "пределы": {
@@ -21,7 +21,7 @@
     "Ранний leader и потомок с закрытыми pipes не дают ложного complete",
     "FD readback выявляет same-length drift и подмену named entry"
   ],
-  "профиль": "Предложение v5, не собрано/не запускалось. Два test cases: diagnostic zombie и finite resource cases. Cleanup functional gate остаётся RED; product-build admission отсутствует",
+  "профиль": "PRIVATE metric-only proposal от checkpoint c1a854a140fadf45d78e75812a416a61acda0fde. Не применена, не скомпилирована, не запускалась. Математика и запреты не изменены. Старый cleanup guard остаётся неисправленным; metric-only mode не вызывает его.",
   "добавка": "Обязательный отсутствующий путь наблюдениеОчистки; до cleanup/reap сохраняются syscall return/errno и WNOWAIT state; исключение после spawn оставляет best-effort immutable UNKNOWN, частичный outcome не перезаписывается",
   "алгоритм": "Фаза RED сохраняет прежний guard getpgid без ослабления; GREEN допустим только после доказательства и отдельного адресного recipe",
   "бюджетХранилища": {
@@ -53,5 +53,21 @@
     "старыйИсход": "SIGTERM сохранён; retry0; чужой scratch/cache/process RO"
   },
   "следующийЭтап": "После доказанного cleanup — durable native operation identity/host session adapter/reconciliation; отдельный grant; второй launcher не создаётся",
-  "проверкиБюджетаВхода": "Actual sealed CLI с ожидаемым SHA: logical budget запрещает child до stdout reservation, allocated budget на том же sparse root разрешает child marker; выбранная метрика в durable intent. Unknown metric decoding отклонён без fallback. Functional cleanup GREEN не заявлен"
+  "проверкиБюджетаВхода": "Actual sealed CLI с ожидаемым SHA: logical budget запрещает child до stdout reservation, allocated budget на том же sparse root разрешает child marker; выбранная метрика в durable intent. Unknown metric decoding отклонён без fallback. Functional cleanup GREEN не заявлен",
+  "толькоМетрика": {
+    "вход": "Точный существующий БюджетХранилища, без новой математической схемы. Nofollow bounded FD чтение budget≤1MiB; SHA проверяется до JSON decode и до вызова измерителя/root.",
+    "исполнение": "Только измеритьБюджетХранилища, далее stdout JSON. Захватить/posix_spawn/cleanup/создание intent/stream/process/outcome файлов не вызываются. Main metric branch завершает процесс до обычной capture branch.",
+    "исходы": {
+      "0": "разрешён/ниже либо равен порогу",
+      "2": "вход/формат/SHA отвергнут до root",
+      "3": "превышен",
+      "4": "отказ/symlink/root policy",
+      "5": "неизвестно/overflow/drift/предел/IO"
+    },
+    "вывод": "Только stdout JSON+LF, в том числе входной отказ. РебёнокЗапущен=false обозначает callgraph режима, не полный OS process monitor. Stderr не используется этим mode.",
+    "записи": "Нет явных filesystem write/create/unlink/chmod syscalls в mode callgraph; чтение может иметь обычные эффекты atime/ОС, они не объявляются доказанно отсутствующими.",
+    "время": "Одно finite source-pinned наблюдение. Initial/final одного будущего D6 build2 сохраняются как две отдельные версии root, не live quota и не peak coverage.",
+    "проверки": "Один selected Swift Testing entry: actual CLI under/over/unknown/deny/wrong-hash; stdout, empty stderr, preserved root snapshots/content; injected measurement boundary для wrong-hash→rootCalls0. Общий старый metric suite отдельно сохранён.",
+    "команда": "<тот же существующий CLI> --только-метрика <абсолютный budget JSON> <независимый lowercase SHA256>"
+  }
 }
