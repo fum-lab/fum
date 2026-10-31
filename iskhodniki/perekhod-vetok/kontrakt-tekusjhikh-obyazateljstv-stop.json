@@ -882,6 +882,161 @@
     "чужоеСобытиеИНеверныеАргументы": "При валидных V3 argv распознанный чужой session по-прежнему возвращает пустой ответ до целевого IO. При malformed argv с явным V3 адресность не доказана: даже если переданные bytes содержат чужой session, возвращается только техническая пауза UNKNOWN с явно незавершённой задачей и неприменённым управлением. Это отдельный отказ локального входа, а не признание события целевым, завершение или Native proof.",
     "разделениеСостояний": "V3 читает состояниеV2 и новое состояние прежним bounded nofollow IO: каждый regular uid/nlink1/mode0600, непосредственный родитель0700, все компоненты без symlink. У существующих файлов пары dev/ino различаются, включая разные имена одного inode. Снимки сохраняют ancestry и метаданные; повторное подтверждение входит в конечное чтение перед результатом/claim. Прежний V2 current этим путём не записывается.",
     "границаРазделения": "Это файловая проверка и наблюдённые bookends в пределах единственного писателя; не kernel CAS, не выдача полномочий, не доказательство accepted migration или loaded runtime. Компиляция и фактические negative cases этой редакции ещё не выполнялись.",
-    "неПроверено": ["Компиляция", "Новые тесты", "Системные гонки/crash", "Реальный Native callback", "Loaded ROOT hooks/trust", "Общий профиль", "Production"]
+    "неПроверено": [
+      "Компиляция",
+      "Новые тесты",
+      "Системные гонки/crash",
+      "Реальный Native callback",
+      "Loaded ROOT hooks/trust",
+      "Общий профиль",
+      "Production"
+    ]
+  },
+  "предложениеСтабильногоЯкоряV4": {
+    "схема": "fum.stop-стабильный-якорь-v4-предложение.1",
+    "состояние": {
+      "record": "<publication>.допуск.json400",
+      "marker": "<publication>.завершение.json400 привязан к своему record i",
+      "pointer": "fixed600 exact raw signed envelope latestN",
+      "snapshot": "fixedpinned700dir/<rawSHA256>.json400",
+      "замок": "existing fixed0600 inode/commonflock LOCK_EX|LOCK_NB; reader/publisher держат одинlock, recursiveflock0"
+    },
+    "исходнаяВерсия": "150111cff19978d82e48aed5f36129f28dd226fe",
+    "граница": "Аддитивный V4 профиль, прежниеV2/V3 сохранены; standaloneCLI/rootkeyissuance/Nativeactivation отдельно, здесь только SwiftAPI и синтетические проверки.",
+    "профиль": "fum.текущие-обязательства-stop.4",
+    "заголовок": "fum.stop-заголовок.4",
+    "подпись": {
+      "схема": "fum.stop-подписанный-root-допуск.1",
+      "полезнаяНагрузка": "fum.stop-root-допуск.1",
+      "алгоритм": "CryptoKit Curve25519.Signing Ed25519",
+      "сообщение": "UTF8 FUM-STOP-ROOT-GRANT-v1, затемNUL, затем exact payload bytes",
+      "ключ": "Raw32 publickey/canonicalBase64/SHA256 в неподвижном header; предварительное принятие ключа и финальное принятие anchor внешнимROOT, metadata/UID не authority."
+    },
+    "байты": "Закрытые Codable keysets полного дерева; JSONEncoder.sortedKeys/withoutEscapingSlashes+LF exact roundtrip, optional только omission, null/unknown/duplicates/noncanonical integer/Base64/trailing reject.",
+    "пределы": {
+      "максимальныйНомер": 128,
+      "максимальнаяПубликация": 128,
+      "данные": "0...128; header оба exact128",
+      "ledger": "0...128 signed records и соответствующие markers, max258 regular files",
+      "snapshot": 32768,
+      "envelope": 65536,
+      "marker": 2048
+    },
+    "снимок": {
+      "форма": "Плоский19mandatory+optionalдиспозиция; schema/headerSHA/Native/node/scope/generation/cwd/W/ref/HEAD/time/items/unknowns/observations/control и обязательныеrevision/epoch/op.",
+      "пауза": "V4 сначала полнаяsignature/current/project/Git/lease/shape/freshness, затем signedstop/pauseclaim0. ПрежняяV3earlypause не переносится.",
+      "проекция": "S150V3 projectprojection unchanged; отдельное управление покрыто signedfullrawSHA."
+    },
+    "продолжение": {
+      "claim": "fum.stop-захват-продолжения.2 + checked envelope SHA, все прежние поля; epoch.ordinal.claim O_EXCL0600→400/fsync/readback, без rollback/delete послеcreate.",
+      "прогресс": "Отдельный acceptedprogress/result hash; priorclaim2 exact поля сопоставляются своей authenticated historicalpayload перед новым ordinal. ROOT-decision разные, observation изменилось, budget не переоткрывается."
+    },
+    "история": "Исторические records/markers проверяются по своимindex/signature/key/anchor/source/epoch/prevSHA, не нынешнемуHEAD/lease. Latestcallback/candidate проверяетfreshHEAD/lease отдельно.",
+    "reconciliation": "Complete-visible marker не сам по себеdurability. Доclaim/newpublication bounded8fsync existing previoussnapshot/record/pointer/marker+parents и bookends подlock. Каждый новый отдельно допущенный invocation может один проход даже послестарогоUNKNOWN; внутриretry0, oldpublishUNKNOWN не переписывать, GN2a/missing/partial/mismatch неrepair.",
+    "публикация": {
+      "план": "fum.stop-план-публикации-root-допуска.1",
+      "API": [
+        "КомандаStop.проверитьПубликациюV4",
+        "КомандаStop.опубликоватьДопускV4"
+      ],
+      "якорь": "External expectedHeaderSHA argument отдельноотплана; план неразрешение.",
+      "порядок": "Проверка точных входов, кандидата, проекции, Git, срока, прежнего состояния и CAS → долговечное намерение → восемь синхронизаций существующего предыдущего состояния → неизменяемые снимок и запись допуска → атомарная замена указателя → неизменяемый маркер → чтение нового состояния → подготовленный исход на диске → последняя полная проверка → отдельный терминальный ответ API.",
+      "отказы": "OneO_EXCL, no repeatedwrite/rename/cleanup/rollback; partialobjects/temp retained; intent/outcome no overwrite, UNKNOWN preserved.",
+      "границаИсхода": {
+        "дисковаяКвитанция": {
+          "схема": "fum.stop-исход-публикации.4",
+          "исход": "ПОДГОТОВЛЕННЫЙ_ИСХОД",
+          "значение": "Предварительная квитанция перед финальной границей. Её существование и долговечность сами по себе не доказывают общий успех публикации."
+        },
+        "терминалAPI": {
+          "схема": "fum.stop-терминал-публикации.4",
+          "исход": "ОПУБЛИКОВАНО",
+          "условие": "Возвращается только после последней полной проверки кандидата, HEAD, срока, снимка, проекции, закреплённых входов, нового состояния и общего замка."
+        },
+        "ответственностьВызывающего": "Вызывающий ROOT-процесс сохраняет достоверно полученный терминальный ответ API. Дисковая подготовленная квитанция его не заменяет.",
+        "позднийОтказ": "Поздний отказ возвращает ОтказПубликацииStopV4 с UNKNOWN_ПОСЛЕ_ПОПЫТКИ и возможным эффектом. Существующие подготовленные или частичные байты сохраняются без перезаписи, удаления, отката и повторной попытки.",
+        "потеряОтвета": "Если терминальный ответ потерян или недоступен, общий исход UNKNOWN даже при существующем подготовленном файле. По одному такому файлу нельзя объявлять успех или вслепую повторять эффект.",
+        "принятаяСемантика": {
+          "схема": "fum.stable-anchor-publisher-final-fence.DATA.1",
+          "имя": "V4-success-receipt-final-caller-fence-семантика-DATA-v1.json",
+          "байты": 4084,
+          "sha256": "634ecc9a100d1291c1e08d137df81dd6442f8a1170b3f7746be8bfc4fc46e71e",
+          "назначение": "Точная ссылка происхождения принятого смысла; внешний приватный путь не является зависимостью исполнения продукта."
+        }
+      }
+    },
+    "диагностика": {
+      "схема": "fum.stop-наблюдение-вызова.1",
+      "канал": "Только inheritedFD2 V4, не новыйlogdir; дваrecords≤512B каждый, одинsyscall/record, no retry.",
+      "поля": [
+        "схема",
+        "вызов",
+        "процесс",
+        "профиль",
+        "фаза",
+        "исход",
+        "якорь",
+        "захват"
+      ],
+      "доставка": "Socket допускается только при уже установленном O_NONBLOCK под единственным владением OFD: F_DUPFD_CLOEXEC, F_GETFL/readback, один send(MSG_DONTWAIT|MSG_NOSIGNAL); иначе недоступно. FIFO — только уже NONBLOCK+NOSIGPIPE, один write. Приёмник не вызывает SETFL/restore, не меняет FD2, обработку сигналов или private kernel flags.",
+      "границаУправляемыхФлагов": {
+        "статус": "КАНДИДАТ_НЕ_ПРОВЕРЕН_ИСПОЛНЕНИЕМ",
+        "управляемаяКонфигурация": "O_NONBLOCK сохраняется; F_GETFD совпадает с исходным, у FIFO F_GETNOSIGPIPE остаётся1. Приёмник не настраивает заимствованное описание; единственный владелец удерживает его на всём интервале.",
+        "сырыеЗначения": "Проверка сохраняет полные F_GETFL before/after/delta. Равенство сырого F_GETFL отделено от сохранения управляемых флагов.",
+        "точныйПереходFIFO": "Только после доказанной положительной записи: after == before либо before&0x10000 ==0 и after == before|0x10000. Все остальные биты совпадают точно; сброс бита и любое другое изменение отвергаются. Generic mask и предварительная warm-up запись запрещены. После closed-peer compare afterClosed с фактическим afterWrite строго: afterClosed == afterWrite; повторное исключение0x10000 не применяется.",
+        "отдельныеОбязательныеПроверки": [
+          "O_NONBLOCK до production записи и после неё",
+          "Прежний F_GETFD",
+          "F_GETNOSIGPIPE==1 у FIFO",
+          "F_DUPFD_CLOEXEC без SETFL/restore внутри приёмника"
+        ],
+        "источникИПредел": "Закреплённые первичные исходники Apple XNUxnu-12377.121.6 commitac9718fb1af618d5ce8678d0dc6e8a58f252216f и xnu-10002.1.13 commit1031c584a5e37aff177559b9f69dbd3c8c3fd30a. В опубликованном XNU бит0x10000 обозначает FWASWRITTEN; это объяснение-кандидат наблюдаемого перехода5→65541. Точный source установленного ядраxnu-13432.1.9 не получен; совпадение ABI и syscall прежнего timeout неизвестны. Бит0x10000 используется только проверкой свидетельства, а не production зависимостью.",
+        "фикстураSocket": "Blocking socket на пустой собственной паре должен вернуть недоступно и не доставить байты; reader заранее NONBLOCK. Nonfatal RED против прежнего V10 дренирует только собственный reader, затем фикстура сама устанавливает writer NONBLOCK до production baseline и проверяет доставку/closed-peer.",
+        "полнаяФикстураSocket": "До заполнения собственный writer получает O_NONBLOCK с readback и сохранением raw setup flags. Ограниченное заполнение сохраняет положительные setup bytes и errno; production baseline берётся после заполнения. Сам production sink не меняет флаги.",
+        "прежниеИсходы": "Прежние socket time-budget NOT_PASS и две FIFO flags assertions NOT_PASS сохраняются. Новый кандидат их не переписывает; каждый запуск требует отдельного нового допуска.",
+        "готовность": "Контракт стратегии не доказывает Native FD2/default callback/currentHash/активацию или общую приёмку.",
+        "первичныеИсточники": [
+          {
+            "проект": "Apple XNU",
+            "версия": "xnu-12377.121.6",
+            "commit": "ac9718fb1af618d5ce8678d0dc6e8a58f252216f",
+            "ссылки": [
+              "https://github.com/apple-oss-distributions/xnu/blob/ac9718fb1af618d5ce8678d0dc6e8a58f252216f/bsd/kern/uipc_socket.c#L1849-L1855",
+              "https://github.com/apple-oss-distributions/xnu/blob/ac9718fb1af618d5ce8678d0dc6e8a58f252216f/bsd/sys/fcntl.h#L136-L138",
+              "https://github.com/apple-oss-distributions/xnu/blob/ac9718fb1af618d5ce8678d0dc6e8a58f252216f/bsd/kern/sys_generic.c#L585-L586",
+              "https://github.com/apple-oss-distributions/xnu/blob/ac9718fb1af618d5ce8678d0dc6e8a58f252216f/bsd/kern/kern_descrip.c#L2790-L2800"
+            ]
+          },
+          {
+            "проект": "Apple Libc",
+            "версия": "Libc-1752.120.2",
+            "commit": "4e34d0559e3a1b081afeb8604d9e204a1f31321d",
+            "ссылка": "https://github.com/apple-oss-distributions/Libc/blob/4e34d0559e3a1b081afeb8604d9e204a1f31321d/net/FreeBSD/send.c#L47-L52"
+          }
+        ]
+      },
+      "доверие": "Metadata не содержитraw/path/hash/NativeUUID/argv/error; syscallcount не hostlog proof, отсутствиене never-invoked, UI неcallback."
+    },
+    "проверки": [
+      "K01",
+      "K02",
+      "K03",
+      "K04",
+      "K05",
+      "K06",
+      "K07",
+      "K08",
+      "K09",
+      "K10",
+      "K11",
+      "K12",
+      "K13",
+      "K14",
+      "K15",
+      "K16",
+      "K17",
+      "K18"
+    ],
+    "статусПроверок": "НЕ_ЗАПУЩЕНЫ_ДЛЯ_ЭТОЙ_РЕАЛИЗАЦИИ"
   }
 }

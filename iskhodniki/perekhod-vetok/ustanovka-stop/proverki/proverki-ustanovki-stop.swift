@@ -706,3 +706,57 @@ struct ПроверкиФайловыхСсылок {
         #expect(проверено == 54)
     }
 }
+
+
+import Foundation
+import Darwin
+import Testing
+import УстановкаStop
+
+private enum СбойПослеRenameV4: Error { case намеренный }
+struct ПроверкиАтомарнойГраницыV4 {
+    @Test func послеRenameНеСохраняетсяСтароеНаблюдение() throws {
+        let родитель = try #require(ProcessInfo.processInfo.environment["ФУМ_СВИДЕТЕЛЬСТВА_ЯКОРЯ"])
+        var сведения = stat()
+        #expect(lstat(родитель, &сведения) == 0)
+        #expect(сведения.st_mode & S_IFMT == S_IFDIR)
+        #expect(сведения.st_mode & 0o7777 == 0o700 && сведения.st_uid == geteuid())
+        let корень = родитель + "/atomic-" + UUID().uuidString.lowercased()
+        try #require(mkdir(корень, 0o700) == 0)
+        let путь = корень + "/pointer.json"
+        let старые = Data("retained-before-rename\n".utf8)
+        let новые = Data("retained-after-rename\n".utf8)
+        _ = try АтомарныеБайтыStop.создатьЕслиОтсутствует(путь, новыми: старые)
+        var удержанный: Int32 = -1
+        defer { if удержанный >= 0 { _ = Darwin.close(удержанный) } }
+        var отказ: ОтказАтомарнойЗаменыStop?
+        do {
+            _ = try АтомарныеБайтыStop.заменитьУказательV4(путь,
+                ожидаемыйSHA256: АтомарныеБайтыStop.sha256(старые), новыми: новые,
+                проверить: {}, отметить: { фаза in
+                    if фаза == "после-rename" {
+                        удержанный = open(путь, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+                        try #require(удержанный >= 0)
+                        try #require(fchmod(удержанный, 0) == 0)
+                        throw СбойПослеRenameV4.намеренный
+                    }
+                })
+            Issue.record("После намеренного отказа не должен возвращаться успех")
+        } catch let ошибка as ОтказАтомарнойЗаменыStop { отказ = ошибка }
+        let известный = try #require(отказ)
+        #expect(известный.граница == .послеRename)
+        #expect(известный.наблюдаемыйSHA256 == nil)
+        #expect(известный.оставленныйВременныйФайл == nil)
+        try #require(удержанный >= 0)
+        var буфер = [UInt8](repeating: 0, count: новые.count + 1)
+        let число = буфер.withUnsafeMutableBytes { Darwin.read(удержанный, $0.baseAddress, $0.count) }
+        #expect(число == новые.count)
+        #expect(Data(буфер.prefix(число >= 0 ? число : 0)) == новые)
+        var поИмени = stat(), поFD = stat()
+        try #require(lstat(путь, &поИмени) == 0 && fstat(удержанный, &поFD) == 0)
+        #expect(поИмени.st_ino == поFD.st_ino && поИмени.st_dev == поFD.st_dev)
+        #expect(поИмени.st_mode & 0o7777 == 0)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: корень) == ["pointer.json"])
+        // Режим 000 и новые байты сохраняются как свидетельство, без восстановления или удаления.
+    }
+}

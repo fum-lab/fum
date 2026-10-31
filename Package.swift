@@ -11,12 +11,14 @@ let package = Package(
     platforms: [.macOS(.v14)],
     products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
     dependencies: [
-        .package(path: "Зависимости/LinguisticKit")
+        .package(path: "Зависимости/LinguisticKit"),
+        .package(path: "iskhodniki/perekhod-vetok/ustanovka-stop")
     ],
     targets: [
         .target(
             name: "МатериализацияУзлов",
-            dependencies: ["FUMStructuringOperatorMemory"],
+            dependencies: ["FUMStructuringOperatorMemory",
+                .product(name: "УстановкаStop", package: "ustanovka-stop")],
             path: "iskhodniki/perekhod-vetok/uzlyi",
             sources: [
                 "sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
@@ -29,7 +31,8 @@ let package = Package(
         ),
         .testTarget(
             name: "ПроверкиМатериализацииУзлов",
-            dependencies: ["МатериализацияУзлов", "FUMStructuringOperatorMemory"],
+            dependencies: ["МатериализацияУзлов", "FUMStructuringOperatorMemory",
+                .product(name: "УстановкаStop", package: "ustanovka-stop")],
             path: "iskhodniki/perekhod-vetok/proverki",
             swiftSettings: настройки
         ),
