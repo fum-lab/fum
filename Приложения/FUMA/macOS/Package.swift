@@ -50,10 +50,12 @@ let package = Package(
             "ПутиИсполнения",
             .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
             .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
-            .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
+            .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи"),
+            .product(name: "КомпозицияНаблюдений", package: "КомпозицияНаблюдений")
         ]),
         .target(name: "FUMObservationJournal"),
-        .testTarget(name: "FUMAOperatorExecutionTests", dependencies: ["ИсполнениеОператора"],
+        .testTarget(name: "FUMAOperatorExecutionTests", dependencies: ["ИсполнениеОператора",
+            .product(name: "КомпозицияНаблюдений", package: "КомпозицияНаблюдений")],
             path: "Tests/ИсполнениеОператораTests"),
         .testTarget(name: "FUMObservationJournalTests", dependencies: ["FUMObservationJournal"]),
         .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
