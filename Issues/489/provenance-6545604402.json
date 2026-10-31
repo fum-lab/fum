@@ -1,0 +1,27 @@
+{
+  "schema": "fum.github-issue-comment-provenance.1",
+  "source": {
+    "repository": "fum-lab/fum",
+    "issue_number": 489,
+    "issue_url": "https://github.com/fum-lab/fum/issues/489",
+    "issue_snapshot_path": "Issues/489/issue-489-readback-20261031-final.json",
+    "issue_updated_at": "2026-10-31T15:47:04Z",
+    "comments_after": 3,
+    "comment_id": 6545604402,
+    "comment_url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6545604402",
+    "creation_operation": "mcp__codex_apps__github_add_comment_to_issue",
+    "creation_result_id": 6545604402,
+    "readback_operation": "mcp__codex_apps__github_fetch_issue_comments",
+    "readback_confirmed": true,
+    "comment_edited_in_place": false,
+    "capture_method": "connected GitHub tools; normalized responses",
+    "state_before_comment": "closed/completed",
+    "state_update_issued": false
+  },
+  "captured_at_utc": "2026-10-31T15:47:09Z",
+  "boundary": {
+    "only_issue489": true,
+    "exact_comment_readback_matches_submitted_body": true,
+    "no_issue151_refresh": true
+  }
+}
