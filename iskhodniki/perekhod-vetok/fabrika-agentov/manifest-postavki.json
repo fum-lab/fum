@@ -1,0 +1,90 @@
+{
+  "схема": "fum.манифест-целостности-исходников.1",
+  "идентификатор": "4adb1c01-e8c0-4f6c-82d6-e9bf4f22c6c5",
+  "источник": {
+    "формат_объектов": "sha1",
+    "коммит": "202d0e3e4c1cfd76b587d5e2e339cf1d15d6838b",
+    "дерево": "063ab8f88d2c192443abf51db52cbc443df64076",
+    "ссылка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/fabrika-agentov/master"
+  },
+  "покрытие": "точный_состав_изменений",
+  "база": {
+    "формат_объектов": "sha1",
+    "коммит": "96bc1c28e2201b86b05ad4466b17172201358169",
+    "дерево": "1244d52ad6d8498e16c305ac71e2f32f3e73606f",
+    "ссылка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/fabrika-agentov/master"
+  },
+  "число_файлов": 10,
+  "файлы": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/adres.swift",
+      "режим": "100644",
+      "объект": "4f4bfd79142cb2295ae73e8be76ae6a129cd77cc",
+      "байты": 2944,
+      "хэш": "53113a9cd36dfdaed3766b3d7c27ada2ef2456fc59be3bd3aaa029be8aa73142"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/etap.json",
+      "режим": "100644",
+      "объект": "cc710dfe78e79150d6f695a58f9a0f269390e371",
+      "байты": 18960,
+      "хэш": "84275e2e23871f38c089aade8fe296b5e1bf89ed8adf65169fdc99f88a902c3f"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+      "режим": "100644",
+      "объект": "160c0a943c020d71235abeb68e9989818bef722e",
+      "байты": 11694,
+      "хэш": "c064c11d206c813611acdfb030798bdb3f7b6a8a972ebd5a901de03df13f5c1f"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/kontrakt.json",
+      "режим": "100644",
+      "объект": "6ee61ad6976d80f5e3c142473a6497912551bb4c",
+      "байты": 9794,
+      "хэш": "d2862e6c6fb3d1d1a55e1b92e19f513884bf657ed3c1dc7d8ef3da37f31d76a7"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/popyitka.swift",
+      "режим": "100644",
+      "объект": "2fc8f91582352ddf339a201dd8cf457e933af953",
+      "байты": 17527,
+      "хэш": "654644fcde7a292b5081686fdda18a8313df84b9680701deb14be8d43f05cd88"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/proverka-pered-zapuskom.swift",
+      "режим": "100644",
+      "объект": "2e700d4c067ac9e59937b648d7762cea436e5994",
+      "байты": 4769,
+      "хэш": "11d89ae15000e255d710c62f19191ddfc574e6a9f992c030c42d653bef87386b"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/vladeniye.swift",
+      "режим": "100644",
+      "объект": "cfaa2badc4b1f2347f370c75bab8699be24ef253",
+      "байты": 7559,
+      "хэш": "3246bbf2c9b39f0bc259ad835de6b6f363277d1227b6b44c8ce3b46ac1b4ec32"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/fabrika-agentov/proverki.swift",
+      "режим": "100644",
+      "объект": "0a28875361cda2c1047b91deb80cf658d7e2db86",
+      "байты": 49710,
+      "хэш": "34514e96a77badffa45a1f2c1e7549a29ded2057ab1ef52ecc020ea1e4763224"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/fabrika-agentov/tri-uzla.json",
+      "режим": "100644",
+      "объект": "0b7d25e456989e351437ee442a9e85bd3d22803f",
+      "байты": 1610,
+      "хэш": "5db205b6485c4d548d365c05ce6d3eafef38cce8e1de70e0901285dc30be5b0a"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/fabrika-agentov/zapusk-proverok.swift",
+      "режим": "100644",
+      "объект": "e084091fffa7cdfa4f031b099b63122b78fccbe7",
+      "байты": 1817,
+      "хэш": "1a0fee69bb3a84d03682e8b406a91fcd1cfcf1e73991564afcd5939deea9073f"
+    }
+  ]
+}

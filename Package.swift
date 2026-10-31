@@ -14,10 +14,25 @@ let package = Package(
         .package(path: "Зависимости/LinguisticKit")
     ],
     targets: [
-        .target(name: "МатериализацияУзлов",
-            path: "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya",
-            sources: ["kontrakt-istochnika-kodeks.swift", "adapter-git-avtor-commita.swift"],
-            swiftSettings: настройки),
+        .target(
+            name: "МатериализацияУзлов",
+            dependencies: ["FUMStructuringOperatorMemory"],
+            path: "iskhodniki/perekhod-vetok/uzlyi",
+            sources: [
+                "sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+                "sinkhronizaciya/adapter-git-avtor-commita.swift",
+                "polnomochiya.swift",
+                "stop.swift",
+            ],
+            resources: [.copy("opredeleniya")],
+            swiftSettings: настройки
+        ),
+        .testTarget(
+            name: "ПроверкиМатериализацииУзлов",
+            dependencies: ["МатериализацияУзлов", "FUMStructuringOperatorMemory"],
+            path: "iskhodniki/perekhod-vetok/proverki",
+            swiftSettings: настройки
+        ),
         .target(name: "FUMStructuringOperatorMemory",
             path: "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
             resources: [.copy("Фикстуры"), .copy("Определения")], swiftSettings: настройки),
@@ -50,7 +65,7 @@ let package = Package(
             sources: ["Команда.swift"], swiftSettings: настройки),
         .testTarget(name: "proverki-paketa-putej", dependencies: ["ОсноваЗапуска", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory", "КонтейнерНаблюдений"],
             path: "iskhodniki/zapusk/proverki", swiftSettings: настройки),
-        .testTarget(name: "ПроверкиЗапуска", dependencies: ["ОсноваЗапуска", "КонтейнерНаблюдений"],
+        .testTarget(name: "ПроверкиЗапуска", dependencies: ["ОсноваЗапуска", "КонтейнерНаблюдений", "МатериализацияУзлов"],
             path: "proverki/zapusk", swiftSettings: настройки)
     ],
     swiftLanguageModes: [.v6]
