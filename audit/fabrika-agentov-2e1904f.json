@@ -1,0 +1,124 @@
+{
+  "schema": "fum.factory-preview-audit.1",
+  "status": "SOURCE_ONLY_CHECKPOINT",
+  "acceptance": "NOT_CLAIMED",
+  "recordingContext": {
+    "headBeforeRecord": "d85604519fb0bbfc9eb286b7e0086b84d6dee7dc",
+    "ref": "refs/heads/fum-lab/fum/audit/master",
+    "publicationAtRecordCreation": "PENDING"
+  },
+  "sourceSnapshot": {
+    "commit": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+    "baseCommit": "df60f239c178a6b3bd9274ce190385089579b706",
+    "tree": "048ce9d410d59777648c66ceaf1b19655af7fd44",
+    "changedPaths": [
+      "iskhodniki/perekhod-vetok/fabrika-agentov/etap.json",
+      "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+      "iskhodniki/perekhod-vetok/fabrika-agentov/kontrakt.json",
+      "proverki/perekhod-vetok/fabrika-agentov/proverki.swift",
+      "proverki/perekhod-vetok/fabrika-agentov/zapusk-proverok.swift"
+    ]
+  },
+  "finding": {
+    "id": "missing-root-node-and-root-level-direct-records",
+    "classification": "CONFIRMED_SOURCE_DEFECT",
+    "summary": "Root-level files contribute to the global record count but are absent from the directory-node graph and from direct-record counts; no explicit root node is produced.",
+    "evidence": [
+      {
+        "path": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+        "lines": "300-310",
+        "observation": "For each path the prefix loop skips insertion when the prefix reaches the leaf. A root-level file has one component, so it contributes no directory prefix."
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+        "lines": "315",
+        "observation": "Direct-record counts are incremented only when the path has more than one component, excluding root-level files."
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+        "lines": "326-349",
+        "observation": "Output nodes are built only from the collected directory set; the global record total still uses the full input path count."
+      },
+      {
+        "path": "proverki/perekhod-vetok/fabrika-agentov/proverki.swift",
+        "lines": "17-25",
+        "observation": "The fixture includes README.md at the root, but assertions cover aggregate counts and selected non-root nodes; they do not assert a root node or root-level direct-record attribution."
+      }
+    ],
+    "scope": "Static source and fixture review; no test was run for this audit."
+  },
+  "complexity": {
+    "estimate": "O(N*d^2 + V*d^2)",
+    "variables": {
+      "N": "number of input tree paths",
+      "V": "number of emitted directory nodes",
+      "d": "maximum path-component depth"
+    },
+    "basis": [
+      {
+        "path": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+        "lines": "294-315",
+        "observation": "Each input path visits successive prefixes and repeatedly joins component prefixes."
+      },
+      {
+        "path": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+        "lines": "326-345",
+        "observation": "Each directory node scans prefixes and joins them while resolving aliases."
+      }
+    ],
+    "method": "Static component-count estimate from repeated prefix construction; no scale measurement was performed.",
+    "boundaries": [
+      "Does not include string-byte lengths, hashing, sorting of nodes or children, output serialization, or filesystem and process costs.",
+      "The estimate does not establish a measured bottleneck, scaling threshold, or performance regression."
+    ],
+    "scaleProfile": "NOT_MEASURED"
+  },
+  "historicalPreviewRecord": {
+    "sourcePath": "iskhodniki/perekhod-vetok/fabrika-agentov/etap.json",
+    "recordId": "factory-preview-runtime-d6-1",
+    "exitCode": 0,
+    "durationNanoseconds": "2287466750",
+    "durationSeconds": 2.28746675,
+    "inputRecordCount": 37857,
+    "directoryCount": 8189,
+    "interpretation": "Previously recorded source evidence only; not rerun or used as a current scale profile in this audit."
+  },
+  "provenanceBoundary": {
+    "sourcePath": "iskhodniki/perekhod-vetok/fabrika-agentov/kontrakt.json",
+    "lines": "11-13, 17, 33-34, 37",
+    "observation": "The CLI receives tree-list bytes and policy as separate inputs. The caller is responsible for independently binding those bytes to the declared commit/tree and for authenticating readback; this audit does not confirm that linkage."
+  },
+  "testsAndUnknowns": {
+    "newPreviewTests": {
+      "status": "NOT_RUN",
+      "count": 5,
+      "names": [
+        "полныйУчётИПричиныИсключений",
+        "порядокНеВлияетНаГраф",
+        "неподтверждённыйПсевдонимНеДаётВладения",
+        "отказПовтораПутиИПересеченияВладельцев",
+        "отказОбходаИУсечённогоВхода"
+      ]
+    },
+    "generalProfile": "UNKNOWN",
+    "consumerIntegration": "UNKNOWN",
+    "runtimeDeploymentAndUse": "UNKNOWN",
+    "independentCommitTreeInputBinding": "UNKNOWN",
+    "sourceAuditIsAcceptance": false,
+    "pythonRouter": "EXCLUDED_BY_EXPLICIT_ROOT_GRANT; UNKNOWN",
+    "legacyStartAndRootRawJsonl": "EXCLUDED_BY_EXPLICIT_ROOT_GRANT; NOT_READ",
+    "otherUnrunChecks": "UNKNOWN; NOT_GREEN"
+  },
+  "privateDraft": {
+    "name": "factory-preview-2e1904f-private-draft.md",
+    "sha256": "9292bc1015b0645737287b49608303fe9b0ce0937bf1fc55fede5ee0c72336de",
+    "location": "private and outside the repository; absolute path omitted"
+  },
+  "modelObservation": {
+    "requestedEffort": "max",
+    "observedModel": "gpt-6-luna",
+    "observedEffort": "max",
+    "observedAtMs": 1793468422704,
+    "limitation": "Codex app thread selection only; this is not proof of backend execution."
+  }
+}
