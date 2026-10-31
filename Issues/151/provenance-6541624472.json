@@ -1,0 +1,57 @@
+{
+  "schema": "fum.github-issue-comment-provenance.1",
+  "source": {
+    "repository": "fum-lab/fum",
+    "issue_number": 151,
+    "issue_url": "https://github.com/fum-lab/fum/issues/151",
+    "issue_snapshot_path": "Issues/151/issue-151-readback-20261031-after-6541624472.json",
+    "issue_updated_at": "2026-10-31T09:36:25Z",
+    "comments_after": 84,
+    "comment_id": 6541624472,
+    "comment_url": "https://github.com/fum-lab/fum/issues/151#issuecomment-6541624472",
+    "readback_operation": "github_fetch_issue_comments",
+    "readback_confirmed": true,
+    "comment_edited_in_place": true,
+    "capture_method": "connected GitHub tools; normalized responses",
+    "prior_issue_snapshot_commit": "01c39dfc415d92fb71e6495f705f24d0c09650b6",
+    "human_status_captured_as_observation": true
+  },
+  "captured_at_utc": "2026-10-31T09:38:43Z",
+  "boundary": {
+    "allowed_paths": [
+      "Issues/151/comment-6541624472.json",
+      "Issues/151/provenance-6541624472.json",
+      "Issues/151/issue-151-readback-20261031-after-6541624472.json"
+    ],
+    "source_only_checkpoint": true,
+    "no_shared_markdown": true,
+    "no_existing_checkpoint_edits": true,
+    "no_root_config_bytes": true,
+    "no_private_absolute_paths": true
+  },
+  "verified_source": {
+    "human_observation": "Доверенный и включён",
+    "human_observation_is_independent_readback": false,
+    "currentHash": "unknown",
+    "backend_callback": "unknown",
+    "old_current_generation": "f89ab1cbf82af031af20912430e5b72f3e1f0f5c",
+    "old_current_stale_after": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
+    "lease_expired": true,
+    "installation_activation_or_repeat": false
+  },
+  "git_prewrite": {
+    "branch_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "base_head": "b2a9d673dca03b5105029929c74d6638c1b6627c",
+    "remote_name": "origin",
+    "remote_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "remote_oid_before": "b2a9d673dca03b5105029929c74d6638c1b6627c",
+    "worktrees_on_ref": 1,
+    "index_clean_before": true,
+    "preexisting_worktree_changes_retained": true
+  },
+  "excluded_checks": {
+    "full_state_all_issue_archive": "not_run; targeted normalized readbacks only",
+    "python_router_root_jsonl_full_legacy_profile": "unknown_not_run",
+    "root_task_remainder": "unknown_no_explicit_jsonl_path"
+  }
+}

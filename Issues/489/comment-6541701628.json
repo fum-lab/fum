@@ -1,0 +1,22 @@
+{
+  "url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6541701628",
+  "body": "**FUM Codex**\n\n## Уточнение наблюдения и причинности — 31 октября 2026\n\nПодтверждено: в окружении D6 был `umask 077`, исходный индекс имел режим `0644`, а после `git mv` guard остановил применение, обнаружив изменение режима индекса. Адресная RED-проверка подтвердила проблемный сценарий с исходным индексом `0644` при `umask 077`.\n\nRED-проверка не устанавливает точное значение режима, увиденное guard в первоначальном отказавшем запуске. Этот runtime-факт остаётся неизвестным; `0600` — только гипотеза о нём, не воспроизведённое runtime-значение или результат фикстуры.\n\nОткат восстановил исходное руководство и потребительскую ссылку, но не подтвердил итоговый `status`: оставались три удержанных резерва. Статический read-only разбор подтвердил, что точный фильтр этих резервов уже существует. Отсутствие фильтра не установлено как причина; почему он не совпал в этом запуске, выясняет TDD-владелец. Foundation Unicode-нормализация путей и Git cache остаются гипотезами.\n\nПроверка режима и фильтр резервов уже присутствовали в принятой основе [`f89ab1cb`](https://github.com/fum-lab/fum/commit/f89ab1cbf82af031af20912430e5b72f3e1f0f5c). Новый TDD-сценарий выявляет непокрытую комбинацию и сам по себе не доказывает регрессию от оптимизации в PR #488.",
+  "user": {
+    "login": "Roman-Kerimov",
+    "name": "Roman-Kerimov",
+    "email": null,
+    "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+    "id": 22149544
+  },
+  "id": 6541701628,
+  "pull_request_review_id": null,
+  "in_reply_to_id": null,
+  "created_at": null,
+  "updated_at": null,
+  "review": null,
+  "side": null,
+  "line": null,
+  "start_line": null,
+  "path": null,
+  "body_html": "<p dir=\"auto\"><strong>FUM Codex</strong></p>\n<h2 dir=\"auto\">Уточнение наблюдения и причинности — 31 октября 2026</h2>\n<p dir=\"auto\">Подтверждено: в окружении D6 был <code class=\"notranslate\">umask 077</code>, исходный индекс имел режим <code class=\"notranslate\">0644</code>, а после <code class=\"notranslate\">git mv</code> guard остановил применение, обнаружив изменение режима индекса. Адресная RED-проверка подтвердила проблемный сценарий с исходным индексом <code class=\"notranslate\">0644</code> при <code class=\"notranslate\">umask 077</code>.</p>\n<p dir=\"auto\">RED-проверка не устанавливает точное значение режима, увиденное guard в первоначальном отказавшем запуске. Этот runtime-факт остаётся неизвестным; <code class=\"notranslate\">0600</code> — только гипотеза о нём, не воспроизведённое runtime-значение или результат фикстуры.</p>\n<p dir=\"auto\">Откат восстановил исходное руководство и потребительскую ссылку, но не подтвердил итоговый <code class=\"notranslate\">status</code>: оставались три удержанных резерва. Статический read-only разбор подтвердил, что точный фильтр этих резервов уже существует. Отсутствие фильтра не установлено как причина; почему он не совпал в этом запуске, выясняет TDD-владелец. Foundation Unicode-нормализация путей и Git cache остаются гипотезами.</p>\n<p dir=\"auto\">Проверка режима и фильтр резервов уже присутствовали в принятой основе <a href=\"https://github.com/fum-lab/fum/commit/f89ab1cbf82af031af20912430e5b72f3e1f0f5c\"><code class=\"notranslate\">f89ab1cb</code></a>. Новый TDD-сценарий выявляет непокрытую комбинацию и сам по себе не доказывает регрессию от оптимизации в PR <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"6132916559\" data-permission-text=\"Title is private\" data-url=\"https://github.com/fum-lab/fum/issues/488\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/fum-lab/fum/pull/488/hovercard\" href=\"https://github.com/fum-lab/fum/pull/488\">#488</a>.</p>"
+}

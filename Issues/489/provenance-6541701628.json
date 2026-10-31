@@ -1,0 +1,69 @@
+{
+  "schema": "fum.github-issue-comment-provenance.1",
+  "source": {
+    "repository": "fum-lab/fum",
+    "issue_number": 489,
+    "issue_url": "https://github.com/fum-lab/fum/issues/489",
+    "issue_snapshot_path": "Issues/489/issue-489-readback-20261031.json",
+    "issue_updated_at": "2026-10-31T09:56:26Z",
+    "comments_after": 1,
+    "comment_id": 6541701628,
+    "comment_url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6541701628",
+    "readback_operation": "github_fetch_issue_comments",
+    "readback_confirmed": true,
+    "comment_edited_in_place": true,
+    "capture_method": "connected GitHub tools; normalized responses",
+    "comments_before_creation": 0,
+    "comments_after_creation": 1,
+    "exact_duplicate_issue_found": false
+  },
+  "captured_at_utc": "2026-10-31T10:14:01Z",
+  "boundary": {
+    "allowed_paths": [
+      "Issues/489/comment-6541701628.json",
+      "Issues/489/provenance-6541701628.json",
+      "Issues/489/issue-489-readback-20261031.json"
+    ],
+    "source_only_checkpoint": true,
+    "no_shared_markdown": true,
+    "no_existing_checkpoint_edits": true,
+    "no_root_config_bytes": true,
+    "no_private_absolute_paths": true
+  },
+  "verified_source": {
+    "assigned_to": "Roman-Kerimov",
+    "linked_pr": 488,
+    "observed_after_git_mv_guard_refusal": true,
+    "d6_umask": "077",
+    "initial_index_mode": "0644",
+    "runtime_post_move_mode_value": "unknown",
+    "red_receipt_for_0600": false,
+    "mode_0600_status": "hypothesis_under_regression_test_in_issue_489_readback",
+    "rollback_status_confirmed": false,
+    "held_reservations": 3,
+    "exact_reservation_filter_present_in_static_read_only_review": true,
+    "filter_mismatch_cause": "unknown; TDD investigation",
+    "foundation_unicode_normalization": "hypothesis_only",
+    "git_cache": "hypothesis_only",
+    "base_commit": "f89ab1cbf82af031af20912430e5b72f3e1f0f5c",
+    "checks_present_in_base": true,
+    "no_regression_from_pr488_established": true
+  },
+  "git_prewrite": {
+    "branch_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "base_head": "b2a9d673dca03b5105029929c74d6638c1b6627c",
+    "remote_name": "origin",
+    "remote_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "remote_oid_before": "b2a9d673dca03b5105029929c74d6638c1b6627c",
+    "worktrees_on_ref": 1,
+    "index_clean_before": true,
+    "preexisting_worktree_changes_retained": true
+  },
+  "excluded_checks": {
+    "full_state_all_issue_archive": "not_run; targeted normalized reads only",
+    "full_issue_151_comments_archive": "not_run; selected comment IDs only",
+    "full_legacy_profile": "not_run under bounded source-only scope",
+    "python_checks_for_this_checkpoint": "not_run under explicit no-Python instruction",
+    "root_task_remainder": "UNKNOWN; initial processing command returned code 3 with incomplete/truncated output; retry capture was interrupted before output; no completion is proven"
+  }
+}

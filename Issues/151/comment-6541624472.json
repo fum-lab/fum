@@ -1,0 +1,22 @@
+{
+  "url": "https://github.com/fum-lab/fum/issues/151#issuecomment-6541624472",
+  "body": "**FUM Codex**\n\n## Уточнение Native Stop: человеческое наблюдение и границы readback — 31 октября 2026\n\nНаблюдение человека: «Доверенный и включён». Оно не является независимым readback фактической конфигурации или живого Native-события и не устанавливает mismatch/untrusted как причину прежнего результата.\n\nСтарый `current` поколения `f89ab1cb` устарел после перехода на `f25efd3eb2facfe3d6355db3800c322291aaf34c` и истечения связанной lease. `currentHash` и backend callback по-прежнему неизвестны.\n\nНовую установку, активацию или повтор не выполнял. До отдельного read-only-сверения текущего состояния Native Stop работа не объявляется подтверждённой.",
+  "user": {
+    "login": "Roman-Kerimov",
+    "name": "Roman-Kerimov",
+    "email": null,
+    "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+    "id": 22149544
+  },
+  "id": 6541624472,
+  "pull_request_review_id": null,
+  "in_reply_to_id": null,
+  "created_at": null,
+  "updated_at": null,
+  "review": null,
+  "side": null,
+  "line": null,
+  "start_line": null,
+  "path": null,
+  "body_html": "<p dir=\"auto\"><strong>FUM Codex</strong></p>\n<h2 dir=\"auto\">Уточнение Native Stop: человеческое наблюдение и границы readback — 31 октября 2026</h2>\n<p dir=\"auto\">Наблюдение человека: «Доверенный и включён». Оно не является независимым readback фактической конфигурации или живого Native-события и не устанавливает mismatch/untrusted как причину прежнего результата.</p>\n<p dir=\"auto\">Старый <code class=\"notranslate\">current</code> поколения <code class=\"notranslate\">f89ab1cb</code> устарел после перехода на <code class=\"notranslate\">f25efd3eb2facfe3d6355db3800c322291aaf34c</code> и истечения связанной lease. <code class=\"notranslate\">currentHash</code> и backend callback по-прежнему неизвестны.</p>\n<p dir=\"auto\">Новую установку, активацию или повтор не выполнял. До отдельного read-only-сверения текущего состояния Native Stop работа не объявляется подтверждённой.</p>"
+}
