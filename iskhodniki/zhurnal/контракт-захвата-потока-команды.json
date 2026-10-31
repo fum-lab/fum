@@ -1,5 +1,5 @@
 {
-  "схема": "fum.контракт-захвата-потока-команды.1",
+  "схема": "fum.контракт-захвата-потока-команды.3-предложение",
   "назначение": "Ограниченный native захват существующей команды без семантического разбора",
   "вход": "CLI принимает абсолютный JSON-путь и отдельно закреплённый ожидаемый SHA256. Nofollow regular pread до 1 MiB сверяет before/after FD и named metadata, затем SHA до intent/child. JSON ЗапросЗахвата: попытка, исполняемый, хэшИсполняемого, аргументы, вывод, ошибки, намерение, процесс, исход, секунд, пределВывода, пределОшибок",
   "пределы": {
@@ -21,5 +21,37 @@
     "Ранний leader и потомок с закрытыми pipes не дают ложного complete",
     "FD readback выявляет same-length drift и подмену named entry"
   ],
-  "профиль": "Только конечные фикстуры helper; полный профиль UNKNOWN; прежний UNKNOWN Node попытки не изменён"
+  "профиль": "Предложение v5, не собрано/не запускалось. Два test cases: diagnostic zombie и finite resource cases. Cleanup functional gate остаётся RED; product-build admission отсутствует",
+  "добавка": "Обязательный отсутствующий путь наблюдениеОчистки; до cleanup/reap сохраняются syscall return/errno и WNOWAIT state; исключение после spawn оставляет best-effort immutable UNKNOWN, частичный outcome не перезаписывается",
+  "алгоритм": "Фаза RED сохраняет прежний guard getpgid без ослабления; GREEN допустим только после доказательства и отдельного адресного recipe",
+  "бюджетХранилища": {
+    "выбор": "Явная обязательная метрика в присутствующем бюджете: logicalBytes или filesystemReportedAllocatedBytes. Отсутствующий optional бюджет отключён/не проверен, не GREEN",
+    "наблюдение": "st_size и st_blocks*512 уникальных(dev,ino) обычных файлов и каталогов; nofollow openat/fstatat/fdopendir, один собственный ограниченный root, та же FS; два совпавших bounded metadata snapshot",
+    "границы": {
+      "объектов": 10000,
+      "глубина": 32,
+      "секундНаДвеВыборки": 5
+    },
+    "ошибки": "Overflow, drift, неизвестный тип, metadata/IO failure, предел => UNKNOWN; symlink/root escape => deny. Нет подмены неизвестного нулевыми байтами",
+    "APFS": "filesystemReportedAllocatedBytes не доказывает exclusive physical occupied. Clones/COW/compression не определяются через этот stat-профиль; эксклюзивные физические байты UNKNOWN",
+    "время": "Однократное наблюдение перед spawn. Не измерение peak и не непрерывный disk-budget supervisor",
+    "ссылки": [
+      "https://developer.apple.com/documentation/system/stat/blocksallocated",
+      "https://developer.apple.com/documentation/system/stat/sizeallocated"
+    ]
+  },
+  "сообщённыйРодителемИнцидент": {
+    "роль": "Источник требования; не наше повторное измерение чужого scratch",
+    "логическиеРазмерыCASGiB": [
+      24,
+      12,
+      1
+    ],
+    "reportedAllocatedКаждый": 1064960,
+    "reportedAllocatedВесьScratch": 21688320,
+    "logicalВесьScratch": 39746794708,
+    "старыйИсход": "SIGTERM сохранён; retry0; чужой scratch/cache/process RO"
+  },
+  "следующийЭтап": "После доказанного cleanup — durable native operation identity/host session adapter/reconciliation; отдельный grant; второй launcher не создаётся",
+  "проверкиБюджетаВхода": "Actual sealed CLI с ожидаемым SHA: logical budget запрещает child до stdout reservation, allocated budget на том же sparse root разрешает child marker; выбранная метрика в durable intent. Unknown metric decoding отклонён без fallback. Functional cleanup GREEN не заявлен"
 }
