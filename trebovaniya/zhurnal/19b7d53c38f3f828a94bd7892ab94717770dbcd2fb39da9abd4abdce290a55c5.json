@@ -1,0 +1,98 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "19b7d53c38f3f828a94bd7892ab94717770dbcd2fb39da9abd4abdce290a55c5",
+  "данные": {
+    "время": "2026-10-29T19:32:44Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "основание": {
+      "коммит": "30624c89780ee782f4c8453bc91bdb7a42bcb22c",
+      "ref": "refs/heads/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+      "целевая_ветка": "fum-lab/fum/master",
+      "правила_AGENTS_sha256": "9d75854f6634245df6b2bf165fd5091b45fbfa940c65d9df2f7e196fa4509171",
+      "писатель": "один назначенный исполнитель; подтверждение ROOT"
+    },
+    "извлечение": {
+      "коммит": "26e14d06e444a953487acafef9d183a35529a268",
+      "путь": "trebovaniya/fuma-agent-requirements.json",
+      "blob": "c7b9df6c850465a8770c42329a061774c8e092fc",
+      "исходный_sha256": "00683e26dd75ea8f5de1b96f3b5559f430bd68ab1b5435ab2d2fea1394150743",
+      "указатель": "/existing_requirements/8/next_slice_refinements",
+      "канонический_sha256": "8dd6dc211379852519307fd03104841a869011cb777bd974cbd278593b1b9b94",
+      "назначение": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+      "формат": "jq -cS с конечным LF; закреплённые байты"
+    },
+    "постановка": {
+      "коммит": "26e14d06e444a953487acafef9d183a35529a268",
+      "путь": "trebovaniya/postanovka.json",
+      "blob": "1b28a234de7d0ef1cac8048e55fb6bef3ca0592f",
+      "sha256": "0c5908d01d8bb5f5d2fd33c500e788357cc9f4f5245aaef76abf5f7d9a0ed123",
+      "буквальное_сообщение_человека": "trebovaniya",
+      "происхождение": "цитата передана ROOT; native frame не проверен"
+    },
+    "профиль": {
+      "коммит": "aa65d76f67cd52c172680b287df07064bf31a375",
+      "путь": "trebovaniya/ispolnyayemyij-profilj-fuma.json",
+      "blob": "7aa4df5cc9f98fe4585b9f7620d77bb65f921dde",
+      "sha256": "3b437d1e71e0864cdab61e6ab5b31d8f70973852eba8c17cbf3f71c96311248a",
+      "status": "proposed",
+      "implementation": "UNKNOWN",
+      "runtime_enforcement": "UNKNOWN"
+    },
+    "события_происхождения": [
+      "32ad9c31478fbb7a281d762a33641078a3fd450a6f84e23b2f9729c9f07224bf",
+      "46d90ea34eb60fded34abc7fd501a9562f2a3be87fcae3705817bf335ab6f7b2",
+      "52c056fac11ea6b2a4ebf1acebde67e43416f67578ffd5745acee75679a78b25",
+      "b805a775792159d8f7eddf0417486855ea499d84f40efe11f6cd293468eccec9",
+      "b8d15d26d339fdab956489bd6b953bb1427d2ffd96a2bd88d7949c06e4c04ede",
+      "c197482165439264d346deb574dee64c1f8697f1bade13200cae90a82de2434a",
+      "e4d832cc99f9412f8bcf2073adad5688fccbcecb77c6ccbc7327f66336d8dacf",
+      "faae3bbe7dd8ce393ea5957c716606a21fd87010625cf0933dc131cc5e20c4fa",
+      "ec3cf4e4fc18da285ae3ca5e833a123d7d6a541d1a9b3871b8e42c37fcc2aa89",
+      "6bf883f3c918d0974e6bc97cccc007fb002b3ed3f54ae67911843db4a78b47b0"
+    ],
+    "имена": {
+      "источник": "квитанция преобразования передана ROOT; частные данные не публикуются",
+      "преобразователь_sha256": "2482a04bdd3afbb1f9f86f8c0bc22b4beb58a85a786f13f91812046b077feea9",
+      "нормализатор_sha256": "45d5a15faee1629b2651e963c89dfcaa25d3665902369ee0f2ee1e8404bb49c4",
+      "вход_sha256": "788b71ee7f97247ba632d21e4b0e72f3ba77824e230d0451287e5c1510cea4bb",
+      "raw_sha256": "3b695dbe06e1cdfeeb197de732b06b2edc7d82695dab3fcf3054d8d87c7eb5b1",
+      "normalized_sha256": "d071913132cae9df5f258d44e8bbdafdfda2782b93affbae68e9c598b17a1047",
+      "файл": "Уточнения автоматизации FUMA → Utochneniya avtomatizacii FUMA → utochneniya-avtomatizacii-fuma.json",
+      "ветка": "Принять уточнения FUMA → Prinyatj utochneniya FUMA → fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma"
+    },
+    "модель": {
+      "запрошено_ROOT": "gpt-6.1-terra / ultra; после повторного нарушения исключения Python",
+      "нативное_наблюдение": "turn_context 2026-10-29T19:29:44.532Z: gpt-6.1-terra / ultra",
+      "backend": "UNKNOWN",
+      "ранее": "gpt-6-luna / max; нативные turn_context до переключения"
+    },
+    "нарушение": {
+      "факт": "Исполнитель ошибочно вызвал исключённый Python-маршрутизатор в предыдущем ходе; исход: отказ до выдачи маршрута, 17914 символов при пределе 17700.",
+      "повтор": "запрещён; ROOT подтвердил source-only грант и чтение объединения тем из точного Git-коммита",
+      "устранение": "автоматическая защита от повторения не подтверждена; сохранено для ROOT"
+    },
+    "проверки": {
+      "точные_исходники": "SHA-256 и Git blob сверены",
+      "python": "исключён; ошибочный предыдущий вызов зафиксирован отдельно; GREEN не заявляется",
+      "ROOT_JSONL": "исключён; полнота неизвестна",
+      "legacy_guard_и_Creator": "исключены",
+      "fullPUB": "исключён",
+      "runtime": "исключён; UNKNOWN",
+      "профиль_НОВОЕ_000032": "не заявляется пройденным",
+      "приёмка_ROOT_и_интеграция": "не заявляются"
+    },
+    "разрешённые_пути": [
+      "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+      "trebovaniya/ispolnyayemyij-profilj-fuma.json",
+      "trebovaniya/zhurnal/<sha256-данных>.json"
+    ],
+    "текст_PR": "**FUM Codex**\n\nСохраняет уточнения автоматизации FUMA из закреплённого источника и предложенный исполняемый профиль. Профиль остаётся proposed; реализация и runtime-проверка неизвестны.\n\nПроверены точное извлечение, происхождение и состав трёх файлов. Python, полный ROOT JSONL, legacy guard/Creator, fullPUB и runtime-тесты исключены; полная приёмка и интеграция не заявляются.",
+    "состояние_при_создании": "коммит, push и PR ещё не выполнены",
+    "сверка_события": {
+      "ошибка": "Первый вызов jq использовал незаключённое кириллическое имя; фильтр завершился ошибкой, конвейер без pipefail вывел SHA пустого потока. Проверка не считалась успешной.",
+      "исправление": "Имя поля заключено в скобки и кавычки; повторная адресная сверка дала идентификатор исходного события. Автоматическая защита от повторения не подтверждена."
+    }
+  }
+}

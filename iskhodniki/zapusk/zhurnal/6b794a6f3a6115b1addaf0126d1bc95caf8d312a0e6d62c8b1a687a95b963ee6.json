@@ -1,0 +1,85 @@
+{
+  "входSHA256" : "655f40baef4c86158469f25a1950917418ddd84892e2108a00b3742664fc709b",
+  "данные" : {
+    "время" : "2026-10-26T21:00:57.829042Z",
+    "доставка" : [
+      {
+        "вид" : "Принятый конечныйLLMsource",
+        "идентификатор" : "4e368467e13011c4c91a4b24dbae16907fdb7363",
+        "свидетельство" : "Tree/parent/rawOID/remote/6pathsourcePUB0 подтверждены, bodyselectorточноравенисточнику; functionalC0232 идвепервичныепарысохранены."
+      }
+    ],
+    "исход" : "Конечный LLM4e принят FUMA после независимых кода/первичныхпар/body-selectorаудитов. Шестьsourceпутей сохраняются, old0e728/history/12a3 не переписаны. Включается merge с двумя родителями; следом exactindex/scopedPUB/rawcommit/normaldelivery.",
+    "область" : "iskhodniki/zapusk",
+    "остаток" : [
+      "Завершить проверенныйmergeLLM4e,exactdelivery иобновлениеPR393.",
+      "ДождатьсядействительногоC1sourceпослеурегулированияпротиворечияROOT/instrumentyi; затемтолько3sourceсрез,узкийmanifest иreadonlyCLIрегрессия.",
+      "ПолныйPUB,ROOT/master/liveприёмка иcanonicalrefсинхронизацияостаютсяотдельными."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "LLM0232: обычный адресный suite без FUM_PROFILE_OUT",
+        "наносекунды" : 27889464667,
+        "свидетельство" : "Независимый аудитор прочитал первичные intent/outcome/argv/stdout/stderr:10pass и1profile-skip, runner11. Часы дочерней env…swift test включают её сборку и закрытие каналов, не весь producer. Finalprod/testSHA сверены отдельно; вcapture36 они не входят."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "LLM0232: отдельный profile3×10",
+        "наносекунды" : 23827127291,
+        "свидетельство" : "Один pass, три серии2119750/1743042/1753667ns; JSON2000bytes/SHA82876b4009327ecf4b16aa875d682acf9cb566d91a182a474eed2dc75cf5b41e. Первичные каналы независимо сверены, безвыводаобускорении."
+      },
+      {
+        "исход" : "неПроверено",
+        "название" : "CLIавторстваC1",
+        "свидетельство" : "Нового immutableC/ref/remoteнет после противоречащих agentсообщений; stagedsourceтолькопрочитан. Проводка/частичнаяветка/importне выполнялись; recencyблокпереданROOT."
+      }
+    ],
+    "происхождение" : [
+      "Конечный LLMsource0232f5e87b8110a495c6dbcd6ac14c9fa246738d/tree29112937c86d38caf555a07d41304f9ff4474b96/parent0e72877f9477692477383f7855a289a680971989. RawSHA09bad953b6785c9189bc9b14b4be6ac8573db99a2d9d8a452fbdcd5608c90b4b, GitOID пересчитан независимо.",
+      "Полнаядельтаот0e96ровно5путей:rootPackage/production/test/старый12a3/новый2f2398JSON. ActualAuthor5.6solultra/committerFUM,3точныеhumanquotes иодинпоследнийROOTtrailerпроверены.",
+      "Новый коддобавляетbound65bytes доArrayиотрицательные63/65/1000000ASCII/nonASCIIслучаи; необязательныйprofileбезenvпропускается. ПубличныйproductionAPI/schema/decoder/statusне расширяются.",
+      "ActualAPI/request/native модели сохранены в предшествующем72be; фактический5.6sourceисполнитель не принимается за собственную моделькоординатора6.1solultra.",
+      "PR393напредшествующем72beнезависимоподтвердилhead/base/draft/138paths. FullselectedPUB1/3наследственныхd081строки; это не fullgreen.",
+      "Предварительный agentконтрактC1 отinstrumentyi: 965bytes/SHAb0772a1a264f77cb3d2f9708e66a2b6338761e6c03dfd11599a3a8a329e3d340. ПубликацияблокированаinheritedglobalMDrecency1; точныйC/ref/remoteнеполучен.",
+      "Два последующихC1agentinput сохраненывпорядке: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb:1295bytes/SHA1822f382fe75a8333cd05596989bdc2ae52b2da15f773ae251204a733ba58ca6, 01a17797-519b-73c1-bcc8-fd295cdfe9b0:621bytes/SHA38ab83b8c9e3eb460309fe45cf58b3cb4e724196186d8d2757c2b3c9af0b9ad2. SourceCещёнеполучен, противоположныеуказаниянеобъявляютсяисполнением.",
+      "Конечныйsource4e368467e13011c4c91a4b24dbae16907fdb7363/tree72bc571dfd6c532c83c1804758dbcc31f716ae92/parent0232; rawSHA554dc86fdcf3add93a710833b7de7a0ba128e8d07a3ab9bd1c7fd3fca132cb61. Независимыйbodyаудит подтвердил точноеравенствоselectorисходнымполям; одинновыйJ, net6paths. Rootсамсверилoriginremote/3humanquotes/последнийtrailer/sourcePUB6=0."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Принять C4e после независимых предметного и body-аудитов. Код и две первичные пары C0232 остаются действительными; bodyдополнен единственным новымJ и новымкоммитом безповторатестов. Сохранить0e728/0232/старыеlocalJ.",
+      "Packageменяетровноexclude новогоproductionfile идобавлениепрямойContainerdependencyexistingtarget; GUI/MPV/macOS/старые31файл/SDKнеимпортируются.",
+      "Чистый фасадиспользуетсуществующийdecoderиstatus.hypothesis; новыйhashbound иoptionalprofileпроверяютсяпоcode/свежимreceipt.",
+      "После consumerприёма обычныйmergeсдвумяродителямивownCLIветке; publicJSONчерезfrozenartifactбезimagebuild. Новогоузла/PR/registryнет.",
+      "ПоC1источникAPIпокаожидается; минимальнаяreadonlyCLIветкадоЦиклЗапуска, единственныйparser/transport иeffectfulrefusalсохраняются.",
+      "Четыреguardобъектаравныродительским; metadataневынуждаетповторять9/9. Предметныеисточники LLMdependenciesк0e96 проверяютсявместоповторенияисторическихнаборов.",
+      "Предварительный C1DataAPI и лимиты JSON65536/RAW1048576 сохранены. RootCLIfilewrapperне реализуетсядоimmutableприёма; recencyблок переданROOTбеззаписичужогоиндекса.",
+      "После первоначальногосообщенияROOT о85filecheckpoint инструментальныйвладелецотказалвегоcommit/push; sourceнеполучен. ПротиворечиепереданоROOT. Частичнаяветка/import/CLIне создавались."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "производное",
+        "оригинал" : {
+          "sha256" : "2e8c22c6c190ae96c6d83d5357d72d576b582928536245d3a570234945609ea4",
+          "байтов" : 8321,
+          "источник" : "Два последовательных agentprompt непосредственного FUMAкоординатора, объединены двумя LF; не первичныйhumanвход."
+        },
+        "происхождение" : "Публичное производное полногоqualityназначения, обе части точно сохранены в native отправителя; humanquotes отдельно.",
+        "роль" : "агент",
+        "текст" : "Конечная additiveкоррекция прежнего LLMUUID: вернуть13outsidepathsкbase0e96послеприватногосохранения; сохранитьстарыйlocalJ и0e728/history; исправитьbody/trailer/quoteпроисхождение, дваимени черезканоническийplan/apply, optionalprofile иboundhash65. Два свежихадресныхзапуска,5pathPUB/rawcommit/normalpush/remote; finalвсвоёмчатебезoutboundpermissionflow. НеROOT21/guard/SDK/live."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 25,
+      "писатель" : "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "стадия" : "постановка-cli-пакета-девяти-путей"
+    }
+  },
+  "идентификатор" : "6b794a6f3a6115b1addaf0126d1bc95caf8d312a0e6d62c8b1a687a95b963ee6",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
