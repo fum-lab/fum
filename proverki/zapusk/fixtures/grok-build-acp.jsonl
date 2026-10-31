@@ -1,0 +1,4 @@
+{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":1}}
+{"jsonrpc":"2.0","id":2,"result":{"sessionId":"grok-synthetic-session-1"}}
+{"jsonrpc":"2.0","method":"session/update","params":{"sessionId":"grok-synthetic-session-1","update":{"kind":"agent_message_chunk","content":"synthetic offline fixture"}}}
+{"jsonrpc":"2.0","id":3,"result":{"stopReason":"end_turn"}}
