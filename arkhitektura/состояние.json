@@ -1,0 +1,213 @@
+{
+  "схема": "fum.СостояниеАгента.2",
+  "назначение": {
+    "первичный_человеческий_запрос": "Davaj yesjhyo kakogo-nibudj arkhitektora sozdadim, kotoryij budet progonjatj arkhitekturu.",
+    "последующее_человеческое_уточнение": "Voobsjhe eto kasayetsya kazhdogo agenta na lyubom urovne vlozhennosti.",
+    "наблюдательные_входы_человека": "Nablyudeniye stejta fajlovoj sistemyi, nablyudeniye stejta gita.",
+    "управление_состоянием_человека": "Upravleniye stejtom budet ekvivalentno obnovleniyu stejta fajlovoj sistemyi i gita.",
+    "новые_архитектурные_аксиомы_в_порядке_человека": [
+      "Vsem agentam v celom sleduyet datj maksimum avtonomii v organizacii svoyej pamyati.",
+      "Stejt pamyati v Git — eto i yestj struktura stejta agenta.",
+      "Kommit — eto vsyo, chto nuzhno dlya vosstanovleniya agenta.",
+      "Vetka — eto i yestj uzel."
+    ],
+    "логическая_роль": "Архитектор FUM/FUMA",
+    "родитель": "ROOT",
+    "корневой_UUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "цель": "Проверить шесть заданных архитектурных связей, включая рекурсивность; отделить факты от гипотез, оставить минимальный исполняемый архитектурный контроль и конечную программу продолжения."
+  },
+  "идентичность": {
+    "адрес": "fum/arkhitektura",
+    "инкарнация": "Дочернее поручение текущей сессии; собственный идентификатор/backend не подтверждён, не придумывается."
+  },
+  "память": {
+    "собственная": "arkhitektura/**",
+    "общая": "Только чтение; общий инструмент запрашивается у его владельца."
+  },
+  "полномочия": {
+    "запись": [
+      "arkhitektura/**"
+    ],
+    "чужие_деревья_и_общие_файлы": "Только чтение.",
+    "основа": "6999fcb256d298302358d1329c2e57fead00a808",
+    "ref": "refs/heads/fum-lab/fum/arkhitektura/master",
+    "поставка": "Локальная контрольная точка, точный обычный push с удалённой сверкой и PR в fum-lab/fum/master по поручению ROOT; интеграция не разрешена."
+  },
+  "привязки": {
+    "модель": {
+      "ветка": "узел",
+      "коммит": "версионированный снимок",
+      "дерево": "память и непосредственные дети",
+      "процесс": "инкарнация"
+    },
+    "рабочее_дерево": "Точная физическая привязка хранится в приватном локальном слое и передана ROOT отдельно.",
+    "исходный_репозиторий": "fum-lab/fum",
+    "origin": "https://github.com/fum-lab/fum.git"
+  },
+  "модель": {
+    "выбранная_API": "gpt-6-luna",
+    "запрошенная": "gpt-6-luna",
+    "runtime_наблюдаемая": null,
+    "свидетельство": "ROOT подтверждает, что collaboration.spawn_agent принял model=gpt-6-luna и reasoning_effort=max. Это выбор API, не native turn_context или подтверждённый runtime report."
+  },
+  "усилие": {
+    "выбранное_API": "max",
+    "запрошенное": "max",
+    "runtime_наблюдаемое": null,
+    "свидетельство": "ROOT подтверждает принятый параметр reasoning_effort=max; фактическое усилие runtime не подтверждено."
+  },
+  "желаемое_состояние": "Рекурсивная архитектурная модель, проверяемые программы восстановления и малого per-platform Swift build pilot; общая FUMA policy остаётся отдельным следующим срезом.",
+  "наблюдаемое_состояние": {
+    "HEAD": "c8dbb00df54f2b1b2ee95174220308033fc71ac5",
+    "symbolic_ref": "refs/heads/fum-lab/fum/arkhitektura/master",
+    "рабочее_дерево": "На начало Swift-пилота HEAD=c8dbb00df54f2b1b2ee95174220308033fc71ac5; все незакоммиченные изменения ограничены arkhitektura/**.",
+    "основа_и_родители": [
+      "6f61e429bc1af904a212d4c7f8f392888019dd80",
+      "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25"
+    ],
+    "issues": [
+      {
+        "номер": 151,
+        "updated_at": "2026-10-28T02:53:08Z",
+        "последний_комментарий": "https://github.com/fum-lab/fum/issues/151#issuecomment-6459367808"
+      },
+      {
+        "номер": 365,
+        "updated_at": "2026-10-28T11:03:46Z",
+        "последний_комментарий": "https://github.com/fum-lab/fum/issues/365#issuecomment-6467316071"
+      },
+      {
+        "номер": 328,
+        "updated_at": "2026-10-28T12:22:22Z",
+        "последний_комментарий": "https://github.com/fum-lab/fum/issues/328#issuecomment-6468856368"
+      }
+    ],
+    "root_ownership_example": "Координатор сообщил RO-признак для commit prefix 371ceea4, source FS5bc, author label gpt-6-luna/max и ROOT trailer; конкретный породивший процесс неизвестен. Использовать только как границу unknown attribution, повторную диагностику не проводить.",
+    "проверка_восстановления": {
+      "определение": "arkhitektura/proverki/проверка-восстановления.оператор.json",
+      "схема": "fum.arkhitektura.restore-preflight@1",
+      "sha256": "428c354fb543f5ded1101944a6377ed5a05dc0f2b5c1c02d51a16a9d5cec88d4",
+      "sha256_семантического_определения": "428c354fb543f5ded1101944a6377ed5a05dc0f2b5c1c02d51a16a9d5cec88d4",
+      "sha256_исходного_JSON_файла": "d72f18e907c0c42c5af721cb30464641f90b3ee4f3b3ed9edc8bce7c790f2557",
+      "git_blob_oid_исходного_JSON": "a7a8b5e4e492fc1e40fcc6cd178e9772ff720ac1",
+      "происхождение_семантического_preimage": "ОпределениеОператора.данные() -> каноническиеДанные(определение.представление); JSONEncoder sortedKeys + withoutEscapingSlashes.",
+      "байтов_семантического_preimage": 17171,
+      "исполнитель": "Существующий FUMStructuringOperatorMemoryProbe / AutomationExecutor; отдельный probe-путь, не проверка main fuma runtime.",
+      "синтетические_входы": 14,
+      "результаты": "arkhitektura/proverki/результаты-проверки-2.jsonl; все 14 ожидаемых решений прошли независимую jq-сверку. Первый прогон сохранён как происхождение и superseded после найденного пробела memory scope.",
+      "граница": "Typed input не удостоверяется Git-читателем этого оператора; production restore/live-ready не заявлены. Граф использует все 64 разрешённых узла."
+    },
+    "независимые_наблюдения": {
+      "filesystem": "Отдельный источник, cursor и время/свежесть наблюдения локального W, процесса и владельцев записи.",
+      "git": "Отдельный источник, cursor и свежесть symbolic ref, base и состояния Git.",
+      "согласованность": "Не предполагается; сравнивается явным cross-ref и привязкой freshness source/cursor.",
+      "покрытие_первого_оператора": "Требование сохранено, но текущий 14-case оператор использует агрегированный observed input и ещё не проверяет независимые source/cursor filesystem и Git."
+    },
+    "граница_между_checkpoint_и_приёмкой": {
+      "наблюдение_app": "ROOT передал snapshot 39 видимых узлов: 4 active включая ROOT, 7 idle, 28 notLoaded; internal excluded. Не наблюдалось мной напрямую.",
+      "выданные_цепочки": "ROOT сообщил о семи существующих узлах с цепочками следующих этапов и поручении родителям FUMA/инструментов принимать непосредственных детей без ожидания ROOT на обычный технический выбор.",
+      "определение": "Локальный checkpoint или handoff не создаёт ROOT-gate для несвязанной работы. Parent продолжает только в собственном полномочии/W/ref; зависимость от pending child output ожидает непосредственную приёмку; общая интеграция с явной root boundary ожидает ROOT.",
+      "исполняемая_проверка": {
+        "определение": "arkhitektura/proverki/граница-независимого-продолжения.оператор.json",
+        "схема": "fum.arkhitektura.continuation-boundary@2",
+        "sha256_семантического_определения": "83e2e986fb932edbb66a45e915adbdcfbdae060f4b2cb5a217e3da6b4d0c2e6f",
+        "sha256_исходного_JSON_файла": "003aba15a04d7ff684fbe82bef636dc8b84d0eac621ef7805c6830e8c34fa4c0",
+        "случаев": 8,
+        "результаты": "arkhitektura/proverki/результаты-независимого-продолжения-2.jsonl",
+        "критерий": "Независимое действие в собственной области продолжает работу при pending peer acceptance; write-effect требует свежей live writer binding; зависимый child-output ждёт приёмки непосредственного родителя; ROOT ждётся только на явной root integration boundary.",
+        "границы": "Восстановление памяти и доступность RO отделены от права на эффект. Unknown model runtime блокирует только действие с required_for_action=true, не превращается в ROOT gate.",
+        "предыдущая_версия": {
+          "схема": "fum.arkhitektura.continuation-boundary@1",
+          "определение": "arkhitektura/proverki/граница-независимого-продолжения.v1.оператор.json",
+          "sha256_семантического_определения": "430ad8618339e13d1ea25593d912292cfb3ad2a02bfc3c643bea2da6f2a59d18",
+          "sha256_исходного_JSON_файла": "54aa3535959e9230f5903b7969f2bd68426e13531bef8b242e53486d682b72a8",
+          "случаев": 5,
+          "результаты": "arkhitektura/proverki/результаты-независимого-продолжения.jsonl"
+        }
+      }
+    },
+    "пилот_воспроизводимой_сборки_swift": {
+      "результат": "Для одной маленькой Swift CLI-фикстуры две чистые сборки дали одинаковые executable bytes и точный stdout.",
+      "данные": "arkhitektura/proverki/результат-пилота-сборки-swift.json",
+      "исходник": "arkhitektura/proverki/пилот-сборки-swift.swift",
+      "source_sha256": "b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b",
+      "исполнитель": "Apple Swift 6.4 / swift-driver 1.168.6; swiftc SHA-256 cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717.",
+      "среда": "macOS 27.0.1 arm64; SDK macosx 27.0 build 26A425; target arm64-apple-macosx27.0.0; прямой swiftc, без SwiftPM.",
+      "flags": [
+        "-swift-version 6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors"
+      ],
+      "module_и_output_basename": "FUMАрхитектурныйПилот",
+      "source_sha256_обоих": "b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b",
+      "executable_sha256_обоих": "84f3b56a5d7cc991d6d08cf290ba4bebcab2cd32189ba621d0172b4f5c68ea22",
+      "stdout_bytes": 103,
+      "stdout_sha256": "4932ba1c80d5be33589f4d697c2dccd273f4b4eabf29191b644c6b42fa856b10",
+      "подпись": "Наблюдалась встроенная ad-hoc подпись Swift ld; release signing/notarization не исследовались.",
+      "path_drift": "Печатание #filePath делает stdout зависимым от source path; maps не переписывают эту строку. Для -g source/build prefix maps не устранили случайные TemporaryDirectory module/object имена в Mach-O OSO symbols; debug executable SHA различались.",
+      "ограничения": "Только один per-platform CLI pilot; не вся FUMA, не другие ОС и не release packaging.",
+      "ресурсы": "Свободно до запуска 10046124 KiB при пороге 4194304 KiB; собственный scratch 912 KiB при лимите 262144 KiB. Полные абсолютные пути сохранены только в private evidence вне Git.",
+      "procedure_sha256": "98d47e84cab025798c01cc5956328c4a551b9c21555d254f9427e0d342e650f0"
+    }
+  },
+  "восстановление_из_коммита": {
+    "общее_состояние": "Минимальный управляющий дескриптор и точки входа; не полная копия дерева Git.",
+    "коммит_содержит": [
+      "идентичность",
+      "own-memory",
+      "common-readonly",
+      "историю",
+      "желаемое_состояние",
+      "программу-восстановления"
+    ],
+    "не_требуется": [
+      "хэш_собственного_будущего_коммита",
+      "полный_прошлый_диалог"
+    ],
+    "переход": [
+      "прочитать_снимок_C",
+      "сохранить_идентичность_историю_и_desired",
+      "заново_наблюдать_внешнюю_среду",
+      "перепривязать_локальные_W_и_инкарнацию",
+      "не_повторять_неизвестный_эффект"
+    ],
+    "обязательные_возможности_исполнителя": [
+      "доступ_к_объекту_Git_C",
+      "свежее_наблюдение",
+      "совместимый_типизированный_исполнитель_FUMA"
+    ],
+    "внешние_необязательные_возможности": [
+      "модельный_runtime",
+      "API",
+      "секреты_из_приватного_хранилища"
+    ],
+    "граница": "Восстановление памяти и планирование не доказывают доступность внешней модели/API/секретов или готовность live-runtime. Полный исполнитель изменения состояния должен программно обновить FS и Git и вернуть наблюдаемый результат; данный preflight этого не исполняет."
+  },
+  "свежесть": {
+    "дата_сверки": "2026-10-28",
+    "граница": "Адресная фиксация FUMA типов/оператора, правил, трёх Issues, рекурсивных требований, четырёх аксиом, restore-preflight и continuation v2, плюс один Swift CLI reproducibility pilot на macOS arm64; snapshot App-узлов и назначенные цепочки известны только из сообщения ROOT."
+  },
+  "следующее_действие": "Сохранить Swift-пилот как новый checkpoint, обычный exact push и remote readback; не объявлять общий FUMA или debug-info build воспроизводимыми.",
+  "следующий_срез_после_пилота": {
+    "статус": "queued_not_started",
+    "контракт": "pure FUMA input metrics/allowedModels/history -> recommendation with reason/trial/keep/rollback",
+    "ограничение": "Оператор только рекомендует; он сам не переключает модель. Общая поведенческая политика и симметричная эскалация/деэскалация входят в этот отдельный последующий срез."
+  },
+  "блокеры": [
+    {
+      "предмет": "Runtime-отчёт модели и усилия.",
+      "статус": "Не блокирует код, адресные проверки или собственную память; выбранные API параметры сохраняются отдельно от неизвестного runtime и не создают общий ROOT gate.",
+      "следующий_шаг": "Не искать native rollout долго; сохранить API-selected и runtime-unknown раздельно."
+    }
+  ],
+  "курсор": {
+    "git_база": "6999fcb256d298302358d1329c2e57fead00a808",
+    "история_агента": 13,
+    "issues": [
+      "151@6459367808",
+      "365@6467316071",
+      "328@6468856368"
+    ],
+    "корневой_JSONL": "Не перечитывался; адресная проверка не требует полного журнала."
+  }
+}

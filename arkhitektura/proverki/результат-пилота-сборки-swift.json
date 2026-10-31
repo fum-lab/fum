@@ -1,0 +1,105 @@
+{
+  "схема": "fum.arkhitektura.swift-reproducible-build-pilot@1",
+  "область": "Две чистые прямые сборки одной маленькой Swift CLI-фикстуры на одном macOS arm64 toolchain/SDK/target. Не сборка FUMA или SwiftPM.",
+  "исполнитель": {
+    "версия": "swift-driver version: 1.168.6 Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)",
+    "swiftc_sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "swift_frontend_sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "ld_sha256": "374d9f0713bce2c8a9e1e82bde51615d5433516a10d99b63107eb6ee70542e4c",
+    "полная_локальная_привязка": "Сохранена только в приватном evidence вне Git."
+  },
+  "платформа": {
+    "macOS": "27.0.1",
+    "архитектура": "arm64",
+    "sdk": "macosx 27.0",
+    "sdk_build_id": "26A425",
+    "target": "arm64-apple-macosx27.0.0"
+  },
+  "фикстура": {
+    "исходник": "arkhitektura/proverki/пилот-сборки-swift.swift",
+    "source_sha256": "b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b",
+    "sha256_копии_в_обоих_source-каталогах": [
+      "b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b",
+      "b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b"
+    ],
+    "module_name": "FUMАрхитектурныйПилот",
+    "output_basename": "FUMАрхитектурныйПилот"
+  },
+  "сборка": {
+    "режим": "Прямой swiftc; два отдельных пустых source-каталога и два отдельных пустых build-каталога.",
+    "флаги": [
+      "-swift-version 6",
+      "-strict-concurrency=complete",
+      "-warnings-as-errors",
+      "-sdk <MacOSX27.0 SDK>",
+      "-target arm64-apple-macosx27.0.0",
+      "-module-name FUMАрхитектурныйПилот",
+      "-o <BUILD_DIR>/FUMАрхитектурныйПилот",
+      "<SOURCE_DIR>/пилот-сборки-swift.swift"
+    ],
+    "окружение": {
+      "создание": "env -i",
+      "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+      "HOME": "отдельный приватный scratch; одинаковое значение для обеих сборок",
+      "TMPDIR": "отдельный приватный scratch; одинаковое значение для обеих сборок",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "DEVELOPER_DIR": "не задан; swiftc выбран до запуска, SDK передан явно через -sdk",
+      "SDKROOT": "не задан"
+    }
+  },
+  "результат": {
+    "executable_sha256": [
+      "84f3b56a5d7cc991d6d08cf290ba4bebcab2cd32189ba621d0172b4f5c68ea22",
+      "84f3b56a5d7cc991d6d08cf290ba4bebcab2cd32189ba621d0172b4f5c68ea22"
+    ],
+    "executable_bytes_equal": true,
+    "stdout_utf8": "contract=fum.arkhitektura.swift-build-pilot@1\nmodule=FUMАрхитектурныйПилот\nresult=ok\n",
+    "stdout_bytes": 103,
+    "stdout_sha256": "4932ba1c80d5be33589f4d697c2dccd273f4b4eabf29191b644c6b42fa856b10",
+    "stdout_bytes_equal": true,
+    "подпись": "Swift ld встроил ad-hoc CodeDirectory; Signature=adhoc, linker-signed."
+  },
+  "проверка_path_drift": {
+    "исходник_с_абсолютным_filePath": {
+      "предварительный_source_sha256": "fed76f499dfd8f6b0aaa74bf70e2ab4d00f0db0722a736bf5d2a38a6f4ceae7e",
+      "результат": "Различались бинарники и stdout: #filePath записал разные source paths. Поддержанные -file-prefix-map и -debug-prefix-map не переписывают эту source-level строку; финальная фикстура не выводит абсолютный путь."
+    },
+    "debug_info": {
+      "попытка": "-g с поддержанными -file-prefix-map и -debug-prefix-map для обоих source/build корней",
+      "без_map_sha256": [
+        "e72936606c54419af568d43d5cde95c1f349bbdc5f2e9b29330125f11922b680",
+        "5c3b34325dc5b8f27e54a8d8be225bab3832bf73452e62d3ec049ebf7d84563e"
+      ],
+      "с_map_sha256": [
+        "bebe98a2db98dde6e6b9e9d6feff16267147173743fd083b8a2164b54070713d",
+        "140322611ea040ca3593f7bc15d24c15c06b64654779618357441585704d5817"
+      ],
+      "stdout_equal": true,
+      "binary_equal_after_map": false,
+      "наблюдение": "Mach-O OSO symbols сохраняли случайные compiler TemporaryDirectory имена для swiftmodule/object. Эти пути не нормализовались проверенными prefix maps; ad-hoc CDHash поэтому также различался."
+    }
+  },
+  "ресурсы": {
+    "порог_свободного_места": "4 GiB",
+    "свободно_до_пилота_kib": 10046124,
+    "порог_собственного_scratch_kib": 262144,
+    "измерено_после_записи_private_evidence_kib": 912
+  },
+  "границы": [
+    "Подтверждена побайтная воспроизводимость только для этой CLI-фикстуры, этой конфигурации и macOS arm64 toolchain/SDK.",
+    "Успешная пара не включает -g; debug-info вариант с path maps в пределах этого пилота не воспроизвёл идентичный executable.",
+    "Не проверялись другие платформы/ОС, SwiftPM-пакет, вся FUMA, release packaging, distribution signing или notarization.",
+    "Пилот не меняет и не рекомендует менять compiler policy; он сохраняет результаты для следующего pure FUMA-среза."
+  ],
+  "следующий_срез": {
+    "статус": "queued_not_started",
+    "контракт": "pure FUMA input metrics/allowedModels/history -> recommendation with reason/trial/keep/rollback",
+    "ограничение": "Оператор не выполняет переключение модели; общая поведенческая политика и симметричная эскалация/деэскалация рассматриваются отдельным срезом после этого пилота."
+  },
+  "процедура": {
+    "документ": "arkhitektura/proverki/README.md",
+    "sha256": "98d47e84cab025798c01cc5956328c4a551b9c21555d254f9427e0d342e650f0",
+    "область": "README hash фиксирует воспроизводимый command procedure раздела пилота в этом checkpoint."
+  }
+}
