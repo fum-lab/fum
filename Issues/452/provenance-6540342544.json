@@ -1,0 +1,44 @@
+{
+  "captured_at_utc": "2026-10-31T07:05:09Z",
+  "excluded_checks": {
+    "python_router_root_jsonl_and_common_legacy_profile": "unknown_not_run"
+  },
+  "git_prewrite": {
+    "base_commit": "d47ea5126f1a5029ad95901664443c34df0795c6",
+    "base_tree": "510cadaaf0aaee6cd954783d7e6536e2a8662e16",
+    "branch_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "index_clean_before": true,
+    "index_tree_before": "510cadaaf0aaee6cd954783d7e6536e2a8662e16",
+    "preexisting_worktree_changes_retained": true,
+    "remote_name": "origin",
+    "remote_oid_before": "d47ea5126f1a5029ad95901664443c34df0795c6",
+    "remote_ref": "refs/heads/fum-lab/fum/istochniki/master",
+    "worktrees_on_ref": 1
+  },
+  "payload": {
+    "body_sha256": "8a745e4bc3417edf1cad79fde857e7a72a764bb52e3dbc6639c4854fbb1fee34",
+    "path": "Issues/452/comment-6540342544.json",
+    "rendered_body_sha256": "b4d228291f706855ed2d368eaa9154ac924591c77c0f6ecffda9417534922b91",
+    "sha256": "fc71ac7a4cbd08eb89563765439f586187ef9caa0b6c73b8994a2e18f3dd4c7e"
+  },
+  "schema": "fum.github-issue-comment-provenance.1",
+  "source": {
+    "comment_id": 6540342544,
+    "issue_number": 452,
+    "new_post_performed": false,
+    "readback_confirmed": true,
+    "readback_operation": "github_fetch_issue_comments",
+    "repository": "fum-lab/fum",
+    "url": "https://github.com/fum-lab/fum/issues/452#issuecomment-6540342544"
+  },
+  "write_boundary": {
+    "no_absolute_local_paths": true,
+    "no_auth_or_token": true,
+    "no_existing_checkpoint_edits": true,
+    "no_shared_markdown": true,
+    "only_new_paths": [
+      "Issues/452/comment-6540342544.json",
+      "Issues/452/provenance-6540342544.json"
+    ]
+  }
+}
