@@ -1,0 +1,79 @@
+{
+  "sha256Выхода": "9702d8acb4eb08442a23af15446ea7253fd139b0b8c89f4859c0dc39cd39cd8f",
+  "выход": "indeksyi/562daeda61e72ff8d243581d452959fbccee297c.json",
+  "границы": [
+    "Индекс охватывает только prefix iskhodniki/perekhod-vetok/fabrika-agentov в source OID 2e1904f6094828c73fcf23a185d710a0dc8336ad.",
+    "Ограниченный тип для нового job; не заменяет полный tree.snapshot и не меняет входы прежних job.",
+    "Применение в FUMA и создании агентов: UNKNOWN.",
+    "ROOT RAW/JSONL, legacy Python start, guard и общий индекс не запускались и не изменялись.",
+    "Чужие файлы, refs, worktree и индексы не изменялись."
+  ],
+  "источникGit": {
+    "oid": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+    "prefix": "iskhodniki/perekhod-vetok/fabrika-agentov",
+    "ref": "refs/remotes/origin/fum-lab/fum/instrumentyi/fabrika-agentov/pokryitiye/master",
+    "tree": "048ce9d410d59777648c66ceaf1b19655af7fd44",
+    "treeПоддерева": "562daeda61e72ff8d243581d452959fbccee297c"
+  },
+  "источникиПоручений": [
+    {
+      "источник": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "текст": "ROOT возобновляет независимый следующий этап Индексов сейчас, не ждём Native Stop или factory tests. Конкретный потребитель: Tools01a17797… и FUMA01a1698f… упёрлись в global tree.snapshot8.4MiB при observer cap1MiB. Используй существующий bounded Swift Git-tree index/prefix API (тот же git-tree-index.swift, которым ты уже построил manifest4файлов df60), нового индексатора/общего реестра не писать. Подготовь один честный адресный индекс только поддерева iskhodniki/perekhod-vetok/fabrika-agentov на опубликованном2e1904f6094828c73fcf23a185d710a0dc8336ad: точный sourceOID/tree/prefix/граница/пути/blobs/режимы/размеры/хэши по прежнему формату. Это ограниченный тип для НОВОГО job, не подмена полного tree старому job. Размер измерить, целевой максимум1MiB, при превышении не урезать молча. Применение в FUMA/созданиеагентов UNKNOWN. Собственный W/ref/HEAD/custody свеже, чужиефайлы/индекс не менять; source-only разрешены свой JSONиндекс и собственная новая пара indekсы/zhurnal в твоей фактической разрешённой зоне indekсы/indeksyi по уже действующему адресу (не создавать кириллический/латинский дубль). Сам выбери lowercaseASCII имя, readonly clock/Date/UUID, exactpaths в ownintent; legacy Python start/ROOTRAW/guard иобщийиндекс явно исключены. Если canonical journal-start отсутствует, допустим только sourceJSON с provenance и явным UNKNOWN Журнала, это не мешает sourcecommit. Автор — fresh ownUUID SQLite metadata, только GIT_AUTHOR_NAME, committerFUM; exactpush/readback. Соседям достаточно read-onlysource, новыйcompiler/runtime heavy не стартовать.",
+      "тип": "поручение ROOT"
+    },
+    {
+      "источник": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "текст": "Уточняю один опечатанный путь предыдущего сообщения: только ASCII indekсы не использовать; каноническая собственная зона строго `indeksyi/`. Твоя поставка7534257 уже содержит indekсы-объекты именно как `indeksyi/cc2b3a6e90e6996c37b334bdd869c72e79e177ba.json` и `indeksyi/zhurnal/01a07d3d-d376-7ad2-aafc-67e4c25a67eb.json`, я сверил реальные Git-пути. Новый индекс/собственные metadata сохраняй под `indeksyi/` в существующем формате, кириллические дубли не создавать. Контракт/producer и право выбора безопасного локального имени из прошлого поручения сохраняются; неизвестныеconsumer-use не менять на GREEN.",
+      "тип": "уточнение канонической зоны"
+    }
+  ],
+  "каноническийЖурнал": {
+    "причина": "Source-only поручение исключает legacy Python start; наличие и применимость альтернативного canonical start в этой фазе не доказаны. Эта JSON-запись не объявляется каноническим FUM Журналом.",
+    "статус": "UNKNOWN"
+  },
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "намерение": "Создать один source-пinned индекс Git blobs только prefix iskhodniki/perekhod-vetok/fabrika-agentov из опубликованного commit 2e1904f6094828c73fcf23a185d710a0dc8336ad и сохранить точные пути двух собственных JSON-файлов без заявления о применении в FUMA.",
+  "подтверждениеПравил": {
+    "ACK": "Применяю №000028 для read-only источника соседа без передачи владения; №000032 — исключённые ROOT JSONL/Python и непроверенный Журнал остаются UNKNOWN; №000063 — автор только по свежей собственной SQLite metadata.",
+    "acceptedCommit": "54b0e7fa58b965f245da54c757bee6fb1937c25a",
+    "agentsRecencySHA256": "5680a2067e7c8118ad570da354dbdbed55fb2d20f2da5db51c095ee82ba82972",
+    "localSkillsRecencySHA256": "5c728fda13850145b6cbd74318d3cd38295310178637d392b540385300536bd1",
+    "полностьюПрочитано": true
+  },
+  "проверки": [
+    "До записи подтверждены физический worktree, HEAD, symbolic ref, чистый индекс/рабочее дерево и единственная привязка worktree к ref.",
+    "Свежий SQLite metadata read для собственного UUID подтверждает model=gpt-6-luna и reasoning_effort=max; author name: FUM Codex [gpt-6-luna; effort=max].",
+    "origin source ref на момент чтения указывает ровно на source OID; root tree и subtree OID совпали с git rev-parse.",
+    "Существующий Swift индексатор завершился успешно; 8 уникальных blob-путей, суммарный размер содержимого 108185 байт.",
+    "Структура JSON и префикс каждого пути проверены; итоговый файл 5257 байт, лимит 1048576 байт, усечение не выполнялось.",
+    "Прочитаны принятые правила из commit 54b0e7fa58b965f245da54c757bee6fb1937c25a и применены границы №000028, №000032 и №000063; собственный ACK включён в эту запись."
+  ],
+  "профильТекущегоХода": {
+    "effort": "max",
+    "model": "gpt-6-luna",
+    "timestampUTC": "2026-10-31T17:43:52.566741000Z",
+    "turn": "01a19305-dae7-7590-bde8-3694d3378c79",
+    "собственныйЧат": "01a17838-f2eb-7f03-ad72-c5f50e73d8aa"
+  },
+  "собственнаяВетка": "refs/heads/fum-lab/fum/indeksyi/master",
+  "собственнаяЗадача": "01a17838-f2eb-7f03-ad72-c5f50e73d8aa",
+  "собственнаяОбласть": [
+    "indeksyi/562daeda61e72ff8d243581d452959fbccee297c.json",
+    "indeksyi/zhurnal/01a17838-f2eb-7f03-ad72-c5f50e73d8aa.json"
+  ],
+  "собственнаяОснова": "753425768f03eabae46c811f583f019649f8a038",
+  "собственноеВладение": {
+    "другихАктивныхПисателейВТекущемЗадании": false,
+    "единственныйWorktreeДляRef": true,
+    "путьПроверенЛокально": true
+  },
+  "собственныйHEAD": "753425768f03eabae46c811f583f019649f8a038",
+  "собственныйРабочийКорень": "Проверен локально; точный физический путь не публикуется в этом JSON.",
+  "существующийИнструмент": {
+    "blobOID": "976af8a25964ce27a814fd2c9e85029d4027651d",
+    "sha256": "2733ff24cd53813b9a5f136c5c30ef916a65f9c8f48873faed8463e38fe0a6a8",
+    "назначение": "Точный ограниченный снимок blob-объектов одного закреплённого поддерева.",
+    "путь": "indeksyi/git-tree-index.swift"
+  },
+  "схема": "fum.намерение-потребления-индекса.1"
+}

@@ -1,0 +1,96 @@
+{
+  "вид": "прототип-индекса-объектов-Git",
+  "воспроизведение": [
+    "git rev-parse 2e1904f6094828c73fcf23a185d710a0dc8336ad:iskhodniki/perekhod-vetok/fabrika-agentov",
+    "git ls-tree -r --full-tree 562daeda61e72ff8d243581d452959fbccee297c ; prepend iskhodniki/perekhod-vetok/fabrika-agentov/ to each returned path",
+    "Для каждого напечатанного OID: git cat-file -s <OID>",
+    "Для каждого напечатанного OID: git cat-file blob <OID> | shasum -a 256",
+    "Пути сортируются по байтам UTF-8; число уникальных путей должно совпадать с числом записей."
+  ],
+  "записи": [
+    {
+      "oid": "4f4bfd79142cb2295ae73e8be76ae6a129cd77cc",
+      "sha256": "53113a9cd36dfdaed3766b3d7c27ada2ef2456fc59be3bd3aaa029be8aa73142",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/adres.swift",
+      "размер_байт": 2944,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "bfd1bd0c0e68e1293b0dab6d495621b06a883f54",
+      "sha256": "0a8671e115dabe638636aa3fc586b9bc7ace5f3ebd0a6286fec17c7cc9e0fb14",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/etap.json",
+      "размер_байт": 31279,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "9942c17774ef201f983bf9e31d9149a9f87c60f1",
+      "sha256": "0117652c28d1de33ab9d65c5b942fb2a0aa2c44e00a9e82ba4a8cc50bbfb7d68",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+      "размер_байт": 24409,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "7c75477d1081a441d711007459229de87565907b",
+      "sha256": "31df4aa9507a397be50af241127fec04ee24dd9142e06c963119991a940cfb90",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/kontrakt.json",
+      "размер_байт": 15822,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "d1d34ddc763ca8ba5efb203254ed05d739ab5a7e",
+      "sha256": "6867bbd19dd32ea5454482edf3939d5b97202bb9f326c414b9ecc95281b72c40",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/manifest-postavki.json",
+      "размер_байт": 3876,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "2fc8f91582352ddf339a201dd8cf457e933af953",
+      "sha256": "654644fcde7a292b5081686fdda18a8313df84b9680701deb14be8d43f05cd88",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/popyitka.swift",
+      "размер_байт": 17527,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "2e700d4c067ac9e59937b648d7762cea436e5994",
+      "sha256": "11d89ae15000e255d710c62f19191ddfc574e6a9f992c030c42d653bef87386b",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/proverka-pered-zapuskom.swift",
+      "размер_байт": 4769,
+      "режим": "100644",
+      "тип": "blob"
+    },
+    {
+      "oid": "cfaa2badc4b1f2347f370c75bab8699be24ef253",
+      "sha256": "3246bbf2c9b39f0bc259ad835de6b6f363277d1227b6b44c8ce3b46ac1b4ec32",
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/vladeniye.swift",
+      "размер_байт": 7559,
+      "режим": "100644",
+      "тип": "blob"
+    }
+  ],
+  "источник": {
+    "tree": "048ce9d410d59777648c66ceaf1b19655af7fd44",
+    "tree_поддерева": "562daeda61e72ff8d243581d452959fbccee297c",
+    "коммит": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+    "путь": "iskhodniki/perekhod-vetok/fabrika-agentov"
+  },
+  "ограничения": [
+    "Снимок охватывает только blob выбранного поддерева iskhodniki/perekhod-vetok/fabrika-agentov в указанном commit, а не полный реестр узла.",
+    "Скрипт читает закреплённые Git-объекты; содержимое checkout не является источником снимка.",
+    "Пределы этого прототипа: 5 000 объектов, 16 MiB вывода ls-tree и 128 MiB blob-содержимого.",
+    "Пример не обновляет исторические Индексы/** и не доказывает полноту динамических потребителей или производительность.",
+    "Адресный тип только для нового job; не является заменой полного tree.snapshot для прежних задач.",
+    "Применение в FUMA и создании агентов: UNKNOWN; подтверждены только Git-объекты выбранного поддерева.",
+    "Предел JSON-файла — 1 MiB (1048576 байт); файл не усекается молча.",
+    "ROOT RAW/JSONL, legacy Python start, guard и общий индекс исключены из этой области."
+  ],
+  "порядок": "лексикографический по байтам UTF-8 пути",
+  "пути_уникальны": true,
+  "статус": "пример; общий машинный контракт не утверждён",
+  "элементов": 8
+}
