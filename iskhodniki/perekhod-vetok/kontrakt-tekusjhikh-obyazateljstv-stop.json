@@ -852,5 +852,36 @@
       "исполняемыйФайлОбработчика": "Не собран в этом минимальном графе",
       "production": "Не проверено"
     }
+  },
+  "предложениеКонечныхПродолженийV3": {
+    "состояние": "PROPOSAL: не скомпилировано, не испытано, не принято; не допуск активации",
+    "версии": {
+      "argv": "fum.текущие-обязательства-stop.3",
+      "header": "fum.stop-заголовок.3",
+      "current": "fum.текущие-обязательства-stop.3",
+      "допуск": "fum.stop-допуск-продолжения.1",
+      "claim": "fum.stop-захват-продолжения.1",
+      "progress": "fum.stop-принятый-прогресс.1"
+    },
+    "приоритет": [
+      "Чужой session не читает целевые файлы и не пишет claim",
+      "Проверенные человеческие STOP/пауза и доказанные bounded-complete/blocked-return обрабатываются до budget",
+      "Только затем точный ROOT-issued epoch/ordinal/operation выдаёт не более одного continuation",
+      "Claim UNKNOWN/spent и неподтверждённый следующий шаг дают technical pause с явно незавершённой задачей"
+    ],
+    "ключClaim": "Постоянный каталог epoch под custody; имя <epoch UUID>.<ordinal0..128>.claim. Operation UUID/header SHA/turn/time сами не меняют занятость ordinal.",
+    "атомарность": "O_EXCL резервирует один ordinal до эмиссии; write/fchmod0400/fsync(file+directory)/bytes+metadata readback. После O_EXCL отсутствуют unlink, rollback и retry. Ошибка/partial claim остаётся UNKNOWN и расходует сигнал.",
+    "источникПолномочий": "Header SHA выбран принятым Native config по отдельному ROOT admission. JSON/uid/hash сам по себе не подтверждает человека, actual loaded hook или правдивость progress.",
+    "прогресс": "Ordinal>0 требует отдельного нового ROOT grant SHA, pinned immutable progress receipt, hash предыдущего claim того же epoch/ordinal-1, исход операции и новый pinned current. ROOT проверяет реальный outcome до выдачи нового header; изменение timestamp/hash само не является прогрессом.",
+    "основаниеСнимка": "Token.наблюдениеSHA256 и progress hashes — SHA-256 точной typed Swift-проекции fum.stop-проектное-основание.1: cwd/tree/ref/HEAD/items/unknown intents/observations/disposition. JSONEncoder sortedKeys+withoutEscapingSlashes без LF. Header SHA/time/revision/epoch/operation исключены. Полный raw current SHA отдельно сохраняется в claim. Это разрывает цикл header→token→current→header и не принимает timestamp/operation alone за прогресс.",
+    "repair": "Только устаревший снимок и отдельный вид обновить-просроченный-снимок могут выдать один адресный repair-сигнал. Нет общего fallback на любой отказ.",
+    "границы": "Source OID и task/node/scope/generation совпадают с header; current V3 имеет epoch/operation/revision в header bounds. Grant действует не более3600с; ordinal0..128; claim≤16384B; progress≤16384B; outcome≤32768B. Header/current прежние пределы32768B.",
+    "совместимость": "V2 profile/schema и прежняя ветвь сохраняются. V3 требует нового versioned state/header и нового принятого runtime; старый current V2 не перезаписывается схемой V3. Автоматического downgrade V3→V2/C1 нет.",
+    "техническаяПауза": "continue:false останавливает автоматическую цепочку, оставляя задачу BLOCKED/UNKNOWN у ROOT. Это не completed, не human STOP и не финальная приёмка. Неверный argv с явно выбранным V3 также возвращает эту паузу, а не только systemMessage.",
+    "раннийОтказВвода": "Обычный одноаргументный вход распознаёт явный V3 до чтения stdin. Любой отказ poll/read, timeout или overflow этого чтения даёт техническую паузу continue:false/UNKNOWN без перехода в C1/V2, без чтения header/current и без claim. Принадлежность непрочитанного события неизвестна; управление не применено. Прежняя политика отказа stdin для C1/V2 сохраняется.",
+    "чужоеСобытиеИНеверныеАргументы": "При валидных V3 argv распознанный чужой session по-прежнему возвращает пустой ответ до целевого IO. При malformed argv с явным V3 адресность не доказана: даже если переданные bytes содержат чужой session, возвращается только техническая пауза UNKNOWN с явно незавершённой задачей и неприменённым управлением. Это отдельный отказ локального входа, а не признание события целевым, завершение или Native proof.",
+    "разделениеСостояний": "V3 читает состояниеV2 и новое состояние прежним bounded nofollow IO: каждый regular uid/nlink1/mode0600, непосредственный родитель0700, все компоненты без symlink. У существующих файлов пары dev/ino различаются, включая разные имена одного inode. Снимки сохраняют ancestry и метаданные; повторное подтверждение входит в конечное чтение перед результатом/claim. Прежний V2 current этим путём не записывается.",
+    "границаРазделения": "Это файловая проверка и наблюдённые bookends в пределах единственного писателя; не kernel CAS, не выдача полномочий, не доказательство accepted migration или loaded runtime. Компиляция и фактические negative cases этой редакции ещё не выполнялись.",
+    "неПроверено": ["Компиляция", "Новые тесты", "Системные гонки/crash", "Реальный Native callback", "Loaded ROOT hooks/trust", "Общий профиль", "Production"]
   }
 }

@@ -155,7 +155,7 @@ struct ПроверкиПротоколаПубликацииStop {
         #expect(try Data(contentsOf: target) == foreign)
     }
 
-    @Test func publisherCLIПроверяетСоздаётИЗаменяетПодТемЖеЗамком() throws {
+    @Test(arguments: [2, 3]) func publisherCLIПроверяетСоздаётИЗаменяетПодТемЖеЗамком(_ версия: Int) throws {
         let f = try Фикстура(); defer { f.cleanup() }
         let root = f.root.path, common = root + "/git", gitDir = common + "/worktrees/synthetic"
         let w = root + "/W", ref = "refs/heads/fum/synthetic/master"
@@ -170,16 +170,20 @@ struct ПроверкиПротоколаПубликацииStop {
         }
         let current = root + "/current.json", source = String(repeating: "a", count: 40)
         let headerURL = f.root.appendingPathComponent("header.json")
-        let header: [String: Any] = ["схема": "fum.stop-заголовок.2",
+        let старыйV2 = f.root.appendingPathComponent("retained-v2-current.json")
+        let старыеБайты = Data("V2 retained fixture; не является новым V3 current\n".utf8)
+        try Фикстура.write(старыеБайты, старыйV2)
+        var header: [String: Any] = ["схема": "fum.stop-заголовок.\(версия)",
             "задача": "00000000-0000-4000-8000-000000000001", "узел": "synthetic",
             "область": "test", "поколение": "generation1", "cwd": w, "дерево": w,
             "ref": ref, "gitDir": gitDir, "commonGitDir": common, "backend": "files",
             "objectFormat": "sha1", "исходники": source, "состояние": current,
             "каталогКвитанций": root, "максимальныйВозрастСекунд": 900]
-        let headerData = try Фикстура.json(header)
+        if версия == 3 { header["состояниеV2"] = старыйV2.path }
+        var headerData = try Фикстура.json(header)
         try Фикстура.write(headerData, headerURL, mode: 0o400)
-        let headerSHA = АтомарныеБайтыStop.sha256(headerData)
-        var snapshot: [String: Any] = ["схема": "fum.текущие-обязательства-stop.2",
+        var headerSHA = АтомарныеБайтыStop.sha256(headerData)
+        var snapshot: [String: Any] = ["схема": "fum.текущие-обязательства-stop.\(версия)",
             "заголовокSHA256": headerSHA, "задача": header["задача"]!, "узел": "synthetic",
             "область": "test", "поколение": "generation1",
             "управление": ["действие": "стоп", "основание": "Синтетическая проверка"]]
@@ -217,6 +221,42 @@ struct ПроверкиПротоколаПубликацииStop {
             let busyCode = try run(false, expected: finalSHA, check: true)
             #expect(busyCode != 0)
         }
+        snapshot["схема"] = "fum.текущие-обязательства-stop.\(версия == 2 ? 3 : 2)"
+        #expect(try run(false, expected: finalSHA, check: true) != 0)
+        snapshot["схема"] = "fum.текущие-обязательства-stop.\(версия)"
+        if версия == 3 {
+            let сохранённыйCurrent = try Data(contentsOf: URL(fileURLWithPath: current))
+            for вид in ["жёсткая-ссылка", "символическая-ссылка", "родитель-ссылка"] {
+                let ссылка = f.root.appendingPathComponent("v2-alias-" + вид)
+                if вид == "жёсткая-ссылка" {
+                    try FileManager.default.linkItem(at: URL(fileURLWithPath: current), to: ссылка)
+                    header["состояниеV2"] = ссылка.path
+                } else if вид == "символическая-ссылка" {
+                    try FileManager.default.createSymbolicLink(at: ссылка,
+                        withDestinationURL: URL(fileURLWithPath: current))
+                    header["состояниеV2"] = ссылка.path
+                } else {
+                    try FileManager.default.createSymbolicLink(at: ссылка, withDestinationURL: f.root)
+                    header["состояниеV2"] = ссылка.appendingPathComponent("current.json").path
+                }
+                headerData = try Фикстура.json(header); headerSHA = АтомарныеБайтыStop.sha256(headerData)
+                try Фикстура.write(headerData, headerURL, mode: 0o400)
+                snapshot["заголовокSHA256"] = headerSHA
+                let именаДо = try FileManager.default.contentsOfDirectory(atPath: root).sorted()
+                #expect(try run(false, expected: finalSHA, check: true) != 0)
+                #expect(try run(false, expected: finalSHA, check: false) != 0)
+                #expect(try FileManager.default.contentsOfDirectory(atPath: root).sorted() == именаДо)
+                #expect(try Data(contentsOf: URL(fileURLWithPath: current)) == сохранённыйCurrent)
+                #expect(try Data(contentsOf: старыйV2) == старыеБайты)
+                try FileManager.default.removeItem(at: ссылка)
+            }
+            header["состояниеV2"] = current
+            headerData = try Фикстура.json(header); headerSHA = АтомарныеБайтыStop.sha256(headerData)
+            try Фикстура.write(headerData, headerURL, mode: 0o400)
+            snapshot["заголовокSHA256"] = headerSHA
+            #expect(try run(false, expected: finalSHA, check: true) != 0)
+        }
+        #expect(try Data(contentsOf: старыйV2) == старыеБайты)
     }
 }
 

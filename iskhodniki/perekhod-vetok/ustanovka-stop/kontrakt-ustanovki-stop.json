@@ -1010,5 +1010,18 @@
       "общийПрофиль": "UNKNOWN",
       "граница": "Только сохранение исходников и изолированные фикстуры. Runtime/config/current/ref ROOT не изменены."
     }
+  },
+  "предложениеПубликацииV3": {
+    "состояние": "PROPOSAL: источники не скомпилированы/не испытаны, ROOT effects0",
+    "парыВерсий": [
+      ["fum.stop-заголовок.2", "fum.текущие-обязательства-stop.2"],
+      ["fum.stop-заголовок.3", "fum.текущие-обязательства-stop.3"]
+    ],
+    "инсталлятор": "Выбирает точное значение profile по версии header;8 пар аргументов сохраняются. Header/current смешанных версий закрыты.",
+    "раздельныеПути": "Header V3 обязательно содержит состояниеV2. Оба пути проверяются существующим bounded nofollow IO: regular uid/nlink1/mode0600, непосредственные родители0700, без symlink в ancestry; существующие файлы имеют разные dev/ino. При initiallyAbsent допускается только ENOENT конечного V3 basename в существующем безопасном родителе. Проверка сохраняет ancestry/identity snapshots и повторяется в publicationInputs, под тем же current lock и непосредственно перед rename. V2 current не записывается. Реальный legacy path, sole-writer custody и запрет его замены дополнительно закрепляет отдельный exact ROOT migration plan.",
+    "границаПроверки": "Publisher проверяет только metadata/schema/CAS. authorityChecked:false сохраняется; публикация V3 header/current не доказывает выдачу token, принятие progress, actual loaded runtime или human trust.",
+    "миграция": "Новый immutable binary+bundles → принятый source/header/token/current в отдельной versioned private области → отдельный ROOT config CAS/backup → проверенный supported reload/actual callback. Старый cached V2 handler продолжает получать прежние V2 bytes.",
+    "rollback": "Старую операцию не повторять. После UNKNOWN не выполнять blind rollback; noop/backup/restore требуют нового адресного плана ROOT с exact current bytes/hash и исходом предыдущего эффекта.",
+    "проверкиПредложены": "Существующий publisher CLI fixture дополнен реальными lexical-different hardlink, symlink и symlink-parent alias: check/apply должны отказать до intent, без новых receipt names и без изменения старого V2 current/нового current. Отдельные core fixtures проверяют nlink/parent policy, distinct files и дрейф первоначального ENOENT. Ни один новый тест здесь не запускался."
   }
 }

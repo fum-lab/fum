@@ -1098,3 +1098,334 @@ struct ПроверкиФайловыхСсылок {
         #expect(проверено == 54)
     }
 }
+
+// Предложение V3; эти тесты не запускались. Реальный Native callback — отдельная проверка ROOT.
+@Suite("Конечные продолжения V3", .serialized)
+struct ПроверкиКонечныхПродолженийStop {
+    // Только отдельный адресный запуск: stdin — общий дескриптор процесса.
+    // Он остаётся занят дескриптором только для записи, а не закрывается для переиспользования.
+    private func ответПриОтказеЧтенияВвода(_ аргументы: [String]) throws -> Data {
+        let прежний = Darwin.dup(STDIN_FILENO)
+        try #require(прежний >= 0)
+        defer { _ = Darwin.close(прежний) }
+        let толькоЗапись = Darwin.open("/dev/null", O_WRONLY | O_CLOEXEC | O_NOFOLLOW)
+        try #require(толькоЗапись >= 0)
+        defer { _ = Darwin.close(толькоЗапись) }
+        try #require(Darwin.dup2(толькоЗапись, STDIN_FILENO) == STDIN_FILENO)
+        defer { #expect(Darwin.dup2(прежний, STDIN_FILENO) == STDIN_FILENO) }
+        // Настоящий одноаргументный вход: poll/read отказывает до Data-перегрузки.
+        return КомандаStop.выполнить(аргументы)
+    }
+
+    @Test func отказЧтенияОбычногоВходаТретьейВерсииЯвноПриостанавливает() throws {
+        let аргументы = ["--профиль-наблюдений", "fum.текущие-обязательства-stop.3"]
+        let данные = try ответПриОтказеЧтенияВвода(аргументы)
+        try пауза(данные)
+        let ответ = try объект(данные)
+        #expect((ответ["stopReason"] as? String)?.contains("UNKNOWN") == true)
+        #expect((ответ["stopReason"] as? String)?.contains("отказ-чтения-ввода-V3") == true)
+    }
+
+    @Test func отказЧтенияОбычногоВходаПрежнейВерсииСохраняетДиагностику() throws {
+        let ответ = try объектОтвета(ответПриОтказеЧтенияВвода([]))
+        #expect(ответ["systemMessage"] is String)
+        #expect(ответ["continue"] == nil)
+        #expect(ответ["stopReason"] == nil)
+        #expect(ответ["decision"] == nil)
+    }
+
+    @Test func неверныеАргументыТретьейВерсииЯвноПриостанавливают() throws {
+        for аргументы in [
+            ["--профиль-наблюдений", "fum.текущие-обязательства-stop.3"],
+            ["--профиль-наблюдений", "fum.текущие-обязательства-stop.3", "--лишний", "значение"]
+        ] {
+            try пауза(КомандаStop.выполнить(аргументы, ввод: Data()))
+        }
+    }
+
+    @Test func неверныеАргументыТретьейВерсииНеВыдаютЧужоеСобытиеЗаЗавершение() throws {
+        let чужое = try событиеStop(задача: "00000000-0000-4000-8000-000000000480")
+        let аргументы = ["--профиль-наблюдений", "fum.текущие-обязательства-stop.3"]
+        // Неверные argv не доказывают адресность события: только техническая пауза UNKNOWN.
+        let данные = КомандаStop.выполнить(аргументы, ввод: чужое)
+        try пауза(данные)
+        let ответ = try объект(данные)
+        #expect((ответ["stopReason"] as? String)?.contains("UNKNOWN") == true)
+        #expect((ответ["stopReason"] as? String)?.contains("управление не применено") == true)
+    }
+
+    @Test(arguments: ["разные", "жёсткая-ссылка", "символическая-ссылка",
+        "родитель-ссылка", "родитель-доступен-группе"])
+    func физическоеРазделениеСохраняетПрежниеБайты(_ вид: String) throws {
+        let корень = URL(fileURLWithPath: "/private/tmp", isDirectory: true)
+            .appendingPathComponent("fum-state-separation-" + UUID().uuidString.lowercased())
+        try FileManager.default.createDirectory(at: корень, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: корень) }
+        let прежнее = корень.appendingPathComponent("current-v2.json")
+        let каталог = корень.appendingPathComponent("v3", isDirectory: true)
+        try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        var новое = каталог.appendingPathComponent("current-v3.json")
+        let байты = Data("Прежний V2 current сохраняется побайтно\n".utf8)
+        try байты.write(to: прежнее)
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: прежнее.path)
+        switch вид {
+        case "жёсткая-ссылка": try FileManager.default.linkItem(at: прежнее, to: новое)
+        case "символическая-ссылка":
+            try FileManager.default.createSymbolicLink(at: новое, withDestinationURL: прежнее)
+        default:
+            try Data("Отдельный V3 current\n".utf8).write(to: новое)
+            try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: новое.path)
+            if вид == "родитель-ссылка" {
+                let ссылка = корень.appendingPathComponent("v3-alias", isDirectory: true)
+                try FileManager.default.createSymbolicLink(at: ссылка, withDestinationURL: каталог)
+                новое = ссылка.appendingPathComponent("current-v3.json")
+            } else if вид == "родитель-доступен-группе" {
+                try FileManager.default.setAttributes([.posixPermissions: 0o770], ofItemAtPath: каталог.path)
+            }
+        }
+        var до = stat(); try #require(lstat(прежнее.path, &до) == 0)
+        if вид == "разные" {
+            try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+                состояниеV2: прежнее.path, состояниеV3: новое.path).подтвердить()
+        } else {
+            #expect(throws: (any Error).self) {
+                _ = try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+                    состояниеV2: прежнее.path, состояниеV3: новое.path)
+            }
+        }
+        var после = stat(); try #require(lstat(прежнее.path, &после) == 0)
+        #expect(try Data(contentsOf: прежнее) == байты)
+        #expect(до.st_dev == после.st_dev && до.st_ino == после.st_ino
+            && до.st_nlink == после.st_nlink && до.st_mode == после.st_mode
+            && до.st_size == после.st_size
+            && до.st_mtimespec.tv_sec == после.st_mtimespec.tv_sec
+            && до.st_mtimespec.tv_nsec == после.st_mtimespec.tv_nsec
+            && до.st_ctimespec.tv_sec == после.st_ctimespec.tv_sec
+            && до.st_ctimespec.tv_nsec == после.st_ctimespec.tv_nsec)
+    }
+
+    @Test func отсутствиеНовогоСостоянияПодтверждаетсяДоПубликации() throws {
+        let корень = URL(fileURLWithPath: "/private/tmp", isDirectory: true)
+            .appendingPathComponent("fum-state-absence-" + UUID().uuidString.lowercased())
+        try FileManager.default.createDirectory(at: корень, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: корень) }
+        let прежнее = корень.appendingPathComponent("current-v2.json")
+        let новое = корень.appendingPathComponent("current-v3.json")
+        let байты = Data("Прежний current\n".utf8)
+        try байты.write(to: прежнее)
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: прежнее.path)
+        #expect(throws: (any Error).self) {
+            _ = try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+                состояниеV2: прежнее.path, состояниеV3: новое.path)
+        }
+        let снимок = try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+            состояниеV2: прежнее.path, состояниеV3: новое.path, допускаетсяОтсутствиеV3: true)
+        try снимок.подтвердить()
+        try Data("Позднее создание\n".utf8).write(to: новое)
+        #expect(throws: (any Error).self) { try снимок.подтвердить() }
+        #expect(try Data(contentsOf: прежнее) == байты)
+    }
+
+    private let эпоха = "00000000-0000-4000-8000-000000000301"
+    private let операция = "00000000-0000-4000-8000-000000000302"
+    private let новаяОперация = "00000000-0000-4000-8000-000000000303"
+
+    private func поля() -> [String: Any] {
+        ["схема": "fum.stop-допуск-продолжения.1", "задача": задачаStop,
+         "узел": узелStop, "область": "fixture-v3", "поколение": "fixture-epoch",
+         "исходники": String(repeating: "a", count: 40), "эпоха": эпоха,
+         "операция": операция, "вид": "безопасный-шаг", "пункт": "item-1",
+         "следующаяРабота": "Проверить один адресный результат",
+         "корневойДопускSHA256": String(repeating: "c", count: 64),
+         "наблюдениеSHA256": String(repeating: "a", count: 64),
+         "редакция": 7, "номер": 0, "выдан": 0, "действуетДо": 200,
+         "каталогЗахватов": "/private/tmp/не-используется-чистыми-тестами",
+         "устройствоКаталога": 1, "inodeКаталога": 2]
+    }
+    private func допуск(_ p: [String: Any]) throws -> КонечноеПродолжениеStop.Допуск {
+        try JSONDecoder().decode(КонечноеПродолжениеStop.Допуск.self,
+            from: JSONSerialization.data(withJSONObject: p))
+    }
+    private func контекст(ход: String = "turn-1", hash: String? = nil) -> КонечноеПродолжениеStop.Контекст {
+        .init(задача: задачаStop, узел: узелStop, область: "fixture-v3", поколение: "fixture-epoch",
+            исходники: String(repeating: "a", count: 40), заголовокSHA256: String(repeating: "b", count: 64),
+            наблюдениеSHA256: hash ?? String(repeating: "a", count: 64),
+            полныйСнимокSHA256: String(repeating: "f", count: 64), редакция: 7, ход: ход, сейчас: 100)
+    }
+    private func объект(_ bytes: Data) throws -> [String: Any] {
+        try #require(JSONSerialization.jsonObject(with: bytes) as? [String: Any])
+    }
+    private func пауза(_ bytes: Data) throws {
+        let p = try объект(bytes)
+        #expect(p["continue"] as? Bool == false)
+        #expect(p["decision"] == nil)
+        #expect((p["stopReason"] as? String)?.contains("задача не завершена") == true)
+    }
+
+    @Test func одинСигналИПовторДругогоTurnНеПеревыдаётToken() throws {
+        let d = try допуск(поля()); var занят = false; var emissions = 0
+        for ход in ["turn-1", "turn-2"] {
+            let data = КонечноеПродолжениеStop.ответ(d, контекст(ход: ход),
+                повод: .безопасныйШаг(d.следующаяРабота), проверитьПрогресс: { Issue.record("номер0 не читает progress") },
+                захват: { _ in
+                    if занят { return .ужеЗанят }; занят = true; return .создан
+                })
+            if try объект(data)["decision"] as? String == "block" { emissions += 1 }
+            else { try пауза(data) }
+        }
+        #expect(emissions == 1)
+    }
+
+    @Test func новыйOperationИHashНеПереоткрываютEpochOrdinal() throws {
+        var p = поля(); let first = try допуск(p)
+        p["операция"] = новаяОперация; p["наблюдениеSHA256"] = String(repeating: "d", count: 64)
+        let next = try допуск(p)
+        #expect(try КонечноеПродолжениеStop.имяЗахвата(first.эпоха, номер: first.номер)
+            == КонечноеПродолжениеStop.имяЗахвата(next.эпоха, номер: next.номер))
+        let data = КонечноеПродолжениеStop.ответ(next,
+            контекст(ход: "new-turn", hash: String(repeating: "d", count: 64)),
+            повод: .безопасныйШаг(next.следующаяРабота), проверитьПрогресс: {}, захват: { _ in .ужеЗанят })
+        try пауза(data)
+    }
+
+    @Test func неизвестныйClaimНеВыпускаетСигнал() throws {
+        let d = try допуск(поля()); var claims = 0
+        let first = КонечноеПродолжениеStop.ответ(d, контекст(), повод: .безопасныйШаг(d.следующаяРабота),
+            проверитьПрогресс: {}, захват: { _ in claims += 1; throw КонечноеПродолжениеStop.Отказ.синхронизация })
+        try пауза(first)
+        let next = КонечноеПродолжениеStop.ответ(d, контекст(ход: "retry"),
+            повод: .безопасныйШаг(d.следующаяРабота), проверитьПрогресс: {}, захват: { _ in .ужеЗанят })
+        try пауза(next); #expect(claims == 1)
+    }
+
+    @Test func staleТребуетОтдельногоRepairВида() throws {
+        var p = поля(); let d = try допуск(p); var claims = 0
+        try пауза(КонечноеПродолжениеStop.ответ(d, контекст(), повод: .устаревший,
+            проверитьПрогресс: {}, захват: { _ in claims += 1; return .создан }))
+        #expect(claims == 0)
+        p["вид"] = "обновить-просроченный-снимок"; let repair = try допуск(p)
+        let result = КонечноеПродолжениеStop.ответ(repair, контекст(), повод: .устаревший,
+            проверитьПрогресс: {}, захват: { _ in claims += 1; return .создан })
+        #expect(try объект(result)["decision"] as? String == "block"); #expect(claims == 1)
+    }
+
+    @Test func следующаяОперацияБезПринятогоProgressНеПолучаетClaim() throws {
+        var p = поля(); p["номер"] = 1; p["операция"] = новаяОперация; p["предыдущаяОперация"] = операция
+        p["прогресс"] = ["путь": "progress.json", "sha256": String(repeating: "e", count: 64)]
+        let d = try допуск(p); var claims = 0
+        let result = КонечноеПродолжениеStop.ответ(d, контекст(), повод: .безопасныйШаг(d.следующаяРабота),
+            проверитьПрогресс: { throw КонечноеПродолжениеStop.Отказ.прогресс },
+            захват: { _ in claims += 1; return .создан })
+        try пауза(result); #expect(claims == 0)
+    }
+
+    @Test func границыВерсииСрокаSourceИРедакцииДоПобочногоЭффекта() throws {
+        let повреждения: [(String, Any)] = [("схема", "fum.stop-допуск-продолжения.2"),
+            ("номер", 129), ("выдан", 101), ("действуетДо", 99), ("редакция", 8),
+            ("исходники", String(repeating: "f", count: 40))]
+        for (key, value) in повреждения {
+            var p = поля(); p[key] = value; let d = try допуск(p); var claims = 0
+            try пауза(КонечноеПродолжениеStop.ответ(d, контекст(), повод: .безопасныйШаг(d.следующаяРабота),
+                проверитьПрогресс: {}, захват: { _ in claims += 1; return .создан }))
+            #expect(claims == 0)
+        }
+    }
+
+    @Test func progressСвязываетClaimНовыйRootGrantИИсходШага() throws {
+        let initial = try допуск(поля()); var rawClaim = Data()
+        _ = КонечноеПродолжениеStop.ответ(initial, контекст(), повод: .безопасныйШаг(initial.следующаяРабота),
+            проверитьПрогресс: {}, захват: { bytes in rawClaim = bytes; return .создан })
+        let claim = try JSONDecoder().decode(КонечноеПродолжениеStop.Квитанция.self, from: rawClaim)
+        let hash = SHA256.hash(data: rawClaim).map { String(format: "%02x", $0) }.joined()
+        var p = поля(); p["номер"] = 1; p["операция"] = новаяОперация; p["предыдущаяОперация"] = операция
+        p["корневойДопускSHA256"] = String(repeating: "e", count: 64)
+        p["наблюдениеSHA256"] = String(repeating: "d", count: 64)
+        p["прогресс"] = ["путь": "progress.json", "sha256": String(repeating: "f", count: 64)]
+        let d = try допуск(p)
+        var receipt: [String: Any] = ["схема": "fum.stop-принятый-прогресс.1",
+            "задача": d.задача, "узел": d.узел, "область": d.область, "поколение": d.поколение,
+            "исходники": d.исходники, "эпоха": d.эпоха, "предыдущаяОперация": операция,
+            "следующаяОперация": новаяОперация, "предыдущийЗахватSHA256": hash,
+            "предыдущееНаблюдениеSHA256": claim.наблюдениеSHA256,
+            "новоеНаблюдениеSHA256": d.наблюдениеSHA256, "корневойДопускSHA256": d.корневойДопускSHA256,
+            "исход": "шаг-выполнен-и-принят",
+            "результат": ["путь": "operation-result.json", "sha256": String(repeating: "b", count: 64)]]
+        func decode() throws -> КонечноеПродолжениеStop.Прогресс {
+            try JSONDecoder().decode(КонечноеПродолжениеStop.Прогресс.self,
+                from: JSONSerialization.data(withJSONObject: receipt))
+        }
+        try КонечноеПродолжениеStop.проверитьПрогресс(decode(), прежнийSHA256: hash, claim, d)
+        receipt["исход"] = "прогресс-не-принят"
+        #expect(throws: (any Error).self) {
+            try КонечноеПродолжениеStop.проверитьПрогресс(decode(), прежнийSHA256: hash, claim, d)
+        }
+    }
+
+    @Test func проекцияНеЗависитОтHeaderTimeRevisionИОперации() throws {
+        let observations = НаблюденияStop(задача: задачаStop, узел: узелStop,
+            следующаяРабота: "Один проверенный шаг", условия: обычныеУсловияStop())
+        var state: [String: Any] = ["cwd": рабочийКаталогStop, "дерево": рабочийКаталогStop,
+            "ref": "refs/heads/fixture", "HEAD": String(repeating: "a", count: 40),
+            "выпущен": 1, "действуетДо": 2, "редакция": 1,
+            "заголовокSHA256": String(repeating: "a", count: 64),
+            "эпохаПродолжения": эпоха, "операцияПродолжения": операция,
+            "пункты": [["id": "item-1", "область": "fixture-v3", "состояние": "доступен",
+                "уровень": "исходники", "основание": "Синтетический проверочный шаг"]],
+            "неизвестныеНамерения": [],
+            "наблюдения": try JSONSerialization.jsonObject(with: JSONEncoder().encode(observations))]
+        func basis() throws -> String {
+            try КомандаStop.основаниеСнимкаV3(JSONSerialization.data(withJSONObject: state))
+        }
+        let first = try basis()
+        state["заголовокSHA256"] = String(repeating: "b", count: 64)
+        state["выпущен"] = 100; state["действуетДо"] = 200; state["редакция"] = 2
+        state["операцияПродолжения"] = новаяОперация
+        #expect(try basis() == first)
+        state["HEAD"] = String(repeating: "c", count: 40)
+        #expect(try basis() != first)
+    }
+
+    @Test func crashПослеExclusiveCreateСохраняетЗанятыйSlot() throws {
+        let parent = FileManager.default.temporaryDirectory
+            .appendingPathComponent("fum-v3-claim-" + UUID().uuidString.lowercased())
+        try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false,
+            attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: parent) }
+        let resolved = try #require(parent.path.withCString { Darwin.realpath($0, nil) })
+        defer { Darwin.free(resolved) }
+        // Строка realpath сохраняется без повторного преобразования URL перед nofollow-reader.
+        let physicalParent = String(cString: resolved)
+        var st = stat(); try #require(lstat(physicalParent, &st) == 0)
+        var p = поля(); let now = Int64(Date().timeIntervalSince1970)
+        p["каталогЗахватов"] = physicalParent; p["устройствоКаталога"] = UInt64(st.st_dev)
+        p["inodeКаталога"] = UInt64(st.st_ino); p["выдан"] = now - 1; p["действуетДо"] = now + 60
+        let d = try допуск(p); var points = КонечноеПродолжениеStop.ТочкиЗахвата()
+        enum ВнедрённыйОтказ: Error { case послеСоздания }
+        var достигнутаТочкаСоздания = false
+        var пойманВнедрённыйОтказ = false
+        points.послеСоздания = {
+            достигнутаТочкаСоздания = true
+            throw ВнедрённыйОтказ.послеСоздания
+        }
+        do {
+            _ = try КонечноеПродолжениеStop.захватить(d, Data("claim\n".utf8), точки: points, подтвердить: {})
+            Issue.record("Ожидался внедрённый отказ после создания claim")
+        } catch ВнедрённыйОтказ.послеСоздания {
+            пойманВнедрённыйОтказ = true
+        } catch {
+            Issue.record("Получен иной отказ вместо инъекции после создания claim: \(error)")
+            throw error
+        }
+        try #require(достигнутаТочкаСоздания)
+        try #require(пойманВнедрённыйОтказ)
+        let path = physicalParent + "/"
+            + (try КонечноеПродолжениеStop.имяЗахвата(d.эпоха, номер: 0))
+        let before = try #require(FileManager.default.contents(atPath: path))
+        let again = try КонечноеПродолжениеStop.захватить(d, Data("different\n".utf8), подтвердить: {})
+        if case .создан = again { Issue.record("partial claim нельзя переоткрывать") }
+        #expect(FileManager.default.contents(atPath: path) == before)
+    }
+}
