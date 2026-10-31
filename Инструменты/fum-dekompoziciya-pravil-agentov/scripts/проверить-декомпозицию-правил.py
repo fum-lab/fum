@@ -43,6 +43,8 @@ sys.modules[описание_нормативного_журнала.name] = м�
      "80df5ed53f8b6b1a46c8293b72e0862fe0e0df117eb00d3496a07068dcbda034"): "старый",
     ("21d60c33bb83197c892dc629ae9eae9392bc06a0ca91012b97a87e48dab1d307",
      "978bd549652336f98975b3dea603002d5ace058708be5c70b411ecb47e9876c7"): "JSONL",
+    ("87b6e5d0bb499e9b2f52fdef32a47ff965ec2f17ca0094e12a0dcad13c72285b",
+     "ca824ffc92a5e616e0feed1a6f615fe7e192e013ed699937cda6ecfdad1bb63c"): "JSONL",
 }
 ПРАВИЛА_ПРОДОЛЖЕНИЯ = ("FUM-ПРАВИЛО-000062", "FUM-ПРАВИЛО-НОВОЕ-000017")
 
