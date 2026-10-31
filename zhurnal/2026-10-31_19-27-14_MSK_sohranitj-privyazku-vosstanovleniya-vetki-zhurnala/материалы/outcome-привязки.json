@@ -1,0 +1,112 @@
+{
+  "schema": "fum.worktree-reincarnation-outcome.1",
+  "status": "SOURCE_ONLY",
+  "ref": "refs/heads/fum-lab/fum/zhurnal/master",
+  "head": "799d55c96497a48bf9bbd65ce2d75910d72b1654",
+  "parents": [
+    "2d4372e44ab5d5fb01c040b44ee346f5193451ca",
+    "df60f239c178a6b3bd9274ce190385089579b706"
+  ],
+  "author": "FUM Писатель <fum@local>",
+  "committer": "FUM <fum@local>",
+  "worktree": "/Users/fum/Projects/fum-uzlyi/fum-lab/fum/zhurnal/master",
+  "cleanBeforeJournal": true,
+  "sparseWorktreeConfig": "core.sparseCheckout=true; cone=false; shared extensions.worktreeConfig already true; shared config unchanged",
+  "reader": {
+    "compactTask": "Python implementation, not run",
+    "FUMA snapshot": "synthetic only, no live collector",
+    "FUMA archive": "reads JSONL, excluded for ROOT",
+    "liveReader": "UNKNOWN",
+    "nextAction": "UNKNOWN"
+  },
+  "sourceSHA256": {
+    "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/README.md": "31e2b97aeebfc279f690e9786a94dc0aa7c7df83252127544b1cd6bb0a08f94a",
+    "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Контракт.swift": "ce279309db2c8625d5c770fdfaa325077d23b9b207c5396f1c40a86031794069",
+    "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/КомандаСнимка/Команда.swift": "74727a1a06f1027c2d9c182315285999510246ff98c45e6ee74c32e7d4bd2e86",
+    "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Чтение.swift": "09fb29f719a22cb429c2d0ba52d632a642232a1ac9bfe2b7d39241edd7dc1dec"
+  },
+  "toolErrors": [
+    {
+      "workdir": "/Users/fum/.codex/worktrees/swift-md-recency/FUM",
+      "error": "CreateProcess: No such file or directory (os error 2); no process started; fresh read followed from /Users/fum/Projects/FUM"
+    },
+    {
+      "command": "cat Инструменты/fum-struktura-papok-zaprosov/SKILL.md",
+      "error": "No such file or directory in sparse working view; exact committed skill read with git show"
+    },
+    {
+      "command": "Ruby Dir.mkdir(path, mode:0700)",
+      "error": "Ruby 2.6 TypeError: no implicit conversion of Hash into Integer; target checked absent, before write"
+    },
+    {
+      "command": "первый рендер отчёта с устаревшей отметкой времени",
+      "error": "timestamp changed after precheck; остановлен до записи"
+    },
+    {
+      "workdir": "/Users/fum/Projects/fum-uzlyi/fum/lab/zhurnal/master",
+      "error": "CreateProcess rejected: No such file or directory; process did not start; read resumed from the correct W"
+    },
+    {
+      "command": "bounded Ruby recency/link readback with mistyped journal directory",
+      "error": "Errno::ENOENT before any write; corrected by resolving the exact directory with find"
+    },
+    {
+      "command": "first final report rewrite, duplicate link replacement in the in-memory buffer",
+      "error": "precondition raised after the earlier substitution; no file was written"
+    }
+  ],
+  "checks": {
+    "Python": "not run",
+    "ROOT_JSONL": "not read",
+    "legacy": "not run",
+    "fullProfile": "UNKNOWN",
+    "templateSHA256": {
+      "request": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+      "report": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359"
+    },
+    "journalValidation": "exact four files; JSON parse, Swift recency receipts, source hashes, local links, and diff checks recorded",
+    "recencyUpdater": {
+      "sourceCommit": "f88044fe7a9e3119328ee7a4af187c6f43008b01",
+      "sourcePath": "Инструменты/fum-svezhestj-markdown/scripts/obnovitj-svezhestj-markdown.swift",
+      "sourceBlob": "c1a64920319b2d534124b884713e9d965884022d",
+      "sourceSHA256": "53b721faa081b39d88bb74b72ad63908303e66fe1fb05daeb9c7a1a6dc0bd1b3",
+      "build": "Swift 6, strict concurrency complete, warnings as errors",
+      "report": {
+        "status": "updated",
+        "time": "2026-10-31 19:44:58 MSK",
+        "inputSHA256": "79d3da4dfd6f86165f907bb0fd5a18dab0a7ed3eee94fafe880e7ce3f39c0dcd",
+        "outputSHA256": "952c8590f5d0eaec67d100f3ebde54ab4fa9c4659a26fe5444790e4c63639ca9",
+        "contentSHA256": "f207b2bcca81209d8dfe9616666b3a48797a24a461819078acf2b0b69eadfdc1",
+        "verification": {
+          "status": "current",
+          "time": "2026-10-31 19:46:05 MSK",
+          "sha256": "27d97c2b8e1ef077665c09eea4df649c9b76401979e86865ca8daa40f2a95eed",
+          "contentSHA256": "b5aeab2d474cc1b226d41bdfd71e0d53b9e0a6f1c38364e2a2e897d2517b5f29"
+        }
+      },
+      "request": {
+        "status": "already_current",
+        "time": "2026-10-31 19:27:14 MSK",
+        "sha256": "74e30ce1a064ca5d48b7b11860e704e5e58f7d69b1670317e4586e04339b0249",
+        "contentSHA256": "4299a6270e87108d0b9b203b02327a00cc884ee8be2b0e8854c40c06ae1dc357",
+        "verification": {
+          "status": "current",
+          "time": "2026-10-31 19:27:14 MSK",
+          "sha256": "74e30ce1a064ca5d48b7b11860e704e5e58f7d69b1670317e4586e04339b0249",
+          "contentSHA256": "4299a6270e87108d0b9b203b02327a00cc884ee8be2b0e8854c40c06ae1dc357"
+        }
+      }
+    }
+  },
+  "remaining": [
+    "live reader contract absent"
+  ],
+  "authorEvidence": {
+    "source": "read-only SELECT from /Users/fum/.codex/state_5.sqlite, table threads",
+    "threadId": "01a17703-7b60-72f1-bfe8-08f923e7bc3d",
+    "model": "gpt-6-luna",
+    "reasoningEffort": "max",
+    "updatedAtMs": 1793465276586,
+    "use": "GIT_AUTHOR_NAME only; no backend claim"
+  }
+}

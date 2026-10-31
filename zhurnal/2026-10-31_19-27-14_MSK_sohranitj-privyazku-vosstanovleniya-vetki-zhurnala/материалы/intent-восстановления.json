@@ -1,0 +1,23 @@
+{
+  "schema": "fum.worktree-reincarnation-intent.1",
+  "time": "2026-10-31 19:27:14 MSK",
+  "repository": "/Users/fum/Projects/fum-uzlyi/fum-lab/fum/zhurnal/master",
+  "ref": "refs/heads/fum-lab/fum/zhurnal/master",
+  "initialOID": "2d4372e44ab5d5fb01c040b44ee346f5193451ca",
+  "targetAbsent": true,
+  "branchUnattached": true,
+  "mergeSource": "df60f239c178a6b3bd9274ce190385089579b706",
+  "targetFiles": [
+    "zhurnal/2026-10-31_19-27-14_MSK_sohranitj-privyazku-vosstanovleniya-vetki-zhurnala/запрос.md",
+    "zhurnal/2026-10-31_19-27-14_MSK_sohranitj-privyazku-vosstanovleniya-vetki-zhurnala/отчёт.md",
+    "zhurnal/2026-10-31_19-27-14_MSK_sohranitj-privyazku-vosstanovleniya-vetki-zhurnala/материалы/intent-восстановления.json",
+    "zhurnal/2026-10-31_19-27-14_MSK_sohranitj-privyazku-vosstanovleniya-vetki-zhurnala/материалы/outcome-привязки.json"
+  ],
+  "constraints": {
+    "python": "STOP",
+    "ROOT_JSONL": "STOP",
+    "legacy_reader": "STOP",
+    "full_profile": "UNKNOWN",
+    "foreign_worktrees": "read-only"
+  }
+}
