@@ -561,6 +561,86 @@ public struct РезультатПодготовкиОкруженияКомми
     public let ошибки: [String]
 }
 
+/// Метаданные отдельно разрешённого незавершённого сохранения исходников.
+/// Этот вход не удостоверяет полномочия, прохождение профиля или выбор модели.
+public struct ЗапросМетаданныхИсходников: Codable, Equatable, Sendable {
+    public let схема: String
+    public let корневойUUID: String
+    public let писатель: String
+    public let рабочееДерево: String
+    public let реф: String
+    public let родитель: String
+    public let дерево: String
+    public let статусВыбора: String
+    public let основаниеSHA256: String
+    public let план: ПланСообщенияКоммита
+
+    public func проверить() -> [String] {
+        var ошибки = ГенераторМетаданныхКоммита.проверитьЗаголовок(план.заголовок)
+        if схема != "fum.source-checkpoint-metadata-request.1" || статусВыбора != "UNKNOWN" {
+            ошибки.append("неверный-явный-режим-исходников")
+        }
+        if UUID(uuidString: корневойUUID) == nil || UUID(uuidString: писатель) == nil {
+            ошибки.append("неверный-uuid-исходников")
+        }
+        if !рабочееДерево.hasPrefix("/") || !реф.hasPrefix("refs/heads/") {
+            ошибки.append("нет-адресной-границы-исходников")
+        }
+        for (значение, длина) in [(родитель, 40), (дерево, 40), (основаниеSHA256, 64)] {
+            if значение.utf8.count != длина || !значение.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) {
+                ошибки.append("неверный-pin-исходников")
+            }
+        }
+        if план.описание.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            план.исходныйЗапрос.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            ошибки.append("нет-содержания-сообщения-исходников")
+        }
+        return ошибки
+    }
+
+    /// Совместимый DTO используется только как транспорт к прежнему форматтеру FUMA.
+    /// UNKNOWN не является accepted selection; квитанция из этих значений не создаётся.
+    public var входФорматтера: ПакетВходаГенератораFUMA {
+        ПакетВходаГенератораFUMA(cases: [ВходСлучаяГенератораFUMA(
+            id: "source-checkpoint-UNKNOWN",
+            acceptedSelection: ПараметрыВыбораAPI(model: "UNKNOWN", reasoningEffort: "UNKNOWN"),
+            rootUUID: корневойUUID, title: план.заголовок,
+            description: план.описание, rawRequest: план.исходныйЗапрос)])
+    }
+
+    public func проверитьВыход(_ выход: ВыходГенератораGitMetadata) -> [String] {
+        let эталон = ГенераторМетаданныхКоммита.referenceOutput(for: входФорматтера).cases[0]
+        return проверить() + (выход.environment == эталон.environment && выход.message == эталон.message
+            ? [] : ["исходники-fuma-output-не-совпадает"])
+    }
+}
+
+/// Намеренно иной DTO: его нельзя декодировать как подтверждённый результат с выборМодели.
+public struct МетаданныеИсходников: Codable, Equatable, Sendable {
+    public let схема: String
+    public let запрос: ЗапросМетаданныхИсходников
+    public let автор: ИдентификаторGit
+    public let коммитер: ИдентификаторGit
+    public let выход: ВыходГенератораGitMetadata
+    public let ошибки: [String]
+
+    public static func подготовить(запрос: ЗапросМетаданныхИсходников,
+                                  выход: ВыходГенератораGitMetadata,
+                                  авторGit: String, коммитерGit: String) -> Self {
+        var ошибки = запрос.проверитьВыход(выход)
+        let эталон = ГенераторМетаданныхКоммита.referenceOutput(for: запрос.входФорматтера).cases[0]
+        let автор = ГенераторМетаданныхКоммита.разобратьGitIdent(авторGit)
+        let коммитер = ГенераторМетаданныхКоммита.разобратьGitIdent(коммитерGit)
+        if автор?.имя != эталон.environment["GIT_AUTHOR_NAME"] || автор == nil || коммитер == nil {
+            ошибки.append("исходники-git-var-не-совпадает")
+        }
+        return Self(схема: "fum.source-checkpoint-metadata.1", запрос: запрос,
+                    автор: автор ?? ИдентификаторGit(имя: "", почта: ""),
+                    коммитер: коммитер ?? ИдентификаторGit(имя: "", почта: ""),
+                    выход: выход, ошибки: ошибки)
+    }
+}
+
 public enum ГенераторМетаданныхКоммита {
     private static let неизвестныеТокены: Set<String> = ["unknown", "unavailable", "unset", "null"]
     private static let русскиеБуквы = CharacterSet(charactersIn: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя")

@@ -124,6 +124,50 @@ private final class ФикстураПриёмаROOT {
 }
 
 @Suite(.serialized) struct ПроверкиПрограммыПриёмаROOT {
+    @Test func исходникиUNKNOWNНеСоздаютПодтверждённыйВыбор() throws {
+        let запрос = ЗапросМетаданныхИсходников(схема: "fum.source-checkpoint-metadata-request.1",
+            корневойUUID: "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+            писатель: "01a192d0-6f09-7950-9251-b27101106bfc", рабочееДерево: "/fixture",
+            реф: "refs/heads/fixture", родитель: String(repeating: "1", count: 40),
+            дерево: String(repeating: "2", count: 40), статусВыбора: "UNKNOWN",
+            основаниеSHA256: String(repeating: "3", count: 64),
+            план: ПланСообщенияКоммита(исходныйЗапрос: "Фикстура исходников", заголовок: "Сохранить исходники",
+                описание: "Проверки и выбор модели UNKNOWN"))
+        let эталон = ГенераторМетаданныхКоммита.referenceOutput(for: запрос.входФорматтера).cases[0]
+        let метаданные = МетаданныеИсходников.подготовить(запрос: запрос,
+            выход: ВыходГенератораGitMetadata(environment: эталон.environment, message: эталон.message),
+            авторGit: "\(эталон.environment["GIT_AUTHOR_NAME"]!) <fixture@local> 0 +0000",
+            коммитерGit: "FUM Писатель <fixture@local> 0 +0000")
+        #expect(метаданные.ошибки.isEmpty)
+        let данные = try JSONEncoder().encode(метаданные)
+        #expect(отказПриёма { _ = try JSONDecoder().decode(РезультатГенерацииМетаданныхКоммита.self, from: данные) })
+        let сырой = Data(("tree \(запрос.дерево)\nparent \(запрос.родитель)\n" +
+            "author \(метаданные.автор.имя) <fixture@local> 0 +0000\n" +
+            "committer FUM Писатель <fixture@local> 0 +0000\n\n" + эталон.message).utf8)
+        #expect(ОценщикИдентичностиGit.проверитьСырыеИсходники(сырой, метаданные: метаданные).isEmpty)
+        let подмена = Data(String(decoding: сырой, as: UTF8.self).replacingOccurrences(
+            of: "committer FUM Писатель", with: "committer Другой").utf8)
+        #expect(ОценщикИдентичностиGit.проверитьСырыеИсходники(подмена, метаданные: метаданные).contains("сырой-committer-не-совпадает"))
+    }
+    @Test func типизированныйАвторПобеждаетЛокальноеИмяПисателя() throws {
+        let фикстура = try ФикстураПриёмаROOT()
+        _ = try фикстура.git(["config", "--local", "author.name", "FUM Писатель"])
+        _ = try фикстура.git(["config", "--local", "user.name", "FUM Писатель"])
+        let программа = try ПрограммаПриёмаROOT(фикстура.контекст())
+        defer { программа.закрыть() }
+        let исход = try фикстура.завершить(программа)
+        let метаданные = try #require(программа.подготовленныеМетаданные)
+        let коммит = try #require(исход.commit)
+        let сырой = try фикстура.git(["cat-file", "commit", коммит])
+        let строки = сырой.components(separatedBy: "\n\n")[0].components(separatedBy: "\n")
+        let автор = строки.first { $0.hasPrefix("author ") }.map { String($0.dropFirst(7)) } ?? ""
+        let коммитер = строки.first { $0.hasPrefix("committer ") }.map { String($0.dropFirst(10)) } ?? ""
+        #expect(ГенераторМетаданныхКоммита.разобратьGitIdent(автор) == метаданные.автор)
+        #expect(метаданные.автор.имя != "FUM Писатель")
+        #expect(ГенераторМетаданныхКоммита.разобратьGitIdent(коммитер) == метаданные.коммитер)
+        #expect(строки.filter { $0.hasPrefix("parent ") } == ["parent " + фикстура.L, "parent " + фикстура.M])
+        #expect(try фикстура.число("commit") == 1)
+    }
     @Test func ПодменаCheckpointНеПодтверждаетДоставку() throws {
         let f = try ФикстураПриёмаROOT(), c = try f.контекст()
         let segment = try Сегмент(кореньДанных: f.среда.segment, запись: true)

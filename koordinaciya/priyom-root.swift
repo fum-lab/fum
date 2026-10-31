@@ -122,7 +122,10 @@ final class ПрограммаПриёмаROOT {
     private var pending: ЗаписьПриёмаROOT? = nil
     private var commit: String? = nil
     private var закрыт = false
-    private var metadata: [String: Any]? = nil
+    private var metadata: РезультатГенерацииМетаданныхКоммита? = nil
+    #if TESTING
+    var подготовленныеМетаданные: РезультатГенерацииМетаданныхКоммита? { metadata }
+    #endif
     #if TESTING
     enum Failpoint { case ответCommit, ответPush, raw, intent }
     var failpoint: Failpoint? = nil
@@ -261,14 +264,23 @@ final class ПрограммаПриёмаROOT {
             ["prepare", "exact", "merge", "raw", "push", "readback", "delivered", "held"].contains(step.следующая), "FUMA-step")
         return step
     }
-    private func метаданные() throws -> [String: Any] {
+    private struct ОтветМетаданных: Decodable {
+        let готово: Bool
+        let метаданные: РезультатГенерацииМетаданныхКоммита
+        let переменныеОкруженияКИзменению: [String: String]
+        let ошибки: [String]
+    }
+    private func метаданные() throws -> РезультатГенерацииМетаданныхКоммита {
         if let metadata { return metadata }
         let r = try процесс(c.среда.metadataCLI, ["--сгенерировать-метаданные-коммита", c.среда.metadataState])
-        let obj = try JSONSerialization.jsonObject(with: r.1) as? [String: Any]
-        try требоватьПриём(r.0 == 0 && obj?["готово"] as? Bool == true && obj?["метаданные"] is [String: Any], "metadata-prepare")
-        let typed = try JSONDecoder().decode(РезультатГенерацииМетаданныхКоммита.self, from: JSONSerialization.data(withJSONObject: obj!["метаданные"]!))
+        try требоватьПриём(r.0 == 0, "metadata-prepare")
+        let ответ = try JSONDecoder().decode(ОтветМетаданных.self, from: r.1)
+        try требоватьПриём(ответ.готово && ответ.ошибки.isEmpty, "metadata-prepare")
+        let typed = ответ.метаданные
         try требоватьПриём(typed.выборМодели.rootUUID == c.поручение.ROOT && typed.выборМодели.sessionIdentity.значение == c.поручение.писатель && typed.ошибки.isEmpty, "metadata-host-binding")
-        metadata = obj!; return obj!
+        try требоватьПриём(typed.окружение == ["GIT_AUTHOR_NAME": typed.автор.имя] &&
+            ответ.переменныеОкруженияКИзменению == typed.окружение, "metadata-author-environment")
+        metadata = typed; return typed
     }
     private func raw(_ oid: String) throws {
         let expected: [String: Any] = ["schema": "fum.raw-merge-commit-expectation.1", "expectedParents": [c.поручение.L, c.поручение.M], "expectedTree": c.поручение.дерево]
@@ -329,8 +341,8 @@ final class ПрограммаПриёмаROOT {
                 try требоватьПриём(paths == c.поручение.пути.sorted(), "exact-source")
             case "merge":
                 try требоватьПриём(try строка(["rev-parse", "HEAD"]) == c.поручение.L && git(["status", "--porcelain=v1", "-z"]).isEmpty, "merge-custody")
-                let m = try метаданные(), meta = m["метаданные"] as! [String: Any]
-                let message = Data((meta["сообщение"] as! String).utf8)
+                let m = try метаданные()
+                let message = Data(m.сообщение.utf8)
                 let file = c.среда.logs.appendingPathComponent(UUID().uuidString + ".message")
                 let checked = try ПотребительБайтСообщенияFUMA.подготовить(фактическиеБайтыFUMA: message, вФайл: file)
                 try передЭффектом(c.поручение.L)
@@ -342,7 +354,11 @@ final class ПрограммаПриёмаROOT {
                 _ = try ПотребительБайтСообщенияFUMA.выполнитьПередGitЭффектом(исходныеБайтыFUMA: message, подготовленныеБайты: checked) {
                     try передЭффектом(c.поручение.L, merged: true)
                     try требоватьПриём(try Data(contentsOf: file) == message, "message-file-changed")
-                    return try git(["commit", "--no-gpg-sign", "--cleanup=verbatim", "-F", file.path], author: m["переменныеОкруженияКИзменению"] as! [String: String])
+                    let автор = String(decoding: try git(["var", "GIT_AUTHOR_IDENT"], author: m.окружение), as: UTF8.self)
+                    let коммитер = String(decoding: try git(["var", "GIT_COMMITTER_IDENT"]), as: UTF8.self)
+                    try требоватьПриём(ГенераторМетаданныхКоммита.разобратьGitIdent(автор.trimmingCharacters(in: .newlines)) == m.автор &&
+                        ГенераторМетаданныхКоммита.разобратьGitIdent(коммитер.trimmingCharacters(in: .newlines)) == m.коммитер, "metadata-git-var-drift")
+                    return try git(["commit", "--no-gpg-sign", "--cleanup=verbatim", "-F", file.path], author: m.окружение)
                 }
                 commit = try строка(["rev-parse", "HEAD"])
                 #if TESTING
