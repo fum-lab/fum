@@ -66,6 +66,57 @@ func префиксКонтейнераСохраняетМаскиИБудущ�
 }
 
 @Test(arguments: [32, 64, 128])
+func однофайловыйРазборНеСтроитОбщиеМаски(_ размер: Int) throws {
+    let код = String(repeating: "`[hidden](docs/old.md)`\n", count: размер)
+    let источник = Data("# Source\n".utf8)
+    let вход = Data((код + "[target](docs/old.md)\n").utf8)
+    let наблюдение = try НаблюдениеОднофайловогоПлана { _ in }
+    let разбор = try СсылкиОдногоФайла.переписать(документы: [
+        .init(путь: "docs/old.md", байты: источник, sha256: хэшПутей(источник)),
+        .init(путь: "index.md", байты: вход, sha256: хэшПутей(вход))
+    ], исходный: "docs/old.md", целевой: "archive/new.md", пути: ["docs/old.md", "index.md"], наблюдение: наблюдение)
+    let правка = try #require(разбор.правки.first { $0.исходный == "index.md" })
+    #expect(правка.байты == Data((код + "[target](archive/new.md)\n").utf8))
+    #expect(правка.числоСсылок == 1)
+    #expect(наблюдение.счётчик(.строкиОбщихМасок) == 0)
+    #expect(наблюдение.счётчик(.работа) <= UInt64(64 * (источник.count + вход.count) + 1024))
+    #expect(наблюдение.счётчик(.байтыДекодирования) <= UInt64(8 * (источник.count + вход.count) + 1024))
+    try наблюдение.проверить()
+}
+
+@Test(arguments: [false, true])
+func однофайловыйРазборСохраняетОтказПереднейЧасти(_ замкнута: Bool) throws {
+    let текст = "+++\ntitle = 'sample'\n" + (замкнута ? "+++\n" : "") + "[target](docs/old.md)\n"
+    let источник = Data("# Source\n".utf8), вход = Data(текст.utf8)
+    do {
+        let разбор = try СсылкиОдногоФайла.переписать(документы: [
+            .init(путь: "docs/old.md", байты: источник, sha256: хэшПутей(источник)),
+            .init(путь: "index.md", байты: вход, sha256: хэшПутей(вход))
+        ], исходный: "docs/old.md", целевой: "archive/new.md", пути: ["docs/old.md", "index.md"])
+        #expect(замкнута)
+        let правка = try #require(разбор.правки.first { $0.исходный == "index.md" })
+        #expect(правка.байты == Data(текст.replacingOccurrences(of: "docs/old.md", with: "archive/new.md").utf8))
+    } catch {
+        #expect(!замкнута)
+        #expect(String(describing: error).contains("незамкнутая-передняя-часть"))
+    }
+}
+
+@Test(arguments: ["index.md", "Источники/raw.md"])
+func однофайловыйРазборОтвергаетНезамкнутуюЗащищённуюПереднююЧасть(_ путь: String) throws {
+    let источник = Data("# Source\n".utf8), вход = Data("+++\ntitle = 'sample'\n".utf8)
+    do {
+        _ = try СсылкиОдногоФайла.переписать(документы: [
+            .init(путь: "docs/old.md", байты: источник, sha256: хэшПутей(источник)),
+            .init(путь: путь, байты: вход, sha256: хэшПутей(вход))
+        ], исходный: "docs/old.md", целевой: "archive/new.md", пути: ["docs/old.md", путь])
+        Issue.record("Ожидался отказ незамкнутой передней части")
+    } catch {
+        #expect(String(describing: error).contains("незамкнутая-передняя-часть"))
+    }
+}
+
+@Test(arguments: [32, 64, 128])
 func префиксКонтейнераОграниченЛинейнымОбъёмомДекодирования(_ глубина: Int) throws {
     let текст = String(repeating: "> ", count: глубина) + "[target](docs/old.md)\n"
     let байтыИсточника = Data("# Source\n".utf8), байтыИндекса = Data("[target](docs/old.md)\n".utf8), байтыИзмерения = Data(текст.utf8)
@@ -964,7 +1015,7 @@ struct НагрузкаНаблюдения: Sendable {
     let с = try ПереименованиеФайла.построить(корень: фикстура.корень, исходный: "docs/old.md", целевой: "archive/new.md", наблюдение: наблюдение)
     #expect(try без.представление("plan") == с.представление("plan"))
     #expect(наблюдение.счётчик(.работа) > 0)
-    if вход.семейство == "код" { #expect(наблюдение.счётчик(.строкиОбщихМасок) == UInt64(вход.размер * вход.размер)) }
+    #expect(наблюдение.счётчик(.строкиОбщихМасок) == 0)
     #expect(try фикстура.подпись() == до)
 }
 #endif
