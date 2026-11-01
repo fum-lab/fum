@@ -1,66 +1,72 @@
 {
-  "schema": "fum.audit.source-review.v1",
-  "status": "source-only-review-complete; broader acceptance unknown",
-  "task": {
-    "root_commit": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
-    "source_commit": "bc0c5efcd4683611bf3aa83195bfcc7eb901ff00",
-    "source_tree": "350b7c16a42d84815a11a38572e447ae3e017b89",
-    "source_parent": "1a447c242560bc49ce17437da11a86ca113aef03",
-    "scope": "Review exactly four named Swift blobs and the existing command-source record. Write this one audit record only.",
-    "prohibitions": ["no tests, compilation, runtime or profile", "no Python, validator, ROOT JSONL, legacy suite or FUMA tools", "no reads beyond authorized source blobs and original record", "no changes to FUMA checkout, index, refs or source"],
-    "reviewer": "FUM Codex [gpt-6-luna; effort=low]",
-    "reviewer_model_observation": {
-      "source": "native local threads row for current thread",
-      "thread_id": "01a177c7-9a89-7690-9259-3b5a56dae88c",
-      "observed_at_epoch_seconds": 1793522673,
-      "cwd": "/Users/fum/.codex/worktrees/audit-coordinator/FUM",
-      "branch": "fum-lab/fum/audit/master"
+  "схема": "fum.audit.source-review.v1",
+  "статус": "проверка только исходников завершена; более широкая приёмка неизвестна",
+  "задача": {
+    "коммит_корня": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "коммит_источника": "bc0c5efcd4683611bf3aa83195bfcc7eb901ff00",
+    "дерево_источника": "350b7c16a42d84815a11a38572e447ae3e017b89",
+    "родитель_источника": "1a447c242560bc49ce17437da11a86ca113aef03",
+    "объём": "Проверены ровно четыре указанных Swift blob и исходная запись команд. Изменяется только эта запись аудита.",
+    "запреты": ["без тестов, компиляции, исполнения и профиля", "без Python, валидатора, ROOT JSONL, legacy-набора и инструментов FUMA", "без чтения вне разрешённых blob и исходной записи", "без изменений checkout, индекса, refs и исходников FUMA"],
+    "проверяющий": "FUM Codex [gpt-6-luna; effort=low]",
+    "наблюдение_модели_проверяющего": {
+      "источник": "собственная строка текущего потока в локальной таблице threads",
+      "идентификатор_потока": "01a177c7-9a89-7690-9259-3b5a56dae88c",
+      "время_наблюдения_unix": 1793522971,
+      "ветка": "fum-lab/fum/audit/master"
     }
   },
-  "inputs": [
-    {"path":"fuma/packages/setj-agentov/Package.swift","blob":"2aa63e92cf4362743a69a0d7032d37620b209d2f","bytes":776,"sha256":"f6a015b0adf8eb792f7ef726c6cdf117a6b4618d8d68dfcbfbd3042501d4e1ba"},
-    {"path":"fuma/packages/setj-agentov/Sources/СетьАгентов/КонтрактУзла.swift","blob":"8ff7591a5c758f5421e8df97ad9aaf31706723ea","bytes":14960,"sha256":"f3b47d5e74dea1806ff33a5a5743ce5cb321e8601c7acae2580107480de1406d"},
-    {"path":"fuma/packages/setj-agentov/Sources/СетьАгентов/РешениеАктивности.swift","blob":"ed85b7ababa0ecd5b015c86cd6a2459ff13b1e3a","bytes":35376,"sha256":"93ed40f393293e558d7df384480adc17c977b7d5e5f4c44d7a86192d99e9bc1b"},
-    {"path":"fuma/packages/setj-agentov/Tests/ПроверкиСетиАгентов/ИсходКомандыTests.swift","blob":"192b497fe71adf11ef66b50d6caef6e024de8896","bytes":4115,"sha256":"35b22f72a2cc202bfcad8409f36c433b8ef3ecf16a193a13f0141a7342e94ecc"},
-    {"path":"fuma/zhurnal/iskhod-komandyi-uzla-source-01a1698f.json","blob":"15b8ea0f3151a4db860f6bb6284800924e70af7f","bytes":5978,"sha256":"023ce7ba5608c92d4e0f7d8385a221d45644eb8a2d669d649e46ce85ab35d59b"}
+  "входы": [
+    {"путь":"fuma/packages/setj-agentov/Package.swift","blob":"2aa63e92cf4362743a69a0d7032d37620b209d2f","байты":776,"sha256":"f6a015b0adf8eb792f7ef726c6cdf117a6b4618d8d68dfcbfbd3042501d4e1ba"},
+    {"путь":"fuma/packages/setj-agentov/Sources/СетьАгентов/КонтрактУзла.swift","blob":"8ff7591a5c758f5421e8df97ad9aaf31706723ea","байты":14960,"sha256":"f3b47d5e74dea1806ff33a5a5743ce5cb321e8601c7acae2580107480de1406d"},
+    {"путь":"fuma/packages/setj-agentov/Sources/СетьАгентов/РешениеАктивности.swift","blob":"ed85b7ababa0ecd5b015c86cd6a2459ff13b1e3a","байты":35376,"sha256":"93ed40f393293e558d7df384480adc17c977b7d5e5f4c44d7a86192d99e9bc1b"},
+    {"путь":"fuma/packages/setj-agentov/Tests/ПроверкиСетиАгентов/ИсходКомандыTests.swift","blob":"192b497fe71adf11ef66b50d6caef6e024de8896","байты":4115,"sha256":"35b22f72a2cc202bfcad8409f36c433b8ef3ecf16a193a13f0141a7342e94ecc"},
+    {"путь":"fuma/zhurnal/iskhod-komandyi-uzla-source-01a1698f.json","blob":"15b8ea0f3151a4db860f6bb6284800924e70af7f","байты":5978,"sha256":"023ce7ba5608c92d4e0f7d8385a221d45644eb8a2d669d649e46ce85ab35d59b"}
   ],
-  "findings": [
+  "выводы": [
     {
-      "id":"F1",
-      "severity":"positive-with-boundary",
-      "claim":"UNKNOWN command outcome blocks a new command unconditionally, so a version increase alone cannot authorize retry.",
-      "evidence":"допускаетНовуюКоманду returns false for accepted, queued, running and unknown; completed/failed require known expected version and a passed version greater than it.",
-      "boundary":"This is an eligibility predicate over caller-provided scalar input, not enforcement. It does not bind that version to a fresh observed node-state DTO or one-time fence, and can return true repeatedly for the same terminal input."
+      "код":"F1",
+      "оценка":"положительный с ограничением",
+      "утверждение":"Неизвестный исход команды безусловно запрещает новую команду; одно лишь увеличение версии не разрешает повтор.",
+      "свидетельство":"допускаетНовуюКоманду возвращает false для accepted, queued, running и unknown; для completed/failed требует известную ожидаемую версию и переданную версию больше неё.",
+      "граница":"Это предикат допуска по скалярному аргументу вызывающего кода, а не принудительное исполнение. Он не связывает версию со свежим DTO состояния узла или одноразовым fence и может многократно вернуть true для одного терминального входа."
     },
     {
-      "id":"F2",
-      "severity":"integration-gap",
-      "claim":"Provider authorization and mutation safety are not established by this package model.",
-      "evidence":"The decision solver accepts a nonempty known grant string and structured context as evidence; these Codable values are synthetic model inputs. No signature/provider validation, live state writer, CAS/fencing, or launch effect appears in the reviewed source."
+      "код":"F2",
+      "оценка":"пробел интеграции",
+      "утверждение":"Авторизация провайдера и безопасность мутаций не подтверждены моделью пакета.",
+      "свидетельство":"Решатель принимает непустую известную строку grant и структурированный контекст как свидетельства; эти Codable-значения являются синтетическими входами модели. В рассмотренных исходниках нет проверки подписи/провайдера, живого писателя состояния, CAS/fencing или запуска процесса."
     },
     {
-      "id":"F3",
-      "severity":"test-scope",
-      "claim":"The three Swift Testing scenarios cover unknown, active and terminal command-state eligibility boundaries, but do not establish fresh observed-state binding.",
-      "evidence":"The shared fixture uses UNKNOWN for observed state version, including completed/failed cases; those tests pass a separate scalar version to exercise the numeric threshold."
+      "код":"F3",
+      "оценка":"границы тестов",
+      "утверждение":"Три сценария Swift Testing проверяют границы допуска для неизвестного, активного и терминального исхода, но не подтверждают привязку к свежему наблюдённому состоянию.",
+      "свидетельство":"Общая фикстура задаёт UNKNOWN для наблюдаемой версии состояния, в том числе для completed/failed; тесты передают отдельную скалярную версию для проверки числового порога."
     },
     {
-      "id":"F4",
-      "severity":"configuration-only",
-      "claim":"Package declares Swift 6 language mode and strict concurrency, warnings-as-errors, and actor data-race-check flags for library and test targets.",
-      "evidence":"Package.swift also declares macOS 14 and no external package dependencies. Exact Swift toolchain/SDK is not pinned. No compile was performed, so flag acceptance and warning-free build remain unknown."
+      "код":"F4",
+      "оценка":"только конфигурация",
+      "утверждение":"Пакет объявляет режим языка Swift 6 и флаги строгой конкурентности, ошибок на предупреждениях и проверок гонок данных акторов для библиотеки и тестов.",
+      "свидетельство":"Package.swift также объявляет macOS 14 и не содержит внешних зависимостей пакетов. Точная версия Swift toolchain/SDK не закреплена. Компиляция не выполнялась, принятие флагов и сборка без предупреждений неизвестны."
     }
   ],
-  "prior_run_record": {
-    "source":"The supplied original record only; underlying receipts were not reopened.",
-    "ordered_swift_testing_results_via_excluded_python_wrapper":["GREEN exit 0","RED exit 1 on earlier logic","GREEN exit 0 after restoration"],
-    "reader":"Interrupted by SIGINT; output unavailable, therefore UNKNOWN.",
-    "wrapper_route":"The prior record reports a Python wrapper/route violation; not repeated.",
-    "full_profile":"UNKNOWN; the bounded prior test outcomes do not establish complete-profile GREEN or ROOT acceptance."
+  "предыдущая_запись_запусков": {
+    "источник":"Только предоставленная исходная запись; исходные квитанции повторно не открывались.",
+    "порядок_результатов_swift_testing_через_исключённую_python_обёртку":["GREEN exit 0","RED exit 1 на прежней логике","GREEN exit 0 после восстановления"],
+    "чтение":"Прервано SIGINT; вывод не получен, результат UNKNOWN.",
+    "маршрут_обёртки":"Исходная запись сообщает о нарушении маршрута через Python-обёртку; оно не повторялось.",
+    "полный_профиль":"UNKNOWN; ограниченные прежние результаты тестов не означают GREEN полного профиля или приёмку ROOT."
   },
-  "scope_deviation": {
-    "description":"An accidental git metadata-only name/status and diff-stat listing displayed unrelated path names and summary counts while comparing the pinned commits. No contents of those additional files were read and no changes resulted.",
-    "treatment":"This listing is not used as review evidence; review claims rely only on the five pinned input blobs above."
+  "отклонение_объёма": {
+    "описание":"По ошибке был выведен только git-список имён/статусов метаданных и сводная статистика diff со сторонними путями при сравнении закреплённых коммитов. Содержимое этих дополнительных файлов не читалось, изменений не было.",
+    "учёт":"Этот вывод не используется как свидетельство ревью; выводы основаны только на пяти закреплённых входных blob выше."
   },
-  "conclusion":"The source-level UNKNOWN retry gate behaves as intended for the modeled status. This is not production authorization or delivery evidence; observed-state binding, provider verification, fencing/CAS, toolchain execution, full profile, and ROOT acceptance remain unverified."
+  "коррекция_доставки": {
+    "предыдущий_коммит":"9eb36f8b720cfd6fe5f9e64af4e9da87fb312477",
+    "наблюдённый_автор":"FUM Писатель <fum-codex@users.noreply.github.com>",
+    "наблюдённый_коммитер":"FUM Codex [gpt-6-luna; effort=low] <fum-codex@users.noreply.github.com>",
+    "действие":"В этом последующем коммите добавляется только корректирующая запись об авторских метаданных; предыдущий объект и история не переписываются.",
+    "граница":"Email не меняется; Git config не меняется. Для нового коммита имя автора задаётся только в окружении конкретного git commit. Имя коммитера остаётся обычным настроенным FUM."
+  },
+  "заключение":"На уровне исходников запрет повтора при UNKNOWN работает для смоделированного статуса. Это не подтверждает производственную авторизацию или доставку: привязка свежего наблюдаемого состояния, проверка провайдера, fencing/CAS, исполнение toolchain, полный профиль и приёмка ROOT остаются непроверенными."
 }
