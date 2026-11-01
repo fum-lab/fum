@@ -1,0 +1,48 @@
+{
+  "схема": "fum.fuma.исходники-наблюдения-размера-интерфейса.1",
+  "codexThreadId": "01a19716-c517-7f92-839e-44b9ee828533",
+  "rootThreadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "humanRequest": "Razmer okna — tozhe nablyudayemaya vkhodyasjhaya informaciya.",
+  "ref": "refs/heads/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master",
+  "base": "dd9b2492f7cd291ebc58b58a380fc2e34f27b8bd",
+  "scope": "Добавить typed observation ширины/высоты content viewport в points, явные source и initial/resize event, преобразование геометрии в общее состояние FUMA и derived layout. Только SwiftUI окна FUMA; не использовать AX или другие окна. Resize не вызывает AutomationExecutor и сохраняет пользовательский результат/историю. Не запускать Swift, build, test, GUI, Python или ROOT JSONL.",
+  "allowedPaths": [
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/ЦиклОператора.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleUI/main.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Tests/FUMACycleModelTests/ЦиклОператораTests.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Фикстуры/размер-области.json",
+    "fuma/zhurnal/ui-razmer-01a19716.json"
+  ],
+  "observation": {
+    "unit": "points",
+    "source": "SwiftUI.GeometryReader.contentViewport",
+    "events": ["первоначальноеНаблюдение", "изменениеРазмера"],
+    "physicalPixelsOrWindowFrame": "not used",
+    "scaleFactor": "not observed; no conversion performed",
+    "validation": "Both dimensions must be finite, positive and at most 16384 points. Rejections increment a separate geometry counter, preserve the last accepted geometry/layout, result and history, and never increment user-action or executor-call counters."
+  },
+  "counterSemantics": {
+    "userAction": "Incremented when the model accepts an explicit one-step action; rejected geometry and layout changes do not increment it.",
+    "executorCall": "Incremented immediately before calling the existing AutomationExecutor; validation failures before that call do not increment it.",
+    "geometry": "Accepted and rejected observations have their own counters; invalid observations advance the observation sequence but preserve the last accepted dimensions and derived layout."
+  },
+  "layout": {
+    "oneColumnBelowWidthPoints": 760,
+    "compactHeightBelowPoints": 560,
+    "flow": "SwiftUI GeometryReader -> СостояниеЦиклаФУМА -> РаскладкаИнтерфейсаФУМА -> SwiftUI layout",
+    "snapshotOrdering": "Every actor-state mutation advances a monotonic version. The UI applies only snapshots with a strictly newer version, so late task resumptions cannot overwrite a newer displayed state."
+  },
+  "fixture": {
+    "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Фикстуры/размер-области.json",
+    "initial": "420x640 points -> one column",
+    "resize": "900x480 points -> two columns and compact height",
+    "test": "Run one user action against the existing executor, then apply both geometry samples; assert zero additional actions/calls, unchanged result/history, derived layout change, stale snapshot rejection after a newer snapshot, and rejection/preservation for NaN, infinity and zero."
+  },
+  "status": {
+    "source": "written; source-only, not compiled or executed",
+    "testsAndGUI": "NOT_RUN by explicit scope",
+    "independentReadOnlyReview": "pending exact source SHA",
+    "commit": "not created",
+    "push": "not attempted"
+  }
+}
