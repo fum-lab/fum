@@ -155,6 +155,20 @@
       "fum-lab/fum/master",
       "fum-lab/fum/istochniki/master"
     ],
-    "состояние_ячейки": "Источники переданы в родительский индекс, но ещё не закоммичены отдельным родительским checkpoint; child commits/push отсутствуют. Полная сборка, источник-граф и критерии done не достигнуты."
+    "состояние_ячейки": "Source-pinset candidate записан в отдельный локальный JSON checkpoint; child commits/push отсутствуют. Активный build graph, preset, mirrors, licenses, bootstrap/SDK и criteria done остаются UNKNOWN."
+  },
+  "исследование_снимка_источников": {
+    "запись": "zavisimosti/zhurnal/2026-11-01_swift-pinset-research.json",
+    "записано_utc": "2026-11-01T07:08:30Z",
+    "корневой_источник": "swiftlang/swift swift-6.2.2-RELEASE b1ec3232a75667ce16a15bd101dc882d968eefd4",
+    "схема_updater": "release/6.2.2; 50 repo refs; 50 refs прочитаны через GitHub API на 2026-11-01T07:03:28Z",
+    "результат": "candidate commit pinset; cmark закреплён первым родителем до времени Swift tag",
+    "ограничения": [
+      "активный preset и build closure UNKNOWN",
+      "лицензии и будущие зеркала UNKNOWN",
+      "SDK/bootstrap и non-Git inputs UNKNOWN",
+      "сборка и тесты не запускались",
+      "профиль/legacy-check не пройдены"
+    ]
   }
 }
