@@ -1,0 +1,48 @@
+{
+  "схема": "fuma.журнал-ввода-окна.1",
+  "codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель_thread_id": "01a1972c-7493-73e2-8bd7-1375241a9c8e",
+  "основа": "fa7412482776a3ef28d0fe316bddb8edefe713ce",
+  "ветка": "refs/heads/fum-lab/fum/fuma/klaviatura/vvod-okna/master",
+  "цель": "Клавиатурный ввод через FUMA на основе существующего оператора и подтверждённых слоёв Keyboard; нативный край собственного окна передаёт физические события и фокус, а FUMA возвращает текст, команду или состояние.",
+  "граница": {
+    "разрешённые_файлы": [
+      "Приложения/FUMA/Операторы/Klaviatura/Sources/ЭталонКлавиатуры/ВводОкна.swift",
+      "Приложения/FUMA/Операторы/Klaviatura/Tests/ПроверкиКлавиатуры/ВводОкнаTests.swift",
+      "fuma/zhurnal/klaviatura-vvod-01a1972c.json"
+    ],
+    "изменённые_файлы": [
+      "Приложения/FUMA/Операторы/Klaviatura/Sources/ЭталонКлавиатуры/ВводОкна.swift",
+      "Приложения/FUMA/Операторы/Klaviatura/Tests/ПроверкиКлавиатуры/ВводОкнаTests.swift",
+      "fuma/zhurnal/klaviatura-vvod-01a1972c.json"
+    ],
+    "не_подключено": "UI-owner подключает интерфейс в собственном worktree после приёма API."
+  },
+  "привязка": {
+    "оператор": "переход-раскладки-Klaviatura",
+    "версия": 1,
+    "sha256_определения": "6deb8aed4b93b7d2528e26df041da8314b9a9cc433483a2c44611b7585f7b4ac",
+    "раскладка": "qwerty",
+    "sha256_таблицы": "c914755f50b27da2b8d6d56cbdaaeb7db6f74ae2ab84d8f294eee4d6243f4ac3",
+    "keyboard_commit": "7495174d91571f98e75db4e615da8a3799868f2e",
+    "keyboard_tree": "a2f7c5cf84cfa446b3243aa6952ca28f6f7acf2e",
+    "license_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311"
+  },
+  "реализация": {
+    "физический_вход": "key code, down/up/touch, repeat, explicit layout ID, caller-owned window and focus tokens",
+    "исполнение": "One AutomationExecutor invocation per eligible physical event; modifier state comes from the graph output; no Swift lookup table or event-selected program execution.",
+    "ime": "Committed IME text is a separate typed event and is returned once by composition ID. Physical graph results are suppressed while composition is active. This is an adapter boundary, not a claim of complete native IME support.",
+    "layout_ids": ["qwerty", "dvorak", "colemak", "azerty", "qwertz", "qzerty"],
+    "layout_limit": "Current pinned graph/table accepts qwerty only. Other IDs return unverified/UNKNOWN with no qwerty fallback until the shared graph and exact tables are delivered.",
+    "native_scope": "No global monitor, Accessibility access, system setting, UI-owner integration, or external window handling."
+  },
+  "проверки": {
+    "tests_source": "written before adapter implementation",
+    "swift_tests": "not run by explicit instruction",
+    "compiler_build_runtime_gui": "not run by explicit instruction",
+    "python_root_jsonl": "excluded and not run",
+    "source_review": "pending exact diff review",
+    "license_and_primary_sources": "pins supplied by ROOT; no upstream table bytes copied"
+  },
+  "статус": "source checkpoint in progress; all runtime and test outcomes remain UNKNOWN"
+}

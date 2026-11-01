@@ -1,0 +1,69 @@
+{
+  "schema": "fum.fuma.agent-cell-root-normalization.v1",
+  "root_task_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "writer_thread_uuid": "01a19707-1f2f-74f2-b89b-10de56785c10",
+  "base_commit": "c3f106c71fc87996d41fbb7ac72ed110ae5e17bb",
+  "branch_ref": "refs/heads/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master",
+  "scope": [
+    "Приложения/FUMA/Packages/КомпозицияНаблюдений/Package.swift",
+    "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/НормализацияКлетки.swift",
+    "Приложения/FUMA/Packages/КомпозицияНаблюдений/Tests/КомпозицияНаблюденийTests/НормализацияКорняКлеткиTests.swift",
+    "fuma/zhurnal/normalizaciya-yachejki-01a19707.json"
+  ],
+  "boundary": {
+    "object": "Only a pair of explicitly mapped root names for an assigned agent cell, such as Источники and istochniki; internal names are never translated.",
+    "assignment": "The typed assignment binds cell ID, owner, and exact full refs/heads/... ref. No branch prefix allowlist; codex/<name>/... is admitted when the port attests authority.",
+    "mapping": "The caller supplies source root, target root, provenance, and a typed merge policy. No inferred transliteration or generic migration factory is duplicated.",
+    "merge_policy": "Identical records at the same relative path are deduplicated and non-overlapping records are combined. Different records at the same path, including structural file/directory obstructions, preserve both whole roots and return unresolved without apply or success confirmation.",
+    "preserved_fields": "Record path, node kind, exact file bytes or symlink-target bytes, uid, and mode are represented and compared. ACLs, xattrs, hardlinks, and other unrepresented POSIX metadata are not promised.",
+    "authority": "The operator treats ownership/full-coverage fields as port attestations, not independently verified evidence. Unknown authority, partial coverage, foreign target, out-of-root entries, and source drift do not authorize apply.",
+    "excluded": [
+      "No recursive rename of internal directories, files, signals, sources, or archives.",
+      "No live filesystem adapter is wired by this package.",
+      "No generic atomic live-tree apply claim.",
+      "No production/runtime activation and no F42 retry."
+    ]
+  },
+  "composition": {
+    "tools_port": "ПортСведенияКорнейКлетки observes both roots, persists/readbacks a pinned intent containing both exact expected inventories and policy, and delegates apply to the shared Tools migration engine.",
+    "intent": "Intent binds assignment, full ref, mapping and provenance, merge policy, exact source snapshot, optional exact target snapshot, modeled-field digests, and deterministic expected target records.",
+    "reducer": "Reducer intention/sent facts carry intent ID, both input digests, and mapping provenance. Effect confirmation is added only after a fresh complete post-observation proves source absent, target exact, and stored intent unchanged; observed source/target digests and generation are retained in the reducer fact.",
+    "unknown": "Any exception after apply begins is UNKNOWN until a fresh observation is read. A later invocation compares both roots to the pinned intent; it never repeats apply blindly. Changed target is a conflict, not confirmation.",
+    "continuation": "The normalized snapshot is returned to the caller as continuation state. The shared runtime has not been wired to execute that continuation by this source-only change."
+  },
+  "fixture": {
+    "type": "Authored Swift Testing fixture injects an in-memory port that models the two-root Tools effect; fixture source is not a live adapter.",
+    "payload": "Nested Cyrillic paths, exact signal/address JSON bytes, binary bytes, symlink target bytes, uid, and distinct modes.",
+    "cases_authored": [
+      "Same-path identical directory record is deduplicated while non-overlapping source and destination records are combined.",
+      "Different same-path versions preserve both roots and return unresolved without durable intent, apply, or reducer confirmation.",
+      "File-versus-descendant structural obstruction preserves both roots and reports the blocking ancestor path.",
+      "Second invocation after successful observation is no-op and leaves reducer snapshot unchanged.",
+      "Post-effect observation failure returns UNKNOWN; later observation can confirm only the exact pinned target without another apply.",
+      "Modified target after UNKNOWN cannot confirm the stored intent.",
+      "Missing owner/ref attestation on exact post-readback inventory remains UNKNOWN and does not confirm reducer effect.",
+      "Foreign owner/ref target, incomplete scope, invalid @{-style ref, and .lock ref do not apply.",
+      "Reducer budget is preflighted before durable intent; primary plan and waiting signal remain present."
+    ],
+    "limitations": "The test port models the intended contract and does not establish OS crash durability, no-follow behavior, full enumeration, concurrency safety, or filesystem atomicity."
+  },
+  "integration_dependency": {
+    "status": "PENDING_TOOLS_MULTI_ROOT_APPLY_API_AND_SHARED_RUNTIME_WIRING",
+    "observer_boundary": "КонтейнерНаблюдений.НаблюдениеФайловойСистемы observes only top-level files/links in a temporary root and does not enumerate directory cells. It is not expanded or connected here.",
+    "required_tools_contract": {
+      "input": "Exact assigned cell identity (cell ID, owner, full branch ref), explicit root pair and mapping provenance, explicit policy, and complete expected snapshots of both roots.",
+      "apply": "Shared Tools engine persists intent, revalidates assignment and both input generations/digests, safely deduplicates only byte/type/uid/mode-identical records, moves non-overlapping records without altering relative names or link targets, and preserves both roots on unresolved collisions.",
+      "outcome": "Typed observed-complete, unresolved-preserved, or UNKNOWN outcome; any possible effect requires fresh full observation and exact pinned-intent comparison before reducer confirmation. No exception means no-effect assumption.",
+      "runtime": "The shared agent runtime must call this FUMA semantic operator through the Tools-owned adapter. Source-only changes do not prove or activate that wiring."
+    }
+  },
+  "verification": {
+    "static_review": "Two independent read-only reviews; latest confirmed prior P1/P2 fixes with no new critical findings.",
+    "swift_compiler_build_tests": "EXCLUDED, NOT RUN",
+    "python_and_root_jsonl": "EXCLUDED, NOT READ OR RUN",
+    "tools_apply_api": "PENDING",
+    "runtime": "NOT WIRED OR RUN",
+    "production": "NOT ACTIVATED"
+  },
+  "result": "Source-only typed semantics and fixture received independent read-only review. Port attestation does not independently prove full inventory. Commit and exact push are the current checkpoint; integration, runtime acceptance, and production remain unclaimed."
+}

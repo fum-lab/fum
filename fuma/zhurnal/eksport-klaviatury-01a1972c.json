@@ -1,0 +1,51 @@
+{
+  "схема": "fuma.журнал-экспорта-клавиатуры.1",
+  "codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель_thread_id": "01a1972c-7493-73e2-8bd7-1375241a9c8e",
+  "база": "9d4426211f3ccf98477bf99c180190f4ac6da037",
+  "ветка": "refs/heads/fum-lab/fum/fuma/klaviatura/vvod-okna/master",
+  "область": [
+    "Приложения/FUMA/Операторы/Klaviatura/Package.swift",
+    "fuma/zhurnal/eksport-klaviatury-01a1972c.json"
+  ],
+  "изменение": {
+    "экспортируемый_продукт": "ЭталонКлавиатуры",
+    "target": "ЭталонКлавиатуры",
+    "сохранены_продукты": [
+      "Klaviatura executable",
+      "ПроверкиКлавиатуры test target"
+    ],
+    "механизм": "Экспорт существующего target без копирования FUMA graph или Swift source.",
+    "локальная_зависимость": {
+      "package_alias": "FUMStructuringOperatorMemory",
+      "path": "../../../../Прототипы/память-структурирующих-операторов",
+      "product": "FUMStructuringOperatorMemory"
+    }
+  },
+  "статическая_топология": {
+    "минимальный_интерфейс": "Сейчас зависит от FUMStructuringOperatorMemory напрямую.",
+    "клавиатура": "ЭталонКлавиатуры зависит от того же локального FUMStructuringOperatorMemory.",
+    "листовой_пакет": "FUMStructuringOperatorMemory не зависит от МинимальныйИнтерфейс или Klaviatura.",
+    "вывод": "При последующей зависимости МинимальныйИнтерфейс от продукта ЭталонКлавиатуры граф будет DAG с общей локальной зависимостью, не циклом. Package alias нормализован к имени прямой зависимости МинимальныйИнтерфейс.",
+    "доступность": "Публичный адаптер и его входы доступны из продукта. Mutable adapter не Sendable; владелец окна должен вызывать его последовательно в одном actor context.",
+    "ограничение": "Это статическое чтение manifest/source; SwiftPM resolution и compiler checks не выполнялись."
+  },
+  "остаток": {
+    "не_выполнялось": [
+      "Swift",
+      "SwiftPM resolve/build/test",
+      "runtime",
+      "Python",
+      "подключение UI владельцем окна"
+    ],
+    "unknown": [
+      "Dvorak",
+      "Colemak",
+      "AZERTY",
+      "QWERTZ",
+      "QZERTY",
+      "полноценная IME"
+    ]
+  },
+  "статус": "library product подготовлен; независимое RO до correction commit"
+}
