@@ -1,0 +1,43 @@
+{
+  "схема": "fum.fuma.адресные-конфликты-волны.1",
+  "состояние": "READ_ONLY_CASE_NO_MERGE",
+  "наш_head": "a678c4cd2ebbbd6de6e9343ebfa4e70090715264",
+  "входящая_основа": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "общий_предок": "64c19c87ff5b1b7a8ff2ba8fec69164fda85af4c",
+  "конфликты": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+      "base_blob": "160c0a943c020d71235abeb68e9989818bef722e",
+      "ours_blob": "a26fdb7de6ac380950e1147f21d6f5ee64a255ad",
+      "theirs_blob": "d9ab23d9e62944ad1b6c404ed306a016c4481afd",
+      "c68_blob": "d9ab23d9e62944ad1b6c404ed306a016c4481afd"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/fabrika-agentov/proverki.swift",
+      "base_blob": "0a28875361cda2c1047b91deb80cf658d7e2db86",
+      "ours_blob": "6a2ad2cec04cd6bd834413ab459ae9526817a5af",
+      "theirs_blob": "6fbccead397eafa3a24fb2b097feedef08c90cd8",
+      "c68_blob": "6fbccead397eafa3a24fb2b097feedef08c90cd8"
+    }
+  ],
+  "locator": "Для каждого пути base = общий_предок:path, ours = наш_head:path, theirs = входящая_основа:path, c68 = source_tools:path; это точные Git blob, а не выбранные postimages.",
+  "source_tools": {
+    "commit": "68d819eab848be42c1b260ca7901b3d79480d474",
+    "tree": "07caea4210731e74751fc1502e824d96bc63642f",
+    "родители": ["1b610d1c153f4eb6b5b6ee6f40a49c9a7c183574", "4a2375a4dcbe1495b5afe520185795a00acaff9b"],
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/ustanovitj-stop/master",
+    "remote_readback": "68d819eab848be42c1b260ca7901b3d79480d474",
+    "ограничение": "В обоих файлах c68 содержит тот же blob, что и 4a. Это не выбор согласованного postimage и не доказательство разрешения конфликта."
+  },
+  "переход": "READ_ONLY merge-tree показал текстовые конфликтные маркеры в указанных путях. Merge в собственном W ещё не начат; ждётся выбор postimages владельцем Tools через ROOT, чужой W не меняется. При получении новых postimages повторно сверить полный HEAD/base/refs и отдельную границу допуска.",
+  "дочерняя_линия": {
+    "native_uuid": "01a196d0-9f8e-72c3-be37-c0ddfbfbc172",
+    "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/stupeni-usiliya/master",
+    "base": "a678c4cd2ebbbd6de6e9343ebfa4e70090715264",
+    "назначение": "Один писатель, независимый source-only этап плавных ступеней; прямое исключение человека разрешает FUM namespace.",
+    "requested": "gpt-6-luna/low",
+    "observed": "UNKNOWN на момент создания; конфигурацию должен подтвердить ребёнок в своей сессии",
+    "статус": "Worktree создан и передан ребёнку; первый исход ещё не получен."
+  },
+  "проверки": {"swift": "NOT_RUN", "runtime": "NOT_RUN", "python_root_jsonl_legacy": "ИСКЛЮЧЕНЫ, НЕ ПРОВЕРЕНЫ", "приёмка": "НЕ ПРОВЕДЕНА"}
+}
