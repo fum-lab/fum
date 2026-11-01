@@ -1,0 +1,59 @@
+{
+  "схема": "fum.audit.packed-refs-reader-delta-review.v1",
+  "корневой_codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "координатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "дата": "2026-10-30",
+  "основа_аудита": {
+    "предыдущий_review": "99dd6d8a78ddc8bf82fc0b14998bc664f956ce97",
+    "ref": "refs/heads/fum-lab/fum/audit/master"
+  },
+  "поручение": "Точечно сверить immutable freeze2 с freeze1 после NUL guard. Не разбирать заново неизменённые части; не запускать compiler/runtime. Проверить, закрывает ли дельта переданный P2 о byte scan/physical-row cap до materialization.",
+  "входы": {
+    "манифест_sha256": "9b9e9d4a728fcd96419e8792329712c71282073f8c4411d3e885d86571ddb4ca",
+    "baseline": "da8307158dea90d7531672f950ad3b7ef769cbb8",
+    "freeze1": {
+      "publisher_sha256": "b64eb2343f079b3a7aa4fed04d65a90bc1e34598c7b1b01942b995879f368273",
+      "handler_sha256": "ea6d0b9f5444eec632ef3a4c8804e99496f140977f1acc75bdc5ab402be4b97b"
+    },
+    "freeze2": {
+      "publisher": {
+        "файл": "production-freeze-2/publisher.swift",
+        "байтов": 69022,
+        "режим": "0400",
+        "sha256": "135e3f921437caac84ad99c58582c9ebb4930148bd33bb1e67bb4a5695446a36"
+      },
+      "handler": {
+        "файл": "production-freeze-2/handler.swift",
+        "байтов": 68273,
+        "режим": "0400",
+        "sha256": "aec7fc2ab72c2ea94b84af20eafdccef248e98301a1904d95406776491f802aa"
+      }
+    }
+  },
+  "точечная_дельта": {
+    "manifest_утверждает": "Добавлен !данные.contains(0) в начале packed parser обоих copies.",
+    "сравнение_с_freeze1": "Оба frozen файла SHA совпали; unified diff подтверждает ровно одну строку изменения в каждом parser.",
+    "publisher": "Строка 51 проверяет !данные.contains(0) до UTF-8 проверки и split.",
+    "handler": "Строка 52 проверяет !данные.contains(0) до UTF-8 проверки и split.",
+    "результат": "NUL теперь fail-closed до интерпретации заголовка/строк. Утверждённая NUL-дельта внесена симметрично.",
+    "wiring": "По сравнению с freeze1 изменились только эти две parser-строки; publisher initial/mid/pre-rename и handler Чтение не менялись."
+  },
+  "остаток_previous_P2": {
+    "идентификатор": "P2-packed-refs-prevalidation-split-allocation",
+    "состояние": "остаётся открытой",
+    "доказательство": {
+      "publisher": "Строка 54 всё ещё eagerly materializes Data.split(...).map { Data($0) }; предел 16_384 проверяется позднее, в строке 83.",
+      "handler": "Строка 55 всё ещё eagerly materializes Data.split(...).map { Data($0) }; предел 16_384 проверяется позднее, в строке 84."
+    },
+    "эффект": "NUL guard не ограничивает число LF-строк. До отказа на первой пустой/неверной записи вход до 1 MiB всё ещё может создать около миллиона Data-элементов и расходовать память/CPU до fail-closed.",
+    "рекомендация": "Сканировать исходный Data по LF в одном проходе; проверять физические строки и records до materialization любых строковых Data. Добавить line-flood vector и сохранить пределы байтов и строки."
+  },
+  "исполнение": {
+    "compiler": "не запускался",
+    "Swift_runtime": "не запускался",
+    "общие_vectors": "не запускались",
+    "handler_test": "не запускался",
+    "охват": "Только manifest, SHA256/mode, diff freeze1→freeze2, NUL guard и сохранение предыдущего P2."
+  },
+  "вывод": "NUL delta принята на статическом уровне. Предыдущий P2 resource-bound gap не исправлен этим freeze2 и остаётся блокирующим до раннего byte/row cap."
+}

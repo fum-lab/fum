@@ -1,0 +1,32 @@
+{
+  "схема": "fum.audit.git-author-correction.v1",
+  "основание": "Адресное поручение координатора; новый этап является add-only продолжением уже опубликованного checkpoint.",
+  "корневой_codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "дословное_поручение_координатора": "Подтверждён новый author-defect твоего опубликованного checkpoint eb341ada46d9a7e6db16a2560f09bbf95c6305cf: raw Author FUM Писатель <fum@local>, committer FUM Codex; bodymodel/effort/ROOTUUID не исправляют неправильный author-header. Нельзя amend/force; добавочный собственный checkpoint должен явно сохранить старый дефект и иметь правильный полный Author FUM Codex [<проверенная model>; effort=<effort>] через процессное GIT_AUTHOR_NAME, после него raw cat-file ДО push. Проверяй эффективный git var GIT_AUTHOR_IDENT в том же scopedenv до effect, одного git -c user.name недостаточно приунаследованном GIT_AUTHOR_NAME. Не меняйsharedGitconfig. Содержательныйаудитповторятьненужно, адресноновыйJSON/метаданные. ОдинобщийSwift/FUMgate ужеimplementируетсяsync, твоязадачане второйкодер. Применённыйfallbackнеобъявлятьготовымguard; исправлениеисторииadd-only иrealrawreadback.",
+  "наблюдённый_дефект": {
+    "коммит": "eb341ada46d9a7e6db16a2560f09bbf95c6305cf",
+    "родитель": "d081c0a6dfecf876d94107c3f2585cd99f686f39",
+    "ref": "refs/heads/fum-lab/fum/audit/master",
+    "публикация": "raw remote readback совпал с OID eb341ada46d9a7e6db16a2560f09bbf95c6305cf",
+    "raw_author_header": "author FUM Писатель <fum@local> 1793038177 +0400",
+    "raw_committer_header": "committer FUM Codex <fum@local> 1793038177 +0400",
+    "ожидаемый_author_name": "FUM Codex [gpt-6-luna; effort=max]",
+    "суть": "Тело коммита содержит model/effort и корневой UUID, но это не исправляет неверную идентичность в Author header.",
+    "требование": "FUM-ПРАВИЛО-000063"
+  },
+  "добавочная_поправка": {
+    "метод": "Отдельный checkpoint с прежним коммитом родителем; опубликованная история не переписывается.",
+    "переменная_процесса": "GIT_AUTHOR_NAME",
+    "значение": "FUM Codex [gpt-6-luna; effort=max]",
+    "model_effort_source": "Подтверждённые turn_context записи native JSONL этой задачи; последние записи с указанными значениями согласуются.",
+    "менять_shared_gitconfig": false,
+    "проверить_raw_commit_object_до_push": true
+  },
+  "границы": {
+    "полный_аудит_ролей_повторять": false,
+    "общий_swift_fum_gate": "Координатор сообщил, что единый gate реализуется в общей работе; этот checkpoint не дублирует его реализацию и не подтверждает готовность.",
+    "guard_ready": false,
+    "process_scoped_fallback_is_guard": false,
+    "тесты_и_сборки": "Не запускались в этом адресном исправлении."
+  }
+}

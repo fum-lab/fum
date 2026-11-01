@@ -1,0 +1,294 @@
+{
+  "schema": "fum.pull-source-audit.1",
+  "status": "BOUNDED_READ_ONLY_GIT_OBJECT_AUDIT",
+  "acceptance": "NOT_CLAIMED",
+  "auditContext": {
+    "auditRef": "refs/heads/fum-lab/fum/audit/master",
+    "headBeforeAudit": "f17b0da18ee82640d4665d870c09a25f87cd317d",
+    "sourceAccess": "source records audited from existing local Git objects; no new GitHub API GET was made. Destination audit-ref was read via ls-remote separately",
+    "sourceRemoteReadback": "ROOT reported exact source commit and independent ls-remote verified; not rechecked by this audit"
+  },
+  "sourcePins": {
+    "commit": "c8b956f69ec400625fcfb60d6b4c2d6e2bcf37c9",
+    "parent": "3ccecfe4d107249e8ff64b4a82580b52cfb01c5f",
+    "tree": "5b0e67a8bf05d7cf6daadedfca955182c2bdc6b5",
+    "manifestPath": "Issues/fum-lab/fum/наблюдение-запросов-на-слияние-491-493-2026-10-31.json",
+    "manifestGitBlob": "8e8ea59ccfed72d2ec045d6780eabc91c9215de4",
+    "manifestBytes": 14681,
+    "manifestSha256": "72c8a7b8ce96bec6e70fc8e1a70206a5bab43b0c14a7aee710592bb0d823d7e9",
+    "repository": "fum-lab/fum",
+    "pullNumbers": [
+      491,
+      492,
+      493
+    ],
+    "excludedControlPullNumbers": [
+      495
+    ],
+    "sourceRef": "refs/heads/fum-lab/fum/istochniki/pulls-491-493/2026-10-31"
+  },
+  "referenceAudit": {
+    "recordCount": 15,
+    "uniqueBodyPathCount": 10,
+    "allResolveToGitBlob": true,
+    "allByteLengthsMatch": true,
+    "allRawSha256ValuesMatch": true,
+    "allFilenamesMatchRawSha256": true,
+    "changedUniqueBodiesInSourceDelta": 9,
+    "reusedBody": {
+      "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+      "gitBlobInParent": "0637a088a01e8ddab3bf3fa98dbe804cbde1a0dc",
+      "gitBlobInSource": "0637a088a01e8ddab3bf3fa98dbe804cbde1a0dc",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "content": "[]"
+    },
+    "links": [
+      {
+        "pull": 491,
+        "kind": "pull-json",
+        "path": "Issues/fum-lab/fum/данные/d653088363092b500d7cec044c2627c49e106b00fdd11164a18b21ad577a2bc4.json",
+        "bytes": 17018,
+        "sha256": "d653088363092b500d7cec044c2627c49e106b00fdd11164a18b21ad577a2bc4",
+        "checks": "blob, size, raw SHA-256, filename, JSON number 491 matched"
+      },
+      {
+        "pull": 491,
+        "kind": "diff",
+        "path": "Issues/fum-lab/fum/данные/76fe7a20ecd6d84af3e09821254188f51dbfce3a32b49f1a0260d1e323950d76.diff",
+        "bytes": 111041,
+        "sha256": "76fe7a20ecd6d84af3e09821254188f51dbfce3a32b49f1a0260d1e323950d76",
+        "checks": "blob, size, raw SHA-256, filename, unified diff header matched"
+      },
+      {
+        "pull": 491,
+        "kind": "reviews",
+        "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "checks": "blob, size, raw SHA-256, filename, JSON array matched; empty"
+      },
+      {
+        "pull": 491,
+        "kind": "review-comments",
+        "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "checks": "blob, size, raw SHA-256, filename, JSON array matched; empty"
+      },
+      {
+        "pull": 491,
+        "kind": "files",
+        "path": "Issues/fum-lab/fum/данные/cb2a3fe677b550d66d2f44aa5b791e9463f9db13f10b84eaca72ad38f3064126.json",
+        "bytes": 118929,
+        "sha256": "cb2a3fe677b550d66d2f44aa5b791e9463f9db13f10b84eaca72ad38f3064126",
+        "checks": "blob, size, raw SHA-256, filename, JSON file array and filename fields matched"
+      },
+      {
+        "pull": 492,
+        "kind": "pull-json",
+        "path": "Issues/fum-lab/fum/данные/efd1de793eb3c448a1cf6e4e7cd505943bd7c6ff9e4d24453b2ba89b99ccfd36.json",
+        "bytes": 17596,
+        "sha256": "efd1de793eb3c448a1cf6e4e7cd505943bd7c6ff9e4d24453b2ba89b99ccfd36",
+        "checks": "blob, size, raw SHA-256, filename, JSON number 492 matched"
+      },
+      {
+        "pull": 492,
+        "kind": "diff",
+        "path": "Issues/fum-lab/fum/данные/4307c07a96ad0fa2d530a36b6146f8b35203378354746b7d5a85229b4757536f.diff",
+        "bytes": 26355,
+        "sha256": "4307c07a96ad0fa2d530a36b6146f8b35203378354746b7d5a85229b4757536f",
+        "checks": "blob, size, raw SHA-256, filename, unified diff header matched"
+      },
+      {
+        "pull": 492,
+        "kind": "reviews",
+        "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "checks": "blob, size, raw SHA-256, filename, JSON array matched; empty"
+      },
+      {
+        "pull": 492,
+        "kind": "review-comments",
+        "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "checks": "blob, size, raw SHA-256, filename, JSON array matched; empty"
+      },
+      {
+        "pull": 492,
+        "kind": "files",
+        "path": "Issues/fum-lab/fum/данные/b293adbd9e5a9611f4fd8c5617cfcaea3dcd19dc31a1bd0b2cf40bc49d3fa4a9.json",
+        "bytes": 28796,
+        "sha256": "b293adbd9e5a9611f4fd8c5617cfcaea3dcd19dc31a1bd0b2cf40bc49d3fa4a9",
+        "checks": "blob, size, raw SHA-256, filename, JSON file array and filename fields matched"
+      },
+      {
+        "pull": 493,
+        "kind": "pull-json",
+        "path": "Issues/fum-lab/fum/данные/3493819546beccf55f32be11d0a56683b250000854fe103a4a3cc5d704cb7abc.json",
+        "bytes": 17819,
+        "sha256": "3493819546beccf55f32be11d0a56683b250000854fe103a4a3cc5d704cb7abc",
+        "checks": "blob, size, raw SHA-256, filename, JSON number 493 matched"
+      },
+      {
+        "pull": 493,
+        "kind": "diff",
+        "path": "Issues/fum-lab/fum/данные/95cc72544ef2b946d7f093f30f0d51209568804c73836c96fbae11297331ad9f.diff",
+        "bytes": 105703,
+        "sha256": "95cc72544ef2b946d7f093f30f0d51209568804c73836c96fbae11297331ad9f",
+        "checks": "blob, size, raw SHA-256, filename, unified diff header matched"
+      },
+      {
+        "pull": 493,
+        "kind": "reviews",
+        "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "checks": "blob, size, raw SHA-256, filename, JSON array matched; empty"
+      },
+      {
+        "pull": 493,
+        "kind": "review-comments",
+        "path": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "checks": "blob, size, raw SHA-256, filename, JSON array matched; empty"
+      },
+      {
+        "pull": 493,
+        "kind": "files",
+        "path": "Issues/fum-lab/fum/данные/16d0e741b4885048a48234b5a5cc958e86dbe68ae4b23293cb7b3b5fd5b80849.json",
+        "bytes": 110180,
+        "sha256": "16d0e741b4885048a48234b5a5cc958e86dbe68ae4b23293cb7b3b5fd5b80849",
+        "checks": "blob, size, raw SHA-256, filename, JSON file array and filename fields matched"
+      }
+    ]
+  },
+  "endpointClassification": {
+    "recordsPerPull": 5,
+    "kindCounts": {
+      "pull-json": 3,
+      "diff": 3,
+      "reviews": 3,
+      "review-comments": 3,
+      "files": 3
+    },
+    "httpStatus": "15/15 records report 200",
+    "metadataBodies": "JSON number field matched the manifest pull number for 491, 492, and 493",
+    "diffBodies": "All three raw response bodies begin with a unified diff header and use the diff media type",
+    "reviewBodies": "All three reviews responses are JSON arrays; all are empty arrays",
+    "inlineReviewComments": "The three /pulls/{number}/comments responses are inline review-comment endpoints, distinct from issue conversation comments; all returned empty arrays, so no individual inline records were available to inspect.",
+    "fileLists": "All three files responses are JSON arrays whose elements contain filename",
+    "issueConversationCommentsRequested": false,
+    "listPagination": "Nine list responses each record page 1, perPage 100, and no Link header; this does not establish completeness beyond the observed page."
+  },
+  "manifestPlacement": {
+    "matchesLegacyGlob": false,
+    "legacyGlob": "наблюдение/*/наблюдение.json",
+    "observation": "The manifest is Issues/fum-lab/fum/наблюдение-запросов-на-слияние-491-493-2026-10-31.json, outside the legacy observation-directory glob."
+  },
+  "clockPreservation": {
+    "localRequestWindowUtc": {
+      "start": "2026-10-31T18:11:34Z",
+      "end": "2026-10-31T18:11:46Z"
+    },
+    "serverResponseDates": [
+      "Sat, 31 Oct 2026 18:11:44 GMT",
+      "Sat, 31 Oct 2026 18:11:45 GMT",
+      "Sat, 31 Oct 2026 18:11:46 GMT",
+      "Sat, 31 Oct 2026 18:11:47 GMT",
+      "Sat, 31 Oct 2026 18:11:47 GMT",
+      "Sat, 31 Oct 2026 18:11:48 GMT",
+      "Sat, 31 Oct 2026 18:11:49 GMT",
+      "Sat, 31 Oct 2026 18:11:50 GMT",
+      "Sat, 31 Oct 2026 18:11:51 GMT",
+      "Sat, 31 Oct 2026 18:11:51 GMT",
+      "Sat, 31 Oct 2026 18:11:52 GMT",
+      "Sat, 31 Oct 2026 18:11:53 GMT",
+      "Sat, 31 Oct 2026 18:11:54 GMT",
+      "Sat, 31 Oct 2026 18:11:55 GMT",
+      "Sat, 31 Oct 2026 18:11:56 GMT"
+    ],
+    "serverDateRangeUtc": {
+      "first": "2026-10-31T18:11:44.000Z",
+      "latest": "2026-10-31T18:11:56.000Z"
+    },
+    "latestResponseDateCutoffUtc": "2026-10-31T18:11:56.000Z",
+    "serverLatestAfterLocalEndSeconds": 10,
+    "atomicSnapshot": false,
+    "assessment": "Both local request-window times and per-response GitHub Date values are preserved verbatim; they are not normalized into one clock."
+  },
+  "rawDiffBoundary": {
+    "pull": 493,
+    "path": "Issues/fum-lab/fum/данные/95cc72544ef2b946d7f093f30f0d51209568804c73836c96fbae11297331ad9f.diff",
+    "bytes": 105703,
+    "sha256": "95cc72544ef2b946d7f093f30f0d51209568804c73836c96fbae11297331ad9f",
+    "trailingWhitespaceLines": 10,
+    "treatment": "RAW bytes preserved; not edited, normalized, or described as cleaned."
+  },
+  "manifestPrivacyScan": {
+    "scope": "derived manifest only; response-body payloads were not scanned or rewritten",
+    "patternsChecked": [
+      "absolute user/home/private/temp paths and file URLs",
+      "FUM-private local path markers",
+      "GitHub token prefixes",
+      "Bearer credentials and Authorization header names"
+    ],
+    "matches": 0,
+    "limitation": "Pattern scan is bounded evidence, not a proof that every possible secret format is absent."
+  },
+  "knownGaps": [
+    "This is a sequence of non-atomic per-request observations, not one simultaneous GitHub snapshot.",
+    "Only pull requests 491, 492, and 493 were requested; control PR495 and other PRs were not requested.",
+    "No /issues state=all archive refresh or PR issue-conversation comments request was made.",
+    "Commit objects, checks, statuses, workflows, Actions history, attachments, and later edits are outside this capture.",
+    "No Link rel=next header was returned for the nine list requests; observed pagination does not establish repository-wide completeness.",
+    "Semantic review was not performed; legacy Issues reader compatibility remains unknown and unclaimed.",
+    "The archive is not evidence of complete GitHub history, ROOT integration, or a new reader implementation."
+  ],
+  "excludedChecks": {
+    "newGetRequests": "NOT_PERFORMED",
+    "legacyReader": "NOT_RUN; compatibility UNKNOWN",
+    "buildRuntimeAndFullProfile": "NOT_RUN; UNKNOWN",
+    "pythonRouterAndLegacyStart": "EXCLUDED_BY_ACCEPTED_ROOT_GRANT; UNKNOWN, NOT_GREEN",
+    "rootJsonlRemainderAndGuard": "EXCLUDED_BY_ACCEPTED_ROOT_GRANT; NOT_READ, UNKNOWN, NOT_GREEN",
+    "canonicalJournalStart": "NOT_CREATED; the authorized one-file result is this JSON"
+  },
+  "modelObservation": {
+    "requestedEffort": "max after the reported repeated low-effort acknowledgement-only failure",
+    "observedModel": "gpt-6-luna",
+    "observedEffort": "max",
+    "observedAtMs": 1793473218201,
+    "limitation": "Fresh Codex app thread-selection SQLite row; app selection is not proof of backend execution."
+  },
+  "additionalContext": {
+    "reportedRepairCommit": "85e99b19646d6997ffa3d48302b94fc13ad8326f",
+    "reportedParent": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+    "reportedTree": "efd2717ae16e503453372da378f01be79550cf8a",
+    "reportedStatus": "ROOT says exact four-file delivery, normal push, and independent parent readback succeeded",
+    "auditTreatment": "additional input only; not independently audited here and does not change the primary source C, manifest, or one-file scope"
+  },
+  "inputOutcomes": {
+    "primaryArchiveAudit": {
+      "sourceCommit": "c8b956f69ec400625fcfb60d6b4c2d6e2bcf37c9",
+      "sourceManifest": "Issues/fum-lab/fum/наблюдение-запросов-на-слияние-491-493-2026-10-31.json",
+      "resultPath": "audit/proverka-pulls-c8b956f6.json",
+      "resultCommitBeforeThisOutcomeUpdate": "44f92ec72a233df9a8f34868543dc3d9e6684464",
+      "resultSha256BeforeThisOutcomeUpdate": "f36e8a50d62c1e2c471b4a230ba2819b291b99e1e66d5472872804ce60f0be80",
+      "outcome": "BOUNDED_AUDIT_COMMITTED_AND_EXACT_REMOTE_READBACK_CONFIRMED",
+      "archiveCompleteness": "NOT_ESTABLISHED"
+    },
+    "secondaryFactory85eReview": {
+      "sourceCommit": "85e99b19646d6997ffa3d48302b94fc13ad8326f",
+      "reportedParent": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+      "reportedTree": "efd2717ae16e503453372da378f01be79550cf8a",
+      "reportedIntegratedMerge": "785ba577",
+      "integrationStatus": "ROOT_REPORTED_ACCEPTED_AND_INTEGRATED; not independently checked in this audit",
+      "reviewOutcome": "NOT_PERFORMED; ROOT marked the request secondary/queued and no longer needed after PR497 integration",
+      "repeatTestsOrNewBranch": "NOT_REQUESTED",
+      "scopeRelation": "additional input only; does not replace the primary archive C or alter the one-path scope"
+    }
+  }
+}

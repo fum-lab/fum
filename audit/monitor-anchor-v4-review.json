@@ -1,0 +1,78 @@
+{
+  "схема": "fum.audit.monitor-anchor-review.v1",
+  "корневой_codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "чат_аудитора": "01a177c7-9a89-7690-9259-3b5a56dae88c",
+  "дата": "2026-10-30",
+  "основа": {
+    "commit": "edfe4e2d31dda17ab0c5701ba492e5e768ae4ac1",
+    "ref": "refs/heads/fum-lab/fum/audit/master"
+  },
+  "область": "Статическое RO-ревью финальной wiring-пары удержания PGID и предлагаемой дешёвой fixture. Проверялись только локальные копии по SHA; исполняемые файлы и процессы не запускались.",
+  "поручение": "ДляP2готовconcreteprivatewiring, неliveисправление: Q6monitor-driver-v4-anchor-final.cjs SHA4ebbceca794f4f597d79efe266764b8b32fde3264b73dda2e680717f32533722 иякорь-группы-версия-2.cjs SHA1d7ed219bd9c7d05f6afd50bc630cb13d488a8d6fac4fb0fde651087c46a3d41. РодительforkdetachedNodeanchor; readyretainedдоодногоtargetspawn; anchorневыходитпослеTERMилиcompilerexit; IPC≤4×4096, targetterminalseparate. KILLгруппедоякорногореапа, послеreapтолькоsignal0≤51сclipped1sreserve/UNKNOWN; неожиданныйanchorlossостаетсяUNKNOWN/no blindPGIDkill. Timeoutreadклиппируетсяoverallremaining, total30s/max40/1ROretry; managedhelpercancel/unreapedPID. Node--check0оба, PS/Swift/anchorlive0. ProposedonecheaprealfixtureпослеROreviewиloadgate: Node2+sh1+sleep1,0Swift,10s,≤2ps,sourcecaps128MiB/64KiB; shоставляетsleep4иexit0, нуженKILLwhileanchorNotReaped/groupAbsent. ФактическийresourceUNKNOWNуfixtureНЕвыдаётсяcompilerGREEN. Exactfixtureinputs8a997b1e…/recipe16836dbf… вQ6. ПрошуROreviewэтойпоследнейпары; sourceвсеfrozenSHA. СохранитеP2/reviewвсвоёмGitreport/commitпоROOTполитикепостоянногоаудитаипришлитеOID.",
+  "исходники": [
+    {
+      "файл": "monitor-driver-v4-anchor-final.cjs",
+      "sha256": "4ebbceca794f4f597d79efe266764b8b32fde3264b73dda2e680717f32533722"
+    },
+    {
+      "файл": "якорь-группы-версия-2.cjs",
+      "sha256": "1d7ed219bd9c7d05f6afd50bc630cb13d488a8d6fac4fb0fde651087c46a3d41"
+    }
+  ],
+  "предлагаемая_fixture": {
+    "inputs_sha256": "8a997b1efa935ed2d6567bb6f5865f999ca8971837a22c6017c0a6f933eb7b19",
+    "recipe_sha256": "16836dbfcae939768f16d6f80d2d841840efeacb1405693cc67a1dfd29780718",
+    "состав": "Node 2 + sh 1 + sleep 1; Swift 0; до 10 секунд; не более двух ps-вызовов; память до 128 MiB; объединённый вывод до 64 KiB.",
+    "исход": "Предложена, не запускалась. Текущий load gate не проверялся; запуск требует отдельного допустимого бюджета и load gate.",
+    "критерий": "Наблюдаемый exit цели 0; в signalAttempts есть успешный SIGKILL с якорем ещё не reaped; конечная проверка группы сообщает отсутствие. Ожидаемый UNKNOWN по resource sampling не превращается в GREEN компилятора."
+  },
+  "статические_выводы": {
+    "прежний_P2_после_reap": {
+      "состояние": "Структурно закрыт этой wiring-парой; реальное orphan-удаление не проверено.",
+      "основание": [
+        "Anchor подтверждает живую группу и остаётся её лидером до сигнала родителя; TERM обработан без выхода, target-exit передаётся отдельно.",
+        "Driver отправляет KILL группы по target-terminal IPC, пока anchor ещё не reaped. После anchor exit/reap send() прекращает сигнализацию; остаётся только ограниченный signal 0 и UNKNOWN при неопределённом состоянии.",
+        "Отсутствие target-terminal или потеря anchor фиксируется как UNKNOWN, без слепого KILL после reap. PGID reuse после reap не вызывает сигнализацию новой группы."
+      ],
+      "ссылки": [
+        {"файл": "monitor-driver-v4-anchor-final.cjs", "строки": "92-98, 100-122"},
+        {"файл": "якорь-группы-версия-2.cjs", "строки": "5-13, 24-39"}
+      ]
+    },
+    "ограниченные_бюджеты": {
+      "общий_срок_ms": "recipe принимает только 10000, 30000 или 180000; driver сохраняет одну секунду для cleanup",
+      "опросы": "не более 40 вызовов, одна RO-попытка повтора, общий бюджет чтений 30000 ms; timeout каждого ps ограничен остатком общего срока",
+      "helper": "один активный ps, таймер завершения и предел 32768 байт объединённого stdout/stderr; неизвестный PID остаётся UNKNOWN",
+      "очистка": "не более 51 signal-0-проверки и не более оставшейся части секундного резерва"
+    }
+  },
+  "находки": [
+    {
+      "идентификатор": "P2-recipe-bytes-not-bound-to-admission",
+      "приоритет": "P2",
+      "состояние": "открыта",
+      "заголовок": "Исполняемый recipe не привязан к заранее разрешённому хэшу байтов",
+      "проявление": "Driver разбирает recipe из файла в строке 77, но при fork передаёт anchor хэш повторного чтения того же пути в строке 100. Обработчик ready в строке 106 опять сверяет сообщение с текущим содержимым пути, а не с хэшем байтов, по которым был разобран z. Поэтому согласованный recipe SHA не является входным условием запуска. При замене файла между чтением и fork anchor может выполнить другой exe/args/cwd/env, тогда как лимиты, pin-проверки и итоговые ожидания driver взяты из исходного z. Аналогично manifest разбирается в строке 83, а его SHA вычисляется повторным чтением в строке 89 и не сверяется в postread-проверке строки 97; сохранённый digest может относиться не к тем байтам, из которых построен список pins.",
+      "доказательства": [
+        {"файл": "monitor-driver-v4-anchor-final.cjs", "строки": "77, 83, 89-90, 100, 103-108"},
+        {"файл": "якорь-группы-версия-2.cjs", "строки": "18-23, 31-39"},
+        {"файл": "anchor-fixture1-inputs-proposed.json", "примечание": "Содержит pins двух harness-файлов и исполняемых файлов; SHA самой recipe не является закреплённым pin."}
+      ],
+      "исправление": "Открывать recipe и manifest один раз с O_NOFOLLOW, сохранить прочитанные байты и их SHA, разбирать конфигурацию только из этих байтов, сравнить recipe SHA с независимым закреплённым digest fixture/input manifest и передать anchor тот же digest/снимок. В intent и outcome сохранять фактические digest; при дрейфе recipe или manifest отказывать до target spawn.",
+      "следующий_шаг": "Владелец обновляет frozen wiring и input manifest; затем отдельное RO-повторное ревью. До этого proposed fixture не запускать."
+    }
+  ],
+  "исполнение_и_неизвестности": {
+    "Node_check": "Владелец сообщил exit 0 для обоих файлов; аудитор повторно не запускал.",
+    "PS_Swift_compiler": "Не запускались аудитором.",
+    "реальная_fixture": "Не запускалась аудитором.",
+    "старые_UNKNOWN": "Исходы v2/v3 не изменялись; их ранее сохранённые байты остаются отдельными историческими результатами.",
+    "охват": "Это статическое ревью двух исходников и предлагаемых fixture input/recipe. Оно не подтверждает native process runtime, реальное удаление orphan, отсутствие descendant escape или GREEN компилятора."
+  },
+  "исправление_происхождения_git": {
+    "предыдущий_локальный_коммит": "f61c5900ff023e407e513dac3d8aae401ea67bf1",
+    "предыдущий_author_name": "FUM Писатель",
+    "требуемый_author_name": "FUM Codex [gpt-6-luna; effort=high]",
+    "причина": "Первичная локальная фиксация получила общий настроенный Author Name. История сохранена без переписывания; эта add-only запись фиксирует расхождение и ожидаемую идентичность исправляющего коммита."
+  }
+}
