@@ -13,15 +13,21 @@ let package = Package(
         .package(
             name: "FUMStructuringOperatorMemory",
             path: "../../../../Прототипы/память-структурирующих-операторов"
+        ),
+        .package(
+            name: "Klaviatura",
+            path: "../../Операторы/Klaviatura"
         )
     ],
     targets: [
         .target(
             name: "ЦиклОператора",
             dependencies: [
-                .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory")
+                .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
+                .product(name: "ЭталонКлавиатуры", package: "Klaviatura")
             ],
             path: "Sources/FUMACycleModel",
+            resources: [.process("Ресурсы")],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
                 .unsafeFlags(["-strict-concurrency=complete", "-enable-actor-data-race-checks", "-warnings-as-errors"])
@@ -38,7 +44,7 @@ let package = Package(
         ),
         .testTarget(
             name: "ПроверкиЦиклаОператора",
-            dependencies: ["ЦиклОператора"],
+            dependencies: ["ЦиклОператора", .product(name: "ЭталонКлавиатуры", package: "Klaviatura")],
             path: "Tests/FUMACycleModelTests",
             swiftSettings: [
                 .swiftLanguageMode(.v6),

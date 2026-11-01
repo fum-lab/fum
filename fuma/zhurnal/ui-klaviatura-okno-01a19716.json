@@ -1,0 +1,99 @@
+{
+  "schema": "fuma.ui-keyboard-window-source-slice.v1",
+  "thread": "01a19716-c517-7f92-839e-44b9ee828533",
+  "rootThread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "base": "02afcbcd3fbc55b043cfd07a8a4fa85ead120a65",
+  "requirementsCommit": "acfc142d4657d79363137a974576215255fe0567",
+  "keyboardLibraryCommit": "64fe827d55b33b4ad7f5ea4e9dd61cddb523717c",
+  "scope": [
+    "Подключить доставленный продукт ЭталонКлавиатуры через локальную SwiftPM зависимость.",
+    "Подавать подтверждённый физический ввод NSTextView через существующий адаптер окна; не создавать собственную таблицу клавиш или граф.",
+    "Показывать отдельную типизированную рамку собственного NSWindow в points с источником и монотонным временем рядом с content viewport.",
+    "Сохранить программное действие, результат, ошибки и историю при перемещении и изменении размеров.",
+    "Ограничение текущего UI: подключена только закреплённая QWERTY v1; полнота шести раскладок и IME не заявляется."
+  ],
+  "dependency": {
+    "packagePath": "Приложения/FUMA/Операторы/Klaviatura",
+    "packageName": "Klaviatura",
+    "product": "ЭталонКлавиатуры",
+    "target": "ЭталонКлавиатуры",
+    "binding": "ПривязкаРаскладкиKeyboard.keyboardQwertyV1",
+    "sourceFile": "Приложения/FUMA/Операторы/Klaviatura/Sources/ЭталонКлавиатуры/ВводОкна.swift",
+    "entryPoint": "АдаптерВводаОкна.принять(ФизическоеСобытиеКлавиатуры)",
+    "executorEvidence": "Метод адаптера вызывает AutomationExecutor.выполнить; статически прочитано из commit 64fe827d55b33b4ad7f5ea4e9dd61cddb523717c.",
+    "runtimeStatus": "NOT_RUN"
+  },
+  "pinnedResources": [
+    {
+      "source": "Приложения/FUMA/Операторы/Klaviatura/определение.json",
+      "sourceBlob": "874db5c55f1c5fea316e62daa5b5a02066d89fcf",
+      "copy": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/Ресурсы/определение-klaviatura.json",
+      "rawSHA256": "6deb8aed4b93b7d2528e26df041da8314b9a9cc433483a2c44611b7585f7b4ac"
+    },
+    {
+      "source": "Приложения/FUMA/Операторы/Klaviatura/таблица-раскладки.json",
+      "sourceBlob": "725b9455b595be953fb415eb41e1933854c11167",
+      "copy": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/Ресурсы/таблица-qwerty.json",
+      "rawSHA256": "c914755f50b27da2b8d6d56cbdaaeb7db6f74ae2ab84d8f294eee4d6243f4ac3"
+    }
+  ],
+  "resourceBoundary": {
+    "copiesAreByteIdenticalToPinnedBlobs": true,
+    "adapterStaticChecks": [
+      "SHA сырых байтов определения",
+      "SHA канонического разобранного определения",
+      "SHA сырых байтов таблицы",
+      "схема и идентификатор раскладки таблицы"
+    ],
+    "risk": "При будущей частичной смене ресурсов определение и таблица могут разойтись; существующий adapter init должен закрыто отклонить несовпадение закреплённых хэшей. Ни пользовательские данные, ни внешний процесс не используются."
+  },
+  "geometry": {
+    "windowFrameType": "НаблюдениеРамкиОкна",
+    "windowFrameSource": "AppKit.NSWindow.frame",
+    "windowFrameUnit": "points",
+    "windowFrameTimestamp": "DispatchTime.now().uptimeNanoseconds",
+    "viewportType": "НаблюдениеКонтентнойОбласти",
+    "unitsAreSeparateTypes": true,
+    "pixelsOrScaleFactor": "Не наблюдаются и не выводятся из points.",
+    "frameEventKinds": ["первоначальноеНаблюдение", "изменениеПоложения", "изменениеРазмера", "изменениеПоложенияИРазмера"],
+    "resizeEffects": "Обновляет общее состояние/раскладку; не вызывает AutomationExecutor и не очищает историю или результат."
+  },
+  "nativeKeyboardGate": {
+    "adapterOwner": "Единственный АдаптерВводаОкна принадлежит MainActor-владельцу рядом с NSTextView. Он синхронно вызывает существующий граф; ЦиклОператора actor получает уже рассчитанные событие/результат только для общей истории, без второго выполнения.",
+    "eligibleEvent": "Только code из whitelist ANSI-US буквенных virtual keycodes, где pinned FUMA base layer совпадает с ожидаемой US буквой и текущий NSEvent.characters точно равен этой букве, либо layout-independent Backspace code 51; дополнительно exact selectedKeyboardInputSource com.apple.keylayout.US, keyDown, без modifier flags и marked text. US source id сам по себе не подтверждает соответствие; punctuation/space и все прочие коды остаются native.",
+    "nativeBoundary": "Синхронный callback сначала пропускает только keyDown; keyUp/flagsChanged сразу deactivate adapter и уходят исходному NSTextView, до чтения characters/isARepeat. Shift/Option/прочие modifiers, marked composition, неизвестный source и остальные keyDown также synchronously передаются native. Никакой CGEventSource поздней фазы не опрашивается.",
+    "custody": "До и после синхронного вызова adapter сверяются window identity, first responder, получатель, active input source, marked state, editor revision, текст и UTF-16 selection; при несовпадении FUMA output не применяется и старый NSEvent не replay-ится.",
+    "unknownAndReplay": "Решение adapter соблюдает маршрут: unknown не вставляется и не передаётся super; exact duplicate adapter event подавляется; только явный .пропустить передаётся нативно. Синхронный callback не откладывает NSEvent. Weak identity set suppress-ит только повторную обработку того же живого NSEvent object; отдельные event objects не объявляются одной и той же физической клавишей.",
+    "errors": "Ошибки ввода показаны отдельно от редактируемого текста и также записываются в состояние цикла."
+  },
+  "textEditing": {
+    "fumaText": "Текст применяется к захваченному UTF-16 selection/caret через NSTextStorage только пока полностью совпадает custody snapshot.",
+    "deleteCommand": "Закреплённый Backspace удаляет текущее выделение либо предыдущий composed character; veto до мутации показывает отдельную ошибку и не повторяет уже consumed NSEvent.",
+    "replay": "NSEvent не сохраняется и не передаётся отложенно; разрешённый plain keyDown завершается synchronously в исходном callback."
+  },
+  "fixture": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Фикстуры/клавиатура-и-рамка-окна.json",
+  "tests": {
+    "source": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Tests/FUMACycleModelTests/ЦиклОператораTests.swift",
+    "coverage": [
+      "реальный adapter event QWERTY keycode 12 и expected q, затем только готовый результат записывается в actor history",
+      "повтор идентичного adapter event ID имеет решение suppress без повторной трассы; тест weak pointer-identity dedup suppress-ит тот же live object, но принимает distinct equal objects; stale ordering классифицируется unknown без trace, insertion или native replay",
+      "fixture проверяет только plain-US keyDown с точным ANSI letter whitelist, совпадающим с FUMA table и NSEvent.characters; mismatched symbol и punctuation keycodes 41/44, keyUp, flagsChanged, Shift, Option, unsupported code, source mismatch и marked composition fail closed без adapter вызова",
+      "custody equality контрпримеры по window, получателю, input source, marked state, editor revision, тексту и selection",
+      "закреплённый keycode Backspace возвращает реальную команду удалить-назад",
+      "вставка заменяет выделение, удалить-назад работает по выделению или Unicode composed character",
+      "отдельные viewport и own-window frame observations с двумя timestamped frame values",
+      "frame resize и invalid nonfinite coordinates не повторяют действие и сохраняют результат/историю"
+    ],
+    "status": "NOT_RUN"
+  },
+  "verification": {
+    "sourceOnly": true,
+    "swiftBuild": "NOT_RUN",
+    "swiftTesting": "NOT_RUN",
+    "gui": "NOT_RUN",
+    "python": "EXCLUDED",
+    "rootJSONL": "EXCLUDED",
+    "runtimeOrProduction": "NOT_RUN"
+  },
+  "acceptance": "Независимое RO-ревью source snapshot пройдено без новых P1/P2. Source-only checkpoint не утверждает успешную сборку, тесты, GUI, запуск runtime, production или поддержку всех шести раскладок/IME."
+}
