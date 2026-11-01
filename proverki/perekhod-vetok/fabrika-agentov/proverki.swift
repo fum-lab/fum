@@ -3,6 +3,194 @@ import Testing
 import Darwin
 @testable import FactoryKernel
 
+@Suite("Типизированный Native create_thread")
+struct ПроверкиЗапросаСозданияПотока {
+    private static let идентификаторПроекта = "fixture-project-from-list_projects"
+    private static let родительскаяВетка = "fum-lab/fixture/existing-parent/master"
+    private static let название = "фабрика-агентов/сборщик-запроса"
+    private static let поручение = "Область: только сериализация create_thread; код исполнителя запросов не входит в назначение."
+    private static let пространствоFUM = "fum-lab/fum/instrumentyi/format-dereva/ishjyusyi"
+    private static let выбраннаяВеткаFUM = "refs/heads/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi/master"
+    private static let резервнаяВеткаCodex = "refs/heads/codex/fixture-agent-20261101"
+
+    private static let положительнаяФикстура = Data(#"""
+    {
+      "title": "фабрика-агентов/сборщик-запроса",
+      "model": "gpt-6-luna",
+      "thinking": "low",
+      "prompt": "Область: только сериализация create_thread; код исполнителя запросов не входит в назначение.",
+      "target": {
+        "type": "project",
+        "projectId": "fixture-project-from-list_projects",
+        "environment": {
+          "type": "worktree",
+          "startingState": {
+            "type": "branch",
+            "branchName": "fum-lab/fixture/existing-parent/master"
+          }
+        }
+      }
+    }
+    """#.utf8)
+
+    private static let отрицательнаяФикстура = Data(#"""
+    {
+      "title": "фабрика-агентов/сборщик-запроса",
+      "model": "gpt-6-luna",
+      "thinking": "low",
+      "prompt": "Область: только сериализация create_thread; код исполнителя запросов не входит в назначение.",
+      "projectId": "fixture-project-from-list_projects",
+      "target": {
+        "type": "project",
+        "environment": { "type": "worktree" },
+        "startingState": {
+          "type": "branch",
+          "branchName": "fum-lab/fixture/existing-parent/master"
+        }
+      }
+    }
+    """#.utf8)
+
+    private func запрос() throws -> ЗапросСозданияПотока {
+        try ЗапросСозданияПотока(
+            название: Self.название,
+            текстПоручения: Self.поручение,
+            идентификаторПроектаИзСвежегоСписка: Self.идентификаторПроекта,
+            имяПровереннойРодительскойВетки: Self.родительскаяВетка)
+    }
+
+    private func объект(_ данные: Data) throws -> [String: Any] {
+        try #require(JSONSerialization.jsonObject(with: данные) as? [String: Any])
+    }
+
+    private func нормализовать(_ объект: [String: Any]) throws -> Data {
+        try JSONSerialization.data(withJSONObject: объект, options: [.sortedKeys])
+    }
+
+    @Test func генераторСовпадаетСТипизированнойПоложительнойФикстурой() throws {
+        let результат = try объект(запрос().сериализовать())
+        let ожидание = try объект(Self.положительнаяФикстура)
+        #expect(try нормализовать(результат) == нормализовать(ожидание))
+
+        let цель = try #require(результат["target"] as? [String: Any])
+        let среда = try #require(цель["environment"] as? [String: Any])
+        let начало = try #require(среда["startingState"] as? [String: Any])
+        #expect(Set(результат.keys) == Set(["title", "model", "thinking", "prompt", "target"]))
+        #expect(результат["title"] as? String == Self.название)
+        #expect(результат["model"] as? String == "gpt-6-luna")
+        #expect(результат["thinking"] as? String == "low")
+        #expect(результат["prompt"] as? String == Self.поручение)
+        #expect(результат["projectId"] == nil)
+        #expect(результат["clientThreadId"] == nil)
+        #expect(результат["threadId"] == nil)
+        #expect(Set(цель.keys) == Set(["type", "projectId", "environment"]))
+        #expect(цель["projectId"] as? String == Self.идентификаторПроекта)
+        #expect(цель["startingState"] == nil)
+        #expect(Set(среда.keys) == Set(["type", "startingState"]))
+        #expect(начало["branchName"] as? String == Self.родительскаяВетка)
+    }
+
+    @Test func прежняяНевернаяВложенностьОтличаетсяОтГенератора() throws {
+        let результат = try объект(запрос().сериализовать())
+        let невернаяФорма = try объект(Self.отрицательнаяФикстура)
+        let невернаяЦель = try #require(невернаяФорма["target"] as? [String: Any])
+        #expect(невернаяФорма["projectId"] as? String == Self.идентификаторПроекта)
+        #expect(невернаяЦель["projectId"] == nil)
+        #expect(невернаяЦель["startingState"] != nil)
+        #expect(try нормализовать(результат) != нормализовать(невернаяФорма))
+    }
+
+    @Test func пустоеНазваниеИПустоеПоручениеОтклоняются() {
+        #expect(throws: ОшибкаЗапросаСозданияПотока.пустоеНазвание) {
+            try ЗапросСозданияПотока(название: "  ", текстПоручения: Self.поручение,
+                идентификаторПроектаИзСвежегоСписка: Self.идентификаторПроекта,
+                имяПровереннойРодительскойВетки: Self.родительскаяВетка)
+        }
+        #expect(throws: ОшибкаЗапросаСозданияПотока.пустоеТекстПоручения) {
+            try ЗапросСозданияПотока(название: Self.название, текстПоручения: "\0",
+                идентификаторПроектаИзСвежегоСписка: Self.идентификаторПроекта,
+                имяПровереннойРодительскойВетки: Self.родительскаяВетка)
+        }
+    }
+
+    @Test func пустойИдентификаторПроектаИВеткиОтклоняются() {
+        #expect(throws: ОшибкаЗапросаСозданияПотока.пустойИдентификаторПроекта) {
+            try ЗапросСозданияПотока(название: Self.название, текстПоручения: Self.поручение,
+                идентификаторПроектаИзСвежегоСписка: " ",
+                имяПровереннойРодительскойВетки: Self.родительскаяВетка)
+        }
+        #expect(throws: ОшибкаЗапросаСозданияПотока.пустоеИмяВетки) {
+            try ЗапросСозданияПотока(название: Self.название, текстПоручения: Self.поручение,
+                идентификаторПроектаИзСвежегоСписка: Self.идентификаторПроекта,
+                имяПровереннойРодительскойВетки: " ")
+        }
+    }
+
+    @Test func явноВыбраннаяПолнаяВеткаFUMСохраняется() throws {
+        let итог = try ПостроительВыбраннойВеткиДоставки.построить(
+            явноВыбраннаяПолнаяВетка: Self.выбраннаяВеткаFUM,
+            пространствоFUM: Self.пространствоFUM,
+            запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+            выбранныеВетки: ["refs/heads/fum-lab/fum/instrumentyi/format-dereva/drugoj/master"])
+        #expect(итог == Self.выбраннаяВеткаFUM)
+    }
+
+    @Test func неполныеКомпонентыИСтолкнувшиесяВеткиОтклоняются() {
+        #expect(throws: ОшибкаПостроенияВеткиДоставки.пустойКомпонент) {
+            try ПостроительВыбраннойВеткиДоставки.построить(
+                явноВыбраннаяПолнаяВетка: "refs/heads/fum-lab//format-dereva/master",
+                пространствоFUM: Self.пространствоFUM,
+                запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+                выбранныеВетки: [])
+        }
+        #expect(throws: ОшибкаПостроенияВеткиДоставки.коллизия) {
+            try ПостроительВыбраннойВеткиДоставки.построить(
+                явноВыбраннаяПолнаяВетка: Self.выбраннаяВеткаFUM,
+                пространствоFUM: Self.пространствоFUM,
+                запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+                выбранныеВетки: [Self.выбраннаяВеткаFUM])
+        }
+        #expect(throws: ОшибкаПостроенияВеткиДоставки.коллизия) {
+            try ПостроительВыбраннойВеткиДоставки.построить(
+                явноВыбраннаяПолнаяВетка: Self.выбраннаяВеткаFUM,
+                пространствоFUM: Self.пространствоFUM,
+                запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+                выбранныеВетки: ["refs/heads/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi"])
+        }
+    }
+
+    @Test func резервнаяВеткаCodexРазрешенаТолькоБезВыбранногоFUMПространства() throws {
+        let итог = try ПостроительВыбраннойВеткиДоставки.построить(
+            явноВыбраннаяПолнаяВетка: nil,
+            пространствоFUM: nil,
+            запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+            выбранныеВетки: [])
+        #expect(итог == Self.резервнаяВеткаCodex)
+
+        #expect(throws: ОшибкаПостроенияВеткиДоставки.отсутствуетЯвнаяВеткаFUM) {
+            try ПостроительВыбраннойВеткиДоставки.построить(
+                явноВыбраннаяПолнаяВетка: nil,
+                пространствоFUM: Self.пространствоFUM,
+                запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+                выбранныеВетки: [])
+        }
+        #expect(throws: ОшибкаПостроенияВеткиДоставки.невернаяРезервнаяВеткаCodex) {
+            try ПостроительВыбраннойВеткиДоставки.построить(
+                явноВыбраннаяПолнаяВетка: nil,
+                пространствоFUM: nil,
+                запаснаяВеткаCodex: Self.выбраннаяВеткаFUM,
+                выбранныеВетки: [])
+        }
+        #expect(throws: ОшибкаПостроенияВеткиДоставки.коллизия) {
+            try ПостроительВыбраннойВеткиДоставки.построить(
+                явноВыбраннаяПолнаяВетка: nil,
+                пространствоFUM: nil,
+                запаснаяВеткаCodex: Self.резервнаяВеткаCodex,
+                выбранныеВетки: [Self.резервнаяВеткаCodex])
+        }
+    }
+}
+
 // Четыре выбранных метода используют одни immutable файлы; сериализация исключает гонку atime
 // с начальной проверкой сведений в настоящем FUMA observer.
 @Suite("Приём ограниченного индекса и исторической политики", .serialized)

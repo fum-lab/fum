@@ -1,0 +1,120 @@
+{
+  "схема": "fum.поручение-typed-native-create-thread.1",
+  "база": {
+    "коммит": "cfe38399072f43a7ba214b32804ae5a53e1705ca",
+    "дерево": "07caea4210731e74751fc1502e824d96bc63642f",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/fabrika-agentov/pokryitiye/master"
+  },
+  "источникC68": {
+    "коммит": "68d819eab848be42c1b260ca7901b3d79480d474",
+    "родители": [
+      "1b610d1c153f4eb6b5b6ee6f40a49c9a7c183574",
+      "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+    ]
+  },
+  "запрошеннаяМодель": "gpt-6-luna",
+  "запрошенноеУсилие": "low",
+  "путьПоручения": "Журнал/2026-11-01_14-23-30_MSK_typed-create-thread-arguments-regression",
+  "путиРебёнка": [
+    "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+    "proverki/perekhod-vetok/fabrika-agentov/proverki.swift",
+    "собственная пара Журнала ребёнка"
+  ],
+  "форма": {
+    "target.type": "project",
+    "target.projectId": "получить из свежего list_projects",
+    "target.environment.type": "worktree",
+    "target.environment.startingState.type": "branch",
+    "target.environment.startingState.branchName": "существующая проверенная ветка или ref",
+    "request.model": "gpt-6-luna",
+    "request.thinking": "low"
+  },
+  "критерии": [
+    "Сериализованный request помещает projectId только в target.",
+    "Сериализованный request помещает startingState только в target.environment.",
+    "Regression ловит оба прежних смещения и проверяет отсутствие лишних ID-полей в request.",
+    "Все runtime-значения передаются вызывающей стороной; реальные projectId, branchName и prompt не сохраняются в фикстурах.",
+    "Клиентский clientThreadId не считается threadId и сам по себе не допускает thread-only вызовы.",
+    "Генератор сохраняет переданный полный FUM delivery ref, проверяет все непустые компоненты и столкновения, не переключается на codex fallback при наличии FUM namespace.",
+    "Положительный и отрицательные malformed/collision/fallback cases закреплены в regression-источнике.",
+    "startingState.branchName остаётся существующим проверенным родительским ref и не смешивается с будущей delivery-веткой.",
+    "Ранее опубликованный refs/heads/codex/ishjyusyi-20261101-01a195e6 и история не переписываются и не удаляются.",
+    "Ребёнок не вызывает Native API и не создаёт дополнительных задач.",
+    "Второй material regression проверяет реальный сериализованный вывод генератора по положительной и отрицательной фикстурам, включая target.projectId.",
+    "Текст prompt и title передаются вызывающей стороной; фикстура показывает путь задачи и область, не пересекающую runtime wiring."
+  ],
+  "дополнениеROOT": {
+    "прежнийСгенерированныйRef": "refs/heads/codex/ishjyusyi-20261101-01a195e6",
+    "выбранныйFUMRef": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi/master",
+    "родительскийRefStartingState": "fum-lab/fum/instrumentyi/fabrika-agentov/pokryitiye/master",
+    "граница": "source ref для Native create_thread и будущий delivery ref моделируются отдельно"
+  },
+  "дополнениеROOTВторойМатериальныйРегресс": {
+    "источник": {
+      "родительскийПоток": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "потокХудожественного": "01a1027b-c5a7-7cb1-be96-d6a9d3210004",
+      "ход": "01a19710-1f78-7141-8aaf-47626f5eb2db",
+      "вызовы": [
+        "exec-8a35f030-4f41-41ea-b26c-dc39b48eb0a4",
+        "exec-092ead64-5554-4e0c-b7ae-6dd9635e5a6a"
+      ],
+      "исход": "invalidarguments/nochildIDs"
+    },
+    "наблюдение": "В обоих запросах projectId был верхнеуровневым; target типа project не содержал target.projectId.",
+    "классификация": "KNOWN_SCHEMA_REJECTION",
+    "генератор": {
+      "target.projectId": "идентификатор из свежего list_projects, переданный вызывающей стороной",
+      "target.environment.startingState.branchName": "существующая проверенная родительская ветка, переданная вызывающей стороной",
+      "title": "путь задачи, переданный вызывающей стороной",
+      "model": "gpt-6-luna",
+      "thinking": "low",
+      "prompt": "непересекающаяся с runtime wiring область, переданная вызывающей стороной"
+    },
+    "фикстуры": {
+      "положительная": "Проверяет точный сериализованный запрос, вложенные projectId и startingState, title path, модель, усилие и prompt.",
+      "отрицательная": "Верхнеуровневый projectId, пропущенный target.projectId и соседний target.startingState должны отличаться от вывода генератора.",
+      "проверкаГенератораОбязательна": true
+    },
+    "границы": {
+      "новыйNativeВызов": false,
+      "дублироватьRuntimeДочернююЗадачу": false,
+      "передаватьКлиентскийИдентификаторВИнструментыПотока": false,
+      "областьОтдельнойДочернейЗадачи": "непересекающаяся runtime wiring, создаётся родителем"
+    }
+  },
+  "исключения": [
+    "AGENTS.md и Правила/агентов/",
+    "manifest-postavki.json, etap.json и kontrakt.json",
+    "закрытые receipts, общие индексы, .codex и чужие пути",
+    "Native effects, ROOT RAW, Python, compiler/build/test execution",
+    "общая Git-конфигурация, master, PR и дополнительные children"
+  ],
+  "статусПроверок": {
+    "regressionSource": "реализован в назначенных Swift-файлах; запуск запрещён текущим поручением",
+    "compilerBuildTestExecution": "NOT_RUN / UNKNOWN"
+  },
+  "наблюдаемаяМодельИУсилиеКорня": {
+    "модель": "gpt-6-luna",
+    "усилие": "max",
+    "основание": "RO-чтение только собственной строки threads по текущему UUID; это не human selection"
+  },
+  "наблюдаемаяМодельИУсилиеРебёнка": {
+    "модель": "UNKNOWN — родитель сообщил client ID отдельного runtime-child; UUID и setup ожидаются",
+    "усилие": "UNKNOWN — setup отдельного runtime-child не проверялся и чужая строка threads не читалась"
+  },
+  "сверкаПоследующегоИсточника": {
+    "коммит": "014272c160ce5bdd355c4a5580c73b6f9ed1f620",
+    "дерево": "cead9314d3e56decc6b4c47206582e071ed0eddf",
+    "родители": [
+      "09ec03d2eac45f1c4bcb99a59d8e378986f8e5ce",
+      "68d819eab848be42c1b260ca7901b3d79480d474"
+    ],
+    "совпавшиеBlob": {
+      "AGENTS.md": "9ea47502713467aba3bac641c56b00a4a06d6bcc",
+      "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift": "d9ab23d9e62944ad1b6c404ed306a016c4481afd",
+      "proverki/perekhod-vetok/fabrika-agentov/proverki.swift": "6fbccead397eafa3a24fb2b097feedef08c90cd8"
+    },
+    "решение": "не включать новый C: применимые правила и исходники совпадают с базой C68",
+    "доставка": "по сообщению координатора коммит локальный, push не выполнен"
+  }
+}

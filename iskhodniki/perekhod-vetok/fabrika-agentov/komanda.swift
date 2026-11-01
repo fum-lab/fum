@@ -639,3 +639,170 @@ public enum ПриёмОграниченногоИндексаФабрики {
             файловаяСистемаНаблюдена: true, очередьСпланирована: true, обработаноПотребителем: true)
     }
 }
+
+public enum ОшибкаЗапросаСозданияПотока: Error, Equatable {
+    case пустоеНазвание, пустойТекстПоручения, пустойИдентификаторПроекта, пустоеИмяВетки
+}
+
+public struct СостояниеНачалаРабочегоДереваСозданияПотока: Encodable, Equatable, Sendable {
+    public let тип = "branch"
+    public let имяВетки: String
+
+    private enum CodingKeys: String, CodingKey {
+        case тип = "type"
+        case имяВетки = "branchName"
+    }
+
+    fileprivate init(имяВетки: String) {
+        self.имяВетки = имяВетки
+    }
+}
+
+public struct СредаРабочегоДереваСозданияПотока: Encodable, Equatable, Sendable {
+    public let тип = "worktree"
+    public let начальноеСостояние: СостояниеНачалаРабочегоДереваСозданияПотока
+
+    private enum CodingKeys: String, CodingKey {
+        case тип = "type"
+        case начальноеСостояние = "startingState"
+    }
+
+    fileprivate init(имяВетки: String) {
+        начальноеСостояние = СостояниеНачалаРабочегоДереваСозданияПотока(имяВетки: имяВетки)
+    }
+}
+
+public struct ЦельПроектаСозданияПотока: Encodable, Equatable, Sendable {
+    public let тип = "project"
+    public let идентификаторПроекта: String
+    public let среда: СредаРабочегоДереваСозданияПотока
+
+    private enum CodingKeys: String, CodingKey {
+        case тип = "type"
+        case идентификаторПроекта = "projectId"
+        case среда = "environment"
+    }
+
+    fileprivate init(идентификаторПроекта: String, имяВетки: String) {
+        self.идентификаторПроекта = идентификаторПроекта
+        среда = СредаРабочегоДереваСозданияПотока(имяВетки: имяВетки)
+    }
+}
+
+/// Чистое представление Native create_thread. projectId приходит из свежего list_projects,
+/// а branchName — из проверки уже существующей родительской ветки; Native API здесь не вызывается.
+/// title и prompt формируются вызывающей стороной и сохраняют её путь и непересекающуюся область.
+public struct ЗапросСозданияПотока: Encodable, Equatable, Sendable {
+    public let название: String
+    public let модель = "gpt-6-luna"
+    public let усилие = "low"
+    public let текстПоручения: String
+    public let цель: ЦельПроектаСозданияПотока
+
+    private enum CodingKeys: String, CodingKey {
+        case название = "title"
+        case модель = "model"
+        case усилие = "thinking"
+        case текстПоручения = "prompt"
+        case цель = "target"
+    }
+
+    public init(
+        название: String,
+        текстПоручения: String,
+        идентификаторПроектаИзСвежегоСписка: String,
+        имяПровереннойРодительскойВетки: String
+    ) throws {
+        guard Self.непустое(название) else { throw ОшибкаЗапросаСозданияПотока.пустоеНазвание }
+        guard Self.непустое(текстПоручения) else { throw ОшибкаЗапросаСозданияПотока.пустойТекстПоручения }
+        guard Self.непустое(идентификаторПроектаИзСвежегоСписка) else {
+            throw ОшибкаЗапросаСозданияПотока.пустойИдентификаторПроекта
+        }
+        guard Self.непустое(имяПровереннойРодительскойВетки) else {
+            throw ОшибкаЗапросаСозданияПотока.пустоеИмяВетки
+        }
+        self.название = название
+        self.текстПоручения = текстПоручения
+        цель = ЦельПроектаСозданияПотока(
+            идентификаторПроекта: идентификаторПроектаИзСвежегоСписка,
+            имяВетки: имяПровереннойРодительскойВетки)
+    }
+
+    public func сериализовать() throws -> Data {
+        try JSONEncoder().encode(self)
+    }
+
+    private static func непустое(_ значение: String) -> Bool {
+        !значение.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !значение.utf8.contains(0)
+    }
+}
+
+public enum ОшибкаПостроенияВеткиДоставки: Error, Equatable {
+    case невернаяПолнаяВетка, пустойКомпонент, неверноеПространствоFUM
+    case веткаВнеПространстваFUM, коллизия, отсутствуетЯвнаяВеткаFUM, невернаяРезервнаяВеткаCodex
+}
+
+/// Сохраняет явно выбранную полную ветку и применяет codex fallback только без FUM namespace.
+/// FUM namespace задаётся компонентами под `refs/heads/`, без этого префикса.
+public enum ПостроительВыбраннойВеткиДоставки {
+    public static func построить(
+        явноВыбраннаяПолнаяВетка: String?,
+        пространствоFUM: String?,
+        запаснаяВеткаCodex: String?,
+        выбранныеВетки: [String]
+    ) throws -> String {
+        if let пространствоFUM {
+            try проверитьПространствоFUM(пространствоFUM)
+        }
+        for ветка in выбранныеВетки { _ = try компонентыПолнойВетки(ветка) }
+
+        if let явноВыбраннаяПолнаяВетка {
+            _ = try компонентыПолнойВетки(явноВыбраннаяПолнаяВетка)
+            if let пространствоFUM,
+               !явноВыбраннаяПолнаяВетка.hasPrefix("refs/heads/\(пространствоFUM)/") {
+                throw ОшибкаПостроенияВеткиДоставки.веткаВнеПространстваFUM
+            }
+            try проверитьКоллизию(явноВыбраннаяПолнаяВетка, с: выбранныеВетки)
+            return явноВыбраннаяПолнаяВетка
+        }
+
+        if пространствоFUM != nil { throw ОшибкаПостроенияВеткиДоставки.отсутствуетЯвнаяВеткаFUM }
+        guard let запаснаяВеткаCodex else { throw ОшибкаПостроенияВеткиДоставки.невернаяРезервнаяВеткаCodex }
+        _ = try компонентыПолнойВетки(запаснаяВеткаCodex)
+        guard запаснаяВеткаCodex.hasPrefix("refs/heads/codex/") else {
+            throw ОшибкаПостроенияВеткиДоставки.невернаяРезервнаяВеткаCodex
+        }
+        try проверитьКоллизию(запаснаяВеткаCodex, с: выбранныеВетки)
+        return запаснаяВеткаCodex
+    }
+
+    private static func проверитьПространствоFUM(_ пространство: String) throws {
+        let части = пространство.split(separator: "/", omittingEmptySubsequences: false)
+        guard !части.isEmpty, части.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." }),
+              !пространство.hasPrefix("/") && !пространство.hasSuffix("/") else {
+            throw ОшибкаПостроенияВеткиДоставки.неверноеПространствоFUM
+        }
+    }
+
+    private static func компонентыПолнойВетки(_ ветка: String) throws -> [String] {
+        let части = ветка.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+        guard части.count >= 3, части[0] == "refs", части[1] == "heads" else {
+            throw ОшибкаПостроенияВеткиДоставки.невернаяПолнаяВетка
+        }
+        guard части.allSatisfy({ !$0.isEmpty }) else { throw ОшибкаПостроенияВеткиДоставки.пустойКомпонент }
+        let запрещённыеБайты: Set<UInt8> = [0x20, 0x7e, 0x5e, 0x3a, 0x3f, 0x2a, 0x5b, 0x5c, 0x7f]
+        guard !ветка.utf8.contains(0), ветка.utf8.allSatisfy({ !запрещённыеБайты.contains($0) }),
+              !ветка.contains(".."), !ветка.contains("@{"),
+              части.allSatisfy({ $0 != "." && $0 != ".." && !$0.hasPrefix(".") && !$0.hasSuffix(".") && !$0.hasSuffix(".lock") }) else {
+            throw ОшибкаПостроенияВеткиДоставки.невернаяПолнаяВетка
+        }
+        return части
+    }
+
+    private static func проверитьКоллизию(_ ветка: String, с выбранными: [String]) throws {
+        guard !выбранные.contains(where: {
+            ветка == $0 || ветка.hasPrefix($0 + "/") || $0.hasPrefix(ветка + "/")
+        }) else { throw ОшибкаПостроенияВеткиДоставки.коллизия }
+    }
+}
