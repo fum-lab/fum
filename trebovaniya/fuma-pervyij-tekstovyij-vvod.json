@@ -1,0 +1,74 @@
+{
+  "schema": "fum.first-typing-and-runtime-observation-source.v1",
+  "status": "source-saved-pending-owner-implementation-and-integration",
+  "canonical_registry_acceptance": "NOT_CLAIMED",
+  "numeric_requirement_id": null,
+  "provenance": {
+    "source_kind": "human-instructions-relayed-by-root",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "actor_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "base_commit": "6fdacb467afc3e2e47181a8f17506e1dab471350",
+    "exact_human_text": [
+      "Nu po suti nam nuzhno toljko tekst nabiratj. I nemnogo inogda redaktirovatj, khotya eto pokhozhe dazhe ne v prioritete.",
+      "U nas dlya nablyudeniya v itoge dolzhen byitj dostupen vesj stejt rantajma FUMA.",
+      "Vklyuchaya rabotu s klaviaturoj i displeyem."
+    ],
+    "raw_native_frame_and_offset": "UNKNOWN"
+  },
+  "requirement": {
+    "key": "fuma-first-visible-typing-and-authoritative-runtime-observation",
+    "first_vertical_slice": {
+      "statement": "Сфокусированное окно FUMA принимает текст с клавиатуры, сохраняет точное состояние текста и показывает его собственным рендерингом операторов FUMA в Metal.",
+      "acceptance_criteria": [
+        "В сфокусированном окне можно выполнить минимальный ввод текста с видимой позицией ввода.",
+        "Текст хранится в состоянии FUMA с идентификатором и ревизией, связанными с исходным событием ввода.",
+        "Изменение состояния создаёт ревизию сцены и кадр, отображаемый собственным Metal-трактом FUMA, а не готовым системным текстовым виджетом.",
+        "Доступны проверяемые идентификаторы и исходы цепочки inputEvent → textRevision → sceneRevision → frame → observedPresent.",
+        "Подготовленный кадр, отправленный GPU и фактически показанный кадр различаются; для каждого доступного этапа наблюдаемы ID, ревизия, время и статус. Неизвестный present не считается успехом."
+      ],
+      "not_prerequisites": [
+        "Полный редактор и богатое редактирование.",
+        "Сложные выделения и двусторонний LEAP.",
+        "Полный Unicode и все идеи Раскина."
+      ]
+    },
+    "evolving_runtime_observation": {
+      "statement": "Полное состояние runtime FUMA должно быть доступно для наблюдения по запросу через authoritative state и операторы FUMA; покрытие растёт по мере готовности подсистем и не блокирует первый видимый ввод текста.",
+      "modelled_domains": [
+        "активные операторы, граф, задачи, внешние адаптеры, права, ошибки, ресурсы и происхождение",
+        "текст, ревизии и позиция ввода",
+        "фокус, физические key-down/key-up, сторона и порядок событий, выбранная раскладка и преобразование в текст",
+        "состояние окна, размер, масштаб, viewport, сцены и модели глифов",
+        "буферы кадра, очередь Metal, ошибки, отправка и фактический показ"
+      ],
+      "acceptance_criteria": [
+        "Авторитетный runtime state читается операторами FUMA и не заменяется отдельной несвязанной отладочной копией.",
+        "Наблюдение и типизированные команды изменения состояния разделены; обе поверхности предоставляются операторами FUMA.",
+        "Версионированные snapshot и deltas/events сохраняют происхождение и точную границу доступности; неизвестные поля или исходы обозначаются UNKNOWN.",
+        "Полный state доступен по запросу и не копируется целиком в каждый JSONL tick или key event.",
+        "Не заявляются закрытые backend-модели и ненаблюдавшиеся события ОС.",
+        "Потеря фокуса наблюдаема; первый keyboard input остаётся focus-local.",
+        "Личный ввод и секреты не экспортируются в Git."
+      ]
+    },
+    "responsibilities_and_dependencies": {
+      "FUMA": "владелец технического минимального входа, операторов, точного состояния и проверяемого критерия запуска совместно с Tools",
+      "Arts": "взаимодействие и пользовательское поведение",
+      "existing_owners": "переиспользовать готовые срезы UI, клавиатуры, шрифта и Metal; не создавать дублирующие модели или runtime",
+      "Tools": "обеспечить только необходимые воспроизводимые сборку, доставку, восстановление и снижение ручного труда"
+    },
+    "follow_on_slices": [
+      "раскладки и преобразования текста",
+      "полная модель глифов и растеризации",
+      "LEAP и расширенное редактирование"
+    ],
+    "evidence_status": {
+      "source": "SAVED",
+      "build": "NOT_RUN",
+      "tests": "NOT_RUN",
+      "runtime_typing_and_present": "NOT_OBSERVED",
+      "integration_and_acceptance": "NOT_CLAIMED",
+      "full_root_profile": "UNKNOWN"
+    }
+  }
+}
