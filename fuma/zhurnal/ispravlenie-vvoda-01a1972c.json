@@ -1,0 +1,50 @@
+{
+  "схема": "fuma.журнал-исправления-ввода-окна.1",
+  "codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "писатель_thread_id": "01a1972c-7493-73e2-8bd7-1375241a9c8e",
+  "источник_требований": "acfc142d4657d79363137a974576215255fe0567",
+  "предыдущий_коммит_сохранён": "8501970c7b205c3f600c0f982bf4f1e275709d4e",
+  "ветка": "refs/heads/fum-lab/fum/fuma/klaviatura/vvod-okna/master",
+  "область": [
+    "Приложения/FUMA/Операторы/Klaviatura/Sources/ЭталонКлавиатуры/ВводОкна.swift",
+    "Приложения/FUMA/Операторы/Klaviatura/Tests/ПроверкиКлавиатуры/ВводОкнаTests.swift",
+    "fuma/zhurnal/ispravlenie-vvoda-01a1972c.json"
+  ],
+  "исправления": [
+    "Разделить pin raw definition bytes и canonical FUMA definition digest; ожидаемый canonical digest закреплён из существующего профиля, а ОпределениеОператора.данные() сверяется с ним независимо.",
+    "Стабильные event ID, строгий per-focus sequence и monotonic timestamp; snapshot состояния и обработанных ID можно сохранять/восстанавливать для защиты replay.",
+    "Леджер идентификаторов ограничен 256 событиями активного поколения фокуса; при смене поколения старые записи удаляются. Владелец передаёт монотонный UInt64 focus generation, адаптер сохраняет high-watermark и отвергает не возрастающие поколения, в том числе повторное использование UUID через A→B→A. Старый event с прежним generation отвергается; вытесненный/запаздывающий replay отвергается по high-watermark порядка без вывода.",
+    "Точный повтор уже принятого IME callback возвращает отдельный маршрут подавления: UI-owner не передаёт повтор native NSTextInputClient. Same-focus+generation refresh отвергает timestamp ниже сохранённого наблюдения до изменения modifiers.",
+    "IME begin/update/commit/cancel связаны с последним физическим event ID и generation focus; commit без активной композиции, с устаревшим фокусом, повторным ID или неизвестным порядком не выдаёт текст.",
+    "Нативная маршрутизация типизирована: FUMA consume, системный shortcut/IME passthrough, неопределённый порядок unknown; системный или IME путь не выдаёт FUMA insertion.",
+    "Непроверенный layout инвалидирует modifier state; обработка не возобновляется до явно подтверждённого focus snapshot или snapshot восстановления на событии."
+  ],
+  "фикстуры": [
+    "Неверное повторное использование event ID с другим payload.",
+    "Replay одинакового физического события в текущем адаптере и после восстановления снимка.",
+    "IME commit без активной композиции, с устаревшим focus и с пропуском порядка.",
+    "Системный shortcut passthrough и неопределённый native порядок без вставки.",
+    "После неизвестной раскладки старое состояние Shift не применяется без snapshot.",
+    "После длинной истории подтверждение нового фокуса сбрасывает старые записи: короткий snapshot нового поколения восстанавливается и повтор нового события не вставляется.",
+    "После вытеснения старого ID snapshot сохраняет high-watermark; старый replay возвращает UNKNOWN без вставки и не уменьшает порядок.",
+    "Повтор focus UUID по последовательности A→B→A допускается только с возрастающим UInt64 generation; старый event с generation A1 не принимается в A3.",
+    "Повтор IME commit не получает обычный passthrough: route `подавитьПовтор` запрещает вторую native insertion.",
+    "Устаревший modifier snapshot в том же focus generation отклоняется и не создаёт Shift для следующего FUMA перехода."
+  ],
+  "первичные_pins": {
+    "keyboard_commit": "7495174d91571f98e75db4e615da8a3799868f2e",
+    "keyboard_tree": "a2f7c5cf84cfa446b3243aa6952ca28f6f7acf2e",
+    "license_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "raw_definition_sha256": "6deb8aed4b93b7d2528e26df041da8314b9a9cc433483a2c44611b7585f7b4ac",
+    "raw_qwerty_table_sha256": "c914755f50b27da2b8d6d56cbdaaeb7db6f74ae2ab84d8f294eee4d6243f4ac3",
+    "canonical_definition_sha256": "sha256:435f7a15c1ec76a6650b3b4607f85c300b3e4d44a5a0b36be30ed8767d8cb272"
+  },
+  "граница": {
+    "layouts": "QWERTY remains the only graph/table binding in this child slice. Dvorak, Colemak, AZERTY, QWERTZ, and QZERTY remain UNKNOWN pending one shared graph/table delivery.",
+    "native_ui": "No UI-owner files changed. No global monitor, AX, system settings, or native IME implementation claimed.",
+    "first_delivery_incident": "The prior commit/push happened before independent RO. It remains immutable; this correction is a later add-only commit after independent review, and parent merge waits for its readback.",
+    "review": "Independent RO of final source/test/journal SHA is required before commit; pending.",
+    "swift_tests_build_runtime_python_root_jsonl": "explicitly excluded and not run"
+  },
+  "статус": "исходники корректируются; commit and publication of this correction pending independent RO"
+}
