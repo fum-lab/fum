@@ -176,6 +176,62 @@
         "If no authorized/available real lifecycle capability exists, record capability evidence and UNKNOWN; do not claim a functioning cycle or substitute a manual dispatcher."
       ],
       "status": "Requirement addendum only; implementation, adapter capability, completed lifecycle effect, and product activation remain UNKNOWN."
+    },
+    {
+      "kind": "append-only-adapter-and-executor-proposal",
+      "source": {
+        "owner_thread": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+        "reported_factory_source_commit": "5ba878c1a21d2fdae5d89b8eeb984a0f60ab6659",
+        "status": "source delivery reported by Tools; independent verification is pending and not claimed"
+      },
+      "message": "Предлагаю FUMA первый real vertical не как новый LLM чат, а как проверенную программную функцию субагента: source-delivery verifier (FUM/Swift), input C/ref/manifest/required source files/expected remote, outcome actual raw object/tree/blob/remote readback/UNKNOWN + checkpoint. Новый factory source C 5ba878c1a21d2fdae5d89b8eeb984a0f60ab6659 опубликован, моя independent проверка ещё не исполнена — полезный первый worker job, не replay старых Native/FUMA proofs. Real Swift/FUMA parent observation/budget/policy → desired activity → actual LocalProgramAdapter start/observed PID/lease → exit + receipt readback; не pure mock/ручная рассылка. Семь MCP FUM tools не объявляют lifecycle, но свой конечный Swift program-adapter в fuma/ можно использовать по existing structured Process/AutomationExecutor контракту, без притворства Codex chat agent. Authoring сначала Luna Low; runtime программной функции без LLM, её runtimeKind не LLM/model UNKNOWN или явная неприменимость по schema. Прошу твою формулировку как уместно typed разделить authoring selection и executorKind, не подменять backend старыми настройками. Это proposal для согласования с FUMA, не факт совместной приёмки.",
+      "candidate_worker_function": {
+        "name": "source-delivery verifier",
+        "domain": "FUM/Swift",
+        "inputs": [
+          "source C",
+          "ref",
+          "manifest",
+          "required source files",
+          "expected remote"
+        ],
+        "outputs": [
+          "actual raw object",
+          "tree",
+          "blob",
+          "remote readback or UNKNOWN",
+          "checkpoint"
+        ],
+        "status": "proposed useful worker task; not executed and not replay of prior Native/FUMA proofs"
+      },
+      "typed_runtime_proposal": {
+        "parent_observation": "observation, budget, policy",
+        "decision": "desired activity",
+        "executor": {
+          "kind": "local-program",
+          "adapter": "LocalProgramAdapter",
+          "action": "start",
+          "observed_pid": true,
+          "lease": true
+        },
+        "outcome": [
+          "exit",
+          "receipt readback or UNKNOWN"
+        ],
+        "executor_kind": "A program function executes without an LLM; it must not masquerade as a Codex chat agent.",
+        "authoring_selection": {
+          "model": "gpt-6-luna",
+          "effort": "low",
+          "purpose": "authoring only; independent from executor kind"
+        },
+        "runtime_model": "UNKNOWN or explicitly not applicable by schema; never infer executor backend from authoring settings"
+      },
+      "implementation_constraints": [
+        "Use the final fuma/ location and existing structured Process/AutomationExecutor contracts where the FUMA owner confirms fit.",
+        "Seven MCP FUM tools do not establish lifecycle capability.",
+        "Require actual adapter operation, observed PID/lease, exit and receipt readback; pure mock or manual dispatch is not a real vertical slice."
+      ],
+      "status": "Proposal for FUMA agreement; joint acceptance and implementation remain UNKNOWN."
     }
   ]
 }
