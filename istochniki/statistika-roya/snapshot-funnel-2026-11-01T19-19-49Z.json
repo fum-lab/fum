@@ -467,7 +467,7 @@
     {
       "schema_version": "fum.codex-owner-funnel-event.2",
       "event_id": "fuma-ui-compatibility-c2b95",
-      "stage": "check",
+      "stage": "parent_handling",
       "event_time_utc": "UNKNOWN",
       "owner": "UNKNOWN",
       "source_reference": {
@@ -481,7 +481,8 @@
       "evidence": [
         "ROOT сообщила об одном отказе проверки UI compatibility compiler C2b95; первичный процессный журнал и полный ROOT JSONL не читались.",
         "Диагностика сообщена как «операции:» вместо ожидаемого «операций:»; отдельная source-fix контрольная точка сообщена, но её OID неизвестен.",
-        "Сохранение одного generated build/debug -> out/Products/Debug symlink сообщено с policy=false; результат не GREEN. Старую цель повторно не запускать."
+        "Сохранение одного generated build/debug -> out/Products/Debug symlink сообщено с policy=false; результат не GREEN. Старую цель повторно не запускать.",
+        "Полные детали проверки сохранены в существующем журнале C2b95; это только родительская обработка сообщённого результата, не прямое наблюдение исполнения."
       ],
       "responsible_decision_owner": "ROOT",
       "responsible_executor_owner": "UNKNOWN",
@@ -493,21 +494,6 @@
         "no_next_stage_after_finite_stop": "UNKNOWN",
         "missing_result": true,
         "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
-      },
-      "reported_check": {
-        "exit_code": 1,
-        "duration_seconds": 20.249,
-        "group": "absent",
-        "unknown_fields": [],
-        "sampled_rss_bytes": 554123264,
-        "reported_diagnostic": "операции: observed; операций: expected",
-        "cause_classification": "unknown",
-        "tests": "UNKNOWN",
-        "source_fix_checkpoint_oid": "UNKNOWN",
-        "push_status": "UNKNOWN",
-        "integration_status": "UNKNOWN",
-        "runtime_status": "UNKNOWN",
-        "output_custody_policy": false
       },
       "model": "UNKNOWN",
       "tokens": "UNKNOWN",
