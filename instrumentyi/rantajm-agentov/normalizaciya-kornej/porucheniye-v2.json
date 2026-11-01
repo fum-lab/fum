@@ -1,0 +1,121 @@
+{
+  "схема": "fum.дочернее-поручение.2",
+  "времяUTC": "2026-11-01T12:59:51.626Z",
+  "ROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "родитель": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "логическийАдрес": "fum-lab/fum/instrumentyi/rantajm-agentov/normalizaciya-kornej/master",
+  "целевойRef": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/normalizaciya-kornej/master",
+  "роль": "Связать один общий применяющий нормализатор корней агентских клеток с существующим общим runtime и checkpoint; отдельный независимый лёгкий source-результат широкой волны.",
+  "основание": "Прямое поручение человека через ROOT расширить полезную волну, разделить ядро/apply, runtime wiring и фабрику. Новый исполнитель Luna Low; усилие повышать одной поддерживаемой ступенью после наблюдаемого затруднения.",
+  "исходнаяОснова": "68d819eab848be42c1b260ca7901b3d79480d474",
+  "владение": {
+    "исполнитель": "Один новый Native-писатель в своём изолированном worktree и FUM ref; UUID и physical W получить штатным setup, не выводить из имени.",
+    "память": "instrumentyi/rantajm-agentov/normalizaciya-kornej/**",
+    "код": [
+      "Только новые отдельные материалы исходника phase/API/typed patch внутри instrumentyi/rantajm-agentov/normalizaciya-kornej/**; точные новые пути сохранить в своём плане до записи."
+    ],
+    "фикстуры": "Новые отдельные fixture/tests как исходный пакет для включения существующим владельцем Composer; изменения существующих занятых файлов только в typed patch, не в checkout версиях этих файлов.",
+    "неПисать": [
+      "Ядро Names iskhodniki/aktualizaciya-putej/normalizaciya-kornej-agentov.swift и primeneniye-normalizacii-kornej-agentov.swift",
+      "Metadata koordinaciya/**",
+      "Factory code",
+      "Чужие worktree/ref/index/config",
+      "КомандноеИсполнение.swift",
+      "Архивы Sources/ishjyusyi/Proyekcii/frozen RAW",
+      "Package.swift: уже экспортирован producer FUMA fa741",
+      "Приложения/FUMA/Packages/КомпозицияНаблюдений/Package.swift: единственный текущий FS-владелец FUMA",
+      "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/cikl-nablyudenij-sostoyaniya.swift: тот же владелец FUMA"
+    ]
+  },
+  "соседи": {
+    "ядроNames": "01a195e6-5364-76e3-b963-c2c305e6111f",
+    "factory": "01a192b8-3f85-73c3-a69c-38269efbb3be",
+    "FUMA": "01a1698f-bb98-7691-b1c1-31ec737ed070; операторная/FS-композиция по управлению ROOT, API согласовывать через родителя"
+  },
+  "фактическаяАрхитектура": {
+    "общийМодуль": "Существующий target АктуализацияПутей в Package.swift; library product пока не экспортирован.",
+    "реальныйЦикл": "КомпозицияНаблюдений/cikl-nablyudenij-sostoyaniya.swift: async FS→Git наблюдения→сохранить/переоткрыть, вызывается FUMA macOS КомандаОператора до исполнения оператора.",
+    "граница": "ОсноваЗапуска/ЦиклЗапуска сейчас one-shot intent/history, не включён в FUMA/AttentionLoop. Общего every-agent scheduler в проверенной области не найдено; не объявлять новый hook автоматическим запуском каждого turn.",
+    "контракт": "Публичного directory root apply сейчас нет. Existing Names public facade/dry-plan и internal one-file apply не закрывают задачу. Интерфейс общего ядра согласовать с Names, не создавать второй движок/фиктивную заглушку.",
+    "проверенныйProducer": {
+      "commit": "fa7412482776a3ef28d0fe316bddb8edefe713ce",
+      "files": [
+        {
+          "path": "Package.swift",
+          "bytes": 4492,
+          "sha256": "0bdf70584ef1cd551479f12a8bbfd72e512fb99c5e3b24ea847e2c8664181b19"
+        },
+        {
+          "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Package.swift",
+          "bytes": 1499,
+          "sha256": "634b7b86f1be069d59f3aa6c7a7a55c2d0f0f6e473b5d9a97fc30ff430857400"
+        },
+        {
+          "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/cikl-nablyudenij-sostoyaniya.swift",
+          "bytes": 6024,
+          "sha256": "c14ba6fdccd305026d9614e1399121f1867ff25d8cd9bb9d64cde6f30b4a4ab4"
+        }
+      ],
+      "product": "АктуализацияПутей existing library/target already exported",
+      "graph": "В этих manifest pins Composer→root пока отсутствует; root→Composer отсутствует. Добавление Composer→root не создаёт структурного цикла в проверенных pins.",
+      "caller": "one-shot CLI --исполнить-цикл-наблюдений, every-turn scheduler UNKNOWN"
+    }
+  },
+  "требуемыйРезультат": [
+    "Переиспользовать готовый export АктуализацияПутей из точного fa741, не создавать второй export/target/runtime.",
+    "Передать владельцу FUMA точный patch зависимости Composer→existing root product и места вызова одного Names apply в его существующем цикле.",
+    "Подготовить отдельный typed phase/API: история physically вне repo проверяется ДО intent/effect; stable operationID → persist/reopen exact canonical intent → apply → known outcome/checkpoint persist/reopen → следующий новый FS/Git plan.",
+    "Различающая fixture реального move/merge данных, второй дешёвый NO_OP, checkpoint resume, UNKNOWN без повтора; код/команды воспроизведения сохранить, не объявлять запущенными.",
+    "Своя memory/план/источники/контрольная точка/commit с наблюдаемым author и exact delivery. Исходный пакет не является активацией или финальной приёмкой."
+  ],
+  "семантикаЯдра": {
+    "вход": "Точные cell_id/владелец/fullref/явная пара корней+происхождение/снимок; mapping агентских корней из реестра владения, не произвольные пользовательские каталоги.",
+    "толькоАгентскиеКорни": "Источники→istochniki — явный начальный кейс, при обеих существующих папках требуется сведение содержимого. Другие пары только явного ownership mapping. Суффиксы, внутренние имена и байты без перевода.",
+    "сведение": "Одинаковое не дублировать, разные версии не затирать; известная безопасная политика коллизий исполняется программой, неоднозначность сохраняет обе версии/происхождение/точный остаток. Один rename-only недостаточен.",
+    "исходы": [
+      "перенос",
+      "NO_OP",
+      "конфликт-сохранён",
+      "UNKNOWN"
+    ],
+    "порядок": "Намерение → повторное чтение → известное разрешённое преобразование → независимый readback → outcome/checkpoint. Неизвестный эффект сначала наблюдать.",
+    "память": "Любой ветке соответствует сохраняемая клетка, включая codex/name/nested. Каноническая память отличается от worktree/cache, всю codex/** не игнорировать.",
+    "API": {
+      "module": "АктуализацияПутей",
+      "types": [
+        "НормализацияКорнейАгентов",
+        "НазначениеНормализацииКорнейАгентов",
+        "КонтрольнаяТочкаНормализацииКорнейАгентов",
+        "РезультатНормализацииКорнейАгентов"
+      ],
+      "signature": "НормализацияКорнейАгентов.выполнить(назначение: НазначениеНормализацииКорнейАгентов, контрольнаяТочка: КонтрольнаяТочкаНормализацииКорнейАгентов?, сохранитьИПеречитать: @Sendable (КонтрольнаяТочкаНормализацииКорнейАгентов.Намерение) async throws -> КонтрольнаяТочкаНормализацииКорнейАгентов.Намерение) async throws -> РезультатНормализацииКорнейАгентов",
+      "state": "Согласованный API, actual Names source commit ещё ожидается; не писать второй движок или фиктивное apply."
+    },
+    "хранилище": "Существующий КонтейнерНаблюдений.Сегмент/ОписаниеНаблюдения/Квитанция. Backend Names не импортирует и не копирует контейнер; callback FUMA сохраняет canonical Data+SHA, переоткрывает и сравнивает exact bytes/receipt по stable operationID, не segment counter."
+  },
+  "допуск": {
+    "эффект": "Подготовка исходников и своей доставки, не production/Stop/publisher/массовый apply чужих W.",
+    "модель": "Новый Native Luna Low; requested и observed отдельно. Собственный author из наблюдаемой конфигурации/контекста; не выдумывать и не заимствовать.",
+    "тяжёлыеПроверки": "Никаких полных сборок/тяжёлых запусков до точного согласованного конечного профиля и слота. Fixtures и команды воспроизведения сохранить; NOT_RUN не GREEN.",
+    "исключено": [
+      "Python",
+      "ROOT/parent Native RAW JSONL",
+      "legacy global Journal/router/FIFO/pool/CAS",
+      "clone больших RAW/runtime caches",
+      "новая платформа/постоянный валидатор",
+      "история rewrite/force",
+      "app restart",
+      "NativeDB write",
+      "production activation"
+    ],
+    "полныйПрофиль": "UNKNOWN; source-only не проходит N32 и финальную ROOT-приёмку"
+  },
+  "передача": "Только source C/ref/path/API/fixture/patch → Tools → ROOT → текущий FS-владелец FUMA. Два Composer файла и уже готовый Root export ребёнок не пишет. Прежнее поручение v1 уточнено этой границей; queued client создать повторно нельзя.",
+  "предыдущее": {
+    "commit": "16692490de749b661ec466f65a2b040700da1ea9",
+    "path": "instrumentyi/rantajm-agentov/normalizaciya-kornej/porucheniye-v1.json",
+    "bytes": 8977,
+    "sha256": "ef31fc5526965fdb08fe55d00aac7f1adf95718dcc4226ead1d8dbda62c1d591"
+  },
+  "уточнениеROOT": "Оба занятых файла Composer остаются у текущего FS-владельца FUMA. Root library product уже готов в fa741, не дублировать. Wiring ребёнок готовит отдельный typed phase/API/fixture/patch и передаёт через Tools → ROOT → FUMA."
+}
