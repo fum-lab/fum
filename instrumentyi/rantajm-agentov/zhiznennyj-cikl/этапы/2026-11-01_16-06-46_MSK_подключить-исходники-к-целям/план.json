@@ -22,6 +22,13 @@
     "tree": "f7f567873ae01dfbc0224888711e826c71013e7b",
     "предыдущийSourceCommit": "fcdf5612bf4c314a4a5e7ec2512d6900f225207e"
   },
+  "сохранённыйSourceCommit": {
+    "commit": "45bbbd1cfcc596c929351a578b7eead9539d0677",
+    "tree": "b276881a8e05a6aaf8aa8a1cf555ed1bfb0a5b54",
+    "parent": "650d794571862e3229a3624b74e41bc6632cc18b",
+    "author": "FUM Codex [gpt-6-luna; effort=low] <fum@local>",
+    "committerMetadata": "ошибочное имя --get-regexp; не публиковать как финальную доставку; correction add-only"
+  },
   "разрешённыйDiff": {
     "PackageSwift": [
       "Добавить deskriptor-zhiznennogo-cikla.swift в sources существующего target МатериализацияУзлов.",
