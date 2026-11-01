@@ -519,7 +519,10 @@
         "After interruption between filesystem and Git changes, restoration obtains fresh observations from both domains and resumes or reports a typed mixed/unknown state; it never claims a cross-system atomic commit.",
         "Control JSON stores the program, target, and commit/ref references needed to continue; it does not mirror the Git tree, whose contents remain resolved from the selected Git commit.",
         "Restore reads current API/model/credential availability as environment observations. None of those values is embedded as a promise in a public commit or inferred from a prior successful run.",
-        "The compatibility fixture uses local test doubles and does not invoke unconnected external services."
+        "The compatibility fixture uses local test doubles and does not invoke unconnected external services.",
+        "The first FUMA UI scope exposes its own window frame and content viewport as typed, timestamped observations with explicit units; frame and viewport, and points and pixels, are distinct values. FUMA operators derive layout from the observed geometry. Resize recomputes layout without replaying a user command or insertion and preserves the input/event history for deterministic replay.",
+        "The first FUMA UI scope exposes physical key identity and down/up transitions, modifiers, focus, ordering, and observation provenance as typed input state. FUMA computes the selected layout and its transitions from the pinned Keyboard layout data; the operating-system layout is an observation and never substitutes for FUMA computation. The first common layout delivery imports QWERTY, Dvorak, Colemak, AZERTY, QWERTZ, and QZERTY.",
+        "Text insertion and command dispatch are distinct outcomes. Replayed or repeated physical input has a stable event identity and does not duplicate insertion through the native text editor. A reproducible fixture covers real UI input and history replay; gesture and IME coverage is stated separately from keyboard mapping-table coverage, and existing operators are reused instead of creating a duplicate implementation."
       ],
       "consumers": [
         "FUM-REQ-0044",
@@ -564,7 +567,50 @@
             2
           ]
         }
-      ]
+      ],
+      "latest_ui_source_refinement": {
+        "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "source_provenance": "Direct human wording relayed by ROOT in task messages; original native frame, byte offsets, and native SHA-256 were not supplied to this writer and remain UNKNOWN.",
+        "human_wording_as_received": [
+          "Razmer okna — tozhe nablyudayemaya vkhodyasjhaya informaciya.",
+          "Klaviaturnyij vvod cherez FUMA i cherez raskladki v FUMA tozhe beri v rabotu.",
+          "Za obrazec beri raskladki iz Keyboard.",
+          "Dvorak tozhe obyazateljno sdelaj, a luchshe vsyo srazu.",
+          "Rasshiryaj yesjhyo paralleljnostj.",
+          "Obnovleniya v processe dostavishj."
+        ],
+        "existing_requirement": "fuma-environment-storage-adapter-contract",
+        "reference": {
+          "url": "https://github.com/Roman-Kerimov/Keyboard",
+          "main_commit": "7495174d91571f98e75db4e615da8a3799868f2e",
+          "main_commit_readback": "git ls-remote HEAD and refs/heads/main returned the same OID.",
+          "root_reported_review": "ROOT reports CC0 license, six layouts, and reuse of the existing FUM keyboard operator/QWERTY; this writer did not fetch or independently review those blobs.",
+          "required_layouts": [
+            "QWERTY",
+            "Dvorak",
+            "Colemak",
+            "AZERTY",
+            "QWERTZ",
+            "QZERTY"
+          ]
+        },
+        "parent_handoff": "ROOT reports that exact source blobs and implementation were passed to FUMA in its existing UI branch. This writer did not inspect that implementation or fixture.",
+        "implementation_owner": "FUMA UI/platform-adapter runtime owner.",
+        "status": "Requirement source checkpoint only; runtime, real input/history replay, implementation, and ROOT acceptance remain UNKNOWN.",
+        "first_common_delivery": "One shared FUMA layout importer/operator and state imports all six layouts declared by the pinned Keyboard source, including Dvorak; Dvorak is required in the first shared delivery.",
+        "architecture_and_delivery": [
+          "Use one shared FUMA operator/generator and state for source-derived layouts and transitions; derive distinguishing fixtures from the pinned source. Keep the native input edge separate from layout calculation and reuse the existing FUM keyboard operator where applicable.",
+          "Deliver independently completed UI slices as they become ready and integrate them progressively. Increase useful independent parallel work within actual ownership and resource limits; do not create duplicate executors or treat one acknowledgement or a schema as completed execution."
+        ],
+        "message_order": "The geometry wording arrived in an earlier ROOT-relayed message; the keyboard, Keyboard reference, Dvorak, parallelism, and progressive-delivery wording arrived in later ROOT-relayed messages.",
+        "source_checkpoint": {
+          "path": "trebovaniya/fuma-agent-requirements.json",
+          "base_commit": "aa65d76f67cd52c172680b287df07064bf31a375",
+          "base_ref": "refs/heads/fum-lab/fum/trebovaniya/master",
+          "writer_ref": "refs/heads/codex/ui-observation-keyboard-01a1786a",
+          "root_acceptance": "not-claimed"
+        }
+      }
     },
     {
       "semantic_key": "fuma-finite-aot-swift-lowering",
