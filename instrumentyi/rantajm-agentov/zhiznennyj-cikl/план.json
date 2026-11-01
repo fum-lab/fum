@@ -36,17 +36,23 @@
     "доставка": "Только собственный source-коммит и обычная точная доставка собственной ветки после readback атрибуции и diff."
   },
   "следующиеШаги": [
-    "Проверить точный diff/index и статус отчёта; компилятор, тесты и hooks остаются исключёнными.",
-    "Перед локальным коммитом повторно наблюдать текущие model/effort, ref, OID, статус, автор/committer и точный состав.",
-    "После raw commit readback отправить только точный собственный OID в одноимённую ветку origin и проверить ls-remote.",
-    "Передать родителю source C, API, фактическое состояние target wiring и оставшиеся проверки; не заявлять runtime или ROOT acceptance."
+    "Для подключения новых исходников нужен отдельный допуск на Package.swift и target wiring; в его пределах определить проверяемый профиль.",
+    "После допуска выполнить компилятор и Swift tests, включая active fixtures, а затем точный runtime/profile контур; сейчас эти статусы NOT_RUN/UNKNOWN.",
+    "Только после отдельной проверки принимать runtime/ROOT результат; этот source checkpoint сам по себе не является интеграцией или production activation."
   ],
+  "sourceCheckpoint": {
+    "commit": "fcdf5612bf4c314a4a5e7ec2512d6900f225207e",
+    "tree": "ac46a3b38d70dac67270a7c9fcc2a787afd3457a",
+    "parent": "16692490de749b661ec466f65a2b040700da1ea9",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+    "remoteOID": "fcdf5612bf4c314a4a5e7ec2512d6900f225207e"
+  },
   "текущееСостояние": {
     "descriptorИWorklist": "исходники подготовлены",
     "fixture": "добавлена условно; FUM_LIFECYCLE_API_WIRED не определён, запуск запрещён",
     "tddRedGreen": "UNKNOWN/NOT_RUN: компилятор и тесты исключены",
     "packageWiring": "не изменён; существующий target использует явный sources список без новых файлов",
     "callbackPublisherИRuntime": "не активированы; доверенный receipt provider отсутствует",
-    "sourceCommit": "не создан"
+    "sourceCommit": "fcdf5612bf4c314a4a5e7ec2512d6900f225207e создан и доставлен в origin; ROOT acceptance не получена"
   }
 }
