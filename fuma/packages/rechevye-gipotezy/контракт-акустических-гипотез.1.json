@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:draft:acoustic-ipa-hypotheses:1",
+  "title": "Черновой контракт прямых акустических гипотез МФА",
+  "description": "Акустический frontend получает аудио и выдаёт единицы МФА. Выбор языка не обязателен; ASR-текст→G2P не является этим frontend. Схема сама не проверяет происхождение, связность, шкалу или истинность звуков. Обязательный семантический preflight не реализован; одной структурной проверки недостаточно для допуска реального входа.",
+  "$comment": "До реального применения отдельно проверять уникальность ID, blank и ссылок, размер и байты тензора относительно формы, токенов и кадров, dtype/endianness/квантование, происхождение и хэши, топологию и время, границы сегментов и корректность pruning. Флаги доGreedy и полнота являются утверждениями источника, не доказательством. JSON Schema maxLength считает символы, а UTF-8 байтовые лимиты ядра требуют отдельной проверки адаптером.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["схема", "происхождение", "алфавит", "время", "представление"],
+  "allOf": [{
+    "if": {"properties": {"представление": {"properties": {"вид": {"const": "учебные-кадровые-альтернативы"}}, "required": ["вид"]}}, "required": ["представление"]},
+    "then": {"properties": {"происхождение": {"properties": {"вид": {"const": "синтетическая-фикстура"}}, "required": ["вид"]}}}
+  }, {
+    "if": {"properties": {"представление": {"properties": {"вид": {"enum": ["сырой-ctc", "учебные-кадровые-альтернативы"]}}, "required": ["вид"]}}, "required": ["представление"]},
+    "then": {"properties": {"алфавит": {"required": ["blankId"]}, "время": {"required": ["шагКадраОтсчётов", "длинаОкнаОтсчётов", "числоКадров"]}}}
+  }, {
+    "if": {"properties": {"представление": {"properties": {"вид": {"const": "производная-решётка"}, "исходноеПредставление": {"properties": {"вид": {"const": "сырой-ctc"}}, "required": ["вид"]}}, "required": ["вид", "исходноеПредставление"]}}, "required": ["представление"]},
+    "then": {"properties": {"алфавит": {"required": ["blankId"]}, "время": {"required": ["шагКадраОтсчётов", "длинаОкнаОтсчётов", "числоКадров"]}}}
+  }],
+  "properties": {
+    "схема": {"const": "fum.акустические-гипотезы-мфа.1"},
+    "происхождение": {"$ref": "#/$defs/происхождение"},
+    "алфавит": {"$ref": "#/$defs/алфавит"},
+    "время": {"$ref": "#/$defs/время"},
+    "представление": {"oneOf": [{"$ref": "#/$defs/сырой-ctc"}, {"$ref": "#/$defs/решётка"}, {"$ref": "#/$defs/прямые-пути"}, {"$ref": "#/$defs/учебные-кадры"}]},
+    "языковыеГипотезы": {"type": "array", "items": {"$ref": "#/$defs/языковая-гипотеза"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 256},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "происхождение": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["вид"], "properties": {"вид": {"const": "синтетическая-фикстура"}}},
+        {"type": "object", "additionalProperties": false,
+         "required": ["вид", "аудиоSha256", "форматАудио", "каналы", "модель", "версияКода", "весаSha256", "словарьТокеновSha256", "преобразование"],
+         "properties": {
+           "вид": {"const": "акустический-frontend"}, "аудиоSha256": {"$ref": "#/$defs/sha256"},
+           "форматАудио": {"$ref": "#/$defs/id"}, "каналы": {"type": "integer", "minimum": 1},
+           "модель": {"$ref": "#/$defs/id"}, "версияКода": {"$ref": "#/$defs/id"},
+           "весаSha256": {"$ref": "#/$defs/sha256"}, "словарьТокеновSha256": {"$ref": "#/$defs/sha256"},
+           "преобразование": {"$ref": "#/$defs/id"}
+         }}
+      ]
+    },
+    "алфавит": {"type": "object", "additionalProperties": false, "required": ["имя", "версия", "единицы"], "properties": {
+      "имя": {"$ref": "#/$defs/id"}, "версия": {"$ref": "#/$defs/id"}, "blankId": {"type": "integer", "minimum": 0},
+      "единицы": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/единица"}}
+    }},
+    "единица": {"type": "object", "additionalProperties": false, "required": ["id", "вид"], "properties": {
+      "id": {"type": "integer", "minimum": 0}, "вид": {"enum": ["мфа", "blank"]},
+      "мфа": {"type": "string", "minLength": 1, "maxLength": 256, "description": "Одна единица МФА может содержать несколько скаляров Unicode; её граница задаётся токенизатором, а не подсчётом символов."}
+    }, "allOf": [
+      {"if": {"properties": {"вид": {"const": "мфа"}}, "required": ["вид"]}, "then": {"required": ["мфа"]}},
+      {"if": {"properties": {"вид": {"const": "blank"}}, "required": ["вид"]}, "then": {"not": {"required": ["мфа"]}}}
+    ]},
+    "время": {"type": "object", "additionalProperties": false, "required": ["частотаОтсчётовГц", "первыйОтсчёт"], "properties": {
+      "частотаОтсчётовГц": {"type": "integer", "minimum": 1}, "первыйОтсчёт": {"type": "integer", "minimum": 0},
+      "шагКадраОтсчётов": {"type": "integer", "minimum": 1}, "длинаОкнаОтсчётов": {"type": "integer", "minimum": 1},
+      "числоКадров": {"type": "integer", "minimum": 1}
+    }},
+    "шкала": {"type": "object", "additionalProperties": false, "required": ["семантика", "направление"], "properties": {
+      "семантика": {"enum": ["logits", "log-probabilities", "синтетические-целые-веса"]},
+      "направление": {"enum": ["больше-лучше", "меньше-лучше", "неизвестно"]}, "нормализация": {"$ref": "#/$defs/id"}
+    }},
+    "сырой-ctc": {"type": "object", "additionalProperties": false,
+      "required": ["вид", "тензорId", "тензорSha256", "форматЧисел", "порядокБайтов", "форма", "оси", "шкала", "доGreedy"],
+      "properties": {"вид": {"const": "сырой-ctc"}, "тензорId": {"$ref": "#/$defs/id"}, "тензорSha256": {"$ref": "#/$defs/sha256"},
+        "форматЧисел": {"enum": ["float32", "float16", "int8"]}, "порядокБайтов": {"enum": ["little-endian", "big-endian", "не-применяется"]},
+        "форма": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}], "items": false, "minItems": 2, "maxItems": 2},
+        "оси": {"const": ["кадры", "токены"]}, "шкала": {"$ref": "#/$defs/шкала"}, "доGreedy": {"const": true},
+        "квантование": {"$ref": "#/$defs/id"}
+      }, "allOf": [{"if": {"properties": {"форматЧисел": {"const": "int8"}}, "required": ["форматЧисел"]}, "then": {"required": ["квантование"]}}]},
+    "решётка": {"type": "object", "additionalProperties": false,
+      "required": ["вид", "исходноеПредставление", "версияПреобразования", "полнота", "шкала", "начало", "конец", "узлы", "рёбра"],
+      "properties": {"вид": {"const": "производная-решётка"}, "исходноеПредставление": {"$ref": "#/$defs/исходное-представление"},
+        "версияПреобразования": {"$ref": "#/$defs/id"}, "полнота": {"enum": ["полная", "обрезанная", "неизвестна"]},
+        "шкала": {"$ref": "#/$defs/шкала"}, "начало": {"$ref": "#/$defs/id"}, "конец": {"$ref": "#/$defs/id"},
+        "узлы": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/узел"}},
+        "рёбра": {"type": "array", "items": {"$ref": "#/$defs/ребро"}},
+        "pruning": {"$ref": "#/$defs/id"}, "квантование": {"$ref": "#/$defs/id"}
+      }, "allOf": [{"if": {"properties": {"полнота": {"const": "обрезанная"}}, "required": ["полнота"]}, "then": {"required": ["pruning"]}}]},
+    "исходное-представление": {"type": "object", "additionalProperties": false,
+      "required": ["вид", "материалId", "байтыSha256", "версия"],
+      "properties": {"вид": {"enum": ["сырой-ctc", "прямой-не-ctc"]}, "материалId": {"$ref": "#/$defs/id"},
+        "байтыSha256": {"$ref": "#/$defs/sha256"}, "версия": {"$ref": "#/$defs/id"}
+      }},
+    "прямые-пути": {"type": "object", "additionalProperties": false,
+      "required": ["вид", "исходноеПредставление", "полнота", "шкала", "пути"],
+      "properties": {"вид": {"const": "прямые-не-ctc-пути"},
+        "исходноеПредставление": {"$ref": "#/$defs/исходное-представление"},
+        "полнота": {"enum": ["полная", "обрезанная", "неизвестна"]}, "шкала": {"$ref": "#/$defs/шкала"},
+        "пути": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/прямой-путь"}},
+        "pruning": {"$ref": "#/$defs/id"}
+      }, "allOf": [
+        {"properties": {"исходноеПредставление": {"properties": {"вид": {"const": "прямой-не-ctc"}}, "required": ["вид"]}}},
+        {"if": {"properties": {"полнота": {"const": "обрезанная"}}, "required": ["полнота"]}, "then": {"required": ["pruning"]}}
+      ]},
+    "прямой-путь": {"type": "object", "additionalProperties": false, "required": ["id", "единицы", "оценка"], "properties": {
+      "id": {"$ref": "#/$defs/id"}, "единицы": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/единица-пути"}},
+      "оценка": {"type": "integer", "minimum": -9223372036854775808, "maximum": 9223372036854775807}
+    }},
+    "единица-пути": {"type": "object", "additionalProperties": false, "required": ["токенId", "отсчётОт", "отсчётДо"], "properties": {
+      "токенId": {"type": "integer", "minimum": 0}, "отсчётОт": {"type": "integer", "minimum": 0}, "отсчётДо": {"type": "integer", "minimum": 0}
+    }},
+    "узел": {"type": "object", "additionalProperties": false, "required": ["id", "отсчёт"], "properties": {"id": {"$ref": "#/$defs/id"}, "отсчёт": {"type": "integer", "minimum": 0}}},
+    "ребро": {"type": "object", "additionalProperties": false, "required": ["id", "из", "в", "токенId", "оценка"], "properties": {
+      "id": {"$ref": "#/$defs/id"}, "из": {"$ref": "#/$defs/id"}, "в": {"$ref": "#/$defs/id"},
+      "токенId": {"type": "integer", "minimum": 0}, "оценка": {"type": "integer", "minimum": -9223372036854775808, "maximum": 9223372036854775807}
+    }},
+    "учебные-кадры": {"type": "object", "additionalProperties": false, "required": ["вид", "полнота", "шкала", "кадры"], "properties": {
+      "вид": {"const": "учебные-кадровые-альтернативы"}, "полнота": {"enum": ["все-в-фикстуре", "отбор"]},
+      "шкала": {"$ref": "#/$defs/шкала"}, "кадры": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/кадр"}}
+    }},
+    "кадр": {"type": "object", "additionalProperties": false, "required": ["номер", "альтернативы"], "properties": {
+      "номер": {"type": "integer", "minimum": 0}, "альтернативы": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/альтернатива"}}
+    }},
+    "альтернатива": {"type": "object", "additionalProperties": false, "required": ["токенId", "оценка"], "properties": {
+      "токенId": {"type": "integer", "minimum": 0}, "оценка": {"type": "integer", "minimum": -9223372036854775808, "maximum": 9223372036854775807}
+    }},
+    "языковая-гипотеза": {"type": "object", "additionalProperties": false, "required": ["метка", "отсчётОт", "отсчётДо", "оценка", "шкала"], "properties": {
+      "метка": {"$ref": "#/$defs/id"}, "отсчётОт": {"type": "integer", "minimum": 0}, "отсчётДо": {"type": "integer", "minimum": 0},
+      "оценка": {"type": "integer"}, "шкала": {"$ref": "#/$defs/шкала"}
+    }}
+  }
+}

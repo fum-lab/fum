@@ -1,0 +1,15 @@
+{
+  "схема": "fum.история-акустических-гипотез-мфа.1",
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "владелецНаправления": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+  "основание": "c156c43044c81c900fe51760a2be232a7188e30b",
+  "источникПоручения": "Уточнение человека и перечень кандидатов переданы координатором ROOT; исключённый полный ROOT JSONL не читался.",
+  "переданнаяЦитата": "Ideya s fonemami kak raz v tom, chtobyi prosto vyidavalisj MFA-simvolyi zvukov nezavisimo ot yazyika.",
+  "смысл": "Прямой акустический frontend audio→единицы МФА/альтернативы без обязательного выбора языка; текстовый ASR→G2P не подменяет такой frontend. Язык словарного результата является необязательной гипотезой.",
+  "материалы": ["fuma/packages/rechevye-gipotezy/Sources/РечевыеПути/ПоискПутей.swift", "fuma/packages/rechevye-gipotezy/Tests/ПроверкиРечевыхПутей/ПроверкиМФА.swift", "fuma/packages/rechevye-gipotezy/контракт-ядра.json", "fuma/packages/rechevye-gipotezy/контракт-акустических-гипотез.1.json", "fuma/packages/rechevye-gipotezy/фикстура-мфа.1.json", "fuma/packages/rechevye-gipotezy/фикстура-мфа-не-ctc.1.json", "fuma/packages/rechevye-gipotezy/синтетический-исход-не-ctc.txt", "fuma/packages/rechevye-gipotezy/план.json"],
+  "проверенныеГраницы": "Read-only ревью разграничило CTC и прямой не-CTC вход, проверило отсутствие обязательной метки языка и многоскалярную единицу в исходниках. Это не выполнение схемы или Swift.",
+  "источникиКандидатов": ["https://github.com/lingjzhu/zipa", "https://huggingface.co/espnet/powsm", "https://github.com/changelinglab/PhoneticXeus", "https://huggingface.co/changelinglab/PhoneticXeus", "https://huggingface.co/docs/transformers/model_doc/wav2vec2_phoneme"],
+  "ограничения": "Факты о кандидатах, лицензиях и исправлении ревизии переданы ROOT и не проверены по первоисточникам. Семантический preflight, прямой акустический frontend, сохранение реального тензора и FUMA graph primitive не реализованы. Текущий словарный поиск возвращает top-1, не все акустические гипотезы.",
+  "проверки": {"swift": "NOT_RUN", "схемаИФикстуры": "NOT_RUN", "внешняяСеть": "NOT_RUN", "веса": "не загружены", "микрофон": "NOT_RUN", "benchmark": "NOT_RUN", "pythonИrootJSONL": "исключены / UNKNOWN", "финальнаяПриёмка": "не выполнена"},
+  "следующее": "Независимо проверить точный исходный снимок; в отдельном допуске закрепить лицензии/ревизии кандидатов, реализовать семантический preflight и frontend, проверить вычислительное ядро и интеграцию в graph v2."
+}

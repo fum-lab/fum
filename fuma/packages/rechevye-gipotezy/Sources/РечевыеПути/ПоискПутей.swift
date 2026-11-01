@@ -38,8 +38,8 @@ public enum ПоискРечевыхПутей {
     public let идентификатор: String
     public let фонемы: [String]
     public let текст: String
-    public let язык: String
-    public init(_ идентификатор: String, фонемы: [String], текст: String, язык: String) {
+    public let язык: String?
+    public init(_ идентификатор: String, фонемы: [String], текст: String, язык: String? = nil) {
       self.идентификатор = идентификатор
       self.фонемы = фонемы
       self.текст = текст
@@ -50,7 +50,7 @@ public enum ПоискРечевыхПутей {
         && левый.фонемы.count == правый.фонемы.count
         && zip(левый.фонемы, правый.фонемы).allSatisfy { $0.0.utf8.elementsEqual($0.1.utf8) }
         && левый.текст.utf8.elementsEqual(правый.текст.utf8)
-        && левый.язык.utf8.elementsEqual(правый.язык.utf8)
+        && ПоискРечевыхПутей.языкиРавны(левый.язык, правый.язык)
     }
   }
 
@@ -73,13 +73,13 @@ public enum ПоискРечевыхПутей {
 
   public struct Сегмент: Equatable, Sendable {
     public let слово: String
-    public let язык: String
+    public let язык: String?
     public let начало: Int64
     public let конец: Int64
 
     public static func == (левый: Self, правый: Self) -> Bool {
       левый.слово.utf8.elementsEqual(правый.слово.utf8)
-        && левый.язык.utf8.elementsEqual(правый.язык.utf8)
+        && ПоискРечевыхПутей.языкиРавны(левый.язык, правый.язык)
         && левый.начало == правый.начало && левый.конец == правый.конец
     }
   }
@@ -126,6 +126,13 @@ public enum ПоискРечевыхПутей {
   }
 
   private static func байты(_ строка: String) -> Data { Data(строка.utf8) }
+  private static func языкиРавны(_ левый: String?, _ правый: String?) -> Bool {
+    switch (левый, правый) {
+    case (nil, nil): return true
+    case (let левый?, let правый?): return левый.utf8.elementsEqual(правый.utf8)
+    default: return false
+    }
+  }
   private static func допустимо(_ строка: String) -> Bool {
     !строка.isEmpty && строка.utf8.prefix(257).count <= 256
   }
@@ -177,7 +184,7 @@ public enum ПоискРечевыхПутей {
     var идентификаторыСлов = Set<Data>()
     for слово in вход.словарь {
       try шаг()
-      guard допустимо(слово.идентификатор), допустимо(слово.текст), допустимо(слово.язык),
+      guard допустимо(слово.идентификатор), допустимо(слово.текст), (слово.язык.map(допустимо) ?? true),
         (1...8).contains(слово.фонемы.count), слово.фонемы.allSatisfy(допустимо),
         идентификаторыСлов.insert(байты(слово.идентификатор)).inserted
       else { throw Ошибка.неверныйВход }
