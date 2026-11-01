@@ -1,0 +1,12 @@
+{
+  "схема": "fum.история-речевых-окон.1",
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "владелецНаправления": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+  "основание": "76e6cb302d0fa4797c04f2cd600de9aea5343c90",
+  "переданныеФразыЧеловека": ["Davaj poprobuyem sami napisatj vesj trakt muljtiyazyichnogo raspoznavaniya rechi.", "Davaj takzhe vozobnovim rabotyi po algoritmicheskoj grammatike russkogo yazyika po skhemam Zaliznyaka."],
+  "источник": "Фразы переданы ROOT; ROOT JSONL исключён и не читался.",
+  "источникиЭтапа": ["fuma/packages/rechevye-gipotezy/план.json", "fuma/packages/rechevye-gipotezy/энергия-окон.json", "fuma/packages/rechevye-gipotezy/фикстура-энергии-окон.1.json", "fuma/packages/rechevye-gipotezy/Tests/ПроверкиРечевыхПутей/ПроверкиЭнергииОкон.swift", "fuma/zhurnal/rechevye-okna-01a1698f.json"],
+  "результат": "Подготовлена операторная композиция по заданным окнам целочисленной синтетики и ручные ожидаемые значения; русский язык не выбирается. Это первый ограниченный шаг, не полный тракт распознавания.",
+  "морфология": "Локально найдена постановка 2026-10-03: №105 — корпус/импорт, №106 — словоизменение, №107 — фразы. Действующий владелец и современное состояние неизвестны; транслитерация Лингвистики не подтверждает морфологию Зализняка. Второй импортёр или словарный runtime не создавались.",
+  "проверки": {"графИфикстуры": "NOT_RUN", "swiftИтесты": "NOT_RUN", "реальноеАудиоИмикрофон": "NOT_RUN", "моделиИвнешняяСеть": "NOT_RUN", "benchmark": "NOT_RUN", "pythonИrootJSONL": "исключены / UNKNOWN", "профильN32ИфинальнаяПриёмка": "не выполнены"}
+}
