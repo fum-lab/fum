@@ -1,0 +1,43 @@
+{
+  "схема": "fum.план-связанного-host-ремонта.1",
+  "ACT_sha256": "450879df1d449dedaadc689414038cc322a8156e2819475349ece7fb11245481",
+  "расширение": "koordinaciya/priyom-root.swift теперь адресно разрешён; ровно тот же engine",
+  "новые_пути": [
+    "koordinaciya/metadannyie-kommita/этап-0002/дополнение-raw-oid-и-host.json"
+  ],
+  "исходные_пути": [
+    "koordinaciya/координатор.swift",
+    "koordinaciya/генератор-метаданных-коммита.swift",
+    "koordinaciya/proverki-priyoma-root.swift",
+    "koordinaciya/priyom-root.swift"
+  ],
+  "изменения": [
+    "Тип НамерениеСозданияКоммитаGit и общий raw-check по точному ordered parents/tree/ref вместо угадывания merge из message.",
+    "Non-Decodable УправляемыйИсточникСохраняющегоПриёмаROOT переносит source request/independent decision/seams в process через существующий ГлавнаяКоординатора.обработатьУправляемуюВетвь; naked metadataCLI для source2 не вызывается.",
+    "Версия root-acceptance-program.2 отдельно связывает принятоеM, source-effect основание, exactscope и ожидаемый remote old OID из trusted host; .1 не декодируется как source-only.",
+    "Root executor сохраняет MERGE_HEAD/tree guard, raw identity/body/parents до push, unknown pending recovery; только после known merge success и до commit вызова отказ становится known held.",
+    "НаблюдательРабочегоДереваGit строит diff --raw --no-abbrev --no-renames -z; parser требует ровно40 lowercasehex, raw width failure никогда не повторяет effect.",
+    "Source-mode raw-check и metadata идут тем же execution; перед commit сверяются Git var identities, перед push — exact old remote state и actual local C."
+  ],
+  "raw_incident": {
+    "schema": "fum.local-checker-correction.v1",
+    "bytes": 571,
+    "sha256": "38c4ee89ec6cfcd53dec8f260b7b71dd551ae17cf10db60ceddef8952ad50811",
+    "первичное_свидетельство": "Адресный control ROOT; не RAW",
+    "эффект": "Existing index/MERGE_HEAD retained, merge повторно не выполнялся"
+  },
+  "новые_регрессии_в_существующем_файле": [
+    "Typed merge намерение отвергает один parent и перестановку",
+    "Raw reader argv содержит --no-abbrev, abbreviated OID отвергается",
+    "Потерянный MERGE_HEAD после known merge даёт known conflict/held без commit/push",
+    "Source-only host binding/M/scope/effect не восстанавливается candidate JSON"
+  ],
+  "исключения": [
+    "compiler/tests/runtime/SQL",
+    "новый target/module/engine",
+    "ROOT ref/W effects",
+    "shared config/hooks",
+    "история и Source8 private/R/M/receipts"
+  ],
+  "статус": "SOURCE_PLAN_NOT_EXECUTED"
+}

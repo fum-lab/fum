@@ -1,0 +1,117 @@
+{
+  "схема": "fum.карта-existing-api-коммита.1",
+  "пины": [
+    {
+      "путь": "koordinaciya/координатор.swift",
+      "M": {
+        "коммит": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+        "байт": 163702,
+        "sha256": "0faff5e6659faa846b7c1a8213883d1884112a39953f9856968bde77b5b3cc48"
+      },
+      "Source8": {
+        "коммит": "df9b82a13c062d8765ab8dce9d5ca9fa41d42756",
+        "байт": 238778,
+        "sha256": "207d3f66660e01ea6c3bc3b57b438c2680682f93f46af4b2d707b35fd5f9276b"
+      },
+      "равны": false
+    },
+    {
+      "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+      "M": {
+        "коммит": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+        "байт": 57134,
+        "sha256": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+      },
+      "Source8": {
+        "коммит": "df9b82a13c062d8765ab8dce9d5ca9fa41d42756",
+        "байт": 118817,
+        "sha256": "0866ff05324ecd0f0f9ad5e9c818c78cf5fec56dd599c5d820d915f8a507c22a"
+      },
+      "равны": false
+    },
+    {
+      "путь": "koordinaciya/proverki-priyoma-root.swift",
+      "M": {
+        "коммит": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+        "байт": 23381,
+        "sha256": "405468f4a5ddcef803529b126942f31c813278be4846f7733cb92b3a1b657e2c"
+      },
+      "Source8": {
+        "коммит": "df9b82a13c062d8765ab8dce9d5ca9fa41d42756",
+        "байт": 138112,
+        "sha256": "6563c7e0720d77433e541b4ff750104c7f393136613a3df605ebf89357465ad1"
+      },
+      "равны": false
+    },
+    {
+      "путь": "koordinaciya/priyom-root.swift",
+      "M": {
+        "коммит": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+        "байт": 31181,
+        "sha256": "e2b457ac18e222edcaf15c8e7f1040f60cc58f338d10cf062447f6dc9716520c"
+      },
+      "Source8": {
+        "коммит": "df9b82a13c062d8765ab8dce9d5ca9fa41d42756",
+        "байт": 31181,
+        "sha256": "e2b457ac18e222edcaf15c8e7f1040f60cc58f338d10cf062447f6dc9716520c"
+      },
+      "равны": true
+    }
+  ],
+  "генератор": {
+    "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+    "API": "ГенераторМетаданныхКоммита.подготовитьОкружение/referenceOutput; ЗапросМетаданныхИсходников; МетаданныеИсходников.подготовить",
+    "Source8": "Single parent, schema fum.source-checkpoint-metadata-request.1 / fum.source-checkpoint-metadata.1, статус UNKNOWN; FUMA formatter transport, не authority",
+    "M": "Обычный typed generator есть; Source8 source-only DTO/CLI отсутствует в M"
+  },
+  "entrypoint": {
+    "путь": "koordinaciya/координатор.swift",
+    "API": "ГлавнаяКоординатора.обработатьУправляемуюВетвь",
+    "команды": [
+      "--сгенерировать-метаданные-коммита",
+      "--проверить-перед-коммитом",
+      "--проверить-сырой-merge-коммит",
+      "--исходники-UNKNOWN",
+      "--проверить-сырой-коммит-исходников"
+    ],
+    "Source8": "Managed host request/decision обязателен; main с nil request не удостоверяет внешний caller",
+    "граница": "Эти команды готовят/проверяют metadata и raw, не общий commit executor"
+  },
+  "checker": {
+    "путь": "koordinaciya/координатор.swift",
+    "API": [
+      "ОценщикИдентичностиGit.проверитьСыройMergeОбъект",
+      "ОценщикИдентичностиGit.проверитьСвязьПервогоРодителяСлиянияСПланом",
+      "ОценщикИдентичностиGit.проверитьСырыеИсходники"
+    ],
+    "что_есть": "Exact ordered parents, tree, identities, body and terminal ROOT trailer; merge checker уже есть в M и df9"
+  },
+  "executor": {
+    "путь": "koordinaciya/priyom-root.swift",
+    "API": "ПодготовленныйКонтекстПриёмаROOT.подготовить → ПрограммаПриёмаROOT.выполнить",
+    "схема": "fum.root-acceptance-program.1",
+    "стадии": [
+      "prepare",
+      "exact",
+      "merge",
+      "raw",
+      "push",
+      "readback",
+      "delivered",
+      "held"
+    ],
+    "guard": "передЭффектом(merged:true) и merge-index сверяют MERGE_HEAD==M и tree; raw() сверяет [L,M]; pending effect не повторяется",
+    "отсутствующее_подключение": "Нет source-only execution mode и транспорта доверенного Source8 managed metadata host context в текущем naked metadataCLI subprocess",
+    "M_и_df9": "priyom-root.swift byte-identical; не изменять чужой слой без адресного расширения"
+  },
+  "проверки": {
+    "путь": "koordinaciya/proverki-priyoma-root.swift",
+    "база": "ФикстураПриёмаROOT, ПрограммаПриёмаROOT.послеMerge, counters commit/push; STOP fixture уже проверяет commit0 после merge",
+    "статус": "Никакие fixtures/tests сейчас не исполнялись"
+  },
+  "сборка": {
+    "RootPackage": "В выбранном M Package.swift не содержит RootAcceptance/priyom-root/coordinator target. Его не менять.",
+    "контур": "Существующий отдельно закрепляемый compiler контур нужен до executable claims; новый target/module этим планом не создаётся",
+    "фактический_бинарник": "UNKNOWN_NOT_RUN"
+  }
+}

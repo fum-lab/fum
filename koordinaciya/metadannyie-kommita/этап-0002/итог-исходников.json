@@ -1,0 +1,79 @@
+{
+  "схема": "fum.итог-source-ремонта-общего-intake.1",
+  "статус": "SOURCE_PREPARED_NOT_COMPILED_NOT_RUN_PENDING_REVIEW",
+  "основа": "df9b82a13c062d8765ab8dce9d5ca9fa41d42756",
+  "исполнитель": "01a192d0-6f09-7950-9251-b27101106bfc",
+  "ROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "ACT": {
+    "байт": 2999,
+    "sha256": "450879df1d449dedaadc689414038cc322a8156e2819475349ece7fb11245481"
+  },
+  "Swift": [
+    {
+      "путь": "koordinaciya/координатор.swift",
+      "байт": 245079,
+      "sha256": "3dbf657c5a4398adcffabcc02b5dc6cc2b7f18b502e9a373d07d03b095211e80",
+      "blob": "abc95def62597d5a44d091cca2396831fabb9edb",
+      "режим": "100644"
+    },
+    {
+      "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+      "байт": 120738,
+      "sha256": "10cb0b8619e880df234d35436cd1fd07148fec4e648af747373fe40f663283ae",
+      "blob": "dfbe18a775ce245612978ba831ab43661f13c1cf",
+      "режим": "100644"
+    },
+    {
+      "путь": "koordinaciya/proverki-priyoma-root.swift",
+      "байт": 149242,
+      "sha256": "3db22aeba6770aa87b02bb668a4f6d4043fea8e3ca7f09053b5df5fb70e09e4c",
+      "blob": "ca2c1073d2424880ebd66ff555138982418d2490",
+      "режим": "100644"
+    },
+    {
+      "путь": "koordinaciya/priyom-root.swift",
+      "байт": 49737,
+      "sha256": "daa16b7481a033f5432e8d5085778685a016b9cbd4131192bd7374bfc7f29f83",
+      "blob": "10b70889c541e604eff1c49eb2485aa6950d9f63",
+      "режим": "100644"
+    }
+  ],
+  "новые_связи": [
+    "Source2 non-Codable prepared managed context → existing coordinator entry → same Root executor",
+    "Typed exact merge intention → shared raw checker",
+    "Normal known precommit refusal → held; started uncertain effect → retained pending",
+    "Full-width raw builder/parser → same exact/index reader",
+    "Durable source metadata → existing Segment → no generator replay on HEAD=C",
+    "Saved source metadata сверяются с полным pinned metadata request, а не только с его W/ref/tree"
+  ],
+  "сохранено": [
+    "MERGE_HEAD/tree precommit guard",
+    "Exact ordered parents/tree/identities/body/ROOT trailer before push",
+    "Legacy typed .1 and Source8 metadata .1 contracts",
+    "History, Source8 private/R/M/closed receipts"
+  ],
+  "выполнено_только": [
+    "Адресное чтение Git objects и собственных файлов",
+    "Source edits и статический readback; git diff --check"
+  ],
+  "не_выполнено": [
+    "Compiler/typecheck/tests/runtime",
+    "SQL/fresh author observation",
+    "Source commit/push этого этапа",
+    "ROOT ref/master/W effect",
+    "N32/fullROOT acceptance"
+  ],
+  "ограничения": [
+    "Компилируемость и результаты новых fixture sources UNKNOWN",
+    "Source2 полный end-to-end runtime не проверен",
+    "Рецепт требует реального независимого Root host и отдельного эффекта grant/M/scope",
+    "Source-mode UNKNOWN не становится подтверждённой моделью/backend"
+  ],
+  "author_для_нашего_source_commit": "Fresh prerequisite отдельно; старый consumed SELECT не переиспользуется",
+  "далее": "Независимый source review и разрешённое свежее author observation; только затем exact own commit/raw readback/push. Исполняемый ROOT эффект выполняет сам ROOT.",
+  "статический_readback_материализации": {
+    "исправлено": "Ruby String.sub replacement интерпретировал Swift backslash-zero как ссылку на весь matched anchor. До source review это замечено в raw parser и исправлено block replacement без интерпретации.",
+    "мера": "Дальнейшие literal substitutions используют block form; actual исходник прочитан обратно: separator literal backslash-zero, UTF-8 и NUL0. Source tests по OID сохранены, не запускались.",
+    "предел": "git diff --check не является Swift syntax/typecheck и не объявляется им."
+  }
+}

@@ -561,6 +561,39 @@ public struct РезультатПодготовкиОкруженияКомми
     public let ошибки: [String]
 }
 
+/// Родители задаются намерением, а не наличием MERGE_HEAD или словами сообщения.
+/// Этот DTO описывает результат; разрешение на эффект host передаёт отдельно.
+public struct НамерениеСозданияКоммитаGit: Codable, Equatable, Sendable {
+    public enum Вид: String, Codable, Equatable, Sendable { case контрольнаяТочка, слияние }
+    public let вид: Вид
+    public let реф: String
+    public let родители: [String]
+    public let дерево: String
+
+    public init(вид: Вид, реф: String, родители: [String], дерево: String) {
+        self.вид = вид; self.реф = реф; self.родители = родители; self.дерево = дерево
+    }
+
+    public func проверить() -> [String] {
+        func полныйOID(_ значение: String) -> Bool {
+            значение.utf8.count == 40 && значение.utf8.allSatisfy {
+                (48...57).contains($0) || (97...102).contains($0)
+            } && значение != String(repeating: "0", count: 40)
+        }
+        var ошибки: [String] = []
+        if родители.count != (вид == .слияние ? 2 : 1) ||
+            Set(родители).count != родители.count || !родители.allSatisfy(полныйOID) {
+            ошибки.append("намерение-неверные-родители")
+        }
+        if !полныйOID(дерево) { ошибки.append("намерение-неверное-дерево") }
+        if !реф.hasPrefix("refs/heads/") || реф.utf8.contains(0) ||
+            реф.contains("\n") || реф.contains("\r") {
+            ошибки.append("намерение-неверный-реф")
+        }
+        return ошибки
+    }
+}
+
 /// Метаданные отдельно разрешённого незавершённого сохранения исходников.
 /// Этот вход не удостоверяет полномочия, прохождение профиля или выбор модели.
 public struct ЗапросМетаданныхИсходников: Codable, Equatable, Sendable {

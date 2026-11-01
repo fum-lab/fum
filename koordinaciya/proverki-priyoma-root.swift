@@ -369,6 +369,60 @@ private final class ФикстураПриёмаROOT {
         #expect(try f.завершить(reopened).стадия == "delivered")
         #expect(try f.число("push") == 1)
     }
+    @Test func потерянныйMERGE_HEADДаётИзвестныйОтказДоКоммита() throws {
+        let фикстура = try ФикстураПриёмаROOT(), контекст = try фикстура.контекст()
+        let программа = try ПрограммаПриёмаROOT(контекст), удалён = ФлагПриёма()
+        defer { программа.закрыть() }
+        let путь = try фикстура.git(["rev-parse", "--path-format=absolute", "--git-path", "MERGE_HEAD"])
+        _ = try программа.выполнить(); _ = try программа.выполнить()
+        программа.послеMerge = {
+            do {
+                try FileManager.default.removeItem(atPath: путь)
+                удалён.значение = true
+            } catch { удалён.значение = false }
+        }
+        var известныйОтказ = false
+        do { _ = try программа.выполнить() }
+        catch ОшибкаПриёмаROOT.отказ(_) { известныйОтказ = true }
+        catch { известныйОтказ = false }
+        #expect(удалён.значение)
+        #expect(известныйОтказ)
+        #expect(try фикстура.git(["rev-parse", "HEAD"]) == фикстура.L)
+        #expect(try фикстура.число("merge") == 1)
+        #expect(try фикстура.число("commit") == 0)
+        #expect(try фикстура.число("push") == 0)
+        программа.закрыть()
+        let восстановленная = try ПрограммаПриёмаROOT(контекст)
+        defer { восстановленная.закрыть() }
+        #expect(try восстановленная.выполнить().стадия == "held")
+        #expect(try фикстура.число("merge") == 1)
+        #expect(try фикстура.число("commit") == 0)
+        #expect(try фикстура.число("push") == 0)
+    }
+    @Test func короткаяНастройкаOIDНеМеняетЧтениеИНамерение() throws {
+        let фикстура = try ФикстураПриёмаROOT()
+        _ = try фикстура.git(["config", "core.abbrev", "7"]) // Только новая private fixture.
+        let программа = try ПрограммаПриёмаROOT(фикстура.контекст())
+        defer { программа.закрыть() }
+        let итог = try фикстура.завершить(программа)
+        #expect(итог.стадия == "delivered")
+        #expect(try фикстура.число("merge") == 1)
+        #expect(try фикстура.число("commit") == 1)
+        #expect(try фикстура.число("push") == 1)
+        let чтение = FileManager.default.enumerator(at: фикстура.среда.logs, includingPropertiesForKeys: nil)!
+        var сырыеЧтения: [ПроцессПриёмаROOT] = []
+        while let файл = чтение.nextObject() as? URL {
+            if файл.lastPathComponent == "process.json" {
+                let процесс = try JSONDecoder().decode(ПроцессПриёмаROOT.self, from: Data(contentsOf: файл))
+                if процесс.executable == "/usr/bin/git" && процесс.argv.contains("--raw") {
+                    сырыеЧтения.append(процесс)
+                }
+            }
+        }
+        #expect(сырыеЧтения.count >= 2)
+        #expect(сырыеЧтения.allSatisfy { $0.argv.contains("--no-abbrev") && $0.exit == 0 })
+    }
+
     @Test func STOPОтзывИНеПодтверждённыйIntent() throws {
         let f = try ФикстураПриёмаROOT(), stop = ФлагПриёма(), revoke = ФлагПриёма()
         stop.значение = true
@@ -616,6 +670,30 @@ struct ПроверкиУправляемогоДопуска {
             operatorPath: путь("оператор"), privateRunRoot: путь("кореньЗапуска"), запросДопуска: запрос, решениеХоста: решение,
             швы: модель.швы(), подготовленныйКонтекст: контекст)
     }
+    @Test(arguments: 0..<8) func источникХостаНеБерётMПолномочиеИОбластьИзКандидата(_ случай: Int) throws {
+        let модель = ФайловаяМодельДопуска(), запрос = try Self.подготовить(модель, номер: случай == 6 ? 4 : 0)
+        let решение = try Self.решение(запрос)
+        let контекст = try КонтекстУправляемогоДопуска(запрос, решение, запрос.операция, модель.швы())
+        let основа = String(repeating: "a", count: 40), основание = String(repeating: "b", count: 64)
+        let пути = ["koordinaciya/fixture.swift"]
+        let хост = УправляемыйИсточникСохраняющегоПриёмаROOT(принятоеM: основа, основаниеSHA256: основание,
+            пути: пути, ожидаемыйУдалённыйOID: "ABSENT", контекст: контекст)
+        let поручение = ПоручениеПриёмаROOT(схема: случай == 7 ? "fum.root-acceptance-program.1" : "fum.root-acceptance-program.2",
+            идентификатор: "synthetic-source-host", ROOT: запрос.корневойUUID, писатель: запрос.писатель,
+            W: Self.путь("репозиторий"), ref: "refs/heads/fixture", origin: "https://github.com/fum-lab/fum.git",
+            L: String(repeating: "1", count: 40), M: String(repeating: "2", count: 40),
+            дерево: String(repeating: "3", count: 40), пути: случай == 2 ? ["foreign.swift"] : пути, pins: [],
+            принятоеM: случай == 1 ? String(repeating: "c", count: 40) : основа,
+            основаниеИсходниковSHA256: случай == 3 ? String(repeating: "d", count: 64) : основание,
+            разрешённыйЭффект: случай == 4 ? "full-profile" : "сохранение-исходников-слиянием",
+            ожидаемыйУдалённыйOID: случай == 5 ? основа : "ABSENT")
+        let среда = СредаПриёмаROOT(metadataCLI: "", metadataState: запрос.аргументы[1],
+            программа: "", переменные: [:], segment: URL(fileURLWithPath: "/fixture/segment"),
+            logs: URL(fileURLWithPath: "/fixture/logs"))
+        #expect(отказПриёма { try хост.проверить(поручение, среда: среда) } == (случай != 0))
+        #expect(модель.запуски == 0 && модель.записи.isEmpty)
+    }
+
     @Test(arguments: СпецификацияУправляемойОперации.все.indices) func МатрицаОперацийБезДопуска(_ номер: Int) throws {
         let модель = ФайловаяМодельДопуска(), запрос = try Self.подготовить(модель, номер: номер)
         #expect(Self.ошибка { _ = try ГлавнаяКоординатора.обработатьУправляемуюВетвь(запрос.аргументы, швы: модель.швы()) } == .неизвестно("нет-независимого-решения"))
@@ -1331,5 +1409,47 @@ struct ПроверкиНативногоПровайдера {
         print("FUM_NATIVE_MODEL_OBSERVATION " + String(decoding: try кодировщик.encode(наблюдение), as: UTF8.self))
         #expect(наблюдение.режимИсточника == "NATIVE_SQLITE_READONLY")
         #expect(наблюдение.backend == "UNKNOWN")
+    }
+}
+
+// Только чистые проверки нового контракта и того же raw reader; процессов здесь нет.
+@Suite("Точное намерение коммита и полный raw OID")
+struct ПроверкиТочногоНамеренияИRawOID {
+    @Test func чтениеСырогоСоставаТребуетПолныеOID() throws {
+        let старыйOID = String(repeating: "a", count: 40), новыйOID = String(repeating: "b", count: 40)
+        let аргументы = try НаблюдательРабочегоДереваGit.аргументыСырогоСостава(основа: старыйOID, цель: новыйOID)
+        #expect(аргументы == ["diff", "--raw", "--no-abbrev", "--no-renames", "-z", старыйOID, новыйOID, "--"])
+        let полный = Data((":100644 100644 " + старыйOID + " " + новыйOID + " M\0koordinaciya/fixture.swift\0").utf8)
+        let строки = try НаблюдательРабочегоДереваGit.разобратьСыройСостав(полный)
+        #expect(строки.count == 1 && строки[0].старыйOID == старыйOID && строки[0].новыйOID == новыйOID)
+        let короткий = Data((":100644 100644 " + String(старыйOID.prefix(7)) + " " + новыйOID + " M\0koordinaciya/fixture.swift\0").utf8)
+        #expect(отказПриёма { _ = try НаблюдательРабочегоДереваGit.разобратьСыройСостав(короткий) })
+    }
+
+    @Test func одиночныйРодительНеУдовлетворяетНамерениюСлияния() throws {
+        let первыйРодитель = String(repeating: "1", count: 40), второйРодитель = String(repeating: "2", count: 40)
+        let дерево = String(repeating: "3", count: 40), корень = "01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
+        let запрос = ЗапросМетаданныхИсходников(схема: "fum.source-checkpoint-metadata-request.1",
+            корневойUUID: корень, писатель: корень, рабочееДерево: "/fixture",
+            реф: "refs/heads/fixture", родитель: первыйРодитель, дерево: дерево, статусВыбора: "UNKNOWN",
+            основаниеSHA256: String(repeating: "4", count: 64),
+            план: ПланСообщенияКоммита(исходныйЗапрос: "Фикстура точного слияния",
+                заголовок: "Сохранить точное слияние", описание: "Проверки и профиль UNKNOWN"))
+        let выход = ГенераторМетаданныхКоммита.referenceOutput(for: запрос.входФорматтера).cases[0]
+        let автор = выход.environment["GIT_AUTHOR_NAME"]!
+        let метаданные = МетаданныеИсходников.подготовить(запрос: запрос,
+            выход: ВыходГенератораGitMetadata(environment: выход.environment, message: выход.message),
+            авторGit: автор + " <fixture@local> 0 +0000", коммитерGit: "FUM <fixture@local> 0 +0000")
+        let намерение = НамерениеСозданияКоммитаGit(вид: .слияние, реф: запрос.реф, родители: [первыйРодитель, второйРодитель], дерево: дерево)
+        #expect(намерение.проверить().isEmpty)
+        func сыройКоммит(_ родители: [String]) -> Data {
+            Data(("tree " + дерево + "\n" + родители.map { "parent " + $0 + "\n" }.joined() +
+                "author " + автор + " <fixture@local> 0 +0000\ncommitter FUM <fixture@local> 0 +0000\n\n" + выход.message).utf8)
+        }
+        #expect(ОценщикИдентичностиGit.проверитьСырыеИсходники(сыройКоммит([первыйРодитель, второйРодитель]), метаданные: метаданные, намерение: намерение).isEmpty)
+        for родители in [[первыйРодитель], [второйРодитель, первыйРодитель]] {
+            #expect(ОценщикИдентичностиGit.проверитьСырыеИсходники(сыройКоммит(родители), метаданные: метаданные, намерение: намерение)
+                .contains("сырой-parent-не-совпадает-с-намерением"))
+        }
     }
 }
