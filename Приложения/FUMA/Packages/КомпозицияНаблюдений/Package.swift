@@ -31,6 +31,7 @@ let package = Package(
             name: "FUMAObservationCompositionTests",
             dependencies: [
                 "КомпозицияНаблюдений",
+                .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
                 .product(name: "СнимокАгентскойЗадачи", package: "СнимокАгентскойЗадачи")
             ],
             path: "Tests/КомпозицияНаблюденийTests",

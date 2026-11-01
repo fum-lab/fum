@@ -1,5 +1,6 @@
 import Foundation
 import Darwin
+import CryptoKit
 import АрхивныйСнимокЗадачи
 import КонтейнерНаблюдений
 
@@ -117,6 +118,313 @@ public struct ЦиклНаблюденийСостояния<
             каноническиеБайты: каноническиеБайты,
             курсор: курсор,
             квитанция: сохранённое.квитанция)
+    }
+}
+
+/// Временная граница FUMA к будущему Tools-owned apply API. Реализация порта
+/// обязана сохранить намерение через callback и дождаться его успешного
+/// readback до возможного эффекта. Она возвращает `применено` только после
+/// наблюдения результата, сверенного с pinned intent. Этот протокол сам ничего
+/// не применяет и не является подтверждением live filesystem effect.
+public protocol ФазаНормализацииКорнейСостояния: Sendable {
+    func выполнить(
+        контекст: КонтекстФазыНормализации,
+        сохранитьНамерение: @escaping СохранитьНамерениеФазы
+    ) async throws -> ИсходФазыНормализации
+}
+
+public typealias СохранитьНамерениеФазы = @Sendable (Data) async throws -> Квитанция
+
+public struct КонтекстФазыНормализации: Equatable, Sendable {
+    public let идентификаторОперации: String
+    /// Канонические байты назначений, owner/ref и явного отображения от Tools.
+    public let назначение: Data
+    /// Канонические байты полного pinned checkpoint, включая оба снимка.
+    public let контрольнаяТочка: Data
+    public let время: String
+
+    public init(идентификаторОперации: String, назначение: Data,
+                контрольнаяТочка: Data, время: String) {
+        self.идентификаторОперации = идентификаторОперации
+        self.назначение = назначение
+        self.контрольнаяТочка = контрольнаяТочка
+        self.время = время
+    }
+}
+
+public enum ИсходФазыНормализации: Equatable, Sendable {
+    case применено(свидетельство: Data)
+    case конфликт(причина: String, свидетельство: Data?)
+    case неизвестно(причина: String, свидетельство: Data?)
+}
+
+public struct РезультатЦиклаНаблюденийСФазой: Equatable, Sendable {
+    public let исходФазы: ИсходФазыНормализации
+    public let квитанцияНамерения: Квитанция?
+    public let квитанцияТерминала: Квитанция
+    /// Новый filesystem/repository plan строится только после readback
+    /// известного терминального результата.
+    public let планПослеИсхода: ПланНаблюденийСостояния?
+}
+
+private struct ЗаписьФазы: Codable, Equatable, Sendable {
+    let схема: String
+    let операция: String
+    let назначение: Data
+    let контрольнаяТочка: Data
+    let хэшНамерения: String?
+    let вид: String
+    let причина: String?
+    let свидетельство: Data?
+}
+
+private actor ЖурналФазыНормализации {
+    private let корень: URL
+
+    init(корень: URL) { self.корень = корень }
+
+    func прочитать(_ идентификатор: String) throws -> (ЗаписьФазы, Квитанция)? {
+        let сегмент = try Сегмент(кореньДанных: корень, запись: false, создать: false)
+        defer { сегмент.закрыть() }
+        guard let квитанция = сегмент.записи.first(where: {
+            $0.описание.идентификатор == идентификатор
+        }) else { return nil }
+        let данные = try сегмент.извлечь(идентификатор)
+        let запись = try JSONDecoder().decode(ЗаписьФазы.self, from: данные)
+        guard try Self.каноническиеБайты(запись) == данные,
+              квитанция.размер == UInt64(данные.count),
+              квитанция.хэш == Self.sha256(данные) else {
+            throw ОшибкаЦиклаНаблюденийСостояния.несовпадениеПовторногоЧтения
+        }
+        return (запись, квитанция)
+    }
+
+    func сохранитьИПрочитать(_ запись: ЗаписьФазы, id: String,
+                              тип: String, время: String) throws -> Квитанция {
+        let байты = try Self.каноническиеБайты(запись)
+        let описание = ОписаниеНаблюдения(
+            идентификатор: id, тип: тип, версияСхемы: 1,
+            источник: "КомпозицияНаблюдений", время: время,
+            спецификация: Data("fuma.фаза-нормализации-корня.1".utf8))
+        let писатель = try Сегмент(кореньДанных: корень, запись: true, создать: false)
+        let квитанция = try писатель.добавить(описание, данные: байты)
+        писатель.закрыть()
+
+        let читатель = try Сегмент(кореньДанных: корень, запись: false, создать: false)
+        defer { читатель.закрыть() }
+        guard let прочитаннаяКвитанция = читатель.записи.first(where: {
+            $0.описание.идентификатор == id
+        }) else { throw ОшибкаЦиклаНаблюденийСостояния.несовпадениеПовторногоЧтения }
+        let прочитанныеБайты = try читатель.извлечь(id)
+        guard прочитанныеБайты == байты, прочитаннаяКвитанция == квитанция,
+              прочитаннаяКвитанция.хэш == Self.sha256(байты) else {
+            throw ОшибкаЦиклаНаблюденийСостояния.несовпадениеПовторногоЧтения
+        }
+        return прочитаннаяКвитанция
+    }
+
+    static func каноническиеБайты(_ запись: ЗаписьФазы) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        var bytes = try encoder.encode(запись)
+        bytes.append(10)
+        return bytes
+    }
+
+    static func sha256(_ данные: Data) -> String {
+        SHA256.hash(data: данные).map { String(format: "%02x", $0) }.joined()
+    }
+}
+
+public extension ЦиклНаблюденийСостояния {
+    /// Исполняет одну injected фазу как source seam. Состояние Tools API
+    /// намеренно opaque; фактическое применение и запуск общего runtime здесь
+    /// не утверждаются.
+    func выполнитьФазуНормализации(
+        контекст: КонтекстФазыНормализации,
+        фаза: some ФазаНормализацииКорнейСостояния,
+        кореньФайловойСистемы: URL,
+        источникФайловойСистемы: String,
+        кореньРепозитория: URL,
+        кореньИстории: URL,
+        времяИстории: String
+    ) async throws -> РезультатЦиклаНаблюденийСФазой {
+        guard Self.допустима(контекст) else {
+            throw ОшибкаЦиклаНаблюденийСостояния.неОднаЗавершённаяРамка
+        }
+        let history = try разрешитьФизическийКаталог(кореньИстории)
+        let repo = try разрешитьФизическийКаталог(кореньРепозитория)
+        guard !history.pathComponents.starts(with: repo.pathComponents) else {
+            throw ОшибкаЦиклаНаблюденийСостояния.историяВнутриРепозитория
+        }
+
+        let journal = ЖурналФазыНормализации(корень: history)
+        let initialize = try Сегмент(кореньДанных: history, запись: true, создать: true)
+        initialize.закрыть()
+        let intentID = "фаза-нормализации-намерение-\(контекст.идентификаторОперации)"
+        let terminalID = "фаза-нормализации-исход-\(контекст.идентификаторОперации)"
+        let pinnedHash = ЖурналФазыНормализации.sha256(контекст.назначение + контекст.контрольнаяТочка)
+
+        if let terminal = try await journal.прочитать(terminalID) {
+            guard Self.совпадает(terminal.0, context: контекст, pinnedHash: pinnedHash),
+                  let intent = try await journal.прочитать(intentID),
+                  Self.совпадает(intent.0, context: контекст, pinnedHash: nil),
+                  intent.0.схема == "fuma.фаза-нормализации-намерение.1",
+                  intent.0.вид == "intent",
+                  terminal.0.хэшНамерения == ЖурналФазыНормализации.sha256(
+                    try ЖурналФазыНормализации.каноническиеБайты(intent.0)) else {
+                return РезультатЦиклаНаблюденийСФазой(
+                    исходФазы: .неизвестно(причина: "неподтверждённый-журнал-фазы", свидетельство: nil),
+                    квитанцияНамерения: nil, квитанцияТерминала: terminal.1, планПослеИсхода: nil)
+            }
+            let outcome = Self.нормализованныйИсход(Self.исход(terminal.0))
+            let known = Self.известен(outcome)
+            let plan = known ? try await компоновщик.построить(
+                кореньФайловойСистемы: кореньФайловойСистемы,
+                источникФайловойСистемы: источникФайловойСистемы,
+                кореньРепозитория: кореньРепозитория) : nil
+            return .init(исходФазы: outcome, квитанцияНамерения: intent.1,
+                         квитанцияТерминала: terminal.1, планПослеИсхода: plan)
+        }
+
+        if let orphanIntent = try await journal.прочитать(intentID) {
+            guard Self.совпадает(orphanIntent.0, context: контекст, pinnedHash: nil) else {
+                throw ОшибкаЦиклаНаблюденийСостояния.несовпадениеПовторногоЧтения
+            }
+            let unknown = ЗаписьФазы(схема: "fuma.фаза-нормализации.1",
+                операция: контекст.идентификаторОперации, назначение: контекст.назначение,
+                контрольнаяТочка: контекст.контрольнаяТочка,
+                хэшНамерения: ЖурналФазыНормализации.sha256(
+                    try ЖурналФазыНормализации.каноническиеБайты(orphanIntent.0)),
+                вид: "unknown", причина: "намерение-есть-терминал-отсутствует",
+                свидетельство: nil)
+            let terminal = try await journal.сохранитьИПрочитать(
+                unknown, id: terminalID, тип: "fuma.исход-фазы-нормализации.1", время: контекст.время)
+            return .init(исходФазы: Self.исход(unknown), квитанцияНамерения: orphanIntent.1,
+                         квитанцияТерминала: terminal, планПослеИсхода: nil)
+        }
+
+        let saveIntent: СохранитьНамерениеФазы = { bytes in
+            guard bytes.count <= Int(Пределы.объект) else { throw ОшибкаКонтейнера.предел }
+            let record = ЗаписьФазы(схема: "fuma.фаза-нормализации-намерение.1",
+                операция: контекст.идентификаторОперации, назначение: контекст.назначение,
+                контрольнаяТочка: контекст.контрольнаяТочка,
+                хэшНамерения: ЖурналФазыНормализации.sha256(bytes),
+                вид: "intent", причина: nil, свидетельство: bytes)
+            return try await journal.сохранитьИПрочитать(
+                record, id: intentID, тип: "fuma.намерение-фазы-нормализации.1", время: контекст.время)
+        }
+
+        let reported: ИсходФазыНормализации
+        do { reported = try await фаза.выполнить(контекст: контекст, сохранитьНамерение: saveIntent) }
+        catch {
+            let intent = try? await journal.прочитать(intentID)
+            let unknown = ЗаписьФазы(схема: "fuma.фаза-нормализации.1",
+                операция: контекст.идентификаторОперации, назначение: контекст.назначение,
+                контрольнаяТочка: контекст.контрольнаяТочка,
+                хэшНамерения: intent.map { ЖурналФазыНормализации.sha256((try? ЖурналФазыНормализации.каноническиеБайты($0.0)) ?? Data()) },
+                вид: "unknown", причина: "исключение-фазы-после-возможного-эффекта",
+                свидетельство: nil)
+            let receipt = try await journal.сохранитьИПрочитать(
+                unknown, id: terminalID, тип: "fuma.исход-фазы-нормализации.1", время: контекст.время)
+            return .init(исходФазы: Self.исход(unknown), квитанцияНамерения: intent?.1,
+                         квитанцияТерминала: receipt, планПослеИсхода: nil)
+        }
+
+        guard let intent = try await journal.прочитать(intentID),
+              Self.совпадает(intent.0, context: контекст, pinnedHash: nil) else {
+            let unknown = ЗаписьФазы(схема: "fuma.фаза-нормализации.1",
+                операция: контекст.идентификаторОперации, назначение: контекст.назначение,
+                контрольнаяТочка: контекст.контрольнаяТочка, хэшНамерения: nil,
+                вид: "unknown", причина: "фаза-не-предъявила-readback-intent",
+                свидетельство: nil)
+            let receipt = try await journal.сохранитьИПрочитать(
+                unknown, id: terminalID, тип: "fuma.исход-фазы-нормализации.1", время: контекст.время)
+            return .init(исходФазы: Self.исход(unknown), квитанцияНамерения: nil,
+                         квитанцияТерминала: receipt, планПослеИсхода: nil)
+        }
+
+        let intentHash = ЖурналФазыНормализации.sha256(
+            try ЖурналФазыНормализации.каноническиеБайты(intent.0))
+        let terminalOutcome = Self.нормализованныйИсход(reported)
+        let terminalRecord = Self.запись(terminalOutcome, контекст: контекст, intentHash: intentHash)
+        let terminal = try await journal.сохранитьИПрочитать(
+            terminalRecord, id: terminalID, тип: "fuma.исход-фазы-нормализации.1", время: контекст.время)
+        guard let readback = try await journal.прочитать(terminalID),
+              readback.1 == terminal,
+              Self.совпадает(readback.0, context: контекст, pinnedHash: pinnedHash),
+              readback.0 == terminalRecord else {
+            return .init(исходФазы: .неизвестно(причина: "терминальный-readback-не-совпадает", свидетельство: nil),
+                         квитанцияНамерения: intent.1, квитанцияТерминала: terminal, планПослеИсхода: nil)
+        }
+        let known = Self.известен(terminalOutcome)
+        let plan = known ? try await компоновщик.построить(
+            кореньФайловойСистемы: кореньФайловойСистемы,
+            источникФайловойСистемы: источникФайловойСистемы,
+            кореньРепозитория: кореньРепозитория) : nil
+        return .init(исходФазы: terminalOutcome, квитанцияНамерения: intent.1,
+                     квитанцияТерминала: terminal, планПослеИсхода: plan)
+    }
+
+    private static func допустима(_ context: КонтекстФазыНормализации) -> Bool {
+        let allowed = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_")
+        return !context.идентификаторОперации.isEmpty
+            && context.идентификаторОперации.utf8.count <= 80
+            && context.идентификаторОперации.unicodeScalars.allSatisfy { allowed.contains($0) }
+            && !context.назначение.isEmpty && context.назначение.count <= 65_536
+            && !context.контрольнаяТочка.isEmpty && context.контрольнаяТочка.count <= 65_536
+            && !context.время.isEmpty && context.время.utf8.count <= 128
+    }
+
+    private static func совпадает(_ record: ЗаписьФазы,
+                                  context: КонтекстФазыНормализации,
+                                  pinnedHash: String?) -> Bool {
+        record.операция == context.идентификаторОперации
+            && record.назначение == context.назначение
+            && record.контрольнаяТочка == context.контрольнаяТочка
+            && record.схема.hasPrefix("fuma.фаза-нормализации")
+            && (pinnedHash == nil || record.хэшНамерения == pinnedHash || record.вид == "unknown")
+    }
+
+    private static func запись(_ outcome: ИсходФазыНормализации,
+                               контекст: КонтекстФазыНормализации,
+                               intentHash: String) -> ЗаписьФазы {
+        switch outcome {
+        case let .применено(witness):
+            return .init(схема: "fuma.фаза-нормализации.1", операция: контекст.идентификаторОперации,
+                назначение: контекст.назначение, контрольнаяТочка: контекст.контрольнаяТочка,
+                хэшНамерения: intentHash, вид: "applied", причина: nil, свидетельство: witness)
+        case let .конфликт(reason, witness):
+            return .init(схема: "fuma.фаза-нормализации.1", операция: контекст.идентификаторОперации,
+                назначение: контекст.назначение, контрольнаяТочка: контекст.контрольнаяТочка,
+                хэшНамерения: intentHash, вид: "conflict", причина: reason, свидетельство: witness)
+        case let .неизвестно(reason, witness):
+            return .init(схема: "fuma.фаза-нормализации.1", операция: контекст.идентификаторОперации,
+                назначение: контекст.назначение, контрольнаяТочка: контекст.контрольнаяТочка,
+                хэшНамерения: intentHash, вид: "unknown", причина: reason, свидетельство: witness)
+        }
+    }
+
+    private static func исход(_ record: ЗаписьФазы) -> ИсходФазыНормализации {
+        switch record.вид {
+        case "applied": .применено(свидетельство: record.свидетельство ?? Data())
+        case "conflict": .конфликт(причина: record.причина ?? "сохранённый-конфликт", свидетельство: record.свидетельство)
+        default: .неизвестно(причина: record.причина ?? "сохранённый-unknown", свидетельство: record.свидетельство)
+        }
+    }
+
+    private static func известен(_ result: ИсходФазыНормализации) -> Bool {
+        if case let .применено(witness) = result { return !witness.isEmpty }
+        return false
+    }
+
+    private static func нормализованныйИсход(
+        _ result: ИсходФазыНормализации
+    ) -> ИсходФазыНормализации {
+        if case let .применено(witness) = result, witness.isEmpty {
+            return .неизвестно(причина: "фаза-не-предъявила-свидетельство-наблюдения", свидетельство: nil)
+        }
+        return result
     }
 }
 
