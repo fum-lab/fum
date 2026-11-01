@@ -1,0 +1,383 @@
+Рецепт формирования метаданных корректирующего коммита нормализатора
+
+Назначение
+==========
+
+Файл шаблона является точным JSON-представлением входного значения
+ПланСообщенияКоммита и содержит только поля исходныйЗапрос, заголовок и описание.
+Основа будущего добавочного коммита — 12d79d197bd5b9fc2ec454649a07a908e6a68c0c.
+Шаблон SHA-256: a70fdc202d3951749f22f90225c4ba0458f3ba9ae78b8e0b4238d0e44755e1f6
+Исторический коммит 12d не переатрибутируется.
+
+Ограничения
+===========
+
+- Не менять и не переписывать опубликованный коммит 12d.
+- Не формировать автора из сохранённой конфигурации, заданного режима или значения по умолчанию.
+- При отсутствующей, повторной, NULL, некорректной или UNKNOWN-атрибуции остановиться.
+- Запрещённые токены UNKNOWN, unavailable, null и unset сравниваются без учёта регистра.
+- Модель должна быть непустым допустимым токеном; усилие должно точно входить в
+  none|minimal|low|medium|high|xhigh|max|ultra.
+- Модель и усилие брать только из валидной свежей terminal receipt собственного потока.
+  UUID ROOT получать из grant, путь и SHA которого закреплены в той же receipt.
+- Ошибка любой проверки завершает рецепт до создания выходного JSON, файла сообщения
+  или вызова коммита.
+- Не менять существующий форматировщик, цель Swift, модуль, исполнитель или среду
+  выполнения.
+- Не выполнять SwiftPM, компилятор, тесты, CLI или фактическое применение.
+- Не передавать несколько -m; формировать один проверенный файл сообщения и передавать
+  его одному --file.
+
+Совместимость форматтера
+========================
+
+Существующий исходник:
+koordinaciya/генератор-метаданных-коммита.swift
+
+Входной тип ПланСообщенияКоммита имеет ровно три содержательных ключа:
+исходныйЗапрос, заголовок и описание. Выходной тип
+ВыходГенератораGitMetadata имеет environment и message. Эталонная раскладка
+сообщения в referenceOutput:
+
+заголовок
+
+описание
+
+Исходный запрос:
+исходныйЗапрос
+
+Codex-Thread-ID: <UUID из grant, закреплённого в terminal receipt>
+
+Последняя строка заканчивается одним LF. Имя автора формируется как
+FUM Codex [<model>; effort=<reasoning_effort>] из валидной свежей единственной
+строки собственного наблюдения.
+
+Входы и fail-fast проверки
+=========================
+
+Все пути ниже задаются вызывающим процессом из уже проверенного закрытого набора.
+Не искать другие файлы и не выполнять SQL, Git, Swift, компилятор, тесты, CLI или
+runtime. Пример отрицательной проверки ниже использует только jq и временные файлы.
+
+Начать отдельный shell-процесс с:
+
+set -eu
+umask 077
+
+Обязательные переменные:
+
+CODEX_THREAD_ID — точный UUID собственного текущего потока;
+FUM_TEMPLATE — путь к трёхполёвому шаблону;
+FUM_RECIPE_PATH — путь к этому рецепту;
+FUM_PROVENANCE_PATH — путь к provenance JSON этого исправления;
+FUM_AUTHOR_RECEIPT — путь к неизменённой свежей terminal receipt;
+FUM_SOURCE_ACT — путь к correction ACT текущего этапа;
+FUM_OUTPUT_JSON — новый путь выходного JSON;
+FUM_MESSAGE_FILE — новый путь проверенного сообщения;
+FUM_OUTPUT_RECEIPT — новый путь частной квитанции результата.
+
+Сверить raw SHA базы с уже записанным provenance pin без чтения Git-объекта:
+
+FUM_BASE_RAW_SHA="$(jq -er '.publishedCommit.rawCommitSHA256' "$FUM_PROVENANCE_PATH")"
+test "$(jq -er '.publishedCommit.oid' "$FUM_PROVENANCE_PATH")" = "12d79d197bd5b9fc2ec454649a07a908e6a68c0c"
+test "$FUM_BASE_RAW_SHA" = "cc8158781936b5d7a7993149d83d663000f7adc73d1e5eb921e812f18903a8dc"
+
+Сначала проверить точный шаблон и неизменность собственного наблюдения:
+
+test "$(shasum -a 256 "$FUM_TEMPLATE" | awk '{print $1}')" = "a70fdc202d3951749f22f90225c4ba0458f3ba9ae78b8e0b4238d0e44755e1f6"
+test "$(shasum -a 256 "$FUM_AUTHOR_RECEIPT" | awk '{print $1}')" = "a61eb71200af80f270c1aa029ce2c85212324d9e48b875aa177a8002b68f7e9b"
+
+Затем прочитать только путь, длину и SHA grant из закреплённой receipt:
+
+FUM_GRANT_PATH="$(jq -er '.grant.path' "$FUM_AUTHOR_RECEIPT")"
+FUM_GRANT_BYTES="$(jq -er '.grant.bytes' "$FUM_AUTHOR_RECEIPT")"
+FUM_GRANT_SHA="$(jq -er '.grant.sha256' "$FUM_AUTHOR_RECEIPT")"
+case "$FUM_GRANT_BYTES" in
+  ''|*[!0-9]*) exit 1 ;;
+esac
+test "$(wc -c < "$FUM_GRANT_PATH" | tr -d '[:space:]')" = "$FUM_GRANT_BYTES"
+test "$(shasum -a 256 "$FUM_GRANT_PATH" | awk '{print $1}')" = "$FUM_GRANT_SHA"
+
+Определить валидатор receipt. Он принимает только .valid=true, точное совпадение
+actor/proposal.actor/row.id с CODEX_THREAD_ID, полный ожидаемый набор ключей строки,
+точную привязку grant и authorName, согласованное с model/effort. Пустая строка,
+недопустимые символы и маркеры UNKNOWN/unavailable/null/unset отвергаются без учёта
+регистра; effort дополнительно сверяется с закрытым перечислением:
+
+validate_receipt() {
+  jq -e --arg own "$CODEX_THREAD_ID" \
+    --arg grantPath "$FUM_GRANT_PATH" \
+    --arg grantSHA "$FUM_GRANT_SHA" \
+    --argjson grantBytes "$FUM_GRANT_BYTES" '
+    def token_ok:
+      . as $v
+      | if ($v | type) != "string" or ($v | length) == 0 then false
+        elif (($v | test("^[A-Za-z0-9][A-Za-z0-9._-]*$")) | not) then false
+        else
+          ($v | ascii_downcase) as $lower
+          | (($lower | startswith("unknown")) | not)
+            and ((["unavailable","null","unset"] | index($lower)) == null)
+        end;
+    . as $r
+    | if ($r | type) != "object" or ($r.row | type) != "object" then false
+      else
+        ($r.schema == "fum.stage0002.fresh-own-author.terminal.1")
+        and
+        ($r.valid == true)
+        and ($r.actor == $own)
+        and ($r.proposal.actor == $own)
+        and ($r.row.id == $own)
+        and (($r.row | keys | sort)
+             == ["id","model","model_provider","reasoning_effort","updated_at","updated_at_ms"])
+        and ($r.grant.path == $grantPath)
+        and ($r.grant.bytes == $grantBytes)
+        and ($r.grant.sha256 == $grantSHA)
+        and ($r.row.model | token_ok)
+        and ($r.row.reasoning_effort | token_ok)
+        and ((["none","minimal","low","medium","high","xhigh","max","ultra"]
+              | index($r.row.reasoning_effort)) != null)
+        and ($r.authorName ==
+             ("FUM Codex [" + $r.row.model + "; effort=" + $r.row.reasoning_effort + "]"))
+      end
+  ' "$1" >/dev/null
+}
+
+Проверить привязку, одноразовость и ROOT в grant, взятом из той же receipt. Затем
+проверить, что correction ACT называет этот же ROOT как humanROOT:
+
+validate_receipt "$FUM_AUTHOR_RECEIPT"
+jq -e --arg own "$CODEX_THREAD_ID" '
+  .schema == "fum.root-addressed-own-author-read-grant.v1"
+  and
+  .actor == $own
+  and .oneQuery.calls == 1
+  and .oneQuery.retry == 0
+  and .base == "12d79d197bd5b9fc2ec454649a07a908e6a68c0c"
+  and (.issuer | type == "string")
+  and (.issuer | test("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"))
+' "$FUM_GRANT_PATH" >/dev/null
+FUM_ROOT_UUID="$(jq -er '.issuer' "$FUM_GRANT_PATH")"
+jq -e --arg own "$CODEX_THREAD_ID" --arg root "$FUM_ROOT_UUID" '
+  .actor == $own
+  and .base == "12d79d197bd5b9fc2ec454649a07a908e6a68c0c"
+  and .humanROOT == $root
+  and .sourcePaths == [
+    "iskhodniki/aktualizaciya-putej/kontraktyi/shablon-metadannyh-kommitov-normalizacii-kornei-agentov-v1.json",
+    "iskhodniki/aktualizaciya-putej/kontraktyi/ispravleniye-metadannyh-postavki-normalizacii-kornei-agentov-v1.json",
+    "iskhodniki/aktualizaciya-putej/kontraktyi/retsept-formirovaniya-metadannyh-normalizacii-kornei-agentov-v1.txt"
+  ]
+' "$FUM_SOURCE_ACT" >/dev/null
+FUM_ROOT_INSTRUCTION="$(jq -er '.RootInstruction' "$FUM_SOURCE_ACT")"
+test "$(jq -er '."исходныйЗапрос"' "$FUM_TEMPLATE")" = "$FUM_ROOT_INSTRUCTION"
+
+Проверить, что шаблон точно соответствует входу formatter:
+
+jq -e '
+  type == "object"
+  and (keys | sort) == ["заголовок","исходныйЗапрос","описание"]
+  and (."исходныйЗапрос" | type == "string" and length > 0)
+  and (."заголовок" | type == "string" and length > 0)
+  and (."описание" | type == "string" and length > 0)
+' "$FUM_TEMPLATE" >/dev/null
+
+Отрицательный DATA-пример: взять ту же receipt в память, заменить только model на
+UNKNOWN и согласовать authorName с этим значением. Валидатор должен вернуть
+ненулевой код; обёртка генерации обязана остановиться до создания JSON, сообщения,
+квитанции или маркера коммита. База данных и Git в этом примере не используются:
+
+generate_checked() (
+  receipt_path=$1
+  template_path=$2
+  root_uuid=$3
+  output_json=$4
+  message_file=$5
+  if ! validate_receipt "$receipt_path"; then
+    return 1
+  fi
+  model="$(jq -er '.row.model' "$receipt_path")" || return 1
+  effort="$(jq -er '.row.reasoning_effort' "$receipt_path")" || return 1
+  author_name="FUM Codex [$model; effort=$effort]"
+  tmp_json="$output_json.tmp.$$"
+  tmp_message="$message_file.tmp.$$"
+  trap 'if [ -n "$tmp_json" ]; then rm -f "$tmp_json"; fi; if [ -n "$tmp_message" ]; then rm -f "$tmp_message"; fi' EXIT
+  jq -n -cS --slurpfile plan "$template_path" \
+    --arg model "$model" --arg effort "$effort" --arg rootUUID "$root_uuid" '
+    ($plan[0]) as $plan
+    | {
+        environment: {
+          GIT_AUTHOR_NAME: ("FUM Codex [" + $model + "; effort=" + $effort + "]")
+        },
+        message: (
+          $plan["заголовок"] + "\n\n"
+          + $plan["описание"] + "\n\nИсходный запрос:\n"
+          + $plan["исходныйЗапрос"] + "\n\nCodex-Thread-ID: "
+          + $rootUUID + "\n"
+        )
+      }
+  ' > "$tmp_json" || return 1
+  jq -j '.message' "$tmp_json" > "$tmp_message" || return 1
+  jq -e --arg author "$author_name" --arg root "$root_uuid" '
+    .environment.GIT_AUTHOR_NAME == $author
+    and (.message | type == "string")
+    and ([.message | scan("(?m)^Codex-Thread-ID:")] | length == 1)
+  ' "$tmp_json" >/dev/null || return 1
+  [ "$(tail -n 1 "$tmp_message")" = "Codex-Thread-ID: $root_uuid" ] || return 1
+  trailer_count="$(grep -c '^Codex-Thread-ID:' "$tmp_message" || true)"
+  [ "$trailer_count" = 1 ] || return 1
+  [ ! -e "$output_json" ] || return 1
+  [ ! -e "$message_file" ] || return 1
+  mv "$tmp_json" "$output_json" || return 1
+  tmp_json=
+  mv "$tmp_message" "$message_file" || return 1
+  tmp_message=
+)
+
+FUM_NEGATIVE_PREFIX="${TMPDIR:-/tmp}/fum-names-unknown-${CODEX_THREAD_ID}-$$"
+test ! -e "$FUM_NEGATIVE_PREFIX"
+if jq --arg effort "$(jq -er '.row.reasoning_effort' "$FUM_AUTHOR_RECEIPT")" '
+  .row.model = "UNKNOWN"
+  | .authorName = ("FUM Codex [UNKNOWN; effort=" + $effort + "]")
+' "$FUM_AUTHOR_RECEIPT" | generate_checked - "$FUM_TEMPLATE" "$FUM_ROOT_UUID" \
+  "$FUM_NEGATIVE_PREFIX.json" "$FUM_NEGATIVE_PREFIX.message"; then
+  printf '%s\n' "ОШИБКА: UNKNOWN прошёл валидатор" >&2
+  exit 1
+fi
+test ! -e "$FUM_NEGATIVE_PREFIX.json"
+test ! -e "$FUM_NEGATIVE_PREFIX.message"
+test ! -e "$FUM_NEGATIVE_PREFIX.receipt"
+test ! -e "$FUM_NEGATIVE_PREFIX.commit-marker"
+
+Извлечь подтверждённые значения и проверить, что новые файлы ещё отсутствуют:
+
+FUM_MODEL="$(jq -er '.row.model' "$FUM_AUTHOR_RECEIPT")"
+FUM_EFFORT="$(jq -er '.row.reasoning_effort' "$FUM_AUTHOR_RECEIPT")"
+test ! -e "$FUM_OUTPUT_JSON"
+test ! -e "$FUM_MESSAGE_FILE"
+test ! -e "$FUM_OUTPUT_RECEIPT"
+test -d "$(dirname "$FUM_OUTPUT_JSON")"
+test -d "$(dirname "$FUM_MESSAGE_FILE")"
+test -d "$(dirname "$FUM_OUTPUT_RECEIPT")"
+
+Сформировать новые выходные файлы только после успешного прохождения всех проверок:
+
+generate_checked "$FUM_AUTHOR_RECEIPT" "$FUM_TEMPLATE" "$FUM_ROOT_UUID" \
+  "$FUM_OUTPUT_JSON" "$FUM_MESSAGE_FILE"
+
+Последняя строка файла сообщения обязана быть единственным ROOT trailer и завершаться
+одним LF. FUM_OUTPUT_JSON сохраняет типизированную раскладку formatter: environment
+и message. Старая версия частных результатов не перезаписывается; для исправления
+используются новые имена v2.
+
+Создать частную квитанцию результата с точными входными и выходными SHA-256,
+версией jq и зафиксированным raw SHA-256 опубликованной базы:
+
+FUM_TEMPLATE_SHA="$(shasum -a 256 "$FUM_TEMPLATE" | awk '{print $1}')"
+FUM_RECIPE_SHA="$(shasum -a 256 "$FUM_RECIPE_PATH" | awk '{print $1}')"
+FUM_PROVENANCE_SHA="$(shasum -a 256 "$FUM_PROVENANCE_PATH" | awk '{print $1}')"
+FUM_SOURCE_ACT_SHA="$(shasum -a 256 "$FUM_SOURCE_ACT" | awk '{print $1}')"
+FUM_RECEIPT_SHA="$(shasum -a 256 "$FUM_AUTHOR_RECEIPT" | awk '{print $1}')"
+FUM_OUTPUT_SHA="$(shasum -a 256 "$FUM_OUTPUT_JSON" | awk '{print $1}')"
+FUM_MESSAGE_SHA="$(shasum -a 256 "$FUM_MESSAGE_FILE" | awk '{print $1}')"
+FUM_JQ_VERSION="$(jq --version)"
+FUM_RECEIPT_TMP="$FUM_OUTPUT_RECEIPT.tmp.$$"
+trap 'if [ -n "$FUM_RECEIPT_TMP" ]; then rm -f "$FUM_RECEIPT_TMP"; fi' EXIT
+jq -n -cS \
+  --arg own "$CODEX_THREAD_ID" \
+  --arg root "$FUM_ROOT_UUID" \
+  --arg baseRaw "$FUM_BASE_RAW_SHA" \
+  --arg model "$FUM_MODEL" \
+  --arg effort "$FUM_EFFORT" \
+  --arg author "FUM Codex [$FUM_MODEL; effort=$FUM_EFFORT]" \
+  --arg templatePath "$FUM_TEMPLATE" --arg templateSHA "$FUM_TEMPLATE_SHA" \
+  --arg recipePath "$FUM_RECIPE_PATH" --arg recipeSHA "$FUM_RECIPE_SHA" \
+  --arg provenancePath "$FUM_PROVENANCE_PATH" --arg provenanceSHA "$FUM_PROVENANCE_SHA" \
+  --arg sourceACTPath "$FUM_SOURCE_ACT" --arg sourceACTSHA "$FUM_SOURCE_ACT_SHA" \
+  --arg authorReceiptPath "$FUM_AUTHOR_RECEIPT" --arg authorReceiptSHA "$FUM_RECEIPT_SHA" \
+  --arg grantPath "$FUM_GRANT_PATH" --arg grantSHA "$FUM_GRANT_SHA" \
+  --arg grantBytes "$FUM_GRANT_BYTES" \
+  --arg outputPath "$FUM_OUTPUT_JSON" --arg outputSHA "$FUM_OUTPUT_SHA" \
+  --arg messagePath "$FUM_MESSAGE_FILE" --arg messageSHA "$FUM_MESSAGE_SHA" \
+  --arg jqVersion "$FUM_JQ_VERSION" '
+  {
+    schema: "fum.names.metadata-output-receipt.v2",
+    base: {
+      oid: "12d79d197bd5b9fc2ec454649a07a908e6a68c0c",
+      rawCommitSHA256: $baseRaw,
+      rawCommitSHA256Comparison: "matches pinned publishedCommit.rawCommitSHA256; Git object was not reread"
+    },
+    actor: $own,
+    root: $root,
+    author: {name: $author, model: $model, reasoning_effort: $effort},
+    inputs: {
+      template: {path: $templatePath, sha256: $templateSHA},
+      recipe: {path: $recipePath, sha256: $recipeSHA},
+      provenance: {path: $provenancePath, sha256: $provenanceSHA},
+      correctionACT: {path: $sourceACTPath, sha256: $sourceACTSHA},
+      terminalReceipt: {path: $authorReceiptPath, sha256: $authorReceiptSHA},
+      grant: {path: $grantPath, bytes: ($grantBytes | tonumber), sha256: $grantSHA}
+    },
+    output: {
+      json: {path: $outputPath, sha256: $outputSHA},
+      message: {path: $messagePath, sha256: $messageSHA}
+    },
+    tooling: {
+      jq: $jqVersion,
+      swift: "not-run",
+      swiftpm: "not-run",
+      compiler: "not-run",
+      tests: "not-run",
+      cli: "not-run",
+      runtime: "not-run",
+      database: "not-run",
+      git: "not-run"
+    },
+    delivery: {sourceACK: "pending", commit: "not-run", push: "not-run"},
+    status: "prepared-private-artifacts-only"
+  }
+' > "$FUM_RECEIPT_TMP"
+test ! -e "$FUM_OUTPUT_RECEIPT"
+jq -e 'type == "object" and .schema == "fum.names.metadata-output-receipt.v2"' "$FUM_RECEIPT_TMP" >/dev/null
+mv "$FUM_RECEIPT_TMP" "$FUM_OUTPUT_RECEIPT"
+FUM_RECEIPT_TMP=
+shasum -a 256 "$FUM_TEMPLATE" "$FUM_RECIPE_PATH" "$FUM_PROVENANCE_PATH" \
+  "$FUM_SOURCE_ACT" "$FUM_AUTHOR_RECEIPT" "$FUM_GRANT_PATH" \
+  "$FUM_OUTPUT_JSON" "$FUM_MESSAGE_FILE" "$FUM_OUTPUT_RECEIPT"
+
+Единственный вызов коммита
+===========================
+
+Коммит не запускается при подготовке этих частных файлов. Только после нативного
+source ACK, точной проверки diff/index, подтверждения свежего известного автора и
+предварительной сверки публикации отдельно выполнить:
+
+test "${FUM_SOURCE_ACK-}" = ACK
+if ! FUM_COMMIT_AUTHOR_NAME="$(jq -er '.environment.GIT_AUTHOR_NAME' "$FUM_OUTPUT_JSON")"; then
+  exit 1
+fi
+if ! FUM_COMMIT_MESSAGE="$(jq -er '.message' "$FUM_OUTPUT_JSON")"; then
+  exit 1
+fi
+if ! FUM_COMMIT_MESSAGE_FILE="$(cat "$FUM_MESSAGE_FILE")"; then
+  exit 1
+fi
+test -n "$FUM_COMMIT_AUTHOR_NAME"
+test -n "$FUM_COMMIT_MESSAGE"
+test "$FUM_COMMIT_AUTHOR_NAME" = "FUM Codex [$FUM_MODEL; effort=$FUM_EFFORT]"
+test "$FUM_COMMIT_MESSAGE" = "$FUM_COMMIT_MESSAGE_FILE"
+GIT_AUTHOR_NAME="$FUM_COMMIT_AUTHOR_NAME" \
+GIT_AUTHOR_EMAIL='fum@local' \
+GIT_COMMITTER_NAME='FUM' \
+GIT_COMMITTER_EMAIL='fum@local' \
+git commit --cleanup=verbatim --file "$FUM_MESSAGE_FILE"
+
+После коммита выполнить точное чтение сырого объекта и дерева, проверить
+author/committer, русский subject/body и последний ROOT trailer. Только затем
+обычной точной отправкой передать новый OID в одноимённую ветку и независимо
+сверить OID через ls-remote. Не повторять commit/push 12d.
+
+Ограничение результата
+======================
+
+Этот рецепт задаёт формирование сообщения только для исходного checkpoint.
+Он не доказывает запуск Swift-форматтера, сборку Swift, проверку нормализатора,
+среду выполнения, фактическое применение или ROOT acceptance.

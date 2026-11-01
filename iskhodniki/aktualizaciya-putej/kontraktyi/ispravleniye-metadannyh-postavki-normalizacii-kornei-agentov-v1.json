@@ -1,0 +1,53 @@
+{
+  "schema": "fum.names.add-only-metadata-correction-provenance.v1",
+  "publishedCommit": {
+    "oid": "12d79d197bd5b9fc2ec454649a07a908e6a68c0c",
+    "tree": "76059361633f7576a8ef9ff458351e2547f747a5",
+    "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "rawCommitSHA256": "cc8158781936b5d7a7993149d83d663000f7adc73d1e5eb921e812f18903a8dc",
+    "author": {
+      "name": "FUM Codex (GPT-6; variant/effort UNKNOWN)",
+      "email": "fum@local",
+      "modelAndEffort": "UNKNOWN_NOT_OBSERVED_FOR_HISTORICAL_COMMIT"
+    },
+    "committer": {
+      "name": "FUM",
+      "email": "fum@local"
+    },
+    "subject": "V3: add roots normalizer CLI and Segment checkpoint adapter",
+    "body": [
+      "Wire the source-only normalizer, CLI and existing Segment adapter.",
+      "Fix operation identity and resume ordering, bounded stdout, and physical storage boundary checks.",
+      "Expose the checkpoint intention initializer across the backend and CLI module boundary.",
+      "Package wiring remains a proposal; no SwiftPM, compiler, test, CLI or runtime execution was performed."
+    ],
+    "trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "publication": "Обычная отправка создала ветку; независимое чтение удалённой ссылки подтвердило этот OID. Коммит сохранён без переписывания."
+  },
+  "formationOrigin": {
+    "surface": "functions.exec",
+    "sourceOrdinal": 17275,
+    "program": "Однократный inline JavaScript вызов, собравший строку команды в переменной const cmd и передавший её в tools.exec_command.",
+    "messageSource": "Английские subject/body были заданы буквальными аргументами -m.",
+    "rootInstructionSourceRole": "agent-root",
+    "rootInstructionSource": "Точное значение поля RootInstruction в correction ACT, предоставленном agent-root; это не human RAW.",
+    "authorSource": "GIT_AUTHOR_NAME был явно задан строкой FUM Codex (GPT-6; variant/effort UNKNOWN); точные model/effort исторического автора не наблюдались.",
+    "effect": "Создан и опубликован коммит 12d с полезными исходниками нормализатора. Исправление добавляется отдельным коммитом."
+  },
+  "correction": {
+    "mode": "add-only",
+    "baseCommit": "12d79d197bd5b9fc2ec454649a07a908e6a68c0c",
+    "templatePath": "iskhodniki/aktualizaciya-putej/kontraktyi/shablon-metadannyh-kommitov-normalizacii-kornei-agentov-v1.json",
+    "templateSHA256": "a70fdc202d3951749f22f90225c4ba0458f3ba9ae78b8e0b4238d0e44755e1f6",
+    "recipePath": "iskhodniki/aktualizaciya-putej/kontraktyi/retsept-formirovaniya-metadannyh-normalizacii-kornei-agentov-v1.txt",
+    "recipeSHA256": "eb25494d8cee900b136db61338070c6ba7d79d4ea3594fb0a9d05688a7fb87da",
+    "historyRewrite": "Запрещено; не выполнять amend, rebase, force или delete.",
+    "authorRule": "Только отдельное свежее известное наблюдение собственного потока. Оно не подтверждает историческое авторство 12d.",
+    "scope": "Три новых файла метаданных; шесть проверенных файлов нормализатора, CLI, адаптера и фикстуры, а также прежние снимки профиля и поставки сохраняются."
+  },
+  "residue": [
+    "Точные model и effort исторического автора 12d остаются UNKNOWN.",
+    "Компилятор, SwiftPM, тесты, CLI, runtime и реальное применение нормализатора не запускались.",
+    "Полная ROOT-приёмка не установлена."
+  ]
+}
