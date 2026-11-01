@@ -29,6 +29,16 @@
     "author": "FUM Codex [gpt-6-luna; effort=low] <fum@local>",
     "committerMetadata": "ошибочное имя --get-regexp; не публиковать как финальную доставку; correction add-only"
   },
+  "коррекцияИДоставка": {
+    "commit": "de3fc98ccff7ef026c7add90aa349106bd7f4cf4",
+    "tree": "2b77dc7bc710e89f830336880eb3ff8a66da6aaa",
+    "parent": "45bbbd1cfcc596c929351a578b7eead9539d0677",
+    "author": "FUM Codex [gpt-6-luna; effort=low] <fum@local>",
+    "committer": "FUM <fum@local>",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+    "remoteLsRemote": "de3fc98ccff7ef026c7add90aa349106bd7f4cf4",
+    "доставка": "обычный точный push подтверждён; этот commit сохраняет source tree и add-only provenance correction"
+  },
   "разрешённыйDiff": {
     "PackageSwift": [
       "Добавить deskriptor-zhiznennogo-cikla.swift в sources существующего target МатериализацияУзлов.",
@@ -44,7 +54,7 @@
     "callerStorageWiring": "SOURCE_ONLY_CALLER_NOT_WIRED; only injected persist+reopen contract, no backend implementation",
     "compilerИTests": "NOT_RUN по прямому поручению",
     "hooksCallbacksPublisherAutofollowup": "не включать и не запускать",
-    "доставка": "Только обычный точный push собственного commit в собственный ref после raw readback."
+    "доставка": "Обычный точный push de3fc98ccff7ef026c7add90aa349106bd7f4cf4 подтверждён независимым ls-remote; ROOT acceptance отдельно."
   },
   "предыдущийSourceAPI": [
     "ДескрипторЖизненногоЦиклаУзла.проверитьСвязность()",
@@ -60,5 +70,5 @@
     "Обновить этот этапный отчёт фактическим остатком без запуска compiler/tests/hooks.",
     "Перед commit повторно наблюдать разрешённые поля requestMeta, проверить author/committer/ref/base/status и доставить только exact OID в свою ветку."
   ],
-  "статус": "источник подготовлен; compiler/tests NOT_RUN; SOURCE_ONLY_CALLER_NOT_WIRED"
+  "статус": "доставлено в собственный ref; compiler/tests NOT_RUN; SOURCE_ONLY_CALLER_NOT_WIRED; ROOT acceptance UNKNOWN"
 }
