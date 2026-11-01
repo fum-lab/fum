@@ -66,5 +66,135 @@
     "ожидаемыйВнешнийКонструктор": "Компиляция независимого Swift-модуля без @testable должна отказать: конструктор внутренний; публичный запрос возвращает UNKNOWN.",
     "командаВнешнихОтказов": "После сборки harness сохранить каждый точный исходник проверки как UTF-8 файл и отдельно выполнить: swiftc -typecheck -I <каталог-собранного-модуля-FactoryKernel> <файл-исходника>. Без @testable ожидается exit 1 и internal protection level. Каталог и имена временных файлов предоставляются вызывающим.",
     "историческиеПрогоны": "Ранние диагностические варианты, приватные исходники и неполные ошибки сохранены как история, не как воспроизводимый актуальный gate; актуальные исходники, фикстура, harness и параметры указаны отдельно."
+  },
+  "приёмОграниченногоИндекса": {
+    "состояние": "Предлагаемая каноническая проекция прежнего GREEN; исходники ещё не сохранены в checkout. ROOT отдельно подтвердил сборку, три pure PASS и один фактический consumer PASS.",
+    "видВхода": "прототип-индекса-объектов-Git",
+    "статусКонтракта": "пример; общий машинный контракт не утверждён",
+    "источникИндекса": {
+      "коммитДокумента": "88396b09edeae2045dd5e7642025c9f304072eee",
+      "путь": "indeksyi/562daeda61e72ff8d243581d452959fbccee297c.json",
+      "blob": "9568f3f3a7902a429577b6be4a06fb1b8b5605d4",
+      "байт": 5257,
+      "SHA256": "9702d8acb4eb08442a23af15446ea7253fd139b0b8c89f4859c0dc39cd39cd8f",
+      "заявленныйКоммит": "2e1904f6094828c73fcf23a185d710a0dc8336ad",
+      "заявленноеДерево": "048ce9d410d59777648c66ceaf1b19655af7fd44",
+      "поддерево": "562daeda61e72ff8d243581d452959fbccee297c",
+      "область": "iskhodniki/perekhod-vetok/fabrika-agentov",
+      "записей": 8,
+      "заявленоБайтБлобов": 108185,
+      "содержимоеБлобовПолучательЧитал": false
+    },
+    "источникПолитики": {
+      "байт": 2543,
+      "SHA256": "22c66f903e267d42f6a47ccf7ef6af3ae9398ce9dbffe67a8f81fb2c73657ef0",
+      "коммит": "df60f239c178a6b3bd9274ce190385089579b706",
+      "дерево": "d8c984cb201d6823ee6a3971f391f2a8624074ca",
+      "происхождение": "Закреплённый исторический внешний вход; его байты не включаются в Git и не создаются заново."
+    },
+    "ожидаемыйИтог": {
+      "verdict": "POLICY_SOURCE_MISMATCH",
+      "policyApplied": false,
+      "разделение": "FS observed, queue planned, consumer processed и semantic mismatch подтверждаются отдельно; не deployed agents."
+    },
+    "пределы": {
+      "индексБайт": 1048576,
+      "политикаБайт": 1048576,
+      "записейМетаданных": 5000,
+      "заявленныхБайтБлобов": 134217728,
+      "файловНаблюдения": 2
+    },
+    "проверки": "RED: три смысловых FAIL и 13 issues до реализации. ROOT получил три pure PASS в запуске с одним отказом фактического метода; фактический метод отдельно прошёл singleton 1 PASS / 0 issues. Единого запуска 4 PASS не было. Suite сериализуется для общего неизменяемого входа и проверки atime поставщика.",
+    "productionCallsite": "ПриёмОграниченногоИндексаФабрики.выполнитьЛокальнуюПроверку в существующем komanda.swift: literal системный provider FS -> каталог из фактической проекции и explicit B/A -> существующий распределитель -> SHA сверка повторно прочитанных байтов -> typed metadata consumer. Без callback/conditional import/direct Git JSON catalog.",
+    "карта": {
+      "B": [
+        "fum-lab",
+        "fum",
+        "instrumentyi",
+        "fabrika-agentov"
+      ],
+      "A": [
+        "fum-lab",
+        "fum",
+        "instrumentyi",
+        "fabrika-agentov",
+        "pokryitiye"
+      ],
+      "привязкиA": [
+        "module-index.snapshot",
+        "policy.snapshot"
+      ],
+      "стоимость": "Фактический singleton: доступно 2 требуемых хэша, расстояние 0, дополнительная передача 0 байт.",
+      "владельцы": "Задаются входами FUM_FACTORY_OWNER_PARENT и FUM_FACTORY_OWNER_SOURCE; привязки каталога являются данными, а не доказательством исполнения дочернего агента."
+    },
+    "пакетСуществующегоHarness": "// swift-tools-version: 6.0\nimport PackageDescription\n\nlet package = Package(\n    name: \"FactoryKernelHarness\",\n    platforms: [.macOS(.v14)],\n    dependencies: [\n        .package(path: \"../../fuma-closure-v1/Packages/КомпозицияНаблюдений\")\n    ],\n    targets: [\n        .target(name: \"FactoryKernel\", dependencies: [\n            .product(name: \"КомпозицияНаблюдений\", package: \"КомпозицияНаблюдений\")\n        ]),\n        .testTarget(name: \"FactoryKernelTests\", dependencies: [\"FactoryKernel\"])\n    ]\n)\n",
+    "границаПакета": "Те же FactoryKernel / FactoryKernelTests, только явная зависимость существующего продукта КомпозицияНаблюдений и macOS14. Новый модуль/target/root Package не создаются.",
+    "поставщик": {
+      "коммит": "9c618e2b0cc6a57edd2b50609cd168e4cd0e029f",
+      "пакетов": [
+        "КомпозицияНаблюдений",
+        "КонтейнерНаблюдений",
+        "Git",
+        "АрхивныйСнимокЗадачи",
+        "СнимокАгентскойЗадачи"
+      ],
+      "файлов": 92,
+      "байт": 877311,
+      "состояние": "Источник 9c immutable; отдельный новый 8e не выбран."
+    },
+    "воспроизведение": {
+      "статус": "DECLARED_NOT_RUN_FROM_CLEAN_CLONE; ROOT проверил прежний приватный GREEN, каноническая проекция ещё не установлена.",
+      "входы": "Чистый FUM clone с exact Git objects собственного source checkpoint, 9c provider и 883 index; внешний policy2543B/22c66... предоставляется отдельно. Его private байты не публикуются.",
+      "структура": "В собственном приватном scratch: postimages-green-v1/harness и fuma-closure-v1/Packages/{5 имён}. Сохранённый Package имеет точную локальную зависимость ../../fuma-closure-v1/Packages/КомпозицияНаблюдений.",
+      "исходники": "Пять существующих iskhodniki/perekhod-vetok/fabrika-agentov/*.swift и существующий proverki/.../proverki.swift из проверяемого source checkpoint; provider paths извлекаются из pinned9c Git tree, без изменённого checkout.",
+      "сборка": "Pinned Swift build --build-tests --package-path <harness> --scratch-path <owned>/build --cache-path <owned>/cache --config-path <owned>/config --security-path <owned>/security --jobs 1 --sdk <pinned MacOSX.sdk> --triple arm64-apple-macosx14.0 -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors -Xswiftc -enable-actor-data-race-checks -Xswiftc -j1. Отдельные exact R/M/START и D6.",
+      "runtime": "Прямой закреплённый swiftpm-testing-helper с фактическим MH_BUNDLE, --skip-build, --disable-xctest --enable-swift-testing и --testing-library swift-testing. Для трёх pure методов и фактического метода нужны отдельные точные программы выбора; не объявлять раздельные результаты единым запуском 4 PASS. Env-i с закреплёнными DYLD, FUM_FACTORY_INPUT_ROOT, FUM_FACTORY_OWNER_PARENT и FUM_FACTORY_OWNER_SOURCE. Входы должны быть строго внутри физического временного корня, допускаемого FileManager.default.temporaryDirectory поставщика. Одного значения TMPDIR и нахождения payload внутри него недостаточно: такой вариант уже дал известный отказ. Успешный отдельный запуск использовал собственный свежий scratch внутри нативного OS temp; точное значение Foundation API в том процессе отдельно не измерялось.",
+      "результат": "Фактический метод печатает одну ограниченную строку ПРИЁМ-МЕТАДАННЫХ-ИНДЕКСА с идентификатором наблюдения, файлами, каталогом, очередью и семантическим результатом. Квитанция ROOT связывает фактический вывод с известным исходом; новые исполнения требуют собственного точного допуска."
+    },
+    "остаток": "Отдельный точный допуск на каноническое сохранение и публикацию; воспроизведение из чистого клона не выполнено. Полное дерево 8.4 МБ не наблюдалось, содержимое восьми индексированных blob потребитель не читал. Общий контракт индекса остаётся прототипом. Полный профиль, Python и ROOT RAW исключены или UNKNOWN; не GREEN. Установленная активация и исполнение дочерних агентов не доказаны.",
+    "наблюдённыйИтог": {
+      "исполнитель": "ROOT; идентификаторы владельцев B/A в каталоге — данные назначения",
+      "сборка": {
+        "exit": 0,
+        "методовИсполнено": 0,
+        "квитанцияSHA256": "224b88484412896e8c637962d609e6b9a1a214f1cef53c44c6470f5d22d8f53f"
+      },
+      "pure": {
+        "PASS": 3,
+        "источник": "Первый запуск четырёх методов: 3 PASS, 1 FAIL, 1 issue"
+      },
+      "фактическийПотребитель": {
+        "PASS": 1,
+        "suite": 1,
+        "issues": 0,
+        "времяМетодаСекунд": 0.006,
+        "файлов": 2,
+        "байт": 7800,
+        "fsObserved": true,
+        "queuePlanned": true,
+        "consumerProcessed": true,
+        "verdict": "POLICY_SOURCE_MISMATCH",
+        "policyApplied": false,
+        "содержимоеБлобовПерепроверено": false
+      },
+      "единыйЗапуск4PASS": false,
+      "известныеОтказы": [
+        "Первый layout: payload рядом с env TMPDIR, .недопустимыйИсточник.",
+        "Второй layout: payload внутри env TMPDIR, .недопустимыйИсточник; нативный временной корень Foundation не был доказан."
+      ],
+      "квитанцияSHA256": "f3192edf082b2f592f5209859275d7ea3c79d9e1fd71427b67adfd3837f8be06",
+      "независимыйACKSHA256": "f114cd7806f6e1987dd91427971521bc90bd162d3fe668e5b1ad05657c45a683",
+      "ограничения": "Не доказывает развёртывание, дочернее исполнение, полное дерево, чтение восьми blob, устойчивый benchmark или полную приёмку."
+    },
+    "решениеПоОптимизации": "Изменение алгоритма потребителя не требуется в этом этапе: ограниченный функциональный случай обработал два файла общим размером 7800 байт за заявленные методом 0.006 с; узкое место не установлено. Один диагностический запуск не является устойчивым benchmark."
+  },
+  "историяПодготовкиПриёма": {
+    "state": "Исторический RED до реализации: три FAIL / 13 issues; исходная приватная запись сохранена отдельно.",
+    "source": "Прежний приватный GREEN получен после известного RED; канонический checkout остаётся на 85e99b19646d6997ffa3d48302b94fc13ad8326f.",
+    "kind": "Restricted prototype indexmetadata+historicalpolicy",
+    "expectedVerdict": "POLICY_SOURCE_MISMATCH",
+    "policyApplied": false,
+    "TDD": "Компилируемый NOT_IMPLEMENTED дал три смысловых FAIL; затем реализация сохранила эти проверки и добавила фактический FUMA callsite. Последующие результаты указаны отдельно в приёмОграниченногоИндекса.",
+    "harness": "Latest parent acceptedexistingFactoryKernelHarness route: same2targets + literalexistingComposition productdependency from immutable9c; platforms macOS14 matchesdependency. NoCLI-onlylink/newmodule/newtarget/rootPackage."
   }
 }
