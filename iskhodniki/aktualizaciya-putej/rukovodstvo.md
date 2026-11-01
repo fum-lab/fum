@@ -60,7 +60,7 @@ env FUM_PROFILE_ROOT="$(pwd -P)" FUM_PROFILE_OUT="$профиль/замеры.j
     "корень": "узел/репозиторий/направление",
     "владелец": "UUID-исполнителя",
     "писатель": "UUID-исполнителя",
-    "целевая_ветка": "refs/heads/codex/example",
+    "целевая_ветка": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi/master",
     "ветки": [],
     "занятые_пути": []
   },
