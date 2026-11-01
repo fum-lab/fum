@@ -1,6 +1,13 @@
 {
   "schema_version": "fum.swarm-funnel-evidence.1",
   "captured_at_utc": "2026-11-01T10:10:46Z",
+  "accepted_source_transition": {
+    "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "mergeC": "NO_OP_ALREADY_ANCESTOR",
+    "result": "The accepted source C is already an ancestor of this worktree HEAD; no merge or empty commit was needed.",
+    "leftover": "The funnel evidence file remains an untracked source artifact for parent review; no commit or push was made."
+  },
   "privacy": {
     "private_thread_ids_omitted": true,
     "local_paths_omitted": true,
