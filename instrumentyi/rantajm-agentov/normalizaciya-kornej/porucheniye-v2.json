@@ -42,18 +42,21 @@
       "files": [
         {
           "path": "Package.swift",
-          "bytes": 4492,
-          "sha256": "0bdf70584ef1cd551479f12a8bbfd72e512fb99c5e3b24ea847e2c8664181b19"
+          "bytes": 5450,
+          "sha256": "0bdf70584ef1cd551479f12a8bbfd72e512fb99c5e3b24ea847e2c8664181b19",
+          "blob": "2b425f9e2a729ded4d089c5bb4a03517830a710d"
         },
         {
           "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Package.swift",
-          "bytes": 1499,
-          "sha256": "634b7b86f1be069d59f3aa6c7a7a55c2d0f0f6e473b5d9a97fc30ff430857400"
+          "bytes": 1911,
+          "sha256": "634b7b86f1be069d59f3aa6c7a7a55c2d0f0f6e473b5d9a97fc30ff430857400",
+          "blob": "3e5a0d31ef3bd712a0238996379dfc18eec44fe7"
         },
         {
           "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/cikl-nablyudenij-sostoyaniya.swift",
-          "bytes": 6024,
-          "sha256": "c14ba6fdccd305026d9614e1399121f1867ff25d8cd9bb9d64cde6f30b4a4ab4"
+          "bytes": 9071,
+          "sha256": "c14ba6fdccd305026d9614e1399121f1867ff25d8cd9bb9d64cde6f30b4a4ab4",
+          "blob": "adcb712cc11a708ebbaad22a0f68ce3386f23f75"
         }
       ],
       "product": "АктуализацияПутей existing library/target already exported",
@@ -117,5 +120,11 @@
     "bytes": 8977,
     "sha256": "ef31fc5526965fdb08fe55d00aac7f1adf95718dcc4226ead1d8dbda62c1d591"
   },
-  "уточнениеROOT": "Оба занятых файла Composer остаются у текущего FS-владельца FUMA. Root library product уже готов в fa741, не дублировать. Wiring ребёнок готовит отдельный typed phase/API/fixture/patch и передаёт через Tools → ROOT → FUMA."
+  "уточнениеROOT": "Оба занятых файла Composer остаются у текущего FS-владельца FUMA. Root library product уже готов в fa741, не дублировать. Wiring ребёнок готовит отдельный typed phase/API/fixture/patch и передаёт через Tools → ROOT → FUMA.",
+  "исправлениеPins": {
+    "основание": "Аддитивное исправление байтовых размеров после raw Git readback; прежний коммит сохраняется.",
+    "предыдущийКоммит": "c59ccb77550bddd0e5f9775db87e10009b91f8f5",
+    "ошибка": "String.length считала UTF-16 code units вместо исходных UTF-8 байтов; SHA256 не менялись.",
+    "исправление": "bytes вычислены по Buffer исходных blob; добавлены exact Git blob OID."
+  }
 }
