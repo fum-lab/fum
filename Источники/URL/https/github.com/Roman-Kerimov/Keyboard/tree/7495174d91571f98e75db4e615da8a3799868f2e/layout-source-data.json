@@ -576,49 +576,67 @@
   "schema" : "fum.keyboard-layout-source-data.1",
   "source_blobs" : [
     {
+      "byte_count" : 3512,
       "git_blob" : "1f5e6e0451e318900fea8095852c45e7aabc49ae",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayout.swift",
-      "role" : "common-layout-model"
+      "role" : "common-layout-model",
+      "sha256" : "fd2b122a2c7bc0eeaa2f780f03656976dbf45f54e67b5915220a18c4105899ff"
     },
     {
+      "byte_count" : 9791,
       "git_blob" : "8f5b579c243647927491d5bbebb69ebc1b7384da",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/Key.swift",
-      "role" : "physical-keyboard-grid-and-keycodes"
+      "role" : "physical-keyboard-grid-and-keycodes",
+      "sha256" : "70b1ce25c48e78b98fbe02c8011e98f37650a7730f087d5b629d9dfd658f4018"
     },
     {
+      "byte_count" : 288,
       "git_blob" : "49c053d1aaf344d656891e11740a6b5b797e22e3",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.allLayouts.swift",
-      "role" : "ordered-layout-list"
+      "role" : "ordered-layout-list",
+      "sha256" : "e3b6d7db124e9eb8d62fca0cab924e04bc29b472f5657c2af0b40274550d17bc"
     },
     {
+      "byte_count" : 500,
       "git_blob" : "ff1b63ad67d5a7548e408920500d8bf8464c8669",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qwerty.swift",
-      "role" : "layout-components"
+      "role" : "layout-components",
+      "sha256" : "d51afb406a75974713e75fa80cbdd3eb3826b5ec4b6cb8ae77e89de45a5a5c6e"
     },
     {
+      "byte_count" : 523,
       "git_blob" : "2243d11d66652689bc24b52e367d85575dc5e15c",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.dvorak.swift",
-      "role" : "layout-components"
+      "role" : "layout-components",
+      "sha256" : "372fea06e1c5c15618e080cd17cbb8e916a0aee4b59bfe89e64a49a2a49dac1b"
     },
     {
+      "byte_count" : 517,
       "git_blob" : "38793d6fd5042ccb20c0b4cbc4ae0aa7162b6d9a",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.colemak.swift",
-      "role" : "layout-components"
+      "role" : "layout-components",
+      "sha256" : "5434ab8970aa329b2b07a6c8fb0a8d4f1f40b6d987e01a6f4d0f2b31ff210e99"
     },
     {
+      "byte_count" : 532,
       "git_blob" : "4509f2e53bf3d7875af430efc11cfe490ab71b82",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.azerty.swift",
-      "role" : "layout-components"
+      "role" : "layout-components",
+      "sha256" : "2cb8121f650daaa3434bef8e789d61e649c56a5fc28dee478d4208b0a89fee3f"
     },
     {
+      "byte_count" : 517,
       "git_blob" : "8aa04f31ddec20796faa16d250311ee4431fc23d",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qwertz.swift",
-      "role" : "layout-components"
+      "role" : "layout-components",
+      "sha256" : "350c2362332d085bb6fe767d425d497fdcd01c0ca6eb4b19ba7508512072a166"
     },
     {
+      "byte_count" : 514,
       "git_blob" : "e1f8363f85667a02b0c733e31fd90118bdfa2a2d",
       "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qzerty.swift",
-      "role" : "layout-components"
+      "role" : "layout-components",
+      "sha256" : "078586c36c6ced3bc6f524fec3f67a4dba28ff33c08033e85992e4d11cdd41bb"
     }
   ],
   "upstream" : {

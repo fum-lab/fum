@@ -3,6 +3,7 @@
   "managed_files": [
     "build-layout-source-data.swift",
     "extraction-report.md",
+    "keyboard-layout-components.json",
     "layout-source-data.json",
     "snapshot-manifest.json",
     "source-files/KeyboardModule/Sources/KeyboardModule/Key.swift",
