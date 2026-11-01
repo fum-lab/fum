@@ -1,0 +1,41 @@
+{
+  "схема": "fum.происхождение-видимых-команд.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "начальный_индекс": 664,
+  "сообщения": [
+    {
+      "экземпляр": "19497ab5458bd884dc71cd6cfab0cb8366e4d98ffcc5de640e8159dd81cc4051",
+      "позиция": {
+        "начало": 1469423684,
+        "конец": 1469424137,
+        "sha256": "c6a35b404cb537beebd511b84c927db4f52224d3f08e0571306f19e544f7320c"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Sobirayeshjsya sistemno popravitj etu problemu s zatyagivaniyem kommita?\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cbba-05c1-7940-ada3-fcc284622391",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Sobirayeshjsya sistemno popravitj etu problemu s zatyagivaniyem kommita?\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790124361.153499,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    }
+  ]
+}

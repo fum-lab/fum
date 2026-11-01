@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -24,6 +25,9 @@ def проверить(бинарник: Path, корень: Path) -> dict:
             "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений"]:
         путиИсходников.extend(sorted((корень / каталогИсходников).rglob("*.swift")))
     исходники = {str(путь.relative_to(корень)): hashlib.sha256(путь.read_bytes()).hexdigest() for путь in путиИсходников}
+    проект = (корень / "Приложения/FUMA/macOS/FUM.xcodeproj/project.pbxproj").read_text()
+    идентификаторы = re.findall(r"(?m)^\s*([A-F0-9]{24})\s+(?:/\*.*?\*/\s+)?=\s*\{\s*isa\s*=", проект)
+    assert len(идентификаторы) == len(set(идентификаторы)), "Повтор идентификатора объекта Xcode"
     исходные = {str(путь.relative_to(корень)): hashlib.sha256(путь.read_bytes()).hexdigest()
         for путь in [определение, фикстура]}
     with tempfile.TemporaryDirectory(prefix="fuma-оператор-") as временный:
@@ -51,7 +55,7 @@ def проверить(бинарник: Path, корень: Path) -> dict:
                 return None
             if "--профиль" in параметры:
                 метки = [json.loads(строка) for строка in процесс.stderr.splitlines()]
-                assert {"вход", "декодирование", "исполнение", "сохранение"} <= {метка["стадия"] for метка in метки}
+                assert {"вход", "сохранение-исходных-байтов", "декодирование", "исполнение", "сохранение"} <= {метка["стадия"] for метка in метки}
                 assert all(метка["наносекунды"] >= 0 and метка["исход"] == "успешно" for метка in метки)
                 измерения.append({"процесс_наносекунды": длительность, "метки": метки})
             else:
@@ -104,20 +108,39 @@ def проверить(бинарник: Path, корень: Path) -> dict:
         вход.write_bytes(фикстура.read_bytes())
         файл.write_bytes(определение.read_bytes())
         прежде = сегмент.read_bytes()
+        тождество = корень / "Приложения/FUMA/macOS/Операторы/тождество-байтов.json"
+        исходные[str(тождество.relative_to(корень))] = hashlib.sha256(тождество.read_bytes()).hexdigest()
+        файл.write_bytes(тождество.read_bytes())
+        байты = bytes(range(256))
+        вход.write_bytes(байты)
+        тождественный = запуск([*байтовыеАргументы, "--источник-входа", "LLM"])
+        assert тождественный["наблюдение"]["результат"] == {"тип": "байты", "значение": list(байты)}
+        вход.write_bytes(фикстура.read_bytes())
+        файл.write_bytes(определение.read_bytes())
+        прежде = сегмент.read_bytes()
         запуск([*аргументы, "--request-permissions"], успех=False)
         запуск([*аргументы, "--permission-status"], успех=False)
         запуск([*аргументы, "--вход", str(вход)], успех=False)
         запуск(["--повторить-оператор", "нет-такой-записи", "--журнал", str(журнал)], успех=False)
+        assert сегмент.read_bytes() == прежде
+
+        def отказСодержимогоСохраняетИсходники() -> None:
+            прежние = сегмент.read_bytes()
+            запуск(аргументы, успех=False)
+            текущие = сегмент.read_bytes()
+            assert текущие.startswith(прежние) and len(текущие) > len(прежние)
+
         описание = json.loads(определение.read_bytes())
         описание["шаги"][0]["оператор"] = "несуществующий"
         файл.write_text(json.dumps(описание, ensure_ascii=False))
-        запуск(аргументы, успех=False)
+        отказСодержимогоСохраняетИсходники()
         файл.write_bytes(b'{"broken":')
-        запуск(аргументы, успех=False)
+        отказСодержимогоСохраняетИсходники()
         файл.write_bytes(определение.read_bytes())
         вход.write_bytes(b'\xff')
-        запуск(аргументы, успех=False)
+        отказСодержимогоСохраняетИсходники()
         вход.write_bytes(фикстура.read_bytes())
+        прежде = сегмент.read_bytes()
         запуск([*аргументы[:-1], str(корень)], успех=False)
         ссылка = каталог / "ссылка-на-журнал"
         ссылка.symlink_to(журнал, target_is_directory=True)

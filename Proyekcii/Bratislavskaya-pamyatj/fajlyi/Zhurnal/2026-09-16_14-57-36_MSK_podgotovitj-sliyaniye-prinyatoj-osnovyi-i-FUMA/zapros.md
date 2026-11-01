@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 02:50:47 MSK - Splanirovatj vosstanovleniye kontrolya ostatka](../2026-09-16_02-50-47_MSK_splanirovatj-vosstanovleniye-kontrolya-ostatka/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 16:04:00 MSK - Ispravitj proverku shtatnogo udaleniya proyekcii](../2026-09-16_16-04-00_MSK_ispravitj-proverku-shtatnogo-udaleniya-proyekcii/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 14:54:36 MSK - Zakrepitj strategiyu snizheniya usilij modeli](../2026-09-16_14-54-36_MSK_zakrepitj-strategiyu-snizheniya-usilij-modeli/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 15:06:43 MSK - Sokhranitj proverennyiye postavki](../2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -72,6 +72,6 @@ Koordinator soglasoval odno otdeljnoye sliyaniye: M=9efd84ded4e0f47b47aaac4a7464
 - [Pozdnij dialog](materialyi/pozdnij-dialog.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
-<!-- content-sha256: sha256:00d64f0cff1699e34e57c985e2f2e2bedb9987bb14a859c8fdc5b295f91438a4 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:7047012dbcfc8c674dc78cdc7e97a48eafc191f6c0908360aff06f16fbd148bd -->
 <!-- FUM-MD-RECENCY:END -->

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from urllib.parse import urlsplit
 
 
 WEB_URL_RE = re.compile(
@@ -114,6 +115,33 @@ def _posix_kind(value: str) -> str:
     return "posix-absolute"
 
 
+def _конец_веб_шаблона(текст: str, совпадение: re.Match[str]) -> int:
+    """Расширить только полный именованный хвост HTTP(S)-адреса."""
+    конец = совпадение.end()
+    if (конец == len(текст) or текст[конец] != "{"
+            or совпадение.group("scheme").casefold() not in {"http", "https"}):
+        return конец
+    граница = конец
+    while (граница < len(текст) and not текст[граница].isspace()
+            and текст[граница] not in "<>[]\"'"):
+        граница += 1
+    if re.fullmatch(r"(?:\{/[A-Za-z_][A-Za-z0-9_]*\})+", текст[конец:граница]) is None:
+        return конец
+    try:
+        адрес = urlsplit(совпадение.group(0))
+        if not адрес.netloc or not адрес.hostname:
+            return конец
+        if re.fullmatch(
+            r"(?:[A-Za-z0-9._~!$&'()*+,;=:@\[\]-]|%[0-9A-Fa-f]{2}|[^\x00-\x7f])+",
+            адрес.netloc,
+        ) is None:
+            return конец
+        адрес.port
+    except ValueError:
+        return конец
+    return граница
+
+
 def detect_path_forms(
     text: str,
     *,
@@ -127,16 +155,17 @@ def detect_path_forms(
     for match in WEB_URL_RE.finditer(text):
         scheme = match.group("scheme").casefold()
         kind = "file-uri" if scheme == "file" else "web-url"
+        конец = _конец_веб_шаблона(text, match)
         if kind == "file-uri" or include_web_urls:
             forms.append(
                 PathForm(
                     start=match.start(),
-                    end=match.end(),
+                    end=конец,
                     kind=kind,
-                    value=match.group(0),
+                    value=text[match.start():конец],
                 )
             )
-        occupied.append((match.start(), match.end()))
+        occupied.append((match.start(), конец))
 
     for pattern, kind in (
         (WINDOWS_EXTENDED_UNC_RE, "windows-unc"),

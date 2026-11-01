@@ -45,14 +45,22 @@ final class ПроверкиИсполнения: XCTestCase {
             XCTAssertEqual(наблюдение["хэшНаблюдения"] as? String, повтор["хэшНаблюдения"] as? String)
             let сегмент = try Сегмент(кореньДанных: каталог, запись: false, создать: false)
             defer { сегмент.закрыть() }
-            XCTAssertEqual(сегмент.записи.count, 2)
-            XCTAssertNotEqual(сегмент.записи[0].описание.идентификатор, сегмент.записи[1].описание.идентификатор)
+            let исполнения = сегмент.записи.filter { $0.описание.тип == "исполнение-оператора" }
+            XCTAssertEqual(исполнения.count, 2)
+            XCTAssertNotEqual(исполнения[0].описание.идентификатор, исполнения[1].описание.идентификатор)
             XCTAssertEqual(try сегмент.извлечь(идентификатор),
-                try сегмент.извлечь(сегмент.записи[1].описание.идентификатор))
+                try сегмент.извлечь(исполнения[1].описание.идентификатор))
+            let сырые = сегмент.записи.filter { $0.описание.тип.hasPrefix("сырые-байты/") }
+            XCTAssertEqual(сырые.count, 4)
+            for запись in сырые.suffix(2) {
+                let сведения = try объект(запись.описание.спецификация)
+                XCTAssertEqual(сведения["приём"] as? String, исполнения[1].описание.идентификатор)
+                XCTAssertEqual(сведения["повторЗаписи"] as? String, идентификатор)
+            }
         }
     }
 
-    func testНеизвестныйОператорНеСоздаётИсторию() throws {
+    func testНеизвестныйОператорСохраняетИсходникиБезИсполнения() throws {
         try сКаталогом { каталог, аргументы in
             let файл = каталог.appendingPathComponent("определение.json")
             let текст = try String(contentsOf: файл, encoding: .utf8)
@@ -61,7 +69,10 @@ final class ПроверкиИсполнения: XCTestCase {
             XCTAssertThrowsError(try КомандноеИсполнениеОператора.выполнить(аргументы: аргументы)) {
                 XCTAssertTrue($0 is ОшибкаИсполнения)
             }
-            XCTAssertFalse(FileManager.default.fileExists(atPath: каталог.appendingPathComponent("сегмент.fumobs").path))
+            let сегмент = try Сегмент(кореньДанных: каталог, запись: false, создать: false)
+            defer { сегмент.закрыть() }
+            XCTAssertEqual(сегмент.записи.map(\.описание.тип), ["сырые-байты/вход-оператора", "сырые-байты/определение-оператора"])
+            XCTAssertEqual(try сегмент.извлечь(сегмент.записи[1].описание.идентификатор), try Data(contentsOf: файл))
         }
     }
 
@@ -76,7 +87,7 @@ final class ПроверкиИсполнения: XCTestCase {
             XCTAssertEqual(try Data(contentsOf: файл), прежде)
             let сегмент = try Сегмент(кореньДанных: каталог, запись: false, создать: false)
             defer { сегмент.закрыть() }
-            XCTAssertEqual(сегмент.записи.count, 1)
+            XCTAssertEqual(сегмент.записи.filter { $0.описание.тип == "исполнение-оператора" }.count, 1)
         }
     }
 

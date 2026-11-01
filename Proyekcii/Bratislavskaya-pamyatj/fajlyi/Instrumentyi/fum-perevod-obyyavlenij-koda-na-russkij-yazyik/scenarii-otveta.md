@@ -1,6 +1,6 @@
 # Zakryityij format scenariyev otveta
 
-[Inventarj obyyavlenij](SKILL.md) podderzhivayet chetyire obyichnyikh UTF-8-fajla CommonJS, sokhranyonnyikh v postavke otveta zadachi. Konechnyij nabor polnyikh putej khranitsya v `пути_сценариев` modulya [razbora](scripts/razbor_scenariya.py); [politika proyekcii](../fum-bratislavskaya-proyekciya-pamyati/kontrakt-v2.json) i yeyo skhema povtoryayut etot tochnyij nabor. Simvolicheskaya ssyilka v lyubom komponente puti, inoj registr, vlozhennyij dvojnik i sosednij fajl zakryivayut dopusk. Suffiks `.cjs` sokhranyayetsya otdeljno ot preobrazovaniya osnovyi imeni; bajtyi iskhodnika ne perevodyatsya.
+[Inventarj obyyavlenij](SKILL.md) podderzhivayet pyatj obyichnyikh UTF-8-fajla CommonJS, sokhranyonnyikh v postavke otveta zadachi. Konechnyij nabor polnyikh putej khranitsya v `пути_сценариев` modulya [razbora](scripts/razbor_scenariya.py); [politika proyekcii](../fum-bratislavskaya-proyekciya-pamyati/kontrakt-v2.json) i yeyo skhema povtoryayut etot tochnyij nabor. Simvolicheskaya ssyilka v lyubom komponente puti, inoj registr, vlozhennyij dvojnik i sosednij fajl zakryivayut dopusk. Suffiks `.cjs` sokhranyayetsya otdeljno ot preobrazovaniya osnovyi imeni; bajtyi iskhodnika ne perevodyatsya.
 
 Razbor potreblyayet vesj potok tokenov, vklyuchaya tela vlozhennyikh funkcij, znacheniya po umolchaniyu i obe storonyi vyirazhenij. Uchityivayutsya obyyavleniya `const` i `let`, imena funkcij, parametryi, vlozhennyiye obyyektnyiye i massivnyiye svyazyivaniya, ostatochnyiye parametryi, strelochnyiye funkcii, parametryi `catch`, peremennyiye ciklov, polya obyyektov i imenovannyiye prisvaivaniya. Zapisj soderzhit imya, rolj, klass, istochnik isklyucheniya i koordinatyi v tochnom tekste. CRLF schitayetsya odnim perevodom stroki; CR, LF i oba razdelitelya Unicode zavershayut strochnyij kommentarij.
 
@@ -16,7 +16,7 @@ Vtoroj sintaksicheskij barjyer — otdeljnyij process Node.js s proverkoj Common
 
 Pereimenovaniye podderzhivayet svyazyivaniya s yavnoj kartoj i proverennyim khyeshem. Klyuchi polej, member-dostup, stroki i kommentarii zasjhisjhenyi. Sokrasjhyonnoye svyazyivaniye sokhranyayet iskhodnyij klyuch cherez yavnyij psevdonim. Pereimenovaniye sobstvennyikh polej i sokrasjhyonnyikh vneshnikh polej otklonyayetsya do zapisi: dlya nego nyineshnij razbor ne dokazyivayet vladeljca kazhdogo upotrebleniya. Novyij rezuljtat snova prokhodit oba sintaksicheskikh barjyera.
 
-[Adresnyiye regressii](tests/test_scenarij_otveta.py) proveryayut opasnyiye i dopustimyiye formyi. [Profilj](tests/izmeritj_scenarij_otveta.py) semj raz izmeryayet leksiku, sobstvennyij razbor, polnyij razbor s Node i klassifikaciyu proyekcii na tekh zhe chetyiryokh otkryityikh iskhodnikakh; zatem povtoryayet izmereniye toj zhe realizacii. Stadii perekryivayutsya i ne summiruyutsya. Porog odnogo polnogo obkhoda chetyiryokh fajlov — odna sekunda; profilj ne izmeryayet ispolneniye adaptera ili vsyu proyekciyu repozitoriya.
+[Adresnyiye regressii](tests/test_scenarij_otveta.py) proveryayut opasnyiye i dopustimyiye formyi. [Profilj](tests/izmeritj_scenarij_otveta.py) semj raz izmeryayet leksiku, sobstvennyij razbor, polnyij razbor s Node i klassifikaciyu proyekcii na tekh zhe pyati otkryityikh iskhodnikakh; zatem povtoryayet izmereniye toj zhe realizacii. Stadii perekryivayutsya i ne summiruyutsya. Porog odnogo polnogo obkhoda pyati fajlov — odna sekunda; profilj ne izmeryayet ispolneniye adaptera ili vsyu proyekciyu repozitoriya.
 
 ## Proiskhozhdeniye
 
@@ -24,6 +24,6 @@ Pereimenovaniye podderzhivayet svyazyivaniya s yavnoj kartoj i proverennyim khye
 - [Izmereniya i resheniya etapa](../../Zhurnal/2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 19:41:23 MSK -->
-<!-- content-sha256: sha256:342c807684cf9d20c669c3fd0a03855f31f298158d887ed602b96850023bb888 -->
+<!-- last-content-edit: 2026-09-19 08:45:44 MSK -->
+<!-- content-sha256: sha256:02918d7e66619037666632b79d700b1aac280a4881980fa3abaa09131085929c -->
 <!-- FUM-MD-RECENCY:END -->

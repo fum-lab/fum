@@ -1,0 +1,20 @@
+[
+  {
+    "работа": "FUMA-ПРИНЯТЬ-РЕЕСТР-ФИНАНСИРОВАНИЯ",
+    "основание": {
+      "коммит": "ef93295b4f0c4e66d4ddf8afc1f5be9a6552ec14",
+      "запрос": "Журнал/2026-09-14_23-21-46_MSK_зафиксировать-продолжение-приоритетной-работы/запрос.md",
+      "цитата": "Vtoroj prioritetnoj zadachej paralleljno zapusti poisk dopolniteljnogo finansirovaniya dlya tvoyej rabotyi.\n"
+    },
+    "sha256_запроса": "d184ee3d1049b11958d6e983ceaa111afb71a6ae1582d7816ac6b64a216c63a9"
+  },
+  {
+    "работа": "FUM-ОСТАТОК-РЕЕСТР",
+    "основание": {
+      "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+      "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+      "цитата": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+    },
+    "sha256_запроса": "b9e5907aefb210e3855b3bfb93a217e368a539799b7b710b05d05240fc5f2ae5"
+  }
+]

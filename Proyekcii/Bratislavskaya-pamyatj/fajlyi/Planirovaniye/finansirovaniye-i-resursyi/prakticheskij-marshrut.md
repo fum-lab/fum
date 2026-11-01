@@ -1,5 +1,7 @@
 # Prakticheskij marshrut privlecheniya resursov FUMA
 
+Konkretizaciya na 16 sentyabrya 2026 goda — [tri paketa podderzhki](paketyi-podderzhki.md). Dlya Beget dopolniteljno vyiyavlen zapret torrent-serverov i massovogo rasprostraneniya kontenta; dlya MWS utochnenyi usloviya plateljsjhika i modeljnogo servisa. Privedyonnyij nizhe marshrut sokhranyayet nablyudeniye 15 sentyabrya; tekusjhiye ogranicheniya chitatj vmeste s paketami.
+
 Pervyij rezuljtat — obespechitj ogranichennyij etap otkryitoj razrabotki i izmeritj yego fakticheskiye raskhodyi. Pokupka kompjyutera ne zamenyayet rabochij byudzhet. Na 15 sentyabrya 2026 goda podgotovlenyi tri marshruta bez dolgovogo finansirovaniya i otdeljnoye [sravneniye lizinga i kredita](lizing-i-kredityi.md). Poluchatelj, sobstvennyiye sredstva i dopustimyiye platezhi poka neizvestnyi; zadan odin vopros poljzovatelyu. Sredstva ne poluchenyi, zayavki ne podanyi.
 
 ## Tri blizhajshikh marshruta
@@ -46,6 +48,6 @@ Pered sleduyusjhim vneshnim dejstviyem povtoritj chteniye konkretnoj ofertyi i s
 - [Prezhniye prioritetyi](prioritetyi.md), [reyestr](spisok.md), [proyekt predlozheniya](proyekt-predlozheniya-podderzhki.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 20:34:35 MSK -->
-<!-- content-sha256: sha256:2b5f1d64b5ed260e2cb10e21afa4336b0e6d6c1d3f50e8f284d60723a72dd4b5 -->
+<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
+<!-- content-sha256: sha256:c6b705790f2d2507dbce4257c4eae5eda987113d06fc6fa5292840fe36f7e477 -->
 <!-- FUM-MD-RECENCY:END -->

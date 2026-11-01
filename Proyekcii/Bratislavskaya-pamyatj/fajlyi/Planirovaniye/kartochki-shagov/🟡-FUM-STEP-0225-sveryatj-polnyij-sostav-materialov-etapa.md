@@ -41,7 +41,22 @@ Avtomatizirovatj podgotovku i adresnuyu sverku perechnya zatronutyikh materialov
 
 Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0010` dopolnyayut rannyuyu podgotovku: uchityivatj navigaciyu proshlogo etapa i perenositj tochnyiye katalogi snimkov v dejstvuyusjhij razdel «Povliyal na fajlyi». Ssyilki v «Prikreplyayemyiye materialyi» sami po sebe okhvat ne dayut. Nuzhnyi otricateljnyiye kontroli nepolnogo razdela i polozhiteljnyij tochnyij povtor. [Pervichnyiye svideteljstva i naznacheniye nomerov](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json); [iskhodnyij etap](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/zapros.md).
 
+## Utochneniye po proizvodnomu sostavu finansovogo dopuska
+
+`FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0011` dobavlyayet 96 susjhestvuyusjhikh putej proyekcii i proizvodnyij planovyij reyestr. Rannyaya sverka dolzhna uchityivatj vesj razreshyonnyij fakticheskij Git-perechenj posle generacii, a do dorogogo dopuska — dostupnyij obyyavlennyij sostav i granicyi budusjhego pokoleniya. Obsjhij tekst bez razreshyonnoj Markdown-celi ne dayot pokryitiya. Eto prodolzheniye0004; otsutstvuyusjhaya udalyonnaya celj i aktivnaya ssyilka vne vklyuchyonnogo pokoleniya imeyut otdeljnyiye granicyi. Dopolneniye spiska ne yavlyayetsya sistemnyim ustraneniyem; prezhniye otricateljnyiye scenarii sokhranyayutsya.
+
+## Povtor pri diagnostike priyomok
+
+`FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0012` povtoryayet propusk 33 susjhestvuyusjhikh putej proyekcii posle desyati uspeshnyikh shagov polnogo dopuska. Rannyaya podgotovka dolzhna proveryatj polnyij razreshyonnyij Git-perechenj posle poslednej zapisi; drejf snimka trebuyet novoj sverki. Mestnyij rezuljtat 33 → 0 ne zakryivayet sistemnoye predotvrasjheniye i ne oslablyayet prezhniye otricateljnyiye granicyi.
+
+## Ogranichennyij ispolniteljskij srez
+
+[Rannyaya sverka](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/rannyaya-sverka-materialov.md) sopostavlyayet polnyij fakticheskij Git-sostav s prezhnimi validatorami i nezavisimyimi tochnyimi razresheniyami do globaljnogo obkhoda. Pryamyiye ssyilki tekusjhej paryi, zapret kornya, iskhodnyiye komponentyi symlink i drejf snimka proveryayutsya adresnyimi regressiyami. [Etap realizacii](../../Zhurnal/2026-09-18_11-55-00_MSK_sveryatj-materialyi-etapa-do-priyomki/otchyot.md) sokhranyayet RED/GREEN i parnyij profilj. Prinyatiye dochernego manifesta, avtomaticheskoye obosnovannoye dopolneniye razdela i dopusk budusjhego pokoleniya ostayutsya otdeljnyim ostatkom; kartochka i sistemnyij sboj ne zakryivayutsya. Po pozdnemu resheniyu koordinatora ispolnitelj peredayot proverennuyu kontroljnuyu tochku bez otdeljnoj polnoj priyomki; koordinator provodit obsjhij dokumentacionnyij dopusk posle integracii v fuma.
+
 ## Istochniki
+
+- [Proyavleniye 0012](../../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/vosstanovleniye-okhvata.json).
+
 
 - [FUM-SBOJ-0051/PROYAVLENIYE-0005 i vosstanovleniye tekusjhej paryi](../../Zhurnal/2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/zapros.md).
 
@@ -57,7 +72,9 @@ Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/П
 - Istochnik perenosa `775128491a1b9f9b130bd6946ad2d33fd04dbe51`, SHA-256 `7e98f350cf46ac2cc3239b03ae42edb0b0dfc0b4532096271f3c5057dc0796c2`; prezhniye kriterii i osnovaniya sokhranenyi.
 - [FUM-SBOJ-0051/PROYAVLENIYE-0008](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [naznacheniye i nablyudeniye tekusjhego etapa](../../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md).
 
+- [FUM-SBOJ-0051/PROYAVLENIYE-0011](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [proverennoye nablyudeniye](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-4.json).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:05:56 MSK -->
-<!-- content-sha256: sha256:b047add96e68713cdaada6f938d45ba53ddf28c204432d5ce7e29b42230c6462 -->
+<!-- last-content-edit: 2026-09-18 12:20:28 MSK -->
+<!-- content-sha256: sha256:f128a3d4fde7b79fd4ea0706de1d2114346684ffa9cd72bdc4336f48381e48c1 -->
 <!-- FUM-MD-RECENCY:END -->

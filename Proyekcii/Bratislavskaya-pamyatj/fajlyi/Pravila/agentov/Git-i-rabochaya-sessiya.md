@@ -3,7 +3,7 @@
 Eti pravila polnostjyu chitayutsya do izmeneniya Git-sostoyaniya, podgotovki kommita i lyuboj pishusjhej rabotyi posle vyibora marshruta.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000018 -->
-- Postoyannaya vetka `refs/heads/planirovaniye` prednaznachena dlya soglasovannyikh poljzovatelem planov FUM/FUMA i neobkhodimyikh soprovoditeljnyikh materialov. Yeyo tochnoye imya vyibrano poljzovatelem kak isklyucheniye iz obyichnogo prefiksa `codex/`. Rabota vedyotsya v otdeljnom izolirovannom Git worktree s odnim pisatelem dereva i ref. Soglasovannyiye etapyi fiksiruyutsya posledovateljnyimi proveryayemyimi kommitami po `FUM-ПРАВИЛО-000062`, kazhdyij kommit publikuyetsya po `FUM-ПРАВИЛО-000064`. Priyomka dlya posleduyusjhego sliyaniya i integraciya v `master` vyipolnyayutsya pozdneye po otdeljnomu yavnomu zaprosu poljzovatelya i pravilam prinimayusjhego `master`. Do prinyatoj integracii nastoyasjhaya norma dejstvuyet toljko v `refs/heads/planirovaniye` i ne schitayetsya dejstvuyusjhej v `master`.
+- Postoyannaya vetka `refs/heads/planirovaniye` prednaznachena dlya soglasovannyikh poljzovatelem planov FUM/FUMA i neobkhodimyikh soprovoditeljnyikh materialov. Yeyo tochnoye imya vyibrano poljzovatelem kak isklyucheniye iz obyichnogo prefiksa `codex/`. Rabota vedyotsya v otdeljnom izolirovannom Git worktree s odnim pisatelem dereva i ref. Soglasovannyiye etapyi fiksiruyutsya posledovateljnyimi proveryayemyimi kommitami po `FUM-ПРАВИЛО-000062`, kazhdyij kommit publikuyetsya po `FUM-ПРАВИЛО-000064`. Prinyatyiye rezuljtatyi planirovaniya integriruyutsya v postoyannuyu `fuma`; posleduyusjhaya boleye redkaya postavka v `master` prokhodit otdeljnuyu priyomku po yego dejstvuyusjhim pravilam i yavnomu zaprosu poljzovatelya. [Soglasovannyij poryadok vetok](../../Zhurnal/2026-09-16_13-52-17_MSK_zakrepitj-roli-vetok-i-granicu-paralleljnoj-proverki/zapros.md). Do prinyatoj integracii nastoyasjhaya norma dejstvuyet toljko v `refs/heads/planirovaniye` i ne schitayetsya dejstvuyusjhej v `master`.
 
 Svoyevremennoye obnovleniye postoyannyikh postanovok vyipolnyayetsya po `FUM-ПРАВИЛО-000149`, integraciya vetok — po `FUM-ПРАВИЛО-000064`.
 
@@ -39,6 +39,6 @@ Dlya vyibora roli menyaj toljko `GIT_AUTHOR_NAME`; pered kommitom sravnivaj `git
 - [Postoyannyiye ukazaniya o sliyanii, plane i operatornom prioritete](../../Zhurnal/2026-09-15_20-06-33_MSK_zakrepitj-sliyaniya-i-prioritetyi-planirovaniya/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 20:10:53 MSK -->
-<!-- content-sha256: sha256:5b0a3e3e122fbcf914806cb571d0fa878a3ec81c5a9acd4a1c04e4bb41246a05 -->
+<!-- last-content-edit: 2026-09-16 13:57:40 MSK -->
+<!-- content-sha256: sha256:b4ab20aebf03dd3326174b6ca7d01391161fa3ca6dc3bc85ef02dbfa39fd96d8 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](../2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 02:09:16 MSK - Svyazatj sravneniye modelej s istoriyej obrabotki](../2026-09-16_02-09-16_MSK_svyazatj-sravneniye-modelej-s-istoriyej-obrabotki/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 00:10:13 MSK - Sokhranitj postanovku chipovogo napravleniya](../2026-09-16_00-10-13_MSK_sokhranitj-postanovku-chipovogo-napravleniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 00:55:04 MSK - Prinyatj postanovku chipovogo napravleniya](../2026-09-16_00-55-04_MSK_prinyatj-postanovku-chipovogo-napravleniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -107,6 +107,6 @@ Zaklyuchiteljnaya proverka svyaznosti primenyayetsya s `--контрольная
 - [Proyekciya: tests/fiksturyi/pokoleniye-do-kartyi-avtorov-v2.json](../../Instrumentyi/fum-bratislavskaya-proyekciya-pamyati/tests/fiksturyi/pokoleniye-do-kartyi-avtorov-v2.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
-<!-- content-sha256: sha256:0a6cae341398f2357e86ba55d4276791f9f364093ee6de240b6c1fb57d4cf930 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:51f48fa2a5e654ffca5fab6ea71898673516a9e2e02cf4be8e70527b27d1be79 -->
 <!-- FUM-MD-RECENCY:END -->

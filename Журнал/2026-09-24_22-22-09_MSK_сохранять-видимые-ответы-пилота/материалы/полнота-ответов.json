@@ -1,0 +1,104 @@
+{
+  "state": "сохранены",
+  "count": 9,
+  "source": {
+    "задача": "01a0d4af-b95f-7092-bbdc-3beaad179d16",
+    "граница": 3136789,
+    "sha256": "04911b7e064608c9ee80bad58a1b7fbb69d4b985c55d983cf5a398a58d8362a1"
+  },
+  "uncertainties": [],
+  "duration_ns": 11161208,
+  "report_sha256": "1ec1f13905fd95b551bd66f52ccf2e330e4487e78c1d4a17af8a12ee21ccfe78",
+  "answers": [
+    {
+      "number": 1,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 169987,
+        "конец": 170712,
+        "sha256": "bbfde251ea580e0457bc3e3ff02f23dd85e7b5bc7116356e479cd722fd7a306f"
+      }
+    },
+    {
+      "number": 2,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 1631259,
+        "конец": 1631878,
+        "sha256": "cc9a58303ad5c82abeff1d380f23be8f4eddc62f0e372f28532abb39298c496d"
+      }
+    },
+    {
+      "number": 3,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 1970710,
+        "конец": 1971278,
+        "sha256": "62164baaa29291b3beb2b2cec3983c88c90ed6f1dded18832c6f6e519505f073"
+      }
+    },
+    {
+      "number": 4,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 2221136,
+        "конец": 2222011,
+        "sha256": "5b9750ab9ed8bf22751433db0dff536252015226bcbf962309467080f1461a4c"
+      }
+    },
+    {
+      "number": 5,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 2683164,
+        "конец": 2684029,
+        "sha256": "66adf57722755737f24fb5f4bdcaf2ba39e7fa6eccd3bb22c5c782ff04b21577"
+      }
+    },
+    {
+      "number": 6,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 2790927,
+        "конец": 2791669,
+        "sha256": "4949db852e25c483a95174aacffd828d39aca9a31bcf6f28839e0ac612973a98"
+      }
+    },
+    {
+      "number": 7,
+      "phase": "commentary",
+      "in_report_in_order": true,
+      "source": {
+        "начало": 2983767,
+        "конец": 2984626,
+        "sha256": "11bc106563dbc5d50e05c815f696dc3c362861a2592a607bc5dce6ac53b861fd"
+      }
+    },
+    {
+      "number": 8,
+      "phase": "commentary",
+      "in_report_in_order": false,
+      "source": {
+        "начало": 3108496,
+        "конец": 3109431,
+        "sha256": "666eb114d869bbad334220a96b144b1f756d2a2ef3727e27f6763c8fabba45c2"
+      }
+    },
+    {
+      "number": 9,
+      "phase": "final",
+      "in_report_in_order": false,
+      "source": {
+        "начало": 3131672,
+        "конец": 3133431,
+        "sha256": "523476d8b141cb1efc36ae7113d06992de821ff2d3bee79b627756a383514638"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "schema": "fum.vkhod-jsonl-fuma.source-pins.1",
+  "state": "pre-commit-working-tree",
+  "base_commit": "57e7e2611d57b54f60457a851c0a7c0666ca7d54",
+  "base_tree": "5c04ff85a2d436911931d4d7d69c86ad97c66e50",
+  "branch": "refs/heads/codex/vkhod-jsonl-fuma",
+  "task_spec": {
+    "path": "iskhodniki/zapusk/zhurnal/vkhod-jsonl-fuma.json",
+    "sha256": "e77ff772c35b3b4239877686b85b040d78a35af935b929b7370c13455d2edcd1",
+    "bytes": 12263
+  },
+  "toolchain": {
+    "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)",
+    "target": "arm64-apple-macosx27.0.0",
+    "strict_concurrency": "complete",
+    "actor_data_race_checks": true,
+    "warnings_as_errors": true,
+    "jobs": 2
+  },
+  "swift_package_dependencies": [],
+  "source_files": [
+    {
+      "path": "Прототипы/память-структурирующих-операторов/Package.swift",
+      "sha256": "1dae4bbe38b0963e5507aca80037b98f09a8b28019a0b9e77de04267b6b2050f"
+    },
+    {
+      "path": "Прототипы/память-структурирующих-операторов/README.md",
+      "sha256": "9e6865e2d6c8c40829eb95b71d01b0036d5f49c302d1153832488ccbe8cba511"
+    },
+    {
+      "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/ВходJSONL.swift",
+      "sha256": "aeed21196f20cd987723911e9d386dbf4014b5b91c065c2e8e1ffbbdacad18bd"
+    },
+    {
+      "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json",
+      "sha256": "eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba"
+    },
+    {
+      "path": "Прототипы/память-структурирующих-операторов/proverki/ПроверкиВходаJSONL.swift",
+      "sha256": "ea18af6a81a758b4188b76090cd51f8b85e488a38081bb30445689a7380f2e23"
+    }
+  ],
+  "full_package_tests": {
+    "command": "swift test --package-path Прототипы/память-структурирующих-операторов --scratch-path <private-task-scratch>/green-build --jobs 2",
+    "exit_code": 0,
+    "wall_time_ns": 9229997958,
+    "swift_testing_target": "FUMJSONLProjectionTests",
+    "swift_testing_tests_passed": 7,
+    "xctest_total": 79,
+    "xctest_failures": 0,
+    "xctest_skipped": 1,
+    "xctest_passed": 78,
+    "existing_skip_reason": "The existing scalar-text profile test skips unless separately invoked with its private output setting."
+  },
+  "synthetic_profile": {
+    "path": "Прототипы/память-структурирующих-операторов/zhurnal/vkhod-jsonl-fuma-profile.json",
+    "sha256": "647e54a3b3247f492e91c20e998bfa79d836d35113c0b040045d7726d4505690",
+    "samples": 3,
+    "input_bytes": [118, 122, 169],
+    "interpretation": "Finite synthetic slices only. Nested executor events are marked and are not summed into facade wall time. No large-file or speedup claim."
+  },
+  "markdown_recency_check": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py --check",
+    "exit_code": 1,
+    "reported": [
+      "stale recency index: Индексы/markdown-файлы-по-времени-редактирования.md"
+    ],
+    "scope_decision": "The README marker was updated; the repository-wide index is outside the assigned write paths and was left unchanged."
+  }
+}

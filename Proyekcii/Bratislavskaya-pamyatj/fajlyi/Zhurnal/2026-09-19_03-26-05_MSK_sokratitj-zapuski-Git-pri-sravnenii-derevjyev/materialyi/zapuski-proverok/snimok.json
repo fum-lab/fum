@@ -1,0 +1,39 @@
+{
+  "отпечаток_закрытия": "sha256:2d0cb04d000ee4fc7cba9832e9aee71b29484c9436e4fd54fd8f7e9156b165ab",
+  "сессия": "Журнал/2026-09-19_03-26-05_MSK_сократить-запуски-Git-при-сравнении-деревьев/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "1da1a2d673495aec5ac7b0017181a02cca27b8f67b81aef253986fbd276f3db9",
+      "имя": "1_4f6df92a-cdd8-4f6e-b809-06de52699a4e.json"
+    },
+    {
+      "sha256": "03443dd45c4e4b425e113584fe63c07d50e726b1864b57251cb1dbf61d1a4b1a",
+      "имя": "2_aeec0ad8-4d72-47cc-a2a9-6d0042d883a6.json"
+    },
+    {
+      "sha256": "89fcda5a78a7b6ed6dcac8e70a9758101835d1c6818d9cbb3a715fed44baac98",
+      "имя": "3_a61dc1f1-4cbc-4116-a08a-496794498070.json"
+    },
+    {
+      "sha256": "d644d4a4d018e5b36f69757cb50257543cf57aedb60c956cbe37e4b4183555bc",
+      "имя": "4_faa2671d-28bd-4a62-b2b1-e6a7295b51be.json"
+    },
+    {
+      "sha256": "cb1433ca0b42125d048fbab990297e45213156a3c37b16fe547760ad61fdbd06",
+      "имя": "5_a3b4106b-43cc-4bce-9cfc-c94e453228c4.json"
+    },
+    {
+      "sha256": "efc479382ccfbd954b19f8e02cdfda4dafabbdb234eb2d13fd0f5bce93db4279",
+      "имя": "6_7cbc3091-747d-463f-bac0-020affa70212.json"
+    },
+    {
+      "sha256": "29258f80fb8c768bd60c9b3e0b2a61e5b170f5ab32a2c81aed876ad7d306a15f",
+      "имя": "7_2111be05-6c6e-4366-bbb9-b8a3be3bc3e8.json"
+    },
+    {
+      "sha256": "e25f1bbf5dedc1cdea96df9680af4fbf7224e8ba7b7815ca1636e11bc283f32a",
+      "имя": "8_af6cfa34-db85-4731-aea8-204b1b553e2e.json"
+    }
+  ]
+}

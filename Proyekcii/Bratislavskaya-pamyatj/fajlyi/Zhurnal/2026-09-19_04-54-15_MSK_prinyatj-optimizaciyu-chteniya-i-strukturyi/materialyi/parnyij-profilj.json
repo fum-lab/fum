@@ -1,0 +1,45 @@
+{
+  "схема": "fum.профиль-валидации-структуры.1",
+  "python": "3.14.7",
+  "вход_sha256": "312714918ca2cdf91909d4df8a860ffbc6593768b4b485eddaf2945f1f1e99fe",
+  "результат": {
+    "schema_version": 1,
+    "mode": "validate",
+    "sessions": 1,
+    "reports": 1,
+    "request_only": 0
+  },
+  "игнорируемых_папок": 200,
+  "файлов_данных": 1000,
+  "зависимости_текущего_checkout": {
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_валидации_структуры.py": "9d859f48e2660a8d963ecbc8f0b5ff15e112888039cf02dd86b6506e7cfdbf70",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "29e4af574eff06072457ba383fded43b67ad92b0b6d6d1d3c34316b54cd2fc84",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+    "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "e4777302d8a5eec9090bfd19510c1f06f5c939e0082d7dadd67fdaa525393756"
+  },
+  "граница": "Три чередующихся повтора на одной фикстуре; подготовка, хэширование, Git-status и импорт исключены из таймера. Зависимости общие из текущего checkout. Оба исходника исполняются с каноническим __file__ для одинаковых ресурсов.",
+  "версии": [
+    {
+      "коммит": "55092f0346752779d252a780c1ca37371b46e06f",
+      "исходник_sha256": "375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56",
+      "наносекунды": [
+        1154248083,
+        1136670458,
+        1134546875
+      ],
+      "медиана_наносекунды": 1136670458
+    },
+    {
+      "коммит": "0f0fb5a5a371648c934b18287b9d7485fc5ba3f3",
+      "исходник_sha256": "29e4af574eff06072457ba383fded43b67ad92b0b6d6d1d3c34316b54cd2fc84",
+      "наносекунды": [
+        195793416,
+        193905000,
+        190905542
+      ],
+      "медиана_наносекунды": 193905000
+    }
+  ]
+}

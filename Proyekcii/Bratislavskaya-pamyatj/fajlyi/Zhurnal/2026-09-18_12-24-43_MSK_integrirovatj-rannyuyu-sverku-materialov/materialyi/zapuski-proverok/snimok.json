@@ -1,0 +1,35 @@
+{
+  "отпечаток_закрытия": "sha256:b2be6d66bfd36eeb4b7aded34ea7024d4f2757a2e88d79375c995a93d64e0a21",
+  "сессия": "Журнал/2026-09-18_12-24-43_MSK_интегрировать-раннюю-сверку-материалов/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "49c5f7e8b2c62aec488a2612b5adb2e43be5b51c3f8df553c99f9ac53e4ee659",
+      "имя": "1_20b7d6e2-5428-4a57-85f2-076163b1c59d.json"
+    },
+    {
+      "sha256": "a01fe26e4bb2611e582abe5dd9d4adfc2da166172ac668c4498ffb81e0931ef5",
+      "имя": "2_5a620791-d2ce-4f07-9a23-eeccb4b98399.json"
+    },
+    {
+      "sha256": "cdf7b9dae85edb574487d896e5831dfbb39bf1da0cbd5876cb9bdeeaad41dc41",
+      "имя": "3_98d20347-c279-4976-b372-9aff8db15e6d.json"
+    },
+    {
+      "sha256": "989d9b588ad6722d0f9b326d9b0dc7d7bae064f8bf87941ce5cdde15adcb7007",
+      "имя": "4_907ffee2-59b0-4d52-bbd3-d62d7cdfda94.json"
+    },
+    {
+      "sha256": "3e15a006784e66fc06566fb264797d0b215599304fb1e3d59fc49bd66693d086",
+      "имя": "5_54dbd946-c376-4bc9-bf3c-0ad8d30285d5.json"
+    },
+    {
+      "sha256": "246ae859835391ed8d3684e20fc4e1298baadc0e889d478f8ff723e73e138f0e",
+      "имя": "6_ccc2a44f-f2c2-453f-9774-2e85d6b9541a.json"
+    },
+    {
+      "sha256": "76c8386261a89b5793c560c4fe7722c7a0eb824e11851d248d1f7b4ed8f03fc3",
+      "имя": "7_cd4c4d14-4608-4edf-ab54-4852170d3590.json"
+    }
+  ]
+}

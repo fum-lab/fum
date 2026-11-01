@@ -21,6 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Iterable, Iterator, Sequence
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 SCHEMA_VERSION = 1
 REQUESTS = PurePosixPath("Запросы")
@@ -578,64 +580,82 @@ def _matching_label_bracket_with_inline_code(
 def _markdown_link_tokens(text: str) -> tuple[bytearray, list[Any]]:
     """Return semantic link tokens, including labels that contain inline code."""
 
-    tools = _link_tools()
-    hidden = tools.markdown_hidden_mask(text)
-    tokens = list(tools.markdown_link_tokens(text, hidden))
-    occupied = {
-        (token.destination_start, token.destination_end)
-        for token in tokens
-    }
-    cursor = 0
-    while cursor < len(text):
-        if hidden[cursor]:
-            cursor += 1
+    инструменты = _link_tools()
+    маска = инструменты.markdown_hidden_mask(text)
+    обычные = []
+    занятые = set()
+    for строка, (начало, конец, _текст_строки) in enumerate(инструменты.line_ranges(text), start=1):
+        разбор = инструменты.reference_destination_on_line(text, начало, конец, маска)
+        if разбор is not None:
+            начало_цели, конец_цели, угловая = разбор
+            занятые.add((начало_цели, конец_цели))
+            обычные.append(инструменты.LinkToken(
+                начало_цели, конец_цели, text[начало_цели:конец_цели], угловая, "reference", строка,
+            ))
+
+    расширенные = []
+    граница_обычного = граница_расширенного = позиция = 0
+    while позиция < len(text):
+        if маска[позиция]:
+            позиция += 1
             continue
-        image = (
-            text[cursor] == "!"
-            and cursor + 1 < len(text)
-            and text[cursor + 1] == "["
-            and not hidden[cursor + 1]
+        изображение = (
+            text[позиция] == "!"
+            and позиция + 1 < len(text)
+            and text[позиция + 1] == "["
+            and not маска[позиция + 1]
         )
-        opening = cursor + 1 if image else cursor
-        if text[opening] != "[" or tools.is_escaped(text, opening):
-            cursor += 1
+        открытие = позиция + 1 if изображение else позиция
+        if text[открытие] != "[" or инструменты.is_escaped(text, открытие):
+            позиция += 1
             continue
         if (
-            not image
-            and opening > 0
-            and text[opening - 1] == "!"
-            and not hidden[opening - 1]
+            not изображение
+            and открытие > 0
+            and text[открытие - 1] == "!"
+            and not маска[открытие - 1]
         ):
-            cursor += 1
+            позиция += 1
             continue
-        closing = _matching_label_bracket_with_inline_code(
-            text,
-            opening,
-            hidden,
-        )
-        if closing is None or closing + 1 >= len(text) or text[closing + 1] != "(":
-            cursor += 1
-            continue
-        parsed = tools.parse_inline_destination(text, closing + 1, hidden)
-        if parsed is None:
-            cursor += 1
-            continue
-        destination_start, destination_end, angle, token_end = parsed
-        span = (destination_start, destination_end)
-        if span not in occupied:
-            tokens.append(
-                tools.LinkToken(
-                    destination_start,
-                    destination_end,
-                    text[destination_start:destination_end],
-                    angle,
-                    "image" if image else "inline",
-                    text.count("\n", 0, opening) + 1,
-                )
-            )
-            occupied.add(span)
-        cursor = token_end
-    return hidden, sorted(tokens, key=lambda token: token.destination_start)
+        обычный_активен = позиция >= граница_обычного
+        закрытие = обычный_разбор = None
+        if обычный_активен:
+            закрытие = инструменты.matching_label_bracket(text, открытие, маска)
+            if закрытие is not None and закрытие + 1 < len(text) and text[закрытие + 1] == "(":
+                обычный_разбор = инструменты.parse_inline_destination(text, закрытие + 1, маска)
+            if обычный_разбор is not None:
+                начало_цели, конец_цели, угловая, граница_обычного = обычный_разбор
+                область = (начало_цели, конец_цели)
+                if область not in занятые:
+                    обычные.append(инструменты.LinkToken(
+                        начало_цели, конец_цели, text[начало_цели:конец_цели], угловая,
+                        "image" if изображение else "inline", text.count("\n", 0, открытие) + 1,
+                    ))
+                    занятые.add(область)
+        if позиция >= граница_расширенного:
+            if обычный_активен and закрытие is not None:
+                разбор = обычный_разбор
+            else:
+                закрытие = _matching_label_bracket_with_inline_code(text, открытие, маска)
+                разбор = None
+                if закрытие is not None and закрытие + 1 < len(text) and text[закрытие + 1] == "(":
+                    разбор = инструменты.parse_inline_destination(text, закрытие + 1, маска)
+            if разбор is not None:
+                начало_цели, конец_цели, угловая, граница_расширенного = разбор
+                if (начало_цели, конец_цели) not in занятые:
+                    расширенные.append(инструменты.LinkToken(
+                        начало_цели, конец_цели, text[начало_цели:конец_цели], угловая,
+                        "image" if изображение else "inline", text.count("\n", 0, открытие) + 1,
+                    ))
+        позиция = max(позиция + 1, min(граница_обычного, граница_расширенного))
+
+    токены = sorted(обычные, key=lambda токен: токен.destination_start)
+    for токен in расширенные:
+        область = (токен.destination_start, токен.destination_end)
+        if область not in занятые:
+            токены.append(токен)
+            занятые.add(область)
+    return маска, sorted(токены, key=lambda токен: токен.destination_start)
 
 
 def _markdown_targets(
@@ -1677,6 +1697,7 @@ def validate_layout(repo_root: Path | str) -> dict[str, Any]:
         raise LayoutError(f"несовместимый установленный шаблон: {ошибка}") from ошибка
     _assert_no_symlinks(root, ("Запросы", "Журнал", "Ревью", "Оценки", "Источники"))
     publishable = set(_project_relative_files(root))
+    предки_публикуемых = {предок for путь in publishable for предок in путь.parents}
     legacy = root / str(REQUESTS)
     if any(relative.parts and relative.parts[0] == str(REQUESTS) for relative in publishable):
         raise LayoutError("legacy Запросы directory still exists")
@@ -1689,8 +1710,8 @@ def validate_layout(repo_root: Path | str) -> dict[str, Any]:
     reports: set[str] = set()
     for entry in sorted(journal.iterdir(), key=lambda item: item.name):
         entry_relative = _relative(root, entry)
-        entry_is_publishable = entry_relative in publishable or any(
-            entry_relative in relative.parents for relative in publishable
+        entry_is_publishable = (
+            entry_relative in publishable or entry_relative in предки_публикуемых
         )
         if not entry_is_publishable:
             continue
@@ -1713,8 +1734,8 @@ def validate_layout(repo_root: Path | str) -> dict[str, Any]:
             for child in entry.iterdir()
             if child.name not in allowed
             and (
-                _relative(root, child) in publishable
-                or any(_relative(root, child) in relative.parents for relative in publishable)
+                (относительный := _relative(root, child)) in publishable
+                or относительный in предки_публикуемых
             )
         )
         if unexpected:
@@ -1874,6 +1895,8 @@ def _request_document(
     thread_id: str,
     labels: dict[str, str],
     шаблон: str,
+    *,
+    навигация_отложена: bool = False,
 ) -> str:
     blocks: list[str] = []
     for message in messages:
@@ -1885,6 +1908,8 @@ def _request_document(
         following,
         labels,
     )
+    if навигация_отложена:
+        предыдущий_запрос = следующий_запрос = "отложен до передачи координатору"
     return _заполнить_шаблон(
         шаблон,
         {
@@ -1908,7 +1933,14 @@ def _report_document(title: str, основа_сеанса: str, шаблон: s
     )
 
 
-def _apply_prepared_transaction(repo_root: Path, prepared: Sequence[PreparedFile]) -> None:
+def _apply_prepared_transaction(
+    repo_root: Path,
+    prepared: Sequence[PreparedFile],
+    *,
+    проверить_исходники: Callable[[], None] | None = None,
+    проверить_установку: Callable[[], None] | None = None,
+    проверить_перед_файлом: Callable[[], None] | None = None,
+) -> None:
     touched = {item.path for item in prepared}
     snapshots = {
         relative: _snapshot_path(repo_root.joinpath(*relative.parts))
@@ -1920,9 +1952,15 @@ def _apply_prepared_transaction(repo_root: Path, prepared: Sequence[PreparedFile
         while parent != repo_root and not parent.exists():
             missing_parents.add(parent)
             parent = parent.parent
+    if проверить_исходники is not None:
+        проверить_исходники()
     try:
         for item in sorted(prepared, key=lambda value: value.path.as_posix()):
+            if проверить_перед_файлом is not None:
+                проверить_перед_файлом()
             _install_prepared_file(repo_root, item)
+        if проверить_установку is not None:
+            проверить_установку()
     except Exception as error:
         for relative in sorted(touched, key=lambda path: len(path.parts), reverse=True):
             _restore_path(repo_root.joinpath(*relative.parts), snapshots[relative])
@@ -1934,16 +1972,7 @@ def _apply_prepared_transaction(repo_root: Path, prepared: Sequence[PreparedFile
         raise LayoutError(f"start failed and was rolled back: {error}") from error
 
 
-def start_session(
-    repo_root: Path,
-    stem: str,
-    label: str,
-    title: str,
-    thread_id: str,
-    messages: Sequence[str],
-    *,
-    установить_файлы: Callable[[Path, Sequence[PreparedFile]], None] | None = None,
-) -> dict[str, Any]:
+def _каркас_начала(repo_root, stem, label, title, thread_id, messages):
     root = repo_root.resolve()
     _validate_stem(stem, "start session stem")
     match = SESSION_PATTERN.fullmatch(stem)
@@ -1971,6 +2000,47 @@ def start_session(
     ):
         raise LayoutError("messages JSON must be a non-empty array of non-empty strings")
     шаблон_запроса, шаблон_отчёта = _прочитать_шаблоны()
+    return root, шаблон_запроса, шаблон_отчёта
+
+
+def подготовить_собственную_пару(
+    repo_root: Path, stem: str, label: str, title: str, thread_id: str, messages: Sequence[str],
+    *, происхождение_времени: str | None = None,
+) -> tuple[list[PreparedFile], dict[str, Any]]:
+    """Только план пары с явно отложенной навигацией; не даёт права установки."""
+    root, запрос, отчёт = _каркас_начала(repo_root, stem, label, title, thread_id, messages)
+    if происхождение_времени is not None:
+        подсказка = "зафиксировать получение канонической пары времени рабочей сессии."
+        if (not isinstance(происхождение_времени, str) or not происхождение_времени.strip()
+                or "\n" in происхождение_времени or "\r" in происхождение_времени
+                or запрос.count(подсказка) != 1):
+            raise LayoutError("Некорректное происхождение времени собственной пары")
+        запрос = запрос.replace(подсказка, происхождение_времени)
+    request_text = _request_document(stem, title, None, None, messages, thread_id, {}, запрос,
+                                     навигация_отложена=True)
+    report_text = _report_document(title, stem, отчёт)
+    файлы = [PreparedFile(canonical_request_path(stem), request_text.encode("utf-8"), 0o644),
+             PreparedFile(canonical_report_path(stem), report_text.encode("utf-8"), 0o644)]
+    повтор = any((root / файл.path).exists() for файл in файлы)
+    if повтор and not all((root / файл.path).is_file() and (root / файл.path).read_bytes() == файл.data for файл in файлы):
+        raise LayoutError(f"start conflict: request folder already exists for {stem}")
+    return ([] if повтор else файлы), {
+        "schema_version": SCHEMA_VERSION, "mode": "start-pair", "session_stem": stem,
+        "idempotent": повтор, "deferred_navigation": True,
+    }
+
+
+def start_session(
+    repo_root: Path,
+    stem: str,
+    label: str,
+    title: str,
+    thread_id: str,
+    messages: Sequence[str],
+    *,
+    установить_файлы: Callable[[Path, Sequence[PreparedFile]], None] | None = None,
+) -> dict[str, Any]:
+    root, шаблон_запроса, шаблон_отчёта = _каркас_начала(repo_root, stem, label, title, thread_id, messages)
     current = _canonical_requests(root)
     if stem in current:
         others = sorted(value for value in current if value != stem)
@@ -2571,6 +2641,13 @@ def _parser() -> argparse.ArgumentParser:
         repair = commands.add_parser(mode)
         repair.add_argument("--repo-root", type=Path, required=True)
         repair.add_argument("--base-revision", required=True)
+    for режим in ("наполнение-план", "наполнение-применить"):
+        наполнение = commands.add_parser(режим)
+        наполнение.add_argument("--repo-root", type=Path, required=True)
+        наполнение.add_argument("--вход", type=Path, required=True)
+        наполнение.add_argument("--план", type=Path, required=True)
+        if режим == "наполнение-применить":
+            наполнение.add_argument("--sha256", required=True)
     return parser
 
 
@@ -2624,6 +2701,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         elif arguments.mode == "repair-plan":
             _emit(plan_repair(root, arguments.base_revision))
+        elif arguments.mode in ("наполнение-план", "наполнение-применить"):
+            import наполнение_cli
+            if Path(наполнение_cli.__file__) != Path(__file__).with_name('наполнение_cli.py'):
+                raise LayoutError('Интерфейс наполнения импортирован из другого checkout')
+            try:
+                _emit(наполнение_cli.выполнить(arguments.mode, root, arguments.вход,
+                                             arguments.план, getattr(arguments, 'sha256', None)))
+            except (ValueError, OSError) as ошибка:
+                raise LayoutError(str(ошибка)) from ошибка
         else:
             _emit(repair_layout(root, arguments.base_revision))
     except LayoutError as error:

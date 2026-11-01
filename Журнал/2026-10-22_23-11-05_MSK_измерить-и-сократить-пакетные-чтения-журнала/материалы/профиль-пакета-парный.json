@@ -1,0 +1,275 @@
+{
+  "граница": "Шесть новых процессов одного неподвижного W/H и объявленной открытой пары. Сравниваются два тела полного RO-прохода при одинаковых текущих зависимостях. Setup и импорт вне wall; счётчики входят в оба окна. cpu_ns включает только SELF, без CPU Git. maxRSS — максимум всего работника, включая setup и заключительные проверки. Кэш ОС не сбрасывается. Установка S1, READY, Create и полный узел не запускаются.",
+  "медианы_wall_ns": {
+    "новый": 5607075666,
+    "прежний": 13812537917
+  },
+  "пары": [
+    {
+      "новый": {
+        "cpu_ns": 5283254000,
+        "maxRSS_байты_macos": 587202560,
+        "wall_ns": 5607075666,
+        "вариант": "новый",
+        "до": {
+          "HEAD": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+          "index_sha256": "b78c1a31e2f7550932b5c23b76e210b6688a425292565b13276994952f2fd38a",
+          "ref": "refs/heads/fuma",
+          "status": "204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f736372697074732fd183d181d182d0b0d0bdd0bed0b2d0bad0b05fd0bfd180d0b8d0bdd18fd182d0bed0b3d0be5fd181d0bed181d182d0b0d0b2d0b05fd0b6d183d180d0bdd0b0d0bbd0b02e707900204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762fd183d181d182d0b0d0bdd0bed0b2d0bad0b02dd0bfd180d0b8d0bdd18fd182d0bed0b3d0be2dd181d0bed181d182d0b0d0b2d0b02dd0b6d183d180d0bdd0b0d0bbd0b02e6d64003f3f20d096d183d180d0bdd0b0d0bb2f323032362d31302d32325f32332d31312d30355f4d534b5fd0b8d0b7d0bcd0b5d180d0b8d182d18c2dd0b82dd181d0bed0bad180d0b0d182d0b8d182d18c2dd0bfd0b0d0bad0b5d182d0bdd18bd0b52dd187d182d0b5d0bdd0b8d18f2dd0b6d183d180d0bdd0b0d0bbd0b02f003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732f746573745fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e7079003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732fd0bfd180d0bed184d0b8d0bbd18c5fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e707900"
+        },
+        "исходники": {
+          "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "341eb85f5ea235aff250c02f74c77064452b17378b7e397efc6a1d0f6c894348",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py": "1015daa7d5502bb1925ac26b83d5fcf42142f5d00edc489fd5369782b6b0374e",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py": "c4c4a7a073aaf07d98bf6e0d3ef58402655cddaef11229dfd04c5abfe8e3a65b",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "8438f18a18e1f9e29dcbe41d12418994a31eb50d9d8f50716d31aaaece3e2df0",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "5ed33769ff57c899a4b41468d0d8517a091d7e2e926fc2b3891a61d9f214e030",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+        },
+        "основа": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+        "процесс": 66220,
+        "результат": "3b7b2673a59cd338810b8d971e05bc53826ce57fd8f38bbfacc734eb4e68eb83",
+        "состояние_сохранено": true,
+        "старый_blob_sha256": "e051846e690022a1a6dca6a252127c914e0c25931c88aed366fb77bb57617343",
+        "стенд": {
+          "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "172eaec58117e267287776a8e80d0aa3826fe3b3d832f4a334ef3a54d9cfcbf7",
+          "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_единого_пакета_установщика.py": "e7eb3fc2440e3b18b238850cf70209a140a5742b39638001e9f52cbd8f324f29"
+        },
+        "счётчики": {
+          "Git": 5,
+          "batch": 1,
+          "байты_batch": 139299680
+        }
+      },
+      "порядок": [
+        "прежний",
+        "новый"
+      ],
+      "прежний": {
+        "cpu_ns": 6949669000,
+        "maxRSS_байты_macos": 393003008,
+        "wall_ns": 13983917166,
+        "вариант": "прежний",
+        "до": {
+          "HEAD": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+          "index_sha256": "b78c1a31e2f7550932b5c23b76e210b6688a425292565b13276994952f2fd38a",
+          "ref": "refs/heads/fuma",
+          "status": "204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f736372697074732fd183d181d182d0b0d0bdd0bed0b2d0bad0b05fd0bfd180d0b8d0bdd18fd182d0bed0b3d0be5fd181d0bed181d182d0b0d0b2d0b05fd0b6d183d180d0bdd0b0d0bbd0b02e707900204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762fd183d181d182d0b0d0bdd0bed0b2d0bad0b02dd0bfd180d0b8d0bdd18fd182d0bed0b3d0be2dd181d0bed181d182d0b0d0b2d0b02dd0b6d183d180d0bdd0b0d0bbd0b02e6d64003f3f20d096d183d180d0bdd0b0d0bb2f323032362d31302d32325f32332d31312d30355f4d534b5fd0b8d0b7d0bcd0b5d180d0b8d182d18c2dd0b82dd181d0bed0bad180d0b0d182d0b8d182d18c2dd0bfd0b0d0bad0b5d182d0bdd18bd0b52dd187d182d0b5d0bdd0b8d18f2dd0b6d183d180d0bdd0b0d0bbd0b02f003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732f746573745fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e7079003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732fd0bfd180d0bed184d0b8d0bbd18c5fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e707900"
+        },
+        "исходники": {
+          "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "341eb85f5ea235aff250c02f74c77064452b17378b7e397efc6a1d0f6c894348",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py": "1015daa7d5502bb1925ac26b83d5fcf42142f5d00edc489fd5369782b6b0374e",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py": "c4c4a7a073aaf07d98bf6e0d3ef58402655cddaef11229dfd04c5abfe8e3a65b",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "8438f18a18e1f9e29dcbe41d12418994a31eb50d9d8f50716d31aaaece3e2df0",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "5ed33769ff57c899a4b41468d0d8517a091d7e2e926fc2b3891a61d9f214e030",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+        },
+        "основа": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+        "процесс": 65565,
+        "результат": "3b7b2673a59cd338810b8d971e05bc53826ce57fd8f38bbfacc734eb4e68eb83",
+        "состояние_сохранено": true,
+        "старый_blob_sha256": "e051846e690022a1a6dca6a252127c914e0c25931c88aed366fb77bb57617343",
+        "стенд": {
+          "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "172eaec58117e267287776a8e80d0aa3826fe3b3d832f4a334ef3a54d9cfcbf7",
+          "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_единого_пакета_установщика.py": "e7eb3fc2440e3b18b238850cf70209a140a5742b39638001e9f52cbd8f324f29"
+        },
+        "счётчики": {
+          "Git": 575,
+          "batch": 571,
+          "байты_batch": 140330361
+        }
+      }
+    },
+    {
+      "новый": {
+        "cpu_ns": 5244914000,
+        "maxRSS_байты_macos": 587071488,
+        "wall_ns": 5570860542,
+        "вариант": "новый",
+        "до": {
+          "HEAD": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+          "index_sha256": "b78c1a31e2f7550932b5c23b76e210b6688a425292565b13276994952f2fd38a",
+          "ref": "refs/heads/fuma",
+          "status": "204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f736372697074732fd183d181d182d0b0d0bdd0bed0b2d0bad0b05fd0bfd180d0b8d0bdd18fd182d0bed0b3d0be5fd181d0bed181d182d0b0d0b2d0b05fd0b6d183d180d0bdd0b0d0bbd0b02e707900204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762fd183d181d182d0b0d0bdd0bed0b2d0bad0b02dd0bfd180d0b8d0bdd18fd182d0bed0b3d0be2dd181d0bed181d182d0b0d0b2d0b02dd0b6d183d180d0bdd0b0d0bbd0b02e6d64003f3f20d096d183d180d0bdd0b0d0bb2f323032362d31302d32325f32332d31312d30355f4d534b5fd0b8d0b7d0bcd0b5d180d0b8d182d18c2dd0b82dd181d0bed0bad180d0b0d182d0b8d182d18c2dd0bfd0b0d0bad0b5d182d0bdd18bd0b52dd187d182d0b5d0bdd0b8d18f2dd0b6d183d180d0bdd0b0d0bbd0b02f003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732f746573745fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e7079003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732fd0bfd180d0bed184d0b8d0bbd18c5fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e707900"
+        },
+        "исходники": {
+          "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "341eb85f5ea235aff250c02f74c77064452b17378b7e397efc6a1d0f6c894348",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py": "1015daa7d5502bb1925ac26b83d5fcf42142f5d00edc489fd5369782b6b0374e",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py": "c4c4a7a073aaf07d98bf6e0d3ef58402655cddaef11229dfd04c5abfe8e3a65b",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "8438f18a18e1f9e29dcbe41d12418994a31eb50d9d8f50716d31aaaece3e2df0",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "5ed33769ff57c899a4b41468d0d8517a091d7e2e926fc2b3891a61d9f214e030",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+        },
+        "основа": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+        "процесс": 66267,
+        "результат": "3b7b2673a59cd338810b8d971e05bc53826ce57fd8f38bbfacc734eb4e68eb83",
+        "состояние_сохранено": true,
+        "старый_blob_sha256": "e051846e690022a1a6dca6a252127c914e0c25931c88aed366fb77bb57617343",
+        "стенд": {
+          "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "172eaec58117e267287776a8e80d0aa3826fe3b3d832f4a334ef3a54d9cfcbf7",
+          "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_единого_пакета_установщика.py": "e7eb3fc2440e3b18b238850cf70209a140a5742b39638001e9f52cbd8f324f29"
+        },
+        "счётчики": {
+          "Git": 5,
+          "batch": 1,
+          "байты_batch": 139299680
+        }
+      },
+      "порядок": [
+        "новый",
+        "прежний"
+      ],
+      "прежний": {
+        "cpu_ns": 6939949000,
+        "maxRSS_байты_macos": 385466368,
+        "wall_ns": 13812537917,
+        "вариант": "прежний",
+        "до": {
+          "HEAD": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+          "index_sha256": "b78c1a31e2f7550932b5c23b76e210b6688a425292565b13276994952f2fd38a",
+          "ref": "refs/heads/fuma",
+          "status": "204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f736372697074732fd183d181d182d0b0d0bdd0bed0b2d0bad0b05fd0bfd180d0b8d0bdd18fd182d0bed0b3d0be5fd181d0bed181d182d0b0d0b2d0b05fd0b6d183d180d0bdd0b0d0bbd0b02e707900204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762fd183d181d182d0b0d0bdd0bed0b2d0bad0b02dd0bfd180d0b8d0bdd18fd182d0bed0b3d0be2dd181d0bed181d182d0b0d0b2d0b02dd0b6d183d180d0bdd0b0d0bbd0b02e6d64003f3f20d096d183d180d0bdd0b0d0bb2f323032362d31302d32325f32332d31312d30355f4d534b5fd0b8d0b7d0bcd0b5d180d0b8d182d18c2dd0b82dd181d0bed0bad180d0b0d182d0b8d182d18c2dd0bfd0b0d0bad0b5d182d0bdd18bd0b52dd187d182d0b5d0bdd0b8d18f2dd0b6d183d180d0bdd0b0d0bbd0b02f003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732f746573745fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e7079003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732fd0bfd180d0bed184d0b8d0bbd18c5fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e707900"
+        },
+        "исходники": {
+          "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "341eb85f5ea235aff250c02f74c77064452b17378b7e397efc6a1d0f6c894348",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py": "1015daa7d5502bb1925ac26b83d5fcf42142f5d00edc489fd5369782b6b0374e",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py": "c4c4a7a073aaf07d98bf6e0d3ef58402655cddaef11229dfd04c5abfe8e3a65b",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "8438f18a18e1f9e29dcbe41d12418994a31eb50d9d8f50716d31aaaece3e2df0",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "5ed33769ff57c899a4b41468d0d8517a091d7e2e926fc2b3891a61d9f214e030",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+        },
+        "основа": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+        "процесс": 66317,
+        "результат": "3b7b2673a59cd338810b8d971e05bc53826ce57fd8f38bbfacc734eb4e68eb83",
+        "состояние_сохранено": true,
+        "старый_blob_sha256": "e051846e690022a1a6dca6a252127c914e0c25931c88aed366fb77bb57617343",
+        "стенд": {
+          "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "172eaec58117e267287776a8e80d0aa3826fe3b3d832f4a334ef3a54d9cfcbf7",
+          "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_единого_пакета_установщика.py": "e7eb3fc2440e3b18b238850cf70209a140a5742b39638001e9f52cbd8f324f29"
+        },
+        "счётчики": {
+          "Git": 575,
+          "batch": 571,
+          "байты_batch": 140330361
+        }
+      }
+    },
+    {
+      "новый": {
+        "cpu_ns": 5327514000,
+        "maxRSS_байты_macos": 587186176,
+        "wall_ns": 5652390458,
+        "вариант": "новый",
+        "до": {
+          "HEAD": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+          "index_sha256": "b78c1a31e2f7550932b5c23b76e210b6688a425292565b13276994952f2fd38a",
+          "ref": "refs/heads/fuma",
+          "status": "204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f736372697074732fd183d181d182d0b0d0bdd0bed0b2d0bad0b05fd0bfd180d0b8d0bdd18fd182d0bed0b3d0be5fd181d0bed181d182d0b0d0b2d0b05fd0b6d183d180d0bdd0b0d0bbd0b02e707900204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762fd183d181d182d0b0d0bdd0bed0b2d0bad0b02dd0bfd180d0b8d0bdd18fd182d0bed0b3d0be2dd181d0bed181d182d0b0d0b2d0b02dd0b6d183d180d0bdd0b0d0bbd0b02e6d64003f3f20d096d183d180d0bdd0b0d0bb2f323032362d31302d32325f32332d31312d30355f4d534b5fd0b8d0b7d0bcd0b5d180d0b8d182d18c2dd0b82dd181d0bed0bad180d0b0d182d0b8d182d18c2dd0bfd0b0d0bad0b5d182d0bdd18bd0b52dd187d182d0b5d0bdd0b8d18f2dd0b6d183d180d0bdd0b0d0bbd0b02f003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732f746573745fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e7079003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732fd0bfd180d0bed184d0b8d0bbd18c5fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e707900"
+        },
+        "исходники": {
+          "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "341eb85f5ea235aff250c02f74c77064452b17378b7e397efc6a1d0f6c894348",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py": "1015daa7d5502bb1925ac26b83d5fcf42142f5d00edc489fd5369782b6b0374e",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py": "c4c4a7a073aaf07d98bf6e0d3ef58402655cddaef11229dfd04c5abfe8e3a65b",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "8438f18a18e1f9e29dcbe41d12418994a31eb50d9d8f50716d31aaaece3e2df0",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "5ed33769ff57c899a4b41468d0d8517a091d7e2e926fc2b3891a61d9f214e030",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+        },
+        "основа": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+        "процесс": 68081,
+        "результат": "3b7b2673a59cd338810b8d971e05bc53826ce57fd8f38bbfacc734eb4e68eb83",
+        "состояние_сохранено": true,
+        "старый_blob_sha256": "e051846e690022a1a6dca6a252127c914e0c25931c88aed366fb77bb57617343",
+        "стенд": {
+          "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "172eaec58117e267287776a8e80d0aa3826fe3b3d832f4a334ef3a54d9cfcbf7",
+          "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_единого_пакета_установщика.py": "e7eb3fc2440e3b18b238850cf70209a140a5742b39638001e9f52cbd8f324f29"
+        },
+        "счётчики": {
+          "Git": 5,
+          "batch": 1,
+          "байты_batch": 139299680
+        }
+      },
+      "порядок": [
+        "прежний",
+        "новый"
+      ],
+      "прежний": {
+        "cpu_ns": 6876152000,
+        "maxRSS_байты_macos": 385400832,
+        "wall_ns": 13807620458,
+        "вариант": "прежний",
+        "до": {
+          "HEAD": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+          "index_sha256": "b78c1a31e2f7550932b5c23b76e210b6688a425292565b13276994952f2fd38a",
+          "ref": "refs/heads/fuma",
+          "status": "204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f736372697074732fd183d181d182d0b0d0bdd0bed0b2d0bad0b05fd0bfd180d0b8d0bdd18fd182d0bed0b3d0be5fd181d0bed181d182d0b0d0b2d0b05fd0b6d183d180d0bdd0b0d0bbd0b02e707900204d20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762fd183d181d182d0b0d0bdd0bed0b2d0bad0b02dd0bfd180d0b8d0bdd18fd182d0bed0b3d0be2dd181d0bed181d182d0b0d0b2d0b02dd0b6d183d180d0bdd0b0d0bbd0b02e6d64003f3f20d096d183d180d0bdd0b0d0bb2f323032362d31302d32325f32332d31312d30355f4d534b5fd0b8d0b7d0bcd0b5d180d0b8d182d18c2dd0b82dd181d0bed0bad180d0b0d182d0b8d182d18c2dd0bfd0b0d0bad0b5d182d0bdd18bd0b52dd187d182d0b5d0bdd0b8d18f2dd0b6d183d180d0bdd0b0d0bbd0b02f003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732f746573745fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e7079003f3f20d098d0bdd181d182d180d183d0bcd0b5d0bdd182d18b2f66756d2d737472756b747572612d7061706f6b2d7a6170726f736f762f74657374732fd0bfd180d0bed184d0b8d0bbd18c5fd0b5d0b4d0b8d0bdd0bed0b3d0be5fd0bfd0b0d0bad0b5d182d0b05fd183d181d182d0b0d0bdd0bed0b2d189d0b8d0bad0b02e707900"
+        },
+        "исходники": {
+          "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "341eb85f5ea235aff250c02f74c77064452b17378b7e397efc6a1d0f6c894348",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/объединение_принятых_составов_журнала.py": "1015daa7d5502bb1925ac26b83d5fcf42142f5d00edc489fd5369782b6b0374e",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py": "c4c4a7a073aaf07d98bf6e0d3ef58402655cddaef11229dfd04c5abfe8e3a65b",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "8438f18a18e1f9e29dcbe41d12418994a31eb50d9d8f50716d31aaaece3e2df0",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+          "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "5ed33769ff57c899a4b41468d0d8517a091d7e2e926fc2b3891a61d9f214e030",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+        },
+        "основа": "e88f7136c812eab9a9ce4d7ff9fe3372b4692b02",
+        "процесс": 67388,
+        "результат": "3b7b2673a59cd338810b8d971e05bc53826ce57fd8f38bbfacc734eb4e68eb83",
+        "состояние_сохранено": true,
+        "старый_blob_sha256": "e051846e690022a1a6dca6a252127c914e0c25931c88aed366fb77bb57617343",
+        "стенд": {
+          "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "172eaec58117e267287776a8e80d0aa3826fe3b3d832f4a334ef3a54d9cfcbf7",
+          "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_единого_пакета_установщика.py": "e7eb3fc2440e3b18b238850cf70209a140a5742b39638001e9f52cbd8f324f29"
+        },
+        "счётчики": {
+          "Git": 575,
+          "batch": 571,
+          "байты_batch": 140330361
+        }
+      }
+    }
+  ],
+  "сбор_всего_нс": 65415209958,
+  "схема": "fum.RO-профиль-единого-пакета-установщика.1"
+}

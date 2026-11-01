@@ -1,7 +1,7 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://www.apple.com/mac-studio/specs/
-- Время извлечения UTC: 2026-09-15T16:15:39.405893+00:00
+- Время извлечения UTC: 2026-09-16T11:22:23.767052+00:00
 - Транспорт: curl
 - Effective URL: https://www.apple.com/mac-studio/specs/
 - HTTP-код: 200
@@ -34,6 +34,6 @@
 - `structured-data.json`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:22:27 MSK -->
-<!-- content-sha256: sha256:d3a78207c6d0309a3dff7eb1746b2cca477e973ec8e04914e16136f249c98044 -->
+<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
+<!-- content-sha256: sha256:84e9877934fecca9301ab88f9dd892fb4c1d9a59f829504a75472fdde5a94797 -->
 <!-- FUM-MD-RECENCY:END -->

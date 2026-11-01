@@ -1,0 +1,38 @@
+{
+  "базис": "4d23e365c05fe5d2565b5727887acb78994f4961",
+  "ветка": "refs/heads/codex/dir/nativnyij-most-podgotovki",
+  "журнал_исполнителя": "Журнал/2026-10-13_16-30-34_MSK_создать-нативный-мост-подготовки",
+  "замыкание_исходного_кода": [
+    {
+      "sha256": "8fea204fbcae2f4806cc0ad70850bd5ec212597e05cfb4d9eaefebfd2aa24bda",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_приёма_базиса_узла.py"
+    },
+    {
+      "sha256": "96bb405fd44e7bf139e04ba1cb9ff88702e599ba73c3fcd2acb18443f70bb5bd",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_базиса_состояния_узла.py"
+    }
+  ],
+  "источник_новой_ветки": "Точный опубликованный ROOT коммит этого ACT; передаётся после создания.",
+  "независимый_выбор": "Не выводится из исполняемых кандидатных байтов или свидетельства.",
+  "первоначальный_native_sha256": "9a9f33ecdf2c1d32e450da761f92cd7712fec9bfd1b70af3bd12d168bbbf6a75",
+  "первоначальный_коммит": "d40a57048468900ca3ae0db069591b68be2148d3",
+  "поручение": "Планирование/дочерние-поручения/2026-10-13/повторный-цикл-состояния-узла-этап-19.json",
+  "приёмка": "Конечная лабораторная поставка; ROOT отдельно принимает код до настоящего RO pilot. Не state2.",
+  "продукты": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/наблюдать_подготовку_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить_нативную_подготовку.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_нативной_подготовки_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/нативная-подготовка-базиса.md",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/сценарии-ответа.md"
+  ],
+  "ресурсные_пределы": {
+    "рамок": 131072,
+    "секунд": 120
+  },
+  "схема": "fum.выбор-следующей-поставки.1"
+}

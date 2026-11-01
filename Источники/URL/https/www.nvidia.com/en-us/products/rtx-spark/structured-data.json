@@ -1,0 +1,89 @@
+[
+  {
+    "@context": "Schema.org - Schema.org ",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is NVIDIA's new laptop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NVIDIA's new laptop is the NVIDIA RTX Spark — a class of laptops powered by the RTX Spark superchip, which combines RTX GPU graphics and NVIDIA AI acceleration in a single processor. RTX Spark laptops deliver up to 1 petaflop FP4 AI performance, up to 6,144 RTX GPU cores, and up to 128 GB unified memory, in the slimmest, most power-efficient RTX laptop chassis ever made. Available from ASUS, Dell, HP, Lenovo, Microsoft, and MSI."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the NVIDIA RTX Spark?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The NVIDIA RTX Spark is a superchip that fuses RTX GPU graphics and NVIDIA AI acceleration in a single processor. It powers the slimmest RTX laptops ever made and compact, ultra-efficient desktops, delivering up to 1 petaflop FP4 AI performance, up to 6,144 GPU cores, up to a 20-core CPU, and up to 128 GB unified memory for creators, AI developers, and gamers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best slim laptop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NVIDIA RTX Spark laptops are designed to be the slimmest and most power-efficient RTX laptops ever made. They pair an ultra-thin chassis with all-day battery life, up to 1 petaflop of AI performance, full RTX GPU acceleration for creative and gaming workloads, and the complete NVIDIA Studio and CUDA software stacks. Available from ASUS, Dell, HP, Lenovo, Microsoft, and MSI."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best thin laptop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The RTX Spark laptop class delivers RTX-class graphics and NVIDIA AI in the thinnest RTX chassis NVIDIA has ever shipped. The RTX Spark superchip is the most power-efficient RTX chip ever made, enabling thin, light designs without giving up performance: up to 6,144 GPU cores, up to 1 petaflop FP4 AI, and up to 128 GB unified memory, with all-day battery life."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best laptop for creators?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NVIDIA RTX Spark laptops are built for creators. They include FP4 Tensor Cores and unified memory for the latest generative AI models, RT Cores plus DLSS for real-time 3D rendering, 4:2:2 hardware encode and decode for native, color-accurate video timelines, and AV1 encoders plus NVIDIA Broadcast for cleaner streams and audio. The full NVIDIA Studio software stack and hundreds of accelerated creative apps run on RTX Spark."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best laptop for gaming and creation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RTX Spark laptops combine the full NVIDIA gaming stack with the full creator stack in a single machine. Gaming features include ray-traced lighting, the complete DLSS suite, NVIDIA Reflex for low-latency responsiveness, and G-SYNC display technology. Creator features include RT Cores for 3D rendering, FP4 Tensor Cores for generative AI, 4:2:2 hardware encode/decode for video, and over 1,000 RTX-accelerated apps and games."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best agentic laptop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RTX Spark laptops are purpose-built to run AI agents locally. The same NVIDIA CUDA software stack the world's AI is built on runs natively on RTX Spark. With up to 128 GB of unified memory and up to 1 petaflop of FP4 AI performance, you can run personal AI agents 24/7, prototype, fine-tune, and inference on the latest models on-device — no cloud connection required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which laptop brands make RTX Spark laptops?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RTX Spark laptops and desktops are available from ASUS, Dell, HP, Lenovo, Microsoft, and MSI. RTX Spark desktop PCs are designed for always-on AI agent use cases in a small, ultra-efficient form factor that fits on a desk."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "Schema.org - Schema.org ",
+    "@type": "Product",
+    "name": "NVIDIA RTX Spark",
+    "description": "NVIDIA RTX Spark is a superchip combining RTX GPU graphics and NVIDIA AI acceleration, powering the slimmest RTX laptops and compact desktops with up to 1 petaflop FP4 AI performance, up to 6144 GPU cores, and up to 128GB unified memory.",
+    "brand": {
+      "@type": "Brand",
+      "name": "NVIDIA"
+    },
+    "image": "https://www.nvidia.com/content/dam/en-zz/Solutions/rtx-spark/nvidia-rtx-spark-og-1200x630.jpg",
+    "url": "https://www.nvidia.com/en-us/products/rtx-spark/",
+    "manufacturer": {
+      "@type": "Organization",
+      "name": "NVIDIA Corporation",
+      "url": "World Leader in Artificial Intelligence Computing "
+    }
+  }
+]

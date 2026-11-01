@@ -1,0 +1,35 @@
+{
+  "git": "git version 2.54.0 (Apple Git-157)",
+  "python": "3.14.7",
+  "архитектура": "arm64",
+  "вход_sha256": "da02c0d0eef545b59730cf6298b2fd6f32b00d67ad8d6184e3d1194161c834ba",
+  "длительности_наносекунды": [
+    60870750,
+    59010083,
+    58122917,
+    55697042,
+    56374166,
+    55891709,
+    55786125,
+    55499583,
+    58238125,
+    58037042
+  ],
+  "измеряемая_граница": "собрать: Git-чтение, проверка, шаблоны",
+  "исходники": {
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "e4777302d8a5eec9090bfd19510c1f06f5c939e0082d7dadd67fdaa525393756",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py": "191f28d3ca1d14f40b82bebfa9264482466e725de807a61ac0f604f4a59d0bd7",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/реестр_поддержки.py": "bc383bfc79cfb056e19bb8b5d434c1b5fd53b8c72a1cba2ab6800cebcdd3c32b",
+    "Инструменты/fum-reyestr-planirovaniya/tests/профиль_медиапакета_поддержки.py": "802a042a2a17b25fea50f52d36b276edef9996bb714a18db9374bccfcf574784",
+    "Инструменты/fum-reyestr-planirovaniya/шаблоны/отчёт-поддержки.txt.шаблон": "84958d75cf43498a5e51ed14925d0491298f402cc4d031d10f08807a890c6183",
+    "Инструменты/fum-reyestr-planirovaniya/шаблоны/сообщение-поддержки.txt.шаблон": "436cd96b9a97eedfa3c87d141b63c2566a5c1d9a1acfabed5b5bbbc378971d6b",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56"
+  },
+  "критерий_оптимизации": "медиана более 500 мс требует исследования",
+  "кэш_ОС": "не очищался",
+  "платформа": "Darwin",
+  "повторы": 10,
+  "подготовка_и_запись_исключены": true,
+  "результат_sha256": "46fefec5d05162f63c4f9a72cf2e43e7e9fdd247c00d55af948e98e57531f1bc",
+  "схема": "fum.профиль-медиапакета.2"
+}

@@ -9,6 +9,8 @@ description: Sobiratj i proveryatj mashinno chitayemyij reyestr trebovanij, stad
 
 [Reyestr organizacij podderzhki FUM](../../Planirovaniye/finansirovaniye-i-resursyi/README.md) ispoljzuyet etot paket dlya importa sokhranyonnyikh issledovanij, istorii adresnyikh nablyudenij, proverki srokov i vyipuska otdeljnogo chitayemogo spiska. Komanda `scripts/реестр-организаций-поддержки.py` opisana vmeste s dannyimi; ona ne otpravlyayet obrasjheniya i ne podtverzhdayet registraciyu zayavitelya.
 
+Otdeljnyij [profilj podgotovki Git-fiksturyi](profilj-podgotovki-fikstur.md) izmeryayet import, konstruktor i ochistku bez ispolneniya tel testov.
+
 Konechnyij [paket diagnostiki](paket-diagnostiki.md) mekhanicheski vyipuskayet yavno podgotovlennyiye SBOJ i STEP s uzhe naznachennyimi nomerami, dvumya indeksami i tochnoj zasjhitoj iskhodnyikh bajtov.
 
 V FUM-STEP-0201 razrabatyivayetsya [priyom napravlenij FUMA](priyom-napravlenij.md): rukovodstvo opisyivayet proverennyiye primitivyi i yesjhyo nezavershyonnyij yedinyij vkhod. Promezhutochnyij status ne razreshayet vneshneye sozdaniye zadachi cherez nizkourovnevuyu operaciyu.
@@ -147,6 +149,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 18:24:06 MSK -->
-<!-- content-sha256: sha256:e996bcf785d81cadad65fa9cde9963f9323a7351fd7d9687de05363940384da9 -->
+<!-- last-content-edit: 2026-09-19 02:30:45 MSK -->
+<!-- content-sha256: sha256:576b2a48af9d02ff0542a39356b8418a5c076f22439fc7f81347a0a6786bd37b -->
 <!-- FUM-MD-RECENCY:END -->

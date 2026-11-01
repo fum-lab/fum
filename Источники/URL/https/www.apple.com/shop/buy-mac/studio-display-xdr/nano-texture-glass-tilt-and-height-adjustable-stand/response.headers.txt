@@ -1,0 +1,29 @@
+HTTP/2 200
+server: Apple
+content-type: text/html;charset=utf-8
+x-xss-protection: 1; mode=block
+x-frame-options: DENY
+content-security-policy: frame-ancestors 'none'
+x-content-type-options: nosniff
+content-language: en
+etag: "098a988445e6084c24a8c955cce9cefd"
+last-modified: Wed, 23 Sep 2026 00:26:22 GMT
+x-request-id: [REDACTED: response trace identifier]
+x-nxid: [REDACTED: response trace identifier]
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+reporting-endpoints: [REDACTED: response trace identifier]
+x-shred: [REDACTED: response trace identifier]
+access-control-allow-origin: https://www.apple.com
+cache-control: public, max-age=120, s-maxage=120
+expires: Wed, 23 Sep 2026 00:28:22 GMT
+date: Wed, 23 Sep 2026 00:26:22 GMT
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+server-timing: [REDACTED: response trace identifier]
+server-timing: [REDACTED: response trace identifier]
+server-timing: [REDACTED: response trace identifier]
+server-timing: [REDACTED: response trace identifier]
+server-timing: [REDACTED: response trace identifier]

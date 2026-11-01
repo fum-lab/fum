@@ -14,6 +14,6 @@ EN
 Terms of service Privacy policy Brand Support
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:58:26 MSK -->
+<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
 <!-- content-sha256: sha256:44041438b17f61a794c5c91e4feb2eb60cfc359ceda089bc0e55f07582a3ad80 -->
 <!-- FUM-MD-RECENCY:END -->

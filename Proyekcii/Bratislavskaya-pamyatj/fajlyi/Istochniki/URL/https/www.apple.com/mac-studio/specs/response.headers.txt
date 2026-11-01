@@ -9,6 +9,6 @@ referrer-policy: no-referrer-when-downgrade
 strict-transport-security: max-age=31536000; includeSubdomains; preload
 x-content-type-options: nosniff
 x-xss-protection: 1; mode=block
-cache-control: max-age=0
-expires: Tue, 15 Sep 2026 16:15:39 GMT
-date: Tue, 15 Sep 2026 16:15:39 GMT
+cache-control: max-age=173
+expires: Wed, 16 Sep 2026 11:25:17 GMT
+date: Wed, 16 Sep 2026 11:22:24 GMT

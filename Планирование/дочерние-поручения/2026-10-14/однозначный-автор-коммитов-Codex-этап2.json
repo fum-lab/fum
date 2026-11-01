@@ -1,0 +1,38 @@
+{
+  "ветка": "refs/heads/codex/dir/avtor-kommitov-Codex-01a07d3d",
+  "исполнитель": "01a139fd-03e6-7561-beda-3bb36a363089",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_ранний_состав_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_свежего_автора.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_свежего_автора.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-дочернего-поручения.md",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/сценарий_коммита_приёма.py",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/сценарий_обнаружения_приёма.py",
+    "Правила/агентов/Git-и-рабочая-сессия.md",
+    "Правила/агентов/инвентарь-правил.json",
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py",
+    "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_имени_агентского_автора.py",
+    "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json",
+    "Журнал/2026-10-14_13-36-08_MSK_уточнить-автора-коммитов-Codex/",
+    "Журнал/2026-10-14_12-38-15_MSK_сохранить-обсуждения-и-намерения/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "1660a99376add553de658f48540f5204727051c7bf14bfdbed07b761138c7227",
+    "коммит": "c56823979663d64c0dd585bc23b46001d76756b1",
+    "путь": "Журнал/2026-10-14_12-38-15_MSK_сохранить-обсуждения-и-намерения/запрос.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "aca6fe5c3ede482defb41d1d6d03a1959b1f2f6ac796f0bdb5b0f0d96db7703b"
+}

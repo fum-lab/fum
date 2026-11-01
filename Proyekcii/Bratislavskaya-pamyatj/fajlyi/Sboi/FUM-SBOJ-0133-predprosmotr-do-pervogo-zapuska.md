@@ -23,6 +23,10 @@ Pervyij predprosmotr tekusjhego etapa vernul kod1 i diagnostiku, nachinayusjhuyu
 
 V novom etape obzora postavok korenj povtorno vyizval predprosmotr do pervogo nastoyasjhego zapuska. Kod1 i diagnostika `каталог запусков отсутствует` podtverzhdenyi [tochnyim diapazonom iskhodnogo JSONL](../Zhurnal/2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/materialyi/povtor-rannego-predprosmotra.json). Zatem nastoyasjhaya proverka strukturyi zavershilasj kodom0; povtornyij predprosmotr postroyen po yeyo kvitancii. Iskusstvennyikh zapuskov ne sozdavali. Povtor pokazyivayet, chto prezhneye zakryitiye byilo ogranichennyim vosstanovleniyem i ne predotvratilo nevernyij poryadok v novom etape.
 
+### FUM-SBOJ-0133/PROYAVLENIYE-0003
+
+V [etape nablyudeniya API](../Zhurnal/2026-09-19_05-35-37_MSK_nablyudatj-kompaktnyij-otvet-zadachi/otchyot.md) snova vyizvan predprosmotr do pervoj zapisi. Otkaz otsutstvuyusjhej istorii sokhranyon; zavisimaya komanda iz-za otsutstviya ostanovki obolochki prodolzhilasj, i pervaya proverka polej otklonila shablon. V [sleduyusjhem etape](../Zhurnal/2026-09-19_05-52-59_MSK_podgotovitj-pervuyu-proverku-polej/otchyot.md) dobavlen pomosjhnik realjnogo dochernego zapuska: predprosmotr vyipolnyayetsya posle ustanovki aktivnoj zapisi roditelem i pered proverkoj polej. Shestj regressij proveryayut uspekh i otkazyi. Polnoj priyomki novoj kompozicii yesjhyo net; kartochka sokhranyayet aktivnyij status i svyazj s shagom0174.
+
 ## Ozhidaniye i klassifikaciya
 
 V novom etape pervyim vyipolnyayetsya predusmotrennyij adresnyij zapusk cherez otchyotnuyu obyortku, zatem predprosmotr stroitsya po yego terminaljnoj zapisi. Defekt shtatnogo instrumenta ne zayavlyayetsya; eto oshibka podgotovki vyizova kornem.
@@ -50,6 +54,6 @@ Nastoyasjhij zaplanirovannyij adresnyij process zavershyon i zapisan obyortkoj. 
 - [Shtatnaya avtomatizaciya](../Instrumentyi/fum-otchyotyi-o-zapuskakh-proverok/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:46:06 MSK -->
-<!-- content-sha256: sha256:0c6b249de83e89d63d6948912f0489b203950a6d66164eb77e236286afb09bcf -->
+<!-- last-content-edit: 2026-09-19 06:00:21 MSK -->
+<!-- content-sha256: sha256:ef8d1e8d18978b013c411927586fc7fd1af19e93db71c83deebf30262614d4c4 -->
 <!-- FUM-MD-RECENCY:END -->

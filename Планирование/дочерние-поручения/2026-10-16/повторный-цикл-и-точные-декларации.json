@@ -1,0 +1,32 @@
+{
+  "ветка": "refs/heads/codex/dir/povtornyij-effekt-sostoyaniya-uzla-2",
+  "исполнитель": "01a12ab5-9b51-7e90-a5b6-eaa95ba158f3",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_повторного_состояния_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/журнал_повторного_состояния_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/эффект_повторного_состояния_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторного_эффекта_состояния_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_повторного_эффекта_состояния_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/второй-цикл-состояния-узла.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_ветки_состояния_узла.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json",
+    "Журнал/2026-10-16_07-06-33_MSK_реализовать-повторный-эффект-состояния/",
+    "Журнал/2026-10-16_07-06-32_MSK_передать-повторный-эффект-состояния/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "93baefd57fdf864fbd263053f8e7cee45eb72fa6ea5db3b57b8c5f1af3d57a83",
+    "коммит": "d40a57048468900ca3ae0db069591b68be2148d3",
+    "путь": "Планирование/параллельные-постановки/2026-10-11/выполнить-повторный-цикл-состояния-узла.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "9a9f33ecdf2c1d32e450da761f92cd7712fec9bfd1b70af3bd12d168bbbf6a75"
+}

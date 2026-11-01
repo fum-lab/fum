@@ -1,0 +1,734 @@
+{
+  "схема": "fum.профиль-повторного-эффекта.1",
+  "серии": [
+    {
+      "схема": "fum.профиль-повторного-эффекта-процесс.1",
+      "процесс": 67363,
+      "предел_процесса_секунд": 900,
+      "вход_sha256": "16298334a8e650bd34b388e2bcb38eafed5f7a8877ef541b035a066348fffa1a",
+      "образ_sha256": "a86c5a0704e16a54423cfef085b283407c4106ee2f1a13fa13525b737f84400a",
+      "интервалы_нс": {
+        "установка_пары": 7893023750,
+        "план_expected": 30196156875,
+        "установка_expected": 95376653292,
+        "подготовка": 34705094250,
+        "адресная_проверка": 152188500,
+        "предпросмотр": 114455209,
+        "готовность": 79252377417,
+        "создание": 287194904375,
+        "повтор": 20906228417,
+        "свежий_повтор": 20723835708
+      },
+      "подготовка_до_READY_нс": 247787175875,
+      "пик_процесса_байтов": 77004800,
+      "пик_дочерних_процессов_байтов": 51052544,
+      "один_коммит": true,
+      "свежий_повтор_без_записи": true,
+      "результат_sha256": "84960ed57e02008f4b1afb35261117d2c95274c1cf72ca47e112128feb2dc5a6",
+      "серия": 1,
+      "внешнее_время_нс": 577546569458,
+      "восстановление_образа_нс": 65706333
+    },
+    {
+      "схема": "fum.профиль-повторного-эффекта-процесс.1",
+      "процесс": 17852,
+      "предел_процесса_секунд": 900,
+      "вход_sha256": "16298334a8e650bd34b388e2bcb38eafed5f7a8877ef541b035a066348fffa1a",
+      "образ_sha256": "a86c5a0704e16a54423cfef085b283407c4106ee2f1a13fa13525b737f84400a",
+      "интервалы_нс": {
+        "установка_пары": 7751047708,
+        "план_expected": 29033232291,
+        "установка_expected": 91419404458,
+        "подготовка": 33608140542,
+        "адресная_проверка": 153043208,
+        "предпросмотр": 106820000,
+        "готовность": 79675708667,
+        "создание": 280963488416,
+        "повтор": 20854933209,
+        "свежий_повтор": 21650769125
+      },
+      "подготовка_до_READY_нс": 241830877292,
+      "пик_процесса_байтов": 77840384,
+      "пик_дочерних_процессов_байтов": 50954240,
+      "один_коммит": true,
+      "свежий_повтор_без_записи": true,
+      "результат_sha256": "2a1efe11cece74d6a33af2745307cc6c3245b4123350797e2e7ed28c20a0da40",
+      "серия": 2,
+      "внешнее_время_нс": 566301407584,
+      "восстановление_образа_нс": 80488000
+    },
+    {
+      "схема": "fum.профиль-повторного-эффекта-процесс.1",
+      "процесс": 69962,
+      "предел_процесса_секунд": 900,
+      "вход_sha256": "16298334a8e650bd34b388e2bcb38eafed5f7a8877ef541b035a066348fffa1a",
+      "образ_sha256": "a86c5a0704e16a54423cfef085b283407c4106ee2f1a13fa13525b737f84400a",
+      "интервалы_нс": {
+        "установка_пары": 7733509417,
+        "план_expected": 33038708417,
+        "установка_expected": 102686226042,
+        "подготовка": 33605792083,
+        "адресная_проверка": 179004791,
+        "предпросмотр": 127875042,
+        "готовность": 77505227958,
+        "создание": 293398392542,
+        "повтор": 21169002500,
+        "свежий_повтор": 20501347083
+      },
+      "подготовка_до_READY_нс": 254975673958,
+      "пик_процесса_байтов": 76267520,
+      "пик_дочерних_процессов_байтов": 49872896,
+      "один_коммит": true,
+      "свежий_повтор_без_записи": true,
+      "результат_sha256": "3b93c8be47480698659c8576287b415bc59c68ebc8277abb00c2c799e1d38778",
+      "серия": 3,
+      "внешнее_время_нс": 591053278750,
+      "восстановление_образа_нс": 80517458
+    }
+  ],
+  "код": {
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py": {
+      "sha256": "933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+      "режим": 420
+    },
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/ветка_состояния_узла.py": {
+      "sha256": "2e3e69d63481c56864097a8cb574c05ef3c802fe9111356e1c42e5a2aa565fd7",
+      "режим": 420
+    },
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/дочерний_приём.py": {
+      "sha256": "2ea6ec9c1383de191b90712562404571bda4a980b72368060366279f16354493",
+      "режим": 420
+    },
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/дочерняя_передача.py": {
+      "sha256": "d99e9035a402d910dddf5dbc017ec8fedcb67959f17475bdd5f437a970f3612e",
+      "режим": 420
+    },
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/независимый_журнал.py": {
+      "sha256": "c3e0cfa30dbdac8b2acb570cfbbd8d58b543d13475338a1ad3c05fb6a68025f1",
+      "режим": 420
+    },
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py": {
+      "sha256": "f5ed191babf470f15488103de90e8ba51acbf5bdd1342ba6289a47f0ffe6f1d2",
+      "режим": 420
+    },
+    "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py": {
+      "sha256": "928f1eab473201c75660b58489c50ab73552e7467a79411382640201d502f68a",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочернее_назначение.py": {
+      "sha256": "8f3820a14ac7a432e5a839c2b7dc9e8b2fdb20bfe98bdc53837c49cbced82fd2",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/дочерний_коммит.py": {
+      "sha256": "a379ba2a5458de6fed87374e67d4f41106bb203311bda581d872f1b09aa4cabd",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/журнал_приёма.py": {
+      "sha256": "1c216173d6e574d05189538890e7cd10002504cdefc31683dac992ae9db51af9",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/запись_слоя.py": {
+      "sha256": "c1fee3cee66b4e3bad0d4b590373f76e0dff852a93206390842be178e8d91e83",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/коммит_приёма.py": {
+      "sha256": "278ba8e528b25251a92325e52d3a69562eb36915957c934f18f87ebf7e69d787",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/контроль_первичного_потока.py": {
+      "sha256": "4f21f2be143a59af373033f0b1e0393bb13d44b9aeac7be8975754044445b885",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/копии_нативного_сжатия.py": {
+      "sha256": "73f321870c42a498d49fec250ebf7d19990ca7c74484134eac1b1321bd0b4459",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативное_назначение.py": {
+      "sha256": "76afdfcce33149db8831f79c59fb9f4683e090b04d517ab8869529b4d86f6a4b",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативные_вызовы.py": {
+      "sha256": "e9c7410de349d5ef0fca1ffd6020399ab6825895d63de19141f14089f05a389e",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/нативный_приём.py": {
+      "sha256": "936ab3cfe037db9fbc1e741b13762f6fc66f7c34bf6d5a26515756abf3981831",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_журнала_приёма.py": {
+      "sha256": "257e692de6c14611511a378dbcc627896cc3cde23906edd0370ae481c8c854c3",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_писателя.py": {
+      "sha256": "381e29f5e46ea7534f1db4aaa81ca618906d7f65df2ddd07f41835e4ccc7692c",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/остановка_ребёнка.py": {
+      "sha256": "77437e6caab636deeaa6d1b602158cabb700a36bdee868a8b3c15da3f024a922",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/пакет_незавершённого.py": {
+      "sha256": "f4b0f1b9fcd6b2eb18448d61b280909e59de1510be29787f17c136cbb1cc9fe4",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/паспорт_конвейера.py": {
+      "sha256": "ca3eb67983d7ca2ed5980b801f34c3570ff757234e9959d230c58133678cef2c",
+      "режим": 493
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_журнала_приёма.py": {
+      "sha256": "73aa29da4b63ddb67e753e8b94e544e760815c9d0172738c14f9499fe54f3e75",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_запуска_слоёв.py": {
+      "sha256": "1a298f4ace39b3a1d81d6a737ea7f7a49c4193b9e68bb49f057128227d59e759",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поколение_запуска.py": {
+      "sha256": "5844665e21bbd0264fd0d937ff1908a59cf3c03e62dfa23e7da7c096b37469f6",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/поручение_слоя.py": {
+      "sha256": "9b829290bbfc7d6ee054d8feaf91f395e965b57de11d389ba66a559876f0fb70",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/приём_интеграции.py": {
+      "sha256": "e5f72c506e5afb53b7b72e24ed6901ac0a23da494f5d3fe764a1dcd4505894d2",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/свежесть_слоя.py": {
+      "sha256": "d571c8e7aaae60a51aa2572212d6d18394f4b9795f650d80b83581651fcd7f0c",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_приёма.py": {
+      "sha256": "456805d848e5ce1dced45e15407548145f58af637be4795e7c6bcca0bfb9d567",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/связность_слоя.py": {
+      "sha256": "4c983f5ff366daa2cc288c174412c842b3b143ff12b80c69bf7183160fa6cc1d",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/слияние_приёма.py": {
+      "sha256": "1ba284cf438829b1cabd455fe0de15e904a33ee6829e4154f84dcc7da46c21b1",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_нативного_источника.py": {
+      "sha256": "96e3976a897e33fd8372983604db1a46ed73397d0a3c048ac24f56e650300d79",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_области.py": {
+      "sha256": "ab9be4b8b66ebc1f8c6699e09c711a8a22dd149c4303e41a1dab291e383eecab",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/терминал_запуска.py": {
+      "sha256": "1c4a201761a9ea4c8891ac62c999981061122f04d97455948c3234123b7942bb",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/файл_журнала_приёма.py": {
+      "sha256": "3c91d4b71aeb6c3087cf2295f2a83650f9377c548a16a2ddeb57f5c9a94a9d1e",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/хранилище_незавершённого.py": {
+      "sha256": "1d53d23272c5e68740bdc316df1666c9276d78594ff035d729bb754ad8958e48",
+      "режим": 420
+    },
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/эпизод_приёма.py": {
+      "sha256": "4fc5a34014395542bc1e884ccc52a5c98ce36487a3fe7adb499d29486394f94b",
+      "режим": 420
+    },
+    "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py": {
+      "sha256": "ee26082227da2d8a291f050d716cfe66622a71ff433f8727d9e06efa89b4cbec",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": {
+      "sha256": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/контекст_обзора.py": {
+      "sha256": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/контракт_обзора.py": {
+      "sha256": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/построение_обзора.py": {
+      "sha256": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": {
+      "sha256": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/реестр_обзора.py": {
+      "sha256": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": {
+      "sha256": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": {
+      "sha256": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": {
+      "sha256": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/формат_обзора.py": {
+      "sha256": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+      "режим": 420
+    },
+    "Инструменты/fum-ocenki/scripts/хранение_обзора.py": {
+      "sha256": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+      "режим": 420
+    },
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": {
+      "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+      "режим": 420
+    },
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": {
+      "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+      "режим": 420
+    },
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": {
+      "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+      "режим": 420
+    },
+    "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": {
+      "sha256": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+      "режим": 420
+    },
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py": {
+      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+      "режим": 420
+    },
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py": {
+      "sha256": "32494b8a855c71e3dea15b219e4283758a26febb38d0787ba26a3dcc1f75bde4",
+      "режим": 420
+    },
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py": {
+      "sha256": "4d66aecda35f99dc424a32fc4563eae347e29d001215bfd2b3372d0699c665b2",
+      "режим": 420
+    },
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py": {
+      "sha256": "30163cec0a4f847df11b50614661f1d42be966badca57597a488070d4fc97793",
+      "режим": 420
+    },
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": {
+      "sha256": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+      "режим": 420
+    },
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": {
+      "sha256": "a32eb5ca9a09bad96640fb8faf61621f933145c1fd81ae0335f457b9ab8d27f7",
+      "режим": 420
+    },
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": {
+      "sha256": "e5db4fc3277594122c91c23cf94ef4451f6c62fa16647b6e764048a7c9a74497",
+      "режим": 420
+    },
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": {
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py": {
+      "sha256": "3b2e5c8af335702f866536c9532929bc15337cc64eda617c28a0e8fd4a616709",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py": {
+      "sha256": "4a5fd867af2408ffbd294d10c053a043ffe3283f44c115963e906ccc2d168bde",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": {
+      "sha256": "b950ad79d5230430473932f19b49d7e21499d8c6e809437d11684e25134e3f3d",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py": {
+      "sha256": "734cb08c12f2172b37e3c437f6ca75ecaf06284e1d6ac69434948f69ad500cc6",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": {
+      "sha256": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py": {
+      "sha256": "1c88b6d88a2fde9f00d8b1647a99f4ece69b35089f6e1a69212d0a449c84aa10",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py": {
+      "sha256": "3a5ca9b48e48efc79c5292e6657aa60252516d28264381d4c24f6fd2374aad1b",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py": {
+      "sha256": "838229483c487e982af520d37792733c308a467c30109324fdd11997df091350",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py": {
+      "sha256": "64b60d02239d5ecf8845edefd03f7bfbae4f6751864fee38bdbd3a881e9cd444",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": {
+      "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": {
+      "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py": {
+      "sha256": "2039b87a8f3558b73dc4d24c3023f1568499d901dc666f8cc87b726ec4401651",
+      "режим": 420
+    },
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": {
+      "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": {
+      "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py": {
+      "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/допуск_наполнения_состояния.py": {
+      "sha256": "cf6a853e962d7ae1b46545d46ca5c50c3e08a26c7f8974c08c635d16a05bf0e2",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py": {
+      "sha256": "5f870563df45c7b6d75a4384157f299bb0f38c4e0461cbe21b1a710cca0d3bb1",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py": {
+      "sha256": "cbe758a15edbdac1aab839198c1d72f42d373221776defbfadad6ead1e0df859",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": {
+      "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py": {
+      "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py": {
+      "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": {
+      "sha256": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py": {
+      "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": {
+      "sha256": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+      "режим": 420
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": {
+      "sha256": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+      "режим": 420
+    },
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": {
+      "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+      "режим": 420
+    },
+    "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": {
+      "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+      "режим": 420
+    },
+    "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": {
+      "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": {
+      "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": {
+      "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py": {
+      "sha256": "7f90bec76f69ab8df0961f0d91e8fbd3f830ff2689e15464fff08d88e46db68f",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": {
+      "sha256": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_писателя.py": {
+      "sha256": "5a7d075f0c3bdc2845983183af2bfb28e4968848e65d004c8274a6921b2ab9fc",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": {
+      "sha256": "93e723b49102b80cdb6050421b897b252841528993ff8ef0e3e9d725b292c76a",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": {
+      "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": {
+      "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/детектор_вывода.py": {
+      "sha256": "179a91599126be9e58d88a04b66804992054ddaa87129e81246761fc862baa62",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/журнал_повторного_состояния_узла.py": {
+      "sha256": "d8223cb63543a3fdb9437f84cd04c592afdec3377a0f0005136181e308bda79b",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py": {
+      "sha256": "9478b1f73fb9a2a8d605bdbe9874eba14e927e20400934b9dc98ae4433e8a09e",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/историческая_доставка_ожиданий.py": {
+      "sha256": "d6d047f86068e6cbadcaddf7d766f2b3bcdb3c2d986be1910b889fea181e3584",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_байты_ожиданий.py": {
+      "sha256": "6ffde1323c0e7873afcd1668239c36eba8a3c60298e97ea0b813738983830e3d",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": {
+      "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": {
+      "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": {
+      "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каркас_журнала_состояния.py": {
+      "sha256": "ab6f537438d23ff12aab8c2212702ee54b8e2c428465c8c644c3a664e8bc88ed",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": {
+      "sha256": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": {
+      "sha256": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": {
+      "sha256": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": {
+      "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": {
+      "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимая_пара_журнала.py": {
+      "sha256": "519526a5fc2ed6a5cc9396736b8a2ead16d4699e840356ffca3128b0963b6ff0",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": {
+      "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py": {
+      "sha256": "ff0c2241a1a022f162107daa65cb7c9a0ce5f7dd0a7e215525b041ec75b3b72d",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": {
+      "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": {
+      "sha256": "8ecd14f61a1ae5452d646c8bc7e1fbe6ee96bfb87a82c1bc9800bb81a88e3358",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": {
+      "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py": {
+      "sha256": "64cd5c44beab447d98a571662b8b17fca2d7fd967d324b7fb07301a9c46b5f03",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/основание_двусторонней_координации.py": {
+      "sha256": "cbd8308e463826d8138bf00dd6ea7bde75f1d07614e8cfdfb9a10eb42dc74723",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": {
+      "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": {
+      "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": {
+      "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/план_журнала_писателя_состояния.py": {
+      "sha256": "29db76e13dad72bef59c58bda9d82c757fcaa573ccc00f1baff8fff599fde363",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_модели.py": {
+      "sha256": "defa5a524d9c985d3c813ff820bd6b75bd00560aa4d69f69e19e076e39bc8a44",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторный_план_журнала_состояния.py": {
+      "sha256": "c466948bd6be7cb8a9ba7fa8293fba7ddaa52e59167fe9a8ebde8148eb5540fe",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_ветки_состояния_узла.py": {
+      "sha256": "c189c60333fe4f1fbee63c4a51b3d72083618d21e459da458f08ac25b4d696e6",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py": {
+      "sha256": "8a63fdce2232785984ffbd28e0abd0f15c608c4cab10f6c249aafaff7bb4e56d",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": {
+      "sha256": "f085a10ebb0c830a033d074b6fdcb2dd53060b0dbd1671585af40ff4e47262c5",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py": {
+      "sha256": "f790ef96ade98fcdd62c56ccbcccc6c21e6aa1cb3bb0111bd415f5ed263ccfd0",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": {
+      "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_ветки_состояния_узла.py": {
+      "sha256": "d21ba72c042efcdc2ff54639ac047215ab05763b6c485ce058c2062838b97f7a",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_повторного_состояния_узла.py": {
+      "sha256": "fc56429d76edc06155c6c0b48ad635dc580a408041985771a4ac05303a99fd09",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": {
+      "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенные_повторные_полномочия_узла.py": {
+      "sha256": "9c7741507395d506851b453cd7a0031924fff94e2ec83b237e36f01538eb2038",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенный_план_журнала_состояния.py": {
+      "sha256": "346f653c29378dece08306abb2cc7fd947261fa49ddfb807cfe29c0c5db418b3",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверенный_повторный_план_состояния.py": {
+      "sha256": "fbb4fcd73d6f76f4ede83a2501f92330774f58b83f6e91b2a1d7470080e3f0ad",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py": {
+      "sha256": "a0eec6c696092d0c49585614bb26915eb05c16153604230fc0180c72dd1a9fa6",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/происхождение_писателя_генератора.py": {
+      "sha256": "2228998b23923a27785ed1865dc6e5cf1e2a35f5baf44c8061c09da47a4ab910",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": {
+      "sha256": "092ae5d435ad90a8dd4ecca1baf66c8f32b4af07122cdaf8674a2aa08f673789",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": {
+      "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": {
+      "sha256": "6e9182dce250e9cb3314d56acb2e56522ab2afaf076b0bf24a4d08d8c9fc1935",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/смена_незапечатанной_подготовки.py": {
+      "sha256": "1ce9aaf78951f3c0a4728eaec87ce5bc0d1bbd75eaeb1f4870818fb6806c37aa",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": {
+      "sha256": "8ff8ef55d389963be20955eb6369389f120939e0ccef80adb4e7f0ea70a9ca48",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": {
+      "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": {
+      "sha256": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": {
+      "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": {
+      "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/устойчивые_свидетельства.py": {
+      "sha256": "7677689c54ae7ed16267bb5cd3e751f965302fd0494b9e047a8574c295716a71",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/цели_ветки_состояния_узла.py": {
+      "sha256": "71ff7a466aa2633de0647b2669d718dae324b36ef2b1287445df5c42323e118b",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/чтение_цепочки_подготовки.py": {
+      "sha256": "d91a595143c90995747375680596644fce1edbf4faf3127586741e533e81a7b8",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/эффект_повторного_состояния_узла.py": {
+      "sha256": "2a46a511d49395ba2e3e346ca7a444a94686b9c14ca2283f1925dc045913ea84",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json": {
+      "sha256": "9a6f8d4483d2131ecdab2b367b34cda866565b34f7643d49899a285f4d74e15c",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_приёма_базиса_узла.py": {
+      "sha256": "8fea204fbcae2f4806cc0ad70850bd5ec212597e05cfb4d9eaefebfd2aa24bda",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_повторного_эффекта_состояния_узла.py": {
+      "sha256": "d92bb74641fda84e0b4baa1d55bb808885e6b7919de26c829a67d255498112de",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторного_эффекта_состояния_узла.py": {
+      "sha256": "a44b82587d5a56362ec0b47a2c79b0f9c382f364145991439da8bea101480621",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторного_плана_журнала_состояния.py": {
+      "sha256": "1868fa03d35f11f1584543e6d9fc5f42de7dcf7a764b4e5b7bdb81009eb5f053",
+      "режим": 420
+    },
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_обратная_доставка.py": {
+      "sha256": "c083f53c243437dbaf8fddc92340fb7a9ccc472340557da33c63517ffbb54bb4",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_план_журнала_писателя_состояния.py": {
+      "sha256": "4331a5c2ba45e7f33ce283a43b28e957346e39084a22eb6e7611db9da0106bf1",
+      "режим": 420
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_восстановление_прерванной_задачи.py": {
+      "sha256": "1c6f8e0b8e4f2cd1188a13d9ae66099d00f1fbb9a94d39c0e7c7da4422fc9bd2",
+      "режим": 420
+    }
+  },
+  "предел_процесса_секунд": 900,
+  "подготовка_фикстуры_нс": 3272061583,
+  "вход_sha256": "16298334a8e650bd34b388e2bcb38eafed5f7a8877ef541b035a066348fffa1a",
+  "образ_sha256": "a86c5a0704e16a54423cfef085b283407c4106ee2f1a13fa13525b737f84400a",
+  "версия_интерпретатора": "3.14.8",
+  "платформа": "darwin",
+  "граница": "Три свежих процесса получают один побайтный образ и тот же физический путь. Подготовка и восстановление образа исключены из интервалов эффекта. Внешнее время включает startup, контрольные снимки и валидацию; подготовка до READY включает вложенные интервалы, их не складывают. Свежий replay включает startup/import нового Python; изъятие live-источников и снимки вне его таймера. RSS процесса и дочерних процессов раздельны и не являются пиком всей группы. Кэш ОС не очищается. Семантика и один коммит проверяются внутри каждой серии; OID между сериями может различаться из-за реальных времён в рабочем отчёте. Измеряется синтетическая лаборатория, не большой ROOT или рабочий узел."
+}

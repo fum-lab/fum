@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 16:04:00 MSK - Ispravitj proverku shtatnogo udaleniya proyekcii](../2026-09-16_16-04-00_MSK_ispravitj-proverku-shtatnogo-udaleniya-proyekcii/zapros.md)
-- Sleduyusjhij zapros: net
+- Predyidusjhij zapros: [2026-09-16 16:32:27 MSK - Prinyatj aktualjnyij finansovyij srez](../2026-09-16_16-32-27_MSK_prinyatj-aktualjnyij-finansovyij-srez/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 17:24:57 MSK - Zaregistrirovatj otkazyi finansovoj priyomki](../2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -47,6 +47,6 @@ Eto prodolzheniye iskhodnoj komandyi integracii, a ne novoye soobsjheniye poljzo
 - [Prezhnyaya podgotovka](../2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
-<!-- content-sha256: sha256:06cd48bd881970ebcc7879ef76a840c75f42bfc44f949e834a5497b6f42f083e -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:9488f58f59e8efc695b3d8f67132b4d93f836c9d5087f683d3becdab0cbc1484 -->
 <!-- FUM-MD-RECENCY:END -->

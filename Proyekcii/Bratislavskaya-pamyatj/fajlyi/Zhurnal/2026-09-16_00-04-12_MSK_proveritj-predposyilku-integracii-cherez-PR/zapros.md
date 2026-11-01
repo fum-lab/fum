@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](../2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 00:15:17 MSK - Proveritj postavki kommita i integracii](../2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 23:54:09 MSK - Ispravitj finansovoye svideteljstvo mediapaketa](../2026-09-15_23-54-09_MSK_ispravitj-finansovoye-svideteljstvo-mediapaketa/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 00:09:04 MSK - Razdelitj svideteljstva i planyi mediapaketa](../2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/zapros.md)
 
 ## Tekst zaprosa
 
@@ -43,6 +43,6 @@ Nachaljnyij HEAD etogo etapa `5b64d4a6bff7d555fe4219ac42357a9ee66a9e83`, polnyij
 [Doslovnoye opisaniye PR](materialyi/opisaniye-PR.txt) podgotovleno do vneshnego vyizova. [Normalizovannyij otvet sozdaniya](materialyi/otvet-sozdaniya-PR.json) sokhranyayet URL [draft PR №3](https://github.com/fum-lab/fum/pull/3), tochnyiye base/head i opisaniye. Fakticheskoye sostoyaniye dopolniteljno prochitano cherez gh; telo sovpalo s podgotovlennyimi bajtami. Izmeneniye ispolniteljnogo kontura, obyichnoj politiki419, `.gitmodules` i gitlink ne vkhodit v etap.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
-<!-- content-sha256: sha256:a0b243538c2922577275923421e823e0a5a45bdbf52dd78dfba45c07a109abe2 -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:1fd99bdb2e333d6419d8a9f80fab9223704bf7b8ee83d88e5a0e57805c8c6808 -->
 <!-- FUM-MD-RECENCY:END -->

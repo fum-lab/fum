@@ -28,6 +28,8 @@ Podgotovlenyi [reyestr semi obyazateljstv](../zadachi/01a07d3d-d376-7ad2-aafc-67
 
 Po [utochneniyu poljzovatelya o sorazmernosti processa](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md) realizaciya ogranichena prakticheskim uchyotom. Smyislovoye dokazateljstvo zaversheniya vsej FUMA i sistemnoye podklyucheniye k ostanovke Codex ostayutsya otdeljnoj rabotoj; eta kartochka sokhranyayet aktivnyij status.
 
+Postkommitnaya proverka 2026-09-22 vyiyavila granicu mezhdu promezhutochnoj adresnoj podgotovkoj i finaljnoj priyomkoj: sokhranyonnaya adresnaya zapisj ne dolzhna zakryivatj rabotu ili skryivatj sleduyusjhij etap. Ispolnitelj teperj vozvrasjhayet takuyu zapisj s sostoyaniyem `адресная-подготовка`, ne izmenyaya istoricheskiye otchyotyi; polnaya proverka i prodolzheniye zadachi ostayutsya otdeljnyimi dopuskami. [Otchyot ispravleniya](../../Zhurnal/2026-09-22_02-25-51_MSK_zafiksirovatj-postkommitnuyu-ostanovku-i-ispravitj-priyomku/otchyot.md) i [kartochka sboya](../../Sboi/FUM-SBOJ-0160-adresnaya-podgotovka-prinyata-za-finaljnuyu-priyomku.md) sokhranyayut eto proyavleniye.
+
 ## Istochniki
 
 - [Komanda prodolzhatj posle kommita](../../Zhurnal/2026-09-09_21-31-19_MSK_prodolzhatj-rabotu-posle-kommita/zapros.md).
@@ -36,6 +38,6 @@ Po [utochneniyu poljzovatelya o sorazmernosti processa](../../Zhurnal/2026-09-10
 - [Kontrakt adaptera](../../Instrumentyi/fum-otchyotyi-o-zapuskakh-proverok/svyazj-s-kommitom.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 12:39:57 MSK -->
-<!-- content-sha256: sha256:86b890175f12ad70f3b45b4de2484c2e129aacfc348598a4ca6beeb9fab38c84 -->
+<!-- last-content-edit: 2026-09-22 02:44:42 MSK -->
+<!-- content-sha256: sha256:d79122f84800a64761cb266cffe0341d9953b3f494af3c8e21ffc954c0899f51 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,25 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-proverka-git-zavisimostej",
+  "исполнитель": "01a101e0-8cce-7483-bd8e-fc11f629ca00",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py",
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_восстановление_подготовки.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/профиль_вложенной_топологии.py",
+    "Инструменты/fum-proverka-git-zavisimostej/подготовка-окружения.md",
+    "Инструменты/fum-proverka-git-zavisimostej/добавление-зависимости.md",
+    "Журнал/2026-10-04_00-02-49_MSK_подготовить-точную-вложенную-топологию/",
+    "Журнал/2026-10-03_16-14-33_MSK_обнаружить-недоступные-деревья-до-хэширования/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "fa3e70e13cb36f9e948f9ab1d2a24b0b86cabe10178a3eabe71b2f2bc508add3",
+    "коммит": "d86ee47861fae6672486010b64ab26308c82ec86",
+    "путь": "Планирование/параллельные-постановки/2026-10-03/ранняя-диагностика-рабочих-деревьев.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "4c930859290c75350dfc1a8f980a87fae71c02267a61ba4719f950dc1593a377"
+}

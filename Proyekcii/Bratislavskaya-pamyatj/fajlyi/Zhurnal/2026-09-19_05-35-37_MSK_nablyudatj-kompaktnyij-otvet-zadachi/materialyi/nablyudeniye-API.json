@@ -1,0 +1,38 @@
+{
+  "схема": "fum.наблюдение-компактного-чтения.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источник": "read_thread; turnLimit=1, includeOutputs=false, maxOutputCharsPerItem=1500",
+  "граница": "Два штатных вызова существующего адаптера: новый и сохранённый. Запись этого наблюдения и загрузка JavaScript исключены из счётчиков. Байты считаются у сохранённого JSON MCP и stdout CLI; транспорт и токены не измерены. Полученный ответ API не является полной историей диалога.",
+  "наблюдение": {
+    "first_counts": {
+      "exec_command": 3,
+      "mcp__codex_app__read_thread": 1,
+      "apply_patch": 1
+    },
+    "repeat_counts": {
+      "exec_command": 1
+    },
+    "equal": true,
+    "source_bytes": 876,
+    "first_cli_bytes": 2614,
+    "repeat_cli_bytes": 2614,
+    "source_sha256": "e192f62556a70d42f675a73c4e5ec7d2711bb1123f2f7db85780917caba67fe7",
+    "answer_present": false,
+    "status": {
+      "activeFlags": [],
+      "type": "active"
+    },
+    "history": "не доказана",
+    "stdout_identical": true
+  },
+  "поля_внешнего_ответа": [
+    "content",
+    "isError"
+  ],
+  "вывод": "Кэш повторного чтения работает; малый пустой ответ увеличивается в срезе. Полнота истории и завершение задачи не доказаны.",
+  "реализация": {
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs": "6431300e7ba0c1876f986bb5f2ff7b9eb11b39b5e8f988b7df7b3e4e9c52a670",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/показать-ответ-задачи.py": "bd44387c036186c7d62ae55f864324035dd2d812b6ab5fb7132f42d3948ff065",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e"
+  }
+}

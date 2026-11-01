@@ -1,7 +1,7 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://beget.com/ru/uridicheskie-pravila-programmi-grantov
-- Время извлечения UTC: 2026-09-15T16:17:04.954829+00:00
+- Время извлечения UTC: 2026-09-16T11:22:22.318230+00:00
 - Транспорт: curl
 - Effective URL: https://beget.com/ru/uridicheskie-pravila-programmi-grantov
 - HTTP-код: 200
@@ -34,6 +34,6 @@
 - `structured-data.json`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:22:27 MSK -->
-<!-- content-sha256: sha256:39b11c20d7731dd205633654fc784b65e0e7e3f9c99519b52b8cc81e9c0b18ee -->
+<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
+<!-- content-sha256: sha256:490e19fc70fe967488bee6b7a9b72aa9541dc0fb83ed63622a7badf7974c7d17 -->
 <!-- FUM-MD-RECENCY:END -->

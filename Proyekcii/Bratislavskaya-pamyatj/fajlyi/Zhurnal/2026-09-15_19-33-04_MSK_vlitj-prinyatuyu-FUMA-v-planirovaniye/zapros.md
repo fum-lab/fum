@@ -65,6 +65,6 @@ Vkhodyasjhij kontrakt uzhe dopuskayet tochnoye otsutstviye lokaljnogo `.obsidian
 - [Trebovaniya](../../Trebovaniya).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 20:44:05 MSK -->
+<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
 <!-- content-sha256: sha256:fd3bb0aa941c178f90e52c7610769870eb5ea055518be8e99c0c4f4ae0fad63e -->
 <!-- FUM-MD-RECENCY:END -->

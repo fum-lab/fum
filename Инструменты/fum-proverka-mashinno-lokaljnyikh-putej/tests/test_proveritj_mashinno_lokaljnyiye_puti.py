@@ -1,4 +1,7 @@
+import time
+МОМЕНТ_НАЧАЛА_ЗАГРУЗКИ = time.perf_counter_ns()
 import contextlib
+import base64
 import hashlib
 import importlib.util
 import io
@@ -42,6 +45,48 @@ spec.loader.exec_module(scanner)
 
 
 class MachineLocalPathScannerTests(unittest.TestCase):
+    def test_указатели_остатка_не_являются_путями_файловой_системы(сам) -> None:
+        путь = (
+            "Журнал/2026-09-22_11-13-26_MSK_продолжить-регистр-остатка/"
+            "материалы/индекс-остатка.jsonl"
+        )
+        строка = json.dumps(
+            {
+                "указатель_обработки": "/" + "остаток/0",
+                "указатель_оригинала": "/" + "сообщения/0",
+                "путь": "/" + "Users/example/private",
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        категории = [запись.category for запись in scanner.scan_text(путь, строка)]
+        сам.assertEqual(категории.count("report.json-pointer.posix-absolute"), 2)
+        сам.assertIn("error.posix-user-home", категории)
+        сам.assertIn("error.posix-absolute", [
+            запись.category for запись in scanner.scan_text("Документация/пример.jsonl", строка)
+        ])
+
+    def test_base64_изображение_не_скрывает_соседний_локальный_путь(сам) -> None:
+        путь = "Журнал/2026-09-22_05-12-27_MSK_фикстура/материалы/остаток-команды.jsonl"
+        изображение = "data:image/png;base64,iVBORw0KGgoA+" + "/" + "/" + "host/path"
+        сам.assertTrue(base64.b64decode(
+            изображение.partition(",")[2], validate=True,
+        ).startswith(b"\x89PNG\r\n\x1a\n"))
+        строка = json.dumps(
+            [{}, {}, {"detail": "high", "image_url": изображение, "type": "input_image"},
+             {"путь": "/" + "Users/example/private"}],
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        категории = [запись.category for запись in scanner.scan_text(путь, строка)]
+        сам.assertIn("report.data-image.windows-unc", категории)
+        сам.assertIn("error.posix-user-home", категории)
+        сам.assertIn("error.windows-unc", [
+            запись.category for запись in scanner.scan_text("Документация/пример.jsonl", строка)
+        ])
+
     def test_бинарное_вложение_требует_обычный_запрос(сам) -> None:
         with tempfile.TemporaryDirectory() as временный:
             корень = Path(временный)
@@ -773,6 +818,11 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                     "FIXTURE = '~alice/private/project'",
                     "allow.test-fixture",
                 ),
+                (
+                    "Инструменты/demo/scripts/syntax.py",
+                    "PATTERN = '~{3,}'",
+                    "allow.nonpath-syntax",
+                ),
             )
             exceptions = []
             for index, (relative, line, category) in enumerate(cases, start=1):
@@ -797,6 +847,7 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             себя.assertEqual(
                 результат_сценария.rendered_lines(),
                 (
+                    "Инструменты/demo/scripts/syntax.py:1:allow.nonpath-syntax.home-expansion",
                     "Инструменты/demo/tests/test_example.py:1:allow.test-fixture.home-expansion",
                     "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/example.py:1:allow.path-validation-definition.posix-absolute",
                 ),
@@ -879,5 +930,242 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             себя.assertNotIn("secret-project", stdout.getvalue())
 
 
+ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ = (
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py",
+)
+
+
+def сценарии_системных_литералов():
+    """Независимые точные входы и oracle; таблица реализации не читается."""
+    допустимые = ((0, "/bin/sh"), (1, "/usr/bin/env"), (2, "/bin/sh"),
+                  (2, "/bin/bash"), (3, "/bin/sh"))
+    сценарии = []
+    for номер, литерал in допустимые:
+        for кавычка in ("'", '"'):
+            сценарии.append((ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[номер],
+                f"значение = {кавычка}{литерал}{кавычка};", "allow.system-runtime"))
+    for путь in ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ:
+        сценарии.extend(((путь + ".копия", 'значение = "/bin/sh";', "error.system-runtime-hardcode"),
+            (путь, 'значение = "/usr/bin/git";', "error.system-runtime-hardcode"),
+            (путь, 'значение = "/Users/example/private";', "error.posix-user-home")))
+    путь = ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[0]
+    for строка in ('значение = "/bin/bash";', 'значение = "/bin/sh;";',
+            'значение = "/bin/sh.evil";', 'значение = "/bin/sh" + ".evil";',
+            'значение = "/bin/sh" ".evil";', 'значение = "/bin/" + "sh";',
+            'значение = "/bin/sh', 'значение = r"/bin/sh";',
+            'значение = f"/bin/sh";', 'значение = "/bin/sh".upper();',
+            'значение = "/bin/sh" * 2;'):
+        сценарии.append((путь, строка, "error.system-runtime-hardcode"))
+    for строка in ('значение = ("/bin/sh") + ".evil";',
+            'значение = (("/bin/sh")) + ".evil";',
+            'значение = ("/bin/sh").upper();',
+            'значение = ["/bin/sh"][0] + ".evil";'):
+        сценарии.append((путь, строка, "error.system-runtime-hardcode"))
+    сценарии.append((путь.replace("Инструменты/", "инструменты/", 1),
+        'значение = "/bin/sh";', "error.system-runtime-hardcode"))
+    основа = """',shell:"/bin/sh"'"""
+    for продолжение in (' + ".evil"', '.upper()', '[0]'):
+        сценарии.append((ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[3],
+            "строка = " + основа + продолжение, "error.system-runtime-hardcode"))
+    for строка in ("""строка = 'prefix' ',shell:"/bin/sh"'""",
+            """строка = 'prefix' ',shell:' '"/bin/sh"'""",
+            """строка = ('prefix' ',shell:"/bin/sh"')"""):
+        сценарии.append((ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[3], строка, "error.system-runtime-hardcode"))
+    return tuple(сценарии)
+
+
+class СистемныеЛитералыНативногоМоста(unittest.TestCase):
+    def test_точные_литералы_и_независимые_отказы(сам):
+        for путь, строка, ожидаемая in сценарии_системных_литералов():
+            with сам.subTest(путь=путь, строка=строка):
+                записи = scanner.scan_text(путь, строка)
+                сам.assertEqual([(з.path, з.line, з.category) for з in записи],
+                    [(путь, 1, ожидаемая)])
+
+    def test_соседний_приватный_путь_не_скрывается(сам):
+        системный = "/bin/sh"
+        приватный = "/Users/example/private"
+        for путь in (ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[0], ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[2],
+                ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[3]):
+            записи = scanner.scan_text(путь,
+                f'значение = ["{системный}", "{приватный}"];')
+            сам.assertEqual([з.category for з in записи],
+                ["allow.system-runtime", "error.posix-user-home"])
+
+    def test_экранирование_не_получает_новый_допуск(сам):
+        for строка in (r'значение = "\/bin/sh";', r'значение = "/bin\/sh";'):
+            записи = scanner.scan_text(ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[0], строка)
+            сам.assertTrue(записи)
+            сам.assertTrue(all(з.category.startswith("error.") for з in записи))
+
+    def test_перенос_не_скрывает_конкатенацию_и_смежный_литерал(сам):
+        for строка in ('значение = ("/bin/sh"\n + ".evil");',
+                'значение = ("/bin/sh"\n ".evil");',
+                'значение = ("/bin/sh"\n # пояснение\n ".evil");'):
+            записи = scanner.scan_text(ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[0], строка)
+            сам.assertEqual([з.category for з in записи], ["error.system-runtime-hardcode"])
+
+    def test_закрывающая_скобка_не_скрывает_продолжение(сам):
+        for строка in ('значение = ("/bin/sh") + ".evil";',
+                'значение = (("/bin/sh")) + ".evil";',
+                'значение = ("/bin/sh").upper();',
+                'значение = ["/bin/sh"][0] + ".evil";',
+                'значение = (("/bin/sh")\n # пояснение\n + ".evil");'):
+            записи = scanner.scan_text(ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[0], строка)
+            сам.assertEqual([з.category for з in записи], ["error.system-runtime-hardcode"])
+
+    def test_обязательные_настоящие_строки_моста_допускаются(сам):
+        корень = Path(__file__).resolve().parents[3]
+        значения = (("/bin/sh",), ("/usr/bin/env",), ("/bin/sh", "/bin/bash"), ("/bin/sh",))
+        for путь, литералы in zip(ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ, значения):
+            текст = (корень / путь).read_text()
+            строки = текст.splitlines()
+            выбранные = {номер for номер, строка in enumerate(строки, 1)
+                if any(форма.value in литералы for форма in scanner.detect_path_forms(строка))}
+            сам.assertTrue(выбранные)
+            реальные = [з for з in scanner.scan_text(путь, текст) if з.line in выбранные
+                and з.kind == "posix-absolute"]
+            сам.assertTrue(реальные)
+            сам.assertTrue(all(з.category == "allow.system-runtime" for з in реальные), путь)
+
+    def test_внешняя_строка_фикстуры_тоже_не_вычисляется(сам):
+        основа = """',shell:"/bin/sh"'"""
+        for продолжение in (' + ".evil"', '.upper()', '[0]'):
+            записи = scanner.scan_text(ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[3],
+                "строка = " + основа + продолжение)
+            сам.assertEqual([з.category for з in записи], ["error.system-runtime-hardcode"])
+
+    def test_смежный_префикс_не_становится_одним_литералом_дерева(сам):
+        for строка in ("""строка = 'prefix' ',shell:"/bin/sh"'""",
+                """строка = 'prefix' ',shell:' '"/bin/sh"'""",
+                """строка = ('prefix' ',shell:"/bin/sh"')"""):
+            записи = scanner.scan_text(ФАЙЛЫ_СИСТЕМНЫХ_ЛИТЕРАЛОВ[3], строка)
+            сам.assertEqual([з.category for з in записи], ["error.system-runtime-hardcode"])
+
+
+МОМЕНТ_ЗАВЕРШЕНИЯ_ЗАГРУЗКИ = time.perf_counter_ns()
+
+
+def хэши_проектного_контура():
+    корень = Path(__file__).resolve().parents[3]
+    результат = {}
+    for модуль in tuple(sys.modules.values()):
+        имя = getattr(модуль, "__file__", None)
+        if not имя:
+            continue
+        файл = Path(имя).resolve()
+        try:
+            путь = файл.relative_to(корень).as_posix()
+        except ValueError:
+            continue
+        if файл.is_file() and файл.suffix == ".py":
+            результат[путь] = hashlib.sha256(файл.read_bytes()).hexdigest()
+    return dict(sorted(результат.items()))
+
+
+def измерить_классификацию(блоков):
+    assert type(блоков) is int and 1 <= блоков <= 1000
+    assert os.environ.get("FUM_CHECKED_CODE_ROOT") is None
+    код_до = хэши_проектного_контура()
+    подготовка = time.perf_counter_ns()
+    группы = {}
+    for путь, строка, категория in сценарии_системных_литералов():
+        группы.setdefault(путь, []).append((строка, категория))
+    корпуса = []
+    for путь, строки in sorted(группы.items()):
+        ожидаемые = []
+        данные = []
+        for повтор in range(блоков):
+            for строка, категория in строки:
+                данные.append(строка)
+                ожидаемые.append((путь, len(данные), категория))
+        текст = "\n".join(данные) + "\n"
+        корпуса.append((путь, текст, ожидаемые))
+    подготовка_нс = time.perf_counter_ns() - подготовка
+    наблюдения = []
+    for путь, текст, ожидаемые in корпуса:
+        начало = time.perf_counter_ns()
+        записи = scanner.scan_text(путь, текст)
+        сканирование_нс = time.perf_counter_ns() - начало
+        начало = time.perf_counter_ns()
+        фактические = [(з.path, з.line, з.category) for з in записи]
+        assert фактические == ожидаемые, (путь, len(фактические), len(ожидаемые))
+        сверка_нс = time.perf_counter_ns() - начало
+        байты_оракула = json.dumps(ожидаемые, ensure_ascii=False, separators=(",", ":")).encode()
+        байты_результата = json.dumps(фактические, ensure_ascii=False, separators=(",", ":")).encode()
+        наблюдения.append({"путь": путь, "байтов_входа": len(текст.encode()),
+            "строк": len(ожидаемые), "записей": len(записи),
+            "вход_sha256": hashlib.sha256(текст.encode()).hexdigest(),
+            "оракул_sha256": hashlib.sha256(байты_оракула).hexdigest(),
+            "результат_sha256": hashlib.sha256(байты_результата).hexdigest(),
+            "сканирование_нс": сканирование_нс, "сверка_нс": сверка_нс})
+    код_после = хэши_проектного_контура()
+    assert код_до == код_после
+    return {"схема": "fum.профиль-классификации-системных-литералов.1",
+        "блоков": блоков, "версия_интерпретатора": sys.version,
+        "интерпретатор_sha256": hashlib.sha256(Path(sys.executable).resolve().read_bytes()).hexdigest(),
+        "код_sha256": код_до, "загрузка_модуля_нс": МОМЕНТ_ЗАВЕРШЕНИЯ_ЗАГРУЗКИ - МОМЕНТ_НАЧАЛА_ЗАГРУЗКИ,
+        "подготовка_корпусов_нс": подготовка_нс, "корпуса": наблюдения}
+
+
+def профиль_системных_литералов(аргументы):
+    import argparse
+    import statistics
+    разбор = argparse.ArgumentParser(allow_abbrev=False)
+    разбор.add_argument("--профиль-системных-литералов", action="store_true")
+    разбор.add_argument("--блоков", type=int, default=200)
+    разбор.add_argument("--выход", required=True)
+    параметры = разбор.parse_args(аргументы)
+    if not 1 <= параметры.блоков <= 1000:
+        разбор.error("нужно от одного до тысячи блоков")
+    выход = Path(параметры.выход)
+    if not выход.is_absolute() or not выход.parent.is_dir() or выход.exists():
+        разбор.error("нужен новый абсолютный файл в существующем приватном каталоге")
+    до = хэши_проектного_контура()
+    запуски = []
+    for номер in range(3):
+        начало = time.perf_counter_ns()
+        процесс = subprocess.run([sys.executable, "-I", "-S", "-B", str(Path(__file__).resolve()),
+            "--воркер-системных-литералов", str(параметры.блоков)],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120, check=True)
+        внешнее_нс = time.perf_counter_ns() - начало
+        assert not процесс.stderr
+        наблюдение = json.loads(процесс.stdout)
+        assert наблюдение["код_sha256"] == до
+        assert наблюдение["блоков"] == параметры.блоков
+        запуски.append({"номер": номер + 1, "внешнее_нс": внешнее_нс, "наблюдение": наблюдение})
+    def подпись(наблюдение):
+        return [(з["путь"], з["байтов_входа"], з["строк"], з["записей"],
+            з["вход_sha256"], з["оракул_sha256"], з["результат_sha256"])
+            for з in наблюдение["корпуса"]]
+    первая = запуски[0]["наблюдение"]
+    assert all(подпись(з["наблюдение"]) == подпись(первая) for з in запуски)
+    assert all(з["наблюдение"]["интерпретатор_sha256"] == первая["интерпретатор_sha256"]
+        and з["наблюдение"]["версия_интерпретатора"] == первая["версия_интерпретатора"] for з in запуски)
+    assert до == хэши_проектного_контура()
+    итог = {"схема": "fum.серия-профилей-системных-литералов.1", "запуски": запуски,
+        "медиана_внешнего_нс": statistics.median(з["внешнее_нс"] for з in запуски),
+        "полный_оракул_совпал": True, "ускорение_не_заявлено": True,
+        "граница": "Три свежих процесса -I -S -B; подготовка данных отделена от scan_text; код и полные классификации сверены."}
+    with выход.open("xb") as файл:
+        файл.write((json.dumps(итог, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode())
+        файл.flush()
+        os.fsync(файл.fileno())
+    выход.chmod(0o400)
+    print(json.dumps({"запусков": 3, "корпусов": len(первая["корпуса"]),
+        "записей": sum(з["записей"] for з in первая["корпуса"]),
+        "медиана_внешнего_нс": итог["медиана_внешнего_нс"],
+        "sha256": hashlib.sha256(выход.read_bytes()).hexdigest()}, ensure_ascii=False))
+
+
 if __name__ == "__main__":
-    unittest.main()
+    if sys.argv[1:2] == ["--воркер-системных-литералов"]:
+        assert len(sys.argv) == 3
+        print(json.dumps(измерить_классификацию(int(sys.argv[2])), ensure_ascii=False))
+    elif sys.argv[1:2] == ["--профиль-системных-литералов"]:
+        профиль_системных_литералов(sys.argv[1:])
+    else:
+        unittest.main()

@@ -1,12 +1,15 @@
 import Foundation
 
 // Собственный закрытый JSON: целые числа, строки, массивы и объекты.
-// Значения true/false/null и дроби не входят в схему определения.
+// true/false/null и полный синтаксис JSON-чисел разрешены только отдельным
+// профилем проверки произвольного JSON. Схема определения их не допускает.
 indirect enum УзелОпределения: Encodable, Equatable, Sendable {
   case объект([String: УзелОпределения])
   case массив([УзелОпределения])
   case строка(String)
   case целое(Int)
+  case логическое(Bool)
+  case пусто
 
   func encode(to кодировщик: any Encoder) throws {
     var контейнер = кодировщик.singleValueContainer()
@@ -15,6 +18,8 @@ indirect enum УзелОпределения: Encodable, Equatable, Sendable {
     case .массив(let элементы): try контейнер.encode(элементы)
     case .строка(let строка): try контейнер.encode(строка)
     case .целое(let число): try контейнер.encode(число)
+    case .логическое(let значение): try контейнер.encode(значение)
+    case .пусто: try контейнер.encodeNil()
     }
   }
 
@@ -51,15 +56,20 @@ struct РазборОпределения {
   private let байты: [UInt8]
   private var позиция = 0
   private var узлов = 0
+  private let входJSON: Bool
+  private let проверкаПолногоJSON: Bool
 
-  init(_ данные: Data) throws {
-    guard данные.count <= 65_536 else {
-      throw ОшибкаИсполнения("предел-определения", "Определение превышает 65536 байтов")
+  init(_ данные: Data, входJSON: Bool = false, проверкаПолногоJSON: Bool = false) throws {
+    let предел = входJSON || проверкаПолногоJSON ? 262_144 : 65_536
+    guard данные.count <= предел else {
+      throw ОшибкаИсполнения("предел-определения", "Превышен размер выбранного профиля JSON")
     }
     guard String(data: данные, encoding: .utf8) != nil else {
       throw ОшибкаИсполнения("схема", "Определение должно быть строгим UTF-8")
     }
     байты = Array(данные)
+    self.входJSON = входJSON || проверкаПолногоJSON
+    self.проверкаПолногоJSON = проверкаПолногоJSON
   }
 
   mutating func разобрать() throws -> УзелОпределения {
@@ -110,6 +120,21 @@ struct РазборОпределения {
       }
     }
     if байты[позиция] == 34 { return .строка(try строка()) }
+    if входJSON {
+      for (слово, узел): (String, УзелОпределения) in [
+        ("true", .логическое(true)), ("false", .логическое(false)), ("null", .пусто)
+      ] {
+        let часть = Array(слово.utf8)
+        if байты[позиция...].starts(with: часть) {
+          позиция += часть.count
+          return узел
+        }
+      }
+    }
+    if проверкаПолногоJSON {
+      try проверитьЧислоJSON()
+      return .целое(0)
+    }
     let начало = позиция
     _ = принять(45)
     guard позиция < байты.count else { throw отказ() }
@@ -121,6 +146,27 @@ struct РазборОпределения {
       throw отказ()
     }
     return .целое(число)
+  }
+
+  private mutating func проверитьЧислоJSON() throws {
+    _ = принять(45)
+    guard позиция < байты.count else { throw отказ() }
+    if принять(48) {
+      guard позиция == байты.count || !(48...57).contains(байты[позиция]) else { throw отказ() }
+    } else {
+      guard (49...57).contains(байты[позиция]) else { throw отказ() }
+      while позиция < байты.count, (48...57).contains(байты[позиция]) { позиция += 1 }
+    }
+    if принять(46) {
+      guard позиция < байты.count, (48...57).contains(байты[позиция]) else { throw отказ() }
+      while позиция < байты.count, (48...57).contains(байты[позиция]) { позиция += 1 }
+    }
+    if позиция < байты.count, (байты[позиция] == 69 || байты[позиция] == 101) {
+      позиция += 1
+      if позиция < байты.count, (байты[позиция] == 43 || байты[позиция] == 45) { позиция += 1 }
+      guard позиция < байты.count, (48...57).contains(байты[позиция]) else { throw отказ() }
+      while позиция < байты.count, (48...57).contains(байты[позиция]) { позиция += 1 }
+    }
   }
 
   private mutating func строка() throws -> String {
@@ -158,4 +204,13 @@ public func каноническиеДанные<Значение: Encodable>(_ 
   let кодировщик = JSONEncoder()
   кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
   return try кодировщик.encode(значение)
+}
+
+/// Проверяет закрытый профиль полного JSON, включая запрет повторных полей.
+/// Функция не интерпретирует и не переписывает значения.
+public enum ЗакрытыйJSON {
+  public static func проверить(_ данные: Data) throws {
+    var разбор = try РазборОпределения(данные, проверкаПолногоJSON: true)
+    _ = try разбор.разобрать()
+  }
 }

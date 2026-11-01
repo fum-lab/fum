@@ -41,6 +41,8 @@ enum FUMPermissionCLI {
     private static func printStatus(request: Bool, outputURL: URL?) {
         let payload: [String: Any] = [
             "bundleIdentifier": Bundle.main.bundleIdentifier ?? "",
+            "schema": "fum.permission-state.1",
+            "source": "FUMA.app",
             "requested": request,
             "accessibility": AXIsProcessTrusted(),
             "inputMonitoring": CGPreflightListenEventAccess(),

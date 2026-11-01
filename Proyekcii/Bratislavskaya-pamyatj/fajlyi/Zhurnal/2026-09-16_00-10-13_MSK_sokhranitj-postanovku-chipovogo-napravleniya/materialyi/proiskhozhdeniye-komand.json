@@ -1,0 +1,63 @@
+{
+  "схема": "fum.выбранные-уточнения.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "граница": 853721697,
+  "sha256": "dd9a42227a64461c22d2b11810993a9e076566e6eec6659ad9b3ee4622cf29a9",
+  "команды": [
+    {
+      "экземпляр": "05789fafcacfef8721f915d1544cdd2b9b4c343e7f8beb99437db5aae4471766",
+      "позиция": {
+        "начало": 773773019,
+        "конец": 773773567,
+        "sha256": "148a4ac58a49742f95c6f8106d7724bfcd1f48590cadd65378c9ca0008616b85"
+      },
+      "текст": "Sobstvennoye proizvodstvo chipov pozvolit v tom chisle vyipuskatj apparatnyiye realizacii dlya ustojchivyikh i chasto trebuyemyikh skhem strukturiruyusjhikh operatorov.\n"
+    },
+    {
+      "экземпляр": "365ae6f92f9c328023a7b0a0831910729285c98a68cfcc2214d8aaab7ea35c7c",
+      "позиция": {
+        "начало": 838663464,
+        "конец": 838663901,
+        "sha256": "70e615e2ca8420308d9b3a334c423590bc6a81f2a170c524427e74880798d9c5"
+      },
+      "текст": "U nas uzhe otkryito napravleniye proyektirovaniya chipov?\n"
+    },
+    {
+      "экземпляр": "c25f3851a80842c941c2bd10c3b13c801fdbc7018a587df1bab8eb9b91ca79b9",
+      "позиция": {
+        "начало": 839387616,
+        "конец": 839388077,
+        "sha256": "360868992a9c126f3c6aec34353f3e9b31748dfd41454d059d06cd1cfc45940c"
+      },
+      "текст": "U nas kakaya-to beda s prabelami u FUM Integrator sluchilasj v avtorakh kommitov.\n"
+    },
+    {
+      "экземпляр": "a6f21de4a530e45f574b2eaa876eaff6339da7b2a360cbbcc6f9a85ce6251d78",
+      "позиция": {
+        "начало": 839503175,
+        "конец": 839503606,
+        "sha256": "7a361271ed73ca7a1cda956522efa377f40d2c7e0e47363f2d43000109110f78"
+      },
+      "текст": "Voobsjhe nam byi sdelatj avtomatizaciyu dlya etogo.\n"
+    },
+    {
+      "экземпляр": "a26b584b0a01b10a4c5db4c064410dae6b651f07dbca9452c83717e69bf64bf2",
+      "позиция": {
+        "начало": 839619055,
+        "конец": 839619870,
+        "sha256": "42ee670828b615511a8ccc80ba4ae355944d8d08aa7418eadf0526c2d14d21d1"
+      },
+      "текст": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_muBMgla7PcsiwKVQwe74JWrS\\\",0]\",\"question\":\"Какую операцию вы сейчас хотите автоматизировать?\",\"answer\":\"Создание коммитов с проверкой имени автора и остальных обязательных полей\"}]\n</send_user_message_question_reply>"
+    },
+    {
+      "экземпляр": "476117124255ac8f35a49b62cd74aecbd11c4fafdec30d30884ba60f4cd11ce7",
+      "позиция": {
+        "начало": 839638083,
+        "конец": 839638557,
+        "sha256": "ae2e3e6b40300803683e206c8fbe33d04ccccd28cd24290df6fa72bfe1d2cf44"
+      },
+      "текст": "Neobkhodimyim etapom integracii nuzhno dobavitj obnovleniye svyazannoj dokumentacii ya dumayu.\n"
+    }
+  ],
+  "граница_смысла": "Завершённый проверенный префикс, не весь продолжающийся живой диалог."
+}

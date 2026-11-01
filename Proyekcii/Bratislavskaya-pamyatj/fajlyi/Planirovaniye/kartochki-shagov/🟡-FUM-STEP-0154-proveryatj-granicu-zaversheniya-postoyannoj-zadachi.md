@@ -35,6 +35,12 @@ Prodolzhitj susjhestvuyusjhij STEP-0154 s sokhraneniyem obyazateljstva FUM-PRODO
 
 Podgotovlenyi privatnyij komplekt iz odinnadcati iskhodnikov, konkretnyij kandidat Stop i otdeljnyij indeks zhivogo puti. Kandidat ne ustanovlen i ne schitayetsya gotovyim k vklyucheniyu. Callable hooks/list otsutstvuyet v dostupnom interfejse ispolnitelya; dejstvuyusjhij sloj i Trust ne podtverzhdenyi. [Perechenj integracii 0177](../../Zhurnal/2026-09-11_08-23-55_MSK_kvalificirovatj-dopisj-dlya-perekhvata/materialyi/granica-integracii.md) sokhranyayet neobkhodimyiye vyizovyi --iskhodnik, pravila, proverki i granicu reyestra. Nativnaya priyomka i sleduyusjheye razreshyonnoye dejstviye ostayutsya obyazateljnyimi usloviyami vsej kartochki.
 
+## Kvalifikaciya posle vosstanovleniya 16 sentyabrya
+
+[Vosstanovleno rabocheye mesto i sokhranyon aktualjnyij plan](../../Zhurnal/2026-09-16_15-11-45_MSK_vosstanovitj-rabocheye-mesto-proverki/otchyot.md). V proverennom master 9efd84ded4e0f47b47aaac4a7464f8c4e5171c8e uzhe prisutstvuyut 6b186059 i d635cfff; staroye trebovaniye integracii 0177 neljzya schitatj celikom nevyipolnennyim. Istoricheskiye privatnyiye komplekt i indeks otsutstvuyut. Prevyisheniye tryokh sekund ostayotsya rezuljtatom 11 sentyabrya, tekusjhij runtime ne izmeryalsya. Sokhranyonnoye v cd5a3a5 pereispoljzovaniye reader otnositsya k priyomu napravlenij i ne dokazyivayet byudzhet Stop.
+
+Sleduyusjhij ogranichennyij shag: vyibratj tochnyij kod budusjhej kvalifikacii i poluchitj oficialjnoye nablyudeniye aktivnoj poverkhnosti hooks tekusjhego runtime. Dopolneniye koordinatora trebuyet sokhranyatj prinyatyiye sluzhebnyiye porucheniya v dolgovechnom plane: nulevoj chelovecheskij ostatok ne dokazyivayet ikh ispolneniya. Prichinnaya svyazj poteri porucheniya s Low/compaction ne ustanovlena. Nativnaya priyomka ne podtverzhdena, status ostayotsya active; hooks, Trust i konfiguraciya v etape ne menyalisj.
+
 ## Kriterii zaversheniya
 
 - RED/GREEN vosproizvodit poteryu obyazateljstva, podmenu realizacii planom i zavershyonnuyu podzadachu pri aktivnom roditele; realjnyiye rezuljtatyi chitayutsya nezavisimo ot svobodnoj stroki svideteljstva.
@@ -75,6 +81,6 @@ Do nativnogo podklyucheniya nuzhno proveritj polnyij guard i adapter na faktiche
 - [Dejstvuyusjhaya granica kommita](../../AGENTS.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:8094e97376408c8969e1501b988a0f9e7ad339f47caacc9b62ae2cdb6fb07dd6 -->
+<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
+<!-- content-sha256: sha256:e9c2a81f057f8bfa438874a4710eb1415da9d5161161d96d9a687c5be6f724af -->
 <!-- FUM-MD-RECENCY:END -->

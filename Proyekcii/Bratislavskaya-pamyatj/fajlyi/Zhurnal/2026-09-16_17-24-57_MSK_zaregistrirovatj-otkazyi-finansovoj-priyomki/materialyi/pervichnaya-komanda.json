@@ -1,0 +1,15 @@
+{
+  "экземпляр": "919cb59e03cb2d9d51eba8de5702021e7f00b64f43d3806489563714ea5e571a",
+  "позиция": {
+    "начало": 532933199,
+    "конец": 532933686,
+    "sha256": "ac54486468d65e8cfa0f808bca4a01555a412c47478c1af46f612dd82471daec"
+  },
+  "содержимое": [
+    {
+      "type": "input_text",
+      "text": "Vtoroj prioritetnoj zadachej paralleljno zapusti poisk dopolniteljnogo finansirovaniya dlya tvoyej rabotyi.\n"
+    }
+  ],
+  "происхождение": "человек"
+}

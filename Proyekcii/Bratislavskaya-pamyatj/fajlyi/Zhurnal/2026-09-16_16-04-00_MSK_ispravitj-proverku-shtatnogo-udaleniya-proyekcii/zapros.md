@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 14:57:36 MSK - Podgotovitj sliyaniye prinyatoj osnovyi i FUMA](../2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 17:17:13 MSK - Prinyatj sliyaniye s ispravlennyim udaleniyem proyekcii](../2026-09-16_17-17-13_MSK_prinyatj-sliyaniye-s-ispravlennyim-udaleniyem-proyekcii/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 15:39:14 MSK - Sokhranitj oformleniye priyoma Max](../2026-09-16_15-39-14_MSK_sokhranitj-oformleniye-priyoma-Max/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 16:04:30 MSK - Zakrepitj priyom sluzhebnoj delegacii](../2026-09-16_16-04-30_MSK_zakrepitj-priyom-sluzhebnoj-delegacii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -69,6 +69,6 @@ Dlya dostavki uzhe razreshyon vremennyij prezhnij sposob: proverennyij lokaljnyi
 - [Otvetyi na pozdniye soobsjheniya](materialyi/pozdnij-dialog.md). Perenesenyi bajtovo iz sokhranyonnogo podgotoviteljnogo etapa etoj zhe kornevoj zadachi; etot perenos ne utverzhdayet priyomki osnovnogo kandidata.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
-<!-- content-sha256: sha256:5011337956340ae5512f80d48cd64f51a4893c4188b65dd57b18937d9223e096 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:1c053c83783490806e88ca9615401b62e1b0e06e16ca8e184aebde760cb2b877 -->
 <!-- FUM-MD-RECENCY:END -->

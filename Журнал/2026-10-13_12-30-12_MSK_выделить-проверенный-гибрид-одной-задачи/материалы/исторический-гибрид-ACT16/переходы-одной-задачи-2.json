@@ -1,0 +1,675 @@
+{
+  "Python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+  "границы": "Одна фикстура, три пары независимых процессов без сети. RSS максимум к моменту замера перед финальной сериализацией работника; внутреннее время композиции и внешнее время процесса вложены. SHA фактически прочитанного входа и всех импортированных проектных Python-исходников сверяются, карта включает генератор фикстуры. Это наблюдённый Python closure, стандартная библиотека закреплена версией Python; произвольный непройденный lazy import этим не покрыт. Чтения охватывают успешные Git-источники прежнего сверить_источник, включая ACT; не внутренние чтения Git. JSON охватывает композицию после загрузки входа. Это логические байты, физический I/O и кэш ОС неизвестны. ROOT JSONL не читался.",
+  "исходники": {
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py": "734cb08c12f2172b37e3c437f6ca75ecaf06284e1d6ac69434948f69ad500cc6",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py": "1c88b6d88a2fde9f00d8b1647a99f4ece69b35089f6e1a69212d0a449c84aa10",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py": "838229483c487e982af520d37792733c308a467c30109324fdd11997df091350",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_назначение_доставки.py": "33993e344ac2cd531cfbfafc8179b4001653256748a385223aff33438b4062fc",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_обратная_доставка.py": "c083f53c243437dbaf8fddc92340fb7a9ccc472340557da33c63517ffbb54bb4",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_писателя.py": "3f554d5a30082357fcdbf71e877a14dda9c93b2ea8caef14f0c10ad758b676dd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py": "9478b1f73fb9a2a8d605bdbe9874eba14e927e20400934b9dc98ae4433e8a09e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_восстановление_прерванной_задачи.py": "1c6f8e0b8e4f2cd1188a13d9ae66099d00f1fbb9a94d39c0e7c7da4422fc9bd2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_переходов_задачи_узла.py": "956acf325a87b8e2903c9b253b3335937833de405df40f0da0288bd76c4d69e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+  },
+  "пары": [
+    [
+      {
+        "RSS_байты_к_моменту_замера": 52871168,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "3e22cdba2a8e4c4457d10da03deea01d4a330e328ed9802c840b32a10c077103",
+        "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+        "источники": {
+          "1ccac6b6881886317067880a109b457afce62262:постановка.md:b200e7d7da85a2e6fb0fd95d43085fc321087209940d981dde2d4c3ff8a70fd2": {
+            "логических_байтов": 1430,
+            "чтений": 26
+          },
+          "3bab7dc21d86ff4357427228e45c9282f3d3b0e3:переход.json:a869b9b17d3b6bcd3b033c946fc2d9a4bfb86e297f6c29dd3e710affe6139346": {
+            "логических_байтов": 1190,
+            "чтений": 1
+          },
+          "3d40cd5bc61ab79697b0ac412b1d9a8b1e6f2e5e:переход.json:a13c8c6517e6da6c7ac4a204b4859feffd2a2816163b7bbd476f255568aa706f": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "4da633d288f2d3440cc00b91566fe0602abce336:решение-00000000-0000-0000-0000-000000000001.json:e3e6ce565dbc7924ab48faca2f3f37a3682c116e8a04cc997c142593e110f09c": {
+            "логических_байтов": 1954,
+            "чтений": 2
+          },
+          "8e60845881474728333b458fbb429eb21bf921cf:expected.json:9594bdb6f02d2ab9ef6647df83291854c977b5cb66b01efa378ea824e8b91837": {
+            "логических_байтов": 3750,
+            "чтений": 2
+          },
+          "904060e38135a4cc5862a1d5e014f4f618348e58:готовый.md:15c590fd1e46007d4e672deaaf5d629bbd79da768f2fdac184e21c56997cbbbb": {
+            "логических_байтов": 90,
+            "чтений": 5
+          },
+          "a2ee6be739a1fb503aa99477beeaa1733c85ec2d:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3305,
+            "чтений": 5
+          },
+          "a98ab259cf113d32aed1e20a53d8d9b321cd0222:переход.json:407567f682f852e340ba4b5ed1cdf4e8313ea089fe093e27b93f9fc22850463a": {
+            "логических_байтов": 1196,
+            "чтений": 1
+          },
+          "c93281849e27be44919fef03b7e25129872dc4ca:переход.json:836fedd79a8cc63140ce586d31a505337a12e2fd4f404818ca893fa6fb75bbd6": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "e263a546221aecf33121c57ba3bd2c3eccaab215:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3966,
+            "чтений": 6
+          },
+          "ecf9e32490d831525627f6d0da28b7bbec2812d8:переход.json:c1458b98f7387e07028d8be0d7e18e64e472f9efd9e73fe7c1ba3f251459387e": {
+            "логических_байтов": 4792,
+            "чтений": 4
+          },
+          "f735b0bf36d6d8094227585dd741e295cacfb14e:переход.json:f49f3155d811465c2f6cd9f80d48d3d6b82e772be34dfb0ea31bf5110291d163": {
+            "логических_байтов": 971,
+            "чтений": 1
+          },
+          "f9faf5c8509c9c2ff67eb0a6d2902ac21a47af2c:переход.json:cfdecfa4e05a0c924fa50cd65e37de96273fe8cfb3589e626a3fa92b27f2447a": {
+            "логических_байтов": 998,
+            "чтений": 1
+          }
+        },
+        "исходники": {
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+        },
+        "кандидат_sha256": "d3cb38d9ef3cc45f5d34353e3d04e7510ffca0f7fafb958144d10f8993e7d862",
+        "логических_байтов_JSON": 27600,
+        "наносекунды": 2101697958,
+        "процесс_наносекунды": 2466646209,
+        "разбор_вывода_наносекунды": 141833,
+        "разборов_JSON": 27,
+        "режим": "ручной",
+        "смысл_sha256": "fedab609c50a3492f668a8589cc91aa697b80126b2224d14bc3b6950d1970f60",
+        "физический_IO": "unknown"
+      },
+      {
+        "RSS_байты_к_моменту_замера": 50675712,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "0135a0c15269b7574d50f586e3297432ff6c973dd0cf4a4165ed8b6f1fbb793a",
+        "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+        "источники": {
+          "1ccac6b6881886317067880a109b457afce62262:постановка.md:b200e7d7da85a2e6fb0fd95d43085fc321087209940d981dde2d4c3ff8a70fd2": {
+            "логических_байтов": 1430,
+            "чтений": 26
+          },
+          "3bab7dc21d86ff4357427228e45c9282f3d3b0e3:переход.json:a869b9b17d3b6bcd3b033c946fc2d9a4bfb86e297f6c29dd3e710affe6139346": {
+            "логических_байтов": 1190,
+            "чтений": 1
+          },
+          "3d40cd5bc61ab79697b0ac412b1d9a8b1e6f2e5e:переход.json:a13c8c6517e6da6c7ac4a204b4859feffd2a2816163b7bbd476f255568aa706f": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "4da633d288f2d3440cc00b91566fe0602abce336:решение-00000000-0000-0000-0000-000000000001.json:e3e6ce565dbc7924ab48faca2f3f37a3682c116e8a04cc997c142593e110f09c": {
+            "логических_байтов": 1954,
+            "чтений": 2
+          },
+          "8e60845881474728333b458fbb429eb21bf921cf:expected.json:9594bdb6f02d2ab9ef6647df83291854c977b5cb66b01efa378ea824e8b91837": {
+            "логических_байтов": 3750,
+            "чтений": 2
+          },
+          "904060e38135a4cc5862a1d5e014f4f618348e58:готовый.md:15c590fd1e46007d4e672deaaf5d629bbd79da768f2fdac184e21c56997cbbbb": {
+            "логических_байтов": 90,
+            "чтений": 5
+          },
+          "a2ee6be739a1fb503aa99477beeaa1733c85ec2d:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3305,
+            "чтений": 5
+          },
+          "a98ab259cf113d32aed1e20a53d8d9b321cd0222:переход.json:407567f682f852e340ba4b5ed1cdf4e8313ea089fe093e27b93f9fc22850463a": {
+            "логических_байтов": 1196,
+            "чтений": 1
+          },
+          "c93281849e27be44919fef03b7e25129872dc4ca:переход.json:836fedd79a8cc63140ce586d31a505337a12e2fd4f404818ca893fa6fb75bbd6": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "e263a546221aecf33121c57ba3bd2c3eccaab215:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3966,
+            "чтений": 6
+          },
+          "ecf9e32490d831525627f6d0da28b7bbec2812d8:переход.json:c1458b98f7387e07028d8be0d7e18e64e472f9efd9e73fe7c1ba3f251459387e": {
+            "логических_байтов": 4792,
+            "чтений": 4
+          },
+          "f735b0bf36d6d8094227585dd741e295cacfb14e:переход.json:f49f3155d811465c2f6cd9f80d48d3d6b82e772be34dfb0ea31bf5110291d163": {
+            "логических_байтов": 971,
+            "чтений": 1
+          },
+          "f9faf5c8509c9c2ff67eb0a6d2902ac21a47af2c:переход.json:cfdecfa4e05a0c924fa50cd65e37de96273fe8cfb3589e626a3fa92b27f2447a": {
+            "логических_байтов": 998,
+            "чтений": 1
+          }
+        },
+        "исходники": {
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+        },
+        "кандидат_sha256": "d3cb38d9ef3cc45f5d34353e3d04e7510ffca0f7fafb958144d10f8993e7d862",
+        "логических_байтов_JSON": 27600,
+        "наносекунды": 2088933917,
+        "процесс_наносекунды": 2444100125,
+        "разбор_вывода_наносекунды": 125417,
+        "разборов_JSON": 27,
+        "режим": "гибрид",
+        "смысл_sha256": "fedab609c50a3492f668a8589cc91aa697b80126b2224d14bc3b6950d1970f60",
+        "физический_IO": "unknown"
+      }
+    ],
+    [
+      {
+        "RSS_байты_к_моменту_замера": 51249152,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "921db241d79a1aee2744f16d163dc1d00e40ccbf9e50b5b7fc73bbb1a4c2c88c",
+        "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+        "источники": {
+          "1ccac6b6881886317067880a109b457afce62262:постановка.md:b200e7d7da85a2e6fb0fd95d43085fc321087209940d981dde2d4c3ff8a70fd2": {
+            "логических_байтов": 1430,
+            "чтений": 26
+          },
+          "3bab7dc21d86ff4357427228e45c9282f3d3b0e3:переход.json:a869b9b17d3b6bcd3b033c946fc2d9a4bfb86e297f6c29dd3e710affe6139346": {
+            "логических_байтов": 1190,
+            "чтений": 1
+          },
+          "3d40cd5bc61ab79697b0ac412b1d9a8b1e6f2e5e:переход.json:a13c8c6517e6da6c7ac4a204b4859feffd2a2816163b7bbd476f255568aa706f": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "4da633d288f2d3440cc00b91566fe0602abce336:решение-00000000-0000-0000-0000-000000000001.json:e3e6ce565dbc7924ab48faca2f3f37a3682c116e8a04cc997c142593e110f09c": {
+            "логических_байтов": 1954,
+            "чтений": 2
+          },
+          "8e60845881474728333b458fbb429eb21bf921cf:expected.json:9594bdb6f02d2ab9ef6647df83291854c977b5cb66b01efa378ea824e8b91837": {
+            "логических_байтов": 3750,
+            "чтений": 2
+          },
+          "904060e38135a4cc5862a1d5e014f4f618348e58:готовый.md:15c590fd1e46007d4e672deaaf5d629bbd79da768f2fdac184e21c56997cbbbb": {
+            "логических_байтов": 90,
+            "чтений": 5
+          },
+          "a2ee6be739a1fb503aa99477beeaa1733c85ec2d:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3305,
+            "чтений": 5
+          },
+          "a98ab259cf113d32aed1e20a53d8d9b321cd0222:переход.json:407567f682f852e340ba4b5ed1cdf4e8313ea089fe093e27b93f9fc22850463a": {
+            "логических_байтов": 1196,
+            "чтений": 1
+          },
+          "c93281849e27be44919fef03b7e25129872dc4ca:переход.json:836fedd79a8cc63140ce586d31a505337a12e2fd4f404818ca893fa6fb75bbd6": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "e263a546221aecf33121c57ba3bd2c3eccaab215:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3966,
+            "чтений": 6
+          },
+          "ecf9e32490d831525627f6d0da28b7bbec2812d8:переход.json:c1458b98f7387e07028d8be0d7e18e64e472f9efd9e73fe7c1ba3f251459387e": {
+            "логических_байтов": 4792,
+            "чтений": 4
+          },
+          "f735b0bf36d6d8094227585dd741e295cacfb14e:переход.json:f49f3155d811465c2f6cd9f80d48d3d6b82e772be34dfb0ea31bf5110291d163": {
+            "логических_байтов": 971,
+            "чтений": 1
+          },
+          "f9faf5c8509c9c2ff67eb0a6d2902ac21a47af2c:переход.json:cfdecfa4e05a0c924fa50cd65e37de96273fe8cfb3589e626a3fa92b27f2447a": {
+            "логических_байтов": 998,
+            "чтений": 1
+          }
+        },
+        "исходники": {
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+        },
+        "кандидат_sha256": "d3cb38d9ef3cc45f5d34353e3d04e7510ffca0f7fafb958144d10f8993e7d862",
+        "логических_байтов_JSON": 27600,
+        "наносекунды": 2089677458,
+        "процесс_наносекунды": 2449737125,
+        "разбор_вывода_наносекунды": 122959,
+        "разборов_JSON": 27,
+        "режим": "гибрид",
+        "смысл_sha256": "fedab609c50a3492f668a8589cc91aa697b80126b2224d14bc3b6950d1970f60",
+        "физический_IO": "unknown"
+      },
+      {
+        "RSS_байты_к_моменту_замера": 50495488,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "545a3b8958dda353983596086b26acfa29df44c7c64901c8e3b92928cd30dfef",
+        "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+        "источники": {
+          "1ccac6b6881886317067880a109b457afce62262:постановка.md:b200e7d7da85a2e6fb0fd95d43085fc321087209940d981dde2d4c3ff8a70fd2": {
+            "логических_байтов": 1430,
+            "чтений": 26
+          },
+          "3bab7dc21d86ff4357427228e45c9282f3d3b0e3:переход.json:a869b9b17d3b6bcd3b033c946fc2d9a4bfb86e297f6c29dd3e710affe6139346": {
+            "логических_байтов": 1190,
+            "чтений": 1
+          },
+          "3d40cd5bc61ab79697b0ac412b1d9a8b1e6f2e5e:переход.json:a13c8c6517e6da6c7ac4a204b4859feffd2a2816163b7bbd476f255568aa706f": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "4da633d288f2d3440cc00b91566fe0602abce336:решение-00000000-0000-0000-0000-000000000001.json:e3e6ce565dbc7924ab48faca2f3f37a3682c116e8a04cc997c142593e110f09c": {
+            "логических_байтов": 1954,
+            "чтений": 2
+          },
+          "8e60845881474728333b458fbb429eb21bf921cf:expected.json:9594bdb6f02d2ab9ef6647df83291854c977b5cb66b01efa378ea824e8b91837": {
+            "логических_байтов": 3750,
+            "чтений": 2
+          },
+          "904060e38135a4cc5862a1d5e014f4f618348e58:готовый.md:15c590fd1e46007d4e672deaaf5d629bbd79da768f2fdac184e21c56997cbbbb": {
+            "логических_байтов": 90,
+            "чтений": 5
+          },
+          "a2ee6be739a1fb503aa99477beeaa1733c85ec2d:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3305,
+            "чтений": 5
+          },
+          "a98ab259cf113d32aed1e20a53d8d9b321cd0222:переход.json:407567f682f852e340ba4b5ed1cdf4e8313ea089fe093e27b93f9fc22850463a": {
+            "логических_байтов": 1196,
+            "чтений": 1
+          },
+          "c93281849e27be44919fef03b7e25129872dc4ca:переход.json:836fedd79a8cc63140ce586d31a505337a12e2fd4f404818ca893fa6fb75bbd6": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "e263a546221aecf33121c57ba3bd2c3eccaab215:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3966,
+            "чтений": 6
+          },
+          "ecf9e32490d831525627f6d0da28b7bbec2812d8:переход.json:c1458b98f7387e07028d8be0d7e18e64e472f9efd9e73fe7c1ba3f251459387e": {
+            "логических_байтов": 4792,
+            "чтений": 4
+          },
+          "f735b0bf36d6d8094227585dd741e295cacfb14e:переход.json:f49f3155d811465c2f6cd9f80d48d3d6b82e772be34dfb0ea31bf5110291d163": {
+            "логических_байтов": 971,
+            "чтений": 1
+          },
+          "f9faf5c8509c9c2ff67eb0a6d2902ac21a47af2c:переход.json:cfdecfa4e05a0c924fa50cd65e37de96273fe8cfb3589e626a3fa92b27f2447a": {
+            "логических_байтов": 998,
+            "чтений": 1
+          }
+        },
+        "исходники": {
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+        },
+        "кандидат_sha256": "d3cb38d9ef3cc45f5d34353e3d04e7510ffca0f7fafb958144d10f8993e7d862",
+        "логических_байтов_JSON": 27600,
+        "наносекунды": 2065850375,
+        "процесс_наносекунды": 2422615041,
+        "разбор_вывода_наносекунды": 126333,
+        "разборов_JSON": 27,
+        "режим": "ручной",
+        "смысл_sha256": "fedab609c50a3492f668a8589cc91aa697b80126b2224d14bc3b6950d1970f60",
+        "физический_IO": "unknown"
+      }
+    ],
+    [
+      {
+        "RSS_байты_к_моменту_замера": 50626560,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "4056bc8c44978c393f75b7b18f53bcdf6ca7f3dcd6396ea54e768fe02b466f17",
+        "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+        "источники": {
+          "1ccac6b6881886317067880a109b457afce62262:постановка.md:b200e7d7da85a2e6fb0fd95d43085fc321087209940d981dde2d4c3ff8a70fd2": {
+            "логических_байтов": 1430,
+            "чтений": 26
+          },
+          "3bab7dc21d86ff4357427228e45c9282f3d3b0e3:переход.json:a869b9b17d3b6bcd3b033c946fc2d9a4bfb86e297f6c29dd3e710affe6139346": {
+            "логических_байтов": 1190,
+            "чтений": 1
+          },
+          "3d40cd5bc61ab79697b0ac412b1d9a8b1e6f2e5e:переход.json:a13c8c6517e6da6c7ac4a204b4859feffd2a2816163b7bbd476f255568aa706f": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "4da633d288f2d3440cc00b91566fe0602abce336:решение-00000000-0000-0000-0000-000000000001.json:e3e6ce565dbc7924ab48faca2f3f37a3682c116e8a04cc997c142593e110f09c": {
+            "логических_байтов": 1954,
+            "чтений": 2
+          },
+          "8e60845881474728333b458fbb429eb21bf921cf:expected.json:9594bdb6f02d2ab9ef6647df83291854c977b5cb66b01efa378ea824e8b91837": {
+            "логических_байтов": 3750,
+            "чтений": 2
+          },
+          "904060e38135a4cc5862a1d5e014f4f618348e58:готовый.md:15c590fd1e46007d4e672deaaf5d629bbd79da768f2fdac184e21c56997cbbbb": {
+            "логических_байтов": 90,
+            "чтений": 5
+          },
+          "a2ee6be739a1fb503aa99477beeaa1733c85ec2d:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3305,
+            "чтений": 5
+          },
+          "a98ab259cf113d32aed1e20a53d8d9b321cd0222:переход.json:407567f682f852e340ba4b5ed1cdf4e8313ea089fe093e27b93f9fc22850463a": {
+            "логических_байтов": 1196,
+            "чтений": 1
+          },
+          "c93281849e27be44919fef03b7e25129872dc4ca:переход.json:836fedd79a8cc63140ce586d31a505337a12e2fd4f404818ca893fa6fb75bbd6": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "e263a546221aecf33121c57ba3bd2c3eccaab215:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3966,
+            "чтений": 6
+          },
+          "ecf9e32490d831525627f6d0da28b7bbec2812d8:переход.json:c1458b98f7387e07028d8be0d7e18e64e472f9efd9e73fe7c1ba3f251459387e": {
+            "логических_байтов": 4792,
+            "чтений": 4
+          },
+          "f735b0bf36d6d8094227585dd741e295cacfb14e:переход.json:f49f3155d811465c2f6cd9f80d48d3d6b82e772be34dfb0ea31bf5110291d163": {
+            "логических_байтов": 971,
+            "чтений": 1
+          },
+          "f9faf5c8509c9c2ff67eb0a6d2902ac21a47af2c:переход.json:cfdecfa4e05a0c924fa50cd65e37de96273fe8cfb3589e626a3fa92b27f2447a": {
+            "логических_байтов": 998,
+            "чтений": 1
+          }
+        },
+        "исходники": {
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+        },
+        "кандидат_sha256": "d3cb38d9ef3cc45f5d34353e3d04e7510ffca0f7fafb958144d10f8993e7d862",
+        "логических_байтов_JSON": 27600,
+        "наносекунды": 2070128917,
+        "процесс_наносекунды": 2426389625,
+        "разбор_вывода_наносекунды": 119500,
+        "разборов_JSON": 27,
+        "режим": "ручной",
+        "смысл_sha256": "fedab609c50a3492f668a8589cc91aa697b80126b2224d14bc3b6950d1970f60",
+        "физический_IO": "unknown"
+      },
+      {
+        "RSS_байты_к_моменту_замера": 50544640,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e9bf7d5f0557c5cf24d1aa697d00f14eb042ee34d995e9f793d2249b5d08f20f",
+        "вход_sha256": "a4705d43cfe412a8173c1d257412d3963db2bbe0934aee65d63fb943ed25caf3",
+        "источники": {
+          "1ccac6b6881886317067880a109b457afce62262:постановка.md:b200e7d7da85a2e6fb0fd95d43085fc321087209940d981dde2d4c3ff8a70fd2": {
+            "логических_байтов": 1430,
+            "чтений": 26
+          },
+          "3bab7dc21d86ff4357427228e45c9282f3d3b0e3:переход.json:a869b9b17d3b6bcd3b033c946fc2d9a4bfb86e297f6c29dd3e710affe6139346": {
+            "логических_байтов": 1190,
+            "чтений": 1
+          },
+          "3d40cd5bc61ab79697b0ac412b1d9a8b1e6f2e5e:переход.json:a13c8c6517e6da6c7ac4a204b4859feffd2a2816163b7bbd476f255568aa706f": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "4da633d288f2d3440cc00b91566fe0602abce336:решение-00000000-0000-0000-0000-000000000001.json:e3e6ce565dbc7924ab48faca2f3f37a3682c116e8a04cc997c142593e110f09c": {
+            "логических_байтов": 1954,
+            "чтений": 2
+          },
+          "8e60845881474728333b458fbb429eb21bf921cf:expected.json:9594bdb6f02d2ab9ef6647df83291854c977b5cb66b01efa378ea824e8b91837": {
+            "логических_байтов": 3750,
+            "чтений": 2
+          },
+          "904060e38135a4cc5862a1d5e014f4f618348e58:готовый.md:15c590fd1e46007d4e672deaaf5d629bbd79da768f2fdac184e21c56997cbbbb": {
+            "логических_байтов": 90,
+            "чтений": 5
+          },
+          "a2ee6be739a1fb503aa99477beeaa1733c85ec2d:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3305,
+            "чтений": 5
+          },
+          "a98ab259cf113d32aed1e20a53d8d9b321cd0222:переход.json:407567f682f852e340ba4b5ed1cdf4e8313ea089fe093e27b93f9fc22850463a": {
+            "логических_байтов": 1196,
+            "чтений": 1
+          },
+          "c93281849e27be44919fef03b7e25129872dc4ca:переход.json:836fedd79a8cc63140ce586d31a505337a12e2fd4f404818ca893fa6fb75bbd6": {
+            "логических_байтов": 965,
+            "чтений": 1
+          },
+          "e263a546221aecf33121c57ba3bd2c3eccaab215:акт-00000000-0000-0000-0000-000000000001.json:caf0a2d8f04af17cdff9028594000a2d37951b420800696681529a20315f3463": {
+            "логических_байтов": 3966,
+            "чтений": 6
+          },
+          "ecf9e32490d831525627f6d0da28b7bbec2812d8:переход.json:c1458b98f7387e07028d8be0d7e18e64e472f9efd9e73fe7c1ba3f251459387e": {
+            "логических_байтов": 4792,
+            "чтений": 4
+          },
+          "f735b0bf36d6d8094227585dd741e295cacfb14e:переход.json:f49f3155d811465c2f6cd9f80d48d3d6b82e772be34dfb0ea31bf5110291d163": {
+            "логических_байтов": 971,
+            "чтений": 1
+          },
+          "f9faf5c8509c9c2ff67eb0a6d2902ac21a47af2c:переход.json:cfdecfa4e05a0c924fa50cd65e37de96273fe8cfb3589e626a3fa92b27f2447a": {
+            "логических_байтов": 998,
+            "чтений": 1
+          }
+        },
+        "исходники": {
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+          "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a"
+        },
+        "кандидат_sha256": "d3cb38d9ef3cc45f5d34353e3d04e7510ffca0f7fafb958144d10f8993e7d862",
+        "логических_байтов_JSON": 27600,
+        "наносекунды": 2083302000,
+        "процесс_наносекунды": 2442163500,
+        "разбор_вывода_наносекунды": 121000,
+        "разборов_JSON": 27,
+        "режим": "гибрид",
+        "смысл_sha256": "fedab609c50a3492f668a8589cc91aa697b80126b2224d14bc3b6950d1970f60",
+        "физический_IO": "unknown"
+      }
+    ]
+  ],
+  "платформа": "darwin",
+  "подготовка_наносекунды": 646902875,
+  "схема": "fum.профиль-переходов-задачи-узла.1",
+  "сырьё_работников": [
+    {
+      "sha256": "b9c6c26097ce65d6c309e2f31a4ed73478fa060f6c12871f7af5eb6e08eb4baa",
+      "имя": "переходы-одной-задачи-2-работник-1.json"
+    },
+    {
+      "sha256": "1b3ce8777603d857d8e5337df4a5972c682b59bc7ecd6770aa277b0a90fbf298",
+      "имя": "переходы-одной-задачи-2-работник-2.json"
+    },
+    {
+      "sha256": "7404354779e63b96e8acb7a2f34b80bee30e54524c82e9a031bac6a870f0a4cf",
+      "имя": "переходы-одной-задачи-2-работник-3.json"
+    },
+    {
+      "sha256": "5e9a63bf8954e925bd75876021452180ec5570b5af337b6f71281a49859e918e",
+      "имя": "переходы-одной-задачи-2-работник-4.json"
+    },
+    {
+      "sha256": "550a18561ae64ea7808160c1b5831e093261c238c88d39a6fd1b778818c4298b",
+      "имя": "переходы-одной-задачи-2-работник-5.json"
+    },
+    {
+      "sha256": "58c9e2f5234491305fcf6a83f94329a939b16bca850e4863687b9de655b7d5f8",
+      "имя": "переходы-одной-задачи-2-работник-6.json"
+    }
+  ]
+}

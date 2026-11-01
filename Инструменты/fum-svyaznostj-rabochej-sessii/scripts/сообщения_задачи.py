@@ -18,6 +18,8 @@ import uuid
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 _ПУТЬ_КЛАССИФИКАТОРА = Path(__file__).resolve().parents[2] / "fum-snimki-indeksa" / "scripts" / "происхождение_сообщений.py"
 _СПЕЦИФИКАЦИЯ = importlib.util.spec_from_file_location("fum_происхождение_сообщений_0177", _ПУТЬ_КЛАССИФИКАТОРА)
@@ -30,6 +32,10 @@ _РЕАЛИЗАЦИЯ = hashlib.sha256(Path(__file__).read_bytes() + _ПУТЬ_�
 
 class ОшибкаСообщений(ValueError):
     """Полнота не доказана; пустой остаток и допуск не возвращаются."""
+
+
+class ОшибкаСлужебнойОболочки(ОшибкаСообщений):
+    """Статическая причина отказа без значений нативной записи."""
 
 
 def _требовать(условие, пояснение):
@@ -129,13 +135,55 @@ def _кэш_прочитать(путь, задача):
     return данные
 
 
+def _форма_дополнительных_инструментов(данные):
+    if (set(данные) != {"type", "id", "role", "tools"}
+            or данные["role"] != "developer" or type(данные["id"]) is not str or not данные["id"]
+            or type(данные["tools"]) is not list or not данные["tools"]):
+        return False
+    for группа in данные["tools"]:
+        if type(группа) is dict and группа.get("type") == "tool_search":
+            if (set(группа) != {"type", "execution", "description", "parameters"}
+                    or группа["execution"] != "client" or type(группа["description"]) is not str
+                    or type(группа["parameters"]) is not dict):
+                return False
+            continue
+        if (type(группа) is not dict or set(группа) != {"type", "name", "description", "tools"}
+                or группа["type"] != "namespace" or type(группа["name"]) is not str or not группа["name"]
+                or type(группа["description"]) is not str or type(группа["tools"]) is not list or not группа["tools"]):
+            return False
+        for инструмент in группа["tools"]:
+            if (type(инструмент) is not dict or type(инструмент.get("name")) is not str or not инструмент["name"]
+                    or type(инструмент.get("description")) is not str):
+                return False
+            if инструмент.get("type") == "function":
+                if (set(инструмент) != {"type", "name", "description", "parameters", "strict"}
+                        or type(инструмент["parameters"]) is not dict or type(инструмент["strict"]) is not bool):
+                    return False
+            elif инструмент.get("type") == "custom":
+                if set(инструмент) != {"type", "name", "description", "format"}:
+                    return False
+                формат = инструмент["format"]
+                if (type(формат) is not dict or set(формат) != {"type", "syntax", "definition"}
+                        or формат["type"] != "grammar" or формат["syntax"] != "lark"
+                        or type(формат["definition"]) is not str or not формат["definition"]):
+                    return False
+            else:
+                return False
+    return True
+
+
 def _добавить_сообщение(индекс, запись, сырая, начало, конец):
     if запись.get("type") != "response_item":
         return
     данные = запись.get("payload")
     _требовать(type(данные) is dict and type(данные.get("type")) is str and bool(данные["type"]), "повреждённая оболочка response_item")
+    if данные["type"] == "additional_tools":
+        if not _форма_дополнительных_инструментов(данные):
+            raise ОшибкаСлужебнойОболочки("неверная форма служебной оболочки additional_tools")
+        return
     if данные["type"] != "message":
-        _требовать("role" not in данные, "роль в неизвестной оболочке response_item")
+        if "role" in данные:
+            raise ОшибкаСлужебнойОболочки("роль в неизвестной оболочке response_item")
         return
     _требовать(данные.get("role") in {"user", "assistant", "system", "developer", "tool"}, "неизвестная роль сообщения")
     if данные["role"] != "user":
@@ -243,14 +291,32 @@ def прочитать_сообщения(источник, задача, *, к�
         кэш=кэш, перепроверить=перепроверить, без_записи=без_записи)()
 
 
+class _СеансЧтения:
+    """Прежний закрытый индекс с проверяемой привязкой одной операции."""
+    def __init__(сам, источник, задача, **параметры):
+        try:
+            сам.источник = Path(источник).absolute()
+            сам.задача = задача
+            сам.параметры = {"кэш": None, "перепроверить": False, "без_записи": False, **параметры}
+            сам.параметры["корень_репозитория"] = Path(сам.параметры["корень_репозитория"]).resolve()
+            сам.прежний = None
+        except (OSError, ValueError, TypeError) as ошибка:
+            raise ОшибкаСообщений("источник или локальное состояние недоступны либо повреждены") from ошибка
+
+    def соответствует(сам, источник, задача, **параметры):
+        ожидаемые = {"кэш": None, "перепроверить": False, "без_записи": False, **параметры}
+        ожидаемые["корень_репозитория"] = Path(ожидаемые["корень_репозитория"]).resolve()
+        return сам.источник == Path(источник).absolute() and сам.задача == задача and сам.параметры == ожидаемые
+
+    def __call__(сам):
+        результат, сам.прежний = _прочитать_снимок(сам.источник, сам.задача,
+            **сам.параметры, прежний=сам.прежний)
+        return результат
+
+
 def _сеанс_чтения(источник, задача, **параметры):
     """Закрытый индекс для повторной сверки в пределах одной операции."""
-    прежний = None
-    def прочитать():
-        nonlocal прежний
-        результат, прежний = _прочитать_снимок(источник, задача, **параметры, прежний=прежний)
-        return результат
-    return прочитать
+    return _СеансЧтения(источник, задача, **параметры)
 
 
 def _прочитать_снимок(источник, задача, *, корень_репозитория, кэш=None, перепроверить=False, без_записи=False, прежний=None):

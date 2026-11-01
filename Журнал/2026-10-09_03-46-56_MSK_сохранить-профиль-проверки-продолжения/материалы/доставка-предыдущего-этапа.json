@@ -1,0 +1,30 @@
+{
+  "OID": "cf5738d1e4f02e94c5c75afa6deda293453bf171",
+  "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791506641 +0300",
+  "changed": 17,
+  "clean": true,
+  "committer": "FUM <fum@local> 1791506641 +0300",
+  "message_sha256": "d974c953e6673020dd01422841d93995e437cf9788ed2f5ac1a567f6b3f7985a",
+  "origin": "https://github.com/fum-lab/fum.git",
+  "parents": [
+    "c5c1c4becad7a6b12a5bf8c9cd4d69c3c10e2436"
+  ],
+  "push": {
+    "stderr_sha256": "aefb9c261a7b500e28b9e6f0c2a4e616848498643726747d4bff90ed54d013a9",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "код": 0,
+    "монотонные_нс": 3228287000
+  },
+  "receipt_sha256": "ea8cf2dd894d1996f39f659793f63da339d02dd61282968d46c396396b6c74fe",
+  "ref": "refs/heads/fuma",
+  "remote": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "4d93af516ab9a25cf6b394ac9433b02336e913d8f2cf71b48affade4f2b0472c",
+    "код": 0,
+    "монотонные_нс": 789930667
+  },
+  "remote_oid": "cf5738d1e4f02e94c5c75afa6deda293453bf171",
+  "targets": 18,
+  "tree": "1c1f53fec6152c119a43b439c225d539bfc15e75",
+  "граница": "Постановка H6 и её диагностическая коррекция доставлены; каталог ещё разрабатывается. ROOT не завершён."
+}

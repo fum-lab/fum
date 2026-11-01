@@ -14,6 +14,7 @@ import unicodedata
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Iterable
+from types import SimpleNamespace
 
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
@@ -30,12 +31,15 @@ if scanner_spec is None or scanner_spec.loader is None:
 scanner = importlib.util.module_from_spec(scanner_spec)
 sys.modules[SCANNER_MODULE_NAME] = scanner
 scanner_spec.loader.exec_module(scanner)
+import метаданные_наблюдений as наблюдения
 
 
 MANIFEST_SCHEMA_V1 = "fum.machine-local-path-policy-update.v1"
 MANIFEST_SCHEMA_V2 = "fum.machine-local-path-policy-update.v2"
+СХЕМА_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ = "fum.machine-local-path-policy-update.v3"
 MANIFEST_V1_KEYS = frozenset({"schema", "declarations"})
 MANIFEST_V2_KEYS = frozenset({"schema", "declarations", "retirements"})
+ПОЛЯ_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ = MANIFEST_V2_KEYS | {"метаданные"}
 DECLARATION_KEYS = frozenset({"id", "path", "line", "category", "reason"})
 
 
@@ -56,6 +60,7 @@ class Declaration:
 class UpdatePlan:
     declarations: tuple[Declaration, ...]
     retirements: tuple[object, ...]
+    метаданные: tuple[object, ...] = ()
 
 
 def _canonical_json(value: object) -> str:
@@ -130,12 +135,12 @@ def _parse_declaration(value: object, label: str) -> Declaration:
     )
 
 
-def _parse_declarations(values: Iterable[object]) -> tuple[Declaration, ...]:
+def _parse_declarations(values: Iterable[object], *, допускается_пустой=False) -> tuple[Declaration, ...]:
     declarations = tuple(
         _parse_declaration(value, f"declaration {index}")
         for index, value in enumerate(values)
     )
-    if not declarations:
+    if not declarations and not допускается_пустой:
         raise UpdateError("at least one explicit declaration is required")
     identifiers: set[str] = set()
     selectors: set[tuple[str, int]] = set()
@@ -197,22 +202,32 @@ def load_update_plan(path: str | Path) -> UpdatePlan:
     if not isinstance(manifest, dict):
         raise UpdateError("manifest root must be an object")
     schema = manifest.get("schema")
+    метаданные = ()
     if schema == MANIFEST_SCHEMA_V1:
         _require_exact_keys(manifest, MANIFEST_V1_KEYS, "manifest")
-        raw_retirements: object = []
+        исходные_отмены: object = []
     elif schema == MANIFEST_SCHEMA_V2:
         _require_exact_keys(manifest, MANIFEST_V2_KEYS, "manifest")
-        raw_retirements = manifest.get("retirements")
+        исходные_отмены = manifest.get("retirements")
+    elif schema == СХЕМА_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ:
+        _require_exact_keys(manifest, ПОЛЯ_МАНИФЕСТА_ТРЕТЬЕЙ_ВЕРСИИ, "manifest")
+        исходные_отмены = manifest.get("retirements")
+        try:
+            наблюдения.разобрать_заявки(manifest["метаданные"])
+        except наблюдения.ОшибкаМетаданных as ошибка:
+            raise UpdateError("неверные заявки метаданных") from ошибка
+        метаданные = tuple(manifest["метаданные"])
     else:
         raise UpdateError("unsupported manifest schema")
     raw_declarations = manifest.get("declarations")
     if not isinstance(raw_declarations, list):
         raise UpdateError("manifest declarations must be an array")
-    if not isinstance(raw_retirements, list):
+    if not isinstance(исходные_отмены, list):
         raise UpdateError("manifest retirements must be an array")
     return UpdatePlan(
-        declarations=_parse_declarations(raw_declarations),
-        retirements=_parse_retirements(raw_retirements),
+        declarations=_parse_declarations(raw_declarations, допускается_пустой=bool(метаданные)),
+        retirements=_parse_retirements(исходные_отмены),
+        метаданные=метаданные,
     )
 
 
@@ -376,7 +391,7 @@ def _exception_value(exception: object) -> dict[str, object]:
     }
 
 
-def _atomic_write(path: Path, content: bytes, expected: bytes) -> None:
+def _atomic_write(path: Path, content: bytes, expected: bytes, *, проверить_источники=None) -> None:
     descriptor, temporary_name = tempfile.mkstemp(
         dir=path.parent,
         prefix=f".{path.name}.",
@@ -389,6 +404,8 @@ def _atomic_write(path: Path, content: bytes, expected: bytes) -> None:
             stream.write(content)
             stream.flush()
             os.fsync(stream.fileno())
+        if проверить_источники is not None:
+            проверить_источники()
         if path.read_bytes() != expected:
             raise UpdateError("policy changed during update")
         os.replace(temporary, path)
@@ -410,11 +427,17 @@ def update_policy(
     declarations: Iterable[object | Declaration],
     *,
     retirements: Iterable[object] = (),
+    метаданные: Iterable[object] = (),
 ) -> int:
     input_root = Path(repo_root).absolute()
     root = input_root.resolve()
+    заявки = list(метаданные)
+    try:
+        выбранные = наблюдения.разобрать_заявки(заявки)
+    except наблюдения.ОшибкаМетаданных as ошибка:
+        raise UpdateError("неверные заявки метаданных") from ошибка
     parsed_declarations = _parse_declarations(
-        {
+        ({
             "id": value.identifier,
             "path": value.path,
             "line": value.line,
@@ -423,7 +446,7 @@ def update_policy(
         }
         if isinstance(value, Declaration)
         else value
-        for value in declarations
+        for value in declarations), допускается_пустой=bool(выбранные)
     )
     parsed_retirements = _parse_retirements(retirements)
     policy = _relative_policy_path(root, input_root, Path(policy_path))
@@ -431,12 +454,18 @@ def update_policy(
     value = _load_policy_value(policy)
     current_policy = scanner.parse_policy(value)
     inventory = _inventory_by_path(root)
+    данные_метаданных = {запись.путь: _read_target_text(root,
+        SimpleNamespace(path=запись.путь), inventory).encode("utf-8") for запись in выбранные}
+    try:
+        новые_метаданные = наблюдения.вывести_декларации(заявки, данные_метаданных)
+    except наблюдения.ОшибкаМетаданных as ошибка:
+        raise UpdateError("источник метаданных не соответствует заявке") from ошибка
 
     current_by_id = {
         exception.identifier: exception for exception in current_policy.exceptions
     }
     retired_ids: set[str] = set()
-    changes = 0
+    изменений = 0
     for retirement in parsed_retirements:
         existing = current_by_id.get(retirement.identifier)
         if existing is None:
@@ -444,7 +473,7 @@ def update_policy(
         if existing != retirement:
             raise UpdateError("policy retirement mismatch")
         retired_ids.add(retirement.identifier)
-        changes += 1
+        изменений += 1
 
     updated_exceptions = [
         exception
@@ -496,7 +525,7 @@ def update_policy(
             updated_exceptions[index_by_id[derived.identifier]] = derived
             existing_by_id[derived.identifier] = derived
             existing_by_fingerprint[fingerprint] = derived
-            changes += 1
+            изменений += 1
             continue
         fingerprint = (derived.path, derived.kind, derived.line_sha256)
         if fingerprint in existing_by_fingerprint:
@@ -505,9 +534,20 @@ def update_policy(
         updated_exceptions.append(derived)
         existing_by_id[derived.identifier] = derived
         existing_by_fingerprint[fingerprint] = derived
-        changes += 1
+        изменений += 1
 
-    if not changes:
+    обновлённые_метаданные = list(current_policy.метаданные)
+    по_пути = {запись.путь: запись for запись in обновлённые_метаданные}
+    for запись in новые_метаданные:
+        прежняя = по_пути.get(запись.путь)
+        if прежняя is not None:
+            if прежняя != запись:
+                raise UpdateError("коллизия точной декларации метаданных")
+            continue
+        обновлённые_метаданные.append(запись)
+        по_пути[запись.путь] = запись
+        изменений += 1
+    if not изменений:
         return 0
     updated_value = {
         "schema": scanner.POLICY_SCHEMA,
@@ -515,13 +555,25 @@ def update_policy(
             _exception_value(exception) for exception in updated_exceptions
         ],
     }
+    if value["schema"] == наблюдения.СХЕМА_ПОЛИТИКИ or обновлённые_метаданные:
+        updated_value["schema"] = наблюдения.СХЕМА_ПОЛИТИКИ
+        updated_value["метаданные"] = наблюдения.сериализовать_декларации(обновлённые_метаданные)
     try:
         scanner.parse_policy(updated_value)
     except scanner.PolicyError as exc:
         raise UpdateError("derived policy is invalid") from exc
     encoded = _canonical_json(updated_value).encode("utf-8")
-    _atomic_write(policy, encoded, original)
-    return changes
+    if выбранные:
+        def проверить_источники():
+            актуальный = _inventory_by_path(root)
+            for запись in выбранные:
+                сырые = _read_target_text(root, SimpleNamespace(path=запись.путь), актуальный).encode("utf-8")
+                if сырые != данные_метаданных[запись.путь]:
+                    raise UpdateError("источник метаданных изменился перед заменой политики")
+        _atomic_write(policy, encoded, original, проверить_источники=проверить_источники)
+    else:
+        _atomic_write(policy, encoded, original)
+    return изменений
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -571,6 +623,7 @@ def main(argv: list[str] | None = None) -> int:
             policy,
             plan.declarations,
             retirements=plan.retirements,
+            метаданные=plan.метаданные,
         )
     except (UpdateError, OSError) as exc:
         print(f"error.policy-update: {exc}", file=sys.stderr)

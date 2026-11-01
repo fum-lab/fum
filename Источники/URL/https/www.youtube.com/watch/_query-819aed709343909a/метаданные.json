@@ -1,0 +1,91 @@
+{
+  "id": "5iz5d8urO8I",
+  "title": "Это спасет, когда заблокируют ВЕСЬ ИНТЕРНЕТ!",
+  "channel": "Физика от Побединского",
+  "channel_id": "UCQdPrDypfQeY5euAPbdc11g",
+  "channel_url": "https://www.youtube.com/channel/UCQdPrDypfQeY5euAPbdc11g",
+  "uploader": "Физика от Побединского",
+  "uploader_id": "@PhysFromPobed",
+  "upload_date": "20250920",
+  "duration": 1363,
+  "language": "ru",
+  "availability": "public",
+  "webpage_url": "https://www.youtube.com/watch?v=5iz5d8urO8I",
+  "chapters": [
+    {
+      "start_time": 0,
+      "title": "Intro",
+      "end_time": 88
+    },
+    {
+      "start_time": 88,
+      "title": "Обучение, нацеленное на практику",
+      "end_time": 215
+    },
+    {
+      "start_time": 215,
+      "title": "Задаем условия, что именно перестало работать",
+      "end_time": 265
+    },
+    {
+      "start_time": 265,
+      "title": "Банальные вещи (рации, локальные сети, лазерофон)",
+      "end_time": 366
+    },
+    {
+      "start_time": 366,
+      "title": "Проект Meshtastic",
+      "end_time": 530
+    },
+    {
+      "start_time": 530,
+      "title": "Mesh-сеть Guifi.net",
+      "end_time": 564
+    },
+    {
+      "start_time": 564,
+      "title": "Мессенджер Briar",
+      "end_time": 614
+    },
+    {
+      "start_time": 614,
+      "title": "Reticulum",
+      "end_time": 711
+    },
+    {
+      "start_time": 711,
+      "title": "Дальняя связь на коротких волнах",
+      "end_time": 786
+    },
+    {
+      "start_time": 786,
+      "title": "Лицензия радиолюбителя",
+      "end_time": 839
+    },
+    {
+      "start_time": 839,
+      "title": "Что доступно на КВ? (голосовое общение, переписки, картинки, видео, файлы)",
+      "end_time": 1041
+    },
+    {
+      "start_time": 1041,
+      "title": "Минусы КВ-связи",
+      "end_time": 1128
+    },
+    {
+      "start_time": 1128,
+      "title": "Дальняя связь на других волнах (Длинные и средние волны, тропосферное преломление УКВ, метеорная связь, радиосвязь Земля-Луна-Земля)",
+      "end_time": 1234
+    },
+    {
+      "start_time": 1234,
+      "title": "Можно ли заглушить?",
+      "end_time": 1315
+    },
+    {
+      "start_time": 1315,
+      "title": "Outro",
+      "end_time": 1363
+    }
+  ]
+}

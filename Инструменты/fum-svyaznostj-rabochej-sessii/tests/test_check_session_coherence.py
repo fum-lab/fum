@@ -176,6 +176,35 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_навигация_сохраняет_дефис_из_заголовка_соседа(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            previous = root / "Журнал/2026-09-22_15-13-20_MSK_снять-живой-AX-снимок-FUMA/запрос.md"
+            current = root / "Журнал/2026-09-23_00-38-48_MSK_начать-дистилляцию-GPT-в-FUMA/запрос.md"
+            label = "2026-09-22 15:13:20 MSK - Снять живой AX-снимок FUMA"
+            for path in (previous, current):
+                path.parent.mkdir(parents=True)
+            previous.write_text(
+                f"# Исходный запрос {label}\n\n## Навигация по запросам\n\n"
+                "- Предыдущий запрос: нет\n"
+                f"- Следующий запрос: [{check_session_coherence.request_label(current)}]"
+                f"(../{current.parent.name}/запрос.md)\n", encoding="utf-8")
+            text = (
+                check_session_coherence.expected_request_heading(current)
+                + "\n\n## Навигация по запросам\n\n"
+                + f"- Предыдущий запрос: [{label}](../{previous.parent.name}/запрос.md)\n"
+                + "- Следующий запрос: нет\n")
+            current.write_text(text, encoding="utf-8")
+            self.assertEqual(check_session_coherence.validate_navigation(
+                root, current, text, markdown_paths={previous, current}), [])
+            wrong_target = text.replace(
+                f"(../{previous.parent.name}/запрос.md)",
+                f"(../{current.parent.name}/запрос.md)")
+            self.assertIn(
+                f"missing previous request navigation link: {previous.parent.name}/запрос.md",
+                check_session_coherence.validate_navigation(
+                    root, current, wrong_target, markdown_paths={previous, current}))
+
     def test_layout_rejects_legacy_requests_directory_and_top_level_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

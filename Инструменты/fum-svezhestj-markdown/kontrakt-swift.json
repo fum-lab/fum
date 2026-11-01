@@ -1,0 +1,483 @@
+{
+  "schema": "fum.свежесть-одного-markdown-swift.1",
+  "version": 1,
+  "sourceOnly": true,
+  "base": "30624c89780ee782f4c8453bc91bdb7a42bcb22c",
+  "rootThread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "writerThread": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "authority": "Отдельный прямой ROOT грант на exact3 новых source paths и source-only сохранение NEW000032. Не полный профиль и не ROOT final",
+  "paths": [
+    "Инструменты/fum-svezhestj-markdown/scripts/obnovitj-svezhestj-markdown.swift",
+    "Инструменты/fum-svezhestj-markdown/tests/proverki-svezhesti-markdown.swift",
+    "Инструменты/fum-svezhestj-markdown/kontrakt-swift.json"
+  ],
+  "scope": "Один обычный отслеживаемый Markdown по явным physical root и relative path, strictUTF8, input/output<=1MiB. CRLF/CR→LF, SHA только canonical body без правильного последнего блока, старое время при неизменном SHA, изменённое время Europe/Moscow. Маркеры внутри закрытых оград являются содержимым. Прежние блоки снаружи оград остаются в body при наличии корректной новой конечной метки; из SHA исключается только эта конечная метка. Malformed final/unclosed fence fail closed. Повтор без содержательной перемены идемпотентен",
+  "unsupported": "Никакого общего обхода/NAV/index. Канонические Journal/<session>/отчёт.md и ChatGPT share archive paths закрыто отклоняются: специальные CHECK-RUNS/archive правила не портируются. Исторический корректный блок снаружи оград и обычный текст после него без новой корректной конечной метки — известный отказ без записи; поддержка этого случая требует отдельного этапа. Первичная дата чистого файла из Git-истории не поддерживается; применяется текущее Europe/Moscow. Это не полный Python-parity",
+  "interface": "argv --корень <physical absolute root> --путь <relative.md> [--проверить]; альтернативно --stdin [--проверить] с ограниченным JSON ровно корень/путь. stdin<=8KiB, без неоднозначных/повторных ключей. stdout JSON result, error code2, unknown post-write effect code3; check stale code1 without writes",
+  "precondition": "Caller владеет W и pathname исключительно весь интервал. FD/nofollow/revalidation+atomic rename не является kernel CAS против внешнего несотрудничающего редактора; вне этой предпосылки безопасность гонки UNKNOWN, не GREEN",
+  "harness": {
+    "manifest": "// swift-tools-version: 6.0\nimport PackageDescription\nlet package = Package(\n    name: \"SwiftMarkdownRecency\",\n    platforms: [.macOS(.v14)],\n    products: [.library(name: \"Svezhestj\", targets: [\"Svezhestj\"])],\n    targets: [\n        .target(name: \"Svezhestj\", path: \"Sources/Svezhestj\"),\n        .testTarget(name: \"SvezhestjTests\", dependencies: [\"Svezhestj\"], path: \"Tests/SvezhestjTests\")\n    ],\n    swiftLanguageModes: [.v6]\n)\n",
+    "generatedOutsideGit": true,
+    "sourceCopies": [
+      {
+        "from": "Инструменты/fum-svezhestj-markdown/scripts/obnovitj-svezhestj-markdown.swift",
+        "to": "${P}/harness/Sources/Svezhestj/obnovitj-svezhestj-markdown.swift"
+      },
+      {
+        "from": "Инструменты/fum-svezhestj-markdown/tests/proverki-svezhesti-markdown.swift",
+        "to": "${P}/harness/Tests/SvezhestjTests/proverki-svezhesti-markdown.swift"
+      }
+    ],
+    "fixtureRoot": "${P}/fixtures",
+    "dependencies": "Только установленный Apple Swift 6.4 / Swift Testing / Foundation / CryptoKit / Darwin и /usr/bin/git; внешних пакетов нет",
+    "platform": "macOS arm64, target macOS14.0; SDK установленного Xcode"
+  },
+  "reproduction": {
+    "preparation": "Создать новый private0700 P вне Git, подкаталоги harness/Sources/Svezhestj, harness/Tests/SvezhestjTests, fixtures, module-cache, cache, config, security, tmp, bin. Записать ровно приведённый Package.swift и скопировать два исходника, проверив SHA. Никакой source в основном checkout не генерируется",
+    "environment": {
+      "FUM_RECENCY_TEST_ROOT": "${P}/fixtures",
+      "TMPDIR": "${P}/tmp",
+      "CLANG_MODULE_CACHE_PATH": "${P}/module-cache",
+      "SWIFTPM_MODULECACHE_OVERRIDE": "${P}/module-cache"
+    },
+    "swiftPMCommand": {
+      "executable": "${XCODE_SWIFT}",
+      "argv": [
+        "test",
+        "--package-path",
+        "${P}/harness",
+        "--scratch-path",
+        "${P}/build",
+        "--cache-path",
+        "${P}/cache",
+        "--config-path",
+        "${P}/config",
+        "--security-path",
+        "${P}/security",
+        "--manifest-cache",
+        "local",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--disable-xctest",
+        "--enable-swift-testing",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors",
+        "-Xswiftc",
+        "-Xfrontend",
+        "-Xswiftc",
+        "-enable-actor-data-race-checks",
+        "-Xswiftc",
+        "-module-cache-path",
+        "-Xswiftc",
+        "${P}/module-cache"
+      ]
+    },
+    "standaloneCommand": {
+      "executable": "${XCODE_SWIFTC}",
+      "argv": [
+        "-swift-version",
+        "6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-Xfrontend",
+        "-enable-actor-data-race-checks",
+        "-parse-as-library",
+        "-D",
+        "FUM_RECENCY_CLI",
+        "-sdk",
+        "${SDK}",
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-module-cache-path",
+        "${P}/module-cache",
+        "${W}/Инструменты/fum-svezhestj-markdown/scripts/obnovitj-svezhestj-markdown.swift",
+        "-o",
+        "${P}/bin/obnovitj-svezhestj-markdown"
+      ]
+    },
+    "artifact": "Готовый CLI после третьей сборки; прямой OS entry отдельно не исполняется. Общая command entry/argv/файловая запись проверяется SwiftTesting target8",
+    "RED": {
+      "sourceSHA256": "7024fa758f3159a19b546ae1ae56452d0c84b334e83cde76f23aacd8f0654a4b",
+      "replay": {
+        "startAnchor": "    static func обновить(",
+        "followingAnchor": "\n    struct Метка {",
+        "finalBlock": "    static func обновить(_ исходник: Data, сейчас: Date) throws -> РезультатСвежести {\n        guard исходник.count <= предел else { throw ОшибкаСвежести.предел }\n        let строка = String(decoding: исходник, as: UTF8.self)\n        guard Data(строка.utf8) == исходник else { throw ОшибкаСвежести.кодировка }\n        let LF = строка.replacingOccurrences(of: \"\\r\\n\", with: \"\\n\").replacingOccurrences(of: \"\\r\", with: \"\\n\")\n        let (тело, прежняя) = try разобратьСодержание(LF)\n        let хэшТела = хэш(Data(тело.utf8))\n        let время: String\n        if let прежняя, прежняя.хэш == хэшТела {\n            время = прежняя.время\n        } else {\n            время = try форматтер().string(from: сейчас)\n            guard try корректноеВремя(время) else { throw ОшибкаСвежести.вводВывод }\n        }\n        let итог = тело + \"\\n\" + начало + \"\\n<!-- last-content-edit: \" + время\n            + \" -->\\n<!-- content-sha256: sha256:\" + хэшТела + \" -->\\n\" + конец + \"\\n\"\n        let данные = Data(итог.utf8)\n        guard данные.count <= предел else { throw ОшибкаСвежести.предел }\n        return РезультатСвежести(данные: данные, хэш: хэшТела, время: время, изменено: данные != исходник)\n    }\n",
+        "redBlock": "    static func обновить(_ исходник: Data, сейчас: Date) throws -> РезультатСвежести {\n        guard исходник.count <= предел else { throw ОшибкаСвежести.предел }\n        guard String(data: исходник, encoding: .utf8) != nil else { throw ОшибкаСвежести.кодировка }\n        // Начальная TDD-граница: исполняемая заглушка, не ошибка компиляции.\n        return РезультатСвежести(данные: исходник, хэш: хэш(исходник), время: \"RED\", изменено: false)\n    }\n"
+      },
+      "exactReproduced": true,
+      "argv": [
+        "test",
+        "--package-path",
+        "${P}/harness",
+        "--scratch-path",
+        "${P}/build",
+        "--cache-path",
+        "${P}/cache",
+        "--config-path",
+        "${P}/config",
+        "--security-path",
+        "${P}/security",
+        "--manifest-cache",
+        "local",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--disable-xctest",
+        "--enable-swift-testing",
+        "-Xswiftc",
+        "-swift-version",
+        "-Xswiftc",
+        "6",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors",
+        "-Xswiftc",
+        "-Xfrontend",
+        "-Xswiftc",
+        "-enable-actor-data-race-checks",
+        "-Xswiftc",
+        "-module-cache-path",
+        "-Xswiftc",
+        "${P}/module-cache"
+      ],
+      "warning": "Исходный RED получил2 SwiftPM warnings о language override; не переписаны",
+      "sourceReproduction": "В private harness применить единственное exact replacement finalBlock→redBlock, проверить полный RED SHA. Не менять final checkout source"
+    },
+    "REDCommand": {
+      "executable": "${XCODE_SWIFT}",
+      "argv": [
+        "test",
+        "--package-path",
+        "${P}/harness",
+        "--scratch-path",
+        "${P}/build",
+        "--cache-path",
+        "${P}/cache",
+        "--config-path",
+        "${P}/config",
+        "--security-path",
+        "${P}/security",
+        "--manifest-cache",
+        "local",
+        "--disable-sandbox",
+        "--jobs",
+        "1",
+        "--disable-xctest",
+        "--enable-swift-testing",
+        "-Xswiftc",
+        "-swift-version",
+        "-Xswiftc",
+        "6",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors",
+        "-Xswiftc",
+        "-Xfrontend",
+        "-Xswiftc",
+        "-enable-actor-data-race-checks",
+        "-Xswiftc",
+        "-module-cache-path",
+        "-Xswiftc",
+        "${P}/module-cache"
+      ]
+    },
+    "SDKResolution": {
+      "method": "xcrun --show-sdk-path, затем POSIX realpath; SDK должен существовать как physical directory без symlink на конечном пути. Проверить SDKSettings.json и доступность SDK до swiftc. Подставить полученный SDK как отдельные argv элементы -sdk и ${SDK}",
+      "observedSDK": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "SDKSettingsBytes": 7948,
+      "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "target": "arm64-apple-macosx14.0",
+      "architecture": "arm64",
+      "entry": "FUM_RECENCY_CLI + -parse-as-library",
+      "strict": "Swift6/completeConcurrency/warnings-as-errors/actor checks",
+      "boundary": "Это сохранённая программа воспроизведения/intent, не уже реализованная общая защита Native tools"
+    },
+    "ToolchainResolution": {
+      "variables": {
+        "XCODE_SWIFT": {
+          "resolve": [
+            "/usr/bin/xcrun",
+            "--find",
+            "swift"
+          ],
+          "name": "swift",
+          "invocationPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift",
+          "physicalPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend",
+          "bytes": 173118384,
+          "sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+          "regularExecutable": true
+        },
+        "XCODE_SWIFTC": {
+          "resolve": [
+            "/usr/bin/xcrun",
+            "--find",
+            "swiftc"
+          ],
+          "name": "swiftc",
+          "invocationPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+          "physicalPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend",
+          "bytes": 173118384,
+          "sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+          "regularExecutable": true
+        }
+      },
+      "precondition": "На каждом новом host разрешить оба invocation path через xcrun, получить POSIX realpath, проверить regular/executable и exact SHA/version до build. Не заменять invocation basename swift/swiftc физическим swift-frontend: режим зависит от argv0. Это RO resolution/binding, не новая сборка",
+      "versionObserved": "Apple Swift6.4 swiftlang-6.4.0.34.1 clang-2100.3.34.1",
+      "source": "Оба xcrun locator прочитаны до первого build; physical target/type/hash заново проверены после review"
+    }
+  },
+  "targets": [
+    "1 mixed CRLF/CR/new recency/SHA/canonical LF без trim",
+    "2 тот же SHA и повтор на следующий день сохраняют время и байты",
+    "3 изменённый body обновляет время с переходом даты в Europe/Moscow",
+    "4 предыдущий pending/старый block остаётся в SHA перед корректной новой конечной меткой; из SHA исключается только эта конечная метка",
+    "5 markers внутри закрытых backtick/tilde fences остаются body; короткая ограда не закрывает длинную",
+    "6 malformed последний block отвергается, старый block не fallback",
+    "7 unclosed fence отвергается",
+    "8 общий command entry записывает только собственный private tracked Markdown fixture; source/root/relative path и readback проверены"
+  ],
+  "coverage": "Восемь @Test, target8 один private tracked Markdown workflow check-stale→update→check-current. Git fixture init/add без commits/remotes, затем3 точечных ls-files; это потомки тестового процесса, не дополнительный build/test. Negative UTF8/symlink/size и все syscall failures не названы native PASS",
+  "budgets": {
+    "maxTopBuildTest": 4,
+    "jobs": 1,
+    "scratchBytes": 536870912,
+    "documentBytes": 1048576,
+    "requestBytes": 8192,
+    "outputPerProcessBytes": 65536,
+    "perBuildSeconds": 180,
+    "originalTopBudget": 3
+  },
+  "modelObserved": "UNKNOWN",
+  "configuredModelRetained": "gpt-6.1-sol/ultra; не новая аттестация backend",
+  "included": [
+    "Exact source scope и fresh HEAD/ref/W/solewriter",
+    "Swift6 strict/warnings/actor checks в целевых командах",
+    "8 различающих SwiftTesting cases",
+    "Exact source/runtime/compiler pins и итоговые actual outcomes",
+    "Bounded manual publication review только exact3 и rawGit/normalpush/remote/PR"
+  ],
+  "disabled": [
+    "Python",
+    "Полный ROOT JSONL",
+    "Legacy Creator/guard/fullPUB",
+    "NAV/index/Proyekcii"
+  ],
+  "unknown": [
+    "Общий профиль NEW000032",
+    "Полный диалог/общий residual",
+    "Uncooperative external editor CAS",
+    "Powerloss/все syscall failures/полная история descendants",
+    "Отдельный standalone CLI runtime/применение к чужому документу",
+    "Foreign root/untracked/negative UTF8/symlink/size runtime cases не выполнялись; UNKNOWN",
+    "stdin protocol и OS entry standalone CLI отдельно не исполнялись; UNKNOWN"
+  ],
+  "execution": {
+    "topBuildTestUsed": 4,
+    "RED": {
+      "schema": "fum.swift-md-recency-run-outcome.1",
+      "n": 1,
+      "phase": "RED",
+      "topProcessWrapperPID": 11674,
+      "code": 1,
+      "buildSucceeded": true,
+      "SwiftTestingStarted": 8,
+      "failed": 8,
+      "issues": 14,
+      "SwiftPMWarnings": [
+        "warning: language mode was overridden by extra Swift flags and may be inconsistent with code generated during the build",
+        "warning: language mode was overridden by extra Swift flags and may be inconsistent with code generated during the build"
+      ],
+      "meaning": "Функциональный RED, не compile failure. Два SwiftPM language-override warnings сохраняются и не объявлены GREEN",
+      "actualRealSeconds": 15.56,
+      "maxRSSBytes": 389414912,
+      "toolSession": 72916,
+      "toolSessionClosed": true,
+      "sourceSHA256": "7024fa758f3159a19b546ae1ae56452d0c84b334e83cde76f23aacd8f0654a4b",
+      "testsSHA256": "4e45c7fdb66c28a7ed433ce583d541dbf6ee3a7d1d4b1a1d3def3a28d91d901a",
+      "logs": [
+        {
+          "path": "01-red.stdout",
+          "bytes": 11443,
+          "sha256": "a9b6766f7ff9434b63b515bec110d1f02799ddadbfcd0eb74fc6f4a7eb846ad7"
+        },
+        {
+          "path": "01-red.stderr",
+          "bytes": 1611,
+          "sha256": "13e2864ca11fde0be545ab42d1d537943fa291ca0a0cec1e538f02454b0b396c"
+        }
+      ],
+      "remainingTopBuildTest": 2,
+      "descendantHistory": "UNKNOWN; compiler/test/Git потомки не равны одному верхнему процессу",
+      "receiptPreparationCorrections": [
+        "Binary log был передан UTF8 regexp: остановка до записи outcome, исправлено проверенной UTF8 интерпретацией без изменения bytes",
+        "Широкий pattern считал Test run started девятой целью; теперь считаются только восемь named () started. Дополнительно прочитан полный stderr: два настоящих SwiftPM warnings, а не ноль. Runtime не повторялся"
+      ],
+      "next": "GREEN использует package.swiftLanguageModes v6 без лишнего -Xswiftc -swift-version6 override, сохраняя completeConcurrency/warnings-as-errors/actor checks. Предыдущие warnings не переписываются"
+    },
+    "GREEN": {
+      "schema": "fum.swift-md-recency-run-outcome.1",
+      "n": 2,
+      "phase": "GREEN",
+      "topProcessWrapperPID": 24104,
+      "code": 0,
+      "buildSucceeded": true,
+      "SwiftTestingStarted": 8,
+      "passed": 8,
+      "warnings": 0,
+      "actualRealSeconds": 7,
+      "maxRSSBytes": 263356416,
+      "toolSession": 60138,
+      "toolSessionClosed": true,
+      "sourceSHA256": "53b721faa081b39d88bb74b72ad63908303e66fe1fb05daeb9c7a1a6dc0bd1b3",
+      "testsSHA256": "4e45c7fdb66c28a7ed433ce583d541dbf6ee3a7d1d4b1a1d3def3a28d91d901a",
+      "logs": [
+        {
+          "path": "02-green.stdout",
+          "bytes": 1764,
+          "sha256": "c6a6f992958d52ccafeee61ceeace6f0e68dd08aa06657d245df33f273f94964"
+        },
+        {
+          "path": "02-green.stderr",
+          "bytes": 1096,
+          "sha256": "d3dc66dbdc0c0ac1e4d03298fefa67239b1503fcc88679a9321f94d1f87142c9"
+        }
+      ],
+      "remainingTopBuildTest": 1,
+      "scope": "Те же восемь targets; общий command entry проверен библиотечно на owned private fixture, standalone binary ещё не собран/не исполнен",
+      "unknown": "Ненаблюдённые compiler/Git descendants и untargeted negative IO branches не объявлены GREEN"
+    },
+    "standaloneFailed": {
+      "schema": "fum.swift-md-recency-run-outcome.1",
+      "n": 3,
+      "phase": "Standalone compile",
+      "topProcessWrapperPID": 28350,
+      "code": 1,
+      "buildSucceeded": false,
+      "binaryCreated": false,
+      "actualRealSeconds": 0.78,
+      "maxRSSBytes": 37568512,
+      "logs": [
+        {
+          "path": "03-standalone.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "03-standalone.stderr",
+          "bytes": 865,
+          "sha256": "a18bb6e9f91c3b87eee4f633ee3de00d9ff188e1add85ebe70194fe0d551a75d"
+        }
+      ],
+      "classification": "Известный compile/setup отказ до получения binary: прямому swiftc не передан SDK; actual argv3 сохранён, успех SDK исправления ещё не проверен",
+      "SDK": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "SDKSettingsBytes": 7948,
+      "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "SDKsSeenInSuccessfulSwiftPM": [
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk"
+      ],
+      "fixturePhysical": "${P}/fixtures",
+      "fixtureAlias": false,
+      "sourceUnchangedFromGREEN": true,
+      "used": 3,
+      "active": false,
+      "next": "Только предлагаемое добавление -sdk с этим SDK; дополнительный процесс4 требует нового адресного ROOT бюджета. GREEN не повторяется",
+      "metadataReadCorrections": [
+        "Старый layout description.json отсутствует у Swift6.4 SwiftBuild; использован actual XCBuildData manifest",
+        "Широкий RG SDKROOT pattern дал усечённый избыточный вывод. Он не использован как полный аудит; теперь собран только уникальный конечный набор SDK aliases из ограниченных private manifest files"
+      ]
+    },
+    "standaloneCorrected": {
+      "schema": "fum.swift-md-recency-run-outcome.1",
+      "n": 4,
+      "phase": "Corrected standalone strict compile",
+      "topProcessWrapperPID": 43346,
+      "code": 0,
+      "warnings": 0,
+      "actualRealSeconds": 5.21,
+      "maxRSSBytes": 322322432,
+      "binary": {
+        "path": "${P}/bin/obnovitj-svezhestj-markdown",
+        "bytes": 238648,
+        "sha256": "6312daee7a8296818eddc33aa3ca6e637540cef1e02272bb3d1f729e96683c36",
+        "mode": "755",
+        "regular": true
+      },
+      "sourceSHA256": "53b721faa081b39d88bb74b72ad63908303e66fe1fb05daeb9c7a1a6dc0bd1b3",
+      "testsSHA256": "4e45c7fdb66c28a7ed433ce583d541dbf6ee3a7d1d4b1a1d3def3a28d91d901a",
+      "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "compilerSHA256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+      "logs": [
+        {
+          "path": "04-corrected.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "04-corrected.stderr",
+          "bytes": 777,
+          "sha256": "b3bb15c3d82dd0f0e3b3de283a3b88cb318558d2360cf89ac4afbc7b6c31307e"
+        }
+      ],
+      "standaloneRuntime": "UNKNOWN; binary не исполнялся. Общая entry/argv/запись/readback проверена восьмым SwiftTesting target",
+      "topUsed": 4,
+      "maxTopAllowed": 4,
+      "active": false,
+      "unknown": "Ненаблюдённые descendants/все системные отказные ветви/powerloss/CAS против внешнего редактора"
+    },
+    "active": false
+  },
+  "manifest": {
+    "files": [
+      {
+        "path": "Инструменты/fum-svezhestj-markdown/scripts/obnovitj-svezhestj-markdown.swift",
+        "bytes": 37609,
+        "sha256": "53b721faa081b39d88bb74b72ad63908303e66fe1fb05daeb9c7a1a6dc0bd1b3"
+      },
+      {
+        "path": "Инструменты/fum-svezhestj-markdown/tests/proverki-svezhesti-markdown.swift",
+        "bytes": 7863,
+        "sha256": "4e45c7fdb66c28a7ed433ce583d541dbf6ee3a7d1d4b1a1d3def3a28d91d901a"
+      }
+    ],
+    "self": "Контракт не содержит невозможный self hash. Exact3 mode/blob/bytes/SHA и commit/tree закрепляются внешней итоговой JSON receipt после commit"
+  },
+  "names": {
+    "sourceSHA256": "d071913132cae9df5f258d44e8bbdafdfda2782b93affbae68e9c598b17a1047",
+    "helperExecutedByROOT": true,
+    "additionalLocalCalls": 0
+  },
+  "humanOriginal": {
+    "text": "Lyuboj otkaz — priznak dlya avtomatizacii na Swift.",
+    "source": "ROOT-transferred из accepted dccd3310; ROOT подтвердил применимость. Native offset UNKNOWN; текущий agent-грант отдельно"
+  },
+  "metadataPreparationCorrection": "Первый green-source-replay.json остался0B после известного JSON encoding failure на binary source fragment. Он сохранён. Все JSON строки теперь строго проверены как UTF8 и сериализованы ДО нового O_EXCL write; runtime не повторялся",
+  "budgetAddon": {
+    "authority": "ROOT прямо разрешил ровно один дополнительный standalone compile после известного missing-SDK отказа; не новая фича/не повтор GREEN",
+    "usedBefore": 3,
+    "total": 4,
+    "sourceUnchanged": true,
+    "unknownEffectRetry": false
+  },
+  "artifact": {
+    "path": "${P}/bin/obnovitj-svezhestj-markdown",
+    "bytes": 238648,
+    "sha256": "6312daee7a8296818eddc33aa3ca6e637540cef1e02272bb3d1f729e96683c36",
+    "mode": "755",
+    "regular": true
+  },
+  "compiler": {
+    "version": "Apple Swift6.4 swiftlang-6.4.0.34.1 clang-2100.3.34.1",
+    "sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb"
+  },
+  "deliveryState": "Снимок предметного результата после process4, до Git-доставки. Последующие commit/merge/push/PR/release закрепляются внешней exact3 receipt; здесь они не утверждаются",
+  "reviewCorrections": [
+    "RO review обнаружил неопределённые XCODE_SWIFT/XCODE_SWIFTC placeholders; добавлена точная RO resolution и physical target/hash binding без новой сборки/изменения tested Swift source",
+    "Независимый RO review ROOT обнаружил P2: обещание о прежних блоках было шире parser. Scope/unsupported/target4 ограничены фактической поддержкой; исторический блок с последующим текстом без новой конечной метки явно отклоняется. Исправлены только метаданные; Swift source/tests/binary и прежние исходы не менялись, новых compile/test/runtime не было. Поддержка этого случая отложена в отдельный этап"
+  ]
+}

@@ -52,7 +52,15 @@ Porozhdyonnyij rezhim imeyet dopolniteljnuyu cenu postroyeniya modelej. Posle us
 
 [Primeneniye k prinyatomu nativnomu snimku](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/materialyi/primeneniye-prinyatogo-snimka.json) podtverdilo polnoye ravenstvo rezuljtata prezhnemu prinyatomu srezu: 885 → 2595 bajtov, odin nastoyasjhij CLI, bez novogo API ili zapisi polnogo fajla. [Otchyot podklyucheniya](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md) fiksiruyet proverku i yeyo granicyi.
 
+## Yavnaya kratkaya vyidacha adaptera
+
+Parametr `формат_выдачи: "краткий"` vyidayot `fum.краткий-ответ-задачи.1` posle shtatnoj proverki iskhodnogo snimka, SHA i vyibrannogo profilya. Po umolchaniyu dejstvuyet `"подробный"`: prezhnij rezuljtat ne menyayetsya. Novyij format ostavlyayet sostoyaniye zadachi, tekusjhij khod s oshibkoj, polnyij vyibrannyij otvet i yego khod, `есть_продолжение`, chislo khodov s oshibkoj, odin putj originala s SHA i yavnuyu granicu sokhranyonnogo sostoyaniya. Sobstvennyiye polya khoda nazyivayutsya `идентификатор`, `состояние`, `ошибка`, polya snimka — `путь`, `хэш`; iskhodnyiye obyyektyi zadachi i soobsjheniya sokhranyayut vneshnij kontrakt. Vremennyiye metki, ukazateli i ostaljnyiye polya vosstanavlivayutsya prezhnej vyidachej iz togo zhe originala; novyij fajl radi sokrasjheniya ne sozdayotsya.
+
+`максимум_байтов` ogranichivayet konechnyij `JSON.stringify(результат) + "\n"` v UTF-8. Otvet i oshibki ne usekayutsya: prevyisheniye dayot otkaz. Promezhutochnyij podrobnyij CLI po-prezhnemu ogranichen 16000 bajtami; yesli on ne pomesjhayetsya, kratkij rezhim takzhe otkazyivayet. Eto otdeljnaya transportnaya granica, dazhe yesli sokrasjhyonnyij obyyekt mog byi pomestitjsya. Pervyij neuspeshnyij novyij vyizov ne prinimayet kyesh; neuspeshnoye chteniye raneye prinyatogo snimka ne unichtozhayet yego prezhnyuyu privyazku. Odin saved-vyizov ispoljzuyet odin prezhnij CLI i ne vyizyivayet API ili zapisj fajla.
+
+Dlya nablyudeniya za tekusjhim vyipolneniyem ispoljzujte nativnoye ozhidaniye s kursorom; kratkaya sokhranyonnaya vyidacha ne dokazyivayet svezhestj, polnotu istorii ili zaversheniye zadachi. Profilj vosproizvoditsya cherez otchyotnuyu obyortku komandoj `node Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-краткой-выдачи.cjs <новый файл профиля>`: tri chereduyusjhiyesya paryi ispoljzuyut odnu otkryituyu pustuyu stranicu, realjnyiye subprocess i proverku SHA, bez zhivogo API.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:08:23 MSK -->
-<!-- content-sha256: sha256:37aab33276154931dbfe70d433493751e10c1fb37508d618964ce018eda448db -->
+<!-- last-content-edit: 2026-09-19 08:35:36 MSK -->
+<!-- content-sha256: sha256:ccfcb79e40bea1b9a25b5f76c20de3ae2b32553cef538ea3991ef626a2d06fd9 -->
 <!-- FUM-MD-RECENCY:END -->

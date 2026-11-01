@@ -1,0 +1,1773 @@
+{
+  "граница": "Подготовка Git/карты/снимка и запись результата исключены; кэш ОС не сбрасывается.",
+  "пары": [
+    {
+      "вход": {
+        "индекс_sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+        "источник": "531a865c6b94994ef87b27aa75d4509b7955a379",
+        "карта_sha256": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff",
+        "контур": {
+          "ревизия": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+          "файлы": [
+            {
+              "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+            },
+            {
+              "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+            },
+            {
+              "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+            },
+            {
+              "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+            },
+            {
+              "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+            },
+            {
+              "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+            }
+          ],
+          "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+        },
+        "область": [
+          "пример.py",
+          "потребитель.py"
+        ],
+        "принимающий": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+        "схема": "fum.вход-русификации.1"
+      },
+      "измерения": [
+        {
+          "автоматизация": {
+            "байтов_прочитано": 509542,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 958678792,
+            "конец_нс": 234807759148708,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234806800469916,
+            "ошибка": null,
+            "пик_памяти_байты": 5938179,
+            "результат": {
+              "вход": {
+                "индекс_sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+                "источник": "531a865c6b94994ef87b27aa75d4509b7955a379",
+                "карта_sha256": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff",
+                "контур": {
+                  "ревизия": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+                  "файлы": [
+                    {
+                      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+                    },
+                    {
+                      "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+                    },
+                    {
+                      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+                    },
+                    {
+                      "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+                    },
+                    {
+                      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+                    },
+                    {
+                      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+                    }
+                  ],
+                  "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+                },
+                "область": [
+                  "пример.py",
+                  "потребитель.py"
+                ],
+                "принимающий": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+                "схема": "fum.вход-русификации.1"
+              },
+              "допуск": true,
+              "запросы": [],
+              "индекс": {
+                "sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+                "байты": "RElSQwAAAAIAAAAHasFBHRumKkBqwUEdG6X6ugEAABQGwAkXAACBpAAAAfUAAAAUAAATjAq4haOa7Sp6ujRUrEGHUSezTJoCAHzQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsNCx0LHRgNC10LLQuNCw0YLRg9GA0Ytf0LrQvtC90YLQtdC60YHRgtCwLnB5AAAAAAAAasFBHRufRe5qwUEdG58NSgEAABQGwAkVAACBpAAAAfUAAAAUAACPV+Mby4iIvongEwiotqL6zdLuwVBWAH3QmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsdC10LfQvtC/0LDRgdC90YvQtV/Qv9GA0LjQstGP0LfQutC4X3B5dGhvbi5weQAAAAAAasFBHRubwq1qwUEdG5uG8gEAABQGwAkUAACBpAAAAfUAAAAUAABclaFrJ9Pa93/SEtxiaVds8cHDSPCKAHPQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/Qv9Cw0LrQtdGCX9C/0LXRgNC10LLQvtC00LBfcHl0aG9uLnB5AAAAAAAAAGrBQR0bl0tJasFBHRuXE3UBAAAUBsAJEwAAgaQAAAH1AAAAFAABV3popjqJ7DqbYXpfn4m8aonddTL1jQCB0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0L/QtdGA0LXQstC10YHRgtC4LdC+0LHRitGP0LLQu9C10L3QuNGPLdC60L7QtNCwLnB5AGrBQR0boszsasFBHRuim3IBAAAUBsAJFgAAgaQAAAH1AAAAFAAAcVg07cnIL62R/l5YzOWv5Yk8onqK+QBu0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0YDQsNC30LHQvtGAX9GB0YbQtdC90LDRgNC40Y8ucHkAAAAAasFBHRupVfBqwUEdG6kl7AEAABQGwAkYAACBpAAAAfUAAAAUAAAd4pFOyHy138gHGbqigPYqHWFHZq+BAHbQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsv0LDQsdCx0YDQtdCy0LjQsNGC0YPRgNGLLdC60L7QvdGC0LXQutGB0YLQsC5qc29uAAAAAGrBQR0mHrTXasFBHSYetNcBAAAUBsAJfAAAgaQAAAH1AAAAFAAAADScnlCbvAMffaUGf+gWAUNYJkfGBgAP0L/RgNC40LzQtdGALnB5AAAAVFJFRQAAAK8ANyAxCvtOOBw4/3bx20aYdxNjn75CzzYJ0JjQvdGB0YLRgNGD0LzQtdC90YLRiwA2IDEKNDQJUhk60loutrO+pgvLpsuWfONmdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrADYgMQqUm0kKrD8BP8ag/f2slK0EJ5NjZXNjcmlwdHMANSAwCmXIIlaW1+Ykg76mXvFEqLNCoSTxdrLO3b1VCCMFERvBjFaPzKWoQKI=",
+                "записи": [
+                  {
+                    "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "a16b27d3daf77fd212dc6269576cf1c1c348f08a",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "914ec87cb5dfc80719baa280f62a1d614766af81",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "9c9e509bbc031f7da5067fe8160143582647c606",
+                    "путь": "пример.py",
+                    "режим": "100644"
+                  }
+                ]
+              },
+              "исключения": [],
+              "исходники": [
+                {
+                  "путь": "пример.py",
+                  "режим_файла": 420,
+                  "хэш": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57"
+                }
+              ],
+              "схема": "fum.план-русификации.1",
+              "файлы": [
+                {
+                  "до": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57",
+                  "координаты": "индексы Unicode; связи в исходном тексте, привязки после связей",
+                  "после": "71e5c0c826badc5f9b44ba0b393e9cf0ea3c5437c54ee1b95d0dae24aca0732b",
+                  "привязки": [
+                    {
+                      "конец": 12,
+                      "начало": 4,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "объявление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 45,
+                      "начало": 37,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    }
+                  ],
+                  "путь": "пример.py",
+                  "различия": "--- пример.py\n+++ пример.py\n@@ -1,3 +1,3 @@\n-def new_name():\n+def новое_имя():\n     return 7\n-итог0 = new_name()\n+итог0 = новое_имя()\n",
+                  "режим": "100644",
+                  "режим_файла": 420,
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\n",
+                  "связи": []
+                }
+              ],
+              "хэш_карты": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff"
+            },
+            "стадии": [
+              {
+                "длительность_наносекунды": 293691417,
+                "стадия": "кандидат_и_входы"
+              },
+              {
+                "длительность_наносекунды": 110616625,
+                "стадия": "контур_и_исходники"
+              },
+              {
+                "длительность_наносекунды": 132993208,
+                "стадия": "объявления_и_подтверждения"
+              },
+              {
+                "длительность_наносекунды": 3414375,
+                "стадия": "пример.py"
+              },
+              {
+                "длительность_наносекунды": 3983833,
+                "стадия": "весь_пакет"
+              },
+              {
+                "длительность_наносекунды": 958024709,
+                "стадия": "весь_план"
+              }
+            ],
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 39
+          },
+          "номер": 1,
+          "порядок": [
+            "ручная",
+            "автоматизация"
+          ],
+          "ручная": {
+            "байтов_прочитано": 509438,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 898933042,
+            "конец_нс": 234806800094875,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234805901161833,
+            "ошибка": null,
+            "пик_памяти_байты": 4991104,
+            "результат": {
+              "стадии": [
+                {
+                  "длительность_наносекунды": 3385208,
+                  "стадия": "пример.py"
+                },
+                {
+                  "длительность_наносекунды": 3944166,
+                  "стадия": "весь_пакет"
+                }
+              ],
+              "файлы": [
+                {
+                  "путь": "пример.py",
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\n"
+                }
+              ]
+            },
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 37
+          }
+        },
+        {
+          "автоматизация": {
+            "байтов_прочитано": 509542,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 962583042,
+            "конец_нс": 234808780234708,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234807817651666,
+            "ошибка": null,
+            "пик_памяти_байты": 4977107,
+            "результат": {
+              "вход": {
+                "индекс_sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+                "источник": "531a865c6b94994ef87b27aa75d4509b7955a379",
+                "карта_sha256": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff",
+                "контур": {
+                  "ревизия": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+                  "файлы": [
+                    {
+                      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+                    },
+                    {
+                      "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+                    },
+                    {
+                      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+                    },
+                    {
+                      "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+                    },
+                    {
+                      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+                    },
+                    {
+                      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+                    }
+                  ],
+                  "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+                },
+                "область": [
+                  "пример.py",
+                  "потребитель.py"
+                ],
+                "принимающий": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+                "схема": "fum.вход-русификации.1"
+              },
+              "допуск": true,
+              "запросы": [],
+              "индекс": {
+                "sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+                "байты": "RElSQwAAAAIAAAAHasFBHRumKkBqwUEdG6X6ugEAABQGwAkXAACBpAAAAfUAAAAUAAATjAq4haOa7Sp6ujRUrEGHUSezTJoCAHzQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsNCx0LHRgNC10LLQuNCw0YLRg9GA0Ytf0LrQvtC90YLQtdC60YHRgtCwLnB5AAAAAAAAasFBHRufRe5qwUEdG58NSgEAABQGwAkVAACBpAAAAfUAAAAUAACPV+Mby4iIvongEwiotqL6zdLuwVBWAH3QmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsdC10LfQvtC/0LDRgdC90YvQtV/Qv9GA0LjQstGP0LfQutC4X3B5dGhvbi5weQAAAAAAasFBHRubwq1qwUEdG5uG8gEAABQGwAkUAACBpAAAAfUAAAAUAABclaFrJ9Pa93/SEtxiaVds8cHDSPCKAHPQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/Qv9Cw0LrQtdGCX9C/0LXRgNC10LLQvtC00LBfcHl0aG9uLnB5AAAAAAAAAGrBQR0bl0tJasFBHRuXE3UBAAAUBsAJEwAAgaQAAAH1AAAAFAABV3popjqJ7DqbYXpfn4m8aonddTL1jQCB0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0L/QtdGA0LXQstC10YHRgtC4LdC+0LHRitGP0LLQu9C10L3QuNGPLdC60L7QtNCwLnB5AGrBQR0boszsasFBHRuim3IBAAAUBsAJFgAAgaQAAAH1AAAAFAAAcVg07cnIL62R/l5YzOWv5Yk8onqK+QBu0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0YDQsNC30LHQvtGAX9GB0YbQtdC90LDRgNC40Y8ucHkAAAAAasFBHRupVfBqwUEdG6kl7AEAABQGwAkYAACBpAAAAfUAAAAUAAAd4pFOyHy138gHGbqigPYqHWFHZq+BAHbQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsv0LDQsdCx0YDQtdCy0LjQsNGC0YPRgNGLLdC60L7QvdGC0LXQutGB0YLQsC5qc29uAAAAAGrBQR0mHrTXasFBHSYetNcBAAAUBsAJfAAAgaQAAAH1AAAAFAAAADScnlCbvAMffaUGf+gWAUNYJkfGBgAP0L/RgNC40LzQtdGALnB5AAAAVFJFRQAAAK8ANyAxCvtOOBw4/3bx20aYdxNjn75CzzYJ0JjQvdGB0YLRgNGD0LzQtdC90YLRiwA2IDEKNDQJUhk60loutrO+pgvLpsuWfONmdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrADYgMQqUm0kKrD8BP8ag/f2slK0EJ5NjZXNjcmlwdHMANSAwCmXIIlaW1+Ykg76mXvFEqLNCoSTxdrLO3b1VCCMFERvBjFaPzKWoQKI=",
+                "записи": [
+                  {
+                    "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "a16b27d3daf77fd212dc6269576cf1c1c348f08a",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "914ec87cb5dfc80719baa280f62a1d614766af81",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "9c9e509bbc031f7da5067fe8160143582647c606",
+                    "путь": "пример.py",
+                    "режим": "100644"
+                  }
+                ]
+              },
+              "исключения": [],
+              "исходники": [
+                {
+                  "путь": "пример.py",
+                  "режим_файла": 420,
+                  "хэш": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57"
+                }
+              ],
+              "схема": "fum.план-русификации.1",
+              "файлы": [
+                {
+                  "до": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57",
+                  "координаты": "индексы Unicode; связи в исходном тексте, привязки после связей",
+                  "после": "71e5c0c826badc5f9b44ba0b393e9cf0ea3c5437c54ee1b95d0dae24aca0732b",
+                  "привязки": [
+                    {
+                      "конец": 12,
+                      "начало": 4,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "объявление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 45,
+                      "начало": 37,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    }
+                  ],
+                  "путь": "пример.py",
+                  "различия": "--- пример.py\n+++ пример.py\n@@ -1,3 +1,3 @@\n-def new_name():\n+def новое_имя():\n     return 7\n-итог0 = new_name()\n+итог0 = новое_имя()\n",
+                  "режим": "100644",
+                  "режим_файла": 420,
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\n",
+                  "связи": []
+                }
+              ],
+              "хэш_карты": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff"
+            },
+            "стадии": [
+              {
+                "длительность_наносекунды": 297317792,
+                "стадия": "кандидат_и_входы"
+              },
+              {
+                "длительность_наносекунды": 111595291,
+                "стадия": "контур_и_исходники"
+              },
+              {
+                "длительность_наносекунды": 132560792,
+                "стадия": "объявления_и_подтверждения"
+              },
+              {
+                "длительность_наносекунды": 3122375,
+                "стадия": "пример.py"
+              },
+              {
+                "длительность_наносекунды": 3587875,
+                "стадия": "весь_пакет"
+              },
+              {
+                "длительность_наносекунды": 961871375,
+                "стадия": "весь_план"
+              }
+            ],
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 39
+          },
+          "номер": 2,
+          "порядок": [
+            "автоматизация",
+            "ручная"
+          ],
+          "ручная": {
+            "байтов_прочитано": 509438,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 897101167,
+            "конец_нс": 234809677718208,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234808780617041,
+            "ошибка": null,
+            "пик_памяти_байты": 4969181,
+            "результат": {
+              "стадии": [
+                {
+                  "длительность_наносекунды": 3090459,
+                  "стадия": "пример.py"
+                },
+                {
+                  "длительность_наносекунды": 3649042,
+                  "стадия": "весь_пакет"
+                }
+              ],
+              "файлы": [
+                {
+                  "путь": "пример.py",
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\n"
+                }
+              ]
+            },
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 37
+          }
+        },
+        {
+          "автоматизация": {
+            "байтов_прочитано": 509542,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 968826500,
+            "конец_нс": 234811608348791,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234810639522291,
+            "ошибка": null,
+            "пик_памяти_байты": 4976787,
+            "результат": {
+              "вход": {
+                "индекс_sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+                "источник": "531a865c6b94994ef87b27aa75d4509b7955a379",
+                "карта_sha256": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff",
+                "контур": {
+                  "ревизия": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+                  "файлы": [
+                    {
+                      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+                    },
+                    {
+                      "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+                    },
+                    {
+                      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+                    },
+                    {
+                      "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+                    },
+                    {
+                      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+                    },
+                    {
+                      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+                    }
+                  ],
+                  "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+                },
+                "область": [
+                  "пример.py",
+                  "потребитель.py"
+                ],
+                "принимающий": "0c76e940984c7f1c5357d6ccf09ca956f771ff2a",
+                "схема": "fum.вход-русификации.1"
+              },
+              "допуск": true,
+              "запросы": [],
+              "индекс": {
+                "sha256": "5085a3a3e75b016db70c4685ade1f745945d5d910f6f12aec721a259dab6ea9c",
+                "байты": "RElSQwAAAAIAAAAHasFBHRumKkBqwUEdG6X6ugEAABQGwAkXAACBpAAAAfUAAAAUAAATjAq4haOa7Sp6ujRUrEGHUSezTJoCAHzQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsNCx0LHRgNC10LLQuNCw0YLRg9GA0Ytf0LrQvtC90YLQtdC60YHRgtCwLnB5AAAAAAAAasFBHRufRe5qwUEdG58NSgEAABQGwAkVAACBpAAAAfUAAAAUAACPV+Mby4iIvongEwiotqL6zdLuwVBWAH3QmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsdC10LfQvtC/0LDRgdC90YvQtV/Qv9GA0LjQstGP0LfQutC4X3B5dGhvbi5weQAAAAAAasFBHRubwq1qwUEdG5uG8gEAABQGwAkUAACBpAAAAfUAAAAUAABclaFrJ9Pa93/SEtxiaVds8cHDSPCKAHPQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/Qv9Cw0LrQtdGCX9C/0LXRgNC10LLQvtC00LBfcHl0aG9uLnB5AAAAAAAAAGrBQR0bl0tJasFBHRuXE3UBAAAUBsAJEwAAgaQAAAH1AAAAFAABV3popjqJ7DqbYXpfn4m8aonddTL1jQCB0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0L/QtdGA0LXQstC10YHRgtC4LdC+0LHRitGP0LLQu9C10L3QuNGPLdC60L7QtNCwLnB5AGrBQR0boszsasFBHRuim3IBAAAUBsAJFgAAgaQAAAH1AAAAFAAAcVg07cnIL62R/l5YzOWv5Yk8onqK+QBu0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0YDQsNC30LHQvtGAX9GB0YbQtdC90LDRgNC40Y8ucHkAAAAAasFBHRupVfBqwUEdG6kl7AEAABQGwAkYAACBpAAAAfUAAAAUAAAd4pFOyHy138gHGbqigPYqHWFHZq+BAHbQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsv0LDQsdCx0YDQtdCy0LjQsNGC0YPRgNGLLdC60L7QvdGC0LXQutGB0YLQsC5qc29uAAAAAGrBQR0mHrTXasFBHSYetNcBAAAUBsAJfAAAgaQAAAH1AAAAFAAAADScnlCbvAMffaUGf+gWAUNYJkfGBgAP0L/RgNC40LzQtdGALnB5AAAAVFJFRQAAAK8ANyAxCvtOOBw4/3bx20aYdxNjn75CzzYJ0JjQvdGB0YLRgNGD0LzQtdC90YLRiwA2IDEKNDQJUhk60loutrO+pgvLpsuWfONmdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrADYgMQqUm0kKrD8BP8ag/f2slK0EJ5NjZXNjcmlwdHMANSAwCmXIIlaW1+Ykg76mXvFEqLNCoSTxdrLO3b1VCCMFERvBjFaPzKWoQKI=",
+                "записи": [
+                  {
+                    "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "a16b27d3daf77fd212dc6269576cf1c1c348f08a",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "914ec87cb5dfc80719baa280f62a1d614766af81",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "9c9e509bbc031f7da5067fe8160143582647c606",
+                    "путь": "пример.py",
+                    "режим": "100644"
+                  }
+                ]
+              },
+              "исключения": [],
+              "исходники": [
+                {
+                  "путь": "пример.py",
+                  "режим_файла": 420,
+                  "хэш": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57"
+                }
+              ],
+              "схема": "fum.план-русификации.1",
+              "файлы": [
+                {
+                  "до": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57",
+                  "координаты": "индексы Unicode; связи в исходном тексте, привязки после связей",
+                  "после": "71e5c0c826badc5f9b44ba0b393e9cf0ea3c5437c54ee1b95d0dae24aca0732b",
+                  "привязки": [
+                    {
+                      "конец": 12,
+                      "начало": 4,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "объявление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 45,
+                      "начало": 37,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    }
+                  ],
+                  "путь": "пример.py",
+                  "различия": "--- пример.py\n+++ пример.py\n@@ -1,3 +1,3 @@\n-def new_name():\n+def новое_имя():\n     return 7\n-итог0 = new_name()\n+итог0 = новое_имя()\n",
+                  "режим": "100644",
+                  "режим_файла": 420,
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\n",
+                  "связи": []
+                }
+              ],
+              "хэш_карты": "fe98e3683661f30d68d444f9d4b1cc19e94b1131d809122538cbe00496ba77ff"
+            },
+            "стадии": [
+              {
+                "длительность_наносекунды": 298358291,
+                "стадия": "кандидат_и_входы"
+              },
+              {
+                "длительность_наносекунды": 114841250,
+                "стадия": "контур_и_исходники"
+              },
+              {
+                "длительность_наносекунды": 134139625,
+                "стадия": "объявления_и_подтверждения"
+              },
+              {
+                "длительность_наносекунды": 3378583,
+                "стадия": "пример.py"
+              },
+              {
+                "длительность_наносекунды": 3954333,
+                "стадия": "весь_пакет"
+              },
+              {
+                "длительность_наносекунды": 968212541,
+                "стадия": "весь_план"
+              }
+            ],
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 39
+          },
+          "номер": 3,
+          "порядок": [
+            "ручная",
+            "автоматизация"
+          ],
+          "ручная": {
+            "байтов_прочитано": 509438,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 902347417,
+            "конец_нс": 234810639212708,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234809736865291,
+            "ошибка": null,
+            "пик_памяти_байты": 5930189,
+            "результат": {
+              "стадии": [
+                {
+                  "длительность_наносекунды": 3729125,
+                  "стадия": "пример.py"
+                },
+                {
+                  "длительность_наносекунды": 4338084,
+                  "стадия": "весь_пакет"
+                }
+              ],
+              "файлы": [
+                {
+                  "путь": "пример.py",
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\n"
+                }
+              ]
+            },
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 37
+          }
+        }
+      ],
+      "исходные_байты_utf8": "def new_name():\n    return 7\nитог0 = new_name()\n",
+      "карта": {
+        "исключения": [],
+        "пакеты": [
+          {
+            "карта": {
+              "схема": "fum.пакет-перевода-python.1",
+              "файлы": [
+                {
+                  "области": null,
+                  "переводы": {
+                    "new_name": "новое_имя"
+                  },
+                  "передачи": [],
+                  "путь": "пример.py",
+                  "связи": [],
+                  "хэш": "6a8c3557ff65ef805eeaf15fb3f0cf1a7ee95cf126541bf40a5c76568466ce57"
+                }
+              ]
+            },
+            "язык": "python"
+          }
+        ],
+        "подтверждения": [
+          {
+            "вид": "функция",
+            "имя": "new_name",
+            "новое": "новое_имя",
+            "путь": "пример.py",
+            "столбец": 1,
+            "строка": 1,
+            "язык": "python"
+          }
+        ],
+        "происхождение": "открытая независимая фикстура",
+        "схема": "fum.карта-русификации.1"
+      },
+      "медианы_нс": {
+        "автоматизация": 962583042,
+        "ручная": 898933042
+      },
+      "множитель": 1,
+      "ранний_отказ": {
+        "байтов_прочитано": 64697,
+        "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+        "длительность_нс": 296906958,
+        "конец_нс": 234811963532041,
+        "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+        "начало_нс": 234811666625083,
+        "ошибка": {
+          "сообщение": "Исполнитель изменился",
+          "тип": "Отказ"
+        },
+        "пик_памяти_байты": 349926,
+        "результат": null,
+        "токенизаций": 0,
+        "файлов_прочитано": 8,
+        "чтений_файлов": 12
+      }
+    },
+    {
+      "вход": {
+        "индекс_sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+        "источник": "dea6323bb0b28b19e5467e105ee324fbca4fef95",
+        "карта_sha256": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff",
+        "контур": {
+          "ревизия": "95c9db40efb36b0f4bde18321078a7da95020256",
+          "файлы": [
+            {
+              "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+            },
+            {
+              "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+            },
+            {
+              "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+            },
+            {
+              "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+            },
+            {
+              "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+            },
+            {
+              "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+              "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+            }
+          ],
+          "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+        },
+        "область": [
+          "пример.py",
+          "потребитель.py"
+        ],
+        "принимающий": "95c9db40efb36b0f4bde18321078a7da95020256",
+        "схема": "fum.вход-русификации.1"
+      },
+      "измерения": [
+        {
+          "автоматизация": {
+            "байтов_прочитано": 510163,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 975240292,
+            "конец_нс": 234814176519500,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234813201279208,
+            "ошибка": null,
+            "пик_памяти_байты": 4989978,
+            "результат": {
+              "вход": {
+                "индекс_sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+                "источник": "dea6323bb0b28b19e5467e105ee324fbca4fef95",
+                "карта_sha256": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff",
+                "контур": {
+                  "ревизия": "95c9db40efb36b0f4bde18321078a7da95020256",
+                  "файлы": [
+                    {
+                      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+                    },
+                    {
+                      "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+                    },
+                    {
+                      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+                    },
+                    {
+                      "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+                    },
+                    {
+                      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+                    },
+                    {
+                      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+                    }
+                  ],
+                  "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+                },
+                "область": [
+                  "пример.py",
+                  "потребитель.py"
+                ],
+                "принимающий": "95c9db40efb36b0f4bde18321078a7da95020256",
+                "схема": "fum.вход-русификации.1"
+              },
+              "допуск": true,
+              "запросы": [],
+              "индекс": {
+                "sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+                "байты": "RElSQwAAAAIAAAAHasFBIzGOI11qwUEjMY38TQEAABQGwAnHAACBpAAAAfUAAAAUAAATjAq4haOa7Sp6ujRUrEGHUSezTJoCAHzQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsNCx0LHRgNC10LLQuNCw0YLRg9GA0Ytf0LrQvtC90YLQtdC60YHRgtCwLnB5AAAAAAAAasFBIzGIU7xqwUEjMYgrsgEAABQGwAnFAACBpAAAAfUAAAAUAACPV+Mby4iIvongEwiotqL6zdLuwVBWAH3QmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsdC10LfQvtC/0LDRgdC90YvQtV/Qv9GA0LjQstGP0LfQutC4X3B5dGhvbi5weQAAAAAAasFBIzGFYf5qwUEjMYU4pgEAABQGwAnEAACBpAAAAfUAAAAUAABclaFrJ9Pa93/SEtxiaVds8cHDSPCKAHPQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/Qv9Cw0LrQtdGCX9C/0LXRgNC10LLQvtC00LBfcHl0aG9uLnB5AAAAAAAAAGrBQSMxgfMWasFBIzGBxvoBAAAUBsAJwwAAgaQAAAH1AAAAFAABV3popjqJ7DqbYXpfn4m8aonddTL1jQCB0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0L/QtdGA0LXQstC10YHRgtC4LdC+0LHRitGP0LLQu9C10L3QuNGPLdC60L7QtNCwLnB5AGrBQSMxi16LasFBIzGLNtQBAAAUBsAJxgAAgaQAAAH1AAAAFAAAcVg07cnIL62R/l5YzOWv5Yk8onqK+QBu0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0YDQsNC30LHQvtGAX9GB0YbQtdC90LDRgNC40Y8ucHkAAAAAasFBIzGQ+mpqwUEjMZDThAEAABQGwAnIAACBpAAAAfUAAAAUAAAd4pFOyHy138gHGbqigPYqHWFHZq+BAHbQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsv0LDQsdCx0YDQtdCy0LjQsNGC0YPRgNGLLdC60L7QvdGC0LXQutGB0YLQsC5qc29uAAAAAGrBQSQAX4slasFBJABfiyUBAAAUBsAKLAAAgaQAAAH1AAAAFAAAAQM5IXw+JjJroNulf3ULej6Jk/co1wAP0L/RgNC40LzQtdGALnB5AAAAVFJFRQAAAK8ANyAxCiu5dZUZnBqMwICdqjB+qgKkvzOg0JjQvdGB0YLRgNGD0LzQtdC90YLRiwA2IDEKNDQJUhk60loutrO+pgvLpsuWfONmdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrADYgMQqUm0kKrD8BP8ag/f2slK0EJ5NjZXNjcmlwdHMANSAwCmXIIlaW1+Ykg76mXvFEqLNCoSTxwSkDEGVFOMYAK7LrFiOSoyftMkI=",
+                "записи": [
+                  {
+                    "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "a16b27d3daf77fd212dc6269576cf1c1c348f08a",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "914ec87cb5dfc80719baa280f62a1d614766af81",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "39217c3e26326ba0dba57f750b7a3e8993f728d7",
+                    "путь": "пример.py",
+                    "режим": "100644"
+                  }
+                ]
+              },
+              "исключения": [],
+              "исходники": [
+                {
+                  "путь": "пример.py",
+                  "режим_файла": 420,
+                  "хэш": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b"
+                }
+              ],
+              "схема": "fum.план-русификации.1",
+              "файлы": [
+                {
+                  "до": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b",
+                  "координаты": "индексы Unicode; связи в исходном тексте, привязки после связей",
+                  "после": "6d98c749ee7c56288f3c8d50e86d5cf768bfcc67b7141d7b4c7f4f99cdb55d1d",
+                  "привязки": [
+                    {
+                      "конец": 12,
+                      "начало": 4,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "объявление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 45,
+                      "начало": 37,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 64,
+                      "начало": 56,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 83,
+                      "начало": 75,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 102,
+                      "начало": 94,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 121,
+                      "начало": 113,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 140,
+                      "начало": 132,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 159,
+                      "начало": 151,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 178,
+                      "начало": 170,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 197,
+                      "начало": 189,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 216,
+                      "начало": 208,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    }
+                  ],
+                  "путь": "пример.py",
+                  "различия": "--- пример.py\n+++ пример.py\n@@ -1,12 +1,12 @@\n-def new_name():\n+def новое_имя():\n     return 7\n-итог0 = new_name()\n-итог1 = new_name()\n-итог2 = new_name()\n-итог3 = new_name()\n-итог4 = new_name()\n-итог5 = new_name()\n-итог6 = new_name()\n-итог7 = new_name()\n-итог8 = new_name()\n-итог9 = new_name()\n+итог0 = новое_имя()\n+итог1 = новое_имя()\n+итог2 = новое_имя()\n+итог3 = новое_имя()\n+итог4 = новое_имя()\n+итог5 = новое_имя()\n+итог6 = новое_имя()\n+итог7 = новое_имя()\n+итог8 = новое_имя()\n+итог9 = новое_имя()\n",
+                  "режим": "100644",
+                  "режим_файла": 420,
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\nитог1 = новое_имя()\nитог2 = новое_имя()\nитог3 = новое_имя()\nитог4 = новое_имя()\nитог5 = новое_имя()\nитог6 = новое_имя()\nитог7 = новое_имя()\nитог8 = новое_имя()\nитог9 = новое_имя()\n",
+                  "связи": []
+                }
+              ],
+              "хэш_карты": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff"
+            },
+            "стадии": [
+              {
+                "длительность_наносекунды": 303724083,
+                "стадия": "кандидат_и_входы"
+              },
+              {
+                "длительность_наносекунды": 111392167,
+                "стадия": "контур_и_исходники"
+              },
+              {
+                "длительность_наносекунды": 135555833,
+                "стадия": "объявления_и_подтверждения"
+              },
+              {
+                "длительность_наносекунды": 8722459,
+                "стадия": "пример.py"
+              },
+              {
+                "длительность_наносекунды": 9365875,
+                "стадия": "весь_пакет"
+              },
+              {
+                "длительность_наносекунды": 974564500,
+                "стадия": "весь_план"
+              }
+            ],
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 39
+          },
+          "номер": 1,
+          "порядок": [
+            "ручная",
+            "автоматизация"
+          ],
+          "ручная": {
+            "байтов_прочитано": 509645,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 932836959,
+            "конец_нс": 234813200959375,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234812268122416,
+            "ошибка": null,
+            "пик_памяти_байты": 4969013,
+            "результат": {
+              "стадии": [
+                {
+                  "длительность_наносекунды": 8785666,
+                  "стадия": "пример.py"
+                },
+                {
+                  "длительность_наносекунды": 9411583,
+                  "стадия": "весь_пакет"
+                }
+              ],
+              "файлы": [
+                {
+                  "путь": "пример.py",
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\nитог1 = новое_имя()\nитог2 = новое_имя()\nитог3 = новое_имя()\nитог4 = новое_имя()\nитог5 = новое_имя()\nитог6 = новое_имя()\nитог7 = новое_имя()\nитог8 = новое_имя()\nитог9 = новое_имя()\n"
+                }
+              ]
+            },
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 37
+          }
+        },
+        {
+          "автоматизация": {
+            "байтов_прочитано": 510163,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 978856000,
+            "конец_нс": 234815212920916,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234814234064916,
+            "ошибка": null,
+            "пик_памяти_байты": 5938138,
+            "результат": {
+              "вход": {
+                "индекс_sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+                "источник": "dea6323bb0b28b19e5467e105ee324fbca4fef95",
+                "карта_sha256": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff",
+                "контур": {
+                  "ревизия": "95c9db40efb36b0f4bde18321078a7da95020256",
+                  "файлы": [
+                    {
+                      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+                    },
+                    {
+                      "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+                    },
+                    {
+                      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+                    },
+                    {
+                      "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+                    },
+                    {
+                      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+                    },
+                    {
+                      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+                    }
+                  ],
+                  "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+                },
+                "область": [
+                  "пример.py",
+                  "потребитель.py"
+                ],
+                "принимающий": "95c9db40efb36b0f4bde18321078a7da95020256",
+                "схема": "fum.вход-русификации.1"
+              },
+              "допуск": true,
+              "запросы": [],
+              "индекс": {
+                "sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+                "байты": "RElSQwAAAAIAAAAHasFBIzGOI11qwUEjMY38TQEAABQGwAnHAACBpAAAAfUAAAAUAAATjAq4haOa7Sp6ujRUrEGHUSezTJoCAHzQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsNCx0LHRgNC10LLQuNCw0YLRg9GA0Ytf0LrQvtC90YLQtdC60YHRgtCwLnB5AAAAAAAAasFBIzGIU7xqwUEjMYgrsgEAABQGwAnFAACBpAAAAfUAAAAUAACPV+Mby4iIvongEwiotqL6zdLuwVBWAH3QmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsdC10LfQvtC/0LDRgdC90YvQtV/Qv9GA0LjQstGP0LfQutC4X3B5dGhvbi5weQAAAAAAasFBIzGFYf5qwUEjMYU4pgEAABQGwAnEAACBpAAAAfUAAAAUAABclaFrJ9Pa93/SEtxiaVds8cHDSPCKAHPQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/Qv9Cw0LrQtdGCX9C/0LXRgNC10LLQvtC00LBfcHl0aG9uLnB5AAAAAAAAAGrBQSMxgfMWasFBIzGBxvoBAAAUBsAJwwAAgaQAAAH1AAAAFAABV3popjqJ7DqbYXpfn4m8aonddTL1jQCB0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0L/QtdGA0LXQstC10YHRgtC4LdC+0LHRitGP0LLQu9C10L3QuNGPLdC60L7QtNCwLnB5AGrBQSMxi16LasFBIzGLNtQBAAAUBsAJxgAAgaQAAAH1AAAAFAAAcVg07cnIL62R/l5YzOWv5Yk8onqK+QBu0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0YDQsNC30LHQvtGAX9GB0YbQtdC90LDRgNC40Y8ucHkAAAAAasFBIzGQ+mpqwUEjMZDThAEAABQGwAnIAACBpAAAAfUAAAAUAAAd4pFOyHy138gHGbqigPYqHWFHZq+BAHbQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsv0LDQsdCx0YDQtdCy0LjQsNGC0YPRgNGLLdC60L7QvdGC0LXQutGB0YLQsC5qc29uAAAAAGrBQSQAX4slasFBJABfiyUBAAAUBsAKLAAAgaQAAAH1AAAAFAAAAQM5IXw+JjJroNulf3ULej6Jk/co1wAP0L/RgNC40LzQtdGALnB5AAAAVFJFRQAAAK8ANyAxCiu5dZUZnBqMwICdqjB+qgKkvzOg0JjQvdGB0YLRgNGD0LzQtdC90YLRiwA2IDEKNDQJUhk60loutrO+pgvLpsuWfONmdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrADYgMQqUm0kKrD8BP8ag/f2slK0EJ5NjZXNjcmlwdHMANSAwCmXIIlaW1+Ykg76mXvFEqLNCoSTxwSkDEGVFOMYAK7LrFiOSoyftMkI=",
+                "записи": [
+                  {
+                    "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "a16b27d3daf77fd212dc6269576cf1c1c348f08a",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "914ec87cb5dfc80719baa280f62a1d614766af81",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "39217c3e26326ba0dba57f750b7a3e8993f728d7",
+                    "путь": "пример.py",
+                    "режим": "100644"
+                  }
+                ]
+              },
+              "исключения": [],
+              "исходники": [
+                {
+                  "путь": "пример.py",
+                  "режим_файла": 420,
+                  "хэш": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b"
+                }
+              ],
+              "схема": "fum.план-русификации.1",
+              "файлы": [
+                {
+                  "до": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b",
+                  "координаты": "индексы Unicode; связи в исходном тексте, привязки после связей",
+                  "после": "6d98c749ee7c56288f3c8d50e86d5cf768bfcc67b7141d7b4c7f4f99cdb55d1d",
+                  "привязки": [
+                    {
+                      "конец": 12,
+                      "начало": 4,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "объявление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 45,
+                      "начало": 37,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 64,
+                      "начало": 56,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 83,
+                      "начало": 75,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 102,
+                      "начало": 94,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 121,
+                      "начало": 113,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 140,
+                      "начало": 132,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 159,
+                      "начало": 151,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 178,
+                      "начало": 170,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 197,
+                      "начало": 189,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 216,
+                      "начало": 208,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    }
+                  ],
+                  "путь": "пример.py",
+                  "различия": "--- пример.py\n+++ пример.py\n@@ -1,12 +1,12 @@\n-def new_name():\n+def новое_имя():\n     return 7\n-итог0 = new_name()\n-итог1 = new_name()\n-итог2 = new_name()\n-итог3 = new_name()\n-итог4 = new_name()\n-итог5 = new_name()\n-итог6 = new_name()\n-итог7 = new_name()\n-итог8 = new_name()\n-итог9 = new_name()\n+итог0 = новое_имя()\n+итог1 = новое_имя()\n+итог2 = новое_имя()\n+итог3 = новое_имя()\n+итог4 = новое_имя()\n+итог5 = новое_имя()\n+итог6 = новое_имя()\n+итог7 = новое_имя()\n+итог8 = новое_имя()\n+итог9 = новое_имя()\n",
+                  "режим": "100644",
+                  "режим_файла": 420,
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\nитог1 = новое_имя()\nитог2 = новое_имя()\nитог3 = новое_имя()\nитог4 = новое_имя()\nитог5 = новое_имя()\nитог6 = новое_имя()\nитог7 = новое_имя()\nитог8 = новое_имя()\nитог9 = новое_имя()\n",
+                  "связи": []
+                }
+              ],
+              "хэш_карты": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff"
+            },
+            "стадии": [
+              {
+                "длительность_наносекунды": 304202667,
+                "стадия": "кандидат_и_входы"
+              },
+              {
+                "длительность_наносекунды": 110653458,
+                "стадия": "контур_и_исходники"
+              },
+              {
+                "длительность_наносекунды": 135073417,
+                "стадия": "объявления_и_подтверждения"
+              },
+              {
+                "длительность_наносекунды": 8490833,
+                "стадия": "пример.py"
+              },
+              {
+                "длительность_наносекунды": 8967458,
+                "стадия": "весь_пакет"
+              },
+              {
+                "длительность_наносекунды": 978230167,
+                "стадия": "весь_план"
+              }
+            ],
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 39
+          },
+          "номер": 2,
+          "порядок": [
+            "автоматизация",
+            "ручная"
+          ],
+          "ручная": {
+            "байтов_прочитано": 509645,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 911507375,
+            "конец_нс": 234816124733083,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234815213225708,
+            "ошибка": null,
+            "пик_памяти_байты": 4969077,
+            "результат": {
+              "стадии": [
+                {
+                  "длительность_наносекунды": 8690750,
+                  "стадия": "пример.py"
+                },
+                {
+                  "длительность_наносекунды": 9281084,
+                  "стадия": "весь_пакет"
+                }
+              ],
+              "файлы": [
+                {
+                  "путь": "пример.py",
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\nитог1 = новое_имя()\nитог2 = новое_имя()\nитог3 = новое_имя()\nитог4 = новое_имя()\nитог5 = новое_имя()\nитог6 = новое_имя()\nитог7 = новое_имя()\nитог8 = новое_имя()\nитог9 = новое_имя()\n"
+                }
+              ]
+            },
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 37
+          }
+        },
+        {
+          "автоматизация": {
+            "байтов_прочитано": 510163,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 973081375,
+            "конец_нс": 234818073543125,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234817100461750,
+            "ошибка": null,
+            "пик_памяти_байты": 5938170,
+            "результат": {
+              "вход": {
+                "индекс_sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+                "источник": "dea6323bb0b28b19e5467e105ee324fbca4fef95",
+                "карта_sha256": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff",
+                "контур": {
+                  "ревизия": "95c9db40efb36b0f4bde18321078a7da95020256",
+                  "файлы": [
+                    {
+                      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+                    },
+                    {
+                      "sha256": "8152b5ba692cf962ed4a7a0cc04d98ed426f309a67951143465af0a590f2b393",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py"
+                    },
+                    {
+                      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py"
+                    },
+                    {
+                      "sha256": "12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+                    },
+                    {
+                      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py"
+                    },
+                    {
+                      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+                      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json"
+                    }
+                  ],
+                  "хэш_исполнителя": "a12cf558eda7dca1263d22de537c692fb7da9420ca1654bd3fb428b0d60f3b12"
+                },
+                "область": [
+                  "пример.py",
+                  "потребитель.py"
+                ],
+                "принимающий": "95c9db40efb36b0f4bde18321078a7da95020256",
+                "схема": "fum.вход-русификации.1"
+              },
+              "допуск": true,
+              "запросы": [],
+              "индекс": {
+                "sha256": "276ac61bb2a907b0776abee8b7f1fd237993160677fe2bfb9d34d17124f80748",
+                "байты": "RElSQwAAAAIAAAAHasFBIzGOI11qwUEjMY38TQEAABQGwAnHAACBpAAAAfUAAAAUAAATjAq4haOa7Sp6ujRUrEGHUSezTJoCAHzQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsNCx0LHRgNC10LLQuNCw0YLRg9GA0Ytf0LrQvtC90YLQtdC60YHRgtCwLnB5AAAAAAAAasFBIzGIU7xqwUEjMYgrsgEAABQGwAnFAACBpAAAAfUAAAAUAACPV+Mby4iIvongEwiotqL6zdLuwVBWAH3QmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/QsdC10LfQvtC/0LDRgdC90YvQtV/Qv9GA0LjQstGP0LfQutC4X3B5dGhvbi5weQAAAAAAasFBIzGFYf5qwUEjMYU4pgEAABQGwAnEAACBpAAAAfUAAAAUAABclaFrJ9Pa93/SEtxiaVds8cHDSPCKAHPQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsvc2NyaXB0cy/Qv9Cw0LrQtdGCX9C/0LXRgNC10LLQvtC00LBfcHl0aG9uLnB5AAAAAAAAAGrBQSMxgfMWasFBIzGBxvoBAAAUBsAJwwAAgaQAAAH1AAAAFAABV3popjqJ7DqbYXpfn4m8aonddTL1jQCB0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0L/QtdGA0LXQstC10YHRgtC4LdC+0LHRitGP0LLQu9C10L3QuNGPLdC60L7QtNCwLnB5AGrBQSMxi16LasFBIzGLNtQBAAAUBsAJxgAAgaQAAAH1AAAAFAAAcVg07cnIL62R/l5YzOWv5Yk8onqK+QBu0JjQvdGB0YLRgNGD0LzQtdC90YLRiy9mdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrL3NjcmlwdHMv0YDQsNC30LHQvtGAX9GB0YbQtdC90LDRgNC40Y8ucHkAAAAAasFBIzGQ+mpqwUEjMZDThAEAABQGwAnIAACBpAAAAfUAAAAUAAAd4pFOyHy138gHGbqigPYqHWFHZq+BAHbQmNC90YHRgtGA0YPQvNC10L3RgtGLL2Z1bS1wZXJldm9kLW9ieXlhdmxlbmlqLWtvZGEtbmEtcnVzc2tpai15YXp5aWsv0LDQsdCx0YDQtdCy0LjQsNGC0YPRgNGLLdC60L7QvdGC0LXQutGB0YLQsC5qc29uAAAAAGrBQSQAX4slasFBJABfiyUBAAAUBsAKLAAAgaQAAAH1AAAAFAAAAQM5IXw+JjJroNulf3ULej6Jk/co1wAP0L/RgNC40LzQtdGALnB5AAAAVFJFRQAAAK8ANyAxCiu5dZUZnBqMwICdqjB+qgKkvzOg0JjQvdGB0YLRgNGD0LzQtdC90YLRiwA2IDEKNDQJUhk60loutrO+pgvLpsuWfONmdW0tcGVyZXZvZC1vYnl5YXZsZW5pai1rb2RhLW5hLXJ1c3NraWoteWF6eWlrADYgMQqUm0kKrD8BP8ag/f2slK0EJ5NjZXNjcmlwdHMANSAwCmXIIlaW1+Ykg76mXvFEqLNCoSTxwSkDEGVFOMYAK7LrFiOSoyftMkI=",
+                "записи": [
+                  {
+                    "blob": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "a16b27d3daf77fd212dc6269576cf1c1c348f08a",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "914ec87cb5dfc80719baa280f62a1d614766af81",
+                    "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+                    "режим": "100644"
+                  },
+                  {
+                    "blob": "39217c3e26326ba0dba57f750b7a3e8993f728d7",
+                    "путь": "пример.py",
+                    "режим": "100644"
+                  }
+                ]
+              },
+              "исключения": [],
+              "исходники": [
+                {
+                  "путь": "пример.py",
+                  "режим_файла": 420,
+                  "хэш": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b"
+                }
+              ],
+              "схема": "fum.план-русификации.1",
+              "файлы": [
+                {
+                  "до": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b",
+                  "координаты": "индексы Unicode; связи в исходном тексте, привязки после связей",
+                  "после": "6d98c749ee7c56288f3c8d50e86d5cf768bfcc67b7141d7b4c7f4f99cdb55d1d",
+                  "привязки": [
+                    {
+                      "конец": 12,
+                      "начало": 4,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "объявление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 45,
+                      "начало": 37,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 64,
+                      "начало": 56,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 83,
+                      "начало": 75,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 102,
+                      "начало": 94,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 121,
+                      "начало": 113,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 140,
+                      "начало": 132,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 159,
+                      "начало": 151,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 178,
+                      "начало": 170,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 197,
+                      "начало": 189,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    },
+                    {
+                      "конец": 216,
+                      "начало": 208,
+                      "новое": "новое_имя",
+                      "область": [
+                        0,
+                        0
+                      ],
+                      "роль": "употребление",
+                      "старое": "new_name"
+                    }
+                  ],
+                  "путь": "пример.py",
+                  "различия": "--- пример.py\n+++ пример.py\n@@ -1,12 +1,12 @@\n-def new_name():\n+def новое_имя():\n     return 7\n-итог0 = new_name()\n-итог1 = new_name()\n-итог2 = new_name()\n-итог3 = new_name()\n-итог4 = new_name()\n-итог5 = new_name()\n-итог6 = new_name()\n-итог7 = new_name()\n-итог8 = new_name()\n-итог9 = new_name()\n+итог0 = новое_имя()\n+итог1 = новое_имя()\n+итог2 = новое_имя()\n+итог3 = новое_имя()\n+итог4 = новое_имя()\n+итог5 = новое_имя()\n+итог6 = новое_имя()\n+итог7 = новое_имя()\n+итог8 = новое_имя()\n+итог9 = новое_имя()\n",
+                  "режим": "100644",
+                  "режим_файла": 420,
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\nитог1 = новое_имя()\nитог2 = новое_имя()\nитог3 = новое_имя()\nитог4 = новое_имя()\nитог5 = новое_имя()\nитог6 = новое_имя()\nитог7 = новое_имя()\nитог8 = новое_имя()\nитог9 = новое_имя()\n",
+                  "связи": []
+                }
+              ],
+              "хэш_карты": "d24531f90f47144e65b5c2441e2365367c08705520feffd4ac89190636483bff"
+            },
+            "стадии": [
+              {
+                "длительность_наносекунды": 301453375,
+                "стадия": "кандидат_и_входы"
+              },
+              {
+                "длительность_наносекунды": 111024416,
+                "стадия": "контур_и_исходники"
+              },
+              {
+                "длительность_наносекунды": 134552500,
+                "стадия": "объявления_и_подтверждения"
+              },
+              {
+                "длительность_наносекунды": 8370583,
+                "стадия": "пример.py"
+              },
+              {
+                "длительность_наносекунды": 8935834,
+                "стадия": "весь_пакет"
+              },
+              {
+                "длительность_наносекунды": 972377500,
+                "стадия": "весь_план"
+              }
+            ],
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 39
+          },
+          "номер": 3,
+          "порядок": [
+            "ручная",
+            "автоматизация"
+          ],
+          "ручная": {
+            "байтов_прочитано": 509645,
+            "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+            "длительность_нс": 917291417,
+            "конец_нс": 234817100111708,
+            "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+            "начало_нс": 234816182820291,
+            "ошибка": null,
+            "пик_памяти_байты": 4968901,
+            "результат": {
+              "стадии": [
+                {
+                  "длительность_наносекунды": 12277125,
+                  "стадия": "пример.py"
+                },
+                {
+                  "длительность_наносекунды": 12889083,
+                  "стадия": "весь_пакет"
+                }
+              ],
+              "файлы": [
+                {
+                  "путь": "пример.py",
+                  "результат": "def новое_имя():\n    return 7\nитог0 = новое_имя()\nитог1 = новое_имя()\nитог2 = новое_имя()\nитог3 = новое_имя()\nитог4 = новое_имя()\nитог5 = новое_имя()\nитог6 = новое_имя()\nитог7 = новое_имя()\nитог8 = новое_имя()\nитог9 = новое_имя()\n"
+                }
+              ]
+            },
+            "токенизаций": 1,
+            "файлов_прочитано": 15,
+            "чтений_файлов": 37
+          }
+        }
+      ],
+      "исходные_байты_utf8": "def new_name():\n    return 7\nитог0 = new_name()\nитог1 = new_name()\nитог2 = new_name()\nитог3 = new_name()\nитог4 = new_name()\nитог5 = new_name()\nитог6 = new_name()\nитог7 = new_name()\nитог8 = new_name()\nитог9 = new_name()\n",
+      "карта": {
+        "исключения": [],
+        "пакеты": [
+          {
+            "карта": {
+              "схема": "fum.пакет-перевода-python.1",
+              "файлы": [
+                {
+                  "области": null,
+                  "переводы": {
+                    "new_name": "новое_имя"
+                  },
+                  "передачи": [],
+                  "путь": "пример.py",
+                  "связи": [],
+                  "хэш": "de177a73893929e16e86ded3f7833fb209f0ce2dd61f5f61d643e8575cac1f8b"
+                }
+              ]
+            },
+            "язык": "python"
+          }
+        ],
+        "подтверждения": [
+          {
+            "вид": "функция",
+            "имя": "new_name",
+            "новое": "новое_имя",
+            "путь": "пример.py",
+            "столбец": 1,
+            "строка": 1,
+            "язык": "python"
+          }
+        ],
+        "происхождение": "открытая независимая фикстура",
+        "схема": "fum.карта-русификации.1"
+      },
+      "медианы_нс": {
+        "автоматизация": 975240292,
+        "ручная": 917291417
+      },
+      "множитель": 10,
+      "ранний_отказ": {
+        "байтов_прочитано": 64697,
+        "граница_чтений": "Path.read_bytes в процессе Python; Git pipe не входит",
+        "длительность_нс": 306927667,
+        "конец_нс": 234818439364250,
+        "метод_памяти": "tracemalloc: Python allocations, без RSS процессов Git",
+        "начало_нс": 234818132436583,
+        "ошибка": {
+          "сообщение": "Исполнитель изменился",
+          "тип": "Отказ"
+        },
+        "пик_памяти_байты": 348966,
+        "результат": null,
+        "токенизаций": 0,
+        "файлов_прочитано": 8,
+        "чтений_файлов": 12
+      }
+    }
+  ],
+  "решение": "Кэш между вызовами не вводится: он ослабил бы повторную проверку Git/исходников; ускорение не заявляется.",
+  "сравнение": "Ручная последовательность принятого Python backend и новый контракт; автоматизация дополнительно проверяет delta, подтверждения и весь кандидат.",
+  "схема": "fum.профиль-русификации.1"
+}

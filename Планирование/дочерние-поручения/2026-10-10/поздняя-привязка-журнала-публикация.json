@@ -1,0 +1,27 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--pozdnyaya-privyazka-zhurnala--01a1240e",
+  "исполнитель": "01a1240e-4bc2-7a90-9ddd-ac6cb081e0a8",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/основание_двусторонней_координации.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-дочернего-поручения.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_поздней_привязки_журнала.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_дочернего_поручения.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_основания_двусторонней_координации.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_дочернего_поручения.py",
+    "Журнал/2026-10-10_07-26-03_MSK_реализовать-позднюю-привязку-журнала/",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Журнал/2026-10-10_07-12-03_MSK_назначить-позднюю-привязку-журнала/запрос.md",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json"
+  ],
+  "постановка": {
+    "sha256": "d1cdbe3d64838fa0cd36435009933e41bc21c1a3033c7c8f5a434f7df85ee359",
+    "коммит": "59011709d2178c41f90bd9c9eccde1f6fae15f03",
+    "путь": "Планирование/дочерние-поручения/2026-10-10/поздняя-привязка-журнала.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "332a8c59fb44bf5fc836c62e39faf69fd5ae101a36375be074347c32461c7f4c"
+}

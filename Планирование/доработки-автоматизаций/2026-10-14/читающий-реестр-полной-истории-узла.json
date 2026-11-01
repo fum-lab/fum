@@ -1,0 +1,49 @@
+{
+  "K": "d1436c25fe5e50019eecd56cad3193cde1fd60cd",
+  "call_chain": [
+    "принять→_проверить_цепь_опоры",
+    "_РеестрЖивогоПриёма→ЕдиныйНативныйРеестр",
+    "seek(0), birth→slice без сброса счётчика"
+  ],
+  "history_frames_lower_bound": 433000,
+  "implemented": false,
+  "issue": "https://github.com/fum-lab/fum/issues/253",
+  "legacy_frame_cap": 131072,
+  "native_bridge": {
+    "effect_authority": false,
+    "prep_ms_cap": 120000,
+    "scope": "адресный интервал",
+    "time_cap_exceeded_proven": false
+  },
+  "next": "Независимый новый версионный RO-учёт полного native-префикса с выбранным конечным ресурсным документом commit/path/SHA; затем отдельное подключение нового эффектного входа. Сначала профиль; старые .1/.2, unknown/copies/orphan/pending/order/control сохраняются.",
+  "observed_frame_count": null,
+  "schema": "fum.предварительный-ресурсный-аудит.1",
+  "scope_exclusions": [
+    "4предметных пути builder",
+    "30путей ребёнка Журнала",
+    "самостоятельныйB/ACT_B/state2"
+  ],
+  "source_sha256": "070fa7a329dc9e1535ebb770a2ae184c1768d3c5f24799009f227065040ddc88",
+  "whole_prefix_required": true,
+  "исходники": [
+    {
+      "sha256": "8fea204fbcae2f4806cc0ad70850bd5ec212597e05cfb4d9eaefebfd2aa24bda",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_приёма_базиса_узла.py"
+    },
+    {
+      "sha256": "22da57d76d559ef2d66463a07f0f40c1101f83dbbbdbbe72423724b90b3866fa",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py"
+    },
+    {
+      "sha256": "819ab53782566afa33f86042e9adb1aad76c7176dffe2844492c6d0cb72a14ce",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить_нативную_подготовку.py"
+    }
+  ],
+  "предметные_пути": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/читающий_реестр_полной_истории_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_читающего_реестра_полной_истории_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_читающего_реестра_полной_истории_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/читающий-реестр-полной-истории-узла.md"
+  ],
+  "схема": "fum.план-читающего-реестра-полной-истории.1"
+}

@@ -42,6 +42,31 @@ def открыть_указатель(значение, указатель):
 
 
 class ПроверкаОтветаЗадачи(unittest.TestCase):
+    def test_старые_профили_сохраняют_байты_и_прежние_отказы(проверка):
+        # Независимый эталон из 27c47b48c6e4934e64882d27b90cea5b1472113f.
+        # SHA compact-кода H3: 8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e.
+        данные = закодировать(оболочка(снимок_ответа()))
+        проверка.assertEqual(hashlib.sha256(данные).hexdigest(), "79491e18373e0c5e2239d7c9e80458d5ada9ee1aa1fc187ff8e877fa697e56fc")
+        with tempfile.TemporaryDirectory() as временный:
+            путь = Path(временный) / "снимок.json"
+            команда = [sys.executable, "-B", str(Path(__file__).resolve().parents[1] / "scripts/показать-ответ-задачи.py"),
+                "--снимок", str(путь), "--задача", ЗАДАЧА]
+            путь.write_bytes(данные)
+            for профиль in ("прежний", "порождённый"):
+                ответ = subprocess.run(команда + ["--sha256", hashlib.sha256(данные).hexdigest(), "--профиль", профиль], capture_output=True)
+                проверка.assertEqual(ответ.returncode, 0, ответ.stderr)
+                проверка.assertEqual(len(ответ.stdout), 2868)
+                проверка.assertEqual(hashlib.sha256(ответ.stdout).hexdigest(), "2f04d7243c344d9f20adf70be549d72b28a49a048f986ac6398c81918ed048fa")
+            for тип in ("sleep", "functionCallOutput", "subAgentActivity"):
+                вход = снимок_ответа(); вход["turns"][0]["items"].append({"type": тип, "id": "служебный"})
+                новые = закодировать(оболочка(вход)); путь.write_bytes(новые)
+                for профиль in ("прежний", "порождённый"):
+                    with проверка.subTest(тип=тип, профиль=профиль):
+                        отказ = subprocess.run(команда + ["--sha256", hashlib.sha256(новые).hexdigest(), "--профиль", профиль], capture_output=True)
+                        проверка.assertEqual(отказ.returncode, 2)
+                        проверка.assertEqual(отказ.stdout, b"")
+                        проверка.assertTrue(отказ.stderr)
+
     def показать(проверка, значение=None, **параметры):
         данные = закодировать(оболочка(снимок_ответа() if значение is None else значение))
         return представить_ответ(данные, hashlib.sha256(данные).hexdigest(), ЗАДАЧА, **параметры)

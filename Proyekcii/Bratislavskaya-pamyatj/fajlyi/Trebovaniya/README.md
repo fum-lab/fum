@@ -172,8 +172,9 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - `FUM-REQ-0074` — [🟡 Sborka Swift toolchain iz polnostjyu zerkaljnyikh zavisimostej](🟡-sborka-Swift-toolchain-iz-polnostjyu-zerkaljnyikh-zavisimostej.md)
 - `FUM-REQ-0075` — [🟡 Polnaya perenosimaya oflajn-avtonomnostj FUM](🟡-polnaya-perenosimaya-oflajn-avtonomnostj-FUM.md)
 - `FUM-REQ-0077` — [🟡 Universaljnoye parametricheskoye 3D i vizualizaciya FUMA](🟡-universaljnoye-parametricheskoye-3D-i-vizualizaciya-FUMA.md)
+- `FUM-REQ-0078` — [🟡 Proyektirovaniye chipov dlya FUM](🟡-proyektirovaniye-chipov-dlya-FUM.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:d53102c88c68376ba4e48c3a67a84baa96c2d364bf6b0128c7a97a76e504e923 -->
+<!-- last-content-edit: 2026-09-16 01:06:47 MSK -->
+<!-- content-sha256: sha256:4c6368908cabbff2716af1d61c58c32e3d32b2a762a6cdfdec767e626198ac3e -->
 <!-- FUM-MD-RECENCY:END -->

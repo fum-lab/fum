@@ -1,0 +1,30 @@
+{
+  "OID": "c5c1c4becad7a6b12a5bf8c9cd4d69c3c10e2436",
+  "author": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791505437 +0300",
+  "changed": 19,
+  "clean": true,
+  "committer": "FUM <fum@local> 1791505437 +0300",
+  "message_sha256": "41e94d9d60dab961f2fa09c8d6636a37698f8eac97938cdb1e2ba19c48217845",
+  "origin": "https://github.com/fum-lab/fum.git",
+  "parents": [
+    "58fb165144b87f8882210b5f71787516b7176018"
+  ],
+  "push": {
+    "stderr_sha256": "5ea14a80dd6415ca5849edff5b0b27a582eb35d1f2f3ec7a146cdf2ad5278612",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "код": 0,
+    "монотонные_нс": 2848167125
+  },
+  "receipt_sha256": "9b8dfebd5439b8639426279a70baa2254605416a3c5f5423c1a230e85efe8ffc",
+  "ref": "refs/heads/fuma",
+  "remote": {
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "88c88e56bad53b92168a436bcd8cada983385e1aeeaf332c62ef8cd27845712f",
+    "код": 0,
+    "монотонные_нс": 772052875
+  },
+  "remote_oid": "c5c1c4becad7a6b12a5bf8c9cd4d69c3c10e2436",
+  "targets": 20,
+  "tree": "f941fc66d93dc774e2dce4e9cf3adbd424995d8a",
+  "граница": "Доставка постановки H6; не реализация каталога и не завершение ROOT."
+}

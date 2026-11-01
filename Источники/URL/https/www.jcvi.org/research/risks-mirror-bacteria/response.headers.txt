@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Date: Thu, 24 Sep 2026 10:04:46 GMT
+Server: Apache/2.4.66 (Amazon Linux) OpenSSL/3.5.5
+Cache-Control: max-age=86400, public
+X-Drupal-Dynamic-Cache: MISS
+Content-language: en
+X-Content-Type-Options: nosniff
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Vary: Cookie
+X-Generator: Drupal 11 (https://www.drupal.org)
+X-Drupal-Cache: HIT
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+Last-Modified: Thu, 24 Sep 2026 10:04:46 GMT
+ETag: "1790244286"
+X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: frame-ancestors 'self' *.einnews.com *.einpresswire.com;
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=utf-8

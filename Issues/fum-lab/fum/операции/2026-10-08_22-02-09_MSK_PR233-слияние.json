@@ -1,0 +1,12 @@
+{
+  "endpoint": "repos/fum-lab/fum/pulls/233",
+  "merged": true,
+  "байты": 17907,
+  "граница": "Код0 GET после обычного push; GitHub сообщил merged=true и точный merge_commit_sha. Тело и версия PR сохранены в REST Issues; полные технические метаданные Pull Request пока только в приватном захвате.",
+  "коммит": "6f055e3c02d0bd74d9f127c02be94e10067a8d7a",
+  "метод": "GET",
+  "ответ_sha256": "b0606c236cd8b404a832fdaa8c79aa002ee4aba94acccc1c0803eb6e0ef2aa93",
+  "открытая_запись_Issues_sha256": "de8cfa5224a1cf1eaa9cbe9e4fb3d3f535506c9fd2bfcf0154489673eb425816",
+  "сохранение_сырого_ответа": "Приватный неизменяемый захват; публикационный допуск полного REST Pull Request ещё не реализован.",
+  "схема": "fum.наблюдение-операции-GitHub.1"
+}

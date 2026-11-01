@@ -4,6 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import ast
+import io
+import base64
+import binascii
 import hashlib
 import json
 import os
@@ -11,6 +15,7 @@ import re
 import stat
 import subprocess
 import sys
+import tokenize
 from dataclasses import dataclass, replace
 from pathlib import Path, PurePosixPath
 from typing import Iterable
@@ -26,6 +31,7 @@ if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
 
 from request_folder_layout import session_stem_for_request_path  # noqa: E402
+import метаданные_наблюдений as метаданные  # noqa: E402
 
 
 POLICY_SCHEMA = "fum.machine-local-path-policy.v2"
@@ -39,6 +45,7 @@ MAX_EXCEPTION_COUNT = 16
 POLICY_CATEGORY_BASES = frozenset(
     {
         "allow.path-validation-definition",
+        "allow.nonpath-syntax",
         "allow.test-fixture",
         "report.historical",
     }
@@ -72,6 +79,12 @@ SYSTEM_RUNTIME_CODE_PATHS = frozenset(
         "Прототипы/теневой-редактор-продолжений/Sources/FUMShadowCore/LocalRuntimePolicy.swift",
     }
 )
+СИСТЕМНЫЕ_ЛИТЕРАЛЫ_НАТИВНОГО_МОСТА = {
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs": frozenset({"/bin/sh"}),
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py": frozenset({"/usr/bin/env"}),
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py": frozenset({"/bin/sh", "/bin/bash"}),
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py": frozenset({"/bin/sh"}),
+}
 FENCE_OPEN_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 H2_RE = re.compile(r"^ {0,3}##(?!#)[ \t]+(.+?)(?:[ \t]+#+[ \t]*)?$")
 ШАБЛОН_ИМЕНИ_ФАЙЛА_ЗАПУСКА = re.compile(
@@ -86,6 +99,15 @@ H2_RE = re.compile(r"^ {0,3}##(?!#)[ \t]+(.+?)(?:[ \t]+#+[ \t]*)?$")
     + ФОРМА_ИМЕНИ_ЗАДАЧИ_СУБАГЕНТА
     + r"\Z"
 )
+ШАБЛОН_ПОЛЯ_УКАЗАТЕЛЯ = re.compile(
+    r'"(?P<имя>указатель_обработки|указатель_оригинала)"\s*:\s*'
+    r'"(?P<значение>/[^"\\]*)"'
+)
+ШАБЛОН_ПОЛЯ_ИЗОБРАЖЕНИЯ = re.compile(
+    r'"image_url"\s*:\s*"'
+    r'(?P<значение>data:image/png;base64,[A-Za-z0-9+/]+={0,2})"'
+)
+ШАБЛОН_НОМЕРА_УКАЗАТЕЛЯ = re.compile(r"(?:0|[1-9][0-9]*)\Z")
 ПОЛЯ_ЗАПИСИ_ЗАПУСКА = frozenset(
     {
         "схема",
@@ -135,6 +157,7 @@ class ExactException:
 @dataclass(frozen=True)
 class Policy:
     exceptions: tuple[ExactException, ...]
+    метаданные: tuple[метаданные.ДекларацияМетаданных, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -204,8 +227,9 @@ def _validate_policy_path(raw_path: object) -> str:
 def parse_policy(value: object) -> Policy:
     if not isinstance(value, dict):
         raise PolicyError("policy root must be an object")
-    _require_exact_keys(value, POLICY_KEYS, "policy")
-    if value.get("schema") != POLICY_SCHEMA:
+    новая = value.get("schema") == метаданные.СХЕМА_ПОЛИТИКИ
+    _require_exact_keys(value, POLICY_KEYS | {"метаданные"} if новая else POLICY_KEYS, "policy")
+    if value.get("schema") != POLICY_SCHEMA and not новая:
         raise PolicyError("unsupported policy schema")
     raw_exceptions = value.get("exceptions")
     if not isinstance(raw_exceptions, list):
@@ -263,13 +287,31 @@ def parse_policy(value: object) -> Policy:
                 reason=reason.strip(),
             )
         )
-    return Policy(exceptions=tuple(exceptions))
+    try:
+        декларации = метаданные.разобрать_декларации(value["метаданные"]) if новая else ()
+    except метаданные.ОшибкаМетаданных as ошибка:
+        raise PolicyError(str(ошибка)) from ошибка
+    return Policy(exceptions=tuple(exceptions), метаданные=декларации)
+
+
+def выбрать_политику(политика: Policy, пути) -> Policy:
+    """Полная политика разбирается до отбора; выбранная запись не сокращается."""
+    выбранные = frozenset(пути)
+    return Policy(tuple(э for э in политика.exceptions if э.path in выбранные),
+        tuple(э for э in политика.метаданные if э.путь in выбранные))
+
+
+def позиции_метаданных(политика: Policy, данные):
+    try:
+        return метаданные.проверить_декларации(политика.метаданные, данные)
+    except метаданные.ОшибкаМетаданных as ошибка:
+        raise PolicyError(str(ошибка)) from ошибка
 
 
 def load_policy(path: Path) -> Policy:
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        value = метаданные.разобрать_данные(path.read_bytes())
+    except (OSError, UnicodeError, метаданные.ОшибкаМетаданных) as exc:
         raise PolicyError("policy cannot be read as canonical JSON") from exc
     return parse_policy(value)
 
@@ -526,6 +568,78 @@ def _is_documented_placeholder(path: str, form: PathForm) -> bool:
     return path.endswith(".md") and form.value.startswith(("/path/to/", "/путь/к/"))
 
 
+def простые_строки_языковой_фикстуры(путь, текст):
+    """Пассивные однострочные Python-данные четвёртого точного файла."""
+    if путь != "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py":
+        return frozenset()
+    try:
+        дерево = ast.parse(текст)
+    except (SyntaxError, ValueError, UnicodeError, RecursionError):
+        return frozenset()
+    строки = текст.splitlines()
+    родители = {ребёнок: родитель for родитель in ast.walk(дерево)
+        for ребёнок in ast.iter_child_nodes(родитель)}
+    окончания = set()
+    for узел in ast.walk(дерево):
+        if not isinstance(узел, ast.Constant) or type(узел.value) is not str:
+            continue
+        if узел.lineno != узел.end_lineno:
+            continue
+        родитель = родители.get(узел)
+        самостоятельный = (
+            isinstance(родитель, (ast.Assign, ast.AnnAssign)) and родитель.value is узел
+            or isinstance(родитель, (ast.Tuple, ast.List)) and узел in родитель.elts
+            or isinstance(родитель, ast.Call) and узел in родитель.args
+            or isinstance(родитель, ast.keyword) and родитель.value is узел
+        )
+        if not самостоятельный:
+            continue
+        байты = строки[узел.lineno - 1].encode()
+        начало = len(байты[:узел.col_offset].decode())
+        конец = len(байты[:узел.end_col_offset].decode())
+        сырой = строки[узел.lineno - 1][начало:конец]
+        try:
+            токены = [токен for токен in tokenize.generate_tokens(io.StringIO(сырой).readline)
+                if токен.type not in (tokenize.NEWLINE, tokenize.NL, tokenize.ENDMARKER)]
+        except (tokenize.TokenError, IndentationError):
+            continue
+        if len(токены) != 1 or токены[0].type != tokenize.STRING or токены[0].string != сырой:
+            continue
+        if (len(сырой) >= 2 and сырой[0] in ("'", '"') and сырой[-1] == сырой[0]
+                and not сырой.startswith(сырой[0] * 3) and "\\" not in сырой):
+            окончания.add((узел.lineno, начало, конец, сырой[0]))
+    return frozenset(окончания)
+
+
+def разрешённый_системный_литерал(путь, строка, форма, последняя_строка, строковая_фикстура):
+    """Точный quoted token и конечные разделители; неизвестный контекст отказывает."""
+    if форма.kind != "posix-absolute":
+        return False
+    if форма.value not in СИСТЕМНЫЕ_ЛИТЕРАЛЫ_НАТИВНОГО_МОСТА.get(путь, frozenset()):
+        return False
+    if not 0 < форма.start < форма.end < len(строка):
+        return False
+    if строка[форма.start:форма.end] != форма.value:
+        return False
+    кавычка = строка[форма.start - 1]
+    if кавычка not in ("'", '"') or строка[форма.end] != кавычка:
+        return False
+    до = строка[:форма.start - 1].rstrip()
+    после = строка[форма.end + 1:].lstrip()
+    if до and до[-1] not in "=:([,":
+        return False
+    if строковая_фикстура and до.endswith("shell:"):
+        return True
+    if после:
+        if после[0] in ",;":
+            return True
+        # Конец самостоятельного поля CJS в буквальных синтаксических данных.
+        return до.endswith(":") and после.startswith("}") and после[1:].lstrip().startswith(";")
+    # Конец промежуточной строки не доказывает завершение выражения:
+    # следующий литерал или оператор может стоять после перевода строки/комментария.
+    return последняя_строка and (not до or до[-1] in "=:")
+
+
 def classify_candidate(
     path: str,
     line: str,
@@ -533,6 +647,8 @@ def classify_candidate(
     form: PathForm,
     request_text_lines: frozenset[int],
     позиции_исполнителя: frozenset[tuple[int, int, int]],
+    последняя_строка: bool = False,
+    строковая_фикстура: bool = False,
 ) -> str:
     if _is_external_source(path):
         return f"report.external-source.{form.kind}"
@@ -552,6 +668,8 @@ def classify_candidate(
     if _is_documented_placeholder(path, form):
         return "allow.documented-placeholder"
     if _is_system_runtime(form):
+        if разрешённый_системный_литерал(path, line, form, последняя_строка, строковая_фикстура):
+            return "allow.system-runtime"
         if (
             path == SYSTEM_REGISTRY_PATH
             or path.endswith(".md")
@@ -568,10 +686,100 @@ def _line_digest(line: str) -> str:
     return "sha256:" + hashlib.sha256(line.encode("utf-8")).hexdigest()
 
 
+def _нефайловые_фрагменты_JSON(
+    путь: str, строка: str,
+) -> tuple[tuple[int, int, str], ...]:
+    части = PurePosixPath(путь).parts
+    if (
+        len(части) < 4
+        or части[0] != "Журнал"
+        or session_stem_for_request_path(f"Журнал/{части[1]}/запрос.md") != части[1]
+        or части[2] != "материалы"
+        or not путь.endswith((".json", ".jsonl"))
+    ):
+        return ()
+    if not any(ключ in строка for ключ in (
+        '"указатель_обработки"', '"указатель_оригинала"', '"image_url"',
+    )):
+        return ()
+    try:
+        значение = json.loads(строка)
+    except json.JSONDecodeError:
+        return ()
+
+    фрагменты: list[tuple[int, int, str]] = []
+    if len(части) == 4 and части[3] == "индекс-остатка.jsonl" and isinstance(значение, dict):
+        for совпадение in ШАБЛОН_ПОЛЯ_УКАЗАТЕЛЯ.finditer(строка):
+            имя = совпадение.group("имя")
+            указатель = совпадение.group("значение")
+            начало = "/" + ("остаток/" if имя == "указатель_обработки" else "сообщения/")
+            if (
+                значение.get(имя) == указатель
+                and указатель.startswith(начало)
+                and ШАБЛОН_НОМЕРА_УКАЗАТЕЛЯ.fullmatch(указатель[len(начало):])
+            ):
+                фрагменты.append((*совпадение.span("значение"), "report.json-pointer"))
+
+    if (
+        isinstance(значение, list)
+        and len(значение) == 4
+        and isinstance(значение[2], dict)
+        and set(значение[2]) == {"detail", "image_url", "type"}
+        and значение[2]["type"] == "input_image"
+        and isinstance(значение[2]["image_url"], str)
+    ):
+        изображение = значение[2]["image_url"]
+        for совпадение in ШАБЛОН_ПОЛЯ_ИЗОБРАЖЕНИЯ.finditer(строка):
+            if совпадение.group("значение") != изображение:
+                continue
+            try:
+                данные = base64.b64decode(изображение.partition(",")[2], validate=True)
+            except binascii.Error:
+                continue
+            if данные.startswith(b"\x89PNG\r\n\x1a\n"):
+                фрагменты.append((*совпадение.span("значение"), "report.data-image"))
+    return tuple(фрагменты)
+
+
+def _сырое_обсуждение(путь: str, текст: str) -> bool:
+    части = PurePosixPath(путь).parts
+    if (len(части) != 5 or части[0] != 'Issues' or части[3] != 'данные'
+            or any(not re.fullmatch(r'[A-Za-z0-9_.-]+', имя) or имя in {'.', '..'} for имя in части[1:3])
+            or not re.fullmatch(r'[0-9a-f]{64}\.json', части[4]) or '\0' in текст):
+        return False
+    if hashlib.sha256(текст.encode('utf-8')).hexdigest() != части[4][:-5]:
+        return False
+    try:
+        записи = json.loads(текст)
+    except (ValueError, TypeError):
+        return False
+    if isinstance(записи, dict):
+        записи = [записи]
+    if not isinstance(записи, list):
+        return False
+    репозиторий = '/'.join(части[1:3])
+    for запись in записи:
+        if (not isinstance(запись, dict) or type(запись.get('id')) is not int or запись['id'] <= 0
+                or 'body' not in запись or запись['body'] is not None and not isinstance(запись['body'], str)
+                or not isinstance(запись.get('updated_at'), str)):
+            return False
+        if 'number' in запись:
+            номер = запись['number']; раздел = 'pull' if 'pull_request' in запись else 'issues'
+            if (type(номер) is not int or номер <= 0 or not isinstance(запись.get('title'), str)
+                    or запись.get('state') not in {'open', 'closed'}
+                    or запись.get('html_url') != f'https://github.com/{репозиторий}/{раздел}/{номер}'):
+                return False
+        elif (not isinstance(запись.get('issue_url'), str)
+                or not re.fullmatch(r'https://api\.github\.com/repos/' + re.escape(репозиторий) + r'/issues/[1-9][0-9]*', запись['issue_url'])):
+            return False
+    return True
+
+
 def scan_text(
     path: str,
     text: str,
     известные_исполнители: frozenset[str] = frozenset(),
+    допущенные_метаданные: frozenset[tuple[int, int, int]] = frozenset(),
 ) -> list[Candidate]:
     request_lines = (
         request_text_line_numbers(text) if _is_request_file(path) else frozenset()
@@ -582,23 +790,43 @@ def scan_text(
         известные_исполнители,
     )
     candidates: list[Candidate] = []
-    for line_number, line in enumerate(text.splitlines(), start=1):
+    сырое_обсуждение = _сырое_обсуждение(path, text)
+    строки = text.splitlines()
+    окончания_фикстур = простые_строки_языковой_фикстуры(path, text)
+    for line_number, line in enumerate(строки, start=1):
         line_hash = _line_digest(line)
+        нефайловые_фрагменты = _нефайловые_фрагменты_JSON(path, line)
         for form in detect_path_forms(line):
+            категория = classify_candidate(
+                path,
+                line,
+                line_number,
+                form,
+                request_lines,
+                позиции_исполнителя,
+                line_number == len(строки),
+                any(номер == line_number and начало < form.start - 1
+                    and конец == form.end + 2 and line[form.end] != кавычка
+                    for номер, начало, конец, кавычка in окончания_фикстур),
+            )
+            if form.kind == "posix-user-home" and (line_number, form.start, form.end) in допущенные_метаданные:
+                категория = "allow.collaboration-observation-metadata.posix-user-home"
+            elif (form.kind == "home-expansion" and line[form.start:form.end] == chr(126)
+                    and (line_number, form.start, form.end) in допущенные_метаданные):
+                категория = "allow.cprofile-builtin-metadata.home-expansion"
+            if сырое_обсуждение:
+                категория = f'report.external-source.{form.kind}'
+            for начало, конец, тип in нефайловые_фрагменты:
+                if начало <= form.start and form.end <= конец:
+                    категория = f"{тип}.{form.kind}"
+                    break
             candidates.append(
                 Candidate(
                     path=path,
                     line=line_number,
                     kind=form.kind,
                     line_sha256=line_hash,
-                    category=classify_candidate(
-                        path,
-                        line,
-                        line_number,
-                        form,
-                        request_lines,
-                        позиции_исполнителя,
-                    ),
+                    category=категория,
                 )
             )
     return candidates
@@ -670,6 +898,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
     candidates: list[Candidate] = []
     fixed_findings: list[Finding] = []
     текстовые_файлы: list[tuple[str, str]] = []
+    сырые_файлы: dict[str, bytes] = {}
     inventory_failed = False
     инвентарь = tuple(git_inventory(root))
     запросы = frozenset(
@@ -742,6 +971,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
             inventory_failed = inventory_failed or category.startswith("error.")
             continue
         текстовые_файлы.append((entry.path, text))
+        сырые_файлы[entry.path] = data
 
     исполнители_по_стволам: dict[str, set[str]] = {}
     for путь, текст in текстовые_файлы:
@@ -751,6 +981,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
         ствол, исполнитель = запись
         исполнители_по_стволам.setdefault(ствол, set()).add(исполнитель)
 
+    допуски_метаданных = позиции_метаданных(policy, сырые_файлы)
     for путь, текст in текстовые_файлы:
         части = PurePosixPath(путь).parts
         ствол = части[1] if len(части) >= 2 and части[0] == "Журнал" else ""
@@ -759,6 +990,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
                 путь,
                 текст,
                 frozenset(исполнители_по_стволам.get(ствол, set())),
+                допуски_метаданных.get(путь, frozenset()),
             )
         )
 

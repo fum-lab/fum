@@ -1,0 +1,165 @@
+{
+  "ACT": {
+    "sha256": "bcbd0a8f7d30e44bf57e3eed75d2c24774be3c7a555fa0904fb197dc837cfe9a",
+    "коммит": "9b9f00ec41a957932b1be8669af241013a318d7d",
+    "путь": "Планирование/дочерние-поручения/2026-10-13/повторный-цикл-состояния-узла-этап-22.json"
+  },
+  "native_формы": [
+    "session_meta",
+    "turn_context",
+    "custom_tool_call",
+    "custom_tool_call_output",
+    "reasoning",
+    "assistant message",
+    "token_count",
+    "token_usage_record",
+    "item_completed"
+  ],
+  "база": "fb300838c860d20b88fa568dc0062f0f548ccebb",
+  "версия": "fum.композиция-нативной-подготовки.1",
+  "доказательства": {
+    "native_синтетический": true,
+    "настоящие_Git_CLI_фикстуры": true,
+    "настоящий_ROOT_pilot": false,
+    "разрешение_эффекта": false
+  },
+  "замыкание": {
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs": "f52c01d574c5e1cdc4df09a37bcc0cdc9f11f7cf46908a3ea747a88eefee3dfa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_приёма_базиса_узла.py": "8fea204fbcae2f4806cc0ad70850bd5ec212597e05cfb4d9eaefebfd2aa24bda",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/наблюдать_подготовку_базиса.py": "033c18c04668ca50580bc061ccc58ec03db97e0869c369dd6140ed3495190662",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_базиса_состояния_узла.py": "96bb405fd44e7bf139e04ba1cb9ff88702e599ba73c3fcd2acb18443f70bb5bd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить_нативную_подготовку.py": "819ab53782566afa33f86042e9adb1aad76c7176dffe2844492c6d0cb72a14ce",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py": "22da57d76d559ef2d66463a07f0f40c1101f83dbbbdbbe72423724b90b3866fa"
+  },
+  "кандидат_до_приёмки_ROOT": true,
+  "независимый_JS": "Полная композиция закрепляется ROOT для его конкретного выбора после принятого коммита; значения профиля относятся отдельным временным фикстурам.",
+  "обёртка_до": "// @exec: {\"yield_time_ms\": 60000, \"max_output_tokens\": 10000}\nawait ",
+  "обёртка_после": "();\n",
+  "операция": "--подготовить-запуск",
+  "предел_глубины_JSON": 128,
+  "приватный_черновик": {
+    "манифест_sha256": "3cac36a1a13a7da5464e1b0754160624529328c9ea5b78a6e0c56bfed2f74320",
+    "файлов": 10
+  },
+  "продукт": [
+    {
+      "blob": "5615cf14e10b306dabbea2981bd48952c4ddcb39",
+      "sha256": "f52c01d574c5e1cdc4df09a37bcc0cdc9f11f7cf46908a3ea747a88eefee3dfa",
+      "байты": 1113,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs"
+    },
+    {
+      "blob": "15b029666f0495e2762deac27813a37da90399de",
+      "sha256": "22da57d76d559ef2d66463a07f0f40c1101f83dbbbdbbe72423724b90b3866fa",
+      "байты": 21734,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py"
+    },
+    {
+      "blob": "43b80e9bcb6793fcff87e4a31c1adbfdf386777b",
+      "sha256": "033c18c04668ca50580bc061ccc58ec03db97e0869c369dd6140ed3495190662",
+      "байты": 15319,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/наблюдать_подготовку_базиса.py"
+    },
+    {
+      "blob": "4e9d7fbb63659a4378c64706ccde5dbc5217c798",
+      "sha256": "819ab53782566afa33f86042e9adb1aad76c7176dffe2844492c6d0cb72a14ce",
+      "байты": 30414,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить_нативную_подготовку.py"
+    },
+    {
+      "blob": "fb00ad33f02475088a6dbd135c806d78019e453e",
+      "sha256": "4b9ed202d59b5f73438cf023942cbe7aee8fb097414078b2eb31e7512dc344d2",
+      "байты": 42653,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py"
+    },
+    {
+      "blob": "670969bba006f431c7a21d5d8d8178c2e7be19c6",
+      "sha256": "54d1810c3997b3cef21f6fada8a58b64a2dc7da3c2ccd77cd8818d8b57d36c43",
+      "байты": 4675,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_нативной_подготовки_базиса.py"
+    },
+    {
+      "blob": "aecffb842a46daa93e250c06cfbaf655172bdbc8",
+      "sha256": "5a59a175389dd1ebdf3d74800ebcd92ff0f108da838b62f3b87bc29ca5fe8655",
+      "байты": 14552,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/нативная-подготовка-базиса.md"
+    },
+    {
+      "blob": "7226c0a857f8b24e22482ebcd2bd88f3d52719a5",
+      "sha256": "30163cec0a4f847df11b50614661f1d42be966badca57597a488070d4fc97793",
+      "байты": 30004,
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py"
+    },
+    {
+      "blob": "300f67f71c6e3e6ffa64e765a36f3416579b4707",
+      "sha256": "4244c317da3a533698b6bec0b724dd4efc5ac139e1296684689398b60d93a1e3",
+      "байты": 5702,
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py"
+    },
+    {
+      "blob": "6a8531a2ff0af769454dafa836df6504e949553a",
+      "sha256": "415947aa03280dfdd1cd456dba68e8d95e15d54772f44ca52e7a1ec94f3a1b7b",
+      "байты": 10539,
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/сценарии-ответа.md"
+    },
+    {
+      "blob": "9472277b14175f4aaa76256249226cf41f54ee0d",
+      "sha256": "4d66aecda35f99dc424a32fc4563eae347e29d001215bfd2b3372d0699c665b2",
+      "байты": 129527,
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py"
+    },
+    {
+      "blob": "765a65430d91d9712e847a7a57753aa402a7c803",
+      "sha256": "443798c05835c98dff2a2259dcea9302f418c6b10fef66012dff0d43fc1c9519",
+      "байты": 34587,
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_безопасный_перевод_python.py"
+    },
+    {
+      "blob": "60b606158bc4769086b0126a8e2b8adc9b0adea5",
+      "sha256": "958b4aaa29a10f6b59f5a0fc824cfbae7a4ac890c5fbe3d39ae2ab452245dbd3",
+      "байты": 21903,
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/безопасный-перевод-Python.md"
+    },
+    {
+      "blob": "1c533308234db8eef59889e931bb15f7969843ea",
+      "sha256": "51dc3ca56064aa6d4fd923c19eb80c57673badbbadbf3aaae9021018a6c63c81",
+      "байты": 43725,
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py"
+    },
+    {
+      "blob": "ee449a717308ef7e9646f06f14d509f8c97a84a6",
+      "sha256": "1c2c7e20f5385ac8c7a1983c35c2bf5c2a098433c3db191223b5d4fb0cd97ea0",
+      "байты": 64089,
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py"
+    },
+    {
+      "blob": "1a5bb0780e4bb3643b0014ae7063bcc9fe644cc0",
+      "sha256": "0d640761032e0ae1dd9e401935160745a7fd226755b48d3cf96497c8c8cbe1d7",
+      "байты": 29251,
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md"
+    },
+    {
+      "blob": "aaa81f6a86373c409b2a7b0dc598153f46dc7bbc",
+      "sha256": "90a4841679b8e8791412994d3122cf9c0e64a9ed40febb42884822dda5e889e3",
+      "байты": 495098,
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json"
+    }
+  ],
+  "профиль_sha256": "88e68c9c059b7560bf44e9f74e30cb72d0dbbc4e8e5d3d10fcd1e16f242c8b6b",
+  "профиль_инвентаря_sha256": "6dbbdbec25aaceb71ca6c15503edae182b5e51f744b2f323607e52466ccc3d0c",
+  "профиль_системных_литералов_sha256": "76cd777dda3c32b3ecf3f881b08b57e87027b2295e9f781280de9a2c2f26831e",
+  "публикационная_классификация": {
+    "всего": 779,
+    "исполнение_программы_не_доказывается": true,
+    "корневое_ревью": "Исходники, тесты и конечная policy независимо приняты read-only; full stock готовность отдельно.",
+    "новых_деклараций": 46,
+    "прежних_деклараций": 733
+  },
+  "срез_модели": {
+    "sha256": "a2de9c74761429823cb899e925f6c4e2d731c51469a0b3c128917ad6d3cd45dc",
+    "байты": 115618781,
+    "полный_LF_префикс": true,
+    "префикс_повторно_сверен": true
+  },
+  "схема": "fum.манифест-нативной-подготовки.1"
+}

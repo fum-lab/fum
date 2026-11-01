@@ -1,0 +1,21 @@
+{
+  "GitHub_state": "MERGED",
+  "K": "daac0cdf8838614f7d956bcb0c6bd0524596213d",
+  "PR": "https://github.com/fum-lab/fum/pull/259",
+  "bootstrap_sha256": "4c4f8e2d96af95e78670db1892763709d2d10fe27aff645f83e19b73727d637e",
+  "engine_sha256": "d2fe64709a92cc642ec28e1a669cbc15561fdcc1b73c9fb81b7736821465605f",
+  "entry_sha256": "ee4cb474d8f41c622a11921c2ce823dff9ef8a72e2181ff261eab70783a08ea5",
+  "production_вызов_выполнен": false,
+  "remote_OID": "daac0cdf8838614f7d956bcb0c6bd0524596213d",
+  "selector_sha256": "a85732b1e72ced076cbfb04f9ae54967b0b0006c94f8a37827cb636cb667bad2",
+  "назначение": "Отдельный полный physical Git clone выбран ROOT для stock bootstrap Journal ACT2; только чтение, код кандидата W не исполняется как принимающий.",
+  "проверено_файлов": 75,
+  "состав": {
+    "sha256": "6235861be581668109c55b6eaa5fc92c54a2b3801a7385832d5713d06d2d9327",
+    "имена": 71,
+    "код": 66,
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json",
+    "ресурсы": 2
+  },
+  "схема": "fum.свидетельство-выбора-принимающего-кода.1"
+}

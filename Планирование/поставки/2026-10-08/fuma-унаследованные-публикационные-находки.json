@@ -1,0 +1,2403 @@
+{
+  "база": "590bb98e9c81fa7e4988e798b5da3df4d201b7f8",
+  "граница": "240 находок не исправлены и не исключены. Проверка текущего состава разрешает только промежуточный checkpoint000188. Полная публикационная чистота не заявлена.",
+  "проверка": {
+    "идентификатор": "c0178ed1-b44a-54ab-888e-28238c9958a6",
+    "код": 2,
+    "порядок": 2,
+    "сырой_sha256": "f873aa46dc97352cbd1574f4769d6af274bb2b80145873b1587933f9f0165618"
+  },
+  "происхождение_находок": {
+    "база": "590bb98e9c81fa7e4988e798b5da3df4d201b7f8",
+    "все_неизменны": true,
+    "находки": [
+      {
+        "category": "error.posix-user-home",
+        "line": 95,
+        "path": "Журнал/2026-09-29_00-20-47_MSK_автоматизировать-доказательный-обзор-состояния-FUM/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 105,
+        "path": "Журнал/2026-09-29_00-20-47_MSK_автоматизировать-доказательный-обзор-состояния-FUM/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 135,
+        "path": "Журнал/2026-09-29_00-20-47_MSK_автоматизировать-доказательный-обзор-состояния-FUM/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 338,
+        "path": "Журнал/2026-09-29_18-52-05_MSK_завершить-эпизод-двух-обратных-отказов/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 345,
+        "path": "Журнал/2026-09-29_18-52-05_MSK_завершить-эпизод-двух-обратных-отказов/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 17,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 34,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 35,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 36,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 40,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 58,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 59,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 60,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 64,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 80,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 81,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 82,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 86,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.windows-drive",
+        "line": 111,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 138,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 139,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 140,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 144,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 207,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 208,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 209,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 213,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 245,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 262,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 263,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 264,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 268,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 287,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 288,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 289,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 293,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 314,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 315,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 316,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 320,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.windows-drive",
+        "line": 341,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 370,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 371,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 372,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 376,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 432,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 433,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 434,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 438,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json"
+      },
+      {
+        "category": "error.windows-drive",
+        "line": 33,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issues.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 19,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 20,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 21,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 25,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 69,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 70,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 71,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 75,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 116,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 117,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 118,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 122,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 221,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 229,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 4,
+        "path": "Журнал/2026-10-01_03-02-21_MSK_принять-подготовку-зарегистрированных-зависимостей/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 11,
+        "path": "Журнал/2026-10-01_04-05-12_MSK_сохранить-наработку-telegram-по-поручению/материалы/управляющие-поручения.json"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 118,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 126,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 134,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 134,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 142,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 143,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 109,
+        "path": "Журнал/2026-10-01_06-38-03_MSK_передать-следующий-этап-адаптера-и-приёмки-интерпретатора/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 4,
+        "path": "Журнал/2026-10-01_08-11-41_MSK_исправить-допуск-добавления-зависимости/материалы/происхождение-этапа.json"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 15,
+        "path": "Журнал/2026-10-01_08-11-41_MSK_исправить-допуск-добавления-зависимости/материалы/происхождение-этапа.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 62,
+        "path": "Журнал/2026-10-01_08-11-41_MSK_исправить-допуск-добавления-зависимости/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 150,
+        "path": "Журнал/2026-10-01_10-05-03_MSK_подготовить-приём-композиции-интерпретатора/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 39,
+        "path": "Журнал/2026-10-01_12-01-22_MSK_передать-JSONL-срез-интерпретатору/материалы/стоимость-допуска.json"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 26,
+        "path": "Журнал/2026-10-01_15-31-16_MSK_реализовать-инкрементальную-сверку-остатка/запрос.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 115,
+        "path": "Журнал/2026-10-03_14-38-45_MSK_зарегистрировать-зависимость-TDLib/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 55,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/запрос.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 13,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/материалы/агентские-поручения.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 76,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/отчёт.md"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 179,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 221,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 1,
+        "path": "Журнал/2026-10-03_20-05-28_MSK_сверить-запущенных-исполнителей-и-приёмку/материалы/github-issue-54/ответ-GitHub.json"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 34,
+        "path": "Журнал/2026-10-03_21-48-41_MSK_проверить-навигатор-и-продолжить-приёмку/материалы/наблюдение-Navitel.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 46,
+        "path": "Журнал/2026-10-04_00-02-49_MSK_подготовить-точную-вложенную-топологию/запрос.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 69,
+        "path": "Журнал/2026-10-04_00-02-49_MSK_подготовить-точную-вложенную-топологию/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 3,
+        "path": "Журнал/2026-10-04_12-53-04_MSK_закрепить-сохранение-Issues-перед-разбором/материалы/правка-нормы.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 4,
+        "path": "Журнал/2026-10-04_12-53-04_MSK_закрепить-сохранение-Issues-перед-разбором/материалы/правка-нормы.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 5,
+        "path": "Журнал/2026-10-04_12-53-04_MSK_закрепить-сохранение-Issues-перед-разбором/материалы/правка-нормы.json"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 120,
+        "path": "Журнал/2026-10-04_19-36-17_MSK_прочитать-исторические-квитанции/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 154,
+        "path": "Журнал/2026-10-04_19-59-55_MSK_подготовить-фасад-этапа-коммита/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 43,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/запрос.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 3,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/материалы/github/PR-165.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 11,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/материалы/github/PR-165.json"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 16,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 70,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/отчёт.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 16,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/канал_сохранённого_отказа.py"
+      },
+      {
+        "category": "error.home-expansion",
+        "line": 104,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/отказ_нативного_приёма.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 107,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/отказ_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 33,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/отказ_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 42,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/отказ_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 33,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_границ_приёма_интеграции.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 130,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_дочернего_коммита.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 17,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_исторической_квитанции_отказа.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 58,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_исторической_квитанции_отказа.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 16,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 17,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 33,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.file-uri",
+        "line": 82,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 83,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.home-expansion",
+        "line": 118,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 118,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.home-expansion",
+        "line": 126,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 140,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.windows-unc",
+        "line": 140,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 141,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 149,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 157,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 165,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 173,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 17,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 74,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 75,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 101,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 119,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.windows-unc",
+        "line": 119,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 127,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 50,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_продолжения_отказа.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 81,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_чтения_исторического_отказа.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 71,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 32,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_продолжения_отказа.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 101,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_терминала_отказов.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 107,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_терминала_отказов.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 110,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_терминала_отказов.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 54,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/завершение-сохранённой-поставки.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 17,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/ожидания-обратного-приёма.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 38,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/продолжение-отказавшего-приёма.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 260,
+        "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py"
+      },
+      {
+        "category": "error.posix-user-home",
+        "line": 260,
+        "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 34,
+        "path": "Инструменты/fum-ocenki/scripts/контекст_обзора.py"
+      },
+      {
+        "category": "error.windows-unc",
+        "line": 9,
+        "path": "Инструменты/fum-ocenki/scripts/формат_обзора.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 330,
+        "path": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 336,
+        "path": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 140,
+        "path": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests/test_закрытый_отчёт_из_гита.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 202,
+        "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 240,
+        "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 317,
+        "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 68,
+        "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_отказы_подготовки.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 73,
+        "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_манифеста_входных_файлов.py"
+      },
+      {
+        "category": "error.windows-unc",
+        "line": 74,
+        "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_манифеста_входных_файлов.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 33,
+        "path": "Инструменты/fum-rusifikaciya-koda-pri-sliyanii/SKILL.md"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 61,
+        "path": "Инструменты/fum-rusifikaciya-koda-pri-sliyanii/scripts/кандидат_слияния.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 63,
+        "path": "Инструменты/fum-rusifikaciya-koda-pri-sliyanii/scripts/кандидат_слияния.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 136,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 186,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py"
+      },
+      {
+        "category": "error.home-expansion",
+        "line": 17,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 36,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_наполнения_карточки.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 196,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_наполнения_карточки.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 90,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_обновить_состав_карточки.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 39,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 41,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 63,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 66,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 342,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/историческая_квитанция.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 21,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_команды_с_изображением.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 63,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 64,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 65,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 209,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 20,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/обычное-дочернее-поручение.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 21,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/обычное-дочернее-поручение.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 20,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 21,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 24,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 31,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 243,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 255,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 256,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 257,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 266,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 34,
+        "path": "Планирование/финансирование-и-ресурсы/самофинансирование/минимальный-бюджет/методика-и-сценарии.md"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 20,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 49,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 117,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПриватности.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 21,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 25,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 27,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 29,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 36,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 39,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 43,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 49,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 50,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 54,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 62,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 67,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 184,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 188,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 206,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 207,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 208,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 209,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 210,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 211,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 212,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 220,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 221,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 101,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 138,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 141,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 142,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 129,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 274,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 276,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 277,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 349,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 420,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 423,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 428,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 434,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 23,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 26,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 27,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 62,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 63,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 87,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 94,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 96,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 98,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"
+      },
+      {
+        "category": "error.compiler-file-path",
+        "line": 9,
+        "path": "Приложения/FUMA/macOS/Tests/ИсполнениеОператораTests/КомпозицияTests.swift"
+      },
+      {
+        "category": "error.posix-absolute",
+        "line": 331,
+        "path": "Приложения/FUMA/macOS/проверки/проверить-и-измерить-JSONL.py"
+      },
+      {
+        "category": "error.non-utf8-input",
+        "line": 0,
+        "path": "Приложения/FUMA/macOS/проверки/фикстуры/срез-журнала-Codex.jsonl"
+      },
+      {
+        "category": "error.compiler-file-path",
+        "line": 7,
+        "path": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиКомпозиции.swift"
+      },
+      {
+        "category": "error.compiler-file-path",
+        "line": 10,
+        "path": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиКомпозиции.swift"
+      },
+      {
+        "category": "error.compiler-file-path",
+        "line": 16,
+        "path": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиСкалярногоТекста.swift"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 211,
+        "path": "Прототипы/память-структурирующих-операторов/Проверки/композиция/исходники-до.patch.txt"
+      },
+      {
+        "category": "error.system-runtime-hardcode",
+        "line": 223,
+        "path": "Прототипы/память-структурирующих-операторов/Проверки/композиция/исходники-после.patch.txt"
+      }
+    ],
+    "находок": 240,
+    "приватное_доказательство_sha256": "efaa67ce76bfeee11069c99710aad2c5fcd32ed87cafe9429a7c53212d8f8980",
+    "причина": {
+      "actual_code": 2,
+      "branch": "inventory_failed",
+      "category": "error.non-utf8-input",
+      "description": "Единственная error.non-utf8-input устанавливает inventory_failed; приоритет этой ветви даёт код 2. Другие 239 ошибок относятся к содержимому.",
+      "line": 0,
+      "path": "Приложения/FUMA/macOS/проверки/фикстуры/срез-журнала-Codex.jsonl",
+      "source_lines": [
+        844,
+        852,
+        892
+      ]
+    },
+    "путей": 83,
+    "пути": [
+      {
+        "baselineOID": "be3be971f8b6b08bd94400b8edec3ac9a9df9bff",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "2dd39e6cf1e4c631547c66c1c1e49972841579d7dd7638080f6155e3577342ae",
+        "bytes": 53785,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-09-29_00-20-47_MSK_автоматизировать-доказательный-обзор-состояния-FUM/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "2dd39e6cf1e4c631547c66c1c1e49972841579d7dd7638080f6155e3577342ae"
+      },
+      {
+        "baselineOID": "0797c2589f3a5047c1c291ec83d425281fde9ebe",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "9daa7af8caf81d0c54942d81ad0352c63febbdf2ba5120e4430185a1159d3d53",
+        "bytes": 217036,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-09-29_18-52-05_MSK_завершить-эпизод-двух-обратных-отказов/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "9daa7af8caf81d0c54942d81ad0352c63febbdf2ba5120e4430185a1159d3d53"
+      },
+      {
+        "baselineOID": "64659e56399b2b083bed3ae59ec211f7b6076cc0",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "0589107fee7339fe9ad54a7c804aa08384c95c9f8fbad0712ee13492601770a2",
+        "bytes": 38421,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issue-13.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "0589107fee7339fe9ad54a7c804aa08384c95c9f8fbad0712ee13492601770a2"
+      },
+      {
+        "baselineOID": "c586074594fd819860744438241b3f9b7f1b4c8b",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "17cc033fa93c9543e37e0abde95c6a95dcdc9302884096d59b08993355b39d35",
+        "bytes": 117467,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-09-30_18-09-43_MSK_поддержать-проверенное-сжатие-входа-конвейера/материалы/github-issues.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "17cc033fa93c9543e37e0abde95c6a95dcdc9302884096d59b08993355b39d35"
+      },
+      {
+        "baselineOID": "fab0985044d59beb11567830d954be9469b96d22",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "8c5015909a83e1ac4625ce29d1fab09d1cc1f735e7eb2ee7713f55cc0ac404a4",
+        "bytes": 11140,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/материалы/github-issue-13-обновление.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "8c5015909a83e1ac4625ce29d1fab09d1cc1f735e7eb2ee7713f55cc0ac404a4"
+      },
+      {
+        "baselineOID": "aea1be28a409d0f5b70e106fcc35747e16233fbe",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "da02d49719a6a47d00bd998cb2b62e1e9c7f84a8fd62b13bcd9642653f9372bf",
+        "bytes": 42577,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-09-30_21-08-45_MSK_удалить-дублирующее-описание-лицензии-и-возобновить-задачи/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "da02d49719a6a47d00bd998cb2b62e1e9c7f84a8fd62b13bcd9642653f9372bf"
+      },
+      {
+        "baselineOID": "7d83b84a40e49f1236346d6bd9b6ca7be387f677",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "827a5655b3a5cd45cae2c0296baee9fd592e63cdb065d094d552d173f59958bf",
+        "bytes": 17567,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_03-02-21_MSK_принять-подготовку-зарегистрированных-зависимостей/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "827a5655b3a5cd45cae2c0296baee9fd592e63cdb065d094d552d173f59958bf"
+      },
+      {
+        "baselineOID": "b737efcb116b3d8afba7630dd6dfb509b692705a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "e6104e360e50883f557ab7043d3c0d1ce91a892858e4fd82637e124b824a7b07",
+        "bytes": 10271,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_04-05-12_MSK_сохранить-наработку-telegram-по-поручению/материалы/управляющие-поручения.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "e6104e360e50883f557ab7043d3c0d1ce91a892858e4fd82637e124b824a7b07"
+      },
+      {
+        "baselineOID": "2c2d48bf84ee55acde86963cbe34763740091880",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "cc6ece956a0087c0eb9b16de2e51f5769a6f4468c32b7a4ada250fd0527bd84f",
+        "bytes": 41508,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_04-08-56_MSK_сохранить-наработку-интерпретатор-по-поручению/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "cc6ece956a0087c0eb9b16de2e51f5769a6f4468c32b7a4ada250fd0527bd84f"
+      },
+      {
+        "baselineOID": "77c3d0112d4a7476f705b7c827e6120dd411d72a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "f6b83bd1e7659ae4e74b39e3fca12efe459124d05ca26ac5ce20b46ca4512b5c",
+        "bytes": 19603,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_06-38-03_MSK_передать-следующий-этап-адаптера-и-приёмки-интерпретатора/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "f6b83bd1e7659ae4e74b39e3fca12efe459124d05ca26ac5ce20b46ca4512b5c"
+      },
+      {
+        "baselineOID": "0899e9608428ab1b082ec21a47b3a739430ce0eb",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "a22ca6580b68d745cb0d52c430510dd45ec305e94942aee46dfc7292427b9ab0",
+        "bytes": 1395,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_08-11-41_MSK_исправить-допуск-добавления-зависимости/материалы/происхождение-этапа.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "a22ca6580b68d745cb0d52c430510dd45ec305e94942aee46dfc7292427b9ab0"
+      },
+      {
+        "baselineOID": "29b39d0afc057d9895c879c2c301721a8c7bf119",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "643b8ada45a4fe738da82426127679e3424998b8bdb500c7dd3244c36e75f110",
+        "bytes": 15346,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_08-11-41_MSK_исправить-допуск-добавления-зависимости/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "643b8ada45a4fe738da82426127679e3424998b8bdb500c7dd3244c36e75f110"
+      },
+      {
+        "baselineOID": "50c1ec38d7086ae91573f01e069b2b5227c07b9c",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "ec9f0df03b271349822f75e89ad7f6ed5198f87eb02e4e2f3a46b2e997d99349",
+        "bytes": 38335,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_10-05-03_MSK_подготовить-приём-композиции-интерпретатора/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "ec9f0df03b271349822f75e89ad7f6ed5198f87eb02e4e2f3a46b2e997d99349"
+      },
+      {
+        "baselineOID": "d6f4742a4baba40d02a90ec534168f335bf1e788",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "43f6824cb89b6e90b1ad4bdf8948b50a503c5c7b9156a0481950224a9f4ca44c",
+        "bytes": 7886,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_12-01-22_MSK_передать-JSONL-срез-интерпретатору/материалы/стоимость-допуска.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "43f6824cb89b6e90b1ad4bdf8948b50a503c5c7b9156a0481950224a9f4ca44c"
+      },
+      {
+        "baselineOID": "c3320a4ec7c7b0ca73036f377846ee5e57a34f36",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "2eb037ed678ff31a31d41d9ec4d7daa74da234d2b11a10f259010f79539016a3",
+        "bytes": 13646,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-01_15-31-16_MSK_реализовать-инкрементальную-сверку-остатка/запрос.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "2eb037ed678ff31a31d41d9ec4d7daa74da234d2b11a10f259010f79539016a3"
+      },
+      {
+        "baselineOID": "14b03eb9e7394affdfa21bba0b995b04a1883d98",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "d2d90cf3e5bfba31577d09bc46ee46a692da7dbd85c5212a5de62e79abcbc055",
+        "bytes": 30688,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-03_14-38-45_MSK_зарегистрировать-зависимость-TDLib/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "d2d90cf3e5bfba31577d09bc46ee46a692da7dbd85c5212a5de62e79abcbc055"
+      },
+      {
+        "baselineOID": "dee1556b1bd2c7812c6d680bc912c69287192232",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "625dcc6665e61b38be93e8d5c597371d60de13f60e271b5c5e088a48d8c92ab7",
+        "bytes": 36605,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/запрос.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "625dcc6665e61b38be93e8d5c597371d60de13f60e271b5c5e088a48d8c92ab7"
+      },
+      {
+        "baselineOID": "5336f0bc23c374bbf80a75571513e6a89b0feffc",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "c686236a9a48e46051eb283315aad5f41d0deddcc17c8132fcd54cda657ebb79",
+        "bytes": 6350,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/материалы/агентские-поручения.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "c686236a9a48e46051eb283315aad5f41d0deddcc17c8132fcd54cda657ebb79"
+      },
+      {
+        "baselineOID": "73a34439d50ddce7020fa4ad66e52e24fadc45e4",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "527ff41de4ff9170c2c62a9cb42c63e479dd2c7908c31506d607b4609d51049e",
+        "bytes": 55184,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-русификацию-при-слиянии/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "527ff41de4ff9170c2c62a9cb42c63e479dd2c7908c31506d607b4609d51049e"
+      },
+      {
+        "baselineOID": "6d152e5095c2117a771308e8d98f2f7c50f09ed1",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "ead3c8e0ab63dad2642dc1780d89fbc6d854f4c07c142c7c3114afe007a13f3e",
+        "bytes": 3325,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-03_20-05-28_MSK_сверить-запущенных-исполнителей-и-приёмку/материалы/github-issue-54/ответ-GitHub.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "ead3c8e0ab63dad2642dc1780d89fbc6d854f4c07c142c7c3114afe007a13f3e"
+      },
+      {
+        "baselineOID": "c409fdb0f9a5b93e592027eb9945c0e8742adc20",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "55eb05855660cdf69eaeb489ec7c198f2d54d587a5dc9c466de1d631bbf68eca",
+        "bytes": 2227,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-03_21-48-41_MSK_проверить-навигатор-и-продолжить-приёмку/материалы/наблюдение-Navitel.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0600",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "55eb05855660cdf69eaeb489ec7c198f2d54d587a5dc9c466de1d631bbf68eca"
+      },
+      {
+        "baselineOID": "41cd03f630980c65059e94629213511ea7d2b28b",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "60049aaa82107fa46fc7e899d368978897d6d1e1a17b4ea7dba89e647589c93c",
+        "bytes": 31010,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_00-02-49_MSK_подготовить-точную-вложенную-топологию/запрос.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "60049aaa82107fa46fc7e899d368978897d6d1e1a17b4ea7dba89e647589c93c"
+      },
+      {
+        "baselineOID": "b44f0f76b9ff5a60164360c3d4379a7435cac54a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "11190d1dc707b2c9d40034994a05eef60abf9b7e9ddf3c7d77e5c536690a6eca",
+        "bytes": 42613,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_00-02-49_MSK_подготовить-точную-вложенную-топологию/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "11190d1dc707b2c9d40034994a05eef60abf9b7e9ddf3c7d77e5c536690a6eca"
+      },
+      {
+        "baselineOID": "b5596752b882029cc6b1356b1a0f2a5e74f7cb59",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "dcf40b39a2c47bcb9e19e93da805859ab389cadc3fc9d7f426ad5db1f2971ee8",
+        "bytes": 510,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_12-53-04_MSK_закрепить-сохранение-Issues-перед-разбором/материалы/правка-нормы.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "dcf40b39a2c47bcb9e19e93da805859ab389cadc3fc9d7f426ad5db1f2971ee8"
+      },
+      {
+        "baselineOID": "8aebe1369cf6902d41274b0d2f016c5bfc4cb87d",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "422d9f7ac7a6e25e7db605cd8e6ef60403a74651fec79ecfb33ade9845716945",
+        "bytes": 35894,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_19-36-17_MSK_прочитать-исторические-квитанции/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "422d9f7ac7a6e25e7db605cd8e6ef60403a74651fec79ecfb33ade9845716945"
+      },
+      {
+        "baselineOID": "3cd2fe9aa1ed486254610be941daec16901d9c86",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "fbb9345bb0772309290af4938321c2c0fdd9f3a6c7b2515653c0f7cd55173522",
+        "bytes": 58750,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_19-59-55_MSK_подготовить-фасад-этапа-коммита/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "fbb9345bb0772309290af4938321c2c0fdd9f3a6c7b2515653c0f7cd55173522"
+      },
+      {
+        "baselineOID": "69649d928beea2b444cb543a82abf48679b1b761",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "0f7bcd1126ae5b565c624dbd4349e9713b9be371ee66c0bbb88014db5e5bf7e6",
+        "bytes": 46515,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/запрос.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "0f7bcd1126ae5b565c624dbd4349e9713b9be371ee66c0bbb88014db5e5bf7e6"
+      },
+      {
+        "baselineOID": "941dc99d1cbbd37714d18be195fbe6cca3a3bad8",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "9ea9b83ce97db4333d56037ad45e26e952b81a6af609bd6d42e71ed5395e82ec",
+        "bytes": 3975,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/материалы/github/PR-165.json",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "9ea9b83ce97db4333d56037ad45e26e952b81a6af609bd6d42e71ed5395e82ec"
+      },
+      {
+        "baselineOID": "f4b00ced59c9287747d9f5184c48b7d65a0a4fd3",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "3ea3584b77dd68b036495a20c0b1b22d1820bb25f9c942ee5b2504579cf3fa20",
+        "bytes": 24381,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Журнал/2026-10-04_20-49-13_MSK_принять-python-срез-русификации/отчёт.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "3ea3584b77dd68b036495a20c0b1b22d1820bb25f9c942ee5b2504579cf3fa20"
+      },
+      {
+        "baselineOID": "90274eee459d7f303677310d9acfb91d38b66c1a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "846a5d98a5d6c391247f8f49f67a5f19890a6190a2318139a57238238df10352",
+        "bytes": 2750,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/канал_сохранённого_отказа.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "846a5d98a5d6c391247f8f49f67a5f19890a6190a2318139a57238238df10352"
+      },
+      {
+        "baselineOID": "ae0d13162e0827900ac8b2dc809bf490414f6d52",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "d934c60d55aaae70c1802a2211c5851f72460169c4ff464587479ebd3e9ec4e1",
+        "bytes": 8628,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/отказ_нативного_приёма.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "d934c60d55aaae70c1802a2211c5851f72460169c4ff464587479ebd3e9ec4e1"
+      },
+      {
+        "baselineOID": "347afb3e7c102019a5f8372e4ed4606219bac8be",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "66be09d86d46b94dfd8d1fc15c586a40a4d29ebe670a4702cf6302cbb75ce9ce",
+        "bytes": 3555,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/отказ_сохранённого_приёма.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "66be09d86d46b94dfd8d1fc15c586a40a4d29ebe670a4702cf6302cbb75ce9ce"
+      },
+      {
+        "baselineOID": "5d3f539bc773bb7f989cafdeb9ed3a5f52912187",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "d6da07264d7432e6e5c07a5b7ddd7aa84622ecc5eeaaa1b80233eec231c2b829",
+        "bytes": 7491,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_границ_приёма_интеграции.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "d6da07264d7432e6e5c07a5b7ddd7aa84622ecc5eeaaa1b80233eec231c2b829"
+      },
+      {
+        "baselineOID": "e48333425abdffb1507f1d66c23519832f7b7a21",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "169d774652503bdcd2ea761bd5b62edb912fa9bfd8a36dcfdcb25a69e84101d9",
+        "bytes": 14956,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_дочернего_коммита.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "169d774652503bdcd2ea761bd5b62edb912fa9bfd8a36dcfdcb25a69e84101d9"
+      },
+      {
+        "baselineOID": "69e3ace0a009ed78343ae16e24f7304a97c725f6",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "7251050a04e193783b4764b4faadc0eb2ca44e1fe30c441b74b4b839a3706459",
+        "bytes": 9142,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_исторической_квитанции_отказа.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "7251050a04e193783b4764b4faadc0eb2ca44e1fe30c441b74b4b839a3706459"
+      },
+      {
+        "baselineOID": "f11ca94c5df5be44de615e441bc53467d00678ec",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "289f4f634062d33c2bd52768d9f68411a0422cee7db0c1ed7daa6ec635edcd38",
+        "bytes": 13587,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_нативного_приёма.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "289f4f634062d33c2bd52768d9f68411a0422cee7db0c1ed7daa6ec635edcd38"
+      },
+      {
+        "baselineOID": "ee602eb889fffb7b1588654059ae63977240c513",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "03fd651ec162a31103b37b2386d4ab60add3176df6a4f8aae570540a25134778",
+        "bytes": 9370,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_отказа_сохранённого_приёма.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "03fd651ec162a31103b37b2386d4ab60add3176df6a4f8aae570540a25134778"
+      },
+      {
+        "baselineOID": "b855c2bbedc293cdbf92800e2c208d7fbeef8c89",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "288644c041ed76adc7a18924781703651ab5dae87ff08861d8a187d9ad868330",
+        "bytes": 9870,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_продолжения_отказа.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "288644c041ed76adc7a18924781703651ab5dae87ff08861d8a187d9ad868330"
+      },
+      {
+        "baselineOID": "4d2fc7c80d3e9903f65f06e16d0b01465c243c1a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "42109dcafe29f9544c8c0c3e907c87c45d4c2ba146c13a1506a9f3e6d457e6ac",
+        "bytes": 12522,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_чтения_исторического_отказа.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "42109dcafe29f9544c8c0c3e907c87c45d4c2ba146c13a1506a9f3e6d457e6ac"
+      },
+      {
+        "baselineOID": "6d9a000aaab78e5f788fb7be317696da2a03bb2f",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "7a2505d1d9abfcfd558a99f06529aebf72243be2e138c55d67636b145907beca",
+        "bytes": 7301,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "7a2505d1d9abfcfd558a99f06529aebf72243be2e138c55d67636b145907beca"
+      },
+      {
+        "baselineOID": "8f46c07e50760703274a47d18f1e57f2a6155fbe",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "55c119bca059de742937f994612d2254b4b4acea383fc354c0186dae8383332e",
+        "bytes": 3629,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_продолжения_отказа.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "55c119bca059de742937f994612d2254b4b4acea383fc354c0186dae8383332e"
+      },
+      {
+        "baselineOID": "59f6be2eb2c83254e03103efffe9af0229c7ed3e",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "1b04bdd403288c9d2516dbe9e836d9a9ba194a521102504545ecc088d21528b0",
+        "bytes": 31676,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_терминала_отказов.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "1b04bdd403288c9d2516dbe9e836d9a9ba194a521102504545ecc088d21528b0"
+      },
+      {
+        "baselineOID": "9c98e7f17780c8ac4090fec22ece4d90273275dd",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "bf94e25acc5ab9f1dc5bf70dbd0c78a2542077851f3572ceb108efe18be15d80",
+        "bytes": 6271,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/завершение-сохранённой-поставки.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "bf94e25acc5ab9f1dc5bf70dbd0c78a2542077851f3572ceb108efe18be15d80"
+      },
+      {
+        "baselineOID": "fc9e0a2bb480063ad45a3af0e1dc4020affeee1b",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "faa561050d48b46d7fa634aa89b5e21e3ef3d9bd9924e79d3fb9e77ec40638b9",
+        "bytes": 4806,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/ожидания-обратного-приёма.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "faa561050d48b46d7fa634aa89b5e21e3ef3d9bd9924e79d3fb9e77ec40638b9"
+      },
+      {
+        "baselineOID": "45d59442104c729e132fe01af0c3c3beac2c7e49",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "d4e1b7898f38faea4e98d2ccb49ca90a0f006d4dfb38dc695c9eac0818266a3b",
+        "bytes": 5075,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/продолжение-отказавшего-приёма.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "d4e1b7898f38faea4e98d2ccb49ca90a0f006d4dfb38dc695c9eac0818266a3b"
+      },
+      {
+        "baselineOID": "93e0913f354e02cc30d3a9a6c52e67b636bae01b",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "11b8d5cebe97b45bc56f9cd7a4380d9e0084edd08fd5783ca1bf48229787d96f",
+        "bytes": 30737,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "11b8d5cebe97b45bc56f9cd7a4380d9e0084edd08fd5783ca1bf48229787d96f"
+      },
+      {
+        "baselineOID": "9a0ced550b7c522aa619b547023a953bf598f895",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+        "bytes": 5888,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-ocenki/scripts/контекст_обзора.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442"
+      },
+      {
+        "baselineOID": "9874d48e724010f98710b68df1310f8fab3b5cc1",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+        "bytes": 3599,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-ocenki/scripts/формат_обзора.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f"
+      },
+      {
+        "baselineOID": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+        "bytes": 37479,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5"
+      },
+      {
+        "baselineOID": "7781fe1b98c98f338d88c9d11ef5d89efe106f45",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "86debb80be469045922e96f50debd261550b0becbbad4babafc8b2b982784b18",
+        "bytes": 31406,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests/test_закрытый_отчёт_из_гита.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "86debb80be469045922e96f50debd261550b0becbbad4babafc8b2b982784b18"
+      },
+      {
+        "baselineOID": "69d03b296030afe520575ad85c976de7b56c404b",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "8a7b2ff0aa1fd37ebab4a2deadf0ceb8ffec1da0a2dd4f74414ad2410aee2595",
+        "bytes": 44655,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "8a7b2ff0aa1fd37ebab4a2deadf0ceb8ffec1da0a2dd4f74414ad2410aee2595"
+      },
+      {
+        "baselineOID": "94d45e7323fd1a0d5404f9a2d463e92cbddbf73a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "dd433793810a43f276713ea5852a5af8a7fe5bda7183d13a37d74c2694db9173",
+        "bytes": 7254,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_отказы_подготовки.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "dd433793810a43f276713ea5852a5af8a7fe5bda7183d13a37d74c2694db9173"
+      },
+      {
+        "baselineOID": "5b7c63c5b1ad07c1fd979ddf95df6b20eeabf4c4",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "588af28734376da65c163a2957e4cac32eb68eb9c453b69ed1d067d09a6eed19",
+        "bytes": 10546,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_манифеста_входных_файлов.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "588af28734376da65c163a2957e4cac32eb68eb9c453b69ed1d067d09a6eed19"
+      },
+      {
+        "baselineOID": "18eebc50f57361c01ac2603ce4c10bbfa7e4ee37",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "05a37097e785b97d080aef9004ef7ba91c2c4192af165de0c797704b03313980",
+        "bytes": 7526,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-rusifikaciya-koda-pri-sliyanii/SKILL.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "05a37097e785b97d080aef9004ef7ba91c2c4192af165de0c797704b03313980"
+      },
+      {
+        "baselineOID": "6dd9a9ee69799ef26dbe63c322728ae11dd9c5f3",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "03c48021a204f64ebe632ffba1a6e81a896fbd4a2cbf614a4b7567295cd60c24",
+        "bytes": 10569,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-rusifikaciya-koda-pri-sliyanii/scripts/кандидат_слияния.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "03c48021a204f64ebe632ffba1a6e81a896fbd4a2cbf614a4b7567295cd60c24"
+      },
+      {
+        "baselineOID": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+        "bytes": 20020,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a"
+      },
+      {
+        "baselineOID": "9e72899bf344e091cf466085bd8caffcaa24ea54",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "dca4596ab12b62f5e5e718f692011f67da248e593b576fec1cca9a437e2fd869",
+        "bytes": 26256,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "dca4596ab12b62f5e5e718f692011f67da248e593b576fec1cca9a437e2fd869"
+      },
+      {
+        "baselineOID": "4eddf21ca11c4abb6fd7c2838eb2be6e16a6632c",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "266cf58dfa5d197c61f3c5b85b83ad8b9eb6680164f2aea14a0c2a692c50d8a8",
+        "bytes": 18275,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "266cf58dfa5d197c61f3c5b85b83ad8b9eb6680164f2aea14a0c2a692c50d8a8"
+      },
+      {
+        "baselineOID": "33661239fa82d21414ffaf4bc0f5bdb9b8e5e3c6",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "45cee909b68f03212be3f0d00623d8577a9dbfd7a5b8b60693c374d48fe25fc8",
+        "bytes": 34976,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_наполнения_карточки.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "45cee909b68f03212be3f0d00623d8577a9dbfd7a5b8b60693c374d48fe25fc8"
+      },
+      {
+        "baselineOID": "29df5802066c35ef8ecf4521cd7eb8a59f3f3a51",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "e5b13b90c2c039d819d2b729e918f7fd05b649f4a84fefcb4dce244da9386ad3",
+        "bytes": 10937,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_обновить_состав_карточки.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "e5b13b90c2c039d819d2b729e918f7fd05b649f4a84fefcb4dce244da9386ad3"
+      },
+      {
+        "baselineOID": "70960a2f0b235bfe4eae6b9970c662b337f0cf27",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "3b0d9c69fb34d4e82ba78f92f19f0ab068f17230dd7c2188a916986a89047e8b",
+        "bytes": 12908,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "3b0d9c69fb34d4e82ba78f92f19f0ab068f17230dd7c2188a916986a89047e8b"
+      },
+      {
+        "baselineOID": "4f32b097ac72c43436e2ddf67ab17b2a932e833a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "19ee2819a022f0a08afb159e1c214ea7d5d3361249ae87133b4d4307013c198b",
+        "bytes": 53270,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/историческая_квитанция.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "19ee2819a022f0a08afb159e1c214ea7d5d3361249ae87133b4d4307013c198b"
+      },
+      {
+        "baselineOID": "1f727e9380001467c56e3228dd1eb9067e919cd7",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "80efefe06a86a62a25f3db0a22de8a5cc4dc9ee554c09f89c39f4bae5d0fd441",
+        "bytes": 7600,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_команды_с_изображением.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "80efefe06a86a62a25f3db0a22de8a5cc4dc9ee554c09f89c39f4bae5d0fd441"
+      },
+      {
+        "baselineOID": "03ff09713ce33f0b28319c8a324cfa0b56fe317f",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "e5435c251344d257f844c3fc74612109ff13803023dd37b903cb4d0299c1490c",
+        "bytes": 16164,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "e5435c251344d257f844c3fc74612109ff13803023dd37b903cb4d0299c1490c"
+      },
+      {
+        "baselineOID": "5fd7dbd3a42f151757f69cb0d6ff542429828eda",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "039026a821ca0c9b773b7cf07470288e90c1d135f6433fdb9ddc9feb58ef40c8",
+        "bytes": 8370,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/обычное-дочернее-поручение.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "039026a821ca0c9b773b7cf07470288e90c1d135f6433fdb9ddc9feb58ef40c8"
+      },
+      {
+        "baselineOID": "de44fedb8de9e1936b7eadfd04ce633d4dd2026c",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "12b8604f4ed0d111e541fcdfd08326eb2bc8a21072e1929c0d527708201b2531",
+        "bytes": 65735,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "12b8604f4ed0d111e541fcdfd08326eb2bc8a21072e1929c0d527708201b2531"
+      },
+      {
+        "baselineOID": "f895b02854fd2dc0e8b00dd72ac7671b80ade6fd",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "d70c5ebb171bebab15e0a07f6a794f3ccdbe0adaad75f5a34db1dba21f97258f",
+        "bytes": 9822,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Планирование/финансирование-и-ресурсы/самофинансирование/минимальный-бюджет/методика-и-сценарии.md",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "d70c5ebb171bebab15e0a07f6a794f3ccdbe0adaad75f5a34db1dba21f97258f"
+      },
+      {
+        "baselineOID": "c0fd83d9b7531153dc99a0788d0e3c322251c7f3",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "c83e045fb52b0ed4b56fb5c2a5b4943d4391a06dd0be90b2828b3db3b0ca7ebe",
+        "bytes": 10888,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "c83e045fb52b0ed4b56fb5c2a5b4943d4391a06dd0be90b2828b3db3b0ca7ebe"
+      },
+      {
+        "baselineOID": "cf13667249f94d70a89a54171eb182540f6c439a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "4baf4cc2fa121d88b97edc80f78f246a6eeebc1cb8b06f475a6cc3e6673a835b",
+        "bytes": 9258,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПриватности.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "4baf4cc2fa121d88b97edc80f78f246a6eeebc1cb8b06f475a6cc3e6673a835b"
+      },
+      {
+        "baselineOID": "286ec1dea7da271f6782e419a0a2e4cf0383e39b",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "e8e811ac3e09ee8b448d7a63af8f5f99b86c0c10aceca431e4c8e1e27f8318fd",
+        "bytes": 7125,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "e8e811ac3e09ee8b448d7a63af8f5f99b86c0c10aceca431e4c8e1e27f8318fd"
+      },
+      {
+        "baselineOID": "c0ade202d00b276699c7092372d128cd5deb3381",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "028e9c379e4799f0028edcd35c70b3c38745b262b69e7478fba528857c69aeaa",
+        "bytes": 5604,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "028e9c379e4799f0028edcd35c70b3c38745b262b69e7478fba528857c69aeaa"
+      },
+      {
+        "baselineOID": "806d08f53379dde727206026ba5a6a012e1b938f",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "c525b05a69bd41440df7193b19640eea0d960033f038f21f74ef2381f0a60621",
+        "bytes": 14842,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сборка_tdlib.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "c525b05a69bd41440df7193b19640eea0d960033f038f21f74ef2381f0a60621"
+      },
+      {
+        "baselineOID": "74836fe51f5b53082ae3b861bad166ca9827f7b8",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "216f65b713a1b5e106a8db5dd45b701652b556fe93a33ffb28b7ef55e9038dda",
+        "bytes": 16547,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "216f65b713a1b5e106a8db5dd45b701652b556fe93a33ffb28b7ef55e9038dda"
+      },
+      {
+        "baselineOID": "fa867a3ef2a716895a7c8c89194b45351cd54696",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "921e862107b8a2e60697431417cd6d01f5c465f8e930a364b30b8095ffac852b",
+        "bytes": 33779,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/собрать-tdlib.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "921e862107b8a2e60697431417cd6d01f5c465f8e930a364b30b8095ffac852b"
+      },
+      {
+        "baselineOID": "b32cfded3ba91619103661242880c94fa2e7598a",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63",
+        "bytes": 8012,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63"
+      },
+      {
+        "baselineOID": "3a2c13b0f5666bec43d8b3e2aacb360baba9b7d7",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "c2f5ab3ad15ca8fde2d1f95a08813f3c86d677811be846b88ab9cbd4841bceec",
+        "bytes": 34277,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/ИсполнениеJSONL.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "c2f5ab3ad15ca8fde2d1f95a08813f3c86d677811be846b88ab9cbd4841bceec"
+      },
+      {
+        "baselineOID": "2fdf27419eba75777363f00930838da394fe419e",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "75be86faf46893b0997ad410a143c9e5327716c8e8c2dbf222e258df6279f074",
+        "bytes": 5916,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/macOS/Tests/ИсполнениеОператораTests/КомпозицияTests.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "75be86faf46893b0997ad410a143c9e5327716c8e8c2dbf222e258df6279f074"
+      },
+      {
+        "baselineOID": "e6cf937a67a88d5104fe8463365145c842b4b93d",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "e4ef4959cb1ae741d79451e0039b1dd822670c04882fdc79363edcb5aeaf5585",
+        "bytes": 85176,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/macOS/проверки/проверить-и-измерить-JSONL.py",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "e4ef4959cb1ae741d79451e0039b1dd822670c04882fdc79363edcb5aeaf5585"
+      },
+      {
+        "baselineOID": "5ef6614fba8ac2a398c65cf2aed840a7781a445a",
+        "baseline_contains_nul": false,
+        "baseline_is_non_utf8": true,
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "5fd0dc50d932b62c15ccea0bb4e56974834bfc80e65a54d1fb63a65e320cc646",
+        "bytes": 782,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Приложения/FUMA/macOS/проверки/фикстуры/срез-журнала-Codex.jsonl",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "5fd0dc50d932b62c15ccea0bb4e56974834bfc80e65a54d1fb63a65e320cc646"
+      },
+      {
+        "baselineOID": "24091b5fd931dba5986b12a468af05be3f852faa",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "3ce9793ea11c2909fb3413d153f796e76c319f0a806e0e014ff1adf9dc110d50",
+        "bytes": 17788,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиКомпозиции.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "3ce9793ea11c2909fb3413d153f796e76c319f0a806e0e014ff1adf9dc110d50"
+      },
+      {
+        "baselineOID": "6f457786344a64ffe7f210a62481b39b36247584",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "c6bdbbf395fbb39adf0091b6a3e745989bd5b0d0c1b5ddc34baa77fe7e33daaa",
+        "bytes": 11222,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиСкалярногоТекста.swift",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "c6bdbbf395fbb39adf0091b6a3e745989bd5b0d0c1b5ddc34baa77fe7e33daaa"
+      },
+      {
+        "baselineOID": "1363566e16b3d9e491b2dfd11c3aa450b12346b1",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "4173141804d7ecfef02cd9d8c0473c7c1b5c026042719b65efbd809439bfbcdf",
+        "bytes": 24858,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Прототипы/память-структурирующих-операторов/Проверки/композиция/исходники-до.patch.txt",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "4173141804d7ecfef02cd9d8c0473c7c1b5c026042719b65efbd809439bfbcdf"
+      },
+      {
+        "baselineOID": "4db1226ad7ab772feff52fe95d047734962ce9f5",
+        "baseline_mode": "100644",
+        "baseline_rawSHA": "1b7d16a1c380e272c267f477ef9db9c06f35fb171e15eec64b6e3897b89d60f6",
+        "bytes": 25664,
+        "final_read_sha_matches": true,
+        "mode_matches": true,
+        "path": "Прототипы/память-структурирующих-операторов/Проверки/композиция/исходники-после.patch.txt",
+        "sha_matches": true,
+        "stable": true,
+        "worktree_fs_mode": "0644",
+        "worktree_git_mode": "100644",
+        "worktree_rawSHA": "1b7d16a1c380e272c267f477ef9db9c06f35fb171e15eec64b6e3897b89d60f6"
+      }
+    ]
+  },
+  "схема": "fum.незавершённая-публикационная-проверка.1",
+  "условия_возврата": [
+    "До полной приёмки репозитория или master.",
+    "При изменении соответствующего пути, повторном публикационном отказе или связанном сбое."
+  ]
+}

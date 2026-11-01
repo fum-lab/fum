@@ -121,8 +121,10 @@ WINDOWS_ABSOLUTE_PATH_RE = re.compile(r"^[A-Za-z]:[\\/]")
 ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА = "FUM_CHECK_RUN_ID"
 ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ = "документационный"
 ПОЛНЫЙ_ПРОФИЛЬ = "полный"
+АДРЕСНЫЙ_ПРОФИЛЬ = "адресный"
 ПРОФИЛИ_ПРОВЕРКИ = (
     ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+    АДРЕСНЫЙ_ПРОФИЛЬ,
     ПОЛНЫЙ_ПРОФИЛЬ,
 )
 ДОКУМЕНТАЦИОННЫЕ_НАБОРЫ_ТЕСТОВ = (
@@ -177,10 +179,13 @@ class SmokeStep:
     detail: str | None = None
     аналитический_ключ: str | None = None
     ранняя_проверка: bool = False
+    отложен: bool = False
 
     def __post_init__(self) -> None:
         if (self.command is None) == (self.detail is None):
             raise ValueError("smoke step must define exactly one of command or detail")
+        if self.отложен and self.command is not None:
+            raise ValueError("отложенный шаг не может исполнять команду")
         if self.аналитический_ключ is not None:
             if self.command is None or not self.аналитический_ключ:
                 raise ValueError(
@@ -882,8 +887,27 @@ def parse_args() -> argparse.Namespace:
         default=ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
         help=(
             "Проверочный профиль: документационный положительный перечень "
-            "используется по умолчанию; полный профиль явно включает все "
-            "тесты автоматизаций и SwiftPM-контуры."
+            "используется по умолчанию; адресный профиль выбирает наборы по "
+            "явно переданному diff; полный профиль явно включает все тесты "
+            "автоматизаций и SwiftPM-контуры."
+        ),
+    )
+    parser.add_argument(
+        "--изменения",
+        action="append",
+        default=None,
+        metavar="ПУТЬ",
+        help=(
+            "Изменённый путь для адресного профиля; параметр можно повторять. "
+            "Пути должны быть относительными корню репозитория."
+        ),
+    )
+    parser.add_argument(
+        "--изменения-из-git",
+        action="store_true",
+        help=(
+            "Получить staged, unstaged и неотслеживаемые пути из текущего Git "
+            "checkout для адресного профиля."
         ),
     )
     parser.add_argument(
@@ -897,6 +921,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--источник-проверок", help="Полный OID принятого master для проверки слияния.")
     parser.add_argument("--ведущая-основа", help="Полный OID ведущей основы слияния.")
     parser.add_argument("--свидетельство-контура", help="Заранее индексированное происхождение полного запуска.")
+    parser.add_argument("--проекция", choices=("активна", "отложена"), default="активна",
+                        help="Отложенная проекция даёт только частичную адресную проверку и код 4.")
+    parser.add_argument("--основание-отложения-проекции",
+                        help="Непустое основание явной приостановки проекции.")
+    for флаг in ("--проекция", "--основание-отложения-проекции"):
+        имена = [аргумент.split("=", 1)[0] for аргумент in sys.argv[1:]]
+        if имена.count(флаг) > 1:
+            parser.error(f"повтор параметра {флаг} запрещён")
+        if any(имя.startswith("--") and имя != "--" and имя != флаг and флаг.startswith(имя)
+               for имя in имена):
+            parser.error(f"сокращение параметра {флаг} запрещено")
     return parser.parse_args()
 
 
@@ -1027,6 +1062,157 @@ def разрешить_документационные_наборы_тесто�
             )
         результат.append(путь)
     return результат
+
+
+_АДРЕСНЫЕ_НАБОРЫ_ЖУРНАЛА = frozenset(
+    {
+        "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests",
+        "Инструменты/fum-indeks-readme/tests",
+        "Инструменты/fum-materialyi-zaprosov/tests",
+        "Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests",
+        "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests",
+        "Инструменты/fum-reyestr-planirovaniya/tests",
+        "Инструменты/fum-struktura-papok-zaprosov/tests",
+        "Инструменты/fum-svezhestj-markdown/tests",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests",
+    }
+)
+_АДРЕСНЫЕ_НАБОРЫ_ДОКУМЕНТАЦИИ = frozenset(
+    {
+        "Инструменты/fum-indeks-readme/tests",
+        "Инструменты/fum-svezhestj-markdown/tests",
+    }
+)
+
+
+def нормализовать_изменённые_пути(
+    корень_репозитория: Path,
+    пути: Sequence[str],
+) -> tuple[str, ...]:
+    """Возвращает безопасный канонический список путей для адресного выбора."""
+    корень = корень_репозитория.resolve()
+    нормализованные: set[str] = set()
+    for исходный in пути:
+        if not isinstance(исходный, str) or not исходный:
+            raise ValueError("изменённый путь обязан быть непустой строкой")
+        if WINDOWS_ABSOLUTE_PATH_RE.fullmatch(исходный) or posixpath.isabs(исходный):
+            raise ValueError(f"изменённый путь не может быть абсолютным: {исходный}")
+        путь = PurePosixPath(исходный)
+        if путь == PurePosixPath(".") or ".." in путь.parts:
+            raise ValueError(f"изменённый путь должен находиться под корнем: {исходный}")
+        канонический = путь.as_posix()
+        if not канонический or канонический == ".":
+            raise ValueError(f"изменённый путь пуст: {исходный}")
+        # Проверка существующего объекта здесь намеренно не используется:
+        # удалённый tracked-путь тоже должен участвовать в выборе.
+        нормализованные.add(канонический)
+    if not нормализованные:
+        raise ValueError("адресный профиль требует хотя бы один изменённый путь")
+    return tuple(sorted(нормализованные, key=lambda путь: путь.encode("utf-8")))
+
+
+def _путь_под_каталогом(путь: str, каталог: str) -> bool:
+    return путь == каталог or путь.startswith(каталог + "/")
+
+
+def выбрать_адресные_наборы_тестов(
+    корень_репозитория: Path,
+    изменённые_пути: Sequence[str],
+) -> list[Path]:
+    """Выбирает только доказуемо затронутые документационные наборы.
+
+    Неизвестная область намеренно закрывает адресный режим: вызывающий должен
+    выбрать полный документационный или полный репозиторный профиль.
+    """
+    корень = корень_репозитория.resolve()
+    пути = нормализовать_изменённые_пути(корень, изменённые_пути)
+    обязательные = разрешить_документационные_наборы_тестов(корень)
+    доступные = {
+        repo_relative(набор, корень): набор
+        for набор in обязательные
+    }
+    выбранные: set[str] = set()
+
+    for путь in пути:
+        if путь in {"AGENTS.md", ".codex/config.toml"} or путь.startswith("Правила/"):
+            raise ValueError(
+                f"адресный профиль не классифицирует глобальное правило {путь}; "
+                "выберите полный профиль"
+            )
+        if путь.startswith("Прототипы/"):
+            raise ValueError(
+                f"адресный профиль не покрывает Swift-прототип {путь}; "
+                "выберите полный профиль"
+            )
+        if путь.startswith("Инструменты/"):
+            части = путь.split("/")
+            if len(части) < 2:
+                raise ValueError(f"неизвестная область изменения: {путь}")
+            корень_инструмента = "/".join(части[:2])
+            кандидаты = [
+                ключ
+                for ключ in доступные
+                if _путь_под_каталогом(ключ, корень_инструмента)
+            ]
+            if not кандидаты:
+                raise ValueError(
+                    f"адресный профиль не покрывает инструмент {корень_инструмента}; "
+                    "выберите полный профиль"
+                )
+            выбранные.update(кандидаты)
+            continue
+        if путь.startswith("Proyekcii/"):
+            выбранные.add("Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests")
+            continue
+        if путь.startswith("Журнал/"):
+            выбранные.update(
+                ключ for ключ in _АДРЕСНЫЕ_НАБОРЫ_ЖУРНАЛА if ключ in доступные
+            )
+            continue
+        if путь.startswith(("Планирование/", "Сбои/", "Документация/", "Глоссарий/", "Индексы/")):
+            выбранные.update(
+                ключ for ключ in _АДРЕСНЫЕ_НАБОРЫ_ДОКУМЕНТАЦИИ if ключ in доступные
+            )
+            if путь.startswith("Планирование/"):
+                выбранные.add("Инструменты/fum-reyestr-planirovaniya/tests")
+            continue
+        raise ValueError(
+            f"адресный профиль не классифицирует путь {путь}; выберите полный профиль"
+        )
+
+    if not выбранные:
+        raise ValueError(
+            "адресный профиль не нашёл безопасного набора для diff; выберите полный профиль"
+        )
+    return [доступные[ключ] for ключ in sorted(выбранные, key=lambda значение: значение.encode("utf-8"))]
+
+
+def получить_изменённые_пути_из_git(корень_репозитория: Path) -> tuple[str, ...]:
+    """Читает staged, unstaged и неотслеживаемые пути без записи."""
+    корень = корень_репозитория.resolve()
+    окружение = os.environ.copy()
+    окружение["GIT_OPTIONAL_LOCKS"] = "0"
+    команды = (
+        ("git", "diff", "--name-only", "-z", "HEAD", "--"),
+        ("git", "ls-files", "--others", "--exclude-standard", "-z"),
+    )
+    пути: list[str] = []
+    for команда in команды:
+        результат = subprocess.run(
+            команда,
+            cwd=корень,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True,
+            env=окружение,
+        )
+        try:
+            значения = результат.stdout.decode("utf-8").split("\0")
+        except UnicodeDecodeError as ошибка:
+            raise ValueError("Git вернул не-UTF-8 имя изменённого пути") from ошибка
+        пути.extend(значение for значение in значения if значение)
+    return нормализовать_изменённые_пути(корень, пути)
 
 
 def discover_swift_packages(repo_root: Path) -> list[Path]:
@@ -2301,10 +2487,22 @@ def build_steps(
     clock: Clock | None = None,
     timing_sink: TimingSink | None = None,
     профиль: str = ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+    изменённые_пути: Sequence[str] | None = None,
     *,
     корень_проверок: Path | None = None,
+    проекция: str = "активна",
+    основание_отложения_проекции: str | None = None,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
+    if проекция not in ("активна", "отложена"):
+        raise ValueError("неизвестный режим проекции")
+    if проекция == "отложена":
+        if not isinstance(основание_отложения_проекции, str) or not основание_отложения_проекции.strip():
+            raise ValueError("отложенная проекция требует непустое основание")
+        if корень_проверок is not None:
+            raise ValueError("контур слияния не допускает отложенную проекцию")
+    elif основание_отложения_проекции is not None:
+        raise ValueError("основание отложения нельзя задавать для активной проекции")
     источник = root if корень_проверок is None else Path(корень_проверок).resolve(strict=True)
     if корень_проверок is not None and (not include_session or профиль != ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ):
         raise ValueError("контур слияния требует полного документационного плана со связностью сессии")
@@ -2315,6 +2513,10 @@ def build_steps(
 
     if профиль not in ПРОФИЛИ_ПРОВЕРКИ:
         raise ValueError(f"неизвестный smoke-профиль: {профиль}")
+    if профиль == АДРЕСНЫЙ_ПРОФИЛЬ and корень_проверок is not None:
+        raise ValueError("контур слияния не допускает адресный smoke-профиль")
+    if профиль == АДРЕСНЫЙ_ПРОФИЛЬ and изменённые_пути is None:
+        raise ValueError("адресный smoke-профиль требует diff-пути")
     validate_project_skill_isolation(root)
     if include_session:
         if request is None:
@@ -2335,11 +2537,25 @@ def build_steps(
     swift_cmd = swift or "swift"
     steps: list[SmokeStep] = []
 
-    каталоги_тестов = (
-        discover_test_dirs(источник)
-        if профиль == ПОЛНЫЙ_ПРОФИЛЬ
-        else разрешить_документационные_наборы_тестов(источник)
-    )
+    if include_session:
+        steps.append(SmokeStep(
+            name="Ранняя проверка полей Журнала",
+            command=(python_cmd, проверочный_файл(Path(
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-поля-журнала.py"
+            )), "--корень", ".", "--запрос", str(request)),
+            ранняя_проверка=True,
+        ))
+
+    if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
+        каталоги_тестов = discover_test_dirs(источник)
+    elif профиль == АДРЕСНЫЙ_ПРОФИЛЬ:
+        assert изменённые_пути is not None
+        каталоги_тестов = выбрать_адресные_наборы_тестов(
+            источник,
+            изменённые_пути,
+        )
+    else:
+        каталоги_тестов = разрешить_документационные_наборы_тестов(источник)
     for test_dir in каталоги_тестов:
         tool_name = test_dir.parent.name
         путь_набора = repo_relative(test_dir, источник)
@@ -2403,6 +2619,15 @@ def build_steps(
         )
     )
 
+    if include_session:
+        steps.append(SmokeStep(
+            name="Ранняя проверка охвата запроса",
+            command=(python_cmd, проверочный_файл(Path(
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-охват-запроса.py"
+            )), "--корень", ".", "--запрос", str(request), "--форматы"),
+            ранняя_проверка=True,
+        ))
+
     скрипт_вопросов = проверочный_файл(QUESTION_BACKLINKS_SCRIPT)
     steps.append(
         SmokeStep(
@@ -2414,6 +2639,7 @@ def build_steps(
 
     скрипт_проекции = проверочный_файл(СКРИПТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
     контракт_проекции = проверочный_файл(КОНТРАКТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
+    начало_проекции = len(steps)
     steps.append(
         SmokeStep(
             name="Применение братиславской проекции памяти",
@@ -2446,6 +2672,13 @@ def build_steps(
             ранняя_проверка=True,
         )
     )
+    if проекция == "отложена":
+        for индекс in range(начало_проекции, len(steps)):
+            steps[индекс] = SmokeStep(
+                name=steps[индекс].name, command=None,
+                detail="Отложено: " + основание_отложения_проекции,
+                ранняя_проверка=True, отложен=True,
+            )
 
     if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
         automation_names_script = проверочный_файл(AUTOMATION_NAMES_CHECK_SCRIPT)
@@ -2652,7 +2885,7 @@ def run_steps(
                 timing_record(
                     "step",
                     timer() - step_started_at,
-                    "passed",
+                    "отложено" if step.отложен else "passed",
                     index=index,
                     total_steps=total,
                     name=step.name,
@@ -2754,15 +2987,20 @@ def run_steps(
                 )
             )
             return result.returncode
-    print(f"smoke-check passed: {total} step(s)")
+    есть_отложенные = any(шаг.отложен for шаг in steps)
+    if есть_отложенные:
+        print(f"Комплексная проверка не завершена: проекция отложена; {total} шагов")
+    else:
+        print(f"smoke-check passed: {total} step(s)")
     print_timing(
         timing_record(
             "total",
             timer() - total_started_at,
-            "passed",
+            "отложено" if есть_отложенные else "passed",
+            exit_code=4 if есть_отложенные else None,
         )
     )
-    return 0
+    return 4 if есть_отложенные else 0
 
 
 def main(*, clock: Clock | None = None) -> int:
@@ -2783,11 +3021,36 @@ def main(*, clock: Clock | None = None) -> int:
 
     try:
         if any((args.источник_проверок, args.ведущая_основа, args.свидетельство_контура)):
+            if getattr(args, "проекция", "активна") == "отложена":
+                raise ValueError("контур слияния не допускает отложенную проекцию")
             путь_контура = Path(__file__).resolve().with_name("контур_слияния.py")
             контур = types.ModuleType("контур_слияния")
             exec(compile(путь_контура.read_bytes(), str(путь_контура), "exec"), контур.__dict__)
             источник = Path(__file__).resolve().parents[3]
             контур.проверить_запуск(источник, root, команда_контура, str(args.request), os.environ.get(ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА, ""))
+        изменения_аргумента = getattr(args, "изменения", None)
+        изменения_из_git = bool(getattr(args, "изменения_из_git", False))
+        if args.профиль == АДРЕСНЫЙ_ПРОФИЛЬ:
+            if изменения_аргумента is not None and изменения_из_git:
+                raise ValueError(
+                    "адресный профиль принимает либо --изменения, либо "
+                    "--изменения-из-git"
+                )
+            изменённые_пути = (
+                list(получить_изменённые_пути_из_git(root))
+                if изменения_из_git
+                else изменения_аргумента
+            )
+            if изменённые_пути is None:
+                raise ValueError(
+                    "адресный профиль требует --изменения или --изменения-из-git"
+                )
+        elif изменения_аргумента is not None or изменения_из_git:
+            raise ValueError(
+                "параметры diff доступны только для адресного smoke-профиля"
+            )
+        else:
+            изменённые_пути = None
         steps = build_steps(
             root,
             args.request,
@@ -2797,7 +3060,10 @@ def main(*, clock: Clock | None = None) -> int:
             clock=timer,
             timing_sink=print_timing,
             профиль=args.профиль,
+            изменённые_пути=изменённые_пути,
             корень_проверок=источник,
+            проекция=getattr(args, "проекция", "активна"),
+            основание_отложения_проекции=getattr(args, "основание_отложения_проекции", None),
         )
         статистика = (
             загрузить_статистику_закрытых_запусков(root)

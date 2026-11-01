@@ -1,0 +1,39 @@
+{
+  "схема": "fum.наблюдение-отказа.1",
+  "этап": "J12",
+  "манифест": {
+    "автоматический_повтор": false,
+    "всего_произведено_байтов": 736,
+    "вызов_sha256": "4d86f7a71290c90c37cf3b03c515f403cc80e6609fd57d61c08137b8d1794004",
+    "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "каналы": {
+      "stderr": {
+        "sha256": "960f6dbbd54efc2c62b4eaaaedfaee23980ffb5cd367405694130076965b8da8",
+        "байты": 736,
+        "конец": true
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "байты": 0,
+        "конец": true
+      }
+    },
+    "код_процесса": 1,
+    "наблюдения": {
+      "sha256": "f624cf7a5c578d421266567a168c43952c8a215372f0fe9ec5bce68828a94a3e",
+      "порядок": "порядок-чтения-не-порядок-записи-двух-каналов",
+      "пропущено": 0,
+      "сохранено": 1,
+      "число": 1
+    },
+    "обработчик": {
+      "имя": "общий",
+      "состояние": "не-требуется"
+    },
+    "полнота": true,
+    "причина": null,
+    "схема": "fum.захват-вывода.1",
+    "токены": null
+  },
+  "диагностика": "journal time profile must contain table columns: Стадия | Длительность | Границы и способ измерения\nused tools section must link to the tools registry\nused tools section must include fum-moskovskoye-vremya-rabochej-sessii for canonical MSK time\naffected files section must include current request: Журнал/2026-09-17_22-09-56_MSK_интегрировать-ветку-планирования/запрос.md\naffected files section must include sibling report: Журнал/2026-09-17_22-09-56_MSK_интегрировать-ветку-планирования/отчёт.md\nunexpected Git status path: Индексы/markdown-файлы-по-времени-редактирования.md\n"
+}

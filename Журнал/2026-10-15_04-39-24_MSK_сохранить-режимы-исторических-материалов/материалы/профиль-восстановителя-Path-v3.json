@@ -1,0 +1,466 @@
+{
+  "граница": "Три новых процесса на восьми tracked600 в малых Git-историях. Подготовка и запись профиля исключены. План включает cProfile; применение и повтор включают запуск и wait новых процессов. Внешнее завершение сохраняется вне замера повтора. Живой ROOT не изменяется.",
+  "исходники_до": {
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+  },
+  "исходники_после": {
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+  },
+  "медианы_нс": {
+    "план_нс": 1005007125,
+    "повтор_процесс_нс": 990662375,
+    "применение_процесс_нс": 4794607167
+  },
+  "наблюдения": [
+    {
+      "замеры": {
+        "план_нс": 1005007125,
+        "повтор_процесс_нс": 987392750,
+        "применение_процесс_нс": 4885396625
+      },
+      "исходники_до": {
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+      },
+      "исходники_после": {
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+      },
+      "писатель": 82435,
+      "план_профиль": [
+        {
+          "вызовы": 1,
+          "полное_нс": 1004964250,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py",
+          "строка": 79,
+          "функция": "план"
+        },
+        {
+          "вызовы": 1,
+          "полное_нс": 1004284250,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py",
+          "строка": 95,
+          "функция": "построить_план"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 1000735708,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py",
+          "строка": 51,
+          "функция": "контекст"
+        },
+        {
+          "вызовы": 66,
+          "полное_нс": 768880250,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 49,
+          "функция": "_гит"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 197501083,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 79,
+          "функция": "физический_корень"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 90821375,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 137,
+          "функция": "гит_снимок"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 34716667,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 278,
+          "функция": "_дерево_коммита"
+        },
+        {
+          "вызовы": 80396,
+          "полное_нс": 30665806,
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "строка": 71,
+          "функция": "ключ_коллизии"
+        },
+        {
+          "вызовы": 20,
+          "полное_нс": 7734959,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 32,
+          "функция": "прочитать_исходник"
+        },
+        {
+          "вызовы": 16,
+          "полное_нс": 7070835,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 59,
+          "функция": "точный_путь"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 6993666,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 235,
+          "функция": "_проверить_структуру"
+        },
+        {
+          "вызовы": 14,
+          "полное_нс": 5439501,
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "строка": 60,
+          "функция": "имя_журнала"
+        }
+      ],
+      "повтор": {
+        "записей": 0,
+        "повтор": true,
+        "процесс": 82830
+      },
+      "повторитель": 82830,
+      "подготовка_нс_исключена": 305817250,
+      "применение": {
+        "записей": 8,
+        "квитанция_sha256": "3fc863204072da2e807172d0267c12826da5bc152a593c1dc84983d4d5a4999e",
+        "повтор": false,
+        "процесс": 82435
+      },
+      "процесс": 82336,
+      "сохранено_без_эффектов_повтора": true
+    },
+    {
+      "замеры": {
+        "план_нс": 1014364375,
+        "повтор_процесс_нс": 990662375,
+        "применение_процесс_нс": 4787500542
+      },
+      "исходники_до": {
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+      },
+      "исходники_после": {
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+      },
+      "писатель": 83003,
+      "план_профиль": [
+        {
+          "вызовы": 1,
+          "полное_нс": 1014321250,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py",
+          "строка": 79,
+          "функция": "план"
+        },
+        {
+          "вызовы": 1,
+          "полное_нс": 1013654708,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py",
+          "строка": 95,
+          "функция": "построить_план"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 1010092916,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py",
+          "строка": 51,
+          "функция": "контекст"
+        },
+        {
+          "вызовы": 66,
+          "полное_нс": 780253417,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 49,
+          "функция": "_гит"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 196000374,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 79,
+          "функция": "физический_корень"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 91119292,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 137,
+          "функция": "гит_снимок"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 34158584,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 278,
+          "функция": "_дерево_коммита"
+        },
+        {
+          "вызовы": 80398,
+          "полное_нс": 30105194,
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "строка": 71,
+          "функция": "ключ_коллизии"
+        },
+        {
+          "вызовы": 20,
+          "полное_нс": 7952128,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 32,
+          "функция": "прочитать_исходник"
+        },
+        {
+          "вызовы": 16,
+          "полное_нс": 7259040,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 59,
+          "функция": "точный_путь"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 5954042,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 235,
+          "функция": "_проверить_структуру"
+        },
+        {
+          "вызовы": 26,
+          "полное_нс": 4625914,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 79,
+          "функция": "физический"
+        }
+      ],
+      "повтор": {
+        "записей": 0,
+        "повтор": true,
+        "процесс": 83385
+      },
+      "повторитель": 83385,
+      "подготовка_нс_исключена": 311298959,
+      "применение": {
+        "записей": 8,
+        "квитанция_sha256": "71411aaef2a5afb0670e66d2c01018c91908fad5e4c75963b3c1a1ad6f44d848",
+        "повтор": false,
+        "процесс": 83003
+      },
+      "процесс": 82897,
+      "сохранено_без_эффектов_повтора": true
+    },
+    {
+      "замеры": {
+        "план_нс": 999239791,
+        "повтор_процесс_нс": 1028475084,
+        "применение_процесс_нс": 4794607167
+      },
+      "исходники_до": {
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+      },
+      "исходники_после": {
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py": "1d72a77ac9d53dbd1a28eeb70a4ce9dc4bcf1e23e09bbd518d4bf7375b798075",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py": "e432c8ac3454c2defe116e930ba50f8f408d83e9fddf61df94131310940951a0",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py": "9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py": "325d302efbd925c4cd9f051cbf184e693601ea3a696e1a6407e3d2e638857365",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py": "e2b778a9036171b13c0b07753c69f5c169238f5c050a9ea1814db08dca28f96a",
+        "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_восстановления_режимов_публичных_пар.py": "9fb4b29afd531357d67af01002294896610393d9716efe08bd60820b0d7872f6",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+        "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/исторические-одиночные-запросы.json": "5707402fd51ee352c0ff3e3406b0f812887ec84104292cca47f3ceec84052686"
+      },
+      "писатель": 83551,
+      "план_профиль": [
+        {
+          "вызовы": 1,
+          "полное_нс": 999197500,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_восстановления_режимов_публичных_пар.py",
+          "строка": 79,
+          "функция": "план"
+        },
+        {
+          "вызовы": 1,
+          "полное_нс": 998504709,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py",
+          "строка": 95,
+          "функция": "построить_план"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 994939751,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/восстановить_режимы_публичных_пар.py",
+          "строка": 51,
+          "функция": "контекст"
+        },
+        {
+          "вызовы": 66,
+          "полное_нс": 766243581,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 49,
+          "функция": "_гит"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 195629000,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 79,
+          "функция": "физический_корень"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 91609000,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 137,
+          "функция": "гит_снимок"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 32412292,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 278,
+          "функция": "_дерево_коммита"
+        },
+        {
+          "вызовы": 80396,
+          "полное_нс": 29961256,
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "строка": 71,
+          "функция": "ключ_коллизии"
+        },
+        {
+          "вызовы": 20,
+          "полное_нс": 7659792,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 32,
+          "функция": "прочитать_исходник"
+        },
+        {
+          "вызовы": 16,
+          "полное_нс": 6972540,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 59,
+          "функция": "точный_путь"
+        },
+        {
+          "вызовы": 2,
+          "полное_нс": 5351749,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "строка": 235,
+          "функция": "_проверить_структуру"
+        },
+        {
+          "вызовы": 26,
+          "полное_нс": 4609085,
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+          "строка": 79,
+          "функция": "физический"
+        }
+      ],
+      "повтор": {
+        "записей": 0,
+        "повтор": true,
+        "процесс": 83948
+      },
+      "повторитель": 83948,
+      "подготовка_нс_исключена": 308200250,
+      "применение": {
+        "записей": 8,
+        "квитанция_sha256": "2eb854bc30a169c02fd1332b13f7856f72249f01f91346fdeeeb3501aff0083d",
+        "повтор": false,
+        "процесс": 83551
+      },
+      "процесс": 83461,
+      "сохранено_без_эффектов_повтора": true
+    }
+  ],
+  "схема": "fum.профиль-восстановления-режимов-пар.1"
+}
