@@ -1,0 +1,52 @@
+{
+  "схема": "fum.план-жизненного-цикла-узла.1",
+  "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "родительскийЧатUUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "nativeChatUUID": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+  "executionTurn": "01a1972a-cafc-7c41-bdeb-bcd0117225b9",
+  "логическийАдрес": "fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+  "целевойRef": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+  "физическийWorktree": "/Users/fum/.codex/worktrees/zhiznennyj-cikl-01a195e5/FUM",
+  "основа": {
+    "commit": "16692490de749b661ec466f65a2b040700da1ea9",
+    "tree": "18db7a4f267d6966de417dc9a005ea6068e715cd"
+  },
+  "наблюдаемаяАтрибуцияТекущегоTurn": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "low",
+    "thread_id": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+    "turn_id": "01a1972a-cafc-7c41-bdeb-bcd0117225b9",
+    "turn_started_at_unix_ms": 1793537526536,
+    "квитанцияSHA256": "0a9f5786fd124476a8260b2c62d130a667eb8a6440c10401ae29e76c5446e3d7",
+    "ограничение": "Наблюдение конфигурации текущего turn; не backend attestation и не ретроатрибуция закрытых этапов."
+  },
+  "разрешённыеПути": [
+    "iskhodniki/perekhod-vetok/uzlyi/deskriptor-zhiznennogo-cikla.swift",
+    "iskhodniki/perekhod-vetok/uzlyi/sobstvennyj-rabochij-spisok.swift",
+    "iskhodniki/perekhod-vetok/proverki/proverki-zhiznennogo-cikla.swift",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/**"
+  ],
+  "цель": "Типизированно связать Native-чат, отдельный execution turn, узел, ref, физический worktree, текущее состояние, checkpoint и собственный worklist; входящее сообщение сохраняется до возврата к worklist; родитель принимает только известный результат и выдаёт следующий разрешённый шаг.",
+  "ограничения": {
+    "неИзменятьPackageSwift": true,
+    "неИзменятьStopИRuntime": true,
+    "неЗапускатьКомпиляторТестыHooksИлиCallback": true,
+    "неАктивироватьPublisherИлиAutofollowup": true,
+    "unknown": "Только новое наблюдение; автоматический повтор запрещён.",
+    "доставка": "Только собственный source-коммит и обычная точная доставка собственной ветки после readback атрибуции и diff."
+  },
+  "следующиеШаги": [
+    "Проверить точный diff/index и статус отчёта; компилятор, тесты и hooks остаются исключёнными.",
+    "Перед локальным коммитом повторно наблюдать текущие model/effort, ref, OID, статус, автор/committer и точный состав.",
+    "После raw commit readback отправить только точный собственный OID в одноимённую ветку origin и проверить ls-remote.",
+    "Передать родителю source C, API, фактическое состояние target wiring и оставшиеся проверки; не заявлять runtime или ROOT acceptance."
+  ],
+  "текущееСостояние": {
+    "descriptorИWorklist": "исходники подготовлены",
+    "fixture": "добавлена условно; FUM_LIFECYCLE_API_WIRED не определён, запуск запрещён",
+    "tddRedGreen": "UNKNOWN/NOT_RUN: компилятор и тесты исключены",
+    "packageWiring": "не изменён; существующий target использует явный sources список без новых файлов",
+    "callbackPublisherИRuntime": "не активированы; доверенный receipt provider отсутствует",
+    "sourceCommit": "не создан"
+  }
+}
