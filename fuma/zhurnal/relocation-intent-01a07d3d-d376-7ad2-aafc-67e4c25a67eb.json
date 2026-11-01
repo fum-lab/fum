@@ -1,0 +1,94 @@
+{
+  "схема": "fum.fuma.намерение-переноса.1",
+  "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "владелец_uuid": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+  "рабочее_дерево": "/Users/fum/.codex/worktrees/segment-poseshcheniya-359/FUM",
+  "ref_владельца": "refs/heads/fum-lab/fum/fuma/regressiya-obkhoda-segmenta-359",
+  "origin": "https://github.com/fum-lab/fum.git",
+  "снимок_до_слияния": {
+    "head": "304e57f54914bff5bcc1c155001dd85ac7f34d1e",
+    "tree": "cfef1cc9b94cafe2456c947c45a812b5b7f2d72f",
+    "parent": "8e7166e5506a6d4722389f2d326957b61945d4a3",
+    "индекс_и_дерево": "clean",
+    "sha256_agents": "9d75854f6634245df6b2bf165fd5091b45fbfa940c65d9df2f7e196fa4509171",
+    "исходный_каталог": "Приложения/FUMA",
+    "исходное_дерево": "34d752ab3393d78d0bc7b6312423af632b96341f",
+    "отслеживаемых_записей": 311,
+    "путь_fuma_отсутствовал": true
+  },
+  "принимающая_точка": {
+    "ref": "refs/heads/fum-lab/fum/master",
+    "commit": "8f6c14b02a3fe3d3598dc6c872701f9479e7da6f",
+    "tree": "a919f81e3283cc0a14a4f7d603a6662476f84542",
+    "parent": "88b6600837a82bddd0200f31246480e4da3133d7",
+    "merge_base": "2a99c91791d603f6b961120b8c3edfebe5c5a4ad",
+    "рабочее_дерево_принимающего": "/Users/fum/.codex/worktrees/fuma-journal-01a07d3d/FUM",
+    "единственный_обнаруженный_writer_ref": "/Users/fum/.codex/worktrees/fuma-journal-01a07d3d/FUM"
+  },
+  "разрешённый_переход": {
+    "действие": "создать merge-коммит принимающей точки в собственной ветке",
+    "порядок_родителей": [
+      "304e57f54914bff5bcc1c155001dd85ac7f34d1e",
+      "8f6c14b02a3fe3d3598dc6c872701f9479e7da6f"
+    ],
+    "следующий_срез": "реально перенести отслеживаемое дерево FUMA из Приложения/FUMA в корневой fuma/ с полной Names-картой и обновлением активных SwiftPM, Xcode, source, build и документационных ссылок",
+    "владелец_эффекта": "только этот worktree/ref; ROOT checkout, индекс и ref не изменять"
+  },
+  "сохраняемые_отдельно_refs": [
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/master",
+      "oid": "b8b670d8f511affb08fb3a64874b737e5890c689"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/master",
+      "oid": "8f6c14b02a3fe3d3598dc6c872701f9479e7da6f"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/master (origin)",
+      "oid": "e774da79e5e6a9490820314ca1aa259d2b15e0d5"
+    }
+  ],
+  "источники_требования": [
+    {
+      "commit": "2cb83ead34273a1f3ad2f3bbb4a96ef35dfd2ccf",
+      "path": "trebovaniya/aktivnostj-seti-agentov.json",
+      "blob": "6c6c8eb09b84e2a655f4a9de5f4c31be843ddcc0",
+      "sha256": "a8969ceefee7730a9601c223d25199b3e3c8514b02a31586b07c9a8e0e6bb2be"
+    },
+    {
+      "commit": "b19548ddc2d68501a202f8e408905257620c0cee",
+      "path": "trebovaniya/aktivnostj-seti-agentov.json",
+      "blob": "eb8577c6d6128e7475fe62431b6c76f4aec8f188",
+      "sha256": "2c8f5fcfeab8f54cc13b79750e5698582b552e8b78e54be7d5233b7961a21c78"
+    }
+  ],
+  "правила_имён": {
+    "источник": "fum-lab/fum/master@8f6c14b02a3fe3d3598dc6c872701f9479e7da6f",
+    "фасад": "ПубличныйФасадИмён.канонизировать",
+    "алгоритм": "Camel/Pascal → LinguisticKit .Cyrl → .Latn, таблица .ru, проверка ASCII до lowercase/kebab",
+    "ревизия_linguistickit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "исключения": [
+      "Package.swift",
+      "AGENTS.md"
+    ],
+    "сохранить_swift_module_target_product_ids": true,
+    "полную_mapping-карту_и_коллизии_проверить_до_git_mv": true,
+    "ручное_назначение_имён": false
+  },
+  "неперемещаемые_исторические_данные": [
+    "исторические commit/blob OID, RAW, журналы и закрытые квитанции остаются неизменными",
+    "текущая карта путей хранится отдельно от происхождения",
+    "не исправлять чужой request.md и общий Журнал/README.md",
+    "не повторять два отказа `start`; общий индекс в этом source-only этапе UNKNOWN"
+  ],
+  "ограничения_и_отключения": [
+    "refs/heads/fum-lab/fum/fuma/master и origin/refs/heads/fum-lab/fum/fuma/master не передвигать",
+    "не сливать широкую ветку 304 в b8b670d8f511affb08fb3a64874b737e5890c689",
+    "не менять master, force-push, чужие worktree/index/ref или shared config",
+    "не запускать Python для ROOT JSONL, legacy admission или старый FUMA migration script",
+    "не добавлять второй AutomationExecutor/interpreter или temporary network controller",
+    "UNKNOWN lifecycle effect не повторять и не объявлять автоматическое масштабирование готовым"
+  ],
+  "путь_этой_записи": "fuma/zhurnal/relocation-intent-01a07d3d-d376-7ad2-aafc-67e4c25a67eb.json",
+  "исходное_native_steering": "Недоступно в этом checkpoint; точное требование отражено в обоих source JSON commit выше, а расширение передано через ROOT."
+}

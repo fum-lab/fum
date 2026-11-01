@@ -1,0 +1,75 @@
+{
+  "schema": "fum.fuma.worker-role-review.v1",
+  "root_task_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "fuma_owner_thread_uuid": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+  "source_requirement_proposal": {
+    "commit": "8ac5cbf7bb4f01363f0b1e519a73f3d865f6395c",
+    "parent": "b19548ddc2d68501a202f8e408905257620c0cee",
+    "path": "trebovaniya/aktivnostj-seti-agentov.json",
+    "blob": "16d642c2add00957fc854a92f447a7771e25d38f",
+    "sha256": "7b24b540a64153c90bcdbce4b7ade1f13d16fbb8c2ac31f489c5546abb12b214",
+    "origin_ref": "refs/heads/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+    "origin_oid_confirmed": "8ac5cbf7bb4f01363f0b1e519a73f3d865f6395c"
+  },
+  "tools_proposal": {
+    "source_thread_uuid": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "first_useful_role": "точный независимый проверяющий source-поставки",
+    "inputs": [
+      "commit и полный ref",
+      "manifest с точными обязательными файлами",
+      "expected remote ref и OID"
+    ],
+    "expected_output": [
+      "raw commit/tree/blob evidence",
+      "independent remote readback",
+      "explicit UNKNOWN and checkpoint if evidence is unavailable"
+    ],
+    "candidate_source_commit": "5ba878c1a21d2fdae5d89b8eeb984a0f60ab6659",
+    "independent_tools_verification": "pending; not claimed",
+    "execution_proposal": "one local program start with observed PID, lease, exit and receipt"
+  },
+  "existing_fuma_component_review": {
+    "AutomationExecutor": {
+      "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+      "operator_definition_path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+      "finding": "typed in-process operator/interpreter; action cases are transformations and JSON operations; no child-process lifecycle"
+    },
+    "operator_cli": {
+      "path": "Приложения/FUMA/macOS/Sources/komanda-operatora/КомандаОператора.swift",
+      "finding": "synchronous bounded Process use for Git directory observation; no retained PID, lease, child state, drain/checkpoint or process outcome receipt"
+    },
+    "mcp_server": {
+      "path": "Приложения/FUMA/macOS/Sources/FUMMCPServer/main.swift",
+      "finding": "synchronous processOutput helper waits for exit; no retained lifecycle state or child ownership"
+    },
+    "availability_package": {
+      "path": "Приложения/FUMA/Packages/НаблюдениеДоступности",
+      "finding": "observes AXIsProcessTrusted accessibility permission; not network or agent lifecycle"
+    },
+    "attention_loop": {
+      "path": "Приложения/FUMA/macOS/Sources/FUMAttentionLoop/main.swift",
+      "finding": "AX/input activity observations; not child task lifecycle"
+    },
+    "fum_bridge_status_from_root": {
+      "observed_at": "2026-11-01T05:45:00Z",
+      "finding": "seven observed APIs for status, AX, input, memory and screen; lifecycle API not declared in that observation",
+      "scope_limit": "does not prove global absence of lifecycle code"
+    }
+  },
+  "fuma_boundary_proposal": {
+    "shared_node_contract": "new Names-generated package directly under fuma/packages/; exact basename must come from the approved Names API",
+    "host_integration": "reuse logical module ИсполнениеОператора in fuma/macos/ after complete path mapping",
+    "operator_runtime": "reuse AutomationExecutor and existing operator definitions for policy; do not build a second interpreter",
+    "effect_boundary": "one explicit process lifecycle adapter is missing from the inspected code and must be the only start/resume/drain/checkpoint effect boundary",
+    "first_actual_operation_candidate": "one start of the bounded source-delivery verifier; do not claim resume/drain/checkpoint until each is implemented and observed",
+    "shared_contract_fields": [
+      "observation_id, observed_at, fresh_until, source, source_version, capability, node_state, resource_budget",
+      "desired_activity, policy_version, signal_version, sensitivity_version, reason, lease_expires_at",
+      "command_id, action, owner, single_writer, expected_state_version, issued_at",
+      "initiator, model, effort, reason",
+      "outcome status, observed_at, evidence_or_receipt, useful_outcome, latency, cost_and_limits, failures or UNKNOWN"
+    ],
+    "final_package_path": "UNKNOWN until Names returns the per-component mapping"
+  },
+  "status": "RO fit review only; no worker was started, no process lifecycle adapter implemented, no build/runtime was run, and the proposed source verification remains pending."
+}
