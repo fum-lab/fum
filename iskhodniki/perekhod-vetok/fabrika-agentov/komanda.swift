@@ -792,7 +792,8 @@ public enum ПостроительВыбраннойВеткиДоставки {
         }
         guard части.allSatisfy({ !$0.isEmpty }) else { throw ОшибкаПостроенияВеткиДоставки.пустойКомпонент }
         let запрещённыеБайты: Set<UInt8> = [0x20, 0x7e, 0x5e, 0x3a, 0x3f, 0x2a, 0x5b, 0x5c, 0x7f]
-        guard !ветка.utf8.contains(0), ветка.utf8.allSatisfy({ !запрещённыеБайты.contains($0) }),
+        guard !ветка.utf8.contains(0),
+              ветка.utf8.allSatisfy({ $0 > 0x20 && !запрещённыеБайты.contains($0) }),
               !ветка.contains(".."), !ветка.contains("@{"),
               части.allSatisfy({ $0 != "." && $0 != ".." && !$0.hasPrefix(".") && !$0.hasSuffix(".") && !$0.hasSuffix(".lock") }) else {
             throw ОшибкаПостроенияВеткиДоставки.невернаяПолнаяВетка
