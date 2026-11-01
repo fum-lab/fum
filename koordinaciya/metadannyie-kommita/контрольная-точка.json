@@ -1,0 +1,29 @@
+{
+  "схема": "fum.контрольная-точка-source8.1",
+  "граница": "Сохранение источников по точному поручению; не прохождение N32/полного профиля",
+  "проверено": [
+    "Точная основа, ref, physical W и native UUID; один писатель",
+    "Побайтовые bytes/SHA256/Git blobs трёх postimages",
+    "Статический публикационный осмотр конечного состава"
+  ],
+  "не_выполнялось": [
+    "Compiler и typecheck",
+    "Swift Testing/discovery",
+    "Runtime и действительное native provider наблюдение",
+    "SQL/NativeDB",
+    "Python и полный ROOT/parent RAW"
+  ],
+  "неизвестно": [
+    "Компилируемость Source8",
+    "Результаты регрессий",
+    "Backend model identity",
+    "Полная ROOT-приёмка"
+  ],
+  "остаток": [
+    "Независимый review staged состава родителем",
+    "Свежий собственный author до commit",
+    "Отдельно допущенные compiler и bound selected runtime с pin фактического бинарника; нынешний UNBOUND не запускать",
+    "Для нового runtime M закрепить Git и реальные init/config/var только в новом частном TMP"
+  ],
+  "доставка": "Фактические C/tree/parents/author/remote readback передаются отдельно после commit; этот файл не утверждает будущего исполнения"
+}
