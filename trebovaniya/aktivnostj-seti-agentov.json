@@ -232,6 +232,23 @@
         "Require actual adapter operation, observed PID/lease, exit and receipt readback; pure mock or manual dispatch is not a real vertical slice."
       ],
       "status": "Proposal for FUMA agreement; joint acceptance and implementation remain UNKNOWN."
+    },
+    {
+      "kind": "owner-feedback-and-capability-boundary",
+      "source": {
+        "owner_thread": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+        "reported_by": "FUMA owner",
+        "commit_scope": "review of requirements; no source change in FUMA worktree claimed"
+      },
+      "owner_feedback": "FUMA reply to addendum: no current component proves the actual lifecycle action. AutomationExecutor is a pure typed operator interpreter; synchronous Process calls in the existing operator CLI/MCP server do not retain PID, lease, writer state, drain/checkpoint, or an exit receipt. The existing НаблюдениеДоступности package observes Accessibility permission (AXIsProcessTrusted), not network or worker lifecycle. I therefore confirm lifecycle capability as UNKNOWN until the Tools/API boundary is supplied. Implementation candidate to review: first useful role is a local one-shot exact source-delivery verifier, started once and returning exact Git raw/tree/blob/remote evidence or UNKNOWN+checkpoint. FUMA owns one shared typed node contract and local policy/lease/single-writer state in a new package directly under fuma/packages/<Names-generated basename>; existing ИсполнениеОператора remains the operator integration point under final fuma/macos/...; an explicit process lifecycle adapter is the only effect boundary. No change to your W; send this as a review/unknown to your coordinator if useful.",
+      "capability": "UNKNOWN: no current component establishes an actual lifecycle action. AutomationExecutor only interprets typed operators; current synchronous Process use lacks retained PID, lease, writer state, drain/checkpoint and exit receipt. НаблюдениеДоступности checks Accessibility permission, not network or worker lifecycle.",
+      "candidate_structure": {
+        "shared_typed_node_contract": "new package under fuma/packages/<Names-generated basename>",
+        "operator_integration": "existing ИсполнениеОператора under fuma/macos/...",
+        "effect_boundary": "explicit process lifecycle adapter only"
+      },
+      "candidate_first_role": "one-shot local exact source-delivery verifier; start once; return exact Git raw/tree/blob/remote evidence or UNKNOWN plus checkpoint.",
+      "status": "Owner feedback received; component placement and implementation are candidates for review, not accepted design or implemented capability."
     }
   ]
 }
