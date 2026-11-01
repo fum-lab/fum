@@ -1,0 +1,45 @@
+{
+  "schema": "fum.fuma.typing-state-source-checkpoint.1",
+  "codexThreadId": "01a19716-c517-7f92-839e-44b9ee828533",
+  "rootThreadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "humanRequest": "Nam nuzhen minimaljnyij UI dlya rantajma FUMA.",
+  "ref": "refs/heads/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master",
+  "base": "2b95e83161f74b8acb0b0237b930e1199726e052",
+  "scope": "Исправить одну метку аргумента в существующем FUMA cycle model. Не подключать keyboard typing, Metal, runtime или дополнительные источники состояния.",
+  "change": {
+    "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/ЦиклОператора.swift",
+    "diff": "ПределыИсполнения: операции: 65_536 → операций: 65_536",
+    "reason": "Известный результат единственного baseline compiler invocation завершился exit 1 на неверной внешней метке вызова; исправлена только метка, значение лимита не менялось."
+  },
+  "baseline": {
+    "kind": "compatibility compiler baseline",
+    "source": "замороженная closure UI C2b95",
+    "requestedInvocation": "swift build --build-tests",
+    "calls": "1/1",
+    "terminal": "exit 1",
+    "testExecution": "0",
+    "note": "Это был отдельный baseline до source correction; его не повторяли."
+  },
+  "custody": {
+    "inventory": "NONCOMPLIANT",
+    "reason": "В инвентаре обнаружена symlink; чистота custody не подтверждена.",
+    "privateDetailsOmitted": true
+  },
+  "review": {
+    "independentReadOnlyReview": "Подтверждён: статический RO сверил точный diff и index; только два согласованных пути, метка вызова соответствует объявлению, cached diff check без замечаний. Сборка, тесты и runtime этим не подтверждаются."
+  },
+  "verification": {
+    "sourceDiff": "точная одно-строчная правка; статически осмотрена",
+    "compiler": "NOT_RUN after baseline; no retry",
+    "tests": "NOT_RUN",
+    "gui": "NOT_RUN",
+    "runtime": "NOT_RUN",
+    "N32": "UNKNOWN; excluded",
+    "pythonAndRootRaw": "UNKNOWN; excluded"
+  },
+  "delivery": {
+    "commit": "PENDING",
+    "push": "PENDING",
+    "rootAcceptance": "UNKNOWN"
+  }
+}
