@@ -1,0 +1,116 @@
+{
+  "схема": "fum.состав-источников-swift-toolchain.1",
+  "статус": "минимальный проверяемый путь; граф не замкнут",
+  "профиль": {
+    "целевая_платформа": "macOS arm64",
+    "preset": "UNKNOWN; выбрать в рамках отдельного профиля и сверить с build-presets.ini точного commit",
+    "release": "Swift 6.2.2 (кандидат, не закреплён)",
+    "swift_tag": "swift-6.2.2-RELEASE",
+    "swift_full_commit": "UNKNOWN"
+  },
+  "официальные_свидетельства": [
+    {
+      "url": "https://www.swift.org/documentation/source-code/",
+      "тип": "официальная карта репозиториев Swift",
+      "доступ": "страница просмотрена; содержимое сообщает основные репозитории compiler/stdlib, driver, core libraries, SwiftPM, llbuild, support-core, syntax/format, LSP/index store, llvm-project Swift clone и swift-cmark",
+      "sha256_страницы_или_Git_object": "UNKNOWN; интерфейс просмотра не предоставил сырой объект или digest"
+    },
+    {
+      "url": "https://github.com/swiftlang/swift/blob/swift-6.2.2-RELEASE/utils/build-presets.ini",
+      "тип": "официальный upstream build preset",
+      "доступ": "частично просмотрен через GitHub raw/web-представление; увидены presets с включением swiftpm, swift-driver, swiftsyntax, swiftformat, swift-testing, llbuild, indexstore-db, sourcekit-lsp и install компонентов; точный выбранный preset не выведен",
+      "sha256_страницы_или_Git_object": "UNKNOWN"
+    },
+    {
+      "url": "https://github.com/swiftlang/swift/blob/main/docs/HowToGuides/GettingStarted.md",
+      "тип": "официальное руководство upstream",
+      "доступ": "просмотрено; рекомендует согласованное update-checkout, build-script; на macOS указывает Xcode prerequisite; версии в актуальной странице не закрепляют release 6.2.2",
+      "sha256_страницы_или_Git_object": "UNKNOWN"
+    },
+    {
+      "url": "https://github.com/swiftlang/swift/releases/tag/swift-6.2.2-RELEASE",
+      "тип": "предполагаемая официальная release tag page",
+      "доступ": "не подтверждено чтением тега/объекта; полный commit UNKNOWN"
+    },
+    {
+      "url": "https://github.com/swiftlang/swift/blob/swift-6.2.2-RELEASE/utils/update-checkout-config.json",
+      "тип": "проверяемый кандидат пути manifest",
+      "доступ": "404 в веб-запросе; не считать доказательством отсутствия другого manifest пути"
+    }
+  ],
+  "источники": [
+    {
+      "имя": "swift",
+      "роль": "compiler, standard library, SourceKit, build scripts и coordinator manifest",
+      "upstream": "https://github.com/swiftlang/swift",
+      "pin": "UNKNOWN; tag-кандидат swift-6.2.2-RELEASE без подтверждённого полного commit",
+      "активность": "основной корень по официальной карте проектов",
+      "будущее_зеркало_fum_lab": "https://github.com/fum-lab/swift (предлагаемое имя; не создано, владелец/репозиторий не подтверждены)",
+      "лицензия": "UNKNOWN для точного checkout; проверять LICENSE и исключения в зафиксированном дереве",
+      "доставка": "Git source; способ/полнота зеркала не доказаны"
+    },
+    {
+      "имя": "llvm-project Swift clone",
+      "роль": "LLVM/Clang/compiler-rt/LLDB зависимости с Swift-изменениями; точный профильный набор компонент неизвестен",
+      "upstream": "https://github.com/swiftlang/llvm-project",
+      "pin": "UNKNOWN: требуется официальный update-checkout manifest точного swift commit",
+      "активность": "явно названо официальной Source Code страницей; компоненты и условие preset не закрыты",
+      "будущее_зеркало_fum_lab": "https://github.com/fum-lab/llvm-project (предлагаемое имя; не создано)",
+      "лицензия": "UNKNOWN для точного набора и дополнительных license files",
+      "доставка": "Git source; полный commit и доставка UNKNOWN"
+    },
+    {
+      "имя": "swift-cmark",
+      "роль": "CommonMark implementation used by Swift compiler",
+      "upstream": "https://github.com/swiftlang/swift-cmark",
+      "pin": "UNKNOWN: требуется manifest точной ревизии",
+      "активность": "официальная Source Code страница называет compiler dependency; включение в выбранном preset UNKNOWN",
+      "будущее_зеркало_fum_lab": "https://github.com/fum-lab/swift-cmark (предлагаемое имя; не создано)",
+      "лицензия": "UNKNOWN для точного checkout",
+      "доставка": "Git source; полный commit и доставка UNKNOWN"
+    },
+    {
+      "имя": "swift-driver, swift-package-manager, swift-llbuild, swift-tools-support-core",
+      "роль": "driver and SwiftPM/build graph; support infrastructure",
+      "upstream": [
+        "https://github.com/swiftlang/swift-driver",
+        "https://github.com/swiftlang/swift-package-manager",
+        "https://github.com/swiftlang/swift-llbuild",
+        "https://github.com/swiftlang/swift-tools-support-core"
+      ],
+      "pin": "UNKNOWN; each requires exact manifest pin and recursive Package.resolved/dependency audit",
+      "активность": "official Swift source map lists these projects; exact preset inclusion is UNKNOWN",
+      "будущее_зеркало_fum_lab": "пара зеркал каждого upstream; владельцы/репозитории не созданы и не подтверждены",
+      "лицензия": "UNKNOWN for exact revisions and transitive package dependencies",
+      "доставка": "Git plus potential SwiftPM package/resource inputs; transitive non-Git assets not audited"
+    },
+    {
+      "имя": "Xcode, macOS SDK, Apple Clang/linker/system tools",
+      "роль": "host bootstrap compiler, SDK headers/frameworks, linker and system build tools",
+      "upstream": "Apple developer distribution; exact URLs and versions UNKNOWN",
+      "pin": "UNKNOWN",
+      "активность": "Getting Started says install Xcode on macOS; exact toolchain prerequisite is release/CI-specific",
+      "будущее_зеркало_fum_lab": "UNKNOWN; do not mirror without licensing/delivery evidence",
+      "лицензия": "UNKNOWN; redistribution rights not established",
+      "доставка": "Apple-controlled distribution; source buildability and offline artifact availability UNKNOWN"
+    },
+    {
+      "имя": "CMake, Ninja, Python, Git, optional sccache",
+      "роль": "build orchestration and developer utilities",
+      "upstream": "https://cmake.org/ ; https://ninja-build.org/ ; https://www.python.org/ ; https://git-scm.com/ ; https://github.com/mozilla/sccache",
+      "pin": "UNKNOWN: release documentation says build-script checks out/builds specific CMake and Ninja versions; exact version and source/archive hashes not obtained",
+      "активность": "build-system requirements; exact set/conditionality at chosen release UNKNOWN",
+      "будущее_зеркало_fum_lab": "UNKNOWN; distinguish source mirrors from signed binaries and package manager transport",
+      "лицензия": "UNKNOWN at exact versions/artifact choices",
+      "доставка": "Git, archive, system installation or package transport unresolved; no bytes fetched"
+    }
+  ],
+  "закрытие_графа": {
+    "required_primary_manifest": "read the exact release Swift update-checkout configuration and recursively resolve its selected scheme/tag to full commit OIDs; then audit each selected repository's CMake/build manifest and SwiftPM Package.swift/Package.resolved and external downloaded resources",
+    "полный_граф": "UNKNOWN",
+    "почему_не_закрыт": "веб-инструмент не открыл release manifest (tested candidate path returned 404), did not expose full tag object/commit, and no repository checkout/download is authorized",
+    "не_делать": ["do not infer pins from branch names", "do not assume all repositories on swift.org are active build inputs", "do not mark proposed fum-lab mirrors as existing", "do not claim Xcode SDK reproducible or redistributable"]
+  },
+  "лицензирование_и_байты": "UNKNOWN per exact commit and non-Git resource. Inspect upstream license files and any third-party notices, release archive manifests/checksums and redistribution terms only after exact input set is selected.",
+  "будущий_следующий_шаг": "With an explicitly authorized read-only source inspection method, read the exact official tag object and update-checkout manifest without cloning/fetching, compute raw object/page hashes where possible, recursively pin active inputs, and record unavailable artifacts as blockers. No build or mirror is authorized by this artifact."
+}

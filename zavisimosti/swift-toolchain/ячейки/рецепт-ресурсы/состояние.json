@@ -1,0 +1,65 @@
+{
+  "схема": "fum.ячейка-рецепт-ресурсы-состояние.1",
+  "статус": "source-only-план-сохранён",
+  "root_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "ячейка": "рецепт-и-ресурсы",
+  "корневая_постановка": "zavisimosti/swift-toolchain-iz-iskhodnikov.json",
+  "связанные_идентификаторы": ["FUM-STEP-0220", "FUM-REQ-0074", "Issue #499"],
+  "ref": "refs/heads/codex/swift-toolchain-recipe-01a17838",
+  "начальный_commit": "57ba89688b523eecc548a2b85b83843849206fba",
+  "scope": [
+    "zavisimosti/swift-toolchain/ячейки/рецепт-ресурсы/AGENTS.md",
+    "zavisimosti/swift-toolchain/ячейки/рецепт-ресурсы/состояние.json",
+    "zavisimosti/swift-toolchain/ячейки/рецепт-ресурсы/рецепт-сборки.json"
+  ],
+  "источники": {
+    "официальный_гайд": {
+      "url": "https://github.com/swiftlang/swift/blob/main/docs/HowToGuides/GettingStarted.md",
+      "ветка": "main",
+      "снимок_commit": null,
+      "заметка": "Прочитан 2026-11-01 как текущий upstream справочник; URL на main подвижен и не закрепляет версию кандидата."
+    },
+    "upstream_update_checkout": {
+      "url": "https://github.com/swiftlang/swift/blob/main/utils/update-checkout",
+      "ветка": "main",
+      "снимок_commit": null,
+      "заметка": "Python entrypoint; исполнение запрещено текущим поручением."
+    },
+    "upstream_build_script": {
+      "url": "https://github.com/swiftlang/swift/blob/main/utils/build-script",
+      "ветка": "main",
+      "снимок_commit": null,
+      "заметка": "Справочно изучен интерфейс upstream; параметры конкретного профиля сверить по будущему закреплённому commit."
+    },
+    "upstream_presets": {
+      "url": "https://github.com/swiftlang/swift/blob/main/utils/build-presets.ini",
+      "ветка": "main",
+      "снимок_commit": null,
+      "заметка": "Список пресетов зависит от ревизии; точный preset ещё не выбран."
+    }
+  },
+  "проверки": {
+    "маршрут_правил": "Отклонение уровня задачи: ROOT выполнил Python-роутер правил до первой записи. Известно: команда вернула список маршрутизированных файлов. Неизвестно: полный побочный эффект этого запуска. В этой ячейке Python не запускался.",
+    "json_синтаксис": "ожидает проверки jq -e",
+    "точный_diff": "ожидает проверку только трёх файлов в закреплённом scope",
+    "сборка_или_получение": "не запускались и не разрешены этим этапом",
+    "доставка": "ожидает commit, точный обычный push собственного ref и независимый ls-remote readback"
+  },
+  "неизвестно": [
+    "точный Swift release/commit и полный граф pins",
+    "точный preset и флаги для выбранного профиля",
+    "минимальные Xcode и macOS SDK для закреплённого release, их происхождение и право передачи",
+    "bootstrap compiler и его точная версия/источник",
+    "полнота будущих зеркал и присутствие каждого требуемого байта",
+    "измеренные пределы диска, RAM, wall time и cache",
+    "результаты автономной сборки, тестирования и повторного сравнения артефактов",
+    "побитовая воспроизводимость и возможность пересборки SDK"
+  ],
+  "запреты_соблюдены": [
+    "нет clone/fetch/init/download/build/install",
+    "нет новых fork, живых mirrors или смены toolchain",
+    "нет запуска update-checkout/build-script",
+    "в этой ячейке не запускались Python, ROOT JSONL, legacy admission и тяжёлые проверки",
+    "общий паспорт и Issue не изменялись"
+  ]
+}

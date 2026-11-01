@@ -1,6 +1,6 @@
 {
   "схема": "fum.постановка-самосборного-swift-toolchain.1",
-  "статус": "planned",
+  "статус": "partial-source-only checkpoint",
   "роль_и_владелец": "fum-lab/fum/zavisimosti/master/01a17838-f2e7-7633-b223-e7ac3f31c996",
   "корневой_чат": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "область": "source-only планирование; реализация, получение материалов и переключение toolchain не входят в этот этап",
@@ -68,21 +68,48 @@
         "путь": "zavisimosti/swift-toolchain/ячейки/источники-bootstrap/",
         "область": "Официальные Swift/LLVM/Clang/SwiftPM исходники, активный граф manifests, будущие зеркала fum-lab, лицензии и границы bootstrap/SDK; только исходный анализ.",
         "артефакт": "AGENTS.md, состояние.json и источник-состав.json; точные upstream ссылки и неизвестные явно разделены.",
-        "владелец": "будет назначен после закрепления этого source-plan"
+        "владелец": "/root/swift_sources",
+        "ref": "refs/heads/codex/swift-toolchain-sources-01a17838",
+        "child_commit": "не создан",
+        "native_author": "UNKNOWN",
+        "сохранение": "Три точных staged-файла скопированы из изолированного индекса в индекс родительской ветки; child worktree/ref/index не изменялись.",
+        "blobs": [
+          "f0859965d8f1b6728d0c49f6efc1a51b3a3a2322",
+          "30f8ab295dbb1705868c8e3455c24e77c80aaf66",
+          "eb012692dacc8cd0e34c178c79303a994f169771"
+        ]
       },
       {
         "id": "рецепт-и-ресурсы",
         "путь": "zavisimosti/swift-toolchain/ячейки/рецепт-ресурсы/",
         "область": "Официальный upstream build-script/build-presets/update-checkout, будущая воспроизводимая последовательность сборки и способ измерить RAM/диск/время/кэш без оценки наугад.",
         "артефакт": "AGENTS.md, состояние.json и рецепт-сборки.json; команды пока описываются, не запускаются.",
-        "владелец": "будет назначен после закрепления этого source-plan"
+        "владелец": "/root/swift_recipe",
+        "ref": "refs/heads/codex/swift-toolchain-recipe-01a17838",
+        "child_commit": "не создан",
+        "native_author": "UNKNOWN",
+        "сохранение": "Три точных staged-файла скопированы из изолированного индекса в индекс родительской ветки; child worktree/ref/index не изменялись.",
+        "blobs": [
+          "f66a8f0c2e846c982b7370a7cda3466651286765",
+          "69bcfc38e667c133e4748f23e9324513cbecf0bd",
+          "48f2fb3a61748022fb6e5e5d5f02c486dbc68610"
+        ]
       },
       {
         "id": "личность-и-потребители",
         "путь": "zavisimosti/swift-toolchain/ячейки/личность-и-потребители/",
         "область": "Проверяемый локатор/identity/version/hash собранного toolchain и ограниченный контракт сравнения FUM/FUMA; без фактического переключения.",
         "артефакт": "AGENTS.md, состояние.json и переключение-потребителей.json с условием решения и отката.",
-        "владелец": "будет назначен после закрепления этого source-plan"
+        "владелец": "/root/swift_consumers",
+        "ref": "refs/heads/codex/swift-toolchain-identity-01a17838",
+        "child_commit": "не создан",
+        "native_author": "UNKNOWN",
+        "сохранение": "Три точных staged-файла скопированы из изолированного индекса в индекс родительской ветки; child worktree/ref/index не изменялись.",
+        "blobs": [
+          "09c973147aa6d0f8475bfc986d445c5c489be780",
+          "8896fe4bb6941791bd924745d73af7a544726efe",
+          "afdd21f8bbea636c5b651b908475fc13ca0fb4dc"
+        ]
       }
     ],
     "общая_граница": "Нет clone/fetch/init/download/build/install, новых fork, установки или смены toolchain. Полная тяжёлая сборка требует отдельного точного входного и ресурсного этапа."
@@ -121,12 +148,13 @@
     "Существующий FUM-STEP-0220 остаётся единственной канонической карточкой шага; этот файл связывает уточнение с ней и не создаёт дубль карточки."
   ],
   "публикация": {
-    "github_issue": "Создать один адресный Issue после source commit; в body сослаться на этот файл, его commit/blob/SHA-256, FUM-STEP-0220 и FUM-REQ-0074. По точным запросам FUM-STEP-0220 и заголовка отдельный Issue не найден.",
+    "github_issue": "https://github.com/fum-lab/fum/issues/499 (создан один Issue после точного поиска совпадений; статус OPEN)",
     "снимок_источников": "После публикации передать владельцу Sources точные commit/path/blob для сохранения GitHub-снимка по существующему архивному маршруту; архивирование здесь не запускать.",
     "адресаты": [
       "fum-lab/fum/instrumentyi/master",
       "fum-lab/fum/master",
       "fum-lab/fum/istochniki/master"
-    ]
+    ],
+    "состояние_ячейки": "Источники переданы в родительский индекс, но ещё не закоммичены отдельным родительским checkpoint; child commits/push отсутствуют. Полная сборка, источник-граф и критерии done не достигнуты."
   }
 }

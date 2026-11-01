@@ -1,0 +1,174 @@
+{
+  "схема": "fum.swift-toolchain.предложение-личности-и-переключения.1",
+  "статус": "только предложение; потребители не выбраны",
+  "основа": {
+    "commit": "57ba89688b523eecc548a2b85b83843849206fba",
+    "source": "zavisimosti/swift-toolchain-iz-iskhodnikov.json",
+    "step": "FUM-STEP-0220",
+    "requirement": "FUM-REQ-0074"
+  },
+  "официальные_основания": [
+    {
+      "url": "https://www.swift.org/documentation/source-code/",
+      "применение": "официальная карта разделяет исходники Swift compiler/stdlib, swift-driver и swift-package-manager как разные проекты; отдельно перечисляет SwiftSyntax, swift-build, llbuild и инструменты"
+    },
+    {
+      "url": "https://www.swift.org/documentation/swift-compiler/",
+      "применение": "компилятор и driver описаны как отдельные компоненты"
+    },
+    {
+      "url": "https://www.swift.org/documentation/standard-library/",
+      "применение": "stdlib/runtime и Apple-platform SDK overlays — различные слои; overlays не означают, что Apple SDK включён в исходную сборку toolchain"
+    },
+    {
+      "url": "https://github.com/swiftlang/swift-package-manager/blob/main/CONTRIBUTING.md",
+      "применение": "SwiftPM принимает SWIFT_EXEC для компиляции исходников и SWIFT_EXEC_MANIFEST для манифестов; у манифеста отдельный порядок выбора"
+    },
+    {
+      "url": "https://docs.swift.org/latest/documentation/swiftlydocs/use-toolchains/",
+      "применение": "официальный пример показывает физический каталог toolchain и явный locator; не использовать swiftly как установщик в текущем этапе"
+    }
+  ],
+  "контракт_личности": {
+    "версия_контракта": "fum.swift-toolchain.identity.1 (предлагаемая; не реализована)",
+    "локатор": {
+      "значение": "абсолютный физический путь к одному immutable-каталогу toolchain, выданный будущим адресным builder; symlink- и realpath-вид фиксируются отдельно",
+      "вне_области": "не PATH, не глобальный Xcode selection, не пользовательский Swiftly alias и не имя каталога без readback",
+      "сохранение": "будущий потребительский manifest связывает locator с UUID/идентификатором файловой системы, поколением установки и хэшем identity manifest; точный формат/носитель требует отдельного этапа"
+    },
+    "обязательные_поля": [
+      "идентификатор схемы и поколение контракта",
+      "полный Git commit/OID и чистота исходных деревьев каждого репозитория Swift, swift-driver, SwiftPM и выбранных зависимостей",
+      "профиль upstream build preset, host triple, target triple и заявленная конфигурация сборки",
+      "версия compiler и фактический вывод swift --version / swiftc --version, сохранённые как байты",
+      "реальный путь и symlink chain для swift, swiftc, swift-frontend и driver implementation (если компонент отдельный в выбранной версии)",
+      "SHA-256 каждого исполняемого файла после разрешения symlink",
+      "ответ swiftc -print-resource-dir, физический путь и versioned tree digest всего каталога ресурсов",
+      "список, путь и SHA-256 stdlib/runtime библиотек, модулей, интерфейсов и платформенных overlays, выбранных для конкретного target",
+      "путь, версия, symlink chain и SHA-256 SwiftPM executable(s), включая swift package --version readback",
+      "хэш сериализованного identity manifest и время/инструмент его вычисления"
+    ],
+    "tree_digest": "предложенный алгоритм v1: отсортировать относительные UTF-8 пути байтово; для каждой записи включить тип, режим где значим, длину и SHA-256 байтов либо точную symlink-цель; SHA-256 канонической length-prefixed последовательности; исключения только по версионированному явному списку. Обычный tar/имя каталога не является доказательством.",
+    "верификация_будущей_установки": [
+      "взять точный immutable root из адресного build receipt; разрешить symlink и сверить физический locator",
+      "по абсолютным путям прочитать версии и хэши каждого заявленного executable; сверить compiler/driver/resource-dir/stdlib/SwiftPM с identity manifest",
+      "прочитать effective compiler path из конкретного SwiftPM invocation receipt и отдельно manifest compiler path; доказать отсутствие возврата на системный swiftc",
+      "сравнить ожидаемые и фактические SDK, target, host tools и linker отдельным host-boundary manifest",
+      "любое отсутствующее, несовпавшее или непроверенное поле означает отказ от этого будущего переключения, а не автоматический fallback"
+    ]
+  },
+  "границы_компонентов": {
+    "самостоятельный_Swift_toolchain": [
+      "swift/swiftc driver entry points",
+      "swift-frontend compiler",
+      "compiler resource directory и compiler support libraries",
+      "Swift standard library, runtime, module interfaces и выбранные platform overlays",
+      "SwiftPM executable и его собственные support resources; provenance SwiftPM учитывается отдельно от compiler"
+    ],
+    "отдельная_граница_Apple_host": [
+      "Xcode и выбранный macOS/iOS SDK: locator, version/build, platform, SDKSettings и хэш списка доступных manifest-файлов фиксируются отдельно; SDK не объявляется самособранным",
+      "Apple Clang, linker/ld, assembler, codesign, SDK frameworks и системные заголовки фиксируются как host build inputs, когда конкретный consumer ими пользуется",
+      "macOS host, архитектура, deployment target, системные библиотеки, PATH, locale, временная зона и существенные env inputs фиксируются отдельно от toolchain identity",
+      "Git и внешние локальные system libraries, например pkg-config/mpv, — отдельные host/dependency inputs, а не Swift compiler"
+    ],
+    "правило_сравнения": "Менять только выбранный Swift toolchain selector; для сравниваемой пары запусков сохранить один source tree, SDK, host, target, environment, scratch/output isolation и command line. Если границу выровнять нельзя, результат не приписывать одному toolchain."
+  },
+  "потребители": [
+    {
+      "id": "fum-root-package",
+      "точный_source_path": "Package.swift",
+      "pinned_blob": "c957f158940da2803ac0eca17bd8c149d8d3d136",
+      "основание_назначения": "корневой FUMA package со Swift tools 6.0, macOS 14, языком Swift 6, targets FUM memory/journal/path update/node/package runtime и тестовыми targets",
+      "выбор_будущего_запуска": "адресный absolute-path invocation ровно этого pinned source tree и выбранного product/filter; отдельный SWIFT_EXEC и SWIFT_EXEC_MANIFEST только если утверждённый SwiftPM version документирует их для этого invocation",
+      "readback": "зафиксировать command/argv/env, resolved swift package path, selected manifest compiler, actual compiler for sources, frontend/resource-dir, swiftpm version, SDK/host manifest и outputs; сравнить component identities с ожиданием",
+      "сравнительная_проверка": "пара одинаковых будущих адресных build/test commands на том же commit и одинаковом SDK/host; сопоставить success/failure, diagnostics, tests и produced artifact digest; никакой текущий запуск не выполнялся",
+      "откат": "прекратить использовать новый toolchain для следующих запусков; повторить только после отдельного допуска под ранее сохранённым абсолютным toolchain locator и тем же host-boundary manifest; не менять уже созданные артефакты задним числом",
+      "статус": "кандидат; выбор не выполнялся"
+    },
+    {
+      "id": "fuma-macos-package",
+      "точный_source_path": "Приложения/FUMA/macOS/Package.swift",
+      "pinned_blob": "946abd095e779abdbcdeedcd0b0e293db1fd4dda",
+      "основание_назначения": "пять executable products FUMA; отдельный адресный операторный граф; зависимости macOS frameworks и системного mpv через pkg-config/provider",
+      "выбор_будущего_запуска": "переключение только для одного названного product или target/filter из этого manifest, никогда не общий выбор для всего Xcode/host",
+      "readback": "на каждом будущем вызове сверить SWIFT_EXEC и SWIFT_EXEC_MANIFEST, выбранный SDK/target, xcodebuild/SwiftPM boundary, compiler/driver/stdlib hashes и путь executable output",
+      "сравнительная_проверка": "первым может быть узкий operator target с точным фильтром по manifest-условию, затем отдельные продукты; сравнить штатный и candidate на том же source commit, macOS SDK, host libraries и env",
+      "откат": "вновь адресно выбрать ранее проверенный toolchain для того же product, очистку/удаление scratch/output делать только отдельным допуском; глобальный developer-dir/PATH не переключать",
+      "статус": "кандидат; выбор не выполнялся"
+    },
+    {
+      "id": "fuma-observation-composition",
+      "точный_source_path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Package.swift",
+      "pinned_blob": "c732024646239d310ea5b1f944abbf4d6a125da3",
+      "основание_назначения": "самостоятельный library и test target; Swift 6 strict concurrency, warnings-as-errors и actor data race checks",
+      "выбор_будущего_запуска": "отдельный package-path invocation; не распространять результат на macOS app package",
+      "readback": "фиксировать manifest compiler, source compiler, SwiftPM, resource dir и stdlib, затем SDK/host boundary и фактически собранные targets",
+      "сравнительная_проверка": "одинаковый ограниченный package build/test profile на одном source snapshot с сохранением diagnostics и test/artifact digests",
+      "откат": "только новый адресный запуск с ранее зафиксированной identity; не перезаписывать следы candidate run",
+      "статус": "кандидат; выбор не выполнялся"
+    },
+    {
+      "id": "fum-structuring-operator-memory",
+      "точный_source_path": "Прототипы/память-структурирующих-операторов/Package.swift",
+      "pinned_blob": "5ac8f2d857461d13dfb798dc8c1c883f09fcaee3",
+      "основание_назначения": "library, probe executable и независимые tests; корневой package также включает library как source target",
+      "выбор_будущего_запуска": "отдельно выбрать standalone package invocation или root-package consumer; это разные потребительские поверхности",
+      "readback": "зафиксировать source path invocation и target graph, manifest/source compiler, SwiftPM и identities runtime/resources",
+      "сравнительная_проверка": "сопоставить одинаковые конкретные probe/test/build commands в обоих режимах только если следующий этап явно включает обе поверхности",
+      "откат": "вернуться к ранее сохранённому locator в следующем standalone либо root invocation; outputs остаются раздельными",
+      "статус": "кандидат; выбор не выполнялся"
+    },
+    {
+      "id": "fum-automation-name-checker",
+      "точный_source_path": "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift",
+      "pinned_blob": "44a5b00daec22a70c4b01a0bac0818f0050a03cb",
+      "основание_назначения": "SwiftPM CLI tool, tools 5.9, macOS 13, dependency on local LinguisticKit",
+      "выбор_будущего_запуска": "только после подтверждения доступности materialized LinguisticKit и явного выбора конкретной команды-инструмента; отдельно от root package",
+      "readback": "сверить manifest/compiler paths, SwiftPM, target SDK, dependency graph and dependency revision/hash; отказать если local dependency отсутствует или другой compiler выбран неявно",
+      "сравнительная_проверка": "один и тот же finite input fixture/command при двух toolchains, сравнить exit, stdout/stderr, resulting files and digests, только по следующему допуску",
+      "откат": "повторить адресный tool invocation с сохранённой штатной toolchain identity; сохранить два результата раздельно",
+      "статус": "условный кандидат; материализация LinguisticKit неизвестна/отсутствует в этом снимке"
+    }
+  ],
+  "критерии_будущего_решения": {
+    "до_сравнения": [
+      "полная identity собранного toolchain верифицирована по абсолютному локатору, исходной provenance, версии и полному списку component hashes",
+      "конкретный consumer source path, manifest blob, product/target/filter и command line названы",
+      "compiler for manifest and source compilation одинаково явно назначен; подмена системным swiftc исключена readback",
+      "SDK, Apple host tools, architecture, target, env и dependency inputs закреплены одинаково для сравниваемых запусков",
+      "изолированные scratch/output directories не содержат неизвестный прежний build cache"
+    ],
+    "для_переключения": [
+      "сравнительный результат завершён и прочитан по полному exit/status и outputs",
+      "нет compiler/driver/SwiftPM identity mismatch, скрытого fallback или нерегламентированных входов",
+      "criteria, permitted failures, artifact expectations and thresholds конкретно записаны отдельным admission; этот proposal их не определяет",
+      "rollback locator и readback заранее доступны и проверяемы"
+    ],
+    "противопоказания": [
+      "версия известна только по текстовому --version или directory label",
+      "неполный hash inventory, mutable locator, неизвестный symlink target, неизвестное manifest compiler либо global PATH lookup",
+      "не совпали SDK/host tools, source snapshot, dependencies или invocation между сравнительными запусками",
+      "использование неизвестного кэша, сетевой fallback или user state",
+      "отсутствуют comparator outputs, нарушения требований компилятора/tests либо rollback proof",
+      "LinguisticKit отсутствует для конкретного потребителя, требующего его; это препятствует только этому пути до исправления входа"
+    ],
+    "решение_при_UNKNOWN": "не переключать данный consumer; сохранить конкретное неизвестное и точный путь к его закрытию"
+  },
+  "откат": {
+    "тип": "future proposal; no rollback action now",
+    "единица": "тот же consumer path + product/target/filter + invocation, только новый run",
+    "обязательные_readback": "старый pinned locator, old identity manifest hash, old compiler/driver/SwiftPM paths and hashes, SDK/host manifest, effective selected compiler path",
+    "не_делать": "не менять глобальный PATH, Xcode developer directory или пользовательские defaults; не удалять outputs/caches автоматически; не называть переустановку rollback"
+  },
+  "unknown": [
+    "future Swift release/revision, preset and built target architecture",
+    "component-level installed layout of future build and canonical manifest serialization",
+    "physical install filesystem support/immutability and a trusted durable location for selector receipt",
+    "exact Xcode/SDK/Clang/linker/host tool versions; no local user state was read",
+    "whether xcodebuild and SwiftPM honor the same selector path for every FUM consumer",
+    "all exact package profiles to be considered in the next stage",
+    "license/distribution limits for the selected Apple SDK and host components",
+    "quantitative acceptance thresholds for output parity/performance/reproducibility"
+  ],
+  "источники_входа": "Все FUM blob pins относятся к pinned commit 57ba89688b523eecc548a2b85b83843849206fba; hash pins не удостоверяют локальную материализацию или успешную сборку."
+}
