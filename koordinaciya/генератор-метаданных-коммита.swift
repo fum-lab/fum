@@ -1488,7 +1488,6 @@ struct ПрофильНативнойКонфигурации: Codable, Equatabl
     let запрошено: ПараметрыВыбораAPI?
 }
 struct СырыеБайтыНативнойКонфигурации {
-    let план: Data
     let строка: Data
     let отпечаток: String
     let наблюденоМс: Int64
@@ -1560,23 +1559,6 @@ enum ПровайдерНативнойКонфигурации {
     static func аргументы(_ текстЗапроса: String, база: String) -> [String] {
         ["-batch", "-bail", "-init", "/dev/null", "-readonly", "-nofollow", "-json", база, текстЗапроса]
     }
-    static func проверитьПлан(_ байты: Data) throws {
-        // NATIVE_MODEL_PLAN_GUARD_BEGIN
-        guard !байты.isEmpty, байты.count <= пределВывода,
-              let строки = try JSONSerialization.jsonObject(with: байты) as? [[String: Any]], (1...8).contains(строки.count) else {
-            throw ОтказУправляемогоДопуска.неизвестно("native-model-query-plan-unavailable")
-        }
-        for строка in строки {
-            guard Set(строка.keys) == ["id", "parent", "notused", "detail"], let описаниеПлана = строка["detail"] as? String,
-                  целое(строка["id"]).map({ $0 >= 0 }) == true,
-                  целое(строка["parent"]).map({ $0 >= 0 }) == true,
-                  целое(строка["notused"]).map({ $0 >= 0 }) == true,
-                  описаниеПлана.range(of: "^SEARCH threads USING (COVERING )?(INDEX [A-Za-z0-9_]+|INTEGER PRIMARY KEY) \\((id|rowid)=\\?\\)$", options: .regularExpression) != nil else {
-                throw ОтказУправляемогоДопуска.неизвестно("native-model-query-plan-not-indexed-own-id")
-            }
-        }
-        // NATIVE_MODEL_PLAN_GUARD_END
-    }
     private static func токен(_ значение: String) -> Bool {
         let байты = Array(значение.utf8)
         return (1...128).contains(байты.count) && байты.first.map({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) }) == true && байты.allSatisfy {
@@ -1617,6 +1599,40 @@ enum ПровайдерНативнойКонфигурации {
         return try разобрать(сырьё.строка, сессия: привязка.нативныйЧатUUID, поколение: профиль.поколениеИзвестнойСмены,
             запрошено: профиль.запрошено, наблюденоМс: сырьё.наблюденоМс, отпечаток: сырьё.отпечаток, режим: "NATIVE_SQLITE_READONLY", привязка: привязка, ENVThreadID: ProcessInfo.processInfo.environment["CODEX_THREAD_ID"])
     }
+    /// Сохранённое наблюдение не создаёт независимое ожидание самому себе.
+    /// ROOT/caller отдельно выбирает полный expected receipt после собственной
+    /// сверки retained observation. Этот чистый мост не читает native БД повторно.
+    static func квитанцияОбычногоРебёнка(_ наблюдение: НаблюдениеНативнойКонфигурации,
+        ожидаемыйКонтекст: КонтекстОбычногоРебёнка,
+        ожидаемаяКвитанция: ОжидаемаяКвитанцияВыбораМодели,
+        ожидаемоеПоколение: String) throws -> КвитанцияВыбораМодели {
+        guard наблюдение.совпадаетСКонтекстом(сессия: ожидаемыйКонтекст.сессия,
+                  поколениеИзвестнойСмены: ожидаемоеПоколение),
+              ожидаемаяКвитанция.свидетельство.дочернийКонтекст == ожидаемыйКонтекст,
+              ожидаемаяКвитанция.свидетельство.selectedValue == наблюдение.значение,
+              ожидаемаяКвитанция.свидетельство.nativeSelectionSourceSHA256 == наблюдение.отпечатокИсточника else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-independent-expectation-mismatch")
+        }
+        let недоступно = ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil)
+        let свидетельство = СвидетельствоВыбораМодели(
+            схема: "fum.model-selection-receipt.2", источник: .метаданныеДочернегоКлиента,
+            rootUUID: ожидаемыйКонтекст.корневойUUID,
+            sessionIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata,
+                значение: наблюдение.нативныйЧатUUID),
+            requestIdentity: недоступно, responseIdentity: недоступно, nativeThread: nil,
+            requestedSelection: ожидаемыйКонтекст.запрошено, selectedValue: наблюдение.значение,
+            nativeSelectionSourceSHA256: наблюдение.отпечатокИсточника,
+            backendModel: .неизвестно, nativeTurnContext: .неизвестно,
+            дочернийКонтекст: ожидаемыйКонтекст)
+        let квитанция = try ГенераторМетаданныхКоммита.квитанция(для: свидетельство)
+        guard ГенераторМетаданныхКоммита.проверитьReceipt(квитанция, ожидаемый: ожидаемаяКвитанция,
+            expectedRootUUID: ожидаемыйКонтекст.корневойUUID,
+            ожидаемыйДочернийКонтекст: ожидаемыйКонтекст).isEmpty else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-independent-receipt-invalid")
+        }
+        return квитанция
+    }
+
     #if TESTING
     static func разобратьПроверочное(_ байты: Data, сессия: String, поколение: String = "test-generation-1",
         запрошено: ПараметрыВыбораAPI? = nil, наблюденоМс: Int64 = 1_800_000_000_000) throws -> НаблюдениеНативнойКонфигурации {

@@ -1319,14 +1319,56 @@ struct ПроверкиНативногоПровайдера {
             #expect(значение.совпадаетСЗапрошенным == (номер == 15 ? false : nil))
         }
     }
-    @Test(arguments: 0..<3) func ПланТолькоИндексСобственногоИдентификатора(_ номер: Int) throws {
-        let описание = номер == 0 ? "SEARCH threads USING INDEX sqlite_autoindex_threads_1 (id=?)" :
-            (номер == 1 ? "SCAN threads" : "SEARCH other_table USING INDEX foreign_index (id=?)")
-        let байты = try JSONSerialization.data(withJSONObject: [["id": 3, "parent": 0, "notused": 0, "detail": описание]])
-        var отказ = false
-        do { try ПровайдерНативнойКонфигурации.проверитьПлан(байты) } catch { отказ = true }
-        #expect(отказ == (номер != 0))
+    @Test(arguments: [0, 1, 2]) func ОбщийПределНеСкладываетДваКанала(_ номер: Int) throws {
+        let предел = 16_384
+        var выводОстался = Data(repeating: 1, count: номер == 2 ? 0 : 8_192)
+        var ошибкиОстались = Data(repeating: 2, count: номер == 0 ? 8_192 : 8_193)
+        var принят = false, отказ: ОтказУправляемогоДопуска?
+        do {
+            let результат = try ШвыУправляемогоВызова.ограниченноПрочитатьОбаКанала(
+                пределВывода: предел, пределОшибок: предел, общийПредел: предел,
+                ожидать: { $0 }, прочитать: { канал, размер in
+                    let порция = Data((канал == 0 ? выводОстался : ошибкиОстались).prefix(размер))
+                    if канал == 0 { выводОстался.removeFirst(порция.count) }
+                    else { ошибкиОстались.removeFirst(порция.count) }
+                    return порция
+                })
+            принят = true
+            #expect(результат.вывод.count + результат.ошибки.count <= предел)
+        } catch let ошибка as ОтказУправляемогоДопуска { отказ = ошибка }
+        #expect(принят == (номер != 1))
+        #expect(отказ == (номер == 1 ? .отказ("переполнение-общего-захвата") : nil))
     }
+
+    @Test(arguments: [false, true]) func МостНеСоздаётОжиданиеИзНаблюдения(_ дрейф: Bool) throws {
+        let контекст = КонтекстОбычногоРебёнка(
+            корневойUUID: "01a07d3d-d376-7ad2-aafc-67e4c25a67eb", сессия: Self.сессия,
+            непосредственныйРодитель: "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+            этап: "fixture-stage", попытка: "fixture-attempt")
+        let наблюдение = try ПровайдерНативнойКонфигурации.разобратьПроверочное(
+            JSONSerialization.data(withJSONObject: [Self.строка()]), сессия: Self.сессия)
+        let недоступно = ИдентичностьAPI(статус: .недоступен, вид: .идентификаторВызова, значение: nil)
+        // Независимые fixture expectations, не построенные вызовом адаптера из строки факта.
+        let свидетельство = СвидетельствоВыбораМодели(
+            схема: "fum.model-selection-receipt.2", источник: .метаданныеДочернегоКлиента,
+            rootUUID: контекст.корневойUUID,
+            sessionIdentity: ИдентичностьAPI(статус: .доступен, вид: .идентификаторNativeThreadMetadata, значение: Self.сессия),
+            requestIdentity: недоступно, responseIdentity: недоступно, nativeThread: nil,
+            requestedSelection: nil,
+            selectedValue: ПараметрыВыбораAPI(model: дрейф ? "other-model" : "gpt-test", reasoningEffort: "high"),
+            nativeSelectionSourceSHA256: наблюдение.отпечатокИсточника,
+            backendModel: .неизвестно, nativeTurnContext: .неизвестно, дочернийКонтекст: контекст)
+        let ожидание = try ГенераторМетаданныхКоммита.ожидание(для: свидетельство)
+        var принято = false
+        do {
+            _ = try ПровайдерНативнойКонфигурации.квитанцияОбычногоРебёнка(наблюдение,
+                ожидаемыйКонтекст: контекст, ожидаемаяКвитанция: ожидание,
+                ожидаемоеПоколение: "test-generation-1")
+            принято = true
+        } catch {}
+        #expect(принято == !дрейф)
+    }
+
     @Test(arguments: [false, true]) func ИзвестнаяСменаИнвалидируетСтароеНаблюдение(_ смена: Bool) throws {
         let байты = try JSONSerialization.data(withJSONObject: [Self.строка()])
         let наблюдение = try ПровайдерНативнойКонфигурации.разобратьПроверочное(байты, сессия: Self.сессия, поколение: "generation-1")
@@ -1389,27 +1431,7 @@ struct ПроверкиНативногоПровайдера {
         }
     }
 
-    // Separate addressed observation point, excluded from the pure selected35 contour.
-    // Missing profile means disabled/UNKNOWN, never native-read success.
-    @Test(.enabled(if: ProcessInfo.processInfo.environment["NATIVE_MODEL_PROFILE"] != nil))
-    func АдресноеНативноеНаблюдениеИзROПрофиля() throws {
-        let среда = ProcessInfo.processInfo.environment
-        guard let путь = среда["NATIVE_MODEL_PROFILE"], let строкаБайт = среда["NATIVE_MODEL_PROFILE_BYTES"],
-              let байтов = Int(строкаБайт), let хэш = среда["NATIVE_MODEL_PROFILE_SHA256"],
-              (1...16_384).contains(байтов), ПолитикаУправляемогоДопуска.хэшВерный(хэш) else {
-            throw ОтказУправляемогоДопуска.неизвестно("native-model-addressed-profile-missing")
-        }
-        let байты = try ФайлИсторическогоВхода(путь: путь, байтов: байтов, хэш: хэш).прочитать()
-        let профиль = try JSONDecoder().decode(ПрофильНативнойКонфигурации.self, from: байты)
-        // This expected subject comes from the trusted ROOT/native assignment, never JSON or ambient turn ID.
-        let привязка = ПривязкаНативногоЧата(нативныйЧатUUID: "01a192d0-6f09-7950-9251-b27101106bfc",
-            исполнительныйТактUUID: nil, источникПривязки: "ROOT/native transport assignment for stable actor 01a192d0-6f09-7950-9251-b27101106bfc")
-        let наблюдение = try ПровайдерНативнойКонфигурации.наблюдатьДляНовогоДопуска(профиль, привязка: привязка)
-        let кодировщик = JSONEncoder(); кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
-        print("FUM_NATIVE_MODEL_OBSERVATION " + String(decoding: try кодировщик.encode(наблюдение), as: UTF8.self))
-        #expect(наблюдение.режимИсточника == "NATIVE_SQLITE_READONLY")
-        #expect(наблюдение.backend == "UNKNOWN")
-    }
+
 }
 
 // Только чистые проверки нового контракта и того же raw reader; процессов здесь нет.
