@@ -1,0 +1,73 @@
+{
+  "схема": "fum.fuma.волна-и-исходные-входы-routine.1",
+  "состояние": "SOURCE_ONLY_NO_MERGE_NO_START",
+  "волна_root": {
+    "fromC": "a7d43619409318ae829ef8a9cf61cbe04fab3f60",
+    "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "общий_предок": "64c19c87ff5b1b7a8ff2ba8fec69164fda85af4c",
+    "mergeC": "UNKNOWN: merge не начат",
+    "причина": "Read-only трёхсторонний merge-tree обнаружил текстовые конфликты в чужой области Tools. По поручению чужие конфликты передаются владельцу; своё дерево не оставлено в незавершённом merge.",
+    "конфликтные_пути": [
+      "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+      "proverki/perekhod-vetok/fabrika-agentov/proverki.swift"
+    ],
+    "сохранность": "До и после подготовительной работы проверены размеры и SHA 14 неотслеживаемых файлов; ни один target path не пересекается с ними. Инвентарь хранится приватно и не заменяет самих файлов.",
+    "ожидаемый_переход": "После получения от владельца Tools разрешения конфликта выполнить явный merge обоих родителей в своём W/ref и readback; не использовать squash/rebase. До этого новое родительское source детям не заявляется.",
+    "конфликтные_blob": [
+      {
+        "путь": "iskhodniki/perekhod-vetok/fabrika-agentov/komanda.swift",
+        "base": "160c0a943c020d71235abeb68e9989818bef722e",
+        "ours": "a26fdb7de6ac380950e1147f21d6f5ee64a255ad",
+        "theirs": "d9ab23d9e62944ad1b6c404ed306a016c4481afd"
+      },
+      {
+        "путь": "proverki/perekhod-vetok/fabrika-agentov/proverki.swift",
+        "base": "0a28875361cda2c1047b91deb80cf658d7e2db86",
+        "ours": "6a2ad2cec04cd6bd834413ab459ae9526817a5af",
+        "theirs": "6fbccead397eafa3a24fb2b097feedef08c90cd8"
+      }
+    ]
+  },
+  "следующая_волна_requirements": {
+    "toC": "b3c953c4579e457045544a75b877e2498e9cb1fc",
+    "tree": "6205433d29b5b666ec6125b7540d1540142fde6f",
+    "родители": [
+      "38f5fede81f0a1e878bb27c3f113d9ed6c3695df",
+      "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+    ],
+    "состояние": "Объект, родители и удалённый ref проверены; отдельная волна не начата до перехода ROOT 4a."
+  },
+  "routine_fixture": {
+    "статус": "INPUTS_ONLY_NOT_STARTED",
+    "источники": [
+      {
+        "commit": "846f0984c24037511cee5b772257e49eede66e7f",
+        "путь": "fuma/packages/proverennyj-vkhod-routine",
+        "файлов": 3
+      },
+      {
+        "commit": "09ec03d2eac45f1c4bcb99a59d8e378986f8e5ce",
+        "путь": "fuma/packages/otvety-koordinatoru",
+        "файлов": 5
+      },
+      {
+        "commit": "f42c8b8bbd3df8a909a3d8e949b8952e28f7eb3c",
+        "путь": "fuma/packages/setj-agentov",
+        "файлов": 4
+      }
+    ],
+    "сверка": "12 обычных файлов извлечены из Git в новый принадлежащий FUMA приватный каталог вне checkout; состав и каждый Git blob SHA-1 пересчитаны, SHA-256 записаны в локальную квитанцию. Чужие W/index/ref/config не изменялись.",
+    "квитанция_sha256": "fa82fc006bf014f6024e7e27462016958e7f739a5a750bc6ab28d1fbf70257df",
+    "tools_ack_байт": 4258,
+    "tools_ack_sha256": "479e2c224b194cbc8bd7887c81c5916223406c9b0b6c513f1c083e86fd11c66c",
+    "ограничения": "Это подготовка точных входов, не приёмка Routine, не доказательство issuer/binding и не разрешение на Swift/системный эффект. Toolchain, профиль, START и исходы проверки отсутствуют."
+  },
+  "итог": {
+    "merge": "НЕ НАЧАТ",
+    "compiler": "NOT_RUN",
+    "tests": "NOT_RUN",
+    "runtime": "NOT_RUN",
+    "python_root_jsonl_legacy": "ИСКЛЮЧЕНЫ, НЕ ПРОВЕРЕНЫ",
+    "приёмка": "НЕ ПРОВЕДЕНА"
+  }
+}
