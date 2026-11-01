@@ -3,7 +3,7 @@
   "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "родительскийЧатUUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
   "nativeChatUUID": "01a195e5-70bf-7a81-920f-d15df36fc90a",
-  "executionTurn": "01a1972a-cafc-7c41-bdeb-bcd0117225b9",
+  "executionTurn": "01a197ab-53d7-7d91-8372-44404b1f5d06",
   "логическийАдрес": "fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
   "целевойRef": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
   "физическийWorktree": "/Users/fum/.codex/worktrees/zhiznennyj-cikl-01a195e5/FUM",
@@ -15,9 +15,8 @@
     "model": "gpt-6-luna",
     "reasoning_effort": "low",
     "thread_id": "01a195e5-70bf-7a81-920f-d15df36fc90a",
-    "turn_id": "01a1972a-cafc-7c41-bdeb-bcd0117225b9",
-    "turn_started_at_unix_ms": 1793537526536,
-    "квитанцияSHA256": "0a9f5786fd124476a8260b2c62d130a667eb8a6440c10401ae29e76c5446e3d7",
+    "turn_id": "01a197ab-53d7-7d91-8372-44404b1f5d06",
+    "turn_started_at_unix_ms": 1793545950244,
     "ограничение": "Наблюдение конфигурации текущего turn; не backend attestation и не ретроатрибуция закрытых этапов."
   },
   "разрешённыеПути": [
@@ -72,11 +71,33 @@
     "состояниеПослеStage2026-11-01_16-06-46": "оба production filenames подключены, fixture активна; compiler/tests всё ещё NOT_RUN"
   },
   "incidentReceipt": {
-    "validV2Path": "/Users/fum/.codex/visualizations/2026/11/01/01a195e5-70bf-7a81-920f-d15df36fc90a/private-receipts/incident-shared-git-config-user-name-20261101-v2.json",
+    "validV2Bytes": 8197,
     "validV2SHA256": "7c9e21d03c3c3f6bb6d9ac13259b6ea3b22d1e145b6e669f65c0836d2b3bb5fd",
-    "postRepairReadOnlyPath": "/Users/fum/.codex/visualizations/2026/11/01/01a195e5-70bf-7a81-920f-d15df36fc90a/private-receipts/incident-shared-git-config-user-name-20261101-v3.json",
+    "postRepairReadOnlyBytes": 1528,
     "postRepairReadOnlySHA256": "c45a8beb5c7cc40dbdc7b0402adc7cfc8f8108f6462648ac4cf4d81b06dcbcc2",
     "currentSharedConfig": {"byteLength": 1754, "sha256": "15dfaef158b0d11e008310130fa46ea7511000f63fb7c7628a1ce5ef6a4091e6", "mtimeUTC": "2026-11-01T13:41:46.796Z", "writer": "UNKNOWN; source task did not modify it"},
-    "sharedGitConfigWriteForbiddenForThisTask": true
+    "sharedGitConfigWriteForbiddenForThisTask": true,
+    "privateReceiptLocators": "Хранятся вне Git и не копируются в публичный план."
+  },
+  "последнийSourceЭтап": {
+    "stage": "2026-11-01_18-11-59_MSK_подключить-адресный-ответ",
+    "ACTSHA256": "f740fa2ec6628171525d566e29dbfc03edac3f32d6efdbe56e5459b2ff2e10bc",
+    "base": "16af2a2fb0c089da8300aa050f24b5b2617a3e3f",
+    "targetedSourcePaths": [
+      "Package.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sobstvennyj-rabochij-spisok.swift",
+      "iskhodniki/zapusk/ЦиклЗапуска.swift",
+      "iskhodniki/zapusk/Команда.swift",
+      "proverki/zapusk/ПроверкиЦиклаЗапуска.swift"
+    ],
+    "targetedOwnPaths": [
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/память.md",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/запрос.md",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/отчёт.md",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/этапы/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/план.json"
+    ],
+    "нетТранспорта": "Native transport отсутствует; callback остаётся запрещён descriptor; send/turn UNKNOWN.",
+    "проверки": "Compiler/tests/CLI/runtime/Python/SQL NOT_RUN; source-only review only."
   }
 }

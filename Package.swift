@@ -58,7 +58,7 @@ let package = Package(
         .target(name: "АрхивныйСнимокЗадачи", dependencies: ["КонтейнерНаблюдений", "СнимокАгентскойЗадачи"],
             path: "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи",
             swiftSettings: настройки),
-        .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory"],
+        .target(name: "ОсноваЗапуска", dependencies: ["КонтейнерНаблюдений", "АрхивныйСнимокЗадачи", "FUMStructuringOperatorMemory", "МатериализацияУзлов"],
             path: "iskhodniki/zapusk", exclude: ["Команда.swift", "README.md", "zhurnal", "proverki"],
             swiftSettings: настройки),
         .executableTarget(name: "КомандаЗапуска", dependencies: ["ОсноваЗапуска", "ЖурналУзла", "МатериализацияУзлов"],

@@ -1,0 +1,107 @@
+{
+  "схема": "fum.адресное-подключение-ответа-к-циклу.1",
+  "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "родительскийЧатUUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "nativeChatUUID": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+  "executionTurn": "01a197ab-53d7-7d91-8372-44404b1f5d06",
+  "атрибуция": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "low",
+    "thread_id": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+    "turn_id": "01a197ab-53d7-7d91-8372-44404b1f5d06",
+    "turn_started_at_unix_ms": 1793545950244,
+    "ограничение": "Наблюдение requestMeta текущего turn; не backend attestation."
+  },
+  "ACT": {
+    "sha256": "f740fa2ec6628171525d566e29dbfc03edac3f32d6efdbe56e5459b2ff2e10bc",
+    "bytes": 5955,
+    "locator": "Сохранён вне Git; публичный документ содержит hash и относительные исходные пути."
+  },
+  "исходнаяТочка": {
+    "commit": "16af2a2fb0c089da8300aa050f24b5b2617a3e3f",
+    "tree": "c7bd6235b4d772df70f1a2f6c527b5816ac980de",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+    "physicalWorktree": "/Users/fum/.codex/worktrees/zhiznennyj-cikl-01a195e5/FUM",
+    "AGENTSSHA256": "5f98f654caf5ae9d66a148fd25914caa683e21a9d89724817f0f3fe56df567d2",
+    "индексИРабочееДерево": "чистые до первой записи",
+    "единственныйПисатель": "этот W; совпадающий ref закреплён только за ним"
+  },
+  "разрешённыеИсходники": [
+    {
+      "path": "Package.swift",
+      "bytes": 5432,
+      "sha256": "5cf171b7e3a1368f714a3f674b42ed228d834326f57e4b6815091a2ce75dc842"
+    },
+    {
+      "path": "iskhodniki/perekhod-vetok/uzlyi/sobstvennyj-rabochij-spisok.swift",
+      "bytes": 24721,
+      "sha256": "1d1d1219fc6cfdbf424150a6e4aba68e4459808a5a7dc029ff2c54bfc8fd9e13"
+    },
+    {
+      "path": "iskhodniki/zapusk/ЦиклЗапуска.swift",
+      "bytes": 8698,
+      "sha256": "f5a22c01bd73a83b8ee883eedf3c8445cd38170024ce413791f9c9167713a9c5"
+    },
+    {
+      "path": "iskhodniki/zapusk/Команда.swift",
+      "bytes": 12004,
+      "sha256": "3799dd344dc6845964adb1cf75275447eb41c355290e86ff016341775c1c607b"
+    },
+    {
+      "path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift",
+      "bytes": 12885,
+      "sha256": "2552430c6a1b9b6ce7cfe0c05e0a9adfc3896ebf90f507ba50d08a19fe883686"
+    }
+  ],
+  "собственныеПути": [
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/память.md",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/запрос.md",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/отчёт.md",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/этапы/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/план.json"
+  ],
+  "задача": "Сохранить один адресный ответ в существующем FUMA Segment, получить worklist только из точного readback и вызвать существующее решение родителя.",
+  "архитектурнаяГраница": {
+    "декодирование": "Pure public decoder проверяет схему, stable operationID, typed envelope и canonical bytes equality.",
+    "порядок": [
+      "проверить descriptor и исходный worklist",
+      "построить стабильный operationID и canonical message envelope",
+      "Segment.add",
+      "закрыть writer",
+      "открыть reader",
+      "сверить точные байты и receipt",
+      "декодировать сохранённый envelope и взять его worklist",
+      "декодировать typed result и вызвать решитьРезультатРодителю",
+      "вернуть только краткое решение и, для известного результата, один stepID"
+    ],
+    "статусыЗаписи": ["неНачата", "исходНеизвестен", "подтверждена"],
+    "повтор": "Точный повтор того же operationID/описания/байтов разрешён как idempotent repeat; несовпадающие байты отклоняются до append. Автоматического retry нет.",
+    "неМенять": [
+      "ПутьХранилища.подготовить",
+      "Native transport и send/turn",
+      "callback=true (descriptor запрещает)",
+      "новые targets/storage/Git engine",
+      "чужие W/index/ref/config и общая Git config"
+    ]
+  },
+  "ограничения": {
+    "входныеJSON": "Descriptor/worklist до 65536 bytes; message document до 1048576 bytes; абсолютные обычные файлы, без symlink-компонентов.",
+    "carrier": "operationID, SHA-256, typed parent decision, максимум один stepID; без полного сообщения/worklist.",
+    "NativeTransport": "NOT_PRESENT; callback forbidden; send/turn UNKNOWN.",
+    "unknown": "Не выполнять автоматический retry; сохранить operationID/hash/status для readback.",
+    "compilerTestsCLIruntimeSQLPython": "NOT_RUN и исключены ACT.",
+    "N32ROOTAcceptance": "не пройдены; checkpoint source-only"
+  },
+  "fixtures": [
+    "реальный Segment reopen, exact bytes/receipt и точный повтор",
+    "тот же operationID с иным payload отклонён без изменения исходного файла",
+    "fsync failure после начала записи сохраняет UNKNOWN и не возвращает следующий step",
+    "изменённый typed worklist readback отвергается до выбора шага"
+  ],
+  "проверкиДоCommit": [
+    "целевой статический source review по каждому из пяти изменённых исходников",
+    "git diff --check",
+    "jq empty для двух планов"
+  ],
+  "статус": "исходники и fixtures подготовлены; compiler/tests/CLI/runtime/Python не запускались; source-only commit/delivery разрешены после точного diff/index и свежей авторской атрибуции"
+}

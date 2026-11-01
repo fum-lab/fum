@@ -194,7 +194,7 @@ public struct ЗапросСохраненияВходящегоСообщени
         self.messageID = сообщение.messageID
         var кодировщик = JSONEncoder()
         кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
-        var байты = try кодировщик.encode(Конверт(
+        var байты = try кодировщик.encode(СохранённыйКонвертЖизненногоЦикла(
             схема: "fum.lifecycle-message-persist.1", operationID: operationID,
             дескриптор: дескриптор, рабочийСписок: рабочийСписок,
             messageID: сообщение.messageID, исходныеБайты: сообщение.исходныеБайты))
@@ -216,14 +216,34 @@ public struct ЗапросСохраненияВходящегоСообщени
         return "fum.lifecycle.message.v1." + СвойРабочийСписокУзла.sha256(bytes)
     }
 
-    private struct Конверт: Encodable {
-        let схема: String
-        let operationID: String
-        let дескриптор: ДескрипторЖизненногоЦиклаУзла
-        let рабочийСписок: СвойРабочийСписокУзла
-        let messageID: String
-        let исходныеБайты: Data
+    /// Разбирает только точный канонический конверт, прочитанный из сохранённых байтов.
+    public static func декодироватьСохранённыйКонверт(
+        _ байты: Data
+    ) throws -> СохранённыйКонвертЖизненногоЦикла {
+        let конверт = try JSONDecoder().decode(СохранённыйКонвертЖизненногоЦикла.self, from: байты)
+        guard конверт.схема == "fum.lifecycle-message-persist.1" else {
+            throw ОшибкаЖизненногоЦикла.схема
+        }
+        let запрос = try Self(
+            дескриптор: конверт.дескриптор,
+            рабочийСписок: конверт.рабочийСписок,
+            сообщение: ВходящееСообщениеЖизненногоЦикла(
+                messageID: конверт.messageID, исходныеБайты: конверт.исходныеБайты))
+        guard запрос.operationID == конверт.operationID,
+              запрос.каноническиеБайты == байты else {
+            throw ОшибкаЖизненногоЦикла.несовпадениеПовторногоЧтения
+        }
+        return конверт
     }
+}
+
+public struct СохранённыйКонвертЖизненногоЦикла: Codable, Equatable, Sendable {
+    public let схема: String
+    public let operationID: String
+    public let дескриптор: ДескрипторЖизненногоЦиклаУзла
+    public let рабочийСписок: СвойРабочийСписокУзла
+    public let messageID: String
+    public let исходныеБайты: Data
 }
 
 /// Квитанция адаптера после долговечной записи, закрытия/повторного открытия и точного чтения байтов.
