@@ -89,7 +89,7 @@
     "carrier": "operationID, SHA-256, typed parent decision, максимум один stepID; без полного сообщения/worklist.",
     "NativeTransport": "NOT_PRESENT; callback forbidden; send/turn UNKNOWN.",
     "unknown": "Не выполнять автоматический retry; сохранить operationID/hash/status для readback.",
-    "compilerTestsCLIruntimeSQLPython": "NOT_RUN и исключены ACT.",
+    "compilerTestsCLIruntimeSQL": "NOT_RUN и исключены ACT; Python-проверки не запускались, один запрещённый Python-вызов для редактирования отчёта произошёл и отмечен как нарушение.",
     "N32ROOTAcceptance": "не пройдены; checkpoint source-only"
   },
   "fixtures": [
@@ -101,7 +101,14 @@
   "проверкиДоCommit": [
     "целевой статический source review по каждому из пяти изменённых исходников",
     "git diff --check",
-    "jq empty для двух планов"
+    "jq empty для двух планов",
+    "ошибочный Python-вызов для редактирования отчёта отражён в Журнале"
   ],
-  "статус": "исходники и fixtures подготовлены; compiler/tests/CLI/runtime/Python не запускались; source-only commit/delivery разрешены после точного diff/index и свежей авторской атрибуции"
+  "доставка": {
+    "локальныйКоммит": "b1b02dfd47679f3360ddef5d679060dee6c17343",
+    "parent": "16af2a2fb0c089da8300aa050f24b5b2617a3e3f",
+    "remoteRef": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+    "независимыйLsRemote": "b1b02dfd47679f3360ddef5d679060dee6c17343"
+  },
+  "статус": "source-only commit доставлен; Python-ограничение нарушено одним ошибочным вызовом для редактирования отчёта, зафиксировано; compiler/tests/CLI/runtime/SQL/Python проверки не запускались; Native и ROOT acceptance UNKNOWN"
 }
