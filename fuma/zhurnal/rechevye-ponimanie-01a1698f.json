@@ -1,0 +1,11 @@
+{
+  "схема": "fum.история-цели-понимания-речи.1",
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "владелецНаправления": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+  "основание": "f1e3a6dcb6866e717fa90494890e91d0b250d13a",
+  "переданныеФразыЧеловека": ["Mozhet nam i prostyikh priznakov okazhetsya dostatochno dlya ponimaniya rechi.", "A nam zhe yeyo glavnoye ponyatj.", "Nu ya dumayu kakoj-nibudj Whisper budem ispoljzovatj kak etalon.", "Ya yesjhyo khochu sravnivatj rezuljtat Whisper i nashego samopisnogo velosipeda."],
+  "источник": "Фразы и их рабочее уточнение переданы ROOT; ROOT JSONL исключён и не читался.",
+  "смысл": "Главное — понимание намерения, существенных объектов и параметров и потребности в уточнении; Whisper — сравниваемый распознаватель, независимый эталон сохраняется отдельно. Для каждого случая предусмотрен парный отчёт Whisper и простого тракта. Контекстная догадка не доказывает акустического распознавания.",
+  "источникиЭтапа": ["fuma/packages/rechevye-gipotezy/план.json", "fuma/packages/rechevye-gipotezy/контракт-акустических-гипотез.1.json", "fuma/zhurnal/rechevye-ponimanie-01a1698f.json"],
+  "проверки": {"схемаИплан": "статическое чтение; запуск NOT_RUN", "swiftИтесты": "NOT_RUN", "реальноеАудиоИмикрофон": "NOT_RUN", "весаИвнешняяСеть": "NOT_RUN", "benchmark": "NOT_RUN", "pythonИrootJSONL": "исключены / UNKNOWN", "профильN32ИфинальнаяПриёмка": "не выполнены"}
+}
