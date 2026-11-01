@@ -90,5 +90,72 @@
       "N32": "UNKNOWN; not granted",
       "rootAcceptance": "UNKNOWN"
     }
+  },
+  "sourceCheckpointC32": {
+    "base": "32fb87dd36c790b78c9135c84fd84a40a9d45af1",
+    "scope": "Три подтверждённые API/compiler ошибки в существующем UI source; не новый runtime и не изменение API/зависимостей.",
+    "source": {
+      "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/ЦиклОператора.swift",
+      "sha256": "7854215914fd3590941c7aadc8c46bc0676a910ce51d88ab90ab56abbaced664",
+      "changes": [
+        "удалитьНазад: исходныйТекст → исходногоТекста в чтении NSString",
+        "удалитьНазад/no-op: исходныйТекст → исходногоТекста в результате",
+        "создание адаптера: .привязкаQwertyV1 → АдаптерВводаОкна.привязкаQwertyV1"
+      ],
+      "compilerDiagnostics": [
+        "Недоступное имя исходныйТекст в удалитьНазад, первое использование.",
+        "Недоступное имя исходныйТекст в удалитьНазад, no-op ветвь.",
+        "ПривязкаРаскладкиKeyboard не объявляет привязкаQwertyV1; используется публичный статический член АдаптерВводаОкна."
+      ],
+      "apiEvidence": "ВводОкна.swift экспортирует АдаптерВводаОкна.привязкаQwertyV1 как alias существующей keyboardQwertyV1; импорт и локальная package dependency уже присутствуют."
+    },
+    "priorCompiler": {
+      "target": "successor compatibility compiler на C32",
+      "calls": "1/1",
+      "terminal": "exit 1",
+      "testExecution": "0",
+      "product": "не обнаружен в разрешённом инвентаре",
+      "afterCorrection": "NOT_RUN; неизвестную или неуспешную сборку не повторяли"
+    },
+    "custody": {
+      "latestDeclaredAliasPolicy": {
+        "status": "COMPLIANT_WITH_DECLARED_ALIAS",
+        "rawNoSymlinkOrSpecial": false
+      },
+      "olderInventory": "NONCOMPLIANT; сохранено без изменения",
+      "historicalC90Attribution": "UNKNOWN; не восстанавливать из RAW"
+    },
+    "review": {
+      "localDiff": "Статически сверены ровно три разрешённые замены в одном source path.",
+      "independentFullClosureReview": "PENDING",
+      "independentSweepCoverage": {
+        "status": "PARTIAL; full closure review remains PENDING",
+        "closure": "45 файлов установлены и хэшированы: 44 совпали с frozen Q, один source содержит три разрешённые замены.",
+        "swift": "Из 38 Swift файлов просмотрены imports, объявления и признаки рискованных мест; это не построчный аудит.",
+        "manifests": "3 manifest прочитаны целиком.",
+        "json": "7 JSON разобраны.",
+        "subjectReview": "Предметно рассмотрены ключевые API UI, keyboard и executor.",
+        "limits": [
+          "Полный построчный audit 723 КБ не проводился.",
+          "Прямой import UI остаётся предположением без compiler/runtime подтверждения.",
+          "Поведение no-op остаётся предположением без compiler/runtime подтверждения.",
+          "Обзоры source не гарантируют отсутствие других ошибок."
+        ]
+      }
+    },
+    "verification": {
+      "buildAfterCorrection": "NOT_RUN",
+      "tests": "NOT_RUN",
+      "gui": "NOT_RUN",
+      "runtime": "UNKNOWN; NOT_RUN",
+      "newCompilerGrant": "Ожидает отдельного Tools actor grant на новый C; прежний target исчерпан",
+      "N32": "UNKNOWN",
+      "pythonAndRootRaw": "UNKNOWN; excluded"
+    },
+    "delivery": {
+      "commit": "PENDING exact stage/metadata/RO authorization",
+      "push": "PENDING exact delivery authorization",
+      "rootAcceptance": "UNKNOWN"
+    }
   }
 }
