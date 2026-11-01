@@ -3973,3 +3973,353 @@ struct ПроверкиАтомарнойГраницыV4 {
         // Режим 000 и новые байты сохраняются как свидетельство, без восстановления или удаления.
     }
 }
+
+
+// V4 CLI: этот корпус проверяет тот же publisher; actual original main запускается отдельно по допуску.
+private struct СостояниеУзлаCLI_V4: Codable, Equatable {
+    let тип, режим, uid: UInt32
+    let устройство, inode, ссылки: UInt64
+    let байты: Data?
+}
+private func сохранитьСостояниеИИмёнаCLI_V4(_ корень: URL) throws -> [String: СостояниеУзлаCLI_V4] {
+    var итог: [String: СостояниеУзлаCLI_V4] = [:]
+    func посетить(_ путь: URL, ключ: String) throws {
+        try #require(итог.count < 512)
+        var s = stat()
+        try #require(lstat(путь.path, &s) == 0 && s.st_uid == geteuid())
+        let тип = s.st_mode & S_IFMT
+        try #require(тип == S_IFREG || тип == S_IFDIR)
+        let данные: Data?
+        if тип == S_IFREG {
+            try #require(s.st_size >= 0 && s.st_size <= 262_144)
+            данные = try Data(contentsOf: путь)
+        } else { данные = nil }
+        итог[ключ] = .init(тип: UInt32(тип), режим: UInt32(s.st_mode & 0o7777), uid: s.st_uid,
+            устройство: UInt64(s.st_dev), inode: UInt64(s.st_ino), ссылки: UInt64(s.st_nlink), байты: данные)
+        if тип == S_IFDIR {
+            let dir = try #require(opendir(путь.path))
+            defer { _ = closedir(dir) }
+            var прочитано = 0
+            while true {
+                errno = 0
+                guard let запись = readdir(dir) else { try #require(errno == 0); break }
+                прочитано += 1; try #require(прочитано <= 512)
+                var имя = запись.pointee.d_name
+                let raw = withUnsafeBytes(of: &имя) { Data($0.prefix { $0 != 0 }) }
+                if raw == Data([46]) || raw == Data([46, 46]) { continue }
+                let текст = try #require(String(data: raw, encoding: .utf8))
+                try #require(Data(текст.utf8) == raw)
+                try посетить(путь.appendingPathComponent(текст), ключ: ключ + "/" + raw.base64EncodedString())
+            }
+        }
+        var после = stat()
+        try #require(lstat(путь.path, &после) == 0
+            && s.st_dev == после.st_dev && s.st_ino == после.st_ino && s.st_mode == после.st_mode
+            && s.st_uid == после.st_uid && s.st_nlink == после.st_nlink && s.st_size == после.st_size
+            && s.st_mtimespec.tv_sec == после.st_mtimespec.tv_sec
+            && s.st_mtimespec.tv_nsec == после.st_mtimespec.tv_nsec
+            && s.st_ctimespec.tv_sec == после.st_ctimespec.tv_sec
+            && s.st_ctimespec.tv_nsec == после.st_ctimespec.tv_nsec)
+    }
+    try посетить(корень, ключ: ".")
+    return итог
+}
+private struct КандидатПубликацииCLI_V4: Sendable {
+    let ф: СинтетическийЯкорь
+    let выпуск: СинтетическийВыпускЯкоря
+    let план: Data
+    let файлПлана: URL
+    init(_ ф: СинтетическийЯкорь, _ выпуск: СинтетическийВыпускЯкоря, _ план: Data) throws {
+        self.ф = ф; self.выпуск = выпуск; self.план = план
+        файлПлана = ф.корень.appendingPathComponent("receipts/" + выпуск.операция + ".cli-plan.json")
+        try СинтетическийЯкорь.сохранить(план, файлПлана, права: 0o400)
+    }
+    var заголовок: КорневойДопускStopV4.Заголовок {
+        get throws {
+            try КорневойДопускStopV4.разобрать(КорневойДопускStopV4.Заголовок.self,
+                из: Data(contentsOf: ф.заголовок), предел: 32_768)
+        }
+    }
+    func argv(_ режим: String) -> [String] {
+        ["--опубликовать-допуск-v4", "--план", файлПлана.path,
+         "--план-sha256", СинтетическийЯкорь.хэш(план),
+         "--заголовок-sha256", ф.хэшЗаголовка, режим]
+    }
+    func внешняяПодписьВерна(_ данные: Data? = nil) throws {
+        let bytes = данные ?? выпуск.конверт
+        let pinned = try КорневойДопускStopV4.проверитьКонверт(bytes,
+            заголовок: заголовок, хэшЗаголовка: ф.хэшЗаголовка)
+        #expect(pinned.хэш == СинтетическийЯкорь.хэш(bytes))
+    }
+    func проверитьОбоимиAPIБезИзменений() throws {
+        try внешняяПодписьВерна()
+        let до = try сохранитьСостояниеИИмёнаCLI_V4(ф.корень)
+        let верхний = try КомандаStop.проверитьПубликациюV4(план,
+            ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка)
+        let нижний = try УстановщикStop.проверитьПубликациюV4(план,
+            ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка)
+        #expect(верхний == нижний)
+        #expect(try СинтетическийЯкорь.объект(нижний)["исход"] as? String == "ПРОВЕРЕНО_БЕЗ_ЗАПИСИ")
+        #expect(try сохранитьСостояниеИИмёнаCLI_V4(ф.корень) == до)
+    }
+    func отказCLIБезИзменений(_ args: [String]) throws {
+        let до = try сохранитьСостояниеИИмёнаCLI_V4(ф.корень)
+        #expect(УстановщикStop.команда(args) == 2)
+        #expect(try сохранитьСостояниеИИмёнаCLI_V4(ф.корень) == до)
+    }
+    func сохранитьЗапросActualCLI(_ метка: String) throws {
+        // Это DATA для будущего отдельного actual-main запуска, а не свидетельство его исполнения.
+        let bytes = try СинтетическийЯкорь.кодироватьОбъект([
+            "схема": "fum.synthetic-original-installer-cli-request.1", "метка": метка,
+            "статус": "ПОДГОТОВЛЕН_НЕ_ЗАПУЩЕН", "argvCheck": argv("--проверить"),
+            "argvApply": argv("--применить"), "планSHA256": СинтетическийЯкорь.хэш(план),
+            "заголовокSHA256": ф.хэшЗаголовка, "кореньФикстуры": ф.корень.path,
+            "expectedCheckSchema": "fum.stop-проверка-публикации.4",
+            "expectedCheckOutcome": "ПРОВЕРЕНО_БЕЗ_ЗАПИСИ", "expectedCheckExit": 0,
+            "expectedApplySchema": "fum.stop-терминал-публикации.4",
+            "expectedApplyOutcome": "ОПУБЛИКОВАНО", "expectedApplyExit": 0,
+            "expectedEnvelopeSHA256": выпуск.конвертSHA,
+            "originalMain": "iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift",
+            "oldCLI": "Тот же original main + fae installer: валидный V4 argv должен дать code2 без эффекта; RED фиксируется на неподдержанном action, не на плохом входе.",
+            "guardOracles": "После подготовки сохранить свежий полный baseline байтов и raw names. Check сохраняет snapshots/history/current/markers/claims/progress/intent/outcome; apply сверяет terminal и все опубликованные байты. Потерянный ответ UNKNOWN, без повторения."
+        ] as [String: Any])
+        try СинтетическийЯкорь.сохранить(bytes,
+            ф.корень.appendingPathComponent("original-cli-request.json"), права: 0o400)
+    }
+}
+private func новыйКандидатCLI_V4() throws -> КандидатПубликацииCLI_V4 {
+    let ф = try СинтетическийЯкорь.незапубликованнаяФикстура()
+    let выпуск = try СинтетическийВыпускЯкоря(ф)
+    return try .init(ф, выпуск, выпуск.сохранитьКандидат(ф, ожидаемый: nil))
+}
+private func следующийКандидатCLI_V4(исказитьПрогресс: Bool = false,
+    исказитьПрежнийClaim: Bool = false) throws -> КандидатПубликацииCLI_V4 {
+    let ф = try СинтетическийЯкорь.незапубликованнаяФикстура()
+    let нулевой = try СинтетическийВыпускЯкоря(ф)
+    let план0 = try нулевой.сохранитьКандидат(ф, ожидаемый: nil)
+    _ = try КомандаStop.опубликоватьДопускV4(план0, ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка)
+    let ответ = КомандаStop.выполнить(ф.аргументы, ввод: try ф.событие())
+    try #require(try СинтетическийЯкорь.ответБлокирует(ответ))
+    let claimPath = ф.захваты.appendingPathComponent(СинтетическийЯкорь.эпоха + ".0.claim")
+    var claim = try Data(contentsOf: claimPath)
+    if исказитьПрежнийClaim {
+        var объект = try СинтетическийЯкорь.объект(claim)
+        объект["пункт"] = "other-valid-token"
+        claim = try СинтетическийЯкорь.кодироватьОбъект(объект)
+        try FileManager.default.moveItem(at: claimPath,
+            to: ф.корень.appendingPathComponent("retained-valid-claim0.json"))
+        try СинтетическийЯкорь.сохранить(claim, claimPath, права: 0o400)
+    }
+    let old = try Data(contentsOf: ф.указатель)
+    let e = try СинтетическийЯкорь.объект(old)
+    let encoded = try #require(e["полезнаяНагрузкаBase64"] as? String)
+    let oldPayload = try СинтетическийЯкорь.объект(#require(Data(base64Encoded: encoded)))
+    let op = UUID().uuidString.lowercased()
+    let mutate: (inout [String: Any]) throws -> Void = { s in
+        s["редакция"] = 8
+        var n = try #require(s["наблюдения"] as? [String: Any])
+        n["следующаяРабота"] = "Следующий отдельный подписанный шаг для CLI"
+        s["наблюдения"] = n
+    }
+    let preview = try СинтетическийВыпускЯкоря(ф, публикация: 1, номер: 1,
+        операция: op, предыдущий: old, предыдущаяОперация: СинтетическийЯкорь.операция,
+        изменитьСнимок: mutate)
+    var progress = try ф.сохранитьПрогрессПослеClaim(claim, прежняяНагрузка: oldPayload, следующий: preview)
+    if исказитьПрогресс {
+        let имя = try #require(progress["путь"] as? String)
+        var объект = try СинтетическийЯкорь.объект(Data(contentsOf: ф.корень.appendingPathComponent("receipts/" + имя)))
+        объект["предыдущийЗахватSHA256"] = String(repeating: "a", count: 64)
+        let данные = try СинтетическийЯкорь.кодироватьОбъект(объект)
+        let новоеИмя = op + ".forged-progress.json"
+        try СинтетическийЯкорь.сохранить(данные, ф.корень.appendingPathComponent("receipts/" + новоеИмя), права: 0o400)
+        progress = ["путь": новоеИмя, "sha256": СинтетическийЯкорь.хэш(данные)]
+    }
+    let next = try СинтетическийВыпускЯкоря(ф, публикация: 1, номер: 1,
+        операция: op, предыдущий: old, предыдущаяОперация: СинтетическийЯкорь.операция,
+        прогресс: progress, изменитьСнимок: mutate)
+    try #require(next.проектSHA == preview.проектSHA && next.решениеSHA == preview.решениеSHA)
+    return try .init(ф, next, next.сохранитьКандидат(ф, ожидаемый: СинтетическийЯкорь.хэш(old)))
+}
+extension ПроверкиСтабильногоЯкоря {
+    @Test("CLI-V4-01: допустимый signed plan для meaningful oldCLI RED и actual newCLI check/apply")
+    func подготовитьДопустимыйПланДляOriginalCLI_V4() throws {
+        let к = try новыйКандидатCLI_V4()
+        try к.проверитьОбоимиAPIБезИзменений()
+        try к.сохранитьЗапросActualCLI("CLI-V4-01-valid-genesis")
+    }
+    @Test("CLI-V4-02: существующий dispatcher делает check без изменений и apply тем же publisher")
+    func диспетчерПубликуетV4ИПроверкаСохраняетИмёна() throws {
+        let к = try новыйКандидатCLI_V4()
+        try к.проверитьОбоимиAPIБезИзменений()
+        let до = try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень)
+        #expect(УстановщикStop.команда(к.argv("--проверить")) == 0)
+        #expect(try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень) == до)
+        #expect(УстановщикStop.команда(к.argv("--применить")) == 0)
+        #expect(try Data(contentsOf: к.ф.указатель) == к.выпуск.конверт)
+        #expect(try Data(contentsOf: к.ф.корень.appendingPathComponent("adoptions/0.допуск.json")) == к.выпуск.конверт)
+        #expect(try Data(contentsOf: к.ф.корень.appendingPathComponent("adoptions/0.завершение.json")) == к.выпуск.маркер)
+        #expect(try СинтетическийЯкорь.объект(Data(contentsOf: к.ф.путьИсхода(к.выпуск)))["исход"] as? String == "ПОДГОТОВЛЕННЫЙ_ИСХОД")
+        let после = try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень)
+        #expect(СинтетическийЯкорь.отказ { _ = try КомандаStop.опубликоватьДопускV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка) })
+        #expect(try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень) == после)
+    }
+    @Test("CLI-V4-03: верхний API и lower CLI используют один закреплённый замок, без запасного lock")
+    func одинЗамокДляAPIИCLI_V4() throws {
+        let к = try новыйКандидатCLI_V4()
+        try к.проверитьОбоимиAPIБезИзменений()
+        let h = try к.заголовок
+        try ЗамокТекущегоStop.выполнить(h.замок) { check in
+            try check()
+            try к.отказCLIБезИзменений(к.argv("--проверить"))
+            try к.отказCLIБезИзменений(к.argv("--применить"))
+            #expect(СинтетическийЯкорь.отказ { _ = try КомандаStop.проверитьПубликациюV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка) })
+            #expect(СинтетическийЯкорь.отказ { _ = try КомандаStop.опубликоватьДопускV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка) })
+            try check()
+        }
+        try к.проверитьОбоимиAPIБезИзменений()
+    }
+    @Test("CLI-V4-04: expected-old и current повторно проверяются после check, победитель не перезаписывается")
+    func дрейфУказателяПослеCheckCLI_V4() throws {
+        let ф = try СинтетическийЯкорь.незапубликованнаяФикстура()
+        let zero = try СинтетическийВыпускЯкоря(ф)
+        _ = try УстановщикStop.опубликоватьДопускV4(zero.сохранитьКандидат(ф, ожидаемый: nil), ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка)
+        let old = try Data(contentsOf: ф.указатель)
+        let a = try СинтетическийВыпускЯкоря(ф, публикация: 1, операция: UUID().uuidString.lowercased(), предыдущий: old)
+        let к = try КандидатПубликацииCLI_V4(ф, a, a.сохранитьКандидат(ф, ожидаемый: СинтетическийЯкорь.хэш(old)))
+        try к.проверитьОбоимиAPIБезИзменений()
+        let b = try СинтетическийВыпускЯкоря(ф, публикация: 1, операция: UUID().uuidString.lowercased(), предыдущий: old)
+        _ = try КомандаStop.опубликоватьДопускV4(b.сохранитьКандидат(ф, ожидаемый: СинтетическийЯкорь.хэш(old)), ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка)
+        try к.внешняяПодписьВерна()
+        try к.отказCLIБезИзменений(к.argv("--применить"))
+        #expect(try Data(contentsOf: ф.указатель) == b.конверт)
+    }
+    @Test("CLI-V4-05: valid signature не маскирует snapshot guard или текущий Git HEAD")
+    func snapshotИGitСВалиднойПодписьюОтвергаютсяCLI_V4() throws {
+        let ф = try СинтетическийЯкорь.незапубликованнаяФикстура()
+        let выпуск = try СинтетическийВыпускЯкоря(ф, изменитьСнимок: { s in
+            var n = try #require(s["наблюдения"] as? [String: Any])
+            var условия = try #require(n["условия"] as? [String: Any])
+            условия["остановкаЗадачи"] = true; n["условия"] = условия; s["наблюдения"] = n
+        })
+        let плохойСнимок = try КандидатПубликацииCLI_V4(ф, выпуск, выпуск.сохранитьКандидат(ф, ожидаемый: nil))
+        try плохойСнимок.внешняяПодписьВерна()
+        var snapshotGuard = false
+        do { _ = try УстановщикStop.проверитьПубликациюV4(плохойСнимок.план, ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка) }
+        catch { snapshotGuard = String(describing: error) == "снимок" }
+        try #require(snapshotGuard)
+        try плохойСнимок.отказCLIБезИзменений(плохойСнимок.argv("--применить"))
+        let к = try новыйКандидатCLI_V4()
+        try к.проверитьОбоимиAPIБезИзменений()
+        let ref = к.ф.корень.appendingPathComponent("common/refs/heads/fum-lab/fum/master")
+        try СинтетическийЯкорь.сохранить(Data(contentsOf: ref), к.ф.корень.appendingPathComponent("retained-head-before-cli-drift.raw"), права: 0o400)
+        try Data((String(repeating: "b", count: 40) + "\n").utf8).write(to: ref)
+        try к.внешняяПодписьВерна()
+        var gitGuard = false
+        do { _ = try УстановщикStop.проверитьПубликациюV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка) }
+        catch { gitGuard = String(describing: error) == "привязкаGit" }
+        try #require(gitGuard)
+        try к.отказCLIБезИзменений(к.argv("--применить"))
+    }
+    @Test("CLI-V4-06: signed history достигает guard номера записи, без маскировки подписью")
+    func подписаннаяИсторияНеверногоНомераCLI_V4() throws {
+        let ф = try СинтетическийЯкорь.незапубликованнаяФикстура()
+        let zero = try СинтетическийВыпускЯкоря(ф)
+        _ = try КомандаStop.опубликоватьДопускV4(zero.сохранитьКандидат(ф, ожидаемый: nil), ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка)
+        let next = try СинтетическийВыпускЯкоря(ф, публикация: 1, операция: UUID().uuidString.lowercased(), предыдущий: zero.конверт)
+        let к = try КандидатПубликацииCLI_V4(ф, next, next.сохранитьКандидат(ф, ожидаемый: zero.конвертSHA))
+        try к.проверитьОбоимиAPIБезИзменений()
+        try к.внешняяПодписьВерна(next.конверт)
+        let history = ф.корень.appendingPathComponent("adoptions/0.допуск.json")
+        try FileManager.default.moveItem(at: history, to: ф.корень.appendingPathComponent("retained-valid-record0.json"))
+        try СинтетическийЯкорь.сохранить(next.конверт, history, права: 0o400)
+        var chainGuard = false
+        do { _ = try УстановщикStop.проверитьПубликациюV4(к.план, ожидаемыйЗаголовокSHA256: ф.хэшЗаголовка) }
+        catch КорневойДопускStopV4.Отказ.цепь { chainGuard = true }
+        try #require(chainGuard)
+        try к.отказCLIБезИзменений(к.argv("--применить"))
+    }
+    @Test("CLI-V4-07: полный prior claim и progress отвергаются после всех внешних signed bindings")
+    func прогрессИПолныйПрежнийClaimCLI_V4() throws {
+        for badClaim in [false, true] {
+            let к = try следующийКандидатCLI_V4(исказитьПрогресс: !badClaim, исказитьПрежнийClaim: badClaim)
+            try к.внешняяПодписьВерна()
+            let до = try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень)
+            var upper = false, lower = false
+            do { _ = try КомандаStop.проверитьПубликациюV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка) }
+            catch КонечноеПродолжениеStop.Отказ.прогресс { upper = true }
+            do { _ = try УстановщикStop.проверитьПубликациюV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка) }
+            catch КорневойДопускStopV4.ОтказПродолженияПубликации.прогресс { lower = true }
+            try #require(upper && lower)
+            #expect(try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень) == до)
+            try к.отказCLIБезИзменений(к.argv("--применить"))
+        }
+        let к = try следующийКандидатCLI_V4()
+        try к.проверитьОбоимиAPIБезИзменений()
+        let имя = try #require(СинтетическийЯкорь.объект(к.выпуск.нагрузка)["прогресс"] as? [String: Any])
+        let path = к.ф.корень.appendingPathComponent("receipts/" + (try #require(имя["путь"] as? String)))
+        let bytes = try Data(contentsOf: path)
+        try FileManager.default.moveItem(at: path, to: к.ф.корень.appendingPathComponent("retained-progress-before-cli-drift.json"))
+        var changed = try СинтетическийЯкорь.объект(bytes)
+        changed["исход"] = "другой-исход"
+        try СинтетическийЯкорь.сохранить(СинтетическийЯкорь.кодироватьОбъект(changed), path, права: 0o400)
+        try к.внешняяПодписьВерна()
+        try к.отказCLIБезИзменений(к.argv("--применить"))
+    }
+    @Test("CLI-V4-08: lease после check повторно проверяется apply, без intent")
+    func истечениеLeaseМеждуCheckИApplyCLI_V4() async throws {
+        let ф = try СинтетическийЯкорь.незапубликованнаяФикстура()
+        let expiry = Int64(Date().timeIntervalSince1970) + 3
+        let выпуск = try СинтетическийВыпускЯкоря(ф, изменитьНагрузку: { $0["действуетДо"] = expiry })
+        let к = try КандидатПубликацииCLI_V4(ф, выпуск, выпуск.сохранитьКандидат(ф, ожидаемый: nil))
+        try к.проверитьОбоимиAPIБезИзменений()
+        let now = Date().timeIntervalSince1970
+        let remaining = Double(expiry) + 1.05 - now
+        try #require(remaining > 0 && remaining <= 4.1)
+        try await Task.sleep(nanoseconds: UInt64(remaining * 1_000_000_000))
+        try #require(Int64(Date().timeIntervalSince1970) > expiry)
+        try к.внешняяПодписьВерна() // Подпись valid; freshness намеренно проверяет publisher.
+        try к.отказCLIБезИзменений(к.argv("--применить"))
+    }
+    @Test("CLI-V4-09: plan/header SHA, closed parser и перестановка пар без legacy fallback")
+    func точныеАргументыИЗакреплениеПланаCLI_V4() throws {
+        let к = try новыйКандидатCLI_V4()
+        try к.проверитьОбоимиAPIБезИзменений()
+        let good = к.argv("--проверить")
+        var hash = good; hash[4] = String(repeating: "f", count: 64)
+        var header = good; header[6] = String(repeating: "f", count: 64)
+        var duplicate = good; duplicate[5] = "--план-sha256"
+        var mixed = good; mixed[3] = "--хэш-плана"
+        for args in [hash, header, duplicate, mixed, Array(good.dropLast()), good + ["--проверить"]] {
+            try к.отказCLIБезИзменений(args)
+        }
+        let reordered = [good[0], good[5], good[6], good[1], good[2], good[3], good[4], good[7]]
+        let до = try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень)
+        #expect(УстановщикStop.команда(reordered) == 0)
+        #expect(try сохранитьСостояниеИИмёнаCLI_V4(к.ф.корень) == до)
+    }
+    @Test("CLI-V4-10: late error сохраняет старый верхний тип и все три поля нижнего отказа")
+    func поздняяОшибкаСовместимаПослеПереносаCLI_V4() throws {
+        for upper in [false, true] {
+            let к = try новыйКандидатCLI_V4()
+            let точки = КорневойДопускStopV4.ТочкиПубликации(событие: {
+                if $0 == "допуск-после-readback" { throw ОтказПубликационнойПробыV4.намеренный }
+            })
+            var поля: [String: Any]?
+            do {
+                if upper { _ = try КомандаStop.опубликоватьДопускV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка, точки: точки) }
+                else { _ = try УстановщикStop.опубликоватьДопускV4(к.план, ожидаемыйЗаголовокSHA256: к.ф.хэшЗаголовка, точки: точки) }
+                Issue.record("Инъекция должна дать late refusal")
+            } catch let e as ОтказПубликацииStopV4 where upper {
+                поля = ["фаза": e.фаза, "возможенЭффект": e.возможенЭффект, "исходКвитанции": e.исходКвитанции]
+            } catch let e as КорневойДопускStopV4.ОтказПубликации where !upper {
+                поля = ["фаза": e.фаза, "возможенЭффект": e.возможенЭффект, "исходКвитанции": e.исходКвитанции]
+            }
+            let p = try #require(поля)
+            #expect(p["фаза"] as? String == "допуск-после-readback")
+            #expect(p["возможенЭффект"] as? Bool == true)
+            #expect(p["исходКвитанции"] as? String == "UNKNOWN_СОХРАНЁН")
+            #expect(СинтетическийЯкорь.отсутствует(к.ф.указатель))
+            #expect(try СинтетическийЯкорь.объект(Data(contentsOf: к.ф.путьИсхода(к.выпуск)))["исход"] as? String == "UNKNOWN")
+        }
+    }
+}

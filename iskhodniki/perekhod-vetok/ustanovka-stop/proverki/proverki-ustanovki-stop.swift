@@ -760,3 +760,33 @@ struct ПроверкиАтомарнойГраницыV4 {
         // Режим 000 и новые байты сохраняются как свидетельство, без восстановления или удаления.
     }
 }
+
+
+@Suite("V4: closed dispatcher argv и прежние действия", .serialized)
+struct ПроверкиАргументовПубликацииCLI_V4 {
+    @Test("CLI-V4-11: неверные аргументы дают exit2 без записей; фактические чтения UNKNOWN")
+    func неверныеАргументыОтклоняютсяБезЗаписей() throws {
+        let parent = try #require(ProcessInfo.processInfo.environment["ФУМ_СВИДЕТЕЛЬСТВА_ЯКОРЯ"])
+        var s = stat()
+        try #require(lstat(parent, &s) == 0 && s.st_mode & S_IFMT == S_IFDIR
+            && s.st_mode & 0o7777 == 0o700 && s.st_uid == geteuid())
+        let root = parent + "/cli-argv-" + UUID().uuidString.lowercased()
+        try #require(mkdir(root, 0o700) == 0)
+        let plan = root + "/absent-plan.json", sha = String(repeating: "a", count: 64)
+        let good = ["--опубликовать-допуск-v4", "--план", plan,
+            "--план-sha256", sha, "--заголовок-sha256", sha, "--проверить"]
+        var duplicate = good; duplicate[5] = "--план-sha256"
+        var oldHash = good; oldHash[3] = "--хэш-плана"
+        var relative = good; relative[2] = "relative-plan.json"
+        var uppercase = good; uppercase[4] = String(repeating: "A", count: 64)
+        var nul = good; nul[2] = plan + String(UnicodeScalar(0)!)
+        var wrongMode = good; wrongMode[7] = "--активировать"
+        var missingValue = good; missingValue[2] = "--план-sha256"
+        for args in [duplicate, oldHash, relative, uppercase, nul, wrongMode, missingValue,
+            Array(good.dropLast()), good + ["--применить"], [good[0]]] {
+            #expect(УстановщикStop.команда(args) == 2)
+            #expect(try FileManager.default.contentsOfDirectory(atPath: root).isEmpty)
+        }
+        // Собственная пустая fixture остаётся свидетельством; actual CLI проверяется отдельным процессом.
+    }
+}
