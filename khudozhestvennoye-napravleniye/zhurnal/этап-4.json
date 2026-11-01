@@ -68,7 +68,13 @@
     "Отмена временного LEAP при потере фокуса оформлена как предлагаемая политика первого среза для подтверждения FUMA, а не как выполненная реализация.",
     "Добавлен ограниченный последующий desktop-срез: исходное CapsLock flagsChanged сохраняется и запускает одну команду преобразования явного кода абзаца по закреплённому Keyboard/LinguisticKit источнику.",
     "Добавлены три новые фикстуры после исходных семи: золотой ru → Cyrl образец с ё и многосимвольными сочетаниями, NONE/NO_OP без кода и явный конфликт устаревшей ревизии; исходные семь сценариев сохранены.",
-    "Мобильное графическое направление оставлено будущим после первого desktop typing run; реализации и проектирования мобильного UI не выполнялись."
+    "Мобильное графическое направление оставлено будущим после первого desktop typing run; реализации и проектирования мобильного UI не выполнялись.",
+    "Снимок сценариев по поставкам: исходная поставка 263b32e9 содержала 7; после CapsLock-коммита 83e0ae622 содержала 10; после пары LEAP-коммита 08a54a64 содержит 12. Десять прежних сценариев перед 08a оставлены байтово неизменными.",
+    "Пара 08a54a64 для одинакового x cat!, rev3 различает отмену активного LEAP по потере фокуса и фиксацию совпадения; обе фикстуры ожидают сохранение текста и пунктуации, runtime не утверждается.",
+    "Повторный разбор 08a54a64 выявил ручной вызов git commit без typed GIT_AUTHOR_NAME/общего форматера; фактический author и committer FUM <fum@local>. Связь сохранённого row с commit UNKNOWN; историю не переписываем.",
+    "Граница уточнена: LEAP является функцией редактора FUMA; Arts отвечает за визуальную обратную связь/представление, а сценарии остаются входом FUMA. Альтернативная authoritative editor/runtime модель не создаётся.",
+    "Для 08a54a64 известный вызов был ручным `git commit -m ...`; typed GIT_AUTHOR_NAME/common formatter не потреблены. Native argv/tool ordinal/selected file/actual env в сохранённом диагнозе UNAVAILABLE; не выдумываются.",
+    "Одно разрешённое ownhost RO capture завершилось MATCH: собственный top/nested UUID совпал, turn/model/effort и время получены без full envelope; приватный результат сохранён отдельно. SQL=0, backend/history/fullN32=UNKNOWN."
   ],
   "проверки": [
     {
@@ -128,6 +134,20 @@
     {
       "проверка": "Промежуточная сборка сценарного JSON",
       "исход": "ошибка JSONDecodeError на этапе in-memory сборки до записи файла; сценарии пересобраны от HEAD, первые семь оставлены исходными; последующий разбор всех четырёх файлов завершился успешно"
+    },
+    {
+      "проверка": "Независимый ROOT RO-review сценариев и author/committer 08a54a64",
+      "происхождение": "Сообщение ROOT от 2026-11-01; собственный широкий review не выполнялся.",
+      "исход": "ROOT сообщил: первые 10 сценариев неизменны, пара x cat! rev3 корректна, runtime claim отсутствует; raw author/committer — FUM <fum@local>. ROOT сообщил о передаче дефекта Tools."
+    },
+    {
+      "проверка": "Сохранённый ROOT DATA diagnosis фактического consumer для 08a54a64",
+      "источник": "arts-08a54-diagnosis-and-existing-consumer-checkpoint-v1.json; SHA-256 63d0c278bcfd8ffe74f5040e0301f2b3e1a8a360070e81db67fe48fc88c969b6; private path не копируется в репозиторий.",
+      "исход": "Author и committer FUM; message 149 bytes SHA e866… содержит title и ROOT trailer без `Исходный запрос:`. Query receipt не передал typed env/message в последующий ручной Git вызов. Current own model/effort/backend/history UNKNOWN."
+    },
+    {
+      "проверка": "Один адресный mcp__node_repl__js capture по scope v2",
+      "исход": "MATCH; top/nested own UUID совпали; текущие turn/model/effort захвачены по разрешённым полям и сохранены только в приватном outcome pin SHA-256 1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441. capturedAtUTC=2026-11-01T18:51:00.303Z. SQL=0; backend/history/fullN32=UNKNOWN."
     }
   ],
   "доставка": {
@@ -137,13 +157,107 @@
     "remote-readback": "Независимый git ls-remote origin показал OID 263b32e9a032b33550805346798712f0e8911019 для refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/master.",
     "передача-FUMA": "Source-only пакет передан в существующий чат технического владельца FUMA 01a1698f-bb98-7691-b1c1-31ec737ed070 с точными путями, содержательным коммитом 263b32e9a032b33550805346798712f0e8911019 и коммитом квитанции 4f77eef8eceeb508a42941af615bb5c8f35b739c. Отдельно туда передано новое требование о минимальном typing run; ответ и приёмка не получены.",
     "приёмка-FUMA": "не подтверждена",
-    "реализация-и-runtime": "не подтверждены"
+    "реализация-и-runtime": "не подтверждены",
+    "последняя-сценарная-поставка": {
+      "коммит": "08a54a64b8cb37045e44b4103892e65588b12b28",
+      "родитель": "4aecfcae59d6f8a84a40dff1ad49b3070e2dff24",
+      "дата-author-committer": "2026-11-01T22:29:02+04:00",
+      "команда-создания": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
+      "известный-вывод": "[fum-lab/fum/khudozhestvennoye-napravleniye/master 08a54a64b] Добавить парный сценарий сохранения пунктуации LEAP",
+      "typed-author-environment": "Visible command did not pass a per-call typed GIT_AUTHOR_NAME overlay and did not call common formatter; effective inherited environment at commit time is UNKNOWN.",
+      "author": "FUM <fum@local>",
+      "committer": "FUM <fum@local>",
+      "push-и-remote-readback": "Успешны; независимый ROOT RO-review это подтвердил."
+    },
+    "атрибуция-row-08a": {
+      "model-effort": "UNKNOWN",
+      "сохранённая-строка-конфигурации-другой-source-scope": "Не применяется к 08a; связь с этим commit UNKNOWN.",
+      "backend-и-history": "UNKNOWN",
+      "коррекция-истории": "Не выполняется."
+    },
+    "подготовленная-коррекция-плана-и-журнала": {
+      "состояние": "formatted-message MATCH; commit pending identity guard and raw readback",
+      "область": [
+        "существующие план-этапа-4.json",
+        "существующий zhurnal/этап-4.json"
+      ],
+      "append-only": true,
+      "условие-снятия-HOLD": "Снять HOLD после same-overlay AUTHOR_IDENT/COMMITTER_IDENT guards, единственного commit через тот же --file и raw readback.",
+      "typed-message": "Только --file из согласованного source; ручной -m не использовать для typed message.",
+      "committer": "Сохранить существующие данные committer; менять только GIT_AUTHOR_NAME по проверенному common route.",
+      "последнее-состояние": "HOLD_UNAVAILABLE_3KEY_PLAN; отсутствие own context больше не является причиной."
+    },
+    "source-only-приём-ROOT-08a54a64": {
+      "происхождение": "Сообщение ROOT от 2026-11-01; точное время сообщения не указано.",
+      "состояние": "принят и интегрирован в refs/heads/fum-lab/fum/master; это не runtime/GUI приёмка.",
+      "коммит": "ef01a326a54b6694e7b0f11a606b0e51909626ed",
+      "родители": [
+        "baaa6332479ae01147c5f01e9f836b53aa7681ec",
+        "08a54a64b8cb37045e44b4103892e65588b12b28"
+      ],
+      "дерево": "fb5bfb1fa2afd4f68866c1a2c3be4cb1b26afd33",
+      "ROOT-reported-readback": "Ровно четыре JSON; pins/raw/tree/parents и canonical author/message проверены; ordinary exact push и независимый remote MATCH.",
+      "runtime-tests-GUI": "NOT_RUN",
+      "historical-author": "FUM <fum@local>; model/effort UNKNOWN, без задней атрибуции."
+    },
+    "граница-LEAP-Arts-уточнена": {
+      "источник": "Пользовательское уточнение, переданное ROOT 2026-11-01; точное время не указано.",
+      "точная-фраза": "Pochemu LEAP — eto khudozhestvennoye napravleniye?",
+      "ответственность": "LEAP behavior/semantics/implementation/acceptance принадлежат FUMA; Arts — visual feedback/presentation; fixtures remain useful input for FUMA."
+    },
+    "caller-08a54-диагноз": {
+      "сохранённый-вызов": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
+      "сохранённый-вывод": "[fum-lab/fum/khudozhestvennoye-napravleniye/master 08a54a64b] Добавить парный сценарий сохранения пунктуации LEAP",
+      "native-argv-tool-ordinal-selected-file-env": "UNAVAILABLE per saved diagnosis; exact command snippet above is available in task tool context, but separate immutable invocation receipt was not saved.",
+      "причина": "Visible direct git commit invocation omitted a per-call GIT_AUTHOR_NAME overlay and bypassed the common formatter. Effective inherited environment is not saved; raw FUM author alone cannot distinguish absent overlay from later replacement. The formatter message was not consumed.",
+      "диагноз-source-sha256": "63d0c278bcfd8ffe74f5040e0301f2b3e1a8a360070e81db67fe48fc88c969b6",
+      "source-message": "149 bytes, SHA e866…; no Исходный запрос: block; common full message output not consumed.",
+      "historical-own-row": "Другой source scope; к 08a54 и текущему контексту не применять.",
+      "следующий-caller": "Current own source/UUID/turn or HOLD → approved3key literal plan → existing formatter → canonical typed env + pinned exact message file → AUTHOR_IDENT overlay and COMMITTER_IDENT baseline in same overlay/baseline → one --file with same env → raw author/message/tree/parent before push → exact push/readback.",
+      "status": "HOLD; new SQL, Root model, default FUM fallback, historical rewriting prohibited.",
+      "effective-environment": "UNKNOWN; no full execution environment snapshot."
+    },
+    "pins-message-raw-08a54": {
+      "source-diagnosis-sha256": "63d0c278bcfd8ffe74f5040e0301f2b3e1a8a360070e81db67fe48fc88c969b6",
+      "raw-bytes": 327,
+      "raw-sha256": "c35e1139bdec200e9efb78366999092e604083142e7bbedf5fbee565337e0374",
+      "message-bytes": 149,
+      "message-sha256": "e866de4bfbdabee8bf678ab5c3c9b228bdaa046f39a02aed4409bfa34bf827d4",
+      "exact-message": "Добавить парный сценарий сохранения пунктуации LEAP\n\nCodex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb\n",
+      "Исходный-запрос-marker": "отсутствует; common formatter output не потреблён",
+      "tool-ordinal-native-argv-selected-file-actual-env": "UNAVAILABLE в saved diagnosis. В task tool context виден direct `git commit -m` вызов без --file/per-call typed environment; полный inherited environment не сохранён."
+    },
+    "собственный-текущий-контекст-6-полей": {
+      "source": "mcp__node_repl__js / host requestMeta согласно scope v2 ae5bc6e614cb0bf1a0136cbedcb41e8df2027b000656c9cd69f53da6d0e512a9",
+      "own-thread-UUID": "MATCH",
+      "turn-model-effort": "сохранены только в приватном outcome pin 1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
+      "capturedAtUTC": "2026-11-01T18:51:00.303Z",
+      "known-limits": "backend/history/fullN32 UNKNOWN; no full envelope; SQL=0"
+    },
+    "private-ownhost-capture-outcome": {
+      "state": "MATCH",
+      "sha256": "1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
+      "bytes": 1268,
+      "mode": "0600",
+      "ownerUID": 501,
+      "nlink": 1,
+      "location": "отдельная private actor-owned area; абсолютный путь не экспортируется в репозиторий"
+    },
+    "literal-3key-message-plan-для-этого-checkpoint": {
+      "state": "HOLD_UNAVAILABLE",
+      "title": "UNKNOWN",
+      "description": "UNKNOWN",
+      "originalRequest": "UNKNOWN",
+      "причина": "Разрешённая область содержит только 2-path checkpoint и capture scope; approved literal 3-key plan/source и pinned formatter output не найдены в доступных входах. Не выдумывать и не подменять ROOT пересказом."
+    }
   },
   "остаток": [
     "Получить ответ владельца FUMA о применимости модели и учёте минимального наборного среза; передача состоялась, приёмка неизвестна.",
     "Получить адресную проверку семантики обычного выделения, одновременных LEAP и key-equivalent маршрутизации; дальнейшую корректировку вести добавочно с новым событием происхождения.",
     "Проверка и реализация FUMA не подтверждены этой source-only поставкой.",
     "FUMA совместно с Tools подтверждает точный desktop input path, однократную привязку flagsChanged/CapsLock и видимое применение through FUMA operators → Metal → present; source fixture этого не доказывает.",
-    "Мобильный интерфейс на базе Keyboard остаётся после первого desktop typing run; отдельное поручение/допуск потребуется перед реализацией."
+    "Мобильный интерфейс на базе Keyboard остаётся после первого desktop typing run; отдельное поручение/допуск потребуется перед реализацией.",
+    "Актуальный собственный native-context source для model/effort не установлен; подготовленный correction commit остаётся HOLD. Не повторять SQL, не использовать FUM fallback или модель ROOT; message --file и GIT_AUTHOR_NAME формировать только общим согласованным маршрутом после появления source.",
+    "После source-only коррекции плана/журнала завершить один commit через утверждённый common formatter message file с typed author overlay, raw readback, затем exact push и независимый remote readback; runtime/tests/GUI/full N32 остаются UNKNOWN или NOT_RUN."
   ]
 }
