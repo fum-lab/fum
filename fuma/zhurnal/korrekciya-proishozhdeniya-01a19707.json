@@ -1,0 +1,26 @@
+{
+  "схема": "fuma.коррекция-происхождения-коммита.1",
+  "идентификаторЗадачи": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "идентификаторПисателя": "01a19707-1f2f-74f2-b89b-10de56785c10",
+  "исправляемыйКоммит": "cee3b8f90b68e89fb87f7ef32eef663e8ed9408a",
+  "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master",
+  "исход": "Readback raw commit показал отсутствие Codex-Thread-ID trailer. Этот add-only документ фиксирует происхождение без изменения или переписывания исходного коммита.",
+  "результатИсходногоКоммита": {
+    "дерево": "9fcced53457f6bd25ee26043a838b9ba02cdf709",
+    "родитель": "401316c6d1f491fdd454844541571d544a199ace",
+    "автор": "FUM Codex [gpt-6-luna; effort=low] <fum@local>",
+    "коммиттер": "FUM <fum@local>",
+    "состав": [
+      "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/cikl-nablyudenij-sostoyaniya.swift",
+      "Приложения/FUMA/Packages/КомпозицияНаблюдений/Tests/КомпозицияНаблюденийTests/proverki-fazy-normalizacii-kornej.swift",
+      "fuma/zhurnal/normalizaciya-api-zavisimost-01a19707.json"
+    ]
+  },
+  "непроверено": [
+    "Swift compile/build/tests",
+    "Runtime execution or live apply",
+    "Trusted Tools API, source commit, schema and digest",
+    "Ordinary cycle wiring and production activation",
+    "ROOT acceptance and integration"
+  ]
+}
