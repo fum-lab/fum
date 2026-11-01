@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+@testable import АктуализацияПутей
 
 @Suite("Команда чтения одного имени")
 struct ПроверкиКомандыОдногоИмени {
