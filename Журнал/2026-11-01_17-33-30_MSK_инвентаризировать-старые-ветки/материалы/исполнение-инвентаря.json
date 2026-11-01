@@ -1,6 +1,6 @@
 {
   "schema": "fum.old-branches-inventory-run.v2",
-  "recordedUTC": "2026-11-01T15:34:34Z",
+  "recordedUTC": "2026-11-01T15:36:28Z",
   "rootThreadUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "executorUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
   "inputSnapshot": {
@@ -206,7 +206,7 @@
     ],
     "absolutePathScan": "SUCCESS; no /Users/ match in registry; duration not measured"
   },
-  "sideEffects": "one generated registry v3 and task-owned source/docs/material edits in this worktree; no fetch, foreign ref/index/config writes, ROOT write, merge, or publication performed in this stage",
+  "sideEffects": "one generated registry v3 and task-owned source/docs/material edits; exact own-branch commit pushed and independently read back; no fetch, foreign ref/index/config writes, ROOT write, merge, or pull request",
   "preCommit": {
     "head": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
     "ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
@@ -217,9 +217,9 @@
       "method": "SHA-256 of normalized LF text before the final marker block",
       "contentSHA256": {
         "integraciya/План.md": "002ac19ecb6c121b84d1b40c3f253fb998917f1efc3c12d6d8a5693c30d23c44",
-        "integraciya/Состояние.md": "60ba1062ee888519a2be5c1b4c80638b21a1e69223b648bd4babb078fd53a743",
+        "integraciya/Состояние.md": "99ce3fd7245f50a9012bdca436afe1647d699d6632b9cdc63beddd087e5388e2",
         "Журнал/2026-11-01_17-33-30_MSK_инвентаризировать-старые-ветки/запрос.md": "b50ee763908196779e413726ef58b6f0237ce00ad820b19071b33ab198012efa",
-        "Журнал/2026-11-01_17-33-30_MSK_инвентаризировать-старые-ветки/отчёт.md": "163734a7aa752d691049d03512a7f1682b878fdaa77580d168b4faed39f88c76"
+        "Журнал/2026-11-01_17-33-30_MSK_инвентаризировать-старые-ветки/отчёт.md": "54df73e6c3b99fd5d5456d333bac410a81039dfda1fd453e7202e6da76b175bc"
       }
     },
     "gitDiffChecks": "PASS; git diff --check and git diff --cached --check returned exit 0",
@@ -227,5 +227,22 @@
     "exactStageScope": "PASS; exactly eight task-owned paths staged and no unstaged paths",
     "registryReadback": "PASS; schema v3, 366 rows, two outcomes, two dispositions, three suggested candidates, no /Users/ path",
     "authorIdentityCheck": "PASS; GIT_AUTHOR_NAME override changes author while committer remains FUM <fum@local>"
+  },
+  "delivery": {
+    "schema": "fum.branch-delivery.v1",
+    "commit": "0cad00efcc58a5ec73ddec7bbe6eb1f9935e7736",
+    "tree": "b8b2f6d46ec03248e37118b326f6581ec3c35338",
+    "parents": [
+      "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+    ],
+    "ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
+    "origin": "https://github.com/fum-lab/fum.git",
+    "pushExitCode": 0,
+    "independentLsRemoteOID": "0cad00efcc58a5ec73ddec7bbe6eb1f9935e7736",
+    "author": "FUM Codex [gpt-6-luna; effort=xhigh] <fum@local>",
+    "committer": "FUM <fum@local>",
+    "rootAcceptance": "NOT_GRANTED",
+    "pullRequest": "NOT_CREATED",
+    "primaryMaster": "UNCHANGED"
   }
 }
