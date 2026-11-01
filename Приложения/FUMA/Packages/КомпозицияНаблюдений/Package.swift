@@ -14,7 +14,8 @@ let package = Package(
     dependencies: [
         .package(path: "../КонтейнерНаблюдений"),
         .package(path: "../Git"),
-        .package(path: "../АрхивныйСнимокЗадачи")
+        .package(path: "../АрхивныйСнимокЗадачи"),
+        .package(path: "../СнимокАгентскойЗадачи")
     ],
     targets: [
         .target(
@@ -22,12 +23,16 @@ let package = Package(
             dependencies: [
                 .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
                 .product(name: "НаблюдательРепозитория", package: "Git"),
-                .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
+                .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи"),
+                .product(name: "СнимокАгентскойЗадачи", package: "СнимокАгентскойЗадачи")
             ],
             swiftSettings: строгиеНастройки),
         .testTarget(
             name: "FUMAObservationCompositionTests",
-            dependencies: ["КомпозицияНаблюдений"],
+            dependencies: [
+                "КомпозицияНаблюдений",
+                .product(name: "СнимокАгентскойЗадачи", package: "СнимокАгентскойЗадачи")
+            ],
             path: "Tests/КомпозицияНаблюденийTests",
             swiftSettings: строгиеНастройки)
     ],
