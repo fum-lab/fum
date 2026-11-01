@@ -14,6 +14,8 @@ public enum ОшибкаЖизненногоЦикла: Error, Equatable, Sendab
     case повреждённыйCheckpoint
     case неподдержаннаяПолномочность
     case нетИзвестногоСледующегоШага
+    case несовпадениеOperationID
+    case несовпадениеПовторногоЧтения
 }
 
 public struct СостояниеУзлаЖизненногоЦикла: Codable, Equatable, Sendable {
@@ -46,6 +48,8 @@ public struct СостояниеУзлаЖизненногоЦикла: Codable,
 
 public struct КонтрольнаяТочкаЖизненногоЦикла: Codable, Equatable, Sendable {
     public let корневаяЗадачаUUID: String
+    public let nativeChatUUID: String
+    public let executionTurn: String
     public let логическийУзел: String
     public let полныйRef: String
     public let физическийWorktree: String
@@ -56,11 +60,14 @@ public struct КонтрольнаяТочкаЖизненногоЦикла: Co
     public let следующийРазрешённыйШагID: String
 
     public init(
-        корневаяЗадачаUUID: String, логическийУзел: String, полныйRef: String,
+        корневаяЗадачаUUID: String, nativeChatUUID: String, executionTurn: String,
+        логическийУзел: String, полныйRef: String,
         физическийWorktree: String, sourceCommit: String, sourceTree: String,
         версияСостояния: UInt64, завершённыйШагID: String?, следующийРазрешённыйШагID: String
     ) {
         self.корневаяЗадачаUUID = корневаяЗадачаUUID
+        self.nativeChatUUID = nativeChatUUID
+        self.executionTurn = executionTurn
         self.логическийУзел = логическийУзел
         self.полныйRef = полныйRef
         self.физическийWorktree = физическийWorktree
@@ -183,6 +190,12 @@ public struct ДескрипторЖизненногоЦиклаУзла: Codabl
         guard Self.похожНаOID(состояние.sourceCommit), Self.похожНаOID(состояние.sourceTree) else {
             throw ОшибкаЖизненногоЦикла.другойSource
         }
+        guard состояние.sourceCommit == текущееСостояние.sourceCommit,
+              состояние.sourceTree == текущееСостояние.sourceTree
+        else { throw ОшибкаЖизненногоЦикла.другойSource }
+        guard состояние.версияСостояния == текущееСостояние.версияСостояния else {
+            throw ОшибкаЖизненногоЦикла.другаяВерсияСостояния
+        }
     }
 
     public func параметрыNativeВызова() throws -> ПараметрыNativeВызоваЖизненногоЦикла {
@@ -215,6 +228,8 @@ public struct ДескрипторЖизненногоЦиклаУзла: Codabl
         guard checkpoint.корневаяЗадачаUUID == корневаяЗадачаUUID else {
             throw ОшибкаЖизненногоЦикла.чужойКорень
         }
+        guard checkpoint.nativeChatUUID == nativeChatUUID else { throw ОшибкаЖизненногоЦикла.другойЧат }
+        guard checkpoint.executionTurn == executionTurn else { throw ОшибкаЖизненногоЦикла.другойХод }
         guard checkpoint.логическийУзел == логическийУзел else { throw ОшибкаЖизненногоЦикла.чужойУзел }
         guard checkpoint.полныйRef == полныйRef else { throw ОшибкаЖизненногоЦикла.другойRef }
         guard checkpoint.физическийWorktree == физическийWorktree else {
@@ -222,7 +237,7 @@ public struct ДескрипторЖизненногоЦиклаУзла: Codabl
         }
         guard checkpoint.sourceCommit == текущееСостояние.sourceCommit,
               checkpoint.sourceTree == текущееСостояние.sourceTree,
-              checkpoint.версияСостояния <= текущееСостояние.версияСостояния,
+              checkpoint.версияСостояния == текущееСостояние.версияСостояния,
               !checkpoint.следующийРазрешённыйШагID.isEmpty
         else { throw ОшибкаЖизненногоЦикла.повреждённыйCheckpoint }
     }

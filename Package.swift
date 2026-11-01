@@ -23,6 +23,8 @@ let package = Package(
                 "sinkhronizaciya/adapter-git-avtor-commita.swift",
                 "polnomochiya.swift",
                 "stop.swift",
+                "deskriptor-zhiznennogo-cikla.swift",
+                "sobstvennyj-rabochij-spisok.swift",
             ],
             resources: [.copy("opredeleniya")],
             swiftSettings: настройки

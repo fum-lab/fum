@@ -1,0 +1,57 @@
+{
+  "схема": "fum.план-подключения-жизненного-цикла-узла.1",
+  "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "родительскийЧатUUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "nativeChatUUID": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+  "executionTurn": "01a19738-3673-72e0-bb2b-5a1e6bc6875f",
+  "наблюдаемаяАтрибуция": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "low",
+    "thread_id": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+    "turn_id": "01a19738-3673-72e0-bb2b-5a1e6bc6875f",
+    "turn_started_at_unix_ms": 1793538406017,
+    "квитанция": "/Users/fum/.codex/visualizations/2026/11/01/01a195e5-70bf-7a81-920f-d15df36fc90a/private-receipts/lifecycle-turn-attribution-3.json",
+    "квитанцияSHA256": "65dd729bb283ef9febd04095de216df2a57eeb07de385edd3d2c5a9657680a28",
+    "ограничение": "Текущая конфигурация turn; не backend attestation и не ретроатрибуция прежних commit."
+  },
+  "логическийАдрес": "fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+  "целевойRef": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+  "физическийWorktree": "/Users/fum/.codex/worktrees/zhiznennyj-cikl-01a195e5/FUM",
+  "входнойCheckpoint": {
+    "commit": "650d794571862e3229a3624b74e41bc6632cc18b",
+    "tree": "f7f567873ae01dfbc0224888711e826c71013e7b",
+    "предыдущийSourceCommit": "fcdf5612bf4c314a4a5e7ec2512d6900f225207e"
+  },
+  "разрешённыйDiff": {
+    "PackageSwift": [
+      "Добавить deskriptor-zhiznennogo-cikla.swift в sources существующего target МатериализацияУзлов.",
+      "Добавить sobstvennyj-rabochij-spisok.swift в sources существующего target МатериализацияУзлов."
+    ],
+    "testFixture": "Убрать FUM_LIFECYCLE_API_WIRED условное отключение из proverki-zhiznennogo-cikla.swift.",
+    "всеОстальныеPackageИзменения": "Запрещены."
+  },
+  "границы": {
+    "новыйTargetИRuntime": false,
+    "актуализацияПутейExport": false,
+    "stopИчужиеComposerПути": false,
+    "callerStorageWiring": "SOURCE_ONLY_CALLER_NOT_WIRED; only injected persist+reopen contract, no backend implementation",
+    "compilerИTests": "NOT_RUN по прямому поручению",
+    "hooksCallbacksPublisherAutofollowup": "не включать и не запускать",
+    "доставка": "Только обычный точный push собственного commit в собственный ref после raw readback."
+  },
+  "предыдущийSourceAPI": [
+    "ДескрипторЖизненногоЦиклаУзла.проверитьСвязность()",
+    "ДескрипторЖизненногоЦиклаУзла.параметрыNativeВызова()",
+    "ДескрипторЖизненногоЦиклаУзла.параметрыПубликации()",
+    "СвойРабочийСписокУзла.вернутьСписокПослеСохранения(_:) и следующийШаг(после:)",
+    "ПереходЖизненногоЦикла.решитьРезультатРодителю(_:дескриптор:рабочийСписок:)"
+  ],
+  "следующиеШаги": [
+    "Внести строго перечисленные три изменения и сохранить точный diff/index.",
+    "Учесть P1 source review add-only; входящее сообщение возвращать только после injected persist+reopen с точным байтовым readback и address/version binding.",
+    "Оставить SOURCE_ONLY_CALLER_NOT_WIRED явным остатком: не подключать backend/caller и не объявлять durable persistence выполненной.",
+    "Обновить этот этапный отчёт фактическим остатком без запуска compiler/tests/hooks.",
+    "Перед commit повторно наблюдать разрешённые поля requestMeta, проверить author/committer/ref/base/status и доставить только exact OID в свою ветку."
+  ],
+  "статус": "источник подготовлен; compiler/tests NOT_RUN; SOURCE_ONLY_CALLER_NOT_WIRED"
+}
