@@ -1,0 +1,61 @@
+{
+  "схема": "fum.план-связи-readback-worklist.1",
+  "корневаяЗадачаUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "родительскийЧатUUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "nativeChatUUID": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+  "executionTurn": "01a19790-4819-7341-a8e1-15fd97f8c9e9",
+  "атрибуция": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "low",
+    "thread_id": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+    "turn_id": "01a19790-4819-7341-a8e1-15fd97f8c9e9",
+    "turn_started_at_unix_ms": 1793544177738,
+    "receipt": "/Users/fum/.codex/visualizations/2026/11/01/01a195e5-70bf-7a81-920f-d15df36fc90a/private-receipts/lifecycle-turn-attribution-5.json",
+    "receiptSHA256": "f435fed5a725b2762c3707528e8c92a5cca47417cac673ccaef2a9c224b4caf5"
+  },
+  "исходнаяТочка": {
+    "commit": "6a5efd517bdccc07aae94f0b19499429ed9a3265",
+    "tree": "22103d4ae5a86bc260912c82cbf049245444ceec",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+    "physicalWorktree": "/Users/fum/.codex/worktrees/zhiznennyj-cikl-01a195e5/FUM",
+    "AGENTSSHA256": "5f98f654caf5ae9d66a148fd25914caa683e21a9d89724817f0f3fe56df567d2"
+  },
+  "источникReview": "Повторный source review: точный bytes/hash запрос A не связывал отдельно возвращённый список B; fixture stale использовала C650 в helper вместо source descriptor.",
+  "ACT": {
+    "path": "/Users/Shared/FUM-private-501/stop-root-repair-01a17797-20261030/routine-readback-link-two-fixes-source-only-ACT-v2.json",
+    "bytes": 2983,
+    "sha256": "35650ae88ba5308bc8eaf20ea5d5706e47556010c15194d6d382a68e9be3defd",
+    "ROOTThread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "status": "путь, base, ref, W и конечные восемь изменённых путей совпали; source-only commit/delivery разрешены"
+  },
+  "разрешённыеИзменения": [
+    "Добавить полный Equatable binding переоткрытого списка B с исходным списком A после byte/hash и address/source/version сверок, до выбора следующего шага.",
+    "Добавить negative fixture: точные raw bytes/hash и тот же address/version, но другой разрешённый шаг — отказ до возврата nextID.",
+    "Исправить helper списокДляРодителя на sourceCommit из descriptor.текущееСостояние и подтвердить статически, что stale test доходит до callback/readback gate.",
+    "Обновить корневые план/память: Package уже содержит оба production source, fixture активна; caller остаётся SOURCE_ONLY_CALLER_NOT_WIRED.",
+    "Сохранить новый этапный план и Журнал; incident receipts и raw Git history оставить неизменными."
+  ],
+  "границы": {
+    "sharedGitConfigWrite": false,
+    "compilerTestsHooksRuntimeCallback": "NOT_RUN",
+    "callerBackend": "SOURCE_ONLY_CALLER_NOT_WIRED",
+    "historyRewriteAmendForce": false,
+    "commitGate": "PASS по ACT v2 и outcome ROOT normalization; shared config hash совпал. Не перепривязывать config/ref."
+  },
+  "известныйIncident": {
+    "receiptPath": "/Users/fum/.codex/visualizations/2026/11/01/01a195e5-70bf-7a81-920f-d15df36fc90a/private-receipts/incident-shared-git-config-user-name-20261101-v2.json",
+    "receiptSHA256": "7c9e21d03c3c3f6bb6d9ac13259b6ea3b22d1e145b6e669f65c0836d2b3bb5fd",
+    "postAppendConfigSHA256": "322c6edc6db92c24091bcad55fed7f945cc21e2331027212d594f5266138b804",
+    "postRepairReadOnlyReceiptPath": "/Users/fum/.codex/visualizations/2026/11/01/01a195e5-70bf-7a81-920f-d15df36fc90a/private-receipts/incident-shared-git-config-user-name-20261101-v3.json",
+    "postRepairReadOnlyReceiptSHA256": "c45a8beb5c7cc40dbdc7b0402adc7cfc8f8108f6462648ac4cf4d81b06dcbcc2",
+    "currentConfigReadOnly": {"byteLength": 1754, "sha256": "15dfaef158b0d11e008310130fa46ea7511000f63fb7c7628a1ce5ef6a4091e6", "mtimeUTC": "2026-11-01T13:41:46.796Z"},
+    "restoreActor": "UNKNOWN; this worker performed read-only observations only"
+  },
+  "следующиеШаги": [
+    "Внести два исправления и regression fixture add-only.",
+    "Проверить helper/callback/gate статически, а diff и JSON-планы средствами без compiler/tests/hooks.",
+    "Обновить память с исторической временной рамкой Package-unwired и текущим состоянием Package wired / fixture active.",
+    "Сверить актуальный ACT bind только чтением; при UNKNOWN/mismatch не создавать commit и не менять ref/config до решения ROOT."
+  ],
+  "статус": "source edits выполнены; targeted review PASS; fresh Author/Committer required before commit"
+}

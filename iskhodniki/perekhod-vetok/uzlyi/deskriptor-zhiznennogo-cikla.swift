@@ -16,6 +16,7 @@ public enum ОшибкаЖизненногоЦикла: Error, Equatable, Sendab
     case нетИзвестногоСледующегоШага
     case несовпадениеOperationID
     case несовпадениеПовторногоЧтения
+    case несовпадениеРабочегоСпискаПереоткрытия
 }
 
 public struct СостояниеУзлаЖизненногоЦикла: Codable, Equatable, Sendable {
