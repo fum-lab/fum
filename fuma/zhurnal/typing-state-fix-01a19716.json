@@ -41,5 +41,54 @@
     "commit": "PENDING",
     "push": "PENDING",
     "rootAcceptance": "UNKNOWN"
+  },
+  "provenanceCorrection": {
+    "scope": "Добавочная запись о корректировке происхождения метаданных; исходники и исторические коммиты не меняются.",
+    "currentAuthor": {
+      "status": "MATCH; относится только к новому коммиту этого журнала",
+      "name": "FUM Codex [gpt-6-luna; effort=low]",
+      "source": "Один actor-specific capture текущих host полей через существующий mcp__node_repl__js; значения исторического C90 им не подтверждаются.",
+      "capturedAtUTC": "2026-11-01T19:15:58.991Z",
+      "scopeSHA256": "cd746b5b050e6f7665f8707d8c63acf96bc141298ee457bdc39166a4ee273a3b",
+      "privateCaptureSHA256": "af2ef5c2a347c6058fd6eb113ef971c31810690835faf69fa02cf981b6591d48"
+    },
+    "historicalC90Attribution": {
+      "status": "UNKNOWN; не переписывать историю",
+      "reason": "Имя автора C90 ранее выводилось из чтения исключённого Native RAW JSONL; текущий host capture не подтверждает прежнюю атрибуцию."
+    },
+    "proceduralDeviations": {
+      "custody": {
+        "status": "NONCOMPLIANT",
+        "reason": "No-follow inventory не исключил отдельное чтение через stat -L alias; зафиксированное старое состояние и шесть roots сохранены без изменений."
+      },
+      "excludedRawRead": {
+        "status": "CONFIRMED; исключённый источник",
+        "boundary": "Собственный Native RAW JSONL: tail до 1048576 байт, удаление первой возможной частичной строки через tail -n +2, jq выбор последнего turn_context.",
+        "purpose": "Получить model/effort для подготовки author metadata C90.",
+        "knownOutcome": "Видимый результат был turn_context; значения RAW не повторяются и не копируются.",
+        "exactCommandTime": "UNKNOWN",
+        "historicalAttribution": "UNKNOWN"
+      }
+    },
+    "sourceCheckpointC90": {
+      "commit": "90e9984780a233f5363e9e26efbccef92409bcb5",
+      "tree": "3b6dc716f4292b8e0ec848a2c70e4801a013779b",
+      "parent": "2b95e83161f74b8acb0b0237b930e1199726e052",
+      "remoteReadback": "Равен commit C90 на назначенном ref; это доставка ветки, не ROOT acceptance."
+    },
+    "approvedMessage": {
+      "bytes": 1267,
+      "sha256": "9923b129921a319984d0c2d1d992b29f26d21b220abca06f737c83619a24ce04",
+      "use": "Только точный предоставленный файл без копирования или повторного форматирования."
+    },
+    "thisCorrection": {
+      "scope": "Только существующий журнал; никакой source/fixture правки.",
+      "compiler": "NOT_RUN; successor grant не исполнен.",
+      "tests": "NOT_RUN",
+      "gui": "NOT_RUN",
+      "runtime": "NOT_RUN",
+      "N32": "UNKNOWN; not granted",
+      "rootAcceptance": "UNKNOWN"
+    }
   }
 }
