@@ -1,6 +1,6 @@
 {
   "schema": "fum.old-branches-inventory-run.v2",
-  "recordedUTC": "2026-11-01T15:36:28Z",
+  "recordedUTC": "2026-11-01T15:57:24Z",
   "rootThreadUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "executorUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
   "inputSnapshot": {
@@ -206,7 +206,7 @@
     ],
     "absolutePathScan": "SUCCESS; no /Users/ match in registry; duration not measured"
   },
-  "sideEffects": "one generated registry v3 and task-owned source/docs/material edits; exact own-branch commit pushed and independently read back; no fetch, foreign ref/index/config writes, ROOT write, merge, or pull request",
+  "sideEffects": "Previous stage commits C1/C2 delivered and independently read back; one requested Codex UI title rename succeeded and was read back; this follow-up records the UUID correction and three unresolved RO-helper mappings; no ROOT/master merge or PR",
   "preCommit": {
     "head": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
     "ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
@@ -244,5 +244,56 @@
     "rootAcceptance": "NOT_GRANTED",
     "pullRequest": "NOT_CREATED",
     "primaryMaster": "UNCHANGED"
+  },
+  "uiTitleUpdate": {
+    "targetUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
+    "oldTitle": "fum-lab/fum/integraciya/master",
+    "branchRef": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
+    "newTitle": "fum-lab/fum/integraciya/old-branches/master",
+    "explicitIdAttempt": "No Codex thread found",
+    "successfulSetter": {
+      "threadIdOmitted": true,
+      "typedResult": {
+        "threadId": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
+        "title": "fum-lab/fum/integraciya/old-branches/master"
+      }
+    },
+    "listThreadsReadback": {
+      "threadId": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
+      "title": "fum-lab/fum/integraciya/old-branches/master",
+      "status": "active",
+      "cwdMatchesVerifiedWorktree": true
+    },
+    "reportedUUIDCorrection": {
+      "previouslyReported": "01a196b6-cd0b-7022-aafc-67e4c25a67eb",
+      "typedResultUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0"
+    },
+    "renameRepeated": false,
+    "rootFreshReadback": "PENDING",
+    "children": [
+      {
+        "nativeUUID": "01a197a9-b892-71b1-8d54-8ac229beca3a",
+        "title": null,
+        "branchOwnership": "NO_OWN_W_REF_OR_SOLE_OWNER",
+        "directChildren": 0
+      },
+      {
+        "nativeUUID": "01a197a6-6b36-7e63-a281-63f306cc0216",
+        "title": null,
+        "branchOwnership": "NO_OWN_W_REF_OR_SOLE_OWNER",
+        "directChildren": 0
+      },
+      {
+        "nativeUUID": "01a197a6-5fcb-72f0-b3e2-33768b2cd31b",
+        "title": "CHAT_NOT_FOUND",
+        "branchOwnership": "UNRESOLVED",
+        "directChildren": 0
+      }
+    ],
+    "counts": {
+      "renamed": 1,
+      "noOp": 0,
+      "residual": 3
+    }
   }
 }
