@@ -561,6 +561,86 @@ public struct РезультатПодготовкиОкруженияКомми
     public let ошибки: [String]
 }
 
+/// Метаданные отдельно разрешённого незавершённого сохранения исходников.
+/// Этот вход не удостоверяет полномочия, прохождение профиля или выбор модели.
+public struct ЗапросМетаданныхИсходников: Codable, Equatable, Sendable {
+    public let схема: String
+    public let корневойUUID: String
+    public let писатель: String
+    public let рабочееДерево: String
+    public let реф: String
+    public let родитель: String
+    public let дерево: String
+    public let статусВыбора: String
+    public let основаниеSHA256: String
+    public let план: ПланСообщенияКоммита
+
+    public func проверить() -> [String] {
+        var ошибки = ГенераторМетаданныхКоммита.проверитьЗаголовок(план.заголовок)
+        if схема != "fum.source-checkpoint-metadata-request.1" || статусВыбора != "UNKNOWN" {
+            ошибки.append("неверный-явный-режим-исходников")
+        }
+        if UUID(uuidString: корневойUUID) == nil || UUID(uuidString: писатель) == nil {
+            ошибки.append("неверный-uuid-исходников")
+        }
+        if !рабочееДерево.hasPrefix("/") || !реф.hasPrefix("refs/heads/") {
+            ошибки.append("нет-адресной-границы-исходников")
+        }
+        for (значение, длина) in [(родитель, 40), (дерево, 40), (основаниеSHA256, 64)] {
+            if значение.utf8.count != длина || !значение.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) {
+                ошибки.append("неверный-pin-исходников")
+            }
+        }
+        if план.описание.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            план.исходныйЗапрос.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            ошибки.append("нет-содержания-сообщения-исходников")
+        }
+        return ошибки
+    }
+
+    /// Совместимый DTO используется только как транспорт к прежнему форматтеру FUMA.
+    /// UNKNOWN не является accepted selection; квитанция из этих значений не создаётся.
+    public var входФорматтера: ПакетВходаГенератораFUMA {
+        ПакетВходаГенератораFUMA(cases: [ВходСлучаяГенератораFUMA(
+            id: "source-checkpoint-UNKNOWN",
+            acceptedSelection: ПараметрыВыбораAPI(model: "UNKNOWN", reasoningEffort: "UNKNOWN"),
+            rootUUID: корневойUUID, title: план.заголовок,
+            description: план.описание, rawRequest: план.исходныйЗапрос)])
+    }
+
+    public func проверитьВыход(_ выход: ВыходГенератораGitMetadata) -> [String] {
+        let эталон = ГенераторМетаданныхКоммита.referenceOutput(for: входФорматтера).cases[0]
+        return проверить() + (выход.environment == эталон.environment && выход.message == эталон.message
+            ? [] : ["исходники-fuma-output-не-совпадает"])
+    }
+}
+
+/// Намеренно иной DTO: его нельзя декодировать как подтверждённый результат с выборМодели.
+public struct МетаданныеИсходников: Codable, Equatable, Sendable {
+    public let схема: String
+    public let запрос: ЗапросМетаданныхИсходников
+    public let автор: ИдентификаторGit
+    public let коммитер: ИдентификаторGit
+    public let выход: ВыходГенератораGitMetadata
+    public let ошибки: [String]
+
+    public static func подготовить(запрос: ЗапросМетаданныхИсходников,
+                                  выход: ВыходГенератораGitMetadata,
+                                  авторGit: String, коммитерGit: String) -> Self {
+        var ошибки = запрос.проверитьВыход(выход)
+        let эталон = ГенераторМетаданныхКоммита.referenceOutput(for: запрос.входФорматтера).cases[0]
+        let автор = ГенераторМетаданныхКоммита.разобратьGitIdent(авторGit)
+        let коммитер = ГенераторМетаданныхКоммита.разобратьGitIdent(коммитерGit)
+        if автор?.имя != эталон.environment["GIT_AUTHOR_NAME"] || автор == nil || коммитер == nil {
+            ошибки.append("исходники-git-var-не-совпадает")
+        }
+        return Self(схема: "fum.source-checkpoint-metadata.1", запрос: запрос,
+                    автор: автор ?? ИдентификаторGit(имя: "", почта: ""),
+                    коммитер: коммитер ?? ИдентификаторGit(имя: "", почта: ""),
+                    выход: выход, ошибки: ошибки)
+    }
+}
+
 public enum ГенераторМетаданныхКоммита {
     private static let неизвестныеТокены: Set<String> = ["unknown", "unavailable", "unset", "null"]
     private static let русскиеБуквы = CharacterSet(charactersIn: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя")
@@ -641,7 +721,7 @@ public enum ГенераторМетаданныхКоммита {
         guard let свидетельство = ожидаемаяИдентичность.квитанцияВыбораМодели?.свидетельство else {
             return РезультатПодготовкиОкруженияКоммита(выходFUMA: nil, ошибки: ошибки)
         }
-        let expectedAuthorName = "FUM Codex [\(свидетельство.selectedValue.model); effort=\(свидетельство.selectedValue.reasoningEffort)]"
+        let expectedAuthorName = имяАвтораДляФорматирования(свидетельство.selectedValue)
         if выходFUMA.environment != ["GIT_AUTHOR_NAME": expectedAuthorName] {
             ошибки.append("fuma-environment-не-совпадает-с-accepted-selection")
         }
@@ -662,18 +742,28 @@ public enum ГенераторМетаданныхКоммита {
     }
 
     /// Эталон для сверки с исполненным FUMA definition. Производственное формирование текста выполняет FUMA.
+
+    /// Formatting only, not selection authentication. Receipt validation remains mandatory.
+    /// Unknown/invalid selection cannot be rendered as a confirmed model/effort author.
+    private static func имяАвтораДляФорматирования(_ выбор: ПараметрыВыбораAPI) -> String {
+        guard безопасныйТокен(выбор.model), безопасныйТокен(выбор.reasoningEffort) else {
+            return "FUM Codex (выбор UNKNOWN)"
+        }
+        return "FUM Codex [\(выбор.model); effort=\(выбор.reasoningEffort)]"
+    }
+
     public static func referenceOutput(
         свидетельство: СвидетельствоВыбораМодели,
         план: ПланСообщенияКоммита
     ) -> ВыходГенератораGitMetadata {
-        let authorName = "FUM Codex [\(свидетельство.selectedValue.model); effort=\(свидетельство.selectedValue.reasoningEffort)]"
+        let authorName = имяАвтораДляФорматирования(свидетельство.selectedValue)
         let message = "\(план.заголовок)\n\n\(план.описание)\n\nИсходный запрос:\n\(план.исходныйЗапрос)\n\nCodex-Thread-ID: \(свидетельство.rootUUID)\n"
         return ВыходГенератораGitMetadata(environment: ["GIT_AUTHOR_NAME": authorName], message: message)
     }
 
     public static func referenceOutput(for input: ПакетВходаГенератораFUMA) -> ПакетВыходаГенератораFUMA {
         ПакетВыходаГенератораFUMA(cases: input.cases.map { item in
-            let authorName = "FUM Codex [\(item.acceptedSelection.model); effort=\(item.acceptedSelection.reasoningEffort)]"
+            let authorName = имяАвтораДляФорматирования(item.acceptedSelection)
             let message = "\(item.title)\n\n\(item.description)\n\nИсходный запрос:\n\(item.rawRequest)\n\nCodex-Thread-ID: \(item.rootUUID)\n"
             return ВыходСлучаяГенератораFUMA(
                 id: item.id,
@@ -915,4 +1005,591 @@ public enum ГенераторМетаданныхКоммита {
     private static func letterOrDigitASCII(_ byte: UInt8) -> Bool {
         (48...57).contains(byte) || (65...90).contains(byte) || (97...122).contains(byte)
     }
+}
+
+// Допуск не меняет wire DTO форматтера. Решение хоста не декодируется из запроса.
+enum ПрофильУправляемогоВызова: String, Codable, Sendable { case исходники, подтверждённый, проверка, неизвестно }
+enum ОперацияУправляемогоВызова: String, Codable, Sendable {
+    case исходники, квитанцияКлиента, проверкаГенератора, проверкаКлиента, метаданные, сыройКоммитСлияния, сыройКоммит, постЭффект, запрещено
+}
+enum РольВходаУправления: String, Codable, Hashable, Sendable {
+    case запрос, метаданные, состояние, фикстура, источник, ожидание, текущее, стандартныйВвод
+    case проверяющий, исполнительГит, определение, оператор, кореньЗапуска, квитанция, публичнаяПроекция, временныйКорень, черновик, публичноеТело
+}
+struct ПинУправляемогоВхода: Codable, Equatable, Sendable {
+    let роль: РольВходаУправления
+    let путь: String
+    let устройство: UInt64
+    let узел: UInt64
+    let владелец: UInt32
+    let режимДоступа: UInt32
+    let байтов: Int
+    let хэш: String
+    let каталог: Bool
+    let новыйЛист: String?
+}
+struct ОсноваВременнойОбласти: Codable, Equatable, Sendable {
+    let источник: String
+    let наблюдавшийПроцесс: Int32
+    let область: String
+    let адресФонда: String
+    let физическийКорень: String
+    let владелец: UInt32
+}
+struct ИдентичностьИсходникаДопуска: Codable, Equatable, Sendable { let байтов: Int; let хэш: String }
+enum РольИсходникаДопуска: String, Codable, Sendable { case полный, полныйФУМА, диапазонНативного }
+struct ДиапазонИсполненногоИсходника: Codable, Equatable, Sendable {
+    let каноническийПуть: String
+    let роль: РольИсходникаДопуска
+    let скомпилированныйПуть: String
+    let полный: ИдентичностьИсходникаДопуска
+    let смещение: Int
+    let длина: Int
+    let результат: ИдентичностьИсходникаДопуска
+    let исключённыйПрефикс: String
+}
+struct ВыборДереваИсходников: Codable, Equatable, Sendable {
+    let корень: ПинУправляемогоВхода
+    let коммит: String
+    let дерево: String
+    let блоб: String
+}
+struct ЧленПоставкиИсходников: Codable, Equatable, Sendable {
+    let манифест: ПинУправляемогоВхода
+    let файл: ПинУправляемогоВхода
+}
+struct МанифестЧленаПоставки: Codable, Equatable, Sendable {
+    let схема: String
+    let каноническийПуть: String
+    let режим: String
+    let идентичность: ИдентичностьИсходникаДопуска
+}
+struct ПокрытиеИсполненногоИсходника: Codable, Equatable, Sendable {
+    let путь: String
+    let роль: РольИсходникаДопуска
+    let режим: String
+    let исполненный: ИдентичностьИсходникаДопуска
+    let требуемый: ИдентичностьИсходникаДопуска
+    let скомпилированный: ПинУправляемогоВхода
+    let дерево: ВыборДереваИсходников?
+    let поставка: ЧленПоставкиИсходников?
+    let диапазон: ДиапазонИсполненногоИсходника?
+}
+struct ЗапросДопускаУправляемогоВызова: Codable, Equatable, Sendable {
+    let схема: String
+    let профиль: ПрофильУправляемогоВызова
+    let операция: ОперацияУправляемогоВызова
+    let корневойUUID: String
+    let писатель: String
+    let область: String
+    let попытка: String
+    let аргументы: [String]
+    let версияГит: String
+    let кодПолитикиГит: String
+    let хэшПроверяющего: String
+    let пины: [ПинУправляемогоВхода]
+    let хэшВхода: String
+    let хэшПубличногоТела: String?
+    let политикаТела: String
+    let временнаяОснова: ОсноваВременнойОбласти?
+    let покрытие: [ПокрытиеИсполненногоИсходника]
+    let пределБайт: Int
+    let окружение: [String: String]
+    func каноническиеБайты() throws -> Data {
+        let кодировщик = JSONEncoder(); кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return try кодировщик.encode(self)
+    }
+    func каноническийХэш() throws -> String { ГенераторМетаданныхКоммита.sha256Hex(try каноническиеБайты()) }
+    func сОперацией(_ описание: СпецификацияУправляемойОперации, значения: [РольВходаУправления: String], корневойUUID: String) throws -> Self {
+        Self(схема: схема, профиль: описание.профиль, операция: описание.операция, корневойUUID: self.корневойUUID,
+            писатель: писатель, область: область, попытка: попытка, аргументы: try описание.аргументы(значения, корневойUUID: корневойUUID),
+            версияГит: версияГит, кодПолитикиГит: кодПолитикиГит, хэшПроверяющего: хэшПроверяющего, пины: пины, хэшВхода: хэшВхода,
+            хэшПубличногоТела: хэшПубличногоТела, политикаТела: политикаТела, временнаяОснова: временнаяОснова,
+            покрытие: покрытие, пределБайт: пределБайт, окружение: окружение)
+    }
+}
+struct РешениеХостаУправляемогоВызова: Equatable, Sendable {
+    enum Статус: Equatable, Sendable { case разрешено, неизвестно, запрещено }
+    let статус: Статус
+    let хэшЗапроса: String
+    let операция: ОперацияУправляемогоВызова
+    let писатель: String
+    let область: String
+    let разрешённыеДиапазоны: [ДиапазонИсполненногоИсходника]
+    let допускЧтенияГит: НезависимыйДопускЧтенияГит?
+}
+enum ОтказУправляемогоДопуска: Error, Equatable { case неизвестно(String), отказ(String), публикация(String), стопПередЗапуском }
+
+// Единственный источник формы argv, профиля, ролей и тестовой матрицы.
+struct СпецификацияУправляемойОперации: Sendable {
+    enum Поле: Sendable { case флаг(String), вход(РольВходаУправления), выход(РольВходаУправления), корневойUUID }
+    let имя: String
+    let операция: ОперацияУправляемогоВызова
+    let профиль: ПрофильУправляемогоВызова
+    let поля: [Поле]
+    let стандартныйВвод: Bool
+    func аргументы(_ значения: [РольВходаУправления: String], корневойUUID: String) throws -> [String] {
+        try поля.map { поле in
+            switch поле {
+            case let .флаг(текст): return текст
+            case .корневойUUID: return корневойUUID
+            case let .вход(роль), let .выход(роль):
+                guard let путь = значения[роль] else { throw ОтказУправляемогоДопуска.отказ("нет-значения-роли") }; return путь
+            }
+        }
+    }
+    func соответствует(_ аргументы: [String]) -> Bool {
+        guard аргументы.count == поля.count else { return false }
+        return zip(поля, аргументы).allSatisfy { поле, аргумент in
+            if case let .флаг(текст) = поле { return текст == аргумент }
+            return !аргумент.isEmpty && !аргумент.hasPrefix("--")
+        }
+    }
+    static let все: [Self] = [
+        Self(имя: "исходники-генерация", операция: .исходники, профиль: .исходники, поля: [.флаг("--сгенерировать-метаданные-коммита"), .вход(.запрос), .флаг("--исходники-UNKNOWN")], стандартныйВвод: false),
+        Self(имя: "исходники-перед-коммитом", операция: .исходники, профиль: .исходники, поля: [.флаг("--проверить-перед-коммитом"), .вход(.запрос), .вход(.метаданные), .флаг("--исходники-UNKNOWN")], стандартныйВвод: false),
+        Self(имя: "исходники-сырой-коммит", операция: .исходники, профиль: .исходники, поля: [.флаг("--проверить-сырой-коммит-исходников"), .вход(.запрос), .вход(.метаданные)], стандартныйВвод: true),
+        Self(имя: "квитанция-клиента", операция: .квитанцияКлиента, профиль: .проверка, поля: [.флаг("--сохранить-квитанцию-root-native-client"), .вход(.источник), .вход(.ожидание), .вход(.текущее), .корневойUUID, .выход(.квитанция), .выход(.публичнаяПроекция)], стандартныйВвод: false),
+        Self(имя: "проверка-генератора", операция: .проверкаГенератора, профиль: .проверка, поля: [.флаг("--проверить-fuma-генератор"), .вход(.определение), .вход(.фикстура), .вход(.оператор), .вход(.кореньЗапуска)], стандартныйВвод: false),
+        Self(имя: "проверка-клиента", операция: .проверкаКлиента, профиль: .проверка, поля: [.флаг("--проверить-fuma-root-native-client"), .вход(.определение), .вход(.фикстура), .вход(.оператор), .вход(.кореньЗапуска), .вход(.источник), .вход(.ожидание), .вход(.текущее), .корневойUUID, .выход(.квитанция)], стандартныйВвод: false),
+        Self(имя: "подтверждённая-генерация", операция: .метаданные, профиль: .подтверждённый, поля: [.флаг("--сгенерировать-метаданные-коммита"), .вход(.состояние)], стандартныйВвод: false),
+        Self(имя: "подтверждённый-перед-коммитом", операция: .метаданные, профиль: .подтверждённый, поля: [.флаг("--проверить-перед-коммитом"), .вход(.состояние)], стандартныйВвод: false),
+        Self(имя: "сырой-коммит-слияния", операция: .сыройКоммитСлияния, профиль: .подтверждённый, поля: [.флаг("--проверить-сырой-merge-коммит"), .вход(.состояние), .вход(.ожидание)], стандартныйВвод: true),
+        Self(имя: "сырой-коммит", операция: .сыройКоммит, профиль: .подтверждённый, поля: [.флаг("--проверить-сырой-коммит"), .вход(.состояние)], стандартныйВвод: true),
+        Self(имя: "пост-эффект", операция: .постЭффект, профиль: .подтверждённый, поля: [.флаг("--проверить-пост-эффектный-git"), .вход(.состояние), .вход(.ожидание)], стандартныйВвод: false)
+    ]
+    static func выбрать(_ аргументы: [String]) -> Self? { все.first { $0.соответствует(аргументы) } }
+}
+
+enum ПолитикаУправляемогоДопуска {
+    static func хэшВерный(_ строка: String) -> Bool { строка.utf8.count == 64 && строка.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) } }
+    static func предел(_ роль: РольВходаУправления, запрошенный: Int) -> Int {
+        [.оператор, .проверяющий, .исполнительГит].contains(роль) ? 512 * 1_048_576 : запрошенный
+    }
+    static func проверить(_ запрос: ЗапросДопускаУправляемогоВызова?, _ решение: РешениеХостаУправляемогоВызова?, операция: ОперацияУправляемогоВызова) throws {
+        // ADMISSION_POLICY_BEGIN
+        guard let запрос, let решение, решение.статус == .разрешено else { throw ОтказУправляемогоДопуска.неизвестно("нет-независимого-решения") }
+        guard запрос.схема == "fum.управляемый-допуск.3", let описание = СпецификацияУправляемойОперации.выбрать(запрос.аргументы),
+              описание.операция == операция, описание.профиль == запрос.профиль, запрос.операция == операция,
+              решение.операция == операция, решение.хэшЗапроса == (try запрос.каноническийХэш()),
+              решение.писатель == запрос.писатель, решение.область == запрос.область,
+              UUID(uuidString: запрос.корневойUUID) != nil, UUID(uuidString: запрос.писатель) != nil, UUID(uuidString: запрос.область) != nil,
+              запрос.попытка.range(of: "^[a-z0-9][a-z0-9-]{0,127}$", options: .regularExpression) != nil,
+              (1...16_777_216).contains(запрос.пределБайт), хэшВерный(запрос.хэшВхода),
+              Set(запрос.пины.map(\.роль)).count == запрос.пины.count, !запрос.пины.isEmpty else { throw ОтказУправляемогоДопуска.отказ("связь-запроса") }
+        for пин in запрос.пины {
+            guard пин.байтов >= 0, пин.байтов <= предел(пин.роль, запрошенный: запрос.пределБайт), хэшВерный(пин.хэш),
+                  (пин.путь == "stdin" ? пин.роль == .стандартныйВвод : пин.путь.hasPrefix("/") && !пин.путь.contains("\0")),
+                  пин.новыйЛист.map({ пин.каталог && !$0.isEmpty && !$0.contains("/") && ![".", ".."].contains($0) }) ?? true else {
+                throw ОтказУправляемогоДопуска.отказ("пин-роли")
+            }
+        }
+        guard запрос.версияГит.hasPrefix("git version "), !запрос.версияГит.contains("\n"),
+              запрос.пины.contains(where: { $0.роль == .проверяющий && $0.хэш == запрос.хэшПроверяющего }),
+              запрос.пины.contains(where: { $0.роль == .исполнительГит && $0.путь == "/usr/bin/git" && !$0.каталог && $0.режимДоступа & 0o111 != 0 }) else { throw ОтказУправляемогоДопуска.отказ("пины-инструментов") }
+        let ключи: Set<String> = ["CODEX_THREAD_ID", "PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "GIT_CONFIG_NOSYSTEM", "GIT_CONFIG_SYSTEM", "GIT_CONFIG_GLOBAL", "KOORDINACIYA_FUMA_DEFINITION", "KOORDINACIYA_FUMA_OPERATOR", "KOORDINACIYA_FUMA_RUN_ROOT", "GIT_NO_LAZY_FETCH", "GIT_OPTIONAL_LOCKS", "GIT_NO_REPLACE_OBJECTS", "GIT_TERMINAL_PROMPT", "GIT_ALLOW_PROTOCOL", "GIT_ASKPASS", "SSH_ASKPASS", "GIT_COMMON_DIR"]
+        guard Set(запрос.окружение.keys).isSubset(of: ключи), запрос.окружение.values.allSatisfy({ !$0.contains("\0") }), !запрос.покрытие.isEmpty else { throw ОтказУправляемогоДопуска.отказ("окружение-или-пустое-покрытие") }
+        try ПолитикаБезэффектногоЧтенияГит.проверить(запрос, решение: решение)
+        try ЧистаяПроверкаФактическогоВызова.ролиЗапроса(запрос)
+        // ADMISSION_POLICY_END
+    }
+    static func проверитьПубличноеТело(_ байты: Data, хэш: String, политика: String) throws {
+        // PUBLICATION_POLICY_BEGIN
+        guard ГенераторМетаданныхКоммита.sha256Hex(байты) == хэш else { throw ОтказУправляемогоДопуска.отказ("хэш-публичного-тела") }
+        let закреплённые = ["ec315e079dfeffa49dd5a72203b705d23b6bf0d6610577abfdc352c646d28c33", "e32c6564ece67963600ef6b1ec8ba5b15ca6d86c4d7a6810474caff8374fb6b0"]
+        let объект = try JSONSerialization.jsonObject(with: байты, options: [.fragmentsAllowed])
+        if политика == "canonical-typed-test" {
+            let канон = try JSONSerialization.data(withJSONObject: объект, options: [.sortedKeys, .withoutEscapingSlashes, .fragmentsAllowed])
+            guard канон == байты else { throw ОтказУправляемогоДопуска.неизвестно("неподдержанный-JSON-формат") }
+        } else if политика != "exact-selected-bodies" || !закреплённые.contains(хэш) { throw ОтказУправляемогоДопуска.неизвестно("неподдержанная-JSON-политика") }
+        func ключПути(_ ключ: String) throws -> String {
+            // Bracket notation uses JSON string escaping, including quotes and backslashes.
+            let байтыКлюча = try JSONSerialization.data(withJSONObject: ключ, options: [.fragmentsAllowed, .withoutEscapingSlashes])
+            return "[" + String(decoding: байтыКлюча, as: UTF8.self) + "]"
+        }
+        func обход(_ значение: Any, _ путь: String) throws {
+            if let строка = значение as? String {
+                if ["/Users/", "/home/", "/private/var/", "file:///Users/", "C:\\Users\\"].contains(where: { строка.contains($0) }) { throw ОтказУправляемогоДопуска.публикация(путь) }
+            } else if let массив = значение as? [Any] {
+                for (номер, элемент) in массив.enumerated() { try обход(элемент, путь + "[\(номер)]") }
+            } else if let словарь = значение as? [String: Any] {
+                for ключ in словарь.keys.sorted() { try обход(словарь[ключ]!, путь + ключПути(ключ)) }
+            }
+        }
+        try обход(объект, "$")
+        // PUBLICATION_POLICY_END
+    }
+}
+
+// Не Codable. Парсерный факт не повышается до semantic no-fetch admission.
+// Production provider отсутствует; TESTING выбирает отдельные синтетические доказательства.
+struct НезависимыйДопускЧтенияГит: Equatable, Sendable {
+    enum Уровень: Equatable, Sendable { case толькоРаспознаваниеФлагов, независимоПровереннаяСемантика }
+    let инструмент: ПинУправляемогоВхода
+    let версия: String
+    let уровень: Уровень
+    let хэшПарсерногоДоказательства: String
+    let хэшСемантическогоДоказательства: String?
+    var физическийКонтекст: ФизическийКонтекстГит? = nil
+}
+
+// Отдельный non-Codable результат host preflight, не DATA locator и не .git text.
+// Production issuer/provider отсутствует: вне TESTING нет фабрики выдачи.
+struct КортежФизическогоГит: Equatable, Sendable {
+    let коммит: String
+    let дерево: String
+    let блоб: String
+    let путь: String
+}
+struct ФизическийКонтекстГит: Equatable, Sendable {
+    let издатель: String
+    let писатель: String
+    let область: String
+    let хэшЗапроса: String
+    let корень: ПинУправляемогоВхода
+    let рабочееДерево: ПинУправляемогоВхода
+    let админ: ПинУправляемогоВхода
+    let общийАдмин: ПинУправляемогоВхода
+    let кортежи: [КортежФизическогоГит]
+    let внеРепозитория: [ПинУправляемогоВхода]
+    private init(издатель: String, писатель: String, область: String, хэшЗапроса: String,
+        корень: ПинУправляемогоВхода, рабочееДерево: ПинУправляемогоВхода,
+        админ: ПинУправляемогоВхода, общийАдмин: ПинУправляемогоВхода,
+        кортежи: [КортежФизическогоГит], внеРепозитория: [ПинУправляемогоВхода]) {
+        self.издатель = издатель; self.писатель = писатель; self.область = область; self.хэшЗапроса = хэшЗапроса
+        self.корень = корень; self.рабочееДерево = рабочееДерево; self.админ = админ; self.общийАдмин = общийАдмин
+        self.кортежи = кортежи; self.внеРепозитория = внеРепозитория
+    }
+    var доверенныйИздатель: Bool {
+        #if TESTING
+        return издатель == "synthetic-physical-Git-test-issuer-v1"
+        #else
+        return false
+        #endif
+    }
+    var явныйАдрес: [String] { ["--git-dir=" + админ.путь, "--work-tree=" + рабочееДерево.путь] }
+    var пины: [ПинУправляемогоВхода] { [корень, рабочееДерево, админ, общийАдмин] + внеРепозитория }
+    #if TESTING
+    static func проверочный(издатель: String = "synthetic-physical-Git-test-issuer-v1", писатель: String,
+        область: String, хэшЗапроса: String, корень: ПинУправляемогоВхода, рабочееДерево: ПинУправляемогоВхода,
+        админ: ПинУправляемогоВхода, общийАдмин: ПинУправляемогоВхода,
+        кортежи: [КортежФизическогоГит], внеРепозитория: [ПинУправляемогоВхода]) -> Self {
+        Self(издатель: издатель, писатель: писатель, область: область, хэшЗапроса: хэшЗапроса,
+            корень: корень, рабочееДерево: рабочееДерево, админ: админ, общийАдмин: общийАдмин,
+            кортежи: кортежи, внеРепозитория: внеРепозитория)
+    }
+    #endif
+}
+
+struct ПодготовленнаяКомандаЧтенияГит {
+    let аргументы: [String]
+    let окружение: [String: String]
+}
+enum ПолитикаБезэффектногоЧтенияГит {
+    static let код = "fum.git-read.no-fetch-no-locks.1"
+    static let флаги = ["--no-optional-locks", "--no-lazy-fetch", "--no-replace-objects", "--literal-pathspecs"]
+    static let обязательноеОкружение = [
+        "PATH": "/usr/bin:/bin", "LANG": "C", "LC_ALL": "C", "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_SYSTEM": "/dev/null", "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_NO_LAZY_FETCH": "1",
+        "GIT_OPTIONAL_LOCKS": "0", "GIT_NO_REPLACE_OBJECTS": "1", "GIT_TERMINAL_PROMPT": "0",
+        "GIT_ALLOW_PROTOCOL": "", "GIT_ASKPASS": "/usr/bin/false", "SSH_ASKPASS": "/usr/bin/false"
+    ]
+    static func проверить(_ запрос: ЗапросДопускаУправляемогоВызова, решение: РешениеХостаУправляемогоВызова) throws {
+        // GIT_POLICY_BEGIN
+        guard решение.статус == .разрешено, решение.хэшЗапроса == (try запрос.каноническийХэш()),
+              решение.операция == запрос.операция, решение.писатель == запрос.писатель, решение.область == запрос.область else {
+            throw ОтказУправляемогоДопуска.неизвестно("нет-связанного-допуска-чтения-гит")
+        }
+        guard запрос.кодПолитикиГит == код,
+              обязательноеОкружение.allSatisfy({ запрос.окружение[$0.key] == $0.value }) else { throw ОтказУправляемогоДопуска.отказ("неполная-политика-чтения-гит") }
+        guard let допуск = решение.допускЧтенияГит else { throw ОтказУправляемогоДопуска.неизвестно("нет-независимого-допуска-гит") }
+        guard запрос.пины.first(where: { $0.роль == .исполнительГит }) == допуск.инструмент,
+              допуск.инструмент.путь == "/usr/bin/git", допуск.версия == запрос.версияГит,
+              ПолитикаУправляемогоДопуска.хэшВерный(допуск.хэшПарсерногоДоказательства),
+              допуск.хэшПарсерногоДоказательства != String(repeating: "0", count: 64) else { throw ОтказУправляемогоДопуска.отказ("связь-инструмента-и-допуска-гит") }
+        guard допуск.уровень == .независимоПровереннаяСемантика,
+              let семантическийХэш = допуск.хэшСемантическогоДоказательства,
+              ПолитикаУправляемогоДопуска.хэшВерный(семантическийХэш), семантическийХэш != String(repeating: "0", count: 64),
+              семантическийХэш != допуск.хэшПарсерногоДоказательства else { throw ОтказУправляемогоДопуска.неизвестно("семантика-no-fetch-не-доказана") }
+        // GIT_POLICY_END
+    }
+
+    static func физическийКонтекст(_ запрос: ЗапросДопускаУправляемогоВызова, решение: РешениеХостаУправляемогоВызова) throws -> ФизическийКонтекстГит {
+        guard let контекст = решение.допускЧтенияГит?.физическийКонтекст else {
+            throw ОтказУправляемогоДопуска.неизвестно("нет-выданного-физического-контекста-гит")
+        }
+        // PHYSICAL_GIT_BINDING_BEGIN
+        guard контекст.доверенныйИздатель, контекст.писатель == запрос.писатель, контекст.область == запрос.область,
+              контекст.хэшЗапроса == (try запрос.каноническийХэш()), контекст.корень == контекст.рабочееДерево,
+              запрос.окружение["GIT_COMMON_DIR"] == контекст.общийАдмин.путь,
+              контекст.админ.путь != контекст.корень.путь, контекст.общийАдмин.путь != контекст.корень.путь,
+              контекст.пины.allSatisfy({ пин in
+                  пин.каталог && пин.новыйЛист == nil && пин.владелец == контекст.корень.владелец &&
+                  пин.устройство > 0 && пин.узел > 0 && пин.путь.hasPrefix("/") &&
+                  !пин.путь.contains("\0") && !пин.путь.contains("\n") && !пин.путь.contains("\r") &&
+                  !пин.путь.split(separator: "/", omittingEmptySubsequences: false).dropFirst().contains(where: { $0.isEmpty || $0 == "." || $0 == ".." })
+              }) else { throw ОтказУправляемогоДопуска.отказ("связь-физического-контекста-гит") }
+        for строка in запрос.покрытие {
+            if let дерево = строка.дерево {
+                let кортеж = КортежФизическогоГит(коммит: дерево.коммит, дерево: дерево.дерево, блоб: дерево.блоб, путь: строка.путь)
+                guard дерево.корень == контекст.корень, контекст.кортежи.contains(кортеж) else {
+                    throw ОтказУправляемогоДопуска.отказ("чужой-корень-или-кортеж-гит")
+                }
+            }
+        }
+        // PHYSICAL_GIT_BINDING_END
+        return контекст
+    }
+    static func рабочийКаталогКоманды(_ аргументы: [String]) throws -> String {
+        guard Array(аргументы.prefix(4)) == флаги, аргументы.count >= 7,
+              аргументы[4].hasPrefix("--git-dir=/"), аргументы[5].hasPrefix("--work-tree=/") else {
+            throw ОтказУправляемогоДопуска.отказ("нет-явного-адреса-команды-гит")
+        }
+        return String(аргументы[5].dropFirst("--work-tree=".count))
+    }
+    static func командаРазрешена(_ аргументы: [String], запрос: ЗапросДопускаУправляемогоВызова,
+        контекст: ФизическийКонтекстГит) -> Bool {
+        guard Array(аргументы.prefix(2)) == контекст.явныйАдрес else { return false }
+        let команда = Array(аргументы.dropFirst(2))
+        if [["--version"], ["rev-parse", "HEAD"], ["rev-parse", "--show-toplevel"], ["rev-parse", "--path-format=absolute", "--show-toplevel"],
+            ["symbolic-ref", "HEAD"], ["var", "GIT_AUTHOR_IDENT"], ["var", "GIT_COMMITTER_IDENT"]].contains(команда) { return true }
+        func объект(_ строка: String) -> Bool { строка.utf8.count == 40 && строка.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) } }
+        for кортеж in контекст.кортежи {
+            guard запрос.покрытие.contains(where: { строка in
+                guard let дерево = строка.дерево else { return false }
+                return дерево.корень == контекст.корень && дерево.коммит == кортеж.коммит &&
+                    дерево.дерево == кортеж.дерево && дерево.блоб == кортеж.блоб && строка.путь == кортеж.путь
+            }) else { continue }
+            if объект(кортеж.коммит), команда == ["rev-parse", "--verify", кортеж.коммит + "^{commit}"] || команда == ["rev-parse", "--verify", кортеж.коммит + "^{tree}"] { return true }
+            if объект(кортеж.блоб), команда == ["cat-file", "blob", кортеж.блоб] { return true }
+            if объект(кортеж.дерево), команда == ["ls-tree", "--full-tree", "--full-name", "-z", кортеж.дерево, "--", кортеж.путь] { return true }
+        }
+        return false
+    }
+    static func подготовить(_ запрос: ЗапросДопускаУправляемогоВызова, решение: РешениеХостаУправляемогоВызова,
+                            аргументы: [String], окружение: [String: String]) throws -> ПодготовленнаяКомандаЧтенияГит {
+        try проверить(запрос, решение: решение)
+        // GIT_COMMAND_BEGIN
+        let контекст = try физическийКонтекст(запрос, решение: решение)
+        guard командаРазрешена(аргументы, запрос: запрос, контекст: контекст) else { throw ОтказУправляемогоДопуска.отказ("команда-вне-контура-чтения-гит") }
+        let ключи = Set(запрос.окружение.keys).union(["GIT_AUTHOR_NAME", "GIT_AUTHOR_EMAIL", "GIT_AUTHOR_DATE", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL", "GIT_COMMITTER_DATE"])
+        guard Set(окружение.keys).isSubset(of: ключи), окружение.values.allSatisfy({ !$0.contains("\0") }),
+              обязательноеОкружение.allSatisfy({ окружение[$0.key] == $0.value }),
+              окружение["GIT_COMMON_DIR"] == контекст.общийАдмин.путь,
+              !аргументы.contains(where: { $0.contains("\0") }) else { throw ОтказУправляемогоДопуска.отказ("окружение-команды-чтения-гит") }
+        // GIT_COMMAND_END
+        return ПодготовленнаяКомандаЧтенияГит(аргументы: флаги + аргументы, окружение: окружение)
+    }
+}
+
+// Только значения и hash; здесь нет URL resolution, stat, чтения или Git.
+enum ЧистаяПроверкаФактическогоВызова {
+    static func ролиЗапроса(_ запрос: ЗапросДопускаУправляемогоВызова) throws {
+        guard let описание = СпецификацияУправляемойОперации.выбрать(запрос.аргументы) else { throw ОтказУправляемогоДопуска.отказ("форма-запроса") }
+        for (номер, поле) in описание.поля.enumerated() {
+            let аргумент = запрос.аргументы[номер]
+            switch поле {
+            case let .вход(роль):
+                guard запрос.пины.contains(where: { $0.роль == роль && $0.путь == аргумент }) else { throw ОтказУправляемогоДопуска.отказ("роль-входа-запроса") }
+            case let .выход(роль):
+                guard аргумент.hasPrefix("/"), let косая = аргумент.lastIndex(of: "/") else { throw ОтказУправляемогоДопуска.отказ("роль-выхода-запроса") }
+                let родитель = косая == аргумент.startIndex ? "/" : String(аргумент[..<косая])
+                let лист = String(аргумент[аргумент.index(after: косая)...])
+                guard запрос.пины.contains(where: { $0.роль == роль && $0.путь == родитель && $0.новыйЛист == лист }) else { throw ОтказУправляемогоДопуска.отказ("роль-выхода-запроса") }
+            case .корневойUUID:
+                guard аргумент == запрос.корневойUUID else { throw ОтказУправляемогоДопуска.отказ("корневой-UUID-запроса") }
+            case .флаг: break
+            }
+        }
+        if описание.стандартныйВвод && !запрос.пины.contains(where: { $0.роль == .стандартныйВвод && $0.путь == "stdin" }) { throw ОтказУправляемогоДопуска.отказ("нет-роли-stdin") }
+    }
+    static func вход(_ аргументы: [String], запрос: ЗапросДопускаУправляемогоВызова?, решение: РешениеХостаУправляемогоВызова?) throws -> ОперацияУправляемогоВызова {
+        try ПолитикаУправляемогоДопуска.проверить(запрос, решение, операция: запрос?.операция ?? .запрещено)
+        let допущеннаяОперация = запрос?.операция ?? .запрещено
+        // ACTUAL_ENTRY_BEGIN
+        guard let запрос, let описание = СпецификацияУправляемойОперации.выбрать(аргументы),
+              запрос.аргументы == аргументы, описание.операция == запрос.операция, описание.профиль == запрос.профиль else {
+            throw ОтказУправляемогоДопуска.отказ("фактические-argv-не-допущены")
+        }
+        // ACTUAL_ENTRY_END
+        return допущеннаяОперация
+    }
+    static func исполнитель(запрос: ЗапросДопускаУправляемогоВызова?, решение: РешениеХостаУправляемогоВызова?,
+                            определение: String, оператор: String, кореньЗапуска: String) throws {
+        try ПолитикаУправляемогоДопуска.проверить(запрос, решение, операция: запрос?.операция ?? .запрещено)
+        // ACTUAL_RUNNER_BEGIN
+        guard let запрос,
+              let пинОпределения = запрос.пины.first(where: { $0.роль == .определение }), пинОпределения.путь == определение, !пинОпределения.каталог,
+              let пинОператора = запрос.пины.first(where: { $0.роль == .оператор }), пинОператора.путь == оператор, !пинОператора.каталог, пинОператора.режимДоступа & 0o111 != 0,
+              let пинКорня = запрос.пины.first(where: { $0.роль == .кореньЗапуска }), пинКорня.путь == кореньЗапуска, пинКорня.каталог, пинКорня.режимДоступа == 0o700 else {
+            throw ОтказУправляемогоДопуска.отказ("фактические-параметры-исполнителя-не-допущены")
+        }
+        // ACTUAL_RUNNER_END
+    }
+}
+
+
+// Native saved configuration is observational data, never backend attestation or authority.
+
+struct ПривязкаНативногоЧата: Equatable, Sendable {
+    // Supplied separately by trusted ROOT/native transport caller, never decoded from profile JSON.
+    // This value records that boundary; it does not authenticate itself or grant authority.
+    let нативныйЧатUUID: String
+    let исполнительныйТактUUID: String?
+    let источникПривязки: String
+}
+
+struct ПрофильНативнойКонфигурации: Codable, Equatable, Sendable {
+    struct База: Codable, Equatable, Sendable {
+        let путь: String
+        let устройство: UInt64
+        let узел: UInt64
+        let владелец: UInt32
+        let режим: UInt32
+    }
+    let схема: String
+    let нативныйЧатUUID: String
+    let инструмент: ПинУправляемогоВхода
+    let база: База
+    let поколениеИзвестнойСмены: String
+    let запрошено: ПараметрыВыбораAPI?
+}
+struct СырыеБайтыНативнойКонфигурации {
+    let план: Data
+    let строка: Data
+    let отпечаток: String
+    let наблюденоМс: Int64
+}
+struct НаблюдениеНативнойКонфигурации: Encodable, Equatable, Sendable {
+    let схема = "fum.native-own-model-configuration.observation.1"
+    let нативныйЧатUUID: String
+    let поставщик: String
+    let значение: ПараметрыВыбораAPI
+    let запрошено: ПараметрыВыбораAPI?
+    let совпадаетСЗапрошенным: Bool?
+    let обновленоСек: Int64
+    let обновленоМс: Int64
+    let наблюденоМс: Int64
+    let наблюденоUTC: String
+    let отпечатокИсточника: String
+    let поколениеИзвестнойСмены: String
+    let режимИсточника: String
+    let backend = "UNKNOWN"
+    let исполнительныйТактUUID: String?
+    let источникПривязки: String
+    let наблюдённыйENVThreadID: String?
+    let связьENVСЧатом: String
+    // Row revision time does not date a model change. Caller event generation is separate.
+    func совпадаетСКонтекстом(сессия: String, поколениеИзвестнойСмены: String) -> Bool {
+        self.нативныйЧатUUID == сессия && self.поколениеИзвестнойСмены == поколениеИзвестнойСмены
+    }
+    fileprivate init(сессия: String, поставщик: String, значение: ПараметрыВыбораAPI, запрошено: ПараметрыВыбораAPI?,
+        обновленоСек: Int64, обновленоМс: Int64, наблюденоМс: Int64, отпечаток: String, поколение: String, режим: String, привязка: ПривязкаНативногоЧата, ENVThreadID: String?) {
+        self.нативныйЧатUUID = сессия; self.поставщик = поставщик; self.значение = значение; self.запрошено = запрошено
+        совпадаетСЗапрошенным = запрошено.map { $0 == значение }
+        self.обновленоСек = обновленоСек; self.обновленоМс = обновленоМс; self.наблюденоМс = наблюденоМс
+        let формат = ISO8601DateFormatter(); формат.timeZone = TimeZone(secondsFromGMT: 0)
+        наблюденоUTC = формат.string(from: Date(timeIntervalSince1970: Double(наблюденоМс) / 1000))
+        отпечатокИсточника = отпечаток; поколениеИзвестнойСмены = поколение; режимИсточника = режим
+        исполнительныйТактUUID = привязка.исполнительныйТактUUID; источникПривязки = привязка.источникПривязки
+        наблюдённыйENVThreadID = ENVThreadID.map { String($0.prefix(128)) }
+        связьENVСЧатом = ENVThreadID == сессия ? "ENV_VALUE_MATCHES_CHAT_UUID_TURN_SEMANTICS_UNKNOWN" : "UNKNOWN_DIFFERENT_OR_MISSING_ENV_ID"
+    }
+}
+enum ПровайдерНативнойКонфигурации {
+    static let поля: Set<String> = ["id", "model_provider", "model", "reasoning_effort", "updated_at", "updated_at_ms"]
+    static let пределВывода = 16_384
+    static let таймаутВызоваМс = 5_000
+    static let окружение = ["PATH": "/usr/bin:/bin", "LANG": "C", "LC_ALL": "C", "HOME": "/dev/null"]
+    static func каноническийUUID(_ значение: String) throws -> String {
+        guard let идентификатор = UUID(uuidString: значение), идентификатор.uuidString.lowercased() == значение else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-invalid-own-UUID")
+        }
+        return значение
+    }
+
+    static func сверитьПривязку(_ запрошенныйЧат: String, назначение: ПривязкаНативногоЧата,
+        наблюдённыйENVThreadID: String?) throws -> String {
+        _ = try каноническийUUID(назначение.нативныйЧатUUID)
+        if let такт = назначение.исполнительныйТактUUID { _ = try каноническийUUID(такт) }
+        guard запрошенныйЧат == назначение.нативныйЧатUUID,
+              !назначение.источникПривязки.isEmpty, назначение.источникПривязки.utf8.count <= 256 else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-profile-not-trusted-native-chat-assignment")
+        }
+        return наблюдённыйENVThreadID == назначение.нативныйЧатUUID
+            ? "ENV_VALUE_MATCHES_CHAT_UUID_TURN_SEMANTICS_UNKNOWN" : "UNKNOWN_DIFFERENT_OR_MISSING_ENV_ID"
+    }
+
+    static func сформироватьЗапрос(_ сессия: String) throws -> String {
+        let идентификатор = try каноническийUUID(сессия)
+        return "SELECT id, model_provider, model, reasoning_effort, updated_at, updated_at_ms FROM threads WHERE id = '"+ идентификатор +"' LIMIT 2;"
+    }
+    static func аргументы(_ текстЗапроса: String, база: String) -> [String] {
+        ["-batch", "-bail", "-init", "/dev/null", "-readonly", "-nofollow", "-json", база, текстЗапроса]
+    }
+    static func проверитьПлан(_ байты: Data) throws {
+        // NATIVE_MODEL_PLAN_GUARD_BEGIN
+        guard !байты.isEmpty, байты.count <= пределВывода,
+              let строки = try JSONSerialization.jsonObject(with: байты) as? [[String: Any]], (1...8).contains(строки.count) else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-query-plan-unavailable")
+        }
+        for строка in строки {
+            guard Set(строка.keys) == ["id", "parent", "notused", "detail"], let описаниеПлана = строка["detail"] as? String,
+                  целое(строка["id"]).map({ $0 >= 0 }) == true,
+                  целое(строка["parent"]).map({ $0 >= 0 }) == true,
+                  целое(строка["notused"]).map({ $0 >= 0 }) == true,
+                  описаниеПлана.range(of: "^SEARCH threads USING (COVERING )?(INDEX [A-Za-z0-9_]+|INTEGER PRIMARY KEY) \\((id|rowid)=\\?\\)$", options: .regularExpression) != nil else {
+                throw ОтказУправляемогоДопуска.неизвестно("native-model-query-plan-not-indexed-own-id")
+            }
+        }
+        // NATIVE_MODEL_PLAN_GUARD_END
+    }
+    private static func токен(_ значение: String) -> Bool {
+        let байты = Array(значение.utf8)
+        return (1...128).contains(байты.count) && байты.first.map({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) }) == true && байты.allSatisfy {
+            (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) || [45, 46, 95].contains($0)
+        } && !["unknown", "unavailable", "null", "unset"].contains(значение.lowercased())
+    }
+    private static func целое(_ значение: Any?) -> Int64? {
+        guard let число = значение as? NSNumber, ["q", "i", "s", "l", "Q", "I", "S", "L"].contains(String(cString: число.objCType)) else { return nil }
+        return Int64(число.stringValue)
+    }
+    private static func разобрать(_ байты: Data, сессия: String, поколение: String, запрошено: ПараметрыВыбораAPI?,
+        наблюденоМс: Int64, отпечаток: String, режим: String, привязка: ПривязкаНативногоЧата, ENVThreadID: String?) throws -> НаблюдениеНативнойКонфигурации {
+        _ = try каноническийUUID(сессия)
+        guard !байты.isEmpty, байты.count <= пределВывода,
+              let строки = try JSONSerialization.jsonObject(with: байты) as? [[String: Any]], строки.count == 1,
+              let строка = строки.first, let идентификатор = строка["id"] as? String, let поставщик = строка["model_provider"] as? String,
+              let модель = строка["model"] as? String, let усилие = строка["reasoning_effort"] as? String,
+              let секунды = целое(строка["updated_at"]), let миллисекунды = целое(строка["updated_at_ms"]) else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-row-missing-ambiguous-or-invalid-types")
+        }
+        // NATIVE_MODEL_ROW_GUARD_BEGIN
+        guard Set(строка.keys) == поля, идентификатор == сессия, UUID(uuidString: идентификатор)?.uuidString.lowercased() == идентификатор,
+              токен(поставщик), токен(модель), токен(усилие),
+              ["none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra"].contains(усилие),
+              секунды > 0, миллисекунды > 0, миллисекунды / 1000 == секунды, миллисекунды <= наблюденоМс,
+              !поколение.isEmpty, поколение.utf8.count <= 128 else {
+            throw ОтказУправляемогоДопуска.неизвестно("native-model-own-binding-values-or-row-revision")
+        }
+        // NATIVE_MODEL_ROW_GUARD_END
+        return НаблюдениеНативнойКонфигурации(сессия: идентификатор, поставщик: поставщик,
+            значение: ПараметрыВыбораAPI(model: модель, reasoningEffort: усилие), запрошено: запрошено,
+            обновленоСек: секунды, обновленоМс: миллисекунды, наблюденоМс: наблюденоМс, отпечаток: отпечаток, поколение: поколение, режим: режим, привязка: привязка, ENVThreadID: ENVThreadID)
+    }
+    /// Real callable provider point. Fresh native read on every call, no cached receipt/JSON fallback.
+    /// The profile describes exact RO inputs, and is not an authority/checker receipt.
+    static func наблюдатьДляНовогоДопуска(_ профиль: ПрофильНативнойКонфигурации, привязка: ПривязкаНативногоЧата) throws -> НаблюдениеНативнойКонфигурации {
+        let сырьё = try ШвыУправляемогоВызова.прочитатьСобственнуюНативнуюКонфигурацию(профиль, привязка: привязка)
+        return try разобрать(сырьё.строка, сессия: привязка.нативныйЧатUUID, поколение: профиль.поколениеИзвестнойСмены,
+            запрошено: профиль.запрошено, наблюденоМс: сырьё.наблюденоМс, отпечаток: сырьё.отпечаток, режим: "NATIVE_SQLITE_READONLY", привязка: привязка, ENVThreadID: ProcessInfo.processInfo.environment["CODEX_THREAD_ID"])
+    }
+    #if TESTING
+    static func разобратьПроверочное(_ байты: Data, сессия: String, поколение: String = "test-generation-1",
+        запрошено: ПараметрыВыбораAPI? = nil, наблюденоМс: Int64 = 1_800_000_000_000) throws -> НаблюдениеНативнойКонфигурации {
+        try разобрать(байты, сессия: сессия, поколение: поколение, запрошено: запрошено,
+            наблюденоМс: наблюденоМс, отпечаток: ГенераторМетаданныхКоммита.sha256Hex(байты), режим: "TESTING_SYNTHETIC_NOT_NATIVE",
+            привязка: ПривязкаНативногоЧата(нативныйЧатUUID: сессия, исполнительныйТактUUID: nil, источникПривязки: "TESTING_SYNTHETIC_BINDING"), ENVThreadID: nil)
+    }
+    #endif
 }
