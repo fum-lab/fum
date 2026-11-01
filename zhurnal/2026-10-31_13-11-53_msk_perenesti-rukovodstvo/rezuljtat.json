@@ -1,0 +1,56 @@
+{
+  "схема": "fum.результат-рабочего-переноса.1",
+  "корневаяЗадача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "времяUTC": "2026-10-31T10:11:53.846Z",
+  "ветка": "refs/heads/fum-lab/fum/master",
+  "основание": "833060b1716c40c74b44d2d62bb76198cf82987e",
+  "исправление": {
+    "PR": "https://github.com/fum-lab/fum/pull/490",
+    "source": "eb512829deee70bd0c53be307148442d8aa95a88"
+  },
+  "перенос": {
+    "исходный": "iskhodniki/aktualizaciya-putej/kontraktyi/руководство-общей-миграции.md",
+    "целевой": "iskhodniki/aktualizaciya-putej/kontraktyi/rukovodstvo-obsjhej-migracii.md",
+    "guideSHA256": "812c755f586e172c9d38453e6ba4a827b817d1baf4db4f9415a9c8f53d066a95",
+    "обновленоСсылок": 1,
+    "consumerSHA256": "e93cf51854a44a880a3dca05667bf103ee7b82a4b59b413bfe75f1d43bcaac5b",
+    "защищённыйОригиналSHA256": "55a21743f0e8271ec3b58c53cfa1e1d6f23c4f6bfdb8d5f722534933754d2310"
+  },
+  "проверка": {
+    "полнаяДельтаStage": "Только имя руководства; прежний blob и все остальные записи сохранены",
+    "режимИндекса": "0644",
+    "прежнихDirtyСохранено": 5,
+    "старыхРезервовСохраненоВКарантине": 3,
+    "новыхВременныхКопий": 0
+  },
+  "профиль": {
+    "target": 0,
+    "host": 0,
+    "durationNS": "35072636208",
+    "maxSampledGroupRSSBytes": 338526208,
+    "samples": 7,
+    "immutablePins": 152,
+    "groupAbsent": true,
+    "unknown": []
+  },
+  "свидетельстваSHA256": {
+    "восстановление": "b5f5b7ccfe3bb5902fb3be068c75dcca67e0f7264d455a2248b6b23bb44851cc",
+    "приёмкаИсправления": "2cb1da5fe9a7cd0be0f31486c257ecffd28932a947ea3e6ab28a0dc8cc4aff6b",
+    "проверкаПереноса": "bcf51affdcabd5c947146d6e2640d7b347756328e85d3e88cce0108f3cc27886",
+    "наблюдениеДоверияХука": "797a7c14490238b2128854419dc10da7d652ffdee97d2e65b0f90721ac1c30d5"
+  },
+  "Stop": {
+    "наблюдениеЧеловека": "Доверенный и включён",
+    "nativeCallback": "UNKNOWN",
+    "прежнийСнимок": "Истёк и устарел; не повторять"
+  },
+  "границы": [
+    "Python/ROOTNativeRAW0",
+    "No repeated fullROplan/observer/sample/compile",
+    "GeneralN32profile/fullsmoke/recencyvalidatorUNKNOWN",
+    "FullSDKdyldkernelclosureUNKNOWN",
+    "ActualNativecallbackUNKNOWN",
+    "No child Rootwrite orruntimeSTART"
+  ],
+  "состояние": "Один рабочий перенос подтверждён; общий профиль и финальная приёмка узла не подтверждены"
+}

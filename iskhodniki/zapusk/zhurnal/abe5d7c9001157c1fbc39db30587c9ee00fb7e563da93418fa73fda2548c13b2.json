@@ -1,0 +1,74 @@
+{
+  "входSHA256" : "485c8de2bfcee016168a547e17fa14b2bacc24272f05d619e0bb0cc13dbb0892",
+  "данные" : {
+    "время" : "2026-10-26T19:46:33.264648Z",
+    "доставка" : [
+      {
+        "вид" : "Конечныйsourceguardquality",
+        "идентификатор" : "c7ce8e392ff4945cf60a6292dae89d1dd3da42b2",
+        "свидетельство" : "Exacttree/parents/raw/body/identity/remoteи2receiptсемействапроверены,ограниченныйconsumerуровень."
+      }
+    ],
+    "исход" : "КонечныйguardqualityC7проверен и включается ordinarymerge; новаяязыковаяпроверкаclosed, consumerуровень. Далееexactstaged/scopedPUB/commit/readback/push/remote, неROOTприёмка.",
+    "область" : "iskhodniki/zapusk",
+    "остаток" : [
+      "ЗавершитьC7mergeиобновитьфактическийPRhead/diff.",
+      "ПринятьframerC9послепроверкиметаданных/3тестов.",
+      "ПринятьготовыеRAW/LLMсрезыбезproducer/SDK;затемacceptedauthorCLIпоставка/минимальнаяпроводкаирегрессия.",
+      "FullPUB1/ROOT/master/live/canonicalсинхронизацияотдельны."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "ПоставкаC7:guard9/9наJSON021f",
+        "наносекунды" : 7792848750,
+        "свидетельство" : "ProviderSwiftwrapperwholeprocess; stdoutSHA151a7702515601109482f34805f2a400cef464b6357dc3a641b12554cada5451/stderrSHAf6c594ff2fc2aafe564ec902410aa38203b612c33983750581a2fdb16e5adef0; source/readbackотдельно."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "ПоставкаC7:profilev2,3×10pureData",
+        "наносекунды" : 3550552875,
+        "свидетельство" : "Wholeprocess; внутренниесерии2580666/2172250/2170834ns. stdoutSHAde0564a7a9602d64193cc7518a2dc34c4cdf29847de4b986c66be075019596d9; безскорости."
+      }
+    ],
+    "происхождение" : [
+      "Конечный guardsourcec7ce8e392ff4945cf60a6292dae89d1dd3da42b2,tree67ce497f52e3d147e08fcd93f8f979168ebdbbee,parentf883600a9f15313cc4f8ad381513b2f189d6188a,rawSHA3dfcecf3a70f0927d50497fa91aea37ace59291ad502fc346adc74b0c11ada94. Exactremoteсовпал; source0e96принятchildобычнымmergef883.",
+      "НезависимыйRO: дваSwiftblobпобайтноравны401после5согласованныхпереименований и schema1→2. Логика/publicAPI/rawJSONkeys/expectedpins/Package неизменны.",
+      "PrivateSwiftreceiptсемейства suite-final/profile-final отдельно прочитаны: argv/stdout/stderrsizeSHAсовпали;wholeprocessContinuousClock7792848750/3550552875ns. Captureuniverse не включаетновые2Swift: finalSHA4771a3e99e455caee7aadd9b892aa1217aa11d5cdcd85028a2e8dfdb3a43f440/dc0a99a7d49a86322d34560d3c365f1acc09b06495792d9b645ad6ff4a8c26d1отдельноизGit.",
+      "ИсточникJSON021f содержит149981bytes; на нём9/9ипрофиль3×10. Координаторнеобъявляетсвойповторныйпрогоннадобавочныхметаданных."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "ПринятьконечныйC7обычнымmergeсдвумяродителями;401/0e96/f883историясохраняется.",
+      "СохранитьprivateCodingKeysrawstrings,публичныйguardAPIиexpected3557pins; ce4false/3557trueнеизменны.",
+      "Обновитьактуальнуюсвязьguardисточника/профиля2, добавитьисторию401иотдельнуюмонотоннуюreceiptпроверку.",
+      "ПроверкивыполненыproviderнаfinalC7исходниках/JSON021f;ихдлительностипривязаныким. Rootметаданныеguardпроекцииидентичныродителю,повтор9/9/старых5/8/11/78необоснован.",
+      "Framerc9получен иещёпроверяется;RAWfixture/LLMreceiptпродолжаются;корневаяauthorCLIпроводкаждётотдельнойacceptedsourceотinstrumentyi."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "производное",
+        "оригинал" : {
+          "sha256" : "2989be01f639f5e09dd1460a57d35bac7d4f9de81c91bd3115451292d7e2a8f9",
+          "байтов" : 4048,
+          "источник" : "Адресноеquality-поручениеFUMAstartupowner."
+        },
+        "происхождение" : "Exactoutgoingagentinputсохранёнвсобственномnative; исходникдоступенприватно, первичныйhumanисточникневыдуман.",
+        "роль" : "агент",
+        "текст" : "Конечныйqualityэтапguard: пятьнеобоснованныхлатинскихownимён переводятся каноническойадреснойавтоматизацией, profilekeyмигрируетв2; codingkeys/rawJSON/publicAPI/логикасохраняются. Тольконоваяsuite9/9ипрофиль, старыеACT/наборы/ROOT21неповторять."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 22,
+      "писатель" : "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "стадия" : "постановка-cli-пакета-девяти-путей"
+    }
+  },
+  "идентификатор" : "abe5d7c9001157c1fbc39db30587c9ee00fb7e563da93418fa73fda2548c13b2",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
