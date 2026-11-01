@@ -49,10 +49,18 @@
     "активация_runtime": "FORBIDDEN"
   },
   "доставка": {
-    "локальный_коммит": "PENDING",
-    "удалённый_oid": "PENDING",
-    "приёмка_ROOT": "UNKNOWN",
+    "локальный_коммит": "f9637b961a881f73251e2f137161567dbca3d823",
+    "родитель": "87116f00a9c6f2434b56a4c11b30d5a1fde39210",
+    "tree": "8e0b9532549d91f051ea2d0d4057dce5b84d60f1",
+    "author": "FUM Codex [gpt-6-luna; effort=low] <fum@local>",
+    "committer": "FUM <fum@local>",
+    "ref": "refs/heads/fum-lab/fum/planirovaniye/master",
+    "remote": "https://github.com/fum-lab/fum.git",
+    "удалённый_oid": "f9637b961a881f73251e2f137161567dbca3d823",
+    "удалённый_readback": "git ls-remote origin подтвердил тот же OID после push",
+    "доставка_ветки": "CONFIRMED",
+    "приёмка_ROOT": "NOT_GRANTED",
     "интеграция_master": "UNKNOWN",
-    "активация_runtime": "UNKNOWN"
+    "активация_runtime": "FORBIDDEN"
   }
 }
