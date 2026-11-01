@@ -152,14 +152,62 @@
       "originReadback": "5267e417d096bdd505f7d6067be22adbd5d8ccb7",
       "ordinaryExactPush": true
     },
+    "reportClosure": {
+      "commit": "0b2a55d781a31e08662916bf43ab42c2b59237ce",
+      "tree": "a0e5fa5ba5bded80dc164f07ed8710ebbccf24ff",
+      "parent": "5267e417d096bdd505f7d6067be22adbd5d8ccb7",
+      "originReadback": "0b2a55d781a31e08662916bf43ab42c2b59237ce",
+      "ordinaryExactPush": true
+    },
     "nextAuthorizedWorkItem": {
       "schema": "runtime-continuation-existing-cycle-factory-work-order-v1",
+      "id": "runtime-continuation-existing-cycle-factory-01a17797-20261101",
       "bytes": 4496,
       "sha256": "b380a09a5eb71f06651d377f6545c547df5cdcf9d85ce5a738ee634ac2cd0240",
+      "ownerActor": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+      "ownerRole": "Routine — существующий ЦиклЗапуска/worklist/current",
       "sequencing": "Использовать как следующий вход собственного плана после закрытия текущего correction ACT; source paths текущего этапа не расширяет.",
       "requiredLinkage": "В последующей поставке подтвердить связь work item, owner и остатка.",
       "limits": "Новый runtime и Native activation не разрешены."
     },
-    "status": "Source checkpoint 5267e417d096bdd505f7d6067be22adbd5d8ccb7 доставлен; независимый ls-remote совпал. Осталась add-only closure собственных отчёта/планов, после которой continuation work order читается как следующий вход собственного плана. ROOT acceptance, compiler/tests, runtime и Native activation отсутствуют."
+    "status": "Source checkpoint 5267e417d096bdd505f7d6067be22adbd5d8ccb7 и report closure 0b2a55d781a31e08662916bf43ab42c2b59237ce доставлены обычными точными push; независимые ls-remote совпали. Correction этап закрыт без ROOT acceptance, compiler/tests, runtime или Native activation."
+  },
+  "принятыйContinuationWorkOrder": {
+    "schema": "fum.tools.runtime.existing-owner-continuation-work-order.1",
+    "id": "runtime-continuation-existing-cycle-factory-01a17797-20261101",
+    "bytes": 4496,
+    "sha256": "b380a09a5eb71f06651d377f6545c547df5cdcf9d85ce5a738ee634ac2cd0240",
+    "issuer": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "humanROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "ownWorkItem": {
+      "actor": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+      "role": "Routine — существующий ЦиклЗапуска/worklist/current",
+      "sourceACTSHA256": "3a7a0b14603cb6130bc279c0a80906b71fe06698820c1c83b4055ecf744d0f9a",
+      "sourceCommit": "5267e417d096bdd505f7d6067be22adbd5d8ccb7",
+      "reportClosureCommit": "0b2a55d781a31e08662916bf43ab42c2b59237ce",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master"
+    },
+    "delivery": {
+      "acceptedIntoOwnerVersionedPlan": true,
+      "receipt": "Этот add-only commit и точный push обновлённого root plan; downstream ACK реализации не заявляется."
+    },
+    "residual": {
+      "completed": "Decision-order/shared-Segment correction прошёл bounded SOURCEACK и доставлен вместе с отчётом.",
+      "remaining": "После рестарта текущий CLI требует descriptor/worklist/message повторно; отдельного read-only API восстановления сохранённого addressed envelope из существующего Segment нет. Production provider/runtime остаются вне разрешённой области.",
+      "separateOwner": "Factory item остаётся у actor 01a192b8-3f85-73c3-a69c-38269efbb3be; его binding/bootstrap/recovery source area не менялась и не читалась для этого предложения."
+    },
+    "nextSourceProposal": {
+      "status": "Предложение владельца; не разрешение на запись. Work order не расширяет закрытый correction ACT.",
+      "base": "0b2a55d781a31e08662916bf43ab42c2b59237ce",
+      "tree": "a0e5fa5ba5bded80dc164f07ed8710ebbccf24ff",
+      "paths": [
+        {"path": "iskhodniki/zapusk/ПутьХранилища.swift", "bytes": 4905, "sha256": "0af7013fcdca7427a28bd0a346c1f1c96aa6a5d6cd1209d4bb2a42c4a861adab", "blob": "d9fcba6f28c7a6157ccb954fdb200dfa49df9fac"},
+        {"path": "iskhodniki/zapusk/ЦиклЗапуска.swift", "bytes": 25606, "sha256": "5b6cd03b6c97f03f241824ab8913f0f525a70c63343461a1ba36c8fca6342d12", "blob": "1ad10472087ac4f7ce2e0ba88a6919f75514eeae"},
+        {"path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift", "bytes": 32030, "sha256": "0fdad56292dd4a0ec5dae989f00fb579a79a63a4dfc05ebc5780d266145355d9", "blob": "acdbf64e4d7ffca51e488e6f6e61c31c29b774fc"}
+      ],
+      "boundedDiff": "Добавить fail-closed read-only validation только для уже существующего хранилища (без mkdir/chmod), затем API восстановления по сохранённому operationID: открыть Segment только для чтения, отклонить хвост, проверить тип/schema/source, точные байты/квитанцию и descriptor binding, вернуть immutable saved envelope без append/replay. Добавить fixtures для точного восстановления после нового actor, отсутствующего каталога без создания и повреждённого хвоста без ремонта.",
+      "exclusions": ["Команда.swift/CLI", "Package.swift", "новый storage/target/dispatcher", "runtime", "Native", "сборка и тестовый запуск до отдельного допуска"],
+      "requiredNextAuthority": "Новый точный source ACT с pins перечисленных путей; этот work order сам его не выдаёт."
+    }
   }
 }
