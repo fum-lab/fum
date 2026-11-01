@@ -1,0 +1,738 @@
+{
+  "схема": "fum.подготовка-закрытого-запуска-коммита.1",
+  "задача": 363,
+  "issue": "https://github.com/fum-lab/fum/issues/363",
+  "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "writerUUID": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+  "исходник": "e15c0ba3822360389f96bb74cd55642f801831e7",
+  "допуск": {
+    "bytes": 4403,
+    "sha256": "7aedf8c024ca78447b0247918ded8f4f554c570e629a9c7f001268db2a3d8aec",
+    "уточнение": {
+      "bytes": 1153,
+      "sha256": "f6ae7e5a38e949069c590e232c72b98226015f9f3358beb3d4c08f9f34724ada"
+    }
+  },
+  "граница": "Сохраняющий source checkpoint. ROOT-приёмка, master, production и полный профиль не предоставлены.",
+  "пути": [
+    "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+    "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+    "koordinaciya/координатор.swift",
+    "koordinaciya/priyom-root.swift",
+    "koordinaciya/proverki-priyoma-root.swift",
+    "iskhodniki/perekhod-vetok/zhurnal/363.json"
+  ],
+  "программа": {
+    "фаза1": "Проверить selector/SHA, canonical JSON, полный source graph, identity/date и независимый host ROOT/stage до любых дочерних процессов.",
+    "фаза2": "Фиксированными RO Git-вызовами наблюдать физический W/ref/H/sourceTree/MERGE_HEAD; diff --cached --quiet доказывает index==preparedCommitTree без write-tree. Затем подтвердить nonDecodable plan до mutating commit.",
+    "вызов": "Абсолютный executable, массив argv, явный cwd, полное закрытое окружение. Для каждого подготовленного commit один mutating launch. Существующая подготовка merge и её durable intent остаются отдельным эффектом программы ROOT. Проверенные байты сообщения передаются из immutable Data через stdin с -F -; Git не переоткрывает pathname.",
+    "чтениеРезультата": "Существующий SHA-1/SHA-256 OID+author/body adapter, затем точные tree/orderedParents/email/committer/timestamps/timezones. Старая receipt .2 сама не является полной.",
+    "UNKNOWN": "Новый mutating запуск не повторяется по неизвестному ответу; сначала retained intent и независимый raw readback.",
+    "тело": "Готовое messageFile проверяется через verifiedPath. Старый FUMA reference имеет другой формат; его выход не выдаётся за подтверждение этого тела.",
+    "hostStage": "В этом конечном ROOT-профиле stageUUID связывается с независимым native writer UUID; CLI получает ROOT/stage отдельными явными аргументами."
+  },
+  "состояние": {
+    "implementation": "Реализован source-срез; точные source bookends совпали после трёх запусков.",
+    "RED": {
+      "статус": "functional RED",
+      "top": 1,
+      "tests": 2,
+      "issues": 4,
+      "compile": "успешно",
+      "seconds": 20.925228749999775,
+      "stdout": {
+        "bytes": 2694,
+        "sha256": "4f6832f3c6f752708fdf79cc0bf348995bb64d5e8b3ffe48f5dc45fcb7114e00"
+      },
+      "stderr": {
+        "bytes": 1238,
+        "sha256": "999a5a1089e22af3386522030ba8006aad954086d4448ffd35839345d37b2667"
+      }
+    },
+    "CLI": {
+      "статус": "compiled",
+      "top": 2,
+      "seconds": 7.085039374999702,
+      "binary": {
+        "bytes": 2799368,
+        "sha256": "1e6282ee4f660fd5600c459d7ee4193fd34e6c3113ab62c70add60a370648e58"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "GREEN": {
+      "статус": "PASS выбранного конечного контура",
+      "top": 3,
+      "tests": 6,
+      "seconds": 22.393329541001467,
+      "stdout": {
+        "bytes": 1798,
+        "sha256": "2e8e34c494c20e372588fd1f09b54bfe5f43a24bc4619e6a2c30c5db32f4a54c"
+      },
+      "stderr": {
+        "bytes": 1086,
+        "sha256": "2ff8a77396e382c52370a3ac9099fba60371faae339ac1564630c6ad3b461e23"
+      }
+    },
+    "checkpoint": "Предкоммитный снимок: фактический commit OID проверяется и сохраняется во внешней квитанции после создания, не самоссылкой в этом JSON.",
+    "push": "Исход публикации и независимое remote readback фиксируются во внешней delivery receipt.",
+    "ROOT": "не принят"
+  },
+  "проверки": {
+    "фильтр": "ПроверкиПодготовкиОкруженияКоммита363",
+    "REDФайл": {
+      "source": "koordinaciya/proverki-priyoma-root.swift",
+      "bytes": 36247,
+      "sha256": "87714e0a1265790105135656f0077b39dc55e6279593131add385bf1688e377c"
+    },
+    "неизменённыйБлокРегрессий": {
+      "bytes": 12722,
+      "sha256": "bf66f4adc6b3de377af5809771a828d286528da3c4f7724039b33b98b93ceb43"
+    },
+    "предлагаемыеНативныеСценарии": 2,
+    "планПрямыхGitВызовов": 31,
+    "полнаяСтараяSuite": "исключена; не GREEN",
+    "ограничение": "Реальный durable Segment close/reopen и production pending-resume в merge-сценарии; RO-config и историческая policy инъецированы только в TESTING. Fresh OS crash, production FUMA и remote не проверяются.",
+    "GREENФайл": {
+      "bytes": 68779,
+      "sha256": "9eb3d8db512a315eb14517b1dceecc55ea78ff53b8b790b4825333e6e8cd7c0b",
+      "unchangedREDRegressionBlock": {
+        "bytes": 12722,
+        "sha256": "bf66f4adc6b3de377af5809771a828d286528da3c4f7724039b33b98b93ceb43"
+      },
+      "frozenFullREDFile": {
+        "source": "koordinaciya/proverki-priyoma-root.swift",
+        "bytes": 36247,
+        "sha256": "87714e0a1265790105135656f0077b39dc55e6279593131add385bf1688e377c"
+      },
+      "helperChange": "Optional full environment; pending-resume fixture uses production class with TESTING-only RO/policy injection",
+      "nativeDirectGitPlanned": 31
+    },
+    "нативныеКвитанции": {
+      "count": 31,
+      "allExitZero": true,
+      "commitLaunches": 2,
+      "mergeLaunches": 1,
+      "manifestSHA256": "ed9dbc04ff48c7607d214546dab254c2aff2aa6b54d5a3b5057d42437b8a3921",
+      "fullReadback": [
+        {
+          "bytes": 1492,
+          "sha256": "db960e8e225ac308544cb81398ec2eecf0d826a26e47a89813e80b81c7ba903f",
+          "syntheticOID": "75dd1fd9f36e539d403740becb569fea970822cc",
+          "modelAuthenticated": false
+        }
+      ]
+    },
+    "pending": "Реальный Segment: 5 terminal/intent записей, close, единственный native commit, новый экземпляр production ПрограммаПриёмаROOT, проверка цепи и pending-resume в raw, HEAD/cat-file без нового merge/commit. Служебные RO/policy в TESTING инъецированы.",
+    "сообщение": "Файл сообщения подменён после подтверждения; commit получает исходный проверенный immutable stdin. Перед reopen исходные байты восстановлены для проверки полного source graph."
+  },
+  "воспроизведение": {
+    "условия": "W — чистый checkout точного source checkpoint; P — новый собственный приватный каталог вне Git, 0700; копировать ровно перечисленные source-файлы без изменения байтов. Значения private paths/environment в Git не сохраняются.",
+    "manifest": "// swift-tools-version: 6.0\nimport PackageDescription\n\nlet package = Package(\n    name: \"RootAcceptance\",\n    platforms: [.macOS(.v14)],\n    products: [.library(name: \"RootAcceptance\", targets: [\"RootAcceptance\"])],\n    targets: [\n        .target(name: \"КонтейнерНаблюдений\", path: \"Sources/КонтейнерНаблюдений\", sources: [\"Ввод.swift\", \"Контракт.swift\", \"НаблюдениеФайловойСистемы.swift\", \"Сегмент.swift\", \"Файлы.swift\", \"Формат.swift\"]),\n        .target(name: \"RootAcceptance\", dependencies: [\"КонтейнерНаблюдений\"], path: \"Sources/RootAcceptance\", sources: [\"координатор.swift\", \"генератор-метаданных-коммита.swift\", \"priyom-root.swift\", \"kontrakt-istochnika-kodeks.swift\", \"adapter-git-avtor-commita.swift\"], swiftSettings: [.define(\"TESTING\")]),\n        .testTarget(name: \"RootAcceptanceTests\", dependencies: [\"RootAcceptance\", \"КонтейнерНаблюдений\"], path: \"Tests/RootAcceptanceTests\", sources: [\"proverki-priyoma-root.swift\"])\n    ],\n    swiftLanguageModes: [.v6]\n)\n",
+    "productionClosure": [
+      {
+        "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+        "байтыБазы": 45772,
+        "sha256Базы": "4f1c12439852d364f74cac347a50b309bf6f155048affaa11f77dccdf0dcef81"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "байтыБазы": 15138,
+        "sha256Базы": "1858a3c7d320964c64548d6cf588fadb00b11d2054bf6d07acd6d3f00a3abda9"
+      },
+      {
+        "путь": "koordinaciya/координатор.swift",
+        "байтыБазы": 163702,
+        "sha256Базы": "0faff5e6659faa846b7c1a8213883d1884112a39953f9856968bde77b5b3cc48"
+      },
+      {
+        "путь": "koordinaciya/priyom-root.swift",
+        "байтыБазы": 31181,
+        "sha256Базы": "e2b457ac18e222edcaf15c8e7f1040f60cc58f338d10cf062447f6dc9716520c"
+      },
+      {
+        "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+        "байтыБазы": 57134,
+        "sha256Базы": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "байтыБазы": 1969,
+        "sha256Базы": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "байтыБазы": 2663,
+        "sha256Базы": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "байтыБазы": 43264,
+        "sha256Базы": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "байтыБазы": 21182,
+        "sha256Базы": "964581c3edec9e092629118b501fe53dbd9867d3eee381c87b4adec1ea82477c"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "байтыБазы": 4320,
+        "sha256Базы": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "байтыБазы": 11489,
+        "sha256Базы": "81f37986f689a9281fd802bc5afc29a912daa5cc452c4c22cb740daad118b713"
+      }
+    ],
+    "CLIClosure": [
+      "koordinaciya/координатор.swift",
+      "koordinaciya/генератор-метаданных-коммита.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift"
+    ],
+    "SDK": {
+      "настройкиSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "компиляторSHA256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+      "target": "arm64-apple-macosx14.0"
+    },
+    "SwiftTestАргументы": [
+      "test",
+      "--package-path",
+      "${P}/harness",
+      "--scratch-path",
+      "${P}/build",
+      "--cache-path",
+      "${P}/cache",
+      "--config-path",
+      "${P}/config",
+      "--security-path",
+      "${P}/security",
+      "--manifest-cache",
+      "local",
+      "--disable-sandbox",
+      "--jobs",
+      "1",
+      "--sdk",
+      "${SDK}",
+      "--triple",
+      "arm64-apple-macosx14.0",
+      "--disable-xctest",
+      "--enable-swift-testing",
+      "-Xswiftc",
+      "-strict-concurrency=complete",
+      "-Xswiftc",
+      "-warnings-as-errors",
+      "-Xswiftc",
+      "-Xfrontend",
+      "-Xswiftc",
+      "-enable-actor-data-race-checks",
+      "-Xswiftc",
+      "-module-cache-path",
+      "-Xswiftc",
+      "${P}/module-cache",
+      "--filter",
+      "ПроверкиПодготовкиОкруженияКоммита363"
+    ],
+    "бюджет": {
+      "topMax": 3,
+      "sequence": [
+        "functional RED selected suite",
+        "strict four-source CLI build",
+        "GREEN selected suite plus at most two synthetic local Git cases"
+      ],
+      "wallSecondsPerTop": 180,
+      "jobs": 1,
+      "scratchMiB": 512,
+      "nativeLocalGitCasesMax": 2,
+      "gitDescendantsMax": 32,
+      "heavyBuildConcurrency": 1,
+      "requireCompilerSDKAndInputManifest": true,
+      "unknownOrTerminalResult": "Сначала сохранить и разобрать исход, не повторять вслепую и не расширять бюджет"
+    },
+    "текущиеИсходники": [
+      {
+        "source": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+        "privateRelative": "Sources/RootAcceptance/kontrakt-istochnika-kodeks.swift",
+        "bytes": 81515,
+        "sha256": "c3e8285e395ecf8b9f3657ebef5f080421e9b81d586aa553f8523ab1bdf14c45"
+      },
+      {
+        "source": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "privateRelative": "Sources/RootAcceptance/adapter-git-avtor-commita.swift",
+        "bytes": 27098,
+        "sha256": "f558ed2fddbaa13cdf0cf8cf9cb87fbc1a0605b8de08bec83f06faa95f3a6807"
+      },
+      {
+        "source": "koordinaciya/координатор.swift",
+        "privateRelative": "Sources/RootAcceptance/координатор.swift",
+        "bytes": 184538,
+        "sha256": "8ce39d2de2d64d6343598097bf627c208049ff2ceba07c99b48398577b77a909"
+      },
+      {
+        "source": "koordinaciya/priyom-root.swift",
+        "privateRelative": "Sources/RootAcceptance/priyom-root.swift",
+        "bytes": 37069,
+        "sha256": "d2e3372db96e816cd6f5d3f6a055b79353271fb9719899d231166048aee433a3"
+      },
+      {
+        "source": "koordinaciya/генератор-метаданных-коммита.swift",
+        "privateRelative": "Sources/RootAcceptance/генератор-метаданных-коммита.swift",
+        "bytes": 57134,
+        "sha256": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Ввод.swift",
+        "bytes": 1969,
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Контракт.swift",
+        "bytes": 2663,
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "bytes": 43264,
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "bytes": 21182,
+        "sha256": "964581c3edec9e092629118b501fe53dbd9867d3eee381c87b4adec1ea82477c"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Файлы.swift",
+        "bytes": 4320,
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Формат.swift",
+        "bytes": 11489,
+        "sha256": "81f37986f689a9281fd802bc5afc29a912daa5cc452c4c22cb740daad118b713"
+      }
+    ],
+    "CLIАргументы": [
+      "-sdk",
+      "${SDK}",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-swift-version",
+      "6",
+      "-strict-concurrency=complete",
+      "-warnings-as-errors",
+      "-Xfrontend",
+      "-enable-actor-data-race-checks",
+      "-module-cache-path",
+      "${P}/module-cache",
+      "-parse-as-library",
+      "${P}/harness-fixed/Sources/RootAcceptance/координатор.swift",
+      "${P}/harness-fixed/Sources/RootAcceptance/генератор-метаданных-коммита.swift",
+      "${P}/harness-fixed/Sources/RootAcceptance/kontrakt-istochnika-kodeks.swift",
+      "${P}/harness-fixed/Sources/RootAcceptance/adapter-git-avtor-commita.swift",
+      "-o",
+      "${P}/bin/координатор-363"
+    ],
+    "компилированныеИсходники": [
+      {
+        "source": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+        "privateRelative": "Sources/RootAcceptance/kontrakt-istochnika-kodeks.swift",
+        "bytes": 81515,
+        "sha256": "c3e8285e395ecf8b9f3657ebef5f080421e9b81d586aa553f8523ab1bdf14c45"
+      },
+      {
+        "source": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "privateRelative": "Sources/RootAcceptance/adapter-git-avtor-commita.swift",
+        "bytes": 27098,
+        "sha256": "f558ed2fddbaa13cdf0cf8cf9cb87fbc1a0605b8de08bec83f06faa95f3a6807"
+      },
+      {
+        "source": "koordinaciya/координатор.swift",
+        "privateRelative": "Sources/RootAcceptance/координатор.swift",
+        "bytes": 184538,
+        "sha256": "8ce39d2de2d64d6343598097bf627c208049ff2ceba07c99b48398577b77a909"
+      },
+      {
+        "source": "koordinaciya/priyom-root.swift",
+        "privateRelative": "Sources/RootAcceptance/priyom-root.swift",
+        "bytes": 37069,
+        "sha256": "d2e3372db96e816cd6f5d3f6a055b79353271fb9719899d231166048aee433a3"
+      },
+      {
+        "source": "koordinaciya/генератор-метаданных-коммита.swift",
+        "privateRelative": "Sources/RootAcceptance/генератор-метаданных-коммита.swift",
+        "bytes": 57134,
+        "sha256": "dad99167515373e7791379ce673d8b85ccf3975405e9bf41512b1b77e24ef014"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Ввод.swift",
+        "bytes": 1969,
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Контракт.swift",
+        "bytes": 2663,
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "bytes": 43264,
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "bytes": 21182,
+        "sha256": "964581c3edec9e092629118b501fe53dbd9867d3eee381c87b4adec1ea82477c"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Файлы.swift",
+        "bytes": 4320,
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "privateRelative": "Sources/КонтейнерНаблюдений/Формат.swift",
+        "bytes": 11489,
+        "sha256": "81f37986f689a9281fd802bc5afc29a912daa5cc452c4c22cb740daad118b713"
+      }
+    ],
+    "GREENАргументы": [
+      "test",
+      "--package-path",
+      "${P}/harness-fixed",
+      "--scratch-path",
+      "${P}/build-fixed",
+      "--cache-path",
+      "${P}/cache",
+      "--config-path",
+      "${P}/config",
+      "--security-path",
+      "${P}/security",
+      "--manifest-cache",
+      "local",
+      "--disable-sandbox",
+      "--jobs",
+      "1",
+      "--sdk",
+      "${SDK}",
+      "--triple",
+      "arm64-apple-macosx14.0",
+      "--disable-xctest",
+      "--enable-swift-testing",
+      "-Xswiftc",
+      "-strict-concurrency=complete",
+      "-Xswiftc",
+      "-warnings-as-errors",
+      "-Xswiftc",
+      "-Xfrontend",
+      "-Xswiftc",
+      "-enable-actor-data-race-checks",
+      "-Xswiftc",
+      "-module-cache-path",
+      "-Xswiftc",
+      "${P}/module-cache",
+      "--filter",
+      "ПроверкиПодготовкиОкруженияКоммита363"
+    ]
+  },
+  "источникЛичности": {
+    "тип": "Разрешённые ROOT метаданные выбранного Native клиента; exact UUID selector, без RAW/JSONL.",
+    "модель": "gpt-6.1-sol",
+    "усилие": "ultra",
+    "источникМоделиАутентифицирован": false,
+    "backendAuthenticated": false,
+    "наблюдениеSHA256": "6301f5e44610ce6eaf194996f77a2b3982f224a5209c73d6e42bc536d7b03e5a",
+    "времяUTC": "2026-10-30T13:21:07.043Z",
+    "полнаяИсторияJSONL": "исключена; не проверена"
+  },
+  "неПроверено": [
+    "Python/router",
+    "ROOT JSONL/RAW",
+    "RootPackage edits",
+    "whole RootAcceptanceSuite",
+    "production FUMA/model API",
+    "remote/push native fixtures",
+    "#434 push implementation",
+    "Stop installer paths"
+  ],
+  "измерения": {
+    "configuredTimeoutSeconds": 180,
+    "timeoutProtectionMeasured": false,
+    "processGroupProtection": "не измерена",
+    "RSS": "не измерен",
+    "compilerDescendantCount": "не измерено отдельно",
+    "инструментальнаяГраница": "JS управляет запуском тестов; реализация задачи — Swift/FUMA contract и canonical wiring."
+  },
+  "фактическийБюджет": {
+    "topUsed": 3,
+    "topMax": 3,
+    "nativeCases": 2,
+    "nativeCasesMax": 2,
+    "directGitLaunches": 31,
+    "controlledGitLimit": 32,
+    "transitiveOSProcessCensus": "не измерен независимо",
+    "namesHelpers": 2,
+    "metadataQuery": "адресный SQLite selector текущего Native клиента; отдельно от тестовых процессов"
+  },
+  "остаток": [
+    "ROOT-приёмка и производство отдельно; Issue №363 не закрывается этим checkpoint.",
+    "Python/router, ROOT JSONL/RAW, whole RootAcceptanceSuite, production FUMA/model API и remote fixtures не проверены; не GREEN.",
+    "Экономия полного правильного production-вызова против прежней ручной последовательности не измерена.",
+    "Процессы CLI собраны, но production precommit/FUMA end-to-end не запускался; старые raw CLI evaluators сами не являются новым полным checker.",
+    "Fresh OS crash/restart, RSS, PGID/escaped descendants и провайдерская аутентификация модели не проверены."
+  ],
+  "происхождениеПоручения": {
+    "issue": "https://github.com/fum-lab/fum/issues/363",
+    "rootGrantPurpose": "Типизированно собрать закрытые окружение и argv из проверенной подготовки и подключить к фактическому предкоммитному входу",
+    "grantSHA256": "7aedf8c024ca78447b0247918ded8f4f554c570e629a9c7f001268db2a3d8aec"
+  },
+  "публичноеПоручение": {
+    "title": "Собирать окружение и argv проверки из подтверждённой подготовки коммита",
+    "url": "https://github.com/fum-lab/fum/issues/363",
+    "текст": "**FUM Codex**\n\nОтдельный следующий объём из [комментария к #271](https://github.com/fum-lab/fum/issues/271#issuecomment-6260740264), сохранённый при уборке Issues 24 октября. Само исправление политики автора принято через [PR #279 — обязательный FUM Codex](https://github.com/fum-lab/fum/pull/279); организация нового вызова не должна удерживать завершённую #271 открытой.\n\nНаблюдённая ошибка: корень передал связности ожидаемый полный Author Name, но не установил тот же GIT_AUTHOR_NAME в окружении процесса; из config пришла историческая роль. Проверка корректно отказала до полного прохода. Ручной текущий вызов исправлен, исходный RAW сохранён. Это повторяемая ошибка сборки вызова, а не основание ослаблять проверку автора.\n\nНужна малая воспроизводимая композиция существующих API: проверенная подготовка → полное наблюдённое имя из верхнего prepared.имя_автора → ограниченное processenv и argv → дешёвая сверка идентичности и актуальных привязок → отчётная обёртка/связность. Окружение действует только в процессе; Git config, email, committer, явные даты и исторические байты не переписываются. Базовая роль в параметрах не заменяет полного имени.\n\nПоддержать восстановление уже начатого этапа: сверять текущие H/ref, точный состав, подготовку, прежние UUID/выходы и известный/неизвестный исход; не повторять bootstrap или producer ради исправления метаданных. Применимость к актуальной схеме рабочего кода проверяется до реализации; отдельный старый K для обычного коммита не требуется.\n\nПриёмка: историческое имя в config при правильном processenv; отсутствующее/неверное processenv; спутанное полное имя и роль; изменённая подготовка; отсутствие утечки env; свежий процесс и повтор без лишнего эффекта. Сохранить RED/GREEN и стоимость полного правильного вызова против прежней ручной последовательности. Ошибка метаданных выявляется до дорогого полного прохода и до ненужного RAW.\n\nСвязь с экономикой повторений — [#214](https://github.com/fum-lab/fum/issues/214), с текущим адресным восстановлением поручений — [#361](https://github.com/fum-lab/fum/issues/361). Их исходный объём не расширяется этой записью. Это зарегистрированное продолжение, не уже работающая автоматизация и не разрешение менять занятую чужую ветку.\n\n---\n\n### Наблюдение: унаследованный `cwd` в запуске Git\n\nВ подтверждённом ref `fum-lab/fum/master` (`9eec7d2f1f9f49b09812963f68ed637e96850090`) `Координатор.выполнитьGit` задаёт рабочую директорию Git через `FileManager.default.currentDirectoryPath` (`координатор.swift:704–711`). Другой helper (`координатор.swift:1894–1903`) не задаёт `Process.currentDirectoryURL` до запуска и наследует `cwd` вызывающего процесса. Это наблюдённый риск выбора неверного дерева/ref, но не доказательство ошибочного коммита.\n\nДо следующего эффекта подтверждённая подготовка должна передавать физический W, полный ref и ожидаемый OID; путь пакета/помощника должен браться из закреплённого пакета. Отрицательная проверка запуска из primary checkout и worktree на чужом ref должна отказать до Git-эффекта. Исправление проверки метаданных не должно повторно запускать дорогой полный проход.\n\nПредыдущие ROOT-вызовы явно указывали W; доступные свидетельства не показывают ошибочного коммита в `master`. Уточнение передано прямому координатору, но ещё не реализовано и не блокирует текущую поставку consumer/contract. Issue остаётся открытой.\n",
+    "sha256": "fec84f3e78fc2717ca3922d0025faa66027d6719371ed9b79cad71d841dd4fc6"
+  },
+  "этапПроизводителяИКоманд": {
+    "схема": "fum.363.producer-callers-stage.1",
+    "исходныйHEAD": "8f2d1706bfb9e816d5c3711926d1e8dd22400248",
+    "состояние": "исходники-и-выбранные-проверки-готовы-к-ROOT-ревью",
+    "область": [
+      "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+      "koordinaciya/координатор.swift",
+      "koordinaciya/priyom-root.swift",
+      "koordinaciya/proverki-priyoma-root.swift",
+      "iskhodniki/perekhod-vetok/zhurnal/363.json",
+      "koordinaciya/podgotovka-zapuska-kommita.swift",
+      "koordinaciya/proverki-podgotovki-zapuska-kommita.swift"
+    ],
+    "версионированныйВход": "--подготовить-запуск-коммита-v1",
+    "профиль": "Только ROOT native client selection; независимые ROOT/stage входы обязательны и должны совпасть. Child-контекст отклоняется, backend/provider не удостоверяется.",
+    "производитель": "Новый private sibling bundle: семь payload-файлов, manifest-предложение, intent/sealed outcome; без Git/FUMA. ROOT отдельно принимает точные pins/selector SHA.",
+    "команды": "Единый typed builder и общий parser всех пяти форм. Legacy raw-merge test использует тот же parser/handler и positive control перед точными parent/tree отказами.",
+    "наблюдательПостЭффекта": "Явные окружение и физический W из opaque candidate; ambient fallback отсутствует.",
+    "неПринято": [
+      "Production switching и текущий installed binary/path/SHA",
+      "ROOT acceptance, master, Issue close, wholeprofile",
+      "Полный прежний RootAcceptanceSuite и constructor legacy fixture",
+      "Python/router/ROOT RAW/JSONL",
+      "Fresh OS crash/restart"
+    ],
+    "проверки": {
+      "Names": {
+        "процессов": 2,
+        "совпадениеИмен": true
+      },
+      "functionalRED": {
+        "код": 1,
+        "секунд": 0.3372540419998113,
+        "исход": "Отсутствие нового producer entry на закреплённом бинарнике исходного HEAD; ожидаемый RED новой функции.",
+        "binarySHA256": "1e6282ee4f660fd5600c459d7ee4193fd34e6c3113ab62c70add60a370648e58"
+      },
+      "CLI": {
+        "код": 0,
+        "секунд": 7.439593708000146,
+        "binary": "0b92f997b7e758122c8904e960571c961469e17275e07d043ce382f532fe9b64",
+        "предупреждений": 0
+      },
+      "SwiftPMBuildTests": {
+        "код": 1,
+        "секунд": 22.70279041600041,
+        "причина": "Два вызова throwing parser внутри #require; исправлены вычислением optional до макроса.",
+        "исход": "Первоначальный терминальный отказ сохранён. После адресного поручения ROOT выполнен отдельный исправляющий запуск SwiftPMBuildTestsRepair; исходные записи не заменялись."
+      },
+      "selectedRuntime": {
+        "код": 0,
+        "тестов": 12,
+        "suites": 2,
+        "секундТестов": 0.807,
+        "секундВсего": 5.390771417000331,
+        "launcher": "swift test --skip-build; MH_BUNDLE загружается штатным SwiftPM",
+        "stdoutSHA256": "b6395b6b26cc49f93becda6a39105b68a2140a0bebe834eb691ccf003c2f0e95",
+        "stderrSHA256": "22acf87df89d5c6ff8df9707b075e559bbacb84b5eef15031b9a1042bd41a935",
+        "попытокLauncher": 2,
+        "первыйLauncher": "ENOEXEC/PID0; тесты не стартовали; отдельный сохранённый отказ",
+        "nativeCases": 2,
+        "directGit": 31,
+        "commits": 2,
+        "merges": 1,
+        "allGitTerminalZero": true,
+        "bundleSHA256": "67a28ee230d90d7c1adbdce4445d7ab4fc1124cc2042a40612f704ec6d209049"
+      },
+      "SwiftPMBuildTestsRepair": {
+        "код": 0,
+        "секунд": 20.753710833999328,
+        "stderrБайт": 0,
+        "причина": "Два test-only throwing вызова вычислены перед #require; первоначальный отказ отдельно сохранён."
+      }
+    },
+    "ограниченияБюджета": {
+      "heavyTop": 3,
+      "compiler": 2,
+      "selectedRuntime": 1,
+      "секундSelected": 30,
+      "localGitCases": 2,
+      "directGit": 32,
+      "jobs": 1,
+      "scratchMiB": 512
+    },
+    "фактическийРасход": {
+      "sourceCompilerTop": 3,
+      "исходныйОтказСборкиТестов": 1,
+      "repairCompiler": 1,
+      "actualRuntimeTop": 1,
+      "failedSpawnPID0": 1,
+      "featureREDCLI": 1,
+      "Names": 2,
+      "GitCases": 2,
+      "directGit": 31,
+      "manifestSwiftHelperLogged": 1,
+      "manifestClangLinkHelperLogged": 1,
+      "psObservationHelpers": 5,
+      "полныйOSProcessCensus": "UNKNOWN; не измерялся",
+      "heavyActualTop": 4,
+      "scratchLogicalBytesBeforeDeliveryReceipts": 147162347,
+      "scratchAllocatedBytesBeforeDeliveryReceipts": 153874432
+    },
+    "воспроизведение": {
+      "standaloneProductionSources": [
+        "koordinaciya/координатор.swift",
+        "koordinaciya/генератор-метаданных-коммита.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+        "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+        "koordinaciya/podgotovka-zapuska-kommita.swift"
+      ],
+      "productionMapping": [
+        {
+          "source": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/kontrakt-istochnika-kodeks.swift",
+          "target": "Sources/RootAcceptance/kontrakt-istochnika-kodeks.swift"
+        },
+        {
+          "source": "iskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/adapter-git-avtor-commita.swift",
+          "target": "Sources/RootAcceptance/adapter-git-avtor-commita.swift"
+        },
+        {
+          "source": "koordinaciya/координатор.swift",
+          "target": "Sources/RootAcceptance/координатор.swift"
+        },
+        {
+          "source": "koordinaciya/priyom-root.swift",
+          "target": "Sources/RootAcceptance/priyom-root.swift"
+        },
+        {
+          "source": "koordinaciya/генератор-метаданных-коммита.swift",
+          "target": "Sources/RootAcceptance/генератор-метаданных-коммита.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+          "target": "Sources/КонтейнерНаблюдений/Ввод.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+          "target": "Sources/КонтейнерНаблюдений/Контракт.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+          "target": "Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+          "target": "Sources/КонтейнерНаблюдений/Сегмент.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+          "target": "Sources/КонтейнерНаблюдений/Файлы.swift"
+        },
+        {
+          "source": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+          "target": "Sources/КонтейнерНаблюдений/Формат.swift"
+        },
+        {
+          "source": "koordinaciya/podgotovka-zapuska-kommita.swift",
+          "target": "Sources/RootAcceptance/podgotovka-zapuska-kommita.swift"
+        }
+      ],
+      "testMapping": [
+        {
+          "source": "koordinaciya/proverki-priyoma-root.swift",
+          "target": "Tests/RootAcceptanceTests/proverki-priyoma-root.swift"
+        },
+        {
+          "source": "koordinaciya/proverki-podgotovki-zapuska-kommita.swift",
+          "target": "Tests/RootAcceptanceTests/proverki-podgotovki-zapuska-kommita.swift"
+        }
+      ],
+      "minimalPackageUTF8": "// swift-tools-version: 6.0\nimport PackageDescription\n\nlet package = Package(\n    name: \"RootAcceptance\",\n    platforms: [.macOS(.v14)],\n    products: [.library(name: \"RootAcceptance\", targets: [\"RootAcceptance\"])],\n    targets: [\n        .target(name: \"КонтейнерНаблюдений\", path: \"Sources/КонтейнерНаблюдений\", sources: [\"Ввод.swift\", \"Контракт.swift\", \"НаблюдениеФайловойСистемы.swift\", \"Сегмент.swift\", \"Файлы.swift\", \"Формат.swift\"]),\n        .target(name: \"RootAcceptance\", dependencies: [\"КонтейнерНаблюдений\"], path: \"Sources/RootAcceptance\", sources: [\"координатор.swift\", \"генератор-метаданных-коммита.swift\", \"priyom-root.swift\", \"kontrakt-istochnika-kodeks.swift\", \"adapter-git-avtor-commita.swift\", \"podgotovka-zapuska-kommita.swift\"], swiftSettings: [.define(\"TESTING\")]),\n        .testTarget(name: \"RootAcceptanceTests\", dependencies: [\"RootAcceptance\", \"КонтейнерНаблюдений\"], path: \"Tests/RootAcceptanceTests\", sources: [\"proverki-priyoma-root.swift\", \"proverki-podgotovki-zapuska-kommita.swift\"])\n    ],\n    swiftLanguageModes: [.v6]\n)\n",
+      "compilerSHA256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+      "SDKSettingsSHA256": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb",
+      "target": "arm64-apple-macosx14.0",
+      "buildTests": [
+        "swift",
+        "build",
+        "--build-tests",
+        "--package-path",
+        "<собственный-harness>",
+        "--scratch-path",
+        "<собственный-build>",
+        "--jobs",
+        "1",
+        "--sdk",
+        "<объявленный-SDK>",
+        "--triple",
+        "arm64-apple-macosx14.0",
+        "-Xswiftc",
+        "-strict-concurrency=complete",
+        "-Xswiftc",
+        "-warnings-as-errors",
+        "-Xswiftc",
+        "-Xfrontend",
+        "-Xswiftc",
+        "-enable-actor-data-race-checks"
+      ],
+      "runtime": [
+        "swift",
+        "test",
+        "--skip-build",
+        "--package-path",
+        "<тот-же-собственный-harness>",
+        "--scratch-path",
+        "<тот-же-собственный-build>",
+        "--disable-xctest",
+        "--enable-swift-testing",
+        "--filter",
+        "ПроверкиПодготовкиОкруженияКоммита363|ПроверкиПроизводителяПодготовкиКоммита363"
+      ],
+      "fixtureEnvironment": {
+        "FUM_363_FIXTURE_ROOT": "<новый-private-каталог-0700>",
+        "KOORDINACIYA_FUMA_POISON": "fixture-poison-363",
+        "PATH": "/usr/bin:/bin:/FUM_363_POISON"
+      },
+      "runtimeTimeoutSeconds": 30,
+      "граница": "Точная native CLI сборка и выбранные синтетические тесты. ROOT принимает output pins отдельно; действующий runtime и полный legacy suite не проверены."
+    },
+    "sourceWriter": "Предкоммитный снимок исходников. OID контрольной точки и результат exact push/readback сохраняются отдельной квитанцией доставки; ROOT acceptance и production activation не объявляются.",
+    "коррекцияБюджета": {
+      "основание": "Адресное поручение ROOT после сохранённой диагностики: исправить причину в разрешённой области и выполнить минимальный повтор после согласования тяжёлого слота.",
+      "согласование": "Координатор разрешил один исправляющий build-tests: суммарно compiler3/heavy4 и прежний actual selected runtime1 до30 секунд. После ENOEXEC/PID0 согласован штатный launcher --skip-build для того же продукта и фильтра.",
+      "исходы": "Первоначальный отказ компиляции, успешная коррекция, отказ прямого launcher без процесса и единственный фактический runtime сохранены раздельно.",
+      "полныйПрофиль": "UNKNOWN; это ограниченное сохранение исходников, не прохождение общего профиля."
+    }
+  }
+}
