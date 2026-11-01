@@ -522,7 +522,8 @@
         "The compatibility fixture uses local test doubles and does not invoke unconnected external services.",
         "The first FUMA UI scope exposes its own window frame and content viewport as typed, timestamped observations with explicit units; frame and viewport, and points and pixels, are distinct values. FUMA operators derive layout from the observed geometry. Resize recomputes layout without replaying a user command or insertion and preserves the input/event history for deterministic replay.",
         "The first FUMA UI scope exposes physical key identity and down/up transitions, modifiers, focus, ordering, and observation provenance as typed input state. FUMA computes the selected layout and its transitions from the pinned Keyboard layout data; the operating-system layout is an observation and never substitutes for FUMA computation. The first common layout delivery imports QWERTY, Dvorak, Colemak, AZERTY, QWERTZ, and QZERTY.",
-        "Text insertion and command dispatch are distinct outcomes. Replayed or repeated physical input has a stable event identity and does not duplicate insertion through the native text editor. A reproducible fixture covers real UI input and history replay; gesture and IME coverage is stated separately from keyboard mapping-table coverage, and existing operators are reused instead of creating a duplicate implementation."
+        "Text insertion and command dispatch are distinct outcomes. Replayed or repeated physical input has a stable event identity and does not duplicate insertion through the native text editor. A reproducible fixture covers real UI input and history replay; gesture and IME coverage is stated separately from keyboard mapping-table coverage, and existing operators are reused instead of creating a duplicate implementation.",
+        "Each model exposes its own supported effort ladder: Luna supports Low, Medium, High, XHigh, Max; Sol and Terra support Low, Medium, High, XHigh, Ultra. Escalation and de-escalation move one supported step at a time within the selected model, with the step justified by observed state. Requested and observed model/effort, initiator, reason, and transition outcome are separate fields; an unavailable or unobserved transition stays UNKNOWN. Rules owns the behavioral norm; FUMA implements the runtime capability. This requirement does not claim a working controller."
       ],
       "consumers": [
         "FUM-REQ-0044",
@@ -618,6 +619,55 @@
             "selection_basis": "Явно заданный человеком namespace fum-lab/fum/ для новых рабочих веток этой задачи."
           }
         }
+      },
+      "latest_effort_source_refinement": {
+        "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "source_provenance": "Direct human wording relayed by ROOT; original native frame, byte offsets, and native SHA-256 were not supplied to this writer and remain UNKNOWN.",
+        "human_wording_as_received": "Vot eti vse stupenjki i ispoljzuyem dlya eskalacii i deeskalacii kazhdoj modeli.",
+        "supported_ladders": {
+          "Luna": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "Sol": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "ultra"
+          ],
+          "Terra": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "ultra"
+          ]
+        },
+        "transition_rule": "Escalate and de-escalate one supported step at a time within each model, with each step justified by observed state.",
+        "separate_observations": [
+          "requested_model",
+          "requested_effort",
+          "observed_model",
+          "observed_effort",
+          "initiator",
+          "reason",
+          "transition_outcome"
+        ],
+        "ownership": {
+          "behavioral_norms": "Rules",
+          "runtime_implementation": "FUMA"
+        },
+        "status": "Requirement only; working automatic steering and transitions remain UNKNOWN.",
+        "source_checkpoint": {
+          "base_commit": "b616672a207e15b7eb7146b1cc84bd8e54f3e95d",
+          "base_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+          "writer_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+          "root_acceptance": "not-claimed"
+        }
       }
     },
     {
@@ -632,7 +682,8 @@
         "For every declared supported input, repeated translation emits identical Swift bytes; unsupported graph shapes produce a typed rejection without partial executable output.",
         "Compile and run the generated Swift with the declared Swift toolchain and compare exact JSON output bytes with the interpreter using the same inputs.",
         "The fixture includes Unicode text and budget boundaries at the exact configured limit and one unit below it; exceeding the limit returns the same declared typed refusal in interpreter and generated code.",
-        "Independent expected bytes are fixed outside both implementations; invoking one engine twice is not independent validation."
+        "Independent expected bytes are fixed outside both implementations; invoking one engine twice is not independent validation.",
+        "Each supported translation case pins the FUMA graph/input revision and FUMA translator/compiler/runtime and Swift toolchain versions. The declared bounded FUMA-code -> FUMA-authored translator -> Swift source -> ahead-of-time compile chain emits reproducible bytes and preserves exact interpreter-equivalent output; no whole-language support or completed translator is inferred."
       ],
       "consumers": [
         "FUM-REQ-0067",
@@ -658,7 +709,30 @@
             2
           ]
         }
-      ]
+      ],
+      "latest_translator_source_refinement": {
+        "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "source_provenance": "Direct human wording relayed by ROOT; original native frame, byte offsets, and native SHA-256 were not supplied to this writer and remain UNKNOWN.",
+        "human_wording_as_received": "Translirovatj kod FUMA na Swift avtomaticheskim translyatorom na FUMA, kotoryij myi napishem, dlya realizacii AOT, ne vozbranyayetsya.",
+        "translation_chain": [
+          "FUMA code/graph",
+          "translator authored and invoked in FUMA",
+          "Swift source",
+          "ahead-of-time compilation"
+        ],
+        "first_slice": "An explicitly bounded supported subset with pinned inputs, translator/compiler/runtime and Swift toolchain; deterministic generated output; exact interpreter-equivalence fixtures.",
+        "ownership": {
+          "behavioral_norms": "Rules",
+          "runtime_implementation": "FUMA"
+        },
+        "status": "Requirement only; full translator implementation and runtime remain UNKNOWN.",
+        "source_checkpoint": {
+          "base_commit": "b616672a207e15b7eb7146b1cc84bd8e54f3e95d",
+          "base_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+          "writer_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+          "root_acceptance": "not-claimed"
+        }
+      }
     },
     {
       "semantic_key": "typed-inter-agent-input-packet-acknowledgement",
