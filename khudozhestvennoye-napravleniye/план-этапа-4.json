@@ -154,7 +154,7 @@
     "вызов-08a54a64": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
     "почему-typed-author-не-передан": "Видимый ручной вызов git commit не включал GIT_AUTHOR_NAME/общий formatter. Фактическое унаследованное окружение процесса не сохранено; raw author FUM сам по себе не доказывает отсутствие overlay или последующую замену.",
     "дефект": "Передан Tools как дефект существующего общего конвейера автора.",
-    "следующий-коммит": "HOLD до появления exact approved literal 3-key message plan и pinned common formatter input/output; ownhost current metadata capture уже MATCH и сохранён приватно.",
+    "следующий-коммит": "Предкоммитный HOLD о literal plan и formatter output закрыт для конечного C573-based source-only исправления: подтверждённая доставка 573476f92bdcd0e2d30eb86bf1807c14010c44cb и текущий approved plan/formatter handoff зафиксированы ниже. Эта запись не разрешает будущие изменения автоматически.",
     "для-снятия-HOLD": [
       "использовать согласованный общий formatter/commit route",
       "передать только GIT_AUTHOR_NAME, сверить author и неизменный committer",
@@ -168,7 +168,31 @@
       "amend/rebase/force",
       "ручной -m для typed message"
     ],
-    "фактическое-окружение-08a54": "UNKNOWN; per-call typed overlay не передан в видимой команде, полного inherited environment snapshot нет."
+    "фактическое-окружение-08a54": "UNKNOWN; per-call typed overlay не передан в видимой команде, полного inherited environment snapshot нет.",
+    "исторический-предкоммитный-HOLD-на-базе-08a54": "HOLD до появления exact approved literal 3-key message plan и pinned common formatter input/output; ownhost current metadata capture уже MATCH и сохранён приватно.",
+    "известное-состояние-C573-based-исправления": {
+      "база": "573476f92bdcd0e2d30eb86bf1807c14010c44cb",
+      "источник-ROOT-допуска": {
+        "bytes": 2560,
+        "sha256": "af667da89176c3ca3ac50c8b148cf5419784ad5a7d9ef532ebb67820d52f6f1b"
+      },
+      "approved-literal-plan": {
+        "bytes": 1413,
+        "sha256": "b344fd01164ff79fbc5d53ff9a864222d8129fd1a98876bafb1f572074021015"
+      },
+      "fresh-ownhost-capture": "MATCH; один вызов; приватный outcome 1394 bytes, SHA-256 94cd438181999fd61dcfc06629f2fd9485514d3929404dc519b17969953d0ed4; backend/history/fullN32 остаются UNKNOWN.",
+      "common-formatter-output": {
+        "bytes": 1506,
+        "sha256": "de7839c63526d80d2152f61b8415dca2fdd0331071fd160b801d36dc928ce26f"
+      },
+      "предоставленный-message-file": {
+        "basename": "Tools-commit-message-v1.txt",
+        "bytes": 1408,
+        "sha256": "773aa888d14196e82cac2721a77f84bb556c867fdf9a377d491c9d6147570a40"
+      },
+      "известное-отклонение-пути-573": "Коммит 573 использовал другую принадлежащую актору копию с basename arts-stage4-correction-3key-message-166428c2.txt, совпадающую по 1252 bytes/SHA-256 87d29ffffc6b731de6ac5cd1095deaa221e2253dace6fec2d6860aa5e05eb153; это custody/path deviation, не повреждение текста. Immutable native ordinal отсутствует, полное потребление исходного handoff не объявляется GREEN.",
+      "граница": "Только finite source-only коррекция известных stale HOLD указателей; не разрешает будущую работу, runtime, tests, GUI или full N32."
+    }
   },
   "результат-source-only-приёма-ROOT": {
     "происхождение": "Сообщение ROOT от 2026-11-01; точное время сообщения не указано.",

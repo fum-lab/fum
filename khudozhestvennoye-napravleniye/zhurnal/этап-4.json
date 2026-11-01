@@ -176,16 +176,26 @@
       "коррекция-истории": "Не выполняется."
     },
     "подготовленная-коррекция-плана-и-журнала": {
-      "состояние": "formatted-message MATCH; commit pending identity guard and raw readback",
+      "состояние": "ЗАКРЫТО ДЛЯ КОНЕЧНОЙ C573-BASED SOURCE-ONLY КОРРЕКЦИИ; approved plan, свежий ownhost capture MATCH и единственный formatter handoff проверены.",
       "область": [
         "существующие план-этапа-4.json",
         "существующий zhurnal/этап-4.json"
       ],
       "append-only": true,
-      "условие-снятия-HOLD": "Снять HOLD после same-overlay AUTHOR_IDENT/COMMITTER_IDENT guards, единственного commit через тот же --file и raw readback.",
+      "условие-снятия-HOLD": "Историческое условие этого предкоммитного HOLD выполнено: C573 source-only commit/push доставлен, approved plan, свежий ownhost outcome и formatter output/message pin доступны. Этот факт не выдаёт будущий допуск.",
       "typed-message": "Только --file из согласованного source; ручной -m не использовать для typed message.",
       "committer": "Сохранить существующие данные committer; менять только GIT_AUTHOR_NAME по проверенному common route.",
-      "последнее-состояние": "HOLD_UNAVAILABLE_3KEY_PLAN; отсутствие own context больше не является причиной."
+      "последнее-состояние": "Старое HOLD_UNAVAILABLE_3KEY_PLAN — историческое предкоммитное состояние; актуальный C573-based limited correction оформлен в этом checkpoint. Точный provided message path обязателен для caller; предыдущая 573 запись использовала byte-equal копию с другим path, immutable native ordinal отсутствует.",
+      "историческое-предкоммитное-состояние": {
+        "состояние": "formatted-message MATCH; commit pending identity guard and raw readback",
+        "условие-снятия-HOLD": "Снять HOLD после same-overlay AUTHOR_IDENT/COMMITTER_IDENT guards, единственного commit через тот же --file и raw readback.",
+        "последнее-состояние": "HOLD_UNAVAILABLE_3KEY_PLAN; отсутствие own context больше не является причиной."
+      },
+      "граница": "Не включать новый собственный OID или цикл receipt-for-receipt; backend/history/fullN32 UNKNOWN, runtime/tests/GUI не заявляются.",
+      "исторические-предкоммитные-остатки": [
+        "Актуальный собственный native-context source для model/effort не установлен; подготовленный correction commit остаётся HOLD. Не повторять SQL, не использовать FUM fallback или модель ROOT; message --file и GIT_AUTHOR_NAME формировать только общим согласованным маршрутом после появления source.",
+        "После source-only коррекции плана/журнала завершить один commit через утверждённый common formatter message file с typed author overlay, raw readback, затем exact push и независимый remote readback; runtime/tests/GUI/full N32 остаются UNKNOWN или NOT_RUN."
+      ]
     },
     "source-only-приём-ROOT-08a54a64": {
       "происхождение": "Сообщение ROOT от 2026-11-01; точное время сообщения не указано.",
@@ -244,11 +254,46 @@
       "location": "отдельная private actor-owned area; абсолютный путь не экспортируется в репозиторий"
     },
     "literal-3key-message-plan-для-этого-checkpoint": {
-      "state": "HOLD_UNAVAILABLE",
-      "title": "UNKNOWN",
-      "description": "UNKNOWN",
-      "originalRequest": "UNKNOWN",
-      "причина": "Разрешённая область содержит только 2-path checkpoint и capture scope; approved literal 3-key plan/source и pinned formatter output не найдены в доступных входах. Не выдумывать и не подменять ROOT пересказом."
+      "state": "CLOSED_FOR_FINITE_C573_BASED_SOURCE_CORRECTION",
+      "historicalPrecommitHold": {
+        "state": "HOLD_UNAVAILABLE",
+        "title": "UNKNOWN",
+        "description": "UNKNOWN",
+        "originalRequest": "UNKNOWN",
+        "причина": "Разрешённая область содержит только 2-path checkpoint и capture scope; approved literal 3-key plan/source и pinned formatter output не найдены в доступных входах. Не выдумывать и не подменять ROOT пересказом."
+      },
+      "title": "Закрыть устаревшие статусы источникового этапа",
+      "description": "В двух разрешённых JSON отделить исторические и предкоммитные HOLD от подтверждённого источникового результата 573 и готовности утверждённого плана/сообщения. Сохранить известное отклонение пути файла сообщения при совпавших байтах и ограничение квитанции без неизменяемого native ordinal. Не переписывать историю, не приписывать модель старому 08 и не выдавать разрешение будущей работе; фикстуры, код, runtime, тесты и GUI не изменяются. Текущая ограниченная корректировка использует существующий общий форматер с собственным актуальным host-контекстом и предоставленным файлом сообщения.",
+      "originalRequest": "Vot kak-to poluchayetsya nachali delatj fichu, sdelali, a dlya chego sdelali zabyili i ne vspomnili.\nPo khoroshemu tyi sam dolzhen zamechatj takiye kosyaki i ispravlyatj.",
+      "sourcePins": {
+        "ROOT-grant": {
+          "bytes": 2560,
+          "sha256": "af667da89176c3ca3ac50c8b148cf5419784ad5a7d9ef532ebb67820d52f6f1b"
+        },
+        "approved-plan": {
+          "bytes": 1413,
+          "sha256": "b344fd01164ff79fbc5d53ff9a864222d8129fd1a98876bafb1f572074021015"
+        },
+        "fresh-ownhost-outcome": {
+          "bytes": 1394,
+          "sha256": "94cd438181999fd61dcfc06629f2fd9485514d3929404dc519b17969953d0ed4",
+          "status": "MATCH; one capture; backend/history/fullN32 UNKNOWN"
+        },
+        "formatter-handoff": {
+          "bytes": 6938,
+          "sha256": "0be27ec4f7b840d280d93ba5193a70ac4dd944074e8ff6736aae6ef0588d36d9"
+        },
+        "formatter-output": {
+          "bytes": 1506,
+          "sha256": "de7839c63526d80d2152f61b8415dca2fdd0331071fd160b801d36dc928ce26f"
+        },
+        "provided-message-file": {
+          "basename": "Tools-commit-message-v1.txt",
+          "bytes": 1408,
+          "sha256": "773aa888d14196e82cac2721a77f84bb556c867fdf9a377d491c9d6147570a40"
+        }
+      },
+      "currentBoundary": "Подтверждённый 573 source-only результат плюс конечное исправление stale-state записей; не full N32, runtime acceptance или разрешение будущего writer."
     }
   },
   "остаток": [
@@ -257,7 +302,6 @@
     "Проверка и реализация FUMA не подтверждены этой source-only поставкой.",
     "FUMA совместно с Tools подтверждает точный desktop input path, однократную привязку flagsChanged/CapsLock и видимое применение through FUMA operators → Metal → present; source fixture этого не доказывает.",
     "Мобильный интерфейс на базе Keyboard остаётся после первого desktop typing run; отдельное поручение/допуск потребуется перед реализацией.",
-    "Актуальный собственный native-context source для model/effort не установлен; подготовленный correction commit остаётся HOLD. Не повторять SQL, не использовать FUM fallback или модель ROOT; message --file и GIT_AUTHOR_NAME формировать только общим согласованным маршрутом после появления source.",
-    "После source-only коррекции плана/журнала завершить один commit через утверждённый common formatter message file с typed author overlay, raw readback, затем exact push и независимый remote readback; runtime/tests/GUI/full N32 остаются UNKNOWN или NOT_RUN."
+    "Предкоммитные HOLD о недостающих plan/capture/formatter закрыты для finite C573-based source-only коррекции; это не создаёт будущего допуска. Результат 573 доставлен; known message-path deviation (byte-equal actor-owned copy) и отсутствие immutable native ordinal сохранены. Runtime/tests/GUI не выполнялись, backend/history/fullN32 UNKNOWN."
   ]
 }
