@@ -85,5 +85,19 @@
       "This checkpoint does not establish compiler, build, test or runtime success, integration or production activation."
     ],
     "checkpointSHA256": "Not included because a file cannot contain its own stable SHA-256."
+  },
+  "trailerCorrection": {
+    "forCommit": "0cf484c1a691e9ad405986341ebf35e9a2d896b4",
+    "rule": "FUM-ПРАВИЛО-000201",
+    "observedTrailers": [
+      "Codex-Thread-ID: 01a19723-293d-7343-8334-5500fc1308e1",
+      "ROOT-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
+    ],
+    "defect": "Codex-Thread-ID named the child thread; the separate ROOT-Thread-ID trailer did not satisfy the required root-thread trailer.",
+    "requiredTrailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "rootThreadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "childThreadId": "01a19723-293d-7343-8334-5500fc1308e1",
+    "sessionCoherence": "NOT_RUN; required checker is Python and prohibited; no substitute is claimed.",
+    "historyPolicy": "Keep the original commit unchanged; publish a separate correction commit."
   }
 }
