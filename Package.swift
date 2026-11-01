@@ -9,7 +9,10 @@ let настройки: [SwiftSetting] = [
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "fuma", targets: ["КомандаЗапуска"])],
+    products: [
+        .executable(name: "fuma", targets: ["КомандаЗапуска"]),
+        .executable(name: "нормализация-корней-агентов", targets: ["КомандаНормализацииКорнейАгентов"]),
+    ],
     dependencies: [
         .package(path: "Зависимости/LinguisticKit")
     ],
@@ -43,10 +46,15 @@ let package = Package(
             path: "iskhodniki/zhurnal/proverki", swiftSettings: настройки),
         .target(name: "АктуализацияПутей",
             dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit")],
-            path: "iskhodniki/aktualizaciya-putej", exclude: ["rukovodstvo.md"],
+            path: "iskhodniki/aktualizaciya-putej",
+            exclude: ["rukovodstvo.md", "komanda-normalizacii-kornei-agentov"],
             swiftSettings: настройки),
-        .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей"],
+        .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей", "КомандаНормализацииКорнейАгентов"],
             path: "proverki/aktualizaciya-putej", swiftSettings: настройки),
+        .executableTarget(name: "КомандаНормализацииКорнейАгентов",
+            dependencies: ["АктуализацияПутей", "КонтейнерНаблюдений"],
+            path: "iskhodniki/aktualizaciya-putej/komanda-normalizacii-kornei-agentov",
+            swiftSettings: настройки),
         .target(name: "КонтейнерНаблюдений",
             path: "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений",
             swiftSettings: настройки),

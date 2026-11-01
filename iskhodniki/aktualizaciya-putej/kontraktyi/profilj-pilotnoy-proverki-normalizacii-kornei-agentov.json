@@ -1,0 +1,265 @@
+{
+  "схема": "fum.профиль-пилотной-проверки-нормализации-корней-агентов.2",
+  "статус": "SOURCE_PREPARED; SwiftPM, компилятор, тесты, CLI и runtime не запускались",
+  "назначение": "Закрепить точные исходники, package-предложение и безопасную границу будущего локального пилота. Этот профиль не выдаёт допуск на запуск или применение.",
+  "основа": {
+    "репозиторий": "fum-lab/fum",
+    "baseCommit": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "baseTree": "a3417a499a1baf0342556060845b963f4a0dccec",
+    "fullRef": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/formatirovaniye-kornei-agentov/master",
+    "actorUUID": "01a195e6-5364-76e3-b963-c2c305e6111f",
+    "indexSHA256AtReview": "ada008519cdbf84416d3810a761f8f25e474af84a7ac502978abdfe0f240e7de",
+    "stagedDiffAtReview": "empty",
+    "правилоВозобновления": "Перед следующим запуском заново подтвердить физический W, UUID задачи и писателя, HEAD/ref, индекс, рабочее дерево, точное назначение и разрешённый эффект."
+  },
+  "допускИсходников": {
+    "schema": "fum.адресное-сохранение-исходников-нормализатора.2",
+    "sha256": "b064392810552c95d05bd017b8c7de0cd46dd5bb0c9b80bf3415705505f9a3df",
+    "issuer": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "humanROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "effects": [
+      "Только перечисленные восемь исходных путей и source-only JSON",
+      "Содержательный commit в собственной ветке и обычный push точного OID в одноимённый origin с независимым ls-remote после точечного review"
+    ],
+    "excluded": [
+      "Python",
+      "ROOT/parent Native RAW JSONL, SQL, Native DB и config setter",
+      "SwiftPM, компилятор, тесты, CLI, runtime и фактическое применение назначения",
+      "Composer-owner файлы, чужие W/index/ref/config",
+      "force, amend, rebase, удаление refs"
+    ]
+  },
+  "публичныеПути": [
+    "Package.swift",
+    "iskhodniki/aktualizaciya-putej/normalizaciya-kornei-agentov.swift",
+    "iskhodniki/aktualizaciya-putej/primeneniye-normalizacii-kornei-agentov.swift",
+    "iskhodniki/aktualizaciya-putej/komanda-normalizacii-kornei-agentov/komanda.swift",
+    "proverki/aktualizaciya-putej/proverki-normalizacii-kornei-agentov.swift",
+    "iskhodniki/aktualizaciya-putej/kontraktyi/profilj-pilotnoy-proverki-normalizacii-kornei-agentov.json",
+    "iskhodniki/aktualizaciya-putej/kontraktyi/postavka-ishodnikov-normalizacii-kornei-agentov-v1.json",
+    "iskhodniki/aktualizaciya-putej/komanda-normalizacii-kornei-agentov/adapter-kontrolnyh-tochek-segmenta.swift"
+  ],
+  "закреплённыеИсходники": [
+    {
+      "path": "Package.swift",
+      "mode": "100644",
+      "candidateBlob": "f7dbda4119602a68a653c619d6979084fbdef483",
+      "bytes": 5965,
+      "sha256": "713c15bab52f9bdf2e5b7ad93c4ff306faf28874abaa4c77a15119c7333bcc96",
+      "baseBlob": "c957f158940da2803ac0eca17bd8c149d8d3d136",
+      "baseBytes": 5325,
+      "baseSHA256": "1b7b6380b0e959e819f67f9bdd72ce491e335e2a6b8081c9e042ffd061878df5"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/normalizaciya-kornei-agentov.swift",
+      "mode": "100644",
+      "candidateBlob": "3c48da6bc93df643a61519da3d6dc6a9db7e4866",
+      "bytes": 65310,
+      "sha256": "6b78ced3e429841fa252ba2f763ca265805b87040d00269ee25d8a5479508ddb"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/primeneniye-normalizacii-kornei-agentov.swift",
+      "mode": "100644",
+      "candidateBlob": "51879d47fc0f0212d8086ab7d339c1c4ce8f0a27",
+      "bytes": 76809,
+      "sha256": "85413d0ec8ec02b4522ba54464991a7937a9265ff7c8422fd645e3751eef3395"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/komanda-normalizacii-kornei-agentov/komanda.swift",
+      "mode": "100644",
+      "candidateBlob": "4371de61f78b8e310575407b063a35cfc4b152fb",
+      "bytes": 8624,
+      "sha256": "7296a4ffa202dec1327c018290a5296523605be45e6e510eaf87b0e20800e873"
+    },
+    {
+      "path": "proverki/aktualizaciya-putej/proverki-normalizacii-kornei-agentov.swift",
+      "mode": "100644",
+      "candidateBlob": "33d01ceaf1c5f074078cb44e29467a2b1ad5e3ad",
+      "bytes": 57517,
+      "sha256": "8e0fa41380cd1867735de98e6e8b801a28fbefa3d2b32a0887e5a32b0ff0d136"
+    },
+    {
+      "path": "iskhodniki/aktualizaciya-putej/komanda-normalizacii-kornei-agentov/adapter-kontrolnyh-tochek-segmenta.swift",
+      "mode": "100644",
+      "candidateBlob": "cf5ecb991990632a35e1ff85749950aa060c2dec",
+      "bytes": 13700,
+      "sha256": "d5ae9af205559f015f249b67d39ec77b3328a7f0dea53cc9df4085c8a586cdf7"
+    }
+  ],
+  "провереннаяФорма": {
+    "commit": "dfff2e08002f6a3e9387b91038bad8dfa96f827a",
+    "path": "proverki/aktualizaciya-putej/proverki-komandy-imeni.swift",
+    "mode": "100644",
+    "blob": "5076b69c7fc633f6e14409755383cb72ef8bdc96",
+    "bytes": 2133,
+    "sha256": "0c7fc936666ada9b4ca62cc22fb38c1f37a26d6557d2d30907e72e551532cfab",
+    "методы": [
+      "неверныеАргументы",
+      "запрещённыеКомпоненты",
+      "точноеДелегирование"
+    ],
+    "включенаВТекущийTestTarget": false
+  },
+  "подтверждениеREADME": {
+    "receiptBytes": 3671,
+    "receiptSHA256": "0fa6d9e11768228b64e3b49453977465a6d3804c1d2373d853f5847fe72f1dea",
+    "результат": "ACK подтвердил точный pre-CLI-import fixture и README сценарий: байты/SHA, Git index blob/mode и терминальную квитанцию; inode assertion снят. Сверенный diff до текущего test source — только одна строка import КомандаНормализацииКорнейАгентов; метод README regression не изменён. Текущий test blob закреплён отдельно выше; компилятор и тесты не запускались.",
+    "preImportTestSHA256": "ff67f1978ea4f7b06fe8b5f762f72a9bdd90d7eef40db171aaede04b813c40ed",
+    "currentTestSHA256": "8e0fa41380cd1867735de98e6e8b801a28fbefa3d2b32a0887e5a32b0ff0d136"
+  },
+  "размещениеЗависимостей": {
+    "backend": "АктуализацияПутей остаётся callback/pure codec/operationID target и зависит только от LinguisticKit.static; импортов или dependency на КонтейнерНаблюдений в backend нет.",
+    "adapter": "Адаптер Segment размещён в CLI target; он зависит от public codec и импортирует существующий КонтейнерНаблюдений.",
+    "testTarget": "Существующий test target зависит от backend и CLI target.",
+    "PackageProposal": "Корневой Package.swift остаётся предложением интерфейса; отдельный export из Composer fa741 сохранён и его owner-файлы не менялись.",
+    "граф": "Проверено статически по выбранным target/dependency декларациям. SwiftPM graph/typecheck не выполнялся; cycle или duplicate не утверждаются."
+  },
+  "LinguisticKit": {
+    "gitlinkCommit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "activeClosure": {
+      "path": "Sources/LinguisticKit",
+      "tree": "52e69cfb8165b3f73a31974afdebaf48ad128525",
+      "files": 68,
+      "bytes": 93706,
+      "syntheticManifest": {
+        "bytes": 601,
+        "sha256": "b2b9de5fc2a8134b3fb913fea0c0bee4296694f6433040aff7f3417010aedcc6",
+        "blob": "5ef1a36dc093251cd7cc3bdfa273167796e02ed7",
+        "toolsVersion": "5.9",
+        "product": "LinguisticKit.static",
+        "syntheticSubstitution": true,
+        "originalManifestUsed": false
+      },
+      "totalFiles": 69,
+      "totalBytes": 94307,
+      "inventorySHA256": "732b79caf979bafa10505e4a5c5fd66bcbeb8b63fb4db1ba7c06e1df4f1d3146",
+      "permissions": "directories 0500; files 0400"
+    },
+    "originalManifestEvidence": {
+      "blob": "1a3c0ad35655e8cf8d0a3aabb2bc564ff7bf3747",
+      "bytes": 1002,
+      "sha256": "6592413d813bff4e0f02e869a41cfc7315a2101bfdf1e3f10b50b72e77ac3829",
+      "toolsVersion": "5.9",
+      "product": "LinguisticKit.static",
+      "role": "Pinned evidence only; not the active manifest in the narrow derived closure."
+    },
+    "closureBoundary": "The original manifest also declares source/test target roots outside this active 68-file source closure. Their contents are not part of this harness; no build-tool or LinguisticKit tests were run."
+  },
+  "privateHarness": {
+    "manifestLocator": "NormalizationRoots-4a2375a4dcbe1495b5afe520185795a00acaff9b/Package.swift",
+    "manifest": {
+      "bytes": 2676,
+      "sha256": "df7627c32c1e8a9a787c19c109016cc6154664de2ecee51c967ae5e0dea9215c",
+      "blob": "b7c8b0a53010590f49a35c1089c1b7b230b298fe",
+      "files": 17,
+      "totalBytes": 362472,
+      "inventorySHA256": "eb753e626f71a210b0f2d8e3f15d849109c458d5aeea2a5de0d5dc41b52b0c9b",
+      "permissions": "root/directories 0500; files 0400"
+    },
+    "targets": [
+      {
+        "name": "АктуализацияПутей",
+        "kind": "target",
+        "sources": 7,
+        "dependencies": [
+          "LinguisticKit.static"
+        ]
+      },
+      {
+        "name": "КомандаНормализацииКорнейАгентов",
+        "kind": "executableTarget",
+        "sources": 2,
+        "dependencies": [
+          "АктуализацияПутей",
+          "КонтейнерНаблюдений"
+        ]
+      },
+      {
+        "name": "proverki-aktualizaciya-putej",
+        "kind": "testTarget",
+        "sources": 1,
+        "dependencies": [
+          "АктуализацияПутей",
+          "КомандаНормализацииКорнейАгентов"
+        ]
+      },
+      {
+        "name": "КонтейнерНаблюдений",
+        "kind": "target",
+        "sources": 6
+      }
+    ],
+    "execution": "NOT_RUN",
+    "inventoryFormat": "SHA-256 of compact UTF-8 JSON array, sorted by harness-relative path, records ordered path/mode/blob/bytes/sha256, physical permission bits from stat -f %Lp, blob from git hash-object, byte count from stat -f %z, file SHA-256, terminal LF.",
+    "previous": {
+      "manifestSHA256": "df7627c32c1e8a9a787c19c109016cc6154664de2ecee51c967ae5e0dea9215c",
+      "inventorySHA256": "3ee7d142e493432b12981493946c19366fd08e2c844eed861d227c049c1a68d0",
+      "files": 17,
+      "totalBytes": 362062,
+      "coreBlob": "c8b1921e19d144dc5a9babdd5ebd58fa577fd861",
+      "coreBytes": 64900,
+      "coreSHA256": "bb05aaa1a15cc3cae28e1fb9e27b64b8830df065534a4514bade6072d6ba464a",
+      "retainedReadOnly": true
+    }
+  },
+  "пилот": {
+    "точноеНазначение": "UNKNOWN",
+    "четыреОжидаемыхРолиВхода": [
+      "--назначение JSON: типизированные разрешение/снимок",
+      "targetRoot/postanovka.json",
+      "targetRoot/karta.json",
+      "sourceRoot/README.md"
+    ],
+    "путьХранилища": "UNKNOWN",
+    "фактическоеПрименениеРазрешено": false
+  },
+  "короткийСтатическийРевью": [
+    {
+      "пункт": "P1 fileURLWithPath вне корня",
+      "результат": "PASS_STATIC",
+      "свидетельство": "Вызов и сигнатура используют одну переменную корня."
+    },
+    {
+      "пункт": "Стабильный operationID и resume",
+      "результат": "PASS_STATIC",
+      "свидетельство": "CLI вычисляет operationID и загружает checkpoint до public execute; исполнитель строит план только если checkpoint отсутствует."
+    },
+    {
+      "пункт": "Ограниченный stdout",
+      "результат": "PASS_STATIC",
+      "свидетельство": "stdout содержит сводку с бюджетом 4096 байт; полная checkpoint остаётся в Segment."
+    },
+    {
+      "пункт": "Физическая граница хранилища",
+      "результат": "PASS_STATIC",
+      "свидетельство": "Каждый существующий компонент пути проверяется lstat; symlink отклоняется; физический путь сравнивается с trusted root."
+    },
+    {
+      "пункт": "Размещение и направленность зависимостей",
+      "результат": "PASS_STATIC",
+      "свидетельство": "Backend не зависит от Container; adapter находится в CLI; test target импортирует обе цели."
+    },
+    {
+      "пункт": "Публичная видимость конструктора Намерение",
+      "результат": "PASS_STATIC",
+      "свидетельство": "Добавлен явный public init с четырьмя существующими полями; adapter больше не зависит от internal synthesized initializer."
+    }
+  ],
+  "проверки": {
+    "gitDiffCheck": "PASS; exit 0; пустой вывод относится к tracked diff Package.swift; untracked source checks описаны отдельно.",
+    "targetedSourceReview": "PASS_STATIC; без компилятора или test runner",
+    "SwiftPMManifestLoad": "NOT_RUN",
+    "SwiftCompile": "NOT_RUN",
+    "SwiftTests": "NOT_RUN",
+    "CLI": "NOT_RUN",
+    "RuntimeApply": "NOT_RUN",
+    "N32": "UNKNOWN",
+    "ROOTAcceptance": "UNKNOWN"
+  },
+  "остаток": [
+    "Получить отдельные точные locator/pins для фактического --назначение и четырёх реальных входных файлов.",
+    "Получить отдельные R/M/START/slot и Tools PASS для будущего compiler/fixture запуска.",
+    "Подтвердить точную текущую модель и reasoning effort только из доступных метаданных; Native DB не читать.",
+    "После source-only delivery отдельно пройти compiler/fixture, затем отдельное точное назначение и фактическое применение."
+  ]
+}
