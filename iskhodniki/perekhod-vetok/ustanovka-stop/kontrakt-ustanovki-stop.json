@@ -1,19 +1,19 @@
 {
   "схема": "fum.контракт-установки-stop.1",
-  "состояние": "Файловые ссылки: адресная сборка и 3 выбранных теста успешны; publisher проверен в 10 режимах чтения. Прежний GREEN6 сохранён как история; повторный аудит ожидается, ROOT-приёмка и активация не выполнены.",
+  "состояние": "Объединены исходники поддержки current, частичной русификации и принятых ROOT файловых ссылок. Прежние наблюдения сохранены отдельно; после разрешения конфликтов сборка и runtime не запускались, активация не подтверждена.",
   "исходныйROOT": "82babe15d2a54153fdb1f499780a0aa6188400fc",
   "issue": "https://github.com/fum-lab/fum/issues/479",
   "программа": {
-    "цель": "Одна адресная замена команды Native FUM Stop через Swift с точными hashes/дрейфом/readback",
-    "текущее": "Общий stable lock, guard рядом сconfig, ROOT publisher и preflight чтение подзамком проверены на собственных синтетических файлах. Production effect и отдельный CLI runtime ещё не выполнялись",
+    "цель": "Адресная установка Stop и поддержание транспортного срока current из ROOT-входа с конечной арендой",
+    "текущее": "Hook установлен ROOT с APPLIED/readback. Новый controller проверен только на собственных синтетических fixtures. Постоянный процесс ROOT не запущен",
     "следующее": [
-      "Source checkpoint и exact normal push",
-      "Проверка ROOT исходников/артефакта и текущего состояния",
-      "ROOT создаёт stable lock0600/0700parent и закрепляет device/inode; runtime plan3 и publisher plan1",
-      "ROOT проверяет полноту worklist и source ancestry отдельно; metadataChecked не даёт authority",
-      "ROOT publisher публикует актуальныйcurrent подобщимзамком и даёт отдельное разрешение наconfigeffect",
-      "Native trust и настоящая диагностическаяпроба",
-      "ROOT bounded disposition"
+      "Сохранить source checkpoint и подтвердить normal exact push",
+      "Передать владельцу русификации newdelta own identifiers и новые JSON wire keys; исторический принятый остаток не расширять молча",
+      "ROOT проверяет исходники и артефакт отдельно от функциональных тестов",
+      "ROOT закрепляет singleton/input/request и конечную source lease, сохраняет отдельный аварийный publisher STOP",
+      "ROOT запускает принятый процесс и обновляет вход при изменении фактов; таймер не подтверждает содержание",
+      "Подтвердить Native trust и настоящую диагностическую пробу",
+      "ROOT принимает ограниченную диспозицию по своим обязательствам"
     ],
     "зависимости": [
       "ROOT source82 accepted",
@@ -127,10 +127,49 @@
       "Точный русский формат stage-manifest файлы/путь/байтов",
       "Successful boundary afterRename; outcome receipt failure и оставленный temp — UNKNOWN; optional поля безnull"
     ],
-    "compileFailure3": {"exit": 1, "warnings": 0, "wallSeconds": 6.57, "maxRSS": 271728640, "runtimeTests": "Не запускались", "cause": "Шесть compiler diagnostics только новых tests; не functionalRED"},
-    "GREEN4": {"exit": 0, "tests": 19, "suites": 3, "warnings": 0, "wallSeconds": 5.30, "buildSeconds": 3.17, "runtimeSeconds": 0.036, "maxRSS": 268926976, "scope": "10filesystem/3pure/6protocol: busy/release/errors, links/mode/inode, stableguard, initialexclusivecreate и in-processpublisherCLI"},
-    "RED5": {"exit": 1, "tests": 7, "passed": 6, "failed": 1, "issues": 2, "warnings": 0, "wallSeconds": 8.77, "buildSeconds": 5.12, "runtimeSeconds": 0.039, "maxRSS": 271810560, "scope": "Подтверждён P2 preflight: oldseen и unlockedReads1 в кооперативной гонке доflock; compileOK"},
-    "GREEN6": {"exit": 0, "tests": 20, "suites": 3, "warnings": 0, "wallSeconds": 4.37, "buildSeconds": 2.52, "runtimeSeconds": 0.036, "maxRSS": 238338048, "scope": "SameREDtest безослабления, freshнаблюдениевнутриstablelock плюс прежние19regressions"},
+    "compileFailure3": {
+      "exit": 1,
+      "warnings": 0,
+      "wallSeconds": 6.57,
+      "maxRSS": 271728640,
+      "runtimeTests": "Не запускались",
+      "cause": "Шесть compiler diagnostics только новых tests; не functionalRED"
+    },
+    "GREEN4": {
+      "exit": 0,
+      "tests": 19,
+      "suites": 3,
+      "warnings": 0,
+      "wallSeconds": 5.3,
+      "buildSeconds": 3.17,
+      "runtimeSeconds": 0.036,
+      "maxRSS": 268926976,
+      "scope": "10filesystem/3pure/6protocol: busy/release/errors, links/mode/inode, stableguard, initialexclusivecreate и in-processpublisherCLI"
+    },
+    "RED5": {
+      "exit": 1,
+      "tests": 7,
+      "passed": 6,
+      "failed": 1,
+      "issues": 2,
+      "warnings": 0,
+      "wallSeconds": 8.77,
+      "buildSeconds": 5.12,
+      "runtimeSeconds": 0.039,
+      "maxRSS": 271810560,
+      "scope": "Подтверждён P2 preflight: oldseen и unlockedReads1 в кооперативной гонке доflock; compileOK"
+    },
+    "GREEN6": {
+      "exit": 0,
+      "tests": 20,
+      "suites": 3,
+      "warnings": 0,
+      "wallSeconds": 4.37,
+      "buildSeconds": 2.52,
+      "runtimeSeconds": 0.036,
+      "maxRSS": 238338048,
+      "scope": "SameREDtest безослабления, freshнаблюдениевнутриstablelock плюс прежние19regressions"
+    },
     "исходникиВоВремяПрогона": "GREEN6: Package+3Swift побайтно равны tested harness; после результата изменён только описательный JSON, исключённый из compile targets. Все пять финальных файлов не объявляются исходными входами прогона"
   },
   "дополнительныеТесты": [
@@ -140,7 +179,7 @@
   ],
   "неизвестныйЭффект": "После успешного rename старый observed SHA сбрасывается; при ошибке fsync/readback сообщается только новое фактическое наблюдение либо UNKNOWN. Автоповтора и rollback нет.",
   "активация": {
-    "состояние": "Не выполнена",
+    "состояние": "ROOT выполнил одну установку config; Native proof и постоянное обновление снимка не подтверждены",
     "план": "Схема fum.stop-installer-plan.3, hash-before-decode, только userHOME/.codex/hooks.json черезgetpwuid, один exact command token; current.lock pin device/inode обязателен",
     "окружение": "exec /usr/bin/env -i PATH= и18argv; envbinary/sourceartifacts/header/hashes проверяются",
     "граница": "Проверка программы не даёт ROOT authority/custody/Native trust; это отдельное решение вне программы",
@@ -149,9 +188,24 @@
     "замок": "Все ROOT publisher и installer используют один pre-existing empty0600 current.json.lock с закреплённым device/inode в0700parent; flock nonblocking держится от finalcurrent/HEAD check до rename/fsync/readback. Lock inode не заменяется/не удаляется. Писатели, нарушающие протокол, и RootHEAD/artifact custody остаются внешними предпосылками",
     "проверить": "Оба preflight повторяют полное чтение и валидацию current/HEAD под общим lock и выводят свежие данные. metadataChecked; worklistCompleteness/acceptedSourceAncestry=ROOT_REQUIRED. Exit0 не разрешает активацию",
     "publisher": {
-      "argv": ["ustanovitj-stop", "--опубликовать-текущий", "--план", "<pinned-publication-plan>", "--хэш-плана", "<sha256>", "--проверить | --применить <candidateSHA256>"],
+      "argv": [
+        "ustanovitj-stop",
+        "--опубликовать-текущий",
+        "--план",
+        "<pinned-publication-plan>",
+        "--хэш-плана",
+        "<sha256>",
+        "--проверить | --применить <candidateSHA256>"
+      ],
       "schema": "fum.stop-current-publication.1",
-      "inputs": ["source", "header pin400", "candidate pin600", "current path/maxBytes/mode600/lock path-device-inode", "initiallyAbsent", "expectedSHA256 при replacement, отсутствует при первом создании"],
+      "inputs": [
+        "source",
+        "header pin400",
+        "candidate pin600",
+        "current path/maxBytes/mode600/lock path-device-inode",
+        "initiallyAbsent",
+        "expectedSHA256 при replacement, отсутствует при первом создании"
+      ],
       "effect": "Только ROOT по отдельному решению; совместный lock, initial RENAME_EXCL либо exact oldSHA replacement, fsync/readback, stable publisher receipts рядом с current",
       "limits": "Проверяет envelope/control/freshmetadata. Полноту worklist, происхождение accepted source и право ROOT не выводит из JSON. Late STOP не отменяет уже выданный rename"
     }
@@ -180,7 +234,165 @@
     "sha256": "53cf697300ffc531c0ef5a72975a8e7cbb39222f1fa461751686e2acf86a81e7",
     "sourceSwiftSHA256": "2ee939c7c1dbead4f41f97ee3e69512172a2556f4022d5b3edb50af212ab7226",
     "testSwiftSHA256": "d1996e949e35bb41b68cecc1f42e2da33dd5a5f95b32dd06ae77ba64c961dc6d",
-    "runtime": "Только synthetic in-process dispatcher/fixtures, production config/current и настоящий Native Stop не запускались"
+    "runtime": "Этот артефакт затем выполнил ROOT: publisher PUBLISHED и installer APPLIED/readback. Установка не доказывает Native trust/срабатывание; новый controller не запускался"
+  },
+  "поддержаниеТекущего": {
+    "состояние": "Функциональная проверка пройдена; исходники не приняты ROOT, runtime не запущен",
+    "цель": "Продлевать транспортный срок только в пределах конечной аренды ROOT; таймер не меняет approvedAt/validUntil/payload и не подтверждает полноту",
+    "инварианты": [
+      "ROOT владеет ревизиями входа и основанием полномочий",
+      "Отдельный lifetime singleton и короткий current lock на проверку/rename/fsync/readback",
+      "Только рабочие incomplete snapshots с обязательными активным UNKNOWN и unknownIntent, без финальной диспозиции",
+      "Ручной current, STOP и пауза сохраняются; техническая остановка не выдаёт человеческий STOP",
+      "Known busy не резервирует mutation; post-effect UNKNOWN терминален и не повторяется",
+      "BeforeRename заново проверяются current/input/request/locks/HEAD, реальные часы, source lease и transport expiry",
+      "Typed Bool и допустимый текст следующей работы проверяются до эффекта; числовые0/1 не Bool",
+      "Явная политика observe-with-unknown сохраняет approvedHEAD отдельно от observedHEAD; strict останавливается на дрейфе",
+      "Нет Codex heartbeat, autostart или agent continuation"
+    ],
+    "программаПроверок": {
+      "buildTestMax": 3,
+      "buildTestUsed": 3,
+      "tinyCLImax": 1,
+      "tinyCLIused": 1,
+      "jobs": 1,
+      "wallSeconds": 180,
+      "scratchMiB": 512,
+      "newLifecycleGroups": 9,
+      "previousRegressions": 20
+    },
+    "проверки": {
+      "RED1": {
+        "exit": 1,
+        "compile": "passed",
+        "tests": 6,
+        "issues": 6,
+        "причина": "Новый API ещё не реализован; не дефект принятого исходника",
+        "sourceSHA256": "2aa3b2adf3fadaa6224a1e1341d3f69e38260afe7cddf1452c8b77a93f5077c1",
+        "testSHA256": "d0d11b558c65f794b725608a80f7f6baeb82561976329dabb5423aaf9cb1d615"
+      },
+      "неуспешныйЗапуск2": {
+        "exit": 1,
+        "wallSeconds": 0.343,
+        "runtimeTests": "Не запускались",
+        "причина": "В tool orchestration указан отсутствующий TMPDIR; SwiftPM target-info завершился до сборки",
+        "мера": "Собственный maintainer-tmp создан, тип/0700/no-symlink/physical path проверены до spawn3",
+        "исход": "Первичный intent/outcome/log сохранены без изменений"
+      },
+      "GREEN3": {
+        "exit": 0,
+        "tests": 29,
+        "suites": 4,
+        "warnings": 0,
+        "wallSeconds": 14.029,
+        "buildSeconds": 10.75,
+        "runtimeSeconds": 0.328,
+        "maxRSS": 374243328,
+        "scratchKiB": 132056,
+        "sourceSHA256": "9c2f41d0b983bb2e0cbb67b49cb97b4de159e6b1e0e4f9c608df970ced057fb4",
+        "mainSHA256": "e00c699e96493bb7aa3afaf689815cc14cb34852f793f43c17e3d24a6c071d54",
+        "testsSHA256": "677677f8bed6ba464b0ef2a9ec5fd148d3e9139c73815d91b769d5c22bbf05a2",
+        "stdoutSHA256": "a38bdb2e9205bef936ec447c9bf1d91938763662dc19bf19ca36d152055f31a0",
+        "stderrSHA256": "c75779bdae295499623c156df424dbc436c6496a9311e830803d55feaf1cbc43"
+      },
+      "внешнийCLI": {
+        "exit": 0,
+        "processes": 1,
+        "maxTicks": 1,
+        "wallSeconds": 0.593,
+        "статус": "RUN_LIMIT после одного успешного tick, exact current readback",
+        "входИUNKNOWN": "Сохранены, конечная source lease не продлена",
+        "productionEffects": 0,
+        "NativeStopEvents": 0
+      }
+    },
+    "артефакт": {
+      "name": "ustanovitj-stop",
+      "bytes": 1133776,
+      "sha256": "1971a7cd7fb268709e49a2d9adfa8e835dbe4bae00686f39f33073129da19130",
+      "linking": "Только системные Foundation/CryptoKit/Swift/Darwin dylibs",
+      "source": "Package и три Swift файла закреплены во входе GREEN3; последующая правка только этого описательного JSON"
+    },
+    "границыВосстановления": [
+      "После оставшегося attempt перезапуск того же request читает current и возвращает RECOVERY_REQUIRED до producer-input; новая input STOP не снимает этот guard",
+      "Аварийный явный STOP после restart передаётся отдельным принятым one-shot current publisher или новым проверенным решением ROOT",
+      "Новый request/runID и удаление старых receipts сами по себе не разрешают повтор неизвестного эффекта"
+    ],
+    "неПроверено": [
+      "Async cancel/maxRun/current-busy-timeout в отдельном процессе",
+      "Настоящие power-loss/crash и writer вне cooperative protocol",
+      "Новые own identifiers и JSON wire keys требуют русификации; функциональная проверка не является языковой",
+      "Python/router/ROOT RAW/JSONL/fullprofile/RootPackage/LinguisticKit",
+      "ROOT source acceptance, runtime activation и Native trust/probe"
+    ]
+  },
+  "частичнаяРусификация": {
+    "состояние": "Применены точные байты автоматизации; языковой остаток открыт, ROOT приёмка и runtime отсутствуют",
+    "исходныйКоммит": "b294845c0f1d06708b97adc929bc047cdf63766b",
+    "коммитИнструмента": "8e26101b1bd45108407f935a3388d847d21c28c1",
+    "план": {
+      "путь": "iskhodniki/zapusk/zhurnal/план-перевода-контроллера-стоп.json",
+      "хэш": "c01ca818a716ec3a0afffc8647eaabf5856c44e997dceb5e5f42e5315a666540"
+    },
+    "патч": {
+      "путь": "iskhodniki/zapusk/zhurnal/перевод-контроллера-стоп.patch",
+      "хэш": "a69f53b225e95fdea38bde69f35a77cf4910fb003d72f08102ccda8f9a861e66"
+    },
+    "карта": {
+      "привязок": 71,
+      "позиций": 413,
+      "хэш": "78368ef4c76217995d09ecb75068fd581e35978a5679b3914e298bee8e57839c"
+    },
+    "полученныеФайлы": [
+      {
+        "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift",
+        "байт": 405,
+        "хэш": "b88f30a1b70d6b3b1fb2e849b5075ed7d77128da9fe365f8ac0efbccf3b42c64"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+        "байт": 67869,
+        "хэш": "21465f82ba6808189d42a2fc815cb6088de2c3ea5ebbec185f97608e81cc3ab8"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+        "байт": 85837,
+        "хэш": "94926347426119d5152c0e3fd758c77c37ffe7c8ad513df624389b8c4d5494b4"
+      }
+    ],
+    "проверка": {
+      "применение": "git apply --check и одно применение завершились кодом0; все3 будущих SHA совпали с полным выводом planner",
+      "хвостТестов": {
+        "исходноеСмещение": 30190,
+        "хэш": "70e728e9f8c4a7e413580e8bb42a403f3901e51fbac5cffb778f80b96ddff496",
+        "побайтноСохранён": true
+      },
+      "пакет": "Package.swift не менялся, SHA ff4f8c30644613945f54daf93f58b94acf5268bb492bb201005361b99e2bfdd5",
+      "функциональная": "Сохранённое наблюдение языкового владельца:29 тестов/4 набора на точных3 будущих Swift и том же Package. Здесь compiler/runtime повторно не запускались",
+      "граница": "Проверка точных исходников и прежняя локальная регрессия; source/build provenance прежнего объекта зависимости не аттестован полностью, чистый клон UNKNOWN"
+    },
+    "остаток": [
+      "4 новых DTO и33stored properties сохраняют текущие synthesized JSON keys; нужен отдельный адаптер или согласованная миграция",
+      "28 собственных output keys и26status literals не русифицированы; inherited wire contract не менялся",
+      "Часть собственных locals/parameters/shadow bindings, наблюдаемыйSHA256 и test current/input остаются",
+      "Исторический хвост тестов после исходного байта30190 сохранён без перевода",
+      "Полнота связей declaration/use задана авторской картой; семантический resolver отсутствует",
+      "Packed refs исправляется отдельным владельцем и в этот checkpoint не включено"
+    ],
+    "исключено": [
+      "Python и router",
+      "ROOT RAW/JSONL",
+      "Полный профиль и общий smoke",
+      "RootPackage/LinguisticKit",
+      "ROOT source acceptance/production/Native trust"
+    ],
+    "правилоИсходов": "Исключённое UNKNOWN, не GREEN; это сохранение исходников, без финальной приёмки",
+    "исполнитель": {
+      "идентификатор": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "наблюдаемаяМодель": "gpt-6.1-sol",
+      "наблюдаемоеУсилие": "ultra",
+      "граница": "Фактическая локальная метаинформация клиента; не аттестация провайдера. Прежний опубликованный author UNKNOWN не переписан"
+    }
   },
   "файловыеСсылки": {
     "схема": "фум.контракт-файловых-ссылок.1",
@@ -1010,5 +1222,23 @@
       "общийПрофиль": "UNKNOWN",
       "граница": "Только сохранение исходников и изолированные фикстуры. Runtime/config/current/ref ROOT не изменены."
     }
+  },
+  "объединениеИсточников": {
+    "схема": "fum.разрешение-конфликтов-stop.1",
+    "родители": [
+      "1b610d1c153f4eb6b5b6ee6f40a49c9a7c183574",
+      "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+    ],
+    "решение": "Для продолжения сохраняются снимок файловой привязки и повторные подтверждения ROOT. Явный связанный STOP или пауза сохраняет обход Git и проверки возраста worklist; отсутствие привязки не считается проверенным Git.",
+    "сохранение": "Прежние значения программы, активации, артефакта GREEN6, поддержки current и частичной русификации сохранены. Раздел файловых ссылок взят из принятого ROOT без изменения.",
+    "проверки": {
+      "исходники": "Независимый RO review ожидается",
+      "компилятор": "NOT_RUN",
+      "runtime": "NOT_RUN",
+      "Python": "EXCLUDED_UNKNOWN",
+      "ROOTJSONL": "EXCLUDED_UNKNOWN",
+      "полныйПрофиль": "UNKNOWN"
+    },
+    "граница": "Сохранение объединённых исходников. Ни установка, ни publisher, ни Native callback этим слиянием не запускаются."
   }
 }
