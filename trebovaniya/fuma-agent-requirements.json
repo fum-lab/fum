@@ -523,7 +523,7 @@
         "The first FUMA UI scope exposes its own window frame and content viewport as typed, timestamped observations with explicit units; frame and viewport, and points and pixels, are distinct values. FUMA operators derive layout from the observed geometry. Resize recomputes layout without replaying a user command or insertion and preserves the input/event history for deterministic replay.",
         "The first FUMA UI scope exposes physical key identity and down/up transitions, modifiers, focus, ordering, and observation provenance as typed input state. FUMA computes the selected layout and its transitions from the pinned Keyboard layout data; the operating-system layout is an observation and never substitutes for FUMA computation. The first common layout delivery imports QWERTY, Dvorak, Colemak, AZERTY, QWERTZ, and QZERTY.",
         "Text insertion and command dispatch are distinct outcomes. Replayed or repeated physical input has a stable event identity and does not duplicate insertion through the native text editor. A reproducible fixture covers real UI input and history replay; gesture and IME coverage is stated separately from keyboard mapping-table coverage, and existing operators are reused instead of creating a duplicate implementation.",
-        "Each model exposes its own supported effort ladder: Luna supports Low, Medium, High, XHigh, Max; Sol and Terra support Low, Medium, High, XHigh, Ultra. Escalation and de-escalation move one supported step at a time within the selected model, with the step justified by observed state. Requested and observed model/effort, initiator, reason, and transition outcome are separate fields; an unavailable or unobserved transition stays UNKNOWN. Rules owns the behavioral norm; FUMA implements the runtime capability. This requirement does not claim a working controller."
+        "Model ladders are derived from one common ordered level map [low, medium, high, xhigh, max, ultra] and model-specific supported ceilings: Luna=max, Sol=ultra, Terra=ultra. Each resulting ladder is the ordered prefix through its inclusive ceiling, so Sol and Terra include max before ultra. Escalation and de-escalation move one supported step at a time within the selected model, with the step justified by observed state. Requested and observed model/effort, initiator, reason, and transition outcome are separate fields; an unavailable or unobserved transition stays UNKNOWN. Rules owns the behavioral norm; FUMA implements the runtime capability. This requirement does not claim a working controller."
       ],
       "consumers": [
         "FUM-REQ-0044",
@@ -624,29 +624,6 @@
         "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
         "source_provenance": "Direct human wording relayed by ROOT; original native frame, byte offsets, and native SHA-256 were not supplied to this writer and remain UNKNOWN.",
         "human_wording_as_received": "Vot eti vse stupenjki i ispoljzuyem dlya eskalacii i deeskalacii kazhdoj modeli.",
-        "supported_ladders": {
-          "Luna": [
-            "low",
-            "medium",
-            "high",
-            "xhigh",
-            "max"
-          ],
-          "Sol": [
-            "low",
-            "medium",
-            "high",
-            "xhigh",
-            "ultra"
-          ],
-          "Terra": [
-            "low",
-            "medium",
-            "high",
-            "xhigh",
-            "ultra"
-          ]
-        },
         "transition_rule": "Escalate and de-escalate one supported step at a time within each model, with each step justified by observed state.",
         "separate_observations": [
           "requested_model",
@@ -667,6 +644,23 @@
           "base_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
           "writer_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
           "root_acceptance": "not-claimed"
+        },
+        "supported_ladder_map": {
+          "ordered_steps": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max",
+            "ultra"
+          ],
+          "maximum_supported_step_by_model": {
+            "Luna": "max",
+            "Sol": "ultra",
+            "Terra": "ultra"
+          },
+          "derivation": "A model ladder is the ordered prefix ending at its inclusive maximum_supported_step_by_model; this avoids separately authored near-duplicate arrays and preserves max for Sol and Terra.",
+          "runtime_capability_observation": "If a provider does not expose the required model/step capability, retain UNKNOWN rather than infer support."
         }
       }
     },
