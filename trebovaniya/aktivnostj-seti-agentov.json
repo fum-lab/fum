@@ -102,5 +102,80 @@
     "количественные бюджеты, пороги, аренда, гистерезис и восстановление внимания",
     "подтверждение требований владельцами Tools и FUMA"
   ],
-  "status": "Требование предложено; реализация и приёмка UNKNOWN. Python, ROOT JSONL, legacy admission и runtime не запускались."
+  "status": "Требование предложено; реализация и приёмка UNKNOWN. Python, ROOT JSONL, legacy admission и runtime не запускались.",
+  "amendments": [
+    {
+      "kind": "append-only-requirement-update",
+      "source": {
+        "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "writer": "01a1786a-b492-71d2-852a-51e94796d891",
+        "relay": "FUMA owner thread 01a1698f-bb98-7691-b1c1-31ec737ed070; human steering relayed through ROOT; original native message unavailable in this checkpoint"
+      },
+      "coordinator_message": "Новая адресная пользовательская steering через ROOT расширяет первый FUMA slice: нужна одна реальная start/resume/drain/checkpoint операция через FUMA adapter/operator и наблюдаемый outcome/UNKNOWN; прежний JSON говорит только о рекомендации и явно оставляет закрытый цикл UNKNOWN. Прошу append-only addendum/версию требования с этим уточнением, не переписывая commit 2cb83e… и исходные messages. Контракт, который согласую с FUMA/Tools: observation+capability+state+budget → desired activity + versioned policy/reason/lease → one lifecycle command with writer and expected version → outcome/receipt or UNKNOWN. Уточни acceptance и provenance поля (initiator/model/effort/reason, freshness, cost/useful outcome) и exact version/source OID, когда будет готово. Я не пишу в твой W.",
+      "contract": {
+        "observation": {
+          "required": [
+            "observation_id",
+            "observed_at",
+            "fresh_until",
+            "source",
+            "source_version",
+            "capability",
+            "node_state",
+            "resource_budget"
+          ]
+        },
+        "decision": {
+          "required": [
+            "desired_activity",
+            "policy_version",
+            "signal_version",
+            "sensitivity_version",
+            "reason",
+            "lease_expires_at"
+          ]
+        },
+        "command": {
+          "required": [
+            "command_id",
+            "action:start|resume|drain|checkpoint",
+            "owner",
+            "single_writer",
+            "expected_state_version",
+            "issued_at"
+          ]
+        },
+        "attribution": {
+          "required": [
+            "initiator",
+            "model",
+            "effort",
+            "reason"
+          ],
+          "unknown_allowed": true
+        },
+        "outcome": {
+          "required": [
+            "command_id",
+            "status",
+            "observed_at",
+            "evidence_or_receipt",
+            "useful_outcome",
+            "latency",
+            "cost_and_limits",
+            "failures"
+          ],
+          "unknown_allowed": true
+        }
+      },
+      "acceptance": [
+        "A real lifecycle command start, resume, drain, or checkpoint is issued through the selected existing FUMA adapter/operator; recommendation alone does not satisfy this addendum.",
+        "The observed outcome or UNKNOWN is linked to the exact command id, expected state version, owner, single-writer evidence, source version, policy version, and time/freshness.",
+        "Queued or accepted RPC is not operation completion; missing or ambiguous effect is UNKNOWN and is not blindly retried.",
+        "Record initiator/model/effort/reason and useful result, latency, cost/limits, and failures; unknown provenance remains explicit UNKNOWN.",
+        "If no authorized/available real lifecycle capability exists, record capability evidence and UNKNOWN; do not claim a functioning cycle or substitute a manual dispatcher."
+      ],
+      "status": "Requirement addendum only; implementation, adapter capability, completed lifecycle effect, and product activation remain UNKNOWN."
+    }
+  ]
 }
