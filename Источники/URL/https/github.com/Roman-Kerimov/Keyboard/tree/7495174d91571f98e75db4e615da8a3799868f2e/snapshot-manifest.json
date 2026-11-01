@@ -1,0 +1,21 @@
+{
+  "schema": "fum.request-materials.snapshot-manifest.v1",
+  "managed_files": [
+    "build-layout-source-data.swift",
+    "extraction-report.md",
+    "layout-source-data.json",
+    "snapshot-manifest.json",
+    "source-files/KeyboardModule/Sources/KeyboardModule/Key.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayout.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.allLayouts.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.azerty.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.colemak.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.dvorak.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwerty.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwertz.swift",
+    "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qzerty.swift",
+    "source-index.md",
+    "source-manifest.json",
+    "source-url.txt"
+  ]
+}

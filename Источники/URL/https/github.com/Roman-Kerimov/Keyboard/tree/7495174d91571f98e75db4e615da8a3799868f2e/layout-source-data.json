@@ -1,0 +1,636 @@
+{
+  "common_source_semantics" : {
+    "component_universe_expression" : "characterComponents + KeyboardLayout.option.characterComponents + KeyboardLayout.shiftUpDictionary.values + [.space]",
+    "default_input_source_ids_are_provenance_only" : true,
+    "FUMA_input_source_policy" : "Select an explicit layout identifier; do not derive FUMA layout computation from the host native\/default input source.",
+    "input_source_lookup" : "Array<KeyboardLayout>.element(inputSourceID:) selects the exact matching inputSourceID or returns .system; this behavior is source provenance only.",
+    "layout_mapping_expression" : "zip(rows, Key.layoutBoard); characterComponents[key.keycode] = characterComponent",
+    "model_git_blob" : "1f5e6e0451e318900fea8095852c45e7aabc49ae",
+    "model_source_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayout.swift",
+    "option_component_rows" : [
+      [
+        "asterisk",
+        "apostrophe",
+        "ampersand",
+        "verticalLine",
+        "tilde",
+        "divisionSign",
+        "seven",
+        "eight",
+        "nine",
+        "minusSign"
+      ],
+      [
+        "commercialAt",
+        "numberSign",
+        "dollarSign",
+        "percentSign",
+        "caret",
+        "multiplicationSign",
+        "four",
+        "five",
+        "six",
+        "plusSign"
+      ],
+      [
+        "curlyBracket",
+        "squareBracket",
+        "leftParenthesis",
+        "lessThanSign",
+        "solidus",
+        "zero",
+        "one",
+        "two",
+        "three",
+        "equalsSign"
+      ]
+    ],
+    "reversed_shift_right_dictionary_source_expression" : "Dictionary(uniqueKeysWithValues: shiftRightDictionary.map {($1, $0)})",
+    "shift_right_dictionary" : [
+      {
+        "from" : "lessThanSign",
+        "to" : "greaterThanSign"
+      },
+      {
+        "from" : "leftParenthesis",
+        "to" : "rightParenthesis"
+      },
+      {
+        "from" : "commercialAt",
+        "to" : "degree"
+      }
+    ],
+    "shift_up_dictionary" : [
+      {
+        "from" : "fullStop",
+        "to" : "colon"
+      },
+      {
+        "from" : "comma",
+        "to" : "semicolon"
+      },
+      {
+        "from" : "questionMark",
+        "to" : "exclamationMark"
+      },
+      {
+        "from" : "apostrophe",
+        "to" : "quotationMark"
+      },
+      {
+        "from" : "hyphen",
+        "to" : "lowLine"
+      }
+    ],
+    "space_assignment" : {
+      "component" : "space",
+      "keycode" : 49,
+      "outside_layout_board_rows" : true,
+      "source_expression" : "characterComponents[Key.space.keycode] = .space",
+      "source_key" : "space"
+    },
+    "space_is_outside_layout_board_rows" : true
+  },
+  "component_unit" : "Exact CharacterComponent identifiers from upstream; this package does not convert them to rendered Unicode text.",
+  "layout_order" : [
+    "qwerty",
+    "dvorak",
+    "colemak",
+    "azerty",
+    "qwertz",
+    "qzerty"
+  ],
+  "layouts" : [
+    {
+      "component_rows" : [
+        [
+          "q",
+          "w",
+          "e",
+          "r",
+          "t",
+          "y",
+          "u",
+          "i",
+          "o",
+          "p"
+        ],
+        [
+          "a",
+          "s",
+          "d",
+          "f",
+          "g",
+          "h",
+          "j",
+          "k",
+          "l",
+          "questionMark"
+        ],
+        [
+          "z",
+          "x",
+          "c",
+          "v",
+          "b",
+          "n",
+          "m",
+          "comma",
+          "fullStop",
+          "hyphen"
+        ]
+      ],
+      "default_input_source_id" : "com.apple.keylayout.ABC",
+      "id" : "qwerty",
+      "input_source_id_role" : "provenance_only",
+      "name" : "QWERTY",
+      "source_blob" : "ff1b63ad67d5a7548e408920500d8bf8464c8669"
+    },
+    {
+      "component_rows" : [
+        [
+          "questionMark",
+          "comma",
+          "fullStop",
+          "p",
+          "y",
+          "f",
+          "g",
+          "c",
+          "r",
+          "l"
+        ],
+        [
+          "a",
+          "o",
+          "e",
+          "u",
+          "i",
+          "d",
+          "h",
+          "t",
+          "n",
+          "s"
+        ],
+        [
+          "hyphen",
+          "q",
+          "j",
+          "k",
+          "x",
+          "b",
+          "m",
+          "w",
+          "v",
+          "z"
+        ]
+      ],
+      "default_input_source_id" : "com.apple.keylayout.DVORAK-QWERTYCMD",
+      "id" : "dvorak",
+      "input_source_id_role" : "provenance_only",
+      "name" : "Dvorak",
+      "source_blob" : "2243d11d66652689bc24b52e367d85575dc5e15c"
+    },
+    {
+      "component_rows" : [
+        [
+          "q",
+          "w",
+          "f",
+          "p",
+          "g",
+          "j",
+          "l",
+          "u",
+          "y",
+          "hyphen"
+        ],
+        [
+          "a",
+          "r",
+          "s",
+          "t",
+          "d",
+          "h",
+          "n",
+          "e",
+          "i",
+          "o"
+        ],
+        [
+          "z",
+          "x",
+          "c",
+          "v",
+          "b",
+          "k",
+          "m",
+          "comma",
+          "fullStop",
+          "questionMark"
+        ]
+      ],
+      "default_input_source_id" : "com.apple.keylayout.Colemak",
+      "id" : "colemak",
+      "input_source_id_role" : "provenance_only",
+      "name" : "Colemak",
+      "source_blob" : "38793d6fd5042ccb20c0b4cbc4ae0aa7162b6d9a"
+    },
+    {
+      "component_rows" : [
+        [
+          "a",
+          "z",
+          "e",
+          "r",
+          "t",
+          "y",
+          "u",
+          "i",
+          "o",
+          "p"
+        ],
+        [
+          "q",
+          "s",
+          "d",
+          "f",
+          "g",
+          "h",
+          "j",
+          "k",
+          "l",
+          "m"
+        ],
+        [
+          "w",
+          "x",
+          "c",
+          "v",
+          "b",
+          "n",
+          "comma",
+          "fullStop",
+          "questionMark",
+          "hyphen"
+        ]
+      ],
+      "default_input_source_id" : "com.apple.keylayout.ABC-AZERTY",
+      "id" : "azerty",
+      "input_source_id_role" : "provenance_only",
+      "name" : "AZERTY",
+      "source_blob" : "4509f2e53bf3d7875af430efc11cfe490ab71b82"
+    },
+    {
+      "component_rows" : [
+        [
+          "q",
+          "w",
+          "e",
+          "r",
+          "t",
+          "z",
+          "u",
+          "i",
+          "o",
+          "p"
+        ],
+        [
+          "a",
+          "s",
+          "d",
+          "f",
+          "g",
+          "h",
+          "j",
+          "k",
+          "l",
+          "questionMark"
+        ],
+        [
+          "y",
+          "x",
+          "c",
+          "v",
+          "b",
+          "n",
+          "m",
+          "comma",
+          "fullStop",
+          "hyphen"
+        ]
+      ],
+      "default_input_source_id" : "com.apple.keylayout.ABC-QWERTZ",
+      "id" : "qwertz",
+      "input_source_id_role" : "provenance_only",
+      "name" : "QWERTZ",
+      "source_blob" : "8aa04f31ddec20796faa16d250311ee4431fc23d"
+    },
+    {
+      "component_rows" : [
+        [
+          "q",
+          "z",
+          "e",
+          "r",
+          "t",
+          "y",
+          "u",
+          "i",
+          "o",
+          "p"
+        ],
+        [
+          "a",
+          "s",
+          "d",
+          "f",
+          "g",
+          "h",
+          "j",
+          "k",
+          "l",
+          "questionMark"
+        ],
+        [
+          "w",
+          "x",
+          "c",
+          "v",
+          "b",
+          "n",
+          "m",
+          "comma",
+          "fullStop",
+          "hyphen"
+        ]
+      ],
+      "default_input_source_id" : "com.apple.keylayout.Italian",
+      "id" : "qzerty",
+      "input_source_id_role" : "provenance_only",
+      "name" : "QZERTY",
+      "source_blob" : "e1f8363f85667a02b0c733e31fd90118bdfa2a2d"
+    }
+  ],
+  "license" : {
+    "git_blob" : "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "name" : "CC0 1.0 Universal",
+    "repository_path" : "LICENSE",
+    "reused_git_blob" : "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "reused_repository_path" : "Приложения\/FUMA\/Операторы\/Klaviatura\/Уведомления\/CC0-Keyboard.txt"
+  },
+  "physical_layout_board" : {
+    "coordinate_convention" : "Rows and columns are zero-based after the source expression selects board rows 1...3 and columns 1...10.",
+    "rows" : [
+      [
+        {
+          "column" : 0,
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        }
+      ],
+      [
+        {
+          "column" : 0,
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        }
+      ],
+      [
+        {
+          "column" : 0,
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ]
+    ],
+    "source_expression" : "board[1...3].map {Array($0[1...10])}",
+    "source_git_blob" : "8f5b579c243647927491d5bbebb69ebc1b7384da",
+    "source_path" : "KeyboardModule\/Sources\/KeyboardModule\/Key.swift"
+  },
+  "schema" : "fum.keyboard-layout-source-data.1",
+  "source_blobs" : [
+    {
+      "git_blob" : "1f5e6e0451e318900fea8095852c45e7aabc49ae",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayout.swift",
+      "role" : "common-layout-model"
+    },
+    {
+      "git_blob" : "8f5b579c243647927491d5bbebb69ebc1b7384da",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/Key.swift",
+      "role" : "physical-keyboard-grid-and-keycodes"
+    },
+    {
+      "git_blob" : "49c053d1aaf344d656891e11740a6b5b797e22e3",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.allLayouts.swift",
+      "role" : "ordered-layout-list"
+    },
+    {
+      "git_blob" : "ff1b63ad67d5a7548e408920500d8bf8464c8669",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qwerty.swift",
+      "role" : "layout-components"
+    },
+    {
+      "git_blob" : "2243d11d66652689bc24b52e367d85575dc5e15c",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.dvorak.swift",
+      "role" : "layout-components"
+    },
+    {
+      "git_blob" : "38793d6fd5042ccb20c0b4cbc4ae0aa7162b6d9a",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.colemak.swift",
+      "role" : "layout-components"
+    },
+    {
+      "git_blob" : "4509f2e53bf3d7875af430efc11cfe490ab71b82",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.azerty.swift",
+      "role" : "layout-components"
+    },
+    {
+      "git_blob" : "8aa04f31ddec20796faa16d250311ee4431fc23d",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qwertz.swift",
+      "role" : "layout-components"
+    },
+    {
+      "git_blob" : "e1f8363f85667a02b0c733e31fd90118bdfa2a2d",
+      "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qzerty.swift",
+      "role" : "layout-components"
+    }
+  ],
+  "upstream" : {
+    "commit" : "7495174d91571f98e75db4e615da8a3799868f2e",
+    "commit_message" : "Build 56",
+    "observed_on" : "2026-11-01",
+    "observed_ref" : "refs\/heads\/main",
+    "repository_url" : "https:\/\/github.com\/Roman-Kerimov\/Keyboard",
+    "signature" : {
+      "reason" : "unsigned",
+      "verified" : false
+    },
+    "tree" : "a2f7c5cf84cfa446b3243aa6952ca28f6f7acf2e"
+  }
+}
