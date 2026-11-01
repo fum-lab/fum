@@ -145,53 +145,70 @@
     }
   },
   "атрибуция-и-допуск-следующего-коммита": {
-    "известные-поля-08a54a64": {
-      "author": "FUM <fum@local>",
-      "committer": "FUM <fum@local>",
-      "model-effort": "UNKNOWN",
-      "потребление-сохранённого-row": "UNKNOWN"
+    "статус-представления": "ИСТОРИЧЕСКИЙ_СНИМОК_КОМАНДЫ_НЕ_ИСПОЛНЯТЬ",
+    "источник-снимка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/атрибуция-и-допуск-следующего-коммита",
+      "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+      "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
     },
-    "вызов-08a54a64": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
-    "почему-typed-author-не-передан": "Видимый ручной вызов git commit не включал GIT_AUTHOR_NAME/общий formatter. Фактическое унаследованное окружение процесса не сохранено; raw author FUM сам по себе не доказывает отсутствие overlay или последующую замену.",
-    "дефект": "Передан Tools как дефект существующего общего конвейера автора.",
-    "следующий-коммит": "Предкоммитный HOLD о literal plan и formatter output закрыт для конечного C573-based source-only исправления: подтверждённая доставка 573476f92bdcd0e2d30eb86bf1807c14010c44cb и текущий approved plan/formatter handoff зафиксированы ниже. Эта запись не разрешает будущие изменения автоматически.",
-    "для-снятия-HOLD": [
-      "использовать согласованный общий formatter/commit route",
-      "передать только GIT_AUTHOR_NAME, сверить author и неизменный committer",
-      "создать typed commit message --file только из согласованного source",
-      "при отсутствии собственного актуального контекста не коммитить"
-    ],
-    "запрещённые-обходы": [
-      "FUM по умолчанию",
-      "повтор закрытого metadata SQL",
-      "заимствование модели ROOT",
-      "amend/rebase/force",
-      "ручной -m для typed message"
-    ],
-    "фактическое-окружение-08a54": "UNKNOWN; per-call typed overlay не передан в видимой команде, полного inherited environment snapshot нет.",
-    "исторический-предкоммитный-HOLD-на-базе-08a54": "HOLD до появления exact approved literal 3-key message plan и pinned common formatter input/output; ownhost current metadata capture уже MATCH и сохранён приватно.",
-    "известное-состояние-C573-based-исправления": {
-      "база": "573476f92bdcd0e2d30eb86bf1807c14010c44cb",
-      "источник-ROOT-допуска": {
-        "bytes": 2560,
-        "sha256": "af667da89176c3ca3ac50c8b148cf5419784ad5a7d9ef532ebb67820d52f6f1b"
+    "граница": "Полное исходное JSON-значение сохранено структурно без изменения, включая строки, порядок массивов, UNKNOWN, закрытые HOLD и прежние команды. Эти команды относятся к прошлым этапам и не являются инструкцией или полномочием нового вызова.",
+    "актуальное-представление": {
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/актуальное-состояние-источниковой-поставки",
+      "поколение": "Предлагаемое добавочное поколение двух JSON на основе immutable564; этот узел ещё отсутствует в C564."
+    },
+    "полномочия-на-новый-эффект": false,
+    "исторический-снимок": {
+      "известные-поля-08a54a64": {
+        "author": "FUM <fum@local>",
+        "committer": "FUM <fum@local>",
+        "model-effort": "UNKNOWN",
+        "потребление-сохранённого-row": "UNKNOWN"
       },
-      "approved-literal-plan": {
-        "bytes": 1413,
-        "sha256": "b344fd01164ff79fbc5d53ff9a864222d8129fd1a98876bafb1f572074021015"
-      },
-      "fresh-ownhost-capture": "MATCH; один вызов; приватный outcome 1394 bytes, SHA-256 94cd438181999fd61dcfc06629f2fd9485514d3929404dc519b17969953d0ed4; backend/history/fullN32 остаются UNKNOWN.",
-      "common-formatter-output": {
-        "bytes": 1506,
-        "sha256": "de7839c63526d80d2152f61b8415dca2fdd0331071fd160b801d36dc928ce26f"
-      },
-      "предоставленный-message-file": {
-        "basename": "Tools-commit-message-v1.txt",
-        "bytes": 1408,
-        "sha256": "773aa888d14196e82cac2721a77f84bb556c867fdf9a377d491c9d6147570a40"
-      },
-      "известное-отклонение-пути-573": "Коммит 573 использовал другую принадлежащую актору копию с basename arts-stage4-correction-3key-message-166428c2.txt, совпадающую по 1252 bytes/SHA-256 87d29ffffc6b731de6ac5cd1095deaa221e2253dace6fec2d6860aa5e05eb153; это custody/path deviation, не повреждение текста. Immutable native ordinal отсутствует, полное потребление исходного handoff не объявляется GREEN.",
-      "граница": "Только finite source-only коррекция известных stale HOLD указателей; не разрешает будущую работу, runtime, tests, GUI или full N32."
+      "вызов-08a54a64": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
+      "почему-typed-author-не-передан": "Видимый ручной вызов git commit не включал GIT_AUTHOR_NAME/общий formatter. Фактическое унаследованное окружение процесса не сохранено; raw author FUM сам по себе не доказывает отсутствие overlay или последующую замену.",
+      "дефект": "Передан Tools как дефект существующего общего конвейера автора.",
+      "следующий-коммит": "Предкоммитный HOLD о literal plan и formatter output закрыт для конечного C573-based source-only исправления: подтверждённая доставка 573476f92bdcd0e2d30eb86bf1807c14010c44cb и текущий approved plan/formatter handoff зафиксированы ниже. Эта запись не разрешает будущие изменения автоматически.",
+      "для-снятия-HOLD": [
+        "использовать согласованный общий formatter/commit route",
+        "передать только GIT_AUTHOR_NAME, сверить author и неизменный committer",
+        "создать typed commit message --file только из согласованного source",
+        "при отсутствии собственного актуального контекста не коммитить"
+      ],
+      "запрещённые-обходы": [
+        "FUM по умолчанию",
+        "повтор закрытого metadata SQL",
+        "заимствование модели ROOT",
+        "amend/rebase/force",
+        "ручной -m для typed message"
+      ],
+      "фактическое-окружение-08a54": "UNKNOWN; per-call typed overlay не передан в видимой команде, полного inherited environment snapshot нет.",
+      "исторический-предкоммитный-HOLD-на-базе-08a54": "HOLD до появления exact approved literal 3-key message plan и pinned common formatter input/output; ownhost current metadata capture уже MATCH и сохранён приватно.",
+      "известное-состояние-C573-based-исправления": {
+        "база": "573476f92bdcd0e2d30eb86bf1807c14010c44cb",
+        "источник-ROOT-допуска": {
+          "bytes": 2560,
+          "sha256": "af667da89176c3ca3ac50c8b148cf5419784ad5a7d9ef532ebb67820d52f6f1b"
+        },
+        "approved-literal-plan": {
+          "bytes": 1413,
+          "sha256": "b344fd01164ff79fbc5d53ff9a864222d8129fd1a98876bafb1f572074021015"
+        },
+        "fresh-ownhost-capture": "MATCH; один вызов; приватный outcome 1394 bytes, SHA-256 94cd438181999fd61dcfc06629f2fd9485514d3929404dc519b17969953d0ed4; backend/history/fullN32 остаются UNKNOWN.",
+        "common-formatter-output": {
+          "bytes": 1506,
+          "sha256": "de7839c63526d80d2152f61b8415dca2fdd0331071fd160b801d36dc928ce26f"
+        },
+        "предоставленный-message-file": {
+          "basename": "Tools-commit-message-v1.txt",
+          "bytes": 1408,
+          "sha256": "773aa888d14196e82cac2721a77f84bb556c867fdf9a377d491c9d6147570a40"
+        },
+        "известное-отклонение-пути-573": "Коммит 573 использовал другую принадлежащую актору копию с basename arts-stage4-correction-3key-message-166428c2.txt, совпадающую по 1252 bytes/SHA-256 87d29ffffc6b731de6ac5cd1095deaa221e2253dace6fec2d6860aa5e05eb153; это custody/path deviation, не повреждение текста. Immutable native ordinal отсутствует, полное потребление исходного handoff не объявляется GREEN.",
+        "граница": "Только finite source-only коррекция известных stale HOLD указателей; не разрешает будущую работу, runtime, tests, GUI или full N32."
+      }
     }
   },
   "результат-source-only-приёма-ROOT": {
@@ -215,36 +232,70 @@
     "запрет": "Не создавать отдельную алгоритмическую или редакторскую модель как альтернативный authoritative runtime; fixtures и историю не переписывать, массовый перенос не выполнять."
   },
   "обязательная-зависимость-собственного-Git-caller-для-следующего-checkpoint": {
-    "диагноз-08a54": {
-      "saved-source-sha256": "63d0c278bcfd8ffe74f5040e0301f2b3e1a8a360070e81db67fe48fc88c969b6",
-      "author": "FUM <fum@local>",
-      "committer": "FUM <fum@local>",
-      "message": "149 bytes; SHA-256 e866…; только title и ROOT trailer, без `Исходный запрос:`; common formatter output не был потреблён."
+    "статус-представления": "ИСТОРИЧЕСКИЙ_СНИМОК_КОМАНДЫ_НЕ_ИСПОЛНЯТЬ",
+    "источник-снимка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/обязательная-зависимость-собственного-Git-caller-для-следующего-checkpoint",
+      "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+      "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
     },
-    "известный-вызов": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
-    "вывод-вызова": "[fum-lab/fum/khudozhestvennoye-napravleniye/master 08a54a64b] Добавить парный сценарий сохранения пунктуации LEAP",
-    "источник-вызова": "Сохранённая команда/вывод в текущем task context; отдельный immutable invocation receipt отсутствует.",
-    "native-argv-tool-ordinal-selected-file-actual-env": "UNAVAILABLE; не реконструировать из raw commit.",
-    "почему-env-не-передан": "Ручной agent Git вызов обошёл existing formatter/typed author environment; baseline FUM был принят без typed overlay.",
-    "исключение-старой-строки": "Сохранённый Luna/medium row относится к другому source scope; к 08a54 и текущему author context не относится. ArtsCurrentModelEffort и backend/history остаются UNKNOWN.",
-    "следующий-реально-разрешённый-checkpoint": [
-      "Проверить собственный актуальный host input с source, own UUID и turn; UNKNOWN/UNAVAILABLE => HOLD.",
-      "Получить точный действующий approved 3-key literal plan.",
-      "Вызвать существующий common formatter; проверить output canonical GIT_AUTHOR_NAME и полный pinned message.",
-      "В одном и том же environment overlay задать только GIT_AUTHOR_NAME; сверить AUTHOR_IDENT с overlay и COMMITTER_IDENT с baseline.",
-      "Создать один commit через --cleanup=verbatim --file <точный message file> с тем же overlay.",
-      "До push прочитать raw author/committer/message/tree/parent и сверить; затем выполнить обычный exact push и independent readback."
-    ],
-    "обязательное-условие": "Следующий разрешённый содержательный checkpoint должен фактически пройти весь маршрут и сохранить его source/env/message/raw pins; ACK, невызванный Swift API или ещё одно обещание не доказывают исправление.",
-    "статус": "READY: ownhost capture MATCH; approved literal 3-key plan и pinned existing formatter output/message file доступны. Выполнить identity guards с тем же overlay, один commit --file и raw readback до push."
+    "граница": "Полное исходное JSON-значение сохранено структурно без изменения, включая строки, порядок массивов, UNKNOWN, закрытые HOLD и прежние команды. Эти команды относятся к прошлым этапам и не являются инструкцией или полномочием нового вызова.",
+    "актуальное-представление": {
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/актуальное-состояние-источниковой-поставки",
+      "поколение": "Предлагаемое добавочное поколение двух JSON на основе immutable564; этот узел ещё отсутствует в C564."
+    },
+    "полномочия-на-новый-эффект": false,
+    "исторический-снимок": {
+      "диагноз-08a54": {
+        "saved-source-sha256": "63d0c278bcfd8ffe74f5040e0301f2b3e1a8a360070e81db67fe48fc88c969b6",
+        "author": "FUM <fum@local>",
+        "committer": "FUM <fum@local>",
+        "message": "149 bytes; SHA-256 e866…; только title и ROOT trailer, без `Исходный запрос:`; common formatter output не был потреблён."
+      },
+      "известный-вызов": "git commit -m 'Добавить парный сценарий сохранения пунктуации LEAP' -m 'Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb'",
+      "вывод-вызова": "[fum-lab/fum/khudozhestvennoye-napravleniye/master 08a54a64b] Добавить парный сценарий сохранения пунктуации LEAP",
+      "источник-вызова": "Сохранённая команда/вывод в текущем task context; отдельный immutable invocation receipt отсутствует.",
+      "native-argv-tool-ordinal-selected-file-actual-env": "UNAVAILABLE; не реконструировать из raw commit.",
+      "почему-env-не-передан": "Ручной agent Git вызов обошёл existing formatter/typed author environment; baseline FUM был принят без typed overlay.",
+      "исключение-старой-строки": "Сохранённый Luna/medium row относится к другому source scope; к 08a54 и текущему author context не относится. ArtsCurrentModelEffort и backend/history остаются UNKNOWN.",
+      "следующий-реально-разрешённый-checkpoint": [
+        "Проверить собственный актуальный host input с source, own UUID и turn; UNKNOWN/UNAVAILABLE => HOLD.",
+        "Получить точный действующий approved 3-key literal plan.",
+        "Вызвать существующий common formatter; проверить output canonical GIT_AUTHOR_NAME и полный pinned message.",
+        "В одном и том же environment overlay задать только GIT_AUTHOR_NAME; сверить AUTHOR_IDENT с overlay и COMMITTER_IDENT с baseline.",
+        "Создать один commit через --cleanup=verbatim --file <точный message file> с тем же overlay.",
+        "До push прочитать raw author/committer/message/tree/parent и сверить; затем выполнить обычный exact push и independent readback."
+      ],
+      "обязательное-условие": "Следующий разрешённый содержательный checkpoint должен фактически пройти весь маршрут и сохранить его source/env/message/raw pins; ACK, невызванный Swift API или ещё одно обещание не доказывают исправление.",
+      "статус": "READY: ownhost capture MATCH; approved literal 3-key plan и pinned existing formatter output/message file доступны. Выполнить identity guards с тем же overlay, один commit --file и raw readback до push."
+    }
   },
   "действительный-caller-разрыв-08a54-из-existing-diagnosis": {
-    "координатор.swift:255": "Потребитель bytes проверяет только равенство UTF-8/message; typed author overlay не гарантирует.",
-    "координатор.swift:490": "Precommit identity guard срабатывает только если реальный caller его вызывает.",
-    "координатор.swift:2620": "Возвращённые metadata/output не исполняют агентский git commit.",
-    "координатор.swift:2789": "Git variable overlay должен быть соединён с реальным commit invocation.",
-    "ROOT-merge-receive.swift:523-542": "Путь ROOT merge приемки не является Arts caller.",
-    "вывод": "Исправить собственный следующий agent Git caller его фактическим потреблением typed env и message; не менять невызванный helper вместо call site."
+    "статус-представления": "ИСТОРИЧЕСКИЙ_СНИМОК_КОМАНДЫ_НЕ_ИСПОЛНЯТЬ",
+    "источник-снимка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/действительный-caller-разрыв-08a54-из-existing-diagnosis",
+      "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+      "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
+    },
+    "граница": "Полное исходное JSON-значение сохранено структурно без изменения, включая строки, порядок массивов, UNKNOWN, закрытые HOLD и прежние команды. Эти команды относятся к прошлым этапам и не являются инструкцией или полномочием нового вызова.",
+    "актуальное-представление": {
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/актуальное-состояние-источниковой-поставки",
+      "поколение": "Предлагаемое добавочное поколение двух JSON на основе immutable564; этот узел ещё отсутствует в C564."
+    },
+    "полномочия-на-новый-эффект": false,
+    "исторический-снимок": {
+      "координатор.swift:255": "Потребитель bytes проверяет только равенство UTF-8/message; typed author overlay не гарантирует.",
+      "координатор.swift:490": "Precommit identity guard срабатывает только если реальный caller его вызывает.",
+      "координатор.swift:2620": "Возвращённые metadata/output не исполняют агентский git commit.",
+      "координатор.swift:2789": "Git variable overlay должен быть соединён с реальным commit invocation.",
+      "ROOT-merge-receive.swift:523-542": "Путь ROOT merge приемки не является Arts caller.",
+      "вывод": "Исправить собственный следующий agent Git caller его фактическим потреблением typed env и message; не менять невызванный helper вместо call site."
+    }
   },
   "пины-фактического-сообщения-и-RAW-08a54": {
     "source-diagnosis-sha256": "63d0c278bcfd8ffe74f5040e0301f2b3e1a8a360070e81db67fe48fc88c969b6",
@@ -257,56 +308,224 @@
     "tool-ordinal-native-argv-selected-file-actual-env": "UNAVAILABLE в сохранённом диагнозе; видимая команда в task context использовала -m и не содержит --file или per-call env, но полный inherited environment snapshot не сохранён."
   },
   "безопасная-сводка-собственного-текущего-контекста": {
-    "source": "mcp__node_repl__js по v2 scope",
-    "own-thread-UUID": "совпадение подтверждено",
-    "turn-model-effort": "сохранены только в приватном outcome pin 1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
-    "known-limits": [
-      "backend UNKNOWN",
-      "history UNKNOWN",
-      "fullN32 UNKNOWN",
-      "SQL=0",
-      "full envelope не читался"
-    ]
+    "статус-представления": "ИСТОРИЧЕСКИЙ_СНИМОК_КОМАНДЫ_НЕ_ИСПОЛНЯТЬ",
+    "источник-снимка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/безопасная-сводка-собственного-текущего-контекста",
+      "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+      "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
+    },
+    "граница": "Полное исходное JSON-значение сохранено структурно без изменения, включая строки, порядок массивов, UNKNOWN, закрытые HOLD и прежние команды. Эти команды относятся к прошлым этапам и не являются инструкцией или полномочием нового вызова.",
+    "актуальное-представление": {
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/актуальное-состояние-источниковой-поставки",
+      "поколение": "Предлагаемое добавочное поколение двух JSON на основе immutable564; этот узел ещё отсутствует в C564."
+    },
+    "полномочия-на-новый-эффект": false,
+    "исторический-снимок": {
+      "source": "mcp__node_repl__js по v2 scope",
+      "own-thread-UUID": "совпадение подтверждено",
+      "turn-model-effort": "сохранены только в приватном outcome pin 1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
+      "known-limits": [
+        "backend UNKNOWN",
+        "history UNKNOWN",
+        "fullN32 UNKNOWN",
+        "SQL=0",
+        "full envelope не читался"
+      ]
+    }
   },
   "результат-одноразового-ownhost-capture-2026-11-01": {
-    "статус": "MATCH",
-    "источник": "mcp__node_repl__js / host-provided nodeRepl.requestMeta по scope v2 ae5bc6e614cb0bf1a0136cbedcb41e8df2027b000656c9cd69f53da6d0e512a9 и root delegation 2c13093f63146e46fd1de2e1f760d5b873b917012a11f38a62e54c562f584f2c.",
-    "own-thread-и-вложенный-thread": "Совпали с собственным UUID задачи.",
-    "capturedAtUTC": "2026-11-01T18:51:00.303Z",
-    "приватный-результат-пин": {
-      "sha256": "1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
-      "bytes": 1268,
-      "mode": "0600",
-      "ownerUID": 501,
-      "links": 1
+    "статус-представления": "ИСТОРИЧЕСКИЙ_СНИМОК_КОМАНДЫ_НЕ_ИСПОЛНЯТЬ",
+    "источник-снимка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/результат-одноразового-ownhost-capture-2026-11-01",
+      "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+      "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
     },
-    "backend-history-fullN32": "UNKNOWN",
-    "ограничение": "Не содержит полного envelope; ровно один разрешённый вызов, SQL=0.",
-    "модель-и-effort": "Сохранены только в приватном ownhost outcome, в публичный план не копируются.",
-    "публичный-пин": "sha256:1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441"
+    "граница": "Полное исходное JSON-значение сохранено структурно без изменения, включая строки, порядок массивов, UNKNOWN, закрытые HOLD и прежние команды. Эти команды относятся к прошлым этапам и не являются инструкцией или полномочием нового вызова.",
+    "актуальное-представление": {
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/актуальное-состояние-источниковой-поставки",
+      "поколение": "Предлагаемое добавочное поколение двух JSON на основе immutable564; этот узел ещё отсутствует в C564."
+    },
+    "полномочия-на-новый-эффект": false,
+    "исторический-снимок": {
+      "статус": "MATCH",
+      "источник": "mcp__node_repl__js / host-provided nodeRepl.requestMeta по scope v2 ae5bc6e614cb0bf1a0136cbedcb41e8df2027b000656c9cd69f53da6d0e512a9 и root delegation 2c13093f63146e46fd1de2e1f760d5b873b917012a11f38a62e54c562f584f2c.",
+      "own-thread-и-вложенный-thread": "Совпали с собственным UUID задачи.",
+      "capturedAtUTC": "2026-11-01T18:51:00.303Z",
+      "приватный-результат-пин": {
+        "sha256": "1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
+        "bytes": 1268,
+        "mode": "0600",
+        "ownerUID": 501,
+        "links": 1
+      },
+      "backend-history-fullN32": "UNKNOWN",
+      "ограничение": "Не содержит полного envelope; ровно один разрешённый вызов, SQL=0.",
+      "модель-и-effort": "Сохранены только в приватном ownhost outcome, в публичный план не копируются.",
+      "публичный-пин": "sha256:1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441"
+    }
   },
   "literal-3key-message-plan-для-этого-checkpoint": {
-    "состояние": "MATCH_APPROVED_AND_FORMATTED",
-    "approved-plan-source": {
-      "path": "private approved plan v1",
-      "bytes": 1257,
-      "sha256": "166428c2393fc5d70c21ef17bcf983582e82430c40444fd9c63218779ecfa219"
+    "статус-представления": "ИСТОРИЧЕСКИЙ_СНИМОК_КОМАНДЫ_НЕ_ИСПОЛНЯТЬ",
+    "источник-снимка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/literal-3key-message-plan-для-этого-checkpoint",
+      "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+      "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
     },
-    "title": "Уточнить этапы сценариев и ответственность за LEAP",
-    "description": "В двух разрешённых файлах плана и журнала разделить исторические снимки из 7, 10 и 12 сценариев и сохранить подтверждённый source-only приём через ef01a326. Закрепить за редактором FUMA поведение, семантику и реализацию LEAP, а за художественным направлением — визуальную обратную связь. Записать известный обход общего форматера при 08a54a64 и UNKNOWN исторической модели без переписывания атрибуции. Фикстуры не менять. Новая запись проходит существующий общий маршрут author/env/message-file и raw readback; runtime, тесты и GUI не запускались, полного N32 нет.",
-    "originalRequest": "Pochemu LEAP — eto khudozhestvennoye napravleniye?\nFUM Pisatelj sredi avtorov kommitov pochemu-to vyilezayet postoyanno.",
-    "formatter": {
-      "source": "existing common pure formatter",
-      "sha256": "16c44df3f423fe0637f76c8b4e702cee223767962adcd221fbfa8f7c9566796b",
-      "definition": "koordinaciya/fuma/генератор-метаданных.json",
-      "definition-sha256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a"
+    "граница": "Полное исходное JSON-значение сохранено структурно без изменения, включая строки, порядок массивов, UNKNOWN, закрытые HOLD и прежние команды. Эти команды относятся к прошлым этапам и не являются инструкцией или полномочием нового вызова.",
+    "актуальное-представление": {
+      "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+      "указатель": "/актуальное-состояние-источниковой-поставки",
+      "поколение": "Предлагаемое добавочное поколение двух JSON на основе immutable564; этот узел ещё отсутствует в C564."
     },
-    "formatted-output": {
-      "GIT_AUTHOR_NAME": "FUM Codex [gpt-6-luna; effort=medium]",
-      "message-file": "private actor-owned message file; 1252 bytes",
-      "message-sha256": "87d29ffffc6b731de6ac5cd1095deaa221e2253dace6fec2d6860aa5e05eb153",
-      "invocation": "one formatter run; exact output consumed via --file; no second formatter run"
+    "полномочия-на-новый-эффект": false,
+    "исторический-снимок": {
+      "состояние": "MATCH_APPROVED_AND_FORMATTED",
+      "approved-plan-source": {
+        "path": "private approved plan v1",
+        "bytes": 1257,
+        "sha256": "166428c2393fc5d70c21ef17bcf983582e82430c40444fd9c63218779ecfa219"
+      },
+      "title": "Уточнить этапы сценариев и ответственность за LEAP",
+      "description": "В двух разрешённых файлах плана и журнала разделить исторические снимки из 7, 10 и 12 сценариев и сохранить подтверждённый source-only приём через ef01a326. Закрепить за редактором FUMA поведение, семантику и реализацию LEAP, а за художественным направлением — визуальную обратную связь. Записать известный обход общего форматера при 08a54a64 и UNKNOWN исторической модели без переписывания атрибуции. Фикстуры не менять. Новая запись проходит существующий общий маршрут author/env/message-file и raw readback; runtime, тесты и GUI не запускались, полного N32 нет.",
+      "originalRequest": "Pochemu LEAP — eto khudozhestvennoye napravleniye?\nFUM Pisatelj sredi avtorov kommitov pochemu-to vyilezayet postoyanno.",
+      "formatter": {
+        "source": "existing common pure formatter",
+        "sha256": "16c44df3f423fe0637f76c8b4e702cee223767962adcd221fbfa8f7c9566796b",
+        "definition": "koordinaciya/fuma/генератор-метаданных.json",
+        "definition-sha256": "c793c3a69405d3c655c70496d0803d4c9a4184b34fc9bbbef2a9950510112d1a"
+      },
+      "formatted-output": {
+        "GIT_AUTHOR_NAME": "FUM Codex [gpt-6-luna; effort=medium]",
+        "message-file": "private actor-owned message file; 1252 bytes",
+        "message-sha256": "87d29ffffc6b731de6ac5cd1095deaa221e2253dace6fec2d6860aa5e05eb153",
+        "invocation": "one formatter run; exact output consumed via --file; no second formatter run"
+      },
+      "условие-дальше": "Использовать этот неизменённый message file и идентичный GIT_AUTHOR_NAME overlay для AUTHOR_IDENT guard и одного commit --cleanup=verbatim --file; проверить raw commit до push."
+    }
+  },
+  "актуальное-состояние-источниковой-поставки": {
+    "назначение": "Единственное актуальное представление известных publisher/caller/metadata фактов этих двух JSON; описывает уже завершённый источниковый checkpoint, а не разрешает следующий.",
+    "последняя-известная-источниковая-контрольная-точка": {
+      "коммит": "564eef70dbcdd6e6acc803692df2ff9698bcd2b7",
+      "дерево": "aff08a721dcf3ed1a9293b1054371288203cfcd8",
+      "родитель": "573476f92bdcd0e2d30eb86bf1807c14010c44cb",
+      "состояние": "ДОСТАВКА_564_ПОДТВЕРЖДЕНА_СОХРАНЁННЫМ_НЕЗАВИСИМЫМ_READBACK",
+      "известно-по-состоянию-на-UTC": "2026-11-01T19:51:21.411Z",
+      "граница-времени": "Новый live remote/host read этим представлением не выполняется.",
+      "точный-ref": "refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/master",
+      "проверенные-source-блобы": [
+        {
+          "путь": "khudozhestvennoye-napravleniye/план-этапа-4.json",
+          "blob": "ea211546b0446921d256412d7a1b1552a42f53f3",
+          "bytes": 28882,
+          "sha256": "9ebe18e74c7cfac803a164a7373bd26b4ee339aaababc706ab64a5b2a8ad0286"
+        },
+        {
+          "путь": "khudozhestvennoye-napravleniye/zhurnal/этап-4.json",
+          "blob": "6da29f2990a09b9edf0483412e7ee8bafbf25954",
+          "bytes": 35652,
+          "sha256": "183fbaea755f95316257d10678177bbd3ad5390872b52b9edcf9b0cdd8d1b7d2"
+        }
+      ],
+      "граница-source-пинов": "Эти пины относятся к уже опубликованным двум JSON в564; они не являются SHA будущего изменённого файла.",
+      "raw-коммит": {
+        "bytes": 1620,
+        "sha256": "a0fd35d87358e33ed8a58fd086b919a222458ee9da61adceb7dca6527c8bef07"
+      }
     },
-    "условие-дальше": "Использовать этот неизменённый message file и идентичный GIT_AUTHOR_NAME overlay для AUTHOR_IDENT guard и одного commit --cleanup=verbatim --file; проверить raw commit до push."
+    "закрытая-цепь-метаданных-564": {
+      "статус": "ИСПОЛЬЗОВАНО_В_ЗАКРЫТОМ_564_НЕ_ДЛЯ_ПОВТОРА",
+      "допуск-ROOT": {
+        "bytes": 2560,
+        "sha256": "af667da89176c3ca3ac50c8b148cf5419784ad5a7d9ef532ebb67820d52f6f1b"
+      },
+      "approved-literal-plan": {
+        "bytes": 1413,
+        "sha256": "b344fd01164ff79fbc5d53ff9a864222d8129fd1a98876bafb1f572074021015"
+      },
+      "ownhost-снимок": {
+        "bytes": 1394,
+        "sha256": "94cd438181999fd61dcfc06629f2fd9485514d3929404dc519b17969953d0ed4",
+        "status": "MATCH; one capture; backend/history/fullN32 UNKNOWN",
+        "граница": "Один уже использованный host-reported snapshot собственного хода для564. Не backend, не история, не свежесть следующего хода."
+      },
+      "formatter-output": {
+        "bytes": 1506,
+        "sha256": "de7839c63526d80d2152f61b8415dca2fdd0331071fd160b801d36dc928ce26f"
+      },
+      "formatter-handoff": {
+        "bytes": 6938,
+        "sha256": "0be27ec4f7b840d280d93ba5193a70ac4dd944074e8ff6736aae6ef0588d36d9"
+      },
+      "предоставленный-message-file": {
+        "basename": "Tools-commit-message-v1.txt",
+        "bytes": 1408,
+        "sha256": "773aa888d14196e82cac2721a77f84bb556c867fdf9a377d491c9d6147570a40"
+      },
+      "raw-message": {
+        "bytes": 1408,
+        "sha256": "773aa888d14196e82cac2721a77f84bb556c867fdf9a377d491c9d6147570a40",
+        "равенство": "Raw message bytes равны JSON.message и точному предоставленному файлу по сохранённому readback."
+      },
+      "raw-author": "FUM Codex [gpt-6-luna; effort=medium] <fum@local>",
+      "raw-committer": "FUM <fum@local>",
+      "последний-ROOT-trailer": "Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "предел-caller-доказательства": "Сохранённая actor receipt указывает SAME provided path, совпали byte pins и native file identity. Отдельного immutable Native ordinal в этой receipt нет; ROOT хранит primary ordered command metadata отдельно. Raw outcome не доказывает сам по себе весь invocation/order/env.",
+      "повтор-capture-formatter-commit-push-разрешён": false
+    },
+    "исторические-контрольные-точки": {
+      "573": {
+        "коммит": "573476f92bdcd0e2d30eb86bf1807c14010c44cb",
+        "approved-plan": {
+          "bytes": 1257,
+          "sha256": "166428c2393fc5d70c21ef17bcf983582e82430c40444fd9c63218779ecfa219"
+        },
+        "message": {
+          "bytes": 1252,
+          "sha256": "87d29ffffc6b731de6ac5cd1095deaa221e2253dace6fec2d6860aa5e05eb153"
+        },
+        "ownhost-outcome": {
+          "bytes": 1268,
+          "sha256": "1d660e8434796705963382ffee3add9fa40d4ec218fd86e0ca6c64d53df35441",
+          "capturedAtUTC": "2026-11-01T18:51:00.303Z"
+        },
+        "неустранённые-пределы": "Byte-equal другая actor-owned path-copy и отсутствие immutable ordinal сохраняются. Exact provided-path consumption573 NOT_PROVED, не GREEN.",
+        "состояние": "ИСТОРИЧЕСКИЙ_ЗАКРЫТЫЙ_SOURCE_CHECKPOINT_БЕЗ_АМНИСТИИ_ИНЦИДЕНТА"
+      },
+      "08": {
+        "коммит": "08a54a64b8cb37045e44b4103892e65588b12b28",
+        "сценариев": 12,
+        "author": "FUM <fum@local>",
+        "model-effort": "UNKNOWN",
+        "actual-env-row-consumption-native-ordinal": "UNKNOWN_OR_UNAVAILABLE",
+        "приёмка-ROOT": "Исторический source-only приём черезef01a326; не новая564 runtime приёмка."
+      }
+    },
+    "корректные-неизвестности-и-неисполненное": {
+      "историческая-атрибуция-08": "UNKNOWN",
+      "backend": "UNKNOWN",
+      "полная-история-моделей": "UNKNOWN",
+      "fullN32": "UNKNOWN_NOT_GRANTED",
+      "runtime-tests-GUI-этого-источникового-этапа": "NOT_RUN",
+      "фактическая-FUMA-приёмка-и-реализация": "Не доказаны этими двумя JSON; собственные более поздние UI-grants и результаты рассматриваются отдельно.",
+      "общий-caller-механизм": "Один raw outcome564 не доказывает подключение и исправление всего общего механизма."
+    },
+    "полномочия-и-следующая-контрольная-точка": {
+      "автоматический-новый-допуск": false,
+      "создавать-коммит-для-вписывания-собственного-будущего-OID": false,
+      "receipt-for-receipt-цикл": false,
+      "старая-READY-или-HOLD-строка-разрешает-эффект": false,
+      "новый-source-writer-допуск": "Для фактической следующей записи ROOT выбирает конкретный finite объём, эти точные адреса и актуальную основу отдельно. DATA proposal такого допуска не выдаёт.",
+      "неизвестное-будущее-полномочие": "UNKNOWN вне отдельных проверенных новых грантов; не выбирать автоматически.",
+      "независимый-UI-grant": "Не оценивается и не блокируется этим ограниченным source-state предложением."
+    }
   }
 }
