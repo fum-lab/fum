@@ -1,0 +1,231 @@
+{
+  "schema": "fum.old-branches-inventory-run.v2",
+  "recordedUTC": "2026-11-01T15:34:34Z",
+  "rootThreadUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "executorUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
+  "inputSnapshot": {
+    "schema": "fum.old-branches-observation.v1",
+    "observedUTC": "2026-11-01T14:16:43.660Z",
+    "bytes": 165323,
+    "sha256": "a2bf5bf913b533178ac930845de7e4b73bcbbedcdbf43a68cbf9f57cef2ec368",
+    "baseOID": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "sourcePath": "PRIVATE; omitted from repository"
+  },
+  "previousRegistry": {
+    "schema": "fum.old-branches-inventory.v2",
+    "bytes": 554419,
+    "sha256": "f712b87e92f978cde25ae26c6e27361737005fd89a5bdbafdedc922557804de4",
+    "sourceSHA256": "a2bf5bf913b533178ac930845de7e4b73bcbbedcdbf43a68cbf9f57cef2ec368",
+    "baseOID": "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+  },
+  "annotations": {
+    "schema": "fum.old-branches-owner-review.v3",
+    "sha256": "e41dc0243098e4f22c5afa10e68cda2b6107f63cbc179bae125554af48144cd5",
+    "postSnapshotOutcomes": 2,
+    "postSnapshotDispositions": 2
+  },
+  "attempts": [
+    {
+      "operation": "initial Swift source invocation",
+      "result": "COMPILE_ERROR",
+      "cause": [
+        "@main requires parse-as-library",
+        "non-exhaustive Ошибка switch",
+        "nested worktree closure compared against the wrong value"
+      ],
+      "disposition": "source corrected; no output file written"
+    },
+    {
+      "operation": "compiled executable with a manually mistyped expected hash",
+      "result": "PIN_REJECTED",
+      "exitCode": 2,
+      "disposition": "correct source SHA-256 supplied on next invocation; no output file written"
+    },
+    {
+      "operation": "continuation compile attempt 1",
+      "result": "COMPILE_ERROR",
+      "wallSeconds": 1.49,
+      "cause": [
+        "attempted to assign the immutable следующийОбратныйMerge property"
+      ],
+      "disposition": "property made mutable; no output file written"
+    },
+    {
+      "operation": "continuation compile attempt 2",
+      "result": "COMPILE_ERROR",
+      "wallSeconds": 0.44,
+      "cause": [
+        "exhaustive typed enum switch had an unreachable default under warnings-as-errors"
+      ],
+      "disposition": "unreachable defaults removed; no output file written"
+    },
+    {
+      "operation": "jq query construction",
+      "result": "COMMAND_ERROR",
+      "cause": [
+        "jq requires bracket selectors for Cyrillic property names"
+      ],
+      "disposition": "filter corrected; input files unchanged"
+    },
+    {
+      "operation": "timed jq query construction",
+      "result": "COMMAND_ERROR",
+      "wallSeconds": 0.00,
+      "cause": [
+        "one Cyrillic field selector still used dot notation"
+      ],
+      "disposition": "filter corrected; input files unchanged"
+    }
+  ],
+  "build": {
+    "compiler": "Apple Swift 6.4",
+    "source": "integraciya/Инвентарь-старых-веток.swift",
+    "sourceSHA256": "b1619504ca83668e295d8e8aa26340c5e7e344b28abf28eda142f2d06b55a85a",
+    "flags": [
+      "-swift-version 6",
+      "-strict-concurrency=complete",
+      "-warnings-as-errors",
+      "-parse-as-library"
+    ],
+    "result": "SUCCESS",
+    "wallSeconds": 1.34,
+    "executable": "temporary build outside checkout"
+  },
+  "overlayExecution": {
+    "mode": "--наложить-на",
+    "input": "integraciya/Реестр-старых-веток.json",
+    "inputSchema": "fum.old-branches-inventory.v2",
+    "inputBytes": 554419,
+    "expectedInputSHA256": "f712b87e92f978cde25ae26c6e27361737005fd89a5bdbafdedc922557804de4",
+    "baseOID": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "annotations": "integraciya/Кандидаты-обратной-интеграции.json",
+    "wallSeconds": 0.54,
+    "exitCode": 0,
+    "output": {
+      "path": "integraciya/Реестр-старых-веток.json",
+      "schema": "fum.old-branches-inventory.v3",
+      "bytes": 557073,
+      "sha256": "743e06257be7585de4920bdf46f4252d2104a96289ca0fa78120d917c47c9c63",
+      "rows": 366,
+      "localUnmerged": 208,
+      "remoteHeads": 333,
+      "remoteOnlyOutsideLocalSlice": 158,
+      "independentTipOIDs": 153,
+      "sourceSnapshotSHA256": "a2bf5bf913b533178ac930845de7e4b73bcbbedcdbf43a68cbf9f57cef2ec368",
+      "baseOID": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "postSnapshotOutcomes": 2,
+      "postSnapshotDispositions": 2
+    },
+    "readback": "schema, input pin, source hash, base, counts, sequential root parents, partial scope, dispositions, candidate exclusion, and absence of absolute /Users paths confirmed"
+  },
+  "rootOutcomeChain": [
+    {
+      "sourceOID": "b4f616091240669f550dc45479b8572fe4563c59",
+      "result": "SOURCE_INTEGRATED_IN_ROOT_MASTER",
+      "rootCommit": "df846e7e2889b1ce1b976fb2d366798851b1f87a",
+      "rootParents": [
+        "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+        "b4f616091240669f550dc45479b8572fe4563c59"
+      ],
+      "remoteOID": "df846e7e2889b1ce1b976fb2d366798851b1f87a"
+    },
+    {
+      "sourceOID": "a09c79476d8b764ed1fa833ceefa82a7c5917908",
+      "result": "SOURCE_PARTIALLY_INTEGRATED_IN_ROOT_MASTER",
+      "scope": "partial532:527 R100;3M direct Markdown inputs;2A Journal",
+      "rootCommit": "1f98913ab90dab787445efd0c10b234f238d2fba",
+      "rootTree": "92fbdc3dc1a04af199208c87f5776408ba649951",
+      "rootParents": [
+        "df846e7e2889b1ce1b976fb2d366798851b1f87a",
+        "a09c79476d8b764ed1fa833ceefa82a7c5917908"
+      ],
+      "remoteOID": "1f98913ab90dab787445efd0c10b234f238d2fba",
+      "receiptBytes": 855,
+      "receiptSHA256": "5a1cddd17863885d676d1fd45c3db6cdc371fd241483645edddba10132afe98e",
+      "receiptPath": "PRIVATE; omitted from repository"
+    }
+  ],
+  "postSnapshotDispositions": [
+    {
+      "sourceRef": "refs/heads/codex/D22-перенос-01a09f8d",
+      "sourceOID": "0f456def7758c94caabc506e252ed023befc9afe",
+      "result": "CANCELLED_DO_NOT_REOPEN",
+      "nextStep": "Не возобновлять и не включать в предложения или действия."
+    },
+    {
+      "sourceRef": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-v1",
+      "sourceOID": "3bb4f3c5e6330e3e1f1e290cff522b0f298ab655",
+      "remoteOID": "01c8498eb671a2bbb437211cf63c1c14db63d308",
+      "result": "QUARANTINED_DO_NOT_REVIEW_INTEGRATE_PUBLISH",
+      "nextStep": "Не ревьюить, не интегрировать и не публиковать; не включать в предложения."
+    }
+  ],
+  "candidate5682": {
+    "commit": "5682b4359d0f45facba204bcb8720629d0df5a02",
+    "ref": "refs/heads/fum-lab/fum/integraciya/candidate-issues/master",
+    "tip": "5813097f7e8c926a467966a038ce9461d23c772f",
+    "remoteMatches": true,
+    "tree": "60e7418513b318e92e527b9538aea0d89c41264f",
+    "parents": [
+      "444f7342862d6371d5a020f27ae20fca8dad9fd7",
+      "a09c79476d8b764ed1fa833ceefa82a7c5917908"
+    ],
+    "mergeBaseWithCurrentRoot": "a09c79476d8b764ed1fa833ceefa82a7c5917908",
+    "treeDeltaAgainstCurrentRoot": {
+      "paths": 20,
+      "deletionsOfAcceptedArtsContent": 12,
+      "addedOrChanged": 8,
+      "integrationMarkdownWithAbsolutePathAndStaleState": 3,
+      "rulesPayloadsReviewed": false
+    },
+    "disposition": "WHOLE_COMPOSITE_NOT_FOR_MERGE; metadata subset needs owner, path cleanup, and fact review"
+  },
+  "relatedReadOnlyReviews": {
+    "Planning16bf": {
+      "commit": "16bf159003f9092d3e66ab333b885dfe850aa53f",
+      "result": "metadata-only receipt for f9637b961a881f73251e2f137161567dbca3d823",
+      "grantFileAvailable": false,
+      "profile": "UNKNOWN",
+      "rootAcceptance": "NOT_GRANTED"
+    },
+    "Source8df9": {
+      "result": "UNKNOWN",
+      "prefixResolvesTo": "blob",
+      "sourceRef": "UNRESOLVED",
+      "ownerAndProfile": "UNRESOLVED"
+    }
+  },
+  "directRuns": {
+    "reportRunner": "NOT_RUN; Python excluded by task boundary",
+    "fullTests": "NOT_RUN; no tests added",
+    "fullRootProfile": "UNKNOWN_NOT_RUN",
+    "performanceBaseline": "NOT_MEASURED",
+    "finalJQReadbackSeconds": [
+      0.00,
+      0.01
+    ],
+    "absolutePathScan": "SUCCESS; no /Users/ match in registry; duration not measured"
+  },
+  "sideEffects": "one generated registry v3 and task-owned source/docs/material edits in this worktree; no fetch, foreign ref/index/config writes, ROOT write, merge, or publication performed in this stage",
+  "preCommit": {
+    "head": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
+    "agentsSHA256": "5f98f654caf5ae9d66a148fd25914caa683e21a9d89724817f0f3fe56df567d2",
+    "manualRecency": {
+      "helper": "EXCLUDED_NOT_RUN",
+      "timestampMSK": "2026-11-01 18:32:09 MSK",
+      "method": "SHA-256 of normalized LF text before the final marker block",
+      "contentSHA256": {
+        "integraciya/План.md": "002ac19ecb6c121b84d1b40c3f253fb998917f1efc3c12d6d8a5693c30d23c44",
+        "integraciya/Состояние.md": "60ba1062ee888519a2be5c1b4c80638b21a1e69223b648bd4babb078fd53a743",
+        "Журнал/2026-11-01_17-33-30_MSK_инвентаризировать-старые-ветки/запрос.md": "b50ee763908196779e413726ef58b6f0237ce00ad820b19071b33ab198012efa",
+        "Журнал/2026-11-01_17-33-30_MSK_инвентаризировать-старые-ветки/отчёт.md": "163734a7aa752d691049d03512a7f1682b878fdaa77580d168b4faed39f88c76"
+      }
+    },
+    "gitDiffChecks": "PASS; git diff --check and git diff --cached --check returned exit 0",
+    "jsonReadback": "PASS; jq empty returned exit 0 for all three machine JSON files",
+    "exactStageScope": "PASS; exactly eight task-owned paths staged and no unstaged paths",
+    "registryReadback": "PASS; schema v3, 366 rows, two outcomes, two dispositions, three suggested candidates, no /Users/ path",
+    "authorIdentityCheck": "PASS; GIT_AUTHOR_NAME override changes author while committer remains FUM <fum@local>"
+  }
+}
