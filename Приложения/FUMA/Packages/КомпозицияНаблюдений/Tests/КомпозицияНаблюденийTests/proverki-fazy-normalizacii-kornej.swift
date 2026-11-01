@@ -1,4 +1,5 @@
 import Foundation
+import CryptoKit
 import Testing
 import КонтейнерНаблюдений
 @testable import КомпозицияНаблюдений
@@ -25,7 +26,7 @@ private actor СостояниеФикстурыФазы {
         let читатель = try Сегмент(кореньДанных: журнал, запись: false, создать: false)
         defer { читатель.закрыть() }
         guard let квитанция = читатель.записи.first(where: {
-            $0.описание.идентификатор == "фаза-нормализации-исход-cell-17"
+            $0.описание.идентификатор == "фаза-нормализации-исход-cell-17-root-merge"
         }), try читатель.извлечь(квитанция.описание.идентификатор).isEmpty == false else {
             throw ОшибкаФикстурыФазы.terminalMissing
         }
@@ -82,6 +83,30 @@ private enum ОшибкаФикстурыФазы: Error {
     case readback, terminalMissing
 }
 
+private struct ЗаписьФикстурыФазы: Codable {
+    let схема: String
+    let операция: String
+    let время: String
+    let назначение: Data
+    let контрольнаяТочка: Data
+    let хэшНамерения: String?
+    let вид: String
+    let причина: String?
+    let свидетельство: Data?
+}
+
+private func каноническиеБайтыФикстуры(_ запись: ЗаписьФикстурыФазы) throws -> Data {
+    let кодировщик = JSONEncoder()
+    кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+    var байты = try кодировщик.encode(запись)
+    байты.append(10)
+    return байты
+}
+
+private func хэшФикстуры(_ байты: Data) -> String {
+    SHA256.hash(data: байты).map { String(format: "%02x", $0) }.joined()
+}
+
 private func окружениеФазы() throws -> (корень: URL, репозиторий: URL, история: URL) {
     let корень = FileManager.default.temporaryDirectory
         .appendingPathComponent("fuma-phase-fixture-\(UUID().uuidString)", isDirectory: true)
@@ -126,7 +151,23 @@ private func контекстФазы() -> КонтекстФазыНормал�
     #expect(result.квитанцияТерминала.размер > 0)
     #expect(result.квитанцияТерминала.хэш.utf8.count == 64)
     #expect(result.планПослеИсхода != nil)
-    #expect(await order.снимок() == ["phase-start", "intent-readback", "apply", "fresh-plan-after-terminal-readback", "repository-plan"])
+
+    let restoredCycle = ЦиклНаблюденийСостояния(поставщик: provider)
+    let replay = try await restoredCycle.выполнитьФазуНормализации(
+        контекст: контекстФазы(), фаза: phase,
+        кореньФайловойСистемы: env.репозиторий, источникФайловойСистемы: "fixture",
+        кореньРепозитория: env.репозиторий, кореньИстории: env.история,
+        времяИстории: "2026-11-01T00:00:00Z")
+    guard case .применено = replay.исходФазы else {
+        Issue.record("Проверенный pinned intent должен восстановить известный applied")
+        return
+    }
+    #expect(replay.квитанцияТерминала == result.квитанцияТерминала)
+    #expect(replay.планПослеИсхода != nil)
+    #expect(await state.вызововФазы == 1)
+    #expect(await order.снимок() == ["phase-start", "intent-readback", "apply",
+        "fresh-plan-after-terminal-readback", "repository-plan",
+        "fresh-plan-after-terminal-readback", "repository-plan"])
 }
 
 @Test func durableUnknownПереживаетПовторИНеПовторяетApply() async throws {
@@ -167,4 +208,92 @@ private func контекстФазы() -> КонтекстФазыНормал�
     #expect(restored.квитанцияТерминала == first.квитанцияТерминала)
     #expect(restored.планПослеИсхода == nil)
     #expect(await order.снимок() == ["phase-start", "intent-readback", "apply"])
+}
+
+@Test func изменённыйPinnedКонтекстДаётUnknownБезReplay() async throws {
+    let env = try окружениеФазы()
+    defer { try? FileManager.default.removeItem(at: env.корень) }
+    let order = ЗаписчикПорядкаФазы()
+    let state = СостояниеФикстурыФазы(события: order, журнал: env.история)
+    let phase = ФикстурнаяФазаНормализации(режим: .применено, состояние: state, события: order)
+    let provider = ФикстурныйПоставщикФазы(состояние: state, события: order)
+    let cycle = ЦиклНаблюденийСостояния(поставщик: provider)
+    _ = try await cycle.выполнитьФазуНормализации(
+        контекст: контекстФазы(), фаза: phase,
+        кореньФайловойСистемы: env.репозиторий, источникФайловойСистемы: "fixture",
+        кореньРепозитория: env.репозиторий, кореньИстории: env.история,
+        времяИстории: "2026-11-01T00:00:00Z")
+
+    let прежний = контекстФазы()
+    let изменённый = КонтекстФазыНормализации(
+        идентификаторОперации: прежний.идентификаторОперации,
+        назначение: прежний.назначение,
+        контрольнаяТочка: Data("source-sha256=changed;target-sha256=target-v1".utf8),
+        время: прежний.время)
+    let replay = try await ЦиклНаблюденийСостояния(поставщик: provider)
+        .выполнитьФазуНормализации(
+            контекст: изменённый, фаза: phase,
+            кореньФайловойСистемы: env.репозиторий, источникФайловойСистемы: "fixture",
+            кореньРепозитория: env.репозиторий, кореньИстории: env.история,
+            времяИстории: "2026-11-01T00:00:00Z")
+    guard case .неизвестно = replay.исходФазы else {
+        Issue.record("Изменённый pinned context нельзя подтверждать старым terminal")
+        return
+    }
+    #expect(replay.планПослеИсхода == nil)
+    #expect(await state.вызововФазы == 1)
+    #expect(await order.снимок() == ["phase-start", "intent-readback", "apply",
+        "fresh-plan-after-terminal-readback", "repository-plan"])
+}
+
+@Test func изменённыеБайтыПрочитанногоIntentНеПодтверждаютСтарыйTerminal() async throws {
+    let env = try окружениеФазы()
+    defer { try? FileManager.default.removeItem(at: env.корень) }
+    let context = контекстФазы()
+    let intentID = "фаза-нормализации-намерение-\(context.идентификаторОперации)"
+    let terminalID = "фаза-нормализации-исход-\(context.идентификаторОперации)"
+    let староеНамерение = ЗаписьФикстурыФазы(
+        схема: "fuma.фаза-нормализации-намерение.1", операция: context.идентификаторОперации,
+        время: context.время, назначение: context.назначение,
+        контрольнаяТочка: context.контрольнаяТочка,
+        хэшНамерения: хэшФикстуры(Data("pinned-intent-v1".utf8)),
+        вид: "intent", причина: nil, свидетельство: Data("pinned-intent-v1".utf8))
+    let изменённоеНамерение = ЗаписьФикстурыФазы(
+        схема: "fuma.фаза-нормализации-намерение.1", операция: context.идентификаторОперации,
+        время: context.время, назначение: context.назначение,
+        контрольнаяТочка: context.контрольнаяТочка,
+        хэшНамерения: хэшФикстуры(Data("altered-intent-v1".utf8)),
+        вид: "intent", причина: nil, свидетельство: Data("altered-intent-v1".utf8))
+    let terminal = ЗаписьФикстурыФазы(
+        схема: "fuma.фаза-нормализации.1", операция: context.идентификаторОперации,
+        время: context.время, назначение: context.назначение,
+        контрольнаяТочка: context.контрольнаяТочка,
+        хэшНамерения: хэшФикстуры(try каноническиеБайтыФикстуры(староеНамерение)),
+        вид: "applied", причина: nil, свидетельство: Data("known-effect-v1".utf8))
+    let segment = try Сегмент(кореньДанных: env.история, запись: true, создать: true)
+    _ = try segment.добавить(
+        ОписаниеНаблюдения(идентификатор: intentID, тип: "fuma.намерение-фазы-нормализации.1"),
+        данные: try каноническиеБайтыФикстуры(изменённоеНамерение))
+    _ = try segment.добавить(
+        ОписаниеНаблюдения(идентификатор: terminalID, тип: "fuma.исход-фазы-нормализации.1"),
+        данные: try каноническиеБайтыФикстуры(terminal))
+    segment.закрыть()
+
+    let order = ЗаписчикПорядкаФазы()
+    let state = СостояниеФикстурыФазы(события: order, журнал: env.история)
+    let phase = ФикстурнаяФазаНормализации(режим: .применено, состояние: state, события: order)
+    let provider = ФикстурныйПоставщикФазы(состояние: state, события: order)
+    let result = try await ЦиклНаблюденийСостояния(поставщик: provider)
+        .выполнитьФазуНормализации(
+            контекст: context, фаза: phase,
+            кореньФайловойСистемы: env.репозиторий, источникФайловойСистемы: "fixture",
+            кореньРепозитория: env.репозиторий, кореньИстории: env.история,
+            времяИстории: context.время)
+    guard case .неизвестно = result.исходФазы else {
+        Issue.record("Terminal от иных байтов intent должен остаться UNKNOWN")
+        return
+    }
+    #expect(result.планПослеИсхода == nil)
+    #expect(await state.вызововФазы == 0)
+    #expect(await order.снимок().isEmpty)
 }

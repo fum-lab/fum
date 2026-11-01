@@ -1,0 +1,35 @@
+{
+  "схема": "fuma.журнал.source-only-исправления-pinned-intent-hash.1",
+  "идентификаторКорневойЗадачи": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "идентификаторСессииПисателя": "01a19707-1f2f-74f2-b89b-10de56785c10",
+  "базаЭтапа": "a44b01b5d303e9835d6365791b59f65a8d1fecaa",
+  "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master",
+  "состояние": "source-only-checkpoint",
+  "дефект": "Terminal сравнивал хэш canonical intent с хэшем сцепленных assignment и checkpoint bytes; исправленный readback всегда мог отвергаться как UNKNOWN.",
+  "исправление": {
+    "intent": "Прочитанный intent принимается только при точных operation/time/assignment/checkpoint, точной intent schema/kind и совпадении собственного хэша с сохранённым witness.",
+    "terminal": "Хэш terminal сверяется с SHA-256 canonical bytes именно прочитанной intent-записи; terminal дополнительно обязан точно совпасть по context и terminal schema/kind.",
+    "повтор": "Совпадающие intent и terminal возвращают известный applied, затем строится новый plan; несовпадающий контекст или изменённые байты intent дают UNKNOWN без вызова фазы и без plan.",
+    "история": "Предыдущий checkpoint не изменён; этот этап add-only от базы выше."
+  },
+  "состав": [
+    "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/cikl-nablyudenij-sostoyaniya.swift",
+    "Приложения/FUMA/Packages/КомпозицияНаблюдений/Tests/КомпозицияНаблюденийTests/proverki-fazy-normalizacii-kornej.swift",
+    "fuma/zhurnal/ispravlenie-intent-hash-01a19707.json"
+  ],
+  "фикстуры": {
+    "успешноеЧтениеИПовтор": "Known apply проверяет terminal readback перед plan; replay возвращает тот же applied и receipt, снова строит plan, но фазу не вызывает.",
+    "изменённыйКонтекст": "Изменённый pinned checkpoint не принимает старый terminal, не вызывает фазу и не строит plan.",
+    "изменённыйIntent": "Подложная intent-запись сохраняет собственный корректный hash, но отличается от intent, на который ссылается terminal; результат UNKNOWN без вызова фазы и plan.",
+    "durableUnknown": "Прежняя фикстура продолжает подтверждать UNKNOWN после восстановления без слепого повтора."
+  },
+  "границы": {
+    "ToolsApi": "Отсутствует в исходниках и не подключён.",
+    "runtimeWiring": "Не выполнено; существующий legacy caller отдельный phase method не вызывает.",
+    "liveApply": "Не запускался; injected port остаётся seam, а не production filesystem adapter.",
+    "buildTestsRuntime": "NOT_RUN по гранту; Swift, build, tests и runtime не запускались.",
+    "pythonRootJsonl": "EXCLUDED; ROOT JSONL не читался и не запускался."
+  },
+  "review": "Независимое RO подтвердило canonical hash исправление и фикстуры без P1; CryptoKit импорт присутствует в exact fixture blob.",
+  "результат": "Add-only source correction and fixture candidate; no claim of runtime wiring, actual apply, integration, or production readiness."
+}
