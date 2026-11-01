@@ -1,0 +1,58 @@
+{
+  "схема": "fuma.журнал-зависимости-api-нормализации-корней.1",
+  "идентификаторЗадачи": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "идентификаторПисателя": "01a19707-1f2f-74f2-b89b-10de56785c10",
+  "база": "401316c6d1f491fdd454844541571d544a199ace",
+  "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master",
+  "статус": "source-only-кандидат-ожидает-независимого-ro",
+  "зависимостьTools": {
+    "публичныйКоммит": "UNKNOWN",
+    "дерево": "UNKNOWN",
+    "ref": "UNKNOWN",
+    "публичныйAPI": "UNKNOWN; proposal НормализацияКорнейАгентов.выполнить(...) не подтверждён исходным пакетом",
+    "схемаИDigest": "UNKNOWN",
+    "исходникиПоставлены": false,
+    "импортИPackageDependencyДобавлены": false
+  },
+  "контрактПланируемогоПрименения": {
+    "назначение": "Явное typed назначение клетки с identity, owner и точным full branch ref; доверие подтверждает Tools-порт, FUMA не выводит owner/ref эвристически.",
+    "отображение": "Явное соответствие пары корней с provenance; сохраняются оба полного pinned snapshot до эффекта.",
+    "коллизии": "Идентичные записи допускают deduplicate только по представленным bytes/type/uid/mode и ссылочному target; непересекающиеся записи объединяются общим Tools engine; различающиеся версии и структурные конфликты сохраняют оба корня и остаются CONFLICT.",
+    "безопасность": "Tools apply обязан подтвердить no-follow, custody/owner/ref, полное наблюдение и защиту от дрейфа; FUMA seam это не доказывает самостоятельно.",
+    "сохраняемыеПоля": "Точные байты файла, type, uid, mode и bytes цели symlink должны сохраняться.",
+    "неподтверждённыеПоля": "ACL, xattrs, hardlinks и иные не представленные POSIX metadata не обещаются.",
+    "durableIntent": "Pinned intent сохраняется и readback-сверяется через callback до любого возможного эффекта.",
+    "terminal": "Свежий полный post-observation сопоставляется с canonical bytes именно прочитанного intent; terminal append и readback хранят typed outcome и witness.",
+    "исходы": ["APPLIED", "NO_OP", "CONFLICT", "UNKNOWN"],
+    "noOpДоказательство": "NO_OP принимается только при каноническом typed witness, который связывает operation и hash прочитанного intent, указывает post-effect-readback, содержит observation ID, и утверждает равенство digest закреплённой целевой инвентаризации и наблюдённой инвентаризации. Без закреплённого целевого digest, пустого/неразбираемого witness или несовпадения результат UNKNOWN.",
+    "довериеNOOP": "FUMA проверяет форму witness и внутреннее равенство/привязку, но не может установить полноту inventory или происхождение digest. Только доверенный Tools-порт, наблюдающий закреплённую полную область после эффекта, может дать содержательную гарантию; такой API/version сейчас UNKNOWN и не подключён.",
+    "эксклюзивность": "Неблокирующий OS flock claim удерживается по operation ID от чтения истории через весь эффект, terminal readback и решение о плане; конкурентный cooperating вызов получает typed отказ до вызова фазы. Lock file открывается no-follow и проверяется как regular file текущего владельца с приватным режимом. Это advisory гарантия только для участников того же контракта; внешние/неподчинённые писатели не блокируются.",
+    "legacy": "Поле время и target digest читаются как optional для совместимости старого schema .1. Старое intent без времени/digest превращается в durable UNKNOWN без повторного apply только если доступные operation/owner-ref assignment/checkpoint и intent witness совпадают. Context conflict не перезаписывается и завершается явной ошибкой без записи terminal; сохранённый terminal, не привязанный к актуальному intent, остаётся UNKNOWN.",
+    "resume": "Сохранённый APPLIED/NO_OP возвращается только при совпадении assignment/context/schema и canonical intent hash; эффект не повторяется, затем строится fresh plan. UNKNOWN и CONFLICT не продолжаются и не повторяют apply вслепую."
+  },
+  "областьFUMA": {
+    "фаза": "Отдельный injected source seam в ЦиклНаблюденийСостояния; typed NO_OP требует post-readback witness относительно закреплённого digest. OS claim сериализует cooperating вызовы одной операции; это не Tools apply и не claim против посторонних писателей.",
+    "обычныйВызов": "Существующий выполнить(...) не вызывает фазу и остаётся observation-only; это не заявляется как every-turn wiring.",
+    "ToolsApply": "Не подключён и не запускался.",
+    "политикаФайловойСистемы": "Не заявляется общая атомарность live-tree; текущий observer не превращается в рекурсивный обход клеток."
+  },
+  "предложениеИнтеграции": {
+    "наблюдаемыеТочки": "Статический поиск нашёл one-shot КомандаОператора → ЦиклНаблюденийСостояния.выполнить → МостСрезаНаблюдений.исполнить; принятого общего every-turn scheduler/call-site не найдено.",
+    "будущийКонтракт": "Рассмотреть обязательный overload выполнить(..., контекст: КонтекстФазыНормализации, фаза: ФазаНормализацииКорнейСостояния) или отдельный выполнитьПоворот(...), который делает recovery/intent-readback/apply/terminal-readback до Composer.",
+    "failClosed": "Включённый shared-runtime mode обязан иметь pinned phase/context; отсутствующий или неизвестный backend даёт UNKNOWN без apply и без нового plan.",
+    "отложеноДо": "Публичная сигнатура и call-sites не меняются до получения pinned Tools API и идентификации реального общего every-turn call-site. CLI не переименовывается в общий runtime."
+  },
+  "фикстуры": {
+    "appliedResume": "Подтверждённый APPLIED восстанавливает тот же witness/receipt, вызывает fresh plan и не повторяет фазу.",
+    "noOpResume": "NO_OP имеет отдельный тип и terminal kind; resume сохраняет witness, вызывает fresh plan и не применяет эффект повторно.",
+    "invalidNoOp": "Пустой и digest-mismatched NO_OP witness ведут к UNKNOWN без fresh plan; тест фиксирует только FUMA-проверки согласованности, не provenance/fullness реального observer.",
+    "claimContention": "Synthetic fixture одновременно удерживает первую фазу и вызывает тот же operation ID повторно; второй получает busy claim до phase replay, первый доводит единственный APPLIED до terminal readback. Односекундный race ограничивает только ожидание результата второго вызова после сигнала старта; глобальный deadline до сигнала/для файловых операций не заявляется. Барьер освобождается перед ожиданием результатов, обе задачи завершаются до cleanup фикстуры. Отдельная фикстура держит внешний lock descriptor.",
+    "legacyIntent": "Synthetic schema .1 intent without время/digest becomes UNKNOWN and is not replayed; its fixture payload is encoded by the same generic canonical JSON helper.",
+    "legacyContextConflict": "Legacy orphan при несовпадающем доступном assignment не получает terminal; последующий исходный context видит исходный orphan, получает UNKNOWN и не вызывает фазу.",
+    "unknown": "UNKNOWN сохраняется при восстановлении без нового plan и без повтора apply.",
+    "conflict": "Typed conflict сохраняет reason/witness в terminal; resume не повторяет фазу и не строит plan.",
+    "инвентаризация": "Synthetic fixtures не являются доказательством применения к реальной клетке или полноты реальных файловых снимков."
+  },
+  "неЗапускалось": ["Swift", "build", "tests", "runtime", "Python", "GUI", "Process", "ROOT JSONL"],
+  "результат": "Source-only изменение typed terminal/resume semantics; Tools binding, common runtime wiring, фактический apply, merge и production остаются UNKNOWN или не выполнены."
+}
