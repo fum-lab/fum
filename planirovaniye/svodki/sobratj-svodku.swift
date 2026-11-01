@@ -79,7 +79,10 @@ private func render(_ source: [String: Any]) -> [String: Any] {
         }
         included.append(Observation(id: id, result: result, owner: owner, source: origin, evidence: evidence, state: state, eventTime: eventDate, rawEventTime: rawTime))
     }
-    included.sort { ($0.rawEventTime ?? "", $0.id) < ($1.rawEventTime ?? "", $1.id) }
+    included.sort {
+        if $0.eventTime! == $1.eventTime! { return $0.id < $1.id }
+        return $0.eventTime! < $1.eventTime!
+    }
     unresolved.sort { ( $0["идентификатор"] as? String ?? "") < ($1["идентификатор"] as? String ?? "") }
 
     let results: [[String: Any]] = included.map {

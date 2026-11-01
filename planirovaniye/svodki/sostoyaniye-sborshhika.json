@@ -8,7 +8,7 @@
     "исполнитель": "01a08d77-2060-7701-9f44-ff04769d8a6e",
     "база": "87116f00a9c6f2434b56a4c11b30d5a1fde39210",
     "ветка": "refs/heads/fum-lab/fum/planirovaniye/master",
-    "рабочее_дерево": "/Users/fum/.codex/worktrees/fum-lab/fum/planirovaniye/master",
+    "логический_адрес": "fum-lab/fum/planirovaniye/master",
     "разрешённые_пути": [
       "planirovaniye/svodki/sobratj-svodku.swift",
       "planirovaniye/svodki/primer-vkhoda.json",
@@ -16,6 +16,15 @@
       "planirovaniye/svodki/sostoyaniye-sborshhika.json",
       "planirovaniye/svodki/план-сборки-сводок.md"
     ]
+  },
+  "дополнительный_допуск": {
+    "файл": "planning-daily-source-repair-exact-ACT-v2.json",
+    "sha256": "f9fc4094ce704e74c57e332c6addab480439f83a695426d212f8444f3146e910",
+    "выдавший": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "исполнитель": "01a08d77-2060-7701-9f44-ff04769d8a6e",
+    "правило_из_commit": "1f98913ab90dab787445efd0c10b234f238d2fba:AGENTS.md#FUM-ПРАВИЛО-НОВОЕ-000032",
+    "база": "16bf159003f9092d3e66ab333b885dfe850aa53f",
+    "область": "Те же пять разрешённых путей исходной поставки"
   },
   "вход": {
     "схема": "fum.daily-summary-input.v1",
@@ -58,6 +67,11 @@
     "remote": "https://github.com/fum-lab/fum.git",
     "удалённый_oid": "f9637b961a881f73251e2f137161567dbca3d823",
     "удалённый_readback": "git ls-remote origin подтвердил тот же OID после push",
+    "предыдущие_коммиты": {
+      "f9637b961a881f73251e2f137161567dbca3d823": "Опубликован add-only; нет поручения ROOT и последнего Root-thread trailer.",
+      "16bf159003f9092d3e66ab333b885dfe850aa53f": "Опубликован add-only; нет поручения ROOT и последнего Root-thread trailer. История сохранена без переписывания."
+    },
+    "поправка_истории": "Этот последующий add-only source-коммит содержит точное поручение ROOT и последний Codex-Thread-ID; он не переписывает прежние объекты.",
     "доставка_ветки": "CONFIRMED",
     "приёмка_ROOT": "NOT_GRANTED",
     "интеграция_master": "UNKNOWN",
