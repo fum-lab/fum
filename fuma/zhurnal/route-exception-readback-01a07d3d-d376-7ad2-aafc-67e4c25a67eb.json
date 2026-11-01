@@ -1,0 +1,79 @@
+{
+  "schema": "fum.fuma.route-exception-readback.v1",
+  "root_task_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "fuma_owner_thread_uuid": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+  "authority": {
+    "kind": "exact N032 exception from ROOT in the active task dialogue",
+    "scope": "read target rule source at 8f6c14b02a3fe3d3598dc6c872701f9479e7da6f and merge that exact source into this owner branch only",
+    "route_errors_reported_by_root": [
+      "legacy route selector reported 141 lines against limit 140",
+      "legacy route selector reported Unicode17914 against limit 17700"
+    ],
+    "excluded_sources_and_commands": [
+      "legacy route selector and its Python implementation",
+      "ROOT JSONL",
+      "old Journal-start"
+    ],
+    "excluded_results": "UNKNOWN; not rerun, substituted, or declared GREEN"
+  },
+  "owner_checkpoint_before_merge": {
+    "worktree_label": "segment-poseshcheniya-359",
+    "ref": "refs/heads/fum-lab/fum/fuma/regressiya-obkhoda-segmenta-359",
+    "head": "833430ce154e735de6b2357626765708c8637256",
+    "tree": "79ef55fabfdb5f44dad6817cd8017f1b787a9a2c",
+    "first_parent": "304e57f54914bff5bcc1c155001dd85ac7f34d1e",
+    "index_and_worktree_before_record": "clean",
+    "sole_worktree_on_ref": true
+  },
+  "source_checkpoint": {
+    "ref": "refs/heads/fum-lab/fum/master",
+    "commit": "8f6c14b02a3fe3d3598dc6c872701f9479e7da6f",
+    "tree": "a919f81e3283cc0a14a4f7d603a6662476f84542",
+    "parent": "88b6600837a82bddd0200f31246480e4da3133d7",
+    "origin_url": "https://github.com/fum-lab/fum.git",
+    "origin_ref_readback": "8f6c14b02a3fe3d3598dc6c872701f9479e7da6f",
+    "root_agents_blob": "d55a6eaf8c578dccd85ed5e5ac2ae3af58e6ba8c",
+    "rule_topics_read": [
+      {"path": "Правила/агентов/Git-и-рабочая-сессия.md", "blob": "9a3ebaa60203f46054a2e09bc8a26b8a1b2f0210"},
+      {"path": "Правила/агентов/внешние-Git-зависимости.md", "blob": "05f5548d9dca7605386e9f053f3d38d175d23294"},
+      {"path": "Правила/агентов/журнал-и-происхождение.md", "blob": "44247c4a5449d99bb1f420dc3c863660af13af49"},
+      {"path": "Правила/агентов/источники-описания-и-материалы.md", "blob": "0477304d6a10b55a1719e7f820225a4d67191aa5"},
+      {"path": "Правила/агентов/локальные-навыки-и-инструменты.md", "blob": "c1fe0e088280bace71d6018ad4f2313f1b4417cb", "sha256": "sha256:5c728fda13850145b6cbd74318d3cd38295310178637d392b540385300536bd1"},
+      {"path": "Правила/агентов/память-и-документация.md", "blob": "94a590fc9dcb3d43d4b527766eac83bd84a7bf60"},
+      {"path": "Правила/агентов/планирование-требования-вопросы-и-сбои.md", "blob": "dc22f5d43ef1601874f823250f1659b495bc6042"},
+      {"path": "Правила/агентов/проверки-коммит-и-публикация.md", "blob": "44fdb0e74e02d2b36834942627d1e76056dd37b2"},
+      {"path": "Правила/агентов/язык-и-код.md", "blob": "002816dd3684ba2eac2454f632376b29811e4c66"}
+    ],
+    "inventory": {
+      "path": "Правила/агентов/инвентарь-правил.json",
+      "blob": "0c686fc561a900402e5a9fd5d5381365118d22d9",
+      "sha256": "sha256:f3fdee33cbcb2116a946d099e3cccf38c605d2fc1b84bd33077a1e76c5b7cdbb",
+      "bytes": 396843,
+      "lines": 7623,
+      "json_parse": "jq parsed the complete source object; route, topic hashes, source snapshot, and entries for НОВОЕ-000001, НОВОЕ-000003, НОВОЕ-000028, and НОВОЕ-000032 were read back",
+      "differences_from_owner_checkpoint": "inventory changes only the local-skills hash and summaries for НОВОЕ-000001, НОВОЕ-000003, НОВОЕ-000028, and НОВОЕ-000032"
+    },
+    "route_readback": "root AGENTS.md and the complete selected nine-topic union were read from Git objects; seven topic blobs match the owner checkpoint, while local skills and inventory differ"
+  },
+  "authorized_merge": {
+    "expected_parent_order": [
+      "833430ce154e735de6b2357626765708c8637256",
+      "8f6c14b02a3fe3d3598dc6c872701f9479e7da6f"
+    ],
+    "effect_boundary": "this owner branch and worktree only",
+    "excluded_refs": [
+      "refs/heads/master",
+      "refs/heads/fum-lab/fum/fuma/master",
+      "origin/refs/heads/fum-lab/fum/fuma/master",
+      "all other worktree refs and indexes"
+    ]
+  },
+  "checks": {
+    "route_selector": "UNKNOWN; excluded",
+    "ROOT_JSONL": "UNKNOWN; excluded",
+    "old_Journal_start": "UNKNOWN; excluded",
+    "general_N032_profile": "not granted",
+    "merge_tree_and_parent_readback": "at record time, automatic merge completed without conflicts; commit object and parent readback pending",
+    "build_and_runtime": "not run"
+  }
+}
