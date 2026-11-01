@@ -1,0 +1,58 @@
+{
+  "схема": "fum.daily-summary-source-stage.v1",
+  "этап": "N32 addressed source-only daily-summary collector",
+  "допуск": {
+    "файл": "planning-daily-source-only-addressed-grant-20261101T1423-v1.json",
+    "sha256": "dcdb471266ab685765b9181252bdb09f762d03a63d7ff0400ad69f08ab632cfa",
+    "выдавший": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "исполнитель": "01a08d77-2060-7701-9f44-ff04769d8a6e",
+    "база": "87116f00a9c6f2434b56a4c11b30d5a1fde39210",
+    "ветка": "refs/heads/fum-lab/fum/planirovaniye/master",
+    "рабочее_дерево": "/Users/fum/.codex/worktrees/fum-lab/fum/planirovaniye/master",
+    "разрешённые_пути": [
+      "planirovaniye/svodki/sobratj-svodku.swift",
+      "planirovaniye/svodki/primer-vkhoda.json",
+      "planirovaniye/svodki/primer-svodki.json",
+      "planirovaniye/svodki/sostoyaniye-sborshhika.json",
+      "planirovaniye/svodki/план-сборки-сводок.md"
+    ]
+  },
+  "вход": {
+    "схема": "fum.daily-summary-input.v1",
+    "охват": "PARTIAL",
+    "сообщённое_окно": [
+      "2026-10-31T17:25:39+04:00",
+      "2026-11-01T17:25:39+04:00"
+    ],
+    "источник_commit": "6512dd4c3b17b27dbb764a7df7107fa92faca024",
+    "артефакт_sha256": "5848d1c587feac9dee8b647a88c49ce8adec77d9b5a96bcbe2e4da7173f620e7",
+    "проверенное_время_commit": "2026-11-01T17:25:39+04:00",
+    "граница": "Ровно конец полуоткрытого окна; событие исключается из выборки.",
+    "неполнота": "ROOT-curated записи не имеют отдельных подтверждённых времён события; полный перечень владельцев не дан."
+  },
+  "реализация": {
+    "язык": "Swift",
+    "зависимости": "Foundation",
+    "сборка": "NOT_RUN",
+    "запуск": "NOT_RUN",
+    "эталон": "primer-svodki.json создан как ожидаемый результат примера; эквивалентность с выполнением не подтверждена."
+  },
+  "проверки": {
+    "точные_пять_путей": "Единственная разрешённая область записи этого grant.",
+    "python_router_continuation_recency": "EXCLUDED_NOT_RUN_UNKNOWN; инцидент прежнего вызова сообщён ROOT, этот этап не повторял вызов.",
+    "root_jsonl": "EXCLUDED_UNKNOWN",
+    "legacy_fallback": "FORBIDDEN",
+    "общий_профиль": "UNKNOWN",
+    "compiler_runtime": "NOT_RUN; требуется отдельный допуск",
+    "sqlite_query": "NOT_GRANTED",
+    "приёмка_ROOT": "NOT_GRANTED",
+    "активация_runtime": "FORBIDDEN"
+  },
+  "доставка": {
+    "локальный_коммит": "PENDING",
+    "удалённый_oid": "PENDING",
+    "приёмка_ROOT": "UNKNOWN",
+    "интеграция_master": "UNKNOWN",
+    "активация_runtime": "UNKNOWN"
+  }
+}
