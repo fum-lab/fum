@@ -1,6 +1,6 @@
 {
   "схема": "fum.контракт-установки-stop.1",
-  "состояние": "Предыдущий установщик принят ROOT и один раз применён. Новый controller: функциональные 29 tests и один внешний CLI tick прошли; языковой остаток, ROOT приёмка и runtime activation не подтверждены",
+  "состояние": "Объединены исходники поддержки current, частичной русификации и принятых ROOT файловых ссылок. Прежние наблюдения сохранены отдельно; после разрешения конфликтов сборка и runtime не запускались, активация не подтверждена.",
   "исходныйROOT": "82babe15d2a54153fdb1f499780a0aa6188400fc",
   "issue": "https://github.com/fum-lab/fum/issues/479",
   "программа": {
@@ -393,5 +393,852 @@
       "наблюдаемоеУсилие": "ultra",
       "граница": "Фактическая локальная метаинформация клиента; не аттестация провайдера. Прежний опубликованный author UNKNOWN не переписан"
     }
+  },
+  "файловыеСсылки": {
+    "схема": "фум.контракт-файловых-ссылок.1",
+    "состояние": "Адресная сборка и выбранные тесты успешны; исполняемый publisher проверен в режиме чтения. Сохранение исходников не является ROOT-приёмкой или активацией.",
+    "семантика": "Обычный файл имеет приоритет. Упакованный выбирается только после nofollow ENOENT; malformed/unsafe обычный не разрешает запасной путь.",
+    "пределы": {
+      "байтовОбычного": 4096,
+      "байтовУпакованного": 1048576,
+      "записейУпакованного": 16384,
+      "секундЧтения": 5,
+      "физическихСтрокУпакованного": 32769
+    },
+    "подтверждение": "Полные bytes и metadata выбранного файла и связанных HEAD/backlinks. При упакованном выборе — сохранённое отсутствие обычного файла, повторно на конечной границе. Same-OID inode/pack drift и появление loose отвергаются; подтверждение не переизбирает источник.",
+    "внешнийФормат": "Git2.54.0/AppleGit157: optional # pack-refs with: header, traits/порядок, точный ref record SHA1, единственная следующая ^peeled строка. Снятая метка не заменяет объект выбранной ветки.",
+    "первоисточник": "https://raw.githubusercontent.com/git/git/v2.54.0/refs/packed-backend.c",
+    "граница": "Без Git subprocess/обхода object graph. Reftable/detached/unborn/symbolic/unsafe остаются closed. Это source-only NEW000032, полный профиль UNKNOWN.",
+    "корпус": {
+      "схема": "фум.векторы-файловых-ссылок.1",
+      "ссылка": "refs/heads/проверка",
+      "объект": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "другойОбъект": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "случаи": [
+        {
+          "имя": "обычный-файл",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "обычный-файл"
+        },
+        {
+          "имя": "только-упакованный",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл"
+        },
+        {
+          "имя": "заголовок-и-снятая-метка",
+          "упакованные": "# pack-refs with: peeled fully-peeled sorted \naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb refs/tags/версия\n^aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл"
+        },
+        {
+          "имя": "приоритет-обычного",
+          "обычный": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "источник": "обычный-файл"
+        },
+        {
+          "имя": "невыбранный-повреждённый-упакованный",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "упакованные": "повреждено\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "обычный-файл"
+        },
+        {
+          "имя": "обычный-повреждён-нет-запасной-путь",
+          "обычный": "повреждено\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "обычный-символическая-переадресация-нет-запасной-путь",
+          "обычный": "ref: refs/heads/другая\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "обычный-без-перенос",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "нулевой-обычный",
+          "обычный": "0000000000000000000000000000000000000000\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "нет-цели",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/другая\n",
+          "ошибка": "отсутствие"
+        },
+        {
+          "имя": "нет-обоих",
+          "ошибка": "отсутствие"
+        },
+        {
+          "имя": "повтор-целевого-имени",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "неоднозначность"
+        },
+        {
+          "имя": "повтор-другого-имени",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/другая\nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb refs/heads/другая\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "неоднозначность"
+        },
+        {
+          "имя": "упакованный-без-перенос",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "неверный-объект-упакованный",
+          "упакованные": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "неверный-заголовок",
+          "упакованные": "# неверный\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "несортирован-при-признак",
+          "упакованные": "# pack-refs with: peeled fully-peeled sorted \nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb refs/tags/версия\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "без-признак-порядок-не-обязателен",
+          "упакованные": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb refs/tags/версия\n^aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл"
+        },
+        {
+          "имя": "отдельная-снятая-метка-строка",
+          "упакованные": "^aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "двойная-снятая-метка-строка",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n^bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n^bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "повреждённая-снятая-метка-строка",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n^не-объект\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "снятая-метка-не-заменяет-цель",
+          "упакованные": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb refs/tags/версия\n^aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "ошибка": "отсутствие"
+        },
+        {
+          "имя": "шестнадцатеричный-регистр-не-меняет-объект",
+          "упакованные": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл"
+        },
+        {
+          "имя": "обычная-символическая-ссылка",
+          "типОбычного": "ссылка",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "оборванная-обычная-ссылка",
+          "типОбычного": "оборванная-ссылка",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "обычный-именованный-канал",
+          "типОбычного": "канал",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "обычный-каталог",
+          "типОбычного": "каталог",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "обычный-жёсткая-связь",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "типОбычного": "жёсткая-ссылка",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "небезопасные-права-обычного",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "праваОбычного": 438,
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "упакованный-символическая-ссылка",
+          "типУпакованного": "ссылка",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "упакованный-жёсткая-связь",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "типУпакованного": "жёсткая-ссылка",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "небезопасные-права-упакованный",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "праваУпакованного": 438,
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "упакованный-сверх-предела",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "увеличитьУпакованный": 1048577,
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "табличное-хранилище-закрыт",
+          "таблицыСсылок": true,
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "появление-обычного",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "создать-обычный",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "появление-обычного-с-другим-объект",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "создать-другой-обычный",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-упакованный-байтов",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "изменить-упакованный",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-упакованный-индекс",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "заменить-упакованный",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-привязки",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "изменить-привязку",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-индекс-привязки",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "заменить-привязку",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "появление-каталога-отсутствия",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "создать-каталог-ссылок",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-обычного",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "обычный-файл",
+          "изменение": "изменить-обычный",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "невыбранный-упакованный-не-влияет",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "обычный-файл",
+          "изменение": "изменить-упакованный"
+        },
+        {
+          "имя": "дрейф-указателя-дерева",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "изменить-указатель-дерева",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-обратной-ссылки",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "изменить-обратную-ссылку",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "дрейф-общего-указателя",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл",
+          "изменение": "изменить-общий-указатель",
+          "ошибка": "дрейф"
+        },
+        {
+          "имя": "символическая-ссылка-в-родителе-не-разрешает-отсутствие",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "родительОбычногоСсылка": true,
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "небезопасный-каталог-существующей-ссылки",
+          "обычный": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "праваКаталогаОбычного": 511,
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "небезопасный-каталог-не-разрешает-отсутствие",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "праваКаталогаОбычного": 511,
+          "ошибка": "метаданные"
+        },
+        {
+          "имя": "нулевой-байт-в-заголовке",
+          "упакованные": "# pack-refs with: sorted\u0000добавление \naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "ошибка": "формат"
+        },
+        {
+          "имя": "миллион-пустых-физических-строк",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "залитьУпакованныйПереносами": 1048576,
+          "ошибка": "формат"
+        },
+        {
+          "имя": "разные-байтовые-представления-не-сливаются",
+          "упакованные": "# pack-refs with: sorted \naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/é\nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb refs/heads/é\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "результат": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "источник": "упакованный-файл"
+        },
+        {
+          "имя": "префикс-имени-не-является-целевой-записью",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка-другая\n",
+          "ошибка": "отсутствие"
+        },
+        {
+          "имя": "предел-записей-проверяется-до-создания-строки",
+          "упакованные": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa refs/heads/проверка\n",
+          "числоУпакованныхЗаписей": 16385,
+          "ошибка": "формат"
+        }
+      ]
+    },
+    "каталоги": "Существующий конечный родитель файла и родитель ENOENT — текущего UID без group/world write; безопасность прежнего publisher не ослаблена. Идентичность всех пройденных каталогов bookend проверяется без привязки к их mtime (чужие refs не блокируются только своим обновлением).",
+    "предыдущееСостояние": "GREEN6:20tests в3suites PASS, compileOK/warnings0; P2 stalepreflight подтверждён RED5 и исправлен. Установка и ROOT приёмка не выполнены",
+    "коррекцияАудита": "P2 из 99dd6d8a78ddc8bf82fc0b14998bc664f956ce97: массив всех строк заменён построчным проходом байтов. Пределы проверяются до выделения очередного Data; в исполненные 54 вектора включены миллион переносов и превышение 16384 записей. Повторная статическая приёмка ожидается.",
+    "воспроизведение": {
+      "отображениеВходов": [
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "байтов": 9497,
+          "sha256": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+          "байтов": 12953,
+          "sha256": "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Domain.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/Domain.swift",
+          "байтов": 19688,
+          "sha256": "12e1df61f025ccc217ab920c2ccc28d33bebe30757f32ed66c311a0361fcb1bf"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Engine.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/Engine.swift",
+          "байтов": 30091,
+          "sha256": "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+          "байтов": 14928,
+          "sha256": "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/vkhod-jsonl.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/vkhod-jsonl.swift",
+          "байтов": 23951,
+          "sha256": "bff89e24c715cc9a2eea31f7070a23f4ca39e557bc51585427c8c6ee79b0206c"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+          "байтов": 17871,
+          "sha256": "b30fbbe86574af3d77b9bb70325cb5add4eac98e07e7a27d334d480ccce76faf"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+          "байтов": 7483,
+          "sha256": "13a6a25c59f3ee437c933618a3077cfbea0fbb567c4ff9c787f2c16d7aaae26b"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+          "байтов": 10394,
+          "sha256": "7ae018ba2347e91cd2b41acc2f86c1ff7bc0927126c7f8b1d60fcb52618a28fa"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+          "байтов": 32284,
+          "sha256": "dab7b52639c92fed633a3eda3e7abea169ff08c06280fef15650360bb6132651"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift",
+          "байтов": 6625,
+          "sha256": "93e81ddca96164c3d09cafbbec0f63843699ef3adfd4e507c8df3aed616f8166"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+          "байтов": 3911,
+          "sha256": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "байтов": 19242,
+          "sha256": "e9b20904fa21e66a26843fccf9423c43c5ed346a23b225a23bc47eec1d31d9be"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+          "копия": "Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+          "байтов": 6617,
+          "sha256": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json",
+          "копия": "Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json",
+          "байтов": 4778,
+          "sha256": "eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+          "копия": "Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+          "байтов": 641,
+          "sha256": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+          "байтов": 8814,
+          "sha256": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/РазмерСоединенияСтрок.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/РазмерСоединенияСтрок.swift",
+          "байтов": 3060,
+          "sha256": "64a91c6ceaf67ef6fb7d431d0b91ba9cb87be637af229d65dc5b5121dd3b4cc6"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+          "копия": "Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+          "байтов": 18252,
+          "sha256": "1c2262433f80a3d7a630238fa9a806329afc12f941c5d292c1c5afc6bb9904b8"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+          "копия": "Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+          "байтов": 202,
+          "sha256": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f"
+        },
+        {
+          "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+          "копия": "Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+          "байтов": 49897,
+          "sha256": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+          "копия": "Sources/УстановкаStop/ustanovitj-stop.swift",
+          "байтов": 69895,
+          "sha256": "c0a01dbf109cd29a733c91eb83a27170c7f7d01ece98377c42af421be12a8489"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+          "копия": "Sources/МатериализацияУзлов/stop.swift",
+          "байтов": 69146,
+          "sha256": "3edbbd3b31a771abf5ea54166cc262b1b09131df2b2e43fba68fa96d09f4199a"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift",
+          "копия": "Sources/МатериализацияУзлов/polnomochiya.swift",
+          "байтов": 4878,
+          "sha256": "e1efb4ab3fd69b6da5d105e28cd905a435fd4d69189f8d647eb4b654ad6c7e29"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json",
+          "копия": "Sources/МатериализацияУзлов/opredeleniya/samostoyateljnostj.json",
+          "байтов": 3415,
+          "sha256": "9e3a0fd3e35aec1077a12db8ca4b9fd87dbd0982689813048925329c94777aec"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift",
+          "копия": "Sources/КомандаУстановкиStop/main.swift",
+          "байтов": 150,
+          "sha256": "737469eeac7795e5f8a551fbaeaec6787122925dcc397b965ee5e4729a91e6be"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+          "копия": "Tests/ПроверкиУстановкиStop/proverki-ustanovki-stop.swift",
+          "байтов": 43841,
+          "sha256": "311fea6ab7152c8ac020609d62fd8aff0abadcec0e4f32e8ed73a2fa4e77a078"
+        },
+        {
+          "исходник": "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+          "копия": "Tests/ПроверкиМатериализацииУзлов/proverki-stop.swift",
+          "байтов": 71020,
+          "sha256": "b7db5d495f734eda03d3f06350866bde2b9a9dc70f89ff9f71461436cba300c9"
+        }
+      ],
+      "цель": "arm64-apple-macosx14.0",
+      "сборка": [
+        "build",
+        "--build-tests",
+        "--package-path",
+        "<собственная-приватная-область>/harness-3",
+        "--scratch-path",
+        "<собственная-приватная-область>/build-3",
+        "--cache-path",
+        "<собственная-приватная-область>/cache-3",
+        "--config-path",
+        "<собственная-приватная-область>/config-3",
+        "--security-path",
+        "<собственная-приватная-область>/security-3",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "--triple",
+        "arm64-apple-macosx14.0"
+      ],
+      "проверка": [
+        "test",
+        "--skip-build",
+        "--verbose",
+        "--package-path",
+        "<собственная-приватная-область>/harness-3",
+        "--scratch-path",
+        "<собственная-приватная-область>/build-3",
+        "--cache-path",
+        "<собственная-приватная-область>/cache-3",
+        "--config-path",
+        "<собственная-приватная-область>/config-3",
+        "--security-path",
+        "<собственная-приватная-область>/security-3",
+        "--jobs",
+        "1",
+        "--sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "--triple",
+        "arm64-apple-macosx14.0",
+        "--disable-xctest",
+        "--enable-swift-testing",
+        "--filter",
+        "ПроверкиФайловыхСсылок|упакованнаяСсылкаПроходитПолныйОбработчик"
+      ],
+      "входыТестов": "Из этого JSON извлечь файловыеСсылки.корпус в отдельный private UTF8 JSON с отступом2 и LF; передать путь/фактический SHA256 через ФУМ_ВЕКТОРЫ_ССЫЛОК/ФУМ_ХЭШ_ВЕКТОРОВ_ССЫЛОК и новый0700parent через ФУМ_ФИКСТУРЫ_ССЫЛОК.",
+      "граница": "Фактически проверены20 исходников продукта,2 файла тестов и6 ресурсов в минимальном графе. Полный RootPackage, LinguisticKit, чистый клон и production не проверялись.",
+      "минимальныйМанифест": "// swift-tools-version: 6.0\nimport PackageDescription\nlet настройки: [SwiftSetting] = [.swiftLanguageMode(.v6), .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"ПроверкиФайловыхСсылок\", platforms: [.macOS(.v14)], products: [.executable(name: \"ustanovitj-stop\", targets: [\"КомандаУстановкиStop\"])], targets: [\n    .target(name: \"FUMStructuringOperatorMemory\", path: \"Sources/FUMStructuringOperatorMemory\", sources: [\"AutomationAndSynchronization.swift\",\"ContextAndLattice.swift\",\"Domain.swift\",\"Engine.swift\",\"Fixtures.swift\",\"vkhod-jsonl-fuma/vkhod-jsonl.swift\",\"ВычислениеГрафаJSON.swift\",\"ГрафJSON.swift\",\"ЗакрытыйРазбор.swift\",\"ИсполнениеОператоров.swift\",\"КомпозицияОпределений.swift\",\"КонечныйВвод.swift\",\"ОпределениеОператора.swift\",\"ПорождениеМоделей.swift\",\"РазмерСоединенияСтрок.swift\",\"СтруктурныйКонтракт.swift\"], resources: [.copy(\"Фикстуры\"), .copy(\"Определения\")], swiftSettings: настройки),\n    .target(name: \"МатериализацияУзлов\", dependencies: [\"FUMStructuringOperatorMemory\"], path: \"Sources/МатериализацияУзлов\", sources: [\"polnomochiya.swift\", \"stop.swift\"], resources: [.copy(\"opredeleniya\")], swiftSettings: настройки),\n    .target(name: \"УстановкаStop\", path: \"Sources/УстановкаStop\", sources: [\"ustanovitj-stop.swift\"], swiftSettings: настройки),\n    .executableTarget(name: \"КомандаУстановкиStop\", dependencies: [\"УстановкаStop\"], path: \"Sources/КомандаУстановкиStop\", sources: [\"main.swift\"], swiftSettings: настройки),\n    .testTarget(name: \"ПроверкиУстановкиStop\", dependencies: [\"УстановкаStop\"], path: \"Tests/ПроверкиУстановкиStop\", sources: [\"proverki-ustanovki-stop.swift\"], swiftSettings: настройки),\n    .testTarget(name: \"ПроверкиМатериализацииУзлов\", dependencies: [\"МатериализацияУзлов\", \"FUMStructuringOperatorMemory\"], path: \"Tests/ПроверкиМатериализацииУзлов\", sources: [\"proverki-stop.swift\"], swiftSettings: настройки)\n], swiftLanguageModes: [.v6])\n",
+      "хэшКомпилятора": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+      "хэшНастроекКомплектаРазработки": "7b93ad7e534cc4b31c6a4e39d19b5e0288acf2168c2649479a796d1cb51939fb"
+    },
+    "проверкаСнимка": {
+      "схема": "фум.исходы-файловых-ссылок.1",
+      "основа": "da8307158dea90d7531672f950ad3b7ef769cbb8",
+      "корпус": {
+        "байтов": 18134,
+        "sha256": "8ab08f83c2060d94be8ac6395503aa53203f7f7c0054d2bb94b39f825c006b26",
+        "векторов": 54,
+        "исполненийВекторов": 108
+      },
+      "сборка": {
+        "код": 0,
+        "секунд": 36.546135582998396,
+        "запусков": 1,
+        "строгийSwift6": true,
+        "предупрежденияКакОшибки": true,
+        "вывод": {
+          "bytes": 2076,
+          "observedBytes": 2076,
+          "sha256": "2646df5035c711a8020605cb955dc91277dc31cd130b288574b121021019d9a2"
+        },
+        "диагностика": {
+          "bytes": 0,
+          "observedBytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "выбранноеИсполнение": {
+        "код": 0,
+        "секунд": 3.334652875000611,
+        "запусков": 1,
+        "тестов": 3,
+        "успешно": 3,
+        "изНихКорпусов": 2,
+        "полныйОбработчик": 1,
+        "вывод": {
+          "bytes": 1946,
+          "observedBytes": 1946,
+          "sha256": "2dd01e6795642a96608f29a07497834a2896d67e515da5bec5257c724d167120"
+        },
+        "диагностика": {
+          "bytes": 3673,
+          "observedBytes": 3673,
+          "sha256": "40a9424bafc10d1778ae5524cf96ce533c06986a6648c72430d93685f954894d"
+        },
+        "примечание": "Диагностика включает verbose-команды SwiftPM для манифеста; не объявляется пустой. Старые тесты вне выбранного фильтра этим запуском не проверены."
+      },
+      "исполняемаяПубликация": {
+        "байтов": 906224,
+        "sha256": "bc675f62ac079fb634875892ff2f4648fd0cedc92128c3c9bfa332ad450c515f",
+        "тип": "Mach-O MH_EXECUTE",
+        "режим": "0500",
+        "случаев": 10,
+        "успешныхПроверокМетаданных": 3,
+        "ожидаемыхОтказов": 7,
+        "неожиданныхИсходов": 0,
+        "записей": 0,
+        "случаи": [
+          {
+            "номер": 1,
+            "имя": "обычный",
+            "код": 0,
+            "ответ": {
+              "acceptedSourceAncestry": "ROOT_REQUIRED",
+              "authorityChecked": false,
+              "automaticRetry": false,
+              "automaticRollback": false,
+              "candidateSHA256": "6dbe1f350fe6ef11a9492a1c5141a1e842cb8ddc3e857275bf89094fb04bab15",
+              "metadataChecked": true,
+              "operation": "publish-current",
+              "planSHA256": "72c89667df235615e9acf3c52f961de8326ca4e982967fd37d44c660eac5459f",
+              "rootHEAD": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "status": "METADATA_CHECKED",
+              "worklistCompleteness": "ROOT_REQUIRED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 2,
+            "имя": "упакованный",
+            "код": 0,
+            "ответ": {
+              "acceptedSourceAncestry": "ROOT_REQUIRED",
+              "authorityChecked": false,
+              "automaticRetry": false,
+              "automaticRollback": false,
+              "candidateSHA256": "deb29549d7517e80f59274a44fe3dbc30e1243cdd8ac4f43473dd03be1504211",
+              "metadataChecked": true,
+              "operation": "publish-current",
+              "planSHA256": "765b5ee8808a5454ce020a947929ad2850c3257a11ab8b540c6c460b33355b3e",
+              "rootHEAD": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "status": "METADATA_CHECKED",
+              "worklistCompleteness": "ROOT_REQUIRED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 3,
+            "имя": "обычный-выше-упакованного",
+            "код": 0,
+            "ответ": {
+              "acceptedSourceAncestry": "ROOT_REQUIRED",
+              "authorityChecked": false,
+              "automaticRetry": false,
+              "automaticRollback": false,
+              "candidateSHA256": "8b69bce793a80cbdc98ca0f029db3f1f928f67c30e420b8102bab44481b7069a",
+              "metadataChecked": true,
+              "operation": "publish-current",
+              "planSHA256": "60f30f0de0fa85d8328f464c06c3d9b6d074f2f34466802ca811ed75533e07a4",
+              "rootHEAD": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "status": "METADATA_CHECKED",
+              "worklistCompleteness": "ROOT_REQUIRED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 4,
+            "имя": "повреждённый-обычный",
+            "код": 2,
+            "ответ": {
+              "error": "формат",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 5,
+            "имя": "дублированный-упакованный",
+            "код": 2,
+            "ответ": {
+              "error": "неоднозначность",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 6,
+            "имя": "нет-целевой-записи",
+            "код": 2,
+            "ответ": {
+              "error": "отсутствие",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 7,
+            "имя": "упакованный-символическая-ссылка",
+            "код": 2,
+            "ответ": {
+              "error": "метаданные",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 8,
+            "имя": "отсоединённый-указатель",
+            "код": 2,
+            "ответ": {
+              "error": "G1",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 9,
+            "имя": "табличное-хранилище",
+            "код": 2,
+            "ответ": {
+              "error": "метаданные",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          },
+          {
+            "номер": 10,
+            "имя": "неначатая-ветка",
+            "код": 2,
+            "ответ": {
+              "error": "отсутствие",
+              "status": "FAILED",
+              "writes": 0
+            },
+            "неизменностьВсехИменБайтовИМетаданных": true
+          }
+        ],
+        "библиотечныхЗависимостей": [
+          "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+          "/usr/lib/libobjc.A.dylib",
+          "/usr/lib/libSystem.B.dylib",
+          "/System/Library/Frameworks/CryptoKit.framework/Versions/A/CryptoKit",
+          "/usr/lib/swift/libswiftCore.dylib",
+          "/usr/lib/swift/libswiftCoreFoundation.dylib",
+          "/usr/lib/swift/libswiftDarwin.dylib",
+          "/usr/lib/swift/libswiftDispatch.dylib",
+          "/usr/lib/swift/libswiftIOKit.dylib",
+          "/usr/lib/swift/libswiftObjectiveC.dylib",
+          "/usr/lib/swift/libswiftXPC.dylib",
+          "/usr/lib/swift/libswiftos.dylib"
+        ],
+        "инспектор": {
+          "код": 0,
+          "секунд": 0.07688766600005328,
+          "запусков": 1
+        }
+      },
+      "контрольПослеИсполнения": "Все28 входов, Package, обе копии продукта и корпус сверены по точным байтам; исходники и тесты после исполнения не менялись. Два JSON-отчёта наполнены после исполнения и не входят в цели компиляции.",
+      "ресурсныйПредел": {
+        "сборок": 1,
+        "исполненийТестов": 1,
+        "проверокПубликации": 10,
+        "инспекторов": 1,
+        "неиспользованныйБюджет": 0,
+        "таймаутов": 0,
+        "сигналовЗавершения": 0,
+        "собственныеГруппыПослеТерминалов": "Отсутствуют по адресному ps; полный OS descendant census UNKNOWN"
+      },
+      "аудит": "Повторный статический аудит freeze3 ожидается. Прежний P2 об eager split/map исправлен потоковым ограниченным разбором; это ещё не квитанция закрытия замечания.",
+      "исключено": [
+        "Python",
+        "маршрутизатор",
+        "полный ROOT JSONL",
+        "полный профиль",
+        "ROOT-приёмка",
+        "нативный Stop callback",
+        "новый standalone executable обработчика Stop",
+        "production"
+      ],
+      "исключённоеНеGREEN": true,
+      "общийПрофиль": "UNKNOWN",
+      "граница": "Только сохранение исходников и изолированные фикстуры. Runtime/config/current/ref ROOT не изменены."
+    }
+  },
+  "объединениеИсточников": {
+    "схема": "fum.разрешение-конфликтов-stop.1",
+    "родители": [
+      "1b610d1c153f4eb6b5b6ee6f40a49c9a7c183574",
+      "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+    ],
+    "решение": "Для продолжения сохраняются снимок файловой привязки и повторные подтверждения ROOT. Явный связанный STOP или пауза сохраняет обход Git и проверки возраста worklist; отсутствие привязки не считается проверенным Git.",
+    "сохранение": "Прежние значения программы, активации, артефакта GREEN6, поддержки current и частичной русификации сохранены. Раздел файловых ссылок взят из принятого ROOT без изменения.",
+    "проверки": {
+      "исходники": "Независимый RO review ожидается",
+      "компилятор": "NOT_RUN",
+      "runtime": "NOT_RUN",
+      "Python": "EXCLUDED_UNKNOWN",
+      "ROOTJSONL": "EXCLUDED_UNKNOWN",
+      "полныйПрофиль": "UNKNOWN"
+    },
+    "граница": "Сохранение объединённых исходников. Ни установка, ни publisher, ни Native callback этим слиянием не запускаются."
   }
 }

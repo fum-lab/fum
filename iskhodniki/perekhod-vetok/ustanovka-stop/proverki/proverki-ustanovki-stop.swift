@@ -1,4 +1,5 @@
 import Foundation
+import CryptoKit
 import Darwin
 import Testing
 @testable import УстановкаStop
@@ -906,5 +907,174 @@ struct ПроверкиДельтыКомандыStop {
     @Test func чистоеОкружениеИАпострофФормируютсяКакТочныеАргументы() {
         let value = УстановщикStop.command(["/private/tmp/a'b/fuma", "stop"])
         #expect(value == "exec /usr/bin/env -i 'PATH=' '/private/tmp/a'\"'\"'b/fuma' 'stop'")
+    }
+}
+
+
+@Suite("Файловые ссылки: общий конечный корпус", .serialized)
+struct ПроверкиФайловыхСсылок {
+    private struct Случай: Decodable {
+        let имя: String
+        let обычный: String?
+        let упакованные: String?
+        let типОбычного: String?
+        let типУпакованного: String?
+        let праваОбычного: Int?
+        let праваКаталогаОбычного: Int?
+        let праваУпакованного: Int?
+        let увеличитьУпакованный: Int?
+        let залитьУпакованныйПереносами: Int?
+        let числоУпакованныхЗаписей: Int?
+        let таблицыСсылок: Bool?
+        let родительОбычногоСсылка: Bool?
+        let результат: String?
+        let источник: String?
+        let изменение: String?
+        let ошибка: String?
+    }
+    private struct Корпус: Decodable {
+        let схема: String
+        let ссылка: String
+        let объект: String
+        let другойОбъект: String
+        let случаи: [Случай]
+    }
+    private static func сохранить(_ данные: Data, _ путь: URL, права: Int = 0o644) throws {
+        try FileManager.default.createDirectory(at: путь.deletingLastPathComponent(),
+            withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
+        try данные.write(to: путь)
+        try FileManager.default.setAttributes([.posixPermissions: права], ofItemAtPath: путь.path)
+    }
+    private static func узел(_ тип: String, данные: Data, путь: URL, права: Int) throws {
+        guard тип != "нет" else { return }
+        let родитель = путь.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: родитель,
+            withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
+        switch тип {
+        case "обычный": try сохранить(данные, путь, права: права)
+        case "ссылка":
+            let цель = родитель.appendingPathComponent("цель-" + UUID().uuidString)
+            try сохранить(данные, цель)
+            try FileManager.default.createSymbolicLink(at: путь, withDestinationURL: цель)
+        case "оборванная-ссылка":
+            try FileManager.default.createSymbolicLink(at: путь,
+                withDestinationURL: родитель.appendingPathComponent("нет-цели"))
+        case "каталог":
+            try FileManager.default.createDirectory(at: путь, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+        case "канал":
+            guard Darwin.mkfifo(путь.path, 0o600) == 0 else { throw ОтказФайловойСсылки.метаданные }
+        case "жёсткая-ссылка":
+            try сохранить(данные, путь)
+            try FileManager.default.linkItem(at: путь,
+                to: родитель.appendingPathComponent("другая-связь-" + UUID().uuidString))
+        default: throw ОтказФайловойСсылки.формат
+        }
+    }
+    private static func заменить(_ данные: Data, _ путь: URL) throws {
+        let новый = путь.deletingLastPathComponent().appendingPathComponent("замена-" + UUID().uuidString)
+        try сохранить(данные, новый)
+        guard Darwin.rename(новый.path, путь.path) == 0 else { throw ОтказФайловойСсылки.метаданные }
+    }
+    @Test func общийКорпусИКонечныеПодтверждения() throws {
+        let среда = ProcessInfo.processInfo.environment
+        let путьКорпуса = try #require(среда["ФУМ_ВЕКТОРЫ_ССЫЛОК"])
+        let ожидаемыйХэш = try #require(среда["ФУМ_ХЭШ_ВЕКТОРОВ_ССЫЛОК"])
+        let родитель = URL(fileURLWithPath: try #require(среда["ФУМ_ФИКСТУРЫ_ССЫЛОК"]))
+        let данные = try Data(contentsOf: URL(fileURLWithPath: путьКорпуса))
+        let хэш = SHA256.hash(data: данные).map { String(format: "%02x", $0) }.joined()
+        try #require(хэш == ожидаемыйХэш)
+        let корпус = try JSONDecoder().decode(Корпус.self, from: данные)
+        try #require(корпус.схема == "фум.векторы-файловых-ссылок.1")
+        try #require(корпус.случаи.count == 54)
+        var проверено = 0
+        for случай in корпус.случаи {
+            let корень = родитель.appendingPathComponent(UUID().uuidString.lowercased())
+            let общий = корень.appendingPathComponent("общее")
+            try FileManager.default.createDirectory(at: общий, withIntermediateDirectories: true,
+                attributes: [.posixPermissions: 0o700])
+            let обычный = общий.appendingPathComponent(корпус.ссылка)
+            let упакованный = общий.appendingPathComponent("packed-refs")
+            let привязка = корень.appendingPathComponent("HEAD")
+            let исходнаяПривязка = Data(("ref: " + корпус.ссылка + "\n").utf8)
+            try Self.сохранить(исходнаяПривязка, привязка)
+            let указательДерева = корень.appendingPathComponent(".git")
+            let обратнаяСсылка = корень.appendingPathComponent("gitdir")
+            let общийУказатель = корень.appendingPathComponent("commondir")
+            for путь in [указательДерева, обратнаяСсылка, общийУказатель] {
+                try Self.сохранить(Data("Синтетическая привязка\n".utf8), путь)
+            }
+            if случай.родительОбычногоСсылка == true {
+                try FileManager.default.createSymbolicLink(at: общий.appendingPathComponent("refs"),
+                    withDestinationURL: корень.appendingPathComponent("нет-каталога"))
+            }
+            try Self.узел(случай.типОбычного ?? (случай.обычный == nil ? "нет" : "обычный"),
+                данные: Data((случай.обычный ?? "").utf8), путь: обычный, права: случай.праваОбычного ?? 0o644)
+            var данныеУпакованного = Data((случай.упакованные ?? "").utf8)
+            if let размер = случай.увеличитьУпакованный {
+                try #require(размер == ЧитательФайловойСсылки.пределУпакованных + 1)
+                данныеУпакованного = Data(repeating: 48, count: размер)
+            }
+            if let размер = случай.залитьУпакованныйПереносами {
+                try #require(размер == ЧитательФайловойСсылки.пределУпакованных)
+                данныеУпакованного = Data(repeating: 10, count: размер)
+            }
+            if let записей = случай.числоУпакованныхЗаписей {
+                try #require(записей == 16_385)
+                for номер in 1..<записей {
+                    данныеУпакованного.append(Data((корпус.объект + " refs/x" + String(номер) + "\n").utf8))
+                }
+                try #require(данныеУпакованного.count <= ЧитательФайловойСсылки.пределУпакованных)
+            }
+            try Self.узел(случай.типУпакованного ?? (случай.упакованные == nil ? "нет" : "обычный"),
+                данные: данныеУпакованного, путь: упакованный, права: случай.праваУпакованного ?? 0o644)
+            if случай.таблицыСсылок == true {
+                try FileManager.default.createDirectory(at: общий.appendingPathComponent("reftable"),
+                    withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+            }
+            if let праваКаталога = случай.праваКаталогаОбычного {
+                let каталог = обычный.deletingLastPathComponent()
+                try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: true,
+                    attributes: [.posixPermissions: 0o700])
+                try FileManager.default.setAttributes([.posixPermissions: праваКаталога], ofItemAtPath: каталог.path)
+            }
+            var наблюдаемаяОшибка: String?
+            do {
+                let снимок = try ЧитательФайловойСсылки.прочитать(общийКаталог: общий.path,
+                    ссылка: корпус.ссылка, связанныеФайлы: [привязка.path, указательДерева.path, обратнаяСсылка.path, общийУказатель.path])
+                #expect(снимок.идентификаторОбъекта == случай.результат)
+                #expect(снимок.источник.rawValue == случай.источник)
+                if let изменение = случай.изменение {
+                    switch изменение {
+                    case "создать-обычный": try Self.сохранить(Data((корпус.объект + "\n").utf8), обычный)
+                    case "создать-другой-обычный": try Self.сохранить(Data((корпус.другойОбъект + "\n").utf8), обычный)
+                    case "изменить-обычный": try Self.сохранить(Data((корпус.другойОбъект + "\n").utf8), обычный)
+                    case "изменить-упакованный":
+                        try Self.сохранить(данныеУпакованного + Data((корпус.другойОбъект + " refs/tags/новая\n").utf8), упакованный)
+                    case "заменить-упакованный": try Self.заменить(данныеУпакованного, упакованный)
+                    case "изменить-привязку": try Self.сохранить(Data("ref: refs/heads/другая\n".utf8), привязка)
+                    case "заменить-привязку": try Self.заменить(исходнаяПривязка, привязка)
+                    case "изменить-указатель-дерева": try Self.сохранить(Data("Другая привязка\n".utf8), указательДерева)
+                    case "изменить-обратную-ссылку": try Self.сохранить(Data("Другая привязка\n".utf8), обратнаяСсылка)
+                    case "изменить-общий-указатель": try Self.сохранить(Data("Другая привязка\n".utf8), общийУказатель)
+                    case "создать-каталог-ссылок":
+                        try FileManager.default.createDirectory(at: общий.appendingPathComponent("refs"),
+                            withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+                    default: throw ОтказФайловойСсылки.формат
+                    }
+                }
+                try снимок.подтвердить()
+            } catch let отказ as ОтказФайловойСсылки {
+                наблюдаемаяОшибка = отказ.rawValue
+            } catch {
+                Issue.record("Непредусмотренная ошибка случая \(случай.имя): \(error)")
+            }
+            if наблюдаемаяОшибка != случай.ошибка {
+                Issue.record("Случай \(случай.имя): получено \(наблюдаемаяОшибка ?? "успех"), ожидалось \(случай.ошибка ?? "успех")")
+            }
+            #expect(наблюдаемаяОшибка == случай.ошибка)
+            проверено += 1
+        }
+        #expect(проверено == 54)
     }
 }
