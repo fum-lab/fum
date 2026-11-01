@@ -1,0 +1,71 @@
+{
+  "схема": "fum.fuma.исходники-минимального-интерфейса.1",
+  "codexThreadId": "01a19716-c517-7f92-839e-44b9ee828533",
+  "rootThreadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "humanRequest": "Nam nuzhen minimaljnyij UI dlya rantajma FUMA.",
+  "ref": "refs/heads/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master",
+  "base": "c3f106c71fc87996d41fbb7ac72ed110ae5e17bb",
+  "scope": "Добавить отдельный лёгкий пакет с SwiftUI окном, моделью одного явного шага через существующий AutomationExecutor, открытой fixture и Swift Testing исходниками. Не запускать GUI, Swift/compiler/build/test/runtime/F42, Python/ROOT JSONL; не использовать старое приложение. История интерфейса остаётся в памяти процесса.",
+  "allowedPaths": [
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Package.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/ЦиклОператора.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleUI/main.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Tests/FUMACycleModelTests/ЦиклОператораTests.swift",
+    "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Фикстуры/префикс-одного-шага.json",
+    "fuma/zhurnal/minimaljnyj-ui-01a19716.json"
+  ],
+  "dependency": {
+    "manifestRelativePath": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Package.swift",
+    "relativePackagePath": "../../../../Прототипы/память-структурирующих-операторов",
+    "repositoryRelativeTarget": "Прототипы/память-структурирующих-операторов",
+    "resolutionEvidence": "В этом W физические родители пакета разрешились внутрь текущего checkout, а realpath целевой относительной зависимости совпал с указанным repo-relative каталогом; абсолютный checkout-путь в Git-данных не сохраняется.",
+    "pinCommit": "c3f106c71fc87996d41fbb7ac72ed110ae5e17bb",
+    "pinBlobs": {
+      "Package.swift": "5ac8f2d857461d13dfb798dc8c1c883f09fcaee3",
+      "Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift": "151e10136e3f8207c9d91a20bb8aa1d5212c1d2e",
+      "Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift": "f6ef04dc990574e7f244389d116bf205c7f19829"
+    }
+  },
+  "invocation": {
+    "function": "FUMStructuringOperatorMemory.AutomationExecutor.выполнить",
+    "source": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+    "behavior": "Вызов существующего интерпретатора для ровно одного шага в fum.определение-оператора.1; составная схема и операторы скрытого повторного применения отклоняются."
+  },
+  "fixture": {
+    "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Фикстуры/префикс-одного-шага.json",
+    "input": "ёж",
+    "expectedOutput": "FUM: ёж"
+  },
+  "futureCommands": {
+    "build": {
+      "command": "swift build --package-path Приложения/FUMA/Packages/МинимальныйИнтерфейс --scratch-path <разрешённый-приватный-scratch> --jobs 1 --product интерфейс-фума",
+      "status": "NOT_RUN; требуются точные source/dependency pins, лимиты scratch/CPU/времени и подтверждение владельца ёмкости через ROOT"
+    },
+    "swiftTesting": {
+      "command": "swift test --package-path Приложения/FUMA/Packages/МинимальныйИнтерфейс --scratch-path <разрешённый-приватный-scratch> --jobs 1",
+      "status": "NOT_RUN; требуются точные source/dependency pins, лимиты scratch/CPU/времени и подтверждение владельца ёмкости через ROOT"
+    },
+    "demoSmokeGUI": {
+      "command": "PENDING_TOOLS; точная будущая команда запуска окна и одного шага с открытой fixture ещё не согласована",
+      "limits": "UNKNOWN/PENDING_TOOLS: конечные пределы CPU, памяти, времени, scratch/runtime-каталога, пользовательских/внешних эффектов и остановки должны быть подтверждены владельцем ёмкости через ROOT",
+      "status": "NOT_RUN; будущий GUI smoke с результатом/ошибкой и без установки, сети, внешних процессов, пользовательских файлов, AX, камеры, input и autostart — только после согласования конечной команды и лимитов"
+    },
+    "gui": "NOT_RUN; текущий допуск source-only",
+    "runtime": "NOT_RUN; текущий допуск source-only",
+    "pythonRootJsonlF42": "EXCLUDED; NOT_RUN; NOT_VERIFIED"
+  },
+  "status": {
+    "source": "подготовлено в пределах указанного worktree и списка путей",
+    "capacitySteering": "ROOT разрешил будущие build/Swift Testing и один ограниченный fixture smoke только после фиксации pins, точного W/ref, входа, команды и конечных лимитов, подтверждённых владельцем ёмкости через ROOT/Инструменты",
+    "independentReadOnlyReview": "Подтверждено ROOT для точных шести исходных SHA до source checkpoint; позднее замечание к сообщению коммита устранено отдельной записью без amend.",
+    "buildAndTests": "NOT_RUN",
+    "initialSourceCommit": {
+      "commit": "cecd62ef0b608dd8e52231b953a347286f3439b6",
+      "tree": "643f45d2a64281b0a20f3dc0b336c031a80170ab",
+      "parent": "c3f106c71fc87996d41fbb7ac72ed110ae5e17bb",
+      "note": "Сохранён как есть, без amend; техническое поручение с физическим путём не включено в публикуемую запись. Прямая человеческая фраза закреплена выше и в сообщении последующего provenance-коммита."
+    },
+    "followUpCommit": "Отдельный provenance-коммит с humanRequest; исходная история сохранена без amend.",
+    "pushAndRemoteReadback": "PENDING на момент подготовки provenance-записи; фактическое состояние проверяется отдельным remote readback."
+  }
+}
