@@ -51,5 +51,35 @@
     "полныйПрофиль": "UNKNOWN, не GREEN",
     "повторныеПроверки": "не запускались согласно границе"
   },
-  "модельСессии": "Вход задачи указывает Luna/low как запрошенное текущее значение; это не доказательство backend-модели."
+  "модельСессии": "Вход задачи указывает Luna/low как запрошенное текущее значение; это не доказательство backend-модели.",
+  "доставка": {
+    "ветка": "refs/heads/fum-lab/fum/audit/master",
+    "история": [
+      {
+        "порядок": 1,
+        "refspec": "4f551018a2fb4b1013e741c5a6ce1344ca5b01d1:refs/heads/fum-lab/fum/audit/master",
+        "исход": "rejected: needs force; source is not a commit object",
+        "эффект": "remote ref не изменён"
+      },
+      {
+        "порядок": 2,
+        "OID": "4f551018a9fbc7ccb856007dd6b5fd7863ddb82f",
+        "источникOID": "в первой исправленной доставке OID был введён вручную после чтения rev-parse; ordinary push успешен",
+        "исход": "push обновил ref; независимый ls-remote подтвердил тот же OID"
+      },
+      {
+        "порядок": 3,
+        "OIDИсточник": "git rev-parse HEAD в shell variable exact_head",
+        "refspec": "не заключённая в фигурные скобки переменная перед двоеточием дала zsh modifier и неверный refspec",
+        "исход": "локальный отказ; remote ref не изменён"
+      },
+      {
+        "порядок": 4,
+        "OIDИсточник": "git rev-parse HEAD → exact_head; argv: ${exact_head}:refs/heads/fum-lab/fum/audit/master",
+        "исход": "Everything up-to-date",
+        "независимыйLsRemote": "4f551018a9fbc7ccb856007dd6b5fd7863ddb82f",
+        "сверка": "remote OID равен exact HEAD"
+      }
+    ]
+  }
 }
