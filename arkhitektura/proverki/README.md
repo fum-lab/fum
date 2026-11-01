@@ -1,0 +1,193 @@
+# Проверка привязки и восстановления
+
+## Назначение
+
+`проверка-восстановления.оператор.json` — чистое определение существующего FUMA `AutomationExecutor`, без нового Swift-пакета, диспетчера или файлового эффекта. Оно принимает descriptor агента вместе со свежими наблюдениями и возвращает решение по области записи, полноте восстановления из C, атрибуции инкарнации и повтору конкретного эффекта.
+
+Область в примерах задана логическим ключом `arkhitektura/**`; абсолютные физические пути и секреты не входят в descriptor. Восстановление отдельно наблюдает локальные W и процесс, сравнивает полный ref, основу и cursor. В Git-снимке не требуется hash собственного будущего commit или полный transcript.
+
+## Проверяемые инварианты
+
+- Логический actor, parent, owner, grant, собственная память и полномочия совпадают.
+- Общая память доступна только для чтения; текущему actor разрешена ровно одна собственная write-цель.
+- Для собственного scope наблюдается ровно один активный writer; второй writer закрывает запись.
+- Локальные branch/ref, worktree token, commit base и freshness cursor согласованы.
+- Поле memory descriptor совпадает с own-memory actor; несовпадение закрывает и область записи, и восстановительную привязку.
+- Пауза сохраняется. Неизвестный исход эффекта запрещает его повтор, но не восстановление памяти и не независимую работу.
+- Источник/история/desired должны входить в commit C; чтение не зависит от собственного hash C и прошлого диалога.
+- Отсутствие инкарнации оставляет атрибуцию неполной. Отсутствующие model runtime, API или секреты не объявляются доступными из Git и сами по себе не блокируют восстановление памяти.
+
+Восстановительные поля `commit_contains_*` и сведения о внешней среде здесь являются typed input, а не самостоятельным доказательством Git-объекта. Вызывающая сторона должна прочитать C и выполнить fresh observe; текущий оператор не читает Git, не резервирует writer и не исполняет next action. Его 14 примеров передают агрегированный `observed`, а не два независимо свежих входа filesystem/Git; cross-source freshness остаётся отдельным конечным продолжением. Это проверяемый контракт-предложение, не массовая реализация восстановления, исполнительный адаптер или live-ready.
+
+## Запуск
+
+Из корня FUM укажи временный каталог сборки **вне checkout**:
+
+```sh
+: "${FUM_ARCH_BUILD_DIR:?укажите временный каталог вне checkout}"
+swift run \
+  --package-path 'Прототипы/память-структурирующих-операторов' \
+  --scratch-path "$FUM_ARCH_BUILD_DIR" \
+  FUMStructuringOperatorMemoryProbe исполнить \
+  --определение arkhitektura/proverki/проверка-восстановления.оператор.json \
+  --вход текст \
+  < arkhitektura/proverki/примеры/положительный-синтетический.json
+```
+
+Команда возвращает FUMA observation; `результат.значение` — JSON решения оператора. Повторить для всех синтетических входов можно shell-циклом, подавая каждый файл `arkhitektura/proverki/примеры/*.json` на stdin. Не запускай сборку в исходном Package-каталоге: общий checkout read-only.
+
+## Различающие примеры
+
+| Вход | Логическая eligibility области записи | Память восстановима | Атрибуция полна | Следующее действие |
+|---|---:|---:|---:|---|
+| `положительный-синтетический` | да | да | да | продолжить desired |
+| `дублирующий-писатель` | нет | да | да | новое наблюдение / эскалация |
+| `чужой-грант` | нет | да | да | новое наблюдение / эскалация |
+| `сдвинутая-база` | нет | да | да | новое наблюдение / эскалация |
+| `неизвестный-эффект` | да для независимой работы | да | да | не повторять эффект |
+| `устаревший-снимок` | нет | да | да | новое наблюдение / эскалация |
+| `без-владельца` | нет | да | да | новое наблюдение / эскалация |
+| `пауза` | нет | да | да | сохранить паузу |
+| `без-памяти` | нет | нет | да | восстановление заблокировано |
+| `чужая-область` (memory descriptor) | нет | нет | да | восстановление заблокировано |
+| `неполный-коммит` / `без-исполнителя` | да | нет | да | восстановление заблокировано |
+| `неизвестная-инкарнация` | да, только scope/grant | да | нет | RO-восстановление допустимо; эффект в прежнем W запрещён до fresh writer binding |
+| `эффект-известно-неприменён` | да | да | да | сверить перед планом повтора |
+
+Итоговый прогон: 14 synthetic JSON inputs; результат и индивидуальные хэши входа, определения и observation сохранены в `результаты-проверки-2.jsonl`. Все ожидаемые решения сверены отдельным `jq -se` утверждением. Первый прогон `результаты-проверки.jsonl` сохранён как происхождение, но superseded: в нём не сравнивался memory descriptor scope; исправленный v2-контрпример его ловит. Текущий граф использует лимит из 64 объявлений узлов существующего `ГрафJSON`; новые общие условия нельзя бесконечно добавлять к этому preflight.
+
+Все входы синтетические. Положительный пример не утверждает фактическую инкарнацию или наличие внешнего runtime; в нём выбранные API-параметры и runtime report представлены раздельно, а API и секреты выключены. Prefix `371ceea4` используется только как переданный ROOT контрпример неизвестной атрибуции; эта проверка не устанавливает породивший его процесс.
+
+Прямые поздние требования человека сохранены: «Nablyudeniye stejta fajlovoj sistemyi, nablyudeniye stejta gita.» и «Upravleniye stejtom budet ekvivalentno obnovleniyu stejta fajlovoj sistemyi i gita.» Они требуют отдельного finite слоя для источников наблюдения и исполнительного адаптера FS/Git; текущий preflight этого не заявляет.
+
+## Независимое продолжение родителя и live writer binding
+
+Первый restore-preflight решает свою ограниченную часть: typed eligibility scope/grant, память из C и запрет повтора неизвестного эффекта. Его поле `write_scope_eligible=true` не доказывает physical writer binding и не разрешает эффект в старом W. Опубликованные 14 исходов сохранены без изменений: `unknown-incarnation` по-прежнему даёт restoration-ready и неполную attribution, но write-effect при неизвестной live binding должен блокироваться следующим контрактом.
+
+Контракт v1 `граница-независимого-продолжения.v1.оператор.json` и пять его запусков оставлены как происхождение в `результаты-независимого-продолжения.jsonl`. V2 в `граница-независимого-продолжения.оператор.json` разделяет `memory_recovery_ready`, `read_only_work_available`, `logical_write_scope_eligible`, `live_writer_binding` и `effect_allowed`. Проверка требует fresh binding `fresh-bound` для write-effect. Неизвестный binding позволяет продолжить независимое RO-действие, если память и read scope готовы, но запрещает запись в прежний W. Выбранная модель/API и runtime report сохраняются отдельно; неизвестный runtime не закрывает несвязанное действие, а блокирует только конкретное действие с `required_for_action=true`.
+
+Критерий отсутствия общего ROOT-gate: при разрешённой собственной write-области, `live_binding.writer=fresh-bound`, `dependency=independent`, `requires_root_acceptance=false` родитель может продолжить локальный write-effect даже при pending peer acceptance. Если действие зависит от `peer-output`, оно ждёт приёмки непосредственного ребёнка родителем. ROOT ожидается только при явном `requires_root_acceptance=true`. Неизвестный dependency классифицируется, не подменяясь ожиданием ROOT.
+
+| Вход v2 | Результат | Установленная граница |
+|---|---|---|
+| `продолжение-независимой-задачи-при-чужой-приёмке-v2` | `continue-independent-effect` | собственная привязка fresh; чужая приёмка не блокирует независимое действие |
+| `зависимое-действие-до-приёмки-ребёнка-v2` | `await-direct-parent-acceptance` | ждёт только непосредственную приёмку |
+| `зависимое-действие-после-приёмки-ребёнка-v2` | `continue-after-direct-parent-acceptance-effect` | parent acceptance достаточна для зависимости |
+| `общая-интеграция-до-приёмки-root-v2` | `await-root-acceptance` | общая интеграционная граница принадлежит ROOT |
+| `неизвестная-зависимость-сверху-v2` | `classify-dependency` | неизвестность зависимости не выдаётся за root gate |
+| `неизвестная-привязка-писателя-ro-v2` | `continue-independent-read-only` | память и RO доступны, effect запрещён |
+| `неизвестная-привязка-писателя-эффект-v2` | `observe-live-writer-binding` | restoration-ready не разрешает запись без свежей binding |
+| `неизвестная-модель-по-нужна-действию-v2` | `await-required-model-runtime` | локальный blocker только для явно model-dependent действия; ROOT не требуется |
+
+Восемь запусков существующего FUMA Probe и независимое `jq -s` утверждение дали все ожидаемые решения. V2 individual input, observation и FUMA semantic definition hashes сохранены в `результаты-независимого-продолжения-2.jsonl`. Это синтетическая проверка контракта; 39 App-узлов и фактическая маршрутизация не наблюдались этим агентом.
+
+Для текущего continuation operator FUMA semantic definition digest равен `83e2e986fb932edbb66a45e915adbdcfbdae060f4b2cb5a217e3da6b4d0c2e6f`; raw JSON file SHA-256 — `003aba15a04d7ff684fbe82bef636dc8b84d0eac621ef7805c6830e8c34fa4c0`. Первые пять v1 исходов и определение оставлены отдельными файлами как происхождение.
+
+## Различие FUMA semantic digest и raw file SHA-256
+
+`результаты-проверки-2.jsonl` называет `428c354f...88d4` полем `definition_hash`: это SHA-256 канонического typed preimage, а не исходного файла. Для restore-preflight raw JSON SHA-256 равен `d72f18e907c0c42c5af721cb30464641f90b3ee4f3b3ed9edc8bce7c790f2557`; raw Git blob OID — `a7a8b5e4e492fc1e40fcc6cd178e9772ff720ac1`.
+
+Существующая реализация в `Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift:430` считает SHA256 от `каноническиеДанные(определение.представление)`. `ОпределениеОператора.данные()` возвращает те же канонические bytes (`ОпределениеОператора.swift:187-195`); encoder задан в `ЗакрытыйРазбор.swift:203-206` как JSONEncoder с `.sortedKeys` и `.withoutEscapingSlashes`. Для старого определения typed preimage составляет 17,171 байт без добавленного LF и SHA-256 равен `428c354fb543f5ded1101944a6377ed5a05dc0f2b5c1c02d51a16a9d5cec88d4`. Поэтому исходные 14 outputs сохраняют корректный semantic digest; append-only correction уточняет его смысл, не переписывая результаты.
+
+Воспроизводимый способ получить именно typed preimage использует существующий Swift package/module, без нового Package и без Python:
+
+```sh
+: "${FUM_ARCH_BUILD_DIR:?укажите временный каталог вне checkout}"
+swift build \
+  --package-path 'Прототипы/память-структурирующих-операторов' \
+  --scratch-path "$FUM_ARCH_BUILD_DIR"
+FUM_MODULE_DIR="$(swift build --show-bin-path \
+  --package-path 'Прототипы/память-структурирующих-операторов' \
+  --scratch-path "$FUM_ARCH_BUILD_DIR")"
+cat > "$FUM_ARCH_BUILD_DIR/definition-preimage.swift" <<'SWIFT'
+import Foundation
+import FUMStructuringOperatorMemory
+let raw = try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
+let definition = try ОпределениеОператора.разобрать(raw)
+FileHandle.standardOutput.write(try definition.данные())
+SWIFT
+swiftc -I "$FUM_MODULE_DIR" \
+  "$FUM_ARCH_BUILD_DIR/definition-preimage.swift" \
+  "$FUM_MODULE_DIR/FUMStructuringOperatorMemory.o" \
+  -o "$FUM_ARCH_BUILD_DIR/definition-preimage"
+"$FUM_ARCH_BUILD_DIR/definition-preimage" \
+  arkhitektura/proverki/проверка-восстановления.оператор.json \
+  > "$FUM_ARCH_BUILD_DIR/definition-preimage.json"
+wc -c "$FUM_ARCH_BUILD_DIR/definition-preimage.json"
+shasum -a 256 "$FUM_ARCH_BUILD_DIR/definition-preimage.json"
+```
+
+Для сравнения raw-file hash считай непосредственно на JSON-файле через `shasum -a 256`; не подменяй им `definition_hash` из FUMA observation.
+
+## Пилот воспроизводимой сборки Swift
+
+В [`пилот-сборки-swift.swift`](пилот-сборки-swift.swift) сохранена одна простая CLI-фикстура. Результат и toolchain fingerprints находятся в [`результат-пилота-сборки-swift.json`](результат-пилота-сборки-swift.json). Пилот использует прямой `swiftc`, два свежих source-каталога и два свежих build-каталога; общий FUMA или отдельный SwiftPM-пакет не собирается.
+
+На macOS 27.0.1 arm64, Apple Swift 6.4 / driver 1.168.6, SDK macosx 27.0 build `26A425` и target `arm64-apple-macosx27.0.0` две чистые сборки с `-swift-version 6`, `-strict-concurrency=complete` и `-warnings-as-errors` совпали по executable SHA-256 `84f3b56a5d7cc991d6d08cf290ba4bebcab2cd32189ba621d0172b4f5c68ea22` и по 103 байтам stdout (`sha256:4932ba1c80d5be33589f4d697c2dccd273f4b4eabf29191b644c6b42fa856b10`). Источник имеет SHA-256 `b8a97383b90b42edbf1020f9d9e6120d15bb13f840562b7366a511d419bda10b`. Swift linker создал встроенную ad-hoc подпись; distribution signing и notarization не оценивались.
+
+Воспроизведение для той же платформы и версии SDK выполняй из корня checkout. До создания scratch проверь свободное место: не менее 4 GiB. Сценарий создаёт новый уникальный каталог под существующим `TMPDIR`; собственный scratch после сборок должен оставаться не больше 256 MiB. Полный реальный путь scratch, compiler, SDK и каталогов эксперимента оставляй в приватном evidence, не в репозитории.
+
+```sh
+PILOT_TMP_PARENT="${TMPDIR:-/tmp}"
+test -d "$PILOT_TMP_PARENT"
+CHECKOUT_REAL="$(pwd -P)"
+PILOT_TMP_REAL="$(cd "$PILOT_TMP_PARENT" && pwd -P)"
+case "$PILOT_TMP_REAL/" in "$CHECKOUT_REAL/"*) exit 1 ;; esac
+FREE_KIB="$(df -Pk "$PILOT_TMP_PARENT" | awk 'NR == 2 { print $4 }')"
+test "$FREE_KIB" -ge 4194304
+FUM_SWIFT_PILOT_SCRATCH="$(mktemp -d "$PILOT_TMP_PARENT/fum-swift-pilot.XXXXXX")"
+mkdir -p \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-a" \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-b" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-a" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-b" \
+  "$FUM_SWIFT_PILOT_SCRATCH/tmp" \
+  "$FUM_SWIFT_PILOT_SCRATCH/home"
+cp arkhitektura/proverki/пилот-сборки-swift.swift \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-a/пилот-сборки-swift.swift"
+cp arkhitektura/proverki/пилот-сборки-swift.swift \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-b/пилот-сборки-swift.swift"
+cmp \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-a/пилот-сборки-swift.swift" \
+  "$FUM_SWIFT_PILOT_SCRATCH/source-b/пилот-сборки-swift.swift"
+shasum -a 256 arkhitektura/proverki/пилот-сборки-swift.swift
+
+SWIFTC="$(xcrun --find swiftc)"
+SDK="$(xcrun --show-sdk-path --sdk macosx)"
+TARGET=arm64-apple-macosx27.0.0
+MODULE=FUMАрхитектурныйПилот
+test "$("$SWIFTC" --version | sed -n '1p')" = \
+  'swift-driver version: 1.168.6 Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)'
+test "$(xcrun --show-sdk-build-version --sdk macosx)" = 26A425
+test "$(arch)" = arm64
+
+for PAIR in a b; do
+  env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+    HOME="$FUM_SWIFT_PILOT_SCRATCH/home" \
+    TMPDIR="$FUM_SWIFT_PILOT_SCRATCH/tmp" LANG=C LC_ALL=C \
+    "$SWIFTC" -swift-version 6 -strict-concurrency=complete \
+    -warnings-as-errors -sdk "$SDK" -target "$TARGET" \
+    -module-name "$MODULE" \
+    -o "$FUM_SWIFT_PILOT_SCRATCH/build-$PAIR/$MODULE" \
+    "$FUM_SWIFT_PILOT_SCRATCH/source-$PAIR/пилот-сборки-swift.swift"
+  env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+    HOME="$FUM_SWIFT_PILOT_SCRATCH/home" \
+    TMPDIR="$FUM_SWIFT_PILOT_SCRATCH/tmp" LANG=C LC_ALL=C \
+    "$FUM_SWIFT_PILOT_SCRATCH/build-$PAIR/$MODULE" \
+    > "$FUM_SWIFT_PILOT_SCRATCH/stdout-$PAIR.txt"
+done
+
+cmp "$FUM_SWIFT_PILOT_SCRATCH/build-a/$MODULE" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-b/$MODULE"
+cmp "$FUM_SWIFT_PILOT_SCRATCH/stdout-a.txt" \
+  "$FUM_SWIFT_PILOT_SCRATCH/stdout-b.txt"
+shasum -a 256 \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-a/$MODULE" \
+  "$FUM_SWIFT_PILOT_SCRATCH/build-b/$MODULE" \
+  "$FUM_SWIFT_PILOT_SCRATCH/stdout-a.txt"
+test "$(du -sk "$FUM_SWIFT_PILOT_SCRATCH" | awk '{ print $1 }')" -le 262144
+```
+
+Для path drift также проверены поддержанные локальным `swiftc -help` `-file-prefix-map` и `-debug-prefix-map`. Версия фикстуры, печатавшая `#filePath`, закономерно дала разный stdout; эти опции не переписывают source-level строку. После удаления path-зависимого вывода две обычные сборки совпали. Вариант с `-g` всё ещё дал разные executable SHA даже с source/build prefix maps: Mach-O OSO symbols содержат случайные compiler temp-каталоги для временного `.swiftmodule` и object file. Этот debug-вариант остаётся непроверенным на воспроизводимость и не скрывается выключением warnings.
+
+Это доказательство для одной конфигурации macOS arm64, а не для других ОС, общего FUMA, SwiftPM-пакета или release-поставки. Подпись ad-hoc от Swift `ld` присутствует; подписывание для распространения и notarization остаются отдельным этапом. Следующим отдельным срезом сохранён pure FUMA контракт `metrics/allowedModels/history -> recommendation with reason/trial/keep/rollback`; оператор лишь рекомендует и не переключает модель. Общая поведенческая политика и симметричная эскалация/деэскалация пока не реализованы.

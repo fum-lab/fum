@@ -1,0 +1,13 @@
+{
+  "case_id": "dependency-not-classified",
+  "scope": {
+    "write_scope_eligible": true
+  },
+  "next_action": {
+    "dependency": "unknown",
+    "requires_root_acceptance": false
+  },
+  "peer_result": {
+    "acceptance": "pending"
+  }
+}

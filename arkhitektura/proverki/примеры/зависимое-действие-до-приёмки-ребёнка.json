@@ -1,0 +1,13 @@
+{
+  "case_id": "child-output-pending-direct-parent-acceptance",
+  "scope": {
+    "write_scope_eligible": true
+  },
+  "next_action": {
+    "dependency": "peer-output",
+    "requires_root_acceptance": false
+  },
+  "peer_result": {
+    "acceptance": "pending"
+  }
+}

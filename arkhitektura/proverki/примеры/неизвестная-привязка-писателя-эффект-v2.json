@@ -1,0 +1,9 @@
+{
+  "case_id": "unknown-writer-binding-effect-v2",
+  "restore": {"memory_ready": true},
+  "scope": {"read_only_work_eligible": true, "write_scope_eligible": true},
+  "live_binding": {"writer": "unknown"},
+  "next_action": {"access": "write-effect", "dependency": "independent", "requires_root_acceptance": false},
+  "peer_result": {"acceptance": "pending"},
+  "model": {"selected": "gpt-6-luna", "runtime_observed": null, "runtime_state": "unknown", "required_for_action": false}
+}

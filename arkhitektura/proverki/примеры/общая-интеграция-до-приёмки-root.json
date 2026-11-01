@@ -1,0 +1,13 @@
+{
+  "case_id": "shared-integration-requires-root-acceptance",
+  "scope": {
+    "write_scope_eligible": true
+  },
+  "next_action": {
+    "dependency": "independent",
+    "requires_root_acceptance": true
+  },
+  "peer_result": {
+    "acceptance": "pending"
+  }
+}
