@@ -537,22 +537,47 @@ public enum ЗамокТекущегоStop {
     /// flock не защищает от писателя, который нарушает этот протокол.
     public static func выполнить<T>(_ pin: СсылкаЗамкаStop,
         _ действие: (_ проверить: () throws -> Void) throws -> T) throws -> T {
+        let удержанныйЗамок = try УдерживаемыйЗамокСтоп.открыть(pin)
+        defer { удержанныйЗамок.закрыть() }
+        return try действие(удержанныйЗамок.проверить)
+    }
+}
+fileprivate final class УдерживаемыйЗамокСтоп {
+    private var fd: Int32
+    private var dir: Int32
+    private let pin: СсылкаЗамкаStop
+    private let name: String
+    private let устройствоРодителя: dev_t
+    private let номерУзлаРодителя: ino_t
+    private init(fd: Int32, dir: Int32, pin: СсылкаЗамкаStop, name: String, parent: Darwin.stat) {
+        self.fd = fd; self.dir = dir; self.pin = pin; self.name = name
+        устройствоРодителя = parent.st_dev; номерУзлаРодителя = parent.st_ino
+    }
+    static func открыть(_ pin: СсылкаЗамкаStop) throws -> УдерживаемыйЗамокСтоп {
         guard pin.device > 0, pin.inode > 0 else { throw E("L0") }
         let (dir, name) = try АтомарныеБайтыStop.родитель(pin.path)
-        defer { _ = Darwin.close(dir) }
         var parent = Darwin.stat()
         guard fstat(dir, &parent) == 0, parent.st_mode & 0o7777 == 0o700 else {
+            _ = Darwin.close(dir)
             throw E("L1", pin.path)
         }
         let fd = openat(dir, name, O_RDWR | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
-        guard fd >= 0 else { throw E("L2", pin.path) }
-        defer { _ = Darwin.close(fd) }
-        func проверить() throws {
+        guard fd >= 0 else { _ = Darwin.close(dir); throw E("L2", pin.path) }
+        let новыйУдержанныйЗамок = УдерживаемыйЗамокСтоп(fd: fd, dir: dir, pin: pin, name: name, parent: parent)
+        do {
+            try новыйУдержанныйЗамок.проверить()
+            guard flock(fd, LOCK_EX | LOCK_NB) == 0 else { throw E("Lbusy", pin.path) }
+            try новыйУдержанныйЗамок.проверить()
+            return новыйУдержанныйЗамок
+        } catch { новыйУдержанныйЗамок.закрыть(); throw error }
+    }
+    func проверить() throws {
+            guard fd >= 0, dir >= 0 else { throw E("Lclosed", pin.path) }
             let (again, againName) = try АтомарныеБайтыStop.родитель(pin.path)
             defer { _ = Darwin.close(again) }
             var a = Darwin.stat(), named = Darwin.stat(), p = Darwin.stat()
             guard againName == name, fstat(again, &p) == 0,
-                p.st_dev == parent.st_dev, p.st_ino == parent.st_ino,
+                p.st_dev == устройствоРодителя, p.st_ino == номерУзлаРодителя,
                 p.st_mode & 0o7777 == 0o700,
                 fstat(fd, &a) == 0, fstatat(dir, name, &named, AT_SYMLINK_NOFOLLOW) == 0,
                 a.st_mode & S_IFMT == S_IFREG, a.st_mode & 0o7777 == 0o600,
@@ -561,13 +586,12 @@ public enum ЗамокТекущегоStop {
                 ОтпечатокФайлаStop(a) == ОтпечатокФайлаStop(named) else {
                 throw E("L3", pin.path)
             }
-        }
-        try проверить()
-        guard flock(fd, LOCK_EX | LOCK_NB) == 0 else { throw E("Lbusy", pin.path) }
-        // close освобождает flock и при thrown body; named inode проверяется после захвата.
-        try проверить()
-        return try действие(проверить)
     }
+    func закрыть() {
+        if fd >= 0 { _ = Darwin.close(fd); fd = -1 }
+        if dir >= 0 { _ = Darwin.close(dir); dir = -1 }
+    }
+    deinit { закрыть() }
 }
 
 // --применить не доказывает ROOT authority, custody или Native trust.
@@ -967,7 +991,7 @@ private static func current(_ pin: CPin, _ h: H, _ headerSHA: String,
  return try currentBytes(raw.данные, raw.sha256, h, headerSHA, head)
 }
 private static func currentBytes(_ bytes: Data, _ sha: String, _ h: H,
- _ headerSHA: String, _ head: String) throws -> Cur {
+ _ headerSHA: String, _ head: String, clock: Int64? = nil) throws -> Cur {
  let e = try dec(Envelope.self, bytes)
  let версияСнимка = h.схема == "fum.stop-заголовок.3"
   ? "fum.текущие-обязательства-stop.3" : "fum.текущие-обязательства-stop.2"
@@ -982,7 +1006,7 @@ private static func currentBytes(_ bytes: Data, _ sha: String, _ h: H,
  let m = try dec(Meta.self, bytes)
  try need(m.cwd == h.cwd && m.дерево == h.дерево && m.ref == h.ref
  && m.HEAD == head && hex(m.HEAD, 40), "C3", h.состояние)
- let clock = Int64(Date().timeIntervalSince1970), age = h.максимальныйВозрастСекунд
+ let clock = clock ?? Int64(Date().timeIntervalSince1970), age = h.максимальныйВозрастСекунд
  try need(m.выпущен >= 0 && m.выпущен <= clock && clock - m.выпущен <= age
  && m.действуетДо >= clock && m.действуетДо >= m.выпущен
  && m.действуетДо - m.выпущен <= age, "C4", h.состояние)
@@ -1282,7 +1306,7 @@ private static func применитьКонфигурацию(common initialOut
 // Вызываемый ROOT publisher. Это единственный предусмотренный здесь писатель current.
 // Передача pinned плана не доказывает полномочий или полноты worklist.
 private static func publicationInputs(_ path: String, _ sha: String)
- throws -> (Publication, H, Data, СнимокФайловойСсылки) {
+ throws -> (Publication, H, Data, СнимокФайловойСсылки?) {
  try need(abs(path) && hex(sha, 64), "Ppub0")
  let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
  try need(raw.sha256 == sha, "Ppub1", path)
@@ -1311,9 +1335,13 @@ private static func publicationInputs(_ path: String, _ sha: String)
   && p.current.lock.device > 0 && p.current.lock.inode > 0
   && p.candidate.path != p.current.path, "Cpub0")
  let candidate = try read(p.candidate, 0o600, p.current.maxBytes).данные
- let привязкаСсылки = try снимокПривязкиСсылки(h)
- let head = привязкаСсылки.идентификаторОбъекта
- _ = try currentBytes(candidate, p.candidate.sha256, h, p.header.sha256, head)
+ let конверт = try проверитьСвязанныйКонверт(candidate, h, p.header.sha256)
+ let привязкаСсылки: СнимокФайловойСсылки?
+ if конверт.управление.действие == "продолжать" {
+  let снимок = try снимокПривязкиСсылки(h)
+  _ = try currentBytes(candidate, p.candidate.sha256, h, p.header.sha256, снимок.идентификаторОбъекта)
+  привязкаСсылки = снимок
+ } else { привязкаСсылки = nil } // Явный доверенный STOP/пауза не зависит от Git и возраста worklist.
  if p.initiallyAbsent {
   var st = Darwin.stat()
   try need(lstat(p.current.path, &st) != 0 && errno == ENOENT, "Cpub1")
@@ -1322,28 +1350,31 @@ private static func publicationInputs(_ path: String, _ sha: String)
    предел: p.current.maxBytes)
   try need(old.sha256 == p.expectedSHA256, "Cpub2")
  }
- try привязкаСсылки.подтвердить()
+ try привязкаСсылки?.подтвердить()
  try разделение?.подтвердить()
  return (p, h, candidate, привязкаСсылки)
 }
 private static func publish(_ argv: [String]) throws -> Int32 {
  let (path, sha, mode) = try args(argv)
  let (p, _, _, исходнаяПривязка) = try publicationInputs(path, sha)
- let head = исходнаяПривязка.идентификаторОбъекта
+ let head = исходнаяПривязка?.идентификаторОбъекта
  if case .apply(let value) = mode { try need(value == p.candidate.sha256, "Apub") }
  var common: [String: Any] = ["operation": "publish-current", "planSHA256": sha,
-  "rootHEAD": head, "candidateSHA256": p.candidate.sha256,
+  "candidateSHA256": p.candidate.sha256,
   "worklistCompleteness": "ROOT_REQUIRED", "acceptedSourceAncestry": "ROOT_REQUIRED",
   "authorityChecked": false, "automaticRetry": false, "automaticRollback": false]
+ if let head { common["rootHEAD"] = head }
  if case .check = mode {
   let (_, _, _, свежаяПривязка) = try предварительнаяПроверка(p.current.lock) {
-   try исходнаяПривязка.подтвердить()
+   try исходнаяПривязка?.подтвердить()
    let результат = try publicationInputs(path, sha)
-   try исходнаяПривязка.подтвердить()
-   try результат.3.подтвердить()
+   try исходнаяПривязка?.подтвердить()
+   try результат.3?.подтвердить()
    return результат
   }
-  common["rootHEAD"] = свежаяПривязка.идентификаторОбъекта
+  if let свежаяВершина = свежаяПривязка?.идентификаторОбъекта {
+   common["rootHEAD"] = свежаяВершина
+  } else { common.removeValue(forKey: "rootHEAD") }
   common["status"] = "METADATA_CHECKED"; common["metadataChecked"] = true
   common["writes"] = 0; emit(common); return 0
  }
@@ -1362,19 +1393,19 @@ private static func publish(_ argv: [String]) throws -> Int32 {
  var code: Int32 = 2
  do {
   let result = try ЗамокТекущегоStop.выполнить(p.current.lock) { check in
-   try исходнаяПривязка.подтвердить()
+   try исходнаяПривязка?.подтвердить()
    let (fresh, _, candidate, свежаяПривязка) = try publicationInputs(path, sha)
-   try need(свежаяПривязка.идентификаторОбъекта == head, "Gpub")
+   try need(свежаяПривязка?.идентификаторОбъекта == head, "Gpub")
    phase = "atomic"
    return try withoutActuallyEscaping(check) { verify in
     var points = ТочкиАтомарнойЗаменыStop()
     points.передRename = {
      try verify()
      let (_, _, _, конечнаяПривязка) = try publicationInputs(path, sha)
-     try исходнаяПривязка.подтвердить()
-     try свежаяПривязка.подтвердить()
-     try конечнаяПривязка.подтвердить()
-     try need(конечнаяПривязка.идентификаторОбъекта == head, "Gpub2")
+     try исходнаяПривязка?.подтвердить()
+     try свежаяПривязка?.подтвердить()
+     try конечнаяПривязка?.подтвердить()
+     try need(конечнаяПривязка?.идентификаторОбъекта == head, "Gpub2")
     }
     return try AB.записать(fresh.current.path, ожидаемыйSHA256: fresh.expectedSHA256,
      новыми: candidate, точки: points)
@@ -1501,6 +1532,7 @@ static func конфигурацияВКонтексте(_ argv: [String], host:
 }
 public static func команда(_ args: [String]) -> Int32 {
  do {
+ if args.first == "--передать-вход-издателя" { return try опубликоватьВходИздателя(Array(args.dropFirst())) }
  if args.first == "--опубликовать-допуск-v4" { return ОбщаяПубликацияДопускаStopV4.выполнитьКоманду(Array(args.dropFirst())) }
  if args.first == "--опубликовать-текущий" { return try publish(Array(args.dropFirst())) }
  return выполнитьКомандуКонфигурации(args, host: nil, points: ТочкиКонфигурацииStop(), emit: emit)
@@ -3083,4 +3115,454 @@ enum ОтказКомандыStop: String, Error {
         } catch { return вывестиОтказCLI("проверка") }
     }
 
+}
+
+// Lifecycle рабочего издателя не создаёт финальную диспозицию и не продлевает
+// подтверждение содержания. ROOT выдаёт отдельную конечную аренду входа.
+final class СостояниеИздателяСтоп {
+    var последнийХэш: String?
+    var ревизия: Int64 = 0
+    var завершён = false
+    var ошибка: String?
+    fileprivate var замок: УдерживаемыйЗамокСтоп?
+    fileprivate var хэшЗапросаИздателя: String?
+    fileprivate var хэшВходаИздателя: String?
+    fileprivate var последниеЧасы: Int64?
+    fileprivate var времяНачала: Int64?
+    fileprivate var намерениеСохранено = false
+    fileprivate var номерШага = 0
+    fileprivate var конечныйСтатус: String?
+    fileprivate var конечныйХэш: String?
+}
+struct ИтогПоддержанияСтоп: Sendable {
+    let статус: String
+    let наблюдаемыйSHA256: String?
+}
+private struct ЗапросИздателяСтоп: Decodable {
+    let schema, runID: String
+    let header: Pin
+    let current: CPin
+    let singleton: СсылкаЗамкаStop
+    let input: ПутьВходаИздателяСтоп
+    let initialCurrentSHA256, requiredUnknownID, headPolicy: String
+    let intervalSeconds, ttlSeconds, maxTicks, maxRunSeconds: Int
+}
+private struct ПутьВходаИздателяСтоп: Decodable {
+    let path: String
+    let mode: UInt32
+    let maxBytes: Int
+}
+private struct ВходИздателяСтоп: Decodable {
+    let schema, root, node, scope, generation, headerSHA256: String
+    let revision, approvedAt, validUntil: Int64
+    let action, reason: String
+    let payload: Pin?
+}
+private struct ПубликацияВходаИздателяСтоп: Decodable {
+    let schema: String
+    let request, candidate: Pin
+    let initiallyAbsent: Bool
+    let expectedSHA256: String?
+}
+private struct УсловияВходаИздателяСтоп: Decodable {
+    let свояОбласть, естьПолномочия, неизвестныйОпасныйЭффект: Bool
+    let естьНакопленноеПродвижение, можноБезопасноПродолжать, доступнаНезависимаяРабота: Bool
+    let локальнаяИсправимаяПроблема, остановкаЗадачи, естьБезопасныйСледующийШаг: Bool
+}
+extension УстановщикStop {
+    private static func завершитьИздателя(_ state: СостояниеИздателяСтоп, _ status: String,
+        _ sha: String? = nil) -> ИтогПоддержанияСтоп {
+        state.завершён = true; state.конечныйСтатус = status; state.конечныйХэш = sha
+        state.замок?.закрыть(); state.замок = nil
+        return ИтогПоддержанияСтоп(статус: status, наблюдаемыйSHA256: sha)
+    }
+    private static func прочитатьЗапросИздателя(_ path: String, _ sha: String) throws -> (ЗапросИздателяСтоп, H) {
+        try need(abs(path) && hex(sha, 64), "MR0")
+        let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+        try need(raw.sha256 == sha, "MR1", path)
+        let p = try dec(ЗапросИздателяСтоп.self, raw.данные)
+        let h = try dec(H.self, read(p.header, 0o400, 32_768).данные)
+        try need(p.schema == "fum.stop-maintainer-request.1" && uuid(p.runID)
+            && token(p.requiredUnknownID) && ["strict", "observe-with-unknown"].contains(p.headPolicy)
+            && (1...300).contains(p.intervalSeconds) && p.ttlSeconds >= p.intervalSeconds * 2
+            && p.ttlSeconds <= h.максимальныйВозрастСекунд
+            && (1...1_000_000).contains(p.maxTicks) && (1...86_400).contains(p.maxRunSeconds), "MR2")
+        try need(h.схема == "fum.stop-заголовок.2" && uuid(h.задача) && token(h.узел)
+            && token(h.область) && token(h.поколение) && ref(h.ref) && hex(h.исходники, 40)
+            && h.backend == "files" && h.objectFormat == "sha1"
+            && (1...3600).contains(h.максимальныйВозрастСекунд)
+            && [h.cwd, h.дерево, h.gitDir, h.commonGitDir, h.состояние, h.каталогКвитанций].allSatisfy(abs), "MH0")
+        try need(p.current.path == h.состояние && p.current.mode == 0o600
+            && (1...32_768).contains(p.current.maxBytes)
+            && p.current.lock.path == h.состояние + ".lock"
+            && p.singleton.path == h.состояние + ".producer.lock"
+            && p.input.path == h.состояние + ".producer-input.json" && p.input.mode == 0o600
+            && (1...65_536).contains(p.input.maxBytes) && hex(p.initialCurrentSHA256, 64), "MR3")
+        return (p, h)
+    }
+    private static func проверитьСвязанныйКонверт(_ bytes: Data, _ h: H, _ headerSHA: String) throws -> Envelope {
+        let схемаКонверта: String
+        switch h.схема {
+        case "fum.stop-заголовок.2": схемаКонверта = "fum.текущие-обязательства-stop.2"
+        case "fum.stop-заголовок.3": схемаКонверта = "fum.текущие-обязательства-stop.3"
+        default: throw E("ME0")
+        }
+        let e = try dec(Envelope.self, bytes)
+        try need(e.схема == схемаКонверта && e.заголовокSHA256 == headerSHA
+            && e.задача == h.задача && e.узел == h.узел && e.область == h.область
+            && e.поколение == h.поколение && text(e.управление.основание)
+            && ["продолжать", "стоп", "пауза"].contains(e.управление.действие), "ME0")
+        return e
+    }
+    private static func прочитатьВходИздателя(_ p: ЗапросИздателяСтоп, _ h: H)
+        throws -> (ВходИздателяСтоп, СнимокБайтовStop) {
+        let raw = try AB.прочитать(p.input.path, ожидаемыйРежим: 0o600, предел: p.input.maxBytes)
+        return (try декодироватьВходИздателя(raw.данные, p, h), raw)
+    }
+    private static func декодироватьВходИздателя(_ bytes: Data, _ p: ЗапросИздателяСтоп, _ h: H) throws -> ВходИздателяСтоп {
+        let v = try dec(ВходИздателяСтоп.self, bytes)
+        try need(v.schema == "fum.stop-maintainer-input.1" && v.root == h.задача
+            && v.node == h.узел && v.scope == h.область && v.generation == h.поколение
+            && v.headerSHA256 == p.header.sha256 && v.revision >= 0 && text(v.reason)
+            && ["обновлять", "остановить-издатель", "стоп", "пауза"].contains(v.action), "MI0")
+        return v
+    }
+    private static func сформироватьРабочийСнимок(_ p: ЗапросИздателяСтоп, _ h: H,
+        _ v: ВходИздателяСтоп, inputSHA: String, requestSHA: String, head: String, now: Int64) throws -> Data {
+        guard let pin = v.payload else { throw E("MIpayload") }
+        let raw = try read(pin, 0o600, p.current.maxBytes)
+        let e = try проверитьСвязанныйКонверт(raw.данные, h, p.header.sha256)
+        let m = try dec(Meta.self, raw.данные)
+        try need(e.управление.действие == "продолжать" && m.cwd == h.cwd && m.дерево == h.дерево
+            && m.ref == h.ref && hex(m.HEAD, 40), "MIpayloadMeta")
+        guard var object = try JSONSerialization.jsonObject(with: raw.данные) as? [String: Any],
+            let points = object["пункты"] as? [[String: Any]], (1...127).contains(points.count),
+            var unknown = object["неизвестныеНамерения"] as? [String], unknown.count <= 127,
+            Set(unknown).count == unknown.count, unknown.allSatisfy(token),
+            unknown.contains(p.requiredUnknownID),
+            points.contains(where: { $0["id"] as? String == p.requiredUnknownID
+                && $0["область"] as? String == h.область && $0["состояние"] as? String == "блокирован" }),
+            object["диспозиция"] == nil,
+            let observations = object["наблюдения"] as? [String: Any],
+            observations["схема"] as? String == "fum.stop-наблюдения.1",
+            observations["задача"] as? String == h.задача, observations["узел"] as? String == h.узел,
+            let следующаяРабота = observations["следующаяРабота"] as? String,
+            следующаяРабота.isEmpty || text(следующаяРабота),
+            let conditions = observations["условия"] as? [String: Any]
+        else { throw E("MIworkingOnly") }
+        // JSONDecoder Bool отвергает числовые 0/1, которые NSNumber может
+        // неявно представить как Bool при чтении JSONSerialization.
+        let проверенныеУсловия = try dec(УсловияВходаИздателяСтоп.self,
+            JSONSerialization.data(withJSONObject: conditions))
+        try need(!проверенныеУсловия.остановкаЗадачи, "MIworkingOnly")
+        var ids: Set<String> = []
+        for point in points {
+            guard let id = point["id"] as? String, token(id), ids.insert(id).inserted,
+                let scope = point["область"] as? String, token(scope),
+                let state = point["состояние"] as? String,
+                ["доступен", "ожидает-ребёнка", "доставлен", "закрыт", "блокирован", "неактивен"].contains(state),
+                let level = point["уровень"] as? String, ["исходники", "native"].contains(level),
+                let basis = point["основание"] as? String, text(basis),
+                scope == h.область || ["закрыт", "неактивен"].contains(state)
+            else { throw E("MIpoint") }
+        }
+        if head != m.HEAD {
+            try need(p.headPolicy == "observe-with-unknown", "MHEAD")
+            if !unknown.contains("root-head-after-approved-input") { unknown.append("root-head-after-approved-input") }
+        }
+        object["HEAD"] = head; object["выпущен"] = now
+        object["действуетДо"] = min(now + Int64(p.ttlSeconds), v.validUntil)
+        object["неизвестныеНамерения"] = unknown
+        object["поддержание"] = ["ревизия": v.revision, "входSHA256": inputSHA,
+            "requestSHA256": requestSHA, "исходныйPayloadSHA256": pin.sha256,
+            "подтвержденоВ": v.approvedAt, "подтвержденоДо": v.validUntil,
+            "исходныйHEAD": m.HEAD, "наблюдавшийсяHEAD": head,
+            "полнота": "UNKNOWN"] as [String: Any]
+        var bytes = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys, .withoutEscapingSlashes])
+        bytes.append(10)
+        try need(bytes.count <= p.current.maxBytes, "Msize")
+        _ = try currentBytes(bytes, AB.sha256(bytes), h, p.header.sha256, head, clock: now)
+        return bytes
+    }
+    private static func прочитатьПубликациюВхода(_ path: String, _ sha: String)
+        throws -> (ПубликацияВходаИздателяСтоп, ЗапросИздателяСтоп, H, СнимокБайтовStop, ВходИздателяСтоп) {
+        try need(abs(path) && hex(sha, 64), "MP0")
+        let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+        try need(raw.sha256 == sha, "MP1")
+        let plan = try dec(ПубликацияВходаИздателяСтоп.self, raw.данные)
+        try need(plan.schema == "fum.stop-maintainer-input-publication.1"
+            && (plan.initiallyAbsent ? plan.expectedSHA256 == nil : hex(plan.expectedSHA256 ?? "", 64)), "MP2")
+        _ = try read(plan.request, 0o600, 65_536)
+        let (p, h) = try прочитатьЗапросИздателя(plan.request.path, plan.request.sha256)
+        let candidate = try read(plan.candidate, 0o600, p.input.maxBytes)
+        let v = try декодироватьВходИздателя(candidate.данные, p, h)
+        if v.action == "обновлять" {
+            let now = Int64(Date().timeIntervalSince1970)
+            try need(v.revision >= 1 && v.approvedAt >= 0 && v.approvedAt <= now
+                && v.approvedAt <= Int64.max - 86_400 && v.validUntil > now
+                && v.validUntil - v.approvedAt <= 86_400, "MPlease")
+            guard let pin = v.payload else { throw E("MPpayload") }
+            let payload = try read(pin, 0o600, p.current.maxBytes)
+            let meta = try dec(Meta.self, payload.данные)
+            _ = try сформироватьРабочийСнимок(p, h, v, inputSHA: candidate.sha256,
+                requestSHA: plan.request.sha256, head: meta.HEAD, now: now)
+        }
+        return (plan, p, h, candidate, v)
+    }
+    private static func опубликоватьВходИздателя(_ argv: [String]) throws -> Int32 {
+        let (path, sha, mode) = try args(argv)
+        let (_, initial, _, _, _) = try прочитатьПубликациюВхода(path, sha)
+        return try ЗамокТекущегоStop.выполнить(initial.current.lock) { check in
+            let (plan, p, _, candidate, v) = try прочитатьПубликациюВхода(path, sha)
+            if case .apply(let value) = mode { try need(value == candidate.sha256, "MPcandidate") }
+            if plan.initiallyAbsent {
+                var s = Darwin.stat()
+                try need(lstat(p.input.path, &s) != 0 && errno == ENOENT, "MPabsent")
+            } else {
+                let old = try AB.прочитать(p.input.path, ожидаемыйРежим: 0o600, предел: p.input.maxBytes)
+                try need(old.sha256 == plan.expectedSHA256, "MPold")
+                let прежняяРевизияВхода = try dec(ВходИздателяСтоп.self, old.данные)
+                try need(v.revision > прежняяРевизияВхода.revision, "MPrev")
+            }
+            var common: [String: Any] = ["operation": "publish-maintainer-input", "planSHA256": sha,
+                "requestSHA256": plan.request.sha256, "candidateSHA256": candidate.sha256,
+                "revision": v.revision, "authorityChecked": false, "worklistCompleteness": "UNKNOWN",
+                "automaticRetry": false, "automaticRollback": false]
+            if case .check = mode {
+                common["status"] = "METADATA_CHECKED"; common["writes"] = 0; emit(common); return 0
+            }
+            // Обычный busy уже обработан до резервирования стабильного намерения.
+            let путиКвитанцийИздателя = try receiptPaths(config: p.input.path,
+                oldSHA: plan.expectedSHA256 ?? AB.sha256(Data("ABSENT".utf8)),
+                candidateSHA: candidate.sha256, publication: true)
+            common["intentReceipt"] = путиКвитанцийИздателя.intent; common["outcomeReceipt"] = путиКвитанцийИздателя.outcome
+            var intent = common; intent["status"] = "INTENT"
+            try receipt(путиКвитанцийИздателя.intent, intent)
+            var code: Int32 = 2
+            do {
+                let result = try withoutActuallyEscaping(check) { verify in
+                    var points = ТочкиАтомарнойЗаменыStop()
+                    points.передRename = { try verify(); _ = try прочитатьПубликациюВхода(path, sha) }
+                    return try AB.записать(p.input.path, ожидаемыйSHA256: plan.expectedSHA256,
+                        новыми: candidate.данные, точки: points)
+                }
+                common["status"] = "INPUT_PUBLISHED"; common["boundary"] = "afterRename"
+                common["observedInputSHA256"] = result.sha256; code = 0
+            } catch let e as ОтказАтомарнойЗаменыStop {
+                let unknown = e.граница == .послеRename || e.оставленныйВременныйФайл != nil
+                common["status"] = unknown ? "UNKNOWN" : "FAILED"
+                common["boundary"] = e.граница.rawValue; common["phase"] = e.фаза
+                common["error"] = e.причина; code = unknown ? 4 : 2
+                if let seen = e.наблюдаемыйSHA256 { common["observedInputSHA256"] = seen }
+            } catch { common["status"] = "UNKNOWN"; common["error"] = String(describing: error); code = 4 }
+            do { try receipt(путиКвитанцийИздателя.outcome, common) } catch {
+                common["status"] = "UNKNOWN"; common["receiptError"] = String(describing: error); code = 5
+            }
+            emit(common); return code
+        }
+    }
+    static func шагПоддержания(_ путь: String, хэш: String,
+        состояние: СостояниеИздателяСтоп, сейчас: Int64,
+        точки: ТочкиАтомарнойЗаменыStop = ТочкиАтомарнойЗаменыStop(),
+        часыПередRename: @escaping () throws -> Int64 = { Int64(Date().timeIntervalSince1970) }) throws -> ИтогПоддержанияСтоп {
+        let state = состояние
+        if state.завершён { return ИтогПоддержанияСтоп(статус: state.конечныйСтатус ?? "STOPPED", наблюдаемыйSHA256: state.конечныйХэш) }
+        do {
+            let (p, h) = try прочитатьЗапросИздателя(путь, хэш)
+            try need(сейчас >= 0 && сейчас <= Int64.max - 86_400, "Mclock")
+            if let requestSHA = state.хэшЗапросаИздателя, requestSHA != хэш { return завершитьИздателя(state, "REQUEST_CHANGED") }
+            if state.замок == nil {
+                do { state.замок = try УдерживаемыйЗамокСтоп.открыть(p.singleton) }
+                catch let e as E where e.description.hasPrefix("Lbusy:") { return завершитьИздателя(state, "SINGLETON_BUSY") }
+            }
+            state.хэшЗапросаИздателя = хэш
+            if state.времяНачала == nil { state.времяНачала = сейчас }
+            return try ЗамокТекущегоStop.выполнить(p.current.lock) { checkLock in
+                try state.замок?.проверить(); _ = try прочитатьЗапросИздателя(путь, хэш)
+                let old = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
+                let прежнийКонверт = try проверитьСвязанныйКонверт(old.данные, h, p.header.sha256)
+                if прежнийКонверт.управление.действие != "продолжать" { return завершитьИздателя(state, "ROOT_CONTROL", old.sha256) }
+                let основаПопыткиИздателя = try parent(p.current.path) + "/.fum-stop-maintainer-" + хэш
+                let путьПопыткиИздателя = основаПопыткиИздателя + ".attempt.json"
+                if !state.намерениеСохранено {
+                    var s = Darwin.stat()
+                    if lstat(путьПопыткиИздателя, &s) == 0 { return завершитьИздателя(state, "RECOVERY_REQUIRED", old.sha256) }
+                    try need(errno == ENOENT, "Mattempt")
+                }
+                if old.sha256 != (state.последнийХэш ?? p.initialCurrentSHA256) {
+                    return завершитьИздателя(state, "MANUAL_TAKEOVER", old.sha256)
+                }
+                let (input, inputRaw) = try прочитатьВходИздателя(p, h)
+                if input.action == "остановить-издатель" { return завершитьИздателя(state, "SERVICE_STOPPED", old.sha256) }
+                if input.action == "обновлять" {
+                    if let prior = state.последниеЧасы, сейчас < prior { return завершитьИздателя(state, "CLOCK_REGRESSION", old.sha256) }
+                    if input.revision < state.ревизия { return завершитьИздателя(state, "INPUT_REVISION_ROLLBACK", old.sha256) }
+                    if let prior = state.хэшВходаИздателя, input.revision == state.ревизия && prior != inputRaw.sha256 {
+                        return завершитьИздателя(state, "INPUT_REVISION_REUSED", old.sha256)
+                    }
+                    try need(input.revision >= 1 && input.approvedAt >= 0 && input.approvedAt <= сейчас
+                        && input.approvedAt <= Int64.max - 86_400
+                        && input.validUntil >= input.approvedAt && input.validUntil - input.approvedAt <= 86_400, "MIlease")
+                    if input.validUntil <= сейчас { return завершитьИздателя(state, "SOURCE_EXPIRED", old.sha256) }
+                    if state.номерШага >= p.maxTicks || сейчас - (state.времяНачала ?? сейчас) >= Int64(p.maxRunSeconds) {
+                        return завершитьИздателя(state, "RUN_LIMIT", old.sha256)
+                    }
+                }
+                state.последниеЧасы = сейчас
+                let candidate: Data
+                var observedHead: String?
+                let исходнаяПривязка: СнимокФайловойСсылки?
+                if ["стоп", "пауза"].contains(input.action) {
+                    исходнаяПривязка = nil
+                    let object: [String: Any] = ["схема": "fum.текущие-обязательства-stop.2",
+                        "заголовокSHA256": p.header.sha256, "задача": h.задача, "узел": h.узел,
+                        "область": h.область, "поколение": h.поколение,
+                        "управление": ["действие": input.action, "основание": input.reason]]
+                    var bytes = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys, .withoutEscapingSlashes])
+                    bytes.append(10); candidate = bytes
+                } else {
+                    let снимок = try снимокПривязкиСсылки(h)
+                    исходнаяПривязка = снимок
+                    let head = снимок.идентификаторОбъекта; observedHead = head
+                    if p.headPolicy == "strict", let pin = input.payload {
+                        let raw = try read(pin, 0o600, p.current.maxBytes)
+                        let meta = try dec(Meta.self, raw.данные)
+                        if head != meta.HEAD { return завершитьИздателя(state, "HEAD_CHANGED", old.sha256) }
+                    }
+                    candidate = try сформироватьРабочийСнимок(p, h, input, inputSHA: inputRaw.sha256,
+                        requestSHA: хэш, head: head, now: сейчас)
+                }
+                if candidate == old.данные {
+                    state.ревизия = input.revision; state.хэшВходаИздателя = inputRaw.sha256
+                    state.последнийХэш = old.sha256
+                    return ИтогПоддержанияСтоп(статус: "NO_CHANGE", наблюдаемыйSHA256: old.sha256)
+                }
+                if !state.намерениеСохранено {
+                    try receipt(путьПопыткиИздателя, ["schema": "fum.stop-maintainer-attempt.1", "requestSHA256": хэш,
+                        "runID": p.runID, "root": h.задача, "inputSHA256": inputRaw.sha256,
+                        "expectedCurrentSHA256": old.sha256, "status": "INTENT", "automaticRetry": false])
+                    state.намерениеСохранено = true
+                }
+                state.номерШага += 1
+                let основаКвитанцииШага = основаПопыткиИздателя + ".tick-" + String(format: "%08d", state.номерШага)
+                let путьНамеренияШага = основаКвитанцииШага + ".intent.json", outcomePath = основаКвитанцииШага + ".outcome.json"
+                var outcome: [String: Any] = ["requestSHA256": хэш, "inputSHA256": inputRaw.sha256,
+                    "revision": input.revision, "tick": state.номерШага, "expectedCurrentSHA256": old.sha256,
+                    "candidateSHA256": AB.sha256(candidate), "automaticRetry": false, "automaticRollback": false]
+                var intent = outcome; intent["status"] = "INTENT"
+                try receipt(путьНамеренияШага, intent)
+                var observed: String?, status = "FAILED", terminal = false
+                do {
+                    let result = try withoutActuallyEscaping(checkLock) { verify in
+                        var points = точки
+                        let проверкаВызывающего = points.передRename
+                        points.передRename = {
+                            try проверкаВызывающего?(); try verify(); try state.замок?.проверить()
+                            _ = try прочитатьЗапросИздателя(путь, хэш)
+                            let (_, latestInput) = try прочитатьВходИздателя(p, h)
+                            try need(latestInput.sha256 == inputRaw.sha256, "MIchanged")
+                            let latestCurrent = try AB.прочитать(p.current.path, ожидаемыйРежим: 0o600, предел: p.current.maxBytes)
+                            try need(latestCurrent.sha256 == old.sha256, "MCchanged")
+                            if let observedHead {
+                                let конечнаяПривязка = try снимокПривязкиСсылки(h)
+                                try need(конечнаяПривязка.идентификаторОбъекта == observedHead, "MGchanged")
+                                try исходнаяПривязка?.подтвердить()
+                                try конечнаяПривязка.подтвердить()
+                                let проверенноеВремя = try часыПередRename()
+                                try need(проверенноеВремя >= сейчас && проверенноеВремя <= Int64.max - 86_400,
+                                    "MclockBeforeRename")
+                                let метаданные = try dec(Meta.self, candidate)
+                                try need(input.validUntil > проверенноеВремя && метаданные.действуетДо > проверенноеВремя,
+                                    "MleaseBeforeRename")
+                                _ = try currentBytes(candidate, AB.sha256(candidate), h,
+                                    p.header.sha256, observedHead, clock: проверенноеВремя)
+                            }
+                        }
+                        try исходнаяПривязка?.подтвердить()
+                        return try AB.заменить(p.current.path, ожидаемыйSHA256: old.sha256, новыми: candidate, точки: points)
+                    }
+                    observed = result.sha256; status = "UPDATED"
+                } catch let e as ОтказАтомарнойЗаменыStop {
+                    observed = e.наблюдаемыйSHA256
+                    terminal = true
+                    status = e.граница == .послеRename || e.оставленныйВременныйФайл != nil ? "UNKNOWN" : "FAILED"
+                    state.ошибка = e.причина
+                    if e.граница == .доRename && e.оставленныйВременныйФайл == nil
+                        && e.фаза == "перед-rename" && e.причина == "MGchanged"
+                        && p.headPolicy == "observe-with-unknown" {
+                        // Проверенный отказ до эффекта: следующий tick — новый снимок
+                        // разрешённого ref, а не повтор неизвестной операции.
+                        status = "HEAD_RECHECK"; terminal = false
+                    }
+                    outcome["phase"] = e.фаза; outcome["error"] = e.причина
+                    if let path = e.оставленныйВременныйФайл { outcome["temporaryPath"] = path }
+                } catch {
+                    terminal = true; status = "UNKNOWN"; outcome["error"] = String(describing: error)
+                }
+                outcome["status"] = status
+                if let observed { outcome["observedCurrentSHA256"] = observed }
+                do { try receipt(outcomePath, outcome) } catch {
+                    return завершитьИздателя(state, "UNKNOWN", observed)
+                }
+                if terminal { return завершитьИздателя(state, status, observed) }
+                if status == "HEAD_RECHECK" {
+                    return ИтогПоддержанияСтоп(статус: status, наблюдаемыйSHA256: old.sha256)
+                }
+                state.последнийХэш = observed; state.ревизия = input.revision; state.хэшВходаИздателя = inputRaw.sha256
+                if ["стоп", "пауза"].contains(input.action) { return завершитьИздателя(state, "ROOT_CONTROL_PUBLISHED", observed) }
+                return ИтогПоддержанияСтоп(статус: "UPDATED", наблюдаемыйSHA256: observed)
+            }
+        } catch let e as E where e.description.hasPrefix("Lbusy:") {
+            return ИтогПоддержанияСтоп(статус: "CURRENT_BUSY", наблюдаемыйSHA256: state.последнийХэш)
+        } catch {
+            state.ошибка = String(describing: error)
+            return завершитьИздателя(state, "FAILED", state.последнийХэш)
+        }
+    }
+    public static func поддерживатьТекущий(_ аргументы: [String]) async -> Int32 {
+        let state = СостояниеИздателяСтоп()
+        do {
+            try need(аргументы.count == 4 && аргументы[0] == "--план"
+                && аргументы[2] == "--хэш-плана", "MA0")
+            let path = аргументы[1], sha = аргументы[3]
+            let (p, _) = try прочитатьЗапросИздателя(path, sha)
+            let clock = ContinuousClock(), began = clock.now
+            var busySince: ContinuousClock.Instant?
+            emit(["status": "STARTING", "requestSHA256": sha,
+                "authorityChecked": false, "worklistCompleteness": "UNKNOWN"])
+            while !state.завершён {
+                if Task.isCancelled { _ = завершитьИздателя(state, "SERVICE_CANCELLED", state.последнийХэш); break }
+                if began.duration(to: clock.now).components.seconds >= Int64(p.maxRunSeconds) {
+                    _ = завершитьИздателя(state, "RUN_LIMIT", state.последнийХэш); break
+                }
+                let now = Int64(Date().timeIntervalSince1970)
+                let result = try шагПоддержания(path, хэш: sha, состояние: state, сейчас: now)
+                if result.статус == "CURRENT_BUSY" {
+                    if busySince == nil { busySince = clock.now }
+                    if let busySince, busySince.duration(to: clock.now).components.seconds >= Int64(min(5, p.intervalSeconds)) {
+                        _ = завершитьИздателя(state, "CURRENT_BUSY_TIMEOUT", state.последнийХэш); break
+                    }
+                    try await Task.sleep(for: .milliseconds(100))
+                    continue
+                }
+                busySince = nil
+                if state.номерШага >= p.maxTicks, !state.завершён {
+                    _ = завершитьИздателя(state, "RUN_LIMIT", state.последнийХэш)
+                }
+                if !state.завершён { try await Task.sleep(for: .seconds(p.intervalSeconds)) }
+            }
+            var outcome: [String: Any] = ["status": state.конечныйСтатус ?? "STOPPED", "requestSHA256": sha,
+                "ticks": state.номерШага, "revision": state.ревизия, "automaticRetry": false,
+                "worklistCompleteness": "UNKNOWN", "sourceLeaseRenewedByTimer": false]
+            if let seen = state.конечныйХэш ?? state.последнийХэш { outcome["observedCurrentSHA256"] = seen }
+            if let error = state.ошибка { outcome["error"] = error }
+            emit(outcome)
+            return ["SERVICE_STOPPED", "SERVICE_CANCELLED", "ROOT_CONTROL", "ROOT_CONTROL_PUBLISHED",
+                "MANUAL_TAKEOVER", "RUN_LIMIT"].contains(state.конечныйСтатус ?? "") ? 0 : 3
+        } catch {
+            _ = завершитьИздателя(state, "UNKNOWN", state.последнийХэш)
+            emit(["status": "UNKNOWN", "error": String(describing: error), "automaticRetry": false])
+            return 4
+        }
+    }
 }
