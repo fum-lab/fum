@@ -145,6 +145,13 @@
       "gitDiffCheck": "git diff --check exit 0; jq empty обоих JSON-планов exit 0 после обновления отчёта и плана.",
       "reviewLimit": "Обзор статический и сам по себе не измеряет wall-clock порядок."
     },
+    "sourceCheckpoint": {
+      "commit": "5267e417d096bdd505f7d6067be22adbd5d8ccb7",
+      "tree": "26ab18aa38bc9d5e5a3250c32b48b97b52e7ad2f",
+      "parent": "a17138ff4069a89a2daa5875602219bdb92becc5",
+      "originReadback": "5267e417d096bdd505f7d6067be22adbd5d8ccb7",
+      "ordinaryExactPush": true
+    },
     "nextAuthorizedWorkItem": {
       "schema": "runtime-continuation-existing-cycle-factory-work-order-v1",
       "bytes": 4496,
@@ -153,6 +160,6 @@
       "requiredLinkage": "В последующей поставке подтвердить связь work item, owner и остатка.",
       "limits": "Новый runtime и Native activation не разрешены."
     },
-    "status": "Implementation и bounded independent SOURCEACK завершены; повторить точные diff/JSON/static readbacks перед fresh attribution и add-only commit от base. После него нужны raw object/tree/path readback, обычный точный push и независимый ls-remote. Continuation work order применять только после доставки и закрытия correction stage."
+    "status": "Source checkpoint 5267e417d096bdd505f7d6067be22adbd5d8ccb7 доставлен; независимый ls-remote совпал. Осталась add-only closure собственных отчёта/планов, после которой continuation work order читается как следующий вход собственного плана. ROOT acceptance, compiler/tests, runtime и Native activation отсутствуют."
   }
 }

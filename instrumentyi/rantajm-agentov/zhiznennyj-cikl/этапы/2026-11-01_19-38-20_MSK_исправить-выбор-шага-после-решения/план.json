@@ -68,6 +68,14 @@
     {"path": "iskhodniki/zapusk/Команда.swift", "bytes": 23646, "sha256": "b9ea1793dce6839a8cd9baad7a44d16c88d9b48b80cd5f0a2530eeedfeb1a73d", "unchanged": true},
     {"path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift", "bytes": 32030, "sha256": "0fdad56292dd4a0ec5dae989f00fb579a79a63a4dfc05ebc5780d266145355d9"}
   ],
+  "sourceCheckpoint": {
+    "commit": "5267e417d096bdd505f7d6067be22adbd5d8ccb7",
+    "tree": "26ab18aa38bc9d5e5a3250c32b48b97b52e7ad2f",
+    "parent": "a17138ff4069a89a2daa5875602219bdb92becc5",
+    "author": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+    "committer": "FUM <fum@local>",
+    "originReadback": "5267e417d096bdd505f7d6067be22adbd5d8ccb7"
+  },
   "nextAuthorizedWorkItem": {
     "schema": "runtime-continuation-existing-cycle-factory-work-order-v1",
     "bytes": 4496,
@@ -76,5 +84,5 @@
     "preserve": "В очередной поставке подтвердить связь work item, owner и остатка.",
     "boundary": "Не разрешает новый runtime или Native activation."
   },
-  "status": "Implementation и bounded independent SOURCEACK завершены; перед commit повторить точные diff/JSON/static readbacks, затем получить fresh attribution, add-only commit от base, raw object/tree/path readback, обычный точный push и независимый ls-remote. Следующий continuation work order применять только после закрытия correction этапа."
+  "status": "Source checkpoint 5267e417d096bdd505f7d6067be22adbd5d8ccb7 доставлен обычным точным push; независимый ls-remote совпал. Осталась add-only closure правка собственных отчёта/планов, затем читать continuation work order как следующий вход собственного плана. ROOT acceptance, compiler/tests, runtime и Native activation отсутствуют."
 }
