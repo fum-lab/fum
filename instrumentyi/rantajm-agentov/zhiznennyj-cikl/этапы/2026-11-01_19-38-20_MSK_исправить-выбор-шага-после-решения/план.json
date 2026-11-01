@@ -1,0 +1,80 @@
+{
+  "schema": "fum.addressed-cycle-source-correction.1",
+  "stage": "2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения",
+  "ACT": {
+    "sha256": "3a7a0b14603cb6130bc279c0a80906b71fe06698820c1c83b4055ecf744d0f9a",
+    "bytes": 5794,
+    "locator": "Хранится вне Git; здесь только digest."
+  },
+  "source": {
+    "base": "a17138ff4069a89a2daa5875602219bdb92becc5",
+    "tree": "f62b28bc70de483888f287f404e6a67066a6ebb3",
+    "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+    "AGENTSSHA256": "5f98f654caf5ae9d66a148fd25914caa683e21a9d89724817f0f3fe56df567d2",
+    "Package.swift": {"bytes": 5474, "sha256": "0432126b3d1fc613614044deb53c27808e2a3a9c4892852a6ef96ee07f2ba3f0", "change": false}
+  },
+  "rootInstruction": "Исправить адресный ответ существующего ЦиклЗапуска: подтвердить сохранение и readback до решения родителя, выбирать следующий разрешённый шаг только когда это требует решение; переиспользовать общий внутренний Segment write/reopen путь старого и нового caller. Сохранить неизвестные исходы и опубликованную историю, не запускать Native transport.",
+  "sourcePaths": [
+    {"path": "iskhodniki/perekhod-vetok/uzlyi/sobstvennyj-rabochij-spisok.swift", "bytes": 26252, "preimageSHA256": "dfc9cbf1266026aecefbf57b6a03bf3e8b821213841777ee5cd91a5f5732c269"},
+    {"path": "iskhodniki/zapusk/ЦиклЗапуска.swift", "bytes": 21637, "preimageSHA256": "85bd35e54cd7563aff4f3ae8929f1f34b334b392de9aac32fed7974c2d286c15"},
+    {"path": "iskhodniki/zapusk/Команда.swift", "bytes": 23646, "preimageSHA256": "b9ea1793dce6839a8cd9baad7a44d16c88d9b48b80cd5f0a2530eeedfeb1a73d"},
+    {"path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift", "bytes": 28433, "preimageSHA256": "df4b01deaaaa53a1d2b1dd1100e0b987229e11a0326209639c65bfcefdece612"}
+  ],
+  "ownPaths": [
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/память.md",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения/запрос.md",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения/отчёт.md",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/этапы/2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения/план.json"
+  ],
+  "rootInstructionLiteralForNextCommit": true,
+  "implementation": [
+    "Отделить typed exact readback confirmation от mandatory allowed next step.",
+    "Сохранить старый API как совместимую обёртку над confirmation и прежним next-step выбором.",
+    "В addressed caller вызвать существующее parent decision только после durable save/readback; выбирать next step только если оно требуется решением.",
+    "Использовать один internal Segment write/close/reopen/exact-readback метод старым и новым caller; сохранить idempotent exact repeat и стадии записи.",
+    "Добавить public-caller fixtures: queued, running, unknown без allowed step; подтверждённое сохранение до решения; запрет результата до durable confirmation; exact repeat; fsync UNKNOWN.",
+    "CLI оставить неизменным; не утверждать неподтверждённый прежний overflow."
+  ],
+  "retainedPythonIncident": {
+    "receipt": {"thread": "01a195e5-70bf-7a81-920f-d15df36fc90a", "turn": "01a197ab-53d7-7d91-8372-44404b1f5d06", "item": "exec-e35f7477-ba9f-4622-b3e4-208ebd27e202"},
+    "exitCode": 0,
+    "effect": "Успешная одно-строчная замена в предыдущем разрешённом Журнале; последующие diff/jq/rg shell-команды дали общий exit 0.",
+    "currentTargetPostimage": {"relativePath": "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_18-11-59_MSK_подключить-адресный-ответ/отчёт.md", "bytes": 8566, "sha256": "f70dbfccd4d12c0f2cd8500fafe6bbf7b449e286af569576291861007a10367d"},
+    "immediatePostimageDigest": "NOT_CAPTURED",
+    "authorizedException": false,
+    "replay": false
+  },
+  "attribution": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "max",
+    "thread": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+    "turn": "01a197f9-eeac-7ed2-b533-65e4665489d1",
+    "startedAtUnixMs": 1793551101657,
+    "authority": "Наблюдение requestMeta текущего turn, не backend attestation."
+  },
+  "forbidden": ["Python", "compiler", "SwiftPM", "tests", "CLI", "runtime", "SQL", "Native transport/send/callback", "history rewrite", "Package.swift change", "PутьХранилища change", "new target/storage/Git engine"],
+  "implementationStatus": "Source implementation внесена в worklist, ЦиклЗапуска и существующие проверки; CLI, Package.swift и прочие source paths не менялись.",
+  "verificationStatus": {
+    "compiler": "NOT_RUN по точному профилю",
+    "SwiftTests": "NOT_RUN по точному профилю",
+    "staticDiffReview": "Bounded independent SOURCEACK без блокеров; только статический review по четырём закреплённым source paths.",
+    "diffCheck": "git diff --check exit 0; jq empty обоих JSON-планов exit 0 после последнего обновления отчёта/плана.",
+    "limitations": "Обзор не измеряет wall-clock ordering и не заменяет compiler/tests."
+  },
+  "sourcePostimagePins": [
+    {"path": "iskhodniki/perekhod-vetok/uzlyi/sobstvennyj-rabochij-spisok.swift", "bytes": 27916, "sha256": "05a7c9586df085adf82834fb7ff2de114cb525dad79201766419634b70191c1b"},
+    {"path": "iskhodniki/zapusk/ЦиклЗапуска.swift", "bytes": 25606, "sha256": "5b6cd03b6c97f03f241824ab8913f0f525a70c63343461a1ba36c8fca6342d12"},
+    {"path": "iskhodniki/zapusk/Команда.swift", "bytes": 23646, "sha256": "b9ea1793dce6839a8cd9baad7a44d16c88d9b48b80cd5f0a2530eeedfeb1a73d", "unchanged": true},
+    {"path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift", "bytes": 32030, "sha256": "0fdad56292dd4a0ec5dae989f00fb579a79a63a4dfc05ebc5780d266145355d9"}
+  ],
+  "nextAuthorizedWorkItem": {
+    "schema": "runtime-continuation-existing-cycle-factory-work-order-v1",
+    "bytes": 4496,
+    "sha256": "b380a09a5eb71f06651d377f6545c547df5cdcf9d85ce5a738ee634ac2cd0240",
+    "use": "Следующий вход этого own плана после correction ACT; не расширяет source paths текущего correction.",
+    "preserve": "В очередной поставке подтвердить связь work item, owner и остатка.",
+    "boundary": "Не разрешает новый runtime или Native activation."
+  },
+  "status": "Implementation и bounded independent SOURCEACK завершены; перед commit повторить точные diff/JSON/static readbacks, затем получить fresh attribution, add-only commit от base, raw object/tree/path readback, обычный точный push и независимый ls-remote. Следующий continuation work order применять только после закрытия correction этапа."
+}

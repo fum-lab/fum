@@ -99,5 +99,60 @@
     ],
     "нетТранспорта": "Native transport отсутствует; callback остаётся запрещён descriptor; send/turn UNKNOWN.",
     "проверки": "Compiler/tests/CLI/runtime/Python/SQL NOT_RUN; source-only review only."
+  },
+  "последнийCorrectionЭтап": {
+    "stage": "2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения",
+    "ACTSHA256": "3a7a0b14603cb6130bc279c0a80906b71fe06698820c1c83b4055ecf744d0f9a",
+    "base": "a17138ff4069a89a2daa5875602219bdb92becc5",
+    "tree": "f62b28bc70de483888f287f404e6a67066a6ebb3",
+    "sourcePaths": [
+      "iskhodniki/perekhod-vetok/uzlyi/sobstvennyj-rabochij-spisok.swift",
+      "iskhodniki/zapusk/ЦиклЗапуска.swift",
+      "iskhodniki/zapusk/Команда.swift",
+      "proverki/zapusk/ПроверкиЦиклаЗапуска.swift"
+    ],
+    "ownPaths": [
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/память.md",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения/запрос.md",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/Журнал/2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения/отчёт.md",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/этапы/2026-11-01_19-38-20_MSK_исправить-выбор-шага-после-решения/план.json"
+    ],
+    "политика": "Подтвердить save/readback до parent decision; выбирать next step только когда решатель требует; общий internal Segment path для старого и адресного caller; без Native.",
+    "incidentPython": {
+      "retainedReceipt": "thread/turn/item записаны в Журнале; replay=false",
+      "exitCode": 0,
+      "effect": "Одна строковая правка предыдущего отчёта; точный вызов сохранён в Журнале correction.",
+      "immediatePostimageDigest": "NOT_CAPTURED",
+      "exception": false
+    },
+    "observedAttribution": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "max",
+      "turn_id": "01a197f9-eeac-7ed2-b533-65e4665489d1",
+      "authority": "requestMeta наблюдение, не backend attestation"
+    },
+    "implementation": {
+      "readbackAPI": "Новое ПодтверждениеПереоткрытияРабочегоСписка подтверждает identity, canonical bytes/SHA, descriptor binding и exact worklist без выбора next step; старый API остался wrapper с прежним обязательным выбором разрешённого шага.",
+      "sharedSegmentPath": "Старый ЦиклЗапуска.выполнить и адресный caller используют единый internal save/add/close/reopen/exact-byte+receipt readback; состояние UNKNOWN/confirmed и квитанция сохраняются при соответствующем исходе.",
+      "fixtures": "Добавлены public-caller queued/running/unknown fixtures с единственным недоступным шагом; они проверяют ответ без next ID и затем читают сохранённый конверт из Segment. Существующие exact-repeat и fsync UNKNOWN остаются.",
+      "unchanged": ["Команда.swift", "Package.swift", "ПутьХранилища.подготовить", "CLI", "runtime", "Native"]
+    },
+    "verification": {
+      "compiler": "NOT_RUN по точному профилю",
+      "SwiftTests": "NOT_RUN по точному профилю",
+      "boundedIndependentSourceReview": "SOURCEACK получен без блокеров; read-only по четырём закреплённым source paths, без compiler/tests/CLI/runtime/Python/SQL/Native.",
+      "gitDiffCheck": "git diff --check exit 0; jq empty обоих JSON-планов exit 0 после обновления отчёта и плана.",
+      "reviewLimit": "Обзор статический и сам по себе не измеряет wall-clock порядок."
+    },
+    "nextAuthorizedWorkItem": {
+      "schema": "runtime-continuation-existing-cycle-factory-work-order-v1",
+      "bytes": 4496,
+      "sha256": "b380a09a5eb71f06651d377f6545c547df5cdcf9d85ce5a738ee634ac2cd0240",
+      "sequencing": "Использовать как следующий вход собственного плана после закрытия текущего correction ACT; source paths текущего этапа не расширяет.",
+      "requiredLinkage": "В последующей поставке подтвердить связь work item, owner и остатка.",
+      "limits": "Новый runtime и Native activation не разрешены."
+    },
+    "status": "Implementation и bounded independent SOURCEACK завершены; повторить точные diff/JSON/static readbacks перед fresh attribution и add-only commit от base. После него нужны raw object/tree/path readback, обычный точный push и независимый ls-remote. Continuation work order применять только после доставки и закрытия correction stage."
   }
 }
