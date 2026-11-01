@@ -2,6 +2,7 @@
   "схема": "fum.fuma.исходники-минимального-интерфейса.1",
   "codexThreadId": "01a19716-c517-7f92-839e-44b9ee828533",
   "rootThreadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "humanRequest": "Nam nuzhen minimaljnyij UI dlya rantajma FUMA.",
   "ref": "refs/heads/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master",
   "base": "c3f106c71fc87996d41fbb7ac72ed110ae5e17bb",
   "scope": "Добавить отдельный лёгкий пакет с SwiftUI окном, моделью одного явного шага через существующий AutomationExecutor, открытой fixture и Swift Testing исходниками. Не запускать GUI, Swift/compiler/build/test/runtime/F42, Python/ROOT JSONL; не использовать старое приложение. История интерфейса остаётся в памяти процесса.",
@@ -56,9 +57,15 @@
   "status": {
     "source": "подготовлено в пределах указанного worktree и списка путей",
     "capacitySteering": "ROOT разрешил будущие build/Swift Testing и один ограниченный fixture smoke только после фиксации pins, точного W/ref, входа, команды и конечных лимитов, подтверждённых владельцем ёмкости через ROOT/Инструменты",
-    "independentReadOnlyReview": "ожидается",
+    "independentReadOnlyReview": "Подтверждено ROOT для точных шести исходных SHA до source checkpoint; позднее замечание к сообщению коммита устранено отдельной записью без amend.",
     "buildAndTests": "NOT_RUN",
-    "commit": "не создан",
-    "pushAndRemoteReadback": "не выполнены"
+    "initialSourceCommit": {
+      "commit": "cecd62ef0b608dd8e52231b953a347286f3439b6",
+      "tree": "643f45d2a64281b0a20f3dc0b336c031a80170ab",
+      "parent": "c3f106c71fc87996d41fbb7ac72ed110ae5e17bb",
+      "note": "Сохранён как есть, без amend; техническое поручение с физическим путём не включено в публикуемую запись. Прямая человеческая фраза закреплена выше и в сообщении последующего provenance-коммита."
+    },
+    "followUpCommit": "Отдельный provenance-коммит с humanRequest; исходная история сохранена без amend.",
+    "pushAndRemoteReadback": "PENDING на момент подготовки provenance-записи; фактическое состояние проверяется отдельным remote readback."
   }
 }
