@@ -580,20 +580,20 @@ init(_ code: String, _ path: String? = nil) {
 }
 }
 private enum M { case check, apply(String) }
-private struct Pin: Decodable { let path: String; let bytes: Int; let sha256: String; let mode: UInt32 }
-private struct Old: Decodable {
+private struct Pin: Codable { let path: String; let bytes: Int; let sha256: String; let mode: UInt32 }
+private struct Old: Codable {
 let path: String; let bytes: Int; let sha256, commandSHA256: String
 let tokenOffset, tokenBytes: Int; let mode: UInt32
 }
-private struct Cmd: Decodable { let argv, launcherArgv: [String]; let text: String }
-private struct Env: Decodable {
+private struct Cmd: Codable { let argv, launcherArgv: [String]; let text: String }
+private struct Env: Codable {
 let clear: Bool; let only: [String: String]; let resourceBundleOverridesAbsent: Bool
 }
-private struct Sys: Decodable {
+private struct Sys: Codable {
 let path: String; let bytes: Int; let sha256: String
 let uid: UInt32; let nlink: UInt64; let mode: UInt32
 }
-private struct MPin: Decodable {
+private struct MPin: Codable {
 let path: String; let bytes: Int; let sha256: String; let mode: UInt32
 let files: Int; let resourceMode: UInt32
 }
@@ -611,6 +611,62 @@ private struct Plan: Decodable {
 let schema, profile, source, sourceOriginC3, sourceTree: String
 let header, candidate, handler: Pin; let old: Old; let command: Cmd
 let environment: Env; let systemEnv: Sys; let stageManifest: MPin; let current: CPin
+}
+// Отдельный closed-wire вход. Legacy Plan намеренно остаётся Decodable.
+private struct ПривязкаТекущегоV4: Codable {
+ let путь: String; let пределБайт: Int; let режим: UInt32
+ let замок: СсылкаЗамкаStop; let ожидаемыйSHA256: String
+ enum CodingKeys: String, CodingKey {
+  case путь = "path", пределБайт = "maxBytes", режим = "mode"
+  case замок = "lock", ожидаемыйSHA256 = "expectedSHA256"
+ }
+}
+private struct ПланУстановкиV4: Codable {
+ let схема, профиль, исходники, исходнаяБазаC3, деревоИсходников: String
+ let заголовок, кандидат, обработчик: Pin; let прежнийКонфиг: Old; let команда: Cmd
+ let окружение: Env; let системноеОкружение: Sys; let манифестСтадии: MPin
+ let текущее: ПривязкаТекущегоV4
+ enum CodingKeys: String, CodingKey {
+  case схема = "schema", профиль = "profile", исходники = "source"
+  case исходнаяБазаC3 = "sourceOriginC3", деревоИсходников = "sourceTree"
+  case заголовок = "header", кандидат = "candidate", обработчик = "handler"
+  case прежнийКонфиг = "old", команда = "command", окружение = "environment"
+  case системноеОкружение = "systemEnv", манифестСтадии = "stageManifest", текущее = "current"
+ }
+}
+private struct АртефактыУстановкиV4 {
+ let заголовок: КорневойДопускStopV4.Заголовок; let кандидат: Data; let команда: String
+}
+private struct КонтекстУстановкиV4 {
+ let путьПлана, хэшПлана, путьКонфига: String; let план: ПланУстановкиV4
+ let факты: ОбщаяПубликацияДопускаStopV4.ФактыУстановки?
+}
+private enum ПолитикаВременногоФайлаКонфигурацииStop {
+ case прежняяОчистка, сохранитьДляРазбора
+}
+private struct ПодготовленныйЭффектКонфигурацииStop {
+ let замок: СсылкаЗамкаStop; let кандидат: Data
+ let политикаВременного: ПолитикаВременногоФайлаКонфигурацииStop
+ let проверить: (_ замок: () throws -> Void) throws -> Void
+ let передRename: (_ замок: () throws -> Void) throws -> Void
+}
+// Internal только для существующих тестовых targets. Production CLI не принимает host override.
+struct ХостКонфигурацииStop {
+ let домашнийКаталог: String
+ var путьКонфига: String { домашнийКаталог + "/.codex/hooks.json" }
+ static func текущий() throws -> Self {
+  guard let pw = getpwuid(geteuid()), let home = pw.pointee.pw_dir else { throw E("U0") }
+  return Self(домашнийКаталог: String(cString: home))
+ }
+}
+struct ТочкиКонфигурацииStop {
+ var послеНачальнойПроверки: (() throws -> Void)? = nil
+ var послеНамерения: (() throws -> Void)? = nil
+ var передRename: (() throws -> Void)? = nil
+ var синхронизацияКаталога: ((Int32) throws -> Void)? = nil
+}
+struct РезультатКонфигурацииStop {
+ let код: Int32; let вывод: [String: Any]
 }
 private struct H: Decodable {
 let схема, задача, узел, область, поколение, cwd, дерево, ref: String
@@ -705,6 +761,28 @@ private static func plan(_ path: String, _ sha: String) throws -> Plan {
  && p.profile == "fum.native-stop.install.1"
  && hex(p.source, 40) && hex(p.sourceOriginC3, 40) && hex(p.sourceTree, 40),
  "P4", path)
+ return p
+}
+private static func выбранПланУстановкиV4(_ path: String, _ sha: String) throws -> Bool {
+ struct ВерсияПлана: Decodable {
+  let схема, профиль: String
+  enum CodingKeys: String, CodingKey { case схема = "schema", профиль = "profile" }
+ }
+ try need(abs(path) && hex(sha, 64), "P2", path)
+ let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+ try need(raw.sha256 == sha, "P3", path)
+ let tag = try dec(ВерсияПлана.self, raw.данные)
+ if tag.схема == "fum.stop-installer-plan.4" && tag.профиль == "fum.native-stop.install.4" { return true }
+ try need(tag.схема == "fum.stop-installer-plan.3" && tag.профиль == "fum.native-stop.install.1", "P4", path)
+ return false
+}
+private static func прочитатьПланУстановкиV4(_ path: String, _ sha: String) throws -> ПланУстановкиV4 {
+ try need(abs(path) && hex(sha, 64), "P2", path)
+ let raw = try AB.прочитать(path, ожидаемыйРежим: 0o600, предел: 65_536)
+ try need(raw.sha256 == sha, "P3", path)
+ let p = try КорневойДопускStopV4.разобрать(ПланУстановкиV4.self, из: raw.данные, предел: 65_536)
+ try need(p.схема == "fum.stop-installer-plan.4" && p.профиль == "fum.native-stop.install.4"
+  && hex(p.исходники, 40) && hex(p.исходнаяБазаC3, 40) && hex(p.деревоИсходников, 40), "P4", path)
  return p
 }
 private static func quote(_ s: String) -> String {
@@ -825,7 +903,9 @@ private static func header(_ h: H, _ p: Plan) throws -> String {
  return value
 }
 private static func stage(_ p: Plan) throws {
- let pin = p.stageManifest
+ try stage(p.stageManifest, handler: p.handler)
+}
+private static func stage(_ pin: MPin, handler: Pin) throws {
  try need(abs(pin.path) && pin.mode == 0o600 && pin.files == 23
  && pin.resourceMode == 0o400 && pin.bytes >= 0 && pin.bytes <= 1_048_576
  && hex(pin.sha256, 64), "S0", pin.path)
@@ -844,8 +924,8 @@ private static func stage(_ p: Plan) throws {
  try need(s.данные.count == f.bytes && s.sha256 == f.sha256, "S4", path)
  if f.path == "fuma" {
   found = true
-  try need(path == p.handler.path && f.bytes == p.handler.bytes
-  && f.sha256 == p.handler.sha256 && p.handler.mode == 0o500, "S5", path)
+  try need(path == handler.path && f.bytes == handler.bytes
+  && f.sha256 == handler.sha256 && handler.mode == 0o500, "S5", path)
  }
  }
  try need(found, "S6")
@@ -909,17 +989,17 @@ private static func currentBytes(_ bytes: Data, _ sha: String, _ h: H,
  return state
 }
 private static func config(_ p: Plan, _ path: String) throws {
- try need(p.old.path == path && p.old.mode == 0o600 && p.old.bytes >= 0
- && p.old.bytes <= 1_048_576 && hex(p.old.sha256, 64)
- && hex(p.old.commandSHA256, 64), "F2", path)
+ try config(p.old, path)
 }
-private static func load(_ argv: [String]) throws -> (Ctx, M) {
+private static func config(_ old: Old, _ path: String) throws {
+ try need(old.path == path && old.mode == 0o600 && old.bytes >= 0
+ && old.bytes <= 1_048_576 && hex(old.sha256, 64)
+ && hex(old.commandSHA256, 64), "F2", path)
+}
+private static func load(_ argv: [String], host: ХостКонфигурацииStop? = nil) throws -> (Ctx, M) {
  let (planPath, planSHA, mode) = try args(argv)
  let p = try plan(planPath, planSHA)
- guard let pw = getpwuid(geteuid()), let home = pw.pointee.pw_dir else {
- throw E("U0")
- }
- let path = String(cString: home) + "/.codex/hooks.json"
+ let path = try (host ?? ХостКонфигурацииStop.текущий()).путьКонфига
  try config(p, path)
  if case .apply(let sha) = mode { try need(sha == p.candidate.sha256, "A6") }
  let a = try artifacts(p)
@@ -936,6 +1016,52 @@ private static func load(_ argv: [String]) throws -> (Ctx, M) {
  try привязкаСсылки.подтвердить()
  return (Ctx(planPath: planPath, planSHA: planSHA, config: path,
  parent: try parent(planPath), p: p, current: cur, head: head, привязкаСсылки: привязкаСсылки), mode)
+}
+private static func проверитьАртефактыУстановкиV4(_ p: ПланУстановкиV4) throws -> АртефактыУстановкиV4 {
+ let raw = try read(p.заголовок, 0o400, 32_768)
+ let h = try КорневойДопускStopV4.разобрать(КорневойДопускStopV4.Заголовок.self,
+  из: raw.данные, предел: 32_768)
+ try КорневойДопускStopV4.проверитьЗаголовок(h)
+ try need(h.исходники == p.исходники && p.текущее.путь == h.состояние
+  && p.текущее.режим == 0o600 && p.текущее.пределБайт > 0 && p.текущее.пределБайт <= 65_536
+  && hex(p.текущее.ожидаемыйSHA256, 64) && p.текущее.замок.path == h.замок.path
+  && p.текущее.замок.device == h.замок.device && p.текущее.замок.inode == h.замок.inode, "C0V4")
+ let expected = [p.обработчик.path, "stop", "--идентификатор-обработчика", "fum.stop-handler.1",
+  "--codex-thread-id", h.задача, "--идентификатор-узла", h.узел,
+  "--ожидаемый-cwd", h.рабочийКаталог, "--состояние", h.состояние,
+  "--профиль-наблюдений", "fum.текущие-обязательства-stop.4",
+  "--заголовок", p.заголовок.path, "--хэш-заголовка", p.заголовок.sha256]
+ let cmd = command(expected)
+ try need(p.команда.argv == expected && p.команда.text == cmd
+  && p.команда.launcherArgv == ["/usr/bin/env", "-i", "PATH="] + expected
+  && p.окружение.clear && p.окружение.only == ["PATH": ""]
+  && p.окружение.resourceBundleOverridesAbsent, "A5V4")
+ let candidate = try read(p.кандидат, 0o600, 1_048_576)
+ try stage(p.манифестСтадии, handler: p.обработчик)
+ return АртефактыУстановкиV4(заголовок: h, кандидат: candidate.данные, команда: cmd)
+}
+private static func прочитатьУстановкуV4ПодЗамком(_ argv: [String], host: ХостКонфигурацииStop,
+ lock: СсылкаЗамкаStop, check: () throws -> Void) throws -> (КонтекстУстановкиV4, АртефактыУстановкиV4) {
+ try check()
+ let (path, sha, mode) = try args(argv)
+ let p = try прочитатьПланУстановкиV4(path, sha)
+ try need(p.текущее.замок.path == lock.path && p.текущее.замок.device == lock.device
+  && p.текущее.замок.inode == lock.inode, "LplanV4")
+ try config(p.прежнийКонфиг, host.путьКонфига)
+ if case .apply(let candidateSHA) = mode { try need(candidateSHA == p.кандидат.sha256, "A6") }
+ let a = try проверитьАртефактыУстановкиV4(p)
+ try sys(p.системноеОкружение)
+ let old = try AB.прочитать(host.путьКонфига, ожидаемыйРежим: 0o600, предел: p.прежнийКонфиг.bytes)
+ try need(old.данные.count == p.прежнийКонфиг.bytes && old.sha256 == p.прежнийКонфиг.sha256, "F3", host.путьКонфига)
+ try проверитьДельту(old: old.данные, candidate: a.кандидат,
+  offset: p.прежнийКонфиг.tokenOffset, length: p.прежнийКонфиг.tokenBytes,
+  oldCommandSHA256: p.прежнийКонфиг.commandSHA256, newCommand: a.команда)
+ let facts = try ОбщаяПубликацияДопускаStopV4.проверитьДляУстановки(a.заголовок,
+  путьЗаголовка: p.заголовок.path, хэшЗаголовка: p.заголовок.sha256,
+  ожидаемыйХэшТекущего: p.текущее.ожидаемыйSHA256, пределТекущего: p.текущее.пределБайт,
+  проверитьЗамок: check)
+ try check()
+ return (КонтекстУстановкиV4(путьПлана: path, хэшПлана: sha, путьКонфига: host.путьКонфига, план: p, факты: facts), a)
 }
 private static func directory(_ path: String) throws -> Int32 {
  try need(abs(path), "R0", path)
@@ -1022,9 +1148,43 @@ private static func base(_ c: Ctx) -> [String: Any] {
  }
  return o
 }
-private static func apply(_ c: Ctx) -> Int32 {
- var common = base(c)
- guard let initial = c.current else {
+private static func apply(_ c: Ctx, points: ТочкиКонфигурацииStop,
+ emit: ([String: Any]) -> Void) -> Int32 {
+ применитьКонфигурацию(common: base(c), configPath: c.config, oldSHA: c.p.old.sha256,
+  candidateSHA: c.p.candidate.sha256, initialCurrent: c.current, points: points, emit: emit) {
+  let p = try plan(c.planPath, c.planSHA)
+  try config(p, c.config)
+  let a = try artifacts(p)
+  try sys(p.systemEnv)
+  var промежуточнаяПривязка: СнимокФайловойСсылки?
+  return ПодготовленныйЭффектКонфигурацииStop(замок: p.current.lock, кандидат: a.candidate,
+   политикаВременного: .прежняяОчистка,
+   проверить: { _ in
+    try c.привязкаСсылки.подтвердить()
+    let привязка = try снимокПривязкиСсылки(a.h)
+    let cur = try current(p, a.h, p.header.sha256, привязка.идентификаторОбъекта)
+    try need(привязка.идентификаторОбъекта == c.head && cur?.sha == c.current?.sha
+     && cur?.action == "продолжать", "C5")
+    промежуточнаяПривязка = привязка
+   }, передRename: { _ in
+    guard let промежуточнаяПривязка else { throw E("C5") }
+    let конечнаяПривязка = try снимокПривязкиСсылки(a.h)
+    let head = конечнаяПривязка.идентификаторОбъекта
+    let cur = try current(p, a.h, p.header.sha256, head)
+    try c.привязкаСсылки.подтвердить()
+    try промежуточнаяПривязка.подтвердить()
+    try конечнаяПривязка.подтвердить()
+    try need(head == c.head && cur?.sha == c.current?.sha
+     && cur?.action == "продолжать", "C6")
+   })
+ }
+}
+private static func применитьКонфигурацию(common initialOutput: [String: Any], configPath: String,
+ oldSHA: String, candidateSHA: String, initialCurrent: Cur?, points hooks: ТочкиКонфигурацииStop,
+ emit: ([String: Any]) -> Void,
+ prepare: () throws -> ПодготовленныйЭффектКонфигурацииStop) -> Int32 {
+ var common = initialOutput
+ guard let initial = initialCurrent else {
  common["status"] = "NOT_READY"; common["phase"] = "current-missing"
  emit(common); return 3
  }
@@ -1033,8 +1193,8 @@ private static func apply(_ c: Ctx) -> Int32 {
  emit(common); return 3
  }
  let paths: RPaths
- do { paths = try receiptPaths(config: c.config, oldSHA: c.p.old.sha256,
-  candidateSHA: c.p.candidate.sha256) } catch {
+ do { paths = try receiptPaths(config: configPath, oldSHA: oldSHA,
+  candidateSHA: candidateSHA) } catch {
   common["status"] = "FAILED"; common["phase"] = "operation-key"
   common["error"] = String(describing: error); emit(common); return 2
  }
@@ -1056,35 +1216,33 @@ private static func apply(_ c: Ctx) -> Int32 {
  var observed: String?, errorText: String?, temporaryPath: String?
  var code: Int32 = 2
  do {
- let p = try plan(c.planPath, c.planSHA)
- try config(p, c.config)
- let a = try artifacts(p)
- try sys(p.systemEnv)
+ try hooks.послеНамерения?()
+ let prepared = try prepare()
  phase = "current-lock"
- let result = try ЗамокТекущегоStop.выполнить(p.current.lock) { проверитьЗамок in
+ let result = try ЗамокТекущегоStop.выполнить(prepared.замок) { проверитьЗамок in
   phase = "root-recheck"
-  try c.привязкаСсылки.подтвердить()
-  let промежуточнаяПривязка = try снимокПривязкиСсылки(a.h)
-  let head = промежуточнаяПривязка.идентификаторОбъекта
-  let cur = try current(p, a.h, p.header.sha256, head)
-  try need(head == c.head && cur?.sha == initial.sha
-   && cur?.action == "продолжать", "C5")
+  try проверитьЗамок()
+  try prepared.проверить(проверитьЗамок)
   phase = "atomic"
   return try withoutActuallyEscaping(проверитьЗамок) { check in
    var points = ТочкиАтомарнойЗаменыStop()
    points.передRename = {
     try check()
-    let конечнаяПривязка = try снимокПривязкиСсылки(a.h)
-    let latestHead = конечнаяПривязка.идентификаторОбъекта
-    let latest = try current(p, a.h, p.header.sha256, latestHead)
-    try c.привязкаСсылки.подтвердить()
-    try промежуточнаяПривязка.подтвердить()
-    try конечнаяПривязка.подтвердить()
-    try need(latestHead == c.head && latest?.sha == initial.sha
-     && latest?.action == "продолжать", "C6")
+    try hooks.передRename?()
+    try prepared.передRename(check)
+    try check()
    }
-   return try AB.заменить(c.config, ожидаемыйSHA256: p.old.sha256,
-    новыми: a.candidate, точки: points)
+   if let sync = hooks.синхронизацияКаталога { points.синхронизацияКаталога = sync }
+   switch prepared.политикаВременного {
+   case .прежняяОчистка:
+    // Прежний путь2/3 и его доказанная own-temp cleanup семантика неизменны.
+    return try AB.заменить(configPath, ожидаемыйSHA256: oldSHA,
+     новыми: prepared.кандидат, точки: points)
+   case .сохранитьДляРазбора:
+    // Только новая V4 операция явно opt-in: pre-rename temp не удаляется.
+    return try AB.записать(configPath, ожидаемыйSHA256: oldSHA,
+     новыми: prepared.кандидат, точки: points, сохранятьВременный: true)
+   }
   }
  }
  status = "APPLIED"; phase = "readback"; boundary = "afterRename"
@@ -1244,28 +1402,108 @@ private static func publish(_ argv: [String]) throws -> Int32 {
  }
  return code
 }
+private static func основаниеВыводаУстановкиV4(_ c: КонтекстУстановкиV4) -> [String: Any] {
+ var o: [String: Any] = ["planSHA256": c.хэшПлана, "candidateSHA256": c.план.кандидат.sha256,
+  "externalApprovalRequired": true, "worklistCompleteness": "ROOT_REQUIRED",
+  "acceptedSourceAncestry": "ROOT_REQUIRED", "activationAuthorized": false]
+ if let f = c.факты {
+  o["rootHEAD"] = f.голова; o["currentSHA256"] = f.хэшТекущего; o["currentAction"] = f.управление
+ }
+ return o
+}
+private static func выполнитьУстановкуV4(_ argv: [String], host: ХостКонфигурацииStop,
+ points: ТочкиКонфигурацииStop, emit: ([String: Any]) -> Void) throws -> Int32 {
+ let (path, sha, mode) = try args(argv)
+ let p = try прочитатьПланУстановкиV4(path, sha)
+ try config(p.прежнийКонфиг, host.путьКонфига)
+ let selection = try проверитьАртефактыУстановкиV4(p)
+ let lock = selection.заголовок.замок
+ let (c, _) = try ЗамокТекущегоStop.выполнить(lock) { check in
+  try прочитатьУстановкуV4ПодЗамком(argv, host: host, lock: lock, check: check)
+ }
+ switch mode {
+ case .check:
+  var o = основаниеВыводаУстановкиV4(c)
+  let ready = c.факты?.управление == "продолжать"
+  o["status"] = c.факты == nil ? "UNKNOWN" : (ready ? "METADATA_CHECKED" : "BLOCKED")
+  o["metadataChecked"] = ready; o["writes"] = 0
+  emit(o); return ready ? 0 : 3
+ case .apply:
+  try points.послеНачальнойПроверки?()
+  let cur = c.факты.map { Cur(sha: $0.хэшТекущего, action: $0.управление) }
+  return применитьКонфигурацию(common: основаниеВыводаУстановкиV4(c), configPath: c.путьКонфига, oldSHA: c.план.прежнийКонфиг.sha256,
+   candidateSHA: c.план.кандидат.sha256, initialCurrent: cur, points: points, emit: emit) {
+   let freshPlan = try прочитатьПланУстановкиV4(c.путьПлана, c.хэшПлана)
+   try config(freshPlan.прежнийКонфиг, c.путьКонфига)
+   let a = try проверитьАртефактыУстановкиV4(freshPlan)
+   try sys(freshPlan.системноеОкружение)
+   var middle: ОбщаяПубликацияДопускаStopV4.ФактыУстановки?
+   return ПодготовленныйЭффектКонфигурацииStop(замок: freshPlan.текущее.замок, кандидат: a.кандидат,
+    политикаВременного: .сохранитьДляРазбора,
+    проверить: { check in
+     try c.факты?.подтвердить()
+     let (fresh, _) = try прочитатьУстановкуV4ПодЗамком(argv, host: host, lock: lock, check: check)
+     guard let f = fresh.факты, let initial = c.факты,
+       f.голова == initial.голова, f.хэшТекущего == initial.хэшТекущего,
+       f.управление == "продолжать" else { throw E("C5V4") }
+     middle = f
+    }, передRename: { check in
+     try c.факты?.подтвердить()
+     guard let middle else { throw E("C5V4") }
+     try middle.подтвердить()
+     let (fresh, _) = try прочитатьУстановкуV4ПодЗамком(argv, host: host, lock: lock, check: check)
+     guard let f = fresh.факты, let initial = c.факты,
+       f.голова == initial.голова, f.хэшТекущего == initial.хэшТекущего,
+       f.управление == "продолжать" else { throw E("C6V4") }
+     try f.подтвердить(); try check()
+    })
+  }
+ }
+}
+private static func выполнитьКомандуКонфигурации(_ argv: [String], host: ХостКонфигурацииStop?,
+ points: ТочкиКонфигурацииStop, emit: ([String: Any]) -> Void) -> Int32 {
+ do {
+  let (path, sha, _) = try args(argv)
+  if try выбранПланУстановкиV4(path, sha) {
+   return try выполнитьУстановкуV4(argv, host: host ?? ХостКонфигурацииStop.текущий(),
+    points: points, emit: emit)
+  }
+  let (c, mode) = try load(argv, host: host)
+  switch mode {
+  case .check:
+   let (fresh, _) = try предварительнаяПроверка(c.p.current.lock) {
+    try c.привязкаСсылки.подтвердить()
+    let result = try load(argv, host: host)
+    try c.привязкаСсылки.подтвердить()
+    try result.0.привязкаСсылки.подтвердить()
+    return result
+   }
+   var o = base(fresh)
+   let checked = fresh.current?.action == "продолжать"
+   o["status"] = fresh.current == nil ? "UNKNOWN" : (checked ? "METADATA_CHECKED" : "BLOCKED")
+   o["metadataChecked"] = checked; o["writes"] = 0
+   emit(o); return checked ? 0 : 3
+  case .apply:
+   try points.послеНачальнойПроверки?()
+   return apply(c, points: points, emit: emit)
+  }
+ } catch {
+  emit(["status": "FAILED", "writes": 0, "error": String(describing: error)])
+  return 2
+ }
+}
+// Та же orchestration, без публичного CLI override и без обращения к Native config.
+static func конфигурацияВКонтексте(_ argv: [String], host: ХостКонфигурацииStop,
+ точки: ТочкиКонфигурацииStop = ТочкиКонфигурацииStop()) -> РезультатКонфигурацииStop {
+ var output: [String: Any] = [:]
+ let code = выполнитьКомандуКонфигурации(argv, host: host, points: точки) { output = $0 }
+ return РезультатКонфигурацииStop(код: code, вывод: output)
+}
 public static func команда(_ args: [String]) -> Int32 {
  do {
  if args.first == "--опубликовать-допуск-v4" { return ОбщаяПубликацияДопускаStopV4.выполнитьКоманду(Array(args.dropFirst())) }
  if args.first == "--опубликовать-текущий" { return try publish(Array(args.dropFirst())) }
- let (c, mode) = try load(args)
- switch mode {
- case .check:
-  let (fresh, _) = try предварительнаяПроверка(c.p.current.lock) {
-   try c.привязкаСсылки.подтвердить()
-   let результат = try load(args)
-   try c.привязкаСсылки.подтвердить()
-   try результат.0.привязкаСсылки.подтвердить()
-   return результат
-  }
-  var o = base(fresh)
-  let checked = fresh.current?.action == "продолжать"
-  o["status"] = fresh.current == nil ? "UNKNOWN" : (checked ? "METADATA_CHECKED" : "BLOCKED")
-  o["metadataChecked"] = checked; o["writes"] = 0
-  emit(o); return checked ? 0 : 3
- case .apply:
-  return apply(c)
- }
+ return выполнитьКомандуКонфигурации(args, host: nil, points: ТочкиКонфигурацииStop(), emit: emit)
  } catch {
  emit(["status": "FAILED", "writes": 0, "error": String(describing: error)])
  return 2
@@ -1968,6 +2206,50 @@ public extension УстановщикStop {
 // Legacy callback проверки остаются в верхнем модуле; здесь полный publisher dependency closure.
 private enum ОбщаяПубликацияДопускаStopV4 {
     typealias Корневой = КорневойДопускStopV4
+    struct ФактыУстановки {
+        let хэшТекущего, хэшСнимка, голова, управление, эпоха, операция: String
+        let редакция: UInt64
+        let подтвердить: () throws -> Void
+    }
+    // Единственный read-only вход установки: caller уже держит точный lock inode.
+    // Не вызывает publisher, consumer policy/claim или согласовать/fsync repair.
+    static func проверитьДляУстановки(_ заголовок: Корневой.Заголовок,
+        путьЗаголовка: String, хэшЗаголовка: String, ожидаемыйХэшТекущего: String,
+        пределТекущего: Int, проверитьЗамок: () throws -> Void) throws -> ФактыУстановки? {
+        try проверитьЗамок()
+        try Корневой.проверитьЗаголовок(заголовок)
+        try Корневой.проверитьФизическиеГраницы(заголовок, путьЗаголовка: путьЗаголовка)
+        guard let raw = try Корневой.прочитатьНеобязательное(заголовок.состояние,
+            режим: 0o600, предел: пределТекущего) else {
+            try проверитьЗамок(); return nil
+        }
+        guard raw.sha256 == ожидаемыйХэшТекущего else { throw Корневой.Отказ.идентичность }
+        var якорноеЧтение = Корневой.Чтение()
+        let состояние = try Корневой.прочитатьСостояние(заголовок,
+            хэшЗаголовка: хэшЗаголовка, путьЗаголовка: путьЗаголовка,
+            чтение: &якорноеЧтение, проверитьЗамок: проверитьЗамок)
+        let запись = состояние.последняя, нагрузка = запись.нагрузка
+        guard запись.хэш == ожидаемыйХэшТекущего else { throw Корневой.Отказ.идентичность }
+        let снимок = try проверитьСнимокV4(состояние.снимок, заголовок: заголовок, нагрузка: нагрузка)
+        var проектноеЧтение = Чтение()
+        try проверитьGit(прежнийЗаголовокV4(заголовок, нагрузка: нагрузка),
+            HEAD: снимок.голова, чтение: &проектноеЧтение)
+        if нагрузка.номер > 0 {
+            try проверитьПрогрессV4(допускV4(нагрузка, заголовок), заголовок,
+                история: состояние.записи, чтение: &проектноеЧтение)
+        }
+        let якорь = якорноеЧтение, проект = проектноеЧтение
+        let подтвердить: () throws -> Void = {
+            try якорь.подтвердить(); try проект.подтвердить()
+            try Корневой.проверитьФизическиеГраницы(заголовок, путьЗаголовка: путьЗаголовка)
+            _ = try проверитьСнимокV4(состояние.снимок, заголовок: заголовок, нагрузка: нагрузка)
+        }
+        try подтвердить(); try проверитьЗамок()
+        return ФактыУстановки(хэшТекущего: запись.хэш, хэшСнимка: нагрузка.хэшСнимка,
+            голова: снимок.голова, управление: снимок.управление.действие,
+            эпоха: нагрузка.эпоха, операция: нагрузка.операция, редакция: нагрузка.редакция,
+            подтвердить: подтвердить)
+    }
 
     static func передатьПроверку<T>(_ действие: () throws -> T) throws -> T {
         do { return try действие() }

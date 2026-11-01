@@ -1355,5 +1355,145 @@
       "статус": "NOT_RUN"
     },
     "границаГотовности": "Приватные исходники, контракт и тесты не доказывают compiled API, actual CLI, установленный артефакт, Native config/current/defaultFD2/callback activation, полный профиль, ROOT приёмку или интеграцию."
+  },
+  "предложениеУстановкиКонфигаV4": {
+    "состояние": "ПРИВАТНЫЕ_ИСХОДНИКИ_ПОДГОТОВЛЕНЫ_ИСПОЛНЕНИЕ_NOT_RUN",
+    "исходныйCommit": "2d079e22238137dd0ae922921ec3c77023a54564",
+    "назначение": "Совместимость существующей config-ветки installer с уже существующим Stop V4 consumer. Публикация допуска, установка config и Native activation имеют разные границы.",
+    "план": {
+      "schema": "fum.stop-installer-plan.4",
+      "profile": "fum.native-stop.install.4",
+      "режим": "0600",
+      "пределБайт": 65536,
+      "внешнийRawSHA256": true,
+      "поля": [
+        "schema",
+        "profile",
+        "source",
+        "sourceOriginC3",
+        "sourceTree",
+        "header",
+        "candidate",
+        "handler",
+        "old",
+        "command",
+        "environment",
+        "systemEnv",
+        "stageManifest",
+        "current"
+      ],
+      "sourceOriginC3": "Сохранённое историческое имя provenance; не доказательство принятия/ancestry.",
+      "current": {
+        "поля": [
+          "path",
+          "maxBytes",
+          "mode",
+          "lock",
+          "expectedSHA256"
+        ],
+        "правило": "Точный signed current0600<=65536 и header.lock device/inode; обязательный approved expectedSHA256 равен raw current под caller lock. Отсутствие current не даёт install-ready."
+      },
+      "разбор": "Строгий существующий canonical typed roundtrip+LF только для Plan4. Legacy Plan3/profile1 сохраняет первоначальный Decodable путь2/3, без fallback/смешения tags.",
+      "моделиИсходников": "ПланУстановкиV4 и ПривязкаТекущегоV4: кириллические члены и явные CodingKeys сохраняют все прежние wire keys без смены schema/profile."
+    },
+    "wireV4": {
+      "header": "КорневойДопускStopV4.Заголовок / fum.stop-заголовок.4 / 0400<=32768",
+      "current": "КорневойДопускStopV4.Конверт / fum.stop-подписанный-root-допуск.1 / signed envelope, не unsigned snapshot",
+      "payload": "fum.stop-root-допуск.1; Ed25519 domain FUM-STOP-ROOT-GRANT-v1+NUL; полный signed history/markers/current exact latest raw bytes",
+      "snapshot": "fum.текущие-обязательства-stop.4 / separate0400<=32768 / полный typed snapshot+projection/Git/lease; ordinal>0 prior signed claim/progress/result"
+    },
+    "callback": {
+      "argv18": [
+        "<принятый-handler>",
+        "stop",
+        "--идентификатор-обработчика",
+        "fum.stop-handler.1",
+        "--codex-thread-id",
+        "<header.задача>",
+        "--идентификатор-узла",
+        "<header.узел>",
+        "--ожидаемый-cwd",
+        "<header.cwd>",
+        "--состояние",
+        "<header.состояние-signed-current>",
+        "--профиль-наблюдений",
+        "fum.текущие-обязательства-stop.4",
+        "--заголовок",
+        "<принятый-header>",
+        "--хэш-заголовка",
+        "<принятый-raw-header-SHA256>"
+      ],
+      "окружение": "Существующий exec /usr/bin/env -i PATH=, shell-quoted argv; clear=true, only PATH empty, resourceBundleOverridesAbsent=true.",
+      "consumer": "В upper добавлен только internal pure forwarder КомандаStop.разобратьПараметрыЧетвёртогоПрофиля к прежнему private ПараметрыV4; optional tuple из шести строк проверяется G2 без IO/callback/claim/dispatch. Private parser и production reader сохраняются."
+    },
+    "проверка": {
+      "вход": "--план INSTALL_PLAN4 --хэш-плана SHA --проверить",
+      "подЗамком": "Один read-only installation entry переиспользует существующие полные Core/snapshot/Git/progress validators. Caller держит тот же pinned lock; recursive flock/repair/fsync/statewrite отсутствуют.",
+      "продолжать": "METADATA_CHECKED/exit0/writes0/activationAuthorized=false",
+      "подписанныеПаузаСтоп": "BLOCKED/exit3",
+      "отсутствиеCurrent": "UNKNOWN/exit3; apply NOT_READY/exit3",
+      "неверныйВходИлиBusy": "FAILED/exit2; check без intent/outcome"
+    },
+    "применение": {
+      "вход": "--план INSTALL_PLAN4 --хэш-плана SHA --применить CANDIDATE_CONFIG_SHA256",
+      "протокол": "Initial V4 facts под caller lock до intent; прежний operation key/O_EXCL durable intent/effect lock/expected-old CAS/rename/fsync/readback/outcome. Typed descriptor V4 явно выбирает политикаВременного=сохранитьДляРазбора и существующий AB.записать с сохранятьВременный=true. Полные проверки approved currentSHA/HEAD повторяются под effect lock и beforeRename.",
+      "изменение": "Только один закреплённый command JSON token; внешние bytes/foreign hooks/timeout сохраняются.",
+      "позднийОтказ": "При отказе V4 до rename каждый созданный и ещё не переименованный собственный temp сохраняется для разбора; UNKNOWN содержит temporaryPath, config остаётся прежним, audit сохраняется. После rename кандидат уже находится в config; UNKNOWN/observed bytes/audit не repair/retry/rollback/delete. Нулевой temporaryPath после rename не означает cleanup.",
+      "предел": "Point-in-time чтения не доказывают sole-writer custody или ROOT authority."
+    },
+    "совместимость": {
+      "legacy": "Прежние Plan3/profile1/header/current2/3 Decodable и publisher-ветви сохраняются. Typed descriptor legacy явно выбирает прежняяОчистка и прежний AB.заменить с исходной safe own-temp cleanup семантикой. Узкая регрессия config2/3 включает positive apply и отказ beforeRename с прежней очисткой temp; это не повтор publisher proofs.",
+      "productionHost": "Фиксированный getpwuid(euid).pw_dir/.codex/hooks.json; CLI/HOME/env override не добавляется.",
+      "testSeam": "Internal контекст того же module и той же orchestration только для существующих test targets; fixture positive не является actual CLI/Native proof.",
+      "артефакты": "Существующий stage manifest23: fuma0500 и22ресурса0400, закреплённые bytes/SHA. Real current handler/resources здесь UNKNOWN."
+    },
+    "TDD": {
+      "RED": "NOT_RUN: один actual current-C2d CLI принимает синтаксис/plan bytes/hash/Decodable, затем отвергает Plan4/profile4 известным P4/exit2/FAILED/writes0 до getpwuid/config; compiler/loader failure не RED.",
+      "GREEN": "NOT_RUN:8methods/28parameter cases (root6/22,lower2/6). V4 current/HEAD beforeRename drift проверяет retained own temp/audit и unchanged config; late afterRename UNKNOWN без repair/retry/delete. L1: два positive legacy2/3 и два legacy beforeRename cleanup случая. Старые35/OS/publisher proofs не повторяются.",
+      "исключено": "Компиляторы/runtime/fixture creation/реальные ROOT inputs/Native trust/activation этим source-допуском не разрешены."
+    },
+    "готовность": {
+      "acceptedSourceAncestry": "ROOT_REQUIRED",
+      "worklistCompleteness": "ROOT_REQUIRED",
+      "activationAuthorized": false,
+      "actualPositiveConfigCLI": "UNKNOWN",
+      "NativeTrust": "UNKNOWN",
+      "fullProfile": "UNKNOWN",
+      "компиляция": "NOT_RUN",
+      "тесты": "NOT_RUN"
+    },
+    "доставка": "Ровно шесть прежних Native identities в приватном source-срезе редакции 3; lower и lower tests побайтно переиспользованы. Package/main/new module/target/runner/канонические W/ref/index не меняются.",
+    "версияИсходников": 3,
+    "существующиеПути": [
+      "iskhodniki/perekhod-vetok/kontrakt-tekusjhikh-obyazateljstv-stop.json",
+      "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+      "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+      "iskhodniki/perekhod-vetok/ustanovka-stop/kontrakt-ustanovki-stop.json",
+      "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+      "iskhodniki/perekhod-vetok/uzlyi/stop.swift"
+    ],
+    "переиспользованиеРазбора": {
+      "доступ": "Новый метод КомандаStop.разобратьПараметрыЧетвёртогоПрофиля имеет internal-доступ; private enum ТекущиеОбязательстваStop и его ПараметрыV4 сохраняются.",
+      "вызов": "Ровно один вызов прежнего private ПараметрыV4; optional tuple копирует только шесть строковых полей.",
+      "поля": [
+        "задача",
+        "узел",
+        "рабочийКаталог",
+        "состояние",
+        "заголовок",
+        "хэшЗаголовка"
+      ],
+      "эффекты": "IO/claim/dispatch/новая логика parsing/public override отсутствуют; production callback/reader не изменены.",
+      "G2": "Прежний тест вызывает forwarder через существующий @testable import; try #require и все assertions сохранены.",
+      "типизация": "NOT_RUN для редакции 3; статический source proof не является компиляцией или GREEN."
+    },
+    "предыдущееИсполнение": {
+      "редакция": 2,
+      "нижняяКомпиляция": "COMPILE_ONLY_PASS: original-main CLI и lower bundle получены одним compiler; lower source220997 и lower tests65215 побайтно переиспользованы, повторов нет.",
+      "верхняяКомпиляция": "FAILED/exit1: G2 обращался к private ТекущиеОбязательстваStop; required bundle не создан, partial outputs retained.",
+      "тесты": "NOT_RUN; compile failure не является поведенческим RED.",
+      "текущаяРедакция": "SOURCE_ONLY_NOT_RUN; новый upper compiler/fixtures/runtime требуют отдельного допуска."
+    }
   }
+
 }

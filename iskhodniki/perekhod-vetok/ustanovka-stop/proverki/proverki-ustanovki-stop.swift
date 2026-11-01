@@ -790,3 +790,172 @@ struct ПроверкиАргументовПубликацииCLI_V4 {
         // Собственная пустая fixture остаётся свидетельством; actual CLI проверяется отдельным процессом.
     }
 }
+
+
+// Узкая регрессия общей config-ветки; legacy publisher suites здесь не повторяются.
+private struct ФикстураОбщейУстановкиConfig {
+    let root: URL
+    let config, planURL, candidateURL: URL
+    let old, candidate: Data
+    static func json(_ value: Any, pretty: Bool = false) throws -> Data {
+        var options: JSONSerialization.WritingOptions = [.sortedKeys, .withoutEscapingSlashes, .fragmentsAllowed]
+        if pretty { options.insert(.prettyPrinted) }
+        var data = try JSONSerialization.data(withJSONObject: value, options: options)
+        data.append(10); return data
+    }
+    static func save(_ data: Data, _ url: URL, mode: Int = 0o600) throws {
+        try data.write(to: url, options: [.withoutOverwriting])
+        try FileManager.default.setAttributes([.posixPermissions: mode], ofItemAtPath: url.path)
+    }
+    static func pin(_ url: URL, mode: Int) throws -> [String: Any] {
+        let data = try Data(contentsOf: url)
+        return ["path": url.path, "bytes": data.count, "sha256": АтомарныеБайтыStop.sha256(data), "mode": mode]
+    }
+    init(_ version: Int) throws {
+        let base = try #require(ProcessInfo.processInfo.environment["ФУМ_СВИДЕТЕЛЬСТВА_ЯКОРЯ"])
+        let dir = URL(fileURLWithPath: base).appendingPathComponent("config-legacy-" + UUID().uuidString.lowercased())
+        root = dir; config = dir.appendingPathComponent(".codex/hooks.json")
+        planURL = dir.appendingPathComponent("legacy-plan.json")
+        candidateURL = dir.appendingPathComponent("candidate.json")
+        let common = dir.appendingPathComponent("git")
+        let gitDir = common.appendingPathComponent("worktrees/unit")
+        let w = dir.appendingPathComponent("W"), ref = "refs/heads/fum/unit"
+        for url in [dir, dir.appendingPathComponent(".codex"), w,
+                    common, common.appendingPathComponent("worktrees"), gitDir,
+                    common.appendingPathComponent("refs"), common.appendingPathComponent("refs/heads"),
+                    common.appendingPathComponent("refs/heads/fum"), dir.appendingPathComponent("stage")] {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+        }
+        let head = String(repeating: "b", count: 40), source = String(repeating: "a", count: 40)
+        for (path, text) in [(w.appendingPathComponent(".git"), "gitdir: \(gitDir.path)\n"),
+            (gitDir.appendingPathComponent("gitdir"), "\(w.path)/.git\n"),
+            (gitDir.appendingPathComponent("commondir"), "../..\n"),
+            (gitDir.appendingPathComponent("HEAD"), "ref: \(ref)\n"),
+            (common.appendingPathComponent(ref), head + "\n")] {
+            try Self.save(Data(text.utf8), path, mode: 0o644)
+        }
+        let current = dir.appendingPathComponent("current.json")
+        let lock = dir.appendingPathComponent("current.json.lock")
+        let retained = dir.appendingPathComponent("retained-v2.json")
+        try Self.save(Data("retained V2 bytes\n".utf8), retained)
+        try Self.save(Data(), lock)
+        var lockStat = stat(); try #require(lstat(lock.path, &lockStat) == 0)
+        let lockPin: [String: Any] = ["path": lock.path, "device": Int64(lockStat.st_dev), "inode": UInt64(lockStat.st_ino)]
+        let headerURL = dir.appendingPathComponent("header.json")
+        var header: [String: Any] = ["схема": "fum.stop-заголовок.\(version)",
+            "задача": "00000000-0000-4000-8000-000000000001", "узел": "synthetic",
+            "область": "test", "поколение": "generation1", "cwd": w.path, "дерево": w.path,
+            "ref": ref, "gitDir": gitDir.path, "commonGitDir": common.path, "backend": "files",
+            "objectFormat": "sha1", "исходники": source, "состояние": current.path,
+            "каталогКвитанций": dir.path, "максимальныйВозрастСекунд": 900]
+        if version == 3 { header["состояниеV2"] = retained.path }
+        let headerData = try Self.json(header), headerSHA = АтомарныеБайтыStop.sha256(headerData)
+        try Self.save(headerData, headerURL, mode: 0o400)
+        let now = Int64(Date().timeIntervalSince1970)
+        let snapshot: [String: Any] = ["схема": "fum.текущие-обязательства-stop.\(version)",
+            "заголовокSHA256": headerSHA, "задача": "00000000-0000-4000-8000-000000000001", "узел": "synthetic",
+            "область": "test", "поколение": "generation1", "cwd": w.path, "дерево": w.path,
+            "ref": ref, "HEAD": head, "выпущен": now - 1, "действуетДо": now + 300,
+            "управление": ["действие": "продолжать", "основание": "Legacy config regression"]]
+        try Self.save(Self.json(snapshot), current)
+        var resources: [[String: Any]] = []
+        let stage = dir.appendingPathComponent("stage")
+        for n in 0..<23 {
+            let name = n == 0 ? "fuma" : String(format: "r%02d", n)
+            let data = Data(("unexecuted legacy resource " + name).utf8)
+            try Self.save(data, stage.appendingPathComponent(name), mode: n == 0 ? 0o500 : 0o400)
+            resources.append(["путь": name, "байтов": data.count, "sha256": АтомарныеБайтыStop.sha256(data)])
+        }
+        let manifestURL = stage.appendingPathComponent("manifest.json"), handler = stage.appendingPathComponent("fuma")
+        try Self.save(Self.json(["файлы": resources]), manifestURL)
+        let argv = [handler.path, "stop", "--идентификатор-обработчика", "fum.stop-handler.1",
+            "--codex-thread-id", "00000000-0000-4000-8000-000000000001",
+            "--идентификатор-узла", "synthetic", "--ожидаемый-cwd", w.path, "--состояние", current.path,
+            "--профиль-наблюдений", "fum.текущие-обязательства-stop.\(version)",
+            "--заголовок", headerURL.path, "--хэш-заголовка", headerSHA]
+        let command = УстановщикStop.command(argv), oldCommand = "retained-old-command"
+        let oldValue: [String: Any] = ["hooks": ["Stop": [
+            ["hooks": [["type": "command", "command": "foreign", "timeout": 77]]],
+            ["hooks": [["type": "command", "command": oldCommand, "timeout": 31]]]]], "keep": "Ёж"]
+        let original = try Self.json(oldValue), oldToken = try Self.json(oldCommand).dropLast()
+        let range = try #require(original.range(of: Data(oldToken)))
+        var changed = original
+        changed.replaceSubrange(range, with: try Self.json(command).dropLast())
+        old = original; candidate = changed
+        try Self.save(original, config); try Self.save(changed, candidateURL)
+        var manifestPin = try Self.pin(manifestURL, mode: 0o600)
+        manifestPin["files"] = 23; manifestPin["resourceMode"] = 0o400
+        var envStat = stat(); try #require(lstat("/usr/bin/env", &envStat) == 0)
+        let env = try Data(contentsOf: URL(fileURLWithPath: "/usr/bin/env"))
+        let plan: [String: Any] = ["schema": "fum.stop-installer-plan.3", "profile": "fum.native-stop.install.1",
+            "source": source, "sourceOriginC3": source, "sourceTree": String(repeating: "c", count: 40),
+            "header": try Self.pin(headerURL, mode: 0o400), "candidate": try Self.pin(candidateURL, mode: 0o600),
+            "handler": try Self.pin(handler, mode: 0o500),
+            "old": ["path": config.path, "bytes": original.count, "sha256": АтомарныеБайтыStop.sha256(original),
+                "mode": 0o600, "commandSHA256": АтомарныеБайтыStop.sha256(Data(oldCommand.utf8)),
+                "tokenOffset": range.lowerBound, "tokenBytes": oldToken.count],
+            "command": ["argv": argv, "text": command, "launcherArgv": ["/usr/bin/env", "-i", "PATH="] + argv],
+            "environment": ["clear": true, "only": ["PATH": ""], "resourceBundleOverridesAbsent": true],
+            "systemEnv": ["path": "/usr/bin/env", "bytes": env.count, "sha256": АтомарныеБайтыStop.sha256(env),
+                "uid": envStat.st_uid, "nlink": UInt64(envStat.st_nlink), "mode": Int(envStat.st_mode & 0o7777)],
+            "stageManifest": manifestPin,
+            "current": ["path": current.path, "maxBytes": 32_768, "mode": 0o600, "lock": lockPin],
+            "legacyUnknownAccepted": "The original Decodable contract retains this field"]
+        try Self.save(Self.json(plan, pretty: true), planURL)
+    }
+    func run(apply: Bool, points: ТочкиКонфигурацииStop = ТочкиКонфигурацииStop()) throws -> РезультатКонфигурацииStop {
+        var argv = ["--план", planURL.path, "--хэш-плана",
+            АтомарныеБайтыStop.sha256(try Data(contentsOf: planURL))]
+        if apply { argv += ["--применить", АтомарныеБайтыStop.sha256(candidate)] }
+        else { argv.append("--проверить") }
+        return УстановщикStop.конфигурацияВКонтексте(argv, host: .init(домашнийКаталог: root.path), точки: points)
+    }
+}
+@Suite("Config installer: fixed host и только общая legacy2/3 регрессия", .serialized)
+struct ПроверкиОбщейВеткиКонфигурацииStop {
+    @Test(arguments: [0, 1])
+    func configCLIСохраняетФиксированныйHostБезOverride(_ row: Int) throws {
+        if row == 0 {
+            let host = try ХостКонфигурацииStop.текущий()
+            let pw = try #require(getpwuid(geteuid()))
+            let home = try #require(pw.pointee.pw_dir)
+            #expect(host.путьКонфига == String(cString: home) + "/.codex/hooks.json")
+        } else {
+            let r = УстановщикStop.конфигурацияВКонтексте(["--план", "/synthetic/never-opened",
+                "--хэш-плана", String(repeating: "a", count: 64), "--проверить", "--config", "/synthetic/override"],
+                host: .init(домашнийКаталог: "/synthetic"))
+            #expect(r.код == 2 && r.вывод["writes"] as? Int == 0 && r.вывод["error"] as? String == "A0")
+        }
+    }
+    @Test(arguments: [2, 3, 12, 13])
+    func общаяУстановкаСохраняетConfigV2V3(_ row: Int) throws {
+        let version = row % 10, отказДоRename = row >= 10
+        let f = try ФикстураОбщейУстановкиConfig(version)
+        let check = try f.run(apply: false)
+        #expect(check.код == 0 && check.вывод["writes"] as? Int == 0)
+        #expect(try Data(contentsOf: f.config) == f.old)
+        var points = ТочкиКонфигурацииStop()
+        if отказДоRename {
+            points.передRename = { throw NSError(domain: "СинтетическийОтказДоRename", code: 1, userInfo: nil) }
+        }
+        let result = try f.run(apply: true, points: points)
+        if отказДоRename {
+            #expect(result.код == 2 && result.вывод["status"] as? String == "FAILED")
+            #expect(result.вывод["boundary"] as? String == "beforeRename")
+            #expect(result.вывод["temporaryPath"] == nil)
+            #expect(try Data(contentsOf: f.config) == f.old)
+            let names = try FileManager.default.contentsOfDirectory(atPath: f.config.deletingLastPathComponent().path)
+            #expect(!names.contains { $0.hasPrefix(".fum-stop-") && $0.hasSuffix(".tmp") })
+        } else {
+            #expect(result.код == 0 && result.вывод["status"] as? String == "APPLIED")
+            #expect(try Data(contentsOf: f.config) == f.candidate)
+        }
+        for key in ["intentReceipt", "outcomeReceipt"] {
+            let path = try #require(result.вывод[key] as? String)
+            let data = try Data(contentsOf: URL(fileURLWithPath: path))
+            #expect(!data.isEmpty)
+        }
+        // Сохраняем собственную fixture и receipts для независимого readback.
+    }
+}

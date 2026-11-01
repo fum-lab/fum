@@ -1727,7 +1727,7 @@ private indirect enum ЗначениеJSONЯкорногоСтенда: Codable 
     }
 }
 
-import УстановкаStop
+@testable import УстановкаStop
 
 private extension СинтетическийЯкорь {
     static func новаяФикстура() throws -> Self {
@@ -4321,5 +4321,375 @@ extension ПроверкиСтабильногоЯкоря {
             #expect(СинтетическийЯкорь.отсутствует(к.ф.указатель))
             #expect(try СинтетическийЯкорь.объект(Data(contentsOf: к.ф.путьИсхода(к.выпуск)))["исход"] as? String == "UNKNOWN")
         }
+    }
+}
+
+
+// Config-V4: только source тестового стенда. Исполнение требует отдельного START.
+private struct ФикстураУстановкиКонфигаV4 {
+    let якорь: СинтетическийЯкорь
+    var план: [String: Any]
+    var root: URL { якорь.корень }
+    var config: URL { root.appendingPathComponent(".codex/hooks.json") }
+    var planURL: URL { root.appendingPathComponent("install-plan4.json") }
+    var candidateURL: URL { root.appendingPathComponent("candidate-config.json") }
+    var host: ХостКонфигурацииStop { .init(домашнийКаталог: root.path) }
+    static let prefix = Data(#"{"keep":"foreign-root","hooks":{"Stop":[{"hooks":[{"command":"foreign-command"}]},{"timeout":37,"hooks":[{"command":"#.utf8)
+    static let suffix = Data((#","type":"command","timeout":11}]}]},"tail":"foreign-tail"}"# + "\n").utf8)
+    static let oldCommand = "retained old Stop command"
+    static func token(_ value: String) throws -> Data {
+        try JSONSerialization.data(withJSONObject: value, options: [.fragmentsAllowed, .withoutEscapingSlashes])
+    }
+    static var old: Data {
+        get throws { try prefix + token(oldCommand) + suffix }
+    }
+    static func заменитьFixture(_ bytes: Data, _ url: URL, mode: Int = 0o600) throws {
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
+        try bytes.write(to: url)
+        try FileManager.default.setAttributes([.posixPermissions: mode], ofItemAtPath: url.path)
+    }
+    static func pin(_ url: URL, mode: Int) throws -> [String: Any] {
+        let bytes = try Data(contentsOf: url)
+        return ["path": url.path, "bytes": bytes.count, "sha256": СинтетическийЯкорь.хэш(bytes), "mode": mode]
+    }
+    init(control: String = "продолжать", expiredLease: Bool = false, ordinal1: Bool = false,
+         badResult: Bool = false) throws {
+        let path = try #require(ProcessInfo.processInfo.environment["ФУМ_СВИДЕТЕЛЬСТВА_ЯКОРЯ"])
+        якорь = try СинтетическийЯкорь(основание: URL(fileURLWithPath: path), публиковатьНачальный: false)
+        план = [:]
+        let release = try СинтетическийВыпускЯкоря(якорь, изменитьСнимок: { s in
+            s["управление"] = ["действие": control, "основание": "Синтетический config-V4 control"]
+        }, изменитьНагрузку: { p in
+            if expiredLease {
+                let now = Int64(Date().timeIntervalSince1970)
+                p["выдан"] = now - 10; p["действуетДо"] = now - 1
+            }
+        })
+        try release.установитьНачальныйСинтетическийНабор(якорь)
+        if ordinal1 { try установитьOrdinal1(release, badResult: badResult) }
+        let fm = FileManager.default
+        for dir in [root.appendingPathComponent(".codex"), root.appendingPathComponent("stage")] {
+            try fm.createDirectory(at: dir, withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700])
+        }
+        let stage = root.appendingPathComponent("stage")
+        var files: [[String: Any]] = []
+        for n in 0..<23 {
+            let name = n == 0 ? "fuma" : String(format: "resource-%02d", n)
+            let data = Data(("synthetic unexecuted resource " + name + "\n").utf8)
+            let url = stage.appendingPathComponent(name)
+            try СинтетическийЯкорь.сохранить(data, url, права: n == 0 ? 0o500 : 0o400)
+            files.append(["путь": name, "байтов": data.count, "sha256": СинтетическийЯкорь.хэш(data)])
+        }
+        let manifest = stage.appendingPathComponent("manifest.json")
+        try СинтетическийЯкорь.сохранить(СинтетическийЯкорь.кодироватьОбъект(["файлы": files]),
+            manifest, права: 0o600)
+        let handler = stage.appendingPathComponent("fuma")
+        let argv = [handler.path, "stop", "--идентификатор-обработчика", "fum.stop-handler.1",
+            "--codex-thread-id", СинтетическийЯкорь.задача, "--идентификатор-узла", СинтетическийЯкорь.узел,
+            "--ожидаемый-cwd", якорь.нативныйКаталог.path, "--состояние", якорь.указатель.path,
+            "--профиль-наблюдений", "fum.текущие-обязательства-stop.4",
+            "--заголовок", якорь.заголовок.path, "--хэш-заголовка", якорь.хэшЗаголовка]
+        let command = УстановщикStop.command(argv)
+        let oldToken = try Self.token(Self.oldCommand)
+        let old = try Self.old
+        let candidate = try Self.prefix + Self.token(command) + Self.suffix
+        try СинтетическийЯкорь.сохранить(old, config, права: 0o600)
+        try СинтетическийЯкорь.сохранить(candidate, candidateURL, права: 0o600)
+        var envStat = stat()
+        try #require(lstat("/usr/bin/env", &envStat) == 0)
+        let env = try Data(contentsOf: URL(fileURLWithPath: "/usr/bin/env"))
+        let header = try СинтетическийЯкорь.объект(Data(contentsOf: якорь.заголовок))
+        let lock = try #require(header["замок"] as? [String: Any])
+        var manifestPin = try Self.pin(manifest, mode: 0o600)
+        manifestPin["files"] = 23; manifestPin["resourceMode"] = 0o400
+        план = [
+            "schema": "fum.stop-installer-plan.4", "profile": "fum.native-stop.install.4",
+            "source": СинтетическийЯкорь.исходники, "sourceOriginC3": СинтетическийЯкорь.исходники,
+            "sourceTree": String(repeating: "7", count: 40),
+            "header": try Self.pin(якорь.заголовок, mode: 0o400),
+            "candidate": try Self.pin(candidateURL, mode: 0o600),
+            "handler": try Self.pin(handler, mode: 0o500),
+            "old": ["path": config.path, "bytes": old.count, "sha256": СинтетическийЯкорь.хэш(old),
+                "commandSHA256": СинтетическийЯкорь.хэш(Data(Self.oldCommand.utf8)),
+                "tokenOffset": Self.prefix.count, "tokenBytes": oldToken.count, "mode": 0o600],
+            "command": ["argv": argv, "text": command, "launcherArgv": ["/usr/bin/env", "-i", "PATH="] + argv],
+            "environment": ["clear": true, "only": ["PATH": ""], "resourceBundleOverridesAbsent": true],
+            "systemEnv": ["path": "/usr/bin/env", "bytes": env.count, "sha256": СинтетическийЯкорь.хэш(env),
+                "uid": envStat.st_uid, "nlink": UInt64(envStat.st_nlink), "mode": Int(envStat.st_mode & 0o7777)],
+            "stageManifest": manifestPin,
+            "current": ["path": якорь.указатель.path, "maxBytes": 65_536, "mode": 0o600, "lock": lock,
+                "expectedSHA256": СинтетическийЯкорь.хэш(try Data(contentsOf: якорь.указатель))]
+        ]
+        try СинтетическийЯкорь.сохранить(СинтетическийЯкорь.кодироватьОбъект(план), planURL, права: 0o600)
+    }
+    func сохранитьВыпуск(_ выпуск: СинтетическийВыпускЯкоря) throws {
+        try СинтетическийЯкорь.сохранить(выпуск.снимок,
+            root.appendingPathComponent("snapshots/" + выпуск.снимокSHA + ".json"), права: 0o400)
+        try СинтетическийЯкорь.сохранить(выпуск.конверт,
+            root.appendingPathComponent("adoptions/\(выпуск.публикация).допуск.json"), права: 0o400)
+        try СинтетическийЯкорь.сохранить(выпуск.маркер,
+            root.appendingPathComponent("adoptions/\(выпуск.публикация).завершение.json"), права: 0o400)
+        let old = try Data(contentsOf: якорь.указатель)
+        _ = try АтомарныеБайтыStop.заменить(якорь.указатель.path,
+            ожидаемыйSHA256: СинтетическийЯкорь.хэш(old), новыми: выпуск.конверт)
+    }
+    func установитьOrdinal1(_ первый: СинтетическийВыпускЯкоря, badResult: Bool) throws {
+        let p = try СинтетическийЯкорь.объект(первый.нагрузка)
+        // Unit seed полного prior claim: callback не вызывается.
+        var claim: [String: Any] = ["схема": "fum.stop-захват-продолжения.2",
+            "ход": "Явный синтетический prior claim", "подписанныйДопускSHA256": первый.конвертSHA]
+        for key in ["задача", "узел", "область", "поколение", "исходники", "эпоха", "операция",
+                    "корневойДопускSHA256", "заголовокSHA256", "наблюдениеSHA256",
+                    "редакция", "номер", "вид", "пункт", "следующаяРабота"] { claim[key] = p[key] }
+        claim["полныйСнимокSHA256"] = первый.снимокSHA
+        let rawClaim = try СинтетическийЯкорь.кодироватьОбъект(claim)
+        try СинтетическийЯкорь.сохранить(rawClaim,
+            якорь.захваты.appendingPathComponent(СинтетическийЯкорь.эпоха + ".0.claim"), права: 0o400)
+        let op = UUID().uuidString.lowercased()
+        let change: (inout [String: Any]) throws -> Void = { s in
+            s["редакция"] = 8
+            var observations = try #require(s["наблюдения"] as? [String: Any])
+            observations["следующаяРабота"] = "Следующий отдельный синтетический config-V4 шаг"
+            s["наблюдения"] = observations
+        }
+        let preview = try СинтетическийВыпускЯкоря(якорь, публикация: 1, номер: 1,
+            операция: op, предыдущий: первый.конверт, предыдущаяОперация: первый.операция,
+            изменитьСнимок: change)
+        let progress = try якорь.сохранитьПрогрессПослеClaim(rawClaim, прежняяНагрузка: p, следующий: preview)
+        let next = try СинтетическийВыпускЯкоря(якорь, публикация: 1, номер: 1,
+            операция: op, предыдущий: первый.конверт, предыдущаяОперация: первый.операция,
+            прогресс: progress, изменитьСнимок: change)
+        try #require(next.проектSHA == preview.проектSHA && next.решениеSHA == preview.решениеSHA)
+        try сохранитьВыпуск(next)
+        if badResult {
+            try Self.заменитьFixture(Data("damaged result\n".utf8),
+                root.appendingPathComponent("receipts/" + op + ".result.json"), mode: 0o400)
+        }
+    }
+    func новыйValidCurrent() throws {
+        let old = try Data(contentsOf: якорь.указатель)
+        let next = try СинтетическийВыпускЯкоря(якорь, публикация: 1,
+            операция: UUID().uuidString.lowercased(), предыдущий: old)
+        try сохранитьВыпуск(next)
+    }
+    mutating func записатьПлан() throws {
+        try Self.заменитьFixture(СинтетическийЯкорь.кодироватьОбъект(план), planURL)
+    }
+    func argv(apply: Bool = false) throws -> [String] {
+        var a = ["--план", planURL.path, "--хэш-плана", СинтетическийЯкорь.хэш(try Data(contentsOf: planURL))]
+        if apply { a += ["--применить", СинтетическийЯкорь.хэш(try Data(contentsOf: candidateURL))] }
+        else { a.append("--проверить") }
+        return a
+    }
+    func run(apply: Bool = false, points: ТочкиКонфигурацииStop = ТочкиКонфигурацииStop()) throws
+        -> РезультатКонфигурацииStop {
+        УстановщикStop.конфигурацияВКонтексте(try argv(apply: apply), host: host, точки: points)
+    }
+    func namesAndBytes() throws -> [String: Data] {
+        var result: [String: Data] = [:]
+        let enumerator = try #require(FileManager.default.enumerator(at: root,
+            includingPropertiesForKeys: nil, options: []))
+        while let url = enumerator.nextObject() as? URL {
+            var s = stat()
+            try #require(lstat(url.path, &s) == 0)
+            let relative = String(url.path.dropFirst(root.path.count + 1))
+            if s.st_mode & S_IFMT == S_IFDIR { result["directory:" + relative] = Data() }
+            else {
+                try #require(s.st_mode & S_IFMT == S_IFREG && s.st_nlink == 1)
+                result["file:" + relative] = try Data(contentsOf: url)
+            }
+        }
+        return result
+    }
+    func audit(_ r: РезультатКонфигурацииStop) throws {
+        for key in ["intentReceipt", "outcomeReceipt"] {
+            let path = try #require(r.вывод[key] as? String)
+            let bytes = try Data(contentsOf: URL(fileURLWithPath: path))
+            try #require(!bytes.isEmpty)
+            var s = stat()
+            try #require(lstat(path, &s) == 0 && s.st_mode & 0o7777 == 0o600
+                && s.st_uid == geteuid() && s.st_nlink == 1)
+            let object = try СинтетическийЯкорь.объект(bytes)
+            #expect(object["status"] as? String == (key == "intentReceipt" ? "INTENT" : r.вывод["status"] as? String))
+            #expect(object["operationKey"] as? String == r.вывод["operationKey"] as? String)
+            #expect(object["planSHA256"] as? String == r.вывод["planSHA256"] as? String)
+        }
+    }
+}
+
+@Suite("Config-V4: selected8/28, реальные Native эффекты не доказаны", .serialized)
+struct ПроверкиСовместимостиУстановкиКонфигаV4 {
+    @Test func установщикV4ПроверяетПодписанныйCurrentБезЗаписей() throws {
+        let f = try ФикстураУстановкиКонфигаV4()
+        // Отдельный будущий fixture-preparation START, не один из28 GREEN outcomes.
+        // Используется тот же test target и прежние Core API, не новый runner/checker.
+        if ProcessInfo.processInfo.environment["ФУМ_CONFIG_V4_ТОЛЬКО_ПОДГОТОВКА"] == "1" {
+            let h = try КорневойДопускStopV4.разобрать(КорневойДопускStopV4.Заголовок.self,
+                из: Data(contentsOf: f.якорь.заголовок), предел: 32_768)
+            try КорневойДопускStopV4.проверитьЗаголовок(h)
+            try ЗамокТекущегоStop.выполнить(h.замок) { check in
+                var read = КорневойДопускStopV4.Чтение()
+                _ = try КорневойДопускStopV4.прочитатьСостояние(h, хэшЗаголовка: f.якорь.хэшЗаголовка,
+                    путьЗаголовка: f.якорь.заголовок.path, чтение: &read, проверитьЗамок: check)
+                try read.подтвердить(); try check()
+            }
+            let data = try СинтетическийЯкорь.кодироватьОбъект([
+                "схема": "fum.synthetic-config-v4-RED-fixture.1", "GREEN": false,
+                "planPath": f.planURL.path, "planSHA256": СинтетическийЯкорь.хэш(try Data(contentsOf: f.planURL)),
+                "headerSHA256": f.якорь.хэшЗаголовка, "argv": try f.argv(),
+                "fixtureRoot": f.root.path, "actualCLI": "NOT_RUN"] as [String: Any])
+            try FileHandle.standardOutput.write(contentsOf: data)
+            return
+        }
+        let before = try f.namesAndBytes(), r = try f.run()
+        #expect(r.код == 0 && r.вывод["status"] as? String == "METADATA_CHECKED")
+        #expect(r.вывод["writes"] as? Int == 0 && r.вывод["metadataChecked"] as? Bool == true)
+        #expect(r.вывод["activationAuthorized"] as? Bool == false)
+        #expect(r.вывод["currentSHA256"] as? String == СинтетическийЯкорь.хэш(try Data(contentsOf: f.якорь.указатель)))
+        #expect(try f.namesAndBytes() == before)
+    }
+    @Test func установщикV4ЗаменяетТолькоКомандуИВыдаётArgvConsumer() throws {
+        let f = try ФикстураУстановкиКонфигаV4()
+        let before = try f.namesAndBytes(), r = try f.run(apply: true)
+        #expect(r.код == 0 && r.вывод["status"] as? String == "APPLIED")
+        let actual = try Data(contentsOf: f.config), candidate = try Data(contentsOf: f.candidateURL)
+        #expect(actual == candidate)
+        #expect(actual.prefix(ФикстураУстановкиКонфигаV4.prefix.count) == ФикстураУстановкиКонфигаV4.prefix)
+        #expect(actual.suffix(ФикстураУстановкиКонфигаV4.suffix.count) == ФикстураУстановкиКонфигаV4.suffix)
+        let command = try #require(f.план["command"] as? [String: Any])
+        let argv = try #require(command["argv"] as? [String])
+        let parsed = try #require(КомандаStop.разобратьПараметрыЧетвёртогоПрофиля(Array(argv.dropFirst(2))))
+        #expect(argv.count == 18 && parsed.задача == СинтетическийЯкорь.задача)
+        #expect(parsed.узел == СинтетическийЯкорь.узел && parsed.рабочийКаталог == f.якорь.нативныйКаталог.path)
+        #expect(parsed.состояние == f.якорь.указатель.path && parsed.заголовок == f.якорь.заголовок.path)
+        #expect(parsed.хэшЗаголовка == f.якорь.хэшЗаголовка)
+        try f.audit(r)
+        let after = try f.namesAndBytes()
+        let added = Set(after.keys).subtracting(before.keys)
+        #expect(added.count == 2 && added.allSatisfy { $0.contains(".fum-stop-install-") })
+        for (key, bytes) in before where key != "file:.codex/hooks.json" { #expect(after[key] == bytes) }
+    }
+    @Test(arguments: Array(0..<8))
+    func установщикV4ОтклоняетНеверныеПривязки(_ row: Int) throws {
+        var f = try ФикстураУстановкиКонфигаV4()
+        switch row {
+        case 0: f.план["profile"] = "fum.native-stop.install.1"
+        case 1: f.план["schema"] = "fum.stop-installer-plan.3"; f.план["profile"] = "fum.native-stop.install.1"
+        case 2: f.план["unknownExtra"] = "must be rejected by strict roundtrip"
+        case 3, 4:
+            var cmd = try #require(f.план["command"] as? [String: Any])
+            var a = try #require(cmd["argv"] as? [String])
+            if row == 3 { a[4] = a[2] } else { a[13] = "fum.текущие-обязательства-stop.3" }
+            cmd["argv"] = a; cmd["text"] = УстановщикStop.command(a)
+            cmd["launcherArgv"] = ["/usr/bin/env", "-i", "PATH="] + a; f.план["command"] = cmd
+        case 5:
+            var pin = try #require(f.план["current"] as? [String: Any])
+            pin["expectedSHA256"] = String(repeating: "e", count: 64); f.план["current"] = pin
+        case 6:
+            try ФикстураУстановкиКонфигаV4.заменитьFixture(Data("bad resource\n".utf8),
+                f.root.appendingPathComponent("stage/resource-01"), mode: 0o400)
+        default:
+            var old = try #require(f.план["old"] as? [String: Any])
+            old["path"] = f.root.appendingPathComponent("not-approved-config.json").path; f.план["old"] = old
+        }
+        try f.записатьПлан()
+        let before = try f.namesAndBytes(), r = try f.run()
+        #expect(r.код == 2 && r.вывод["status"] as? String == "FAILED")
+        #expect(r.вывод["writes"] as? Int == 0)
+        #expect(try f.namesAndBytes() == before)
+    }
+    @Test(arguments: Array(0..<6))
+    func установщикV4ПроверяетУправлениеLeaseИПрогресс(_ row: Int) throws {
+        var f = try ФикстураУстановкиКонфигаV4(control: row == 1 ? "пауза" : (row == 2 ? "стоп" : "продолжать"),
+            expiredLease: row == 3, ordinal1: row >= 4, badResult: row == 5)
+        if row == 0 {
+            let h = try КорневойДопускStopV4.разобрать(КорневойДопускStopV4.Заголовок.self,
+                из: Data(contentsOf: f.якорь.заголовок), предел: 32_768)
+            let record = try КорневойДопускStopV4.проверитьКонверт(Data(contentsOf: f.якорь.указатель),
+                заголовок: h, хэшЗаголовка: f.якорь.хэшЗаголовка)
+            let snapshot = try Data(contentsOf: f.root.appendingPathComponent("snapshots/" + record.нагрузка.имяСнимка))
+            try ФикстураУстановкиКонфигаV4.заменитьFixture(snapshot, f.якорь.указатель)
+            var pin = try #require(f.план["current"] as? [String: Any])
+            pin["expectedSHA256"] = СинтетическийЯкорь.хэш(snapshot); f.план["current"] = pin
+            try f.записатьПлан()
+        }
+        let before = try f.namesAndBytes(), r = try f.run()
+        if row == 1 || row == 2 {
+            #expect(r.код == 3 && r.вывод["status"] as? String == "BLOCKED")
+        } else if row == 4 { #expect(r.код == 0) }
+        else { #expect(r.код == 2 && r.вывод["status"] as? String == "FAILED") }
+        #expect(r.вывод["writes"] as? Int == 0)
+        #expect(try f.namesAndBytes() == before)
+    }
+    @Test(arguments: Array(0..<5))
+    func установщикV4ПовторяетПроверкиПодЗамкомИПередRename(_ row: Int) throws {
+        let f = try ФикстураУстановкиКонфигаV4()
+        let h = try КорневойДопускStopV4.разобрать(КорневойДопускStopV4.Заголовок.self,
+            из: Data(contentsOf: f.якорь.заголовок), предел: 32_768)
+        if row == 0 {
+            let before = try f.namesAndBytes()
+            let r = try ЗамокТекущегоStop.выполнить(h.замок) { _ in try f.run() }
+            #expect(r.код == 2 && r.вывод["writes"] as? Int == 0)
+            #expect(try f.namesAndBytes() == before)
+            return
+        }
+        var points = ТочкиКонфигурацииStop(), held: Int32 = -1
+        defer { if held >= 0 { _ = flock(held, LOCK_UN); _ = Darwin.close(held) } }
+        if row == 1 {
+            points.послеНамерения = {
+                held = Darwin.open(h.замок.path, O_RDWR | O_NOFOLLOW | O_CLOEXEC)
+                try #require(held >= 0 && flock(held, LOCK_EX | LOCK_NB) == 0)
+            }
+        } else if row == 2 {
+            #expect(try f.run().код == 0)
+            try f.новыйValidCurrent()
+        } else if row == 3 { points.передRename = { try f.новыйValidCurrent() } }
+        else {
+            points.передRename = {
+                try ФикстураУстановкиКонфигаV4.заменитьFixture(Data((String(repeating: "d", count: 40) + "\n").utf8),
+                    URL(fileURLWithPath: h.общийКаталогХранилища + "/" + h.ссылка), mode: 0o644)
+            }
+        }
+        let r = try f.run(apply: true, points: points)
+        #expect(r.код != 0)
+        #expect(try Data(contentsOf: f.config) == ФикстураУстановкиКонфигаV4.old)
+        if row != 2 {
+            try f.audit(r)
+            #expect(r.вывод["automaticRetry"] as? Bool == false)
+        } else { #expect(r.вывод["writes"] as? Int == 0) }
+        if row == 3 || row == 4 {
+            #expect(r.код == 4 && r.вывод["status"] as? String == "UNKNOWN")
+            #expect(r.вывод["boundary"] as? String == "beforeRename")
+            let temp = try #require(r.вывод["temporaryPath"] as? String)
+            #expect(temp.hasPrefix(f.root.path + "/.codex/.fum-stop-") && temp.hasSuffix(".tmp"))
+            var s = stat()
+            try #require(lstat(temp, &s) == 0 && s.st_mode & S_IFMT == S_IFREG
+                && s.st_mode & 0o7777 == 0o600 && s.st_uid == geteuid() && s.st_nlink == 1)
+            let retained = try Data(contentsOf: URL(fileURLWithPath: temp))
+            #expect(retained == (try Data(contentsOf: f.candidateURL)))
+            let path = try #require(r.вывод["outcomeReceipt"] as? String)
+            let outcome = try СинтетическийЯкорь.объект(Data(contentsOf: URL(fileURLWithPath: path)))
+            #expect(outcome["temporaryPath"] as? String == temp)
+            #expect(outcome["status"] as? String == "UNKNOWN")
+            var after = stat()
+            #expect(lstat(temp, &after) == 0 && after.st_dev == s.st_dev && after.st_ino == s.st_ino)
+            #expect(try Data(contentsOf: f.config) == ФикстураУстановкиКонфигаV4.old)
+            // Только readback: retained temp/audit не удаляются и операция не повторяется.
+        }
+    }
+    @Test func установщикV4СохраняетПозднийНеизвестныйИсход() throws {
+        let f = try ФикстураУстановкиКонфигаV4()
+        var points = ТочкиКонфигурацииStop()
+        points.синхронизацияКаталога = { _ in throw ОшибкаЯкорногоСтенда.запись }
+        let r = try f.run(apply: true, points: points)
+        #expect(r.код == 4 && r.вывод["status"] as? String == "UNKNOWN")
+        #expect(r.вывод["boundary"] as? String == "afterRename")
+        #expect(r.вывод["temporaryPath"] == nil)
+        #expect(r.вывод["automaticRetry"] as? Bool == false && r.вывод["automaticRollback"] as? Bool == false)
+        #expect(try Data(contentsOf: f.config) == Data(contentsOf: f.candidateURL))
+        #expect(r.вывод["observedConfigSHA256"] as? String == СинтетическийЯкорь.хэш(try Data(contentsOf: f.config)))
+        try f.audit(r)
+        // UNKNOWN, audit и возможный temp остаются; fixture не удаляется и не повторяется.
     }
 }

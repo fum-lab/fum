@@ -1,0 +1,393 @@
+{
+  "схема": "fum.рецепт-исходников-установки-конфига-V4.1",
+  "назначение": "Восстановить конечные исходники уже существующего верхнего compiler contour из Git: шесть опубликованных исправленных путей, прежние исходники/открытые ресурсы, встроенный прежний минимальный Package и точные побайтные преобразования. Рецепт декларативный; сам не запускает compiler, тесты или Native.",
+  "базовыйКоммит": "2d079e22238137dd0ae922921ec3c77023a54564",
+  "исправляемыеИсходники": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/kontrakt-tekusjhikh-obyazateljstv-stop.json",
+      "байтов": 95735,
+      "sha256": "ec389806e8c51556fd4a6041486383db96df4e9bcb80b988bc1b08a364820736",
+      "идентификаторОбъекта": "8bb409286dae10487efb281b5e51b714aa780f04",
+      "режим": "100644"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+      "байтов": 363450,
+      "sha256": "a7a5bfdc1a4d47b0825bbab00cc7bbac14947b25fa95666ed1e779c637249eaf",
+      "идентификаторОбъекта": "dc15b5bcb0f8993f7fb5b827241713f194690594",
+      "режим": "100644"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+      "байтов": 220997,
+      "sha256": "7d676746685e346259be08018f3aa0922ab92093ec11aa5b17b590e3aa38df8b",
+      "идентификаторОбъекта": "fdf8d5e51d89953cb3e48a22399debebf6f7f0a4",
+      "режим": "100644"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/kontrakt-ustanovki-stop.json",
+      "байтов": 103842,
+      "sha256": "7273f6390b3efe0660056fe2ffa620fca8cce41d25dc7440f65962518515f1f8",
+      "идентификаторОбъекта": "a5ce20b49112149cd93c697601b252e1bd89ef9b",
+      "режим": "100644"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+      "байтов": 65215,
+      "sha256": "4fb3e0aa02c498283fb16e0bdb3c73f036ac9287980618c4acbc515c217b2198",
+      "идентификаторОбъекта": "bc439652149371608aac2ed9df057271840c3b44",
+      "режим": "100644"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+      "байтов": 158902,
+      "sha256": "e251708e2c659899cd224873ed3a6fe6b03110080d451d914ff1b9f725085636",
+      "идентификаторОбъекта": "1213a4d915e76d3a428ecb6d08f24dbb2b556448",
+      "режим": "100644"
+    }
+  ],
+  "предусловия": [
+    "Чистый checkout коммита, содержащего точные шесть postimage pins ниже; изменившийся ref не заменяет версию.",
+    "Проверить регистр/NFC/тип каждого входа; символические ссылки и неизвестные дополнительные входы не принимать.",
+    "Выход — новый явно выбранный каталог вне checkout, ранее отсутствующий, с одним писателем; существующий либо неизвестный исход не повторять.",
+    "После восстановления исходников компиляция и runtime требуют отдельного адресного допуска и свежего окружения; рецепт не является N32 или полным профилем."
+  ],
+  "источников31": [
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+      "преобразование": "literal",
+      "байтов": 9497,
+      "sha256": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+      "преобразование": "literal",
+      "байтов": 12953,
+      "sha256": "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Domain.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Domain.swift",
+      "преобразование": "literal",
+      "байтов": 19688,
+      "sha256": "12e1df61f025ccc217ab920c2ccc28d33bebe30757f32ed66c311a0361fcb1bf"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Engine.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Engine.swift",
+      "преобразование": "literal",
+      "байтов": 30091,
+      "sha256": "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+      "преобразование": "literal",
+      "байтов": 14928,
+      "sha256": "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/vkhod-jsonl.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/vkhod-jsonl.swift",
+      "преобразование": "literal",
+      "байтов": 23951,
+      "sha256": "bff89e24c715cc9a2eea31f7070a23f4ca39e557bc51585427c8c6ee79b0206c"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift",
+      "преобразование": "literal",
+      "байтов": 17871,
+      "sha256": "b30fbbe86574af3d77b9bb70325cb5add4eac98e07e7a27d334d480ccce76faf"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ГрафJSON.swift",
+      "преобразование": "literal",
+      "байтов": 7483,
+      "sha256": "13a6a25c59f3ee437c933618a3077cfbea0fbb567c4ff9c787f2c16d7aaae26b"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+      "преобразование": "literal",
+      "байтов": 10394,
+      "sha256": "7ae018ba2347e91cd2b41acc2f86c1ff7bc0927126c7f8b1d60fcb52618a28fa"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+      "преобразование": "literal",
+      "байтов": 32284,
+      "sha256": "dab7b52639c92fed633a3eda3e7abea169ff08c06280fef15650360bb6132651"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift",
+      "преобразование": "literal",
+      "байтов": 6625,
+      "sha256": "93e81ddca96164c3d09cafbbec0f63843699ef3adfd4e507c8df3aed616f8166"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+      "преобразование": "literal",
+      "байтов": 3911,
+      "sha256": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+      "преобразование": "literal",
+      "байтов": 19242,
+      "sha256": "e9b20904fa21e66a26843fccf9423c43c5ed346a23b225a23bc47eec1d31d9be"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+      "преобразование": "literal",
+      "байтов": 6617,
+      "sha256": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json",
+      "преобразование": "literal",
+      "байтов": 4778,
+      "sha256": "eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+      "преобразование": "literal",
+      "байтов": 641,
+      "sha256": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+      "преобразование": "literal",
+      "байтов": 8814,
+      "sha256": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/РазмерСоединенияСтрок.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/РазмерСоединенияСтрок.swift",
+      "преобразование": "literal",
+      "байтов": 3060,
+      "sha256": "64a91c6ceaf67ef6fb7d431d0b91ba9cb87be637af229d65dc5b5121dd3b4cc6"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+      "преобразование": "literal",
+      "байтов": 18252,
+      "sha256": "1c2262433f80a3d7a630238fa9a806329afc12f941c5d292c1c5afc6bb9904b8"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+      "преобразование": "literal",
+      "байтов": 202,
+      "sha256": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f"
+    },
+    {
+      "назначение": "Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+      "источникВРепозитории": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+      "преобразование": "literal",
+      "байтов": 49897,
+      "sha256": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292"
+    },
+    {
+      "назначение": "Sources/МатериализацияУзлов/polnomochiya.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/uzlyi/polnomochiya.swift",
+      "преобразование": "literal",
+      "байтов": 4878,
+      "sha256": "e1efb4ab3fd69b6da5d105e28cd905a435fd4d69189f8d647eb4b654ad6c7e29"
+    },
+    {
+      "назначение": "Sources/МатериализацияУзлов/opredeleniya/samostoyateljnostj.json",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/uzlyi/opredeleniya/samostoyateljnostj.json",
+      "преобразование": "literal",
+      "байтов": 3415,
+      "sha256": "9e3a0fd3e35aec1077a12db8ca4b9fd87dbd0982689813048925329c94777aec"
+    },
+    {
+      "назначение": "Sources/МатериализацияУзлов/stop.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/uzlyi/stop.swift",
+      "преобразование": "literal",
+      "байтов": 158902,
+      "sha256": "e251708e2c659899cd224873ed3a6fe6b03110080d451d914ff1b9f725085636"
+    },
+    {
+      "назначение": "Dependencies/ustanovka-stop/ustanovitj-stop.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift",
+      "преобразование": "literal",
+      "байтов": 220997,
+      "sha256": "7d676746685e346259be08018f3aa0922ab92093ec11aa5b17b590e3aa38df8b"
+    },
+    {
+      "назначение": "Package.swift",
+      "преобразование": "literal-minimal-package",
+      "байтов": 1992,
+      "sha256": "fc7d65833c327a58d6afac27c776d02c6329ed4478c284882bc41e0f2ae11dc7"
+    },
+    {
+      "назначение": "Tests/ПроверкиСтабильногоЯкоря/ПроверкиСтабильногоЯкоря.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+      "преобразование": "drop-exact-prefix",
+      "байтов": 267014,
+      "sha256": "7fbbe228e060aee1fc5293ad1fd5ab5b2041fab48cf21c0228bca5fcce6c8737",
+      "отброситьПервыхБайт": 96436,
+      "sha256Префикса": "db86116ab740f23fabc2a9ebc33cf51e3c7595b6b0f3ce3a337bb815e59c83d6"
+    },
+    {
+      "назначение": "Dependencies/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift",
+      "преобразование": "literal",
+      "байтов": 65215,
+      "sha256": "4fb3e0aa02c498283fb16e0bdb3c73f036ac9287980618c4acbc515c217b2198"
+    },
+    {
+      "назначение": "Dependencies/ustanovka-stop/kontrakt-ustanovki-stop.json",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/ustanovka-stop/kontrakt-ustanovki-stop.json",
+      "преобразование": "inverse-only-source3-contract-metadata",
+      "байтов": 100996,
+      "sha256": "61167dda9a2f30b181e24928b30f4f047fb6da08c093d08ac987211bd269667e"
+    },
+    {
+      "назначение": "Dependencies/ustanovka-stop/Package.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/ustanovka-stop/Package.swift",
+      "преобразование": "literal",
+      "байтов": 1097,
+      "sha256": "ff4f8c30644613945f54daf93f58b94acf5268bb492bb201005361b99e2bfdd5"
+    },
+    {
+      "назначение": "Dependencies/ustanovka-stop/komanda/main.swift",
+      "источникВРепозитории": "iskhodniki/perekhod-vetok/ustanovka-stop/komanda/main.swift",
+      "преобразование": "literal",
+      "байтов": 150,
+      "sha256": "737469eeac7795e5f8a551fbaeaec6787122925dcc397b965ee5e4729a91e6be"
+    }
+  ],
+  "минимальныйМанифест": {
+    "путьВВыходе": "Package.swift",
+    "байтов": 1992,
+    "sha256": "fc7d65833c327a58d6afac27c776d02c6329ed4478c284882bc41e0f2ae11dc7",
+    "текст": "// swift-tools-version: 6.0\nimport PackageDescription\nlet настройки: [SwiftSetting] = [.swiftLanguageMode(.v6), .unsafeFlags([\"-strict-concurrency=complete\", \"-warnings-as-errors\", \"-enable-actor-data-race-checks\"])]\nlet package = Package(name: \"ПроверкиСтабильногоЯкоря\", platforms: [.macOS(.v14)], products: [], dependencies: [.package(path: \"Dependencies/ustanovka-stop\")], targets: [\n    .target(name: \"FUMStructuringOperatorMemory\", path: \"Sources/FUMStructuringOperatorMemory\", sources: [\"AutomationAndSynchronization.swift\",\"ContextAndLattice.swift\",\"Domain.swift\",\"Engine.swift\",\"Fixtures.swift\",\"vkhod-jsonl-fuma/vkhod-jsonl.swift\",\"ВычислениеГрафаJSON.swift\",\"ГрафJSON.swift\",\"ЗакрытыйРазбор.swift\",\"ИсполнениеОператоров.swift\",\"КомпозицияОпределений.swift\",\"КонечныйВвод.swift\",\"ОпределениеОператора.swift\",\"ПорождениеМоделей.swift\",\"РазмерСоединенияСтрок.swift\",\"СтруктурныйКонтракт.swift\"], resources: [.copy(\"Фикстуры\"), .copy(\"Определения\")], swiftSettings: настройки),\n    .target(name: \"МатериализацияУзлов\", dependencies: [\"FUMStructuringOperatorMemory\", .product(name: \"УстановкаStop\", package: \"ustanovka-stop\")], path: \"Sources/МатериализацияУзлов\", sources: [\"polnomochiya.swift\", \"stop.swift\"], resources: [.copy(\"opredeleniya\")], swiftSettings: настройки),\n    .testTarget(name: \"ПроверкиСтабильногоЯкоря\", dependencies: [\"МатериализацияУзлов\", \"FUMStructuringOperatorMemory\", .product(name: \"УстановкаStop\", package: \"ustanovka-stop\")], path: \"Tests/ПроверкиСтабильногоЯкоря\", sources: [\"ПроверкиСтабильногоЯкоря.swift\"], swiftSettings: настройки)\n], swiftLanguageModes: [.v6])\n",
+    "граница": "Это literal прежний минимальный manifest; не изменение корневого Package.swift, не новый модуль или target."
+  },
+  "инверсияТолькоИсторическихМетаданныхКонтракта": {
+    "исходникВРепозитории": "iskhodniki/perekhod-vetok/ustanovka-stop/kontrakt-ustanovki-stop.json",
+    "исходныхБайт": 103842,
+    "исходныйSHA256": "7273f6390b3efe0660056fe2ffa620fca8cce41d25dc7440f65962518515f1f8",
+    "путьВВыходе": "Dependencies/ustanovka-stop/kontrakt-ustanovki-stop.json",
+    "результатБайт": 100996,
+    "результатSHA256": "61167dda9a2f30b181e24928b30f4f047fb6da08c093d08ac987211bd269667e",
+    "шаги": [
+      {
+        "найтиUTF8": "\"В upper добавлен только internal pure forwarder КомандаStop.разобратьПараметрыЧетвёртогоПрофиля к прежнему private ПараметрыV4; optional tuple из шести строк проверяется G2 без IO/callback/claim/dispatch. Private parser и production reader сохраняются.\"",
+        "заменитьUTF8": "\"Production upper stop.swift не меняется; existing ПараметрыV4 проверяется через @testable без callback/claim.\"",
+        "числоСовпадений": 1
+      },
+      {
+        "найтиUTF8": "\"Ровно шесть прежних Native identities в приватном source-срезе редакции 3; lower и lower tests побайтно переиспользованы. Package/main/new module/target/runner/канонические W/ref/index не меняются.\"",
+        "заменитьUTF8": "\"Только приватные source postimage существующих identities; Package/main/new module/target/runner/канонические W/ref/index не меняются.\"",
+        "числоСовпадений": 1
+      },
+      {
+        "найтиUTF8": "    \"версияИсходников\": 3,\n    \"существующиеПути\": [\n      \"iskhodniki/perekhod-vetok/kontrakt-tekusjhikh-obyazateljstv-stop.json\",\n      \"iskhodniki/perekhod-vetok/proverki/proverki-stop.swift\",\n      \"iskhodniki/perekhod-vetok/ustanovka-stop/ustanovitj-stop.swift\",\n      \"iskhodniki/perekhod-vetok/ustanovka-stop/kontrakt-ustanovki-stop.json\",\n      \"iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift\",\n      \"iskhodniki/perekhod-vetok/uzlyi/stop.swift\"\n    ],\n    \"переиспользованиеРазбора\": {\n      \"доступ\": \"Новый метод КомандаStop.разобратьПараметрыЧетвёртогоПрофиля имеет internal-доступ; private enum ТекущиеОбязательстваStop и его ПараметрыV4 сохраняются.\",\n      \"вызов\": \"Ровно один вызов прежнего private ПараметрыV4; optional tuple копирует только шесть строковых полей.\",\n      \"поля\": [\n        \"задача\",\n        \"узел\",\n        \"рабочийКаталог\",\n        \"состояние\",\n        \"заголовок\",\n        \"хэшЗаголовка\"\n      ],\n      \"эффекты\": \"IO/claim/dispatch/новая логика parsing/public override отсутствуют; production callback/reader не изменены.\",\n      \"G2\": \"Прежний тест вызывает forwarder через существующий @testable import; try #require и все assertions сохранены.\",\n      \"типизация\": \"NOT_RUN для редакции 3; статический source proof не является компиляцией или GREEN.\"\n    },\n    \"предыдущееИсполнение\": {\n      \"редакция\": 2,\n      \"нижняяКомпиляция\": \"COMPILE_ONLY_PASS: original-main CLI и lower bundle получены одним compiler; lower source220997 и lower tests65215 побайтно переиспользованы, повторов нет.\",\n      \"верхняяКомпиляция\": \"FAILED/exit1: G2 обращался к private ТекущиеОбязательстваStop; required bundle не создан, partial outputs retained.\",\n      \"тесты\": \"NOT_RUN; compile failure не является поведенческим RED.\",\n      \"текущаяРедакция\": \"SOURCE_ONLY_NOT_RUN; новый upper compiler/fixtures/runtime требуют отдельного допуска.\"\n    }\n",
+        "заменитьUTF8": "    \"версияИсходников\": 2\n",
+        "числоСовпадений": 1
+      }
+    ],
+    "смысл": "Только в выходном compiler mirror восстанавливаются прежние metadata-поля для точного исторического 31-entry набора. Контракт исключён из compiled target. Канонический контракт версии3 остаётся авторитетным и не изменяется; Swift source/parser/flags не затрагиваются."
+  },
+  "операцииВосстановления": [
+    "Побайтно прочитать закреплённые repo-relative входы без следования ссылкам; проверить SHA/размеры шести source postimages и всех входов таблицы.",
+    "Для literal копировать точные исходные байты; для literal-minimal-package использовать приведённый UTF-8 текст с конечным LF.",
+    "Для drop-exact-prefix проверить SHA первых96436 сырых байтов, отбросить ровно эти байты и проверить267014/SHA7fbbe228…; не резать по числу Unicode-символов.",
+    "Для inverse-only-source3-contract-metadata выполнить три точные UTF-8 замены по одному совпадению, сохраняя все прочие исходные байты, затем проверить100996/SHA61167dda… . Не пересериализовывать весь исторический контракт.",
+    "До записи вычислить все31 результата и подтвердить общие1125835 байт; создать только объявленные31 пути в новом собственном выходе.",
+    "После durable записи и readback закрепить файлы0400/каталоги0500, проверить полный whitelist, типы/UID/nlink и отсутствие ссылок/лишних входов. Никакой compiler/runtime автоматически не запускается."
+  ],
+  "итогИсходников": {
+    "файлов": 31,
+    "байтов": 1125835,
+    "верхнийИсходник": {
+      "байтов": 158902,
+      "sha256": "e251708e2c659899cd224873ed3a6fe6b03110080d451d914ff1b9f725085636"
+    },
+    "производныеКорневыеТесты": {
+      "байтов": 267014,
+      "sha256": "7fbbe228e060aee1fc5293ad1fd5ab5b2041fab48cf21c0228bca5fcce6c8737"
+    }
+  },
+  "будущаяКомпиляция": {
+    "аргументы": [
+      "build",
+      "--build-tests",
+      "--package-path",
+      "<приватныйВыходИсходников>",
+      "--scratch-path",
+      "<приватныйBuild>",
+      "--cache-path",
+      "<приватныйCache>",
+      "--config-path",
+      "<приватныйConfig>",
+      "--security-path",
+      "<приватныйSecurity>",
+      "--jobs",
+      "1",
+      "--sdk",
+      "<отдельноЗакреплённыйSDK>",
+      "--triple",
+      "arm64-apple-macosx14.0",
+      "-Xswiftc",
+      "-j1"
+    ],
+    "платформа": "macOS arm64, Swift6; прежний manifest задаёт strict-concurrency=complete, warnings-as-errors и actor-data-race-checks.",
+    "пределы": {
+      "секунд": 180,
+      "RSSБайт": 2147483648,
+      "выводБайт": 65536,
+      "jobs": 1,
+      "innerJ1": true,
+      "повторов": 0
+    },
+    "окружение": "Отдельный допуск закрепляет toolchain/SDK и закрытые env/cache/TMP пути; абсолютные адреса конкретного хоста не входят в рецепт.",
+    "статус": "NOT_RUN_BY_THIS_RECIPE; ни исполнения, ни профилирования эта декларация не подтверждает."
+  },
+  "открытыеФикстуры": {
+    "источники": [
+      "iskhodniki/perekhod-vetok/proverki/proverki-stop.swift",
+      "iskhodniki/perekhod-vetok/ustanovka-stop/proverki/proverki-ustanovki-stop.swift"
+    ],
+    "ресурсы": "Объявленные repo-relative Фикстуры и Определения входят в31-entry таблицу; тестовый фабричный код синтетических входов находится в самих тестах.",
+    "выбранныеСлучаи": {
+      "корневыхМетодов": 6,
+      "корневыхСлучаев": 22,
+      "нижнихМетодов": 2,
+      "нижнихСлучаев": 6,
+      "всегоМетодов": 8,
+      "всегоСлучаев": 28
+    },
+    "граница": "Реальные ROOT keys/current/config, готовые runtime fixture descriptor, приватные captures и Native state не включаются. Генерация синтетической runtime fixture и запуски тестов требуют собственного допуска."
+  },
+  "неВходитВПоставку": [
+    "Private grants/ACK/R/M/outer/outcomes и абсолютные пути хоста",
+    "RAW/JSONL и скрытый контекст",
+    "Бинарники, build/cache/TMP, runtime fixture data или ключи",
+    "Непринятые preliminary postimages и DATA-архивы",
+    "Активация Native, callback, production config либо общий pipeline"
+  ],
+  "готовность": {
+    "декларативныйРецепт": true,
+    "автоматическийМатериализаторВЭтомФайле": false,
+    "compilerRuntimeАвторизация": false,
+    "глобальнаяЗащитаИсполнения": "UNKNOWN",
+    "полныйПрофиль": "UNKNOWN"
+  }
+}
