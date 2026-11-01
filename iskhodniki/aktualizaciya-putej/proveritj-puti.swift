@@ -58,6 +58,9 @@ enum КомандаПутей {
     }
 
     static func выполнить(_ аргументы: [String]) async throws -> Data {
+        if let действие = аргументы.first, ["план-файла", "применить-файл"].contains(действие) {
+            return try ПереименованиеФайла.выполнить(аргументы)
+        }
         guard let действие = аргументы.first, ["план", "diff", "сверить", "профиль"].contains(действие) else {
             throw ОшибкаПутей.отказ("Нужны план|diff|сверить|профиль, --корень и --вход; для сверки --план и --sha256-плана")
         }
@@ -110,7 +113,7 @@ enum КомандаПутей {
 @main enum ЗапускПутей {
     static func main() async {
         do { FileHandle.standardOutput.write(try await КомандаПутей.выполнить(Array(CommandLine.arguments.dropFirst()))) }
-        catch { FileHandle.standardError.write(Data(("Отказ dry-run: \(error)\n").utf8)); exit(2) }
+        catch { FileHandle.standardError.write(Data(("Отказ команды: \(error)\n").utf8)); exit(2) }
     }
 }
 #endif

@@ -1,0 +1,95 @@
+{
+  "входSHA256" : "a9e45956fd5f418c48653394101f18c532b2b3032c8db8d2763d0f0d263c53b6",
+  "данные" : {
+    "время" : "2026-10-27T06:59:06Z",
+    "доставка" : [
+      {
+        "вид" : "Узкая S и принимающий I",
+        "идентификатор" : "29778ac4819ab37db05cf8536b1cc6845b59ed05",
+        "свидетельство" : "I parents[f99,S], S=d349052753738042f910a6354df8f0ed8c1771e1; оба exactnormalpush+independentremote совпали. C1sourcecommit не заявлен."
+      }
+    ],
+    "исход" : "Readonly-команда работает в канонически собранном rootfuma. Код равен frozenproposal, новые inputboundary — только canonicalmanifest wiring и один реальный маршрут. Предстоят собственный CLIcommit/exactpush/readback и PR393update; приватный preview не переписан.",
+    "область" : "iskhodniki/zapusk",
+    "остаток" : [
+      "Доставить текущий CLIcheckpoint и обновитьPR393 с точным diff/проверками.",
+      "До финальной ROOT-приёмки включить точный новыйM receivingfullref при его явной поставке ROOT.",
+      "ПолныйPUB/coherence/recency/ROOT/master/LIVE и полный sourceC1 не объявлены завершёнными; общая приёмка остаётся ROOT."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Адресный PUB узкой S и тела",
+        "наносекунды" : 201915000,
+        "свидетельство" : "Три пути; exact каналы/политика; не полный PUB."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Адресный PUB приёма I и тела",
+        "наносекунды" : 202100708,
+        "свидетельство" : "Пять путей и тело; не полный PUB."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Новая каноническая root-сборка fuma",
+        "наносекунды" : 7408832500,
+        "свидетельство" : "Swift6/strict concurrency/warnings-as-errors/jobs2. Восемь достижимых targets, backend/runner/testtargets/LK не компилируются. Native manifest LK прочитан для package graph; gitlink837e2ce107b97ee7b9d3344c9fe99142281fe393/clean. stdout624/SHA6b38ca48611f764cc77d31a5b35c6de23a840db14f7a42de7a194141fd98632f,stderr0."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Один интеграционный readonly CLI вызов нового root binary",
+        "наносекунды" : 531774667,
+        "свидетельство" : "BinarySHA bb77f928e90b0ea969df62b933f4bb98127598b036d8b0b09956a989447f92da. FixtureRAW30494/SHA db53340fefc014760451b4bb324a3efce93faf182dab4cea9ceae308853c9a6a; GitOID baee2f906ef0f7b21b616107dad6a26179d6dc1d. stdout634/SHA b00893f8aba0dea83596740e81fc3a1a29adb3ae8fd139d3f01b3b2f8b6d2f2d,stderr0. Receipt exactbytestrue/noeffect/falsemodelauth. Не повтор6suite."
+      }
+    ],
+    "происхождение" : [
+      "ROOT выбрал ровно два production-blob из Git tree b0004eec8e63a70d3d002be5c4da4a9297a394b7. Это приём исходных байтов для потребителя, не source commit/push и не полная поставка C1.",
+      "Решение ROOT fum.приём-выбранных-исходных-байтов.1: SHA256 1ab219bc6454aa25cb65f46d21ae41e81df4f5e0cd6e45ec84ab775f4a21c4c6. Две цели режима100644 совпали с immutable tree и preview.",
+      "adapter-git-avtor-commita.swift: blob3c883a6b8b6429f657e229ddc4d5619da783188c;15138bytes;SHA1858a3c7d320964c64548d6cf588fadb00b11d2054bf6d07acd6d3f00a3abda9.",
+      "kontrakt-istochnika-kodeks.swift: blob261d1786fbcf4f63301870eb878ab4f17fd1cd7c;45770bytes;SHA0aaa806dec1d33b64d766a0f13f167badc27600f41485ff9a0daeef40e29a0ed.",
+      "Frozen preview README9852/SHA4ba3f2adf29766c06727dce7c1ddb6d28ba507c3580217afa84f15e97726b6d4;patch33129/SHA4e49e06fa87a09e868124c16653bc7e2ec230f373c9f3477c688e3af87060116;verificationSHA1b16d179e5ca14dd508c8a1b6427d8e3925fc948309df655448f40bdebf9e7b9; повторный readback совпал.",
+      "Исторический private preview source_accepted=false сохраняется неизменным. Новый ROOT-приём относится только двум blobs, отдельно от полной source-поставки85files.",
+      "ROOT отдельно сохранил все85files Git-архивом512000bytes/SHA0ba13ce16d1042df64ef50445e4cc39c366df9cbda1e258bffa69987d69a9220; архив не импортируется.",
+      "Узкая Sd349052753738042f910a6354df8f0ed8c1771e1/treede0df93c788dce29f550374f3e5bafe059d37676/parentf99. Сырой commit SHA33cdbca2ec2d329af8d23fb69e804baa0010146a3209d2566c778acac3e1a049; тело/автор/committer/OID/триpath и independent remote readback совпали.",
+      "Доставленный I29778ac4819ab37db05cf8536b1cc6845b59ed05/tree43972051b540c359797a77b0700fd8efdbc2b3e1/parents[f99,S]. RawSHA b690b7319db2f0184a7546054e10f132a2d65c223f5232fb83b52a4a09236a0e. Точный normalpush и независимыйremote readback совпали."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Включить frozen4filepatch, который после применения cmp точно совпал с proposal. Все56productionSwiftpins канонической build closure совпали с исходными previewpins; canonicalmanifest закреплён отдельно.",
+      "Подключить только МатериализацияУзлов с явными двумя sources без дополнительных dependencies/resources. КомандаЗапуска использует существующий pure Data API, копии C1 parser нет.",
+      "Ранняя ветка авторство/проверить завершает return/exit до startup. JSON/rawлимиты и физическиеFDпроверки, коды0/1/2, typedrefusal и локальная SIGPIPEполитика сохранены.",
+      "Провести только canonicalrootmanifest build продуктаfuma и один интеграционный вызов открытой фикстуры на новом бинарнике. Прежние6/6/RED иprovider3/3 не повторены.",
+      "Сохранить источникМоделиАутентифицирован=false. Модель5.6solultra в syntheticreceipt не аутентифицируется и не заменяет собственное nativeнаблюдение6.1solultra.",
+      "Правильная receivingоснова refs/heads/fum-lab/fum/master=d081; ac78 только прочитан, не добавлен в ancestry. НовыйM будет включён только по точному ROOT-указанию того жеfullref.",
+      "Старый глобальный Python/ROOT21GB/legacyguard не запускались. Существующая адресная публикационная проверка сохраняет собственные результаты и не заменяет полныйPUB/coherence."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Новое точное нативное поручение ROOT; это сообщение агента, не первичный человеческий ввод.",
+        "роль" : "агент",
+        "текст" : "ROOT меняет собственную ранее выбранную последовательность, чтобы не удерживать FUMA на публикации чужого85file C1. Принимаю ИСХОДНЫЕ БАЙТЫ ровно2productionфайлов из immutableGitTree b0004eec8e63a70d3d002be5c4da4a9297a394b7 на основании твоих6/6/58pins+независимогоreview и provider3/3. Это НЕ source commit, не source push и не полнотаC1; source_accepted=true только выбранным2blob как материалу потребителя. Два точных100644blob: adapter-git-avtor-commita.swift=3c883a6b8b6429f657e229ddc4d5619da783188c; kontrakt-istochnika-kodeks.swift=261d1786fbcf4f63301870eb878ab4f17fd1cd7c; оба прежниеiskhodniki/perekhod-vetok/uzlyi/sinkhronizaciya/. Полное решение D/priyom-dvukh-production-blobov-c1-b0004eec.json. Все85files дополнительно сохранены exactprivategitarchive512000bytes/SHA0ba13ce16d1042df64ef50445e4cc39c366df9cbda1e258bffa69987d69a9220,85pathsetсовпал; sourceW/ref/indexне тронуты. Разрешаю твоему solewriter СЕЙЧАС выполнить подготовленную последовательность: узкая source-веткаS от твоегоH с ровно2productionblob изTREE (честноуказать treeпроисхождение+ROOTselection, несуществующийsourceCневыдумывать)→явныйmerge[H,S]→готовый4fileCLIpatch→собственныйlocalJournal/коммит/exactnormalpush/readback/PRupdate. Backend/runner/82JSON не вносить, старые3/3/6/6 безизменениякода не повторять; проверь фактическийmanifest/API/commit/author/candidateколлизию. Если для новойpackageпроводкиестьновыйпробел, толькоадресныйтест. ROOTMпокаd081, скоро возможнаmetadata-onlyпоставкаЖурнала; дофинальнойROOTприёмкиактуальныйMвключитьбезповторанеизменныхтестов. Повторноговопросачеловекунет. Первоочереднойполезныйрезультат — работающаяreadonlyкомандавпоставкеFUMA."
+      },
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Адресное уточнение ROOT о полном receiving ref; ac78 не включён и не является родителем.",
+        "роль" : "агент",
+        "текст" : "Адресная коррекция ROOT ДО включения базы: принимающая ветка — ТОЛЬКО refs/heads/fum-lab/fum/master, сейчас d081c0a6dfecf876d94107c3f2585cd99f686f39. refs/heads/master и origin/master=ac78d0b410395358797663dcc028150938839f06 — известный старый PRIMARY/read-only, он НЕ является новой принимающей базой этой поставки. Его не включать вместоM и не следоватькороткому master/defaultbranch. Полные refs иOID были заданы в допуске; RootM сдвинется только после явного RootmergeЖурнала, тогда сообщу точныйновыйOIDэтогожеfullref. ROсравнениеac78можносохранитькакдиагностику, оно не даёт правадобавлятьac78. Продолжай текущуюузкуюsourceSотf99/Treeb000, CLI; source W untouched. Еслиac78ужеуспелстатьродителем/добавкой кандидата—останови следующий эффект и пришлиrawparents/tree; не resetи не переписывайопубликованное."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 28,
+      "писатель" : "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "стадия" : "постановка-cli-пакета-девяти-путей"
+    }
+  },
+  "идентификатор" : "9dba2cb1d54bc5869323e11913062443ed1ebb0e0850daaeb05e1c4609aec692",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
