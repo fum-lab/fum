@@ -6,15 +6,6 @@ import ЦиклОператора
 @MainActor
 @Observable
 private final class МодельОкна {
-    struct ЗаписьИстории: Identifiable {
-        let id: UUID
-        let вход: String
-        let определение: String
-        var исход: String
-
-        var предложено: String { "Предложено: вход «\(вход)» · программа: \(определение)" }
-    }
-
     var вход = "ёж"
     var определение = """
     {
@@ -31,42 +22,51 @@ private final class МодельОкна {
       ]
     }
     """
-    var состояние = "Готово к одному явному шагу"
+    var состояние = СостояниеЦиклаФУМА()
     var выполняется = false
-    var история: [ЗаписьИстории] = []
 
     private let цикл = ЦиклОператора()
+    private var номерНаблюдения = 0
+    private var цепочкаГеометрии: Task<Void, Never>?
 
-    func выполнитьОдинШаг() {
-        guard !выполняется else { return }
-        let запись = ЗаписьИстории(
-            id: UUID(),
-            вход: вход,
-            определение: определение,
-            исход: "Выполнение не завершено"
-        )
-        история.insert(запись, at: 0)
-        if история.count > 20 { история.removeLast() }
-        выполняется = true
-        состояние = "Исполняется один шаг…"
-
-        Task {
-            do {
-                let результат = try await цикл.выполнитьОдинШаг(вход: запись.вход, определение: запись.определение)
-                обновить(id: запись.id, исход: "Выполнено: \(результат.текст)")
-                состояние = "Шаг завершён · \(результат.выполненоОпераций) операций · \(результат.хэшНаблюдения)"
-            } catch {
-                let описание = error.localizedDescription
-                обновить(id: запись.id, исход: "Ошибка: \(описание)")
-                состояние = "Ошибка шага: \(описание)"
-            }
-            выполняется = false
+    func принятьРазмерКонтентнойОбласти(_ размер: CGSize) {
+        номерНаблюдения += 1
+        let номер = номерНаблюдения
+        let ширина = Double(размер.width)
+        let высота = Double(размер.height)
+        let предыдущаяЦепочка = цепочкаГеометрии
+        let цикл = цикл
+        цепочкаГеометрии = Task { [weak self] in
+            await предыдущаяЦепочка?.value
+            guard let self else { return }
+            let событие: СобытиеНаблюденияРазмеров = self.состояние.область == nil
+                ? .первоначальноеНаблюдение
+                : .изменениеРазмера
+            let наблюдение = НаблюдениеКонтентнойОбласти(
+                номер: номер,
+                ширина: ширина,
+                высота: высота,
+                единица: .пункты,
+                источник: .роднаяГеометрия,
+                событие: событие
+            )
+            let снимок = await цикл.наблюдатьКонтентнуюОбласть(наблюдение)
+            self?.состояние.применитьЕслиНовее(снимок)
         }
     }
 
-    private func обновить(id: UUID, исход: String) {
-        guard let номер = история.firstIndex(where: { $0.id == id }) else { return }
-        история[номер].исход = исход
+    func выполнитьОдинШаг() {
+        guard !выполняется else { return }
+        выполняется = true
+        Task {
+            do {
+                _ = try await цикл.выполнитьОдинШаг(вход: вход, определение: определение)
+            } catch {
+                // Ошибка уже сохранена в общем состоянии FUMA и истории шага.
+            }
+            состояние.применитьЕслиНовее(await цикл.снимок())
+            выполняется = false
+        }
     }
 }
 
@@ -76,7 +76,7 @@ private struct ПриложениеМинимальногоИнтерфейсаF
     var body: some Scene {
         WindowGroup("FUMA · один шаг") {
             ГлавноеОкно()
-                .frame(minWidth: 680, minHeight: 620)
+                .frame(minWidth: 320, minHeight: 400)
         }
     }
 }
@@ -86,38 +86,117 @@ private struct ГлавноеОкно: View {
     @State private var модель = МодельОкна()
 
     var body: some View {
+        GeometryReader { прокси in
+            ScrollView {
+                панели
+                    .padding(модель.состояние.раскладка?.компактнаяВысота == true ? 10 : 20)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+            }
+            .onChange(of: прокси.size, initial: true) { _, новыйРазмер in
+                модель.принятьРазмерКонтентнойОбласти(новыйРазмер)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var панели: some View {
+        let controls = панельДействия
+        let outcome = панельСостояния
+        if модель.состояние.раскладка?.числоКолонок == 2 {
+            HStack(alignment: .top, spacing: 16) {
+                controls.frame(maxWidth: .infinity, alignment: .topLeading)
+                outcome.frame(maxWidth: .infinity, alignment: .topLeading)
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 14) {
+                controls
+                outcome
+            }
+        }
+    }
+
+    private var панельДействия: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Цикл FUMA")
                 .font(.largeTitle.bold())
-            LabeledContent("Состояние", value: модель.состояние)
-                .textSelection(.enabled)
-
             Text("Программа · ровно один простой оператор")
                 .font(.headline)
             TextEditor(text: $модель.определение)
                 .font(.system(.body, design: .monospaced))
                 .frame(minHeight: 230)
                 .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-
             TextField("Текстовый вход", text: $модель.вход)
                 .textFieldStyle(.roundedBorder)
             Button("Выполнить один шаг", action: модель.выполнитьОдинШаг)
                 .keyboardShortcut(.return, modifiers: [.command])
                 .disabled(модель.выполняется)
+        }
+    }
+
+    private var панельСостояния: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Состояние FUMA")
+                .font(.headline)
+            if модель.выполняется {
+                Text("Исполняется один шаг…")
+            }
+            Text("Действия пользователя: \(модель.состояние.числоДействийПользователя) · вызовы исполнителя: \(модель.состояние.числоВызововИсполнителя)")
+                .textSelection(.enabled)
+
+            if let область = модель.состояние.область, let раскладка = модель.состояние.раскладка {
+                Text("Content viewport: \(область.ширина) × \(область.высота) points")
+                    .font(.subheadline)
+                    .textSelection(.enabled)
+                Text("Источник: \(область.источник.rawValue) · событие: \(область.событие.rawValue)")
+                    .font(.caption)
+                    .textSelection(.enabled)
+                Text("Раскладка: \(раскладка.числоКолонок) колонки · компактная высота: \(раскладка.компактнаяВысота ? "да" : "нет")")
+                Text("Геометрия принята: \(модель.состояние.принятоНаблюденийГеометрии) · отклонена: \(модель.состояние.отклоненоНаблюденийГеометрии)")
+                    .font(.caption)
+            } else {
+                Text("Ожидается первое измерение content viewport в points.")
+                    .font(.caption)
+            }
+
+            if let ошибкаГеометрии = модель.состояние.последняяОшибкаГеометрии {
+                Text("Измерение геометрии отклонено: \(описать(ошибкаГеометрии))")
+                    .foregroundStyle(.orange)
+                    .textSelection(.enabled)
+            }
+            if let результат = модель.состояние.последнийРезультат {
+                Text("Результат: \(результат.текст)")
+                    .textSelection(.enabled)
+            }
+            if let ошибка = модель.состояние.последняяОшибкаИсполнения {
+                Text("Ошибка шага: \(ошибка)")
+                    .foregroundStyle(.red)
+                    .textSelection(.enabled)
+            }
 
             Text("История")
                 .font(.headline)
-            List(модель.история) { запись in
+            ForEach(модель.состояние.история) { запись in
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(запись.предложено)
+                    Text("Предложено: вход «\(запись.вход)» · программа: \(запись.определение)")
                         .font(.subheadline)
                         .lineLimit(2)
                     Text(запись.исход)
                         .textSelection(.enabled)
                 }
-                .padding(.vertical, 3)
+                .padding(.vertical, 4)
+                Divider()
             }
         }
-        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+    }
+
+    private func описать(_ ошибка: ОшибкаГеометрии) -> String {
+        switch ошибка {
+        case .неположительныйРазмер: return "ширина и высота должны быть положительными"
+        case .неКонечныйРазмер: return "ширина и высота должны быть конечными"
+        case .размерЗаПределом: return "размер превышает предел 16384 points"
+        case .устаревшийПорядок: return "порядок наблюдения не возрастает"
+        case .неожиданноеСобытие: return "после начального наблюдения ожидалось событие изменения"
+        }
     }
 }
