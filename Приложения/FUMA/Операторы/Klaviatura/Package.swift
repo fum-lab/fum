@@ -2,10 +2,18 @@
 import PackageDescription
 let package = Package(
   name: "Klaviatura", platforms: [.macOS(.v14)],
-  products: [.executable(name: "Klaviatura", targets: ["ИсполнительКлавиатуры"])],
-  dependencies: [.package(path: "../../../../Прототипы/память-структурирующих-операторов")],
+  products: [
+    .library(name: "ЭталонКлавиатуры", targets: ["ЭталонКлавиатуры"]),
+    .executable(name: "Klaviatura", targets: ["ИсполнительКлавиатуры"])
+  ],
+  dependencies: [
+    .package(
+      name: "FUMStructuringOperatorMemory",
+      path: "../../../../Прототипы/память-структурирующих-операторов"
+    )
+  ],
   targets: [
-    .target(name: "ЭталонКлавиатуры", dependencies: [.product(name: "FUMStructuringOperatorMemory", package: "память-структурирующих-операторов")]),
+    .target(name: "ЭталонКлавиатуры", dependencies: [.product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory")]),
     .executableTarget(name: "ИсполнительКлавиатуры", dependencies: ["ЭталонКлавиатуры"]),
     .testTarget(name: "ПроверкиКлавиатуры", dependencies: ["ЭталонКлавиатуры"])
   ])
