@@ -1,0 +1,165 @@
+{
+  "схема": "fum.fuma.только-исходники.1",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "UUIDПисателя": "01a196d0-9f8e-72c3-be37-c0ddfbfbc172",
+  "режим": "SOURCE_ONLY",
+  "поручение": {
+    "идентичностьW": "fuma-stupeni-01a196d0/FUM; физический W и фактический HEAD/ref перечитаны; абсолютный локальный путь исключён из Git",
+    "полныйRef": "refs/heads/fum-lab/fum/fuma/agentomediator/stupeni-usiliya/master",
+    "базовыйHEAD": "1a41e3efcf5a6409a0ca59de127e6055774e1f20",
+    "предыдущийДоставленныйКоммит": "1a41e3efcf5a6409a0ca59de127e6055774e1f20",
+    "исходнаяФразаЧеловека": "Vot eti vse stupenjki i ispoljzuyem dlya eskalacii i deeskalacii kazhdoj modeli.",
+    "источникТребования": {
+      "commit": "f1ee034844afbcd2754834e0d85c85518823a8dc",
+      "ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+      "содержание": "Единый упорядоченный список low, medium, high, xhigh, max, ultra; Luna поддерживает префикс до max включительно, Sol и Terra — до ultra включительно; max входит в обе последние последовательности. Отсутствующую возможность сохранять UNKNOWN."
+    },
+    "область": "Чистая типизированная модель предложения усилия для агентомедиатора, без реального переключения модели, исполнения, Process, автоматического follow-up, новой нормативной политики Rules/Requirements или нового источника метаданных.",
+    "общийПорядок": ["low", "medium", "high", "xhigh", "max", "ultra"],
+    "наблюдаемыйКаталогТочныхМоделей": {
+      "источник": "Наблюдаемая схема аргумента модели инструмента mcp__codex_app__create_thread на хосте вызывающего; это каталог выбора модели среды агента, а не заявление о подключённом удалённом backend.",
+      "версияСхемыКаталога": "UNKNOWN; отдельная версия наблюдаемой схемы не предоставлена и не требуется для предложения.",
+      "версияВнешнегоПровайдера": "UNKNOWN; внешний провайдер не наблюдался и не аттестуется этим этапом.",
+      "точныеМоделиИСтупени": [
+        {"модель": "gpt-6.1-sol", "ступени": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+        {"модель": "gpt-6-astra", "ступени": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+        {"модель": "gpt-6.1-terra", "ступени": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+        {"модель": "gpt-6-sol", "ступени": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+        {"модель": "gpt-6-luna", "ступени": ["low", "medium", "high", "xhigh", "max"]},
+        {"модель": "gpt-5.6-sol", "ступени": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+        {"модель": "gpt-5.6-terra", "ступени": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+        {"модель": "gpt-5.6-luna", "ступени": ["low", "medium", "high", "xhigh", "max"]}
+      ],
+      "ограничение": "Это единственный источник точных ID и их ступеней во входе оператора; отдельный дублирующий список supported steps отсутствует. Каталог передаётся как типизированные данные вместе с происхождением; код не извлекает метаданные и не удостоверяет заявления вызывающего. Неизвестные идентификаторы, пробелы, неверный порядок и уровни остаются UNKNOWN."
+    },
+    "границыРешения": [
+      "Новая задача по умолчанию получает gpt-6-luna/low; переданный прямой выбор человека имеет приоритет, если он присутствует в точном переданном каталоге.",
+      "Эскалация и деэскалация допускают только одну соседнюю ступень общего порядка и только если точная модель поддерживает обе ступени.",
+      "Эскалация требует переданного наблюдения затруднения; деэскалация требует отдельных переданных подтверждений устойчивости и автоматизации, а также происхождения этих данных.",
+      "Неизвестная модель, ступень, каталог или происхождение, несогласованные requested/observed модели или supported steps, отсутствие нужного основания и попытка прыжка дают UNKNOWN; история не изменяется.",
+      "Каждая запись различает previous, proposed и observed-after; observed-after остаётся UNKNOWN без отдельного последующего наблюдения.",
+      "Причина, основание, инициатор, устойчивость, автоматизация и их происхождение являются данными вызывающего, не подтверждённой личностью, authority или независимой аттестацией.",
+      "Переданная конфигурация среды агента не удостоверяет реальную конфигурацию удалённого backend.",
+      "Предыдущие записи истории сохраняются без изменений; определённое предложение добавляет новую запись, а UNKNOWN сохраняет историю прежней."
+    ],
+    "разрешённыеПути": [
+      "fuma/packages/setj-agentov/Sources/СетьАгентов/ПереходУсилия.swift",
+      "fuma/packages/setj-agentov/Tests/ПроверкиСетиАгентов/ПереходУсилияTests.swift",
+      "fuma/zhurnal/stupeni-vsekh-modelej-01a196d0.json"
+    ],
+    "исключения": [
+      "Не запускать Swift/compiler/typecheck/tests/runtime, Python, ROOT JSONL, legacy router/reader или внешний Process.",
+      "Не менять чужие worktree, индексы, refs, конфигурацию либо иные файлы; не создавать второй metadata provider.",
+      "Не переключать фактическую модель и не выполнять PR, merge или изменение master.",
+      "Source-only сохранение не является N32, профилем, приёмкой или интеграцией."
+    ]
+  },
+  "состояниеСессии": {
+    "UUIDПроверенЧерез": "printenv CODEX_THREAD_ID; ROOT JSONL не читался",
+    "nativeModelAndEffort": "gpt-6-luna/low; извлечено только model/effort из последнего turn_context собственного UUID-сопоставленного native session record после ограниченного tail; ROOT JSONL не читался",
+    "gitАвторИзНаблюдаемойКонфигурации": "FUM <fum@local>",
+    "имяАвтораТекущегоКоммита": "FUM Codex [gpt-6-luna; effort=low]",
+    "gitКоммиттерИзНаблюдаемойКонфигурации": "FUM <fum@local>",
+    "origin": "https://github.com/fum-lab/fum.git",
+    "soleWriter": "этот W/ref проверен; другой worktree на этом ref не обнаружен"
+  },
+  "синтетическиеПримерыИстории": [
+    {
+      "вид": "положительный synthetic adjacent escalation",
+      "previous": {"model": "gpt-6.1-terra", "effort": "max"},
+      "proposed": {"model": "gpt-6.1-terra", "effort": "ultra"},
+      "observedAfter": {"state": "UNKNOWN", "reason": "предложение не исполнялось и отдельного наблюдения нет"},
+      "reason": "synthetic reason",
+      "basis": "synthetic observed difficulty",
+      "initiator": "synthetic caller",
+      "historyRule": "предыдущая история сохранена, запись предложения добавлена"
+    },
+    {
+      "вид": "положительный synthetic adjacent de-escalation",
+      "previous": {"model": "gpt-6-luna", "effort": "high"},
+      "proposed": {"model": "gpt-6-luna", "effort": "medium"},
+      "observedAfter": {"state": "UNKNOWN", "reason": "предложение не исполнялось и отдельного наблюдения нет"},
+      "reason": "synthetic reason",
+      "basis": {"stability": "synthetic stability", "automation": "synthetic automation", "provenance": "synthetic caller data"},
+      "initiator": "synthetic caller",
+      "historyRule": "предыдущая история сохранена, запись предложения добавлена; сведения не являются доказательством реального поведения"
+    },
+    {
+      "вид": "отрицательный unsupported",
+      "previous": {"model": "gpt-6-luna", "effort": "max"},
+      "proposed": {"model": "gpt-6-luna", "effort": "ultra"},
+      "observedAfter": "UNKNOWN",
+      "reason": "целевая ступень отсутствует в точном каталоге модели",
+      "basis": "неизвестная поддержка",
+      "initiator": "synthetic caller",
+      "historyRule": "UNKNOWN, история не меняется"
+    },
+    {
+      "вид": "отрицательная попытка прыжка",
+      "previous": {"model": "gpt-6-sol", "effort": "low"},
+      "proposed": {"model": "gpt-6-sol", "effort": "max"},
+      "observedAfter": "UNKNOWN",
+      "reason": "запрошена не соседняя ступень",
+      "basis": "нужна одна соседняя ступень",
+      "initiator": "synthetic caller",
+      "historyRule": "UNKNOWN, история не меняется"
+    },
+    {
+      "вид": "отрицательное отсутствие observed",
+      "previous": "UNKNOWN",
+      "proposed": {"model": "gpt-6-luna", "effort": "medium"},
+      "observedAfter": "UNKNOWN",
+      "reason": "нет переданной наблюдаемой конфигурации",
+      "basis": "нет observed state",
+      "initiator": "synthetic caller",
+      "historyRule": "UNKNOWN, история не меняется"
+    },
+    {
+      "вид": "отрицательное отсутствие подтверждения устойчивости/автоматизации",
+      "previous": {"model": "gpt-6-luna", "effort": "high"},
+      "proposed": {"model": "gpt-6-luna", "effort": "medium"},
+      "observedAfter": "UNKNOWN",
+      "reason": "понижение не имеет обоих обязательных отдельных подтверждений",
+      "basis": "missing stability or automation",
+      "initiator": "synthetic caller",
+      "historyRule": "UNKNOWN, история не меняется"
+    }
+  ],
+  "исходы": {
+    "тестовыеИсходникиПередРеализацией": true,
+    "исходникЗаписан": true,
+    "статическийПросмотр": "ручное чтение exact diff; git diff --check завершился без вывода",
+    "независимоеROРевью": "повторное RO ревью source SHA 31da4240eb731f09f47f59972418ce7d64d55bfc523f56b37d6df4bfcc1281a1, tests SHA 07baceaf64a7a97529dfc3cd6dc89f27f66ab4cc61afffa942453db64476d685 и предыдущего journal SHA 8447d9dbbc03c7bca1c98f07e88fa1f200c2e353d43922d6ff740de74fc59ba6 прошло без P1/P2; после этого добавлено собственное native наблюдение model/effort, новый journal SHA ожидает независимого RO",
+    "SwiftBuildTypecheckTestsRuntime": "не запускались по границе поручения",
+    "PythonRootJSONLLegacyProcess": "исключены и не запускались",
+    "публикация": "не выполнена; commit/push ожидают независимого RO ревью и финальной сверки"
+  },
+  "файлы": [
+    {
+      "путь": "fuma/packages/setj-agentov/Sources/СетьАгентов/ПереходУсилия.swift",
+      "хэшSHA256": "31da4240eb731f09f47f59972418ce7d64d55bfc523f56b37d6df4bfcc1281a1",
+      "охват": ["общий ordered effort enum", "точные model IDs только через переданный типизированный каталог", "adjacent-only вверх/вниз", "requested/observed раздельны", "отдельные основания для понижения", "immutable append-only value history", "after remains UNKNOWN without new observation", "Luna Low default and explicit choice priority"]
+    },
+    {
+      "путь": "fuma/packages/setj-agentov/Tests/ПроверкиСетиАгентов/ПереходУсилияTests.swift",
+      "хэшSHA256": "07baceaf64a7a97529dfc3cd6dc89f27f66ab4cc61afffa942453db64476d685",
+      "охват": ["synthetic positive adjacent up/down for exact catalog IDs", "max/ultra ceilings", "unsupported model and level", "jump", "missing observed", "missing difficulty/stability/automation/provenance", "single catalog source, invalid order, sparse steps, and whitespace rejection", "unknown schema/provider versions do not gate a sourced catalog", "new task default and direct human selection", "history preservation"]
+    }
+  ],
+  "непроверенноеИОстаток": [
+    "Не получены результаты компилятора, typecheck, тестов или runtime.",
+    "Значение Luna Low в коде относится к default-предложению новой задачи; оно не является переключением или наблюдением удалённого backend.",
+    "Имя автора коммита основано на собственном native turn_context gpt-6-luna/low; коммит ещё не создан.",
+    "Каталог инструмента — наблюдаемая схема выбора модели на хосте вызывающего; подключённый удалённый backend не проверен.",
+    "Версия схемы каталога не была отдельно доступна; версия внешнего провайдера UNKNOWN и не требуется для типизированного предложения.",
+    "Данные вызывающего о затруднении, устойчивости, автоматизации, причине, инициаторе и происхождении не аттестованы.",
+    "Остаются RO review, exact index/diff review, commit raw object readback, точный push и независимый ls-remote."
+  ],
+  "следующийВоспроизводимыйПлан": [
+    "Передать source/tests с уже прошедшими RO SHA и обновлённый journal SHA на независимое RO ревью; не менять файлы после начала ревью.",
+    "После положительного RO результата повторно сверить W, HEAD, полный ref, AGENTS, sole-writer custody, индекс, exact diff, разрешённые пути, native author/committer и публичную чистоту.",
+    "Создать один source-only commit с author/committer из наблюдаемой конфигурации только для команды commit и root Codex-Thread-ID trailer.",
+    "Проверить raw commit/tree/parent и точный состав файлов; выполнить обычный non-force push полного собственного OID в одноимённый origin ref и независимо проверить удалённый OID через git ls-remote.",
+    "Сообщить child delivery и непроверенные проверки отдельно; не заявлять N32, приёмку, обновление волны, merge или master integration."
+  ]
+}
