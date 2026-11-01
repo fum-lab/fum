@@ -607,8 +607,16 @@
           "path": "trebovaniya/fuma-agent-requirements.json",
           "base_commit": "aa65d76f67cd52c172680b287df07064bf31a375",
           "base_ref": "refs/heads/fum-lab/fum/trebovaniya/master",
-          "writer_ref": "refs/heads/codex/ui-observation-keyboard-01a1786a",
-          "root_acceptance": "not-claimed"
+          "writer_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+          "root_acceptance": "not-claimed",
+          "writer_ref_template": "refs/heads/fum-lab/fum/trebovaniya/<направление>/master",
+          "address_correction": {
+            "source_commit": "acfc142d4657d79363137a974576215255fe0567",
+            "activated_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+            "previous_published_ref": "refs/heads/codex/ui-observation-keyboard-01a1786a",
+            "previous_ref_disposition": "Сохранён как опубликованный исходный коммит; не удалён и не переписан.",
+            "selection_basis": "Явно заданный человеком namespace fum-lab/fum/ для новых рабочих веток этой задачи."
+          }
         }
       }
     },
