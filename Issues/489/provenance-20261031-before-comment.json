@@ -1,0 +1,22 @@
+{
+  "schema": "fum.github-issue-snapshot-provenance.1",
+  "captured_at_utc": "2026-10-31T15:46:36Z",
+  "source": {
+    "repository": "fum-lab/fum",
+    "issue_number": 489,
+    "issue_url": "https://github.com/fum-lab/fum/issues/489",
+    "readback_operation": "mcp__codex_apps__github_fetch_issue",
+    "state": "closed",
+    "state_reason": "completed",
+    "closed_at": "2026-10-31T11:15:35Z",
+    "updated_at": "2026-10-31T11:15:36Z",
+    "comments": 2
+  },
+  "boundary": {
+    "only_issue489": true,
+    "no_issue151_refresh": true,
+    "no_body_edit": true,
+    "no_state_change_in_this_stage": true
+  },
+  "note": "Issue #489 was already closed/completed before this stage's comment; no redundant state update was issued."
+}
