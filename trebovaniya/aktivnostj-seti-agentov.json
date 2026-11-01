@@ -1,0 +1,106 @@
+{
+  "title": "Регулировать активность сети агентов",
+  "source": {
+    "root_task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer": "01a1786a-b492-71d2-852a-51e94796d891",
+    "base": "1f2dc85ee4e7e64425848f5d47f4e5289bbcdaac",
+    "path": "trebovaniya/aktivnostj-seti-agentov.json",
+    "human_messages": [
+      "Po gotovnosti narasjhivaj paralleljnostj dobavleniyem agentov. Nam nuzhen mekhanizm povyisheniya ili ponizheniya aktivnosti vsej seti agentov.",
+      "Chto-to tipa chelovecheskoj nejromediatornoj sistemyi sozdayom.",
+      "Nu mogut i menyatj, yesli eti signalyi i ikh parametryi tozhe reguliruyemyi otborom kak minimum.",
+      "Swift-rantajmom dumayu budem srazu regulirovatj.",
+      "A obrabotku signalov i reakciyu na nikh sdelayem chastjyu adapterov i operatorov FUMA, vedj nejromediatornyiye receptoryi — eto tozhe organyi chuvstv.",
+      "Srazu sobirayem etot velosiped, kak on zaduman velosiped. Srazu vse podsistemyi stavim i razrabatyivayem na svoikh mestakh.",
+      "U mnogokletochnyikh organizmov vedj tak zhe, i u kletok tak zhe.",
+      "Chto u nas s zadachej po relocirovaniyu rantajma FUMA v putj fum-lab/fum/fuma?",
+      "To yestj v FUM/fuma, nachanaya s kornya proyekta.",
+      "Vot, tak i nuzhno otdavatj zadachi podagentam.",
+      "Vot, etu obsjhuyu arkhitekturnuyu ramku nuzhno pryam zakrepitj",
+      "Poluchayetsya, agentyi stroyat mashinu",
+      "mekhanizm, kotoryij yavlyayetsya voplosjheniyem rabotyi nashego subagenta na Swift i na FUMA",
+      "Swift-rantajmom dumayu budem srazu regulirovatj.",
+      "A obrabotku signalov i reakciyu na nikh sdelayem chastjyu adapterov i operatorov FUMA, vedj nejromediatornyiye receptoryi — eto tozhe organyi chuvstv.",
+      "Srazu sobirayem etot velosiped, kak on zaduman velosiped. Srazu vse podsistemyi stavim i razrabatyivayem na svoikh mestakh.",
+      "U mnogokletochnyikh organizmov vedj tak zhe, i u kletok tak zhe.",
+      "Chto u nas s zadachej po relocirovaniyu rantajma FUMA v putj fum-lab/fum/fuma?",
+      "To yestj v FUM/fuma, nachanaya s kornya proyekta.",
+      "Vot, tak i nuzhno otdavatj zadachi podagentam."
+    ],
+    "interpretation": "Путь FUMA внутри checkout — fuma/. Биологическая аналогия является рабочей моделью, не доказательством физиологической теории."
+  },
+  "objective": "Создать применяемый механизм регулирования активности сети узлов и наращивания параллелизма по готовности, измеряемой полезным результатом, доступными ресурсами и допустимой нагрузкой.",
+  "architecture": {
+    "runtime": "Swift 6 strict concurrency, warnings-as-errors, Swift Testing. Исполняющая среда сразу размещается в repo-relative fuma/; перенесённый рантайм не предполагается: по свежему RO состоянию ROOT перенос FUMA в fuma/ ещё не выполнен.",
+    "signal_processing": "Наблюдение, обработка сигналов, принятие решения и реакция выражаются средствами существующих адаптеров и операторов FUMA. Временный отдельный контроллер с последующим переносом не создаётся.",
+    "placement": "Конкретные каталоги и пакеты согласуют владельцы FUMA и Tools по существующим компонентам; новые компоненты размещаются сразу в целевых местах, дубли не создаются.",
+    "biological_model": "Аналогия многоклеточной сети, клеток и нейромедиаторов помогает формулировать обратную связь, но не подтверждает конкретную биологическую теорию.",
+    "subagent_machine": "Агенты строят машину: повторяемая функция подагента становится проверяемой версионируемой программой/подсистемой рантайма с собственными входами, наблюдением, действиями, исходами и контрольной точкой. Контракт и выбранные адаптеры/операторы FUMA воплощают эту работу на Swift и FUMA.",
+    "relocation": "Целевой repo-relative путь — fuma/ (FUM/fuma), начиная от корня checkout; это целевое решение, не свидетельство выполненной релокации."
+  },
+  "shared_node_contract": {
+    "scope": "Один контракт действует для подагента, агента, машины и fork.",
+    "fields": [
+      "наблюдения и свежесть",
+      "желаемый режим и бюджет",
+      "версия сигналов, чувствительности и правил",
+      "план действий",
+      "исходы, неизвестность и происхождение",
+      "условия передачи результата"
+    ],
+    "delegation": "Родитель задаёт цель, проверяемый результат, свою область/границы и критерии передачи. Владелец самостоятельно выбирает шаги, ветвит работу и меняет обычные параметры в разрешённых пределах. Родителю передаётся готовая поставка, существенный разрыв или изменение границы, а не запрос разрешения на каждую подстановку SHA.",
+    "locality": "Каждый родитель распределяет только собственные бюджеты и непосредственных детей. Приоритет у релевантной локальной памяти и ближайшей проверенной связи; ROOT не выбирает каждое пробуждение. Неизвестная связь не означает, что агент остановлен.",
+    "scaling_up": "Добавлять агентов и повышать параллелизм по мере появления готовых независимых полезных задач и доступных ресурсов; не оптимизировать число запущенных агентов.",
+    "scaling_down": "Снижать активность через drain, checkpoint и остановку родителем без архивации. Неизвестные эффекты вслепую не повторять.",
+    "stability": "Использовать гистерезис, конечную аренду решения и возврат внимания, чтобы ограничивать колебания и обнаруживать устаревшие сигналы.",
+    "utility": "Оценивать принятые полезные результаты, задержки, стоимость и лимиты ресурсов, а также сбои и повторную работу. Сохраняемая полезная работа оценивается вместе со снижением ручных согласований, повторных проверок и вызовов LLM."
+  },
+  "adaptive_selection": {
+    "candidates": [
+      "сигналы",
+      "параметры и чувствительность",
+      "политики регулирования",
+      "внутренние контракты делегирования"
+    ],
+    "lifecycle": "Каждый кандидат версионируется и проходит опыт, критерии, проверки, принятие и возможность отката по проверенным исходам.",
+    "constraints": "Внешние системные ограничения и прямые пользовательские ограничения сохраняют приоритет и не перенастраиваются внутренним отбором."
+  },
+  "first_applicable_slice": {
+    "boundary": "Один вертикальный срез в конечных компонентах FUMA: получить версионированные наблюдения, вычислить рекомендуемый режим активности по общему контракту узла, зафиксировать обоснование, бюджет, свежесть и неизвестность; передать план владельцу для применения в пределах его полномочий.",
+    "not_claimed": "Автоматическое управление сетью, масштабирование, остановка, signal adapters и действующий замкнутый цикл пока не реализованы и не подтверждены. Подготовленный план не является работающим механизмом.",
+    "excluded": [
+      "отдельный временный controller с последующим переносом",
+      "новый дублирующий runtime",
+      "компиляция и запуск runtime в этом source-only этапе"
+    ]
+  },
+  "ownership": {
+    "FUMA": {
+      "consumer_thread": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "responsibility": "Владелец исполнения FUMA определяет подходящие существующие адаптеры/операторы, реализацию Swift runtime, конечные каталоги и техническую готовность."
+    },
+    "Tools": {
+      "consumer_thread": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "responsibility": "Владелец Tools сопоставляет существующие средства, владельцев и проверяемые способы передачи/наблюдения, не дублируя FUMA runtime."
+    },
+    "current_state": "Потребители Tools и FUMA назначены поручением; точные результаты исполнения и подтверждения этой поставки отделяются от UNKNOWN реализации."
+  },
+  "acceptance_criteria": [
+    "Требование размещено в FUM/fuma с одним и тем же узловым контрактом для всех масштабов узла.",
+    "Первый срез отслеживает происхождение и свежесть сигналов, бюджет, решение, исход и неизвестность.",
+    "Увеличение и уменьшение активности учитывают независимую полезную работу и ресурсы; снижение включает безопасное завершение и checkpoint.",
+    "Локальная координация не выдаёт полномочий за пределами владельца; обычное делегирование не требует ROOT для каждой детали.",
+    "Изменяемые сигналы, чувствительность, политика и внутренние контракты имеют версии, критерии, проверку исходов и откат.",
+    "Реализация использует существующие FUMA компоненты или явно обосновывает недостающий компонент; временного второго контроллера и дублирующего runtime нет.",
+    "Метрики отражают принятые результаты, задержки, стоимость/лимиты и сбои; число активных агентов само по себе не является полезностью."
+  ],
+  "unknown": [
+    "текущий статус переноса FUMA в fuma/ и точный OID принятого переноса в момент этого этапа",
+    "точные пакеты/каталоги существующих signal adapters и operators для этого механизма",
+    "доступные сигналы, их потребители, измеримость и надёжность",
+    "фактическая готовность Swift runtime и замкнутого цикла управления",
+    "количественные бюджеты, пороги, аренда, гистерезис и восстановление внимания",
+    "подтверждение требований владельцами Tools и FUMA"
+  ],
+  "status": "Требование предложено; реализация и приёмка UNKNOWN. Python, ROOT JSONL, legacy admission и runtime не запускались."
+}
