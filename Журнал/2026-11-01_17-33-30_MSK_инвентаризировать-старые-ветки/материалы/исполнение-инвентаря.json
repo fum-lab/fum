@@ -1,6 +1,6 @@
 {
   "schema": "fum.old-branches-inventory-run.v2",
-  "recordedUTC": "2026-11-01T15:57:24Z",
+  "recordedUTC": "2026-11-01T16:19:50Z",
   "rootThreadUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
   "executorUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0",
   "inputSnapshot": {
@@ -206,7 +206,7 @@
     ],
     "absolutePathScan": "SUCCESS; no /Users/ match in registry; duration not measured"
   },
-  "sideEffects": "Previous stage commits C1/C2 delivered and independently read back; one requested Codex UI title rename succeeded and was read back; this follow-up records the UUID correction and three unresolved RO-helper mappings; no ROOT/master merge or PR",
+  "sideEffects": "Prior-stage delivery remains unchanged; one requested Codex UI title rename succeeded and was read back by executor and ROOT; this correction removes three RO-helper UUIDs from the current report and execution record; no repeated rename, source-branch push, ROOT/master merge, or PR",
   "preCommit": {
     "head": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
     "ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
@@ -269,22 +269,25 @@
       "typedResultUUID": "01a196b6-cd0b-7022-b1bc-3feaf0f7d3b0"
     },
     "renameRepeated": false,
-    "rootFreshReadback": "PENDING",
+    "rootFreshReadback": "CONFIRMED",
     "children": [
       {
-        "nativeUUID": "01a197a9-b892-71b1-8d54-8ac229beca3a",
+        "helperNumber": 1,
+        "role": "RO-helper",
         "title": null,
         "branchOwnership": "NO_OWN_W_REF_OR_SOLE_OWNER",
         "directChildren": 0
       },
       {
-        "nativeUUID": "01a197a6-6b36-7e63-a281-63f306cc0216",
+        "helperNumber": 2,
+        "role": "RO-helper",
         "title": null,
         "branchOwnership": "NO_OWN_W_REF_OR_SOLE_OWNER",
         "directChildren": 0
       },
       {
-        "nativeUUID": "01a197a6-5fcb-72f0-b3e2-33768b2cd31b",
+        "helperNumber": 3,
+        "role": "RO-helper",
         "title": "CHAT_NOT_FOUND",
         "branchOwnership": "UNRESOLVED",
         "directChildren": 0
@@ -294,6 +297,14 @@
       "renamed": 1,
       "noOp": 0,
       "residual": 3
+    },
+    "privacyCorrection": {
+      "helperUUIDsRemovedFromCurrentFiles": 3,
+      "privateTechnicalReadback": "retained in private native Codex tool trace",
+      "priorPublishedCommit": "9285ca34034cc49e78c6da0e62759d49ef5200ad",
+      "historyRewritten": false,
+      "outOfScopeCurrentPlan": "integraciya/План.md retains prior helper UUIDs and was not modified",
+      "manualRecencyCheck": "first manual update failed due escaping and was detected; recalculated hash and readback matched"
     }
   }
 }
