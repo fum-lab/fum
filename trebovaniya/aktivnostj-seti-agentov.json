@@ -249,6 +249,34 @@
       },
       "candidate_first_role": "one-shot local exact source-delivery verifier; start once; return exact Git raw/tree/blob/remote evidence or UNKNOWN plus checkpoint.",
       "status": "Owner feedback received; component placement and implementation are candidates for review, not accepted design or implemented capability."
+    },
+    {
+      "kind": "tools-review-and-resource-sample",
+      "source": {
+        "owner_thread": "01a17797-519b-73c1-bcc8-fd295cdfe9b0"
+      },
+      "review": "Общая цепочка приемлема; typed API UNKNOWN, схема не принята; verifier — предложение.",
+      "sample": {
+        "operator": "113D6 START",
+        "outcome": "NOT_LAUNCHED",
+        "load1": 24.25146484375,
+        "threshold": "20/10CPU",
+        "compilerStarts": 0,
+        "hostExit": 1,
+        "retry": 0,
+        "scope": "Один frozen operator only.",
+        "meaning": "Admission refusal; не Swift failure/completed work."
+      },
+      "metrics": {
+        "useful": "accepted source verifications",
+        "separate": [
+          "refused starts",
+          "UNKNOWN",
+          "drift",
+          "rework"
+        ]
+      },
+      "constraints": "FUMA API/name pending; Names producer UNKNOWN; manual map incomplete."
     }
   ]
 }
