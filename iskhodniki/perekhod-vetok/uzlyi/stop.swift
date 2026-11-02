@@ -31,8 +31,48 @@ struct СнимокФайловойСсылки {
         for отсутствие in отсутствия { try ЧитательФайловойСсылки.подтвердить(отсутствие) }
     }
 }
+/// Только наблюдение: оба current и их ancestry подтверждаются прежним nofollow IO.
+struct СнимокРазделенияСостоянийStop {
+    fileprivate let прежнее: ФайлФайловойСсылки
+    fileprivate let новое: НаблюдениеФайловойСсылки
+    func подтвердить() throws {
+        try ЧитательФайловойСсылки.подтвердить(прежнее)
+        switch новое {
+        case .файл(let файл): try ЧитательФайловойСсылки.подтвердить(файл)
+        case .отсутствие(let отсутствие): try ЧитательФайловойСсылки.подтвердить(отсутствие)
+        }
+    }
+}
 enum ЧитательФайловойСсылки {
     static let пределУпакованных = 1_048_576
+
+    static func проверитьРазделениеСостояний(состояниеV2: String, состояниеV3: String,
+        допускаетсяОтсутствиеV3: Bool = false) throws -> СнимокРазделенияСостоянийStop {
+        guard состояниеV2 != состояниеV3,
+              case .файл(let прежнее) = try наблюдать(состояниеV2, предел: 32_768),
+              прежнее.сведения.st_mode & 0o7777 == 0o600,
+              прежнее.каталоги.last.map({ $0.сведения.st_mode & 0o7777 == 0o700 }) == true
+        else { throw ОтказФайловойСсылки.метаданные }
+        let новое = try наблюдать(состояниеV3, предел: 32_768)
+        switch новое {
+        case .файл(let файл):
+            guard файл.сведения.st_mode & 0o7777 == 0o600,
+                  файл.каталоги.last.map({ $0.сведения.st_mode & 0o7777 == 0o700 }) == true,
+                  прежнее.сведения.st_dev != файл.сведения.st_dev
+                    || прежнее.сведения.st_ino != файл.сведения.st_ino
+            else { throw ОтказФайловойСсылки.неоднозначность }
+        case .отсутствие(let отсутствие):
+            // Разрешено отсутствие только конечного V3 basename, не ancestry.
+            guard допускаетсяОтсутствиеV3,
+                  отсутствие.отсутствующийКомпонент.utf8.elementsEqual(состояниеV3.utf8),
+                  отсутствие.каталоги.last.map({ $0.сведения.st_mode & 0o7777 == 0o700 }) == true
+            else { throw ОтказФайловойСсылки.отсутствие }
+        }
+        // наблюдать уже требует regular/uid/nlink1 и O_NOFOLLOW по всей цепочке.
+        let снимок = СнимокРазделенияСостоянийStop(прежнее: прежнее, новое: новое)
+        try снимок.подтвердить()
+        return снимок
+    }
     private static func имя(_ строка: String) -> Bool {
         строка.hasPrefix("refs/") && строка.utf8.count <= 4_000
             && !строка.contains("..") && !строка.contains("@{")
@@ -380,10 +420,20 @@ public enum ОбработчикStop {
 public enum КомандаStop {
     private static let идентификатор = "fum.stop-handler.1"
 
+    /// Точная чистая Swift/FUMA-проекция для будущего ROOT issuer; файловых эффектов нет.
+    public static func основаниеСнимкаV3(_ данные: Data) throws -> String {
+        try ТекущиеОбязательстваStop.основаниеСнимкаV3(данные)
+    }
+
     public static func выполнить(_ аргументы: [String]) -> Data {
+        let третийПрофиль = выбранТретийПрофиль(аргументы)
         do {
             return выполнить(аргументы, ввод: try прочитатьСтандартныйВвод())
         } catch {
+            if третийПрофиль {
+                // Событие не прочитано: принадлежность неизвестна, управление не применено.
+                return КонечноеПродолжениеStop.пауза("отказ-чтения-ввода-V3; управление не применено", неизвестно: true)
+            }
             return ОбработчикStop.ответ(событие: Data(),
                 наблюдения: { throw ОтказКомандыStop.ввод },
                 ожидаемаяЗадача: "", ожидаемыйУзел: "",
@@ -392,6 +442,13 @@ public enum КомандаStop {
     }
 
     public static func выполнить(_ аргументы: [String], ввод: Data) -> Data {
+        // V3 выбирается явно; ошибка V3 не переходит в прежний C1/V2.
+        if выбранТретийПрофиль(аргументы) {
+            guard let параметры = ТекущиеОбязательстваStop.Параметры(аргументы) else {
+                return КонечноеПродолжениеStop.пауза("неверные-параметры-V3; управление не применено", неизвестно: true)
+            }
+            return ТекущиеОбязательстваStop.ответ(параметры, событие: ввод)
+        }
         if аргументы.contains("--профиль-наблюдений"),
            let параметры = ТекущиеОбязательстваStop.Параметры(аргументы) {
             return ТекущиеОбязательстваStop.ответ(параметры, событие: ввод)
@@ -411,6 +468,12 @@ public enum КомандаStop {
             ожидаемаяЗадача: параметры.задача,
             ожидаемыйУзел: параметры.узел,
             ожидаемыйРабочийКаталог: параметры.cwd)
+    }
+
+    private static func выбранТретийПрофиль(_ аргументы: [String]) -> Bool {
+        аргументы.indices.dropLast().contains(where: {
+            аргументы[$0] == "--профиль-наблюдений" && аргументы[$0 + 1] == ТекущиеОбязательстваStop.схемаV3
+        })
     }
 
     private struct Параметры {
@@ -580,6 +643,7 @@ enum ОтказКомандыStop: String, Error {
 // не запускает Git и не восстанавливает всю историю задач из булевых признаков.
 private enum ТекущиеОбязательстваStop {
     static let схема = "fum.текущие-обязательства-stop.2"
+    static let схемаV3 = "fum.текущие-обязательства-stop.3"
 
     struct Параметры {
         let задача: String
@@ -588,6 +652,7 @@ private enum ТекущиеОбязательстваStop {
         let состояние: String
         let заголовок: String
         let хэш: String
+        let версия3: Bool
 
         init?(_ argv: [String]) {
             guard argv.count == 16 else { return nil }
@@ -600,7 +665,8 @@ private enum ТекущиеОбязательстваStop {
                 пары[argv[i]] = argv[i + 1]
             }
             guard пары["--идентификатор-обработчика"] == "fum.stop-handler.1",
-                  пары["--профиль-наблюдений"] == ТекущиеОбязательстваStop.схема,
+                  let профиль = пары["--профиль-наблюдений"],
+                  [ТекущиеОбязательстваStop.схема, ТекущиеОбязательстваStop.схемаV3].contains(профиль),
                   let задача = пары["--codex-thread-id"],
                   UUID(uuidString: задача)?.uuidString.lowercased() == задача,
                   let узел = пары["--идентификатор-узла"], токен(узел),
@@ -611,6 +677,7 @@ private enum ТекущиеОбязательстваStop {
             else { return nil }
             self.задача = задача; self.узел = узел; self.cwd = cwd
             self.состояние = состояние; self.заголовок = заголовок; self.хэш = хэш
+            self.версия3 = профиль == ТекущиеОбязательстваStop.схемаV3
         }
     }
 
@@ -619,6 +686,9 @@ private enum ТекущиеОбязательстваStop {
         let gitDir, commonGitDir, backend, objectFormat, исходники: String
         let состояние, каталогКвитанций: String
         let максимальныйВозрастСекунд: Int64
+        let редакцияОт, редакцияДо: UInt64?
+        let допускПродолжения: КонечноеПродолжениеStop.Допуск?
+        let состояниеV2: String?
     }
     private struct Управление: Decodable {
         let действие, основание: String
@@ -626,11 +696,13 @@ private enum ТекущиеОбязательстваStop {
     private struct Конверт: Decodable {
         let схема, заголовокSHA256, задача, узел, область, поколение: String
         let управление: Управление
+        let редакция: UInt64?
+        let эпохаПродолжения, операцияПродолжения: String?
     }
-    private struct Ссылка: Decodable {
+    private struct Ссылка: Codable {
         let путь, sha256: String
     }
-    private struct Пункт: Decodable {
+    private struct Пункт: Codable {
         let id, область, состояние, уровень, основание: String
     }
     private struct Снимок: Decodable {
@@ -640,6 +712,23 @@ private enum ТекущиеОбязательстваStop {
         let неизвестныеНамерения: [String]
         let наблюдения: НаблюденияStop
         let диспозиция: Ссылка?
+    }
+    private struct ПроектноеОснование: Encodable {
+        let схема = "fum.stop-проектное-основание.1"
+        let cwd, дерево, ref, HEAD: String
+        let пункты: [Пункт]
+        let неизвестныеНамерения: [String]
+        let наблюдения: НаблюденияStop
+        let диспозиция: Ссылка?
+    }
+    static func основаниеСнимкаV3(_ данные: Data) throws -> String {
+        let s = try decode(Снимок.self, данные)
+        let p = ПроектноеОснование(cwd: s.cwd, дерево: s.дерево, ref: s.ref, HEAD: s.HEAD,
+            пункты: s.пункты, неизвестныеНамерения: s.неизвестныеНамерения,
+            наблюдения: s.наблюдения, диспозиция: s.диспозиция)
+        let e = JSONEncoder(); e.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return sha256(try e.encode(p))
+        // Header SHA/time/revision/epoch/operation не входят: нет hash-цикла или progress по одному timestamp.
     }
     private struct Доказательство: Decodable {
         let id, уровень: String
@@ -673,6 +762,12 @@ private enum ТекущиеОбязательстваStop {
     private struct Чтение {
         var файлы: [Файл] = []
         var ссылки: [СнимокФайловойСсылки] = []
+        var разделения: [СнимокРазделенияСостоянийStop] = []
+
+        mutating func разделитьСостояния(_ прежнее: String, _ новое: String) throws {
+            разделения.append(try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+                состояниеV2: прежнее, состояниеV3: новое))
+        }
 
         mutating func взятьСсылку(общийКаталог: String, ссылка: String) throws -> String {
             let снимок = try ЧитательФайловойСсылки.прочитать(общийКаталог: общийКаталог, ссылка: ссылка)
@@ -694,6 +789,7 @@ private enum ТекущиеОбязательстваStop {
                 else { throw Отказ.дрейфФайла }
             }
             for ссылка in ссылки { try ссылка.подтвердить() }
+            for разделение in разделения { try разделение.подтвердить() }
         }
 
         private static func равны(_ a: stat, _ b: stat) -> Bool {
@@ -751,16 +847,28 @@ private enum ТекущиеОбязательстваStop {
         else { return пусто() }
         guard let вход = try? JSONDecoder().decode(СобытиеStop.self, from: событие),
               вход.cwd == п.cwd, текст(вход.turnID)
-        else { return ОбработчикStop.блокировать("неверный целевой вход; проверь Native-поля и cwd") }
+        else {
+            return п.версия3
+                ? КонечноеПродолжениеStop.пауза("неверный целевой вход", неизвестно: true)
+                : ОбработчикStop.блокировать("неверный целевой вход; проверь Native-поля и cwd")
+        }
+        var контекстV3: КонечноеПродолжениеStop.Контекст?
+        var допускV3: КонечноеПродолжениеStop.Допуск?
+        var заголовокV3: Заголовок?
+        var чтение = Чтение()
         do {
-            var чтение = Чтение()
             let headerData = try чтение.взять(п.заголовок, режим: 0o400, предел: 32_768)
             guard sha256(headerData) == п.хэш else { throw Отказ.заголовок }
             let h = try decode(Заголовок.self, headerData)
             try проверитьЗаголовок(h, п)
+            if п.версия3 {
+                guard let прежнее = h.состояниеV2 else { throw Отказ.заголовок }
+                try чтение.разделитьСостояния(прежнее, h.состояние)
+                заголовокV3 = h
+            }
             let данные = try чтение.взять(h.состояние, режим: 0o600, предел: 32_768)
             let конверт = try decode(Конверт.self, данные)
-            guard конверт.схема == схема, конверт.заголовокSHA256 == п.хэш,
+            guard конверт.схема == (п.версия3 ? схемаV3 : схема), конверт.заголовокSHA256 == п.хэш,
                   конверт.задача == h.задача, конверт.узел == h.узел,
                   конверт.область == h.область, конверт.поколение == h.поколение,
                   текст(конверт.управление.основание)
@@ -771,6 +879,19 @@ private enum ТекущиеОбязательстваStop {
                 return ОбработчикStop.остановитьПользователем()
             }
             guard конверт.управление.действие == "продолжать" else { throw Отказ.снимок }
+            if п.версия3 {
+                guard let допуск = h.допускПродолжения,
+                      let редакция = конверт.редакция, let от = h.редакцияОт, let до = h.редакцияДо,
+                      от <= редакция, редакция <= до,
+                      конверт.эпохаПродолжения == допуск.эпоха,
+                      конверт.операцияПродолжения == допуск.операция
+                else { throw Отказ.снимок }
+                допускV3 = допуск
+                контекстV3 = .init(задача: h.задача, узел: h.узел, область: h.область,
+                    поколение: h.поколение, исходники: h.исходники, заголовокSHA256: п.хэш,
+                    наблюдениеSHA256: try основаниеСнимкаV3(данные), полныйСнимокSHA256: sha256(данные), редакция: редакция,
+                    ход: вход.turnID, сейчас: Int64(Date().timeIntervalSince1970))
+            }
             let s = try decode(Снимок.self, данные)
             try проверитьСнимок(s, h)
             try проверитьGit(h, HEAD: s.HEAD, чтение: &чтение)
@@ -809,6 +930,22 @@ private enum ТекущиеОбязательстваStop {
                 наблюдения: { наблюдения }, ожидаемаяЗадача: п.задача,
                 ожидаемыйУзел: п.узел, ожидаемыйРабочийКаталог: п.cwd)
             try чтение.подтвердить()
+            if п.версия3, let допуск = допускV3, let контекст = контекстV3 {
+                let решение = try СамостоятельностьУзла.решить(условия)
+                let самостоятельное = [ДействиеУзла.действоватьСамостоятельно,
+                    .исправлятьСамостоятельно, .сообщитьИПродолжитьНезависимое].contains(решение.действие)
+                let допустимШаг = самостоятельное && безопасныйШаг && условия.свояОбласть
+                    && условия.естьПолномочия && !условия.неизвестныйОпасныйЭффект
+                    && s.неизвестныеНамерения.isEmpty
+                    && активные.contains { $0.id == допуск.пункт && $0.состояние == "доступен" }
+                return КонечноеПродолжениеStop.ответ(допуск, контекст,
+                    повод: допустимШаг ? .безопасныйШаг(s.наблюдения.следующаяРабота) : .нетШага,
+                    проверитьПрогресс: { try проверитьПрогрессV3(допуск, h, &чтение) },
+                    захват: { байты in
+                        try КонечноеПродолжениеStop.захватить(допуск, байты,
+                            подтвердить: { try чтение.подтвердить() })
+                    })
+            }
             if !безопасныйШаг,
                let пункт = активные.first(where: { ["ожидает-ребёнка", "доставлен"].contains($0.состояние) }) {
                 return ОбработчикStop.блокировать("текущий пункт \(пункт.id): \(пункт.состояние); \(пункт.основание); дождись адресного результата или интеграции, не повторяй доставку и неизвестный эффект")
@@ -817,12 +954,23 @@ private enum ТекущиеОбязательстваStop {
             _ = вход.stopHookActive
             return обычныйОтвет
         } catch {
+            if п.версия3 {
+                // Только точный stale допускает один отдельно выданный repair token.
+                if let отказ = error as? Отказ, отказ == .устаревшийСнимок,
+                   let допуск = допускV3, let контекст = контекстV3, let h = заголовокV3 {
+                    return КонечноеПродолжениеStop.ответ(допуск, контекст, повод: .устаревший,
+                        проверитьПрогресс: { try проверитьПрогрессV3(допуск, h, &чтение) },
+                        захват: { байты in try КонечноеПродолжениеStop.захватить(допуск, байты,
+                            подтвердить: { try чтение.подтвердить() }) })
+                }
+                return КонечноеПродолжениеStop.пауза("текущий остаток не подтверждён: \(error)", неизвестно: true)
+            }
             return ОбработчикStop.блокировать("текущий остаток не подтверждён (\(error)); восстанови проверенный снимок или сообщи ROOT о препятствии, неизвестный эффект не повторяй")
         }
     }
 
     private static func проверитьЗаголовок(_ h: Заголовок, _ п: Параметры) throws {
-        guard h.схема == "fum.stop-заголовок.2", h.задача == п.задача,
+        guard h.схема == (п.версия3 ? "fum.stop-заголовок.3" : "fum.stop-заголовок.2"), h.задача == п.задача,
               h.узел == п.узел, h.cwd == п.cwd, h.состояние == п.состояние,
               токен(h.область), токен(h.поколение), ref(h.ref),
               [h.cwd, h.дерево, h.gitDir, h.commonGitDir, h.состояние,
@@ -830,6 +978,35 @@ private enum ТекущиеОбязательстваStop {
               h.backend == "files", h.objectFormat == "sha1", hex(h.исходники, 40),
               (1...3600).contains(h.максимальныйВозрастСекунд)
         else { throw Отказ.заголовок }
+        if п.версия3 {
+            guard let от = h.редакцияОт, let до = h.редакцияДо, от <= до, до - от <= 128,
+                  let состояниеV2 = h.состояниеV2, абсолютный(состояниеV2), состояниеV2 != h.состояние,
+                  let d = h.допускПродолжения,
+                  абсолютный(d.каталогЗахватов),
+                  d.каталогЗахватов != h.дерево, !d.каталогЗахватов.hasPrefix(h.дерево + "/"),
+                  d.каталогЗахватов != h.commonGitDir, !d.каталогЗахватов.hasPrefix(h.commonGitDir + "/")
+            else { throw Отказ.заголовок }
+        }
+    }
+
+    private static func проверитьПрогрессV3(_ d: КонечноеПродолжениеStop.Допуск,
+        _ h: Заголовок, _ чтение: inout Чтение) throws {
+        guard d.номер > 0, d.предыдущаяОперация != nil,
+              let ссылка = d.прогресс, токен(ссылка.путь), !ссылка.путь.contains("/"), hex(ссылка.sha256, 64)
+        else { throw КонечноеПродолжениеStop.Отказ.прогресс }
+        let данные = try чтение.взять(h.каталогКвитанций + "/" + ссылка.путь, режим: 0o400, предел: 16_384)
+        guard sha256(данные) == ссылка.sha256 else { throw КонечноеПродолжениеStop.Отказ.прогресс }
+        let p = try decode(КонечноеПродолжениеStop.Прогресс.self, данные)
+        let имя = try КонечноеПродолжениеStop.имяЗахвата(d.эпоха, номер: d.номер - 1)
+        let прежний = try чтение.взять(d.каталогЗахватов + "/" + имя, режим: 0o400, предел: 16_384)
+        let claim = try decode(КонечноеПродолжениеStop.Квитанция.self, прежний)
+        try КонечноеПродолжениеStop.проверитьПрогресс(p, прежнийSHA256: sha256(прежний), claim, d)
+        guard токен(p.результат.путь), !p.результат.путь.contains("/"), hex(p.результат.sha256, 64)
+        else { throw КонечноеПродолжениеStop.Отказ.прогресс }
+        let результат = try чтение.взять(h.каталогКвитанций + "/" + p.результат.путь,
+            режим: 0o400, предел: 32_768)
+        guard sha256(результат) == p.результат.sha256 else { throw КонечноеПродолжениеStop.Отказ.прогресс }
+        try чтение.подтвердить()
     }
 
     private static func проверитьСнимок(_ s: Снимок, _ h: Заголовок) throws {
@@ -1005,4 +1182,236 @@ private enum ТекущиеОбязательстваStop {
         SHA256.hash(data: данные).map { String(format: "%02x", $0) }.joined()
     }
     private static func пусто() -> Data { Data("{}\n".utf8) }
+}
+
+// V3 ограничивает управляющий сигнал отдельным ROOT-issued epoch/ordinal claim.
+// Header SHA приходит из принятого Native config. Структура JSON/uid не доказывают полномочий ROOT.
+enum КонечноеПродолжениеStop {
+    struct Ссылка: Codable, Sendable { let путь, sha256: String }
+    struct Допуск: Codable, Sendable {
+        let схема, задача, узел, область, поколение, исходники: String
+        let эпоха, операция, вид, пункт, следующаяРабота: String
+        let корневойДопускSHA256, наблюдениеSHA256: String
+        let редакция, номер: UInt64
+        let выдан, действуетДо: Int64
+        let каталогЗахватов: String
+        let устройствоКаталога, inodeКаталога: UInt64
+        let предыдущаяОперация: String?
+        let прогресс: Ссылка?
+    }
+    struct Контекст {
+        let задача, узел, область, поколение, исходники: String
+        let заголовокSHA256, наблюдениеSHA256, полныйСнимокSHA256: String
+        let редакция: UInt64
+        let ход: String
+        let сейчас: Int64
+    }
+    struct Квитанция: Codable, Sendable {
+        let схема, задача, узел, область, поколение, исходники, эпоха, операция: String
+        let корневойДопускSHA256, заголовокSHA256, наблюдениеSHA256, полныйСнимокSHA256, ход: String
+        let редакция, номер: UInt64
+        let вид, пункт, следующаяРабота: String
+    }
+    struct Прогресс: Decodable {
+        let схема, задача, узел, область, поколение, исходники, эпоха: String
+        let предыдущаяОперация, следующаяОперация, предыдущийЗахватSHA256: String
+        let предыдущееНаблюдениеSHA256, новоеНаблюдениеSHA256, корневойДопускSHA256: String
+        let исход: String
+        let результат: Ссылка
+    }
+    enum Повод { case безопасныйШаг(String), устаревший, нетШага }
+    enum Захват { case создан, ужеЗанят }
+    enum Отказ: Error { case допуск, прогресс, каталог, запись, синхронизация, дрейф, срок }
+    struct ТочкиЗахвата {
+        var послеСоздания: () throws -> Void = {}
+        var передСинхронизацией: () throws -> Void = {}
+        var передПодтверждением: () throws -> Void = {}
+    }
+
+    static func пауза(_ причина: String, неизвестно: Bool) -> Data {
+        let состояние = неизвестно ? "UNKNOWN" : "BLOCKED"
+        return json([
+            "continue": false,
+            "stopReason": "FUM Stop V3: техническая пауза; задача не завершена; \(состояние): \(причина). Остаток и следующий допуск — у ROOT.",
+            "systemMessage": "Автоматическое продолжение не выдано. Это не task-complete и не указание пользователя STOP. Не повторяй неизвестный эффект."
+        ])
+    }
+
+    static func ответ(_ d: Допуск, _ c: Контекст, повод: Повод,
+        проверитьПрогресс: () throws -> Void,
+        захват: (Data) throws -> Захват) -> Data {
+        do {
+            try проверитьДопуск(d, c)
+            switch повод {
+            case .безопасныйШаг(let шаг):
+                guard d.вид == "безопасный-шаг", шаг == d.следующаяРабота, текст(шаг)
+                else { return пауза("нет точного допущенного безопасного шага", неизвестно: false) }
+            case .устаревший:
+                guard d.вид == "обновить-просроченный-снимок", текст(d.следующаяРабота)
+                else { return пауза("stale не разрешает повтор без отдельного repair допуска", неизвестно: true) }
+            case .нетШага:
+                return пауза("безопасная следующая работа не доказана", неизвестно: false)
+            }
+            if d.номер == 0 {
+                guard d.предыдущаяОперация == nil, d.прогресс == nil else { throw Отказ.прогресс }
+            } else {
+                guard let p = d.предыдущаяОперация, uuid(p), p != d.операция, d.прогресс != nil
+                else { throw Отказ.прогресс }
+                try проверитьПрогресс()
+            }
+            let claim = Квитанция(схема: "fum.stop-захват-продолжения.1", задача: c.задача,
+                узел: c.узел, область: c.область, поколение: c.поколение, исходники: c.исходники,
+                эпоха: d.эпоха, операция: d.операция, корневойДопускSHA256: d.корневойДопускSHA256,
+                заголовокSHA256: c.заголовокSHA256, наблюдениеSHA256: c.наблюдениеSHA256,
+                полныйСнимокSHA256: c.полныйСнимокSHA256, ход: c.ход, редакция: c.редакция, номер: d.номер,
+                вид: d.вид, пункт: d.пункт, следующаяРабота: d.следующаяРабота)
+            let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+            var bytes = try encoder.encode(claim); bytes.append(10)
+            guard bytes.count <= 16_384 else { throw Отказ.допуск }
+            switch try захват(bytes) {
+            case .ужеЗанят:
+                return пауза("operation token уже claimed; изменение turn/active/timestamp не перевыдаёт бюджет", неизвестно: true)
+            case .создан:
+                // Durable claim доказывает только резервирование, а не доставку prompt или исполнение шага.
+                return json(["decision": "block", "reason":
+                    "FUM Stop V3: один сигнал по операции \(d.операция). \(d.следующаяРабота). Не расширяй допуск; представь точный исход ROOT. Повтор без принятого прогресса не разрешён."])
+            }
+        } catch {
+            // Claim может уже существовать: ничего не удалять и не переоткрывать.
+            return пауза("допуск/claim не подтверждён: \(error)", неизвестно: true)
+        }
+    }
+
+    private static func проверитьДопуск(_ d: Допуск, _ c: Контекст) throws {
+        guard d.схема == "fum.stop-допуск-продолжения.1", d.задача == c.задача,
+              d.узел == c.узел, d.область == c.область, d.поколение == c.поколение,
+              d.исходники == c.исходники, hex(d.исходники, 40),
+              uuid(d.эпоха), uuid(d.операция), d.номер <= 128,
+              hex(d.корневойДопускSHA256, 64), hex(c.заголовокSHA256, 64),
+              hex(d.наблюдениеSHA256, 64), d.наблюдениеSHA256 == c.наблюдениеSHA256,
+              hex(c.полныйСнимокSHA256, 64),
+              d.редакция == c.редакция,
+              d.выдан >= 0, d.выдан <= c.сейчас, c.сейчас <= d.действуетДо,
+              d.действуетДо >= d.выдан, d.действуетДо - d.выдан <= 3600,
+              текст(d.пункт), текст(c.ход), d.устройствоКаталога > 0, d.inodeКаталога > 0
+        else { throw Отказ.допуск }
+    }
+
+    static func проверитьПрогресс(_ p: Прогресс, прежнийSHA256: String,
+        _ claim: Квитанция, _ d: Допуск) throws {
+        guard p.схема == "fum.stop-принятый-прогресс.1", p.исход == "шаг-выполнен-и-принят",
+              p.задача == d.задача, p.узел == d.узел, p.область == d.область,
+              p.поколение == d.поколение, p.исходники == d.исходники, p.эпоха == d.эпоха,
+              p.предыдущаяОперация == d.предыдущаяОперация, p.следующаяОперация == d.операция,
+              p.предыдущийЗахватSHA256 == прежнийSHA256, hex(прежнийSHA256, 64),
+              p.корневойДопускSHA256 == d.корневойДопускSHA256,
+              d.корневойДопускSHA256 != claim.корневойДопускSHA256,
+              p.предыдущееНаблюдениеSHA256 == claim.наблюдениеSHA256,
+              p.новоеНаблюдениеSHA256 == d.наблюдениеSHA256,
+              p.предыдущееНаблюдениеSHA256 != p.новоеНаблюдениеSHA256,
+              claim.схема == "fum.stop-захват-продолжения.1", claim.задача == d.задача,
+              claim.узел == d.узел, claim.область == d.область, claim.поколение == d.поколение,
+              claim.исходники == d.исходники, claim.эпоха == d.эпоха,
+              claim.операция == d.предыдущаяОперация, claim.номер < 128, claim.номер + 1 == d.номер,
+              hex(p.результат.sha256, 64)
+        else { throw Отказ.прогресс }
+        // Результат и receipt читаются/пинятся reader; правдивость progress принимает ROOT до нового header pin.
+    }
+
+    static func имяЗахвата(_ эпоха: String, номер: UInt64) throws -> String {
+        guard uuid(эпоха), номер <= 128 else { throw Отказ.допуск }
+        // Operation UUID/новый header SHA не переоткрывают уже занятый ordinal epoch.
+        return эпоха + "." + String(номер) + ".claim"
+    }
+
+    static func захватить(_ d: Допуск, _ bytes: Data,
+        точки: ТочкиЗахвата = .init(), подтвердить: () throws -> Void) throws -> Захват {
+        guard !bytes.isEmpty, bytes.count <= 16_384 else { throw Отказ.запись }
+        let имя = try имяЗахвата(d.эпоха, номер: d.номер)
+        let parent = try КомандаStop.открытьБезСсылок(d.каталогЗахватов)
+        defer { Darwin.close(parent) }
+        func проверитьКаталог() throws {
+            var st = stat()
+            guard fstat(parent, &st) == 0, st.st_mode & S_IFMT == S_IFDIR,
+                  st.st_uid == geteuid(), st.st_mode & 0o777 == 0o700,
+                  UInt64(st.st_dev) == d.устройствоКаталога, UInt64(st.st_ino) == d.inodeКаталога
+            else { throw Отказ.каталог }
+            let named = try КомандаStop.открытьБезСсылок(d.каталогЗахватов)
+            defer { Darwin.close(named) }
+            var n = stat()
+            guard fstat(named, &n) == 0, n.st_dev == st.st_dev, n.st_ino == st.st_ino,
+                  n.st_mode == st.st_mode, n.st_uid == st.st_uid else { throw Отказ.дрейф }
+        }
+        try проверитьКаталог(); try подтвердить()
+        let now = Int64(Date().timeIntervalSince1970)
+        guard now >= d.выдан, now <= d.действуетДо else { throw Отказ.срок }
+        let fd = openat(parent, имя, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        if fd < 0 {
+            if errno == EEXIST { return .ужеЗанят }
+            throw Отказ.запись
+        }
+        defer { Darwin.close(fd) }
+        // После O_EXCL нет unlink/rollback: любой последующий сбой сохраняет UNKNOWN и расход token.
+        try точки.послеСоздания()
+        try bytes.withUnsafeBytes { (data: UnsafeRawBufferPointer) in
+            guard let base = data.baseAddress else { throw Отказ.запись }
+            var offset = 0
+            while offset < data.count {
+                let n = Darwin.write(fd, base.advanced(by: offset), data.count - offset)
+                if n < 0 && errno == EINTR { continue }
+                guard n > 0 else { throw Отказ.запись }
+                offset += n
+            }
+        }
+        guard fchmod(fd, 0o400) == 0 else { throw Отказ.запись }
+        try точки.передСинхронизацией()
+        guard fsync(fd) == 0, fsync(parent) == 0 else { throw Отказ.синхронизация }
+        try точки.передПодтверждением()
+        try проверитьКаталог(); try подтвердить()
+        let end = Int64(Date().timeIntervalSince1970)
+        guard end >= d.выдан, end <= d.действуетДо else { throw Отказ.срок }
+        var st = stat(), named = stat()
+        guard fstat(fd, &st) == 0, fstatat(parent, имя, &named, AT_SYMLINK_NOFOLLOW) == 0,
+              st.st_dev == named.st_dev, st.st_ino == named.st_ino,
+              st.st_mode & S_IFMT == S_IFREG, named.st_mode == st.st_mode,
+              st.st_uid == geteuid(), named.st_uid == st.st_uid,
+              st.st_nlink == 1, named.st_nlink == 1, st.st_mode & 0o777 == 0o400,
+              st.st_size == Int64(bytes.count), named.st_size == st.st_size
+        else { throw Отказ.дрейф }
+        var readback = Data(), buffer = [UInt8](repeating: 0, count: min(bytes.count + 1, 16_385))
+        while readback.count <= bytes.count {
+            let n = buffer.withUnsafeMutableBytes { data in
+                Darwin.pread(fd, data.baseAddress, min(data.count, bytes.count + 1 - readback.count), off_t(readback.count))
+            }
+            if n < 0 && errno == EINTR { continue }
+            guard n >= 0 else { throw Отказ.дрейф }
+            if n == 0 { break }
+            readback.append(contentsOf: buffer.prefix(n))
+        }
+        var after = stat()
+        guard readback == bytes, fstat(fd, &after) == 0,
+              after.st_dev == st.st_dev, after.st_ino == st.st_ino,
+              after.st_size == st.st_size, after.st_mode == st.st_mode,
+              after.st_mtimespec.tv_sec == st.st_mtimespec.tv_sec,
+              after.st_mtimespec.tv_nsec == st.st_mtimespec.tv_nsec,
+              after.st_ctimespec.tv_sec == st.st_ctimespec.tv_sec,
+              after.st_ctimespec.tv_nsec == st.st_ctimespec.tv_nsec
+        else { throw Отказ.дрейф }
+        return .создан
+    }
+
+    private static func uuid(_ s: String) -> Bool { UUID(uuidString: s)?.uuidString.lowercased() == s }
+    private static func hex(_ s: String, _ n: Int) -> Bool {
+        s.utf8.count == n && s.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) }
+    }
+    private static func текст(_ s: String) -> Bool {
+        !s.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && s.utf8.count <= 2048
+            && !s.unicodeScalars.contains { $0.value < 0x20 && $0.value != 10 }
+    }
+    private static func json(_ value: [String: Any]) -> Data {
+        var data = (try? JSONSerialization.data(withJSONObject: value,
+            options: [.sortedKeys, .withoutEscapingSlashes]))
+            ?? Data("{\"continue\":false,\"stopReason\":\"FUM Stop V3: UNKNOWN; задача не завершена\"}".utf8)
+        data.append(10); return data
+    }
 }
