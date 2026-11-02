@@ -1,0 +1,67 @@
+{
+  "тип": "принятое архитектурное решение — ранний источник для документации",
+  "источник": "Передача ROOT из задачи 01a19bfa-db75-7b21-b167-c3e371e35321, получена 2026-11-02, Europe/Saratov. ROOT сообщает о выборе по прямой человеческой дилемме; буквальная исходная реплика и её точное время Planning не переданы.",
+  "буквальныйИсходникПользователя": "UNKNOWN; сохранена дословная передача ROOT, но не исходная реплика человека.",
+  "дословнаяПередачаROOT": "FIRSTsmallSourcecapture архитектурногоРЕШЕНИЯ вEXISTINGdecisionpool (необгонятьстарыйSTAGEDlifecyclefreeze, новыйProject/analysis0): Rootпоdirecthumandilemma выбрал NEXTimplementation МИНИМАЛЬНЫЙиспользуемыйSwiftсрез вEXISTINGFUMruntime сСЕМАНТИКОЙoperatorsFUMA/typedqueues; не параллельнаяплатформа/не mandatoryFUMA-AOTgenerator. Why: нуженбыстрыйдопустимыйпользовательскийрезультат, сложностьдобавлятьпоdiagnostics. Minimume2e: Question→fastanswer→DURABLEQApair, sourceнепотерянtransfer, restorependingafterrestart,repeatedID≠duplicateoutput, Requirementможетбытьtypedoutputбезвсегопула. Currentworkflow localboundedutility/use, actualHostjoining отдельноНЕfakeSDKcallback. TDDtestSOURCE transferstop/duplicate/recovery, запускONLYadmittedresourceboundary; Python/RootJSONL/RAW/fullmetadata/Hosthook-install0держать. SourceutilityreadyНЕused. NEXTconsumer AFTERactualdecisionC: existingToolsparent→existingRoutineowner implementsstorage/transfer/resume/typedqueueprimitiveownarea; existingFUMAA05semantic inputoutput/provenance/idversion/parentcycle AGREEDFINITEINTERFACE, не вторуюочередь. Newpath/module/executionneeds exactminimalboundary, неproductioncaller-gatepurecode. Reviewпосле1REALUSE: input→durablehistorylatency/correcttransferrecovery/implementationintegrationcost, затемSwiftcontinue vsFUMA/AOT vsdirectFUMA; samecontract/samecasesreplacebackend, AOTproposalnotready/gate; FUMслойможноубратьпоobservedнужности. Capturefields decision/why/reviewTrigger/owner/knownnextconsumer/statusactual-vs-target/sourceRootrelay/literalUNKNOWNгденетфрейма. КакactualC+remoteесть — A10выдаётONElinkedimplementationorder, currentA11/старыеSourcesнеотменять, не немедленноprivateспеку.",
+  "решение": {
+    "выбор": "Следующий шаг реализации — минимальный пригодный Swift-срез в существующем runtime FUM с операторной семантикой FUMA и типизированными очередями; не параллельная платформа и не обязательный генератор FUMA-AOT.",
+    "зачем": "Нужен быстрый допустимый пользовательский результат; сложность следует наращивать по наблюдаемым диагностическим данным.",
+    "минимумСквозногоСценария": [
+      "вопрос → быстрый ответ → долговечная пара вопрос–ответ",
+      "перенос сохраняет исходное сообщение",
+      "после перезапуска восстанавливается ожидающая работа",
+      "повторный идентификатор не производит дублирующий вывод",
+      "требование можно выдать как типизированный результат без реализации всего пула"
+    ],
+    "границаСреды": "Текущий сценарий — ограниченная локальная утилита и её применение. Фактическое соединение с Host отдельно; не подменять его фиктивным SDK callback.",
+    "проверяемыеСвойстваБудущегоЭтапа": [
+      "остановка при переносе источника не теряет его",
+      "дубликат идентификатора не создаёт второй результат",
+      "восстановление незавершённого состояния после перезапуска"
+    ],
+    "ресурснаяГраницаПроверок": "Запускать только в заранее допущенной границе ресурсов. Python, ROOT JSONL, RAW, полные метаданные и установка Host hook остаются исключёнными.",
+    "связанныйКонтракт": "Существующая семантика FUMA A05 для input/output, provenance, id/version и parent/cycle принимается как конечный интерфейс; вторую очередь не вводить.",
+    "неопределённыйИнтерфейс": "Точный минимальный путь/модуль и требования исполнения ещё нужно ограниченно определить; не делать pure-code границу production-caller gate."
+  },
+  "фактическоеСостояние": {
+    "записьРешения": "CAPTURED_NOT_ANALYZED",
+    "источникУтилиты": "готов, но не использован",
+    "назначениеИсполнителя": "не выдано этой записью",
+    "реализация": "не заявлена",
+    "использованиеВРеальномСценарии": "не наблюдалось",
+    "HostJoining": "не выполнено; отдельная граница"
+  },
+  "владелецЗаписи": {
+    "область": "Planning",
+    "CodexThreadID": "01a08d77-2060-7701-9f44-ff04769d8a6e"
+  },
+  "следующийПотребитель": {
+    "этап": "После фактических commit и remote readback capture A10 выдаёт одно связанное ограниченное поручение; ожидаемый предметный получатель — существующий владелец периодической процедуры в Tools.",
+    "CodexThreadID": "UNKNOWN; точный ID существующего Tools-писателя в передаче не дан",
+    "областьРаботы": "В собственной области реализовать примитивы хранения, переноса, возобновления и типизированной очереди согласно A05 finite interface.",
+    "параллельныйАрхитектурныйПотребитель": {
+      "CodexThreadID": "01a17829-4c36-7c00-9bb3-0e2111905e1a",
+      "область": "fum-lab/fum/dokumentaciya/master",
+      "отношение": "Существующая A11/A10 архитектурная постановка остаётся активной; этот capture её не заменяет и не отменяет."
+    }
+  },
+  "условиеСледующегоПоручения": "После фактического commit этого capture и независимого remote readback A10 выдаёт ровно одно связанное implementation order; запись сама поручение не создаёт.",
+  "условиеПересмотра": "После одного реального использования оценить latency долговечной истории, корректность переноса и восстановления, стоимость интеграции; затем выбрать продолжение Swift, FUMA/AOT либо прямой FUMA. Сопоставлять backends на одном контракте и одинаковых случаях; FUM-слой разрешено убрать при отсутствии наблюдаемой нужды.",
+  "связанныеСнимки": [
+    {
+      "путь": "planirovaniye/идея-жизненного-цикла-сообщения.json",
+      "commit": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049",
+      "состояние": "замороженный capture доставлен отдельно; этот файл не переписывался"
+    },
+    {
+      "путь": "planirovaniye/идея-автоматизации-агентов.json",
+      "состояние": "предшествующая capture-идея; не отменена"
+    }
+  ],
+  "границы": [
+    "Не создавать код, проект/analysis0, параллельную платформу или mandatory FUMA-AOT generator.",
+    "Не активировать автоматизации, runtime, caller gate или Host hook.",
+    "Не отменять текущую A11 архитектурную задачу или прежние Source-постановки.",
+    "Не выдавать исполнителю поручение до условия следующего поручения."
+  ]
+}
