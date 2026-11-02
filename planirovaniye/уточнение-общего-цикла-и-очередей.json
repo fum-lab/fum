@@ -1,0 +1,75 @@
+{
+  "тип": "связанное уточнение принятого архитектурного решения",
+  "источник": "Передача ROOT-A10 из задачи 01a19bfa-db75-7b21-b167-c3e371e35321, получена 2026-11-02, Europe/Saratov. ROOT сообщает, что уточнение следует из явного human input; буквальная исходная реплика Planning не передана.",
+  "буквальныйИсходникПользователя": "UNKNOWN; переданная ROOT формулировка сохранена дословно.",
+  "дословнаяПередачаROOT": "ROOT-A10 current public capture chain: grouped NEXT clarification from explicit human input, not a new project and not rewrite of caba/ac00/earlier commits. FIRST small coherent Source capture with sourcehuman/statusCAPTURED/owner/nextconsumer/review, then scoped work. Generic FUMA target: ANY typed input/event/model change→operator→reaction/result/statechange→next typed queues/feedback loops; Question/QA is first currently useful domain adapter, not Question-only core. Keep prior Swift-first decision: minimum usable Swift slice in existing FUM runtime, generic typedartifact+originrefs, QA first adapter, no new platform/generator prerequisite. FUM/FUMA are alternative implementations of common requirements, not permanently fixed backend/model layers; use observed acceptance/choice criteria, outputs equality alone not independent proof. AOT/directFUMA/FUM retirement are alternatives, not mandatory staircase. Bootstrap/self-hosting uses actual work as diagnostics→requirements/model/actions/check/selection, no readyAOT/Host claim. Long loops origininput+reaction/parent/generation/owner/stages/outputs/terminalreason back to origin; current stock by created/actuallystarted/active/waiting/blocked/completed/cancelled/replaced and count/age/freshness/coverage distinct historical totals, not increment perACK. Active prior work not cancelled by new input. Please use existing decision/model pool, early meaningful own commit/push; retain all earlier unmet invariants. Actual caba frozen capture now independent readback underway; no reformatter/replay. Return exact public C/path/pins for the already assigned Swift-first decision record so one existingTools→Routine/FUMAA05 implementation order can proceed; no all-architecture gate.",
+  "уточнениеОбщейМодели": {
+    "обобщённыйКонтракт": "Любой типизированный вход, событие или изменение модели проходит через оператор к реакции, результату или изменению состояния и далее в типизированные очереди и циклы обратной связи.",
+    "первыйАдаптер": "Вопрос и ответ — первый сейчас полезный предметный адаптер; общий контракт не ограничивается вопросами.",
+    "общийАртефакт": "Минимальный Swift-срез предыдущего решения использует обобщённые типизированные артефакты и ссылки на происхождение; QA остаётся первым адаптером.",
+    "обратныеСвязи": "Длинный цикл сохраняет исходный вход, реакцию, родителя, поколение, владельца, стадии, выходы и терминальную причину до связи обратно с исходным входом.",
+    "учётСостояния": {
+      "текущиеСостояния": [
+        "created",
+        "actually started",
+        "active",
+        "waiting",
+        "blocked",
+        "completed",
+        "cancelled",
+        "replaced"
+      ],
+      "отдельныеИзмерения": [
+        "число",
+        "возраст",
+        "свежесть",
+        "покрытие",
+        "исторические итоги"
+      ],
+      "правило": "Различать состояния и метрики; не увеличивать завершение на каждом ACK. Новый вход сам по себе не отменяет прежнюю активную работу."
+    }
+  },
+  "сохраняемыйВыборРеализации": {
+    "решение": "Минимальный пригодный Swift-срез в существующем runtime FUM; типизированный общий контракт, QA — первый адаптер.",
+    "альтернативы": "FUM и FUMA — варианты реализации общих требований, не навсегда закреплённые backend/model слои. AOT, прямой FUMA и отказ от FUM-слоя являются альтернативами, а не обязательными ступенями.",
+    "критерийВыбора": "Наблюдаемая приёмка и критерии выбора; одинаковость выходов сама по себе не является независимым доказательством.",
+    "bootstrap": "Самоприменение оценивается на фактической работе через диагностику, требования, модель, действия, проверки и выбор. Наличие готового AOT или Host не утверждается.",
+    "предыдущаяГраница": "Без новой платформы, обязательного генератора и дополнительной предпосылки по генератору. Ранее зафиксированные ограничения и незакрытые инварианты сохраняются."
+  },
+  "фактическоеСостояние": "CAPTURED_LINKED_CLARIFICATION; это ранняя запись источника, не полный архитектурный разбор, не реализация и не новое поручение исполнителю.",
+  "владелец": {
+    "область": "Planning",
+    "CodexThreadID": "01a08d77-2060-7701-9f44-ff04769d8a6e"
+  },
+  "следующийПотребитель": {
+    "область": "Существующий Tools-писатель → владелец периодической Routine/FUMA A05 процедуры",
+    "точныйCodexThreadID": "UNKNOWN; не предоставлен в передаче",
+    "предмет": "Одно ограниченное implementation order на собственные примитивы, совместимые с finite A05 input/output/provenance/id/version/parent/cycle интерфейсом и общим typed-event контрактом.",
+    "граница": "Приёмщик использует пинованный публичный capture как вход; отдельного all-architecture gate для этого ограниченного order нет."
+  },
+  "точкиПубличнойОпоры": {
+    "решениеSwiftFirst": {
+      "commit": "4154c1b25b903fcd179d1fb5309ef465858e1e34",
+      "path": "planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json",
+      "blob": "7e9e23fb74bf86ceef705d4f0c4ae1dad81ca78c",
+      "sha256": "c9fa3409bb577528e67ec3f030ede5ca2f1f9221499347f035f250c644b9adc2"
+    },
+    "предыдущийЗамороженныйLifecycle": {
+      "commit": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049",
+      "path": "planirovaniye/идея-жизненного-цикла-сообщения.json",
+      "blob": "8d6d005c70a6047c5cad8c2e8bdb5efba9410bd8",
+      "sha256": "a47ab5891bba0ca0d7b22139068f2c97ed9e7c60923c0e51126a96ae5012ab34"
+    },
+    "ранееНеИзменяемыеИсточники": [
+      "ac00ca76b67726016559c7252a9c2a6effa3b751",
+      "прочие более ранние commits; состав полностью здесь не переопределяется"
+    ]
+  },
+  "условиеПересмотра": "После одного реального использования сверить фактические критерии приёмки и выбора реализации на одинаковом контракте и случаях; обновить решение по наблюдениям, не превращая AOT, прямой FUMA или снятие FUM-слоя в обязательную лестницу.",
+  "границы": [
+    "Не менять, переписывать, форматировать или переигрывать caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049, ac00ca76b67726016559c7252a9c2a6effa3b751 или более ранние commits.",
+    "Не создавать новый проект и не отменять активные предыдущие задачи.",
+    "Не утверждать runtime, Host, готовый AOT, implementation completion или acceptance по равенству выходов.",
+    "Не создавать all-architecture gate для одного ограниченного Tools → Routine/FUMA A05 поручения."
+  ]
+}
