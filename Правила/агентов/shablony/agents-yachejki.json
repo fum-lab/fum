@@ -1,5 +1,5 @@
 {
-  "схема": "fum.шаблон-контекста-агента.9",
+  "схема": "fum.шаблон-контекста-агента.10",
   "назначение": "Заполняемый шаблон восстановления и границ; само заполнение шаблона не создаёт полномочий; допуск подтверждается точным поручением человека или уполномоченного родителя в его действующей границе. Шаблон не подтверждает выполнение, ACK, профиль или проверку.",
   "идентичность": {
     "логический_адрес": {
@@ -440,10 +440,10 @@
             "inventory_sha256": "d611b4d7a5543389165ec0ac843730c98fb6323f680be2afbe2cc15342b764aa"
           },
           "основание_публичного_входа": {
-            "предыдущий_коммит": "0b51929da90310d1c16348069cb105636180c84e",
+            "предыдущий_коммит": "6b2de70f7a358fcb7851a4cc1986df6b6b0a4caf",
             "путь": "Правила/агентов/shablony/agents-yachejki.json",
-            "blob_OID": "df4e1c3587a67759bf14489a0c3e0013eb7683de",
-            "sha256": "9ce816c5d43d57440aa1ceb8710366d7cf1240dd58c7bb25edfe8e6a809a4714"
+            "blob_OID": "587ec52001f5adff5a3a6b816e589c1ffd350a32",
+            "sha256": "0cc9f0f4c52439db8c410e738a22164f6be2dda48f7bf74dee1fd2dd0c27f3cd"
           },
           "источник_и_атрибуция": {
             "источник": "human→ROOT→A10",
@@ -504,6 +504,63 @@
             "occupied_W_ownership": "проверяется отдельно; чужой писатель не вытесняется",
             "missing_map_producer_path_or_version": "UNKNOWN; не восполнять догадкой",
             "следующий_case": "проверить исправление на следующем применимом case и получить consumer feedback; формальное описание само по себе не закрывает живость процесса"
+          },
+          "перенос_границ_до_выбора_инструмента": {
+            "статус": "PROCESSFIX_INPUT_PENDING_NEXT_APPLICABLE_CASE",
+            "связь": {
+              "правило": "FUM-ПРАВИЛО-НОВОЕ-000024",
+              "existing_pool": "CASE39",
+              "предыдущий_incident_input": "A10-P5-SOURCE-PROCEDURE-INCIDENT-01 v1",
+              "новый_rule_set_actor_или_controller": false
+            },
+            "наблюдение": {
+              "суть": "после полезной Docs Source publication следующий stage снова выбрал исключённый Python router, хотя исходная граница и исключение сохранялись вне локального переноса перед выбором инструмента",
+              "известные_свидетельства": "две точные квитанции удерживаются ROOT/A10; их private IDs, пути и outputs не публикуются",
+              "классификация": "повторное несоответствие процедуры; NOT_GREEN",
+              "глобальный_счётчик_попыток": "UNKNOWN"
+            },
+            "обязательный_local_stage_carryover_до_tool_choice": [
+              "assignment ID и version",
+              "применимые scope, grants, exclusions и effect rights",
+              "явный override и его origin с точной областью и версией",
+              "accepted AGENTS source/version и union маршрутов, прочитанный прямо из него",
+              "допустимость и applicability выбранного tool для этой границы",
+              "source pin, last known effects, review и актуальный residual",
+              "состояние source/stage budget, custody и condition to resume"
+            ],
+            "доступность": "общий публичный протокол и typed artifact доступны локальному агенту без private parent memory; приватные технические квитанции остаются у исходного владельца",
+            "перенос_и_права": {
+              "переносить_только_в_границе_exact_assignment_version": true,
+              "частный_case_grant_становится_глобальной_нормой": false,
+              "закрытый_source_case_budget_повторять": false,
+              "более_широкие_exclusions_текущего_assignment_сохранять": true,
+              "уже_согласованная_собственная_source_работа": "продолжается без per-commit ROOT ticket",
+              "реальный_UNKNOWN_или_custody_hold": "сохраняется отдельно"
+            },
+            "маршрутизация": {
+              "accepted_AGENTS": "прочитать нужные темы и union маршрутов непосредственно из точной принятой версии",
+              "исключённые_источники": [
+                "Python router",
+                "time helper",
+                "recency helper",
+                "validator",
+                "ROOT JSONL"
+              ],
+              "статус_исключённых": "UNKNOWN / not passed; не заменять fallback и не считать GREEN"
+            },
+            "критерий_проверки_исправления": {
+              "момент": "следующий применимый полезный case после записи source checkpoint",
+              "свидетельство": "локальный stage до выбора инструмента содержит точный assignment/version, применимые grants/exclusions/rights и остаток; исключённый tool не выбирается, затем фиксируются useful Source outcome либо конкретный hold и consumer feedback",
+              "один_ACK_или_наличие_файла_достаточно": false,
+              "полезный_Source_снимает_исключение_или_закрывает_профиль": false
+            },
+            "границы": {
+              "исправлять_next_applicable_case": true,
+              "создавать_new_hook_enforcer_runtime_или_Python_source": false,
+              "ослаблять_privacy_custody_или_права": false,
+              "полный_AGENTS_audit_или_global_process_count": false,
+              "текущую_работу_Docs_возобновлять_сообщением_или_писать_её_файлы": false
+            }
           },
           "дальнейший_путь_и_остаток": {
             "пул": "только существующий Rules/application-evidence pool; без дублирующего набора правил или глобального enforcer",
