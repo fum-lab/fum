@@ -1,0 +1,197 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "ec3cf4e4fc18da285ae3ca5e833a123d7d6a541d1a9b3871b8e42c37fcc2aa89",
+  "данные": {
+    "время": "2026-10-29T18:31:52Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "писатель": "repository-json-event; предложенный ограниченный профиль допуска до эффекта FUMA",
+    "основа": {
+      "branch": "fum-lab/fum/trebovaniya/master",
+      "previous_commit": "26e14d06e444a953487acafef9d183a35529a268",
+      "accepted_rule_source_commit": "d83a0a4fd44ae14cda82a5662cd01e0de75ba9d2",
+      "accepted_rule_source_blobs": {
+        "AGENTS.md": "190b7e0ea0e6a2704707ea11fe203c0f5f62a7d7",
+        "Правила/агентов/журнал-и-происхождение.md": "44247c4a5449d99bb1f420dc3c863660af13af49",
+        "Правила/агентов/локальные-навыки-и-инструменты.md": "7a3d8662afde31ca9618252b36c22333e7a75b8a",
+        "Правила/агентов/планирование-требования-вопросы-и-сбои.md": "dc22f5d43ef1601874f823250f1659b495bc6042",
+        "Правила/агентов/Git-и-рабочая-сессия.md": "9a3ebaa60203f46054a2e09bc8a26b8a1b2f0210",
+        "Правила/агентов/проверки-коммит-и-публикация.md": "44fdb0e74e02d2b36834942627d1e76056dd37b2",
+        "Правила/агентов/память-и-документация.md": "94a590fc9dcb3d43d4b527766eac83bd84a7bf60",
+        "Правила/агентов/язык-и-код.md": "002816dd3684ba2eac2454f632376b29811e4c66",
+        "Правила/агентов/источники-описания-и-материалы.md": "0477304d6a10b55a1719e7f820225a4d67191aa5",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md": "20d4bdd8911a95a1d80035d7d346ebfdb0c87088"
+      },
+      "parent_event": "32ad9c31478fbb7a281d762a33641078a3fd450a6f84e23b2f9729c9f07224bf",
+      "source_task": {
+        "path": "trebovaniya/postanovka.json",
+        "sha256": "0c5908d01d8bb5f5d2fd33c500e788357cc9f4f5245aaef76abf5f7d9a0ed123"
+      },
+      "current_requirements_package": {
+        "path": "trebovaniya/fuma-agent-requirements.json",
+        "sha256": "00683e26dd75ea8f5de1b96f3b5559f430bd68ab1b5435ab2d2fea1394150743",
+        "read_only": true
+      },
+      "name_receipt": {
+        "normalized_value": "ispolnyayemyij-profilj-fuma.json",
+        "sha256": "8716e2d5a9ebd452190aacca6a6d2caef3b471b18e2b632dae2ec0cb6d8ce18a",
+        "private_receipt_path_persisted": false
+      },
+      "transferred_source_label": "421/PR466 (transferred label; 421 unresolved and not treated as a verified commit)",
+      "current_witnessed_source": "Accepted source was read by exact Git object d83a0a4fd44ae14cda82a5662cd01e0de75ba9d2; no claim is made that unresolved label 421 names that commit."
+    },
+    "scope": {
+      "profile_path": "trebovaniya/ispolnyayemyij-profilj-fuma.json",
+      "profile_sha256": "3c13b5740b588a21aeefafe5cb2bbdfad97a64fa119e9c2e04d978a2159a3237",
+      "profile_bytes": 18534,
+      "profile_schema": "fum.исполняемый-профиль-фума.1",
+      "profile_status": "proposed",
+      "implementation": "UNKNOWN",
+      "new_numeric_requirement_id": "none",
+      "aggregate_requirements_file_changed": false,
+      "root_acceptance": "not-claimed",
+      "runtime_enforcement": "UNKNOWN",
+      "authorized_effect": "One checkpoint commit with only the profile and this append-only event, followed by ordinary exact push to the existing same-name origin ref."
+    },
+    "profile_content": {
+      "pre_effect_host_check": [
+        "Validate exact accepted source/version, profile, inputs, allowed paths, scope, and sole effect before I/O or a state-changing tool call.",
+        "Hold only the exact effect on a stale, ambiguous, or unavailable source; do not silently select a replacement.",
+        "Verify physical worktree, HEAD, full ref, clean index, sole writer, and separate authority independently.",
+        "A child without its own matching ACK of the same snapshot refuses before I/O and returns the reason."
+      ],
+      "excluded_checker_rule": "Excluded checkers receive zero calls. An erroneous call is recorded as a violation, not promoted into a new mandatory precondition.",
+      "lifecycle_boundary": "Parent stop/lifecycle ACK is separate from business acceptance and does not complete the parent/global node.",
+      "future_acceptance_cases": [
+        "Zero calls to excluded checkers.",
+        "Stale or ambiguous source holds only the exact effect.",
+        "An exact allowed profile permits only the described effect and records source, inputs, call, and outcome.",
+        "A child with a mismatching profile refuses before I/O.",
+        "A stop ACK does not imply business acceptance or global-node completion."
+      ],
+      "new_authorization": false,
+      "new_P0_policy": false,
+      "automatic_queue_or_authorization": false,
+      "PR475_boundary": "A bounded fixed-host example only; it does not establish coverage of all native Codex tools."
+    },
+    "root_transferred_quotes": {
+      "provenance": "root-transferred",
+      "source_offsets": "UNKNOWN",
+      "native_frame_sha256": "UNKNOWN",
+      "runtime_status": "UNKNOWN",
+      "quotes": [
+        "Lyuboj otkaz — priznak dlya avtomatizacii na Swift.",
+        "Tyi obnovlyayeshj trebovaniya k FUMA v rezuljtate rabotyi nad FUM?"
+      ]
+    },
+    "reported_incidents": [
+      {
+        "id": "FUMA-RO-helper",
+        "provenance": "root-transferred",
+        "description": "Reported internal FUMA read-only helper invoked excluded Python router; exit code 1; compactness 17914 > 17700 before reverse.",
+        "digest": "ef632124ace2ca8571591fc68a3064f2bce337983c8bad39f050a515e6014c56",
+        "independent_verification": "UNKNOWN",
+        "runtime_guard_evidence": false
+      },
+      {
+        "id": "stop-lifecycle-ack",
+        "provenance": "root-transferred",
+        "description": "After three accepted source WIP items, Instruments reportedly attempted legacy 019/021 to stop the active task; ROOT allowed a separate lifecycle ACK without another business acceptance or archive.",
+        "independent_verification": "UNKNOWN"
+      }
+    ],
+    "STEP0160": {
+      "linked_chain": [
+        "Direct LLM requests",
+        "Accepted-result receipt",
+        "FUM/FUMA mechanism",
+        "Replacement candidate"
+      ],
+      "period": "UNKNOWN",
+      "denominator": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "actual_values": "UNKNOWN"
+    },
+    "semantic_links": [
+      "agent-node-directory-addressing",
+      "agent-git-memory-json-restore-entry",
+      "fuma-environment-storage-adapter-contract",
+      "fuma-finite-aot-swift-lowering",
+      "typed-inter-agent-input-packet-acknowledgement",
+      "linked-knowledge-representation-provenance"
+    ],
+    "source_authority": {
+      "root_jsonl_read": false,
+      "native_root_frames_read": false,
+      "fuma_app_observed": "not-running at 2026-10-29T18:12:33Z; this observation does not prove runtime enforcement"
+    },
+    "errors_and_corrections": [
+      {
+        "attempt": "Two read-only inventory loops used jq dot access for Cyrillic field names and produced 16 parser errors across 8 events.",
+        "outcome": "Corrected to bracket notation; all 16 reads succeeded; no data changed."
+      },
+      {
+        "attempt": "The first temporary profile draft had a malformed jq string/quote.",
+        "outcome": "Corrected in the temporary file before any repository write; the profile then parsed."
+      },
+      {
+        "attempt": "A structural jq predicate initially used dot notation for Cyrillic names and failed to compile.",
+        "outcome": "A subsequent predicate looked for status fields at the wrong levels and returned false; inspected actual keys and corrected the predicate, which then passed."
+      },
+      {
+        "attempt": "git check-ignore returned exit 1 while checking the target.",
+        "outcome": "Expected no-match result: the target was not ignored; no repository state changed."
+      },
+      {
+        "attempt": "The first combined event predicate checked the profile status under the wrong field name and omitted a final period from an expected checker-status value; the predicate returned false.",
+        "outcome": "Inspected actual event keys and values, corrected both assertions, and confirmed the event schema/profile status/excluded-check status pass."
+      },
+      {
+        "attempt": "The first post-install combined jq profile/event structure check grouped a pipe incorrectly, so length was applied to a boolean and jq reported boolean true has no length.",
+        "outcome": "Grouped the array-length subexpression explicitly; the installed profile and event structure checks passed, with no file content change from the failed check."
+      },
+      {
+        "attempt": "A follow-up predicate checking the last correction placed a jq pipe outside a boolean conjunction and returned false.",
+        "outcome": "Use an explicitly parenthesized pipe expression or compare the exact field directly; this predicate was a checker-expression error, not a JSON failure."
+      }
+    ],
+    "checks_at_event_creation": {
+      "profile_json_parse_and_structure": "success; jq-1.7.1-apple; exact schema, proposed status, UNKNOWN implementation, and six semantic links checked in temporary staging.",
+      "event_json_parse_and_canonical_id": "success; wrapper schema parses and canonical SHA-256 of data equals identifier",
+      "exact_repo_diff_and_index": "not yet run at event creation; later checkout validation is reported separately by the writer.",
+      "private_path_scan": "not yet run on installed exact files at event creation.",
+      "excluded_python_router": "excluded; not called; not GREEN.",
+      "full_root_jsonl_and_root_message_remainder": "excluded; not read; not checked; not GREEN.",
+      "full_PUB": "excluded; not called; not GREEN.",
+      "legacy_guard": "excluded; not called; not GREEN.",
+      "new_builds_and_tests": "excluded; not called; not GREEN.",
+      "runtime_enforcement": "UNKNOWN"
+    },
+    "operational_preflight": {
+      "worktree_head": "26e14d06e444a953487acafef9d183a35529a268",
+      "full_ref": "refs/heads/fum-lab/fum/trebovaniya/master",
+      "index_and_worktree_before_write": "clean",
+      "sole_writer_for_exact_ref": true,
+      "origin_unique_url": "https://github.com/fum-lab/fum.git",
+      "remote_oid_before_write": "26e14d06e444a953487acafef9d183a35529a268",
+      "profile_target_absent_before_write": true,
+      "profile_path_symlink": false,
+      "private_receipt_path_copied": false
+    },
+    "result": "Предложенный профиль записывает область, допустимые проверки, исключения и будущие критерии без утверждения об активной runtime-защите. На момент создания события профиль и append-only запись ещё не установлены в checkout; ROOT-приёмка и интеграция не заявлены.",
+    "delivery_at_event_creation": "not-yet-published",
+    "decisions": [
+      "Не назначать новый числовой идентификатор требования.",
+      "Не менять агрегатный пакет требований.",
+      "Не запускать исключённые Python router, ROOT JSONL/remainder, full PUB, legacy guard, сборки и новые тесты.",
+      "Сохранять независимые runtime, ROOT acceptance и integration статусы как UNKNOWN/not-claimed."
+    ],
+    "open_residue": [
+      "Фактическая runtime-защита остаётся UNKNOWN.",
+      "Полная ROOT JSONL, исходные кадры и полный остаток корневых сообщений не читались.",
+      "PR475 является только bounded fixed-host example и не доказывает охват всех нативных инструментов Codex.",
+      "Метрика STEP0160, её период, знаменатель, охват и значения остаются UNKNOWN."
+    ]
+  }
+}

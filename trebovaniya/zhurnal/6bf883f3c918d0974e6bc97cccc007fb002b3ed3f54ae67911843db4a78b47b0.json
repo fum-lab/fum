@@ -1,0 +1,110 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "6bf883f3c918d0974e6bc97cccc007fb002b3ed3f54ae67911843db4a78b47b0",
+  "данные": {
+    "время": "2026-10-29T19:08:38Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "писатель": "repository-json-event; адресная корректировка P2 для предложенного профиля допуска FUMA",
+    "предыдущее_событие": "ec3cf4e4fc18da285ae3ca5e833a123d7d6a541d1a9b3871b8e42c37fcc2aa89",
+    "основа": {
+      "branch": "fum-lab/fum/trebovaniya/master",
+      "previous_commit": "05f50e754bfb1da222157d3118f9651c8e133069",
+      "accepted_rule_source_label": "30624c89780ee782f4c8453bc91bdb7a42bcb22c",
+      "accepted_rule_source_commit": "30624c89780ee782f4c8453bc91bdb7a42bcb22c",
+      "matched_prior_rule_source_commit": "d83a0a4fd44ae14cda82a5662cd01e0de75ba9d2",
+      "root_word_is_explanatory_not_revision_prefix": true,
+      "required_rule_blob_oids_equal_prior_source": true,
+      "required_rule_blobs": {
+        "AGENTS.md": "190b7e0ea0e6a2704707ea11fe203c0f5f62a7d7",
+        "Правила/агентов/журнал-и-происхождение.md": "44247c4a5449d99bb1f420dc3c863660af13af49",
+        "Правила/агентов/локальные-навыки-и-инструменты.md": "7a3d8662afde31ca9618252b36c22333e7a75b8a",
+        "Правила/агентов/планирование-требования-вопросы-и-сбои.md": "dc22f5d43ef1601874f823250f1659b495bc6042",
+        "Правила/агентов/Git-и-рабочая-сессия.md": "9a3ebaa60203f46054a2e09bc8a26b8a1b2f0210",
+        "Правила/агентов/проверки-коммит-и-публикация.md": "44fdb0e74e02d2b36834942627d1e76056dd37b2",
+        "Правила/агентов/память-и-документация.md": "94a590fc9dcb3d43d4b527766eac83bd84a7bf60",
+        "Правила/агентов/язык-и-код.md": "002816dd3684ba2eac2454f632376b29811e4c66",
+        "Правила/агентов/источники-описания-и-материалы.md": "0477304d6a10b55a1719e7f820225a4d67191aa5",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md": "20d4bdd8911a95a1d80035d7d346ebfdb0c87088"
+      },
+      "previous_event": "ec3cf4e4fc18da285ae3ca5e833a123d7d6a541d1a9b3871b8e42c37fcc2aa89",
+      "requirements_package_changed": false,
+      "new_numeric_requirement_id": "none"
+    },
+    "custody": {
+      "head_before_write": "05f50e754bfb1da222157d3118f9651c8e133069",
+      "full_ref": "refs/heads/fum-lab/fum/trebovaniya/master",
+      "worktree_and_index_before_write": "clean",
+      "worktrees_on_ref": 1,
+      "sole_writer_confirmed": true,
+      "origin_unique_url": "https://github.com/fum-lab/fum.git",
+      "remote_oid_before_write": "05f50e754bfb1da222157d3118f9651c8e133069",
+      "fresh_custody_ack": "sent to ROOT thread before repository writes"
+    },
+    "поручение": {
+      "allowed_paths": [
+        "trebovaniya/ispolnyayemyij-profilj-fuma.json",
+        "trebovaniya/zhurnal/<sha256-canonical-data>.json"
+      ],
+      "effect": "One ordinary source checkpoint commit and exact normal push to the existing same-name origin ref, then readback and release.",
+      "prior_published_checkpoint_immutable": true,
+      "amend_or_force": false,
+      "root_acceptance": "not-claimed",
+      "integration": "not-claimed"
+    },
+    "profile_correction": {
+      "path": "trebovaniya/ispolnyayemyij-profilj-fuma.json",
+      "previous_sha256": "3c13b5740b588a21aeefafe5cb2bbdfad97a64fa119e9c2e04d978a2159a3237",
+      "sha256": "3b437d1e71e0864cdab61e6ab5b31d8f70973852eba8c17cbf3f71c96311248a",
+      "bytes": 19510,
+      "schema": "fum.исполняемый-профиль-фума.1",
+      "status": "proposed",
+      "implementation": "UNKNOWN",
+      "review_finding": "P2: буквальное требование «до I/O» запрещало чтение самого профиля и проверку хэшей, создавая самозависимость.",
+      "corrected_boundary": "Ограниченное чтение выбранного профиля, точного источника/версии, хэшей входов, разрешённых путей и единственного эффекта допускается до проверяемого побочного эффекта.",
+      "control_plane_ack": "Отдельный control-plane ACK явно допустим, фиксируется отдельно и не создаёт data-plane эффект, не заменяет отдельный грант и не позволяет выдать грант себе.",
+      "child_mismatch": "Ребёнок может выполнить ограниченное чтение для проверки снимка, затем отказывает до data-plane эффекта и сообщает причину отдельным control-plane ACK.",
+      "runtime_enforcement": "UNKNOWN",
+      "universal_host_guard": "not-claimed"
+    },
+    "root_transferred_review": {
+      "provenance": "root-transferred",
+      "report": "Независимый RO-ревьюер по checkpoint 05f50e754bfb1da222157d3118f9651c8e133069 до этой P2-правки подтвердил два JSON/canonical ID, неизменность прежних 6+3 и отсутствие частных путей.",
+      "writer_recheck_boundary": "Разрешённая проверка писателя ограничена строгим JSON, исходными pins, адресной семантической сверкой, exact diff и identity выбранных файлов; full PUB и другие исключённые контуры не запускаются."
+    },
+    "semantic_links": [
+      "agent-node-directory-addressing",
+      "agent-git-memory-json-restore-entry",
+      "fuma-environment-storage-adapter-contract",
+      "fuma-finite-aot-swift-lowering",
+      "typed-inter-agent-input-packet-acknowledgement",
+      "linked-knowledge-representation-provenance"
+    ],
+    "read_only_preflight_notes": [
+      {
+        "class": "Git source-pin command construction",
+        "attempt": "Первая локальная проверка сравнивала краткое представление источника с полным OID, а отдельная zsh-команда использовала переменную вплотную к :path и не разрешила путь.",
+        "outcome": "После уточнения ROOT использован полный sourceCommit 30624c89780ee782f4c8453bc91bdb7a42bcb22c; exact Git object и blob OID всех десяти выбранных правил подтверждены, запись начата только после свежего ACK."
+      }
+    ],
+    "checks_before_commit": {
+      "profile_json_parse_and_semantic_boundary": "success before event creation; exact proposed status, UNKNOWN implementation, accepted source pin, and all three corrected effect-boundary occurrences checked.",
+      "accepted_rule_source_pins": "success; exact current commit and ten selected blobs match the prior d83 snapshot.",
+      "fresh_custody": "success; current HEAD/ref, clean worktree/index, one ref worktree, unique origin URL, and remote OID readback checked before writes.",
+      "full_root_jsonl": "excluded; not read; not GREEN.",
+      "python": "excluded; not called; not GREEN.",
+      "full_pub": "excluded; not called; not GREEN.",
+      "legacy_guard_or_creator": "excluded; not called; not GREEN.",
+      "runtime_tests": "excluded; not run; not GREEN.",
+      "runtime_enforcement": "UNKNOWN"
+    },
+    "result": "Addressed the profile self-dependence by limiting the boundary to the checked side effect and explicitly allowing bounded admission reads plus a separate control-plane ACK with no data-plane effect or self-issued grant. The profile remains proposed; no implementation or universal host guard is claimed.",
+    "delivery_at_event_creation": "not-yet-published",
+    "open_residue": [
+      "Runtime implementation and enforcement remain UNKNOWN.",
+      "ROOT JSONL, root-message remainder, full PUB, legacy guard/Creator, and runtime tests remain excluded and unchecked.",
+      "ROOT acceptance and integration are not claimed."
+    ]
+  }
+}

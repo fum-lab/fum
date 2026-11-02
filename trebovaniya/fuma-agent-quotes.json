@@ -1,0 +1,90 @@
+{
+  "схема": "fum.передача-исходных-реплик.1",
+  "отправитель": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "получатель": "01a1786a-b492-71d2-852a-51e94796d891",
+  "происхождение": "Буквальные реплики человека из основного разговора, повторно переданные ROOT; это не native human input получателя.",
+  "нативныйКадр": null,
+  "порядок": "Порядок исходного пакета из 18 реплик сохранён. Реплики 11–12 — уточняющий повтор с разницей kazhdo/kazhdogo.",
+  "реплики": [
+    {
+      "номер": 1,
+      "текст": "Nam po suti nuzhen agent na kazhdyij katalog v fajlovoj sisteme."
+    },
+    {
+      "номер": 2,
+      "текст": "Git v etu zhe fajlovuyu sistemu budet sokhranyatj istoriyu."
+    },
+    {
+      "номер": 3,
+      "текст": "Nam po suti i nuzhno eto pervyim delom v rantajme FUMA realizovatj."
+    },
+    {
+      "номер": 4,
+      "текст": "Nam togda nuzhnyi adapter fajlovoj sistemyi,"
+    },
+    {
+      "номер": 5,
+      "текст": "adapter Git,"
+    },
+    {
+      "номер": 6,
+      "текст": "adapter Torrent,"
+    },
+    {
+      "номер": 7,
+      "текст": "Nam byi prorabotatj obsjhij stejt agenta, kotoryij dolzhen khranitjsya dlya kazhdogo agenta."
+    },
+    {
+      "номер": 8,
+      "текст": "I khranitj yego v JSON. Kak schitayeshj?"
+    },
+    {
+      "номер": 9,
+      "текст": "Eto tvoya zadacha vyiyavlyatj potrebnosti takikh sistemnyikh avtomatizacij, poleznyikh dlya kazhdogo agenta. U kazhdogo agenta dolzhen byitj putj k sobstvennoj pamyati s zapisjyu i k obsjhej pamyati v rezhime chteniya."
+    },
+    {
+      "номер": 10,
+      "текст": "Sobstvennyiye fajlyi i sobstvennyiye deti v vide papok — vot i vesj nekhitryij interfejs."
+    },
+    {
+      "номер": 11,
+      "текст": "Celj kazhdo agenta — dobitjsya avtomatizacii svoyej funkcii."
+    },
+    {
+      "номер": 12,
+      "текст": "Celj kazhdogo agenta — dobitjsya avtomatizacii svoyej funkcii."
+    },
+    {
+      "номер": 13,
+      "текст": "I v FUM tak rabotayem, i FUMA delayem tak."
+    },
+    {
+      "номер": 14,
+      "текст": "V konechnom schyote zadacha agenta — ostavitj posle sebya programmu."
+    },
+    {
+      "номер": 15,
+      "текст": "Voobsjhe eto kasayetsya kazhdogo agenta na lyubom urovne vlozhennosti."
+    },
+    {
+      "номер": 16,
+      "текст": "Vsem agentam v celom sleduyet datj maksimum avtonomii v organizacii svoyej pamyati."
+    },
+    {
+      "номер": 17,
+      "текст": "Agentyi mogut zakazyivatj razrabotku obsjhego instrumentariya, kotoryij im nuzhen vsem."
+    },
+    {
+      "номер": 18,
+      "текст": "Stejt pamyati v Git — eto i yestj struktura stejta agenta."
+    }
+  ],
+  "поздниеУточнения": [
+    "Nam byi srazu byi sejchas zapustitj translyator s FUMA na Swift.",
+    "Myi zh sejchas pishem na FUMA, i Swift generiruyem v ramkakh AOT konvejyera, tak?",
+    "Kommit — eto vsyo, chto nuzhno dlya vosstanovleniya agenta.",
+    "Vetka — eto i yestj uzel.",
+    "Realjnuyu muljtiagentnostj myi obespechim, yesli dlya kazhdoj sredyi: Codex Desktop, Claude, OpenCode i dr. myi obespechim svoyu pamyatj i svoyo raspredeleniye po vetkam."
+  ],
+  "границаПорядка": "Поздняя передача пяти уточнений отдельная; расположение AOT-реплик в этом блоке не означает их позднее место в общем разговоре."
+}

@@ -1,0 +1,177 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "32ad9c31478fbb7a281d762a33641078a3fd450a6f84e23b2f9729c9f07224bf",
+  "данные": {
+    "время": "2026-10-29T15:34:54Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "писатель": "repository-json-event; уточнение требования существующего FUM-REQ-0045",
+    "основа": {
+      "branch": "fum-lab/fum/trebovaniya/master",
+      "previous_commit": "a4870370a78f993e014ae50a0a079dcce96dcfc4",
+      "accepted_root_commit": "b83fd9fc32380506872d07c1f13571e5be679ca0",
+      "merge_commit": "516bc7c7e42baef31a0d097983038e9ea04777b0",
+      "merge_tree": "f7d4ad500ea7b5c7bb5efa655085cc6646070d32",
+      "merge_parents": [
+        "a4870370a78f993e014ae50a0a079dcce96dcfc4",
+        "b83fd9fc32380506872d07c1f13571e5be679ca0"
+      ],
+      "source_requirement_before_refinement": {
+        "path": "trebovaniya/fuma-agent-requirements.json",
+        "blob": "106aaa123c6a51dfc64c8391ddeb0656e777889c",
+        "sha256": "2c3bde218b8ecca3cb83a7c2ac4b39f15f3d089083bbf978d2027bb3932288e3"
+      },
+      "preserved_unaccepted_inputs": [
+        {
+          "path": "trebovaniya/fuma-agent-quotes.json",
+          "blob": "f5b841e093f9e67ff310c34580677a54809e885b"
+        },
+        {
+          "path": "trebovaniya/fuma-agent-requirements.json",
+          "blob": "106aaa123c6a51dfc64c8391ddeb0656e777889c"
+        },
+        {
+          "path": "trebovaniya/predlozhenie-svyaznosti.json",
+          "blob": "ecddf2f09e74e428ce96c8762b7d3100fd1058e3"
+        },
+        {
+          "path": "trebovaniya/zhurnal/46d90ea34eb60fded34abc7fd501a9562f2a3be87fcae3705817bf335ab6f7b2.json",
+          "blob": "e9d2f72f8509cb7c7db892585c3b6c74ee087794"
+        },
+        {
+          "path": "trebovaniya/zhurnal/52c056fac11ea6b2a4ebf1acebde67e43416f67578ffd5745acee75679a78b25.json",
+          "blob": "d40ad1e2312e9936afa9fcf18b739f1f36d58bbb"
+        },
+        {
+          "path": "trebovaniya/zhurnal/b805a775792159d8f7eddf0417486855ea499d84f40efe11f6cd293468eccec9.json",
+          "blob": "5ddb3729fdc85d0a030673f297e0d0ecd6d36924"
+        },
+        {
+          "path": "trebovaniya/zhurnal/b8d15d26d339fdab956489bd6b953bb1427d2ffd96a2bd88d7949c06e4c04ede.json",
+          "blob": "9e85703bee5df842ac34bc15322243342c54a4a8"
+        },
+        {
+          "path": "trebovaniya/zhurnal/c197482165439264d346deb574dee64c1f8697f1bade13200cae90a82de2434a.json",
+          "blob": "24df8279edc83f7b7572bba7dd5e0b6da45b383d"
+        },
+        {
+          "path": "trebovaniya/zhurnal/e4d832cc99f9412f8bcf2073adad5688fccbcecb77c6ccbc7327f66336d8dacf.json",
+          "blob": "e528b862d16ea0deeaef89efee0fc2d8006fd60b"
+        },
+        {
+          "path": "trebovaniya/zhurnal/faae3bbe7dd8ce393ea5957c716606a21fd87010625cf0933dc131cc5e20c4fa.json",
+          "blob": "7de4605a5545b346e486f87d91c50e51befb245f"
+        }
+      ]
+    },
+    "source_question": {
+      "text": "U nas predusmotrena obsjhaya metrika obsjhego urovnya avtomatizacii, chtobyi mozhno byilo otslezhivatj process izbavleniya ot LLM vyizovov?",
+      "position_in_report": 3,
+      "provenance": "root-transferred",
+      "native_frame_sha256": null
+    },
+    "root_report_quotes": {
+      "source_commit": "b83fd9fc32380506872d07c1f13571e5be679ca0",
+      "source_path": "otchyot-integracij-2026-10-29-7.json",
+      "source_blob": "7e3273b718fab1c0fbebde5b41d6e3e1101e78e7",
+      "source_sha256": "93ab0b65e74597e333ebd2a3ede0c464bb705ea27b158e6599b0f84e343bbc0d",
+      "observed_at_utc": "2026-10-29 14:38:00 UTC",
+      "provenance": "root-transferred",
+      "full_history": false,
+      "root_jsonl_read": false,
+      "native_frame_sha256": null,
+      "order_caveat": "Порядок этих пяти пользовательских реплик в доступной истории; не полная история сессии",
+      "quotes": [
+        {
+          "position_in_block": 1,
+          "text": "A ostanovilsya pochemu?",
+          "provenance": "root-transferred"
+        },
+        {
+          "position_in_block": 2,
+          "text": "U planirovaniya pochemu-to vvod trebuyetsya.",
+          "provenance": "root-transferred"
+        },
+        {
+          "position_in_block": 3,
+          "text": "U nas predusmotrena obsjhaya metrika obsjhego urovnya avtomatizacii, chtobyi mozhno byilo otslezhivatj process izbavleniya ot LLM vyizovov?",
+          "provenance": "root-transferred"
+        },
+        {
+          "position_in_block": 4,
+          "text": "Kogda myi nakhodim kakiye-nibudj resheniya dlya FUM, nam nuzhno delatj sistemu sopostavlenij, kak etot vopros predpolagayetsya reashatj tam i kakoj luchshij mekhanizm eto mozhet zamenitj.",
+          "provenance": "root-transferred"
+        },
+        {
+          "position_in_block": 5,
+          "text": "Kak u nas otslezhivaniye i podderzhka balansa FUM — FUMA?",
+          "provenance": "root-transferred"
+        }
+      ]
+    },
+    "refinement": {
+      "existing_requirement": "FUM-REQ-0045",
+      "source_links": [
+        "FUM-REQ-0045",
+        "FUM-STEP-0160",
+        "FUM-MAP-AUTO-01",
+        "Issue-328#issuecomment-6499516426",
+        "otchyot-integracij-2026-10-29-7.json"
+      ],
+      "criteria": [
+        "Прямые запросы к LLM на сопоставимый принятый полезный результат; доля допустимых эпизодов, завершённых проверенной программой без LLM; период, знаменатель и охват видны.",
+        "Каждое решение FUM связано с исходной проблемой, текущим механизмом, целевым оператором или механизмом FUMA, кандидатом замены, равнозначностью результата, измеренным выигрышем и условием пересмотра.",
+        "Баланс затрат и принятых полезных результатов FUM/FUMA размечен по направлениям; ремонт FUM имеет потребителя FUMA либо обоснованную самостоятельную цель и условие выхода; координация, ожидание, проверки и повторная работа видны отдельно."
+      ],
+      "implementation": "UNKNOWN",
+      "actual_values": "UNKNOWN",
+      "new_numeric_requirement_ids": "none",
+      "second_collector": "not proposed",
+      "requirements_package_sha256": "00683e26dd75ea8f5de1b96f3b5559f430bd68ab1b5435ab2d2fea1394150743"
+    },
+    "measurement_status": {
+      "direct_llm_requests_per_comparable_accepted_result": "UNKNOWN",
+      "eligible_episodes_completed_without_llm": "UNKNOWN",
+      "period": "UNKNOWN",
+      "denominator": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "fum_fuma_balance": "UNKNOWN"
+    },
+    "author_and_model_boundary": {
+      "observed_model": "UNKNOWN",
+      "observed_effort": "UNKNOWN",
+      "shared_author_adapter": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py присутствует в источниках, но относится к исключённому Python-контуру и не запускался; замена не создавалась.",
+      "merge_author": "FUM Codex [UNKNOWN; effort=UNKNOWN]",
+      "merge_committer": "FUM",
+      "native_root_jsonl": "excluded; not read"
+    },
+    "checks": {
+      "merge_tree": "success; only the ten listed input paths differ from R",
+      "merge_parent_order": "success; [L, R]",
+      "preserved_input_blobs": "success; each listed blob matches L",
+      "implementation_and_measurements": "UNKNOWN; not claimed"
+    },
+    "result": "Уточнены критерии существующего требования FUM-REQ-0045. Это сохранение исходников и требований в области trebovaniya/**; общая метрика, сборщик, реализация, фактические значения, ROOT-приёмка и интеграция не заявлены.",
+    "decisions": [
+      "Не назначать новый числовой идентификатор требования.",
+      "Не создавать второй общий сборщик статистики или новый машинный индекс.",
+      "Не менять исторические Требования/, Планирование/ и Документация/; только ссылаться на существующие источники.",
+      "Сохранять пять реплик из отчёта ROOT отдельно от прежнего пакета 18+5; не выводить нативную хронологию."
+    ],
+    "open_residue": [
+      "Нативный ROOT JSONL и исходные кадры не читались; полной истории нет.",
+      "Общая метрика запросов к LLM и баланс FUM/FUMA не измерены.",
+      "Общая реализация и применение FUM-REQ-0045 в FUMA остаются UNKNOWN и требуют отдельного владельца и допуска.",
+      "Общий профиль и финальная приёмка ROOT не пройдены."
+    ],
+    "доставка_на_момент_записи": "not-yet-published",
+    "проверки": {
+      "json_parse": "успешно; jq-1.7.1-apple",
+      "criteria_structure": "успешно; три критерия под существующим FUM-REQ-0045, ссылки проверены, точный вопрос совпадает с третьей из пяти реплик",
+      "provenance": "успешно; пять реплик имеют root-transferred, полная история=false, native frame=null",
+      "privacy": "успешно; абсолютные и приватные пути не найдены",
+      "implementation_and_measured_values": "UNKNOWN"
+    }
+  }
+}

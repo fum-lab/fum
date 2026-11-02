@@ -1,0 +1,53 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "c197482165439264d346deb574dee64c1f8697f1bade13200cae90a82de2434a",
+  "данные": {
+    "время": "2026-10-28T16:10:43Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "предыдущее_событие": "e4d832cc99f9412f8bcf2073adad5688fccbcecb77c6ccbc7327f66336d8dacf",
+    "основа": {
+      "ветка": "fum-lab/fum/trebovaniya/master",
+      "предыдущий_commit": "b35319f016019ced3663bc77fe176c84741186df",
+      "источник_задачи": "trebovaniya/postanovka.json",
+      "root_acceptance": "not-claimed"
+    },
+    "точная_цитата_принципа": "Po suti zadacha roya agentov sokhranitj i opisatj  znaniya raznyimi sposobami, v tom chisle avtomaticheski ispolnyayemyimi.",
+    "происхождение_цитаты": "Цитата передана ROOT как прямой принцип человека; native ROOT frame и JSONL не читались.",
+    "новое_семантическое_требование": {
+      "semantic_key": "linked-knowledge-representation-provenance",
+      "путь": "trebovaniya/fuma-agent-requirements.json",
+      "дублирует_существующий_ключ": false,
+      "numeric_id": null,
+      "linked_semantic_keys": [
+        "fuma-finite-aot-swift-lowering",
+        "fuma-environment-storage-adapter-contract",
+        "agent-git-memory-json-restore-entry",
+        "typed-inter-agent-input-packet-acknowledgement"
+      ],
+      "related_conversation": {
+        "id": "6ab1e0c1-73e8-83ed-86a6-738852b1de2a",
+        "title": "Дистилляция функций"
+      }
+    },
+    "append_only_коррекция_writer_thread": [
+      {
+        "событие": "b805a775792159d8f7eddf0417486855ea499d84f40efe11f6cd293468eccec9",
+        "старое_значение": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "корректное_значение": "01a1786a-b492-71d2-852a-51e94796d891",
+        "основание": "source_context.own_writer_thread и текущая запись list_threads указывают на writer 01a1786a-b492-71d2-852a-51e94796d891"
+      },
+      {
+        "событие": "e4d832cc99f9412f8bcf2073adad5688fccbcecb77c6ccbc7327f66336d8dacf",
+        "старое_значение": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "корректное_значение": "01a1786a-b492-71d2-852a-51e94796d891",
+        "основание": "source_context.own_writer_thread и текущая запись list_threads указывают на writer 01a1786a-b492-71d2-852a-51e94796d891"
+      }
+    ],
+    "memory_update": "/Users/fum/.codex/memories/extensions/ad_hoc/notes/2026-10-28T16-10-43Z-linked-knowledge-representations.md",
+    "canonical_status": "Требование добавлено в canonical semantic package; numeric ID не назначен; ROOT acceptance not claimed.",
+    "исход": "Добавлено одно связующее семантическое требование с точной цитатой и явными связями к существующим FUMA, агентскому change-program и function-distillation контекстам; отдельные существующие требования не дублировались.",
+    "доставка_на_момент_записи": "not-yet-published"
+  }
+}

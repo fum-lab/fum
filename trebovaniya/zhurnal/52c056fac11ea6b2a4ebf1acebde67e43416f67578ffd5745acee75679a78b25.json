@@ -1,0 +1,29 @@
+{
+  "схема": "fum.событие-требований.1",
+  "идентификатор": "52c056fac11ea6b2a4ebf1acebde67e43416f67578ffd5745acee75679a78b25",
+  "данные": {
+    "время": "2026-10-28T13:40:16Z",
+    "область": "trebovaniya/**",
+    "root_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "writer_thread": "01a1786a-b492-71d2-a852-51e94796d891",
+    "предыдущее_событие": "46d90ea34eb60fded34abc7fd501a9562f2a3be87fcae3705817bf335ab6f7b2",
+    "пакет_требований": {
+      "path": "trebovaniya/fuma-agent-requirements.json",
+      "sha256": "51ba7657dd336b623493a907452cf3951a777ec7a4d7af303450fc18254f82ec",
+      "bytes": 27888,
+      "updated_existing_semantic_key": "fuma-environment-storage-adapter-contract"
+    },
+    "дополнение_ROOT": {
+      "provenance": "Две исходные реплики пользователя дословно переданы ROOT отдельным последующим сообщением; они не входят в SHA-256-проверенную копию пакета 18+5.",
+      "native_frame_sha256": null,
+      "порядок_внутри_блока": true,
+      "реплики": [
+        "Nablyudeniye stejta fajlovoj sistemyi, nablyudeniye stejta gita.",
+        "Upravleniye stejtom budet ekvivalentno obnovleniyu stejta fajlovoj sistemyi i gita."
+      ]
+    },
+    "изменение": "Уточнено существующее требование: FS и Git имеют отдельные наблюдения; управление — воспроизводимая программа изменений с сохранённой целью, происхождением, проверяемыми результатами и продолжением после прерывания; управляющий JSON не дублирует Git tree; атомарность между FS и Git не заявляется.",
+    "исход": "Обновлён пакет требований; реализация адаптеров, восстановление runtime, внешние эффекты и принятие ROOT не выполнялись и не заявляются.",
+    "писатель": "repository-json-event; no prebuilt FUMA journal driver was issued or used"
+  }
+}
