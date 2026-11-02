@@ -1,0 +1,202 @@
+{
+  "схема": "fum.сравнение-возможностей-исполнения.1",
+  "состояние": "Первичная ограниченная таблица; не заключение о полном переносе runtime",
+  "обновленоСаратов": "2026-11-02 17:32:06 +04:00",
+  "исходныйВопрос": "Чего сейчаснехватаетSwift runtime относительноPython runtime?",
+  "ответ": "Swift не хватает подтверждённого сквозного Host-контура: actual outer caller/message lifecycle → recovery/continuation → useful step → callback/reopen, и замыкания оставшегося policy/checker-переноса на существующие support/API/module. Работающий Python baseline в этой границе не установлен.",
+  "граница": {
+    "источники": "Удержанные карты existing Routine/Tools и Swift Source; широкого поиска нет.",
+    "Python": "Source/read/run исключены: UNKNOWN, не working.",
+    "исполнениеПроверокИRuntime": "NOT_RUN",
+    "собственнаяПамять": "Один новый Source-report файл этой задачи; владение целым каталогом/agent root из пути не выводится.",
+    "состояниеGitИстории": "Этот Source-снимок не удостоверяет commit/push/ROOT acceptance. Фактический Source-history outcome фиксируется отдельной технической квитанцией; full profile/N32/ROOT final UNKNOWN.",
+    "исключённыеИсточники": "NOT_READ_NOT_RUN",
+    "новыеПакетыКонтурыИВключение": "NONE"
+  },
+  "основы": {
+    "кодRoot": "b7c8aff60c7815bc0e8f3cd4cb864003afea7e32",
+    "собственныйSource": "2931d2abbcf3de64a2e9e0de4ffc940b01958af0",
+    "принятаяRootSourceПриёмка": {
+      "коммит": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+      "дерево": "ceefda3b60cd45bf23b053983191d08a2ca01cdc",
+      "родители": [
+        "b7c8aff60c7815bc0e8f3cd4cb864003afea7e32",
+        "5c2fb4f1e6b6fa25a5c432a6381a62add5d27f0a"
+      ],
+      "область": "EXACT5 incoming requirements/proposals4A1M; genericCycle/Stopcode unchanged",
+      "источник": "Trusted ROOT/A10 exact receipt report; private locator not exported",
+      "ограничение": "SOURCE-only intake не profile/fullN32/ROOTfinal/Host/NativeStop/Metal proof. Producer5c2 known formatter/prepush-proof violations NOT_GREEN, новый Root proof их не амнистирует."
+    },
+    "новаяОсноваСверена": "c3624c SourceHEAD/ref freshly read; two Swift blobs equal b7/own2931; other closed Sources not reviewed."
+  },
+  "колонки": [
+    "возможность",
+    "унаследованныйКонтур",
+    "исходникиНаСвифт",
+    "привязкаКХосту",
+    "доказанноеИсполнение",
+    "пробелВладелецСледующийШаг"
+  ],
+  "строки": [
+    {
+      "возможность": "1. Durable genericCycle: intent до prepare/storage, typed RO reopen/equality",
+      "доказанноеИсполнение": "Source-only; наличие test Source не означает запуск tests/runtime.",
+      "пробелВладелецСледующийШаг": "Tools/existing Routine + Host owner: получить exact existing outer caller/result-consumption binding; не повторять closed search.",
+      "унаследованныйКонтур": {
+        "статус": "UNKNOWN_EXCLUDED",
+        "источник": "Допущенного прочитанного/исполненного Python baseline нет."
+      },
+      "исходникиНаСвифт": {
+        "статус": "SOURCE_ONLY_ROOT_B7",
+        "поведение": "Canonical intent ≤1MiB закрепляется до prepare/storage; typed RO reopen/equality.",
+        "источники": [
+          {
+            "git": "b7c8aff60c7815bc0e8f3cd4cb864003afea7e32:iskhodniki/zapusk/ЦиклЗапуска.swift",
+            "blob": "7568d2d4101517abb8cb61a0eb18ea6bd8ecd244",
+            "bytes": 9601,
+            "sha256": "72eaecf9cef51393fc9910d7116180b2df017464e29d49dc6859ee7cfec2d982"
+          },
+          {
+            "git": "b7c8aff60c7815bc0e8f3cd4cb864003afea7e32:proverki/zapusk/ПроверкиЦиклаЗапуска.swift",
+            "blob": "30debf7cabe3c1e85884edecdab4ded1423ebb91",
+            "bytes": 17203,
+            "sha256": "b87569d2b46e5ba0d8b292e73e5a50b9bf63d2476473c5c54e164959705e6e67"
+          }
+        ]
+      },
+      "привязкаКХосту": "Actual Host caller/result-consumer не подтверждён."
+    },
+    {
+      "возможность": "2. STOP signal / O_EXCL claim / stale lease",
+      "доказанноеИсполнение": "Историческая установка retained; актуальные loaded trust/event/Host consumption UNKNOWN.",
+      "пробелВладелецСледующийШаг": "Existing STOP/Host owner: отдельно допущенная свежая loaded/binding проверка. Новая установка/activation/lease replay не разрешены.",
+      "унаследованныйКонтур": {
+        "статус": "UNKNOWN_EXCLUDED",
+        "источник": "Python Source/read/run не допущены."
+      },
+      "исходникиНаСвифт": {
+        "статус": "RETAINED_INSTALLED_SOURCE_RECEIPTS",
+        "источник": "Logical retained STOP installation: installed150111, sealed23, binary SHA prefix76b91002; полные неуказанные hashes не восстанавливаются.",
+        "lease": "31Oct08:47:56 expired; timezone исходного сокращённого locator здесь не уточняется"
+      },
+      "привязкаКХосту": "Loaded Host proof UNKNOWN; установленный binary/sealed manifest не удостоверяет загрузку."
+    },
+    {
+      "возможность": "3. Actual outer caller/message lifecycle/recovery/useful step/callback",
+      "доказанноеИсполнение": "UNKNOWN: нет наблюдённой связанной цепи original assignment → useful continuation → typed callback/reopen.",
+      "пробелВладелецСледующийШаг": "ROOT/actual Host owner: новый точный locator caller/result/message consumption. Без fake provider/witness/gate и нового broad search.",
+      "унаследованныйКонтур": {
+        "статус": "UNKNOWN_EXCLUDED",
+        "источник": "Работоспособность legacy runtime не установлена."
+      },
+      "исходникиНаСвифт": {
+        "статус": "FINITE_CHECKED_MAPPING_NO_BOUND_HOST_JOIN",
+        "источники": [
+          {
+            "логическийИсточник": "Existing Routine typed producer-consumer map v4-b7",
+            "bytes": 19844,
+            "sha256": "2517f0869a022cb1b0b4531c2d71c840a556456aaa5f2f7de5786502b7ca1bc7"
+          },
+          {
+            "логическийИсточник": "Tools actual Host contract + registered-tool mapping",
+            "bytes": 7746,
+            "sha256": "e6ae1e935b120817121d78e04eda0cde268f1c5984942a21b9cdf3fb8be6e2b4"
+          }
+        ]
+      },
+      "привязкаКХосту": "Не найдена в проверенной границе; глобальное отсутствие не заявлено."
+    },
+    {
+      "возможность": "4. Сеть агентов / mediator / message cell",
+      "доказанноеИсполнение": "Source utility readiness отдельно от trusted/Host execution; runtime proof не дан.",
+      "пробелВладелецСледующийШаг": "FUMA A05 parent owns mediator/message cell: закрепить accepted current API/provider/consumer binding; Root не запускает grandchildren.",
+      "унаследованныйКонтур": {
+        "статус": "UNKNOWN_EXCLUDED",
+        "источник": "Python counterpart не читался и не запускался."
+      },
+      "исходникиНаСвифт": {
+        "статус": "SOURCE333_AND_PRIVATE_V5_NOT_ROOT_B7",
+        "источник": {
+          "logicalGit": "Source333:fuma/packages/setj-agentov",
+          "tree": "082411c29221bee1bc87e5c3d29d359b7d428fc5",
+          "полныйSource333Commit": "UNKNOWN_NOT_RECONSTRUCTED",
+          "v5": {
+            "bytes": 123290,
+            "sha256Prefix": "817abb84",
+            "полныйSHA256": "UNKNOWN_NOT_GUESSED"
+          }
+        },
+        "граница": "Pure model/utility; не trusted provider, не atomic claim, не Host adapter. На Rootb7 отсутствует; Rootc362 requirements-only intake этого не меняет."
+      },
+      "привязкаКХосту": "UNKNOWN; actual provider/consumer seam не принят как Host adapter."
+    },
+    {
+      "возможность": "5. Автор / Source checkpoint utility",
+      "доказанноеИсполнение": "Отдельные Source/author/Git checkpoints и ROOT exact5 intake observed/reported. Producer sequence violations сохраняются NOT_GREEN.",
+      "пробелВладелецСледующийШаг": "Existing Tools/Requirements/Planning owners: следующий собственный ограниченный Source increment. Текущий Root whole5/public checkpoints не ждут идеального naming.",
+      "унаследованныйКонтур": {
+        "статус": "UNKNOWN_EXCLUDED",
+        "источник": "Нельзя переносить наблюдённый результат mixed control на Python baseline."
+      },
+      "исходникиНаСвифт": {
+        "статус": "MIXED_NODE_JQ_GIT_CONTROL_OBSERVED",
+        "источник": {
+          "Requirements": "5c2fb4f1e6b6fa25a5c432a6381a62add5d27f0a",
+          "RootIntake": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+          "Planning": "ab39 parent independently verified; e610 deputy verified; 0cc4cb14f86c22495e9be040140e23afc550fb6b actor-reported/current independent readback pending"
+        }
+      },
+      "привязкаКХосту": "Не Swift Host runtime; Git/Source publication не подтверждает stop/continue/callback."
+    },
+    {
+      "возможность": "6. A04 Python policy/checker port",
+      "доказанноеИсполнение": "Compiler/tests/runtime NOT_RUN; статический Source-срез не весь runtime port.",
+      "пробелВладелецСледующийШаг": "Tools: отдельно закрепить exact existing support APIs ОпределениеОператора.разобрать / AutomationExecutor.выполнить и module/caller closure; без stubs/new verifier/framework.",
+      "унаследованныйКонтур": {
+        "статус": "UNKNOWN_EXCLUDED",
+        "источник": "Legacy Source/read/run не проверены; исключение не GREEN."
+      },
+      "исходникиНаСвифт": {
+        "статус": "THREE_PURE_POSTIMAGES_NO_OP_PLUS_TEST_SOURCE",
+        "источники": [
+          {
+            "target": "iskhodniki/zapusk/ЛексерЯзыковогоДопуска.swift",
+            "bytes": 12138,
+            "sha256": "b90a750b42ace455ee2ad8637b142cf99b20f9418ce3e34e32a48fe01a704981",
+            "delta": "NO_OP"
+          },
+          {
+            "target": "iskhodniki/zapusk/ИзменённыеСтроки.swift",
+            "bytes": 4802,
+            "sha256": "128ae85418fde17de6a800477ab1615d1e82d8427aa4c76dbed3758a777085d8",
+            "delta": "NO_OP"
+          },
+          {
+            "target": "iskhodniki/zapusk/ПланПереводаСвифта.swift",
+            "bytes": 18826,
+            "sha256": "52b0badbf1b72c49b9f45d653d9355f497936367313256e59756346018de6cd3",
+            "delta": "NO_OP"
+          },
+          {
+            "target": "proverki/zapusk/ПроверкиЧистыхКомпонентовСвифта.swift",
+            "bytes": 9581,
+            "sha256": "2b2ecd284bf2ffd0797eefbd33c09e0262aaf2c3a10c52e560a104f784cc21eb",
+            "методов": 11
+          }
+        ]
+      },
+      "привязкаКХосту": "Support/module/caller closure UNKNOWN; existing targets ОсноваЗапуска/ПроверкиЗапуска — будущий binding, не новый module."
+    }
+  ],
+  "следующийПотребитель": {
+    "роль": "ROOT для быстрого ответа человеку",
+    "первичныйОтвет": "Уже передан существующему ROOT; accepted/use decision пока UNKNOWN",
+    "следующаяДоработка": "Только новый exact binding/input в own admitted scope; не analysis-on-analysis"
+  },
+  "публикационнаяГраница": {
+    "частныеАбсолютныеПути": false,
+    "ROOTJSONL_RAW_SQL_ENV_MetadataValues": false,
+    "скрытыеРассуждения": false,
+    "RootПриёмкаНеRuntime": true
+  }
+}
