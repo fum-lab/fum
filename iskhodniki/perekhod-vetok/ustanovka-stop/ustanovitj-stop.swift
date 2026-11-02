@@ -30,8 +30,48 @@ struct СнимокФайловойСсылки {
         for отсутствие in отсутствия { try ЧитательФайловойСсылки.подтвердить(отсутствие) }
     }
 }
+/// Только наблюдение: оба current и их ancestry подтверждаются прежним nofollow IO.
+struct СнимокРазделенияСостоянийStop {
+    fileprivate let прежнее: ФайлФайловойСсылки
+    fileprivate let новое: НаблюдениеФайловойСсылки
+    func подтвердить() throws {
+        try ЧитательФайловойСсылки.подтвердить(прежнее)
+        switch новое {
+        case .файл(let файл): try ЧитательФайловойСсылки.подтвердить(файл)
+        case .отсутствие(let отсутствие): try ЧитательФайловойСсылки.подтвердить(отсутствие)
+        }
+    }
+}
 enum ЧитательФайловойСсылки {
     static let пределУпакованных = 1_048_576
+
+    static func проверитьРазделениеСостояний(состояниеV2: String, состояниеV3: String,
+        допускаетсяОтсутствиеV3: Bool = false) throws -> СнимокРазделенияСостоянийStop {
+        guard состояниеV2 != состояниеV3,
+              case .файл(let прежнее) = try наблюдать(состояниеV2, предел: 32_768),
+              прежнее.сведения.st_mode & 0o7777 == 0o600,
+              прежнее.каталоги.last.map({ $0.сведения.st_mode & 0o7777 == 0o700 }) == true
+        else { throw ОтказФайловойСсылки.метаданные }
+        let новое = try наблюдать(состояниеV3, предел: 32_768)
+        switch новое {
+        case .файл(let файл):
+            guard файл.сведения.st_mode & 0o7777 == 0o600,
+                  файл.каталоги.last.map({ $0.сведения.st_mode & 0o7777 == 0o700 }) == true,
+                  прежнее.сведения.st_dev != файл.сведения.st_dev
+                    || прежнее.сведения.st_ino != файл.сведения.st_ino
+            else { throw ОтказФайловойСсылки.неоднозначность }
+        case .отсутствие(let отсутствие):
+            // Разрешено отсутствие только конечного V3 basename, не ancestry.
+            guard допускаетсяОтсутствиеV3,
+                  отсутствие.отсутствующийКомпонент.utf8.elementsEqual(состояниеV3.utf8),
+                  отсутствие.каталоги.last.map({ $0.сведения.st_mode & 0o7777 == 0o700 }) == true
+            else { throw ОтказФайловойСсылки.отсутствие }
+        }
+        // наблюдать уже требует regular/uid/nlink1 и O_NOFOLLOW по всей цепочке.
+        let снимок = СнимокРазделенияСостоянийStop(прежнее: прежнее, новое: новое)
+        try снимок.подтвердить()
+        return снимок
+    }
     private static func имя(_ строка: String) -> Bool {
         строка.hasPrefix("refs/") && строка.utf8.count <= 4_000
             && !строка.contains("..") && !строка.contains("@{")
@@ -584,6 +624,7 @@ private struct H: Decodable {
 let схема, задача, узел, область, поколение, cwd, дерево, ref: String
 let gitDir, commonGitDir, backend, objectFormat, исходники: String
 let состояние, каталогКвитанций: String; let максимальныйВозрастСекунд: Int64
+let состояниеV2: String?
 }
 private struct Control: Decodable { let действие, основание: String }
 private struct Envelope: Decodable {
@@ -757,23 +798,32 @@ private static func sys(_ f: Sys) throws {
  && AB.sha256(data) == f.sha256, "E6", f.path)
 }
 private static func header(_ h: H, _ p: Plan) throws -> String {
- try need(h.схема == "fum.stop-заголовок.2" && uuid(h.задача)
+ try need(["fum.stop-заголовок.2", "fum.stop-заголовок.3"].contains(h.схема) && uuid(h.задача)
  && token(h.узел) && token(h.область) && token(h.поколение) && ref(h.ref)
  && h.backend == "files" && h.objectFormat == "sha1"
  && h.исходники == p.source && hex(h.исходники, 40)
  && (1...3_600).contains(h.максимальныйВозрастСекунд), "H0")
  try need([h.cwd, h.дерево, h.gitDir, h.commonGitDir, h.состояние,
  h.каталогКвитанций].allSatisfy(abs), "H1")
+ if h.схема == "fum.stop-заголовок.3" {
+  try need(h.состояниеV2.map { abs($0) && $0 != h.состояние } == true, "HversionedState")
+  guard let прежнее = h.состояниеV2 else { throw E("HversionedState") }
+  try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+   состояниеV2: прежнее, состояниеV3: h.состояние,
+   допускаетсяОтсутствиеV3: true).подтвердить()
+ }
  try need(p.current.path == h.состояние && p.current.mode == 0o600
  && p.current.maxBytes > 0 && p.current.maxBytes <= 32_768
  && p.current.lock.path == h.состояние + ".lock"
  && p.current.lock.device > 0 && p.current.lock.inode > 0, "C0")
  try need(p.command.argv.count == 18 && p.command.argv[0] == p.handler.path
  && p.command.argv[1] == "stop", "A4")
+ let профильНаблюдений = h.схема == "fum.stop-заголовок.3"
+  ? "fum.текущие-обязательства-stop.3" : "fum.текущие-обязательства-stop.2"
  let expected = ["--идентификатор-обработчика", "fum.stop-handler.1",
  "--codex-thread-id", h.задача, "--идентификатор-узла", h.узел,
  "--ожидаемый-cwd", h.cwd, "--состояние", h.состояние,
- "--профиль-наблюдений", "fum.текущие-обязательства-stop.2",
+ "--профиль-наблюдений", профильНаблюдений,
  "--заголовок", p.header.path, "--хэш-заголовка", p.header.sha256]
  let value = command(p.command.argv)
  try need(Array(p.command.argv.dropFirst(2)) == expected && p.command.text == value
@@ -847,7 +897,9 @@ private static func current(_ pin: CPin, _ h: H, _ headerSHA: String,
 private static func currentBytes(_ bytes: Data, _ sha: String, _ h: H,
  _ headerSHA: String, _ head: String, clock: Int64? = nil) throws -> Cur {
  let e = try dec(Envelope.self, bytes)
- try need(e.схема == "fum.текущие-обязательства-stop.2"
+ let версияСнимка = h.схема == "fum.stop-заголовок.3"
+  ? "fum.текущие-обязательства-stop.3" : "fum.текущие-обязательства-stop.2"
+ try need(e.схема == версияСнимка
  && e.заголовокSHA256 == headerSHA && e.задача == h.задача
  && e.узел == h.узел && e.область == h.область && e.поколение == h.поколение
  && text(e.управление.основание)
@@ -1089,12 +1141,20 @@ private static func publicationInputs(_ path: String, _ sha: String)
   && (p.initiallyAbsent ? p.expectedSHA256 == nil : hex(p.expectedSHA256 ?? "", 64)),
   "Ppub2", path)
  let h = try dec(H.self, read(p.header, 0o400, 32_768).данные)
- try need(h.схема == "fum.stop-заголовок.2" && uuid(h.задача)
+ try need(["fum.stop-заголовок.2", "fum.stop-заголовок.3"].contains(h.схема) && uuid(h.задача)
   && token(h.узел) && token(h.область) && token(h.поколение) && ref(h.ref)
   && h.backend == "files" && h.objectFormat == "sha1" && h.исходники == p.source
   && (1...3_600).contains(h.максимальныйВозрастСекунд)
   && [h.cwd, h.дерево, h.gitDir, h.commonGitDir, h.состояние,
       h.каталогКвитанций].allSatisfy(abs), "Hpub0")
+ let разделение: СнимокРазделенияСостоянийStop?
+ if h.схема == "fum.stop-заголовок.3" {
+  guard let прежнее = h.состояниеV2, abs(прежнее), прежнее != h.состояние
+  else { throw E("HpubVersionedState") }
+  разделение = try ЧитательФайловойСсылки.проверитьРазделениеСостояний(
+   состояниеV2: прежнее, состояниеV3: h.состояние,
+   допускаетсяОтсутствиеV3: p.initiallyAbsent)
+ } else { разделение = nil }
  try need(p.current.path == h.состояние && p.current.mode == 0o600
   && p.current.maxBytes > 0 && p.current.maxBytes <= 32_768
   && p.current.lock.path == p.current.path + ".lock"
@@ -1117,6 +1177,7 @@ private static func publicationInputs(_ path: String, _ sha: String)
   try need(old.sha256 == p.expectedSHA256, "Cpub2")
  }
  try привязкаСсылки?.подтвердить()
+ try разделение?.подтвердить()
  return (p, h, candidate, привязкаСсылки)
 }
 private static func publish(_ argv: [String]) throws -> Int32 {
@@ -1315,7 +1376,13 @@ extension УстановщикStop {
     }
     private static func проверитьСвязанныйКонверт(_ bytes: Data, _ h: H, _ headerSHA: String) throws -> Envelope {
         let e = try dec(Envelope.self, bytes)
-        try need(e.схема == "fum.текущие-обязательства-stop.2" && e.заголовокSHA256 == headerSHA
+        let expectedSchema: String
+        switch h.схема {
+        case "fum.stop-заголовок.2": expectedSchema = "fum.текущие-обязательства-stop.2"
+        case "fum.stop-заголовок.3": expectedSchema = "fum.текущие-обязательства-stop.3"
+        default: throw E("MEheader")
+        }
+        try need(e.схема == expectedSchema && e.заголовокSHA256 == headerSHA
             && e.задача == h.задача && e.узел == h.узел && e.область == h.область
             && e.поколение == h.поколение && text(e.управление.основание)
             && ["продолжать", "стоп", "пауза"].contains(e.управление.действие), "ME0")
