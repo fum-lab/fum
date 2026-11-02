@@ -1,0 +1,520 @@
+{
+  "schema": "fum.public.work-priority-queue.v1",
+  "updatedAtUTC": "2026-11-02T14:31:54.633Z",
+  "scope": "Только ограниченный набор пунктов из текущей передачи ROOT-A10; покрытие всей FUM/FUMA очереди UNKNOWN.",
+  "purpose": "Читаемая публичная проекция состояния и приоритетов для координатора. Не диспетчер, не FIFO и не автоматическая выдача поручений.",
+  "priorityRules": {
+    "fastResponseAndLongImplementationAreSeparate": true,
+    "ordering": "Явный приоритет допустим только с основанием и источником. Порядок отображения не задаёт очередь исполнения; FIFO и newest-auto-P0 не применяются.",
+    "reprioritization": "Повторные запросы, возраст, последствия и снятие зависимости могут менять приоритет только с записанным основанием и публичной ссылкой либо пометкой, что основание получено из делегированного отчёта без публичного пина.",
+    "unknown": "UNKNOWN не заменяется нулём и не превращается в завершение или отсутствие работы.",
+    "hierarchy": "Здесь только верхнеуровневые пункты. Каждый родитель ведёт собственный уровень и ссылается на планы детей, не копируя их.",
+    "counts": "Покрытие очереди UNKNOWN. Фактические циклы, активные работы и статусы не выводятся из количества чатов, коммитов или ACK. Число, возраст, свежесть и покрытие — отдельные измерения; исторические итоги не смешиваются с текущим состоянием."
+  },
+  "items": [
+    {
+      "id": "ROOT-A12-SWIFT-TYPED-QUEUE-MVP",
+      "aliases": [
+        "ROOT-A10-SWIFT-MINIMUM-01"
+      ],
+      "type": "назначенная реализация",
+      "source": [
+        {
+          "kind": "public-requirement",
+          "commit": "1fbe135398fd828c78217b3f8276dfb9439d5949",
+          "ref": "origin/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+          "path": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+          "blob": "932b563d1957f444667220eba0fefa8a163c6d4a",
+          "sha256": "3e0ef90bad4cb1e0408c430c80722c49fb000f165c0ef72fbf23b2e8c9e3dfcd"
+        },
+        {
+          "kind": "public-planning-capture",
+          "commit": "561e77730a83ca4ee7a94fb650f0a78ede6afe60",
+          "path": "planirovaniye/уточнение-общего-цикла-и-очередей.json",
+          "blob": "1892bed3e238e43387b965a42644310daee10358",
+          "sha256": "3f952b802fa71ceb8e1d3536d1bffe2d1746ad38e84581da8ce530904438b7a4"
+        },
+        {
+          "kind": "delegated-status-report",
+          "source": "ROOT/A10 compact report; no public source commit supplied for the parent-intake observation",
+          "observation": "Tools-parent intake begun is reported; Routine actual code start and actual use remain UNKNOWN."
+        }
+      ],
+      "goal": "Минимальный пригодный Swift-срез общего typed-work контура в существующем FUM runtime: typed artifact + origin refs; QA — первый предметный адаптер; FUMA A05 — семантический peer и finite interface.",
+      "whyAndState": "Нужен ограниченный используемый результат с наблюдаемыми основаниями для последующего выбора. Текущий статус ASSIGNED; сообщённое начало parent intake не доказывает начало кода дочерним Routine-писателем.",
+      "priority": {
+        "fastResponse": "UNKNOWN_UNRANKED",
+        "longImplementation": "HIGH",
+        "basis": "Явный приоритет реализации в текущей передаче ROOT/A10.",
+        "history": "Предыдущие изменения приоритета не перечислены; отсутствие записи не означает отсутствие истории."
+      },
+      "owner": "Существующий Tools-parent → Routine; intake parent сообщён ROOT. Индивидуальный писатель и его подтверждённый entrypoint здесь не установлены.",
+      "nextConsumer": "Routine в существующей Tools-области вместе с FUMA A05 semantic peer; владелец подтверждает существующий путь и интерфейс.",
+      "links": [
+        {
+          "commit": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049",
+          "path": "planirovaniye/идея-жизненного-цикла-сообщения.json",
+          "blob": "8d6d005c70a6047c5cad8c2e8bdb5efba9410bd8",
+          "sha256": "a47ab5891bba0ca0d7b22139068f2c97ed9e7c60923c0e51126a96ae5012ab34"
+        },
+        {
+          "commit": "4154c1b25b903fcd179d1fb5309ef465858e1e34",
+          "path": "planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json",
+          "blob": "7e9e23fb74bf86ceef705d4f0c4ae1dad81ca78c",
+          "sha256": "c9fa3409bb577528e67ec3f030ede5ca2f1f9221499347f035f250c644b9adc2"
+        }
+      ],
+      "dependencies": [
+        "Подтверждение существующего Routine entrypoint/path/interface владельцем",
+        "Совместимость с конечным FUMA A05 input/output/provenance/id/version/parent/cycle контрактом"
+      ],
+      "reviewAtOrTrigger": "После первого фактического разрешённого локального использования; измерить задержку долговечной истории, корректность переноса/восстановления и стоимость интеграции.",
+      "actualObservedStatus": {
+        "assignment": "ASSIGNED",
+        "parentIntake": "BEGUN_REPORTED_BY_ROOT",
+        "routineCodeStart": "UNKNOWN",
+        "newSourceUse": "UNKNOWN",
+        "runtimeOrHostProof": "UNKNOWN"
+      },
+      "nextAction": "Продолжать уже выданное Tools → Routine поручение после подтверждения собственного пути/интерфейса; эта очередь его не переотправляет.",
+      "constraints": [
+        "Не ждать полной архитектуры, Host или AOT.",
+        "Новая идея LOD/AB не является gate.",
+        "Не считать parent intake выполненным кодом или реальным использованием."
+      ]
+    },
+    {
+      "id": "ROOT-A11-TARGET-ARCHITECTURE-DOCUMENTATION",
+      "type": "документационный результат с ожидающей приёмкой потребителя",
+      "source": [
+        {
+          "kind": "public-source-commit",
+          "commit": "0e7974e3a5e8e1192c20837b5bed5697e2e55fb2",
+          "path": "dokumentaciya/blizhajshaya-celevaya-arkhitektura-fum-fuma.md",
+          "blob": "b0119b5d7d6a996d7a53dd91aa6ffc361df96039",
+          "sha256": "86bf97ab27fee365ce9c6cbc7ad22c7083ddb641023ceb512621898b7e5918b9"
+        },
+        {
+          "kind": "related-public-ref-snapshot",
+          "ref": "origin/fum-lab/fum/dokumentaciya/master",
+          "commit": "3bc5fe8c964b50287fa48e3b3efb90e431ce870b",
+          "path": "dokumentaciya/blizhajshaya-celevaya-arkhitektura-fum-fuma.md",
+          "blob": "142eab8e68f88e613ec7204f3fb344e5aa5cdc06",
+          "sha256": "bdd5ea491c05cca7ce893f27595ebf47e93aeb7c0503453f224dab996f245414",
+          "note": "FUMA отдельно просмотрела diff/interface этого снимка и приняла смысл; это не ROOT whole-read/whole-acceptance данного snapshot."
+        },
+        {
+          "kind": "later-public-ref-snapshot",
+          "ref": "origin/fum-lab/fum/dokumentaciya/master",
+          "commit": "d146842ea7625d6fe6e5bf7a953506bb96f83679",
+          "path": "dokumentaciya/blizhajshaya-celevaya-arkhitektura-fum-fuma.md",
+          "blob": "d6c2c87eeb8b66224a25806d0763b614eb0c579b",
+          "sha256": "eb6a99075e525d1afe8aed92d222787d045f786c3b90f5ffe99e91fc5d089403",
+          "note": "Поздний snapshot; принятие потребителем этой редакции UNKNOWN."
+        },
+        {
+          "kind": "delegated-consumer-status",
+          "source": "ROOT-reported consumer decision; decision is scoped to the accepted bounded reference.",
+          "observation": "ROOT reports ACCEPT_AS_BOUNDED_TARGET_ARCHITECTURE_REFERENCE for source 0e7974e3a5e8e1192c20837b5bed5697e2e55fb2 after whole-source read/hash; used for the A12 direction; not ROOT intake, runtime, or full profile. FUMA separately reviewed the diff/interface of 3bc5fe8c964b50287fa48e3b3efb90e431ce870b and accepted its meaning."
+        }
+      ],
+      "goal": "Сохранить bounded target-architecture reference и отделить consumer decision от исполнения.",
+      "whyAndState": "ROOT сообщил ACCEPT_AS_BOUNDED_TARGET_ARCHITECTURE_REFERENCE для закреплённого снимка; это решение ограничено использованием для A12 и не утверждает runtime.",
+      "priority": {
+        "fastResponse": "UNKNOWN_UNRANKED",
+        "longImplementation": "UNKNOWN_UNRANKED",
+        "basis": "Текущая передача не задаёт новый числовой ранг для consumer review.",
+        "history": "Не выводить приоритет из свежести одного коммита."
+      },
+      "owner": "Документация владеет исходным документом; конкретный дальнейший писатель не установлен этой записью.",
+      "nextConsumer": "Ближайший потребитель для bounded reference — направление A12; отдельный outcome по более позднему Docs snapshot отслеживается отдельно и не создаёт нового проекта.",
+      "links": [
+        {
+          "ref": "origin/fum-lab/fum/dokumentaciya/master",
+          "commit": "3bc5fe8c964b50287fa48e3b3efb90e431ce870b"
+        }
+      ],
+      "dependencies": [
+        "Раздельно сохранить ответ и outcome для последующих редакций без повтора review принятого bounded reference"
+      ],
+      "reviewAtOrTrigger": "По новому фактическому использованию или отдельному outcome более поздней редакции; дедуплицировать обратную связь с существующим Docs snapshot 3bc5fe8c964b50287fa48e3b3efb90e431ce870b.",
+      "actualObservedStatus": {
+        "sourceCommit": "SOURCEDONE",
+        "consumerReview": "ROOT_ACCEPTS_BOUNDED_REFERENCE_ONLY_FOR_0e7974e3a5e8e1192c20837b5bed5697e2e55fb2; FUMA_SEPARATELY_ACCEPTS_MEANING_OF_DIFF_INTERFACE_FOR_3bc5fe8c964b50287fa48e3b3efb90e431ce870b; later snapshot status UNKNOWN",
+        "runtime": "NOT_CLAIMED"
+      },
+      "rootReportedConsumerDecision": {
+        "decision": "ACCEPT_AS_BOUNDED_TARGET_ARCHITECTURE_REFERENCE",
+        "acceptedSourceCommit": "0e7974e3a5e8e1192c20837b5bed5697e2e55fb2",
+        "relatedSnapshot": "3bc5fe8c964b50287fa48e3b3efb90e431ce870b",
+        "relatedSnapshotDecision": "FUMA separately reviewed the diff/interface of this snapshot and accepted its meaning; this is distinct from ROOT whole-source read/hash and does not make it the ROOT-accepted full snapshot.",
+        "basis": "ROOT reports whole-source read and hash verification for 0e7974e3a5e8e1192c20837b5bed5697e2e55fb2.",
+        "use": "Bounded target-architecture reference used for the A12 direction.",
+        "doesNotEstablish": [
+          "ROOT intake acceptance",
+          "runtime execution or implementation",
+          "full N32 profile",
+          "acceptance of later documentation edits"
+        ],
+        "followUp": "One feedback reached Documentation for the existing 3bc5fe8c964b50287fa48e3b3efb90e431ce870b snapshot. Deduplicate with the nearest consumer; keep a fast reply distinct from a separate outcome; do not create a new architecture project."
+      },
+      "nextAction": "Развести быстрый ответ и отдельный outcome для принятой ограниченной ссылки; не повторять Docs review, не создавать новый architecture project и не заявлять runtime."
+    },
+    {
+      "id": "LOD-AB-PHILOSOPHICAL-MODEL-IDEA",
+      "type": "единая отложенная идея модели",
+      "source": [
+        {
+          "kind": "public-capture",
+          "commit": "4692afe1e21dc8baccd56c5ea3cfc35429e5d036",
+          "path": "planirovaniye/идея-связанных-уровней-моделей-и-адаптивного-выбора.json",
+          "blob": "d02c6f18462772dc630b72f56a3e8feaa815228c",
+          "sha256": "f47f2822bc414ffa83ae72e1a1dc2058b43fc648fe8a9a54f3f7d7bee1c9abee"
+        }
+      ],
+      "goal": "Позже рассмотреть связанные уровни одной versioned модели, допустимые альтернативные представления агентов и контекстный выбор операторов по наблюдаемым результатам.",
+      "whyAndState": "CAPTURED/DEFERRED; философские тезисы явно помечены как рамка/гипотеза проекта, не научный консенсус.",
+      "priority": {
+        "fastResponse": "UNKNOWN_UNRANKED",
+        "longImplementation": "DEFERRED",
+        "basis": "Отложено явной передачей ROOT, пока A12 выполняет собственный ограниченный шаг.",
+        "history": "Возраст, повторные запросы и последствия не подсчитывались за полный корпус."
+      },
+      "owner": "Planning владеет записью идеи.",
+      "nextConsumer": "Существующий Documentation architecture consumer для последующего ограниченного разбора после A12 review trigger; новый исполнитель не назначен.",
+      "links": [
+        {
+          "commit": "4154c1b25b903fcd179d1fb5309ef465858e1e34",
+          "path": "planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json"
+        },
+        {
+          "commit": "561e77730a83ca4ee7a94fb650f0a78ede6afe60",
+          "path": "planirovaniye/уточнение-общего-цикла-и-очередей.json"
+        }
+      ],
+      "dependencies": [
+        "Не блокирует ROOT-A12"
+      ],
+      "reviewAtOrTrigger": "После первого фактического разрешённого локального использования A12 либо при новом явном приоритетном вводе, существенном росте последствий или снятии зависимости.",
+      "actualObservedStatus": {
+        "capture": "PUBLISHED",
+        "analysis": "DEFERRED",
+        "projectOrRuntime": "NOT_STARTED"
+      },
+      "latestLinkedCapture": {
+        "source": "ROOT-relayed pair of consecutive human messages; original native offsets and IDs are UNKNOWN.",
+        "state": "CAPTURED/DEFERRED",
+        "messagesInSourceOrder": [
+          {
+            "literal": "Po suti v razume u nas ne toljko prostranstvo—vremya, no i masshtab, zadayusjhij detalizaciyu rassmotreniya.",
+            "meaning": "Масштаб рассмотрения — измерение детализации модели. Цель, план, операция и событие являются связанными уровнями; свёртка и развёртка сохраняют происхождение и обратные связи."
+          },
+          {
+            "literal": "I obsjhaya iskomaya universaljnaya struktura khraneniya sostoyaniya razuma dolzhna byitj primerno okolo togo.",
+            "meaning": "Связанная гипотеза общего представления состояния FUMA включает контекст, историю, основания, масштаб, связи и разные представления. Универсальность не доказана; storage/backend не выбран."
+          }
+        ],
+        "why": "Сохранить связь двух высказываний о масштабе детализации и общей структуре состояния, не объявляя гипотезу доказанной.",
+        "owner": "Planning — владелец capture.",
+        "nextConsumer": "Существующий Documentation architecture consumer после текущей A12 работы и по общей очереди; новый исполнитель не назначен.",
+        "reviewAtOrTrigger": "Без изменения прежнего review trigger: после первого фактического разрешённого локального использования A12 либо при новом явном приоритетном вводе, существенном росте последствий или снятии зависимости.",
+        "priorityChange": "NONE; сохранён прежний DEFERRED status и не изменён приоритет."
+      },
+      "linkedNextModelStateElement": {
+        "source": "ROOT-relayed group of three human clarifications, a linked follow-up pair plus one scale/time clarification, and one linked NEXT revision of three messages; original native offsets and IDs are UNKNOWN.",
+        "state": "CAPTURED/DEFERRED",
+        "messagesInSourceOrder": [
+          {
+            "literal": "To yestj nam srazu nuzhno predusmotretj mesto formirovaniya formaljnogo opisaniya takoj iskomoj strukturyi.",
+            "meaning": "Для формального описания искомой структуры следует предусмотреть место; фактический публичный адрес пока не выбран ответственным владельцем."
+          },
+          {
+            "literal": "Formaljnoye opisaniye — kak odin iz tipov dannyikh dlya odnoj iz ocheredej po suti.",
+            "meaning": "Формальное описание рассматривается как один из типов данных для одной очереди; это ещё не утверждённая схема хранения."
+          },
+          {
+            "literal": "V celom lyubaya susjhostj ona tak ili inache susjhestvuyet v okruzhayusjhej srede. Vsegda mozhno provesti etu granicu, i vyichislyatj kriterii dlya otbora i otbiratj sami kriterii, i tak skoljko ugono v lyubom napravlenii masshtabirovaniya.",
+            "meaning": "Проектная гипотеза: границу сущности и среды можно рассматривать на разных масштабах, а критерии отбора — вычислять, выбирать и пересматривать. Это не внешняя физическая теория и не научный консенсус."
+          }
+        ],
+        "followUpClarificationsInSourceOrder": [
+          {
+            "literal": "Masshtabirovaniye po suti svyazano s razmernostjyu prostranstva, i dlya odnogo prostranstva ikh poluchayetsya minim dva napravleniya. I dlya vremeni mozhno tozhe masshtab smotretj.",
+            "rootInterpretation": {
+              "status": "SEPARATE_INTERPRETATION_NOT_HUMAN_LITERAL",
+              "meaning": "Различать размерность, масштаб и разрешение. Два направления пространственного масштаба трактуются как укрупнение и детализация; для времени — временной горизонт и шаг наблюдения/укрупнение-детализация. Это интерпретация ROOT, не подтверждённые буквальные термины человека."
+            }
+          },
+          {
+            "literal": "Modelj sistemyi u nas pokhozhe vsegda dolzhna byitj menjshe sistemyi, chtobyi ona v principe mogla umestitjsya v stejte sistemyi.",
+            "rootInterpretation": {
+              "status": "SEPARATE_INTERPRETATION_AND_RESOURCE_HYPOTHESIS_NOT_THEOREM",
+              "meaning": "Внутреннюю рабочую модель ограничивать выделенным бюджетом состояния; использовать краткое представление, проверяемые ссылки на долговременную публичную память и раскрытие по необходимости. Размер моделируемой подсистемы не всегда меньше системы. Учитывать ресурс, достаточность решения, допустимую потерю деталей, UNKNOWN и цену раскрытия. Это ресурсная гипотеза, не универсальная доказанная теорема."
+            }
+          },
+          {
+            "literal": "Myi vsegda razmenivayem prostranstvo na vremya. Myi mozhem libo vsyo za raz posmotretj, libo vsyo prosmotretj za neskoljko raz. Zdesj i chuvstvuyutsya fundamentaljnyiye osnovaniya lyubogo nablyudatelya / agenta.",
+            "rootInterpretation": {
+              "status": "SEPARATE_PROJECT_HYPOTHESIS_NOT_GENERAL_THEOREM",
+              "meaning": "Ограниченный оперативный охват или одновременный просмотр сопоставляется с последовательными проходами и промежуточными результатами. При разборе учитывать ширину, LOD, временной горизонт, бюджеты ресурсов и стоимость координации. Слово «всегда» не подтверждено как общая теорема time-space complexity."
+            }
+          }
+        ],
+        "followUpProvenance": "Порядок трёх буквальных follow-up уточнений до следующей ревизии и трёх сообщений в linked NEXT revision сохранён; интерпретации ROOT отделены от literal; human message IDs и native offsets UNKNOWN.",
+        "relationshipToPriorPair": "Продолжает предыдущую пару о масштабе детализации и общем представлении состояния; три исходных уточнения и три follow-up уточнения остаются в одном связанном LOD/model-state элементе; три новые реплики связаны как следующая ревизия после раннего checkpoint. Отдельного проекта нет.",
+        "linkedNextRevisionPendingCheckpoint": {
+          "state": "CAPTURED; LINKED_NEXT_REVISION_AFTER_EARLY_CHECKPOINT",
+        "source": "ROOT-relayed finite batch of three human messages; original human message IDs and native offsets UNKNOWN.",
+          "messagesInSourceOrder": [
+            {
+              "literal": "Eto po suti kak yesli uvidetj vsyo mnozheshtvo i boljshe nichego ne smochj sdelatj, libo videtj i upravlyatj lishj chastjyu mnozheshtva, perekhodya v raznyiye sostoyaniya.",
+              "rootInterpretation": {
+                "status": "SEPARATE_ILLUSTRATION_NOT_THEOREM",
+                "meaning": "Наблюдение, хранение и управление делят конечный бюджет: достаточный частичный обзор для следующего действия, резерв на действие и смена фокуса/состояния. Полное наблюдение, исчерпывающее бюджет, — иллюстрация, а не теорема, что полное наблюдение всегда исключает действие."
+              }
+            },
+            {
+              "literal": "Vsyo i luchshe i luchshe shivayutsya predstavleniya o razume i ob ustrojstve vselennoj. Vsyo menjshe raznicyi mezhdu razumom i okruzhayusjhej sredoj — eto po suti odno i to zhe, no veroyatno na raznyikh masshtabakh, v tom chisle masshtabakh vremeni.",
+              "humanLabel": "USER_PHILOSOPHICAL_HYPOTHESIS",
+              "rootInterpretation": {
+                "status": "SEPARATE_OPERATIONAL_INTERPRETATION_NOT_SCIENTIFIC_FACT_OR_IMPLEMENTED_PROPERTY",
+                "meaning": "Рассматривать относительные границы системы и среды на пространственном, временном и абстрактном масштабах; связывать представления и сохранять наблюдения с происхождением. Применять на полезных проверяемых случаях; немедленные исследование или framework не следуют из этой гипотезы."
+              }
+            },
+            {
+              "literal": "Dlya aktualjnogo naturaljnogo chisla okruzhayusjhej sredoj yavlyayetsya ryad naturaljnyikh chisel. To yestj zdesj sootnosheniye tipa znacheniye—tip, agent—okruzhayusjhaya sreda.",
+              "humanLabel": "USER_ANALOGY",
+              "rootInterpretation": {
+                "status": "SEPARATE_ANALOGY_AND_CLARIFICATION_NOT_THEOREM_OR_NEW_FRAMEWORK",
+                "meaning": "Аналогия n:ℕ (значение:тип) к entity:environment (агент:среда). Тип или пространство допустимых состояний/операций не тождественно конкретному контексту/среде с текущими отношениями и событиями. n:ℕ утверждает принадлежность/типизацию; порядок, successor и арифметика — дополнительная структура, взаимодействия — динамика. Кандидатная связь: entity/state → space/context → relations/transitions; это не теорема о type===environment и не новый DTO framework."
+              }
+            }
+          ],
+          "provenance": "Source and order retained from ROOT-relayed input; literal human text is separated from ROOT interpretation; native offsets and IDs UNKNOWN.",
+          "scaleTimeHistory": "Keep spatial, temporal and abstraction scales, observations, provenance and version history linked; do not claim scientific universality or implementation.",
+          "unknowns": [
+            "original human message IDs and native offsets",
+            "canonical formal-artifact address and implementation",
+            "consumer outcome beyond the bounded A11 reference decision"
+          ],
+          "revisionBoundary": "Связать как следующую ревизию после раннего meaningful Source checkpoint; новые сообщения — следующая linked revision, не менять замороженный или опубликованный источник."
+        },
+        "followingLinkedRevisionPendingCheckpoint": {
+          "state": "CAPTURED; NEXT_LINKED_REVISION_AFTER_EARLY_CHECKPOINT",
+          "source": "Один ROOT-relayed question-and-answer pair; original human message ID and native offset UNKNOWN.",
+          "messagesInSourceOrder": [
+            {
+              "literalQuestion": "A metrika dopustimyikh perekhodov kak raz zadayot geometriyu prostranstva, verno?",
+              "rootAnswer": {
+                "status": "SEPARATE_ROOT_ANSWER_NOT_IMPLEMENTATION_ORDER",
+                "meaning": "Состояния и допустимые переходы задают достижимость/граф. Назначенные длины или стоимости позволяют определять расстояния путей (например, инфимум сумм по разрешённым путям) и связанную геометрию. Строгая метрика требует тождества неразличимых точек, неотрицательности, симметрии и неравенства треугольника; односторонние переходы могут иметь асимметричную стоимость и недостижимые состояния. Произвольное cost relation автоматически не является метрикой. Кандидат FUMA — привязанные к контексту и версии допустимые переходы с типизированной стоимостью и свидетельствами; критерии позже оценивают маршруты. Storage и metric framework не выбраны."
+              }
+            }
+          ],
+          "provenance": "Literal question and separate ROOT answer preserved in order; native IDs/offsets UNKNOWN.",
+          "status": "SEMANTIC_NEXT_MATERIAL_FOR_REVIEW; NOT_IMPLEMENTATION_ORDER",
+          "revisionBoundary": "Следующая linked revision после текущего раннего checkpoint; не повышает приоритет и не меняет существующую formal-artifact запись."
+        },
+        "why": "Сохранить предложение о formal description как typed artifact в цикле input → operator → output → consumer feedback с обратной связью к происхождению.",
+        "owner": "Planning владеет только этой записью очереди; FUMA — семантический владелец будущего formal artifact.",
+        "nextConsumer": "Documentation — архитектурный потребитель; фактический адрес и писателя выбирает существующий FUMA-владелец в своей проверенной области.",
+        "futureFormalArtifact": {
+          "status": "READY_FOR_FIRST_CARCASS_AFTER_REVIEW",
+          "semanticOwner": "FUMA; конкретный писатель не установлен этой записью",
+          "canonicalPublicAddress": "UNKNOWN; выбирает существующий FUMA-владелец в своей проверенной области",
+          "commitBlobSha": "UNKNOWN; артефакт ещё не создан",
+          "firstCarcassTopics": [
+            "назначение, границы и термины",
+            "сущности и связи",
+            "время, история и масштаб",
+            "фактическое, желаемое и альтернативное состояние",
+            "целостность и UNKNOWN",
+            "критерии приёмки и исходы"
+          ],
+          "formalizationCycle": "поручение на формализацию → созданная версия → проверка/применение → пересмотр, отклонение или замена с исходом обратно к исходному входу; сохранять source/version/state/owner/consumer/review trigger и раннюю историю",
+          "criteria": "Контекстные варианты критериев отбора сами версионируются, оцениваются и пересматриваются с provenance, scope и наблюдаемыми исходами.",
+          "scope": "Не полная схема и не отдельная инфраструктура; не сводить формальный тип только к архитектурному Markdown.",
+          "executionDepth": "Ограничивать фактической пользой, свидетельствами и ресурсами; не создавать бесконечную метаработу или native process на каждую абстракцию."
+        },
+        "analysis": "DEFERRED_UNTIL_REVIEW; intake не решает полную схему",
+        "priorityChange": "NONE; A12 implementation priority и прежний LOD deferred/review trigger сохранены.",
+        "reviewAtOrTrigger": "Тот же прежний review trigger; не ждать этот элемент перед A12 и не повышать его приоритет автоматически."
+      },
+      "nextAction": "Оставить отложенной до указанного review trigger."
+    },
+    {
+      "id": "GENERIC-MESSAGE-MEMORY-MIGRATION-M1",
+      "type": "модель жизненного цикла и переноса памяти",
+      "source": [
+        {
+          "kind": "public-capture",
+          "commit": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049",
+          "path": "planirovaniye/идея-жизненного-цикла-сообщения.json",
+          "blob": "8d6d005c70a6047c5cad8c2e8bdb5efba9410bd8",
+          "sha256": "a47ab5891bba0ca0d7b22139068f2c97ed9e7c60923c0e51126a96ae5012ab34"
+        },
+        {
+          "kind": "public-capture",
+          "commit": "4154c1b25b903fcd179d1fb5309ef465858e1e34",
+          "path": "planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json",
+          "blob": "7e9e23fb74bf86ceef705d4f0c4ae1dad81ca78c",
+          "sha256": "c9fa3409bb577528e67ec3f030ede5ca2f1f9221499347f035f250c644b9adc2"
+        },
+        {
+          "kind": "public-capture",
+          "commit": "644ff6bf386afc2079a28255a386d5acc3eef751",
+          "path": "planirovaniye/уточнение-общего-цикла-и-очередей.json",
+          "blob": "464e380433b4c4e3c72dac17022dd0113fdf276d",
+          "sha256": "698c107f4e606857335b1c64adaeda4a4aa27c298071da26f3d8f80b3c19bdd5"
+        },
+        {
+          "kind": "public-capture",
+          "commit": "561e77730a83ca4ee7a94fb650f0a78ede6afe60",
+          "path": "planirovaniye/уточнение-общего-цикла-и-очередей.json",
+          "blob": "1892bed3e238e43387b965a42644310daee10358",
+          "sha256": "3f952b802fa71ceb8e1d3536d1bffe2d1746ad38e84581da8ce530904438b7a4"
+        },
+        {
+          "kind": "public-requirement-source",
+          "commit": "1fbe135398fd828c78217b3f8276dfb9439d5949",
+          "path": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+          "blob": "932b563d1957f444667220eba0fefa8a163c6d4a",
+          "sha256": "3e0ef90bad4cb1e0408c430c80722c49fb000f165c0ef72fbf23b2e8c9e3dfcd"
+        },
+        {
+          "kind": "delegated-acceptance-status",
+          "source": "ROOT/A10 report; no public M1 whole-acceptance record pin supplied",
+          "observation": "M1 whole acceptance NOT_READY."
+        }
+      ],
+      "goal": "Продолжать bounded steps для общего message/memory model с происхождением, восстановлением и обратной связью.",
+      "whyAndState": "CAPTURED → NEXT_BOUNDED_STEPS; M1 whole acceptance NOT_READY. Это не отменяет и не дублирует отдельное A12 назначение.",
+      "priority": {
+        "fastResponse": "UNKNOWN_UNRANKED",
+        "longImplementation": "UNKNOWN_UNRANKED; M1 acceptance not ready",
+        "basis": "Текущий источник не задаёт отдельный ранг следующего M1 шага.",
+        "history": "Не выводить выполненность из частичных capture."
+      },
+      "owner": "Planning владеет capture; владелец следующего M1 шага в этой передаче не установлен.",
+      "nextConsumer": "Связанный existing Tools → Routine/A05 consumer для совместимого bounded input; не отдельная очередь.",
+      "links": [
+        {
+          "commit": "561e77730a83ca4ee7a94fb650f0a78ede6afe60",
+          "path": "planirovaniye/уточнение-общего-цикла-и-очередей.json"
+        }
+      ],
+      "dependencies": [
+        "Сохранять A12 как единственное уже назначенное implementation-поручение"
+      ],
+      "reviewAtOrTrigger": "После получения конкретного bounded M1 input или actual A12 permitted-use evidence; не ждать полного M1 acceptance перед A12.",
+      "actualObservedStatus": {
+        "capture": "PUBLISHED",
+        "nextBoundedSteps": "NOT_YET_DISPATCHED",
+        "wholeAcceptance": "NOT_READY"
+      },
+      "nextAction": "Сохранить остаток; отдельного исполнителя или повторного A12 assignment не создавать."
+    },
+    {
+      "id": "ROOT-C362-REQUIREMENTS-INTAKE",
+      "type": "закрытая source-only поставка",
+      "source": [
+        {
+          "kind": "public-root-commit",
+          "ref": "origin/fum-lab/fum/master",
+          "commit": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+          "tree": "ceefda3b60cd45bf23b053983191d08a2ca01cdc"
+        },
+        {
+          "kind": "delegated-residual-status",
+          "source": "ROOT/A10 report",
+          "observation": "Producer 5c2 source issues remain NOT_GREEN; exact producer pin is not asserted here."
+        }
+      ],
+      "goal": "Сохранить историческое происхождение принятого root intake и его остающийся source residual.",
+      "whyAndState": "DONE/CLOSED/NOREPLAY/SOURCE_ONLY согласно ROOT report; producer history is NOT_GREEN and is not repaired by root intake.",
+      "priority": {
+        "fastResponse": "NOT_APPLICABLE_TERMINAL",
+        "longImplementation": "NOT_APPLICABLE_TERMINAL",
+        "basis": "Терминальный status reported by ROOT; no replay."
+      },
+      "owner": "ROOT owns the closed intake record.",
+      "nextConsumer": "Нет активного consumer у закрытого этапа; будущие изменения требуют отдельного точного исходника/объёма.",
+      "links": [
+        {
+          "ref": "origin/fum-lab/fum/master",
+          "commit": "c3624c07e17588a221760624fd2ee9b5d69f8f4e"
+        }
+      ],
+      "dependencies": [],
+      "reviewAtOrTrigger": "Only on a new exact correction source; no replay of the closed intake.",
+      "actualObservedStatus": {
+        "intake": "DONE/CLOSED",
+        "runtime": "NOT_CLAIMED",
+        "producerSourceConformance": "NOT_GREEN_REPORTED"
+      },
+      "nextAction": "No action on this closed item; retain producer residual as a distinct historical state."
+    },
+    {
+      "id": "NATIVESTOP-HOST-RECOVERY-PROOF",
+      "type": "ограниченное блокирующее доказательство",
+      "source": [
+        {
+          "kind": "delegated-status",
+          "source": "ROOT/A10 report; no public Source commit provided",
+        "observation": "Actual Host binding/recovery proof UNKNOWN; no publicly pinned current proof is supplied."
+        }
+      ],
+      "goal": "Установить допустимое фактическое доказательство Host binding/recovery только при новом точном допуске и корректном владельце.",
+      "whyAndState": "BLOCKED/UNKNOWN; фактическая Host binding/recovery evidence отсутствует в публичных источниках этого bounded view.",
+      "priority": {
+        "fastResponse": "UNKNOWN_UNRANKED",
+        "longImplementation": "BLOCKED_NO_ADMISSIBLE_ACTION",
+        "basis": "Недостаток доказательства и полномочий не позволяет превращать urgency в действие."
+      },
+      "owner": "UNKNOWN in this public view; do not infer owner from stale metadata.",
+      "nextConsumer": "Exact authorized Host-evidence owner, currently UNKNOWN.",
+      "links": [],
+      "dependencies": [
+        "Новый точный admission и публично допустимое фактическое доказательство"
+      ],
+      "reviewAtOrTrigger": "On a new exact Host binding/recovery proof and current owner authorization.",
+      "actualObservedStatus": {
+        "HostBinding": "UNKNOWN",
+        "recoveryProof": "UNKNOWN",
+        "launchOrRuntime": "NOT_CLAIMED"
+      },
+      "nextAction": "Не повторять старые scans/launches и не объявлять recovery; ждать точный новый доказательный вход."
+    },
+    {
+      "id": "UI-BRIDGE-4-ACTOR-CUSTODY",
+      "type": "ограниченное блокирующее доказательство",
+      "source": [
+        {
+          "kind": "delegated-status",
+          "source": "ROOT/A10 report; no public Source commit provided",
+          "observation": "Actual actor/custody unresolved; no current publicly pinned transfer proof."
+        }
+      ],
+      "goal": "Сохранить исходный остаток до появления точного действующего actor/custody binding.",
+      "whyAndState": "BLOCKED/UNKNOWN; прежний недоказанный исход не создаёт полномочия повторить передачу или занять чужую область.",
+      "priority": {
+        "fastResponse": "UNKNOWN_UNRANKED",
+        "longImplementation": "BLOCKED_NO_ADMISSIBLE_ACTION",
+        "basis": "Неизвестные actor/custody ограничивают допустимые действия."
+      },
+      "owner": "UNKNOWN in this public view.",
+      "nextConsumer": "Only the actor/custody owner established by a new exact binding; currently UNKNOWN.",
+      "links": [],
+      "dependencies": [
+        "Новый точный actor/custody proof and authorized continuation"
+      ],
+      "reviewAtOrTrigger": "On a new independently verified binding, not on elapsed time alone.",
+      "actualObservedStatus": {
+        "actor": "UNKNOWN",
+        "custody": "UNKNOWN",
+        "retryOrTakeover": "NOT_AUTHORIZED"
+      },
+      "nextAction": "Не повторять отправку, не делать rebind/takeover и не заменять владельца без нового точного доказательства."
+    }
+  ]
+}
