@@ -1,0 +1,54 @@
+{
+  "schema": "fum.public-materials-requirement-source.v1",
+  "status": "source-saved-pending-root-acceptance",
+  "canonical_registry_acceptance": "NOT_CLAIMED",
+  "numeric_requirement_id": null,
+  "provenance": {
+    "source_kind": "human-instructions-relayed-by-parent",
+    "parent_thread": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "actor_thread": "01a1786a-b492-71d2-852a-51e94796d891",
+    "source_commit": "1f98913ab90dab787445efd0c10b234f238d2fba",
+    "exact_human_text": [
+      "Nuzhno chtobyi tyi kakiye-nibudj press-relizyi vyol. Kak u nas podklyucheniyem Telegram?",
+      "Nuzhno stanovitjsya solidnyim proyektom s kachestvennyim oformleniyem i naborom auditorii.",
+      "net",
+      "Pod kanal nuzhen budet otdeljnyij akkaunt Telegram s otdeljnyim nomerom?"
+    ],
+    "raw_native_frame_and_offset": "UNKNOWN"
+  },
+  "requirement": {
+    "key": "fum-public-materials-and-participation",
+    "statement": "Подготовить понятную, профессионально оформленную публичную подачу FUM и регулярные пресс-материалы, опирающиеся на подтверждённые результаты и сопровождаемые версиями и ссылками на источники. Указать понятный путь участия и обратной связи. Технический способ подключения Telegram и необходимость отдельного аккаунта с отдельным номером остаются вопросами для отдельного решения.",
+    "acceptance_criteria": [
+      "Описание FUM и путь для новых читателей ясны и ссылаются на проверяемые материалы проекта.",
+      "Публичные тексты отделяют планы и демонстрации от фактически интегрированных возможностей и работающего runtime.",
+      "Каждый пресс-материал связан с подтверждёнными фактами, версией материала и исходными ссылками.",
+      "Путь участия и обратной связи указан явно.",
+      "Размер аудитории и её рост не заявляются без проверяемых данных.",
+      "До отдельного решения не публиковать сообщения в Telegram, X или иных каналах и не активировать новую автоматизацию."
+    ],
+    "responsibilities": {
+      "Arts": "подготовка пресс-материалов",
+      "FUMA": "исследование и описание технического адаптера Telegram после отдельного допуска",
+      "Planning": "связь с существующими процессами известных изменений и ежедневного ввода"
+    },
+    "open_questions": [
+      "Как подключать Telegram?",
+      "Нужны ли каналу отдельный аккаунт и отдельный номер?",
+      "Какой канал пользователь выберет?"
+    ],
+    "excluded_scope": [
+      "создание сайта, редактора или глобального агрегатора",
+      "создание маркетинговых материалов в рамках этой записи",
+      "публикация или подключение внешнего канала",
+      "утверждение неподтверждённых метрик аудитории"
+    ]
+  },
+  "execution": {
+    "source_only": true,
+    "implementation": "NOT_PERFORMED",
+    "compiler_tests_runtime": "NOT_RUN",
+    "full_root_profile": "UNKNOWN",
+    "python_and_full_root_jsonl": "EXCLUDED_UNKNOWN"
+  }
+}
