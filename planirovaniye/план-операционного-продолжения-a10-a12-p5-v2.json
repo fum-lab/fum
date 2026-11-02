@@ -1,0 +1,96 @@
+{
+  "schema": "fum.planirovaniye.operational-plan-linked-source.v2",
+  "updatedAtUTC": "2026-11-02T16:56:34Z",
+  "revisionKind": "Append-only продолжение Source v1; фактический результат producer, назначенный consumer и точечные коррекции. Не меняет execution queue, состав или приоритеты принятого плана.",
+  "previousSourceVersion": {
+    "commit": "9d0f9922c0140ed990f8be0b1a713c4dc926701b",
+    "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5.json",
+    "blob": "0a75a0afc2f662c18dc49015623a9c43494588d1",
+    "bytes": 11822,
+    "sha256": "2d1e7a81c264ef75b74691a006ba262ba9812d3fc3a1ac889c524545b7fabd42",
+    "rootConsumerDecision": "ACCEPT_USEFUL_LINKED_ACCEPTED_PLAN_SOURCE; ROOT сообщает полное чтение и проверку hash этой версии. Это не ROOT intake кейса и не runtime acceptance."
+  },
+  "unchangedExecutionQueueV1": {
+    "commit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+    "path": "planirovaniye/очередь-работ.json",
+    "blob": "bacf0897b9997fbbc94f88dc30b2a10ff8afadcd",
+    "bytes": 43998,
+    "sha256": "663033d0ea0f9b7748ced0720f32e0e48f81fca7f90b4543e250281f3709a4e8",
+    "unchanged": true
+  },
+  "case": {
+    "id": "ROOT-A10-LOCAL-AGENTS-LOST-CONTINUATION-01",
+    "caseStatus": "CONFIRMED_LOST_CONTINUATION",
+    "caseSourceCommit": "39b37059c6604e62c6c32bc3a841927672f5c66d",
+    "caseSourcePath": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+    "caseSourceBlob": "bc869917b40af56e2b0ec9b2aad8fdded0d6d293",
+    "caseSourceSha256": "d2dc31999c82474d9ec4208de30009dbc26068baaec633027ce39b19f4563f95",
+    "oct25OriginCommit": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+    "previousSourceVersionCaseAcceptance": "OPEN",
+    "currentOwner": "ROOT/A10 — сохранить origin, обязательство и наблюдаемые исходы; не выводить runtime/Host-причину из случая."
+  },
+  "producerResult": {
+    "assignment": "ROOT назначил существующее Rules направление producer локального ownership-шаблона.",
+    "producerRef": "origin/fum-lab/fum/pravila/lokaljnyie-svyazi-i-isklyucheniya/master",
+    "sourceCommit": "49a91aee9c3cec9a8f7398fe20e98ce00520def5",
+    "sourceTree": "03457918cd11097efc8d4818075ce969a5f0eb36",
+    "sourcePath": "Правила/агентов/shablony/agents-yachejki.json",
+    "sourceBlob": "1ad264a10906a3e149801afdc86e40c2e805f22e",
+    "sourceBytes": 23783,
+    "sourceSha256": "cb1ff5f85be269a8b2c8c5079080d897edc62c26066dfcc2ecfeffb05a1325db",
+    "templateVersion": "fum.шаблон-контекста-агента.6",
+    "delivery": "Публичный source-only коммит; remote ref подтверждён тем же OID.",
+    "resultSummary": "Добавлен минимальный declarative ownership-контракт: собственная и чужая область, цель, родитель и consumer, pin плана и locator результата, READY/HELD/UNKNOWN, условие возобновления, известные и неизвестные эффекты, маршрутизация и раздельные свидетельства этапов доставки правил.",
+    "caseLink": "CASE39_NEXT остаётся OPEN до фактического результата и обратной связи. Исполнение шаблона не запускалось; Host/runtime liveness не доказана."
+  },
+  "consumerRoute": {
+    "assignment": "ROOT назначил существующее Documentation направление consumer.",
+    "area": "dokumentaciya/AGENTS.md и уже идущая карта миграции dokumentaciya/karta-soderzhaniya-i-istochnikov.md.",
+    "caseSpecificNotification": "UNKNOWN",
+    "readAck": "UNKNOWN",
+    "applicationOrUsefulMigration": "UNKNOWN",
+    "resultLocator": "Пока отсутствует. После фактического чтения/применения сохранить точный consumer source commit, path и hash; не заменять ими отдельный ACK полезности миграции."
+  },
+  "nextTriggerAndAcceptance": {
+    "trigger": "Consumer применяет ownership-шаблон к уже идущей миграции в своей области и сообщает точный результат/locator.",
+    "nextAction": "Связать producer source, consumer result и исходный case; сохранить обратную связь к Oct-25 origin.",
+    "futureSelfRecallSequence": [
+      "deferred",
+      "trigger observed",
+      "READY",
+      "resume by the same owner without human reminder",
+      "durable result",
+      "feedback to origin"
+    ],
+    "acceptance": "OPEN до source/use consumer и origin feedback; затем всё ещё требуется наблюдение future self-recall sequence. Producer source и назначение consumer кейс не закрывают."
+  },
+  "planPoint5Corrections": {
+    "baseline": "P5-MINIMAL_RECURSIVE_FUM_AGENT_RUNTIME остаётся принятым пунктом того же плана.",
+    "appendOnly": true,
+    "previousV1MemoryPhrase": "ограниченная запись в root memory",
+    "clarifiedMemoryCapability": "Собственный memory root агента в пределах W/ref/writecap; это не глобальная запись в память ROOT.",
+    "previousV1HumanLiteral": "roditelsko-docherniye",
+    "rootReportedLiteral": "roditeljsko-docherniye",
+    "literalCorrectionProvenance": "Точечная поправка по ROOT-передаче. Исходные native message ID, offsets и отдельное время literal не предоставлены; не переписывать и не переатрибутировать v1.",
+    "planCompositionOrPriorityChanged": false
+  },
+  "latestA12Report": {
+    "source": "ROOT сообщает в текущей передаче; отдельный публичный code/source OID не предоставлен этим report.",
+    "scope": "XcodeSelect",
+    "delivery": "ROOT_REPORTED_DELIVERED",
+    "actualUse": "PENDING",
+    "action": "Не повторять scope; сохранить результат и следующий trigger при появлении точного source/use locator."
+  },
+  "planStability": {
+    "rule": "Принятый состав и приоритеты не меняются автоматически от новых идей или данных. Изменение требует предложенной редакции и явного совместного принятия человека и ROOT.",
+    "alreadyAgreedWork": "Продолжается в пределах назначения, child grants, собственного плана и контрольных точек без per-commit approval.",
+    "newIdeas": "Отдельный capture/deferred либо разрешённый bounded analysis; не создавать из них автоматический P0, production TODO или gate."
+  },
+  "scopeBoundary": {
+    "noNewAgentOrProject": true,
+    "noRuntimeOrImplementationClaim": true,
+    "noQueueV1Mutation": true,
+    "noNewPriority": true,
+    "rootIntakeOrHostLiveness": "NOT_ESTABLISHED"
+  }
+}
