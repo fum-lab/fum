@@ -35,7 +35,10 @@ let package = Package(
         ),
         .executableTarget(
             name: "ПриложениеИнтерфейса",
-            dependencies: ["ЦиклОператора"],
+            dependencies: [
+                "ЦиклОператора",
+                .product(name: "ЭталонКлавиатуры", package: "Klaviatura")
+            ],
             path: "Sources/FUMACycleUI",
             swiftSettings: [
                 .swiftLanguageMode(.v6),

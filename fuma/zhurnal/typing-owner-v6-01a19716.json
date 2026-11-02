@@ -1,0 +1,66 @@
+{
+  "format": "fum.typing-owner-v6.source-checkpoint.1",
+  "stageId": "typing-owner-v6-01a19716",
+  "writerUUID": "01a19716-c517-7f92-839e-44b9ee828533",
+  "status": "source-only; independent review pending; not accepted",
+  "base": {
+    "commit": "3973a731685e6ec395a1ff7a167558359dffadec",
+    "tree": "457593ec3dc6035943ee8fc457ba48f55f7dbb9c",
+    "parent": "32fb87dd36c790b78c9135c84fd84a40a9d45af1",
+    "ref": "refs/heads/codex/fuma/ui-typing-owner-01a19716"
+  },
+  "inputPins": {
+    "candidatePatchSHA256": "0d748b5c8e9d13e6bafc3ba19da21b4fc088783a4f8d22d4fa83c55c9b666a76",
+    "keyboardCommit": "7495174d91571f98e75db4e615da8a3799868f2e",
+    "keyboardDefinitionSHA256": "6deb8aed4b93b7d2528e26df041da8314b9a9cc433483a2c44611b7585f7b4ac",
+    "qwertyTableSHA256": "c914755f50b27da2b8d6d56cbdaaeb7db6f74ae2ab84d8f294eee4d6243f4ac3"
+  },
+  "changedSources": [
+    {
+      "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Package.swift",
+      "sha256": "e1f0a3e3c3c4f7579104a014d8047b7ca7639d5f3ffb9f7a2eaa5f5c4c16eb02"
+    },
+    {
+      "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/СостояниеПереходаКадра.swift",
+      "sha256": "8f3770893aaa8be20da7bb12c685fcbca809002f8a90e69ef0ce2aaeffc13602"
+    },
+    {
+      "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleModel/ЦиклОператора.swift",
+      "sha256": "461dad82ca3c5fd74a5c000d1d28ef82eb4ab2c451958117f5e5239cc7313571"
+    },
+    {
+      "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Sources/FUMACycleUI/main.swift",
+      "sha256": "9db8a94d54f50d0615e767f8a194ed304e753f4ede89ad593f9e3ae2afbb8bd7"
+    },
+    {
+      "path": "Приложения/FUMA/Packages/МинимальныйИнтерфейс/Tests/FUMACycleModelTests/ПроверкиВладельцаТекстаСцены.swift",
+      "sha256": "b5313feaa6fa85c0e1978fcb035495e40378ed36fa1428463991b1de5279f511"
+    }
+  ],
+  "scope": {
+    "summary": "Ограниченное соединение модели authoritative текста/сцены с существующим UI и операторным путём; добавлены проверки owner/reducer в исходниках тестов.",
+    "inputPolicy": "Только подтверждённые plain-US буквы, пробел с проверкой всех закреплённых слоёв keycode 49, и удаление назад. Другие события не интерпретируются как ввод.",
+    "ownership": "Модель окна остаётся единственным владельцем текста; NSTextStorage не используется как второй authoritative источник.",
+    "focusLifecycle": "Добавлены проверки привязки view/focus и повторной валидации перед обработкой; реальное расписание SwiftUI/AppKit не подтверждено."
+  },
+  "limitations": {
+    "appKitBindingAndLifecycle": "UNKNOWN до GUI-наблюдения; source-тесты helper/token не доказывают реальный Coordinator/AppKit flow.",
+    "imeDeadKeysAndNativeFallback": "UNKNOWN; не реализованы в этом срезе.",
+    "eventCompletenessAndPhysicalPhases": "UNKNOWN; не заявляется полный ввод или корректная обработка всех key phases.",
+    "metalGlyphRenderingAndObservedPresent": "UNKNOWN; не реализованы и не проверены.",
+    "fullTyping": "Не заявляется; текущая политика ограничена указанным plain-US подмножеством.",
+    "acceptedEventUUIDLimit": "После 4096 принятых event UUID, включая NO_OP, новые события fail-closed; смена окна или фокуса множество не освобождает.",
+    "textUTF8ByteLimit": "Текст ограничен 4096 байтами UTF-8.",
+    "eventRetirementAndReplay": "Безопасная политика retirement или replay отсутствует; тихое вытеснение идентификаторов не применяется. Полноценный длительный набор остаётся заблокирован этим пределом."
+  },
+  "verification": {
+    "previousBaselineBuild": "exit 1; относится к предыдущей замороженной compatibility-сборке, не к этим изменённым исходникам.",
+    "buildAfterThisChange": "NOT_RUN",
+    "swiftTests": "NOT_RUN",
+    "guiOrRuntime": "NOT_RUN",
+    "compilerJobsAdded": 0,
+    "n32Acceptance": "UNKNOWN",
+    "rootAcceptance": "UNKNOWN",
+    "independentReview": "PENDING"
+  }
+}

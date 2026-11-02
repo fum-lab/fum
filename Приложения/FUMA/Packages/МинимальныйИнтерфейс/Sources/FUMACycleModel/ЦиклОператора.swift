@@ -163,7 +163,11 @@ public enum ПолитикаИсточникаВводаФУМА {
         45: "n", 46: "m"
     ]
     private struct ТаблицаКлавиш: Decodable {
-        struct Слой: Decodable { let базовый: String }
+        struct Слой: Decodable {
+            let базовый: String
+            let сдвиг: String
+            let опция: String
+        }
         let текстовыеКлавиши: [String: Слой]
 
         private enum CodingKeys: String, CodingKey { case текстовыеКлавиши = "текстовые_клавиши" }
@@ -171,15 +175,25 @@ public enum ПолитикаИсточникаВводаФУМА {
 
     private static let поддерживаемыеФизическиеКоды: Set<Int64> = {
         guard let url = Bundle.module.url(forResource: "таблица-qwerty", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let table = try? JSONDecoder().decode(ТаблицаКлавиш.self, from: data) else {
+              let data = try? Data(contentsOf: url) else {
             return []
         }
+        return вычислитьПоддерживаемыеФизическиеКоды(изJSON: data)
+    }()
+
+    static func вычислитьПоддерживаемыеФизическиеКоды(изJSON data: Data?) -> Set<Int64> {
+        guard let data,
+              let table = try? JSONDecoder().decode(ТаблицаКлавиш.self, from: data) else { return [] }
         let совпадающиеБуквы = ожидаемыеБуквыСтандартнойАмериканскойРаскладки.compactMap { запись in
             table.текстовыеКлавиши[String(запись.key)]?.базовый == запись.value ? запись.key : nil
         }
-        return Set(совпадающиеБуквы).union([51])
-    }()
+        let plainSpaceIsPinned = table.текстовыеКлавиши["49"].map {
+            $0.базовый == " " && $0.сдвиг == " " && $0.опция == " "
+        } == true
+        var supported = Set(совпадающиеБуквы).union([51])
+        if plainSpaceIsPinned { supported.insert(49) }
+        return supported
+    }
 
     public static func являетсяПоддерживаемойФизическойКлавишей(_ код: Int64) -> Bool {
         поддерживаемыеФизическиеКоды.contains(код)
@@ -199,12 +213,34 @@ public enum ПолитикаИсточникаВводаФУМА {
         идентификаторИсточника: String?,
         естьРазмеченнаяКомпозиция: Bool
     ) -> Bool {
+        разрешитьПростуюКлавишу(
+            вид: вид,
+            код: код,
+            символСобытия: символСобытия,
+            модификаторы: модификаторы,
+            идентификаторИсточника: идентификаторИсточника,
+            естьРазмеченнаяКомпозиция: естьРазмеченнаяКомпозиция,
+            разрешённыеКоды: поддерживаемыеФизическиеКоды
+        )
+    }
+
+    static func разрешитьПростуюКлавишу(
+        вид: ВидСобытияТекстовогоВвода,
+        код: Int64,
+        символСобытия: String?,
+        модификаторы: ФлагиМодификаторовТекстовогоВвода,
+        идентификаторИсточника: String?,
+        естьРазмеченнаяКомпозиция: Bool,
+        разрешённыеКоды: Set<Int64>
+    ) -> Bool {
         guard вид == .нажатие,
               модификаторы == .пустые,
               идентификаторИсточника == идентификаторРаскладкиИсточника,
               !естьРазмеченнаяКомпозиция else { return false }
-        if код == 51 { return true }
-        guard let ожидаемый = ожидаемыйСимвол(код) else { return false }
+        if код == 51 { return разрешённыеКоды.contains(код) }
+        if код == 49 { return разрешённыеКоды.contains(код) && символСобытия == " " }
+        guard разрешённыеКоды.contains(код),
+              let ожидаемый = ожидаемыйСимвол(код) else { return false }
         return символСобытия == ожидаемый
     }
 }

@@ -3,6 +3,7 @@ import CoreGraphics
 import Foundation
 import Observation
 import SwiftUI
+import ЭталонКлавиатуры
 import ЦиклОператора
 
 @MainActor
@@ -26,17 +27,36 @@ private final class МодельОкна {
     """
     var состояние = СостояниеЦиклаФУМА()
     var выполняется = false
-    var отображаемыйВводКлавиатуры = ""
+    private let владелецТекста = ВладелецТекстаСценыФУМА()
+    private let владелецПривязкиВида = ВладелецПривязкиВидаФУМА()
+    private(set) var отображаемыйВводКлавиатуры = ""
     var ошибкаКлавиатуры: String?
 
     private let цикл = ЦиклОператора()
     private let владелецКлавиатурногоАдаптера = ВладелецКлавиатурногоАдаптера()
     private var физическоеОкно: ObjectIdentifier?
     private var идентификаторВводаОкна = ИдентификаторОкнаВвода(rawValue: UUID())
+    private var поколенияФокусаПоОкнам: [UUID: UInt64] = [:]
+    private var подтверждённыйФокусКлавиатуры: (окно: UUID, фокус: UUID, поколение: UInt64)?
+    private var focusConfirmed = false
     private let дедупликаторНативныхСобытий = ДедупликаторЭкземпляровНативныхСобытий()
     private var номерНаблюденияОбласти = 0
     private var номерНаблюденияРамки = 0
     private var очередьСостояния: Task<Void, Never>?
+
+    func привязатьКлавиатурныйВид(_ view: NSView) -> ТокенПривязкиВидаФУМА {
+        let sameView = владелецПривязкиВида.текущаяПривязка(для: view) != nil
+        let token = владелецПривязкиВида.привязать(view)
+        if !sameView {
+            деактивироватьКлавиатуру()
+            _ = обновитьФизическоеОкно(nil)
+        }
+        return token
+    }
+
+    func актуальнаПривязка(_ token: ТокенПривязкиВидаФУМА, для view: NSView) -> Bool {
+        владелецПривязкиВида.являетсяТекущей(token, для: view)
+    }
 
     func принятьРазмерКонтентнойОбласти(_ размер: CGSize) {
         номерНаблюденияОбласти += 1
@@ -97,14 +117,91 @@ private final class МодельОкна {
         }
     }
 
-    func идентификаторОкнаДляКлавиатуры(_ window: NSWindow) -> ИдентификаторОкнаВвода {
-        let identity = ObjectIdentifier(window)
-        if физическоеОкно != identity {
-            физическоеОкно = identity
-            идентификаторВводаОкна = ИдентификаторОкнаВвода(rawValue: UUID())
-            владелецКлавиатурногоАдаптера.выбратьОкно(идентификаторВводаОкна)
+    @discardableResult
+    func обновитьФизическоеОкно(_ window: NSWindow?) -> Bool {
+        let identity = window.map { ObjectIdentifier($0) }
+        guard физическоеОкно != identity else { return true }
+
+        focusConfirmed = false
+        подтверждённыйФокусКлавиатуры = nil
+        владелецКлавиатурногоАдаптера.деактивировать()
+        do {
+            try владелецТекста.установитьОкно(nil)
+            физическоеОкно = nil
+            if let window {
+                let identifier = ИдентификаторОкнаВвода(rawValue: UUID())
+                guard поколенияФокусаПоОкнам.count < 4096 else {
+                    ошибкаКлавиатуры = "Достигнут предел сохранённых окон; новое окно закрыто для ввода."
+                    return false
+                }
+                try владелецТекста.установитьОкно(identifier.rawValue)
+                поколенияФокусаПоОкнам[identifier.rawValue] = 0
+                физическоеОкно = identity
+                идентификаторВводаОкна = identifier
+                владелецКлавиатурногоАдаптера.выбратьОкно(identifier)
+            } else {
+                try владелецТекста.установитьОкно(nil)
+                физическоеОкно = nil
+                идентификаторВводаОкна = ИдентификаторОкнаВвода(rawValue: UUID())
+                владелецКлавиатурногоАдаптера.выбратьОкно(идентификаторВводаОкна)
+            }
+            ошибкаКлавиатуры = nil
+            return true
+        } catch {
+            физическоеОкно = nil
+            ошибкаКлавиатуры = "Не удалось закрепить переход собственного окна: \(String(reflecting: error))"
+            return false
         }
+    }
+
+    func идентификаторОкнаДляКлавиатуры(_ window: NSWindow) -> ИдентификаторОкнаВвода? {
+        guard физическоеОкно == ObjectIdentifier(window) else { return nil }
         return идентификаторВводаОкна
+    }
+
+    func подтвердитьФокусКлавиатуры(в window: NSWindow, виде view: NSView) -> Bool {
+        guard window.firstResponder === view,
+              let identifier = идентификаторОкнаДляКлавиатуры(window) else { return false }
+        if focusConfirmed, подтверждённыйФокусКлавиатуры?.окно == identifier.rawValue {
+            return true
+        }
+        guard let generation = поколенияФокусаПоОкнам[identifier.rawValue] else { return false }
+        let next = generation.addingReportingOverflow(1)
+        guard !next.overflow else {
+            ошибкаКлавиатуры = "Переполнено поколение фокуса; ввод закрыт."
+            return false
+        }
+        let focus = UUID()
+        let timestamp = DispatchTime.now().uptimeNanoseconds
+        // Резервируем поколение до двух синхронных подтверждений. При отказе оно
+        // не переиспользуется; следующий настоящий focus callback получит новое.
+        поколенияФокусаПоОкнам[identifier.rawValue] = next.partialValue
+        do {
+            try владелецТекста.подтвердитьФокус(
+                окно: identifier.rawValue, фокус: focus, поколение: next.partialValue
+            )
+            guard try владелецКлавиатурногоАдаптера.подтвердитьФокус(
+                окно: identifier,
+                фокус: ИдентификаторФокусаВвода(rawValue: focus),
+                поколение: next.partialValue,
+                снимокМодификаторов: .пустое,
+                моментНаблюденияНс: timestamp
+            ) else {
+                владелецТекста.отозватьФокус(
+                    окно: identifier.rawValue, фокус: focus, поколение: next.partialValue
+                )
+                return false
+            }
+            подтверждённыйФокусКлавиатуры = (identifier.rawValue, focus, next.partialValue)
+            focusConfirmed = true
+            return true
+        } catch {
+            владелецТекста.отозватьФокус(
+                окно: identifier.rawValue, фокус: focus, поколение: next.partialValue
+            )
+            ошибкаКлавиатуры = "Не удалось подтвердить фокус до клавиши: \(String(reflecting: error))"
+            return false
+        }
     }
 
     func зарезервироватьЭкземплярНативногоСобытия(_ событие: AnyObject) -> Bool {
@@ -121,7 +218,7 @@ private final class МодельОкна {
         модификаторы: ФлагиМодификаторовТекстовогоВвода,
         окно: NSWindow
     ) throws -> СобытиеСРезультатомКлавиатуры? {
-        _ = идентификаторОкнаДляКлавиатуры(окно)
+        guard focusConfirmed, идентификаторОкнаДляКлавиатуры(окно) != nil else { return nil }
         return try владелецКлавиатурногоАдаптера.обработатьПростуюКлавишу(
             код: код,
             символСобытия: символСобытия,
@@ -134,11 +231,61 @@ private final class МодельОкна {
     }
 
     func деактивироватьКлавиатуру() {
+        if let focus = подтверждённыйФокусКлавиатуры {
+            владелецТекста.отозватьФокус(
+                окно: focus.окно, фокус: focus.фокус, поколение: focus.поколение
+            )
+        }
+        подтверждённыйФокусКлавиатуры = nil
+        focusConfirmed = false
         владелецКлавиатурногоАдаптера.деактивировать()
     }
 
-    func принятьНативноеИзменениеТекста(_ текст: String) {
-        отображаемыйВводКлавиатуры = текст
+    func принятьРезультатВладельцемТекста(
+        _ наблюдение: СобытиеСРезультатомКлавиатуры
+    ) -> String? {
+        let событие = наблюдение.событие
+        let результат = наблюдение.результат
+        let основа = владелецТекста.снимок
+        var текст = основа.текст
+        var выделение = основа.выделениеUTF16
+
+        switch результат.вывод {
+        case .текст(let вставка, источник: .fuma):
+            guard let edit = РедакторТекстаКлавиатуры.вставить(
+                вставка, в: основа.текст, выделениеUTF16: основа.выделениеUTF16
+            ) else { return "Редактор отклонил UTF-16 выделение; событие не повторено." }
+            текст = edit.текст
+            выделение = edit.выделениеUTF16
+        case .команда("удалить-назад"):
+            guard let edit = РедакторТекстаКлавиатуры.удалитьНазад(
+                из: основа.текст, выделениеUTF16: основа.выделениеUTF16
+            ) else { return "Редактор отклонил удаление; событие не повторено." }
+            текст = edit.текст
+            выделение = edit.выделениеUTF16
+        case .нет:
+            break
+        case .текст, .составленныйIMEТекст, .команда:
+            return "Результат адаптера вне ограниченного FUMA текстового пути; событие не повторено."
+        }
+
+        let свидетельство = событие.свидетельство
+        do {
+            try владелецТекста.принять(
+                идентификаторОкна: свидетельство.окно.rawValue,
+                идентификаторФокуса: свидетельство.фокус.rawValue,
+                поколениеФокуса: свидетельство.поколениеФокуса,
+                идентификаторСобытия: событие.идентификатор.rawValue,
+                порядок: свидетельство.порядок,
+                текст: текст,
+                выделениеUTF16: выделение
+            )
+            отображаемыйВводКлавиатуры = владелецТекста.снимок.текст
+            ошибкаКлавиатуры = nil
+            return nil
+        } catch {
+            return "Переход текста атомарно отклонён; повтор события запрещён: \(String(reflecting: error))"
+        }
     }
 
     func записатьКлавиатурноеСобытие(_ наблюдение: СобытиеСРезультатомКлавиатуры) {
@@ -146,7 +293,6 @@ private final class МодельОкна {
             guard let self else { return }
             let новое = await self.цикл.записатьРезультатКлавиатуры(наблюдение)
             self.состояние.применитьЕслиНовее(новое)
-            self.ошибкаКлавиатуры = nil
         }
     }
 
@@ -240,7 +386,7 @@ private struct ГлавноеОкно: View {
             Text("Физический ввод через ЭталонКлавиатуры · QWERTY v1")
                 .font(.headline)
             ZStack(alignment: .topLeading) {
-                ТекстовоеПолеВводаФУМА(текст: $модель.отображаемыйВводКлавиатуры, модель: модель)
+                ТекстовоеПолеВводаФУМА(текст: модель.отображаемыйВводКлавиатуры, модель: модель)
                 if модель.отображаемыйВводКлавиатуры.isEmpty {
                     Text("Щёлкните и введите текст")
                         .foregroundStyle(.secondary)
@@ -255,7 +401,7 @@ private struct ГлавноеОкно: View {
                     .foregroundStyle(.red)
                     .textSelection(.enabled)
             }
-            Text("Адаптер принимает только поддерживаемую клавишу US без модификаторов и IME. Shift, Option, другие источники и composition остаются нативными; подключена только QWERTY v1.")
+            Text("Принимаются только поддерживаемые клавиши US без модификаторов и IME; остальные события не вставляются и не передаются нативному текстовому клиенту. Подключена только QWERTY v1.")
                 .font(.caption)
         }
     }
@@ -348,93 +494,98 @@ private struct ГлавноеОкно: View {
 
 @MainActor
 private struct ТекстовоеПолеВводаФУМА: NSViewRepresentable {
-    @Binding var текст: String
+    let текст: String
     let модель: МодельОкна
 
-    init(текст: Binding<String>, модель: МодельОкна) {
-        self._текст = текст
-        self.модель = модель
-    }
-
-    func makeCoordinator() -> Координатор {
-        Координатор(модель: модель)
-    }
+    func makeCoordinator() -> Координатор { Координатор(модель: модель) }
 
     func makeNSView(context: Context) -> ТекстовоеПолеФУМА {
         let view = ТекстовоеПолеФУМА(frame: .zero)
-        view.isEditable = true
-        view.isSelectable = true
+        view.isEditable = false
+        view.isSelectable = false
         view.drawsBackground = false
         view.font = .systemFont(ofSize: NSFont.systemFontSize)
+        context.coordinator.начатьПривязку(view)
         context.coordinator.подключить(view)
-        view.delegate = context.coordinator
         view.string = текст
         return view
     }
 
     func updateNSView(_ view: ТекстовоеПолеФУМА, context: Context) {
-        if !view.hasMarkedText(), view.string != текст { view.string = текст }
+        if let обновлённыйТекст = ПроекцияТекстаОкнаФУМА.значениеДляОбновления(
+            текущее: view.string,
+            авторитетное: текст
+        ) {
+            view.string = обновлённыйТекст
+            view.needsDisplay = true
+        }
         context.coordinator.подключить(view)
-        view.delegate = context.coordinator
     }
 
     @MainActor
-    final class Координатор: NSObject, NSTextViewDelegate {
-        private weak var view: ТекстовоеПолеФУМА?
+    final class Координатор {
         private let модель: МодельОкна
-        private var поколениеРедактора: UInt64 = 0
+        private weak var привязанныйВид: ТекстовоеПолеФУМА?
+        private var tokenПривязки: ТокенПривязкиВидаФУМА?
+        init(модель: МодельОкна) { self.модель = модель }
 
-        init(модель: МодельОкна) {
-            self.модель = модель
-            super.init()
+        func начатьПривязку(_ view: ТекстовоеПолеФУМА) {
+            if привязанныйВид === view,
+               let tokenПривязки,
+               модель.актуальнаПривязка(tokenПривязки, для: view) { return }
+            привязанныйВид = view
+            tokenПривязки = модель.привязатьКлавиатурныйВид(view)
         }
 
         func подключить(_ view: ТекстовоеПолеФУМА) {
-            guard self.view !== view else { return }
-            self.view = view
+            guard привязанныйВид === view,
+                  let token = tokenПривязки,
+                  модель.актуальнаПривязка(token, для: view) else { return }
             view.onPhysicalEvent = { [weak self, weak view] event, kind in
-                guard let self, let view else { return }
-                self.получить(event, вид: kind, в: view)
+                guard let self, let view, self.модель.актуальнаПривязка(token, для: view) else { return }
+                self.получить(event, вид: kind, в: view, привязка: token)
             }
-            view.onFocusChange = { [weak self] _ in
-                guard let self else { return }
-                self.модель.деактивироватьКлавиатуру()
+            view.onWindowChange = { [weak self, weak view] window in
+                guard let self, let view, self.модель.актуальнаПривязка(token, для: view) else { return }
+                if !self.модель.обновитьФизическоеОкно(window) {
+                    self.модель.деактивироватьКлавиатуру()
+                }
             }
-        }
-
-        func textDidChange(_ notification: Notification) {
-            guard let view = notification.object as? ТекстовоеПолеФУМА else { return }
-            поколениеРедактора &+= 1
-            модель.принятьНативноеИзменениеТекста(view.string)
-        }
-
-        func textViewDidChangeSelection(_ notification: Notification) {
-            guard notification.object as? ТекстовоеПолеФУМА != nil else { return }
-            поколениеРедактора &+= 1
-        }
-
-        private func получить(
-            _ nativeEvent: NSEvent,
-            вид: ВидНативногоСобытия,
-            в view: ТекстовоеПолеФУМА
-        ) {
-            let eventKind: ВидСобытияТекстовогоВвода
-            switch вид {
-            case .нажатие: eventKind = .нажатие
-            case .отпускание: eventKind = .отпускание
-            case .изменениеФлага: eventKind = .изменениеФлага
-            }
-            guard модель.зарезервироватьЭкземплярНативногоСобытия(nativeEvent) else { return }
-            guard eventKind == .нажатие else {
+            if !модель.обновитьФизическоеОкно(view.window) {
                 модель.деактивироватьКлавиатуру()
-                view.передатьНативно(nativeEvent, вид: вид)
-                return
             }
+            view.onFocusChange = { [weak self, weak view] focused in
+                guard let self, let view, self.модель.актуальнаПривязка(token, для: view) else { return }
+                if focused, let window = view.window {
+                    if !self.модель.подтвердитьФокусКлавиатуры(в: window, виде: view) {
+                        self.модель.деактивироватьКлавиатуру()
+                        self.модель.записатьОшибкуКлавиатуры(
+                            "Фокус окна не подтверждён отдельно от события клавиши."
+                        )
+                    }
+                } else {
+                    self.модель.деактивироватьКлавиатуру()
+                }
+            }
+        }
+        private func получить(
+            _ event: NSEvent,
+            вид: ВидНативногоСобытия,
+            в view: ТекстовоеПолеФУМА,
+            привязка token: ТокенПривязкиВидаФУМА
+        ) {
+            guard модель.актуальнаПривязка(token, для: view), вид == .нажатие else { return }
+            guard модель.зарезервироватьЭкземплярНативногоСобытия(event) else { return }
+            guard let window = view.window, window.firstResponder === view else { return }
+
+            // Неподдержанный предыдущий event мог закрыть owner, не меняя
+            // firstResponder. Новый event подтверждает текущее состояние до чтения/эффекта.
+            guard модель.подтвердитьФокусКлавиатуры(в: window, виде: view) else { return }
 
             let timestamp = DispatchTime.now().uptimeNanoseconds
-            let activeSource = view.inputContext?.selectedKeyboardInputSource
-            let hasMarkedText = view.hasMarkedText()
-            let flags = nativeEvent.modifierFlags
+            let source = view.inputContext?.selectedKeyboardInputSource
+            let marked = view.hasMarkedText()
+            let flags = event.modifierFlags
             let modifiers = ФлагиМодификаторовТекстовогоВвода(
                 сдвиг: flags.contains(.shift),
                 опция: flags.contains(.option),
@@ -444,111 +595,74 @@ private struct ТекстовоеПолеВводаФУМА: NSViewRepresentable
                 функция: flags.contains(.function),
                 цифроваяКлавиатура: flags.contains(.numericPad)
             )
-            guard let window = view.window, window.firstResponder === view else {
-                модель.деактивироватьКлавиатуру()
-                модель.записатьОшибкуКлавиатуры("Событие без подтверждённого окна и first responder отброшено.")
-                return
-            }
             guard ПолитикаИсточникаВводаФУМА.разрешитьПростуюКлавишу(
-                вид: eventKind,
-                код: Int64(nativeEvent.keyCode),
-                символСобытия: nativeEvent.characters,
+                вид: .нажатие,
+                код: Int64(event.keyCode),
+                символСобытия: event.characters,
                 модификаторы: modifiers,
-                идентификаторИсточника: activeSource,
-                естьРазмеченнаяКомпозиция: hasMarkedText
+                идентификаторИсточника: source,
+                естьРазмеченнаяКомпозиция: marked
             ), !модель.выполняется else {
                 модель.деактивироватьКлавиатуру()
-                view.передатьНативно(nativeEvent, вид: вид)
-                return
-            }
-            guard let исходноеВладение = снимокВладения(view, окно: window) else {
-                модель.деактивироватьКлавиатуру()
-                модель.записатьОшибкуКлавиатуры("Снимок выделения недоступен; событие не повторялось.")
-                return
-            }
-            guard исходноеВладение.источник == activeSource,
-                  исходноеВладение.естьРазмеченнаяКомпозиция == hasMarkedText else {
-                модель.деактивироватьКлавиатуру()
-                view.передатьНативно(nativeEvent, вид: вид)
+                модель.записатьОшибкуКлавиатуры(
+                    "Событие не входит в поддерживаемый простой FUMA ввод; нативная передача отключена."
+                )
                 return
             }
 
             do {
-                guard let наблюдение = try модель.обработатьПростуюКлавишу(
-                    код: Int64(nativeEvent.keyCode),
-                    символСобытия: nativeEvent.characters,
-                    повтор: nativeEvent.isARepeat,
+                guard let observation = try модель.обработатьПростуюКлавишу(
+                    код: Int64(event.keyCode),
+                    символСобытия: event.characters,
+                    повтор: event.isARepeat,
                     моментНаблюденияНс: timestamp,
-                    идентификаторИсточника: activeSource,
-                    естьРазмеченнаяКомпозиция: hasMarkedText,
+                    идентификаторИсточника: source,
+                    естьРазмеченнаяКомпозиция: marked,
                     модификаторы: modifiers,
                     окно: window
                 ) else {
-                    view.передатьНативно(nativeEvent, вид: вид)
+                    модель.деактивироватьКлавиатуру()
+                    модель.записатьОшибкуКлавиатуры(
+                        "Адаптер не вернул подтверждённое событие; повтор и нативная передача отключены."
+                    )
                     return
                 }
-                модель.записатьКлавиатурноеСобытие(наблюдение)
+                модель.записатьКлавиатурноеСобытие(observation)
 
-                guard let текущееВладение = снимокВладения(view, окно: window),
-                      исходноеВладение == текущееВладение else {
-                    модель.записатьОшибкуКлавиатуры("Отказано: изменилось владение окном, текстом или выделением.")
+                guard window.firstResponder === view,
+                      view.window === window,
+                      view.inputContext?.selectedKeyboardInputSource == source,
+                      view.hasMarkedText() == marked, !marked else {
+                    модель.деактивироватьКлавиатуру()
+                    модель.записатьОшибкуКлавиатуры(
+                        "Отказано: после адаптера изменились окно, источник или состояние композиции."
+                    )
                     return
                 }
 
-                switch РешениеВводаКлавиатуры.классифицировать(наблюдение.результат) {
+                switch РешениеВводаКлавиатуры.классифицировать(observation.результат) {
                 case .применитьFUMA:
-                    switch наблюдение.результат.вывод {
-                    case .текст(_, источник: .fuma), .команда("удалить-назад"):
-                        if !view.применить(
-                            наблюдение.результат,
-                            выделениеUTF16: исходноеВладение.выделениеUTF16
-                        ) {
-                            модель.записатьОшибкуКлавиатуры(
-                                "Редактор отклонил результат FUMA; исходное событие не повторялось."
-                            )
-                        }
-                    case .нет:
-                        break
-                    case .текст, .составленныйIMEТекст, .команда:
-                        модель.записатьОшибкуКлавиатуры("Адаптер вернул неподдержанный вывод; событие не повторялось.")
+                    if let error = модель.принятьРезультатВладельцемТекста(observation) {
+                        модель.деактивироватьКлавиатуру()
+                        модель.записатьОшибкуКлавиатуры(error)
                     }
-                case .передатьНативно:
-                    view.передатьНативно(nativeEvent, вид: вид)
-                case .подавитьПовтор, .безЭффектаНеизвестно:
+                case .подавитьПовтор:
                     break
-                }
-                модель.принятьНативноеИзменениеТекста(view.string)
-            } catch let error as ОшибкаВводаКлавиатуры {
-                модель.записатьОшибкуКлавиатуры(
-                    error.errorDescription ?? String(reflecting: error)
-                )
-                if error.допускаетсяНативныйFallback {
-                    view.передатьНативно(nativeEvent, вид: вид)
+                case .безЭффектаНеизвестно:
+                    модель.деактивироватьКлавиатуру()
+                    модель.записатьОшибкуКлавиатуры(
+                        "Результат адаптера UNKNOWN: событие не вставлено и не повторено."
+                    )
+                case .передатьНативно:
+                    модель.деактивироватьКлавиатуру()
+                    модель.записатьОшибкуКлавиатуры(
+                        "Нативная передача отключена в ограниченном FUMA вводе; текст не вставлен."
+                    )
                 }
             } catch {
+                модель.деактивироватьКлавиатуру()
                 модель.записатьОшибкуКлавиатуры(String(reflecting: error))
             }
-        }
-
-        private func снимокВладения(
-            _ view: ТекстовоеПолеФУМА,
-            окно window: NSWindow
-        ) -> СнимокВладенияТекстовымПолем? {
-            guard window.firstResponder === view else { return nil }
-            let range = view.selectedRange()
-            guard range.location != NSNotFound else { return nil }
-            let upper = range.location.addingReportingOverflow(range.length)
-            guard !upper.overflow else { return nil }
-            let windowID = модель.идентификаторОкнаДляКлавиатуры(window)
-            return СнимокВладенияТекстовымПолем(
-                окно: windowID.rawValue,
-                получатель: view.идентификаторПолучателя,
-                источник: view.inputContext?.selectedKeyboardInputSource,
-                естьРазмеченнаяКомпозиция: view.hasMarkedText(),
-                поколениеРедактора: поколениеРедактора,
-                текст: view.string,
-                выделениеUTF16: range.location..<upper.partialValue
-            )
         }
     }
 }
@@ -560,97 +674,38 @@ private enum ВидНативногоСобытия: Equatable {
     case изменениеФлага
 }
 
+/// Только отображение: NSTextView не принимает правки, а события за пределами
+/// FUMA пути не передаются нативному текстовому клиенту.
 @MainActor
 private final class ТекстовоеПолеФУМА: NSTextView {
     var onPhysicalEvent: ((NSEvent, ВидНативногоСобытия) -> Void)?
     var onFocusChange: ((Bool) -> Void)?
-    let идентификаторПолучателя = UUID()
+    var onWindowChange: ((NSWindow?) -> Void)?
+    override var acceptsFirstResponder: Bool { true }
 
-    override func keyDown(with event: NSEvent) {
-        guard let onPhysicalEvent else { super.keyDown(with: event); return }
-        onPhysicalEvent(event, .нажатие)
+    override func mouseDown(with event: NSEvent) {
+        window?.makeFirstResponder(self)
     }
 
-    override func keyUp(with event: NSEvent) {
-        guard let onPhysicalEvent else { super.keyUp(with: event); return }
-        onPhysicalEvent(event, .отпускание)
-    }
+    override func keyDown(with event: NSEvent) { onPhysicalEvent?(event, .нажатие) }
+    override func keyUp(with event: NSEvent) { onPhysicalEvent?(event, .отпускание) }
+    override func flagsChanged(with event: NSEvent) { onPhysicalEvent?(event, .изменениеФлага) }
 
-    override func flagsChanged(with event: NSEvent) {
-        guard let onPhysicalEvent else { super.flagsChanged(with: event); return }
-        onPhysicalEvent(event, .изменениеФлага)
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        onWindowChange?(window)
     }
 
     override func becomeFirstResponder() -> Bool {
-        let didBecome = super.becomeFirstResponder()
-        if didBecome { onFocusChange?(true) }
-        return didBecome
+        let became = super.becomeFirstResponder()
+        if became { onFocusChange?(true) }
+        return became
     }
 
     override func resignFirstResponder() -> Bool {
-        let didResign = super.resignFirstResponder()
-        if didResign { onFocusChange?(false) }
-        return didResign
-    }
-
-    func применить(
-        _ результат: РезультатВводаКлавиатурыОкна,
-        выделениеUTF16: Range<Int>
-    ) -> Bool {
-        switch результат.вывод {
-        case .текст(let text, источник: .fuma):
-            return заменитьВыделениеИлиКурсор(вставкой: text, диапазон: выделениеUTF16)
-        case .команда("удалить-назад"):
-            return удалитьНазад(диапазон: выделениеUTF16)
-        case .нет:
-            return true
-        case .текст, .составленныйIMEТекст, .команда:
-            return false
-        }
-    }
-
-    private func заменитьВыделениеИлиКурсор(
-        вставкой text: String,
-        диапазон range: Range<Int>
-    ) -> Bool {
-        guard let edit = РедакторТекстаКлавиатуры.вставить(
-            text,
-            в: string,
-            выделениеUTF16: range
-        ) else { return false }
-        return применить(edit)
-    }
-
-    private func удалитьНазад(диапазон range: Range<Int>) -> Bool {
-        guard let edit = РедакторТекстаКлавиатуры.удалитьНазад(
-                из: string,
-                выделениеUTF16: range
-        ) else { return false }
-        return применить(edit)
-    }
-
-    private func применить(_ edit: РезультатРедактированияКлавиатуры) -> Bool {
-        guard let storage = textStorage else { return false }
-        let replacementRange = NSRange(
-            location: edit.заменяемыйДиапазонUTF16.lowerBound,
-            length: edit.заменяемыйДиапазонUTF16.count
-        )
-        guard shouldChangeText(in: replacementRange, replacementString: edit.вставка) else { return false }
-        storage.replaceCharacters(in: replacementRange, with: edit.вставка)
-        didChangeText()
-        setSelectedRange(NSRange(
-            location: edit.выделениеUTF16.lowerBound,
-            length: edit.выделениеUTF16.count
-        ))
-        return true
-    }
-
-    func передатьНативно(_ event: NSEvent, вид kind: ВидНативногоСобытия) {
-        switch kind {
-        case .нажатие: super.keyDown(with: event)
-        case .отпускание: super.keyUp(with: event)
-        case .изменениеФлага: super.flagsChanged(with: event)
-        }
+        let resigned = super.resignFirstResponder()
+        if resigned { onFocusChange?(false) }
+        return resigned
     }
 }
 
