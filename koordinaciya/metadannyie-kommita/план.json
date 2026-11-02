@@ -1,0 +1,31 @@
+{
+  "схема": "fum.план-сохранения-source8.1",
+  "исполнитель": "01a192d0-6f09-7950-9251-b27101106bfc",
+  "родитель": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "выдавший": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "основа": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "ветка": "refs/heads/fum-lab/fum/koordinaciya/metadannyie-kommita/master",
+  "основание_sha256": "effdde6a6d646ba436ec69cc2151351be3d32945c35c5606e7cbb3a3a04a4ea3",
+  "разрешённый_конечный_состав": [
+    "koordinaciya/координатор.swift",
+    "koordinaciya/генератор-метаданных-коммита.swift",
+    "koordinaciya/proverki-priyoma-root.swift",
+    "koordinaciya/metadannyie-kommita/метаданные.json",
+    "koordinaciya/metadannyie-kommita/план.json",
+    "koordinaciya/metadannyie-kommita/контрольная-точка.json",
+    "koordinaciya/metadannyie-kommita/рецепт.txt"
+  ],
+  "порядок": [
+    "Сверить grant, физическую изоляцию и одного писателя",
+    "Проверить публикационную чистоту, сохранить неизменённые три postimages и сопровождение",
+    "Сверить точный index и передать pins родителю для независимого review",
+    "Только после действительного собственного наблюдения author: per-command identity, commit, raw readback, обычный точный push и независимый ls-remote"
+  ],
+  "исключено": [
+    "Python и ROOT/parent RAW",
+    "SQL и NativeDB",
+    "Compiler, typecheck, tests и runtime",
+    "Root Package.swift, новые target/module, config/hooks/current/publisher",
+    "PR, master и финальная ROOT-приёмка"
+  ]
+}

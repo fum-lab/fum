@@ -1,0 +1,55 @@
+Общий source-only intake через существующий Root executor
+
+Это исходники нового этапа от df9b82a13c062d8765ab8dce9d5ca9fa41d42756. Compiler, typecheck, tests, runtime и SQL не запускались. Ниже реальный source API для доверенного ROOT host, а не выполненный вызов и не полномочие из candidate. Нового executable/target/module/runner здесь нет.
+
+Существующие точки
+1. КонтекстУправляемогоДопуска: подготовленный независимым host request/decision .3 с source-профилем, source coverage, физическим Git binding, ролями и budgets. Candidate JSON не восстанавливает РешениеХостаУправляемогоВызова.
+2. ГлавнаяКоординатора.обработатьУправляемуюВетвь теперь принимает подготовленныйКонтекст. Объект передаётся как есть, его учёт созданных private artifacts сохраняется; request/decision/operation повторно сверяются. Пересоздание контекста или naked metadataCLI не используется для source-mode.
+3. УправляемыйИсточникСохраняющегоПриёмаROOT переносит этот же объект, отдельно выбранные ROOT принятоеM, основаниеSHA256, пути и ожидаемыйУдалённыйOID.
+4. ПодготовленныйКонтекстПриёмаROOT.подготовить(..., источники: ...) и ПрограммаПриёмаROOT.выполнить исполняют прежние prepare/exact/merge/raw/push/readback и прежний Segment. ROOT запускает их только в собственном W/ref под отдельным точным допуском.
+
+Разделение входов
+ПоручениеПриёмаROOT версии fum.root-acceptance-program.2 содержит прежние ROOT/писатель/W/ref/origin/L/M/дерево/пути/pins и новые принятоеM, основаниеИсходниковSHA256, разрешённыйЭффект, ожидаемыйУдалённыйOID. Все выбранные поля сравниваются с независимым non-Codable host. разрешённыйЭффект имеет значение «сохранение-исходников-слиянием». Старый .1 остаётся typed metadataCLI режимом и отвергает примесь .2 полей.
+
+L — HEAD до приёма. Прежнее поле M — точный incoming source commit S; оно не означает новый policy M. принятоеM — отдельно выбранный ROOT принятый policy M, который должен быть предком L. Исторический 4a2375a4dcbe1495b5afe520185795a00acaff9b остаётся comparison M нашей Planning fixture; он не назначает будущий ROOT effect. Источник S/полный фактический incoming diff и scope выбирает ROOT, включая ещё не принятых предков, а не только последний commit.
+
+Основание source-only эффекта и внешний SHA256 поручения — разные привязки: metadata request .1 содержит основаниеSHA256 отдельно выбранного source grant. Поручение .2 с pins metadataState сверяется по своему независимо переданному ожидаемыйSHA256. Они не образуют самоссылочный hash.
+
+Source-mode намеренно использует существующий ЗапросМетаданныхИсходников .1 со статусом выбора UNKNOWN; это не accepted model selection и не backend/history. Полученные метаданные связываются с ROOT/native writer, W/ref/L/expected tree и точным основанием. Идентичности git var сверяются перед commit; root trailer берётся из ROOT, не из child UUID. Режим .1 с подтверждённой моделью не объявляется этим ремонтом выполненным.
+
+Вызов из уже допущенного ROOT host (все именованные входы выбраны независимо от candidate):
+let источник = УправляемыйИсточникСохраняющегоПриёмаROOT(
+    принятоеM: принятыйROOTM,
+    основаниеSHA256: хэшSourceГрантаROOT,
+    пути: точныеРазрешённыеПути,
+    ожидаемыйУдалённыйOID: точныйСтарыйУдалённыйOID,
+    контекст: подготовленныйУправляемыйКонтекстROOT)
+let контекст = try ПодготовленныйКонтекстПриёмаROOT.подготовить(
+    поручение: адресПорученияROOT,
+    ожидаемыйSHA256: хэшПорученияROOT,
+    среда: закреплённаяСредаПриёмаROOT,
+    native: независимыйНативныйUUIDROOT,
+    stop: остановленоROOT, revoked: отозваноROOT,
+    источники: источник)
+let программа = try ПрограммаПриёмаROOT(контекст)
+defer { программа.закрыть() }
+for _ in 0..<8 {
+    let итог = try программа.выполнить()
+    if итог.стадия == "delivered" || итог.стадия == "held" { break }
+}
+
+Это внутренний API существующего модуля RootAcceptance. Перед запуском нужны отдельно допущенный и pin-нутый исполняемый контур, реальные Root request/decision/context и exact source grant. Текст рецепта и candidate не создают этих входов. Native author observation для нашего собственного будущего source commit требует отдельного fresh допуска; старый SELECT не повторяется.
+
+Порядок и восстановление
+НамерениеСозданияКоммитаGit задаёт ordered parents [L,S], tree и ref. metadata .1 остаётся транспортом formatter, его single parent L не превращает слияние в ordinary checkpoint. Непосредственно перед commit сохраняются MERGE_HEAD==S, HEAD==L и exact write-tree; тот же reader сверяет изменённые index paths с scope.
+До push тот же execution читает raw C, ordered parents/tree/author/committer/exact body/ROOT trailer. Перед ordinary exact push сверяются native custody/HEAD/ref, push effects и ожидаемый old remote OID (либо явно ROOT выбранный ABSENT). Единственный писатель сохраняется отдельно; force/lease/history rewrite не добавлены.
+Известный нормальный merge exit отказа либо известный merge success с precommit отказом завершается known held, пока commit точно не вызывался. Index/историческое намерение сохраняются. Signal/потерянный ответ начатого merge/commit/push остаются UNKNOWN. Pending effect не запускается повторно.
+Source metadata сохраняются отдельной записью в том же Segment, связанной с hash поручения, до перехода prepare. При reopen они проверяются и читаются; generator при HEAD=C повторно не вызывается. Для нового процесса ROOT самостоятельно готовит свежий текущий managed host context; это не повтор metadata/SQL/effect.
+Raw-reader всегда строит diff --raw --no-abbrev --no-renames -z; --full-index не считается гарантией ширины. Parser требует полные 40 lowercase hex и точные NUL records. Abbreviated output даёт отказ чтения, без второго merge/commit и без догадки об OID.
+
+Regression sources
+Существующая послеMerge fixture теряет только собственный MERGE_HEAD и требует известного отказа/held, HEAD=L, commit0/push0 и отсутствия replay после reopen.
+Synthetic fixture с core.abbrev=7 требует --no-abbrev в обоих raw reads и единственные merge/commit/push. Чистые проверки отвергают короткий OID, один parent и перестановку родителей.
+Матрица source host отвергает иной M, grant, scope, effect, remote expectation, operation и legacy .1 в source-режиме. Все эти тесты — только исходники, NOT_COMPILED/NOT_RUN; реальный RED/GREEN и профиль не заявляются.
+
+Первые план/сопоставление и отрицательная DATA fixture сохранены как хронологические входы. Текущее состояние и фактические pins находятся в итог-исходников.json. Закрытые df9/private Source8/R/M/receipts и опубликованные Planning/Arts commits не изменяются.
