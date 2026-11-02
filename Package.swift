@@ -42,7 +42,7 @@ let package = Package(
         .testTarget(name: "proverki-zhurnala", dependencies: ["ЖурналУзла", "ОсноваЗапуска"],
             path: "iskhodniki/zhurnal/proverki", swiftSettings: настройки),
         .target(name: "АктуализацияПутей",
-            dependencies: [.product(name: "LinguisticKit.static", package: "LinguisticKit")],
+            dependencies: ["КонтейнерНаблюдений", .product(name: "LinguisticKit.static", package: "LinguisticKit")],
             path: "iskhodniki/aktualizaciya-putej", exclude: ["rukovodstvo.md"],
             swiftSettings: настройки),
         .testTarget(name: "proverki-aktualizaciya-putej", dependencies: ["АктуализацияПутей"],

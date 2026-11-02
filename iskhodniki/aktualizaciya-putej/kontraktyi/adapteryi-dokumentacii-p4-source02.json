@@ -1,0 +1,178 @@
+{
+  "схема": "fum.документация.Source02.1",
+  "задание": "ROOT-P4-CONCRETE-ADAPTERS-SOURCE-02",
+  "состояние": "конкретный-Source-кандидат; исполнения-нет",
+  "база": {
+    "коммит": "cb198b371f2587a75006d58802bab8cce74da15f",
+    "дерево": "7bfbb0a00dd8a87a059c09bb2947f4293a9526bd"
+  },
+  "исходники": [
+    {
+      "путь": "Package.swift",
+      "байт": 5367,
+      "SHA256": "e4048cdfdc4fd8d46ee0de1e8d1aedd4dd53dc2ba2218e3c9ffb0f084b1a15a9"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/primeneniye-obyyedineniya-dokumentacii.swift",
+      "байт": 10238,
+      "SHA256": "6c8beb91d456260f8e871b4037451a33239be2dbd6e42962c48a58da05db9a2e"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/adapter-fajlov-dokumentacii.swift",
+      "байт": 46890,
+      "SHA256": "14ee0406f9ca9a41d00e609c07e47ee3bc1f97de73a675d820e67f66efb385c3"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/adapter-segmenta-dokumentacii.swift",
+      "байт": 22180,
+      "SHA256": "71de8860293ea65acd16c8f76ea93e161405a5ac72c861826ff34a8f6ad71c1c"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/komanda-paketa-dokumentacii.swift",
+      "байт": 17365,
+      "SHA256": "28c26171ada9b182cad07f650056dcf4d883851466b6680df5f13aad01ed000c"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/dokazateljstvo-kopii-dokumentacii.swift",
+      "байт": 6493,
+      "SHA256": "94c2e842b5dc2dee8dee39d8e81c231e7e81d1542956c23679e81614a939a83e"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/proverki-sistemnyikh-adapterov-dokumentacii.swift",
+      "байт": 31526,
+      "SHA256": "0526e5498c277635b6dc162a6dfcc909ceddb956622778be60c5b5fced51f5ee"
+    }
+  ],
+  "PackageИсключение": {
+    "путь": "Package.swift",
+    "до": {
+      "байт": 5325,
+      "SHA256": "1b7b6380b0e959e819f67f9bdd72ce491e335e2a6b8081c9e042ffd061878df5"
+    },
+    "после": {
+      "байт": 5367,
+      "SHA256": "e4048cdfdc4fd8d46ee0de1e8d1aedd4dd53dc2ba2218e3c9ffb0f084b1a15a9"
+    },
+    "эффект": "только existing target АктуализацияПутей: dependency КонтейнерНаблюдений; никаких других targets/products/Package changes"
+  },
+  "адаптеры": {
+    "журнал": "СегментныйЖурналДокументации поверх существующего КонтейнерНаблюдений.Сегмент, без нового store",
+    "файлы": "СистемныеЭффектыДокументации — mkdir/git mv/atomic payload/proved coalesce/rmdir",
+    "вход": "ПакетноеОбъединениеДокументации.построить/применить; отдельный compile define ФУМ_ПАКЕТ_ДОКУМЕНТАЦИИ_КОМАНДА, режимы план/применить",
+    "старыйКонтур": "shared fum-puti/general CLI/fixed9 не изменены и не активированы"
+  },
+  "ограды": {
+    "авторизация": "отдельный доверенный ROOT execution/application admission обязателен; данные ДопускИсполненияДокументации сами его не доказывают",
+    "журнал": "постоянный worktree+gitdir slot вне Git, marker+Segment+пакет; lock до close; partial/tail/другой пакет HOLD, без нового UUID/truncate/replay",
+    "ёмкость": "до 1024 шагов; 3N+2 records, пакету до48MiB, компактным records до4096B; worst-case frame/fragment bound до mkdir/первого эффекта",
+    "индексы": "логический ls-files --stage -z и физический index bytes/mode отдельны; prefix simulation и durable postrawSHA",
+    "namespace": "общий tracked+untracked+parents+все физические Docs nodes, initial/final повторный fence; verified own-temp единственное исключение",
+    "резервы": "долговечный пакет + step-local index/source/payload reserves до эффекта; оба родителя Git+index+gitdir fsync; cleanup только после receipt",
+    "preparedTarget": "git add target → exact intermediate stage proof → git rm source; неизвестный подшаг UNKNOWN/no replay",
+    "восстановление": "удержанный parsed confirmed-prefix/pending intent передаётся core; read-only экспорт пакета, без rollback/продолжения",
+    "proof": "exact nonURI сегменты/число строк/нормализованные bytes+targets; пересчитанная bijection proof↔coalesce, README отдельное body union; anchors false"
+  },
+  "testSOURCE": {
+    "новыхФункций": 16,
+    "конкретныхАдаптеров": 14,
+    "синтетическихURI": 2,
+    "прежнихФункций": 18,
+    "состояние": "все NOT_RUN; статическое review не compiler/test GREEN",
+    "различения": [
+      "real Segment lock/reopen/intent/failed fsync",
+      "tracked/prepared target index/source reserves и partial UNKNOWN",
+      "MOVE/terminal replay exact raw index+mode",
+      "atomic temp failure сохраняет preimage",
+      "cleanup failure immediate UNKNOWN и reopen HOLD с known prefix",
+      "outside-Git runtime/partial slot/index.lock/physical-mode drift",
+      "namespace drift/proof bijection",
+      "synthetic22 87/34/251/143/285 + nonURI/unparsed/different-target refusals"
+    ]
+  },
+  "DocsВход": {
+    "коммит": "290487f3509f6d13fe97e3ee28b15fedca74e452",
+    "дерево": "492839c9795c9c59b8cf147272cc3ef4522ed7d4",
+    "ветка": "refs/heads/fum-lab/fum/dokumentaciya/master",
+    "индексФизическийSHA256": "08fe01ef1aa9b214029133a2dc539ab608612223f067829754f0f64b5e007deb",
+    "наблюдёнВ": "2026-11-02T20:04:52.824Z",
+    "файлов": 136,
+    "байтПрочитано": 3934497,
+    "снимокSHA256": "a50c9aa04ef9fa1b35c9f5244756076e25d1ba733ab38c45f2b37367408eeecd",
+    "согласованныйApplyFence": false,
+    "карта": {
+      "путь": "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+      "байт": 55031,
+      "SHA256": "e657cd0b817a86f219f3691af446dbfd2ff11cfb4de17b1bd05fbd37726e8f36"
+    },
+    "журнал": {
+      "путь": "dokumentaciya/zhurnal.md",
+      "байт": 65319,
+      "SHA256": "a5dd7c4a35c0e19f7b045e3f8d873b529f340b3d173fdd3d7e642c8710017dda"
+    },
+    "граница": "per-file FD/named стабильны; это новый pointwise input, не готовый согласованный executable batch"
+  },
+  "пакетDocs": {
+    "исходныхTracked": 117,
+    "целевыхTracked": 18,
+    "подготовленнаяUntracked02": 1,
+    "свободныхПереносов": 108,
+    "принятыхКаноническихКопий": 7,
+    "смысловойКонфликт22": "снят только для точной принятой пары при fresh MATCH",
+    "README": "сохранить обе функции/полные тела; composite reference/fragment guards",
+    "новыхПодкаталогов": 13,
+    "фактическийПолныйURIПлан": "NOT_GENERATED: Swift producer/CLI/compiler не допущены",
+    "фактическийФинальныйREADME": "UNKNOWN_NOT_GENERATED"
+  },
+  "точнаяПара22": {
+    "источник": {
+      "путь": "Документация/22-архитектура-FUM.md",
+      "объект": "db811675a453e396c350e67778a43a654f22bbe2",
+      "байт": 102784,
+      "SHA256": "b8d0fa80463347ba6df3b79a91bd017288f54200343cac1008578e8fb46c98ca"
+    },
+    "цель": {
+      "путь": "dokumentaciya/22-архитектура-FUM.md",
+      "объект": "5e970ec4ca04ed259bbb1504374e8d9b74cb3cf3",
+      "байт": 105220,
+      "SHA256": "29e72ba694b0a9947216b075ee5f2814f1dde44434244d060ffd3392bf7eb9ab"
+    },
+    "проверкаТекущихPins": "оба MATCH pointwise snapshot",
+    "основание": "ROOT ACCEPT_ADDRESS_ONLY_COPY_22; 87 literal ../Документация/ insertions =2436B,34unique,251relativeURI/143targets/285lines",
+    "ограничение": "Root helper arrays143/251 не сохранены. Нет нового lookup/выдуманного namespace. Синтетический тест проверяет структуру метрик, НЕ реальные blob bytes; actual logical-target/anchor existence UNKNOWN"
+  },
+  "межобластныеПравки": {
+    "известные": [
+      {
+        "путь": "README.md",
+        "владелец": "ROOT",
+        "строка": 108,
+        "прежнийАдрес": "Документация/README.md",
+        "новыйАдрес": "dokumentaciya/README.md",
+        "вхождений": 1,
+        "доSHA256": "2bfba624bc89ec28455afc9e4e2bd252d7f9502a693bf107e0c172a9c773dd8b",
+        "предложенныйПослеSHA256": "3ee45708b35de46fdaa81c983233308a01f1ce0e7d1948451f0f9801f6edc7b2"
+      }
+    ],
+    "прочиеПути": "UNKNOWN_NOT_SCANNED",
+    "прочееКоличество": "UNKNOWN_NOT_ZERO",
+    "действие": "отдельно допущенный producer выдаёт точные пути/токены на согласованном owner snapshot; ROOT маршрутизирует фактических чужих владельцев"
+  },
+  "следующиеЛокаторы": {
+    "вход": "частный immutable Docs-pointwise-input-source02.json в own checkpoint",
+    "выход": "proposed plan output через режим план с supplied файлПакета; не создан",
+    "результат": "Source checkpoint private result, не runtime receipt"
+  },
+  "эффекты": {
+    "SwiftCompiler": 0,
+    "SwiftCLI": 0,
+    "tests": 0,
+    "apply": 0,
+    "moves": 0,
+    "materialization": 0,
+    "RootIntegration": 0,
+    "Host": 0,
+    "Python": 0,
+    "ROOTJSONL": 0
+  },
+  "остаток": "actual compile/test/resource/toolchain/profile/apply readiness UNKNOWN; next ONE ROOT bounded execution/application decision after Source review, no oldcase replay"
+}
