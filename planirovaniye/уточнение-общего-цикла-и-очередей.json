@@ -71,5 +71,55 @@
     "Не создавать новый проект и не отменять активные предыдущие задачи.",
     "Не утверждать runtime, Host, готовый AOT, implementation completion или acceptance по равенству выходов.",
     "Не создавать all-architecture gate для одного ограниченного Tools → Routine/FUMA A05 поручения."
-  ]
+  ],
+  "поручениеСледующегоЭтапа": {
+    "идентификатор": "ROOT-A10-SWIFT-MINIMUM-01",
+    "статус": "ASSIGNED_BY_ROOT; реализация не начата",
+    "происхождение": "Связанный следующий этап уже адресно передан существующим Tools-parent → Routine; это продолжение выбранного Swift-first решения, не новое исследование и не новый ROOT-ticket.",
+    "дословноеУточнениеA10": "A10 consumerdecision: frozen lifecycle caba40ce… независимо whole2475/SHAa47ab589…/rawOID/onlyA; один remote уже4154c1b… и caba предок, publication доказана. Старый STAGEDpending этой версии закрыт, Host implementation не claim. Новый Req1fbe independently Source/remoteMATCH фиксирует generic typed-work/Swift-first; наследование старых значений сохранено. Конкретный малый связанный плановый пункт: ROOT-A10-SWIFT-MINIMUM-01 assigned existing Tools-parent→Routine, FUMA A05 semantic peer, generic typedartifact/originrefs + QA firstadapter; owner сам подтвердит existing entrypoint/path/interface. В ТЕКУЩЕМ own public decision/planning capture связать why/goal/input-output/knownowner/consumer, следующий bounded code+testSOURCE, review ПОСЛЕ ПЕРВОГО фактического permitted localuse (historylatency/transfer-recovery/integrationcost). Не ждать wholearchitecture/Host/AOT и не пересобирать caba/1fbe. Этот пункт — продолжение уже выбранного Swift-first, не новое параллельное исследование/Root-ticket. Наш next implementation-проход уже адресно отдан Tools; твоё содержание не должно оставаться private до готовности кода.",
+    "цельИЗачем": "Получить минимальный пригодный Swift-срез в существующем FUM runtime для общего типизированного рабочего контура; быстрый ограниченный результат позволяет выбирать дальнейшую сложность по фактическим диагностическим данным.",
+    "входы": [
+      {
+        "путь": "planirovaniye/идея-жизненного-цикла-сообщения.json",
+        "commit": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049",
+        "blob": "8d6d005c70a6047c5cad8c2e8bdb5efba9410bd8",
+        "sha256": "a47ab5891bba0ca0d7b22139068f2c97ed9e7c60923c0e51126a96ae5012ab34"
+      },
+      {
+        "путь": "planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json",
+        "commit": "4154c1b25b903fcd179d1fb5309ef465858e1e34",
+        "blob": "7e9e23fb74bf86ceef705d4f0c4ae1dad81ca78c",
+        "sha256": "c9fa3409bb577528e67ec3f030ede5ca2f1f9221499347f035f250c644b9adc2"
+      },
+      {
+        "путь": "planirovaniye/уточнение-общего-цикла-и-очередей.json",
+        "commit": "644ff6bf386afc2079a28255a386d5acc3eef751",
+        "blob": "464e380433b4c4e3c72dac17022dd0113fdf276d",
+        "sha256": "698c107f4e606857335b1c64adaeda4a4aa27c298071da26f3d8f80b3c19bdd5"
+      },
+      {
+        "commit": "1fbe135398fd828c78217b3f8276dfb9439d5949",
+        "ветка": "origin/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+        "смысл": "ROOT сообщает, что этот Requirements input independently Source/remote verified; сохранён как исходный вход, не повторяется и не переписывается."
+      }
+    ],
+    "связанныйКонтракт": "FUMA A05 остаётся semantic peer и finite interface: input/output, provenance, id/version, parent/cycle. Общий Swift-срез использует typed artifact и origin refs; вопрос/ответ — первый адаптер.",
+    "известныйВладелец": "Существующий Tools-parent → Routine; конкретный CodexThreadID не передан. Исполнитель сам подтвердит действующий entrypoint, путь и интерфейс до выбора точного патча.",
+    "следующийОграниченныйШаг": "После подтверждения владельцем существующего entrypoint/path/interface подготовить в собственной области Tools минимальные code + testSOURCE изменения для общего typed artifact/provenance/queue примитива с QA первым адаптером. Покрыть source-свойства: перенос со стопом не теряет origin, повторный ID не выдаёт дубликат, незавершённое состояние восстанавливается после перезапуска. Запускать только в отдельно допущенной границе ресурсов.",
+    "ожидаемыеВыходы": [
+      "Минимальный исходный код существующего Swift runtime с типизированным артефактом и ссылками на происхождение.",
+      "Source-тесты остановки/повтора/восстановления, согласованные с конечным A05 интерфейсом.",
+      "Наблюдаемые метрики первого разрешённого использования: задержка долговечной истории, корректность переноса и восстановления, стоимость интеграции."
+    ],
+    "известныйПотребитель": "Существующие Tools-parent → Routine и FUMA A05 semantic peer; ROOT назначение уже передал этому направлению.",
+    "reviewTrigger": "После первого фактического разрешённого локального использования, а не только после подготовки source или тестов.",
+    "reviewCriteria": [
+      "Задержка записи и чтения долговечной истории.",
+      "Корректность переноса исходного сообщения и восстановления ожидающей работы.",
+      "Стоимость интеграции с существующим runtime и A05 finite interface."
+    ],
+    "неГейт": "Не ждать полной архитектуры, Host или AOT; не требовать общего all-architecture gate перед этим ограниченным этапом.",
+    "неОтменяет": "Ранее начатая работа остаётся активной; новое уточнение не отменяет её.",
+    "предел": "Владелец/entrypoint подтверждаются существующим Tools-owner. Эта запись не утверждает, что код, тесты, runtime или Host integration уже готовы."
+  }
 }
