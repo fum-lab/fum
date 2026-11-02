@@ -1,0 +1,77 @@
+{
+  "schema": "fum.audit-source-checkpoint.v1",
+  "kind": "partial_source_only",
+  "title": "Выводы недельного аудита ROOT-A07",
+  "created_at_utc": "2026-11-02T14:18:33.957Z",
+  "source_author": {
+    "display_name": "FUM Codex [gpt-6-luna; effort=max]",
+    "metadata_captured_at_utc": "2026-11-02T14:30:48.623Z"
+  },
+  "intended_consumer": "Публичные читатели FUM, которым нужен ограниченный итог аудита; файл не добавлен в общий индекс.",
+  "audit_window": {
+    "from_utc_inclusive": "2026-10-26T10:48:57Z",
+    "to_utc_exclusive": "2026-11-02T10:48:57Z"
+  },
+  "audited_source_snapshot": {
+    "repository": "fum-lab/fum",
+    "ref": "refs/heads/fum-lab/fum/master",
+    "commit": "b7c8aff60c7815bc0e8f3cd4cb864003afea7e32",
+    "tree": "1fe9c232a6dc17faed4925228420613bfdbc9a3d",
+    "meaning": "Закреплённый снимок аудита; не утверждение о текущем tip ветки."
+  },
+  "bounded_public_source_pins": [
+    {
+      "path": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+      "blob": "79f3874721a659fcca3f506f5b86207ef52fd9c5"
+    },
+    {
+      "path": "dokumentaciya/rabochaya-arkhitektura-fum-fuma.md",
+      "blob": "df1f0dae8a8cd1b1c46448aa26e4f9942a1cb4fe"
+    }
+  ],
+  "findings": [
+    {
+      "id": "G1_same_task_resume",
+      "priority": "P1",
+      "status": "NOT_PROVEN",
+      "observation": "В доступном ограниченном аудиторском свидетельстве не установлена полная цепочка продолжения той же исходной задачи после STOP: сохранённое состояние, продолжение Host, полезный результат и callback/reopen.",
+      "causal_assessment": "Причина и фактическое состояние исходной задачи UNKNOWN; отсутствие доказательства в этом срезе не доказывает отсутствия продолжения вне него.",
+      "owner": "ROOT task owner",
+      "next_action": "Получить разрешённое свидетельство продолжения именно той же задачи после STOP; до этого не выполнять слепой replay.",
+      "original_task_resume": "UNKNOWN"
+    },
+    {
+      "id": "fum_architecture_recency_marker",
+      "priority": "P2",
+      "status": "CONFIRMED_STALE_MARKER",
+      "source_path": "dokumentaciya/rabochaya-arkhitektura-fum-fuma.md",
+      "source_blob": "df1f0dae8a8cd1b1c46448aa26e4f9942a1cb4fe",
+      "observed_facts": {
+        "content_commit": "216bdbbffe84034051c1ff2ed23d40f5e2cf0920",
+        "content_commit_time": "2026-11-01T11:01:30+04:00",
+        "marker_last_content_edit": "2026-10-30 22:28:01 MSK",
+        "recomputed_content_sha256_without_recency_block": "31587ede66b0b8b8f33582c69ad21239e4513e9728481c336de528a9e8016a81"
+      },
+      "inference": "Маркер recency не отражает содержательное изменение 1 ноября. Причина пропуска обновления не установлена; этот пример не доказывает общую частоту или снижение частоты обновления документации.",
+      "owner": "Назначенный писатель канонической документации FUM; конкретное лицо здесь не установлено.",
+      "next_action": "Обновить маркер штатной автоматизацией recency в разрешённом этапе и сверить итоговый хэш; этот checkpoint файл источника не исправляет."
+    }
+  ],
+  "scope_limits": [
+    "Вывод относится только к закреплённому окну и перечисленным адресным источникам; проектовая частота обновления документации не установлена.",
+    "Текущий tip после аудиторского снимка не проверялся как новый предметный срез.",
+    "В этот файл не включены частные записи, права доступа, закрытые значения, квитанции или содержимое ограниченных материалов."
+  ],
+  "execution_and_acceptance": {
+    "source_only": true,
+    "full_review_generator": "NOT_RUN",
+    "generator_configuration": "NOT_CREATED",
+    "tests": "NOT_RUN_BY_SCOPE",
+    "full_profile": "NOT_CLAIMED",
+    "source_runtime": "UNPROVEN",
+    "remote_delivery": "PENDING",
+    "common_branch_acceptance": "NOT_CLAIMED",
+    "root_final_acceptance": "NOT_CLAIMED",
+    "review_index_updated": false
+  }
+}
