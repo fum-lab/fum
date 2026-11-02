@@ -1,0 +1,90 @@
+{
+  "case_id": "foreign-write-grant",
+  "identity": {
+    "logical": "fum/arkhitektura",
+    "parent": "fum/root",
+    "own_memory": "arkhitektura/**"
+  },
+  "memory": {
+    "owner": "fum/arkhitektura",
+    "scope": "arkhitektura/**"
+  },
+  "bindings": {
+    "actor": "fum/arkhitektura",
+    "parent": "fum/root",
+    "own_memory": "arkhitektura/**",
+    "branch": "refs/heads/fum-lab/fum/arkhitektura/master",
+    "worktree_id": "synthetic-worktree-token",
+    "session": {
+      "actor": "fum/arkhitektura",
+      "incarnation": "synthetic-incarnation-only"
+    }
+  },
+  "grant": {
+    "actor": "fum/arkhitektura",
+    "scope": "arkhitektura/**",
+    "common_access": "read-only"
+  },
+  "active_write_grants": [
+    {
+      "actor": "fum/arkhitektura",
+      "scope": "arkhitektura/**",
+      "mode": "write",
+      "active": true
+    },
+    {
+      "actor": "fum/arkhitektura",
+      "scope": "common/**",
+      "mode": "write",
+      "active": true
+    }
+  ],
+  "desired": {
+    "state": "active",
+    "base": "6999fcb256d298302358d1329c2e57fead00a808"
+  },
+  "observed": {
+    "ref": "refs/heads/fum-lab/fum/arkhitektura/master",
+    "worktree_id": "synthetic-worktree-token",
+    "base": "6999fcb256d298302358d1329c2e57fead00a808",
+    "cursor": "6999fcb256d298302358d1329c2e57fead00a808",
+    "active_writers": [
+      {
+        "actor": "fum/arkhitektura",
+        "scope": "arkhitektura/**",
+        "active": true
+      }
+    ],
+    "session": {
+      "actor": "fum/arkhitektura",
+      "incarnation": "synthetic-incarnation-only"
+    }
+  },
+  "freshness": {
+    "cursor": "6999fcb256d298302358d1329c2e57fead00a808"
+  },
+  "restore": {
+    "commit_contains_identity": true,
+    "commit_contains_history": true,
+    "commit_contains_desired": true,
+    "requires_self_commit_hash": false,
+    "requires_full_dialogue": false,
+    "git_objects_available": true,
+    "typed_executor_available": true,
+    "fresh_observation_available": true
+  },
+  "effect": {
+    "pending": false,
+    "outcome": "none"
+  },
+  "model": {
+    "selected": "gpt-6-luna",
+    "requested": "gpt-6-luna",
+    "selected_effort": "max",
+    "requested_effort": "max",
+    "selection_evidence": "ROOT-reported accepted collaboration.spawn_agent API parameters",
+    "runtime_observed": null,
+    "api_available": false,
+    "secrets_available": false
+  }
+}

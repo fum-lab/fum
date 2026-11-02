@@ -1,0 +1,106 @@
+{
+  "схема": "fum.определение-оператора.1",
+  "идентификатор": "fum.arkhitektura.continuation-boundary",
+  "версия": 1,
+  "правила": [],
+  "шаги": [
+    {
+      "идентификатор": "решить-границу-приёмки",
+      "оператор": "вычислить-JSON",
+      "аргументы": {
+        "граф": {
+          "схема": "fuma.граф-JSON.1",
+          "числа": "целые64-без-дробей",
+          "переменные": [
+            {
+              "имя": "scope_eligible",
+              "значение": ["путь", ["переменная", "вход"], "scope", "write_scope_eligible"]
+            },
+            {
+              "имя": "root_boundary",
+              "значение": ["путь", ["переменная", "вход"], "next_action", "requires_root_acceptance"]
+            },
+            {
+              "имя": "dependency",
+              "значение": ["путь", ["переменная", "вход"], "next_action", "dependency"]
+            },
+            {
+              "имя": "peer_acceptance",
+              "значение": ["путь", ["переменная", "вход"], "peer_result", "acceptance"]
+            },
+            {
+              "имя": "decision",
+              "значение": [
+                "если",
+                ["равно", ["переменная", "scope_eligible"], ["истина"]],
+                [
+                  "если",
+                  ["равно", ["переменная", "root_boundary"], ["истина"]],
+                  "await-root-acceptance",
+                  [
+                    "если",
+                    ["равно", ["переменная", "dependency"], "independent"],
+                    "continue-independent",
+                    [
+                      "если",
+                      ["равно", ["переменная", "dependency"], "peer-output"],
+                      [
+                        "если",
+                        ["равно", ["переменная", "peer_acceptance"], "accepted"],
+                        "continue-after-direct-parent-acceptance",
+                        "await-direct-parent-acceptance"
+                      ],
+                      "classify-dependency"
+                    ]
+                  ]
+                ],
+                "own-scope-not-eligible"
+              ]
+            },
+            {
+              "имя": "acceptance_required",
+              "значение": [
+                "если",
+                ["равно", ["переменная", "root_boundary"], ["истина"]],
+                ["истина"],
+                [
+                  "если",
+                  ["равно", ["переменная", "dependency"], "peer-output"],
+                  [
+                    "если",
+                    ["равно", ["переменная", "peer_acceptance"], "accepted"],
+                    ["ложь"],
+                    ["истина"]
+                  ],
+                  ["ложь"]
+                ]
+              ]
+            }
+          ],
+          "результат": {
+            "contract": "fum.arkhitektura.continuation-boundary@1",
+            "case_id": ["путь", ["переменная", "вход"], "case_id"],
+            "decision": ["переменная", "decision"],
+            "can_continue": [
+              "если",
+              ["равно", ["переменная", "decision"], "continue-independent"],
+              ["истина"],
+              [
+                "если",
+                ["равно", ["переменная", "decision"], "continue-after-direct-parent-acceptance"],
+                ["истина"],
+                ["ложь"]
+              ]
+            ],
+            "can_continue_independently": [
+              "равно",
+              ["переменная", "decision"],
+              "continue-independent"
+            ],
+            "acceptance_required_for_action": ["переменная", "acceptance_required"]
+          }
+        }
+      }
+    }
+  ]
+}
