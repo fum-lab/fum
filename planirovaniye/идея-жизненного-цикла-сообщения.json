@@ -1,0 +1,20 @@
+{
+  "источник": "Пересказ ROOT через A10, 2026-11-02, Europe/Saratov; передано как прямой human corrective priority.",
+  "дословнаяЦитатаROOTчерезA10": "Нужны реализация и видение жизненногоцикла сообщения в этотчат; описыватьцикл и довестидоruntime",
+  "буквальныйИсходникПользователя": "UNKNOWN; доступна только процитированная передача ROOT через A10.",
+  "краткоеТребование": "Желаемый lifecycle: received → durably recorded → classified/interpreted → linked model/requirements → bounded assignment/route → outcome or blocker → consumer decision → human response, включая done/undone, unknown effect и recovery. Новое user input/revision связывается с изменёнными model/requirement/assignment/result либо состоянием no response yet и не стирает прежнее.",
+  "состояниеНаблюдаемойРеализации": "UNKNOWN; ROOT сообщает, что per-agent automations не создавались и не активировались. Наблюдённая Host implementation, adapter или provider не установлены и не заявляются.",
+  "владелец": {
+    "область": "Planning",
+    "CodexThreadID": "01a08d77-2060-7701-9f44-ff04769d8a6e"
+  },
+  "следующийПотребитель": {
+    "CodexThreadID": "01a17829-4c36-7c00-9bb3-0e2111905e1a",
+    "название": "fum-lab/fum/dokumentaciya/master",
+    "шаг": "После фактической доставки capture A10 предоставит ограниченный architecture slice; назначение ещё не выполнено."
+  },
+  "дальнейшийМаршрутПоROOT": "После architecture slice — FUMA A05 implementation Source/testSOURCE; позднее отдельное точное Host joining proposal. Ни одна стадия здесь не запущена.",
+  "связанныйCapture": "planirovaniye/идея-автоматизации-агентов.json",
+  "состояние": "CAPTURED_NOT_ANALYZED",
+  "граница": "Разбор, integration, code, automation activation и runtime не выполнялись и не разрешены этой записью."
+}
