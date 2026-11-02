@@ -1,8 +1,8 @@
 {
-  "schema": "fum.public.work-priority-queue.v1",
-  "updatedAtUTC": "2026-11-02T14:31:54.633Z",
-  "scope": "Только ограниченный набор пунктов из текущей передачи ROOT-A10; покрытие всей FUM/FUMA очереди UNKNOWN.",
-  "purpose": "Читаемая публичная проекция состояния и приоритетов для координатора. Не диспетчер, не FIFO и не автоматическая выдача поручений.",
+  "schema": "fum.public.work-priority-queue.v2",
+  "updatedAtUTC": "2026-11-02T20:36:19Z",
+  "scope": "Ограниченный актуальный набор текущего плана ROOT/A10; в записи раздельно показаны выбранные горизонты и их связанные источники. Полнота всей FUM/FUMA и фактический охват всех требований, веток и проектов UNKNOWN; неизвестность не равна нулю.",
+  "purpose": "Публичная Git-память текущего ограниченного плана и состояния источников/потребителей. Реестр не является dispatcher, FIFO, scheduler или доказательством исполнения.",
   "priorityRules": {
     "fastResponseAndLongImplementationAreSeparate": true,
     "ordering": "Явный приоритет допустим только с основанием и источником. Порядок отображения не задаёт очередь исполнения; FIFO и newest-auto-P0 не применяются.",
@@ -516,5 +516,219 @@
       },
       "nextAction": "Не повторять отправку, не делать rebind/takeover и не заменять владельца без нового точного доказательства."
     }
-  ]
+  ],
+  "sourceRevision": {
+    "version": 2,
+    "kind": "Содержательное продолжение ограниченного реестра V1; добавлен общий типизированный контракт совместимости и актуальный overlay пяти уже принятых горизонтов. Старый V1 неизменён в Git-истории.",
+    "previousQueue": {
+      "commit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+      "path": "planirovaniye/очередь-работ.json",
+      "blob": "bacf0897b9997fbbc94f88dc30b2a10ff8afadcd",
+      "bytes": 43998,
+      "sha256": "663033d0ea0f9b7748ced0720f32e0e48f81fca7f90b4543e250281f3709a4e8",
+      "rootDecision": "ROOT сообщает повторное полное чтение и совпадение hash; принят как полезный ограниченный оперативный реестр, а не как универсальная обработка. Покрытие всей FUM/FUMA остаётся UNKNOWN."
+    },
+    "previousPlanSources": [
+      {
+        "commit": "9d0f9922c0140ed990f8be0b1a713c4dc926701b",
+        "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5.json",
+        "sha256": "2d1e7a81c264ef75b74691a006ba262ba9812d3fc3a1ac889c524545b7fabd42",
+        "rootDecision": "ACCEPT_USEFUL_LINKED_ACCEPTED_PLAN_SOURCE; не ROOT intake кейса и не runtime acceptance."
+      },
+      {
+        "commit": "b4cf6fe66a242414ddf5dc03256ccec4c4806d02",
+        "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v2.json",
+        "blob": "b1cf111fea9c567d96389ab8710a758bad7dbf32",
+        "bytes": 7554,
+        "sha256": "8fe0e40292867a12c7aaf66681320ef7447d90068dbbad04c34bac38f22a3ff6",
+        "rootDecision": "ACCEPT_USEFUL_LINKED_PLAN_V2_SOURCE; отдельная проверка A10 совпала по raw bytes, OID, tree, parent и remote. Не ROOT intake, runtime, application или закрытие CASE39."
+      }
+    ],
+    "linkedCurrentPlan": {
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v3.json",
+      "schema": "fum.planirovaniye.operational-plan-linked-source.v3",
+      "compositionChanged": false,
+      "priorityChanged": false
+    },
+    "preservation": "V1 queue, Source-v1, Source-v2 и другие опубликованные коммиты не переписываются; этот overlay не объявляет их интегрированными в master.",
+    "lateInputs": [
+      {
+        "source": "ROOT/A10 late report received before this Source was frozen",
+        "p4Source02": {
+          "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+          "tree": "4a4be6b5cb7e352ba4da33b94eaa9fcd8da1785f",
+          "parent": "cb198b371f2587a75006d58802bab8cce74da15f",
+          "path": "ishodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
+          "bytes": 10504,
+          "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
+          "rootDecision": "ACCEPT_USEFUL_P4_CONCRETE_SOURCE_DELIVERY",
+          "changedFiles": "6 added and 2 modified files reported by ROOT; not independently counted in this Planning worktree."
+        },
+        "limits": "Six concrete journal/file/entry/proof/test source changes reported; prior 18 and new 16 checks NOT_RUN; compiler/CLI/application/moves remain 0; coherent Docs/URI/README/batch plan not ready."
+      }
+    ]
+  },
+  "coverage": {
+    "selectedSet": "Конечный набор связанных текущих пунктов ROOT/A10 и уже назначенных направлений; точный живой набор не выводится из числа задач, active или чатов.",
+    "allFumAndFuma": "UNKNOWN",
+    "allRequirements": "UNKNOWN; полный перебор не выполнялся и здесь не разрешается.",
+    "allBranchesAndMemoryMapping": "UNKNOWN; selected ref set для отдельного аудита не назначен.",
+    "displayOrderIsExecutionOrder": false,
+    "unknownMeansZero": false
+  },
+  "typedWorkCompatibility": {
+    "status": "PARTIAL_FIRST_SLICE",
+    "currentRegistry": "Полезный ограниченный operational register; не универсальный intake, executor, recovery engine или recursive queue runtime.",
+    "commonLifecycle": [
+      "source-and-version",
+      "classify",
+      "queue-with-owner-and-consumer",
+      "operator-or-program-candidate",
+      "checks-and-evidence",
+      "integration",
+      "actual-use-and-origin-feedback"
+    ],
+    "profiles": [
+      {
+        "type": "rule",
+        "purpose": "Проекция существующего канонического реестра правил к применимым enforcer/checker/template; не второй реестр и не новый runtime."
+      },
+      {
+        "type": "requirement",
+        "purpose": "Связать versioned requirement/source, выбранную обработку, owner, disposition, evidence, implementation и feedback."
+      },
+      {
+        "type": "issue",
+        "purpose": "Связать версию issue/source, owner, решение и доказанный outcome без смешения чтения с исполнением."
+      },
+      {
+        "type": "integration",
+        "purpose": "Закрепить source ref/OID, target ref/base, scope, dependencies, readiness, checks, consumer, result и residual."
+      },
+      {
+        "type": "branch-memory-audit",
+        "purpose": "Явно выбрать versioned ref set и mapping rules; различать logical branch path, physical worktree, memory root и identity."
+      },
+      {
+        "type": "automation",
+        "purpose": "Связать повторяемую процедуру с существующей автоматизацией, проверкой, покрытием/UNKNOWN, владельцем и фактическим применением."
+      }
+    ],
+    "kindPolicy": "Один typed-work lifecycle с явным type и точными refs/version; не schema-per-example.",
+    "requiredWorkItemEvidence": [
+      "source ref/OID/version and path",
+      "owner and intended consumer",
+      "selected set and remaining scope",
+      "target ref/base, physical W, writer, checks and effect rights",
+      "dependencies and READY/HELD/UNKNOWN",
+      "trigger",
+      "durable outcome locator",
+      "integration state",
+      "origin feedback and residual"
+    ],
+    "readinessStates": [
+      "READY",
+      "HELD",
+      "UNKNOWN"
+    ],
+    "outcomeSeparation": [
+      "source exists",
+      "branch delivery",
+      "consumer read/use",
+      "integration",
+      "runtime or activation"
+    ],
+    "queueEvolution": "Эволюция и перенос самой очереди — существующая связанная работа P1 с source, owner, acceptance and successor; не отдельный MVP и не gate P3/P4/P5.",
+    "implementationAndCoverage": "Универсальная обработка, recursive queues, recovery, scheduler и actual runtime не доказаны; текущие AGENTS read routes остаются обязательными до отдельно принятого и проверенного замещения.",
+    "reusePolicy": "Повторно использовать общие инварианты и шаблоны; различия доменов закреплять явными различающими проверками. Не выводить универсальность из похожих примеров.",
+    "schemaCompatibility": "V1 item values are preserved; V2 adds top-level descriptive fields. Consumer parser compatibility is NOT_TESTED, and the queue is not an executable API."
+  },
+  "acceptedHorizons": [
+    {
+      "id": "P1-public-queue-index-coverage",
+      "owner": "Planning",
+      "state": "PARTIAL_FIRST_SLICE",
+      "objective": "Вести ограниченную публичную Git-память очереди, выбранный охват, остаток и typed-work совместимость.",
+      "next": "Продолжать существующее обновление по фактическим source/consumer результатам; неизвестное покрытие сохранять явно.",
+      "constraint": "Не новый dispatcher/MVP; отсутствие ряда не означает ноль или завершение."
+    },
+    {
+      "id": "P2-recall-continuation-feedback",
+      "owner": "Planning with existing Requirements producer and assigned Docs consumer",
+      "state": "CASE39_OPEN",
+      "objective": "Связать потерянное продолжение, producer necessity, фактическое применение потребителем, feedback к источнику и последующее self-recall.",
+      "next": "Получить публично устойчивый consumer outcome/origin feedback и наблюдение future self-recall; не закрывать кейс назначением или ACK."
+    },
+    {
+      "id": "P3-A12-store-first-use",
+      "owner": "Existing Tools → Routine with FUMA semantic peer",
+      "state": "SOURCE_ACCEPTED_FIRST_USE_NOT_OBSERVED",
+      "objective": "Продолжить единственный ограниченный A12 маршрут к first-use evidence.",
+      "next": "Existing Tools/Routine completes the exact bounded source-body read; first use, compiler and actual runtime remain separately unobserved/not admitted.",
+      "sourceLinkProposal": {
+        "state": "ROOT_ACCEPTED_AS_DATA",
+        "details": "Concrete source/link proposal exists; ROOT reports 54 source candidates and 6 resources across 6 modules.",
+        "boundedSourceBodyRead": "ASSIGNED_TOOLS_PENDING",
+        "executionAndUse": "UNKNOWN_NOT_ADMITTED"
+      }
+    },
+    {
+      "id": "P4-programmatic-move-integration",
+      "owner": "Existing Tools/Docs owners; ROOT coordinates their assigned boundary",
+      "state": "SOURCE02_ACCEPTED_EXECUTOR_NOT_READY",
+      "objective": "Достичь реального ограниченного programmatic batch move/merge/dedup с корректными ссылками и проверками.",
+      "next": "Preserve accepted Source02; await owner-ready coherent input/manifest and review readiness. Actual move/merge/dedup remains a separate admitted effect.",
+      "latestSource02": {
+        "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+        "tree": "4a4be6b5cb7e352ba4da33b94eaa9fcd8da1785f",
+        "parent": "cb198b371f2587a75006d58802bab8cce74da15f",
+        "path": "ishodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
+        "bytes": 10504,
+        "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
+        "rootDecision": "ACCEPT_USEFUL_P4_CONCRETE_SOURCE_DELIVERY",
+        "checks": "Prior 18 and new 16 tests NOT_RUN; compiler/CLI/application/moves 0; coherent Docs/URI/README/batch plan remains not ready."
+      }
+    },
+    {
+      "id": "P5-thin-common-agent-one-typed-route",
+      "owner": "Existing Tools → Routine; FUMA semantic peer",
+      "state": "SOURCE_WRITTEN_READONLY_DIFF_REPORTED_COMMIT_UNKNOWN",
+      "objective": "Три минимальных public source артефакта для common agent memory + parent/child + одной typed work/result/consumer-feedback route.",
+      "next": "Зафиксировать actual producer source C/path/hash и outcome; child dispatch/start/result и runtime отдельно UNKNOWN.",
+      "producerState": "ROOT reports source written and read-only diff; exact source commit C is UNKNOWN. Child dispatch/start/result and runtime remain unconfirmed.",
+      "nextAction": "Record the exact producer C/path/bytes/hash when supplied; do not infer commit or execution from the read-only diff."
+    }
+  ],
+  "relatedProjects": [
+    {
+      "id": "ROOT-PIPELINE-ARCH-FUM-01",
+      "owner": "Existing Documentation owner, with FUMA semantic peer",
+      "targetPath": "dokumentaciya/конвейеры-и-очереди-FUM.md",
+      "state": "ACTIVE_REPORTED_SOURCE_COMMIT_UNKNOWN",
+      "scope": "Связанный versioned queue/stage contract и ограниченный пилот к текущим A12/P4; целевая траектория FUM prototype → verified FUMA updates → eventual self-maintaining repo memory.",
+      "relationship": "Отдельная Docs/FUM architecture область; не дублирует A12/P5 assignments и не заменяет пять принятых горизонтов.",
+      "runtimeArchiveOrHostCutover": "NOT_AUTHORIZED_OR_CLAIMED"
+    }
+  ],
+  "autonomyAndSourcePolicy": {
+    "autonomyClarification": {
+      "sourceLiteral": "No tebe ne obyazateljno zhdatj ot menya podtverzhdenij, chtobyi prodolzhatj. U nas ogromnoye kolichestvo i sagov, i trebovanij, i ishjyusov, tak?",
+      "provenance": "Human → ROOT → A10 relay; native message ID and event time UNKNOWN.",
+      "effect": "Обычные согласованные bounded next steps выбираются и продолжаются автономно; существенное изменение целей или effect rights требует отдельного решения."
+    },
+    "primaryMemory": "Versioned public queue/plan and exact Git history are the primary project memory. Private grants and terminal receipts may support custody/provenance but are not the sole copy of goals, plan or residual.",
+    "noRightsExpansion": [
+      "no all-ref enumeration",
+      "no all-branch merge",
+      "no mass rename or rebinding",
+      "no foreign worktree write",
+      "no root master push or merge",
+      "no Host/runtime/compiler/test execution unless separately admitted"
+    ]
+  },
+  "previousItemSnapshot": {
+    "sourceCommit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+    "sourceItemCountIsNotCoverage": true,
+    "note": "The items array carries the exact limited V1 records. Newer facts and linked plans are represented in this additive V2 overlay; untouched V1 statuses are not asserted as freshly re-read."
+  }
 }

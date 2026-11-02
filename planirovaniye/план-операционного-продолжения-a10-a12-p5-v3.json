@@ -1,0 +1,287 @@
+{
+  "schema": "fum.planirovaniye.operational-plan-linked-source.v3",
+  "updatedAtUTC": "2026-11-02T20:36:19Z",
+  "revisionKind": "Append-only meaningful P1 queue/plan continuation. Updates the public limited register and links current owner/consumer evidence; does not create an MVP, change the accepted composition, change priority or grant new effects.",
+  "previousSources": {
+    "queueV1": {
+      "commit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+      "path": "planirovaniye/очередь-работ.json",
+      "blob": "bacf0897b9997fbbc94f88dc30b2a10ff8afadcd",
+      "bytes": 43998,
+      "sha256": "663033d0ea0f9b7748ced0720f32e0e48f81fca7f90b4543e250281f3709a4e8",
+      "rootDecision": "ACCEPTED_LIMITED_OPERATIONAL_REGISTER_PARTIAL_FIRST_SLICE"
+    },
+    "sourceV1": {
+      "commit": "9d0f9922c0140ed990f8be0b1a713c4dc926701b",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5.json",
+      "sha256": "2d1e7a81c264ef75b74691a006ba262ba9812d3fc3a1ac889c524545b7fabd42",
+      "rootDecision": "ACCEPT_USEFUL_LINKED_ACCEPTED_PLAN_SOURCE"
+    },
+    "sourceV2": {
+      "commit": "b4cf6fe66a242414ddf5dc03256ccec4c4806d02",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v2.json",
+      "blob": "b1cf111fea9c567d96389ab8710a758bad7dbf32",
+      "bytes": 7554,
+      "sha256": "8fe0e40292867a12c7aaf66681320ef7447d90068dbbad04c34bac38f22a3ff6",
+      "rootDecision": "ACCEPT_USEFUL_LINKED_PLAN_V2_SOURCE"
+    },
+    "queueV2Path": "planirovaniye/очередь-работ.json"
+  },
+  "acceptedComposition": {
+    "baseline": "P1 public typed-work/index/coverage and queue bootstrap; P2 recall/continuation/consumer feedback; P3 A12 first use; P4 programmatic move/integration work; P5 thin common Swift agent and ONE typed route.",
+    "changed": false,
+    "prioritiesChanged": false,
+    "executionOrder": "Display order does not define execution order; existing dependencies, readiness, ownership, resources and triggers govern the next bounded step."
+  },
+  "sourceAndQueueModel": {
+    "compatibility": "PARTIAL_FIRST_SLICE",
+    "existingQueue": "V1 is useful for its bounded selected A10 set, not an exhaustive or universal processing system. V2 adds a compatibility contract and current overlay; all-FUM coverage remains UNKNOWN.",
+    "workItemProfiles": [
+      "rule",
+      "requirement",
+      "issue",
+      "integration",
+      "branch-memory-audit",
+      "automation"
+    ],
+    "profileModel": "One typed lifecycle with explicit kind and exact source/version refs; future kinds use the same core fields rather than one schema per example.",
+    "lifecycle": [
+      "source/version",
+      "classify",
+      "queue with owner and consumer",
+      "operator/program candidate",
+      "tests/evidence",
+      "integration",
+      "actual use and origin feedback"
+    ],
+    "requiredFields": [
+      "selected versioned set",
+      "remaining scope and coverage or UNKNOWN",
+      "owner and consumer",
+      "target ref/base, physical W, writer, checks and effect rights",
+      "dependencies",
+      "READY/HELD/UNKNOWN",
+      "trigger",
+      "durable result locator",
+      "integration state",
+      "origin feedback and residual"
+    ],
+    "branchMemoryAudit": "Future bounded profile only. Before any audit, select exact ref set and snapshot, mapping-rule version, expected logical memory root and observed path/version. Physical path, logical branch path, memory root and identity are separate. No enumeration or mapping run is authorized here.",
+    "ruleAutomation": "A projection of the existing accepted rule inventory: rule ID/version/source → applicability → existing enforcer/checker/template → tests and coverage/UNKNOWN/residual → owner/trigger → actual integrated enforcement and read/applied evidence. It does not duplicate AGENTS or create a second runtime. Existing AGENTS reading/routing remains required until an accepted, tested replacement exists.",
+    "implementationState": "Universal queue execution, recursive queue runtime, recovery scheduler, and full coverage are not proven or claimed.",
+    "reusePolicy": "Reuse common invariants and templates; preserve domain differences with distinguishing checks. Similarity alone does not prove a universal mechanism.",
+    "schemaCompatibility": "V1 item values are preserved; V2 adds descriptive top-level fields. Consumer parser compatibility is NOT_TESTED; this queue is public planning memory, not an executable API."
+  },
+  "autonomyPolicy": {
+    "sourceLiteral": "No tebe ne obyazateljno zhdatj ot menya podtverzhdenij, chtobyi prodolzhatj. U nas ogromnoye kolichestvo i sagov, i trebovanij, i ishjyusov, tak?",
+    "provenance": "Human → ROOT → A10 relay; native message ID and event time UNKNOWN.",
+    "decision": "Continue ordinary agreed backlog work autonomously without a new ROOT/human ticket for each routine checkpoint or own commit. A material goal change, conflict, missing authority, or a new concrete effect right is separate.",
+    "compositionAndRightsChanged": false
+  },
+  "horizons": [
+    {
+      "id": "P1",
+      "name": "Публичная типизированная очередь, индекс, покрытие и её развитие",
+      "state": "PARTIAL_FIRST_SLICE",
+      "owner": "Planning",
+      "currentResult": "Queue V2 supplies a public Git-linked overlay of selected work, compatibility fields, current five-horizon state and explicit residual; it is not universal coverage or a dispatcher.",
+      "nextAction": "Use this public source as the current plan; advance only when an exact new source/result or consumer outcome changes the selected view.",
+      "residual": [
+        "all-FUM/all-requirements/all-ref coverage UNKNOWN",
+        "universal executor and recursive queues not implemented",
+        "queue evolution remains linked bootstrap work"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Память, продолжение, потребительская обратная связь",
+      "state": "CASE39_OPEN",
+      "owner": "Planning links the existing Requirements producer and assigned Docs consumer",
+      "case": "ROOT-A10-LOCAL-AGENTS-LOST-CONTINUATION-01",
+      "source": {
+        "commit": "39b37059c6604e62c6c32bc3a841927672f5c66d",
+        "path": "trebovaniya/utochneniya-avtomatizacii-fuma.json"
+      },
+      "producer": {
+        "commit": "49a91aee9c3cec9a8f7398fe20e98ce00520def5",
+        "path": "Правила/агентов/shablony/agents-yachejki.json",
+        "schema": "fum.шаблон-контекста-агента.6"
+      },
+      "consumerState": "ROOT reports own read and application to local AGENTS; public migration commit and useful feedback remain UNKNOWN.",
+      "acceptedSourceState": "ROOT accepted Source-v2 as a useful linked plan source; this is not case intake, runtime, public migration or closure.",
+      "boundedObservation": "ROOT reports terminal send_message queued-but-not-started followed by one same-owner follow-up that actually resumed. This is one bounded reported case, not a universal Desktop cause or Native Stop repair.",
+      "nextAction": "Record the consumer public outcome and origin feedback when delivered; keep acceptance open until application/use, feedback and future self-recall are observed."
+    },
+    {
+      "id": "P3",
+      "name": "A12 storage and first use",
+      "state": "SOURCE03_ACCEPTED_FIRST_USE_NOT_OBSERVED",
+      "owner": "Existing Tools → Routine with FUMA semantic peer",
+      "source01": {
+        "commit": "fda1eecbcd7942719bc5576cd3eaca7202aeb2c7",
+        "status": "public source for store/adapter/test; nine checks not run"
+      },
+      "source03": {
+        "commit": "d3ac8dc338d3a88f23b3e50a1a077718d64294bb",
+        "parent": "fda1eecbcd7942719bc5576cd3eaca7202aeb2c7",
+        "status": "ROOT accepted caller Source; root-reported raw/OID/tree/parent/remote readback matched"
+      },
+      "observedState": {
+        "actualFirstUse": "NOT_OBSERVED",
+        "compilerRuns": 0,
+        "narrowReads": "NOT_GREEN; retain; do not repeat",
+        "linguisticKitRead": "NOT_ATTEMPTED_CAPABILITY_MISSING; no fallback"
+      },
+      "resources": "ROOT reports metadata for 54 source candidates and 6 resources across 6 declared public C trees; source bodies/materialization/toolchain/SDK remain unverified.",
+      "nextAction": "Existing Tools/Routine completes the exact bounded source-body read; first use, compiler and actual runtime remain separately unobserved/not admitted.",
+      "sourceLinkProposal": {
+        "state": "ROOT_ACCEPTED_AS_DATA",
+        "details": "Concrete source/link proposal exists; ROOT reports 54 source candidates and 6 resources across 6 modules.",
+        "boundedSourceBodyRead": "ASSIGNED_TOOLS_PENDING",
+        "executionAndUse": "UNKNOWN_NOT_ADMITTED"
+      }
+    },
+    {
+      "id": "P4",
+      "name": "Программный перенос и интеграция документации",
+      "state": "SOURCE02_ACCEPTED_EXECUTOR_NOT_READY",
+      "originalGoal": "Ограниченный реальный batch move/merge/dedup с восстановленными ссылками, а не копирование без удаления/переноса исходника.",
+      "source01": {
+        "commit": "cb198b371f2587a75006d58802bab8cce74da15f",
+        "status": "ROOT accepted source; FS executor not ready; 18 checks not run; moves 0"
+      },
+      "source02": {
+        "state": "ACTIVE_REPORTED_SOURCE_C_UNKNOWN",
+        "owner": "Existing Tools and Docs work",
+        "scope": "Concrete journal/filesystem/entrypoint and fixture-test source plus manifest; no source C yet reported."
+      },
+      "consumerEvidence": "ROOT reports Docs own read and 22-match review; this is not proof of deletion or completed programmatic move. Current coherent input payload and remaining inbound links are still open.",
+      "relatedArchitecture": "The Docs pipeline project ROOT-PIPELINE-ARCH-FUM-01 is a linked bounded pilot, not a broad Roam/Naming audit or new renamer.",
+      "nextAction": "Preserve accepted Source02; await owner-ready coherent input/manifest and review readiness. Actual move/merge/dedup remains a separate admitted effect.",
+      "latestSource02": {
+        "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+        "tree": "4a4be6b5cb7e352ba4da33b94eaa9fcd8da1785f",
+        "parent": "cb198b371f2587a75006d58802bab8cce74da15f",
+        "path": "ishodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
+        "bytes": 10504,
+        "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
+        "rootDecision": "ACCEPT_USEFUL_P4_CONCRETE_SOURCE_DELIVERY",
+        "checks": "Prior 18 and new 16 tests NOT_RUN; compiler/CLI/application/moves 0; coherent Docs/URI/README/batch plan remains not ready.",
+        "changedFiles": "6 added and 2 modified files reported by ROOT; not independently counted in this Planning worktree."
+      },
+      "owner": "Existing Tools/Docs owners; ROOT coordinates their assigned boundary"
+    },
+    {
+      "id": "P5",
+      "name": "Тонкий общий агент и один typed route",
+      "state": "SOURCE_WRITTEN_READONLY_DIFF_REPORTED_COMMIT_UNKNOWN",
+      "owner": "Existing Tools → Routine; FUMA semantic peer",
+      "scope": [
+        "own memory within W/ref/writecap",
+        "parent and child refs/consumer",
+        "one typed work → durable result → consumer feedback route",
+        "reuse the accepted A12 segment"
+      ],
+      "expectedPublicFiles": [
+        "ishodniki/zapusk/АгентFUM.swift",
+        "proverki/zapusk/ПроверкиАгентаFUM.swift",
+        "instrumentyi/rantajm-agentov/zhiznennyj-cikl/минимальный-рекурсивный-агент-P5.json"
+      ],
+      "sizeLimitBytes": 16384,
+      "producerState": "ROOT reports source written and read-only diff; exact source commit C is UNKNOWN. Child dispatch/start/result and runtime remain unconfirmed.",
+      "nextAction": "Record the exact producer C/path/bytes/hash when supplied; do not infer commit or execution from the read-only diff.",
+      "exclusions": [
+        "no Package/compiler/test/CLI/store execution in this stage",
+        "no scheduler or all-queues gate",
+        "no expansion of Host/apply effects"
+      ],
+      "readinessGates": [
+        "parent guard for in-flight work, custody and resource READY"
+      ],
+      "integrationObligation": "Source publication/ACK is separate from consumer integration; later evidence must include exact target ref/base, W, writer, checks, effect rights, result and origin feedback."
+    }
+  ],
+  "relatedArchitectureProject": {
+    "id": "ROOT-PIPELINE-ARCH-FUM-01",
+    "owner": "Existing Documentation owner with FUMA semantic peer",
+    "sourceTarget": "dokumentaciya/конвейеры-и-очереди-FUM.md",
+    "sourceCommit": "UNKNOWN",
+    "state": "ACTIVE_REPORTED_SOURCE_C_UNKNOWN",
+    "relation": "Versioned queue/stage contract for a bounded A12/P4 pilot; links the existing FUM→FUMA self-hosting trajectory, not a duplicate A12/P5 project.",
+    "priorArchitecture": {
+      "commit": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+      "path": "dokumentaciya/rabochaya-arkhitektura-fum-fuma.md",
+      "bytes": 72915,
+      "sha256": "b0f8c4e0acd924738b7f3c15ff4006015dbfb8cdc9c00543102609447eff59f1",
+      "sections": [
+        "154–160",
+        "193+"
+      ],
+      "status": "ROOT reported existing legacy FUM→FUMA loading concept; target only, current runtime UNKNOWN."
+    },
+    "nextAction": "Link project source version, owner, bounded first pilot, observable exit criteria and next READY step when Docs returns an actual source C.",
+    "exitCriteria": "Bounded pilot has a versioned source, owner and consumer; the selected move/queue contract has observable checks and a durable result; actual application and feedback are separately evidenced. This is not a present archive or host cutover."
+  },
+  "governance": {
+    "queueV1AndSourcesV1V2Immutable": true,
+    "noPriorityOrCompositionChange": true,
+    "noPrivatePathOrGrantBodyCopied": true,
+    "noAllRefOrForeignTreeEffect": true,
+    "noRootMasterOrRuntimeClaim": true,
+    "publicationAndAcceptanceSeparate": true,
+    "ownGitBranchPrimaryPlanMemory": true
+  },
+  "humanClarifications": [
+    {
+      "id": "AUTONOMY-V32",
+      "topic": "Автономное продолжение согласованного backlog",
+      "literal": "No tebe ne obyazateljno zhdatj ot menya podtverzhdenij, chtobyi prodolzhatj. U nas ogromnoye kolichestvo i sagov, i trebovanij, i ishjyusov, tak?",
+      "provenance": "Human → ROOT → A10 relay; native message ID and event time UNKNOWN.",
+      "decision": "Обычные согласованные шаги продолжаются без отдельного подтверждения; новые цели и конкретные effect rights этим не расширяются."
+    },
+    {
+      "id": "QUEUE-PROFILES-V1",
+      "topic": "Общая очередь для типов работ и её собственное развитие",
+      "literals": [
+        "Vnedryatj ocheredj dlya vsekh etikh i budusjhikh najdennyikh primerov — tozhe sama po sebe ocheredj.",
+        "Yesli vzyatj zadachu na integraciyu vsekh nesmyordzhennyikh vetok — tozhe ocheredj nuzhna. Perebratj vse ili podmnozhestvo trebovanij — tozhe ocheredj nuzhna.",
+        "Pereproveritj vse vetki na predmet nalichiya sootvetstviya puti kazhdoj vetki putyu v pamyati repozitoriya — tozhe ocheredj nuzhna."
+      ],
+      "provenance": "Human → ROOT → A10 relay; native message IDs and event times UNKNOWN.",
+      "decision": "Use the same typed lifecycle for rule, requirement, issue, integration, branch-memory audit and automation profiles; queue evolution is a linked P1 work item. This does not authorize all-ref traversal, all-branch merge or mass rebinding."
+    },
+    {
+      "id": "RULE-PROJECTION-V1",
+      "topic": "Автоматизация правил AGENTS.md через существующую проекцию",
+      "literals": [
+        "Pul pravil AGENTS.md po ideye tozhe dolzhen byitj po suti ocheredjyu na avtomatizaciyu etikh pravil, chtobyi modeli uzhe ne nuzhno byilo ikh chitatj vruchnuyu.",
+        "Odinakovyiye mekhanizmyi i shablonyi pochti na vsyo nakladivayutsya."
+      ],
+      "provenance": "Human → ROOT → A10 relay; native message IDs and event times UNKNOWN.",
+      "decision": "Project the existing canonical rule inventory to applicable enforcers/checkers/templates. Manual AGENTS routes remain active until a tested and accepted replacement; no second runtime."
+    },
+    {
+      "id": "FUM-FUMA-SELF-HOSTING-TARGET-V1",
+      "topic": "Целевая траектория FUM→FUMA и проверяемое self-hosting",
+      "literals": [
+        "Po faktu Codex + FS + Git dayut nam svyazku FUM iz kotoroj sobirayutsya rantajm FUMA iz kotorogo v kakoj-to moment myi smozhem sobratj i obnovlyatj iskhodnyij repozitorij do togo momenta, poka nam samogo chistogo FUMA ne stanet dostatochno, i togda mozhno budet prosto zaarkhivirovatj FUM vnutrj FUMA.",
+        "Obsjhij koncept takov."
+      ],
+      "provenance": "Human → ROOT → A10 relay; native message IDs and event times UNKNOWN.",
+      "decision": "Target trajectory only, linked to the existing FUM/FUMA architecture document; repository archival, host cutover and runtime self-hosting are not current effects."
+    }
+  ],
+  "checkpointAssessment": {
+    "result": "Prepared current meaningful P1 public source revision; the Git commit and remote delivery are independently identified by Git, not self-referenced here.",
+    "localChecks": {
+      "jsonParseAndSelectedSemanticAssertions": "PASSED",
+      "gitDiffCheck": "PASSED",
+      "tests": "NOT_RUN",
+      "compilerOrRuntime": "NOT_PERFORMED"
+    },
+    "consumerAcceptance": "PENDING_FOR_THIS_REVISION",
+    "integrationToFumaOrMaster": "NOT_CLAIMED",
+    "workingActivation": "NOT_CLAIMED",
+    "coverage": "The plan remains PARTIAL_FIRST_SLICE; all-FUM/FUMA and all-ref coverage UNKNOWN."
+  }
+}
