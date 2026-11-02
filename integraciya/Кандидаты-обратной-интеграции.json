@@ -1,0 +1,89 @@
+{
+  "схема": "fum.old-branches-owner-review.v3",
+  "baseOID": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "кандидаты": [
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-perevod-obyyavlenij-koda-na-russkij-yazyik--zhivoj-most",
+      "oid": "8e26101b1bd45108407f935a3388d847d21c28c1",
+      "направление": "Инструменты FUM: план адресного переноса Swift с проверкой ролей",
+      "владелец": "UNRESOLVED; ROOT выбирает живого владельца после проверки чата, профиля и единственного писателя",
+      "полезнаяЧасть": "Tip добавляет план переноса Swift с проверкой ролей и связанные исходники запуска. В диапазоне от merge-base 6999fcb… три коммита, 32 файла, +11354/-4; предметный состав нужно выбрать поштучно.",
+      "поглощение": "UNREVIEWED; база ROOT не является предком tip. Совпадение содержимого с текущей базой не установлено.",
+      "конфликтИЗависимость": "Merge-base 6999fcb256d298302358d1329c2e57fead00a808; относительно него ROOT имеет 292 своих коммита, кандидат — 3. git diff --check на трёхточечном диапазоне отмечает пробельные строки в сохранённом историческом patch.",
+      "следующийШаг": "ROOT назначает владельца для пофайловой сверки трёх новых коммитов и подготовки отдельного адаптированного изменения поверх точной базы; прямое слияние не начинать."
+    },
+    {
+      "ref": "refs/heads/codex/karta-dostavki-agentov-01a17797",
+      "oid": "5ffe8cfb1fe4501740ae8e83a97e513c93a36502",
+      "направление": "FUMA: модели полномочий и STOP, адресные проверки и контрольная точка восстановления",
+      "владелец": "UNRESOLVED; ROOT выбирает живого владельца FUMA после проверки чата, профиля, STOP и единственного писателя",
+      "полезнаяЧасть": "Кандидат содержит модели STOP и полномочий, проверки их границ и сохранённую карту доставки. В диапазоне от merge-base 2f94314… восемь коммитов, 43 файла, +19508/-18; ROOT сначала выбирает нужные файлы и действующие основания.",
+      "поглощение": "UNREVIEWED; база ROOT не является предком tip. Нельзя выводить поглощение или действующее разрешение из сохранённой карты.",
+      "конфликтИЗависимость": "Merge-base 2f94314df3b9880296803c68824c37d1609cea38; относительно него ROOT имеет 416 своих коммитов, кандидат — 8. Точечный diff-check чистый; срок действия оснований и зависимостей не подтверждён.",
+      "следующийШаг": "ROOT назначает владельца для чтения точного STOP-среза и проверки каждого основания; затем владелец предлагает отдельную адаптацию поверх текущей базы. Не запускать STOP-эффекты и не сливать старый tip напрямую."
+    },
+    {
+      "ref": "refs/heads/codex/automatic-known-refusal-response",
+      "oid": "400cbc73aa7ed5d996743bd45a550f0b368a6575",
+      "направление": "FUMA: пилот оператора ответа на известный отказ поставки",
+      "владелец": "UNRESOLVED; ROOT выбирает живого владельца оператора FUMA после проверки чата и зависимостей пакета",
+      "полезнаяЧасть": "Содержит пакет оператора, модель и планировщик ответа, ресурс определения, README, проверки и журнал пилота. Два новых коммита от merge-base 6f61e42… дают шесть файлов и +1019/-1.",
+      "поглощение": "UNREVIEWED; база ROOT не является предком tip. Наличие пакета или тестов в ветке не доказывает их текущую интеграцию либо запуск.",
+      "конфликтИЗависимость": "Merge-base 6f61e429bc1af904a212d4c7f8f392888019dd80; относительно него ROOT имеет 295 своих коммитов, кандидат — 2. Точечный diff-check чистый; актуальность package-зависимостей и владельца не проверена.",
+      "следующийШаг": "ROOT назначает владельца для сверки модели, источника отказа, package-графа и включённых проверок; затем владелец предлагает адаптированный кандидат на текущей базе. Не объявлять пакет принятой частью FUMA."
+    }
+  ],
+  "postSnapshotOutcomes": [
+    {
+      "sourceRef": "refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/master",
+      "sourceOID": "b4f616091240669f550dc45479b8572fe4563c59",
+      "result": "SOURCE_INTEGRATED_IN_ROOT_MASTER",
+      "rootRef": "refs/heads/fum-lab/fum/master",
+      "rootCommit": "df846e7e2889b1ce1b976fb2d366798851b1f87a",
+      "rootTree": "b8973f3b6a0b733bc9e4ca6ba6ddc1215c2e68ff",
+      "rootParents": [
+        "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+        "b4f616091240669f550dc45479b8572fe4563c59"
+      ],
+      "remoteRef": "refs/heads/fum-lab/fum/master",
+      "remoteOID": "df846e7e2889b1ce1b976fb2d366798851b1f87a",
+      "preparedCandidateRef": "refs/heads/fum-lab/fum/integraciya/art-stage-3/master",
+      "preparedCandidateOID": "b182272df6a218d8b5239da83a3ff79d650b3614",
+      "preparedCandidateIsAncestor": false,
+      "rootReceiptBytes": 668,
+      "rootReceiptSHA256": "69c38b7b0f37dccbe8bca5c53eb18c4109640895315ac3b444bdaaa9b9b6041f"
+    },
+    {
+      "sourceRef": "refs/heads/fum-lab/fum/integraciya/partial-issues/master",
+      "sourceOID": "a09c79476d8b764ed1fa833ceefa82a7c5917908",
+      "result": "SOURCE_PARTIALLY_INTEGRATED_IN_ROOT_MASTER",
+      "scope": "partial532:527 R100;3M direct Markdown inputs;2A Journal",
+      "rootRef": "refs/heads/fum-lab/fum/master",
+      "rootCommit": "1f98913ab90dab787445efd0c10b234f238d2fba",
+      "rootTree": "92fbdc3dc1a04af199208c87f5776408ba649951",
+      "rootParents": [
+        "df846e7e2889b1ce1b976fb2d366798851b1f87a",
+        "a09c79476d8b764ed1fa833ceefa82a7c5917908"
+      ],
+      "remoteRef": "refs/heads/fum-lab/fum/master",
+      "remoteOID": "1f98913ab90dab787445efd0c10b234f238d2fba",
+      "rootReceiptBytes": 855,
+      "rootReceiptSHA256": "5a1cddd17863885d676d1fd45c3db6cdc371fd241483645edddba10132afe98e"
+    }
+  ],
+  "postSnapshotDispositions": [
+    {
+      "sourceRef": "refs/heads/codex/D22-перенос-01a09f8d",
+      "sourceOID": "0f456def7758c94caabc506e252ed023befc9afe",
+      "result": "CANCELLED_DO_NOT_REOPEN",
+      "nextStep": "Не возобновлять и не включать в предложения или действия."
+    },
+    {
+      "sourceRef": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-v1",
+      "sourceOID": "3bb4f3c5e6330e3e1f1e290cff522b0f298ab655",
+      "remoteOID": "01c8498eb671a2bbb437211cf63c1c14db63d308",
+      "result": "QUARANTINED_DO_NOT_REVIEW_INTEGRATE_PUBLISH",
+      "nextStep": "Не ревьюить, не интегрировать и не публиковать; не включать в предложения."
+    }
+  ]
+}
