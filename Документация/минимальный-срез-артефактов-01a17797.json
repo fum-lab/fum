@@ -1,0 +1,140 @@
+{
+  "схема": "fum.выбор-утилиты-первого-среза.1",
+  "поручение": "ROOT-A12-SWIFT-TYPED-QUEUE-MVP",
+  "alias": "ROOT-A10-SWIFT-MINIMUM-01",
+  "единственныйИнкремент": true,
+  "состояние": "Utility selected; early own Source checkpoint before code/use. Code/testSOURCE active in Routine; actual use NOT_PROVEN.",
+  "обновленоСаратов": "2026-11-02 18:47:17 +04:00",
+  "зачем": "Первый минимально используемый Swift-срез общих требований: быстрый ответ не теряется, typed QA pair/последующий артефакт передаются долговечно до закрытия source item, pending восстанавливается.",
+  "почемуСейчас": "Прямое Swift-first implementation решение ROOT; capture-first выполнен, новое naming/LOD/AB/Host production caller не gate pure code.",
+  "основания": [
+    {
+      "git": "1fbe135398fd828c78217b3f8276dfb9439d5949:trebovaniya/utochneniya-avtomatizacii-fuma.json",
+      "bytes": 30174,
+      "sha256": "3e0ef90bad4cb1e0408c430c80722c49fb000f165c0ef72fbf23b2e8c9e3dfcd"
+    },
+    {
+      "git": "4154c1b25b903fcd179d1fb5309ef465858e1e34:planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json",
+      "bytes": 9555,
+      "sha256": "c9fa3409bb577528e67ec3f030ede5ca2f1f9221499347f035f250c644b9adc2",
+      "роль": "Точное опубликованное Swift-first решение; отдельное от A11 архитектуры"
+    },
+    {
+      "git": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049:planirovaniye/идея-жизненного-цикла-сообщения.json",
+      "bytes": 2475,
+      "sha256": "a47ab5891bba0ca0d7b22139068f2c97ed9e7c60923c0e51126a96ae5012ab34",
+      "роль": "Frozen capture; исторические CAPTURED/невыдано/unknownTools не отменяют позднее A12"
+    },
+    {
+      "git": "0e7974e3a5e8e1192c20837b5bed5697e2e55fb2:dokumentaciya/blizhajshaya-celevaya-arkhitektura-fum-fuma.md",
+      "sha256": "86bf97ab27fee365ce9c6cbc7ad22c7083ddb641023ceb512621898b7e5918b9",
+      "роль": "A11 Doc — отдельный Source"
+    }
+  ],
+  "существующийКонтур": {
+    "package": "Package.swift; существующий FUMA root package",
+    "модуль": "ОсноваЗапуска",
+    "исходники": "iskhodniki/zapusk",
+    "хранилище": "КонтейнерНаблюдений.Сегмент",
+    "контрактХранилища": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+    "цельПроверок": "ПроверкиЗапуска",
+    "проверки": "proverki/zapusk",
+    "новыйПакетИлиОчередь": false,
+    "новаяПлатформаDispatcherFramework": false,
+    "обязательныйAOT": false
+  },
+  "выборUtility": {
+    "владелецКода": "Existing Routine01a195e5-70bf-7a81-920f-d15df36fc90a under Tools parent01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "семантическийВладелец": "Existing FUMA A0501a1698f-bb98-7691-b1c1-31ec737ed070",
+    "entrypoint": "Новый callable API в существующем ОсноваЗапуска: generic artifact/linked-transfer wrapper над Сегмент; точные Swift symbols закрепляет Routine.",
+    "первыйАдаптер": "Question→provided fast answer→typed QA payload с explicit questionRef и answerRef; Requirement допустим как следующий typed output.",
+    "вход": [
+      "Typed artifact id/occurrence/generation/type",
+      "Exact origin reference/version/SHA",
+      "Parent assignment/version/generation and operator/transition ref",
+      "Provided answer or next typed output, not LLM activation"
+    ],
+    "выход": [
+      "Сохранённый artifact/output/transfer receipt",
+      "Durable linked successor/ref BEFORE source close",
+      "Done+undone/resumption record, known vs unknown effect"
+    ],
+    "семантическийСтык": "One finite agreed contract with FUMA A05; no copy/build of its large private monolith, no duplicate state model. Missing QA/Requirement concrete schemas requested from semantic owner."
+  },
+  "точнаяSourceОбластьRoutine": [
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+    "instrumentyi/rantajm-agentov/zhiznennyj-cikl/минимальный-срез-артефактов-A12.json",
+    "iskhodniki/zapusk/ХранилищеАртефактов.swift",
+    "iskhodniki/zapusk/АдаптерВопросОтвет.swift",
+    "proverki/zapusk/ПроверкиАртефактовРаботы.swift"
+  ],
+  "состояниеВладельцев": {
+    "Tools": {
+      "NativeUUID": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/ustanovitj-stop/master",
+      "base": "cb0d579b42bcd2b09f748023933fb4d10dde0b21",
+      "роль": "Own early public utility-choice/history and parent coordination; child W entirely readonly"
+    },
+    "Routine": {
+      "NativeUUID": "01a195e5-70bf-7a81-920f-d15df36fc90a",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+      "base": "fc6800bd9f08a8e377d5dd84e8d8d74cb3d4a6c9",
+      "ownPlan": "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+      "resultLocator": "instrumentyi/rantajm-agentov/zhiznennyj-cikl/минимальный-срез-артефактов-A12.json",
+      "oldSource4": "Applied/uncommitted/unstaged; protected exact bytes, no replay/stage/commit/reset"
+    },
+    "FUMA": {
+      "роль": "One semantic contract/A05 mediator-messagecell",
+      "публичнаяПамятьИWRef": "UNKNOWN_OWNER_TO_SUPPLY; private Source readiness not public delivery/use"
+    }
+  },
+  "первоеИспользование": {
+    "текущийПоток": "New A12 utility-selection/implementation workflow, not reopening the closed Swift-vs-Python or Issues question",
+    "предложенныйСлучай": "Persist current provided Question/answer as first QA artifact, transfer receipt and linked successor in one owner-controlled local case.",
+    "точнаяГраницаИсполнения": "PENDING_SEPARATE_EXACT_LOCALUSE_SAVE_RESOURCE_EXECUTION_AUTHORITY",
+    "неТребуетсяДляPureCode": "Production Host caller",
+    "неВыводитсяИзИсходников": [
+      "Actual code start",
+      "Tests passed",
+      "Transfer durable",
+      "Recovery correct",
+      "Local use",
+      "Host consumption"
+    ],
+    "проверитьПослеПЕРВОГОActualUse": [
+      "Input→history latency with units/sources/coverage",
+      "Transfer/recovery correctness for same id/generation",
+      "Implementation/integration cost; unmeasured UNKNOWN",
+      "Observed decision Swift vs FUMA/AOT/directFUMA; equal outputs alone not independent proof"
+    ],
+    "review": "После первого реально допущенного local use и события ошибки/результата; без нового timer."
+  },
+  "testSOURCE": [
+    "Stop before/after result and transfer; successor durable before close.",
+    "Duplicate same id/generation gives one output; different bytes conflict.",
+    "Restart restores pending; done+undone retained.",
+    "Unknown/partial effect holds reconciliation, no blind retry.",
+    "One writer/attempt; incomplete tail refuses, no repair.",
+    "QA pair references question and answer; Requirement is next typed output without whole pool."
+  ],
+  "исполнение": {
+    "compiler": "NOT_RUN",
+    "tests": "NOT_RUN",
+    "CLI": "NOT_RUN",
+    "runtime": "NOT_RUN",
+    "Host": "NOT_JOINED",
+    "hooksInstallLeaseLLMActivation": "NONE"
+  },
+  "SourceCheckpoint": {
+    "authorContract": "New stable ROOT procedure accepted; exact reviewed273 Source author capture per distinct checkpoint only, no retroactive cb0d/5c2 exception.",
+    "formatter416": "Exact reviewed existing pure jq program416/SHA16c44df3f423fe0637f76c8b4e702cee223767962adcd221fbfa8f7c9566796b; jq -n once after all SourcepostSHA, provided message/environment unchanged.",
+    "fullProfileN32RootFinal": "UNKNOWN_NOT_GREEN",
+    "actualSourceCodeOutput": "PENDING_ROUTINE",
+    "полезныйРезультатНеРавенRuntimeUse": true
+  },
+  "остаток": [
+    "One finite FUMA semantic schema/version + QA/Requirement types.",
+    "Routine concrete small core/testSOURCE refs in own existing resultlocator.",
+    "Separate exact local-use/testexecution boundary after Source, no inference from readiness."
+  ]
+}
