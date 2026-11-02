@@ -1,6 +1,6 @@
 {
-  "schema": "fum.public.work-priority-queue.v2",
-  "updatedAtUTC": "2026-11-02T20:36:19Z",
+  "schema": "fum.public.work-priority-queue.v3",
+  "updatedAtUTC": "2026-11-02T21:03:50Z",
   "scope": "Ограниченный актуальный набор текущего плана ROOT/A10; в записи раздельно показаны выбранные горизонты и их связанные источники. Полнота всей FUM/FUMA и фактический охват всех требований, веток и проектов UNKNOWN; неизвестность не равна нулю.",
   "purpose": "Публичная Git-память текущего ограниченного плана и состояния источников/потребителей. Реестр не является dispatcher, FIFO, scheduler или доказательством исполнения.",
   "priorityRules": {
@@ -264,7 +264,7 @@
         "relationshipToPriorPair": "Продолжает предыдущую пару о масштабе детализации и общем представлении состояния; три исходных уточнения и три follow-up уточнения остаются в одном связанном LOD/model-state элементе; три новые реплики связаны как следующая ревизия после раннего checkpoint. Отдельного проекта нет.",
         "linkedNextRevisionPendingCheckpoint": {
           "state": "CAPTURED; LINKED_NEXT_REVISION_AFTER_EARLY_CHECKPOINT",
-        "source": "ROOT-relayed finite batch of three human messages; original human message IDs and native offsets UNKNOWN.",
+          "source": "ROOT-relayed finite batch of three human messages; original human message IDs and native offsets UNKNOWN.",
           "messagesInSourceOrder": [
             {
               "literal": "Eto po suti kak yesli uvidetj vsyo mnozheshtvo i boljshe nichego ne smochj sdelatj, libo videtj i upravlyatj lishj chastjyu mnozheshtva, perekhodya v raznyiye sostoyaniya.",
@@ -461,7 +461,7 @@
         {
           "kind": "delegated-status",
           "source": "ROOT/A10 report; no public Source commit provided",
-        "observation": "Actual Host binding/recovery proof UNKNOWN; no publicly pinned current proof is supplied."
+          "observation": "Actual Host binding/recovery proof UNKNOWN; no publicly pinned current proof is supplied."
         }
       ],
       "goal": "Установить допустимое фактическое доказательство Host binding/recovery только при новом точном допуске и корректном владельце.",
@@ -518,15 +518,15 @@
     }
   ],
   "sourceRevision": {
-    "version": 2,
-    "kind": "Содержательное продолжение ограниченного реестра V1; добавлен общий типизированный контракт совместимости и актуальный overlay пяти уже принятых горизонтов. Старый V1 неизменён в Git-истории.",
+    "version": 3,
+    "kind": "Append-only current overlay after delivered P1 queue V2; corrects exact source locators and records owner-reported outcomes and the delivery procedure incident without changing the accepted five-horizon composition or priorities. Includes the latest ROOT-reported A12 lexical read and P4 source correction as attributed evidence, without claiming execution or use.",
     "previousQueue": {
-      "commit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
       "path": "planirovaniye/очередь-работ.json",
-      "blob": "bacf0897b9997fbbc94f88dc30b2a10ff8afadcd",
-      "bytes": 43998,
-      "sha256": "663033d0ea0f9b7748ced0720f32e0e48f81fca7f90b4543e250281f3709a4e8",
-      "rootDecision": "ROOT сообщает повторное полное чтение и совпадение hash; принят как полезный ограниченный оперативный реестр, а не как универсальная обработка. Покрытие всей FUM/FUMA остаётся UNKNOWN."
+      "blob": "46b815397f2068c8bfc7b5cde542e43c4e420798",
+      "bytes": 58788,
+      "sha256": "bcb09927a448d7fdd881ca455b73904cc0e50f0f82973fef67291caaa135ac38",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY"
     },
     "previousPlanSources": [
       {
@@ -545,8 +545,8 @@
       }
     ],
     "linkedCurrentPlan": {
-      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v3.json",
-      "schema": "fum.planirovaniye.operational-plan-linked-source.v3",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v4.json",
+      "schema": "fum.planirovaniye.operational-plan-linked-source.v4",
       "compositionChanged": false,
       "priorityChanged": false
     },
@@ -558,15 +558,95 @@
           "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
           "tree": "4a4be6b5cb7e352ba4da33b94eaa9fcd8da1785f",
           "parent": "cb198b371f2587a75006d58802bab8cce74da15f",
-          "path": "ishodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
+          "path": "iskhodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
           "bytes": 10504,
           "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
           "rootDecision": "ACCEPT_USEFUL_P4_CONCRETE_SOURCE_DELIVERY",
           "changedFiles": "6 added and 2 modified files reported by ROOT; not independently counted in this Planning worktree."
         },
         "limits": "Six concrete journal/file/entry/proof/test source changes reported; prior 18 and new 16 checks NOT_RUN; compiler/CLI/application/moves remain 0; coherent Docs/URI/README/batch plan not ready."
+      },
+      {
+        "source": "ROOT/A10 late input after preparation of this linked draft",
+        "p4SourceFix": {
+          "commit": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d",
+          "parent": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+          "reportedChanges": "3 modified files and 2 test-source additions",
+          "checks": "All 18 checks in the new file NOT_RUN",
+          "consumerResult": {
+            "id": "3376",
+            "hashPrefix": "bc1d536c",
+            "wholeResultHash": "ROOT reports complete hash verification; full value not reproduced in this public source",
+            "independentTargetedReview": "PENDING"
+          },
+          "limitations": "Own ignored-temp namespace correction only; does not establish runtime prevention or applied moves."
+        },
+        "a12SourceRead": {
+          "case": "ROOT-A12-DEPENDENCY-SOURCE-READ-01",
+          "state": "ROOT_REPORTED_COMPLETE_LEXICAL_READ",
+          "sourceSet": {
+            "swiftSources": 54,
+            "publicResources": 6,
+            "totalBytes": 798585,
+            "reads": 1,
+            "gitSha256AndUtf8Pins": "ROOT reports verified"
+          },
+          "candidate": {
+            "sourceFiles": 7,
+            "sourceBytes": 80769,
+            "callerBytes": 3438,
+            "totalBytes": 84207,
+            "dependencies": [
+              "Foundation",
+              "CryptoKit",
+              "Darwin"
+            ],
+            "resourceCallsInSevenLexicallyReadSources": 0
+          },
+          "notEstablished": [
+            "typecheck",
+            "link",
+            "compile",
+            "minimality proof",
+            "first use"
+          ],
+          "admission": "ROOT next finite source selection/admission",
+          "executions": 0
+        }
       }
-    ]
+    ],
+    "previousPlan": {
+      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v3.json",
+      "blob": "be5737efdc39754e6fc39e138ab9bd2ec2b3c559",
+      "bytes": 18310,
+      "sha256": "f86a8bf451540188031f288a94293d83c23990418b6d272acb2d7b1deba677f9"
+    },
+    "p4LocatorCorrection": {
+      "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+      "bytes": 10504,
+      "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
+      "oldPrefix": "ishodniki/",
+      "verifiedPrefix": "iskhodniki/"
+    },
+    "currentDeliveryAndResidual": {
+      "branchRef": "refs/heads/codex/fuma-aot-join-plan-20261027",
+      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+      "acceptance": "ROOT_ACCEPTED_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY",
+      "integrationToFumaOrMaster": "NOT_CLAIMED",
+      "runtimeOrWorkingActivation": "NOT_CLAIMED",
+      "authorContract": "NOT_GREEN_ACTUAL_NATIVE_ATTRIBUTION_NOT_ESTABLISHED",
+      "historyRewritten": false
+    },
+    "provenanceBoundaries": "Source data, source commit, remote branch delivery, consumer outcome and integration/activation are separate evidence stages. Reported parent outcomes are labeled as reported and do not imply independent audit.",
+    "proceduralIncident": {
+      "relatedCommit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "usefulOutcome": "A bounded existing-commit delivery resumed and was confirmed by exact remote OID.",
+      "processOutcome": "Manual author and commit-message preparation were used; native attribution is NOT_ESTABLISHED and author contract remains NOT_GREEN.",
+      "reliability": "This does not establish general Host reliability or a standing author bypass.",
+      "privateInputsCopied": false
+    }
   },
   "coverage": {
     "selectedSet": "Конечный набор связанных текущих пунктов ROOT/A10 и уже назначенных направлений; точный живой набор не выводится из числа задач, active или чатов.",
@@ -574,7 +654,8 @@
     "allRequirements": "UNKNOWN; полный перебор не выполнялся и здесь не разрешается.",
     "allBranchesAndMemoryMapping": "UNKNOWN; selected ref set для отдельного аудита не назначен.",
     "displayOrderIsExecutionOrder": false,
-    "unknownMeansZero": false
+    "unknownMeansZero": false,
+    "lateInputLimits": "The A12 counts and P4 source correction are ROOT-reported bounded observations, not full inventory, runtime evidence or all-FUM coverage."
   },
   "typedWorkCompatibility": {
     "status": "PARTIAL_FIRST_SLICE",
@@ -649,27 +730,61 @@
       "owner": "Planning",
       "state": "PARTIAL_FIRST_SLICE",
       "objective": "Вести ограниченную публичную Git-память очереди, выбранный охват, остаток и typed-work совместимость.",
-      "next": "Продолжать существующее обновление по фактическим source/consumer результатам; неизвестное покрытие сохранять явно.",
-      "constraint": "Не новый dispatcher/MVP; отсутствие ряда не означает ноль или завершение."
+      "next": "Preserve versioned history and continue from checked source/consumer outcomes; keep runtime, global coverage and integration separate.",
+      "constraint": "Не новый dispatcher/MVP; отсутствие ряда не означает ноль или завершение.",
+      "currentResult": "Queue V2 and plan V3 were delivered at exact C 38ee…; ROOT accepted them as useful limited public memory. This update corrects source locators and appends reported outcomes; whole-project coverage remains UNKNOWN."
     },
     {
       "id": "P2-recall-continuation-feedback",
       "owner": "Planning with existing Requirements producer and assigned Docs consumer",
       "state": "CASE39_OPEN",
       "objective": "Связать потерянное продолжение, producer necessity, фактическое применение потребителем, feedback к источнику и последующее self-recall.",
-      "next": "Получить публично устойчивый consumer outcome/origin feedback и наблюдение future self-recall; не закрывать кейс назначением или ACK."
+      "next": "Obtain the distinct durable consumer checkpoint and origin feedback; keep CASE39 open until use and later self-recall are evidenced.",
+      "consumerEvidence": "ROOT reports that useful local AGENTS/first-batch content exists and was applied locally. The Python/consumed-capture route is NOT_GREEN; do not treat it as an accepted durable checkpoint or useful origin feedback. A distinct checkpoint under the standing policy is required; this is a concrete completion condition, not a blanket no-permissions state."
     },
     {
       "id": "P3-A12-store-first-use",
       "owner": "Existing Tools → Routine with FUMA semantic peer",
-      "state": "SOURCE_ACCEPTED_FIRST_USE_NOT_OBSERVED",
+      "state": "SOURCE_READ_COMPLETE_SELECTION_PENDING_FIRST_USE_NOT_ADMITTED",
       "objective": "Продолжить единственный ограниченный A12 маршрут к first-use evidence.",
-      "next": "Existing Tools/Routine completes the exact bounded source-body read; first use, compiler and actual runtime remain separately unobserved/not admitted.",
+      "next": "ROOT performs finite source selection/admission; actual typecheck/link/compile/first use/runtime remain unobserved.",
       "sourceLinkProposal": {
         "state": "ROOT_ACCEPTED_AS_DATA",
         "details": "Concrete source/link proposal exists; ROOT reports 54 source candidates and 6 resources across 6 modules.",
         "boundedSourceBodyRead": "ASSIGNED_TOOLS_PENDING",
         "executionAndUse": "UNKNOWN_NOT_ADMITTED"
+      },
+      "sourceBodyRead": {
+        "case": "ROOT-A12-DEPENDENCY-SOURCE-READ-01",
+        "state": "ROOT_REPORTED_COMPLETE_LEXICAL_READ",
+        "sourceSet": {
+          "swiftSources": 54,
+          "publicResources": 6,
+          "totalBytes": 798585,
+          "reads": 1,
+          "gitSha256AndUtf8Pins": "ROOT reports verified"
+        },
+        "candidate": {
+          "sourceFiles": 7,
+          "sourceBytes": 80769,
+          "callerBytes": 3438,
+          "totalBytes": 84207,
+          "dependencies": [
+            "Foundation",
+            "CryptoKit",
+            "Darwin"
+          ],
+          "resourceCallsInSevenLexicallyReadSources": 0
+        },
+        "notEstablished": [
+          "typecheck",
+          "link",
+          "compile",
+          "minimality proof",
+          "first use"
+        ],
+        "admission": "ROOT next finite source selection/admission",
+        "executions": 0
       }
     },
     {
@@ -677,16 +792,29 @@
       "owner": "Existing Tools/Docs owners; ROOT coordinates their assigned boundary",
       "state": "SOURCE02_ACCEPTED_EXECUTOR_NOT_READY",
       "objective": "Достичь реального ограниченного programmatic batch move/merge/dedup с корректными ссылками и проверками.",
-      "next": "Preserve accepted Source02; await owner-ready coherent input/manifest and review readiness. Actual move/merge/dedup remains a separate admitted effect.",
+      "next": "Preserve accepted Source02 and the bounded namespace correction. Independent targeted consumer review is pending; executor readiness, full URI/batch plan, tests and actual moves remain separate.",
       "latestSource02": {
         "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
         "tree": "4a4be6b5cb7e352ba4da33b94eaa9fcd8da1785f",
         "parent": "cb198b371f2587a75006d58802bab8cce74da15f",
-        "path": "ishodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
+        "path": "iskhodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
         "bytes": 10504,
         "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
         "rootDecision": "ACCEPT_USEFUL_P4_CONCRETE_SOURCE_DELIVERY",
         "checks": "Prior 18 and new 16 tests NOT_RUN; compiler/CLI/application/moves 0; coherent Docs/URI/README/batch plan remains not ready."
+      },
+      "latestSourceFix": {
+        "commit": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d",
+        "parent": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+        "reportedChanges": "3 modified files and 2 test-source additions",
+        "checks": "All 18 checks in the new file NOT_RUN",
+        "consumerResult": {
+          "id": "3376",
+          "hashPrefix": "bc1d536c",
+          "wholeResultHash": "ROOT reports complete hash verification; full value not reproduced in this public source",
+          "independentTargetedReview": "PENDING"
+        },
+        "limitations": "Own ignored-temp namespace correction only; does not establish runtime prevention or applied moves."
       }
     },
     {
@@ -730,5 +858,74 @@
     "sourceCommit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
     "sourceItemCountIsNotCoverage": true,
     "note": "The items array carries the exact limited V1 records. Newer facts and linked plans are represented in this additive V2 overlay; untouched V1 statuses are not asserted as freshly re-read."
+  },
+  "ownerReportedOperationalFollowup": {
+    "source": "ROOT/A10 parent report; not independently audited in this Planning worktree",
+    "p5Correction": {
+      "reported": "Nine prohibited Python processes were corrected; writes reported as zero.",
+      "audit": "NOT_INDEPENDENTLY_AUDITED",
+      "historicalClaim": "Earlier one-call claim retained as append-only history; this report does not erase or reinterpret it.",
+      "sourceCommit": "UNKNOWN",
+      "tests": "UNKNOWN",
+      "consumerUse": "UNKNOWN"
+    },
+    "existingToolsRoutineRepair": {
+      "owner": "Existing Tools → Routine",
+      "state": "ACTIVE_REPORTED",
+      "p1": [
+        "foreign consumer close",
+        "missing durable predecessor/successor before close",
+        "UNKNOWN barrier lost after reopen/reconcile"
+      ],
+      "p2": [
+        "store identity"
+      ],
+      "boundary": "Continue the existing repair; no duplicate repair is created and reporting it does not cancel the five-horizon plan."
+    },
+    "p4SourceFix": {
+      "commit": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d",
+      "parent": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+      "reportedChanges": "3 modified files and 2 test-source additions",
+      "checks": "All 18 checks in the new file NOT_RUN",
+      "consumerResult": {
+        "id": "3376",
+        "hashPrefix": "bc1d536c",
+        "wholeResultHash": "ROOT reports complete hash verification; full value not reproduced in this public source",
+        "independentTargetedReview": "PENDING"
+      },
+      "limitations": "Own ignored-temp namespace correction only; does not establish runtime prevention or applied moves."
+    },
+    "a12SourceRead": {
+      "case": "ROOT-A12-DEPENDENCY-SOURCE-READ-01",
+      "state": "ROOT_REPORTED_COMPLETE_LEXICAL_READ",
+      "sourceSet": {
+        "swiftSources": 54,
+        "publicResources": 6,
+        "totalBytes": 798585,
+        "reads": 1,
+        "gitSha256AndUtf8Pins": "ROOT reports verified"
+      },
+      "candidate": {
+        "sourceFiles": 7,
+        "sourceBytes": 80769,
+        "callerBytes": 3438,
+        "totalBytes": 84207,
+        "dependencies": [
+          "Foundation",
+          "CryptoKit",
+          "Darwin"
+        ],
+        "resourceCallsInSevenLexicallyReadSources": 0
+      },
+      "notEstablished": [
+        "typecheck",
+        "link",
+        "compile",
+        "minimality proof",
+        "first use"
+      ],
+      "admission": "ROOT next finite source selection/admission",
+      "executions": 0
+    }
   }
 }
