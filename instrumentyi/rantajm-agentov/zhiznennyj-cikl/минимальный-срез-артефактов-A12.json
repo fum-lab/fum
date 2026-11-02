@@ -15,7 +15,8 @@
     "resultPaths": [
       "iskhodniki/zapusk/ХранилищеАртефактов.swift",
       "iskhodniki/zapusk/АдаптерВопросОтвет.swift",
-      "proverki/zapusk/ПроверкиАртефактовРаботы.swift"
+      "proverki/zapusk/ПроверкиАртефактовРаботы.swift",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/пример-первого-использования-A12.swift"
     ]
   },
   "sourcePostimages": [
@@ -36,6 +37,12 @@
       "bytes": 35041,
       "sha256": "f6fb545921e23d043a60b65201eca1400bed066ecc0b03361b1141e77acd9551",
       "state": "TESTSOURCE_ONLY; добавлены обе направленности конфликта; тестовый исходник не запускался."
+    },
+    {
+      "path": "instrumentyi/rantajm-agentov/zhiznennyj-cikl/пример-первого-использования-A12.swift",
+      "bytes": 3438,
+      "sha256": "e52839717b09fe86286bc404b3cde1eb5c9f1a4dd517149cfc178ceeb60775f1",
+      "state": "SOURCE_ONLY; standalone пример первого вызова через существующий адаптер; статическая сверка API выполнена; компилятор, тесты, сборка и runtime не запускались."
     }
   ],
   "firstActualUse": {
@@ -134,5 +141,78 @@
     "formatterSHA256": "16c44df3f423fe0637f76c8b4e702cee223767962adcd221fbfa8f7c9566796b",
     "status": "Parent verified named/hash input; not executed.",
     "rule": "Capture source postimage hashes first; do not capture author metadata or commit until parent supplies the exact checkpoint boundary."
+  },
+  "status": "PUBLIC_RESULT_LOCATOR; A05_FINITE_CONTRACT_APPLIED; STORAGE_AND_ADAPTER_SOURCE_WRITTEN; TESTSOURCE_ONLY; CALLER_SOURCE_EXAMPLE_SOURCE_ONLY; API_STATICALLY_REVIEWED; OBJECT_LINKMAP_UNKNOWN; NO_EXECUTION",
+  "callerSource": {
+    "path": "instrumentyi/rantajm-agentov/zhiznennyj-cikl/пример-первого-использования-A12.swift",
+    "bytes": 3438,
+    "sha256": "e52839717b09fe86286bc404b3cde1eb5c9f1a4dd517149cfc178ceeb60775f1",
+    "status": "SOURCE_ONLY; STATIC_API_MATCH; OBJECT_LINKMAP_UNKNOWN; FACTUAL_USE_NOT_CLAIMED",
+    "reviewedAgainstCommit": "fda1eecbcd7942719bc5576cd3eaca7202aeb2c7",
+    "publicAPIFiles": [
+      {
+        "path": "iskhodniki/zapusk/ХранилищеАртефактов.swift",
+        "bytes": 30784,
+        "sha256": "d6263a4426dfbec435fc45481990daae0bb476ecc1238c8afe704fe513731b86"
+      },
+      {
+        "path": "iskhodniki/zapusk/АдаптерВопросОтвет.swift",
+        "bytes": 8362,
+        "sha256": "1b0c4e7eb8ed7760ee37308b957c4c2f8c3492db97895f5c1932bd1ba836cb44"
+      },
+      {
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "bytes": 2663,
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      }
+    ],
+    "publicTypes": [
+      "ЗакреплённаяСсылка",
+      "ВходВопросОтвета",
+      "НагрузкаВопросОтвета",
+      "АдаптерВопросОтвет",
+      "СостояниеПреемника",
+      "ХранилищеАртефактов",
+      "РезультатСохраненияПреемника",
+      "ИсходСохраненияПреемника",
+      "ВосстановленныйПреемник",
+      "Квитанция"
+    ],
+    "publicMethods": [
+      "АдаптерВопросОтвет.init(хранилище:)",
+      "АдаптерВопросОтвет.сохранить(_:)",
+      "ХранилищеАртефактов.init(кореньХранилища:)",
+      "ХранилищеАртефактов.восстановитьПреемника(идентификатор:поколение:как:)"
+    ],
+    "publicOutcomes": [
+      "РезультатСохраненияПреемника.исходНеизвестен(идентификаторЗаписи:sha256:)",
+      "РезультатСохраненияПреемника.подтверждён(артефакт:квитанция:исход:)"
+    ],
+    "receiptFields": [
+      "Квитанция.описание.идентификатор",
+      "Квитанция.размер",
+      "Квитанция.хэш"
+    ],
+    "targetFacts": {
+      "package": "Package.swift",
+      "packageBytes": 5474,
+      "packageSHA256": "0432126b3d1fc613614044deb53c27808e2a3a9c4892852a6ef96ee07f2ba3f0",
+      "swiftTarget": "ОсноваЗапуска",
+      "targetPath": "iskhodniki/zapusk",
+      "exampleIsOutsideAllDeclaredTargetPaths": true,
+      "newPackageTargetOrProductAdded": false
+    },
+    "sourceIncompatibilities": [],
+    "objectLinkMap": {
+      "status": "UNKNOWN",
+      "residual": "Компилятор, сборка и линковщик не запускались по гранту; объектный файл и link map не получены, поэтому исполняемый standalone-образ не подтверждён."
+    },
+    "execution": {
+      "compiler": "NOT_RUN",
+      "tests": "NOT_RUN",
+      "build": "NOT_RUN",
+      "runtime": "NOT_RUN",
+      "actualUse": "NOT_CLAIMED"
+    }
   }
 }
