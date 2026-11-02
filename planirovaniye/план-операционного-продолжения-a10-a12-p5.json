@@ -1,0 +1,157 @@
+{
+  "schema": "fum.planirovaniye.operational-plan-linked-source.v1",
+  "updatedAtUTC": "2026-11-02T16:30:58Z",
+  "revisionKind": "Связанный Source-план, отдельный от принятого execution queue V1; не меняет состав или приоритеты очереди.",
+  "scope": "Связать доставленную очередь V1, публичный кейс потерянного Local AGENTS continuation, рабочее воспоминание обязанностей и уже принятый пункт P5. Это не новая generation, production-задача, runtime-разрешение или пересмотр очереди.",
+  "executionQueueV1": {
+    "commit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+    "parent": "4692afe1e21dc8baccd56c5ea3cfc35429e5d036",
+    "ref": "origin/codex/fuma-aot-join-plan-20261027",
+    "path": "planirovaniye/очередь-работ.json",
+    "blob": "bacf0897b9997fbbc94f88dc30b2a10ff8afadcd",
+    "bytes": 43998,
+    "sha256": "663033d0ea0f9b7748ced0720f32e0e48f81fca7f90b4543e250281f3709a4e8",
+    "rootConsumerDecision": {
+      "decision": "DELIVERED_USEFUL_PUBLIC_QUEUE_V1",
+      "basis": "ROOT/A10 сообщает независимый exact remote OID match и полезность публичной очереди V1.",
+      "scope": "Закрыты доставка очереди V1 и её полезность для ROOT как потребителя.",
+      "doesNotEstablish": [
+        "ROOT intake всей работы",
+        "полный профиль",
+        "NativeStop repair",
+        "реализацию или runtime-поведение любого пункта"
+      ]
+    }
+  },
+  "linkedLocalAgentsCase": {
+    "caseId": "ROOT-A10-LOCAL-AGENTS-LOST-CONTINUATION-01",
+    "caseCommit": "39b37059c6604e62c6c32bc3a841927672f5c66d",
+    "caseRef": "origin/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+    "casePath": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+    "caseBlob": "bc869917b40af56e2b0ec9b2aad8fdded0d6d293",
+    "caseBytes": 37554,
+    "caseSha256": "d2dc31999c82474d9ec4208de30009dbc26068baaec633027ce39b19f4563f95",
+    "caseStatus": "CONFIRMED_LOST_CONTINUATION",
+    "origin": {
+      "commit": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+      "request": {
+        "path": "Журнал/2026-10-25_20-58-33_MSK_принять-частичный-запуск-fuma/запрос.md",
+        "blob": "f9cc140be2a39c1e221ee55e70f16def2195e98e",
+        "bytes": 27551,
+        "sha256": "c9c652e57a84e27f5e3dde97b4bb338c07d2e426d139885c595f3d92c765290d"
+      },
+      "incidentReport": {
+        "path": "Журнал/2026-10-25_20-58-33_MSK_принять-частичный-запуск-fuma/отчёт.md",
+        "blob": "ba47a7414f5fb4ef6fbb6b14999a54dbdb23dd82",
+        "bytes": 67176,
+        "sha256": "5028ebab854ed456219416e860860eb8237be342bab6d79a4e26909b5c865dc6"
+      },
+      "originRole": "Закреплённое происхождение конкретного кейса; причина runtime/Host на этом основании не устанавливается."
+    },
+    "observed": {
+      "expected": "Отложенная карточка возвращается в работу по сохранённым триггеру, владельцу и состоянию без напоминания человека.",
+      "actual": "Карточка вернулась после напоминания человека.",
+      "runtimeCause": "UNKNOWN",
+      "impact": "Нарушена своевременность продолжения одной конкретной работы.",
+      "hostOrGeneralFailure": "НЕ ДОКАЗАНО",
+      "localAgentsObservation": "ROOT сообщил локальное отсутствие AGENTS в пяти проверенных корнях; это не обобщается на весь репозиторий или Host."
+    },
+    "dueProducer": {
+      "owner": "ROOT/A10",
+      "action": "Сверить известное исходное назначение и остаток, сохранить продолжение, потребителя и долговечное свидетельство; отсутствующего producer обозначить GAP_TO_ASSIGN.",
+      "producerIdentity": "UNKNOWN до адресного назначения; этот Source-план нового писателя или child не создаёт.",
+      "sendOrAckClosesObligation": false
+    },
+    "triggerAndReview": {
+      "consumer": "ROOT/A10 в оперативном плане; A12 — связанный будущий источник/проверка.",
+      "sequence": [
+        "deferred",
+        "trigger observed",
+        "READY",
+        "resume by the same owner",
+        "durable result",
+        "feedback to origin without human reminder"
+      ],
+      "repeatTrigger": "Deduplicate.",
+      "unknownEffect": "Не воспроизводить автоматически.",
+      "acceptance": "OPEN — публикация статического Source и доставка очереди не доказывают self-recall; закрытие требует наблюдения всей указанной последовательности."
+    }
+  },
+  "workingRecallProtocol": {
+    "steps": [
+      "Восстановить долговечные обязательства.",
+      "Выбрать известные due, ready, overdue и обязательства с освобождённой зависимостью.",
+      "Для WAIT проверить необходимость, фактическое назначение producer, старт и результат.",
+      "Продолжать тем же владельцем один раз после известного terminal, доступности и custody.",
+      "Сохранить outcome и следующий trigger."
+    ],
+    "constraints": [
+      "UNKNOWN effect не replay.",
+      "Без полного обхода Native, нового scheduler или таймера.",
+      "Показывать last check, due age и actual original resume; неизвестное не считать нулём.",
+      "Существующий FUM4 — только A10 insurance, не гарантия Host."
+    ]
+  },
+  "acceptedPlanPoint5": {
+    "id": "P5-MINIMAL_RECURSIVE_FUM_AGENT_RUNTIME",
+    "status": "ACCEPTED_PLAN_BASELINE",
+    "sourceProvenance": "ROOT-relayed human messages and ROOT decision; native message IDs and offsets were not supplied to this Source capture.",
+    "humanLiterals": [
+      "Nam sejchas pokhodu nuzhno dobitjsya minimaljnogo rantajma FUM na Swift, kotoryij realizuyet susjhnostj agenta FUM s vetkami i pamyatjyu dlya zapisi i roditelsko-docherniye otnosheniya agenta. V korne tozhe on zhe dolzhen i rabotatj. Sutj v tom, chto docherniye agentyi dolzhnyi rabotatj sutj kak kornevoj, no pod rukovodstvom roditelej, a ne menya.",
+      "Nu eto punkt 5 v aktualjnom plane kak raz.",
+      "Priderzhivayemsya etogo plana.",
+      "Tyi ot plana to ne otvlekajsya. Obnovlyatj yego budem toljko yavno i s sovmestnyim soglasiyem. Eto ya poka idei prodolzhayu krutitj, a tyi dolzhen umetj obrabatyivatj eto paralleljno i adresovatj verno raznyim subagentam."
+    ],
+    "target": {
+      "runtime": "Минимальный FUM agent runtime на Swift.",
+      "core": "Один core действует в ролях ROOT, parent и leaf; root mode допускает отсутствие agent parent, child связывает себя с parent.",
+      "agentEntity": [
+        "собственная identity и goal",
+        "own plan и versioned reference к рабочей памяти",
+        "ограниченная запись в root memory и local rules",
+        "parent/children и durable obligations",
+        "result consumer, routing и recovery"
+      ],
+      "agentsMd": "Доступная declarative часть модели; не замена runtime-сущности.",
+      "childBehavior": "Child планирует, сохраняет и делегирует внутри grants; операционные вопросы и результаты идут immediate parent; user input проходит через ROOT только при реальной необходимости."
+    },
+    "implementationBasis": {
+      "A12": "Текущее storage и typed outputs — основание P5.",
+      "scopeLimit": "Не расширять текущие пять paths до полной иерархии до первого source/code use.",
+      "owners": "Существующий Tools-parent и FUMA как semantic peer следующего конечного agent contract/Source implementation в существующих модулях.",
+      "excludedNewSurfaces": [
+        "новый package или framework",
+        "Host adapter",
+        "LLM runtime",
+        "массовая миграция worktrees",
+        "compiler profile",
+        "runtime execution"
+      ],
+      "separateFiniteBoundary": "Создание веток, массовая миграция worktrees, compiler profile и runtime execution требуют своих конечных границ.",
+      "docsAndFumaRelationship": "Документационная миграция остаётся в своей области; FUMA сохраняется semantic peer общего operator core."
+    },
+    "planStabilityDecision": {
+      "rule": "Состав и приоритеты принятого ROOT-плана не меняются автоматически от новых идей или данных. Изменение оформляется как proposed revision и требует явного совместного принятия человеком и ROOT.",
+      "alreadyAgreedWork": "Согласованные шаги, дочерняя декомпозиция, собственные планы внутри назначения и ранние контрольные точки продолжаются без per-commit approval.",
+      "newIdeas": "Capture/deferred либо отдельно разрешённый bounded analysis; не становятся автоматическим P0, production TODO или acceptance gate.",
+      "changeThisSource": false
+    }
+  },
+  "currentLinkedExecution": {
+    "A12": {
+      "statusFromQueueV1": "ASSIGNED",
+      "ToolsParentIntake": "BEGUN_REPORTED_BY_ROOT",
+      "RoutineCodeStart": "UNKNOWN",
+      "actualSourceUse": "UNKNOWN",
+      "runtimeProof": "UNKNOWN"
+    },
+    "documentation": "Сохраняет собственную область и согласованные small batches; не блокируется этим кейсом или P5.",
+    "executionRule": "Продолжать уже согласованные задачи и собственную дочернюю декомпозицию в пределах grants; новое Root-поручение на каждый commit не требуется."
+  },
+  "explicitlyOutsideThisRevision": [
+    "Не изменять и не заменять execution queue V1 или её приоритеты.",
+    "Не добавлять новые идеи ontology, physics, lazy execution, state machines или agent subqueues как production TODO или gate.",
+    "Не создавать новые агенты, проекты, ветки, runtime, код или новые исполнительские полномочия.",
+    "Не считать future self-recall acceptance закрытой до наблюдаемого результата."
+  ]
+}
