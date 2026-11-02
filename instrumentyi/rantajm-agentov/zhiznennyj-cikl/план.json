@@ -34,11 +34,16 @@
     "unknown": "Только новое наблюдение; автоматический повтор запрещён.",
     "доставка": "Только собственный source-коммит и обычная точная доставка собственной ветки после readback атрибуции и diff."
   },
-  "следующиеШаги": [
+  "предыдущиеСледующиеШаги": [
     "Локально внесены add-only B == A проверка и source-aware helper; статический путь stale fixture достигает callback/readback gate.",
     "ACT v2 найден и совпал с конечным составом текущих путей и восстановленным shared-config hash; ROOT outcome сохранён отдельно.",
     "После целевой review сверки получить свежую read-only Author/Committer атрибуцию и использовать per-command env без Git config записи.",
     "Компилятор и Swift tests остаются NOT_RUN до отдельного проверочного допуска; runtime/provider/caller остаются за границей."
+  ],
+  "следующиеШаги": [
+    "Конечный контракт FUMA A05 принят по отдельной квитанции; общее хранилище и адаптер QA/Requirement записаны только в назначенных путях исходников.",
+    "После итоговой сверки хэшей исходников только для чтения передать родителю API и результаты обзора исходников; фактическое использование, закрытие источника и runtime остаются UNKNOWN.",
+    "Не запускать тесты, компилятор, сборку, runtime или CLI; commit/push остаются HOLD до получения от parent точной границы контрольной точки."
   ],
   "sourceCheckpoint": {
     "commit": "fcdf5612bf4c314a4a5e7ec2512d6900f225207e",
@@ -75,7 +80,12 @@
     "validV2SHA256": "7c9e21d03c3c3f6bb6d9ac13259b6ea3b22d1e145b6e669f65c0836d2b3bb5fd",
     "postRepairReadOnlyBytes": 1528,
     "postRepairReadOnlySHA256": "c45a8beb5c7cc40dbdc7b0402adc7cfc8f8108f6462648ac4cf4d81b06dcbcc2",
-    "currentSharedConfig": {"byteLength": 1754, "sha256": "15dfaef158b0d11e008310130fa46ea7511000f63fb7c7628a1ce5ef6a4091e6", "mtimeUTC": "2026-11-01T13:41:46.796Z", "writer": "UNKNOWN; source task did not modify it"},
+    "currentSharedConfig": {
+      "byteLength": 1754,
+      "sha256": "15dfaef158b0d11e008310130fa46ea7511000f63fb7c7628a1ce5ef6a4091e6",
+      "mtimeUTC": "2026-11-01T13:41:46.796Z",
+      "writer": "UNKNOWN; source task did not modify it"
+    },
     "sharedGitConfigWriteForbiddenForThisTask": true,
     "privateReceiptLocators": "Хранятся вне Git и не копируются в публичный план."
   },
@@ -136,7 +146,14 @@
       "readbackAPI": "Новое ПодтверждениеПереоткрытияРабочегоСписка подтверждает identity, canonical bytes/SHA, descriptor binding и exact worklist без выбора next step; старый API остался wrapper с прежним обязательным выбором разрешённого шага.",
       "sharedSegmentPath": "Старый ЦиклЗапуска.выполнить и адресный caller используют единый internal save/add/close/reopen/exact-byte+receipt readback; состояние UNKNOWN/confirmed и квитанция сохраняются при соответствующем исходе.",
       "fixtures": "Добавлены public-caller queued/running/unknown fixtures с единственным недоступным шагом; они проверяют ответ без next ID и затем читают сохранённый конверт из Segment. Существующие exact-repeat и fsync UNKNOWN остаются.",
-      "unchanged": ["Команда.swift", "Package.swift", "ПутьХранилища.подготовить", "CLI", "runtime", "Native"]
+      "unchanged": [
+        "Команда.swift",
+        "Package.swift",
+        "ПутьХранилища.подготовить",
+        "CLI",
+        "runtime",
+        "Native"
+      ]
     },
     "verification": {
       "compiler": "NOT_RUN по точному профилю",
@@ -201,13 +218,208 @@
       "base": "0b2a55d781a31e08662916bf43ab42c2b59237ce",
       "tree": "a0e5fa5ba5bded80dc164f07ed8710ebbccf24ff",
       "paths": [
-        {"path": "iskhodniki/zapusk/ПутьХранилища.swift", "bytes": 4905, "sha256": "0af7013fcdca7427a28bd0a346c1f1c96aa6a5d6cd1209d4bb2a42c4a861adab", "blob": "d9fcba6f28c7a6157ccb954fdb200dfa49df9fac"},
-        {"path": "iskhodniki/zapusk/ЦиклЗапуска.swift", "bytes": 25606, "sha256": "5b6cd03b6c97f03f241824ab8913f0f525a70c63343461a1ba36c8fca6342d12", "blob": "1ad10472087ac4f7ce2e0ba88a6919f75514eeae"},
-        {"path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift", "bytes": 32030, "sha256": "0fdad56292dd4a0ec5dae989f00fb579a79a63a4dfc05ebc5780d266145355d9", "blob": "acdbf64e4d7ffca51e488e6f6e61c31c29b774fc"}
+        {
+          "path": "iskhodniki/zapusk/ПутьХранилища.swift",
+          "bytes": 4905,
+          "sha256": "0af7013fcdca7427a28bd0a346c1f1c96aa6a5d6cd1209d4bb2a42c4a861adab",
+          "blob": "d9fcba6f28c7a6157ccb954fdb200dfa49df9fac"
+        },
+        {
+          "path": "iskhodniki/zapusk/ЦиклЗапуска.swift",
+          "bytes": 25606,
+          "sha256": "5b6cd03b6c97f03f241824ab8913f0f525a70c63343461a1ba36c8fca6342d12",
+          "blob": "1ad10472087ac4f7ce2e0ba88a6919f75514eeae"
+        },
+        {
+          "path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift",
+          "bytes": 32030,
+          "sha256": "0fdad56292dd4a0ec5dae989f00fb579a79a63a4dfc05ebc5780d266145355d9",
+          "blob": "acdbf64e4d7ffca51e488e6f6e61c31c29b774fc"
+        }
       ],
       "boundedDiff": "Добавить fail-closed read-only validation только для уже существующего хранилища (без mkdir/chmod), затем API восстановления по сохранённому operationID: открыть Segment только для чтения, отклонить хвост, проверить тип/schema/source, точные байты/квитанцию и descriptor binding, вернуть immutable saved envelope без append/replay. Добавить fixtures для точного восстановления после нового actor, отсутствующего каталога без создания и повреждённого хвоста без ремонта.",
-      "exclusions": ["Команда.swift/CLI", "Package.swift", "новый storage/target/dispatcher", "runtime", "Native", "сборка и тестовый запуск до отдельного допуска"],
+      "exclusions": [
+        "Команда.swift/CLI",
+        "Package.swift",
+        "новый storage/target/dispatcher",
+        "runtime",
+        "Native",
+        "сборка и тестовый запуск до отдельного допуска"
+      ],
       "requiredNextAuthority": "Новый точный source ACT с pins перечисленных путей; этот work order сам его не выдаёт."
     }
+  },
+  "активноеПоручениеA12": {
+    "идентификатор": "ROOT-A12-SWIFT-TYPED-QUEUE-MVP",
+    "alias": "ROOT-A10-SWIFT-MINIMUM-01",
+    "issuer": "existingTools-parent",
+    "статус": "A05_FINITE_CONTRACT_APPLIED; STORAGE_AND_ADAPTER_SOURCE_WRITTEN; TESTSOURCE_ONLY; NO_EXECUTION",
+    "поколение": 1,
+    "бюджет": "Один generation/residual/output; без второго запуска или отдельного бюджета источника.",
+    "основа": {
+      "commit": "fc6800bd9f08a8e377d5dd84e8d8d74cb3d4a6c9",
+      "tree": "b3aaae43a38f15535b315f1abd3ddd6179cc8552",
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master"
+    },
+    "публичныйLocator": "instrumentyi/rantajm-agentov/zhiznennyj-cikl/минимальный-срез-артефактов-A12.json",
+    "inputRequirement": {
+      "commit": "1fbe135398fd828c78217b3f8276dfb9439d5949",
+      "path": "trebovaniya/utochneniya-avtomatizacii-fuma.json",
+      "bytes": 30174,
+      "sha256": "3e0ef90bad4cb1e0408c430c80722c49fb000f165c0ef72fbf23b2e8c9e3dfcd",
+      "status": "Exact pinned source verified; capture-first satisfied."
+    },
+    "publishedInputs": [
+      {
+        "commit": "caba40ce79a3eb5d4d3d4caa37aeb4cfab93d049",
+        "path": "planirovaniye/идея-жизненного-цикла-сообщения.json",
+        "bytes": 2475,
+        "sha256": "a47ab5891bba0ca0d7b22139068f2c97ed9e7c60923c0e51126a96ae5012ab34",
+        "verification": "Parent exact Git bytes/hash verified."
+      },
+      {
+        "commit": "4154c1b25b903fcd179d1fb5309ef465858e1e34",
+        "path": "planirovaniye/решение-минимального-swift-среза-цикла-сообщений.json",
+        "bytes": 9555,
+        "sha256": "c9fa3409bb577528e67ec3f030ede5ca2f1f9221499347f035f250c644b9adc2",
+        "verification": "Parent exact Git bytes/hash verified; Swift-first scope only."
+      }
+    ],
+    "writePaths": [
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/план.json",
+      "instrumentyi/rantajm-agentov/zhiznennyj-cikl/минимальный-срез-артефактов-A12.json",
+      "iskhodniki/zapusk/ХранилищеАртефактов.swift",
+      "iskhodniki/zapusk/АдаптерВопросОтвет.swift",
+      "proverki/zapusk/ПроверкиАртефактовРаботы.swift"
+    ],
+    "sourcePostimages": [
+      {
+        "path": "iskhodniki/zapusk/ХранилищеАртефактов.swift",
+        "bytes": 30784,
+        "sha256": "d6263a4426dfbec435fc45481990daae0bb476ecc1238c8afe704fe513731b86",
+        "state": "SOURCE_ONLY; межтиповой конфликт проверяется по заголовку и исходной типизированной нагрузке; компилятор, тесты, сборка и runtime не запускались."
+      },
+      {
+        "path": "iskhodniki/zapusk/АдаптерВопросОтвет.swift",
+        "bytes": 8362,
+        "sha256": "1b0c4e7eb8ed7760ee37308b957c4c2f8c3492db97895f5c1932bd1ba836cb44",
+        "state": "SOURCE_ONLY; преобразует конечные входы QA и Requirement; внешние эффекты не запускались."
+      },
+      {
+        "path": "proverki/zapusk/ПроверкиАртефактовРаботы.swift",
+        "bytes": 35041,
+        "sha256": "f6fb545921e23d043a60b65201eca1400bed066ecc0b03361b1141e77acd9551",
+        "state": "TESTSOURCE_ONLY; добавлены обе направленности конфликта; тестовый исходник не запускался."
+      }
+    ],
+    "selectedUtility": {
+      "target": "ОсноваЗапуска",
+      "type": "ХранилищеАртефактов",
+      "entrypoint": "АдаптерВопросОтвет.сохранить / сохранитьТребование",
+      "entrypointChoice": "Публичный типизированный адаптер; общий метод ХранилищеАртефактов.сохранитьПреемника имеет internal-доступ и не позволяет внешней вызывающей стороне обойти типизированное сопоставление ссылок.",
+      "owner": "Routine — существующий модуль ОсноваЗапуска",
+      "input": "Типизированный вход QA по A05 с отдельными questionRef/answerRef либо вход Requirement с requirementRef; каждая ссылка содержит address, pinnedVersion и sha256.",
+      "output": "Типизированный артефакт-преемник и квитанция существующего Segment; результат возвращается после закрытия писателя и точного повторного открытия только для чтения.",
+      "check": "Вызывающая сторона должна заранее создать и синхронизировать корень хранилища; хранилище его не создаёт. Публичная запись выполняется через типизированный адаптер, который строит ссылки payload и originRefs из одних и тех же закреплённых входов; общий метод записи хранилища имеет internal-доступ. Выполняется не более одной попытки добавления; неполный хвост отклоняется. Проверяются размер/SHA-256 квитанции и точные сохранённые байты. Для одинаковых id/generation сравнивается весь декодированный артефакт, включая kind, payload, закреплённые ссылки, состояние и назначение перехода; при полном совпадении повторно используются исходные байты и квитанция, несовпадение удерживается как конфликт. UNKNOWN возвращается для явной сверки, без слепого повтора.",
+      "why": "Сохранять QA-пару или требование с точным происхождением через существующий Segment, не вводя вторую семантическую модель, очередь или runtime.",
+      "reviewAfterFirstActualUse": "После первого фактического использования сверить точную сохранённую квитанцию и наблюдаемое свидетельство потребления; наличие исходника само по себе не доказывает потребление или выполнение в runtime."
+    },
+    "a05Alignment": {
+      "owner": "Действующий владелец семантики FUMA A05",
+      "status": "FINITE_CONTRACT_ACCEPTED_AND_APPLIED_SOURCE_ONLY",
+      "receipt": {
+        "name": "A12-FUMA-finite-semantic-contract-v1.json",
+        "sha256": "091918e84b1a379b695ece88a95f9935d3e54316eafcf8e27788f65004b21f3e",
+        "sourceType": "Семантическое решение агента; не команда человека и не подтверждение фактического выполнения."
+      },
+      "acceptedFields": {
+        "common": [
+          "id",
+          "generation",
+          "kind",
+          "originRefs(address, pinnedVersion, sha256)"
+        ],
+        "questionAnswer": [
+          "questionRef",
+          "answerRef",
+          "обе ссылки также включены в originRefs"
+        ],
+        "requirement": [
+          "requirementRef"
+        ]
+      },
+      "acceptedSemantics": [
+        "Точный повтор сопоставляет одинаковые id/generation, типизированный payload, закреплённые входы и назначение перехода; несовпадение означает HOLD без второго результата.",
+        "После UNKNOWN сначала выполняется сверка; слепой повтор запрещён.",
+        "Исходный шаг разрешено закрыть только после подтверждения устойчивой записи артефакта-преемника с точной квитанцией; заявленной квитанции или порядкового номера недостаточно.",
+        "Завершённый быстрый ответ не означает завершения длинной цепочки."
+      ],
+      "boundary": "Применять только этот конечный контракт; не создавать вторую семантическую модель и не читать большой монолит."
+    },
+    "cleanCloneReview": {
+      "head": "fc6800bd9f08a8e377d5dd84e8d8d74cb3d4a6c9",
+      "status": "SOURCE_API_DEPENDENCIES_MATCH_HEAD; BUILD_UNKNOWN; NO_EXECUTION",
+      "rootValidation": "ХранилищеАртефактов.swift содержит непорождающий обход корня через openat/O_NOFOLLOW, запрещает .git и два или более маркера HEAD/objects/refs, проверяет владельца и режим 0700 конечного каталога; затем Segment повторно открывает путь через API из HEAD.",
+      "trackedPathStorage": {
+        "headBytes": 4905,
+        "headSha256": "0af7013fcdca7427a28bd0a346c1f1c96aa6a5d6cd1209d4bb2a42c4a861adab",
+        "headAPIs": [
+          "static func подготовить"
+        ],
+        "usesUncommittedOldOnlyHelper": false
+      },
+      "trackedDependencies": [
+        "В HEAD в Package.swift объявлена цель ОсноваЗапуска с зависимостью КонтейнерНаблюдений.",
+        "В HEAD КонтейнерНаблюдений определены используемые A12 типы и API: ОписаниеНаблюдения, Квитанция, ОшибкаКонтейнера, ФайловыеОперации, Пределы и Сегмент.init.",
+        "Открытие корня Segment в HEAD проходит компоненты через openat/O_NOFOLLOW и проверяет владельца и режим записи.",
+        "В HEAD ПутьХранилища есть только создающий API подготовить; исходники A12 больше не вызывают незакоммиченную функцию проверитьСуществующее.",
+        "testSOURCE A12 использует только ПутьХранилища.подготовить, присутствующий в HEAD."
+      ],
+      "verificationBoundary": "Проверены исходники и HEAD только для чтения; воспроизводимость сборки чистого клона остаётся UNKNOWN, поскольку компиляция не запускалась."
+    },
+    "requiredBehavior": [
+      "Общий типизированный артефакт с точными originRefs.",
+      "Устойчивость записи артефакта-преемника подтверждается до закрытия исходного шага.",
+      "После перезапуска восстанавливается ожидающая работа; повтор id/generation, включая другой kind, не создаёт вторую запись или выдачу и возвращает конфликт после проверки сохранённого типа.",
+      "Известный исход и UNKNOWN различаются; UNKNOWN удерживается до сверки и никогда не повторяется вслепую.",
+      "Один писатель/попытка; сохраняются завершённое и невыполненное состояния.",
+      "Неполный хвост Segment блокирует операцию без ремонта."
+    ],
+    "oldSource4": {
+      "patchSha256": "7fbbcb43769a41b6e7b08789f01e1b20410878fcdf9feb7e3ce15323d948c60b",
+      "state": "EXACT_SOURCE_ONLY_GRANT_CONFIRMED; patch SHA verified and reverse-check passed; already applied, uncommitted, unstaged, preserve; runtime/actual use UNKNOWN",
+      "paths": [
+        {
+          "path": "iskhodniki/zapusk/ПутьХранилища.swift",
+          "bytes": 8476,
+          "sha256": "556fddf9ab2a74861f47beca08df3411d464c82e0b1de3b6b8cfbcec5b1fec40"
+        },
+        {
+          "path": "iskhodniki/zapusk/ЦиклЗапуска.swift",
+          "bytes": 34770,
+          "sha256": "e6b0afe3616476290af805791fe5765cea01b58c231bd949c3a14d45515aeaf3"
+        },
+        {
+          "path": "iskhodniki/zapusk/Команда.swift",
+          "bytes": 27343,
+          "sha256": "4db13ac6db5d7bd76d3c85ada84e6946fd38db716d2f8b7801be75b29abd1fab"
+        },
+        {
+          "path": "proverki/zapusk/ПроверкиЦиклаЗапуска.swift",
+          "bytes": 41320,
+          "sha256": "37771a2eb79bcc1747d9685efb13fe504b91cac8c69254c1ecd8a2200796957e"
+        }
+      ]
+    },
+    "checkpointGate": {
+      "reviewedAuthorCodeSha256": "3753e3a29328fda1a76cc1769a6498af75be1bf52206a2241d59944c748a66c6",
+      "formatterBytes": 416,
+      "formatterSha256": "16c44df3f423fe0637f76c8b4e702cee223767962adcd221fbfa8f7c9566796b",
+      "formatterState": "Parent named/hash matched; not executed.",
+      "exactFormatterAnd416Locator": "PENDING_POSTSOURCE_POSTIMAGE_CHECKPOINT_BOUNDARY_FROM_PARENT",
+      "commitPush": "HOLD_UNTIL_PARENT_BOUNDARY",
+      "authorAttribution": "Do not capture until every actual new-source postimage SHA is known."
+    },
+    "otherResidual": "Full CABA/A11 locators are requested from ROOT and are not a code gate."
   }
 }
