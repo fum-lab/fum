@@ -6,6 +6,12 @@
     "коммит": "cb198b371f2587a75006d58802bab8cce74da15f",
     "дерево": "7bfbb0a00dd8a87a059c09bb2947f4293a9526bd"
   },
+  "адреснаяПоправкаSource03": {
+    "основание": "P4-62-P2-IGNORED-OWN-TEMP",
+    "коммитДо": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+    "эффект": "проверенный физический состав Docs, включая собственный temp, участвует в namespace независимо от Gitignore; исключается только точно проверенный собственный temp",
+    "проверки": "два новых testSOURCE; оба NOT_RUN; compiler/CLI/application не запускались"
+  },
   "исходники": [
     {
       "путь": "Package.swift",
@@ -19,8 +25,8 @@
     },
     {
       "путь": "iskhodniki/aktualizaciya-putej/adapter-fajlov-dokumentacii.swift",
-      "байт": 46890,
-      "SHA256": "14ee0406f9ca9a41d00e609c07e47ee3bc1f97de73a675d820e67f66efb385c3"
+      "байт": 47117,
+      "SHA256": "84f626e5a75633a3e6b41e37900dd9403293baaa98679e2fca5ade6a6470a433"
     },
     {
       "путь": "iskhodniki/aktualizaciya-putej/adapter-segmenta-dokumentacii.swift",
@@ -39,8 +45,8 @@
     },
     {
       "путь": "proverki/aktualizaciya-putej/proverki-sistemnyikh-adapterov-dokumentacii.swift",
-      "байт": 31526,
-      "SHA256": "0526e5498c277635b6dc162a6dfcc909ceddb956622778be60c5b5fced51f5ee"
+      "байт": 35658,
+      "SHA256": "2389f1bf059a17c1752867124dd5e2af41ad7271a658c5e92e6019651fdd61c1"
     }
   ],
   "PackageИсключение": {
@@ -73,16 +79,18 @@
     "proof": "exact nonURI сегменты/число строк/нормализованные bytes+targets; пересчитанная bijection proof↔coalesce, README отдельное body union; anchors false"
   },
   "testSOURCE": {
-    "новыхФункций": 16,
-    "конкретныхАдаптеров": 14,
+    "новыхФункций": 18,
+    "конкретныхАдаптеров": 16,
     "синтетическихURI": 2,
     "прежнихФункций": 18,
+    "добавленоВSource03": 2,
     "состояние": "все NOT_RUN; статическое review не compiler/test GREEN",
     "различения": [
       "real Segment lock/reopen/intent/failed fsync",
       "tracked/prepared target index/source reserves и partial UNKNOWN",
       "MOVE/terminal replay exact raw index+mode",
       "atomic temp failure сохраняет preimage",
+      "Gitignore *.tmp допускает проверенный собственный atomic payload и удерживает посторонний ignored temp до rename",
       "cleanup failure immediate UNKNOWN и reopen HOLD с known prefix",
       "outside-Git runtime/partial slot/index.lock/physical-mode drift",
       "namespace drift/proof bijection",

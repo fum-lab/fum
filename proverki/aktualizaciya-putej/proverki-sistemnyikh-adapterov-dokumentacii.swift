@@ -206,6 +206,47 @@ struct ПроверкиСистемныхАдаптеровДокументац�
         #expect(try ПакетноеОбъединениеДокументации.применить(пакет, допуск: допуск).исход == .удержано)
     }
 
+    @Test("Gitignore *.tmp не препятствует проверенному собственному atomic payload")
+    func игнорируемыйСобственныйВременныйФайл() throws {
+        let фикстура = try СистемнаяФикстураДокументации(файлы: [
+            ".gitignore": "*.tmp\n", "Документация/a.md": "[b](../Документация/b.md)\n",
+            "Документация/b.md": "# B\n", "dokumentaciya/keep.md": "# Сохранить\n"
+        ])
+        let пакет = try фикстура.пакет(), корень = фикстура.корень
+        #expect(пакет.план.шаги.contains { $0.действие == .заменитьБайты && $0.целевой == "dokumentaciya/a.md" })
+        let префиксИмени = String(хэшПутей(байтыПлана(пакет.план)).prefix(16))
+        let итог = try ПакетноеОбъединениеДокументации.применить(пакет, допуск: фикстура.допуск(пакет), неисправность: { фаза, номер in
+            if фаза == "после-payload-fsync" {
+                let путь = "dokumentaciya/.fum-p4-" + префиксИмени + "-\(номер).tmp"
+                #expect(try ПримитивыДокументации.текстГит(корень, ["check-ignore", "--", путь]) == путь)
+                let видимые = try ПримитивыДокументации.гит(корень, ["ls-files", "--others", "--exclude-standard", "-z"])
+                #expect(!видимые.split(separator: 0).contains { Data($0) == Data(путь.utf8) })
+            }
+        })
+        #expect(итог.исход == .завершено && итог.подтверждённыйПрефикс == пакет.план.шаги.count)
+        #expect(try Data(contentsOf: корень.appendingPathComponent("dokumentaciya/a.md")) == Data("[b](b.md)\n".utf8))
+        #expect(try !FileManager.default.contentsOfDirectory(atPath: корень.appendingPathComponent("dokumentaciya").path).contains { $0.hasSuffix(".tmp") })
+        try фикстура.очиститьПослеИзвестногоУспеха()
+    }
+
+    @Test("Игнорируемый посторонний файл после temp fsync удерживает payload до rename")
+    func игнорируемыйПостороннийВременныйФайл() throws {
+        let фикстура = try СистемнаяФикстураДокументации(файлы: [
+            ".gitignore": "*.tmp\n", "Документация/a.md": "[b](../Документация/b.md)\n",
+            "Документация/b.md": "# B\n", "dokumentaciya/keep.md": "# Сохранить\n"
+        ])
+        let пакет = try фикстура.пакет(), допуск = try фикстура.допуск(пакет)
+        let посторонний = фикстура.корень.appendingPathComponent("dokumentaciya/foreign.tmp")
+        let итог = try ПакетноеОбъединениеДокументации.применить(пакет, допуск: допуск, неисправность: { фаза, _ in
+            if фаза == "после-payload-fsync" { try Data("посторонний файл\n".utf8).write(to: посторонний) }
+        })
+        #expect(итог.исход == .неизвестно)
+        #expect(try Data(contentsOf: фикстура.корень.appendingPathComponent("dokumentaciya/a.md")) == Data("[b](../Документация/b.md)\n".utf8))
+        #expect(try Data(contentsOf: посторонний) == Data("посторонний файл\n".utf8))
+        let повтор = try ПакетноеОбъединениеДокументации.применить(пакет, допуск: допуск)
+        #expect(повтор.исход == .удержано && повтор.подтверждённыйПрефикс == итог.подтверждённыйПрефикс)
+    }
+
     @Test("Cleanup после durable receipt возвращает UNKNOWN с фактическим новым prefix")
     func отказОчисткиПослеReceipt() throws {
         let фикстура = try СистемнаяФикстураДокументации(), пакет = try фикстура.пакет()
