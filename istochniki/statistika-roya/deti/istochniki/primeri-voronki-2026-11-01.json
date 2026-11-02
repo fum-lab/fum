@@ -1,0 +1,110 @@
+{
+  "schema_version": "fum.swarm-funnel-evidence.1",
+  "captured_at_utc": "2026-11-01T10:10:46Z",
+  "accepted_source_transition": {
+    "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "mergeC": "NO_OP_ALREADY_ANCESTOR",
+    "result": "The accepted source C is already an ancestor of this worktree HEAD; no merge or empty commit was needed.",
+    "leftover": "The funnel evidence file remains an untracked source artifact for parent review; no commit or push was made."
+  },
+  "privacy": {
+    "private_thread_ids_omitted": true,
+    "local_paths_omitted": true,
+    "raw_text_omitted": true
+  },
+  "stage_order": [
+    "identified_work",
+    "parent_decision",
+    "executor_ref_worktree",
+    "setup",
+    "rules_access",
+    "first_substantive_step",
+    "source_commit",
+    "delivery",
+    "parent_handling_next_stage"
+  ],
+  "events": [
+    {
+      "case": "Arts C902",
+      "evidence_origin": "reported_by_ROOT",
+      "reported_at": "2026-11-01",
+      "stages": {
+        "identified_work": {"state": "observed", "detail": "The prior finite stage was lawfully completed on 2026-10-26."},
+        "parent_decision": {"state": "observed", "detail": "ROOT reports no subsequent stage was issued through 2026-11-01."},
+        "executor_ref_worktree": {"state": "observed", "detail": "Earlier completed stage had its own executor and source artifact."},
+        "setup": {"state": "observed", "detail": "Earlier stage reached completion."},
+        "rules_access": {"state": "unknown", "detail": "Not established for the Oct 26 finite stage by this report."},
+        "first_substantive_step": {"state": "observed", "detail": "Earlier stage produced a source artifact."},
+        "source_commit": {"state": "observed", "detail": "Earlier delivery reported as commit 902fb62c4fd49ebdc5df168d366c1d21df9ddba8."},
+        "delivery": {"state": "observed", "detail": "Earlier source delivery reported complete."},
+        "parent_handling_next_stage": {"state": "not_issued", "detail": "ROOT reports no next stage was issued by Nov 1 after finite STOP; classify as parent-side continuation gap, not a compute/resource limit."}
+      },
+      "limit_assessment": "No actual limit is reported as preventing the next independent stage; the missing next-stage decision is a reported orchestration gap.",
+      "time_precision": "Dates reported; exact event timestamps unavailable."
+    },
+    {
+      "case": "Arts rules-prerequisite continuation",
+      "evidence_origin": "direct_native_API_observation",
+      "observed_at_utc": "2026-11-01T10:10:46Z",
+      "stages": {
+        "identified_work": {"state": "observed", "detail": "A bounded follow-on assignment was active."},
+        "parent_decision": {"state": "observed", "detail": "A new turn began at 2026-11-01T10:10:21Z."},
+        "executor_ref_worktree": {"state": "unknown", "detail": "No new ref/worktree fact established in this sample."},
+        "setup": {"state": "unknown", "detail": "No setup outcome established in this sample."},
+        "rules_access": {"state": "in_progress", "detail": "The owner stated it was reading current root rules and routing; this directly addresses the prior prerequisite blocker."},
+        "first_substantive_step": {"state": "unknown", "detail": "No result yet in the active turn."},
+        "source_commit": {"state": "unknown"},
+        "delivery": {"state": "unknown"},
+        "parent_handling_next_stage": {"state": "unknown", "detail": "Turn was still in progress at capture."}
+      },
+      "prior_result": {
+        "completed_at_utc": "2026-11-01T10:04:21Z",
+        "duration_ms": 10531,
+        "detail": "Owner reported continuation blocked pending reading the current root rules and routing."
+      },
+      "limit_assessment": "A prerequisite was identified as available and was being read in the new turn; no hard resource limit is evidenced. The earlier short wait alone does not establish unjustified stopping."
+    },
+    {
+      "case": "Tools U3 compiler-slot report",
+      "evidence_origin": "reported_by_ROOT",
+      "reported_at_utc": "2026-11-01T09:50:39Z",
+      "freshness_at_capture": "unknown",
+      "stages": {
+        "identified_work": {"state": "observed", "detail": "U3 was identified as work requiring a compiler slot."},
+        "parent_decision": {"state": "observed", "detail": "ROOT reports U3 did not start based on the capacity report."},
+        "executor_ref_worktree": {"state": "unknown"},
+        "setup": {"state": "blocked_for_compiler_slot", "detail": "Reported load 40.295 with 10 CPU against a limit of 20."},
+        "rules_access": {"state": "unknown"},
+        "first_substantive_step": {"state": "not_started_reported"},
+        "source_commit": {"state": "unknown"},
+        "delivery": {"state": "unknown"},
+        "parent_handling_next_stage": {"state": "unknown"}
+      },
+      "limit_assessment": "Reported capacity limit applies to a compiler slot only. It does not establish a limit on text or read-only work."
+    },
+    {
+      "case": "Arts continuation prerequisite, observed earlier sample",
+      "evidence_origin": "direct_native_API_observation",
+      "observed_at_utc": "2026-11-01T10:04:21Z",
+      "stages": {
+        "identified_work": {"state": "observed"},
+        "parent_decision": {"state": "observed", "detail": "Follow-on stage had been accepted as the current task."},
+        "executor_ref_worktree": {"state": "observed", "detail": "Owner reported current branch and HEAD."},
+        "setup": {"state": "observed", "detail": "Owner reported clean working tree."},
+        "rules_access": {"state": "not_yet_done_reported", "detail": "Owner said required current root file and routing had not yet been read."},
+        "first_substantive_step": {"state": "not_started_reported"},
+        "source_commit": {"state": "unknown"},
+        "delivery": {"state": "unknown"},
+        "parent_handling_next_stage": {"state": "unknown"}
+      },
+      "limit_assessment": "The stated blocker was a rules prerequisite. A subsequent native sample shows active progress reading it; whether time before that was avoidable is not established by the available evidence."
+    }
+  ],
+  "measurement_limits": {
+    "funnel_completeness": "Most transition timestamps for executor assignment, setup, rules completion, first substantive step, and parent next-stage handling are unavailable.",
+    "unknown_policy": "Unknown stages are not counted as zero, failure, or success.",
+    "runtime_system": "These observations do not establish a continuous runtime system.",
+    "tools_native_read": "One oversized Tools turn exceeded native read_thread limits; therefore no direct event reconstruction for that turn is claimed."
+  }
+}

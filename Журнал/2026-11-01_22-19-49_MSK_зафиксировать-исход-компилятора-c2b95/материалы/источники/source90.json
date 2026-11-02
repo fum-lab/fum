@@ -1,0 +1,41 @@
+{
+  "schema": "fum.source90-reported-check-provenance.1",
+  "proposal_id": "source90",
+  "captured_at_utc": "2026-11-01T19:19:49Z",
+  "evidence_mode": "reported",
+  "input_material": {
+    "path": "../входы/C2b-вход.json",
+    "sha256": "21e4b327d753a744a7292b7c84e62604c93f44e53e47764671eff40b19f3a5b3"
+  },
+  "reported_outcome_material": {
+    "path": "../исходы/C2b95-известный-результат.json",
+    "sha256": "8078d109c5910830ac24364ad4f9b27d5ff1df204820e16a1ef37aba43ee347d"
+  },
+  "check": {
+    "subject": "UI compatibility compiler C2b95",
+    "status": "failed",
+    "event_time_utc": "UNKNOWN",
+    "exit_code": 1,
+    "duration_seconds": 20.249,
+    "group": "absent",
+    "unknown_fields": [],
+    "sampled_rss_bytes": 554123264,
+    "reported_diagnostic": "операции: observed; операций: expected"
+  },
+  "separate_source_fix": {
+    "reported": true,
+    "checkpoint_locator": "UNKNOWN",
+    "checkpoint_oid": "UNKNOWN",
+    "tests": "UNKNOWN",
+    "push": "UNKNOWN",
+    "integration": "UNKNOWN",
+    "runtime": "UNKNOWN"
+  },
+  "output_custody": {
+    "reported_generated_item": "build/debug -> out/Products/Debug symlink",
+    "policy": false,
+    "green": false
+  },
+  "retry_policy": "Do not rerun the old C2b95 target. Any future check requires a separate source-fix checkpoint and a new exact grant.",
+  "limits": "This record preserves the reported result only. It does not contain ROOT JSONL or primary process output and does not independently verify the report. Private absolute paths, thread identifiers, tokens, and raw conversation text are omitted."
+}

@@ -1,0 +1,1753 @@
+{
+  "coordinates" : {
+    "columns" : 10,
+    "index_base" : 0,
+    "keycode_space" : "mac_virtual_keycode_from_upstream_Key.swift",
+    "origin" : "top_left",
+    "positions_per_layout" : 30,
+    "rows" : 3,
+    "space_keycode" : 49
+  },
+  "coverage" : {
+    "field_completeness" : "complete_for_fields_listed_in_layer_contract; not a claim of complete keyboard or gesture behavior",
+    "gestures" : "unknown_not_represented_by_extracted_declarations",
+    "layer_contract" : [
+      {
+        "columns" : 10,
+        "id" : "layout_base_character_components",
+        "kind" : "per_layout_keycode_table",
+        "positions_per_layout" : 30,
+        "rows" : 3,
+        "status" : "complete_within_pinned_source"
+      },
+      {
+        "columns" : 10,
+        "id" : "shared_option_character_components",
+        "kind" : "shared_keycode_table",
+        "positions" : 30,
+        "rows" : 3,
+        "status" : "complete_within_pinned_source"
+      },
+      {
+        "id" : "shift_up",
+        "kind" : "component_transition_pairs",
+        "pairs" : 5,
+        "status" : "complete_within_pinned_source"
+      },
+      {
+        "id" : "shift_right",
+        "kind" : "component_transition_pairs",
+        "pairs" : 3,
+        "status" : "complete_within_pinned_source"
+      },
+      {
+        "id" : "space",
+        "keycode" : 49,
+        "kind" : "single_key_assignment",
+        "status" : "complete_within_pinned_source"
+      }
+    ],
+    "layout_tables" : {
+      "columns_per_row" : 10,
+      "component_field" : "CharacterComponent identifier",
+      "layout_count" : 6,
+      "positions_per_layout" : 30,
+      "rows_per_layout" : 3,
+      "status" : "complete_within_pinned_source"
+    },
+    "modifier_combinations_and_event_transitions" : "unknown_not_represented_by_extracted_declarations",
+    "option_keys" : {
+      "columns" : 10,
+      "positions" : 30,
+      "rows" : 3,
+      "status" : "complete_within_pinned_source"
+    },
+    "shift_right" : {
+      "pairs" : 3,
+      "status" : "complete_within_pinned_source"
+    },
+    "shift_up" : {
+      "pairs" : 5,
+      "status" : "complete_within_pinned_source"
+    },
+    "space" : {
+      "separate_from_3x10_layout_rows" : true,
+      "status" : "complete_within_pinned_source"
+    },
+    "unicode_rendering" : "not_provided_by_this_source_package"
+  },
+  "layout_order" : [
+    "qwerty",
+    "dvorak",
+    "colemak",
+    "azerty",
+    "qwertz",
+    "qzerty"
+  ],
+  "layouts" : [
+    {
+      "default_input_source_id" : "com.apple.keylayout.ABC",
+      "id" : "qwerty",
+      "input_source_id_role" : "provenance_only",
+      "keys" : [
+        {
+          "column" : 0,
+          "component" : "q",
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "component" : "w",
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "component" : "e",
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "component" : "r",
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "component" : "t",
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "component" : "y",
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "component" : "u",
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "component" : "i",
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "component" : "o",
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "component" : "p",
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        },
+        {
+          "column" : 0,
+          "component" : "a",
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "component" : "s",
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "component" : "d",
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "component" : "f",
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "component" : "g",
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "component" : "h",
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "component" : "j",
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "component" : "k",
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "component" : "l",
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "component" : "questionMark",
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        },
+        {
+          "column" : 0,
+          "component" : "z",
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "component" : "x",
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "component" : "c",
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "component" : "v",
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "component" : "b",
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "component" : "n",
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "component" : "m",
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "component" : "comma",
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "component" : "fullStop",
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "component" : "hyphen",
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ],
+      "layer_id" : "layout_base_character_components",
+      "name" : "QWERTY",
+      "source_git_blob" : "ff1b63ad67d5a7548e408920500d8bf8464c8669"
+    },
+    {
+      "default_input_source_id" : "com.apple.keylayout.DVORAK-QWERTYCMD",
+      "id" : "dvorak",
+      "input_source_id_role" : "provenance_only",
+      "keys" : [
+        {
+          "column" : 0,
+          "component" : "questionMark",
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "component" : "comma",
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "component" : "fullStop",
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "component" : "p",
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "component" : "y",
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "component" : "f",
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "component" : "g",
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "component" : "c",
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "component" : "r",
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "component" : "l",
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        },
+        {
+          "column" : 0,
+          "component" : "a",
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "component" : "o",
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "component" : "e",
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "component" : "u",
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "component" : "i",
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "component" : "d",
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "component" : "h",
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "component" : "t",
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "component" : "n",
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "component" : "s",
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        },
+        {
+          "column" : 0,
+          "component" : "hyphen",
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "component" : "q",
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "component" : "j",
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "component" : "k",
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "component" : "x",
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "component" : "b",
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "component" : "m",
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "component" : "w",
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "component" : "v",
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "component" : "z",
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ],
+      "layer_id" : "layout_base_character_components",
+      "name" : "Dvorak",
+      "source_git_blob" : "2243d11d66652689bc24b52e367d85575dc5e15c"
+    },
+    {
+      "default_input_source_id" : "com.apple.keylayout.Colemak",
+      "id" : "colemak",
+      "input_source_id_role" : "provenance_only",
+      "keys" : [
+        {
+          "column" : 0,
+          "component" : "q",
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "component" : "w",
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "component" : "f",
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "component" : "p",
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "component" : "g",
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "component" : "j",
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "component" : "l",
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "component" : "u",
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "component" : "y",
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "component" : "hyphen",
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        },
+        {
+          "column" : 0,
+          "component" : "a",
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "component" : "r",
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "component" : "s",
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "component" : "t",
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "component" : "d",
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "component" : "h",
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "component" : "n",
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "component" : "e",
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "component" : "i",
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "component" : "o",
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        },
+        {
+          "column" : 0,
+          "component" : "z",
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "component" : "x",
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "component" : "c",
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "component" : "v",
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "component" : "b",
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "component" : "k",
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "component" : "m",
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "component" : "comma",
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "component" : "fullStop",
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "component" : "questionMark",
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ],
+      "layer_id" : "layout_base_character_components",
+      "name" : "Colemak",
+      "source_git_blob" : "38793d6fd5042ccb20c0b4cbc4ae0aa7162b6d9a"
+    },
+    {
+      "default_input_source_id" : "com.apple.keylayout.ABC-AZERTY",
+      "id" : "azerty",
+      "input_source_id_role" : "provenance_only",
+      "keys" : [
+        {
+          "column" : 0,
+          "component" : "a",
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "component" : "z",
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "component" : "e",
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "component" : "r",
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "component" : "t",
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "component" : "y",
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "component" : "u",
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "component" : "i",
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "component" : "o",
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "component" : "p",
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        },
+        {
+          "column" : 0,
+          "component" : "q",
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "component" : "s",
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "component" : "d",
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "component" : "f",
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "component" : "g",
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "component" : "h",
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "component" : "j",
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "component" : "k",
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "component" : "l",
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "component" : "m",
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        },
+        {
+          "column" : 0,
+          "component" : "w",
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "component" : "x",
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "component" : "c",
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "component" : "v",
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "component" : "b",
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "component" : "n",
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "component" : "comma",
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "component" : "fullStop",
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "component" : "questionMark",
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "component" : "hyphen",
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ],
+      "layer_id" : "layout_base_character_components",
+      "name" : "AZERTY",
+      "source_git_blob" : "4509f2e53bf3d7875af430efc11cfe490ab71b82"
+    },
+    {
+      "default_input_source_id" : "com.apple.keylayout.ABC-QWERTZ",
+      "id" : "qwertz",
+      "input_source_id_role" : "provenance_only",
+      "keys" : [
+        {
+          "column" : 0,
+          "component" : "q",
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "component" : "w",
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "component" : "e",
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "component" : "r",
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "component" : "t",
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "component" : "z",
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "component" : "u",
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "component" : "i",
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "component" : "o",
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "component" : "p",
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        },
+        {
+          "column" : 0,
+          "component" : "a",
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "component" : "s",
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "component" : "d",
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "component" : "f",
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "component" : "g",
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "component" : "h",
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "component" : "j",
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "component" : "k",
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "component" : "l",
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "component" : "questionMark",
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        },
+        {
+          "column" : 0,
+          "component" : "y",
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "component" : "x",
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "component" : "c",
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "component" : "v",
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "component" : "b",
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "component" : "n",
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "component" : "m",
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "component" : "comma",
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "component" : "fullStop",
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "component" : "hyphen",
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ],
+      "layer_id" : "layout_base_character_components",
+      "name" : "QWERTZ",
+      "source_git_blob" : "8aa04f31ddec20796faa16d250311ee4431fc23d"
+    },
+    {
+      "default_input_source_id" : "com.apple.keylayout.Italian",
+      "id" : "qzerty",
+      "input_source_id_role" : "provenance_only",
+      "keys" : [
+        {
+          "column" : 0,
+          "component" : "q",
+          "keycode" : 12,
+          "row" : 0,
+          "source_key" : "q"
+        },
+        {
+          "column" : 1,
+          "component" : "z",
+          "keycode" : 13,
+          "row" : 0,
+          "source_key" : "w"
+        },
+        {
+          "column" : 2,
+          "component" : "e",
+          "keycode" : 14,
+          "row" : 0,
+          "source_key" : "e"
+        },
+        {
+          "column" : 3,
+          "component" : "r",
+          "keycode" : 15,
+          "row" : 0,
+          "source_key" : "r"
+        },
+        {
+          "column" : 4,
+          "component" : "t",
+          "keycode" : 17,
+          "row" : 0,
+          "source_key" : "t"
+        },
+        {
+          "column" : 5,
+          "component" : "y",
+          "keycode" : 16,
+          "row" : 0,
+          "source_key" : "y"
+        },
+        {
+          "column" : 6,
+          "component" : "u",
+          "keycode" : 32,
+          "row" : 0,
+          "source_key" : "u"
+        },
+        {
+          "column" : 7,
+          "component" : "i",
+          "keycode" : 34,
+          "row" : 0,
+          "source_key" : "i"
+        },
+        {
+          "column" : 8,
+          "component" : "o",
+          "keycode" : 31,
+          "row" : 0,
+          "source_key" : "o"
+        },
+        {
+          "column" : 9,
+          "component" : "p",
+          "keycode" : 35,
+          "row" : 0,
+          "source_key" : "p"
+        },
+        {
+          "column" : 0,
+          "component" : "a",
+          "keycode" : 0,
+          "row" : 1,
+          "source_key" : "a"
+        },
+        {
+          "column" : 1,
+          "component" : "s",
+          "keycode" : 1,
+          "row" : 1,
+          "source_key" : "s"
+        },
+        {
+          "column" : 2,
+          "component" : "d",
+          "keycode" : 2,
+          "row" : 1,
+          "source_key" : "d"
+        },
+        {
+          "column" : 3,
+          "component" : "f",
+          "keycode" : 3,
+          "row" : 1,
+          "source_key" : "f"
+        },
+        {
+          "column" : 4,
+          "component" : "g",
+          "keycode" : 5,
+          "row" : 1,
+          "source_key" : "g"
+        },
+        {
+          "column" : 5,
+          "component" : "h",
+          "keycode" : 4,
+          "row" : 1,
+          "source_key" : "h"
+        },
+        {
+          "column" : 6,
+          "component" : "j",
+          "keycode" : 38,
+          "row" : 1,
+          "source_key" : "j"
+        },
+        {
+          "column" : 7,
+          "component" : "k",
+          "keycode" : 40,
+          "row" : 1,
+          "source_key" : "k"
+        },
+        {
+          "column" : 8,
+          "component" : "l",
+          "keycode" : 37,
+          "row" : 1,
+          "source_key" : "l"
+        },
+        {
+          "column" : 9,
+          "component" : "questionMark",
+          "keycode" : 41,
+          "row" : 1,
+          "source_key" : "semicolon"
+        },
+        {
+          "column" : 0,
+          "component" : "w",
+          "keycode" : 6,
+          "row" : 2,
+          "source_key" : "z"
+        },
+        {
+          "column" : 1,
+          "component" : "x",
+          "keycode" : 7,
+          "row" : 2,
+          "source_key" : "x"
+        },
+        {
+          "column" : 2,
+          "component" : "c",
+          "keycode" : 8,
+          "row" : 2,
+          "source_key" : "c"
+        },
+        {
+          "column" : 3,
+          "component" : "v",
+          "keycode" : 9,
+          "row" : 2,
+          "source_key" : "v"
+        },
+        {
+          "column" : 4,
+          "component" : "b",
+          "keycode" : 11,
+          "row" : 2,
+          "source_key" : "b"
+        },
+        {
+          "column" : 5,
+          "component" : "n",
+          "keycode" : 45,
+          "row" : 2,
+          "source_key" : "n"
+        },
+        {
+          "column" : 6,
+          "component" : "m",
+          "keycode" : 46,
+          "row" : 2,
+          "source_key" : "m"
+        },
+        {
+          "column" : 7,
+          "component" : "comma",
+          "keycode" : 43,
+          "row" : 2,
+          "source_key" : "comma"
+        },
+        {
+          "column" : 8,
+          "component" : "fullStop",
+          "keycode" : 47,
+          "row" : 2,
+          "source_key" : "fullStop"
+        },
+        {
+          "column" : 9,
+          "component" : "hyphen",
+          "keycode" : 44,
+          "row" : 2,
+          "source_key" : "solidus"
+        }
+      ],
+      "layer_id" : "layout_base_character_components",
+      "name" : "QZERTY",
+      "source_git_blob" : "e1f8363f85667a02b0c733e31fd90118bdfa2a2d"
+    }
+  ],
+  "schema" : "fum.keyboard-layout-component-tables.1",
+  "shared_components" : {
+    "option_keys" : [
+      {
+        "column" : 0,
+        "component" : "asterisk",
+        "keycode" : 12,
+        "row" : 0,
+        "source_key" : "q"
+      },
+      {
+        "column" : 1,
+        "component" : "apostrophe",
+        "keycode" : 13,
+        "row" : 0,
+        "source_key" : "w"
+      },
+      {
+        "column" : 2,
+        "component" : "ampersand",
+        "keycode" : 14,
+        "row" : 0,
+        "source_key" : "e"
+      },
+      {
+        "column" : 3,
+        "component" : "verticalLine",
+        "keycode" : 15,
+        "row" : 0,
+        "source_key" : "r"
+      },
+      {
+        "column" : 4,
+        "component" : "tilde",
+        "keycode" : 17,
+        "row" : 0,
+        "source_key" : "t"
+      },
+      {
+        "column" : 5,
+        "component" : "divisionSign",
+        "keycode" : 16,
+        "row" : 0,
+        "source_key" : "y"
+      },
+      {
+        "column" : 6,
+        "component" : "seven",
+        "keycode" : 32,
+        "row" : 0,
+        "source_key" : "u"
+      },
+      {
+        "column" : 7,
+        "component" : "eight",
+        "keycode" : 34,
+        "row" : 0,
+        "source_key" : "i"
+      },
+      {
+        "column" : 8,
+        "component" : "nine",
+        "keycode" : 31,
+        "row" : 0,
+        "source_key" : "o"
+      },
+      {
+        "column" : 9,
+        "component" : "minusSign",
+        "keycode" : 35,
+        "row" : 0,
+        "source_key" : "p"
+      },
+      {
+        "column" : 0,
+        "component" : "commercialAt",
+        "keycode" : 0,
+        "row" : 1,
+        "source_key" : "a"
+      },
+      {
+        "column" : 1,
+        "component" : "numberSign",
+        "keycode" : 1,
+        "row" : 1,
+        "source_key" : "s"
+      },
+      {
+        "column" : 2,
+        "component" : "dollarSign",
+        "keycode" : 2,
+        "row" : 1,
+        "source_key" : "d"
+      },
+      {
+        "column" : 3,
+        "component" : "percentSign",
+        "keycode" : 3,
+        "row" : 1,
+        "source_key" : "f"
+      },
+      {
+        "column" : 4,
+        "component" : "caret",
+        "keycode" : 5,
+        "row" : 1,
+        "source_key" : "g"
+      },
+      {
+        "column" : 5,
+        "component" : "multiplicationSign",
+        "keycode" : 4,
+        "row" : 1,
+        "source_key" : "h"
+      },
+      {
+        "column" : 6,
+        "component" : "four",
+        "keycode" : 38,
+        "row" : 1,
+        "source_key" : "j"
+      },
+      {
+        "column" : 7,
+        "component" : "five",
+        "keycode" : 40,
+        "row" : 1,
+        "source_key" : "k"
+      },
+      {
+        "column" : 8,
+        "component" : "six",
+        "keycode" : 37,
+        "row" : 1,
+        "source_key" : "l"
+      },
+      {
+        "column" : 9,
+        "component" : "plusSign",
+        "keycode" : 41,
+        "row" : 1,
+        "source_key" : "semicolon"
+      },
+      {
+        "column" : 0,
+        "component" : "curlyBracket",
+        "keycode" : 6,
+        "row" : 2,
+        "source_key" : "z"
+      },
+      {
+        "column" : 1,
+        "component" : "squareBracket",
+        "keycode" : 7,
+        "row" : 2,
+        "source_key" : "x"
+      },
+      {
+        "column" : 2,
+        "component" : "leftParenthesis",
+        "keycode" : 8,
+        "row" : 2,
+        "source_key" : "c"
+      },
+      {
+        "column" : 3,
+        "component" : "lessThanSign",
+        "keycode" : 9,
+        "row" : 2,
+        "source_key" : "v"
+      },
+      {
+        "column" : 4,
+        "component" : "solidus",
+        "keycode" : 11,
+        "row" : 2,
+        "source_key" : "b"
+      },
+      {
+        "column" : 5,
+        "component" : "zero",
+        "keycode" : 45,
+        "row" : 2,
+        "source_key" : "n"
+      },
+      {
+        "column" : 6,
+        "component" : "one",
+        "keycode" : 46,
+        "row" : 2,
+        "source_key" : "m"
+      },
+      {
+        "column" : 7,
+        "component" : "two",
+        "keycode" : 43,
+        "row" : 2,
+        "source_key" : "comma"
+      },
+      {
+        "column" : 8,
+        "component" : "three",
+        "keycode" : 47,
+        "row" : 2,
+        "source_key" : "fullStop"
+      },
+      {
+        "column" : 9,
+        "component" : "equalsSign",
+        "keycode" : 44,
+        "row" : 2,
+        "source_key" : "solidus"
+      }
+    ],
+    "option_layer_id" : "shared_option_character_components",
+    "shift_right" : [
+      {
+        "from" : "lessThanSign",
+        "to" : "greaterThanSign"
+      },
+      {
+        "from" : "leftParenthesis",
+        "to" : "rightParenthesis"
+      },
+      {
+        "from" : "commercialAt",
+        "to" : "degree"
+      }
+    ],
+    "shift_right_reversed" : [
+      {
+        "from" : "greaterThanSign",
+        "to" : "lessThanSign"
+      },
+      {
+        "from" : "rightParenthesis",
+        "to" : "leftParenthesis"
+      },
+      {
+        "from" : "degree",
+        "to" : "commercialAt"
+      }
+    ],
+    "shift_up" : [
+      {
+        "from" : "fullStop",
+        "to" : "colon"
+      },
+      {
+        "from" : "comma",
+        "to" : "semicolon"
+      },
+      {
+        "from" : "questionMark",
+        "to" : "exclamationMark"
+      },
+      {
+        "from" : "apostrophe",
+        "to" : "quotationMark"
+      },
+      {
+        "from" : "hyphen",
+        "to" : "lowLine"
+      }
+    ]
+  },
+  "source" : {
+    "commit" : "7495174d91571f98e75db4e615da8a3799868f2e",
+    "files" : [
+      {
+        "byte_count" : 3512,
+        "git_blob" : "1f5e6e0451e318900fea8095852c45e7aabc49ae",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayout.swift",
+        "role" : "common-layout-model",
+        "sha256" : "fd2b122a2c7bc0eeaa2f780f03656976dbf45f54e67b5915220a18c4105899ff"
+      },
+      {
+        "byte_count" : 9791,
+        "git_blob" : "8f5b579c243647927491d5bbebb69ebc1b7384da",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/Key.swift",
+        "role" : "physical-keyboard-grid-and-keycodes",
+        "sha256" : "70b1ce25c48e78b98fbe02c8011e98f37650a7730f087d5b629d9dfd658f4018"
+      },
+      {
+        "byte_count" : 288,
+        "git_blob" : "49c053d1aaf344d656891e11740a6b5b797e22e3",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.allLayouts.swift",
+        "role" : "ordered-layout-list",
+        "sha256" : "e3b6d7db124e9eb8d62fca0cab924e04bc29b472f5657c2af0b40274550d17bc"
+      },
+      {
+        "byte_count" : 500,
+        "git_blob" : "ff1b63ad67d5a7548e408920500d8bf8464c8669",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qwerty.swift",
+        "role" : "layout-components",
+        "sha256" : "d51afb406a75974713e75fa80cbdd3eb3826b5ec4b6cb8ae77e89de45a5a5c6e"
+      },
+      {
+        "byte_count" : 523,
+        "git_blob" : "2243d11d66652689bc24b52e367d85575dc5e15c",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.dvorak.swift",
+        "role" : "layout-components",
+        "sha256" : "372fea06e1c5c15618e080cd17cbb8e916a0aee4b59bfe89e64a49a2a49dac1b"
+      },
+      {
+        "byte_count" : 517,
+        "git_blob" : "38793d6fd5042ccb20c0b4cbc4ae0aa7162b6d9a",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.colemak.swift",
+        "role" : "layout-components",
+        "sha256" : "5434ab8970aa329b2b07a6c8fb0a8d4f1f40b6d987e01a6f4d0f2b31ff210e99"
+      },
+      {
+        "byte_count" : 532,
+        "git_blob" : "4509f2e53bf3d7875af430efc11cfe490ab71b82",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.azerty.swift",
+        "role" : "layout-components",
+        "sha256" : "2cb8121f650daaa3434bef8e789d61e649c56a5fc28dee478d4208b0a89fee3f"
+      },
+      {
+        "byte_count" : 517,
+        "git_blob" : "8aa04f31ddec20796faa16d250311ee4431fc23d",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qwertz.swift",
+        "role" : "layout-components",
+        "sha256" : "350c2362332d085bb6fe767d425d497fdcd01c0ca6eb4b19ba7508512072a166"
+      },
+      {
+        "byte_count" : 514,
+        "git_blob" : "e1f8363f85667a02b0c733e31fd90118bdfa2a2d",
+        "repository_path" : "KeyboardModule\/Sources\/KeyboardModule\/KeyboardLayouts\/KeyboardLayout.qzerty.swift",
+        "role" : "layout-components",
+        "sha256" : "078586c36c6ced3bc6f524fec3f67a4dba28ff33c08033e85992e4d11cdd41bb"
+      }
+    ],
+    "observed_on" : "2026-11-01",
+    "observed_ref" : "refs\/heads\/main",
+    "repository_url" : "https:\/\/github.com\/Roman-Kerimov\/Keyboard",
+    "root_primary_capture_receipt" : {
+      "byte_count" : 6244,
+      "path" : "P\/keyboard-primary-pins-20261101T130704Z.json",
+      "sha256" : "e0bb5b505d2958ac6dc93732a1fd9fde1c992aa4b6e26ae2c9ba9c532d5f709c",
+      "verification_attribution" : "ROOT reported byte-exact Git blob agreement for the ten primary source files; receipt bytes were not reread in this writer worktree."
+    },
+    "tree" : "a2f7c5cf84cfa446b3243aa6952ca28f6f7acf2e"
+  }
+}

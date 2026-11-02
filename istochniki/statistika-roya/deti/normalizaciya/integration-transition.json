@@ -1,0 +1,28 @@
+{
+  "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "mergeC": "NO_OP_ALREADY_ANCESTOR",
+  "result": "Current HEAD 8b276b354b661592a41915f185795a00acaff9b already descends from toC; no merge commit is needed.",
+  "leftover": [
+    "istochniki/statistika-roya/deti/normalizaciya/schema.v2.json"
+  ],
+  "rules_tooling": {
+    "accepted_source_commit": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "accepted_root_rules_read": true,
+    "applied_scope": [
+      "mandatory routing for source/schema change",
+      "explicit bounded source-only grant and its limits under rule N32"
+    ],
+    "git": {
+      "available": true,
+      "version": "2.54.0 (Apple Git-157)"
+    },
+    "jq": {
+      "available": true,
+      "version": "jq-1.7.1-apple",
+      "json_parse_check_passed": true
+    },
+    "foreign_worktree_state_modified": false,
+    "commit_or_push_performed": false
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "fum.source-child-object-final-readback.1",
+  "captured_at_utc": "2026-11-01T10:36:16Z",
+  "correction_mode": "append_only; earlier malformed and incorrect attempted corrections are retained",
+  "corrects_previous_correction": {
+    "incorrect_claimed_full_head": "8b276b354b661592a41915f185795a00acaff9b0",
+    "exact_cat_file_type_result": "not_found",
+    "exit_code": 128,
+    "correct_full_head_from_raw_ref_readback": "8b276b354b661592a41915f18571eaf55e85ba0a",
+    "object_type": "commit",
+    "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+    "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+  },
+  "children": [
+    {
+      "zone": "sources",
+      "fullref": "refs/heads/fum-lab/fum/istochniki/roiy-istochniki/master",
+      "head": "8b276b354b661592a41915f18571eaf55e85ba0a",
+      "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+      "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "cat_file_type": "commit",
+      "accepted_C_ancestor": true,
+      "ancestry_exit_code": 0,
+      "session_type": "completed collaboration agent; not a native Codex chat"
+    },
+    {
+      "zone": "normalization",
+      "fullref": "refs/heads/fum-lab/fum/istochniki/roiy-normalizaciya/master",
+      "head": "8b276b354b661592a41915f18571eaf55e85ba0a",
+      "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+      "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "cat_file_type": "commit",
+      "accepted_C_ancestor": true,
+      "ancestry_exit_code": 0,
+      "session_type": "completed collaboration agent; not a native Codex chat"
+    },
+    {
+      "zone": "analysis",
+      "fullref": "refs/heads/fum-lab/fum/istochniki/roiy-analiz/master",
+      "head": "8b276b354b661592a41915f18571eaf55e85ba0a",
+      "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+      "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "cat_file_type": "commit",
+      "accepted_C_ancestor": true,
+      "ancestry_exit_code": 0,
+      "session_type": "completed collaboration agent; not a native Codex chat"
+    }
+  ],
+  "git_provenance": {
+    "common_git_base": "same common repository as the root-verified checkout; exact local W and GitDir mapping is private",
+    "root_checked_actual_child_object_type": "commit",
+    "root_checked_source_65e292c9_object_type": "commit",
+    "different_git_base_observed": false,
+    "fetch_or_new_session_used": false
+  },
+  "identity_boundary": {
+    "native_codex_child_chat_created": false,
+    "native_thread_id": "UNKNOWN_NOT_CREATED",
+    "collaboration_executions_are_permanent_nodes": false,
+    "persistent_swarm_growth_proven": false
+  },
+  "private_raw_readback_sha256": "2a20721a386507be9f14212388558da5a6c12dda5b481322f40933933048c656",
+  "private_fact_mapping_sha256": "468e12c752a6e263b6cd14a41d7428e970cc0eda652fcb3ac228f9355070915f"
+}

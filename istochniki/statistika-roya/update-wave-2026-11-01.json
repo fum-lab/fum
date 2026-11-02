@@ -1,0 +1,48 @@
+{
+  "captured_at_utc": "2026-11-01T10:24:30Z",
+  "accepted_parent_source_C": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "owner_transition": {
+    "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "mergeC": "NO_OP_ALREADY_ANCESTOR",
+    "result": "Ancestry check returned success; accepted parent C was already in the source branch history, so no merge commit was made.",
+    "leftover": ["Source-only owner snapshots are committed and delivered through c1f14fd9c0add44e4cc56ba0f247adc0b4707843.", "Three child-zone artifacts have been received into the owner branch; each child worktree retains its own uncommitted artifact as local provenance."]
+  },
+  "children": [
+    {
+      "zone": "istochniki",
+      "branch": "fum-lab/fum/istochniki/roiy-istochniki/master",
+      "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "mergeC": "NO_OP_ALREADY_ANCESTOR",
+      "result": "Accepted rules and source provenance guidance were read/applied; ancestry and Git/jq readiness were checked.",
+      "leftover": "Evidence artifact is in the owner branch; source child W retains its uncommitted copy."
+    },
+    {
+      "zone": "normalizaciya",
+      "branch": "fum-lab/fum/istochniki/roiy-normalizaciya/master",
+      "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "mergeC": "NO_OP_ALREADY_ANCESTOR",
+      "result": "Ancestry, JSON parser, diff-check, and Git readiness were checked; no merge commit was made.",
+      "leftover": "Schema and integration-transition receipt are in the owner branch; child W retains its uncommitted copies."
+    },
+    {
+      "zone": "analiz",
+      "branch": "fum-lab/fum/istochniki/roiy-analiz/master",
+      "fromC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "toC": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "mergeC": "NO_OP_ALREADY_ANCESTOR",
+      "result": "Accepted rules and analysis boundary were read/applied; ancestry and tooling readiness were checked.",
+      "leftover": "Synthesis including its transition and rules/tooling receipt is in the owner branch; child W retains its uncommitted copy."
+    }
+  ],
+  "rules_and_tooling": {
+    "relevant_rule_blobs_unchanged_from_accepted_C": true,
+    "git": "available",
+    "jq": "available",
+    "ripgrep": "available",
+    "python_legacy_and_full_root_jsonl": "not used"
+  },
+  "integration_boundary": "These no-op ancestry checks and local source commits do not establish PR acceptance, integration into fum-lab/fum/master, or runtime activation."
+}

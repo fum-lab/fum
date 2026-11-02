@@ -1,0 +1,509 @@
+{
+  "schema_version": "fum.codex-owner-funnel-event.2",
+  "captured_at_utc": "2026-11-01T19:19:49Z",
+  "direct_evidence_cutoff_utc": "2026-11-01T10:10:46Z",
+  "baseline_snapshot": "snapshot-2026-11-01T10-10-46Z.json",
+  "private_native_evidence_sha256": "814df3801b1ae3cb9d582986716ae12ef5b7ad0add5bf21f130d1a7bab903e75",
+  "coverage": [
+    "Tools",
+    "FUMA",
+    "Planning",
+    "Rules",
+    "Requirements",
+    "Arts",
+    "Sources"
+  ],
+  "runtime_continuity": "UNKNOWN; sparse snapshots do not prove a continuous runtime system.",
+  "method": {
+    "unknown_policy": "Unknown stages, timestamps, freshness, models, tokens, cost, memory, interventions and retries are not counted as zero or inferred.",
+    "evidence_kinds": "Direct means visible in a compact native Codex API snapshot or public source commit. Reported means supplied by ROOT or by an owner summary and is labelled accordingly.",
+    "freshness": "Measured only where source observation and capture times are both available; otherwise UNKNOWN. The prior direct owner sample is timestamped 10:10:46Z.",
+    "privacy": "No private thread UUIDs, local paths, titles, or raw conversation text. Commit OIDs are retained as public provenance."
+  },
+  "events": [
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "arts-c902-no-next-stage",
+      "stage": "next_stage",
+      "event_time_utc": "UNKNOWN",
+      "owner": "Arts",
+      "source_reference": {
+        "kind": "human_report",
+        "locator": "ROOT report: finite C902 stage completed 2026-10-26; no next stage issued through 2026-11-01"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "waiting",
+      "cause_classification": "unjustified_stop",
+      "evidence": [
+        "ROOT reports the prior finite stage was lawfully completed on 2026-10-26.",
+        "ROOT reports no subsequent assignment through 2026-11-01.",
+        "The gap is at parent continuation/assignment; no resource limit is evidenced for the next independent task."
+      ],
+      "responsible_decision_owner": "ROOT",
+      "responsible_executor_owner": "Arts",
+      "independent_work_availability": "unknown",
+      "limit_domain": "none_observed",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": false,
+        "no_next_stage_after_finite_stop": true,
+        "missing_result": false,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "arts-rules-prerequisite-pending",
+      "stage": "rules_access_read",
+      "event_time_utc": "2026-11-01T10:04:21Z",
+      "owner": "Arts",
+      "source_reference": {
+        "kind": "native_api_event",
+        "locator": "Compact native thread summary, completed turn at 2026-11-01T10:04:21Z"
+      },
+      "evidence_mode": "direct",
+      "observed_freshness_seconds": 385,
+      "outcome": "waiting",
+      "cause_classification": "unknown",
+      "evidence": [
+        "Owner reported that required current root rules and routing had not yet been read.",
+        "No resource limit was stated; whether the prior short delay was avoidable is not established."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Arts",
+      "independent_work_availability": "available",
+      "limit_domain": "none_observed",
+      "signals": {
+        "premature_final": "UNKNOWN",
+        "waited_for_available_prerequisite": true,
+        "no_next_stage_after_finite_stop": false,
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": false
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "arts-rules-prerequisite-progress",
+      "stage": "rules_access_read",
+      "event_time_utc": "2026-11-01T10:10:46Z",
+      "owner": "Arts",
+      "source_reference": {
+        "kind": "native_api_event",
+        "locator": "Compact native API read at 2026-11-01T10:10:46Z"
+      },
+      "evidence_mode": "direct",
+      "observed_freshness_seconds": 0,
+      "outcome": "waiting",
+      "cause_classification": "unknown",
+      "evidence": [
+        "A new turn started at 2026-11-01T10:10:21Z and was reading current root rules and routing at capture.",
+        "The earlier prerequisite blocker was being addressed; no later result was yet available."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Arts",
+      "independent_work_availability": "available",
+      "limit_domain": "none_observed",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": false,
+        "no_next_stage_after_finite_stop": false,
+        "missing_result": "UNKNOWN",
+        "waited_for_shared_integration_despite_independent_work": false
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "luna-low-prerequisite-stop",
+      "stage": "rules_access_read",
+      "event_time_utc": "UNKNOWN",
+      "owner": "UNKNOWN",
+      "source_reference": {
+        "kind": "human_report",
+        "locator": "ROOT follow-up report received 2026-11-01: Luna Low stopped about 10 seconds before available rules reading; subsequent Medium assignment"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "stopped",
+      "cause_classification": "unjustified_stop",
+      "evidence": [
+        "The reported next prerequisite was available and was roughly 10 seconds away.",
+        "ROOT subsequently assigned Medium; exact event time and detailed reason for stopping were not supplied."
+      ],
+      "responsible_decision_owner": "ROOT",
+      "responsible_executor_owner": "UNKNOWN",
+      "independent_work_availability": "available",
+      "limit_domain": "none_observed",
+      "signals": {
+        "premature_final": true,
+        "waited_for_available_prerequisite": true,
+        "no_next_stage_after_finite_stop": false,
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": false
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "luna-medium-reassignment",
+      "stage": "parent_decision",
+      "event_time_utc": "UNKNOWN",
+      "owner": "UNKNOWN",
+      "source_reference": {
+        "kind": "human_report",
+        "locator": "ROOT follow-up report received 2026-11-01: after Luna Low stopped before available rules reading, ROOT assigned Medium"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "Parent reassigned the next attempt to Medium.",
+        "Exact time, executor identity, and outcome of the Medium attempt were not supplied."
+      ],
+      "responsible_decision_owner": "ROOT",
+      "responsible_executor_owner": "UNKNOWN",
+      "independent_work_availability": "available",
+      "limit_domain": "none_observed",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": false,
+        "no_next_stage_after_finite_stop": false,
+        "missing_result": "UNKNOWN",
+        "waited_for_shared_integration_despite_independent_work": false
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "tools-u3-compiler-capacity",
+      "stage": "setup",
+      "event_time_utc": "2026-11-01T09:50:39Z",
+      "owner": "Tools",
+      "source_reference": {
+        "kind": "human_report",
+        "locator": "ROOT report at 2026-11-01T09:50:39Z: U3 compiler-slot capacity observation"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "failed",
+      "cause_classification": "verified_limit",
+      "evidence": [
+        "Reported load was 40.295 on 10 CPU against a limit of 20.",
+        "This is a compiler-slot capacity limit for U3 only; it does not establish a limit on text or read-only work."
+      ],
+      "responsible_decision_owner": "ROOT",
+      "responsible_executor_owner": "Tools",
+      "independent_work_availability": "unknown",
+      "limit_domain": "compiler_slot",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": false,
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "fuma-source-commit",
+      "stage": "source_commit",
+      "event_time_utc": "UNKNOWN",
+      "owner": "FUMA",
+      "source_reference": {
+        "kind": "public_commit",
+        "locator": "4e74e8b105b111757744394abdd5af7d55769251"
+      },
+      "evidence_mode": "direct",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "The compact owner summary reports a source commit and confirmed push.",
+        "Trusted writer/receipt and actual effect remained unresolved in the latest result; integration is unknown."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "FUMA",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": false,
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "planning-private-plan-step",
+      "stage": "first_substantive_step",
+      "event_time_utc": "2026-11-01T10:07:46Z",
+      "owner": "Planning",
+      "source_reference": {
+        "kind": "compact_summary",
+        "locator": "Latest completed compact owner summary at 2026-11-01T10:07:46Z"
+      },
+      "evidence_mode": "direct",
+      "observed_freshness_seconds": 130,
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "Latest result says a private plan was saved.",
+        "Canonical planning-zone migration remains pending; no new agent or general process was activated."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Planning",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": false,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "rules-reported-delivery",
+      "stage": "delivery",
+      "event_time_utc": "UNKNOWN",
+      "owner": "Rules",
+      "source_reference": {
+        "kind": "public_commit",
+        "locator": "4a2375a4 (reported owner delivery)"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "Latest completed summary reports delivery and integration at this OID; not independently rechecked for the owner.",
+        "Full profile/scenarios were not passed in the latest completed summary."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Rules",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "requirements-confirmed-delivery",
+      "stage": "delivery",
+      "event_time_utc": "UNKNOWN",
+      "owner": "Requirements",
+      "source_reference": {
+        "kind": "public_commit",
+        "locator": "c25a2372b2f23311492b812efe31273ee4635ac5"
+      },
+      "evidence_mode": "direct",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "Source-only commit was pushed and independently confirmed by ls-remote in the compact owner summary.",
+        "Execution of the agent-mediator regulator and integration remain unconfirmed."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Requirements",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "arts-prior-stage-delivery",
+      "stage": "delivery",
+      "event_time_utc": "UNKNOWN",
+      "owner": "Arts",
+      "source_reference": {
+        "kind": "public_commit",
+        "locator": "902fb62c4fd49ebdc5df168d366c1d21df9ddba8"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "The earlier finite-stage artifact was pushed; this does not establish full 578-path acceptance.",
+        "ROOT reports that the finite stage ended lawfully on 2026-10-26."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Arts",
+      "independent_work_availability": "unknown",
+      "limit_domain": "none_observed",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": false,
+        "no_next_stage_after_finite_stop": true,
+        "missing_result": false,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "sources-archive-delivery-and-parent-report",
+      "stage": "parent_handling",
+      "event_time_utc": "UNKNOWN",
+      "owner": "Sources",
+      "source_reference": {
+        "kind": "public_commit",
+        "locator": "f43bf044cf7f9e8df333671f8dab1f2dfcdf8828; later archive merge reported at 3a3293ec44cf0026d11f871c1974f0ea6c1070e7"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "success",
+      "cause_classification": "unknown",
+      "evidence": [
+        "Archive delivery and later merge were reported in compact summaries.",
+        "The merge does not establish Issue closure/build acceptance; toolchain graph, SDK and build closure remain unknown."
+      ],
+      "responsible_decision_owner": "ROOT",
+      "responsible_executor_owner": "Sources",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": false,
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "tools-native-read-limitation",
+      "stage": "first_substantive_step",
+      "event_time_utc": "2026-11-01T10:10:46Z",
+      "owner": "Tools",
+      "source_reference": {
+        "kind": "native_api_event",
+        "locator": "Compact read_thread attempts at 2026-11-01T10:10:46Z"
+      },
+      "evidence_mode": "direct",
+      "observed_freshness_seconds": 0,
+      "outcome": "unknown",
+      "cause_classification": "unknown",
+      "evidence": [
+        "A single oversized turn exceeded native read_thread limits twice.",
+        "The thread list status active alone does not establish work; no summary, commit, or integration was recovered."
+      ],
+      "responsible_decision_owner": null,
+      "responsible_executor_owner": "Tools",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": "UNKNOWN",
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    },
+    {
+      "schema_version": "fum.codex-owner-funnel-event.2",
+      "event_id": "fuma-ui-compatibility-c2b95",
+      "stage": "parent_handling",
+      "event_time_utc": "UNKNOWN",
+      "owner": "UNKNOWN",
+      "source_reference": {
+        "kind": "human_report",
+        "locator": "Git blob 35e9e24508ba8f7a07a94baf925df8a1ddb92c62 in commit 81447e534aed1cf0bab362a74a3e61579199b8b3; ROOT report 2026-11-01T19:07:07Z"
+      },
+      "evidence_mode": "reported",
+      "observed_freshness_seconds": "UNKNOWN",
+      "outcome": "failed",
+      "cause_classification": "unknown",
+      "evidence": [
+        "ROOT сообщила об одном отказе проверки UI compatibility compiler C2b95; первичный процессный журнал и полный ROOT JSONL не читались.",
+        "Диагностика сообщена как «операции:» вместо ожидаемого «операций:»; отдельная source-fix контрольная точка сообщена, но её OID неизвестен.",
+        "Сохранение одного generated build/debug -> out/Products/Debug symlink сообщено с policy=false; результат не GREEN. Старую цель повторно не запускать.",
+        "Полные детали проверки сохранены в существующем журнале C2b95; это только родительская обработка сообщённого результата, не прямое наблюдение исполнения."
+      ],
+      "responsible_decision_owner": "ROOT",
+      "responsible_executor_owner": "UNKNOWN",
+      "independent_work_availability": "unknown",
+      "limit_domain": "unknown",
+      "signals": {
+        "premature_final": "UNKNOWN",
+        "waited_for_available_prerequisite": "UNKNOWN",
+        "no_next_stage_after_finite_stop": "UNKNOWN",
+        "missing_result": true,
+        "waited_for_shared_integration_despite_independent_work": "UNKNOWN"
+      },
+      "model": "UNKNOWN",
+      "tokens": "UNKNOWN",
+      "cost": "UNKNOWN",
+      "memory": "UNKNOWN"
+    }
+  ],
+  "unobserved_funnel_stages": "For owners and cases not explicitly represented, assignment, setup, rule completion, first substantive step, source commit, delivery, parent handling, and next-stage timestamps remain UNKNOWN; do not infer a pass or failure.",
+  "creation": {
+    "requested_child_threads": "The app create_thread API rejected the supplied project/worktree arguments.",
+    "fallback": "Three independent collaboration agents were given non-overlapping source, normalization, and analysis zones, each on its own FUM branch and worktree; exact paths and branch states are local audit facts, not published here."
+  }
+}
