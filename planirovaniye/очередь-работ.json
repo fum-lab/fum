@@ -1,6 +1,6 @@
 {
   "schema": "fum.public.work-priority-queue.v3",
-  "updatedAtUTC": "2026-11-02T21:03:50Z",
+  "updatedAtUTC": "2026-11-02T21:52:19Z",
   "scope": "Ограниченный актуальный набор текущего плана ROOT/A10; в записи раздельно показаны выбранные горизонты и их связанные источники. Полнота всей FUM/FUMA и фактический охват всех требований, веток и проектов UNKNOWN; неизвестность не равна нулю.",
   "purpose": "Публичная Git-память текущего ограниченного плана и состояния источников/потребителей. Реестр не является dispatcher, FIFO, scheduler или доказательством исполнения.",
   "priorityRules": {
@@ -518,15 +518,16 @@
     }
   ],
   "sourceRevision": {
-    "version": 3,
-    "kind": "Append-only current overlay after delivered P1 queue V2; corrects exact source locators and records owner-reported outcomes and the delivery procedure incident without changing the accepted five-horizon composition or priorities. Includes the latest ROOT-reported A12 lexical read and P4 source correction as attributed evidence, without claiming execution or use.",
+    "version": 4,
+    "kind": "Append-only current overlay after public C3606. Adds the human-selected P4 whole-directory transition design; corrects attribution between the P5 child ROUTINE nine-process incident and separate Docs A10 v31 incident; and records one actionable static P1 consumer-stop loss in delivered P5 source with same-owner rework dispatched. No priority/composition change, source replay, execution-right expansion or activation claim.",
     "previousQueue": {
-      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "commit": "3606a0febf80639721e6b2849333f268a0a9df5b",
       "path": "planirovaniye/очередь-работ.json",
-      "blob": "46b815397f2068c8bfc7b5cde542e43c4e420798",
-      "bytes": 58788,
-      "sha256": "bcb09927a448d7fdd881ca455b73904cc0e50f0f82973fef67291caaa135ac38",
-      "rootDecision": "ACCEPT_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY"
+      "blob": "64bc788d24efb35274d878016b4f8467923a4add",
+      "bytes": 67038,
+      "sha256": "73e3fc3d0da126837de3aa2d68018cd0b700895ea423326b1f28ed9537dc45d6",
+      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+      "rootDecision": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE"
     },
     "previousPlanSources": [
       {
@@ -542,11 +543,19 @@
         "bytes": 7554,
         "sha256": "8fe0e40292867a12c7aaf66681320ef7447d90068dbbad04c34bac38f22a3ff6",
         "rootDecision": "ACCEPT_USEFUL_LINKED_PLAN_V2_SOURCE; отдельная проверка A10 совпала по raw bytes, OID, tree, parent и remote. Не ROOT intake, runtime, application или закрытие CASE39."
+      },
+      {
+        "commit": "3606a0febf80639721e6b2849333f268a0a9df5b",
+        "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v4.json",
+        "blob": "edc4bf54ea7a557512bd635b922b5a7cea32202a",
+        "bytes": 25989,
+        "sha256": "610b2af5b35da704247a486e2695b065a1e0a1fa7a4674c15bb71ac929085119",
+        "rootDecision": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE"
       }
     ],
     "linkedCurrentPlan": {
-      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v4.json",
-      "schema": "fum.planirovaniye.operational-plan-linked-source.v4",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
+      "schema": "fum.planirovaniye.operational-plan-linked-source.v5",
       "compositionChanged": false,
       "priorityChanged": false
     },
@@ -613,6 +622,50 @@
           "admission": "ROOT next finite source selection/admission",
           "executions": 0
         }
+      },
+      {
+        "source": "ROOT relayed correction after C3606",
+        "p5NineProcessIncident": {
+          "classification": "P5 child ROUTINE, not Docs",
+          "correction821Sha256": "f2665e412781e1a884153f76f76e6d6f2524553abb2d5be75d5919efcc57745d",
+          "parentResult9213Sha256": "a945168294cd5c2f9f1aa4ef08a51ccadba5f4dd99f2db65ccf583cd312d55a7",
+          "writes": "actor-reported 0; no independent process audit",
+          "status": "NOT_GREEN"
+        },
+        "docsA10v31Incident": {
+          "result2396Sha256": "a111bd3f919e203d29de25df42e90ff39b436f06acaa199f0209a0233551f9cb",
+          "minimumExecutions": 1,
+          "total": "UNKNOWN",
+          "rootAndDeputyOwnExecutions": 0
+        },
+        "dailySummaryCorrection": {
+          "date": "2026-11-03",
+          "priorSha256": "fc38157c35ddc2f93d7bfaf1cdb8229119940ed3c44b04a034ba643389842821",
+          "correctedSha256": "332310e6f8923667d8309e50e24999cd4ee2b2d52c16148d7839cf8581d3436e"
+        },
+        "disposition": "Preserve the old attribution in provenance and the explicit correction; keep incidents separate, infer no total Docs count and do not treat reported zero writes as an independent audit."
+      },
+      {
+        "source": "ROOT relayed selected human P4 whole-directory clarification v3 after C3606; native message ID/time not supplied.",
+        "transitionId": "P4-WHOLE-DIRECTORY-TRANSITION-v2",
+        "selectedFirstMapping": "Документация/ → dokumentaciya/",
+        "existingOtherDirectoryMap": "producer/path/version UNKNOWN; use only the existing versioned map",
+        "planLink": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
+        "apply": "HELD",
+        "disposition": "Linked design within existing P4/ARCH01; detailed conflict, sequence, pins and recovery contract are in the linked v5 plan."
+      },
+      {
+        "source": "ROOT/A10 bounded Source review late input received before this P1 plan revision was frozen.",
+        "findingId": "P5-BD9-P1-LATE-FOUND-DROPS-CONSUMER-STOP",
+        "sourceCommit": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+        "review": {
+          "id": "10874",
+          "sha256": "c20a4a5b77dcf33c85adc8be4b9649c99e8f7e74ccbeb8f26c3839eb9676ca2c"
+        },
+        "finding": "Late-found reopen/reconcile clears the consumer-stop token and decision, allowing save without new resolution; source contract/guard disagree. Static counterexample; runtime 0.",
+        "state": "DELIVERY_DONE; CORRECTNESS_REWORK_DISPATCHED_TO_SAME_TOOLS_ROUTINE_OWNER; COMPILE_TEST_RUNTIME_INTEGRATION_USE_UNKNOWN_OR_ZERO",
+        "repairScope": "3 files; old4 Package remains HELD; no new repair role; no old AA32 replay.",
+        "disposition": "Public logical finding and owner/residual only. Do not interrupt or replay an already frozen/inflight stage."
       }
     ],
     "previousPlan": {
@@ -631,21 +684,29 @@
     },
     "currentDeliveryAndResidual": {
       "branchRef": "refs/heads/codex/fuma-aot-join-plan-20261027",
-      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "commit": "3606a0febf80639721e6b2849333f268a0a9df5b",
       "delivery": "REMOTE_EXACT_OID_CONFIRMED",
-      "acceptance": "ROOT_ACCEPTED_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY",
+      "acceptance": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE",
       "integrationToFumaOrMaster": "NOT_CLAIMED",
       "runtimeOrWorkingActivation": "NOT_CLAIMED",
-      "authorContract": "NOT_GREEN_ACTUAL_NATIVE_ATTRIBUTION_NOT_ESTABLISHED",
+      "authorContract": "Historical C38 NOT_GREEN remains preserved; no general author bypass or history rewrite.",
       "historyRewritten": false
     },
-    "provenanceBoundaries": "Source data, source commit, remote branch delivery, consumer outcome and integration/activation are separate evidence stages. Reported parent outcomes are labeled as reported and do not imply independent audit.",
+    "provenanceBoundaries": "Source data, source commit, remote branch delivery, consumer outcome and integration/activation are separate evidence stages. Reported parent outcomes are labeled as reported and do not imply independent audit. The P5 child ROUTINE nine-process incident is separate from Docs A10 v31. Zero writes is actor-reported, not independently audited. The bounded P5 late-found finding is a static source counterexample, not a runtime or Host absence claim; same-owner repair, compile, tests and actual use remain separate.",
     "proceduralIncident": {
       "relatedCommit": "38eeaf1ed38832235b58667765779533f41a0cdc",
       "usefulOutcome": "A bounded existing-commit delivery resumed and was confirmed by exact remote OID.",
       "processOutcome": "Manual author and commit-message preparation were used; native attribution is NOT_ESTABLISHED and author contract remains NOT_GREEN.",
       "reliability": "This does not establish general Host reliability or a standing author bypass.",
       "privateInputsCopied": false
+    },
+    "previousQueueHistory": {
+      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "path": "planirovaniye/очередь-работ.json",
+      "blob": "46b815397f2068c8bfc7b5cde542e43c4e420798",
+      "bytes": 58788,
+      "sha256": "bcb09927a448d7fdd881ca455b73904cc0e50f0f82973fef67291caaa135ac38",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY"
     }
   },
   "coverage": {
@@ -835,7 +896,17 @@
       "state": "ACTIVE_REPORTED_SOURCE_COMMIT_UNKNOWN",
       "scope": "Связанный versioned queue/stage contract и ограниченный пилот к текущим A12/P4; целевая траектория FUM prototype → verified FUMA updates → eventual self-maintaining repo memory.",
       "relationship": "Отдельная Docs/FUM architecture область; не дублирует A12/P5 assignments и не заменяет пять принятых горизонтов.",
-      "runtimeArchiveOrHostCutover": "NOT_AUTHORIZED_OR_CLAIMED"
+      "runtimeArchiveOrHostCutover": "NOT_AUTHORIZED_OR_CLAIMED",
+      "wholeDirectoryTransition": {
+        "id": "P4-WHOLE-DIRECTORY-TRANSITION-v2",
+        "planPath": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
+        "state": "DESIGN_ONLY; EXISTING_VERSIONED_MAP_AND_MANUAL_COLLISIONS_PENDING; APPLY_HELD",
+        "selectedFirstMapping": "Документация/ → dokumentaciya/",
+        "mapProducerPathVersion": "UNKNOWN",
+        "knownConflict": "README.md requires manual Docs-owner resolution; no resolution claimed.",
+        "wholeTreePlan": "NOT_READY"
+      },
+      "nextAction": "Bind the exact existing versioned directory map and fresh coherent Docs snapshot; resolve real semantic conflicts manually; then create one complete conflict-free plan for the remaining selected tree. Apply remains HELD."
     }
   ],
   "autonomyAndSourcePolicy": {
@@ -927,5 +998,29 @@
       "admission": "ROOT next finite source selection/admission",
       "executions": 0
     }
+  },
+  "p5SourceCorrectness": {
+    "findingId": "P5-BD9-P1-LATE-FOUND-DROPS-CONSUMER-STOP",
+    "sourceCommit": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+    "review": {
+      "id": "10874",
+      "sha256": "c20a4a5b77dcf33c85adc8be4b9649c99e8f7e74ccbeb8f26c3839eb9676ca2c",
+      "scope": "A10 bounded Source review",
+      "classification": "STATIC_COUNTEREXAMPLE; runtime 0; not Host provider absence"
+    },
+    "delivery": "DONE; ROOT_ACCEPTED_USEFUL_P5_PUBLIC_SOURCE_DELIVERY",
+    "correctness": "ACTIONABLE_SOURCE_REWORK",
+    "owner": "Existing Tools → same Routine; ROOT supports one narrow fix/test-source dispatch.",
+    "repairState": "DISPATCHED",
+    "scopeFiles": 3,
+    "old4Package": "HELD",
+    "staticCounterexample": true,
+    "runtime": 0,
+    "compile": 0,
+    "tests": "PENDING; not inferred from test source",
+    "sourceSuccessor": "UNKNOWN",
+    "consumerFeedback": "PENDING",
+    "noNewRepairRole": true,
+    "noAA32Replay": true
   }
 }
