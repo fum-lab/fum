@@ -1,0 +1,38 @@
+{
+  "run_id": 41645588313,
+  "url": "https://github.com/fum-lab/fum/actions/runs/41645588313",
+  "head_sha": "c4a8b2a583f58e82b76afb524deb70bf38f71522",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 125949940563,
+      "name": "regression (Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_з...",
+      "conclusion": "success"
+    },
+    {
+      "id": 125949940588,
+      "name": "regression (Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_дочернего_...",
+      "conclusion": "success"
+    },
+    {
+      "id": 125949940746,
+      "name": "regression (Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_п...",
+      "conclusion": "success"
+    },
+    {
+      "id": 125949940900,
+      "name": "syntax",
+      "conclusion": "success"
+    }
+  ],
+  "observed_from_completed_job_logs": {
+    "python": "3.12.3",
+    "syntax_files": 1479,
+    "syntax_errors": 0,
+    "child_merge_tests": 26,
+    "ordinary_assignment_tests": 14,
+    "stop_hook_tests": 32,
+    "regression_total": 72
+  },
+  "scope": "Selected existing regressions, not the complete project suite or a live local-agent deployment."
+}

@@ -1,0 +1,1414 @@
+{
+  "schema": "fum.python-restoration-plan.v1",
+  "created_at": "2026-11-03T13:41:36.348854+00:00",
+  "request": "Мы конкретно архивируем все эти ветки и stavim fum-lab/fum на последний момент активного действующего инструментария на Python.",
+  "default_ref": "refs/heads/fum-lab/fum/master",
+  "before": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+  "target": "fc3e9776954ccbec5ff8c2e886606a137a98fd1a",
+  "target_tree": "1b8e36d88397b85ef4f966acd42275e96b1be9bf",
+  "original_archive_index": "2d17093043518a49ac8f62655674f9c29c4689ef",
+  "maintenance_final": {
+    "source_ref": "refs/heads/maintenance/archive-and-restore-python-20261103",
+    "sha": "a8ea5f991d8f64af21ddc6e688a1fae115489c9b",
+    "archive_ref": "refs/tags/archive/2026-11-03/pre-python-final/maintenance/archive-and-restore-python-20261103"
+  },
+  "delete_refs": [
+    {
+      "ref": "refs/heads/avtozapusk",
+      "expected_sha": "4e65aa2f72f378127b54bbc405113d36ae98cab3"
+    },
+    {
+      "ref": "refs/heads/codex/Telegram-TDLib-0222-01a09179",
+      "expected_sha": "fe18610b813092b0ce52359533ebaf26d81f5d8c"
+    },
+    {
+      "ref": "refs/heads/codex/android-runtime-01a0a633",
+      "expected_sha": "43cdecd4014704dc5238dbedaafb4eec401ce444"
+    },
+    {
+      "ref": "refs/heads/codex/automatic-known-refusal-response",
+      "expected_sha": "400cbc73aa7ed5d996743bd45a550f0b368a6575"
+    },
+    {
+      "ref": "refs/heads/codex/cache-preparer-race-01a07d3d",
+      "expected_sha": "4a7c3c2cb8f6af211abce0e46101be558c66f639"
+    },
+    {
+      "ref": "refs/heads/codex/chastichnaya-postavka-paketa-otbor-01a148a5",
+      "expected_sha": "ad5be10fd0c41361be87986fd172ddbca607a1d2"
+    },
+    {
+      "ref": "refs/heads/codex/cli-paketa-devyati-putej",
+      "expected_sha": "d20fd76742186fb7b68b67f2e68405a3183e4be3"
+    },
+    {
+      "ref": "refs/heads/codex/derived-pipeline-recovery-v1",
+      "expected_sha": "f234b32c0cd6b5e8308e7fafadebd7ddd8e017df"
+    },
+    {
+      "ref": "refs/heads/codex/derived-pipeline-v1",
+      "expected_sha": "2fb28d9abaff00efe831cc862f04a2681c7c4607"
+    },
+    {
+      "ref": "refs/heads/codex/dir/avtor-kommitov-Codex-01a07d3d",
+      "expected_sha": "9d389e54d28728450a09a90c70971f1d8e758d3a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/chastichnaya-postavka-dopuska-bazisa-uzla",
+      "expected_sha": "feac86eb1497faea8ed41fd1d065c9b11daf8c0d"
+    },
+    {
+      "ref": "refs/heads/codex/dir/chastichnaya-postavka-gibrida-odnoj-zadachi",
+      "expected_sha": "83272d38f989750283df417523fb774924a5af77"
+    },
+    {
+      "ref": "refs/heads/codex/dir/dokumentaciya--53-vselennaya-fum--odin-svidetelj",
+      "expected_sha": "caeae3fb0342fd3142a2ce2d98601e1306ea58f6"
+    },
+    {
+      "ref": "refs/heads/codex/dir/fum-materialyi-zaprosov-01a07d3d",
+      "expected_sha": "233afdf27c2851bce5b4a598990b095d63d49da8"
+    },
+    {
+      "ref": "refs/heads/codex/dir/fum-svyaznostj-rabochej-sessii-01a07d3d",
+      "expected_sha": "6761d797cc8a3ecc433120ec13f7ecc6b454c1b1"
+    },
+    {
+      "ref": "refs/heads/codex/dir/fum-svyaznostj-rabochej-sessii-01a07d3d-2",
+      "expected_sha": "36c22a55e6597abdf986872496cba63cffe9484b"
+    },
+    {
+      "ref": "refs/heads/codex/dir/indeksyi--sobratj-sostav-dlya-cepi-otkryitogo-etapa",
+      "expected_sha": "49a311b0d0396ee4fdc18ffb072fbc6d1959167a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--dopusk-vetok--chastj-149",
+      "expected_sha": "b35abea7305da72f5fd7fa2d716e048f0952207d"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-materialyi-zaprosov--svyazatj-resheniya-s-versiyami-obzorov-github--01a143bb",
+      "expected_sha": "05ef382c5348ba7b4c6d4f618937f85484481ab8"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-perevod-obyyavlenij-koda-na-russkij-yazyik--zhivoj-most",
+      "expected_sha": "8e26101b1bd45108407f935a3388d847d21c28c1"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-proverka-git-zavisimostej",
+      "expected_sha": "d415f0c3b448297401717bceaf3b9ac4453fe287"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-reyestr-planirovaniya--01a109ad",
+      "expected_sha": "1ee6b7090ce8c2ec973773e5db65ff7454315ef3"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-rusifikaciya-koda-pri-sliyanii",
+      "expected_sha": "9bada4d38b826803b2fcdd07c44ad625d40ae0d9"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii",
+      "expected_sha": "546a105b03df6ea0401f62255b97ff0fe33393a2"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0165",
+      "expected_sha": "208a9475b1646b942c664caf822b845264155b16"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--01a109f3",
+      "expected_sha": "12ee0a7a5badf6ea78b768fcd59de3b07e23d930"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228",
+      "expected_sha": "adf492bc6e7e7c6febb27f7fb797d18109ead8ce"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228-2",
+      "expected_sha": "223fcaf0435ab33484a68bcb25f94d7ac39a4e85"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228-3",
+      "expected_sha": "19af0d9817dbc09697c0fef36e8d5d98a0596055"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--lokaljnyiye-resheniya",
+      "expected_sha": "871191e8d237a6e250799a7143470a2b1515aa35"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--ogranichitj-vyivod-administrativnogo-json--01a143f4",
+      "expected_sha": "6ae0c76121e2bf8f7dceaee5aa5b858a63154e7c"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--osnovaniye-dvustoronnej-koordinacii--01a120cb-2cf9",
+      "expected_sha": "5916a232403c9250e336098f61250a4daa872f55"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--perepodgotovka-ustanovlennoj-operacii-ozhidanij--01a120cb-2d16",
+      "expected_sha": "af064ba46eb5c57d43869e6f3408dc1c284b8c41"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--polnyij-prinyatyij-kontur-zhurnala--01a13f4a",
+      "expected_sha": "47c2bf33b03a59de73a33bde75872f13ebf9496e"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--pozdnyaya-privyazka-zhurnala--01a1240e",
+      "expected_sha": "ee728b83a1bc358902ca6a48105e73db50960686"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--proverennyij-kod--01a121a8-d332",
+      "expected_sha": "9285fef23933e8a90ae9be4fa0b845f28ba01e12"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--publikuyemoye-naznacheniye-pisatelya--01a11f4d",
+      "expected_sha": "c38a8195bb950b345c766f06a86886eb382eb8f5"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--uskoritj-pozdnij-razbor-indeksa--01a143b9",
+      "expected_sha": "6212960753fc9f859303b7e0bdc4c83758453afe"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--prodolzheniye-otkryitoj-podgotovki--01a122b5",
+      "expected_sha": "10c450783503e761ca4e0d2432ed843971c7978d"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--publichnoye-predstavleniye-zhurnala--01a122ed",
+      "expected_sha": "b578c8baa63378c1083b02000dbf6ccef3a0a977"
+    },
+    {
+      "ref": "refs/heads/codex/dir/instrumentyi--snimok-svyaznosti--01a12217",
+      "expected_sha": "ca5aacd0c4d149caec6e33172fff11869c899921"
+    },
+    {
+      "ref": "refs/heads/codex/dir/klassificirovatj-prodolzheniye-modeli-01a07d3d",
+      "expected_sha": "a6f99f082c6a24469c41f821466b8ea7d48af122"
+    },
+    {
+      "ref": "refs/heads/codex/dir/nativnyij-most-podgotovki",
+      "expected_sha": "8389ae5f181feb24e29207b1b75555c0864712bf"
+    },
+    {
+      "ref": "refs/heads/codex/dir/otdelitj-perekhod-proiskhozhdeniya-paryi-01a07d3d",
+      "expected_sha": "ba2dba1dcb9768932b54682a4c743fec9bd51c9c"
+    },
+    {
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104",
+      "expected_sha": "f2b0b806f6c4b89a4c626ad40cd5e900df794ad7"
+    },
+    {
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104",
+      "expected_sha": "d756a7720d894503be09a94bc8a2cbbb95943915"
+    },
+    {
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-4d56ec2933973021223fa2d08a97e2d25e882c7cd089e19d0129939e63b39995",
+      "expected_sha": "daa53209ebafe4208e26e70953d5adf8ad4a7b12"
+    },
+    {
+      "ref": "refs/heads/codex/dir/perekhod-proverki-povtornogo-sostoyaniya-uzla",
+      "expected_sha": "241af77c06bb0857d3052f76644d63dcc4332230"
+    },
+    {
+      "ref": "refs/heads/codex/dir/perenositj-modeljnyij-kontekst",
+      "expected_sha": "58abe12c8e72fc83e41c712e1782ee02e6ab1d81"
+    },
+    {
+      "ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--ekonomicheskij-pasport",
+      "expected_sha": "10b81f8ccee5dfbdc0a1bcd992a5ab175be80b52"
+    },
+    {
+      "ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--minimaljnyij-byudzhet",
+      "expected_sha": "225f74d09f4dfdb641f84821147e68dd4df6d2fd"
+    },
+    {
+      "ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--poluchatelj-i-marshrutyi",
+      "expected_sha": "2e287a4f5bd9b21ad12dd2decc0f6c7f5952b03a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/podgotovitj-pervyij-proizvodstvennyij-sostav-zhurnala-01a07d3d",
+      "expected_sha": "5fe2e665a961de4605b50bb2c58ca0117547e45a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/povtornaya-podgotovka-root",
+      "expected_sha": "dee554538854b65140b92710d8dcb010a90818f3"
+    },
+    {
+      "ref": "refs/heads/codex/dir/povtornyij-cikl-sostoyaniya-uzla",
+      "expected_sha": "a7763a28bd6cd3486d82bd2448097dc3fe3a3c0e"
+    },
+    {
+      "ref": "refs/heads/codex/dir/povtornyij-effekt-sostoyaniya-uzla-2",
+      "expected_sha": "76e858f7437a8c08866062312606d0ab80880aeb"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttelegram",
+      "expected_sha": "5951d9f8b72b5842803592218330850782b7a7b0"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttorrent",
+      "expected_sha": "d21ca2ab719549e33ae9b92c8548c64d50eae5de"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--operatoryi--klaviatura",
+      "expected_sha": "73f477ad4961b8a7ef90b952f83092324dea4a61"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--operatoryi--linguistickit",
+      "expected_sha": "8c1d4f1a5c3cbb24a0e002d12c6f3f720b3d565e"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prilozheniya--fuma--packages--nablyudeniyedostupnosti",
+      "expected_sha": "e0d47d4004ba59601b56ba828c1c33d75ce7ead4"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--chistyij-perenos-01a0fed7",
+      "expected_sha": "7cac62d860521592546c60f32d87679fcf84cd9e"
+    },
+    {
+      "ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--kompoziciya",
+      "expected_sha": "5f05b88cf25600686e1c375e15018df673b158f6"
+    },
+    {
+      "ref": "refs/heads/codex/dir/publikacionnyij-dopusk-dochernego-sostava",
+      "expected_sha": "7216df27e0853b7b7f9cb96af0cc05f902a44b9d"
+    },
+    {
+      "ref": "refs/heads/codex/dir/publikovatj-nablyudeniye-sozdaniya-zadachi-01a07d3d",
+      "expected_sha": "782e151d4525d7b55ae0691317adae7000d1b261"
+    },
+    {
+      "ref": "refs/heads/codex/dir/realizovatj-chitayusjhuyu-sverku-kontroljnoj-tochki",
+      "expected_sha": "1c75e19f163f4730a26a717968cc04421bec33e9"
+    },
+    {
+      "ref": "refs/heads/codex/dir/realizovatj-yedinyij-razbor-ssyilok",
+      "expected_sha": "471974b1a973e340d4e74dfcd73a5cb20ff5524e"
+    },
+    {
+      "ref": "refs/heads/codex/dir/realjnyij-sozdatelj-bazisa-uzla",
+      "expected_sha": "b9aeb44c6c8effdb6a5b7b8a23e517673b73d181"
+    },
+    {
+      "ref": "refs/heads/codex/dir/reestr-polnoj-istorii-01a07d3d",
+      "expected_sha": "c380116ce957d4f5064273b1a08edfc189bbbb8c"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sobratj-novyij-sostav-zhurnala-01a07d3d",
+      "expected_sha": "8413f0a45779b4c6b68c68b2edba33ef07c1a271"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sobratj-novyij-sostav-zhurnala-01a07d3d-3",
+      "expected_sha": "bc77ebf265acc00a72332eac62b52b674185ca9a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sobratj-pervyij-sostav-zhurnala-01a07d3d",
+      "expected_sha": "49ef48920e6027d60fed75d1a1ab773e3baa4865"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sobratj-vtoroj-sostav-zhurnala-01a07d3d-2",
+      "expected_sha": "35f915c7ccd3c8e605abff1a4bffef575da0950f"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sobratj-vtoroj-sostav-zhurnala-01a07d3d-4",
+      "expected_sha": "b4de41d4a26a06786a2dd5c3ee06f456b62104a6"
+    },
+    {
+      "ref": "refs/heads/codex/dir/soglasovatj-rezhimyi-istoricheskoj-razmetki-01a07d3d",
+      "expected_sha": "6bb05d485aa71ee8edde132320f9f5f775022bec"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sokhranitj-rezhimyi-istoricheskikh-materialov-01a07d3d",
+      "expected_sha": "d4fe6e7b99478c5df22532e7b5e3ea3fb8b16b8a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sokhranyatj-podgotovku-zavisimostej-pri-smene-vetki-01a07d3d",
+      "expected_sha": "be9b58f1aa3b8d0332e91079b353dd59c3451bc0"
+    },
+    {
+      "ref": "refs/heads/codex/dir/sozdatj-bazis-uzla-01a07d3d",
+      "expected_sha": "31d8a62f10051c94314bd0fee56d9fd52adc675a"
+    },
+    {
+      "ref": "refs/heads/codex/dir/uskoritj-strogiye-snimki-katalogov",
+      "expected_sha": "21127044f704719a37f21bda6425dfe0dbadfb15"
+    },
+    {
+      "ref": "refs/heads/codex/dir/ustanovitj-prinyatyij-sostav-zhurnala-01a07d3d",
+      "expected_sha": "3d9fbe702a0f7272840c61ffa7ab13cb60141347"
+    },
+    {
+      "ref": "refs/heads/codex/dir/voprosyi-cherez-korenj-i-ostanovka-detej-01a07d3d",
+      "expected_sha": "71585de9ef2be547830ec79df00f4b0b6f9403d4"
+    },
+    {
+      "ref": "refs/heads/codex/dir/zhurnal-01a07d3d",
+      "expected_sha": "088e75d954aa6929121795367f98fca5c0c59b79"
+    },
+    {
+      "ref": "refs/heads/codex/disabled-libtorrent-gitlinks-01a0fdf3",
+      "expected_sha": "239b62488f42dc742353ee9ce1ef39d72cddcf6c"
+    },
+    {
+      "ref": "refs/heads/codex/fabrika-agentov-audit-01a127bf",
+      "expected_sha": "1e6ee7836ac153bbcf3e0b7e9391ed28d728924d"
+    },
+    {
+      "ref": "refs/heads/codex/fabrika-agentov-nablyudeniye-01a127bf",
+      "expected_sha": "d1d572aaab0acd3f48d6d84e0bba699f2e44ed4d"
+    },
+    {
+      "ref": "refs/heads/codex/fabrika-agentov-vosstanovleniye-01a127bf",
+      "expected_sha": "7f6f7c255b2e9f942d04ab5420f066893113c819"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-aot-join-plan-20261027",
+      "expected_sha": "e2d426ae7efef99e280ee881348b77c2ce08e2f4"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-arkhiv-fsync-v2",
+      "expected_sha": "06d38d11936f183eacf4d7d3fb7be7a5e52fec2d"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-git-readonly-observer-01a07d3d",
+      "expected_sha": "2492936ac563f76e7eeaf1027a8cd9e19ccedafa"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-llm-kvitanciya-v2",
+      "expected_sha": "4e368467e13011c4c91a4b24dbae16907fdb7363"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-local-fs-cycle-01a07d3d",
+      "expected_sha": "1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-postanovka-codex-app-server-01a177ae",
+      "expected_sha": "ebd8f23debb910cf72f658006381fa8e0444e25a"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-postanovka-grok-build-01a0f40a",
+      "expected_sha": "68eadd0642502d0b3555ad60fe2299e1b9c350b4"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-postanovka-lokalnogo-inferensa-01a177ae",
+      "expected_sha": "cc9fc69feed24e093184b8f3500f9b26da7f7b4f"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-postanovka-modelnogo-runtime-01a1778f",
+      "expected_sha": "05d5e867fd1f002eae0ff0a6c7343fe71f4b99a5"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-postanovka-oborudovaniya-01a173f5",
+      "expected_sha": "951801188bc4737ea969c0b6a83a3c9f95be55aa"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-postanovka-shriftov-01a174e4",
+      "expected_sha": "8c2df86c3ac804e3da0a6c85f15084ebcfa21951"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-schyotchik-fragmentov",
+      "expected_sha": "50d842a1a368c081a8101e09b6735bcab2c0ff0e"
+    },
+    {
+      "ref": "refs/heads/codex/fuma-uchet-prinyatoj-delegacii-v4-01a07d3d",
+      "expected_sha": "7aab2f869711ef6c09ba5987ad8a9a9aa877ad00"
+    },
+    {
+      "ref": "refs/heads/codex/fuma/ui-typing-owner-01a19716",
+      "expected_sha": "33312be0e21210306f41328cba70088ca5bb28bf"
+    },
+    {
+      "ref": "refs/heads/codex/integraciya-fuma-01ca9886",
+      "expected_sha": "01ca988635628b48024ae64c290d3c4912aff060"
+    },
+    {
+      "ref": "refs/heads/codex/ishjyusyi-20261101-01a195e6",
+      "expected_sha": "c4ef8e7ccbbc53e3916494954dc908ad7406dc5e"
+    },
+    {
+      "ref": "refs/heads/codex/isklyucheniye-dvukh-chernovikov-01a17761",
+      "expected_sha": "655b0ee2f344b512647f8d0fe32fd0fbfbca492f"
+    },
+    {
+      "ref": "refs/heads/codex/issue-archive-delta-2026-10-31-01a17838",
+      "expected_sha": "0be973dce373c6505bc2f0601ad5c2451c91f43a"
+    },
+    {
+      "ref": "refs/heads/codex/karta-dostavki-agentov-01a17797",
+      "expected_sha": "5ffe8cfb1fe4501740ae8e83a97e513c93a36502"
+    },
+    {
+      "ref": "refs/heads/codex/linguistickit-concurrency-01a07d3d",
+      "expected_sha": "a7e0bbbf20d1fa8dba984d4ce156f6a819c5add6"
+    },
+    {
+      "ref": "refs/heads/codex/live-residual-pages-01a17797",
+      "expected_sha": "2302d1e18eee74bb0d4c8438eb360fd3238af7fc"
+    },
+    {
+      "ref": "refs/heads/codex/max-bot-api-01a0a634",
+      "expected_sha": "f368dfc791e8f1b5db4020d62ff082c3a73dc196"
+    },
+    {
+      "ref": "refs/heads/codex/merge-pr3-01a09047",
+      "expected_sha": "9d01af6de4fc2f1c9265ee8805cda4998322e004"
+    },
+    {
+      "ref": "refs/heads/codex/merge-pr4-01a09047",
+      "expected_sha": "9efd84ded4e0f47b47aaac4a7464f8c4e5171c8e"
+    },
+    {
+      "ref": "refs/heads/codex/metadata-finder-projection-01a07d3d",
+      "expected_sha": "e1fa94d0c54a339abab2a6d229163a07b47647ce"
+    },
+    {
+      "ref": "refs/heads/codex/metadata-generator-consumer-01a17797",
+      "expected_sha": "572e58542f403e8d53d9cad9264d82c438e4c8fe"
+    },
+    {
+      "ref": "refs/heads/codex/napravleniye-fuma-01a08d77",
+      "expected_sha": "408e9c6419ef1a95740d3cb39d23fbd12f940da0"
+    },
+    {
+      "ref": "refs/heads/codex/obyyedinitj-sluzhebnyiye-sobyitiya",
+      "expected_sha": "d9a33f782785cc667c8bcba6559729f6cd5c7f7c"
+    },
+    {
+      "ref": "refs/heads/codex/peredatj-vneshnij-sostav-v-dochernyuyu-proverku",
+      "expected_sha": "d4ece912779f5ea2d69ce3c09d05774584392806"
+    },
+    {
+      "ref": "refs/heads/codex/perevoditj-polya-dinamicheskikh-modulej",
+      "expected_sha": "bc850b54dbf1f4f0d616bb138834519cab2215be"
+    },
+    {
+      "ref": "refs/heads/codex/planetarnoe-mirnoe-soglashenie-01a0011d",
+      "expected_sha": "2b4da98690185e0c03b740bd39e650beb703ebc0"
+    },
+    {
+      "ref": "refs/heads/codex/podderzhatj-istoricheskiye-ruchnyiye-porucheniya",
+      "expected_sha": "6d56613e14d8920a9c3e1a3483519a43567bdfe1"
+    },
+    {
+      "ref": "refs/heads/codex/podderzhatj-sluzhebnuyu-obolochku-sobyitij-331-2",
+      "expected_sha": "741ca744d103ef9fc338b568db3f614a18632553"
+    },
+    {
+      "ref": "refs/heads/codex/podderzhatj-sluzhebnuyu-obolochku-sobyitij-331-3",
+      "expected_sha": "b16a503cce8a7c0ff4d22d09f6a483ca39973f10"
+    },
+    {
+      "ref": "refs/heads/codex/podgotovitj-kandidata-bazisa-uzla",
+      "expected_sha": "1a667a975665bb065f140a724c3d5993c8f760cb"
+    },
+    {
+      "ref": "refs/heads/codex/postavka-seti-agentov-01a1698f",
+      "expected_sha": "f42c8b8bbd3df8a909a3d8e949b8952e28f7eb3c"
+    },
+    {
+      "ref": "refs/heads/codex/predproverka-vyikhodov-zakhvata",
+      "expected_sha": "105f1b432218db3633372ef27efe6442b1536289"
+    },
+    {
+      "ref": "refs/heads/codex/preflight-materials-0225-01a0b3af",
+      "expected_sha": "940e1848de14ee4718c855b346e1177ecfe1a267"
+    },
+    {
+      "ref": "refs/heads/codex/preserving-profile",
+      "expected_sha": "c16f58df2064d4f3479698be9e0d45dcdfd73377"
+    },
+    {
+      "ref": "refs/heads/codex/prinyatj-obsjhij-bazis-vtorogo-cikla-uzla-01a14979",
+      "expected_sha": "77921992b1f2bb0ca523d05a2620752c044f5b0a"
+    },
+    {
+      "ref": "refs/heads/codex/priyom-dvukh-production-blobov-c1-b0004eec",
+      "expected_sha": "d349052753738042f910a6354df8f0ed8c1771e1"
+    },
+    {
+      "ref": "refs/heads/codex/priyom-issues-01a139c4-20261030",
+      "expected_sha": "fd501dd7089c88eacc55ae1a121cfc20fa076ba8"
+    },
+    {
+      "ref": "refs/heads/codex/proveritj-kopiyu-i-masshtab-obratnogo-priyoma-l2",
+      "expected_sha": "26607e692157226efd0d1fdf5e9c218b950012fa"
+    },
+    {
+      "ref": "refs/heads/codex/ramki-jsonl",
+      "expected_sha": "3b4942ed072b6613671f528c5845803141894bcc"
+    },
+    {
+      "ref": "refs/heads/codex/soglasovatj-obratnuyu-dostavku-i-kontroljnuyu-tochku-231",
+      "expected_sha": "ec5532bfe5518c29cbae34ff3bf1fb29e31b540e"
+    },
+    {
+      "ref": "refs/heads/codex/sokhranyatj-chastnyij-etap-zhurnala",
+      "expected_sha": "3bcd745619078893a5281e37f8793e0096d5098d"
+    },
+    {
+      "ref": "refs/heads/codex/sravneniye-astra-low-01a0a708",
+      "expected_sha": "a827179c70083f9a682412f5c204ad35153ea818"
+    },
+    {
+      "ref": "refs/heads/codex/sravneniye-luna-high-19327936",
+      "expected_sha": "193279364854a6081491e02c26dd8c6f66dce0ca"
+    },
+    {
+      "ref": "refs/heads/codex/sravneniye-luna-low-b2df9280",
+      "expected_sha": "b2df928066fa84d3bf7ab8100baf519e934e4233"
+    },
+    {
+      "ref": "refs/heads/codex/sravneniye-sol-high-abc217c2",
+      "expected_sha": "abc217c2760c6cbeb778833116a619ba8df644ad"
+    },
+    {
+      "ref": "refs/heads/codex/stop-handler-01a17797",
+      "expected_sha": "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25"
+    },
+    {
+      "ref": "refs/heads/codex/stop-packed-refs-01a127bf",
+      "expected_sha": "2d079e22238137dd0ae922921ec3c77023a54564"
+    },
+    {
+      "ref": "refs/heads/codex/swift-route-inventory-01a17797",
+      "expected_sha": "13bf46836aad224d2db42d649c32f661cb8d41ad"
+    },
+    {
+      "ref": "refs/heads/codex/swift-toolchain-plan-01a17838",
+      "expected_sha": "5a47bbd06a2e63a9b1b82e95f14de58803791a83"
+    },
+    {
+      "ref": "refs/heads/codex/ui-observation-keyboard-01a1786a",
+      "expected_sha": "acfc142d4657d79363137a974576215255fe0567"
+    },
+    {
+      "ref": "refs/heads/codex/uskoritj-prokhodyi-razmetki-301",
+      "expected_sha": "7c1ab55404619394d004fe0dcbf788b14ab8628d"
+    },
+    {
+      "ref": "refs/heads/codex/uskoritj-stroguyu-proverku-zhurnala",
+      "expected_sha": "e518a866b693539ae0f409bfcc9418d697af81a3"
+    },
+    {
+      "ref": "refs/heads/codex/uskoritj-stroguyu-proverku-zhurnala-301-2",
+      "expected_sha": "6449c1df16edbd9c51c4d3f5b0a72ae9961f90eb"
+    },
+    {
+      "ref": "refs/heads/codex/ustranitj-limityi-zakhvata-bazisa-01a14c84",
+      "expected_sha": "1153e1cdaa7cc9013de5c889371c6eaafa60b61d"
+    },
+    {
+      "ref": "refs/heads/codex/vkhod-jsonl-fuma",
+      "expected_sha": "afc851a09b70a71f527de2e16a549aa586ee2894"
+    },
+    {
+      "ref": "refs/heads/codex/vklad-literala-swift-396-20261027",
+      "expected_sha": "9386715c79a0b9997f9fedb978aad1f56215d05f"
+    },
+    {
+      "ref": "refs/heads/codex/vyidelitj-gotovyij-plan-gosuslug-01a07d3d",
+      "expected_sha": "835c1aeadfda7881cf8846689459d78a6d5d2bc2"
+    },
+    {
+      "ref": "refs/heads/codex/windows-runtime-01a0a633",
+      "expected_sha": "88c546a2cab280499f9dcbeab2cf8f92aacfded7"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-fuma-adapteryi-i-katalogi-agentyi-01a07d3d",
+      "expected_sha": "33bed1419d66f21a85f22c1b56898a8a93219a2b"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-ispravleniye-base-pr-i-root-01a07d3d",
+      "expected_sha": "057ec37a115490930d0d3d3fdb6b1dbe3e30477f"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-minimaljnyij-swift-stop-01a07d3d",
+      "expected_sha": "39b0f874474ff7e40040a20783a28849cd4becfc"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-nablyudeniye-fs-git-i-uzkoye-mesto-01a07d3d",
+      "expected_sha": "f8843d96265c1723abfd7320dd81555036400213"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-nepreryivnyij-lifecycle-agentov-01a07d3d",
+      "expected_sha": "122602e94a33e89d33b0e9ea45aee42c0574fb55"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-ocheredj-remontov-i-fuma-01a07d3d",
+      "expected_sha": "e6096655703ce74e9af43b232272f9b225416a5d"
+    },
+    {
+      "ref": "refs/heads/codex/zhurnal-programma-paketa-dostavki-01a07d3d",
+      "expected_sha": "d789536cc27e9a0bcd0ca4f4a0d441a1f916fbde"
+    },
+    {
+      "ref": "refs/heads/codex/адаптировать-приложение-0176",
+      "expected_sha": "9d39f45a344af3d99d8402c8e7631e58e239c6fa"
+    },
+    {
+      "ref": "refs/heads/codex/архивный-снимок-задачи-01a08641",
+      "expected_sha": "81e2e2c6e830c0f742fffa719c38facde39e41a1"
+    },
+    {
+      "ref": "refs/heads/codex/безопасный-Python-0173-01a0a0e0",
+      "expected_sha": "cf64f276837773b7b6eee40f9d5d8bc1c72e1f3e"
+    },
+    {
+      "ref": "refs/heads/codex/вселенная-FUM-01a08612",
+      "expected_sha": "775f38b93ba144907419718be66b12b934c0c5f8"
+    },
+    {
+      "ref": "refs/heads/codex/вход-снимка-индекса-01a07d3d",
+      "expected_sha": "f8a00f2320e41cc044e26d44b967b1582c77b37e"
+    },
+    {
+      "ref": "refs/heads/codex/доставка-автоудаления-01a09047",
+      "expected_sha": "48c52d0d7125bc47de431d2c9633c46dbd6b7111"
+    },
+    {
+      "ref": "refs/heads/codex/защита-обязательств-01a07d3d",
+      "expected_sha": "002bb953671fa82b2144e7ec506d4975df977e3c"
+    },
+    {
+      "ref": "refs/heads/codex/защита-профилей-01a07d3d",
+      "expected_sha": "63f1b0f0f29c9f29cabcfe3e7fbb8f88c6f81fdb"
+    },
+    {
+      "ref": "refs/heads/codex/имя-приложения-FUMA-01a08d6d",
+      "expected_sha": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb"
+    },
+    {
+      "ref": "refs/heads/codex/интеграция-fuma-master-01a07d3d",
+      "expected_sha": "de9f81fec9e2bad840c6e37b049f5734f544d07b"
+    },
+    {
+      "ref": "refs/heads/codex/интеграция-fuma-master-профили-01a07d3d",
+      "expected_sha": "19765643195f0fb87dce58c7aba7fd1b50301531"
+    },
+    {
+      "ref": "refs/heads/codex/интеграция-оператора-FUMA-01a0a5cc",
+      "expected_sha": "18b695d45da0f4f5b335c57f59f993c806041fd5"
+    },
+    {
+      "ref": "refs/heads/codex/интеграция-поставок-01a08f62",
+      "expected_sha": "90f4cba01268d4a1833f1921b9427778e8b3740b"
+    },
+    {
+      "ref": "refs/heads/codex/интерпретатор-и-UTF-32-0208",
+      "expected_sha": "c7cd5d33cbf44df0b714d76e188580e9b18d4473"
+    },
+    {
+      "ref": "refs/heads/codex/история-модели-01a0a5cd",
+      "expected_sha": "cf7e92eb6f914eae2bf16d7dbf50df9487464dff"
+    },
+    {
+      "ref": "refs/heads/codex/комплект-Swift-0220-публикация-01a09304",
+      "expected_sha": "1a87a15ee88834551e6fdc78f6a03861894cb1d4"
+    },
+    {
+      "ref": "refs/heads/codex/контейнер-наблюдений-01a07d3d",
+      "expected_sha": "583704422445f32cf732f2625e6b5818880fd274"
+    },
+    {
+      "ref": "refs/heads/codex/контекст-свидетельства-01a0930d",
+      "expected_sha": "b74e49b2b1a7a2a424e1d3445eb5a87ff57d9905"
+    },
+    {
+      "ref": "refs/heads/codex/контракт-индекса-01a07d3d",
+      "expected_sha": "a2a3f8e2edb8f8cec98829f97795bb4623752f7c"
+    },
+    {
+      "ref": "refs/heads/codex/математическое-направление-0202",
+      "expected_sha": "b762bd0cb77fdbcc418141a1f33800a7bdb630a6"
+    },
+    {
+      "ref": "refs/heads/codex/матрица-Windows-0181-01a092ff",
+      "expected_sha": "38eeaab8df29860046ea162b1d9e4ca7f3b8bae7"
+    },
+    {
+      "ref": "refs/heads/codex/наблюдатель-Linux-VM-01a08fe2",
+      "expected_sha": "0c0d1cf96e1dd46d2a0161a00974a04556c54f23"
+    },
+    {
+      "ref": "refs/heads/codex/настроить-Linux-VM-01a08fe2",
+      "expected_sha": "0f62797675ddbcd3c68bceefe6793de95c5d20b8"
+    },
+    {
+      "ref": "refs/heads/codex/необработанные-сообщения-01a07d3d",
+      "expected_sha": "0e688997b174f8e16617e80033263fe9d16337f3"
+    },
+    {
+      "ref": "refs/heads/codex/необязательный-граф-0203",
+      "expected_sha": "7acc2de8ca1dcbefd82c16faecd1c31bdfa6e648"
+    },
+    {
+      "ref": "refs/heads/codex/обратная-доставка-интеграций-01a07d3d",
+      "expected_sha": "740cf935a88b4fed7bce3687463ceee54b272780"
+    },
+    {
+      "ref": "refs/heads/codex/операторное-внимание-0218-01a091c7",
+      "expected_sha": "fcfa02d1feb0b10f086dad7acdccccc37544bace"
+    },
+    {
+      "ref": "refs/heads/codex/офлайн-комплект-0221-01a09306",
+      "expected_sha": "f2a42cb04a347a79c8732b89fc82a142ffe34051"
+    },
+    {
+      "ref": "refs/heads/codex/пакет-диагностики-0201",
+      "expected_sha": "17ef8a59fa3c67a73e54c2348189afcb10849585"
+    },
+    {
+      "ref": "refs/heads/codex/параметрическое-3D-0224-01a09310",
+      "expected_sha": "d4ed03209ec903bf2ee9033567b9c1bd162267da"
+    },
+    {
+      "ref": "refs/heads/codex/паспорт-macOS-VM-0216-01a09302",
+      "expected_sha": "dec167ee29bbab8ff5fd3d6722e1bedd4294f744"
+    },
+    {
+      "ref": "refs/heads/codex/перенести-исходники-FUMA-0176",
+      "expected_sha": "6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95"
+    },
+    {
+      "ref": "refs/heads/codex/перенос-рабочих-деревьев-0207",
+      "expected_sha": "70dcc48ef17b142f3829fc6cabe360019309849a"
+    },
+    {
+      "ref": "refs/heads/codex/перехват-завершения-01a07d3d",
+      "expected_sha": "cdd67b22c271be28cd0cdce1dda5f08f1a264c72"
+    },
+    {
+      "ref": "refs/heads/codex/план-Госуслуг-01a0909c",
+      "expected_sha": "f5716675472a9807d004e95144b98c621855bfc2"
+    },
+    {
+      "ref": "refs/heads/codex/планирование-наблюдения-macos-01a07d3d",
+      "expected_sha": "ef0b528c8c117f7cfddb83d1699aa333d9c486a5"
+    },
+    {
+      "ref": "refs/heads/codex/подключить-гостевые-команды-Linux-VM-01a08fe2",
+      "expected_sha": "7e6a5ace3bbfa1ad5e7d3e98114a0a784d8237ec"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-v1",
+      "expected_sha": "01c8498eb671a2bbb437211cf63c1c14db63d308"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-legacy-bootstrap-v2",
+      "expected_sha": "01c8498eb671a2bbb437211cf63c1c14db63d308"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-pinned-bootstrap-v1",
+      "expected_sha": "152a994eb44528a57fdc0bd0eca801cec42e7345"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/repair-post-terminal-01a0026f-v1",
+      "expected_sha": "850d56806d01edf26454adc7861ca5f4497451a9"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/review-fum-step-0147-6ad10c37",
+      "expected_sha": "249d076b1857f4e1727e5448587d13f16b15a30a"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/ревью-0a4df969-01a001a4-v1",
+      "expected_sha": "249d076b1857f4e1727e5448587d13f16b15a30a"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/ревью-643f568c-01a001a4-v1",
+      "expected_sha": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/ревью-результата-a3cbe22a3ae1d3f268636d75b86616da9a28c63f2edca61abbc789ceadaa71dd-v1",
+      "expected_sha": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-0e726c1afc99b3bc6b4df54b",
+      "expected_sha": "62f3d8db20ec9ea5abb57b0cf090a4a3630402c6"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-0f0e16308c739e9d2d6f3b9f",
+      "expected_sha": "3c38e4bda26abef9dc27c281ec46943f480d32d3"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-12b43691fc6371660755681e",
+      "expected_sha": "f821f3b55e0c3eab2cf1ea05d01cf02ffd571e1f"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-260d116b5d1f2911884d3651",
+      "expected_sha": "1de99504e46497f4d384ee6c5fc110063bcbfb6c"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-2b381b69b99d4e96092ffa4f",
+      "expected_sha": "b0403b8047a411255c66bc4e818402d5ec6ab300"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-409742d2b28e477012b06626",
+      "expected_sha": "1a47d4746324bdb361d99398dc235d9bea192c4b"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-5145e5cfc1174e66a304a9ec",
+      "expected_sha": "aa04f749400da6cb4b1a8eec1e86baa00fe11e5f"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-781706e17230e4e1307fe6b2",
+      "expected_sha": "7ee98fa4f72c319217d4284d30ecd1b1ca3198ab"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-bc79104b1252c679a5fcba21",
+      "expected_sha": "cbeb686f4bc2ad7fa08fcb10fc0c44baeec1915b"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-c8121b1382fa3ef091cd8fcf",
+      "expected_sha": "0ded7d2ed7f89ef739c2a69d4bf594e322756994"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-e4c4e011613e9dcfe6d0bc14",
+      "expected_sha": "db927feb6fa9bce952d53a30ed15562f86ba25b6"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-e56bcc3b0ea834216351fb42",
+      "expected_sha": "87d0f3e4f80ec8df6eeacdf498dad8eced430543"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-f19e343180b26b3d462e8269",
+      "expected_sha": "3832cdae90d040052d212253b523596c024ef0a7"
+    },
+    {
+      "ref": "refs/heads/codex/подузлы/сессия-ff6b955430eb0f6c79ff1532",
+      "expected_sha": "28950e66a3ffc2e51ee87084c9bbc22e4e8752fe"
+    },
+    {
+      "ref": "refs/heads/codex/политика-интеграции-01ca9886-01a09047",
+      "expected_sha": "d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612"
+    },
+    {
+      "ref": "refs/heads/codex/постановка-README-01a08d77",
+      "expected_sha": "6049110117aa2d46380422ff51e2e996f087ee90"
+    },
+    {
+      "ref": "refs/heads/codex/предпосылка-автоудаления-01a09047",
+      "expected_sha": "20f3257bcd19a19473df28028794b78d5dd940ce"
+    },
+    {
+      "ref": "refs/heads/codex/предпосылка-форматов-62a8-01a09047",
+      "expected_sha": "08cffcc75c7a9776453b2d7497c1d2d75ca6f994"
+    },
+    {
+      "ref": "refs/heads/codex/приём-направлений-FUMA-0201",
+      "expected_sha": "b08b969c9c40bda90e53e8effee904f181dce7d6"
+    },
+    {
+      "ref": "refs/heads/codex/рабочий-контекст-0165-01a0930d",
+      "expected_sha": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e"
+    },
+    {
+      "ref": "refs/heads/codex/расширение-шаблонов-01a08f63",
+      "expected_sha": "acab107170a4a1243b76cba4f25b0b408e735603"
+    },
+    {
+      "ref": "refs/heads/codex/реестр-организаций-поддержки-01a0904a",
+      "expected_sha": "790156bedf407511ed4fd0eda14447a443784584"
+    },
+    {
+      "ref": "refs/heads/codex/слияние-14044-48c52-01a09047",
+      "expected_sha": "ac78d0b410395358797663dcc028150938839f06"
+    },
+    {
+      "ref": "refs/heads/codex/совместимость-master-FUMA-0175-01a09047",
+      "expected_sha": "d05d9c3d4e19db097e6d2eca117708c50a807d2d"
+    },
+    {
+      "ref": "refs/heads/codex/статистика-вызовов-01a07d3d",
+      "expected_sha": "37ef3e5121169ec75a29f2dc3b34eab0594933d2"
+    },
+    {
+      "ref": "refs/heads/codex/финансирование-фума-01a0904a",
+      "expected_sha": "7cdc8747fd7f656d1bb9e5d920dae2fbbdc78e9a"
+    },
+    {
+      "ref": "refs/heads/codex/форматы-приложения-FUMA-0176",
+      "expected_sha": "582fae9778073ffedcdf347509887c84a4334e27"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/arkhitektura/master",
+      "expected_sha": "63b4559b2ebca19edca55f2ca1249ce150d44eb6"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/audit/istoriya-kommitov/master",
+      "expected_sha": "418db43f19dbd8da4b89bb7d244d12986a1ad8e2"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/audit/master",
+      "expected_sha": "9249fec6a4f3dcce771de1766a151ec4bfcb7feb"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/audit/roi-lifecycle/master",
+      "expected_sha": "995ca4b26983e69a30d433a03637f2cf9ce68400"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+      "expected_sha": "4622325d79d9bb6e94599af9d720ff199447cad4"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/dokumentaciya/priyom-b466/master",
+      "expected_sha": "f89ab1cbf82af031af20912430e5b72f3e1f0f5c"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/dokumentaciya/priyom-e952/master",
+      "expected_sha": "65eb15e8e66e90f712cb0efc79dd4655a7e72940"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/doska-obyyavlenij/master",
+      "expected_sha": "9bb093394ac3aac3acd4ce0dcd257ee1dbff076b"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/doska-obyyavlenij/potreby-01a17815",
+      "expected_sha": "855dc38b4b09cd0264f4231598a13c1ec8a035df"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master",
+      "expected_sha": "6338ea92dfd810c8b7f59be8f7d007d58f095d5b"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/signal-plana/master",
+      "expected_sha": "f3eabe270c20de9d22cb76074723c7e9520c38f0"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/agentomediator/stupeni-usiliya/master",
+      "expected_sha": "4a55466e3231bbdbb4a1a5c2ffdc0dcc3630acaf"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/aot-join-strings-396",
+      "expected_sha": "b359443bb587cca80d4a8b240d47ad9deb5bb4b4"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/aot/transfer-join/master",
+      "expected_sha": "934574591c481af7b22cef60d11bf8330050a9f1"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/arkhiv-codex/master",
+      "expected_sha": "d5127c92736653a856c5f0b0700c0af149cb886e"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master",
+      "expected_sha": "3973a731685e6ec395a1ff7a167558359dffadec"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/klaviatura/obshchij-perekhod/master",
+      "expected_sha": "03b93a930fd75aa5e23291a02bf95484867806a7"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/klaviatura/vvod-okna/master",
+      "expected_sha": "52c0d4b6e42401b10787a690d6ef344fbb93f373"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/llm/master",
+      "expected_sha": "39c79c29c9bd85185f77a07254762900e2a9e229"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/master",
+      "expected_sha": "e774da79e5e6a9490820314ca1aa259d2b15e0d5"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/nablyudenie-fs/signal/master",
+      "expected_sha": "90c20c492d026c6456512d55d533b39cf0fc0911"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/packages/setj-agentov/master",
+      "expected_sha": "59a74b2eaa16a03ff4b57aaf31604a4b00be5b48"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/priyom-grok-23/master",
+      "expected_sha": "e774da79e5e6a9490820314ca1aa259d2b15e0d5"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/priyom-grok-offline/postavka-iskhodnikov",
+      "expected_sha": "390577b638b19ff0a39614b5ab311ba8481fd4ca"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/priyom-grok-offline/source",
+      "expected_sha": "55088b0d7ef07f959e5b3dc0cb913752251a1671"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/priyom-iskhodnikov-383",
+      "expected_sha": "5f851300e316f410eea548f68d5588a12a730c2c"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/ramki-jsonl/master",
+      "expected_sha": "3939895a12cc0a4589157dfaace690559add8aaa"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/regressiya-obkhoda-segmenta-359",
+      "expected_sha": "a3b0de3484f85a4cb8ff0092dd9150104c05baa1"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/shrifty/model-glifa/master",
+      "expected_sha": "cb82c5e310d375db74f54cda5292c1a45dc5e434"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/vkhod-jsonl-fuma/master",
+      "expected_sha": "49f584b0cb0c66e11d6a915d587c7f5bb7b76029"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/fuma/zapusk/master",
+      "expected_sha": "a4084c0e5114666c5795aa3e86956e22a64db213"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/glossarij/master",
+      "expected_sha": "46f0a13c3ece38b2368ef368e8dcdf8b7c4a9983"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/indeksyi/master",
+      "expected_sha": "88396b09edeae2045dd5e7642025c9f304072eee"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/avtor-kommitov/master",
+      "expected_sha": "ef98243246204844e0f36c79f7416ba8369f44e9"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/dopusk-vetok/master",
+      "expected_sha": "fe7f649e81bd0367aa08647bf615c75793a5127a"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/fabrika-agentov/pokryitiye/master",
+      "expected_sha": "bfb5371ba3e51e1de8e650415af2c817c2926153"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/formatirovaniye-kornei-agentov/master",
+      "expected_sha": "db01f9237cef11a805f3dbd1854ec0425cb3f676"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi/master",
+      "expected_sha": "62313ac7dd1baae117565c33a10128e49b26bdda"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/master",
+      "expected_sha": "dfff2e08002f6a3e9387b91038bad8dfa96f827a"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/chastj-swift/master",
+      "expected_sha": "7da711b39ed356017afed7ffa861be5b5998c4d9"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/generaciya-polnogo-manifesta-paketa/master",
+      "expected_sha": "94986cf7e62032e7669be934d1584cdd05fc8504"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/master",
+      "expected_sha": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov-root/master",
+      "expected_sha": "2b11dae0c9426a477b1b7e0e336776203346efcc"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov/master",
+      "expected_sha": "137319cee3134cbe07c9c8503fec3f0f328c25c1"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/peredacha-fuma/master",
+      "expected_sha": "6ba6d8ba5663bd61a0e8049665725b6862f0097e"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/pereimenovaniye-fajla-s-obnovleniyem-ssyilok/master",
+      "expected_sha": "aa8e3e60e3913ac173164f7addc679a17df73afe"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/publichnyij-fasad-imyon/master",
+      "expected_sha": "3f0d14d4a4df2b118112530ab3bf2d00e1fff687"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/sovmestimostj-ssyilok-s-probelami/master",
+      "expected_sha": "0321f277022d13e3153c28e215ba24758c31ced2"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master",
+      "expected_sha": "eb512829deee70bd0c53be307148442d8aa95a88"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/master",
+      "expected_sha": "d9b41c67d7e9677e482d08ebc38b388dfd216e80"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/master",
+      "expected_sha": "90ebaf9a7988d74c1bc3dae1a81d830ebca61627"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/obnovitj-svezhestj-markdown/master",
+      "expected_sha": "fdad94ba0c2a6a1ecb6d8028815d907c5e6a95ed"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/optimizaciya/rabochaya-arkhitektura/master",
+      "expected_sha": "54a9f842dc4058d5ad39864b0481cb1b1b86145c"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perehod-vetok/fabrika-agentov/adapter-adresa/master",
+      "expected_sha": "90fd6b04b481d1a9ef12827ece82c806e301024f"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/checkpoint-v3-01a127bf",
+      "expected_sha": "e033e6623bd8f96f84100f39cb58e991025e851e"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/fabrika-agentov/adapter-adresa/master",
+      "expected_sha": "90fd6b04b481d1a9ef12827ece82c806e301024f"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/ispravitj-kornevoj-stop/master",
+      "expected_sha": "9b1cf7417c7c8bae900c5529b5d3d95f91da5590"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+      "expected_sha": "b73b1c628aa31401b80c1cb1bb88760113759414"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/podgotovka-okruzheniya-kommita/master",
+      "expected_sha": "a353cc2c2eedb38a4a5369f96fe69009324d76dc"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/priyom-packed-refs/master",
+      "expected_sha": "692f6c6ffe0a49f5b10c5c967a0612bcc7bc25e2"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master",
+      "expected_sha": "af02449ac6559baad43b3f4a5f3a1828cba00d7f"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master",
+      "expected_sha": "3f286543c5c5e5ebf83a59c24763079bfac52b96"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/ustanovitj-stop/master",
+      "expected_sha": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/fabrika-agentov/master",
+      "expected_sha": "c8c99bebaceac6aa8935ea51db32870db1e93936"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+      "expected_sha": "b9d676f793cdb2e0f75b21b995fa1a87bb8c1e39"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/pravila/priyom-remonta-profilya/master",
+      "expected_sha": "28189d59e7d7457596dff75340c5208f57ed0fcd"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/pravila/vosstanovleniye-profilya/master",
+      "expected_sha": "9014c473069a676e556a451fcd8bcc16caaf7d9a"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+      "expected_sha": "c4e32f227dc0c3e585dd9af797e39fe352390e7d"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/shtatnyiye-otvetyi/master",
+      "expected_sha": "09ec03d2eac45f1c4bcb99a59d8e378986f8e5ce"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/instrumentyi/zhurnal/master",
+      "expected_sha": "3cc3a7265a31c0475edc9b66f420e50293719521"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/integraciya/art-stage-3/master",
+      "expected_sha": "b182272df6a218d8b5239da83a3ff79d650b3614"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/integraciya/candidate-issues/master",
+      "expected_sha": "5813097f7e8c926a467966a038ce9461d23c772f"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/integraciya/master",
+      "expected_sha": "50e30ff3f050995904cd211df1b97e5b16637826"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
+      "expected_sha": "db0fd441ea8a93f120d83e7f51649138a9576e49"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/integraciya/partial-issues/master",
+      "expected_sha": "a09c79476d8b764ed1fa833ceefa82a7c5917908"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/istochniki/arkhiv-pr490-issue489/master",
+      "expected_sha": "eb20975b1007df2b2b3abde662f785902ab11599"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/istochniki/delta-pr491-493/master",
+      "expected_sha": "0be973dce373c6505bc2f0601ad5c2451c91f43a"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/istochniki/github-issues-snapshot-499",
+      "expected_sha": "f43bf044cf7f9e8df333671f8dab1f2dfcdf8828"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/istochniki/master",
+      "expected_sha": "60a124f5ad1dbb3ea89526bb3b79768ad52868d9"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/istochniki/pulls-491-493/2026-10-31",
+      "expected_sha": "c8b956f69ec400625fcfb60d6b4c2d6e2bcf37c9"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/istochniki/statistika-roya/master",
+      "expected_sha": "81447e534aed1cf0bab362a74a3e61579199b8b3"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/master",
+      "expected_sha": "0cf49a8c40a7dfac8e88950d439b1afeb7062021"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/press-relizyi/master",
+      "expected_sha": "a4a72b36ebfb2fc19e783f1fe068d4ed0c03cb05"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/avtovyidacha-polnomochij/kontrakt/master",
+      "expected_sha": "efafc15f4682bf50dc8f605000270d454a8d39db"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "expected_sha": "f5db4537777221b801d0ab9cc1ca9f5ea3b173a0"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/metadannyie-kommita/master",
+      "expected_sha": "9b10778481519aeb4ac3e76bba5360abfeae82f3"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master",
+      "expected_sha": "95431459773f3e99cc0edeaccd3e50aed5965239"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/opisaniya/master",
+      "expected_sha": "3a89941b76a9eb0ac5baf0dac8fb647d2cc97bc6"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/planirovaniye/master",
+      "expected_sha": "8957186904f5773c123e96e470d85b0c8aa989cc"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/iyerarkhiya-vetok/master",
+      "expected_sha": "ee993b1e0f9b4bdfa8b87fb635095063deeee708"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/kompaktnostj/master",
+      "expected_sha": "64c19c87ff5b1b7a8ff2ba8fec69164fda85af4c"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/lokaljnyie-svyazi-i-isklyucheniya/master",
+      "expected_sha": "a42335e2df791e9d9e3e2e41b50c714356730e73"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/lokaljnyij-vkhod/marshrutizaciya/master",
+      "expected_sha": "a909245562eee1dead39455c39c8e7102650e383"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/lokaljnyij-vkhod/postavka/master",
+      "expected_sha": "92e0adc5037b6cbbc7bc8df124fd2d330338d461"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/master",
+      "expected_sha": "f13c0bedbe65c8eb2759010f74110795e6cb2be5"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/pravila/ustanovka-lokaljnogo-vkhoda/master",
+      "expected_sha": "62c706efc44b788b80adf58b79547e244c931b33"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/prototipyi/master",
+      "expected_sha": "e127dc2cbd58db93f98eafd5dc62cc376fbcd91d"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/sboi/master",
+      "expected_sha": "2b81e27c9a522e3f31c09890bf3ae4869235a429"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+      "expected_sha": "f1ee034844afbcd2754834e0d85c85518823a8dc"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/trebovaniya/master",
+      "expected_sha": "aa65d76f67cd52c172680b287df07064bf31a375"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+      "expected_sha": "39b37059c6604e62c6c32bc3a841927672f5c66d"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/voprosyi-i-otvetyi/master",
+      "expected_sha": "4f56fec46879f3d00ffb9b4de53c3fd688300909"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/voprosyi/master",
+      "expected_sha": "b48e6158b390a2fd78cd90ce43bfc5a45c9ae473"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/zavisimosti/master",
+      "expected_sha": "d927eabd24b03f9d4cc488299d0c632e49c55be0"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/zavisimosti/obzor-dlya-fabriki/master",
+      "expected_sha": "aaf61a51fbfe5f24e0fca9ec020991cd7a6636dd"
+    },
+    {
+      "ref": "refs/heads/fum-lab/fum/zhurnal/master",
+      "expected_sha": "a59a07ecf16b9b30dd03a66ff7e9fcdcbb517726"
+    },
+    {
+      "ref": "refs/heads/fuma",
+      "expected_sha": "d8c79d943c39e88ea4f08b44b6ed0a5647ff831d"
+    },
+    {
+      "ref": "refs/heads/maintenance/archive-and-restore-python-20261103",
+      "expected_sha": "a8ea5f991d8f64af21ddc6e688a1fae115489c9b"
+    },
+    {
+      "ref": "refs/heads/master",
+      "expected_sha": "c9399a970b1d834d518f019c86314136f2822ad6"
+    },
+    {
+      "ref": "refs/heads/planirovaniye",
+      "expected_sha": "935d945aaf23a66fbc3abecd6ed9124c45038739"
+    },
+    {
+      "ref": "refs/heads/sokhraneno/fum-lab/fum/01c161d3",
+      "expected_sha": "01c161d36c7a0af4c986c7c908b2aba4ea58b5a9"
+    }
+  ],
+  "verification": {
+    "run_id": 41645588313,
+    "url": "https://github.com/fum-lab/fum/actions/runs/41645588313",
+    "head_sha": "c4a8b2a583f58e82b76afb524deb70bf38f71522",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 125949940563,
+        "name": "regression (Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_з...",
+        "conclusion": "success"
+      },
+      {
+        "id": 125949940588,
+        "name": "regression (Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_дочернего_...",
+        "conclusion": "success"
+      },
+      {
+        "id": 125949940746,
+        "name": "regression (Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_п...",
+        "conclusion": "success"
+      },
+      {
+        "id": 125949940900,
+        "name": "syntax",
+        "conclusion": "success"
+      }
+    ],
+    "observed_from_completed_job_logs": {
+      "python": "3.12.3",
+      "syntax_files": 1479,
+      "syntax_errors": 0,
+      "child_merge_tests": 26,
+      "ordinary_assignment_tests": 14,
+      "stop_hook_tests": 32,
+      "regression_total": 72
+    },
+    "scope": "Selected existing regressions, not the complete project suite or a live local-agent deployment."
+  },
+  "status": "PREPARED_NOT_APPLIED",
+  "local_machines": "NOT_CHANGED",
+  "workflow_run_id": "41646583599"
+}
