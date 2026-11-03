@@ -1,0 +1,76 @@
+name: Check historical Python tooling
+on:
+  push:
+    branches:
+      - maintenance/archive-and-restore-python-20261103
+    paths:
+      - .github/workflows/python-restore-check.yml
+permissions:
+  contents: read
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Parse every tracked Python source without executing it
+        env:
+          GIT_LFS_SKIP_SMUDGE: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init source
+          git -C source config core.hooksPath /dev/null
+          git -C source remote add origin https://github.com/fum-lab/fum.git
+          git -C source fetch --depth=1 --filter=blob:none origin fc3e9776954ccbec5ff8c2e886606a137a98fd1a
+          git -C source -c advice.detachedHead=false checkout --detach FETCH_HEAD
+          cd source
+          python3 - <<'PY'
+          import ast, json, pathlib, platform, subprocess
+          paths = subprocess.check_output(['git','ls-files','-z','*.py']).decode().rstrip('\0').split('\0')
+          failures = []
+          for p in paths:
+              try:
+                  ast.parse(pathlib.Path(p).read_bytes(), filename=p)
+              except Exception as exc:
+                  failures.append({'path':p,'error':str(exc)})
+          print('SYNTAX_RESULT',json.dumps({'commit':subprocess.check_output(['git','rev-parse','HEAD']).decode().strip(),'python':platform.python_version(),'files':len(paths),'errors':failures},ensure_ascii=False))
+          assert not failures
+          assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'])
+          PY
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        test:
+          - Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_дочернего_слияния_контрольной_точки.py
+          - Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычного_поручения.py
+          - Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py
+    steps:
+      - name: Run existing isolated Python regressions
+        env:
+          TEST_PATH: ${{ matrix.test }}
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_LFS_SKIP_SMUDGE: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init source
+          git -C source config core.hooksPath /dev/null
+          git -C source remote add origin https://github.com/fum-lab/fum.git
+          git -C source fetch --depth=1 --filter=blob:none origin fc3e9776954ccbec5ff8c2e886606a137a98fd1a
+          git -C source -c advice.detachedHead=false checkout --detach FETCH_HEAD
+          cd source
+          python3 - <<'PY'
+          import json, os, platform, subprocess, sys, time
+          start = time.monotonic()
+          command = [sys.executable, os.environ['TEST_PATH'], '-v']
+          run = subprocess.run(command, timeout=480)
+          print('REGRESSION_RESULT',json.dumps({'commit':subprocess.check_output(['git','rev-parse','HEAD']).decode().strip(),'python':platform.python_version(),'command':command,'returncode':run.returncode,'seconds':time.monotonic()-start},ensure_ascii=False))
+          changes = subprocess.check_output(['git','status','--porcelain','--untracked-files=no']).decode()
+          print('TRACKED_WORKTREE_CHANGES',repr(changes))
+          if changes:
+              raise SystemExit(2)
+          raise SystemExit(run.returncode)
+          PY
