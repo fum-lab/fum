@@ -1,6 +1,6 @@
 {
   "schema": "fum.public.work-priority-queue.v3",
-  "updatedAtUTC": "2026-11-02T21:52:19Z",
+  "updatedAtUTC": "2026-11-03T01:16:46Z",
   "scope": "Ограниченный актуальный набор текущего плана ROOT/A10; в записи раздельно показаны выбранные горизонты и их связанные источники. Полнота всей FUM/FUMA и фактический охват всех требований, веток и проектов UNKNOWN; неизвестность не равна нулю.",
   "purpose": "Публичная Git-память текущего ограниченного плана и состояния источников/потребителей. Реестр не является dispatcher, FIFO, scheduler или доказательством исполнения.",
   "priorityRules": {
@@ -518,16 +518,15 @@
     }
   ],
   "sourceRevision": {
-    "version": 4,
-    "kind": "Append-only current overlay after public C3606. Adds the human-selected P4 whole-directory transition design; corrects attribution between the P5 child ROUTINE nine-process incident and separate Docs A10 v31 incident; and records one actionable static P1 consumer-stop loss in delivered P5 source with same-owner rework dispatched. No priority/composition change, source replay, execution-right expansion or activation claim.",
+    "version": 5,
+    "kind": "Append-only current queue overlay v5 after public planning base b98. Records ROOT-accepted bounded Docs E6 source/consumer outcome, links its next existing P4/ARCH01 stage and CASE39, and corrects URI-evidence/autonomy handling. Accepted five-horizon composition and priorities remain unchanged; frozen E6 is not replayed; no apply, runtime, integration or new effect right is claimed.",
     "previousQueue": {
-      "commit": "3606a0febf80639721e6b2849333f268a0a9df5b",
+      "commit": "b98a4d8ed0925707e10360a52e5e3761a6a832a1",
       "path": "planirovaniye/очередь-работ.json",
-      "blob": "64bc788d24efb35274d878016b4f8467923a4add",
-      "bytes": 67038,
-      "sha256": "73e3fc3d0da126837de3aa2d68018cd0b700895ea423326b1f28ed9537dc45d6",
-      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
-      "rootDecision": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE"
+      "blob": "6237296802d0a9c45c209a708ac71f259013fab7",
+      "bytes": 72979,
+      "sha256": "f6ab792329d751a13705e86ac1f15eb5d4512cfc0dd3d4e8e0e40d41905a3e45",
+      "relation": "Current local base HEAD; remote delivery not queried in this stage."
     },
     "previousPlanSources": [
       {
@@ -551,10 +550,18 @@
         "bytes": 25989,
         "sha256": "610b2af5b35da704247a486e2695b065a1e0a1fa7a4674c15bb71ac929085119",
         "rootDecision": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE"
+      },
+      {
+        "commit": "b98a4d8ed0925707e10360a52e5e3761a6a832a1",
+        "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
+        "blob": "e05d6fc2e48297c6d4298a1b31cf1b610f3cbd1a",
+        "bytes": 40817,
+        "sha256": "48cdd4840b6b760ccb446277bef30306020e1d73f51d469f5ccb6440fb8fd287",
+        "relation": "Current local base HEAD; remote delivery not queried in this stage."
       }
     ],
     "linkedCurrentPlan": {
-      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v6.json",
       "schema": "fum.planirovaniye.operational-plan-linked-source.v5",
       "compositionChanged": false,
       "priorityChanged": false
@@ -666,6 +673,77 @@
         "state": "DELIVERY_DONE; CORRECTNESS_REWORK_DISPATCHED_TO_SAME_TOOLS_ROUTINE_OWNER; COMPILE_TEST_RUNTIME_INTEGRATION_USE_UNKNOWN_OR_ZERO",
         "repairScope": "3 files; old4 Package remains HELD; no new repair role; no old AA32 replay.",
         "disposition": "Public logical finding and owner/residual only. Do not interrupt or replay an already frozen/inflight stage."
+      },
+      {
+        "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
+        "docsE6": {
+          "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
+          "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
+          "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+          "tree": "976792ab43551c41d77148a5bb077666ff4d4df8",
+          "parent": "e4a4cbe997c8470b9846d8fc4720eef08e933b42",
+          "ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+          "rootVerification": "ROOT independently reports raw/pure OID/exact 4 pins/remote match.",
+          "reviewed": [
+            "whole README.md (18,967 bytes)",
+            "ARCH01 article (36,547 bytes)",
+            "selected map and Journal sections"
+          ],
+          "publishedPaths": [
+            "dokumentaciya/README.md",
+            "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+            "dokumentaciya/zhurnal.md",
+            "dokumentaciya/конвейеры-и-очереди-FUM.md"
+          ],
+          "boundedReview": {
+            "readme": "Retains both functions, provenance 0250+ac78, thematic map and 8 inputs.",
+            "architecture": "Includes stage/work/version/goal/IO/own memory/write capability/parent-child refs/READY/budget/findings-to-consumer-to-feedback/recovery/integration.",
+            "unknown": [
+              "FUM/FUMA/learning loops/self-application/ports",
+              "full graph and warning origin",
+              "full privacy and anchor check"
+            ],
+            "publicationPatterns": "Four selected patterns reviewed: /Users/, FUM-private-, private-501, file:// hits 0; this is not a full privacy/anchor scan."
+          },
+          "execution": {
+            "move": 0,
+            "apply": 0,
+            "migration": "NOT_ESTABLISHED",
+            "tests": "NOTRUN",
+            "validators": "NOTRUN",
+            "fullGraph": "UNKNOWN",
+            "runtime": "NOT_GREEN"
+          },
+          "mapObservation": {
+            "count": 155,
+            "sizeShaInequality": "Does not establish nine semantic conflicts.",
+            "uriCounts": "5466=840+4465+161",
+            "fragments": "17 fragments overlap/classification or UNKNOWN; do not treat as a separate non-overlapping group.",
+            "proofReuse": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; do not rescan or turn these into manual conflicts."
+          },
+          "nextDocsStage": {
+            "owner": "Existing Documentation owner with FUMA semantic peer",
+            "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6.",
+            "steps": [
+              "Reuse accepted URI-only/address-equivalent proofs, especially 22; no rescan.",
+              "Do not infer nine semantic conflicts from 155-byte/size/SHA inequality.",
+              "Carry 17 fragments as overlapping/classification or UNKNOWN, not a non-overlapping bucket.",
+              "Clarify article 112 against 111 and human autonomy: the existing owner continues READY within the assigned task without a human gate for every step."
+            ],
+            "apply": "HELD until the existing owner has a coherent, conflict-free plan and applicable effect authority."
+          },
+          "case39": "Record as bounded Docs source/consumer outcome only; does not close CASE39, prove ROOT integration, full migration, full profile or runtime.",
+          "recoveryObservation": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open.",
+          "privacyBoundary": "Do not publish private native fields, absolute receipt paths or RAW; retain nonsensitive incident provenance and public C/ref only."
+        },
+        "linkedBoundaries": {
+          "horizon": "P4 / ROOT-PIPELINE-ARCH-FUM-01",
+          "case": "ROOT-A10-LOCAL-AGENTS-LOST-CONTINUATION-01 (CASE39 remains open)",
+          "ruleAutomation": "Existing accepted rule inventory projection only; no duplicate runtime or route.",
+          "nextOwner": "Existing Documentation owner with FUMA semantic peer",
+          "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6."
+        },
+        "disposition": "Frozen E6 is preserved; use this input at the next ordinary Docs stage without interrupt/replay. No priority/composition change, apply, root master integration, runtime or public full-profile claim."
       }
     ],
     "previousPlan": {
@@ -893,20 +971,66 @@
       "id": "ROOT-PIPELINE-ARCH-FUM-01",
       "owner": "Existing Documentation owner, with FUMA semantic peer",
       "targetPath": "dokumentaciya/конвейеры-и-очереди-FUM.md",
-      "state": "ACTIVE_REPORTED_SOURCE_COMMIT_UNKNOWN",
+      "state": "E6_SOURCE_DELIVERED_LIMITED_CONSUMER_ACCEPTED; NEXT_DOCS_STAGE_PENDING; APPLY_HELD",
       "scope": "Связанный versioned queue/stage contract и ограниченный пилот к текущим A12/P4; целевая траектория FUM prototype → verified FUMA updates → eventual self-maintaining repo memory.",
       "relationship": "Отдельная Docs/FUM architecture область; не дублирует A12/P5 assignments и не заменяет пять принятых горизонтов.",
       "runtimeArchiveOrHostCutover": "NOT_AUTHORIZED_OR_CLAIMED",
       "wholeDirectoryTransition": {
         "id": "P4-WHOLE-DIRECTORY-TRANSITION-v2",
-        "planPath": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
-        "state": "DESIGN_ONLY; EXISTING_VERSIONED_MAP_AND_MANUAL_COLLISIONS_PENDING; APPLY_HELD",
-        "selectedFirstMapping": "Документация/ → dokumentaciya/",
-        "mapProducerPathVersion": "UNKNOWN",
-        "knownConflict": "README.md requires manual Docs-owner resolution; no resolution claimed.",
-        "wholeTreePlan": "NOT_READY"
+        "planPath": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v6.json",
+        "state": "E6_SOURCE_DELIVERED_LIMITED_CONSUMER_ACCEPTED; NEXT_DOCS_STAGE_PENDING; APPLY_HELD",
+        "selectedFirstMapping": "Документация/ → dokumentaciya/ (HUMAN_SELECTED)",
+        "mapProducerPathVersion": "UNKNOWN for other old directories; this does not block the selected Docs stage",
+        "e6Source": {
+          "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+          "tree": "976792ab43551c41d77148a5bb077666ff4d4df8",
+          "parent": "e4a4cbe997c8470b9846d8fc4720eef08e933b42",
+          "ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+          "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
+          "rootVerification": "ROOT independently reports raw/pure OID/exact 4 pins/remote match.",
+          "reviewed": [
+            "whole README.md (18,967 bytes)",
+            "ARCH01 article (36,547 bytes)",
+            "selected map and Journal sections"
+          ],
+          "publishedPaths": [
+            "dokumentaciya/README.md",
+            "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+            "dokumentaciya/zhurnal.md",
+            "dokumentaciya/конвейеры-и-очереди-FUM.md"
+          ],
+          "execution": {
+            "move": 0,
+            "apply": 0,
+            "migration": "NOT_ESTABLISHED",
+            "tests": "NOTRUN",
+            "validators": "NOTRUN",
+            "fullGraph": "UNKNOWN",
+            "runtime": "NOT_GREEN"
+          }
+        },
+        "nextAction": {
+          "owner": "Existing Documentation owner with FUMA semantic peer",
+          "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6.",
+          "steps": [
+            "Reuse accepted URI-only/address-equivalent proofs, especially 22; no rescan.",
+            "Do not infer nine semantic conflicts from 155-byte/size/SHA inequality.",
+            "Carry 17 fragments as overlapping/classification or UNKNOWN, not a non-overlapping bucket.",
+            "Clarify article 112 against 111 and human autonomy: the existing owner continues READY within the assigned task without a human gate for every step."
+          ],
+          "apply": "HELD until the existing owner has a coherent, conflict-free plan and applicable effect authority."
+        },
+        "mapObservation": {
+          "count": 155,
+          "sizeShaInequality": "Does not establish nine semantic conflicts.",
+          "uriCounts": "5466=840+4465+161",
+          "fragments": "17 fragments overlap/classification or UNKNOWN; do not treat as a separate non-overlapping group.",
+          "proofReuse": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; do not rescan or turn these into manual conflicts."
+        },
+        "case39": "Record as bounded Docs source/consumer outcome only; does not close CASE39, prove ROOT integration, full migration, full profile or runtime.",
+        "readiness": "Whole-tree plan NOT_READY; apply HELD; migration/application 0; tests/validators NOTRUN; full graph/warning origin UNKNOWN; runtime NOT_GREEN; integration not established."
       },
-      "nextAction": "Bind the exact existing versioned directory map and fresh coherent Docs snapshot; resolve real semantic conflicts manually; then create one complete conflict-free plan for the remaining selected tree. Apply remains HELD."
+      "nextAction": "After frozen E6, existing Documentation owner performs the next ordinary meaningful migration step using accepted URI-only/address-equivalent proofs (especially 22) without rescanning; keep 17 fragments overlapping/classification or UNKNOWN; clarify article 112 against 111 and autonomy. The missing global naming map only gates selection of other old directories. Apply remains HELD."
     }
   ],
   "autonomyAndSourcePolicy": {
@@ -997,6 +1121,14 @@
       ],
       "admission": "ROOT next finite source selection/admission",
       "executions": 0
+    },
+    "docsE6": {
+      "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
+      "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+      "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
+      "case39": "E6 is bounded source/consumer evidence only; CASE39 stays open pending distinct durable checkpoint, origin feedback, actual use and future self-recall.",
+      "recoveryObservation": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open.",
+      "privacyBoundary": "Do not publish private native fields, absolute receipt paths or RAW; retain nonsensitive incident provenance and public C/ref only."
     }
   },
   "p5SourceCorrectness": {
@@ -1022,5 +1154,6 @@
     "consumerFeedback": "PENDING",
     "noNewRepairRole": true,
     "noAA32Replay": true
-  }
+  },
+  "revisionKind": "Append-only current queue overlay v5 after public planning base b98. Records ROOT-accepted bounded Docs E6 source/consumer outcome, links its next existing P4/ARCH01 stage and CASE39, and corrects URI-evidence/autonomy handling. Accepted five-horizon composition and priorities remain unchanged; frozen E6 is not replayed; no apply, runtime, integration or new effect right is claimed."
 }

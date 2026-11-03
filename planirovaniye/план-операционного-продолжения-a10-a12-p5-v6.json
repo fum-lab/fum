@@ -1,0 +1,818 @@
+{
+  "schema": "fum.planirovaniye.operational-plan-linked-source.v5",
+  "updatedAtUTC": "2026-11-03T01:16:46Z",
+  "revisionKind": "Append-only linked P1 source v6: adds ROOT-accepted bounded Docs E6 public source delivery/consumer outcome, corrects the next existing P4/ARCH01 step using reusable URI evidence, and links the outcome to still-open CASE39. Accepted five-horizon composition and priorities are unchanged; E6 is frozen; no move/apply, runtime, integration, new owner or effect right is claimed.",
+  "previousSources": {
+    "queueV1": {
+      "commit": "ad204f6f7563133c172af2be8bf3e295dca45d92",
+      "path": "planirovaniye/очередь-работ.json",
+      "blob": "bacf0897b9997fbbc94f88dc30b2a10ff8afadcd",
+      "bytes": 43998,
+      "sha256": "663033d0ea0f9b7748ced0720f32e0e48f81fca7f90b4543e250281f3709a4e8",
+      "rootDecision": "ACCEPTED_LIMITED_OPERATIONAL_REGISTER_PARTIAL_FIRST_SLICE"
+    },
+    "sourceV1": {
+      "commit": "9d0f9922c0140ed990f8be0b1a713c4dc926701b",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5.json",
+      "sha256": "2d1e7a81c264ef75b74691a006ba262ba9812d3fc3a1ac889c524545b7fabd42",
+      "rootDecision": "ACCEPT_USEFUL_LINKED_ACCEPTED_PLAN_SOURCE"
+    },
+    "sourceV2": {
+      "commit": "b4cf6fe66a242414ddf5dc03256ccec4c4806d02",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v2.json",
+      "blob": "b1cf111fea9c567d96389ab8710a758bad7dbf32",
+      "bytes": 7554,
+      "sha256": "8fe0e40292867a12c7aaf66681320ef7447d90068dbbad04c34bac38f22a3ff6",
+      "rootDecision": "ACCEPT_USEFUL_LINKED_PLAN_V2_SOURCE"
+    },
+    "queueV2Path": "planirovaniye/очередь-работ.json",
+    "sourceV3": {
+      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v3.json",
+      "blob": "be5737efdc39754e6fc39e138ab9bd2ec2b3c559",
+      "bytes": 18310,
+      "sha256": "f86a8bf451540188031f288a94293d83c23990418b6d272acb2d7b1deba677f9",
+      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY"
+    },
+    "queueV2": {
+      "commit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+      "path": "planirovaniye/очередь-работ.json",
+      "blob": "46b815397f2068c8bfc7b5cde542e43c4e420798",
+      "bytes": 58788,
+      "sha256": "bcb09927a448d7fdd881ca455b73904cc0e50f0f82973fef67291caaa135ac38",
+      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY"
+    },
+    "queueV3Path": "planirovaniye/очередь-работ.json",
+    "sourceV4": {
+      "commit": "3606a0febf80639721e6b2849333f268a0a9df5b",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v4.json",
+      "blob": "edc4bf54ea7a557512bd635b922b5a7cea32202a",
+      "bytes": 25989,
+      "sha256": "610b2af5b35da704247a486e2695b065a1e0a1fa7a4674c15bb71ac929085119",
+      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+      "rootDecision": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE"
+    },
+    "sourceV5": {
+      "commit": "b98a4d8ed0925707e10360a52e5e3761a6a832a1",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v5.json",
+      "blob": "e05d6fc2e48297c6d4298a1b31cf1b610f3cbd1a",
+      "bytes": 40817,
+      "sha256": "48cdd4840b6b760ccb446277bef30306020e1d73f51d469f5ccb6440fb8fd287",
+      "relation": "Current local base HEAD; this update does not independently query its remote delivery."
+    }
+  },
+  "acceptedComposition": {
+    "baseline": "P1 public typed-work/index/coverage and queue bootstrap; P2 recall/continuation/consumer feedback; P3 A12 first use; P4 programmatic move/integration work; P5 thin common Swift agent and ONE typed route.",
+    "changed": false,
+    "prioritiesChanged": false,
+    "executionOrder": "Display order does not define execution order; existing dependencies, readiness, ownership, resources and triggers govern the next bounded step."
+  },
+  "sourceAndQueueModel": {
+    "compatibility": "PARTIAL_FIRST_SLICE",
+    "existingQueue": "V1 is useful for its bounded selected A10 set, not an exhaustive or universal processing system. V2 adds a compatibility contract and current overlay; all-FUM coverage remains UNKNOWN.",
+    "workItemProfiles": [
+      "rule",
+      "requirement",
+      "issue",
+      "integration",
+      "branch-memory-audit",
+      "automation"
+    ],
+    "profileModel": "One typed lifecycle with explicit kind and exact source/version refs; future kinds use the same core fields rather than one schema per example.",
+    "lifecycle": [
+      "source/version",
+      "classify",
+      "queue with owner and consumer",
+      "operator/program candidate",
+      "tests/evidence",
+      "integration",
+      "actual use and origin feedback"
+    ],
+    "requiredFields": [
+      "selected versioned set",
+      "remaining scope and coverage or UNKNOWN",
+      "owner and consumer",
+      "target ref/base, physical W, writer, checks and effect rights",
+      "dependencies",
+      "READY/HELD/UNKNOWN",
+      "trigger",
+      "durable result locator",
+      "integration state",
+      "origin feedback and residual"
+    ],
+    "branchMemoryAudit": "Future bounded profile only. Before any audit, select exact ref set and snapshot, mapping-rule version, expected logical memory root and observed path/version. Physical path, logical branch path, memory root and identity are separate. No enumeration or mapping run is authorized here.",
+    "ruleAutomation": "A projection of the existing accepted rule inventory: rule ID/version/source → applicability → existing enforcer/checker/template → tests and coverage/UNKNOWN/residual → owner/trigger → actual integrated enforcement and read/applied evidence. It does not duplicate AGENTS or create a second runtime. Existing AGENTS reading/routing remains required until an accepted, tested replacement exists.",
+    "implementationState": "Universal queue execution, recursive queue runtime, recovery scheduler, and full coverage are not proven or claimed.",
+    "reusePolicy": "Reuse common invariants and templates; preserve domain differences with distinguishing checks. Similarity alone does not prove a universal mechanism.",
+    "schemaCompatibility": "V1 item values are preserved; V2 adds descriptive top-level fields. Consumer parser compatibility is NOT_TESTED; this queue is public planning memory, not an executable API."
+  },
+  "autonomyPolicy": {
+    "sourceLiteral": "No tebe ne obyazateljno zhdatj ot menya podtverzhdenij, chtobyi prodolzhatj. U nas ogromnoye kolichestvo i sagov, i trebovanij, i ishjyusov, tak?",
+    "provenance": "Human → ROOT → A10 relay; native message ID and event time UNKNOWN.",
+    "decision": "Continue ordinary agreed backlog work autonomously without a new ROOT/human ticket for each routine checkpoint or own commit. A material goal change, conflict, missing authority, or a new concrete effect right is separate.",
+    "compositionAndRightsChanged": false
+  },
+  "horizons": [
+    {
+      "id": "P1",
+      "name": "Публичная типизированная очередь, индекс, покрытие и её развитие",
+      "state": "DELIVERED_LIMITED_PUBLIC_SOURCE_CURRENT_OVERLAY_PREPARED",
+      "owner": "Planning",
+      "currentResult": "Queue V2/plan V3 commit 38ee… is remotely delivered and accepted as useful limited public memory. The author-attribution incident remains NOT_GREEN; no history rewrite or general author bypass.",
+      "nextAction": "Complete the corrected linked P1 source case only with the standing exact author/creator gates; keep integration and activation separate.",
+      "residual": [
+        "all-FUM/all-requirements/all-ref coverage UNKNOWN",
+        "universal executor and recursive queues not implemented",
+        "queue evolution remains linked bootstrap work"
+      ],
+      "lateConsumerOutcome": "Docs E6 is a bounded source delivery and consumer decision; it does not change P1 accepted composition, delivery or author/creator gates."
+    },
+    {
+      "id": "P2",
+      "name": "Память, продолжение, потребительская обратная связь",
+      "state": "CASE39_OPEN",
+      "owner": "Planning links the existing Requirements producer and assigned Docs consumer",
+      "case": "ROOT-A10-LOCAL-AGENTS-LOST-CONTINUATION-01",
+      "source": {
+        "commit": "39b37059c6604e62c6c32bc3a841927672f5c66d",
+        "path": "trebovaniya/utochneniya-avtomatizacii-fuma.json"
+      },
+      "producer": {
+        "commit": "49a91aee9c3cec9a8f7398fe20e98ce00520def5",
+        "path": "Правила/агентов/shablony/agents-yachejki.json",
+        "schema": "fum.шаблон-контекста-агента.6"
+      },
+      "consumerState": "ROOT reports useful local AGENTS/first-batch content and local application. Python/consumed-capture evidence is NOT_GREEN. A distinct durable checkpoint under the standing checkpoint policy is still required; public migration outcome and useful source feedback remain UNKNOWN. ROOT reports E6 public Docs source delivery e6c0c4d was accepted as a useful bounded source/consumer outcome. It is not a distinct durable checkpoint, origin feedback, public migration, integration or closure. CASE39 remains open.",
+      "acceptedSourceState": "ROOT accepted Source-v2 as a useful linked plan source; this is not case intake, runtime, public migration or closure.",
+      "boundedObservation": "ROOT reports terminal send_message queued-but-not-started followed by one same-owner follow-up that actually resumed. This is one bounded reported case, not a universal Desktop cause or Native Stop repair.",
+      "nextAction": "Record E6 as bounded Docs source/consumer evidence; obtain the distinct durable checkpoint and origin feedback, and keep CASE39 open until actual use and future self-recall are evidenced.",
+      "checkpointRequirement": "Create a distinct accepted durable checkpoint using the standing policy; do not treat the existing Python/consumed-capture attempt as GREEN or reduce the issue to a generic permission denial."
+    },
+    {
+      "id": "P3",
+      "name": "A12 storage and first use",
+      "state": "SOURCE_READ_COMPLETE_SELECTION_PENDING_FIRST_USE_NOT_ADMITTED",
+      "owner": "Existing Tools → Routine with FUMA semantic peer",
+      "source01": {
+        "commit": "fda1eecbcd7942719bc5576cd3eaca7202aeb2c7",
+        "status": "public source for store/adapter/test; nine checks not run"
+      },
+      "source03": {
+        "commit": "d3ac8dc338d3a88f23b3e50a1a077718d64294bb",
+        "parent": "fda1eecbcd7942719bc5576cd3eaca7202aeb2c7",
+        "status": "ROOT accepted caller Source; root-reported raw/OID/tree/parent/remote readback matched"
+      },
+      "observedState": {
+        "actualFirstUse": "NOT_OBSERVED",
+        "compilerRuns": 0,
+        "narrowReads": "NOT_GREEN; retain; do not repeat",
+        "linguisticKitRead": "NOT_ATTEMPTED_CAPABILITY_MISSING; no fallback",
+        "exactBoundedRead": "ROOT_REPORTED_COMPLETE",
+        "candidateSelection": "PENDING_ROOT",
+        "executionCount": 0
+      },
+      "resources": "ROOT reports metadata for 54 source candidates and 6 resources across 6 declared public C trees; source bodies/materialization/toolchain/SDK remain unverified.",
+      "nextAction": "ROOT performs the finite source selection/admission; keep typecheck, link, compile, minimality, first use and runtime as separate unestablished outcomes.",
+      "sourceLinkProposal": {
+        "state": "ROOT_ACCEPTED_AS_DATA",
+        "details": "Concrete source/link proposal exists; ROOT reports 54 source candidates and 6 resources across 6 modules.",
+        "boundedSourceBodyRead": "ASSIGNED_TOOLS_PENDING",
+        "executionAndUse": "UNKNOWN_NOT_ADMITTED"
+      },
+      "sourceBodyRead": {
+        "case": "ROOT-A12-DEPENDENCY-SOURCE-READ-01",
+        "state": "ROOT_REPORTED_COMPLETE_LEXICAL_READ",
+        "sourceSet": {
+          "swiftSources": 54,
+          "publicResources": 6,
+          "totalBytes": 798585,
+          "reads": 1,
+          "gitSha256AndUtf8Pins": "ROOT reports verified"
+        },
+        "candidate": {
+          "sourceFiles": 7,
+          "sourceBytes": 80769,
+          "callerBytes": 3438,
+          "totalBytes": 84207,
+          "dependencies": [
+            "Foundation",
+            "CryptoKit",
+            "Darwin"
+          ],
+          "resourceCallsInSevenLexicallyReadSources": 0
+        },
+        "notEstablished": [
+          "typecheck",
+          "link",
+          "compile",
+          "minimality proof",
+          "first use"
+        ],
+        "admission": "ROOT next finite source selection/admission",
+        "executions": 0
+      }
+    },
+    {
+      "id": "P4",
+      "name": "Программный перенос и интеграция документации",
+      "state": "E6_SOURCE_DELIVERED_LIMITED_CONSUMER_ACCEPTED; NEXT_DOCS_STAGE_PENDING; APPLY_HELD",
+      "originalGoal": "Ограниченный реальный batch move/merge/dedup с восстановленными ссылками, а не копирование без удаления/переноса исходника.",
+      "source01": {
+        "commit": "cb198b371f2587a75006d58802bab8cce74da15f",
+        "status": "ROOT accepted source; FS executor not ready; 18 checks not run; moves 0"
+      },
+      "source02": {
+        "state": "ACTIVE_REPORTED_SOURCE_C_UNKNOWN",
+        "owner": "Existing Tools and Docs work",
+        "scope": "Concrete journal/filesystem/entrypoint and fixture-test source plus manifest; no source C yet reported."
+      },
+      "consumerEvidence": "The exact P4 source-fix commit is ROOT-reported; targeted consumer review remains pending. Namespace correction is not runtime prevention or applied move. ROOT reports E6 e6c0c4d (tree 976792a, parent e4a4cbe, Docs branch) independently matched raw/pure OID, four pins and remote. Whole README, ARCH01 and selected map/Journal sections were reviewed. This bounded outcome does not establish full migration, ROOT master integration, CASE39 closure, full profile, runtime or move/apply.",
+      "relatedArchitecture": "The Docs pipeline project ROOT-PIPELINE-ARCH-FUM-01 is a linked bounded pilot, not a broad Roam/Naming audit or new renamer.",
+      "nextAction": "After frozen E6, the existing Documentation owner continues the next ordinary meaningful migration stage: reuse accepted URI-only/address-equivalent proofs (especially 22) without rescanning; do not infer nine semantic conflicts from 155-byte/size/SHA inequality; keep 17 fragments overlapping/classification or UNKNOWN; reconcile article 112 with 111 and human autonomy so the assigned owner can continue READY without per-step human gates. Apply remains HELD pending a coherent owner-ready plan and applicable effect authority.",
+      "latestSource02": {
+        "commit": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+        "tree": "4a4be6b5cb7e352ba4da33b94eaa9fcd8da1785f",
+        "parent": "cb198b371f2587a75006d58802bab8cce74da15f",
+        "path": "iskhodniki/aktualizaciya-putej/kontraktyi/adapteryi-dokumentacii-p4-source02.json",
+        "bytes": 10504,
+        "sha256": "83e36437893437aebe8be11363821e3057ab9ad9c235d61308a01fef4753bd4b",
+        "rootDecision": "ACCEPT_USEFUL_P4_CONCRETE_SOURCE_DELIVERY",
+        "checks": "Prior 18 and new 16 tests NOT_RUN; compiler/CLI/application/moves 0; coherent Docs/URI/README/batch plan remains not ready.",
+        "changedFiles": "6 added and 2 modified files reported by ROOT; not independently counted in this Planning worktree."
+      },
+      "owner": "Existing Tools/Docs owners; ROOT coordinates their assigned boundary",
+      "locatorCorrection": {
+        "oldPrefix": "ishodniki/",
+        "verifiedPrefix": "iskhodniki/",
+        "reason": "The exact C62 tree contains the manifest at the corrected prefix."
+      },
+      "sourceFix": {
+        "commit": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d",
+        "parent": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+        "reportedChanges": "3 modified files and 2 test-source additions",
+        "checks": "All 18 checks in the new file NOT_RUN",
+        "consumerResult": {
+          "id": "3376",
+          "hashPrefix": "bc1d536c",
+          "wholeResultHash": "ROOT reports complete hash verification; full value not reproduced in this public source",
+          "independentTargetedReview": "PENDING"
+        },
+        "limitations": "Own ignored-temp namespace correction only; does not establish runtime prevention or applied moves."
+      },
+      "wholeDirectoryTransition": {
+        "id": "P4-WHOLE-DIRECTORY-TRANSITION-v2",
+        "projectId": "ROOT-PIPELINE-ARCH-FUM-01",
+        "state": "DESIGN_ONLY; EXISTING_VERSIONED_MAP_AND_MANUAL_COLLISIONS_PENDING; APPLY_HELD",
+        "detailPath": "relatedArchitectureProject.wholeDirectoryTransition",
+        "apply": "HELD"
+      },
+      "e6Source": {
+        "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
+        "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
+        "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+        "tree": "976792ab43551c41d77148a5bb077666ff4d4df8",
+        "parent": "e4a4cbe997c8470b9846d8fc4720eef08e933b42",
+        "ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+        "rootVerification": "ROOT independently reports raw/pure OID/exact 4 pins/remote match.",
+        "reviewed": [
+          "whole README.md (18,967 bytes)",
+          "ARCH01 article (36,547 bytes)",
+          "selected map and Journal sections"
+        ],
+        "publishedPaths": [
+          "dokumentaciya/README.md",
+          "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+          "dokumentaciya/zhurnal.md",
+          "dokumentaciya/конвейеры-и-очереди-FUM.md"
+        ],
+        "boundedReview": {
+          "readme": "ROOT reports E6 preserves both README functions, provenance 0250+ac78, the thematic map and eight inputs.",
+          "architecture": "Includes stage/work/version/goal/IO/own memory/write capability/parent-child refs/READY/budget/findings-to-consumer-to-feedback/recovery/integration.",
+          "unknown": [
+            "FUM/FUMA/learning loops/self-application/ports",
+            "full graph and warning origin",
+            "full privacy and anchor check"
+          ],
+          "publicationPatterns": "Four selected patterns reviewed: /Users/, FUM-private-, private-501, file:// hits 0; this is not a full privacy/anchor scan."
+        },
+        "execution": {
+          "move": 0,
+          "apply": 0,
+          "migration": "NOT_ESTABLISHED",
+          "tests": "NOTRUN",
+          "validators": "NOTRUN",
+          "fullGraph": "UNKNOWN",
+          "runtime": "NOT_GREEN"
+        },
+        "mapObservation": {
+          "count": 155,
+          "sizeShaInequality": "Does not establish nine semantic conflicts.",
+          "uriCounts": "5466=840+4465+161",
+          "fragments": "17 fragments overlap/classification or UNKNOWN; do not treat as a separate non-overlapping group.",
+          "proofReuse": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; do not rescan or turn these into manual conflicts."
+        },
+        "nextDocsStage": {
+          "owner": "Existing Documentation owner with FUMA semantic peer",
+          "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6.",
+          "steps": [
+            "Reuse accepted URI-only/address-equivalent proofs, especially 22; no rescan.",
+            "Do not infer nine semantic conflicts from 155-byte/size/SHA inequality.",
+            "Carry 17 fragments as overlapping/classification or UNKNOWN, not a non-overlapping bucket.",
+            "Clarify article 112 against 111 and human autonomy: the existing owner continues READY within the assigned task without a human gate for every step."
+          ],
+          "apply": "HELD until the existing owner has a coherent, conflict-free plan and applicable effect authority."
+        },
+        "case39": "Record as bounded Docs source/consumer outcome only; does not close CASE39, prove ROOT integration, full migration, full profile or runtime.",
+        "recoveryObservation": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open.",
+        "privacyBoundary": "Do not publish private native fields, absolute receipt paths or RAW; retain nonsensitive incident provenance and public C/ref only."
+      }
+    },
+    {
+      "id": "P5",
+      "name": "Тонкий общий агент и один typed route",
+      "state": "SOURCE_DELIVERED_ROOT_ACCEPTED_ACTIONABLE_P1_REWORK_DISPATCHED_RUNTIME_ZERO",
+      "owner": "Existing Tools → Routine; FUMA semantic peer",
+      "scope": [
+        "own memory within W/ref/writecap",
+        "parent and child refs/consumer",
+        "one typed work → durable result → consumer feedback route",
+        "reuse the accepted A12 segment"
+      ],
+      "expectedPublicFiles": [
+        "iskhodniki/zapusk/АгентFUM.swift",
+        "proverki/zapusk/ПроверкиАгентаFUM.swift",
+        "instrumentyi/rantajm-agentov/zhiznennyj-cikl/минимальный-рекурсивный-агент-P5.json"
+      ],
+      "sizeLimitBytes": 16384,
+      "producerState": "Delivery of bd9b2f03ccfa425379feb98a667274aa3b22f7ad is DONE and ROOT accepted the useful Source. A bounded A10 review found one actionable static P1 consumer-stop loss; correctness rework is dispatched to the same Tools → Routine owner. Compile/tests/runtime/integration/use remain unestablished or zero as recorded below.",
+      "nextAction": "The existing Tools → same Routine owner completes one narrow fix/test-source stage for the exact finding, then publishes a public successor and returns it for consumer feedback. Do not replay old AA32; if that stage is already frozen/inflight, leave it uninterrupted and carry the finding to the next versioned checkpoint.",
+      "exclusions": [
+        "no Package/compiler/test/CLI/store execution in this stage",
+        "no scheduler or all-queues gate",
+        "no expansion of Host/apply effects"
+      ],
+      "readinessGates": [
+        "parent guard for in-flight work, custody and resource READY"
+      ],
+      "integrationObligation": "Source publication/ACK is separate from consumer integration; later evidence must include exact target ref/base, W, writer, checks, effect rights, result and origin feedback.",
+      "producerFollowup": {
+        "classification": "P5 child ROUTINE incident; not Docs",
+        "correctionResult": {
+          "id": "821",
+          "sha256": "f2665e412781e1a884153f76f76e6d6f2524553abb2d5be75d5919efcc57745d"
+        },
+        "parentResult": {
+          "id": "9213",
+          "sha256": "a945168294cd5c2f9f1aa4ef08a51ccadba5f4dd99f2db65ccf583cd312d55a7",
+          "verification": "ROOT_ENTIRE_AND_HASH_REPORTED"
+        },
+        "reportedWrites": 0,
+        "reportedWritesEvidence": "ACTOR_REPORTED_ONLY_NOT_INDEPENDENT_PROCESS_AUDIT",
+        "status": "NOT_GREEN",
+        "sourceCommit": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+        "rootDecision": "ACCEPT_USEFUL_P5_PUBLIC_SOURCE_DELIVERY",
+        "compileRuns": 0,
+        "testRuns": 0,
+        "runtimeUses": 0,
+        "integrations": 0,
+        "historicalOneCallClaim": "PRESERVED_APPEND_ONLY; NOT_REPLAYED_OR_AUDITED",
+        "lateFoundReview": {
+          "logicalFindingId": "P5-BD9-P1-LATE-FOUND-DROPS-CONSUMER-STOP",
+          "sourceCommit": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+          "review": {
+            "id": "10874",
+            "sha256": "c20a4a5b77dcf33c85adc8be4b9649c99e8f7e74ccbeb8f26c3839eb9676ca2c",
+            "scope": "A10 bounded Source review",
+            "classification": "STATIC_COUNTEREXAMPLE; runtime 0; not Host provider absence"
+          },
+          "finding": "After UNKNOWN → absence → valid consumer stop, a late exact-found transition through reopen lines 809–817 and reconcile lines 969–981 clears the stop token and decision; save becomes allowed again without a new resolution. Source contract line 64 and guard lines 869–872 conflict with this path.",
+          "delivery": "DONE; bd9b2f03ccfa425379feb98a667274aa3b22f7ad was delivered and ROOT accepted the useful Source.",
+          "correctness": "ACTIONABLE_SOURCE_REWORK",
+          "consumerStop": "P1 lost across late-found reopen/reconcile; preserve stop token and decision/provenance; a new save requires a new valid resolution.",
+          "repair": {
+            "owner": "Existing Tools → same Routine; ROOT supports one narrow fix/test-source dispatch.",
+            "state": "DISPATCHED",
+            "exactScopeFiles": 3,
+            "old4Package": "HELD",
+            "newSourceCommit": "UNKNOWN",
+            "tests": "PENDING; do not infer execution from test source",
+            "compile": 0,
+            "runtime": 0,
+            "integration": "UNKNOWN",
+            "expectedSourceChanges": [
+              "Handle both late-found paths after a valid consumer stop while preserving the stop token, decision, provenance and attempt link."
+            ],
+            "differentiatingTests": [
+              "A late exact-found result through reopen after a valid consumer stop retains the stop decision/provenance/attempt link and blocks save until a new valid resolution.",
+              "A late exact-found result through reconcile after a valid consumer stop retains the stop decision/provenance/attempt link and blocks save until a new valid resolution."
+            ]
+          },
+          "linkage": [
+            "Source finding with public logical ID and cited source location.",
+            "Parent repair in the existing Tools → same Routine ownership path.",
+            "Public successor Source with exact commit/ref and actual checks.",
+            "Consumer feedback and origin result, recorded separately from delivery."
+          ],
+          "boundaries": {
+            "noNewRepairRole": true,
+            "doNotReplayOldAA32": true,
+            "ifNextAlreadyFrozenOrInflight": "Do not interrupt or replay; carry this fact to the next versioned meaningful checkpoint.",
+            "publicDisclosure": "Use logical finding ID, source commit, owner, rationale and residual only; no private absolute paths, Native RAW or full UUID.",
+            "independentOfOtherWork": "P4 whole-directory, frozen Docs stage 3 and A12 preparation continue; no priority change."
+          }
+        }
+      },
+      "separateDocsIncident": {
+        "case": "Docs A10 v31",
+        "result": {
+          "id": "2396",
+          "sha256": "a111bd3f919e203d29de25df42e90ff39b436f06acaa199f0209a0233551f9cb",
+          "minimumProvenExecutions": 1
+        },
+        "totalExecutionCount": "UNKNOWN",
+        "rootAndDeputyOwnPythonExecutions": 0,
+        "classification": "SEPARATE_FROM_P5_ROUTINE_NINE-PROCESS_INCIDENT"
+      }
+    }
+  ],
+  "relatedArchitectureProject": {
+    "id": "ROOT-PIPELINE-ARCH-FUM-01",
+    "owner": "Existing Documentation owner with FUMA semantic peer",
+    "sourceTarget": "dokumentaciya/конвейеры-и-очереди-FUM.md",
+    "sourceCommit": "UNKNOWN",
+    "state": "ACTIVE_REPORTED_SOURCE_C_UNKNOWN",
+    "relation": "Versioned queue/stage contract for a bounded A12/P4 pilot; links the existing FUM→FUMA self-hosting trajectory, not a duplicate A12/P5 project.",
+    "priorArchitecture": {
+      "commit": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+      "path": "dokumentaciya/rabochaya-arkhitektura-fum-fuma.md",
+      "bytes": 72915,
+      "sha256": "b0f8c4e0acd924738b7f3c15ff4006015dbfb8cdc9c00543102609447eff59f1",
+      "sections": [
+        "154–160",
+        "193+"
+      ],
+      "status": "ROOT reported existing legacy FUM→FUMA loading concept; target only, current runtime UNKNOWN."
+    },
+    "nextAction": "Reuse the existing Docs owner/semantic peer for the next ordinary stage after frozen E6; follow the URI-evidence and article-111/112 clarification in wholeDirectoryTransition. Preserve CASE39 as open.",
+    "exitCriteria": "Bounded pilot has a versioned source, owner and consumer; the selected move/queue contract has observable checks and a durable result; actual application and feedback are separately evidenced. This is not a present archive or host cutover.",
+    "wholeDirectoryTransition": {
+      "id": "P4-WHOLE-DIRECTORY-TRANSITION-v2",
+      "projectId": "ROOT-PIPELINE-ARCH-FUM-01",
+      "provenance": "ROOT relayed the selected human clarification v3. Native human message ID and event time were not supplied here and remain UNKNOWN; do not invent either.",
+      "state": "E6_SOURCE_DELIVERED_LIMITED_CONSUMER_ACCEPTED; NEXT_DOCS_STAGE_PENDING; APPLY_HELD",
+      "scope": {
+        "firstDirectory": {
+          "old": "Документация/",
+          "canonical": "dokumentaciya/",
+          "selection": "HUMAN_SELECTED"
+        },
+        "otherOldDirectories": "Select only from the existing versioned naming map. Map producer, repository path and version are UNKNOWN; do not guess transliteration, enumerate all refs or sweep other directories.",
+        "existingProject": "Reuse ROOT-PIPELINE-ARCH-FUM-01 and its existing Docs owner/FUMA semantic peer; do not create a duplicate project or agent."
+      },
+      "mapBoundary": {
+        "required": "For the HUMAN_SELECTED first directory Документация/ → dokumentaciya/, use the selected mapping and exact E6 source/target snapshots. The unknown global map for other directories does not block this Docs stage.",
+        "firstMapping": "HUMAN_SELECTED",
+        "otherDirectories": "Use only the existing versioned map; producer/path/version remain UNKNOWN. No enumeration or other-directory work is included.",
+        "acceptedProofs": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; no rescan."
+      },
+      "method": [
+        "Use the HUMAN_SELECTED Документация/ → dokumentaciya/ mapping for the first Docs directory and pin exact E6/source-target snapshots. Consult the existing versioned naming map only for any other old directories; their mapping is not required to continue the selected Docs stage.",
+        "Create a mapped target only when it is absent. Preserve existing canonical destinations and never overwrite them blindly.",
+        "Manually resolve only actual semantic conflicts evidenced after reusing accepted URI-only/address-equivalent proofs, especially item 22. Byte/size/SHA inequality alone is not a semantic conflict. Record exact source/destination versions, meaning, provenance, links and approved disposition.",
+        "After manual resolutions, create one fresh coherent plan for the complete remaining selected directory tree. Pin the resolved pairs as exact post-images and exclude already resolved/deduplicated pairs from repeat application.",
+        "Only when the full plan is conflict-free and owner-ready, invoke the existing migration tool once for the complete selected scope and update links/provenance in the same planned operation.",
+        "The filesystem operation is not atomic: keep a durable per-operation journal, completed prefix and UNKNOWN outcomes. On interruption, establish the exact prefix and each effect before continuing; never blindly retry an unknown effect."
+      ],
+      "knownConflict": {
+        "relativePath": "README.md",
+        "source": "Документация/README.md is the older comprehensive thematic index.",
+        "destination": "dokumentaciya/README.md is the existing canonical landing/source description.",
+        "state": "E6 CONSUMER REVIEWED THE README FUNCTIONS; MIGRATION DISPOSITION/APPLY NOT ESTABLISHED; APPLY_HELD",
+        "proposal": "Preserve the canonical landing. Consider carrying the older thematic index into the canonical content map with provenance and links only after Docs owner review; this is a proposal, not a decision."
+      },
+      "snapshotBoundary": {
+        "planningSnapshot": "C3606 tree: 116 paths under Документация/, 7 under dokumentaciya/, exact relative overlap README.md.",
+        "p4Source02Snapshot": "C290 source input reports 136 Docs files and is a different snapshot; do not combine its file count or pins with the C3606 observation.",
+        "coherentCurrentDocsWRefHeadOwnerWriteCapabilityConsumer": "UNKNOWN; must be bound by existing Docs owner before any eventual apply plan.",
+        "e6Source": "ROOT reports E6 commit e6c0c4d, tree 976792a, four selected published paths and whole README/ARCH01 review; exact full remaining-tree snapshot and current owner write capability remain UNKNOWN."
+      },
+      "readiness": {
+        "wholeTreePlan": "NOT_READY",
+        "apply": "HELD; no apply right or execution in this design update",
+        "compilerCliTestsMoves": "0 in this update; existing P4 source checks remain NOTRUN as reported",
+        "frozenDocsStage3": "UNCHANGED; prior frozen stage is preserved.",
+        "integrationAndActivation": "Separate evidence stages; not established here.",
+        "e6": "ROOT_REPORTED_ACCEPTED_BOUNDED_SOURCE_DELIVERY; move/apply 0; tests/validators NOTRUN; full graph/warning origin UNKNOWN; runtime NOT_GREEN; master integration not established.",
+        "frozenDocsE6": "E6 is the frozen delivered stage; preserve it unchanged. Late input goes to the next ordinary Docs stage; do not interrupt or replay E6."
+      },
+      "downstreamDependencyOrder": [
+        "For the first selected Docs directory, the human-selected mapping is pinned. The existing versioned naming map is required only before selecting other old directories.",
+        "Manual resolution of actual semantic collisions with version/provenance/link evidence.",
+        "Complete selected-directory move, then link/provenance updates with recovery journal.",
+        "Canonical memory node and local contract, preserving pending/done obligations and links.",
+        "Create or bind an existing agent identity with own W/ref/write capability/goal/parent/consumer.",
+        "Register the route/queue and obtain a bounded useful result plus origin feedback."
+      ],
+      "identityBoundary": "Folder is not agent/process/chat. This sequence is linked design within P4/ARCH01; it is not mass agent creation, branch rebinding, a new project, or a change to the other four accepted priorities.",
+      "e6Source": {
+        "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
+        "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
+        "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+        "tree": "976792ab43551c41d77148a5bb077666ff4d4df8",
+        "parent": "e4a4cbe997c8470b9846d8fc4720eef08e933b42",
+        "ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+        "rootVerification": "ROOT independently reports raw/pure OID/exact 4 pins/remote match.",
+        "reviewed": [
+          "whole README.md (18,967 bytes)",
+          "ARCH01 article (36,547 bytes)",
+          "selected map and Journal sections"
+        ],
+        "publishedPaths": [
+          "dokumentaciya/README.md",
+          "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+          "dokumentaciya/zhurnal.md",
+          "dokumentaciya/конвейеры-и-очереди-FUM.md"
+        ],
+        "boundedReview": {
+          "readme": "Retains both functions, provenance 0250+ac78, thematic map and 8 inputs.",
+          "architecture": "Includes stage/work/version/goal/IO/own memory/write capability/parent-child refs/READY/budget/findings-to-consumer-to-feedback/recovery/integration.",
+          "unknown": [
+            "FUM/FUMA/learning loops/self-application/ports",
+            "full graph and warning origin",
+            "full privacy and anchor check"
+          ],
+          "publicationPatterns": "Four selected patterns reviewed: /Users/, FUM-private-, private-501, file:// hits 0; this is not a full privacy/anchor scan."
+        },
+        "execution": {
+          "move": 0,
+          "apply": 0,
+          "migration": "NOT_ESTABLISHED",
+          "tests": "NOTRUN",
+          "validators": "NOTRUN",
+          "fullGraph": "UNKNOWN",
+          "runtime": "NOT_GREEN"
+        },
+        "mapObservation": {
+          "count": 155,
+          "sizeShaInequality": "Does not establish nine semantic conflicts.",
+          "uriCounts": "5466=840+4465+161",
+          "fragments": "17 fragments overlap/classification or UNKNOWN; do not treat as a separate non-overlapping group.",
+          "proofReuse": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; do not rescan or turn these into manual conflicts."
+        },
+        "nextDocsStage": {
+          "owner": "Existing Documentation owner with FUMA semantic peer",
+          "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6.",
+          "steps": [
+            "Reuse accepted URI-only/address-equivalent proofs, especially 22; no rescan.",
+            "Do not infer nine semantic conflicts from 155-byte/size/SHA inequality.",
+            "Carry 17 fragments as overlapping/classification or UNKNOWN, not a non-overlapping bucket.",
+            "Clarify article 112 against 111 and human autonomy: the existing owner continues READY within the assigned task without a human gate for every step."
+          ],
+          "apply": "HELD until the existing owner has a coherent, conflict-free plan and applicable effect authority."
+        },
+        "case39": "Record as bounded Docs source/consumer outcome only; does not close CASE39, prove ROOT integration, full migration, full profile or runtime.",
+        "recoveryObservation": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open.",
+        "privacyBoundary": "Do not publish private native fields, absolute receipt paths or RAW; retain nonsensitive incident provenance and public C/ref only."
+      },
+      "nextAction": "After frozen E6, existing Documentation owner continues the next ordinary migration stage with reusable URI proofs. Map count 155 and byte/size/SHA inequality do not establish nine semantic conflicts. URI counts 5466=840+4465+161; the 17 fragments overlap/classification or UNKNOWN, not a separate non-overlapping bucket. Clarify article 112 with 111: the existing owner continues READY within the assignment without a human gate per step. Apply remains HELD until coherent plan and effect authority."
+    }
+  },
+  "governance": {
+    "queueV1AndSourcesV1V2Immutable": true,
+    "noPriorityOrCompositionChange": true,
+    "noPrivatePathOrGrantBodyCopied": true,
+    "noAllRefOrForeignTreeEffect": true,
+    "noRootMasterOrRuntimeClaim": true,
+    "publicationAndAcceptanceSeparate": true,
+    "ownGitBranchPrimaryPlanMemory": true,
+    "appendOnlyIncidentCorrection": true,
+    "noNewApplyOrHostOrRuntimeRights": true,
+    "noFullRootRawOrSourceEffectReplay": true
+  },
+  "humanClarifications": [
+    {
+      "id": "AUTONOMY-V32",
+      "topic": "Автономное продолжение согласованного backlog",
+      "literal": "No tebe ne obyazateljno zhdatj ot menya podtverzhdenij, chtobyi prodolzhatj. U nas ogromnoye kolichestvo i sagov, i trebovanij, i ishjyusov, tak?",
+      "provenance": "Human → ROOT → A10 relay; native message ID and event time UNKNOWN.",
+      "decision": "Обычные согласованные шаги продолжаются без отдельного подтверждения; новые цели и конкретные effect rights этим не расширяются."
+    },
+    {
+      "id": "QUEUE-PROFILES-V1",
+      "topic": "Общая очередь для типов работ и её собственное развитие",
+      "literals": [
+        "Vnedryatj ocheredj dlya vsekh etikh i budusjhikh najdennyikh primerov — tozhe sama po sebe ocheredj.",
+        "Yesli vzyatj zadachu na integraciyu vsekh nesmyordzhennyikh vetok — tozhe ocheredj nuzhna. Perebratj vse ili podmnozhestvo trebovanij — tozhe ocheredj nuzhna.",
+        "Pereproveritj vse vetki na predmet nalichiya sootvetstviya puti kazhdoj vetki putyu v pamyati repozitoriya — tozhe ocheredj nuzhna."
+      ],
+      "provenance": "Human → ROOT → A10 relay; native message IDs and event times UNKNOWN.",
+      "decision": "Use the same typed lifecycle for rule, requirement, issue, integration, branch-memory audit and automation profiles; queue evolution is a linked P1 work item. This does not authorize all-ref traversal, all-branch merge or mass rebinding."
+    },
+    {
+      "id": "RULE-PROJECTION-V1",
+      "topic": "Автоматизация правил AGENTS.md через существующую проекцию",
+      "literals": [
+        "Pul pravil AGENTS.md po ideye tozhe dolzhen byitj po suti ocheredjyu na avtomatizaciyu etikh pravil, chtobyi modeli uzhe ne nuzhno byilo ikh chitatj vruchnuyu.",
+        "Odinakovyiye mekhanizmyi i shablonyi pochti na vsyo nakladivayutsya."
+      ],
+      "provenance": "Human → ROOT → A10 relay; native message IDs and event times UNKNOWN.",
+      "decision": "Project the existing canonical rule inventory to applicable enforcers/checkers/templates. Manual AGENTS routes remain active until a tested and accepted replacement; no second runtime."
+    },
+    {
+      "id": "FUM-FUMA-SELF-HOSTING-TARGET-V1",
+      "topic": "Целевая траектория FUM→FUMA и проверяемое self-hosting",
+      "literals": [
+        "Po faktu Codex + FS + Git dayut nam svyazku FUM iz kotoroj sobirayutsya rantajm FUMA iz kotorogo v kakoj-to moment myi smozhem sobratj i obnovlyatj iskhodnyij repozitorij do togo momenta, poka nam samogo chistogo FUMA ne stanet dostatochno, i togda mozhno budet prosto zaarkhivirovatj FUM vnutrj FUMA.",
+        "Obsjhij koncept takov."
+      ],
+      "provenance": "Human → ROOT → A10 relay; native message IDs and event times UNKNOWN.",
+      "decision": "Target trajectory only, linked to the existing FUM/FUMA architecture document; repository archival, host cutover and runtime self-hosting are not current effects."
+    },
+    {
+      "id": "P4-WHOLE-DIRECTORY-TRANSITION-v2",
+      "topic": "Полный переход выбранных старых каталогов в канонические области и сохранение графа памяти",
+      "provenance": "ROOT relayed the selected human clarification v3. Native human message ID and event time were not supplied here and remain UNKNOWN; do not invent either.",
+      "decision": "Для первой области выбрано Документация/ → dokumentaciya/. Другие старые каталоги берутся только из существующей версионированной карты; её производитель, путь и версия остаются UNKNOWN. Сначала требуется карта и ручное разрешение реальных семантических конфликтов; затем один полный согласованный план всего оставшегося выбранного дерева, одно применение существующего инструмента и обновление ссылок/происхождения. Применение остаётся HELD до свежих coherent pins и готовности владельца.",
+      "preservedBehavior": "Сохранить pending/done, версии, происхождение, ссылки и ответы; папка не тождественна агенту, процессу или чату. Это связанное уточнение P4/ARCH01, без нового проекта, новой ветки, массового применения и изменения остальных четырёх приоритетов."
+    }
+  ],
+  "checkpointAssessment": {
+    "result": "Prepared linked P1 source correction from delivered C38ee; this local draft has corrected exact locators and parent-reported evidence with explicit attribution. New C, commit delivery and consumer acceptance for V4 are not yet established.",
+    "localChecks": {
+      "jsonParseAndSelectedSemanticAssertions": "PASSED",
+      "gitDiffCheck": "PASSED",
+      "tests": "NOT_RUN",
+      "compilerOrRuntime": "NOT_PERFORMED"
+    },
+    "consumerAcceptance": "NOT_YET_REVIEWED_FOR_V4",
+    "integrationToFumaOrMaster": "NOT_CLAIMED",
+    "workingActivation": "NOT_CLAIMED",
+    "coverage": "The plan remains PARTIAL_FIRST_SLICE; all-FUM/FUMA and all-ref coverage UNKNOWN."
+  },
+  "provenanceBoundaries": "Primary source, versioned commit, remote delivery, consumer outcome, integration and activation are separate. A parent-reported event is attributed as reported, not as an independently audited observation. The P5 child ROUTINE incident (nine reported prohibited processes) is distinct from Docs A10 v31 (at least one proven execution; total UNKNOWN). Zero writes is actor-reported, not an independent process audit. A bounded A10 Source review found a static P1 source counterexample in delivered bd9; runtime remains zero and one same-owner narrow rework is dispatched. Delivery, correctness rework, compile/integration/use remain separate states. E6 consumer details, move/apply state, checks, profile and runtime are ROOT-reported bounded evidence; branch delivery/consumer outcome remain separate from integration and activation. E6 recovery observations do not establish host automation/liveness.",
+  "ownerReportedFollowup": {
+    "source": "ROOT/A10 parent report; not independently audited in this Planning worktree",
+    "p5Correction": {
+      "reported": "Nine prohibited Python processes were corrected; writes reported as zero.",
+      "audit": "NOT_INDEPENDENTLY_AUDITED",
+      "historicalClaim": "Earlier one-call claim retained as append-only history; this report does not erase or reinterpret it.",
+      "sourceCommit": "UNKNOWN",
+      "tests": "UNKNOWN",
+      "consumerUse": "UNKNOWN"
+    },
+    "existingToolsRoutineRepair": {
+      "owner": "Existing Tools → Routine",
+      "state": "ACTIVE_REPORTED",
+      "p1": [
+        "foreign consumer close",
+        "missing durable predecessor/successor before close",
+        "UNKNOWN barrier lost after reopen/reconcile"
+      ],
+      "p2": [
+        "store identity"
+      ],
+      "boundary": "Continue the existing repair; no duplicate repair is created and reporting it does not cancel the five-horizon plan."
+    },
+    "p4SourceFix": {
+      "commit": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d",
+      "parent": "62e427ce5074cc0c83e45696268aa0c89b8ff99e",
+      "reportedChanges": "3 modified files and 2 test-source additions",
+      "checks": "All 18 checks in the new file NOT_RUN",
+      "consumerResult": {
+        "id": "3376",
+        "hashPrefix": "bc1d536c",
+        "wholeResultHash": "ROOT reports complete hash verification; full value not reproduced in this public source",
+        "independentTargetedReview": "PENDING"
+      },
+      "limitations": "Own ignored-temp namespace correction only; does not establish runtime prevention or applied moves."
+    },
+    "a12SourceRead": {
+      "case": "ROOT-A12-DEPENDENCY-SOURCE-READ-01",
+      "state": "ROOT_REPORTED_COMPLETE_LEXICAL_READ",
+      "sourceSet": {
+        "swiftSources": 54,
+        "publicResources": 6,
+        "totalBytes": 798585,
+        "reads": 1,
+        "gitSha256AndUtf8Pins": "ROOT reports verified"
+      },
+      "candidate": {
+        "sourceFiles": 7,
+        "sourceBytes": 80769,
+        "callerBytes": 3438,
+        "totalBytes": 84207,
+        "dependencies": [
+          "Foundation",
+          "CryptoKit",
+          "Darwin"
+        ],
+        "resourceCallsInSevenLexicallyReadSources": 0
+      },
+      "notEstablished": [
+        "typecheck",
+        "link",
+        "compile",
+        "minimality proof",
+        "first use"
+      ],
+      "admission": "ROOT next finite source selection/admission",
+      "executions": 0
+    }
+  },
+  "deliveryProcedureIncident": {
+    "relatedCommit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+    "usefulOutcome": "A bounded existing-commit delivery resumed and was confirmed by exact remote OID.",
+    "processOutcome": "Manual author and commit-message preparation were used; native attribution is NOT_ESTABLISHED and author contract remains NOT_GREEN.",
+    "reliability": "This does not establish general Host reliability or a standing author bypass.",
+    "privateInputsCopied": false,
+    "docsE6Recovery": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open."
+  },
+  "authorAttribution": {
+    "existingCommit": "38eeaf1ed38832235b58667765779533f41a0cdc",
+    "status": "NOT_GREEN",
+    "actualNativeAttribution": "NOT_ESTABLISHED",
+    "amendOrRewrite": false,
+    "nextSourceCommit": "HELD_UNTIL_EXACT_STANDING_CREATOR_GATES_ARE_AVAILABLE"
+  },
+  "lateInputDisposition": "Append-only correction: the nine-process Python incident belongs to child ROUTINE in P5, not Docs. Docs A10 v31 is separate and establishes at least one execution with total count UNKNOWN. A bounded A10 Source review also found one actionable P1 late-found consumer-stop loss in delivered P5 source bd9; a narrow same-owner fix/test-source stage is already dispatched. ROOT then relayed the selected human v3 whole-directory transition refinement to existing P4/ARCH01; native human message ID/time remain UNKNOWN. No full ROOT/RAW reread or source effect replay. ROOT-relayed E6 is a frozen public-source delivery accepted as bounded consumer evidence. The next P4/ARCH01 stage reuses URI proofs without rescanning and clarifies autonomy wording. Preserve the delivery, keep apply held and CASE39 open; no private native fields or absolute receipts are copied.",
+  "currentSourceDelivery": {
+    "branchRef": "refs/heads/codex/fuma-aot-join-plan-20261027",
+    "commit": "3606a0febf80639721e6b2849333f268a0a9df5b",
+    "tree": "a1d5239536fedf4e5ff8691436f061244da56c8c",
+    "parent": "38eeaf1ed38832235b58667765779533f41a0cdc",
+    "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+    "acceptance": "ROOT_ACCEPTED_USEFUL_LINKED_PUBLIC_MEMORY_SOURCE",
+    "integrationToFumaOrMaster": "NOT_CLAIMED",
+    "runtimeOrWorkingActivation": "NOT_CLAIMED"
+  },
+  "dailyReportCorrection": {
+    "dailyReportDate": "2026-11-03",
+    "priorVersionSha256": "fc38157c35ddc2f93d7bfaf1cdb8229119940ed3c44b04a034ba643389842821",
+    "correctedVersionSha256": "332310e6f8923667d8309e50e24999cd4ee2b2d52c16148d7839cf8581d3436e",
+    "correction": "Nine prohibited Python processes were a child ROUTINE in P5, not Docs. Correction result 821 / SHA-256 f2665e412781e1a884153f76f76e6d6f2524553abb2d5be75d5919efcc57745d; parent result 9213 / SHA-256 a945168294cd5c2f9f1aa4ef08a51ccadba5f4dd99f2db65ccf583cd312d55a7. ROOT reports whole-result/hash verification. Zero writes is actor-reported only; no independent process audit. Keep the nine-process incident NOT_GREEN.",
+    "separateDocsIncident": "Docs A10 v31 result 2396 / SHA-256 a111bd3f919e203d29de25df42e90ff39b436f06acaa199f0209a0233551f9cb establishes at least one prohibited Python execution; total count UNKNOWN. ROOT and deputy report zero Python executions of their own. Preserve as a separate incident; no amnesty or merge with P5.",
+    "p5CurrentSource": "Published bd9b2f03ccfa425379feb98a667274aa3b22f7ad; ROOT accepted useful public source. Compile=0, tests=0, runtime=0, integration=0."
+  },
+  "docsE6": {
+    "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
+    "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
+    "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+    "tree": "976792ab43551c41d77148a5bb077666ff4d4df8",
+    "parent": "e4a4cbe997c8470b9846d8fc4720eef08e933b42",
+    "ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+    "rootVerification": "ROOT independently reports raw/pure OID/exact 4 pins/remote match.",
+    "reviewed": [
+      "whole README.md (18,967 bytes)",
+      "ARCH01 article (36,547 bytes)",
+      "selected map and Journal sections"
+    ],
+    "publishedPaths": [
+      "dokumentaciya/README.md",
+      "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+      "dokumentaciya/zhurnal.md",
+      "dokumentaciya/конвейеры-и-очереди-FUM.md"
+    ],
+    "boundedReview": {
+      "readme": "Retains both functions, provenance 0250+ac78, thematic map and 8 inputs.",
+      "architecture": "Includes stage/work/version/goal/IO/own memory/write capability/parent-child refs/READY/budget/findings-to-consumer-to-feedback/recovery/integration.",
+      "unknown": [
+        "FUM/FUMA/learning loops/self-application/ports",
+        "full graph and warning origin",
+        "full privacy and anchor check"
+      ],
+      "publicationPatterns": "Four selected patterns reviewed: /Users/, FUM-private-, private-501, file:// hits 0; this is not a full privacy/anchor scan."
+    },
+    "execution": {
+      "move": 0,
+      "apply": 0,
+      "migration": "NOT_ESTABLISHED",
+      "tests": "NOTRUN",
+      "validators": "NOTRUN",
+      "fullGraph": "UNKNOWN",
+      "runtime": "NOT_GREEN"
+    },
+    "mapObservation": {
+      "count": 155,
+      "sizeShaInequality": "Does not establish nine semantic conflicts.",
+      "uriCounts": "5466=840+4465+161",
+      "fragments": "17 fragments overlap/classification or UNKNOWN; do not treat as a separate non-overlapping group.",
+      "proofReuse": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; do not rescan or turn these into manual conflicts."
+    },
+    "nextDocsStage": {
+      "owner": "Existing Documentation owner with FUMA semantic peer",
+      "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6.",
+      "steps": [
+        "Reuse accepted URI-only/address-equivalent proofs, especially 22; no rescan.",
+        "Do not infer nine semantic conflicts from 155-byte/size/SHA inequality.",
+        "Carry 17 fragments as overlapping/classification or UNKNOWN, not a non-overlapping bucket.",
+        "Clarify article 112 against 111 and human autonomy: the existing owner continues READY within the assigned task without a human gate for every step."
+      ],
+      "apply": "HELD until the existing owner has a coherent, conflict-free plan and applicable effect authority."
+    },
+    "case39": "Record as bounded Docs source/consumer outcome only; does not close CASE39, prove ROOT integration, full migration, full profile or runtime.",
+    "recoveryObservation": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open.",
+    "privacyBoundary": "Do not publish private native fields, absolute receipt paths or RAW; retain nonsensitive incident provenance and public C/ref only."
+  }
+}
