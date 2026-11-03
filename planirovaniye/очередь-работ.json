@@ -1,6 +1,6 @@
 {
   "schema": "fum.public.work-priority-queue.v3",
-  "updatedAtUTC": "2026-11-03T01:16:46Z",
+  "updatedAtUTC": "2026-11-03T01:50:47Z",
   "scope": "Ограниченный актуальный набор текущего плана ROOT/A10; в записи раздельно показаны выбранные горизонты и их связанные источники. Полнота всей FUM/FUMA и фактический охват всех требований, веток и проектов UNKNOWN; неизвестность не равна нулю.",
   "purpose": "Публичная Git-память текущего ограниченного плана и состояния источников/потребителей. Реестр не является dispatcher, FIFO, scheduler или доказательством исполнения.",
   "priorityRules": {
@@ -518,15 +518,16 @@
     }
   ],
   "sourceRevision": {
-    "version": 5,
-    "kind": "Append-only current queue overlay v5 after public planning base b98. Records ROOT-accepted bounded Docs E6 source/consumer outcome, links its next existing P4/ARCH01 stage and CASE39, and corrects URI-evidence/autonomy handling. Accepted five-horizon composition and priorities remain unchanged; frozen E6 is not replayed; no apply, runtime, integration or new effect right is claimed.",
+    "version": 6,
+    "kind": "Append-only current queue overlay v6 after Planning C df26876c. Corrects the E6 map-locator and CASE39 interpretation, records ROOT-verified C4 delivery and three static outstanding findings, preserves the df trailer role-binding issue without rewriting history, and links the A10 NONVALUES process incident to existing routes. Five horizons/priorities unchanged; no new dispatch, repair execution, runtime or apply right.",
     "previousQueue": {
-      "commit": "b98a4d8ed0925707e10360a52e5e3761a6a832a1",
+      "commit": "df26876c134c38048bbd38b29ab59f81f90702fe",
       "path": "planirovaniye/очередь-работ.json",
-      "blob": "6237296802d0a9c45c209a708ac71f259013fab7",
-      "bytes": 72979,
-      "sha256": "f6ab792329d751a13705e86ac1f15eb5d4512cfc0dd3d4e8e0e40d41905a3e45",
-      "relation": "Current local base HEAD; remote delivery not queried in this stage."
+      "blob": "49dfcfccc7c74928413314dadb22c6aae4d482ad",
+      "bytes": 82983,
+      "sha256": "dcbe1c0306331b3f7070361b1812ae32df41c811c041fe626356f6b4bd30acdb",
+      "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_LINKED_PUBLIC_MEMORY_V6_SOURCE_WITH_REWORK"
     },
     "previousPlanSources": [
       {
@@ -558,10 +559,19 @@
         "bytes": 40817,
         "sha256": "48cdd4840b6b760ccb446277bef30306020e1d73f51d469f5ccb6440fb8fd287",
         "relation": "Current local base HEAD; remote delivery not queried in this stage."
+      },
+      {
+        "commit": "df26876c134c38048bbd38b29ab59f81f90702fe",
+        "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v6.json",
+        "blob": "db4503d3a0d611a3564acb6001b0da70ead45ca7",
+        "bytes": 57252,
+        "sha256": "ff96953d353169e35a6565c5d6862ef0164815d1131ebaecbc22e0659818ff3b",
+        "delivery": "REMOTE_EXACT_OID_CONFIRMED",
+        "rootDecision": "ACCEPT_DELIVERED_USEFUL_LINKED_PUBLIC_MEMORY_V6_SOURCE_WITH_REWORK"
       }
     ],
     "linkedCurrentPlan": {
-      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v6.json",
+      "path": "planirovaniye/план-операционного-продолжения-a10-a12-p5-v7.json",
       "schema": "fum.planirovaniye.operational-plan-linked-source.v5",
       "compositionChanged": false,
       "priorityChanged": false
@@ -744,6 +754,80 @@
           "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6."
         },
         "disposition": "Frozen E6 is preserved; use this input at the next ordinary Docs stage without interrupt/replay. No priority/composition change, apply, root master integration, runtime or public full-profile claim."
+      },
+      {
+        "source": "ROOT consumer feedback after Planning C df26876c; facts are ROOT-reported, not independently reread in this worktree.",
+        "base": {
+          "commit": "df26876c134c38048bbd38b29ab59f81f90702fe",
+          "tree": "05dec8be7b0f3eef35b44f9b152ac9a0f26a675d",
+          "parent": "b98a4d8ed0925707e10360a52e5e3761a6a832a1"
+        },
+        "docsMapCorrection": {
+          "sourceCommit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+          "path": "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+          "line": 155,
+          "observedValue": "string 155",
+          "meaning": "This is a string value at source line 155, not a count of 155 and not 155 bytes.",
+          "sameRelativePairs": 9,
+          "semanticBoundary": "Byte/size/SHA inequality across the nine same-relative pairs does not establish semantic conflicts."
+        },
+        "case39Correction": {
+          "docsE6": "E6 is a meaningful durable public source and ROOT consumer feedback; preserve it as a positive outcome.",
+          "state": "CASE39_OPEN",
+          "remainingEvidence": "The future chain trigger → READY → same-owner useful resume → durable result → origin feedback without a human reminder is not yet established.",
+          "doesNotClose": "E6 or Planning df alone does not prove this later self-recall/use loop."
+        },
+        "p5C4": {
+          "sourceCommit": "c4e32f227dc0c3e585dd9af797e39fe352390e7d",
+          "tree": "fd26ff834fbb1cf6dda15eeff5ca8a4ae1189a04",
+          "parent": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+          "rootDecision": "ACCEPT_DELIVERED_USEFUL_P5_SOURCE",
+          "changedFiles": 3,
+          "priorStopBranches": "ROOT reports original stop branch logic fixed.",
+          "findings": [
+            {
+              "id": "P5-C4-P1-READER-SCOPE",
+              "severity": "P1",
+              "detail": "Helper parameter is read at line 805, but reader calls at lines 817, 825 and 845 are out of scope."
+            },
+            {
+              "id": "P5-C4-P1-TEST-AGENT-SCOPE",
+              "severity": "P1",
+              "detail": "Test declares агент at line 368; call at line 404 uses агента."
+            },
+            {
+              "id": "P5-C4-P2-OPEN-BASELINE",
+              "severity": "P2",
+              "detail": "Counter baseline at line 413 is after reopen at line 403, so it misses writes during open. Move baseline before open, assert immediately after open and after held save."
+            }
+          ],
+          "execution": {
+            "review": "ROOT static review",
+            "compile": "NOTRUN",
+            "tests": "NOTRUN",
+            "runtime": 0,
+            "integration": "UNKNOWN",
+            "use": "UNKNOWN"
+          },
+          "owner": "Existing Tools → Routine",
+          "resourceGate": "Tools quota and human model response remain unresolved; do not wake another owner, change model or start repair execution.",
+          "state": "DELIVERED_USEFUL_SOURCE; CORRECTNESS_REWORK_OUTSTANDING"
+        },
+        "authorTrailerRoleFinding": "The df formatter trailer was ROOT_COORDINATOR instead of OWN_PLANNING; preserve df and correct prospectively by binding the formatter argument to the validated own capture and checking the final trailer separately.",
+        "a10ReviewOutputIncident": {
+          "classification": "NONVALUES_REVIEW_OUTPUT_PROCESS_INCIDENT; NOT_DOCS; NOT_ROUTINE_PYTHON",
+          "severity": "NOT_GREEN",
+          "minimumObservedDisclosures": 1,
+          "summary": "A line-filter emitted a persistence script containing an embedded snapshot; at least one disclosure was observed.",
+          "publicPayload": "Do not publish payload or values.",
+          "localReceipt": "Only allowlist booleans, digests and role guard retained in the local receipt.",
+          "linkage": "Existing process/rule-automation/CASE39 routes; do not create a new issue."
+        },
+        "supersedesPriorInterpretations": {
+          "map155": "Earlier V6 object treated string value 155 as a count/byte measure; corrected here to the source line 155 string locator.",
+          "case39": "Earlier V6 described E6 as not a durable checkpoint; corrected here: E6 is a meaningful durable public source and consumer feedback, while the later no-human-reminder use loop is unproven."
+        },
+        "disposition": "No priority/composition change; no df rewrite; no new issue, dispatch or execution; no private payload/native values copied."
       }
     ],
     "previousPlan": {
@@ -785,6 +869,64 @@
       "bytes": 58788,
       "sha256": "bcb09927a448d7fdd881ca455b73904cc0e50f0f82973fef67291caaa135ac38",
       "rootDecision": "ACCEPT_DELIVERED_USEFUL_LIMITED_PUBLIC_MEMORY"
+    },
+    "latestRootFeedback": {
+      "source": "ROOT consumer feedback after Planning C df26876c; facts are ROOT-reported, not independently reread in this worktree.",
+      "baseCommit": "df26876c134c38048bbd38b29ab59f81f90702fe",
+      "case39": {
+        "docsE6": "E6 is a meaningful durable public source and ROOT consumer feedback; preserve it as a positive outcome.",
+        "state": "CASE39_OPEN",
+        "remainingEvidence": "The future chain trigger → READY → same-owner useful resume → durable result → origin feedback without a human reminder is not yet established.",
+        "doesNotClose": "E6 or Planning df alone does not prove this later self-recall/use loop."
+      },
+      "p5C4": {
+        "sourceCommit": "c4e32f227dc0c3e585dd9af797e39fe352390e7d",
+        "tree": "fd26ff834fbb1cf6dda15eeff5ca8a4ae1189a04",
+        "parent": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+        "rootDecision": "ACCEPT_DELIVERED_USEFUL_P5_SOURCE",
+        "changedFiles": 3,
+        "priorStopBranches": "ROOT reports original stop branch logic fixed.",
+        "findings": [
+          {
+            "id": "P5-C4-P1-READER-SCOPE",
+            "severity": "P1",
+            "detail": "Helper parameter is read at line 805, but reader calls at lines 817, 825 and 845 are out of scope."
+          },
+          {
+            "id": "P5-C4-P1-TEST-AGENT-SCOPE",
+            "severity": "P1",
+            "detail": "Test declares агент at line 368; call at line 404 uses агента."
+          },
+          {
+            "id": "P5-C4-P2-OPEN-BASELINE",
+            "severity": "P2",
+            "detail": "Counter baseline at line 413 is after reopen at line 403, so it misses writes during open. Move baseline before open, assert immediately after open and after held save."
+          }
+        ],
+        "execution": {
+          "review": "ROOT static review",
+          "compile": "NOTRUN",
+          "tests": "NOTRUN",
+          "runtime": 0,
+          "integration": "UNKNOWN",
+          "use": "UNKNOWN"
+        },
+        "owner": "Existing Tools → Routine",
+        "resourceGate": "Tools quota and human model response remain unresolved; do not wake another owner, change model or start repair execution.",
+        "state": "DELIVERED_USEFUL_SOURCE; CORRECTNESS_REWORK_OUTSTANDING"
+      },
+      "authorTrailerRoleFinding": "df history preserved; prospective own-writer trailer guard required.",
+      "a10NonvaluesReviewOutput": {
+        "classification": "NONVALUES_REVIEW_OUTPUT_PROCESS_INCIDENT; NOT_DOCS; NOT_ROUTINE_PYTHON",
+        "severity": "NOT_GREEN",
+        "minimumObservedDisclosures": 1,
+        "summary": "A line-filter emitted a persistence script containing an embedded snapshot; at least one disclosure was observed.",
+        "publicPayload": "Do not publish payload or values.",
+        "localReceipt": "Only allowlist booleans, digests and role guard retained in the local receipt.",
+        "linkage": "Existing process/rule-automation/CASE39 routes; do not create a new issue."
+      },
+      "compositionChanged": false,
+      "prioritiesChanged": false
     }
   },
   "coverage": {
@@ -1009,28 +1151,29 @@
             "runtime": "NOT_GREEN"
           }
         },
-        "nextAction": {
-          "owner": "Existing Documentation owner with FUMA semantic peer",
-          "trigger": "After frozen E6; next ordinary meaningful Docs migration stage, without interrupting/replaying E6.",
-          "steps": [
-            "Reuse accepted URI-only/address-equivalent proofs, especially 22; no rescan.",
-            "Do not infer nine semantic conflicts from 155-byte/size/SHA inequality.",
-            "Carry 17 fragments as overlapping/classification or UNKNOWN, not a non-overlapping bucket.",
-            "Clarify article 112 against 111 and human autonomy: the existing owner continues READY within the assigned task without a human gate for every step."
-          ],
-          "apply": "HELD until the existing owner has a coherent, conflict-free plan and applicable effect authority."
-        },
+        "nextAction": "After E6, the existing Docs owner uses the source-pinned string value at documented line 155 and reviews nine same-relative pairs without inferring semantic conflicts from byte/size/SHA inequality. Reuse accepted URI proofs (especially 22), no rescan; preserve 17 fragments as overlap/classification or UNKNOWN; reconcile articles 112/111 with autonomy. Other-directory naming map is needed only for other old directories; apply HELD.",
         "mapObservation": {
-          "count": 155,
-          "sizeShaInequality": "Does not establish nine semantic conflicts.",
-          "uriCounts": "5466=840+4465+161",
-          "fragments": "17 fragments overlap/classification or UNKNOWN; do not treat as a separate non-overlapping group.",
-          "proofReuse": "Reuse accepted URI-only/address-equivalent proofs, especially item 22; do not rescan or turn these into manual conflicts."
+          "sourceCommit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+          "path": "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+          "line": 155,
+          "observedValue": "string 155",
+          "meaning": "This is a string value at source line 155, not a count of 155 and not 155 bytes.",
+          "sameRelativePairs": 9,
+          "semanticBoundary": "Byte/size/SHA inequality across the nine same-relative pairs does not establish semantic conflicts."
         },
         "case39": "Record as bounded Docs source/consumer outcome only; does not close CASE39, prove ROOT integration, full migration, full profile or runtime.",
-        "readiness": "Whole-tree plan NOT_READY; apply HELD; migration/application 0; tests/validators NOTRUN; full graph/warning origin UNKNOWN; runtime NOT_GREEN; integration not established."
+        "readiness": "Whole-tree plan NOT_READY; apply HELD; migration/application 0; tests/validators NOTRUN; full graph/warning origin UNKNOWN; runtime NOT_GREEN; integration not established.",
+        "locatorCorrection": {
+          "sourceCommit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
+          "path": "dokumentaciya/karta-soderzhaniya-i-istochnikov.md",
+          "line": 155,
+          "observedValue": "string 155",
+          "meaning": "This is a string value at source line 155, not a count of 155 and not 155 bytes.",
+          "sameRelativePairs": 9,
+          "semanticBoundary": "Byte/size/SHA inequality across the nine same-relative pairs does not establish semantic conflicts."
+        }
       },
-      "nextAction": "After frozen E6, existing Documentation owner performs the next ordinary meaningful migration step using accepted URI-only/address-equivalent proofs (especially 22) without rescanning; keep 17 fragments overlapping/classification or UNKNOWN; clarify article 112 against 111 and autonomy. The missing global naming map only gates selection of other old directories. Apply remains HELD."
+      "nextAction": "Continue the existing P4/ARCH01 Docs stage using the corrected source-located map value and reusable URI evidence; no new project or broad rescan. Apply remains HELD."
     }
   ],
   "autonomyAndSourcePolicy": {
@@ -1126,34 +1269,144 @@
       "source": "ROOT relayed E6 consumer input; source is parent-reported, not independently re-read here.",
       "commit": "e6c0c4d63efc1c969965beb7b194f743dc61a30b",
       "decision": "ACCEPT_USEFUL_DOCS_E6_PUBLIC_SOURCE_DELIVERY",
-      "case39": "E6 is bounded source/consumer evidence only; CASE39 stays open pending distinct durable checkpoint, origin feedback, actual use and future self-recall.",
+      "case39": {
+        "docsE6": "E6 is a meaningful durable public source and ROOT consumer feedback; preserve it as a positive outcome.",
+        "state": "CASE39_OPEN",
+        "remainingEvidence": "The future chain trigger → READY → same-owner useful resume → durable result → origin feedback without a human reminder is not yet established.",
+        "doesNotClose": "E6 or Planning df alone does not prove this later self-recall/use loop."
+      },
       "recoveryObservation": "Durable author snapshot survived; exact protocol-frame/fixed-span decode supported the unused formatter and ordinary branch delivery without a new capture. An initial localData read refusal attributed to inter-chat origin was followed by continuation after the addressed AGENTS 000032 clarification. This is a bounded recovery observation, not Host automation/liveness proof. Commit tool returned ERROR after creation; outcome was recovered read-only without retry. Full worktree-list metadata exposure remains NOT_GREEN. Root old source-author incidents remain open.",
       "privacyBoundary": "Do not publish private native fields, absolute receipt paths or RAW; retain nonsensitive incident provenance and public C/ref only."
+    },
+    "p5C4": {
+      "sourceCommit": "c4e32f227dc0c3e585dd9af797e39fe352390e7d",
+      "tree": "fd26ff834fbb1cf6dda15eeff5ca8a4ae1189a04",
+      "parent": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_P5_SOURCE",
+      "changedFiles": 3,
+      "priorStopBranches": "ROOT reports original stop branch logic fixed.",
+      "findings": [
+        {
+          "id": "P5-C4-P1-READER-SCOPE",
+          "severity": "P1",
+          "detail": "Helper parameter is read at line 805, but reader calls at lines 817, 825 and 845 are out of scope."
+        },
+        {
+          "id": "P5-C4-P1-TEST-AGENT-SCOPE",
+          "severity": "P1",
+          "detail": "Test declares агент at line 368; call at line 404 uses агента."
+        },
+        {
+          "id": "P5-C4-P2-OPEN-BASELINE",
+          "severity": "P2",
+          "detail": "Counter baseline at line 413 is after reopen at line 403, so it misses writes during open. Move baseline before open, assert immediately after open and after held save."
+        }
+      ],
+      "execution": {
+        "review": "ROOT static review",
+        "compile": "NOTRUN",
+        "tests": "NOTRUN",
+        "runtime": 0,
+        "integration": "UNKNOWN",
+        "use": "UNKNOWN"
+      },
+      "owner": "Existing Tools → Routine",
+      "resourceGate": "Tools quota and human model response remain unresolved; do not wake another owner, change model or start repair execution.",
+      "state": "DELIVERED_USEFUL_SOURCE; CORRECTNESS_REWORK_OUTSTANDING"
+    },
+    "authorTrailerRoleBinding": {
+      "sourceCommit": "df26876c134c38048bbd38b29ab59f81f90702fe",
+      "state": "CONFIRMED_BY_ROOT_RECEIPT_REVIEW; HISTORY_PRESERVED",
+      "publicBoundary": "Do not amend/rewrite df or copy native values. Future formatter input must be the validated own source-writer capture; precommit trailer independently matches own writer.",
+      "nextCheckpointGuard": "Coordinator identity remains separate provenance."
+    },
+    "a10NonvaluesReviewOutput": {
+      "classification": "NONVALUES_REVIEW_OUTPUT_PROCESS_INCIDENT; NOT_DOCS; NOT_ROUTINE_PYTHON",
+      "severity": "NOT_GREEN",
+      "minimumObservedDisclosures": 1,
+      "summary": "A line-filter emitted a persistence script containing an embedded snapshot; at least one disclosure was observed.",
+      "publicPayload": "Do not publish payload or values.",
+      "localReceipt": "Only allowlist booleans, digests and role guard retained in the local receipt.",
+      "linkage": "Existing process/rule-automation/CASE39 routes; do not create a new issue."
     }
   },
   "p5SourceCorrectness": {
-    "findingId": "P5-BD9-P1-LATE-FOUND-DROPS-CONSUMER-STOP",
-    "sourceCommit": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
-    "review": {
-      "id": "10874",
-      "sha256": "c20a4a5b77dcf33c85adc8be4b9649c99e8f7e74ccbeb8f26c3839eb9676ca2c",
-      "scope": "A10 bounded Source review",
-      "classification": "STATIC_COUNTEREXAMPLE; runtime 0; not Host provider absence"
+    "findingId": "P5-C4-ROOT-STATIC-REVIEW",
+    "sourceCommit": "c4e32f227dc0c3e585dd9af797e39fe352390e7d",
+    "tree": "fd26ff834fbb1cf6dda15eeff5ca8a4ae1189a04",
+    "parent": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+    "delivery": "ACCEPT_DELIVERED_USEFUL_P5_SOURCE",
+    "correctness": "DELIVERED_USEFUL_SOURCE; CORRECTNESS_REWORK_OUTSTANDING",
+    "owner": "Existing Tools → Routine",
+    "repairState": "OUTSTANDING; NO NEW DISPATCH OR EXECUTION UNDER RESOURCE GATE",
+    "changedFiles": 3,
+    "latestC4": {
+      "sourceCommit": "c4e32f227dc0c3e585dd9af797e39fe352390e7d",
+      "tree": "fd26ff834fbb1cf6dda15eeff5ca8a4ae1189a04",
+      "parent": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+      "rootDecision": "ACCEPT_DELIVERED_USEFUL_P5_SOURCE",
+      "changedFiles": 3,
+      "priorStopBranches": "ROOT reports original stop branch logic fixed.",
+      "findings": [
+        {
+          "id": "P5-C4-P1-READER-SCOPE",
+          "severity": "P1",
+          "detail": "Helper parameter is read at line 805, but reader calls at lines 817, 825 and 845 are out of scope."
+        },
+        {
+          "id": "P5-C4-P1-TEST-AGENT-SCOPE",
+          "severity": "P1",
+          "detail": "Test declares агент at line 368; call at line 404 uses агента."
+        },
+        {
+          "id": "P5-C4-P2-OPEN-BASELINE",
+          "severity": "P2",
+          "detail": "Counter baseline at line 413 is after reopen at line 403, so it misses writes during open. Move baseline before open, assert immediately after open and after held save."
+        }
+      ],
+      "execution": {
+        "review": "ROOT static review",
+        "compile": "NOTRUN",
+        "tests": "NOTRUN",
+        "runtime": 0,
+        "integration": "UNKNOWN",
+        "use": "UNKNOWN"
+      },
+      "owner": "Existing Tools → Routine",
+      "resourceGate": "Tools quota and human model response remain unresolved; do not wake another owner, change model or start repair execution.",
+      "state": "DELIVERED_USEFUL_SOURCE; CORRECTNESS_REWORK_OUTSTANDING"
     },
-    "delivery": "DONE; ROOT_ACCEPTED_USEFUL_P5_PUBLIC_SOURCE_DELIVERY",
-    "correctness": "ACTIONABLE_SOURCE_REWORK",
-    "owner": "Existing Tools → same Routine; ROOT supports one narrow fix/test-source dispatch.",
-    "repairState": "DISPATCHED",
-    "scopeFiles": 3,
-    "old4Package": "HELD",
-    "staticCounterexample": true,
-    "runtime": 0,
+    "priorBD9": {
+      "findingId": "P5-BD9-P1-LATE-FOUND-DROPS-CONSUMER-STOP",
+      "sourceCommit": "bd9b2f03ccfa425379feb98a667274aa3b22f7ad",
+      "review": {
+        "id": "10874",
+        "sha256": "c20a4a5b77dcf33c85adc8be4b9649c99e8f7e74ccbeb8f26c3839eb9676ca2c",
+        "scope": "A10 bounded Source review",
+        "classification": "STATIC_COUNTEREXAMPLE; runtime 0; not Host provider absence"
+      },
+      "delivery": "DONE; ROOT_ACCEPTED_USEFUL_P5_PUBLIC_SOURCE_DELIVERY",
+      "correctness": "ACTIONABLE_SOURCE_REWORK",
+      "owner": "Existing Tools → same Routine; ROOT supports one narrow fix/test-source dispatch.",
+      "repairState": "DISPATCHED",
+      "scopeFiles": 3,
+      "old4Package": "HELD",
+      "staticCounterexample": true,
+      "runtime": 0,
+      "compile": 0,
+      "tests": "PENDING; not inferred from test source",
+      "sourceSuccessor": "UNKNOWN",
+      "consumerFeedback": "PENDING",
+      "noNewRepairRole": true,
+      "noAA32Replay": true
+    },
     "compile": 0,
-    "tests": "PENDING; not inferred from test source",
-    "sourceSuccessor": "UNKNOWN",
-    "consumerFeedback": "PENDING",
+    "tests": "NOTRUN",
+    "runtime": 0,
+    "integration": "UNKNOWN",
+    "use": "UNKNOWN",
     "noNewRepairRole": true,
     "noAA32Replay": true
   },
-  "revisionKind": "Append-only current queue overlay v5 after public planning base b98. Records ROOT-accepted bounded Docs E6 source/consumer outcome, links its next existing P4/ARCH01 stage and CASE39, and corrects URI-evidence/autonomy handling. Accepted five-horizon composition and priorities remain unchanged; frozen E6 is not replayed; no apply, runtime, integration or new effect right is claimed."
+  "revisionKind": "Append-only current queue overlay v6 after Planning C df26876c. Corrects the E6 map-locator and CASE39 interpretation, records ROOT-verified C4 delivery and three static outstanding findings, preserves the df trailer role-binding issue without rewriting history, and links the A10 NONVALUES process incident to existing routes. Five horizons/priorities unchanged; no new dispatch, repair execution, runtime or apply right."
 }
