@@ -1,0 +1,109 @@
+{
+  "входSHA256" : "d4c1e29a23cac9096e36f0c952a8dfe1e709a65dd14e1a777e83efaa2d749d70",
+  "данные" : {
+    "время" : "2026-10-28T12:54:27Z",
+    "доставка" : [
+      {
+        "вид" : "Состояние ветки до записи",
+        "идентификатор" : "refs/heads/fum-lab/fum/zavisimosti/master",
+        "свидетельство" : "До FUMA apply и checkpoint HEAD/origin были 541589c938f4f8ca31c2bf0fa98c4daff2a18de6; рабочее дерево чистое."
+      },
+      {
+        "вид" : "Существующий pull request",
+        "идентификатор" : "https://github.com/fum-lab/fum/pull/390",
+        "свидетельство" : "На момент входа открыт, не объединён, head совпадает с 541589c938f4f8ca31c2bf0fa98c4daff2a18de6; публикация этой записи ещё не выполнена."
+      }
+    ],
+    "исход" : "Переданы точные поставочные данные для двух независимых зависимостей. Для LinguisticKit подтверждены существующий fork/upstream и gitlink pin 837e2ce… при неинициализированном локальном submodule. Для libgit2 подтверждён корректный существующий upstream-preserving fork и точная v1.9.7 лицензия/ревизия; собственная попытка создания закончилась HTTP 403 из-за занятого имени и ничего не создала. Gitlink или интеграция в FUM не добавлялись; сборки, init, тесты, merge и ROOT-приёмка не выполнялись.",
+    "область" : "zavisimosti",
+    "остаток" : [
+      "LinguisticKit исходники в этом W остаются неинициализированы; штатная готовность и потребители за пределами описанного ограниченного обзора не проверялись.",
+      "Сборка libgit2 и предполагаемая совместимость с FUMA GitAdapter не проверены. CMake-рецепт является исходным планом, не результатом сборки.",
+      "Не создан отдельный проверенный add-plan для libgit2; gitlink и package declaration остаются незарегистрированными.",
+      "Автор существующего fum-lab/libgit2 не устанавливался; `created_at` сам по себе не доказывает автора или инициатора.",
+      "После обычного коммита потребуются точный push и независимый remote readback; обновление PR #390 не равно ROOT-приёмке или объединению."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Снимок W, регистрация LinguisticKit и ограниченный поиск libgit2",
+        "наносекунды" : 953296291,
+        "свидетельство" : "HEAD 541589c938f4f8ca31c2bf0fa98c4daff2a18de6 на refs/heads/fum-lab/fum/zavisimosti/master; рабочее дерево чистое; gitlink LinguisticKit 837e2ce107b97ee7b9d3344c9fe99142281fe393, статус начинается с '-'; поиск libgit2 в выбранных FUMA manifests/Swift/JSON и .gitmodules не дал совпадений."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "GitHub API: LinguisticKit fork, upstream, pin, LICENSE и manifest",
+        "наносекунды" : 5404368209,
+        "свидетельство" : "fum-lab/LinguisticKit fork=true, parent/source Roman-Kerimov/LinguisticKit; обе стороны имеют pin 837e2ce107b97ee7b9d3344c9fe99142281fe393, tree 02659ca37d3a2b7da7c70d8e9019081302b735aa, LICENSE blob 0e259d42c996742e9e3cba14c677129b2c1b6311, CC0-1.0; Package.swift прочитан через API."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "GitHub API: libgit2 fork, upstream, main, v1.9.7 и COPYING",
+        "наносекунды" : 7672143458,
+        "свидетельство" : "В fork и upstream совпали main 42a89d7cc9374a19e72fa57011e5fe3a99c7b3bf и tag commit 49e408b3208bc3093757a1c2db938d3590f3f412/tree 29b18aa9210376513c391185b355e696856f9261; COPYING blob 80788a3ed790689b5b30918d17ec67ccd24e7a20. GitHub license metadata NOASSERTION."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Удалённый OID рабочей ветки",
+        "наносекунды" : 794202792,
+        "свидетельство" : "ls-remote origin refs/heads/fum-lab/fum/zavisimosti/master вернул 541589c938f4f8ca31c2bf0fa98c4daff2a18de6; результат совпал с HEAD до записи."
+      },
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Статус PR #390 до push",
+        "наносекунды" : 563878500,
+        "свидетельство" : "GitHub вернул PR #390 как OPEN, не draft, с head 541589c938f4f8ca31c2bf0fa98c4daff2a18de6 и base d081c0a6dfecf876d94107c3f2585cd99f686f39."
+      },
+      {
+        "исход" : "неПроверено",
+        "название" : "Сборка и тесты LinguisticKit/libgit2, подмодуль и интеграция GitAdapter",
+        "свидетельство" : "Не выполнялись; команды init/fetch/build/test и изменение регистрации не запускались."
+      },
+      {
+        "исход" : "неПроверено",
+        "название" : "ROOT-приёмка и merge",
+        "свидетельство" : "Не выполнялись и не объявляются результатом этой записи."
+      }
+    ],
+    "происхождение" : [
+      "Делегация ROOT поручила подготовить проверяемые поставки LinguisticKit и upstream-preserving libgit2 для FUMA GitAdapter; новый gitlink в FUM запрещён до отдельного проверенного add-plan.",
+      "Точный W: fum-lab/fum/zavisimosti/master, до записи HEAD 541589c938f4f8ca31c2bf0fa98c4daff2a18de6, чисто; origin ref совпадал с HEAD; PR #390 был открыт и не объединён.",
+      "LinguisticKit проверен в W и GitHub API: .gitmodules URL https://github.com/fum-lab/LinguisticKit.git, fumUpstream https://github.com/Roman-Kerimov/LinguisticKit.git, gitlink 837e2ce107b97ee7b9d3344c9fe99142281fe393; в обоих репозиториях у pin одинаковое дерево 02659ca37d3a2b7da7c70d8e9019081302b735aa и LICENSE blob 0e259d42c996742e9e3cba14c677129b2c1b6311; GitHub license metadata CC0-1.0.",
+      "LinguisticKit mirror/API: https://github.com/fum-lab/LinguisticKit; upstream: https://github.com/Roman-Kerimov/LinguisticKit. Закреплённый Package.swift использует Swift tools 5.9 и содержит dynamic/static LinguisticKit и LinguisticKitBuildTool; это метаданные исходника, сборка не выполнялась.",
+      "libgit2 API: https://github.com/fum-lab/libgit2 — public fork, parent/source libgit2/libgit2, default main; наблюдён created_at 2026-10-28T12:44:36Z, автор/инициатор не выводится. У upstream и fork main совпали на 42a89d7cc9374a19e72fa57011e5fe3a99c7b3bf; v1.9.7 совпал на commit 49e408b3208bc3093757a1c2db938d3590f3f412, tree 29b18aa9210376513c391185b355e696856f9261; COPYING blob 80788a3ed790689b5b30918d17ec67ccd24e7a20.",
+      "Выполненная команда создания fork `gh repo fork libgit2/libgit2 --org fum-lab --clone=false --fork-name libgit2` завершилась exit 1 с HTTP 403 `Name already exists on this account`; повтор не выполнялся. Последующий GitHub GET нашёл уже существующий правильный fork. Нельзя приписывать его создание этой задаче.",
+      "GitHub license metadata libgit2 — NOASSERTION. COPYING на v1.9.7 содержит GPL version 2 и linking exception; это прочитано в файле COPYING, без вывода SPDX из метаданных.",
+      "Неисполняемый вариант macOS-сборки, выведенный из README/CMakeLists на v1.9.7: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_CLI=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_SSH=OFF -DUSE_HTTPS=SecureTransport; затем cmake --build build --config Release. Не проверен запуском.",
+      "Репозиторий FUM до этой записи не содержит libgit2 gitlink или найденного объявления в проверенных FUMA manifest/Swift/JSON путях. Область приёмки не включает новый add-plan, подмодуль, сборку или интеграцию GitAdapter.",
+      "Штатный журнал: `fuma журнал план --корень <физический-корень> --вход <JSON>`, затем `fuma журнал применить --корень <тот-же-корень> --вход <тот-же-JSON> --план <сохранённый-ответ>`. Исходники в base 541589c закреплены: Package.swift SHA256 6e19bbcfeb25f5e2b855f5c06892b6ada2ed29dc32fdaf807f6017103fe51cd3; plan-zapisi.swift 9f6b2f8561e59eede119dccb1fba3e5d32b1c1ebb2d484debcd965aab142347f; modelj-zapisi.swift 6766c463045531a1beaf4830f7bc20e69a64a5467fe39a337d7c3cc46490772c; komanda-zhurnala.swift c4927940d9521373be8709deafab8e1fe7a5407b9a83605a88ce6ecab24305a3; opredeleniya/sformirovatj-zapisj.json 3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b; matching local image SHA256 689ee574ec9340fe283b4163920cefca5de6fcf869b9f4912557a1d2d544005b.",
+      "Исполнительские метаданные: gpt-6-luna/max подтверждены семью собственными доступными turn_context в предыдущей записи этой стадии; эскалация не принята.",
+      "Официальные upstream-страницы libgit2 v1.9.7: https://github.com/libgit2/libgit2/releases/tag/v1.9.7, https://github.com/libgit2/libgit2/blob/v1.9.7/COPYING, https://github.com/libgit2/libgit2/blob/v1.9.7/README.md, https://github.com/libgit2/libgit2/blob/v1.9.7/CMakeLists.txt."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Сохранить LinguisticKit pin как подтверждённую поставочную квитанцию; не выполнять init, fetch или build в этой задаче.",
+      "Сохранить реальный отказ fork-команды дословно по смыслу; последующий GET подтверждает, что требуемый публичный upstream-preserving fork существует, но не кем он создан.",
+      "Передать для обсуждения v1.9.7 commit 49e408b3208bc3093757a1c2db938d3590f3f412, официальный COPYING и необязательный, непроверенный CMake-рецепт; лицензия требует отдельной оценки применительно к способу распространения.",
+      "Не менять .gitmodules, gitlink, GitAdapter manifest или чужие checkout/config; для регистрации libgit2 дождаться отдельного проверенного add-plan.",
+      "Запись №4 создаётся только в собственной области zavisimosti/zhurnal; push обновит существующий PR #390. Ни merge, ни ROOT-приёмка здесь не заявляются."
+    ],
+    "сообщения" : [
+
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 4,
+      "писатель" : "01a17838-f2e7-7633-b223-e7ac3f31c996",
+      "стадия" : "pervyij-ogranichennyij-srez"
+    }
+  },
+  "идентификатор" : "18cc5a5b73fd93ae97f5199079e9afd506e5ced998fd514edd1734502de75003",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}
