@@ -1,0 +1,44 @@
+name: Inspect Python restoration boundary
+on:
+  push:
+    branches:
+      - maintenance/archive-and-restore-python-20261103
+    paths:
+      - .github/workflows/python-restore-audit.yml
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Read branch inventory and historical Python boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --bare --filter=blob:none https://github.com/fum-lab/fum.git repository.git
+          cd repository.git
+          python3 - <<'PY'
+          import subprocess, json
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          root = 'refs/heads/fum-lab/fum/master'
+          refs = git('for-each-ref', '--format=%(objectname) %(refname)', 'refs/heads').splitlines()
+          print('BRANCH_COUNT', len(refs))
+          print('CURRENT_ROOT', git('rev-parse', root))
+          print('KEY_REFS')
+          for line in refs:
+              if any(x in line for x in ('sokhraneno/', '/master', 'bezopasny', 'безопасный-Python')) and ('/codex/' not in line or 'Python' in line):
+                  print(line)
+          print('FIRST_PARENT_HISTORY_OCTOBER_20_27')
+          print(git('log', '--first-parent', '--since=2026-10-20T00:00:00Z', '--until=2026-10-27T23:59:59Z', '--max-count=100', '--format=%H %cI %s', root))
+          print('PYTHON_SUBJECTS_BEFORE_OCTOBER_25')
+          print(git('log', '--all', '--since=2026-10-18T00:00:00Z', '--until=2026-10-25T00:00:00Z', '--max-count=30', '--format=%H %cI %s', '--grep=Python', '--grep=python', '--grep=проверки', '--grep=инструментарий'))
+          print('DAILY_FIRST_PARENT_SNAPSHOTS')
+          for day in (24, 23, 22, 21, 20, 19, 18, 17, 16):
+              sha = git('rev-list', '--first-parent', '-1', '--before=2026-10-%02dT23:59:59Z' % day, root)
+              paths = git('ls-tree', '-r', '--name-only', sha).splitlines()
+              py = [p for p in paths if p.endswith('.py')]
+              print(json.dumps({'day': day, 'commit': sha, 'metadata': git('show', '-s', '--format=%cI %s', sha), 'python_file_count': len(py)}, ensure_ascii=False))
+          print('AUDIT_COMPLETE_NO_REMOTE_WRITES')
+          PY
