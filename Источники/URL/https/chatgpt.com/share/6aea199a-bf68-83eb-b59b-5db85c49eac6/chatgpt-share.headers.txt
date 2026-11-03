@@ -1,0 +1,26 @@
+HTTP/2 200
+date: Tue, 03 Nov 2026 17:39:37 GMT
+content-type: text/html; charset=utf-8
+cf-ray: [REDACTED: response trace identifier]
+cf-cache-status: DYNAMIC
+server: cloudflare
+x-web-mobile-experiment-router: 1
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Origin
+content-security-policy: base-uri 'none'; object-src 'none'; frame-ancestors 'self' chrome-extension://lfkehkpjohcoelkpembgemeipeppanef chrome-extension://hehggadaopoacecdllhhajmbjkdcmajg chrome-extension://odlomjlbamekndcpllcnffbgeohgkmjh
+cross-origin-opener-policy: same-origin-allow-popups
+referrer-policy: strict-origin-when-cross-origin
+server-timing: [REDACTED: response trace identifier]
+server-timing: [REDACTED: response trace identifier]
+server-timing: [REDACTED: response trace identifier]
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-worker-version: 7f065fc6-1824-4ee9-912e-75b51dcef13d
+x-worker-version-tag: 4ecd1ae65e0d0fee8e29e2761bdb8da2f2b49c5d
+x-request-id: [REDACTED: response trace identifier]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+report-to: [REDACTED: response trace identifier]
+nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}

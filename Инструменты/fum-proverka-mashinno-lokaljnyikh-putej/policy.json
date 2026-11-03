@@ -7920,6 +7920,159 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Прежняя строка принятого94710: суффикс относительного имени запроса соединяется с именем своей фикстуры Журнала; не адрес локальной машины."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-01",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b3298ea44077d98c9092bd13376503438c14753b8e36a325c555a6d583356949",
+      "count": 5,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-02",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:35e1b81ab46a75ac93626526d5b4276eec2a06a620d370d3f6db765080630675",
+      "count": 5,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-03",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0984add9ce86784e2493833d4243e4ad3b7785e46f32ad3fc1d20366a9bf5015",
+      "count": 5,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-04",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b33f7e1eedb277f7943ae38b6fffe719d5ee97525e5a6f7cc9345f2751d5272a",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-05",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f2ad305d644341ce3f3792799398a341cb6f88a3214942b0d5a561601fcc4cee",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-06",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9ef382decc9661568aad88db3bbe3e3803be054ddbe53366c2e2cb47e85986a9",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-07",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:80d3aec13f4798f950e1f53bea4327a84c8d703bd7ffaa52d024af43894711df",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-08",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7a4a8a199cafa213bc48d237c4b05964f07df7fa1beac431bb052d1ea83c70ff",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-09",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:612438a83e6e1f2be8e662b4f135536c2e7c5954eb3fb96bae01a0ae899c6e11",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-10",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f20c788eb3ec6b4d8a9c263670c1ebe7477feb3d34e0e1b40ed043d5e7f19237",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-11",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1b2ccba905e36e51d663be742ddad0293c9a7008436a1fda87eb9057f16c2cd6",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-12",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9cf2380ad369df09d87b8b8fbb5a0076136415b13f8ef01e1215edb02490ccfa",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-13",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:16ec52021280923cd9ec9d50bfeb1ea207116534a1e6ad2fc273ae62cdb93a7a",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-14",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:69e483beef6ec3394bc764dbcbaf96970f1b3f5676df8b027839e578fc45dea3",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-15",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b351446fa2e6863111a7f74b59fba325f0dfd9ee0398fee2ab3e281d696d7571",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-16",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:edbf82823062bee2542365052bc91b9a533d61b99740f03ec5fb1105dcdb9f84",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "fuma-worktree-name-whole-case-17",
+      "path": "fuma/packages/imya-rabochego-dereva/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9802bf69c15a08382cc9c07ab1fcdea238e4d9ff093c087015c36b917e4e54bd",
+      "count": 3,
+      "category": "allow.test-fixture",
+      "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
     }
   ],
   "метаданные": [
