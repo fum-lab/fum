@@ -1,0 +1,93 @@
+{
+  "schema": "fum.keyboard-layout-source-manifest.1",
+  "upstream": {
+    "repository_url": "https://github.com/Roman-Kerimov/Keyboard",
+    "observed_ref": "refs/heads/main",
+    "observed_on": "2026-11-01",
+    "commit": "7495174d91571f98e75db4e615da8a3799868f2e",
+    "tree": "a2f7c5cf84cfa446b3243aa6952ca28f6f7acf2e",
+    "commit_message": "Build 56",
+    "signature": {
+      "verified": false,
+      "reason": "unsigned"
+    }
+  },
+  "layout_order": [
+    "qwerty",
+    "dvorak",
+    "colemak",
+    "azerty",
+    "qwertz",
+    "qzerty"
+  ],
+  "source_files": [
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayout.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayout.swift",
+      "git_blob": "1f5e6e0451e318900fea8095852c45e7aabc49ae",
+      "role": "common-layout-model"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/Key.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/Key.swift",
+      "git_blob": "8f5b579c243647927491d5bbebb69ebc1b7384da",
+      "role": "physical-keyboard-grid-and-keycodes"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.allLayouts.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.allLayouts.swift",
+      "git_blob": "49c053d1aaf344d656891e11740a6b5b797e22e3",
+      "role": "ordered-layout-list"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwerty.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwerty.swift",
+      "git_blob": "ff1b63ad67d5a7548e408920500d8bf8464c8669",
+      "role": "layout-components"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.dvorak.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.dvorak.swift",
+      "git_blob": "2243d11d66652689bc24b52e367d85575dc5e15c",
+      "role": "layout-components"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.colemak.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.colemak.swift",
+      "git_blob": "38793d6fd5042ccb20c0b4cbc4ae0aa7162b6d9a",
+      "role": "layout-components"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.azerty.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.azerty.swift",
+      "git_blob": "4509f2e53bf3d7875af430efc11cfe490ab71b82",
+      "role": "layout-components"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwertz.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwertz.swift",
+      "git_blob": "8aa04f31ddec20796faa16d250311ee4431fc23d",
+      "role": "layout-components"
+    },
+    {
+      "repository_path": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qzerty.swift",
+      "local_path": "source-files/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qzerty.swift",
+      "git_blob": "e1f8363f85667a02b0c733e31fd90118bdfa2a2d",
+      "role": "layout-components"
+    }
+  ],
+  "license": {
+    "repository_path": "LICENSE",
+    "git_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "reused_repository_path": "Приложения/FUMA/Операторы/Klaviatura/Уведомления/CC0-Keyboard.txt",
+    "reused_git_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "name": "CC0 1.0 Universal"
+  },
+  "capture": {
+    "method": "GitHub Git-data API exact commit, tree, contents, and blob reads",
+    "repository_clone": false,
+    "upstream_scripts_run": false,
+    "upstream_build_run": false,
+    "payloads_verified_by_git_blob_oid": true
+  }
+}

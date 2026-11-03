@@ -1,0 +1,24 @@
+{
+  "схема": "fum.описание-локального-входа-агента.1",
+  "версия": 1,
+  "логическийАдрес": "fum-lab/fum/pravila/master",
+  "путьКаталога": "Правила/агентов",
+  "областьЗаписи": [
+    "Правила/агентов/AGENTS.md"
+  ],
+  "родитель": "fum-lab/fum/master",
+  "дети": [
+    "fum-lab/fum/pravila/lokaljnyij-vkhod/marshrutizaciya/master",
+    "fum-lab/fum/pravila/lokaljnyij-vkhod/postavka/master"
+  ],
+  "источник": {
+    "путь": "pravila/opisaniye-lokaljnogo-vkhoda-agenta.json",
+    "коммит": "730fa5115e60e82d688340019c7652081b6ae161",
+    "хэшSHA256": "8f42f6c7f6c40bcbff6d068a5f0792de85a55ff34b5cbd25e0acb115232943e5"
+  },
+  "источникКорневыхПравил": {
+    "путь": "AGENTS.md",
+    "коммит": "b2440d61e63de801e0999e899a36b2343542e94c",
+    "хэшSHA256": "b8cd8e75b8c2eb7db059c01c71ff3c36b2467694476a51cf658991724df29f20"
+  }
+}

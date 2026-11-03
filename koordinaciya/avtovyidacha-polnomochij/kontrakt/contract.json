@@ -1,0 +1,456 @@
+{
+  "схема": "fum.координация.решение-автовыдачи.1",
+  "версия": 1,
+  "закрыт": true,
+  "назначение": "Чистое FUMA-first решение о конечном подмножестве уже принятого доверенного родительского полномочия.",
+  "диалектСхемыВхода": "https://json-schema.org/draft/2020-12/schema",
+  "схемаВхода": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "fum.координация.вход-автовыдачи.1",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema", "inputStatus", "trustedParentGrant", "request", "adapterAssessment", "observedState"],
+    "properties": {
+      "schema": {"const": "fum.координация.вход-автовыдачи.1"},
+      "inputStatus": {"enum": ["complete", "incomplete", "unknown"]},
+      "trustedParentGrant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["grantId", "source", "identity", "scopeProfile", "capabilityStatus", "capabilities", "resourceCeiling", "control"],
+        "properties": {
+          "grantId": {"type": "string", "minLength": 1},
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "recordId", "generation"],
+            "properties": {
+              "status": {"enum": ["verified", "invalid", "unknown"]},
+              "recordId": {"type": "string", "minLength": 1},
+              "generation": {"type": "integer", "minimum": 1}
+            }
+          },
+          "identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["root", "parentNode", "childOwner"],
+            "properties": {
+              "root": {"$ref": "#/$defs/rootIdentityInput"},
+              "parentNode": {"$ref": "#/$defs/nodeIdentityInput"},
+              "childOwner": {"$ref": "#/$defs/nodeIdentityInput"}
+            }
+          },
+          "scopeProfile": {"$ref": "#/$defs/scopeProfile"},
+          "capabilityStatus": {"enum": ["known", "unknown"]},
+          "capabilities": {"$ref": "#/$defs/capabilities"},
+          "resourceCeiling": {"$ref": "#/$defs/resources"},
+          "control": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "generation"],
+            "properties": {
+              "status": {"enum": ["active", "paused", "revoked", "unknown"]},
+              "generation": {"type": "integer", "minimum": 1}
+            }
+          }
+        }
+      },
+      "request": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requestId", "requestHash", "identity", "scopeProfile", "requestedCapabilities", "requestedResources", "expectedGeneration", "executionIntent", "modelSelection", "taskMessageHash"],
+        "properties": {
+          "requestId": {"type": "string", "minLength": 1},
+          "requestHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["root", "parentNode", "requesterNode"],
+            "properties": {
+              "root": {"$ref": "#/$defs/rootIdentityInput"},
+              "parentNode": {"$ref": "#/$defs/nodeIdentityInput"},
+              "requesterNode": {"$ref": "#/$defs/nodeIdentityInput"}
+            }
+          },
+          "scopeProfile": {"$ref": "#/$defs/scopeProfile"},
+          "requestedCapabilities": {"$ref": "#/$defs/capabilities"},
+          "requestedResources": {"$ref": "#/$defs/resources"},
+          "expectedGeneration": {"type": "integer", "minimum": 1},
+          "executionIntent": {"enum": ["dry-only", "prepare-orchestrator-gated-child", "unknown"]},
+          "modelSelection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["model", "reasoningEffort"],
+            "properties": {
+              "model": {"type": "string", "minLength": 1},
+              "reasoningEffort": {"type": "string", "minLength": 1}
+            }
+          },
+          "taskMessageHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      },
+      "adapterAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requestShapeStatus", "modelSelectionStatus", "requestObservationId"],
+        "properties": {
+          "requestShapeStatus": {"enum": ["valid", "grant-selection-attempt", "unexpected-field", "missing-field", "type-mismatch", "unknown"]},
+          "modelSelectionStatus": {"enum": ["accepted-api-selection", "unknown"]},
+          "requestObservationId": {"type": "string", "minLength": 1}
+        }
+      },
+      "observedState": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["observationId", "status", "currentOwnerIdentity", "scopeProfileStatus", "currentBaseStatus", "currentBaseOID", "currentGenerationStatus", "currentGeneration", "targetRefStatus", "targetWorktreeStatus", "writerStatus", "resourceHeadroom", "history"],
+        "properties": {
+          "observationId": {"type": "string", "minLength": 1},
+          "status": {"enum": ["complete", "incomplete", "unknown"]},
+          "currentOwnerIdentity": {"$ref": "#/$defs/nodeIdentityInput"},
+          "scopeProfileStatus": {"enum": ["nested-exact-approved-profile", "outside-approved-profile", "unknown"]},
+          "currentBaseStatus": {"enum": ["known", "unknown"]},
+          "currentBaseOID": {"type": "string", "minLength": 1},
+          "currentGenerationStatus": {"enum": ["known", "unknown"]},
+          "currentGeneration": {"type": "integer", "minimum": 1},
+          "targetRefStatus": {"enum": ["free", "occupied", "unknown"]},
+          "targetWorktreeStatus": {"enum": ["free", "occupied", "unknown"]},
+          "writerStatus": {"enum": ["single", "second-writer", "unknown"]},
+          "resourceHeadroom": {"enum": ["sufficient", "insufficient", "unknown"]},
+          "history": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "replayStatus", "priorRecord"],
+            "properties": {
+              "status": {"enum": ["complete", "incomplete", "unknown"]},
+              "replayStatus": {"enum": ["none", "exact-known-receipt", "unknown-effect", "same-id-different-hash", "unknown"]},
+              "priorRecord": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["status", "requestId", "requestHash", "decision", "receiptId", "decisionRecordHash"],
+                "properties": {
+                  "status": {"enum": ["none", "complete", "unknown"]},
+                  "requestId": {"type": "string"},
+                  "requestHash": {"type": "string"},
+                  "decision": {"enum": ["allow", "hold", "escalate", "unknown"]},
+                  "receiptId": {"type": "string"},
+                  "decisionRecordHash": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "$defs": {
+      "rootIdentityInput": {
+        "oneOf": [
+          {"$ref": "#/$defs/rootIdentityKnown"},
+          {"$ref": "#/$defs/identityUnknown"}
+        ]
+      },
+      "nodeIdentityInput": {
+        "oneOf": [
+          {"$ref": "#/$defs/nodeIdentityKnown"},
+          {"$ref": "#/$defs/identityUnknown"}
+        ]
+      },
+      "rootIdentityKnown": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "value"],
+        "properties": {"kind": {"const": "root-uuid"}, "value": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"}}
+      },
+      "nodeIdentityKnown": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "value"],
+        "properties": {"kind": {"const": "node-id"}, "value": {"type": "string", "minLength": 1}}
+      },
+      "identityUnknown": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "value"],
+        "properties": {"kind": {"const": "unknown"}, "value": {"const": "unknown"}}
+      },
+      "scopeProfile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profileId", "path", "targetRef", "worktreePath", "baseOID"],
+        "properties": {
+          "profileId": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "targetRef": {"type": "string", "pattern": "^refs/heads/.+$"},
+          "worktreePath": {"type": "string", "minLength": 1},
+          "baseOID": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+        }
+      },
+      "capabilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["read", "writeOwnArea", "commitOwnRef", "normalPushOwnRef", "spawnImmediateChildWithinIssuedSubscope"],
+        "properties": {
+          "read": {"type": "boolean"},
+          "writeOwnArea": {"type": "boolean"},
+          "commitOwnRef": {"type": "boolean"},
+          "normalPushOwnRef": {"type": "boolean"},
+          "spawnImmediateChildWithinIssuedSubscope": {"type": "boolean"}
+        }
+      },
+      "resources": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["worktreeLevel", "diskBudgetLevel", "maximumDepth"],
+        "properties": {
+          "worktreeLevel": {"enum": ["small", "medium", "large", "unknown"]},
+          "diskBudgetLevel": {"enum": ["small", "medium", "large", "unknown"]},
+          "maximumDepth": {"enum": ["depth-0", "depth-1", "depth-2", "unknown"]}
+        }
+      }
+    }
+  },
+  "схемаВыхода": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "fum.координация.решение-автовыдачи.1",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema", "decision", "reason", "generation", "requestKey", "exactScope", "sourceObservation", "effectDisposition", "priorReceipt", "childGrant"],
+    "properties": {
+      "schema": {"const": "fum.координация.решение-автовыдачи.1"},
+      "decision": {"enum": ["allow", "hold", "escalate"]},
+      "reason": {"enum": ["approved-subset", "request-shape", "grant-selection-attempt", "identity-mismatch", "scope-outside-profile", "capability-expansion", "resource-expansion", "depth-expansion", "stale-base", "stale-generation", "grant-invalid", "control-paused", "grant-revoked", "state-unknown", "resource-headroom-insufficient", "target-occupied", "second-writer", "replay-collision", "history-incomplete", "unknown-effect", "exact-replay", "model-selection-unknown", "execution-intent-unknown", "execution-intent-not-authorized"]},
+      "generation": {"type": "integer", "minimum": 1},
+      "requestKey": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requestId", "requestHash"],
+        "properties": {"requestId": {"type": "string", "minLength": 1}, "requestHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+      },
+      "exactScope": {"$ref": "#/$defs/scopeProfile"},
+      "sourceObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["trustedGrantRecordId", "requestObservationId", "currentStateObservationId"],
+        "properties": {
+          "trustedGrantRecordId": {"type": "string", "minLength": 1},
+          "requestObservationId": {"type": "string", "minLength": 1},
+          "currentStateObservationId": {"type": "string", "minLength": 1}
+        }
+      },
+      "effectDisposition": {"enum": ["dry-only-no-call", "prepared-for-orchestrator-gate", "no-external-effect", "return-known-receipt"]},
+      "priorReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "receiptId", "decisionRecordHash", "decision"],
+        "properties": {
+          "status": {"enum": ["not-applicable", "returned", "unknown"]},
+          "receiptId": {"type": "string"},
+          "decisionRecordHash": {"type": "string"},
+          "decision": {"enum": ["allow", "hold", "escalate", "unknown"]}
+        }
+      },
+      "childGrant": {
+        "oneOf": [
+          {"$ref": "#/$defs/notIssued"},
+          {"$ref": "#/$defs/issued"}
+        ]
+      }
+    },
+    "allOf": [
+      {
+        "if": {"properties": {"decision": {"const": "allow"}}, "required": ["decision"]},
+        "then": {
+          "oneOf": [
+            {
+              "properties": {
+                "effectDisposition": {"enum": ["dry-only-no-call", "prepared-for-orchestrator-gate"]},
+                "priorReceipt": {"properties": {"status": {"const": "not-applicable"}}, "required": ["status"]},
+                "childGrant": {"$ref": "#/$defs/issued"}
+              },
+              "required": ["effectDisposition", "priorReceipt", "childGrant"]
+            },
+            {
+              "properties": {
+                "effectDisposition": {"const": "return-known-receipt"},
+                "priorReceipt": {"properties": {"status": {"const": "returned"}, "decision": {"const": "allow"}}, "required": ["status", "decision"]},
+                "childGrant": {"$ref": "#/$defs/notIssued"}
+              },
+              "required": ["effectDisposition", "priorReceipt", "childGrant"]
+            }
+          ]
+        }
+      },
+      {
+        "if": {"properties": {"decision": {"enum": ["hold", "escalate"]}}, "required": ["decision"]},
+        "then": {
+          "oneOf": [
+            {
+              "properties": {
+                "effectDisposition": {"const": "no-external-effect"},
+                "priorReceipt": {"properties": {"status": {"enum": ["not-applicable", "unknown"]}}, "required": ["status"]},
+                "childGrant": {"$ref": "#/$defs/notIssued"}
+              },
+              "required": ["effectDisposition", "priorReceipt", "childGrant"]
+            },
+            {
+              "properties": {
+                "effectDisposition": {"const": "return-known-receipt"},
+                "priorReceipt": {"properties": {"status": {"const": "returned"}, "decision": {"enum": ["hold", "escalate"]}}, "required": ["status", "decision"]},
+                "childGrant": {"$ref": "#/$defs/notIssued"}
+              },
+              "required": ["effectDisposition", "priorReceipt", "childGrant"]
+            }
+          ]
+        }
+      },
+      {
+        "if": {"properties": {"reason": {"enum": ["unknown-effect", "history-incomplete"]}}, "required": ["reason"]},
+        "then": {"properties": {"priorReceipt": {"properties": {"status": {"const": "unknown"}}, "required": ["status"]}}}
+      }
+    ],
+    "$defs": {
+      "scopeProfile": {"$ref": "#/$defs/scopeProfileValue"},
+      "scopeProfileValue": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profileId", "path", "targetRef", "worktreePath", "baseOID"],
+        "properties": {
+          "profileId": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "targetRef": {"type": "string", "pattern": "^refs/heads/.+$"},
+          "worktreePath": {"type": "string", "minLength": 1},
+          "baseOID": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+        }
+      },
+      "notIssued": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status"],
+        "properties": {"status": {"const": "not-issued"}}
+      },
+      "issued": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "grant"],
+        "properties": {
+          "status": {"const": "issued"},
+          "grant": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["grantId", "parentGrantId", "identity", "scopeProfile", "capabilities", "resources", "generation", "authorityClass"],
+            "properties": {
+              "grantId": {"type": "string", "minLength": 1},
+              "parentGrantId": {"type": "string", "minLength": 1},
+              "identity": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["root", "parentNode", "childOwner"],
+                "properties": {
+                  "root": {"$ref": "#/$defs/rootIdentityKnown"},
+                  "parentNode": {"$ref": "#/$defs/nodeIdentityKnown"},
+                  "childOwner": {"$ref": "#/$defs/nodeIdentityKnown"}
+                }
+              },
+              "scopeProfile": {"$ref": "#/$defs/scopeProfileValue"},
+              "capabilities": {"$ref": "#/$defs/capabilities"},
+              "resources": {"$ref": "#/$defs/resources"},
+              "generation": {"type": "integer", "minimum": 1},
+              "authorityClass": {"const": "logical-only"}
+            }
+          }
+        }
+      },
+      "rootIdentityKnown": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "value"],
+        "properties": {"kind": {"const": "root-uuid"}, "value": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"}}
+      },
+      "nodeIdentityKnown": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "value"],
+        "properties": {"kind": {"const": "node-id"}, "value": {"type": "string", "minLength": 1}}
+      },
+      "capabilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["read", "writeOwnArea", "commitOwnRef", "normalPushOwnRef", "spawnImmediateChildWithinIssuedSubscope"],
+        "properties": {"read": {"type": "boolean"}, "writeOwnArea": {"type": "boolean"}, "commitOwnRef": {"type": "boolean"}, "normalPushOwnRef": {"type": "boolean"}, "spawnImmediateChildWithinIssuedSubscope": {"type": "boolean"}}
+      },
+      "resources": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["worktreeLevel", "diskBudgetLevel", "maximumDepth"],
+        "properties": {"worktreeLevel": {"enum": ["small", "medium", "large"]}, "diskBudgetLevel": {"enum": ["small", "medium", "large"]}, "maximumDepth": {"enum": ["depth-0", "depth-1", "depth-2"]}}
+      }
+    }
+  },
+  "порядокРешения": [
+    {"шаг": 1, "условие": "requestShapeStatus=grant-selection-attempt", "решение": "escalate", "основание": "grant-selection-attempt"},
+    {"шаг": 2, "условие": "requestShapeStatus=unexpected-field", "решение": "escalate", "основание": "request-shape"},
+    {"шаг": 3, "условие": "priorRecord.status=complete и его requestId совпадает с текущим, но requestHash различается; либо replayStatus=same-id-different-hash", "решение": "escalate", "основание": "replay-collision"},
+    {"шаг": 4, "условие": "history.replayStatus=unknown-effect", "решение": "hold", "основание": "unknown-effect; повтор запрещён"},
+    {"шаг": 5, "условие": "input/observation неполны, history не complete, priorRecord.status=unknown, requestShapeStatus=missing-field|type-mismatch, либо replayStatus=unknown", "решение": "hold", "основание": "state-unknown или history-incomplete"},
+    {"шаг": 6, "условие": "replayStatus=exact-known-receipt; priorRecord complete; requestId/hash точно совпадают с текущим request; decision известен; receiptId и decisionRecordHash не пусты", "решение": "вернуть priorRecord.decision и точную priorReceipt; без нового grant и эффекта", "основание": "exact-replay"},
+    {"шаг": 7, "условие": "priorRecord complete, но не является точным replay (в том числе replayStatus=none при существующей записи) либо replayStatus=exact-known-receipt при неполной/несовпавшей записи", "решение": "hold", "основание": "state-unknown; replay не переисполняется"},
+    {"шаг": 8, "условие": "source invalid или известное typed identity не совпадает", "решение": "escalate", "основание": "grant-invalid или identity-mismatch"},
+    {"шаг": 9, "условие": "source/control/capability/identity/profile/base/generation/resource/target/writer/headroom/model-selection/execution-intent имеет явный unknown; requestShapeStatus=unknown; input или observation incomplete/unknown; pause/revoke; либо base/generation устарели", "решение": "hold", "основание": "точный reason поля; неизвестность не считается разрешением"},
+    {"шаг": 10, "условие": "profile вне разрешённого профиля либо exact profile id/path/ref/worktree не равны", "решение": "escalate", "основание": "scope-outside-profile"},
+    {"шаг": 11, "условие": "любое requested capability=true при parent capability=false", "решение": "escalate", "основание": "capability-expansion"},
+    {"шаг": 12, "условие": "ресурс или depth не является разрешённой конечной парой subset", "решение": "escalate", "основание": "resource-expansion или depth-expansion"},
+    {"шаг": 13, "условие": "executionIntent=prepare-orchestrator-gated-child и requestedCapabilities.spawnImmediateChildWithinIssuedSubscope=false", "решение": "hold", "основание": "execution-intent-not-authorized"},
+    {"шаг": 14, "условие": "target/ref/worktree/writer/headroom имеют занятое, второе, недостаточное или unknown состояние", "решение": "hold", "основание": "target-occupied, second-writer, resource-headroom-insufficient или state-unknown"},
+    {"шаг": 15, "условие": "все условия выше пройдены", "решение": "allow", "основание": "approved-subset; выпустить только точный логический child grant"}
+  ],
+  "проверкиРавенства": {
+    "identity": {
+      "root": "trustedParentGrant.identity.root == request.identity.root; typed kind и value сравниваются вместе",
+      "parent": "trustedParentGrant.identity.parentNode == request.identity.parentNode; typed kind и value сравниваются вместе",
+      "owner": "trustedParentGrant.identity.childOwner == request.identity.requesterNode == observedState.currentOwnerIdentity; все сравнения typed",
+      "unknown": "kind=unknown или неизвестный источник значения даёт hold",
+      "knownMismatch": "известное несовпадение root, parent или owner даёт escalate"
+    },
+    "scope": {
+      "exactChildProfileFields": ["profileId", "path", "targetRef", "worktreePath"],
+      "trustedScope": "request.scopeProfile должен совпадать с единственным точным trustedParentGrant.scopeProfile; scopeProfileStatus=nested-exact-approved-profile означает, что adapter сверил этот дочерний профиль с конечным trusted profile catalogue и подтвердил вложенность в принятую родительскую область. Произвольный path-prefix не используется.",
+      "outside": "любое известное несовпадение profileId/path/ref/worktree или outside-approved-profile даёт escalate",
+      "baseOID": "request.scopeProfile.baseOID должен совпадать с trustedParentGrant.scopeProfile.baseOID и observedState.currentBaseOID; несовпадение означает stale-base и hold"
+    },
+    "generation": "request.expectedGeneration == trustedParentGrant.source.generation == trustedParentGrant.control.generation == observedState.currentGeneration; несовпадение означает stale-generation и hold",
+    "capabilities": "Пять фиксированных boolean сравниваются по отдельности; запрошенный true разрешён только при parent true. Запрошенный false всегда остаётся false в выданном grant.",
+    "resources": "Каждый level сверяется с точной таблицей отношенийПодмножества; неизвестный level удерживает, расширение эскалируется.",
+    "occupancy": "allow требует targetRefStatus=free, targetWorktreeStatus=free, writerStatus=single и resourceHeadroom=sufficient",
+    "issuedChildGrant": "Только новый allow создаёт childGrant.status=issued: identity копирует проверенный trusted identity; профиль, capabilities и resources равны прошедшим проверки полям request; generation равен использованному grant поколению. AuthorityClass всегда logical-only. Replay лишь возвращает priorReceipt и не выдаёт второй grant."
+  },
+  "отношенияПодмножества": {
+    "ресурсы": {
+      "worktreeLevel": {"small": ["small"], "medium": ["small", "medium"], "large": ["small", "medium", "large"]},
+      "diskBudgetLevel": {"small": ["small"], "medium": ["small", "medium"], "large": ["small", "medium", "large"]},
+      "maximumDepth": {"depth-0": ["depth-0"], "depth-1": ["depth-0", "depth-1"], "depth-2": ["depth-0", "depth-1", "depth-2"]}
+    },
+    "неизвестноеЗначение": "hold; неизвестность не считается подмножеством"
+  },
+  "цельFUMA": {
+    "operatorDefinitionSchema": "fum.определение-оператора.2",
+    "graphSchema": "fuma.граф-JSON.2",
+    "pure": true,
+    "supportedOperators": ["переменная", "путь", "если", "равно", "отобразить", "массив", "соединить-массивы", "вызвать"],
+    "requiredPathRule": "каждый путь во входе обязан существовать; отсутствующий обязательный путь означает fail-closed ошибку и не допускает allow",
+    "encodingTarget": "Только FUMA-оператор без Swift evaluator. Адаптер следующего этапа подаёт полную нормализованную форму с явными unknown enum; FUMA граф не читает state/journal и не вызывает инструменты.",
+    "decisionIsNotPermission": "allow создаёт только логическую запись точного подмножества. Результат не меняет разрешения ОС, Codex, репозитория или другого сервиса."
+  },
+  "эффекты": {
+    "вызовFactoryВFUMA": false,
+    "оркестраторныйПуть": "Отдельный явный gate оркестратора может вызывать только существующую collaboration.spawn_agent; сам contract и FUMA evaluator этого не вызывают.",
+    "idempotencyKeyУTool": false,
+    "exactlyOnceДляTool": false,
+    "unknownEffect": "hold без повтора до независимых intent/receipt/readback; факт вызова и его исход остаются отдельными записями",
+    "dryOnly": "executionIntent=dry-only всегда сохраняет отсутствие внешнего вызова; allow — лишь логическое решение"
+  },
+  "происхождениеЗапроса": {
+    "requestHash": "Нижний hex SHA-256 канонического тела request, поставленный typed adapter; сериализация и версия canonicalizer фиксируются adapter stage. Если источник/хэш не подтверждён или канонизация неоднозначна, inputStatus=unknown и решение hold.",
+    "taskMessageHash": "Нижний hex SHA-256 точного сообщения задачи; исходные байты и способ получения остаются у adapter/orchestrator, не восстанавливаются из model selection.",
+    "modelSelection": "model/reasoningEffort — только принятое API selection для оркестратора. Это не доказательство фактической модели provider; такой статус остаётся unknown и не входит в грант или identity."
+  },
+  "неЦели": ["реализация FUMA evaluator в этом этапе", "Swift adapter в этом этапе", "чтение файлов и журнала самим FUMA evaluator", "создание chat или запуск агента", "изменение ОС/Codex permissions", "общая гарантия exactly-once", "расширение grant"],
+  "закрытость": "Все входные и выходные объекты имеют фиксированные required-поля; additionalProperties=false. Для unknown предусмотрены конечные enum. Семантические проверки сверх JSON Schema выполняются оператором следующего этапа и проверяются независимым review."
+}

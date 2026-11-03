@@ -1,0 +1,289 @@
+{
+  "schema": "fum.github-pulls-targeted-source-observation.1",
+  "status": "captured_source_only_non_atomic_not_semantically_reviewed",
+  "source": {
+    "repository": "fum-lab/fum",
+    "pullNumbers": [491, 492, 493],
+    "excludedControlPullNumbers": [495],
+    "apiVersion": "2026-03-10",
+    "method": "GET",
+    "captureClient": "GitHub CLI gh 2.103.3",
+    "records": [
+      {
+        "pull": 491,
+        "kind": "pull-json",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/491",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": "not_applicable",
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:44 GMT",
+          "etag": "\"59693cd30fb3eb53f3c0727c2fa936b594be5554c2abb3225cb235a09c1d6ba6\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 17018,
+          "bodySha256": "d653088363092b500d7cec044c2627c49e106b00fdd11164a18b21ad577a2bc4",
+          "bodyPath": "Issues/fum-lab/fum/данные/d653088363092b500d7cec044c2627c49e106b00fdd11164a18b21ad577a2bc4.json"
+        }
+      },
+      {
+        "pull": 491,
+        "kind": "diff",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/491",
+        "requestHeaders": {"Accept": "application/vnd.github.diff", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": "not_applicable",
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:45 GMT",
+          "etag": "\"8660a60ee7fbd1144c2069984431be244478fd4c7975090ed7319206b981adc4\"",
+          "contentType": "application/vnd.github.diff; charset=utf-8",
+          "bodyBytes": 111041,
+          "bodySha256": "76fe7a20ecd6d84af3e09821254188f51dbfce3a32b49f1a0260d1e323950d76",
+          "bodyPath": "Issues/fum-lab/fum/данные/76fe7a20ecd6d84af3e09821254188f51dbfce3a32b49f1a0260d1e323950d76.diff"
+        }
+      },
+      {
+        "pull": 491,
+        "kind": "reviews",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/491/reviews?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:46 GMT",
+          "etag": "\"89a470be28750931afa3b4c839898761f2850da35a46e59bb86e4618abd04bd4\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 2,
+          "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bodyPath": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json"
+        }
+      },
+      {
+        "pull": 491,
+        "kind": "review-comments",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/491/comments?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:47 GMT",
+          "etag": "\"89a470be28750931afa3b4c839898761f2850da35a46e59bb86e4618abd04bd4\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 2,
+          "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bodyPath": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json"
+        }
+      },
+      {
+        "pull": 491,
+        "kind": "files",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/491/files?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:47 GMT",
+          "etag": "W/\"f1e322324181df32c0887cf06ad63215408b7342823bf82888e6d4b3b05d0aca\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 118929,
+          "bodySha256": "cb2a3fe677b550d66d2f44aa5b791e9463f9db13f10b84eaca72ad38f3064126",
+          "bodyPath": "Issues/fum-lab/fum/данные/cb2a3fe677b550d66d2f44aa5b791e9463f9db13f10b84eaca72ad38f3064126.json"
+        }
+      },
+      {
+        "pull": 492,
+        "kind": "pull-json",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/492",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": "not_applicable",
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:48 GMT",
+          "etag": "\"6a08d3ba086db50f2ad7b00760b9115717fd3f3b4ae9390e55d00c7ddf9a81d1\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 17596,
+          "bodySha256": "efd1de793eb3c448a1cf6e4e7cd505943bd7c6ff9e4d24453b2ba89b99ccfd36",
+          "bodyPath": "Issues/fum-lab/fum/данные/efd1de793eb3c448a1cf6e4e7cd505943bd7c6ff9e4d24453b2ba89b99ccfd36.json"
+        }
+      },
+      {
+        "pull": 492,
+        "kind": "diff",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/492",
+        "requestHeaders": {"Accept": "application/vnd.github.diff", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": "not_applicable",
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:49 GMT",
+          "etag": "\"9f4121c742086d8465c7346827d2cb4756274d29db7c5793fbc576cd452bb8f9\"",
+          "contentType": "application/vnd.github.diff; charset=utf-8",
+          "bodyBytes": 26355,
+          "bodySha256": "4307c07a96ad0fa2d530a36b6146f8b35203378354746b7d5a85229b4757536f",
+          "bodyPath": "Issues/fum-lab/fum/данные/4307c07a96ad0fa2d530a36b6146f8b35203378354746b7d5a85229b4757536f.diff"
+        }
+      },
+      {
+        "pull": 492,
+        "kind": "reviews",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/492/reviews?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:50 GMT",
+          "etag": "\"89a470be28750931afa3b4c839898761f2850da35a46e59bb86e4618abd04bd4\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 2,
+          "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bodyPath": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json"
+        }
+      },
+      {
+        "pull": 492,
+        "kind": "review-comments",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/492/comments?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:51 GMT",
+          "etag": "\"89a470be28750931afa3b4c839898761f2850da35a46e59bb86e4618abd04bd4\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 2,
+          "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bodyPath": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json"
+        }
+      },
+      {
+        "pull": 492,
+        "kind": "files",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/492/files?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:51 GMT",
+          "etag": "W/\"10c794ec62bf22cb24637c0503a256aac2194b80564d09ba58e119f55dba926b\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 28796,
+          "bodySha256": "b293adbd9e5a9611f4fd8c5617cfcaea3dcd19dc31a1bd0b2cf40bc49d3fa4a9",
+          "bodyPath": "Issues/fum-lab/fum/данные/b293adbd9e5a9611f4fd8c5617cfcaea3dcd19dc31a1bd0b2cf40bc49d3fa4a9.json"
+        }
+      },
+      {
+        "pull": 493,
+        "kind": "pull-json",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/493",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": "not_applicable",
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:52 GMT",
+          "etag": "\"26968ca7ef3d628e286d0d0a0f0c3bff9259ee45af87d76cfbcbbf321d794097\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 17819,
+          "bodySha256": "3493819546beccf55f32be11d0a56683b250000854fe103a4a3cc5d704cb7abc",
+          "bodyPath": "Issues/fum-lab/fum/данные/3493819546beccf55f32be11d0a56683b250000854fe103a4a3cc5d704cb7abc.json"
+        }
+      },
+      {
+        "pull": 493,
+        "kind": "diff",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/493",
+        "requestHeaders": {"Accept": "application/vnd.github.diff", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": "not_applicable",
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:53 GMT",
+          "etag": "\"192559d5d1cb2794e18b9460e4131263bac2a0ce10186fc49fd10966421c3e4d\"",
+          "contentType": "application/vnd.github.diff; charset=utf-8",
+          "bodyBytes": 105703,
+          "bodySha256": "95cc72544ef2b946d7f093f30f0d51209568804c73836c96fbae11297331ad9f",
+          "bodyPath": "Issues/fum-lab/fum/данные/95cc72544ef2b946d7f093f30f0d51209568804c73836c96fbae11297331ad9f.diff"
+        }
+      },
+      {
+        "pull": 493,
+        "kind": "reviews",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/493/reviews?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:54 GMT",
+          "etag": "\"89a470be28750931afa3b4c839898761f2850da35a46e59bb86e4618abd04bd4\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 2,
+          "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bodyPath": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json"
+        }
+      },
+      {
+        "pull": 493,
+        "kind": "review-comments",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/493/comments?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:55 GMT",
+          "etag": "\"89a470be28750931afa3b4c839898761f2850da35a46e59bb86e4618abd04bd4\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 2,
+          "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bodyPath": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json"
+        }
+      },
+      {
+        "pull": 493,
+        "kind": "files",
+        "url": "https://api.github.com/repos/fum-lab/fum/pulls/493/files?per_page=100",
+        "requestHeaders": {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        "pagination": {"page": 1, "perPage": 100, "linkHeader": "absent", "next": null},
+        "response": {
+          "status": 200,
+          "date": "Sat, 31 Oct 2026 18:11:56 GMT",
+          "etag": "W/\"96afd1598538649e630d43e897d47c1365c794ffd65a1009f49309b3f4237e8d\"",
+          "contentType": "application/json; charset=utf-8",
+          "bodyBytes": 110180,
+          "bodySha256": "16d0e741b4885048a48234b5a5cc958e86dbe68ae4b23293cb7b3b5fd5b80849",
+          "bodyPath": "Issues/fum-lab/fum/данные/16d0e741b4885048a48234b5a5cc958e86dbe68ae4b23293cb7b3b5fd5b80849.json"
+        }
+      }
+    ],
+    "serverDateRangeUtc": {
+      "first": "2026-10-31T18:11:44.000Z",
+      "latest": "2026-10-31T18:11:56.000Z"
+    },
+    "latestResponseDateCutoffUtc": "2026-10-31T18:11:56.000Z",
+    "atomicSnapshot": false,
+    "localRequestWindowUtc": {
+      "start": "2026-10-31T18:11:34Z",
+      "end": "2026-10-31T18:11:46Z"
+    },
+    "clockNote": "Latest GitHub Date header is 10 seconds after locally recorded end; both clocks and per-response Date values are preserved without normalization.",
+    "coverage": {
+      "targetedResponsesCaptured": 15,
+      "listEndpointsWithOnePageAndNoLinkHeader": 9,
+      "pullIssueConversationCommentsRequested": false,
+      "issueStateAllArchiveRefreshed": false,
+      "otherPullRequestsRequested": false,
+      "controlPull495Requested": false,
+      "semanticReview": "not_performed",
+      "legacyIssuesReaderImport": false,
+      "legacyIssuesReaderCompatibility": "unknown_not_claimed",
+      "knownGaps": [
+        "This is a sequence of non-atomic per-request observations, not one simultaneous GitHub snapshot.",
+        "Only pull requests 491, 492, and 493 were requested.",
+        "No /issues state=all archive refresh or PR issue-conversation comments request was made.",
+        "Commit objects, checks, statuses, workflows, Actions history, attachments, and later edits are outside this capture.",
+        "No Link rel=next header was returned for the nine list requests; this records observed pagination only and does not establish a repository-wide completeness claim.",
+        "The accepted Issues reader schema remains limited to issues/comments and has not been extended to /pulls."
+      ]
+    },
+    "privacy": {
+      "requestAuthorizationHeaderStored": false,
+      "privateMachinePathsInManifest": false,
+      "responseBodiesChangedForFormatting": false
+    }
+  }
+}

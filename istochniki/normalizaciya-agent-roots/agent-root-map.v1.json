@@ -1,0 +1,80 @@
+{
+  "schema": "fum.agent-root-merge-map.1",
+  "scope": {
+    "only_agent_folder_roots": true,
+    "source_prefix": "Источники/",
+    "target_prefix": "istochniki/",
+    "rule": "Replace the exact leading agent-folder root prefix only. Preserve every suffix byte-for-byte, including nested URL, snapshot, RAW, history, and filename segments."
+  },
+  "evidence": {
+    "accepted_base_commit": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "source_root_tree": "4c439648d22070f972aaf376db981f544bdc96ac",
+    "target_root_tree": "a1319007b1b1755f7c4c3ef9954004e7a56cf1cb",
+    "source_entries": [
+      { "name": "README.md", "mode": "100644", "oid": "7a22fabab9ebd603e961b063ddf3621bfa42f3f8" },
+      { "name": "URL/", "mode": "040000", "oid": "df411a86ac7d90b90ddacb005ca69fbcaea12f0e" }
+    ],
+    "target_entries": [
+      { "name": "karta.json", "mode": "100644", "oid": "1a899f8f54c69bbc86c06629171b26bb2be9c89f" },
+      { "name": "postanovka.json", "mode": "100644", "oid": "51b9f95481588d8406ef7bcb0a3c0c6d81ed70a9" },
+      { "name": "pozhelaniya.json", "mode": "100644", "oid": "968a297ef6591347618082c1d9e20f8b9fb89d43" },
+      { "name": "zhurnal/", "mode": "040000", "oid": "e6e347197deb6af9d4ace0763b60709385086039" }
+    ],
+    "root_name_collisions_at_base": []
+  },
+  "merge_policy": {
+    "path_absent_at_target": "Move source entry under target prefix, preserving exact mode and content object.",
+    "same_path_same_mode_same_blob": "Deduplicate the identical entry and record both source and target provenance.",
+    "same_path_different_mode_or_blob": "Preserve both versions under conflicts/<literal-relative-path>/<source-or-target>--<mode>--<git-object-id>, with a manifest of original paths, modes, and object IDs. Never overwrite, choose by timestamp, or resolve with an LLM/manual guess.",
+    "directories": "Merge recursively by literal child name; apply the same collision policy at each child path. Do not normalize suffixes."
+  },
+  "known_current_metadata_references": [
+    {
+      "metadata_path": "istochniki/karta.json",
+      "json_pointer": "/навигация/4/путь",
+      "old": "Источники/README.md",
+      "new": "istochniki/README.md",
+      "action": "Update only as a live repository locator after the merge."
+    },
+    {
+      "metadata_path": "istochniki/karta.json",
+      "json_pointer": "/навигация/5/путь",
+      "old": "Источники/URL/",
+      "new": "istochniki/URL/",
+      "action": "Update only as a live repository locator after the merge."
+    },
+    {
+      "metadata_path": "istochniki/karta.json",
+      "json_pointer": "/инвентаризация/путь",
+      "old": "Источники/URL/",
+      "action": "Historical inventory is pinned by snapshot_commit; retain this path spelling, commit, and counts."
+    },
+    {
+      "metadata_path": "istochniki/karta.json",
+      "json_pointer": "/проверяемый_пример/путь_снимка",
+      "old": "Источники/URL/https/jsonlines.org/_root/",
+      "action": "Historical example path: retain its old spelling and resolve it against the pinned commit; do not float it to the merged tree."
+    },
+    {
+      "metadata_path": "istochniki/karta.json",
+      "json_pointer_prefix": "/проверяемый_пример/файлы",
+      "action": "Historical example paths: retain old spellings and resolve against the pinned commit; preserve all blob/SHA values."
+    },
+    {
+      "metadata_path": "istochniki/karta.json",
+      "json_pointer_prefix": "/следующие_источники/*/путь",
+      "action": "Live locator prefix may change; preserve all suffix segments literally."
+    }
+  ],
+  "historical_and_external_references": {
+    "pinned_history": "References to the accepted base or older commits retain the historical path spelling and exact commit; do not float them to the current branch.",
+    "external_urls_and_templates": "GitHub URLs, API paths, and .github/ISSUE_TEMPLATE are outside this agent-folder-root mapping and remain unchanged."
+  },
+  "consumer_fixture": {
+    "input_path": "Источники/URL/https/api.github.com/repos/fum-lab/fum/issues/148/снимки/2026-10-04_14-09-40_MSK/request-observation.json",
+    "output_path": "istochniki/URL/https/api.github.com/repos/fum-lab/fum/issues/148/снимки/2026-10-04_14-09-40_MSK/request-observation.json",
+    "suffix_must_match_exactly": "URL/https/api.github.com/repos/fum-lab/fum/issues/148/снимки/2026-10-04_14-09-40_MSK/request-observation.json",
+    "fixture_is_path_only": true,
+    "payload_read_or_copied": false
+  }
+}

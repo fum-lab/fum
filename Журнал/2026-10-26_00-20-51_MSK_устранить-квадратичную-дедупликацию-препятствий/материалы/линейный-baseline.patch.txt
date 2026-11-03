@@ -1,0 +1,14 @@
+--- a/iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift
++++ b/iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift
+@@ -2,10 +2,9 @@
+ 
+ struct УпорядоченныйНаборПутей<Элемент: Hashable> {
+     private(set) var значения: [Элемент] = []
+-    private var индекс: Set<Элемент> = []
+ 
+     mutating func добавить(_ элемент: Элемент) {
+-        if индекс.insert(элемент).inserted { значения.append(элемент) }
++        if !значения.contains(элемент) { значения.append(элемент) }
+     }
+ }
+ 

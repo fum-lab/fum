@@ -1,0 +1,64 @@
+{
+  "основа": "39cb1bece1546119994b0278542c2a17b04d7972",
+  "источник_данных": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+  "ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/chastj-swift/master",
+  "файлы": [
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "92409edb351de7391c3fed46c5bfcac304c48934d26d7d50e623c83c77dfd635",
+      "git": "100644 blob edf5d1d288c07a5d53cac294fc0fd53368e22a51"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/modelj-plana.swift",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "842c35fc1af4295b1aeab40b66f5df6870ac64517dc17c083090395de2b0f399",
+      "git": "100644 blob 98cf1449be00b456c34023ba999258d09923b502"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "94668148b335053d4b8fc348026a429a724788bc53e050ac0577a5b7dcc89ea8",
+      "git": "100644 blob bec082c489b3d734e03c08b8876952cd4f6d6f96"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/proveritj-puti.swift",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "f115b6ddc828c8cc027d80fdae1c5a2696378de88759e0ab89bb42f0de844564",
+      "git": "100644 blob e3e6dfc5d520ef18420b331f14d5bb00e72b75d4"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/proverka-imyon.swift",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "16ffeed76f26395270cb3f441b2b7cf3722a10cbbec9ed4d20be1affc24afc4f",
+      "git": "100644 blob 28cb87599896d29719d5bfa1e2d665aa8b4fcaaf"
+    },
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/rukovodstvo.md",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "960a0a994caa1b691bd58feb23f39b4936f72a65671d8e4f551c1fc818f7d53a",
+      "git": "100644 blob cef41fbc569ccf5ce1d0b7ddbb6dd10ea0b3b1f7"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/proverki-putej.swift",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "6da57608bfb4850c97296ffec7d9e6c909d7b67a2419a5b54088e3ad4c645af1",
+      "git": "100644 blob 57b6a9c9275a601658bf69de79d6162100820f60"
+    },
+    {
+      "путь": "Планирование/aktualizaciya-putej.md",
+      "источник": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "sha256": "f489d36877b55cdd9b54d266652aade2b5cba242874779d70d0fc1210dc983c6",
+      "git": "100644 blob 527b9f93ca9f4bbae4d3abc57285f72632b9d23a"
+    }
+  ],
+  "доработки": [
+    "Три исторические ссылки на точные C1/C2.",
+    "Корневой Package: общая цель АктуализацияПутей, Swift Testing и статический LinguisticKit837.",
+    "Открытая P.1 и один новый публичный запуск36 тестов; старые RAW не импортируются."
+  ],
+  "исключено": [
+    "Старая P.2 и26 Python-путей; merge старой ancestry.",
+    "Общая NAV и полная проекция; агрегат check-session-coherence.py отключён в выбранном частичном пути по149/000030."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "схема": "fum.план-ремонта-общей-программы-коммита.1",
+  "статус": "SOURCE_PLAN_FIRST_STEP_NOT_IMPLEMENTED_NOT_RUN",
+  "задача": "Связать точное typed намерение родителей с существующим исполнением commit/intake; source-only ROOT эффект получает полномочие и выбранный M извне.",
+  "основа": "df9b82a13c062d8765ab8dce9d5ca9fa41d42756",
+  "исполнитель": "01a192d0-6f09-7950-9251-b27101106bfc",
+  "ROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "родитель": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+  "сравнение_M": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+  "граница_M": "Это точный M из поручения для сравнения и Planning fixture. Он не назначается автоматически актуальным M будущего ROOT эффекта; его отдельно выбирает ROOT.",
+  "конечные_новые_пути": [
+    "koordinaciya/metadannyie-kommita/этап-0002/план.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/сопоставление.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/фикстуры/потерянный-MERGE_HEAD.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/рецепт.txt"
+  ],
+  "разрешённые_существующие_пути": [
+    "koordinaciya/координатор.swift",
+    "koordinaciya/генератор-метаданных-коммита.swift",
+    "koordinaciya/proverki-priyoma-root.swift"
+  ],
+  "дополнительный_необходимый_путь": {
+    "путь": "koordinaciya/priyom-root.swift",
+    "статус": "ПРЕДЛОЖЕН_TOOLS_НЕ_ИЗМЕНЁН"
+  },
+  "установленный_дефект": [
+    "Planning 89841f имеет единственного parent L, вопреки заявленному намерению merge [L,M]. Факт raw tree/parents проверен; потеря MERGE_HEAD — сообщение родителя, не воспроизведённое здесь событие.",
+    "Существующий ROOT executor УЖЕ отказывает без MERGE_HEAD; нельзя объявлять отсутствующим имеющийся guard или выдумывать новый RED. Planning обошёл именно этот execution path.",
+    "В Source8 сохраняющий DTO/CLI .1 ограничен одним parent и UNKNOWN, даёт metadata/preflight/raw-check, но сам commit/продвижение не исполняет.",
+    "Существующий ROOT executor остаётся на typed metadata CLI и FUMA step/runtime входах; он не выбирает source-only branch. Source8 managed CLI требует отдельно подготовленный host context: naked subprocess этого контекста не передаёт."
+  ],
+  "минимальный_ремонт": [
+    "В существующем generator — версионное typed намерение checkpoint либо merge с точным упорядоченным parents/tree/ref и независимой внешней привязкой полномочия/M. Старый single-parent DTO .1 и receipt-confirmed режим не ослаблять.",
+    "В существующем checker/coordinator — те же exact parents/tree/author/committer/body/ROOT trailer; никакого определения merge по тексту сообщения, fallback с merge на checkpoint запрещён.",
+    "В существующем ПрограммаПриёмаROOT — подключить явный source-only режим через доверенный non-Decodable host context; переиспользовать его intents/outcomes/recovery/raw/push/readback. Не создавать новый Git executor.",
+    "До commit при утрате MERGE_HEAD — known conflict и commit0/push0; восстановление по точному сохранённому намерению либо explicit-parent commit допустимо только как отдельно выбранное действие программы, не слепой replay неизвестного эффекта.",
+    "ROOT сам запускает собственный ref/master эффект под точным внешним grant/M/scope. Пакет кандидата не выдаёт себе полномочия и не выбирает принимающий исполняемый M."
+  ],
+  "фикстуры_в_существующем_тестовом_файле": [
+    "ПотерянныйMERGE_HEADНеСоздаётOrdinaryCheckpoint: существующий послеMerge seam удаляет только fixture MERGE_HEAD, ожидает refusal до commit/push. Исходник теста, не запуск.",
+    "RawОдногоРодителяНеУдовлетворяетMergeНамерению: существующий raw checker отвергает [L] при expected [L,M].",
+    "SourceOnlyПриёмНеУдостоверяетСебя: candidate grant/иной M/лишний scope/не ROOT writer отклоняются внешним host context; legacy .1 не меняется.",
+    "НеизвестныйCommitНеПовторяется: существующее pending intent recovery читает raw C и не запускает commit/push повторно."
+  ],
+  "порядок": [
+    "Сохранить этот план и карту фактических entrypoints до Swift записи",
+    "Получить у Tools адресный ответ по existing executor priyom-root.swift и принимающему M; не ждать общей платформы/208 refs",
+    "Сохранить negative fixture/test source, затем минимальные связанные postimages и API invocation recipe",
+    "Независимый source review, отдельно fresh author prerequisite перед commit; затем ordinary exact own delivery"
+  ],
+  "не_выполняется": [
+    "compiler/typecheck/tests/runtime/SQL",
+    "новый target/module/reader/platform/global gate",
+    "dispatcher/CAS/FIFO/pool",
+    "общая config/hooks/master/publisher/чужие W",
+    "изменение опубликованной истории, старого df9 или закрытых receipts"
+  ],
+  "готовность": "План и исходный контракт не доказывают исполнимость/прохождение профиля. Heavy run допускается только отдельно."
+}

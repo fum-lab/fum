@@ -1,0 +1,48 @@
+{
+  "cases": [
+    {
+      "id": "primary-user-request",
+      "acceptedSelection": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max"
+      },
+      "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "title": "Добавить общий генератор метаданных коммита",
+      "description": "Формировать author, committer, environment и message из ограниченного API selection.",
+      "rawRequest": "Avtor kommita tozhe sletel. Napishi generaciyu obsjhuyu."
+    },
+    {
+      "id": "leading-trailing-crlf-russian-trailer-mention",
+      "acceptedSelection": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max"
+      },
+      "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "title": "Влить FUMA",
+      "description": "Описание упоминает Codex-Thread-ID: как текст.",
+      "rawRequest": " \r\nИсходная строка Codex-Thread-ID: quoted trailer\r\nРусский текст\t "
+    },
+    {
+      "id": "russian-title-with-technical-name",
+      "acceptedSelection": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max"
+      },
+      "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "title": "FUMA: исправлена проверка",
+      "description": "Строка содержит CRLF после полей: \r\n.",
+      "rawRequest": "Сохранить исходные байты и русский текст."
+    },
+    {
+      "id": "yo-and-markdown-name",
+      "acceptedSelection": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max"
+      },
+      "rootUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "title": "Обновлён AGENTS.md",
+      "description": "Запрос без преобразования.",
+      "rawRequest": " \tРусский запрос с крайними пробелами.\n"
+    }
+  ]
+}

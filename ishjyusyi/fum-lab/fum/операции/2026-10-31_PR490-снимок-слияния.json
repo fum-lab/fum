@@ -1,0 +1,79 @@
+{
+  "schema": "fum.github-pr-snapshots.1",
+  "repository": "fum-lab/fum",
+  "number": 490,
+  "source": "connected GitHub tools; normalized responses",
+  "captured_at_utc": "2026-10-31T10:14:01Z",
+  "readback": {
+    "url": "https://github.com/fum-lab/fum/pull/490",
+    "number": 490,
+    "state": "closed",
+    "merged": true,
+    "mergeable": true,
+    "draft": false,
+    "body": "После `git mv` при umask 077 индекс с режимом 0644 мог стать 0600. Откат в кириллическом каталоге ошибочно сравнивал NFC-пути Git с NFD-путями Foundation и сохранял временные копии как признак неполного восстановления.\n\nИсправление возвращает исходный режим проверенному собственному дескриптору индекса и учитывает точные логические UTF-8-пути собственных резервов. Строгая проверка результата и сохранение неизвестных исходов остаются обязательными.\n\nПроверка: ошибки воспроизведены на прежнем коде; 20 адресных случаев Swift Testing прошли, после поправки переносимости теста повторно прошли 3 новые регрессии. Производственный CLI собран из тех же исходников. Полный smoke, чистый клон и полный SDK-контур не проверены. Связано с #489; фактическое восстановление ROOT выполнено отдельно, повторный рабочий перенос ещё предстоит.",
+    "title": "Сохранить режим Git-индекса и точные пути при откате переноса",
+    "base": "fum-lab/fum/master",
+    "base_sha": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
+    "head": "fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master",
+    "head_sha": "eb512829deee70bd0c53be307148442d8aa95a88",
+    "head_repo_id": 1285958028,
+    "head_repo_full_name": "fum-lab/fum",
+    "merge_commit_sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
+    "user": {
+      "login": "Roman-Kerimov",
+      "name": "Roman-Kerimov",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+      "id": 22149544
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-31T09:59:17Z",
+    "updated_at": "2026-10-31T10:00:27Z",
+    "closed_at": "2026-10-31T10:00:27Z",
+    "merged_at": "2026-10-31T10:00:27Z",
+    "commits": 2,
+    "changed_files": 6,
+    "additions": 199,
+    "deletions": 12,
+    "display_url": "https://github.com/fum-lab/fum/pull/490",
+    "display_title": "Сохранить режим Git-индекса и точные пути при откате переноса"
+  },
+  "merge_commit_readback": {
+    "sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
+    "message": "Принять сохранение режима индекса и точные пути отката",
+    "url": "https://api.github.com/repos/fum-lab/fum/commits/833060b1716c40c74b44d2d62bb76198cf82987e",
+    "html_url": "https://github.com/fum-lab/fum/commit/833060b1716c40c74b44d2d62bb76198cf82987e",
+    "created_at": "2026-10-31T09:59:45Z",
+    "author": {
+      "login": "FUM Codex [gpt-6.1-sol; effort=ultra]",
+      "name": "FUM Codex [gpt-6.1-sol; effort=ultra]",
+      "email": null,
+      "avatar_url": null,
+      "id": null
+    },
+    "committer": {
+      "login": "FUM",
+      "name": "FUM",
+      "email": null,
+      "avatar_url": null,
+      "id": null
+    },
+    "files": [
+      "iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift",
+      "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
+      "Журнал/2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/запрос.md",
+      "Журнал/2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/отчёт.md",
+      "Журнал/2026-10-31_12-54-58_MSK_уточнить-автора-исправления-переноса/запрос.md",
+      "Журнал/2026-10-31_12-54-58_MSK_уточнить-автора-исправления-переноса/отчёт.md"
+    ],
+    "parent_shas_cross_checked": [
+      "f25efd3eb2facfe3d6355db3800c322291aaf34c",
+      "eb512829deee70bd0c53be307148442d8aa95a88"
+    ],
+    "parent_cross_check": "PR base/head full SHAs match the two abbreviated parents displayed on the GitHub commit page"
+  }
+}

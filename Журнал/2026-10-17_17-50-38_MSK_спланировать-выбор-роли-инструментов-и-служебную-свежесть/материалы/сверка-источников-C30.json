@@ -1,0 +1,61 @@
+{
+  "K904_неизменны": true,
+  "карта_четырёх_ролей_подтверждена": true,
+  "первичный_guard_не_ранний_selector": true,
+  "локальные_327_328_архивные": true,
+  "STEP0235_отдельная_карточка_не_найдена": true,
+  "generic_reader_ограничен_codex_app": true,
+  "filler1_меняет_Q_и_R": true,
+  "snapshot_open_marker_RED_статический": true,
+  "самозависимость_FP_исключается_снимком_до_RAW": true,
+  "третий_план_предложение_без_эффекта": true,
+  "полный_updater_отпечаток_зависимостей_ещё_условие_ROOT": false,
+  "фактических_тематических_JSON": 3,
+  "диагностическое_поле_старта": "Стартовый private stdout по ошибке сохранил константу данных=2; реальные config, installed files и разрешённый T13 содержат ровно три JSON. Исходный capture сохранён, это не изменение фактического scope.",
+  "отказ_третьего_RO": [
+    {
+      "вид": "response_item.function_call_output",
+      "начало": 283122309,
+      "конец": 283122790,
+      "байтов": 481,
+      "sha256": "4d20eff851589b331041ecfcdad20be48415f033c80196ed82ed6bffe000ab1f",
+      "код": null,
+      "факт": "Повторный RO followup недоступен из-за agent thread limit reached; эффекта и записи не было, два независимых RO анализа выполнены."
+    }
+  ],
+  "ROOT4_источники_сверены": [
+    {
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+      "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+      "режим": "100644",
+      "байтов": 18428,
+      "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330"
+    },
+    {
+      "коммит": "8b6adc4a268c7a458440f73fe71e3a51ba52c279",
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+      "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+      "режим": "100644",
+      "байтов": 18428,
+      "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330"
+    },
+    {
+      "коммит": "b2ae5245fb6607f9ebff2c6f868edc8b92336cda",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+      "режим": "100644",
+      "байтов": 13309,
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761"
+    },
+    {
+      "коммит": "8b6adc4a268c7a458440f73fe71e3a51ba52c279",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+      "режим": "100644",
+      "байтов": 13309,
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761"
+    }
+  ],
+  "exactTargets_и_время_будущего_эффекта_выбирает_ROOT": true
+}

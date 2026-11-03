@@ -1,0 +1,85 @@
+{
+  "схема": "fum.намерение-адресного-снимка-issues.1",
+  "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "writer_thread_id": "01a17838-f2e9-7ba3-948d-8d2d0a6458c4",
+  "пара": "Журнал/2026-10-31_20-27-35_MSK_capture-pr-491-493-delta",
+  "срез": "Текущие JSON PR/Issue 491, 492 и 493 и адресные issue comments; только получение и сохранение, смысловой разбор не выполняется.",
+  "checkout": {
+    "физический_корень": "собственный изолированный worktree; локальный абсолютный путь не публикуется",
+    "ref": "refs/heads/codex/issue-archive-delta-2026-10-31-01a17838",
+    "основной_HEAD": "f88044fe7a9e3119328ee7a4af187c6f43008b01"
+  },
+  "набор_записи": [
+    "Журнал/2026-10-31_20-27-35_MSK_capture-pr-491-493-delta/материалы/capture-pr-491-493-delta/intent.json",
+    "Журнал/2026-10-31_20-27-35_MSK_capture-pr-491-493-delta/запрос.md",
+    "Журнал/2026-10-31_20-27-35_MSK_capture-pr-491-493-delta/отчёт.md",
+    "Issues/fum-lab/fum/данные/c0f4baf8467aa7590ee7166514a405940f2e9b6b3333172678cff51b49aac037.json",
+    "Issues/fum-lab/fum/данные/b1d38c29e6f91768aa95ea54142c9e5cca6a7c5d1e57518114e038a6d0b0029d.json",
+    "Issues/fum-lab/fum/данные/6e8f415d0a522b0cd162d03a263e5e47dfb1eb25aa683595dd3f8e8367b9048c.json",
+    "Issues/fum-lab/fum/наблюдения/delta-pr-491-493-20261031T172430Z/наблюдение.json"
+  ],
+  "переиспользуемый_существующий_файл": {
+    "путь": "Issues/fum-lab/fum/данные/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.json",
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "байты": 2,
+    "содержимое": "[]",
+    "назначение": "Точный пустой ответ трёх адресных issue-comments endpoint; новый файл не создаётся."
+  },
+  "полученные_ответы": [
+    {
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/491",
+      "время_http": "2026-10-31T17:24:30Z",
+      "etag": "W/\"fd213016e353e0515e4ae16e7256e82b4520fd0cc2dd8796ccdf757dbef25684\"",
+      "статус": 200,
+      "sha256": "c0f4baf8467aa7590ee7166514a405940f2e9b6b3333172678cff51b49aac037",
+      "байты": 6335
+    },
+    {
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/492",
+      "время_http": "2026-10-31T17:24:30Z",
+      "etag": "W/\"dc99b1a395ca84f8f4c902aca113ff74030a4127e718e5b9d9bc90c9bb7e2826\"",
+      "статус": 200,
+      "sha256": "b1d38c29e6f91768aa95ea54142c9e5cca6a7c5d1e57518114e038a6d0b0029d",
+      "байты": 6918
+    },
+    {
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/493",
+      "время_http": "2026-10-31T17:24:23Z",
+      "etag": "W/\"1043bfc3b865898d1d28aa2ef70ca3337fe4467829a90d0c3d8cbfe11e673354\"",
+      "статус": 200,
+      "sha256": "6e8f415d0a522b0cd162d03a263e5e47dfb1eb25aa683595dd3f8e8367b9048c",
+      "байты": 7117
+    },
+    {
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/491/comments?per_page=100",
+      "время_http": "2026-10-31T17:24:30Z",
+      "статус": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "байты": 2,
+      "результат": "пустой массив"
+    },
+    {
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/492/comments?per_page=100",
+      "время_http": "2026-10-31T17:24:30Z",
+      "статус": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "байты": 2,
+      "результат": "пустой массив"
+    },
+    {
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/493/comments?per_page=100",
+      "время_http": "2026-10-31T17:24:30Z",
+      "статус": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "байты": 2,
+      "результат": "пустой массив"
+    }
+  ],
+  "границы": [
+    "Не повторять полные Issues/comments page-1 запросы от 2026-10-31T16:41Z.",
+    "Не включать закрытые 489/490 и не менять существующий незавершённый page-1 checkpoint.",
+    "Не публиковать комментарии, не закрывать Issues/PR, не менять внешний GitHub.",
+    "Issue review comments, diff и семантический разбор не входят; обработка останется не разобрана.",
+    "Полный ROOT JSONL, остаток и guard исключены прямой границей задачи; общий профиль остаётся UNKNOWN."
+  ]
+}

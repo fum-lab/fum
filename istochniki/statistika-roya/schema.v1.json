@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fum:istochniki/statistika-roya/schema.v1",
+  "title": "Compact native Codex API owner snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "captured_at_utc", "collection", "evidence", "owners"],
+  "properties": {
+    "schema_version": {"const": "fum.codex-owner-observations.1"},
+    "captured_at_utc": {"type": "string", "format": "date-time"},
+    "collection": {
+      "type": "object",
+      "required": ["list_threads_sampled_at_utc", "read_thread_sampled_at_utc", "turn_limit", "outputs_included", "summary_char_limit"],
+      "properties": {
+        "list_threads_sampled_at_utc": {"type": "string", "format": "date-time"},
+        "read_thread_sampled_at_utc": {"type": "string", "format": "date-time"},
+        "turn_limit": {"const": 3},
+        "outputs_included": {"const": false},
+        "summary_char_limit": {"const": 1000}
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["kind", "sha256"],
+      "properties": {
+        "kind": {"const": "private compact native API evidence"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["owner", "activity", "latest_substantive_result_age_seconds", "source_commit", "delivery", "integration", "blocker", "requested_model", "actual_model", "turn_durations_ms_recent3", "manual_interventions", "retry_count", "coordination_message_calls_recent3", "duplicate_command_strings_recent3", "tokens", "cost", "memory"],
+        "properties": {
+          "owner": {"enum": ["Tools", "FUMA", "Planning", "Rules", "Requirements", "Arts", "Sources"]},
+          "activity": {"enum": ["in_progress", "idle", "not_loaded", "unknown"]},
+          "latest_substantive_result_age_seconds": {"type": ["integer", "null"], "minimum": 0},
+          "source_commit": {"type": ["string", "null"]},
+          "delivery": {"enum": ["confirmed_push", "reported_push", "none_observed", "unknown"]},
+          "integration": {"type": "string"},
+          "blocker": {"type": "string"},
+          "requested_model": {"const": "UNKNOWN"},
+          "actual_model": {"const": "UNKNOWN"},
+          "turn_durations_ms_recent3": {"type": "array", "items": {"type": "integer", "minimum": 0}, "maxItems": 3},
+          "manual_interventions": {"const": "UNKNOWN"},
+          "retry_count": {"const": "UNKNOWN"},
+          "coordination_message_calls_recent3": {"type": ["integer", "null"], "minimum": 0},
+          "duplicate_command_strings_recent3": {"type": ["integer", "null"], "minimum": 0},
+          "tokens": {"const": "UNKNOWN"},
+          "cost": {"const": "UNKNOWN"},
+          "memory": {"const": "UNKNOWN"}
+        },
+        "additionalProperties": false
+      },
+      "minItems": 7,
+      "maxItems": 7
+    },
+    "method": {"type": "object"}
+  },
+  "method": {
+    "activity": "in_progress requires native read_thread inProgress; idle requires no in-progress turn in the sampled window; not_loaded means native API did not load the thread; list_threads active alone is not evidence of work.",
+    "result_age": "Capture time minus completedAt of the latest completed turn with a final result; do not count a final-looking message from an in-progress turn.",
+    "durations": "Turn durations are observed native turn metadata in milliseconds; an unfinished turn is omitted.",
+    "delivery": "Separate source commit and observed/reported push from integration; integration is unknown unless independently evidenced.",
+    "unknowns": "Use UNKNOWN or null when native evidence does not expose a value; do not infer model, tokens, cost, memory, manual intervention, or retries.",
+    "coordination": "Recent message-call and duplicate-command counts are descriptive only and are not retry or intervention counts.",
+    "privacy": "Exclude private thread UUIDs, local paths, titles, and raw text; keep evidence in a private local artifact and publish only its SHA-256."
+  }
+}

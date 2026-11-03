@@ -1,0 +1,41 @@
+{
+  "схема": "fum.манифест-целостности-исходников.1",
+  "идентификатор": "d38ced33-b0e2-411c-a2dd-55464f1deb56",
+  "источник": {
+    "формат_объектов": "sha1",
+    "коммит": "41623caf17d22e460979483f3ed4cf158b4c5393",
+    "дерево": "9d36572246ec55b547e2bffae2c8a12846182b36",
+    "ссылка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master"
+  },
+  "покрытие": "точный_состав_изменений",
+  "база": {
+    "формат_объектов": "sha1",
+    "коммит": "cd62b4b91a884db4dd54cbe7962fad61b8e76be2",
+    "дерево": "b73adc3db845c175c4241ead8e8b6cc5bf2c4c1a",
+    "ссылка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master"
+  },
+  "число_файлов": 3,
+  "файлы": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/etap-proverki-vkhodnogo-fajla.json",
+      "режим": "100644",
+      "объект": "51aef49864e8d1bb3b943f49e99dc42f1c0756b5",
+      "байты": 29213,
+      "хэш": "f1b9e1abe0f89905de5e0dd5c91f74a79376792abfbe5636cea9646819149b90"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Команда.swift",
+      "режим": "100644",
+      "объект": "ca471cfc2e51282c99af13848a0d50557752bf63",
+      "байты": 6835,
+      "хэш": "4733988c9851207775714f073b5f7dd526ea1d8e2eda47900aeeb29584ff5e9d"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+      "режим": "100644",
+      "объект": "a33ca134717cd5c7bfc051c28d8062c954805594",
+      "байты": 47555,
+      "хэш": "1fb7fc1e53275714ef36dbf1e6e1fac07358ac7f9a2a794d41860c5ffd1bcbdb"
+    }
+  ]
+}

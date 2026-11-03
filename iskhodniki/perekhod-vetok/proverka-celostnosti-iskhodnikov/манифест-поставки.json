@@ -1,0 +1,76 @@
+{
+  "схема": "fum.манифест-целостности-исходников.1",
+  "идентификатор": "ecb5e374-9738-4825-b361-75a7a4043f2b",
+  "источник": {
+    "формат_объектов": "sha1",
+    "коммит": "43e948d488bd8a41479e2b7a1f76a34c429f3f83",
+    "дерево": "5d6609c3f7432a37ee2c56c29e3ca5c63b06dcf4",
+    "ссылка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master"
+  },
+  "покрытие": "точный_состав_изменений",
+  "база": {
+    "формат_объектов": "sha1",
+    "коммит": "0dfa0853c389f9ccecff8177d64be4504e20b59b",
+    "дерево": "14921a2cd4aef915a6fecc25f524e69b3421190a",
+    "ссылка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master"
+  },
+  "число_файлов": 8,
+  "файлы": [
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Команда.swift",
+      "режим": "100644",
+      "объект": "6ed984d01ecfc0aa90d4f81cbedd0508446f1e9e",
+      "байты": 6668,
+      "хэш": "16757be2783be785c4b719426a67114e638685ac0209c5d28e5b55a86124df8c"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Манифест.swift",
+      "режим": "100644",
+      "объект": "15926f97508f818c9bb4576a7a9ea7001b3972e0",
+      "байты": 16721,
+      "хэш": "7ed37562b18eff284fb776ddeee585af96d518d60b11a31d959e3c6f43d188d6"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЧтениеОбъектов.swift",
+      "режим": "100644",
+      "объект": "b6017793a35a98756b40017faab234c3f2a8efe4",
+      "байты": 22850,
+      "хэш": "34b637c07d9d6c374fc9b872165563ee6026d1a825624328591c4f904efee153"
+    },
+    {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/этап.json",
+      "режим": "100644",
+      "объект": "7b8244e21fc594ba8509c5aab9963e3d702703f9",
+      "байты": 42231,
+      "хэш": "f1753d22659a4594a8c166f758aeccccac6308debb64cc2659e3f66d22e1e3d3"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+      "режим": "100644",
+      "объект": "35a5e417534004fde4ab092f2f6329a08e9d402b",
+      "байты": 33358,
+      "хэш": "809e2ba91f75f614307aa2e743ec300f6ae6a5163a86506cefb14508ee553955"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Проверки.swift",
+      "режим": "100644",
+      "объект": "c09c7e199a7dab70cf78ec7c842154fb9507117d",
+      "байты": 26976,
+      "хэш": "fad0607ac69a2b41c8d9d35ecafbfc635c83ae38e082ae3cc881a4b380df8495"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/состав-14.json",
+      "режим": "100644",
+      "объект": "9b2196791325c0d39de071b26680efafbb763a04",
+      "байты": 4355,
+      "хэш": "e91db6a7d693e73c6b7f02e5b7ca6a57a1eacab15c7a31cc49dfcce20ce2ce80"
+    },
+    {
+      "путь": "proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/состав-48.json",
+      "режим": "100644",
+      "объект": "07382a087a62a6155e0f1bc55c2a209c0fc5e3ac",
+      "байты": 13816,
+      "хэш": "ede9faba8cc842f86734777ce2060db8b6913c6fdbfcfb471aabb4d2a8c62793"
+    }
+  ]
+}

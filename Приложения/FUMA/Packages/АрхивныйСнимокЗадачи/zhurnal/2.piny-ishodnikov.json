@@ -1,0 +1,31 @@
+{
+  "база": "70c384e188b8c376c02809e3738286f5cf62788c",
+  "граница": "SHA-256 закрепляет точные байты перечисленных файлов; сам по себе не доказывает сборку, тесты, приёмку или интеграцию.",
+  "схема": "fuma.пины-исходников-последовательных-рамок-jsonl.1",
+  "файлы": [
+    {
+      "путь": "Package.swift",
+      "sha256": "73a2498ca4cc8f07b57cdd8391f4d763d871f5327ad210b3b4103c092afdfe4a"
+    },
+    {
+      "путь": "README.md",
+      "sha256": "e6edb69b020540880efa2aefbdbfeadf5213065eae36553c936ee09ae5abeeaf"
+    },
+    {
+      "путь": "Sources/АрхивныйСнимокЗадачи/posledovatelnyje-ramki-jsonl.swift",
+      "sha256": "7bfd5d2dcba31adebbd9d8451094c3524503320c86848fcd78515994e3f81ebf"
+    },
+    {
+      "путь": "proverki/posledovatelnyje-ramki-jsonl.swift",
+      "sha256": "ff5452955fdbb3d0b5025d8264723970d3c8966e560a964e28b3b21d66090726"
+    },
+    {
+      "путь": "proverki/profilj.swift",
+      "sha256": "013f399c7ee86bfb48e5b765aa371e3541d925dfadba42e6cd7fa68fb319864e"
+    },
+    {
+      "путь": "zhurnal/1.profilj.json",
+      "sha256": "793e8533345a06dd98a75d97578a4f55cbda40ca781f379106de2bb680410257"
+    }
+  ]
+}

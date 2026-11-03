@@ -1,0 +1,57 @@
+{
+  "замеры" : [
+    {
+      "длительности_нс" : [
+        127910875,
+        125671166,
+        121056084,
+        118129000,
+        118578209
+      ],
+      "препятствий" : 1001,
+      "файлов" : 1000,
+      "хэш_плана" : "447cbbef94dc78c2b7502c7540e5a26e71ed49abac623ed9100b16bb6cce7e99"
+    },
+    {
+      "длительности_нс" : [
+        395495250,
+        393976125,
+        399690541,
+        408111500,
+        406831417
+      ],
+      "препятствий" : 2001,
+      "файлов" : 2000,
+      "хэш_плана" : "19076149fd1a53e4f63001bab7f0ab1b73f172a60be8fdb57cb7ce725dc30fd5"
+    },
+    {
+      "длительности_нс" : [
+        1466638666,
+        1451255042,
+        1670775708,
+        1415032167,
+        1418646292
+      ],
+      "препятствий" : 4001,
+      "файлов" : 4000,
+      "хэш_плана" : "4dbb89272f058d726a4ca903cfd9e81daec18b1b59752894ca3b45e1fc856c1d"
+    }
+  ],
+  "занятых_областей" : 1,
+  "исходники" : {
+    "Package.swift" : "8da2a5b45ac02704d9635efddaea30695f67eaa56359c999ca61598eab18e6ae",
+    "iskhodniki/aktualizaciya-putej/chteniye-snimka.swift" : "92409edb351de7391c3fed46c5bfcac304c48934d26d7d50e623c83c77dfd635",
+    "iskhodniki/aktualizaciya-putej/modelj-plana.swift" : "8ea16d2ba65efc098c8491af1dd7fc185079dab5d8f837cacf3c227f953c3dd0",
+    "iskhodniki/aktualizaciya-putej/postroyeniye-plana.swift" : "c7bff9b9c4205599f8ce4f8c7bd547e199e140119d2b78b84978ee82ab29f720",
+    "iskhodniki/aktualizaciya-putej/proveritj-puti.swift" : "f115b6ddc828c8cc027d80fdae1c5a2696378de88759e0ab89bb42f0de844564",
+    "iskhodniki/aktualizaciya-putej/proverka-imyon.swift" : "16ffeed76f26395270cb3f441b2b7cf3722a10cbbec9ed4d20be1affc24afc4f",
+    "proverki/aktualizaciya-putej/masshtab-prepyatstvij.swift" : "3afbf5e6af2ee4964134760d8854c9c03e678b7240a392aadf0449b824082814",
+    "proverki/aktualizaciya-putej/proverki-putej.swift" : "06bca3e3ac364f786078a35ff39862169976e201280ee83e23ad7d6b92ff23d6",
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/контракт-v2.json" : "5a52f1134876854e29db243cbfc6eebc86cc916a4d354ba73a0fc7516109bcd4"
+  },
+  "метка" : "baseline-linear",
+  "повторов" : 5,
+  "подготовка_вне_измерения" : true,
+  "сериализация_вне_измерения" : true,
+  "схема" : "fum.профиль-дедупликации-препятствий.1"
+}

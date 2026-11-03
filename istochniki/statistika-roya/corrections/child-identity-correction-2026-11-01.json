@@ -1,0 +1,57 @@
+{
+  "schema_version": "fum.source-child-identity-correction.1",
+  "captured_at_utc": "2026-11-01T10:30:14Z",
+  "correction_mode": "append_only; prior parent report is retained unchanged",
+  "corrects_previous_report": {
+    "reported_head": "8b276b354b661592a41915f185795a00acaff9b",
+    "issue": "39 hexadecimal characters; incomplete SHA-1",
+    "correct_head": "8b276b354b661592a41915f185795a00acaff9b0",
+    "object_type": "commit",
+    "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+    "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+  },
+  "children": [
+    {
+      "zone": "sources",
+      "branch": "refs/heads/fum-lab/fum/istochniki/roiy-istochniki/master",
+      "head": "8b276b354b661592a41915f185795a00acaff9b0",
+      "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+      "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "accepted_C_ancestor": true,
+      "merge_result": "NO_OP_ALREADY_ANCESTOR",
+      "session_kind": "completed collaboration agent; not a native Codex chat"
+    },
+    {
+      "zone": "normalization",
+      "branch": "refs/heads/fum-lab/fum/istochniki/roiy-normalizaciya/master",
+      "head": "8b276b354b661592a41915f185795a00acaff9b0",
+      "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+      "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "accepted_C_ancestor": true,
+      "merge_result": "NO_OP_ALREADY_ANCESTOR",
+      "session_kind": "completed collaboration agent; not a native Codex chat"
+    },
+    {
+      "zone": "analysis",
+      "branch": "refs/heads/fum-lab/fum/istochniki/roiy-analiz/master",
+      "head": "8b276b354b661592a41915f185795a00acaff9b0",
+      "tree": "2e6c5d002f99368b16f4d40931d635bb0b31edaa",
+      "parent": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+      "accepted_C_ancestor": true,
+      "merge_result": "NO_OP_ALREADY_ANCESTOR",
+      "session_kind": "completed collaboration agent; not a native Codex chat"
+    }
+  ],
+  "native_chat_status": {
+    "create_thread": "rejected with invalid arguments; returned no native thread ID or client thread ID",
+    "recent_list_check": "No matching titles among the 50 recent native threads inspected.",
+    "permanent_node_or_visible_chat": "not established",
+    "swarm_growth_claim": "These three completed collaboration executions do not establish an increase in persistent or continuously active FUM nodes."
+  },
+  "private_source": {
+    "evidence_sha256": "a9beef08ba059227e5739cf677e19871ccc9236dbb648edf603336931bf757b1",
+    "create_thread_input_and_contract_sha256": "0695d65e79f9fdbeda9dd00c84a8c3689551e289cb59aab5618e66a845a1f9c2",
+    "native_error_bytes_sha256": "436e4abcbf5a62971389c2f924149fea9c2f9babb3806d2fc504f15f6a039d92",
+    "worktree_paths_and_exact_arguments": "retained in private local evidence"
+  }
+}

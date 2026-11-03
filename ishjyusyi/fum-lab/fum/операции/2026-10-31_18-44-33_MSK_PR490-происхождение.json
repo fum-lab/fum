@@ -1,0 +1,40 @@
+{
+  "schema": "fum.github-pr-snapshot-provenance.1",
+  "repository": "fum-lab/fum",
+  "pull_request": 490,
+  "pull_request_url": "https://github.com/fum-lab/fum/pull/490",
+  "readback_operation": "mcp__codex_apps__github_fetch_pr",
+  "commit_readback_operation": "mcp__codex_apps__github_fetch_commit",
+  "commit_page_readback_url": "https://github.com/fum-lab/fum/commit/833060b1716c40c74b44d2d62bb76198cf82987e",
+  "captured_at_utc": "2026-10-31T15:46:36Z",
+  "verified": {
+    "state": "closed",
+    "merged": true,
+    "merged_at": "2026-10-31T10:00:27Z",
+    "merge_commit_sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
+    "base_sha": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
+    "head_sha": "eb512829deee70bd0c53be307148442d8aa95a88",
+    "changed_files": 6,
+    "commit_file_count": 6
+  },
+  "coverage": {
+    "pr_metadata_captured": true,
+    "merge_commit_metadata_captured": true,
+    "changed_file_names_captured": true,
+    "full_patch_persisted": false,
+    "pr_discussion_timeline_captured": false,
+    "merge_tree_sha_independently_read_from_commit_object": false
+  },
+  "boundary": {
+    "source_only_checkpoint": true,
+    "only_pr490_and_issue489": true,
+    "no_shared_markdown": true,
+    "no_private_absolute_paths": true,
+    "no_full_issue151_archive": true
+  },
+  "excluded_checks": {
+    "full_state_all_issue_archive": "not run",
+    "root_task_remainder": "excluded by explicit НОВОЕ-000032; prior terminal violation preserved",
+    "full_legacy_profile": "not run"
+  }
+}

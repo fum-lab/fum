@@ -1,0 +1,70 @@
+{
+  "входSHA256" : "42a49591d44d23a0d90c3f64bfbe611a3f11b348f515c64c5ff1719c80b1204c",
+  "данные" : {
+    "время" : "2026-10-26T18:55:55.783486Z",
+    "доставка" : [
+      {
+        "вид" : "принятый-source-guard",
+        "идентификатор" : "401f1f57ede92e873c971c0d90991c1dd087d0dc",
+        "свидетельство" : "Exactraw/tree/parent/body/identity/remote и ограниченныйROпройдены. Потребительскийуровень, неROOTприёмка."
+      }
+    ],
+    "исход" : "Guard401 и новаяверсионируемая программа подготовлены к merge; текущий9/9успешен. Tracked-only restore, ROlineage, inheritedPUB и дваполныхследующихboundedназначениясохранены. ПриёмкаROOT/master/liveнеполучена.",
+    "область" : "iskhodniki/zapusk",
+    "остаток" : [
+      "Exactstaged/PUB0новойдельты/неизменнаяMDrecency; commit/rawreadback/exactnormalpush/remotereadback.",
+      "SourceC/path/hash двумвладельцамновыхсрезов; независимыекоррекцииframer/projectionпродолжаются.",
+      "PRвfum-lab/fum/master с полнымточнымdiffкd081 и честнымPUB1остатком.",
+      "ПринятьготовыеновыеboundedRAWfixture/LLMreceipt; canonical63a1/b8/e79остаётсяROдоадресногоперехода."
+    ],
+    "проверки" : [
+      {
+        "исход" : "успешно",
+        "код" : 0,
+        "название" : "Текущий root JSON и guard: девять адресных SwiftTesting проверок",
+        "наносекунды" : 25487727834,
+        "свидетельство" : "Actual9/9; stdoutSHA1d54bfd4f9b2feb837c1ee039bca6a64696d09fbb73209254b6752079abe7af9, stderrSHA175d04107b87b308f4f70d67b82a06e86a55d741530040509aea8da4d5669b8d; входнаяпрограммаSHA021f5f5c92224afd5e90d61037368c3069677179320b1847c33b4e290891c256. СтрогиеSwift6settings, неROOTfullPUB/aggregate."
+      }
+    ],
+    "происхождение" : [
+      "Source401f1f57ede92e873c971c0d90991c1dd087d0dc/tree6ce3b760acc5f87324b91cb79d329dec083a844b: immutable Git/body/author/committer/remote проверены;36 capturedpins совпали, новые два Swift файла отдельно сверены. Capture universe не полон.",
+      "На новой программеSHA021f5f5c92224afd5e90d61037368c3069677179320b1847c33b4e290891c256 в текущем root реально9/9,25487727834нс. Смысловой RED писателя отдельно от compile diagnostic; профиль3×10 без скорости.",
+      "Полный selectedPUB114 кd081=1/три inheritedfindings. README7 и Аргументы15→21/62→68 побайтносовпали, policy/scannerblobsнеизменны; fullPUB0не заявляется.",
+      "Tracked-only restore прежнегоframer в томжеUUID отD45 выполнен по прямомуROOTinput; exactreadback/oldrefсохранениепроверены. Это один экземпляр, не готовностьmaterializer и не recoveredprivate.",
+      "LineageROприD45: canonicalb8/origine79 отличаютсяотCLI, графb8...D45=3/70,e79...b8=0/127. Старый63a1frozenиRO, нынешнийCLIнеcanonicalhead."
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Принять минимальный401guard обычным merge[D45,401]; сохранитьce4false/3557true и версиюпрограммы2. Проверка внутренней связи+внешнихpins не аутентифицируетGit/f7/consumer, не даётROOT/master полномочий.",
+      "Framer3069 дал224partitions/3новыхтеста; до интеграции добавляются literalgoldens для техже3fixtures противобщейошибкиобщегоscanner. Productionunchanged, старый11неповторяется.",
+      "Projection471d дал256/257UTF8, productionunchanged; добавочнаякоррекция русскогоversion2profile/Encodable. Неизменныйосновнойтест засчитывается по реальному историческомуисходу/pins, меняющийсяprofileзапускается.",
+      "Следующие новые этапы RAWиLLM сохранены полностью в программе: Сегмент/fsync→EIO/reopen/idempotence fixture и чистый receipt+Data→existingenvelope/толькоhypothesis. СтарыеD512/39refs/SDK/producerнеимпортируются; новыеdeliveryrefsв прежнихUUID/ownW.",
+      "BootstrapСегментnormalдоинъекции; повторполногоОписаниеНаблюдения, контейнерестьХвостfalseотдельноотJSONLtail246. ЯвнаяпрямаяContainerdependencyуexistingArchivetesttarget.",
+      "LLMиспользует existingОсноваЗапуска, rawreceiptSHAбезпрефиксаотдельноотresponseHashsha256:. Existingdecoderнеповторяется, humanapprovalотдельно; новыйоператоризответанестроится.",
+      "Передследующейсборкойсвежийдиск; последнеенаблюдение5.4GiB, свойтёплыйscratch/jobs2, безчужойочистки. ROOT21/residual/continuation/legacyguard/019иrealRAW/liveзапрещены."
+    ],
+    "сообщения" : [
+      {
+        "вид" : "производное",
+        "оригинал" : {
+          "sha256" : "c12c784e37b8e64c38ce49d4794fa6efb799e3cc1c73bc1f5966b15f104b7785",
+          "байтов" : 2105,
+          "источник" : "Точный input ROOT в native этой задачи, оригинал сохранён приватно."
+        },
+        "происхождение" : "Адресный agent input ROOT, первичный человеческий native не выдумывается.",
+        "роль" : "агент",
+        "текст" : "ROOT разрешил один стандартный tracked-only restore framer в томжеUUID с проверкой отсутствия пути/регистрации, sourceOID/oldnewref и idleowner. После readback владельцу возвращён новый назначенный этап без изменения private/RAW/oldrefs."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 20,
+      "писатель" : "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "стадия" : "постановка-cli-пакета-девяти-путей"
+    }
+  },
+  "идентификатор" : "3945b40d520c240a46befd7c93153e9bc5acd0bdc24ee6efc276f182b8ecbca9",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}

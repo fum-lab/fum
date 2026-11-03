@@ -1,0 +1,54 @@
+{
+  "схема": "fum.свидетельство-узкого-ремонта-служебных-оболочек.1",
+  "pins_исполненных_файлов": {
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "40509b7c249fb433ab9def834e9c9001d306d284d9774120aecefa2edf0c8b65",
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "289c5dfebe60646ad37beabc27a5b638974b8b1e672a6b1dfa0056778246855c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сообщения_задачи.py": "e37d6e25a292a88ef43814bca67c6e8ee9a14f07545ace7faee787e2e985bafc"
+  },
+  "RED_до": {
+    "схема": "fum.исполненные-исходники-узких-тестов.1",
+    "до": {
+      "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "40509b7c249fb433ab9def834e9c9001d306d284d9774120aecefa2edf0c8b65",
+      "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "a3fdf3e04d9cb023489b60ecabe87428c652cfca92b6336f99a66bb55122fd23",
+      "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сообщения_задачи.py": "8fe50267ac0aa29706034a3de843e22b1592fdf5bbc9ff1e9b85e3a0cd1e2785"
+    },
+    "после": {
+      "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "40509b7c249fb433ab9def834e9c9001d306d284d9774120aecefa2edf0c8b65",
+      "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "a3fdf3e04d9cb023489b60ecabe87428c652cfca92b6336f99a66bb55122fd23",
+      "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сообщения_задачи.py": "8fe50267ac0aa29706034a3de843e22b1592fdf5bbc9ff1e9b85e3a0cd1e2785"
+    },
+    "длительность_нс": 444148833,
+    "код_тестов": 1,
+    "источник": "Штатный unittest discover загрузил тесты и зависимости непосредственно из указанного собственного checkout."
+  },
+  "GREEN_итог": {
+    "схема": "fum.исполненные-исходники-узких-тестов.1",
+    "до": {
+      "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "40509b7c249fb433ab9def834e9c9001d306d284d9774120aecefa2edf0c8b65",
+      "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "289c5dfebe60646ad37beabc27a5b638974b8b1e672a6b1dfa0056778246855c",
+      "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сообщения_задачи.py": "e37d6e25a292a88ef43814bca67c6e8ee9a14f07545ace7faee787e2e985bafc"
+    },
+    "после": {
+      "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "40509b7c249fb433ab9def834e9c9001d306d284d9774120aecefa2edf0c8b65",
+      "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "289c5dfebe60646ad37beabc27a5b638974b8b1e672a6b1dfa0056778246855c",
+      "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_сообщения_задачи.py": "e37d6e25a292a88ef43814bca67c6e8ee9a14f07545ace7faee787e2e985bafc"
+    },
+    "длительность_нс": 360829375,
+    "код_тестов": 0,
+    "источник": "Штатный unittest discover загрузил тесты и зависимости непосредственно из указанного собственного checkout."
+  },
+  "первичный_снимок_sha256": "f734a44542ea3134263357799806f2ff7dc10b25b03c676db2b37266cb1ef4bf",
+  "первичный_снимок_байты": 477737768,
+  "человеческих_сообщений": 8,
+  "неоднозначных_сообщений": 0,
+  "RAW_и_экземпляры_человека_неизменны": true,
+  "наблюдения_модели_принятые": 271,
+  "наблюдения_первого_ремонта": 275,
+  "наблюдения_итог": 275,
+  "старые_истории_неизменны": true,
+  "сверка_полных_префиксов_выполнена": true,
+  "число_старых_событий": 12,
+  "старый_префикс_sha256": "fbfba71ffc224959ebd67f36bcd6bd96f9fd96f794e803b8e689db2e1e5f6fad",
+  "промежуточный_префикс_sha256": "a18961400a9166de42b93e25a2cc7e230d8ce04235ff3022e77165ba74ef3927",
+  "граница": "Сохранены первые неуспешные попытки; отдельные результаты не объявляют завершения всего объёма или ускорения commit gate."
+}

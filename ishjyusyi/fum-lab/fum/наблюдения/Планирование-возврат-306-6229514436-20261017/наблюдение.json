@@ -1,0 +1,71 @@
+{
+  "время": "2026-10-17T04:18:36.253586+00:00",
+  "граница": "Завершены обе наблюдённые цепочки Link; это не атомарный снимок GitHub.",
+  "длительность_нс": 9092578083,
+  "метка": "Планирование-возврат-306-6229514436-20261017",
+  "обработка": "не разобрано",
+  "полнота": true,
+  "порядок": 6,
+  "репозиторий": "fum-lab/fum",
+  "связи": {},
+  "состояние": "завершено",
+  "страницы": [
+    {
+      "sha256": "6485eebebab2c8a45d9e229142d83753ddfddfe97fd06adde0753cd12792ed76",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?state=all&per_page=100",
+      "байты": 958082,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoRztdxjPAAAAAVfE2Hg%3D&page=2",
+      "тип": "issues"
+    },
+    {
+      "sha256": "b661e5087ae86ef9a5ba708aaad1b7405128f8eed75240a048af0ce971b084bf",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?page=2&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoRztdxjPAAAAAVfE2Hg%3D&state=all",
+      "байты": 1582978,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?page=3&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQWbzLjPAAAAAVOPU20%3D&state=all",
+      "тип": "issues"
+    },
+    {
+      "sha256": "88897d0e610d0903e74a84f886aa32e659fbed508ae49e0586154483cea8d502",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?page=3&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQWbzLjPAAAAAVOPU20%3D&state=all",
+      "байты": 1409182,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?page=4&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQJQehjPAAAAAVMzPXk%3D&state=all",
+      "тип": "issues"
+    },
+    {
+      "sha256": "04dba0b8f35b51d20f2e8dbaf162bef7a4ef0b75de83983f62e23175307da1a3",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?page=4&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQJQehjPAAAAAVMzPXk%3D&state=all",
+      "байты": 378784,
+      "разбор": "проверен",
+      "следующий": null,
+      "тип": "issues"
+    },
+    {
+      "sha256": "4d7085628c193de034f3a9e69a5a0df700713ae5f0cca6b46efa3b00f829dd5f",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?per_page=100",
+      "байты": 784949,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=2",
+      "тип": "comments"
+    },
+    {
+      "sha256": "ce491cd864f86baa4d779977e12bc5656a9e61ecb4f645baa93f27c793eac51e",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?page=2&per_page=100",
+      "байты": 810930,
+      "разбор": "проверен",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?page=3&per_page=100",
+      "тип": "comments"
+    },
+    {
+      "sha256": "97461f154566046f8afe4ca94c350546702624b47e3ceeea9bce36c0c681b2b1",
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?page=3&per_page=100",
+      "байты": 47142,
+      "разбор": "проверен",
+      "следующий": null,
+      "тип": "comments"
+    }
+  ],
+  "схема": "fum.наблюдение-обсуждений-GitHub.1"
+}

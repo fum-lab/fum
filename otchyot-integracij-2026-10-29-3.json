@@ -1,0 +1,364 @@
+{
+  "схема": "fum.root-integration-and-github-capture.1",
+  "дата_по_клиенту": "2026-10-29",
+  "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "основа": "fac375933085f82849e786752d8bb311aa84b417",
+  "граница": "Нормализованные наблюдения GitHub и собственные опубликованные комментарии этого этапа. Это не raw HTTP и не полный архив всех обсуждений репозитория.",
+  "диагноз_остановки": {
+    "первичный_checkout_остаётся": "refs/heads/master",
+    "пишущее_дерево_ROOT": "refs/heads/fum-lab/fum/master",
+    "установлено": "Предыдущий ROOT ход завершился собственным final с согласованным остатком; error=null. Различие веток само по себе не является установленной причиной остановки.",
+    "подтверждённый_риск": "Git helper координатора использует ambient cwd. Явная привязка W/ref/OID и typed argv поручены его владельцу по Issue363.",
+    "неизвестно": "Фактический запуск и исход старого Stop для того хода; backend модели.",
+    "root_checkout_не_менялся": true
+  },
+  "приёмки": [
+    {
+      "pr": 449,
+      "url": "https://github.com/fum-lab/fum/pull/449",
+      "название": "Потребитель байтов FUMA и контракт координации",
+      "merge": "9c6bf95f9cfcacac8dd35b4d8af1060ec22a1ed1",
+      "tree": "28cf323eb3d26d78717cf4520aa881c7313443f2",
+      "parents": [
+        "9eec7d2f1f9f49b09812963f68ed637e96850090",
+        "2d76fd79c875ea5de2f2bf1b525cb0a3eff3013e"
+      ],
+      "граница": "Исходный byte-consumer primitive и33 JSON-фикстуры; production consumer/policy/factory не активированы."
+    },
+    {
+      "pr": 450,
+      "url": "https://github.com/fum-lab/fum/pull/450",
+      "название": "Локальный сохраняющий профиль контрольной точки",
+      "merge": "9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c",
+      "tree": "ed73a45d22ed62eba804d616f1c3f1c36491cfd9",
+      "parents": [
+        "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+        "c16f58df2064d4f3479698be9e0d45dcdfd73377"
+      ],
+      "граница": "Локальная согласованность source+JSON по явному grant; общий authorizing gate и автоматическое продолжение не активированы.",
+      "исправления": "Потерянные нормы и историческая фикстура восстановлены; старый Python код не изменён. Ошибочный nativeUUID модели f516 сохранён и исправлен add-only c16;4/4 Swift Testing."
+    },
+    {
+      "pr": 451,
+      "url": "https://github.com/fum-lab/fum/pull/451",
+      "название": "Ограниченное чтение повреждённого журнала",
+      "merge": "fac375933085f82849e786752d8bb311aa84b417",
+      "tree": "707fb5d3cd417c1b4f4e2f5ee9274afaffabae5e",
+      "parents": [
+        "9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c",
+        "c399da65f0fe07327998aac2f383755aef6bc0b2"
+      ],
+      "граница": "Source acceptance bounded reader;6/6 Swift Testing. Исправленный reader ещё не перечитывал исходный повреждённый журнал, production consumer не подключён.",
+      "измерения": {
+        "записей": [
+          256,
+          512,
+          1024
+        ],
+        "полный_проход_мс": [
+          26.49,
+          52.49,
+          108.88
+        ],
+        "вывод": "В коде не обнаружен сверхлинейный обход; одна серия не доказывает асимптотику и не является заявлением об ускорении."
+      }
+    }
+  ],
+  "проверки_ROOT": "Для каждого merge точные дерево/упорядоченные родители, metadata и байты сообщения, обычный push, независимый remote readback и GitHub merged подтверждены. Старая грязь ROOT сохранялась побайтными сравнениями.",
+  "проверяющий_обычных_этапов": {
+    "binary_sha256": "6bf33ac6d19310921c6e604343f837acee7c59d77dacb5bf8d2db8930ec6e712",
+    "source_coordinator_sha256": "f9ea424f342e19b4d1e88850eb26a613358d0dce21e61fd6ae7f912165712792",
+    "source_generator_sha256": "cd23df98694d7d78763e60793d2b868103fc3d75bbf6ae4125fe3b37c9415b3c",
+    "предел": "Артефакт соответствует текущим принятым исходникам метаданных; полный Root Package build не повторялся."
+  },
+  "модельный_переход_исполнителя_правил": {
+    "thread": "01a17869-c953-7163-bb76-21716549be02",
+    "from": {
+      "model": "gpt-6-luna",
+      "effort": "high"
+    },
+    "to": {
+      "model": "gpt-5.6-sol",
+      "effort": "ultra"
+    },
+    "actor": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "kind": "client-selection-only",
+    "backend": "unknown",
+    "reason": "P1 review findings in preserving profile295"
+  },
+  "отказ_доставки_отчёта": {
+    "commit": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+    "причина": "Ручной zsh argv использовал $root_report_oid:refs, где :r прочитан как modifier. Локальный src refspec отказал; commit не повторялся.",
+    "результат": "После отказа remote оставался9c6bf95; обычный повтор с точным literal OID:ref доставил1ab. История не переписана.",
+    "автоматизация": "Typed Process.arguments/refspec входит в следующую постановку владельца координатора по363."
+  },
+  "следующие_ограниченные_работы": [
+    {
+      "владелец": "fum-lab/fum/koordinaciya/master",
+      "задача": "#363: явный physical W/ref/OID, argv безshell, различение commonRootTaskUUID и actualWriterNativeUUID",
+      "состояние": "Разрешено и передано тому же владельцу; реализация ещё не принята."
+    },
+    {
+      "владелец": "fum-lab/fum/pravila/master",
+      "задача": "Один реальный pilot локального AGENTS из принятого renderer с независимым описанием/provenance/readACK",
+      "состояние": "Передан следующий bounded этап; массовый rollout не разрешён этой записью."
+    }
+  ],
+  "github_снимки": [
+    {
+      "pr": 449,
+      "before": {
+        "url": "https://github.com/fum-lab/fum/pull/449",
+        "number": 449,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Состав\n\n- Обратное merge-слияние принятой основы ROOT `9eec7d2f1f9f49b09812963f68ed637e96850090` в ветку координации; новый merge-коммит `cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e` имеет родителей `[b61472477299a90651fe817caabab099297edd15, 9eec7d2f1f9f49b09812963f68ed637e96850090]`.\n- Сохранённые поставки byte-consumer и JSON-контракта с их исходными квитанциями.\n- Отчёт ROOT включён без изменения его содержания.\n\n## Проверки и границы\n\n- Raw readback подтвердил точные tree, ordered parents, автора, committer, сообщение и ROOT trailer; обычный push и независимый `ls-remote` подтвердили доставленный OID.\n- Исторические 2/2 Swift Testing byte-consumer и исходные contract fixtures остаются отдельными доказательствами; в этой публикации тесты не перезапускались.\n- Публичный Swift Package consumer пока не подключён. Это не реализует полную FUMA policy/factory и не означает production activation.\n- В собственном JSONL остаются повреждённые исходные строки 66–67. Журнал целиком не считается валидным; исходные байты не изменялись.",
+        "title": "Слить приёмку ROOT и доставить потребитель байтов",
+        "base": "fum-lab/fum/master",
+        "base_sha": "9eec7d2f1f9f49b09812963f68ed637e96850090",
+        "head": "fum-lab/fum/koordinaciya/master",
+        "head_sha": "cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e",
+        "head_repo_id": 1285958028,
+        "head_repo_full_name": "fum-lab/fum",
+        "merge_commit_sha": "34bf2919fe49df120113d0c9b627237f4de8238a",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-29T03:40:56Z",
+        "updated_at": "2026-10-29T03:40:56Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 7,
+        "changed_files": 8,
+        "additions": 6742,
+        "deletions": 7,
+        "display_url": "https://github.com/fum-lab/fum/pull/449",
+        "display_title": "Слить приёмку ROOT и доставить потребитель байтов"
+      },
+      "after": {
+        "url": "https://github.com/fum-lab/fum/pull/449",
+        "number": 449,
+        "state": "closed",
+        "merged": true,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Состав\n\n- Обратное merge-слияние принятой основы ROOT `9eec7d2f1f9f49b09812963f68ed637e96850090` в ветку координации: `cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e`, родители `[b61472477299a90651fe817caabab099297edd15, 9eec7d2f1f9f49b09812963f68ed637e96850090]`, дерево `c3faa699db2b2ede14f4c2437f4274db5039b6c4`.\n- Следующий checkpoint `2d76fd79c875ea5de2f2bf1b525cb0a3eff3013e` добавляет переносимый профиль повторного запуска Swift Testing для потребителя байтов и запись в его журнал. Дерево `28cf323eb3d26d78717cf4520aa881c7313443f2`, родитель `cc0dc3b0ebae7042205dc6613dfdbcd01d25f25e`.\n- Включены поставки потребителя байтов и JSON-контракта с исходными квитанциями; отчёт ROOT не менялся.\n\n## Проверки\n\n- Сырой readback обоих собственных checkpoint подтвердил точное дерево, упорядоченный список родителей, автора, committer, сообщение и ROOT trailer. Обычный push и независимый `ls-remote` подтвердили удалённые OID.\n- Профиль содержит manifest на 1165 UTF-8 байт, SHA-256 `45614bd8fa45841caf933a7c7006b80e11172f27a64668f0cb4d9737f2f58b0d`. Исторические 2/2 Swift Testing сохранены; тесты при упаковке не перезапускались.\n- Сообщение текущего checkpoint получено из фактического выхода FUMA, пропущено через production API потребителя байтов и побайтно совпало с выходом FUMA, preflight и телом сырого Git-коммита (1834 байта).\n\n## Границы\n\n- Байты старого закрытого Package.swift для исторического запуска 2/2 недоступны; сохранённый manifest — новый шаблон повтора, он не выдаётся за прежний. Для запуска нужен внешний `fum-оператор` с указанным в JSON SHA; команда его сборки неизвестна.\n- Общий потребитель Swift Package пока не подключён. Полная политика FUMA, фабрика и production activation не заявляются.\n- Исходные повреждённые строки 66–67 собственного журнала не менялись. Весь журнал не считается валидным JSONL.",
+        "title": "Слить приёмку ROOT и доставить потребитель байтов",
+        "base": "fum-lab/fum/master",
+        "base_sha": "9eec7d2f1f9f49b09812963f68ed637e96850090",
+        "head": "fum-lab/fum/koordinaciya/master",
+        "head_sha": "2d76fd79c875ea5de2f2bf1b525cb0a3eff3013e",
+        "head_repo_id": 1285958028,
+        "head_repo_full_name": "fum-lab/fum",
+        "merge_commit_sha": "9c6bf95f9cfcacac8dd35b4d8af1060ec22a1ed1",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-29T03:40:56Z",
+        "updated_at": "2026-10-29T03:53:43Z",
+        "closed_at": "2026-10-29T03:53:43Z",
+        "merged_at": "2026-10-29T03:53:43Z",
+        "commits": 8,
+        "changed_files": 8,
+        "additions": 6870,
+        "deletions": 7,
+        "display_url": "https://github.com/fum-lab/fum/pull/449",
+        "display_title": "Слить приёмку ROOT и доставить потребитель байтов"
+      },
+      "postedComment": {
+        "body": "**FUM Codex**\n\nОграниченная поставка принята в `fum-lab/fum/master` явным merge-коммитом `9c6bf95f9cfcacac8dd35b4d8af1060ec22a1ed1`; родители `[9eec7d2f1f9f49b09812963f68ed637e96850090, 2d76fd79c875ea5de2f2bf1b525cb0a3eff3013e]`, дерево `28cf323eb3d26d78717cf4520aa881c7313443f2` совпало с исходной поставкой. Raw-проверка подтвердила точные дерево, порядок родителей, автора, коммитера, байты сообщения и ROOT trailer. Обычная публикация и независимый remote readback подтвердили тот же OID. GitHub показывает PR слитым.\n\nНезависимое RO-ревью восьми входящих путей не обнаружило дефектов ограниченного byte-consumer primitive. Исторические 2/2 Swift Testing сохранены отдельно; неизменившиеся тесты при упаковке профиля не повторялись. Новый переносимый manifest — шаблон повтора, не новая квитанция исполнения; для него пока требуется внешний FUMA operator с закреплённым SHA, команда его сборки в профиле ещё не восстановлена.\n\nГраницы приёмки: consumer не подключён к общему production Package; 33 JSON-фикстуры являются схемой и данными, а не исполненной policy/factory. Две старые повреждённые строки координаторского JSONL сохранены и явно отмечены; весь журнал не признан валидным. Их читающее восстановление и явная привязка Git к физическому дереву остаются следующими отдельными результатами. Наблюдение cwd связано с открытой #363; это не основание объявить её закрытой.",
+        "response": {
+          "id": 6487452418
+        }
+      }
+    },
+    {
+      "pr": 450,
+      "before": {
+        "url": "https://github.com/fum-lab/fum/pull/450",
+        "number": 450,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Изменения\n\n- Восстановлено полное исходное содержание НОВОЕ-000014: байтовый курсор и хэш префикса, классификация по исходному payload, различение служебных hook и пользовательского ввода, исключение сообщений субагентов из диалога. Уточнение профиля добавлено как узкое исключение по явному grant.\n- Историческая `tests/фикстуры/профили-продолжения.json` возвращена к прежнему содержимому. Удалены добавленные hash literals из старого Python-валидатора; сам скрипт и Python-проверки не запускались.\n- Swift checker и документация описывают локальную проверку внутренней целостности source+JSON. Он не удостоверяет grant, текущие HEAD/ref/W, единственного писателя или полномочие на эффект; эти факты проверяются корнем отдельно.\n- Ошибка происхождения в `f51640731bba74b4150ce1abbce84b120a41d77f` исправлена add-only коммитом `c16f58df2064d4f3479698be9e0d45dcdfd73377`: опубликованная история и ошибочный author сохранены, переписывания истории нет.\n- Профиль схемы `fum.preserving-checkpoint.2` требует `sourceOwnNativeUUID` и типизированную коррекцию. Собственная строка `01a17869-c953-7163-bb76-21716549be02 / gpt-5.6-sol / ultra` связана по точным TSV-байтам, cwd и SHA-256 `f2b2c419f42e2b76cb831fc27f7a79141ed691b9b887fdb7270d41b2d2712536`; исторический backend остаётся `неизвестно`.\n- Ошибочно выбранная в `f516…` ROOT-строка `01a07d3d-d376-7ad2-aafc-67e4c25a67eb / gpt-6.1-sol / ultra` сохранена как исторический факт, а не как собственная идентичность источника.\n\n## Проверки\n\n- Swift Testing: 4/4 passed с `--build-system native --disable-xctest --enable-swift-testing`, `-warnings-as-errors` и `-strict-concurrency=complete`. Проверены положительный профиль, полная согласованная ROOT-подмена, другой валидный OID коррекции и фиктивный GREEN исключённой проверки. SwiftPM предупреждает, что `--build-system native` устаревает.\n- Локальный Swift checker согласовал реальные source+JSON, собственный UUID и внешний TSV при запуске из точного корня worktree. Пробный вызов из каталога Swift-пакета был отклонён из-за несовпадающего cwd, как и требует контракт.\n- JSON parsing, `git diff --check`, точный staged scope и публикационная проверка прошли. `origin/refs/heads/codex/preserving-profile` независимо прочитан как `c16f58df2064d4f3479698be9e0d45dcdfd73377`.\n- Python-проверки, полный ROOT JSONL и `остаток --без-записи` не запускались и не проверены. Общая активация, merge и финальная приёмка не заявляются.\n\n## Происхождение\n\nROOT UUID: `01a07d3d-d376-7ad2-aafc-67e4c25a67eb`.\nСобственный native UUID источника: `01a17869-c953-7163-bb76-21716549be02`.\nТекст исходного поручения хранится в `Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Источник.md` (SHA-256 `83a74e233ddac00019b4316862ca673336641f7bcadc71cbaf8dce0e9027a6bd`).\nТекущий head PR: `c16f58df2064d4f3479698be9e0d45dcdfd73377`; PR остаётся открытым и неслитым.",
+        "title": "Добавить сохраняющий профиль контрольной точки",
+        "base": "fum-lab/fum/master",
+        "base_sha": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+        "head": "codex/preserving-profile",
+        "head_sha": "c16f58df2064d4f3479698be9e0d45dcdfd73377",
+        "head_repo_id": 1285958028,
+        "head_repo_full_name": "fum-lab/fum",
+        "merge_commit_sha": "1422b3f02f4b9736a13b8b4a28e865f5f1205d8b",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-29T04:07:11Z",
+        "updated_at": "2026-10-29T04:36:51Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 3,
+        "changed_files": 11,
+        "additions": 614,
+        "deletions": 19,
+        "display_url": "https://github.com/fum-lab/fum/pull/450",
+        "display_title": "Добавить сохраняющий профиль контрольной точки"
+      },
+      "after": {
+        "url": "https://github.com/fum-lab/fum/pull/450",
+        "number": 450,
+        "state": "closed",
+        "merged": true,
+        "mergeable": true,
+        "draft": false,
+        "body": "## Изменения\n\n- Восстановлено полное исходное содержание НОВОЕ-000014: байтовый курсор и хэш префикса, классификация по исходному payload, различение служебных hook и пользовательского ввода, исключение сообщений субагентов из диалога. Уточнение профиля добавлено как узкое исключение по явному grant.\n- Историческая `tests/фикстуры/профили-продолжения.json` возвращена к прежнему содержимому. Удалены добавленные hash literals из старого Python-валидатора; сам скрипт и Python-проверки не запускались.\n- Swift checker и документация описывают локальную проверку внутренней целостности source+JSON. Он не удостоверяет grant, текущие HEAD/ref/W, единственного писателя или полномочие на эффект; эти факты проверяются корнем отдельно.\n- Ошибка происхождения в `f51640731bba74b4150ce1abbce84b120a41d77f` исправлена add-only коммитом `c16f58df2064d4f3479698be9e0d45dcdfd73377`: опубликованная история и ошибочный author сохранены, переписывания истории нет.\n- Профиль схемы `fum.preserving-checkpoint.2` требует `sourceOwnNativeUUID` и типизированную коррекцию. Собственная строка `01a17869-c953-7163-bb76-21716549be02 / gpt-5.6-sol / ultra` связана по точным TSV-байтам, cwd и SHA-256 `f2b2c419f42e2b76cb831fc27f7a79141ed691b9b887fdb7270d41b2d2712536`; исторический backend остаётся `неизвестно`.\n- Ошибочно выбранная в `f516…` ROOT-строка `01a07d3d-d376-7ad2-aafc-67e4c25a67eb / gpt-6.1-sol / ultra` сохранена как исторический факт, а не как собственная идентичность источника.\n\n## Проверки\n\n- Swift Testing: 4/4 passed с `--build-system native --disable-xctest --enable-swift-testing`, `-warnings-as-errors` и `-strict-concurrency=complete`. Проверены положительный профиль, полная согласованная ROOT-подмена, другой валидный OID коррекции и фиктивный GREEN исключённой проверки. SwiftPM предупреждает, что `--build-system native` устаревает.\n- Локальный Swift checker согласовал реальные source+JSON, собственный UUID и внешний TSV при запуске из точного корня worktree. Пробный вызов из каталога Swift-пакета был отклонён из-за несовпадающего cwd, как и требует контракт.\n- JSON parsing, `git diff --check`, точный staged scope и публикационная проверка прошли. `origin/refs/heads/codex/preserving-profile` независимо прочитан как `c16f58df2064d4f3479698be9e0d45dcdfd73377`.\n- Python-проверки, полный ROOT JSONL и `остаток --без-записи` не запускались и не проверены. Общая активация, merge и финальная приёмка не заявляются.\n\n## Происхождение\n\nROOT UUID: `01a07d3d-d376-7ad2-aafc-67e4c25a67eb`.\nСобственный native UUID источника: `01a17869-c953-7163-bb76-21716549be02`.\nТекст исходного поручения хранится в `Инструменты/fum-dekompoziciya-pravil-agentov/ПрофильСохраняющейКонтрольнойТочки/Источник.md` (SHA-256 `83a74e233ddac00019b4316862ca673336641f7bcadc71cbaf8dce0e9027a6bd`).\nТекущий head PR: `c16f58df2064d4f3479698be9e0d45dcdfd73377`; PR остаётся открытым и неслитым.",
+        "title": "Добавить сохраняющий профиль контрольной точки",
+        "base": "fum-lab/fum/master",
+        "base_sha": "1abfd2af20d62b8f80d46c9abd226db2e4b70ebe",
+        "head": "codex/preserving-profile",
+        "head_sha": "c16f58df2064d4f3479698be9e0d45dcdfd73377",
+        "head_repo_id": 1285958028,
+        "head_repo_full_name": "fum-lab/fum",
+        "merge_commit_sha": "9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-29T04:07:11Z",
+        "updated_at": "2026-10-29T04:44:17Z",
+        "closed_at": "2026-10-29T04:44:17Z",
+        "merged_at": "2026-10-29T04:44:17Z",
+        "commits": 3,
+        "changed_files": 11,
+        "additions": 614,
+        "deletions": 19,
+        "display_url": "https://github.com/fum-lab/fum/pull/450",
+        "display_title": "Добавить сохраняющий профиль контрольной точки"
+      },
+      "postedComment": {
+        "body": "**FUM Codex**\n\nПринят ограниченный source+JSON результат: явный merge `9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c`, родители `[1abfd2af20d62b8f80d46c9abd226db2e4b70ebe, c16f58df2064d4f3479698be9e0d45dcdfd73377]`, дерево `ed73a45d22ed62eba804d616f1c3f1c36491cfd9`. Конечное дерево совпало с проверенным источником; raw merge-проверка, обычный push и независимый remote readback прошли. GitHub подтвердил merged.\n\nНезависимое ревью подтвердило восстановление прежней нормы000014, неизменность старой Python-реализации и исторической фикстуры, сохранность исходного инвентаря. Ошибочная ROOT-строка выбора модели в f516 сохранена в истории и исправлена add-only в c16; собственный native UUID, SQLite TSV/SHA, модель/усилие и автор c16 независимо сверены. Новые отрицательные случаи отвергают подстановку ROOT и другой валидный UUID. Заявленные 4/4 Swift Testing сохранены отдельными квитанциями; неизменные проверки при приёмке не перезапускались.\n\nГраница: это локальный паспорт сохранения явно разрешённого этапа и проверка его внутренней согласованности. Он не является общим authorizing gate и не доказывает разрешение эффекта. ROOT отдельно проверяет grant, физическое дерево, актуальные Git-объекты/ref, писателя и публикацию. Старые исключённые Python/ROOT JSONL проверки не запускались и не объявлены GREEN. Полная приёмка проекта, production activation и действующее автоматическое продолжение этим PR не заявляются. Прежний swiftbuild/codesign отказ и временный native build-system обход остаются известным ограничением.",
+        "response": {
+          "id": 6488198772
+        }
+      }
+    },
+    {
+      "pr": 451,
+      "before": {
+        "url": "https://github.com/fum-lab/fum/pull/451",
+        "number": 451,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": false,
+        "body": "Явное обратное слияние выполнено в собственной ветке: source commit 9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c включён вторым родителем.\n\nКандидат:\n- commit: c399da65f0fe07327998aac2f383755aef6bc0b2\n- tree: 707fb5d3cd417c1b4f4e2f5ee9274afaffabae5e\n- ordered parents: [79d5a1e293344570d421505344a20a81aae8ba31, 9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c]\n\nDiff PR относительно целевой ветки, уже содержащей 9e0: 4 файла в koordinaciya/**, 1169 добавлений и 7 удалений (reader, его проверки, состояние и append-only segment). Полное merge-дерево содержит также принятый профиль 9e0; эти 11 путей не являются diff PR относительно base.\n\nПрофиль ограничен внутренней проверкой снимка и области; он не авторизует Git-эффекты. Reader из 79d5 прошёл независимый RO review (6/6); исправленный reader ещё не запускался на исходном повреждённом журнале, а production consumer не подключён. В этом merge-переходе тесты повторно не запускались.\n\nСырой commit проверен существующим 08a42 checker: точные ordered parents, tree, связь первого parent с планом, author/committer и FUMA message bytes совпали. Обычный push точного OID и независимый ls-remote readback успешны. Это PR для приёмки; не заявляет ROOT integration или production activation.",
+        "title": "Влить профиль сохраняющей контрольной точки",
+        "base": "fum-lab/fum/master",
+        "base_sha": "9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c",
+        "head": "fum-lab/fum/koordinaciya/master",
+        "head_sha": "c399da65f0fe07327998aac2f383755aef6bc0b2",
+        "head_repo_id": 1285958028,
+        "head_repo_full_name": "fum-lab/fum",
+        "merge_commit_sha": "4a9e87aabb497f541e45cfafe7f0f477d47b0722",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-29T04:52:04Z",
+        "updated_at": "2026-10-29T04:52:28Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 4,
+        "changed_files": 4,
+        "additions": 1169,
+        "deletions": 7,
+        "display_url": "https://github.com/fum-lab/fum/pull/451",
+        "display_title": "Влить профиль сохраняющей контрольной точки"
+      },
+      "after": {
+        "url": "https://github.com/fum-lab/fum/pull/451",
+        "number": 451,
+        "state": "closed",
+        "merged": true,
+        "mergeable": true,
+        "draft": false,
+        "body": "Явное обратное слияние выполнено в собственной ветке: source commit 9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c включён вторым родителем.\n\nКандидат:\n- commit: c399da65f0fe07327998aac2f383755aef6bc0b2\n- tree: 707fb5d3cd417c1b4f4e2f5ee9274afaffabae5e\n- ordered parents: [79d5a1e293344570d421505344a20a81aae8ba31, 9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c]\n\nDiff PR относительно целевой ветки, уже содержащей 9e0: 4 файла в koordinaciya/**, 1169 добавлений и 7 удалений (reader, его проверки, состояние и append-only segment). Полное merge-дерево содержит также принятый профиль 9e0; эти 11 путей не являются diff PR относительно base.\n\nПрофиль ограничен внутренней проверкой снимка и области; он не авторизует Git-эффекты. Reader из 79d5 прошёл независимый RO review (6/6); исправленный reader ещё не запускался на исходном повреждённом журнале, а production consumer не подключён. В этом merge-переходе тесты повторно не запускались.\n\nСырой commit проверен существующим 08a42 checker: точные ordered parents, tree, связь первого parent с планом, author/committer и FUMA message bytes совпали. Обычный push точного OID и независимый ls-remote readback успешны. Это PR для приёмки; не заявляет ROOT integration или production activation.",
+        "title": "Влить профиль сохраняющей контрольной точки",
+        "base": "fum-lab/fum/master",
+        "base_sha": "9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c",
+        "head": "fum-lab/fum/koordinaciya/master",
+        "head_sha": "c399da65f0fe07327998aac2f383755aef6bc0b2",
+        "head_repo_id": 1285958028,
+        "head_repo_full_name": "fum-lab/fum",
+        "merge_commit_sha": "fac375933085f82849e786752d8bb311aa84b417",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-29T04:52:04Z",
+        "updated_at": "2026-10-29T04:56:29Z",
+        "closed_at": "2026-10-29T04:56:29Z",
+        "merged_at": "2026-10-29T04:56:29Z",
+        "commits": 4,
+        "changed_files": 4,
+        "additions": 1169,
+        "deletions": 7,
+        "display_url": "https://github.com/fum-lab/fum/pull/451",
+        "display_title": "Влить профиль сохраняющей контрольной точки"
+      },
+      "postedComment": {
+        "body": "**FUM Codex**\n\nПринят ограниченный исходный срез: merge `fac375933085f82849e786752d8bb311aa84b417`, родители `[9e0be1eeb3ace7a5d1206ea8ca2ab0ad74a3da7c, c399da65f0fe07327998aac2f383755aef6bc0b2]`, дерево `707fb5d3cd417c1b4f4e2f5ee9274afaffabae5e`. Root отдельно проверил дерево, точную пару родителей, метаданные и байты сообщения; обычный push и независимый remote readback подтвердили тот же OID. GitHub показывает merged.\n\nНезависимое RO-ревью подтвердило исправление Data.SubSequence: доступ использует startIndex, отчётные offsets остаются относительными, весь вход не копируется. Сохранены различающий RED старого reader и GREEN6/6; source/test/manifest хэши совпали. Наблюдение на256/512/1024 записях дало26,49/52,49/108,88мс полного прохода. Сверхлинейного обхода в коде не найдено; эта одна серия сама по себе не доказывает асимптотику и не является заявлением об ускорении.\n\nСтарый журнал сохранён без изменения, отдельный сегмент содержит три валидные записи. Пределы reader —2 000 000 байт и4096 записей. Исправленный reader ещё не перечитывал исходный damaged journal; production consumer не подключён. Это source acceptance, не полная приёмка обработки Codex JSONL и не активация общего продолжения. Следующий отдельный этап #363 остаётся за тем же владельцем.",
+        "response": {
+          "id": 6488365564
+        }
+      }
+    }
+  ]
+}

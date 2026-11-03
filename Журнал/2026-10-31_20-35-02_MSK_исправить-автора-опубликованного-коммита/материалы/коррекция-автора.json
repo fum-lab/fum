@@ -1,0 +1,47 @@
+{
+  "record_kind": "author-correction-evidence",
+  "record_version": 1,
+  "root_codex_thread_id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "executor_codex_thread_id": "01a17829-4c36-7c00-9bb3-0e2111905e1a",
+  "metadata_observation": {
+    "source": "Codex Desktop local state; one read-only row from table threads selected by executor UUID",
+    "selected_fields": ["id", "model", "reasoning_effort", "updated_at_ms"],
+    "model": "gpt-6-luna",
+    "reasoning_effort": "max",
+    "updated_at_ms": 1793468024006,
+    "schema_probe": "Initial SELECT using presumed ownUUID column failed with no such column; read-only PRAGMA table_info showed the key column is id; corrected SELECT returned only the one requested row",
+    "json_syntax_check": "Two jq empty runs after correction exited 0",
+    "jq_version": "jq-1.7.1-apple",
+    "json_check_history": "A prior jq -e check exited 5 while the file was temporarily malformed after a failed patch; the JSON was corrected and two jq empty runs then exited 0",
+    "interpretation": "Application selection only; not backend model attestation and not prior-turn history",
+    "root_jsonl_read": false,
+    "root_dialog_read": false,
+    "private_database_path_recorded": false
+  },
+  "git_identity": {
+    "author_name": "FUM Codex [gpt-6-luna; effort=max]",
+    "author_email": "fum@local",
+    "committer_name": "FUM",
+    "committer_email": "fum@local",
+    "environment_override": "GIT_AUTHOR_NAME only, set for the git commit process",
+    "precommit_author_ident": "FUM Codex [gpt-6-luna; effort=max] <fum@local>",
+    "precommit_committer_ident": "FUM <fum@local>",
+    "previous_commit_rewritten": false
+  },
+  "diagnosis": {
+    "global_user_name": "FUM",
+    "local_author_name": "FUM Писатель",
+    "previous_commit_invocation_had_git_author_name": false,
+    "environment_probe": "GIT_AUTHOR_NAME=EnvProbe git var GIT_AUTHOR_IDENT returned EnvProbe <fum@local>"
+  },
+  "scope_status": {
+    "legacy_python_start_guard_continuation": "excluded; UNKNOWN",
+    "root_jsonl_and_dialog": "excluded; not read",
+    "shared_markdown_recency_index": "excluded; not updated or checked",
+    "old_checker_receipt": "not GREEN; helper wrapper PID 33330 interrupted after opening an unrelated old Journal run JSON; ROOT JSONL was not open; exact receipt not located under previous stage materials; no retry",
+    "broad_preview": "PID 40377 interrupted by SIGINT at file.read before report marker replacement; implementation enumerates and reads all untracked checkout files; exact read prefix unknown and Q&A may have been read; no Q&A or shared-area changes by this agent; no retry",
+    "new_markdown_recency": "UNKNOWN; broad recency scan excluded",
+    "staging_recovery": "A git add with a typo in the third path exited 128 and partially staged two own Markdown files; status confirmed no Q&A staged; all three exact own paths were then added successfully",
+    "full_acceptance": "UNKNOWN"
+  }
+}

@@ -5,6 +5,7 @@
 ## Состав
 
 - `fum` — приложение с экранным присутствием, Accessibility, монитором ввода и видеопамятью; встроенная вкладка Camera временно выключена.
+- `fum-оператор` — отдельная команда исполнения и долговечного приёма JSONL; использует локальные Swift-библиотеки без GUI и mpv.
 - `fum-mcp` — файловый stdio MCP-шлюз к приложению: состояние, экранные команды, AX-снимки, события ввода, заметки и поиск памяти.
 - `fum-attention-loop` — цикл чтения снимков и записи сжатых событий внимания.
 - `fum-ax-vision-sense` — сохранённый самостоятельный Accessibility-сенсор.
@@ -31,7 +32,17 @@ env "ФУМА_ПРОГРАММА_ЖУРНАЛА=$PWD/Приложения/FUMA/m
 
 ## Зависимости и сборка
 
-Нужны macOS, Xcode с SDK macOS и Swift 6, а также системные `mpv` и `pkg-config`. SwiftPM получает заголовки и библиотеку через `.systemLibrary`, `pkgConfig: "mpv"` и собственный модуль `CMpvSystem`. Заголовки и исходники mpv в FUM не копируются. При использовании Homebrew зависимости подготавливаются отдельно:
+Для `fum-оператор` нужны macOS, Xcode с SDK macOS и Swift 6. Команда собирается отдельным продуктом существующего пакета; её target `КомандаОператора` имеет явный путь `Sources/komanda-operatora`. [Сценарий сохранённого приёма](docs/исполнение-оператора.md#отдельная-команда-и-сохранённый-приём) разделяет приём, новое исполнение и повтор готового результата.
+
+```sh
+: "${FUM_BUILD_ROOT:?Задайте абсолютный физический каталог вне Git}"
+swift build --build-system native --package-path Приложения/FUMA/macOS \
+  --scratch-path "$FUM_BUILD_ROOT" --jobs 2 --product fum-оператор \
+  -Xswiftc -swift-version -Xswiftc 6 \
+  -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors
+```
+
+Для графического приложения дополнительно нужны системные `mpv` и `pkg-config`. SwiftPM получает заголовки и библиотеку через `.systemLibrary`, `pkgConfig: "mpv"` и собственный модуль `CMpvSystem`. Заголовки и исходники mpv в FUM не копируются. При использовании Homebrew зависимости подготавливаются отдельно:
 
 ```sh
 brew install mpv pkgconf
@@ -47,7 +58,7 @@ swift build --package-path Приложения/FUMA/macOS --scratch-path "$FUM_
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Приложения/FUMA/macOS/проверки -p 'test_*.py'
 ```
 
-Swift-тесты используют только временные фикстуры конфигурации путей. Python-проверки подставляют собственный `swift` для проверки runner и не запускают настоящий helper. Артефакты сборки должны находиться вне Git. Сборка не устанавливает и не запускает приложение.
+Тесты конфигурации путей используют временные фикстуры. Новые Swift Testing-проверки команды запускают настоящий `fum-оператор` в разных процессах и сохраняют RAW в явно выбранном приватном каталоге; их отдельный тестовый продукт и входы описаны в [инструкции исполнения](docs/исполнение-оператора.md#проверки-отдельной-команды). Python-проверки runner подставляют собственный `swift`. Артефакты сборки находятся вне Git. Сборка не устанавливает и не запускает приложение.
 
 Профиль общей конфигурации воспроизводится отдельно: пять образцов по 1000 разрешений абсолютных путей, отказов относительного пути и поисков отсутствующей команды в заданном `PATH`, без создания runtime-файлов. Каталог `FUM_BUILD_ROOT` должен быть заранее создан вне Git.
 
@@ -127,6 +138,6 @@ OpenGL.framework явно линкуется в SwiftPM и Xcode; обычный
 Механизм зависимости описан в [документации SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Машинные значения Xcode передаются снаружи; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) самостоятельно shell-команды не исполняет.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-10-04 23:31:42 MSK -->
-<!-- content-sha256: sha256:38d756c87d069f114011b979d11a700161212c5301e8ad0589258bffe893cde7 -->
+<!-- last-content-edit: 2026-10-25 12:38:35 MSK -->
+<!-- content-sha256: sha256:d06925230f0cd455617e97dd8d8f5e60ce6cd44d51e44b4c5d0efad67e095bb2 -->
 <!-- FUM-MD-RECENCY:END -->

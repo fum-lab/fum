@@ -111,6 +111,34 @@ struct ОтветСреза: Codable {
     let запись: ЗаписьСреза
 }
 
+struct МанифестПриёмаСреза: Codable, Equatable {
+    let схема: String
+    let приём: String
+    let сыройВход: Квитанция
+    let исходноеОпределение: Квитанция
+    let замыкание: Квитанция
+    let сохранённыйПрофиль: Квитанция
+}
+
+struct ОтветПриёмаСреза: Codable {
+    let схема: String
+    let квитанция: Квитанция
+    let манифест: МанифестПриёмаСреза
+}
+
+struct ЗаписьПринятогоСреза: Codable, Equatable {
+    let схема: String
+    let манифест: Квитанция
+    let повторРезультата: Квитанция?
+    let запись: ЗаписьСреза
+}
+
+struct ОтветПринятогоСреза: Codable {
+    let схема: String
+    let квитанция: Квитанция
+    let запись: ЗаписьПринятогоСреза
+}
+
 func кодироватьСтрокуСреза<Значение: Encodable>(_ значение: Значение) throws -> Data {
     let кодировщик = JSONEncoder()
     кодировщик.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]

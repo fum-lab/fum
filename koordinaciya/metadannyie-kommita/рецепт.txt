@@ -1,0 +1,26 @@
+Восстановление канонических исходников Source8
+
+Состав сохраняет три точных postimages поверх основы 4a2375a4dcbe1495b5afe520185795a00acaff9b. GREEN означает вариант исходника. Compiler, typecheck, discovery, tests и runtime для этого Source8 не запускались. Эта поставка не включает private controllers, их профили или локальные данные.
+
+После обычного получения ветки refs/heads/fum-lab/fum/koordinaciya/metadannyie-kommita/master в собственном разрешённом клоне следующие команды восстанавливают байты в уже существующих канонических путях. Их выполнение здесь не утверждается. Не применяйте поверх чужих изменений.
+
+git cat-file blob 26662a1c73e01f78c903273a0dec9df39d31fe8b > 'koordinaciya/координатор.swift'
+chmod 0644 'koordinaciya/координатор.swift'
+shasum -a 256 'koordinaciya/координатор.swift'
+# 238778 bytes; SHA256 207d3f66660e01ea6c3bc3b57b438c2680682f93f46af4b2d707b35fd5f9276b; Git mode 100644
+
+git cat-file blob 97387ea2d8f61809e8e6d2a9146ce83524ee1123 > 'koordinaciya/генератор-метаданных-коммита.swift'
+chmod 0644 'koordinaciya/генератор-метаданных-коммита.swift'
+shasum -a 256 'koordinaciya/генератор-метаданных-коммита.swift'
+# 118817 bytes; SHA256 0866ff05324ecd0f0f9ad5e9c818c78cf5fec56dd599c5d820d915f8a507c22a; Git mode 100644
+
+git cat-file blob 23e48ef4432ed0fc98328aacd7d4ea33b428119c > 'koordinaciya/proverki-priyoma-root.swift'
+chmod 0644 'koordinaciya/proverki-priyoma-root.swift'
+shasum -a 256 'koordinaciya/proverki-priyoma-root.swift'
+# 138112 bytes; SHA256 6563c7e0720d77433e541b4ff750104c7f393136613a3df605ebf89357465ad1; Git mode 100644
+
+Для проверки объекта поставки используйте git cat-file -p с его полным OID, git ls-tree -r и git diff с указанной основой. Коммит, дерево, родители и фактические author/committer должны быть независимо прочитаны до публикации.
+
+Публичные входы: koordinaciya/координатор.swift содержит RootAcceptance и собственный provider, koordinaciya/генератор-метаданных-коммита.swift — существующий formatter/typed-author контракт, koordinaciya/proverki-priyoma-root.swift — регрессионные исходники. Generic API ПровайдерНативнойКонфигурации.наблюдатьДляНовогоДопуска принимает профиль .2 и отдельную доверенную ПривязкаНативногоЧата; профиль не удостоверяет сам себя. Тестовая точка адресного native observation предназначена только для закреплённого Metadata actor, не для Planning. Реальные данные нельзя подавать в TESTING parse и объявлять native observation.
+
+Запуск требует отдельного точного допуска, существующего проверенного compiler контура и нового bound runtime M с pin реально полученного бинарника. Пустой UNBOUND не исполняется. Root Package.swift и состав target/module этой поставкой не меняются. Запросы к native metadata базам, конфигурация Git и hooks не являются частью рецепта восстановления исходников.

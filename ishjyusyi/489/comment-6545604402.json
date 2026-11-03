@@ -1,0 +1,22 @@
+{
+  "url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6545604402",
+  "body": "**FUM Codex**\n\nИсправление [PR №490 — «Сохранить режим Git-индекса и точные пути при откате переноса»](https://github.com/fum-lab/fum/pull/490) слито в коммит `833060b1716c40c74b44d2d62bb76198cf82987e`. Реальное применение к исходному сценарию опубликовано в ROOT-коммите [2a99c91791d603f6b961120b8c3edfebe5c5a4ad](https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad). Отчёт и квитанция сообщают об одном успешном переносе через `git mv`, обновлении одной ссылки, сохранении пяти прежних изменений и режима индекса `0644`; подробный readback сохранён в [предыдущем комментарии](https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039).\n\nНа момент свежего readback Issue №489 уже имел состояние `closed/completed`; повторное изменение статуса не требовалось. Эта запись относится только к подтверждённому дефекту однофайлового переноса. Массовая миграция, полный smoke/SDK, чистый клон и настоящий Native Stop callback остаются неподтверждёнными; Issue №151 — отдельная работа.",
+  "user": {
+    "login": "Roman-Kerimov",
+    "name": "Roman-Kerimov",
+    "email": null,
+    "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+    "id": 22149544
+  },
+  "id": 6545604402,
+  "pull_request_review_id": null,
+  "in_reply_to_id": null,
+  "created_at": null,
+  "updated_at": null,
+  "review": null,
+  "side": null,
+  "line": null,
+  "start_line": null,
+  "path": null,
+  "body_html": "<p dir=\"auto\"><strong>FUM Codex</strong></p>\n<p dir=\"auto\">Исправление <a href=\"https://github.com/fum-lab/fum/pull/490\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/fum-lab/fum/pull/490/hovercard\">PR №490 — «Сохранить режим Git-индекса и точные пути при откате переноса»</a> слито в коммит <code class=\"notranslate\">833060b1716c40c74b44d2d62bb76198cf82987e</code>. Реальное применение к исходному сценарию опубликовано в ROOT-коммите <a href=\"https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad\">2a99c91791d603f6b961120b8c3edfebe5c5a4ad</a>. Отчёт и квитанция сообщают об одном успешном переносе через <code class=\"notranslate\">git mv</code>, обновлении одной ссылки, сохранении пяти прежних изменений и режима индекса <code class=\"notranslate\">0644</code>; подробный readback сохранён в <a href=\"https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039\" data-hovercard-type=\"issue\" data-hovercard-url=\"/fum-lab/fum/issues/489/hovercard\">предыдущем комментарии</a>.</p>\n<p dir=\"auto\">На момент свежего readback Issue №489 уже имел состояние <code class=\"notranslate\">closed/completed</code>; повторное изменение статуса не требовалось. Эта запись относится только к подтверждённому дефекту однофайлового переноса. Массовая миграция, полный smoke/SDK, чистый клон и настоящий Native Stop callback остаются неподтверждёнными; Issue №151 — отдельная работа.</p>"
+}

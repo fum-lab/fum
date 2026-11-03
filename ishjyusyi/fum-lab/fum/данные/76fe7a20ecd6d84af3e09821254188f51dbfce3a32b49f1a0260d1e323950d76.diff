@@ -1,0 +1,708 @@
+diff --git a/Issues/489/comment-6542150039.json b/Issues/489/comment-6542150039.json
+new file mode 100644
+index 000000000..ac938dc48
+--- /dev/null
++++ b/Issues/489/comment-6542150039.json
+@@ -0,0 +1,22 @@
++{
++  "url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039",
++  "body": "<!-- FUMA-WATCH:393:swift-rename-real-apply:2a99c91791d603f6b961120b8c3edfebe5c5a4ad -->\n## Дополнение к дефекту #489: опубликован результат повторного рабочего переноса — 31 октября 2026\n\n**Основание:** после ранее зафиксированного отказа однофайлового ACT (exit 2) был принят [исправляющий PR #490](https://github.com/fum-lab/fum/pull/490) в ROOT `833060b1716c40c74b44d2d62bb76198cf82987e` (дерево `fc0729c9dac83f0702557609a9383d048f959c91`). Опубликован [новый прямой ROOT-коммит `2a99c91791d603f6b961120b8c3edfebe5c5a4ad`](https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad), [дельта от предыдущей контрольной базы](https://github.com/fum-lab/fum/compare/833060b1716c40c74b44d2d62bb76198cf82987e...2a99c91791d603f6b961120b8c3edfebe5c5a4ad): `ahead 1 / behind 0`, пять изменённых путей, включая **переименование без изменения содержимого** руководства и исправление одной ссылки/меток свежести.\n\n**Применение (свидетельство исполнителя):** [рабочий отчёт](https://github.com/fum-lab/fum/blob/2a99c91791d603f6b961120b8c3edfebe5c5a4ad/zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/otchyot.md), [машинная квитанция](https://github.com/fum-lab/fum/blob/2a99c91791d603f6b961120b8c3edfebe5c5a4ad/zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/rezuljtat.json) сообщают об **одном успешном фактическом переносе** после исправления: `git mv`, target/host `0/0`, 35,072636208 с, 152 неизменяемых входа, `index mode 0644`, пять прежних dirty-изменений сохранены, три старых резерва оставлены в приватном карантине, новых временных резервов нет. Получен один изменённый href. Опубликованное независимое подтверждение stage/readback — часть отчёта владельца, а не моя личная проверка локального рабочего дерева.\n\n**Проверено мной через GitHub:** новый commit находится на прочитанном полном `refs/heads/fum-lab/fum/master`; compare показывает ровно один новый коммит. SHA Git blob старого и нового руководства одинаковый: `af314f374c50b7f7bf0388866b176445de5c0bab`. Прочитан diff ссылки, отчёт и JSON. Я не запускал ACT/Swift/тесты и не читал приватный RAW; точный OID дерева нового коммита доступный ответ коннектора не выдаёт, поэтому не утверждаю его значение.\n\n**Итог и границы:** после исправления **подтверждена публикация и отчёт одного успешного рабочего переноса**, но не массовая миграция, не полный smoke/SDK-контур и не Native Stop callback (UNKNOWN). #489 не закрываю и статусы не меняю. Исторический факт первой неудачи остаётся в обсуждении. Связь с [#393](https://github.com/fum-lab/fum/pull/393), [#151](https://github.com/fum-lab/fum/issues/151), [#149](https://github.com/fum-lab/fum/issues/149).",
++  "user": {
++    "login": "Roman-Kerimov",
++    "name": "Roman-Kerimov",
++    "email": null,
++    "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++    "id": 22149544
++  },
++  "id": 6542150039,
++  "pull_request_review_id": null,
++  "in_reply_to_id": null,
++  "created_at": null,
++  "updated_at": null,
++  "review": null,
++  "side": null,
++  "line": null,
++  "start_line": null,
++  "path": null,
++  "body_html": "\n<h2 dir=\"auto\">Дополнение к дефекту <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"6133258982\" data-permission-text=\"Title is private\" data-url=\"https://github.com/fum-lab/fum/issues/489\" data-hovercard-type=\"issue\" data-hovercard-url=\"/fum-lab/fum/issues/489/hovercard\" href=\"https://github.com/fum-lab/fum/issues/489\">#489</a>: опубликован результат повторного рабочего переноса — 31 октября 2026</h2>\n<p dir=\"auto\"><strong>Основание:</strong> после ранее зафиксированного отказа однофайлового ACT (exit 2) был принят <a href=\"https://github.com/fum-lab/fum/pull/490\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/fum-lab/fum/pull/490/hovercard\">исправляющий PR #490</a> в ROOT <code class=\"notranslate\">833060b1716c40c74b44d2d62bb76198cf82987e</code> (дерево <code class=\"notranslate\">fc0729c9dac83f0702557609a9383d048f959c91</code>). Опубликован <a href=\"https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad\">новый прямой ROOT-коммит <code class=\"notranslate\">2a99c91791d603f6b961120b8c3edfebe5c5a4ad</code></a>, <a href=\"https://github.com/fum-lab/fum/compare/833060b1716c40c74b44d2d62bb76198cf82987e...2a99c91791d603f6b961120b8c3edfebe5c5a4ad\">дельта от предыдущей контрольной базы</a>: <code class=\"notranslate\">ahead 1 / behind 0</code>, пять изменённых путей, включая <strong>переименование без изменения содержимого</strong> руководства и исправление одной ссылки/меток свежести.</p>\n<p dir=\"auto\"><strong>Применение (свидетельство исполнителя):</strong> <a href=\"https://github.com/fum-lab/fum/blob/2a99c91791d603f6b961120b8c3edfebe5c5a4ad/zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/otchyot.md\">рабочий отчёт</a>, <a href=\"https://github.com/fum-lab/fum/blob/2a99c91791d603f6b961120b8c3edfebe5c5a4ad/zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/rezuljtat.json\">машинная квитанция</a> сообщают об <strong>одном успешном фактическом переносе</strong> после исправления: <code class=\"notranslate\">git mv</code>, target/host <code class=\"notranslate\">0/0</code>, 35,072636208 с, 152 неизменяемых входа, <code class=\"notranslate\">index mode 0644</code>, пять прежних dirty-изменений сохранены, три старых резерва оставлены в приватном карантине, новых временных резервов нет. Получен один изменённый href. Опубликованное независимое подтверждение stage/readback — часть отчёта владельца, а не моя личная проверка локального рабочего дерева.</p>\n<p dir=\"auto\"><strong>Проверено мной через GitHub:</strong> новый commit находится на прочитанном полном <code class=\"notranslate\">refs/heads/fum-lab/fum/master</code>; compare показывает ровно один новый коммит. SHA Git blob старого и нового руководства одинаковый: <code class=\"notranslate\">af314f374c50b7f7bf0388866b176445de5c0bab</code>. Прочитан diff ссылки, отчёт и JSON. Я не запускал ACT/Swift/тесты и не читал приватный RAW; точный OID дерева нового коммита доступный ответ коннектора не выдаёт, поэтому не утверждаю его значение.</p>\n<p dir=\"auto\"><strong>Итог и границы:</strong> после исправления <strong>подтверждена публикация и отчёт одного успешного рабочего переноса</strong>, но не массовая миграция, не полный smoke/SDK-контур и не Native Stop callback (UNKNOWN). <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"6133258982\" data-permission-text=\"Title is private\" data-url=\"https://github.com/fum-lab/fum/issues/489\" data-hovercard-type=\"issue\" data-hovercard-url=\"/fum-lab/fum/issues/489/hovercard\" href=\"https://github.com/fum-lab/fum/issues/489\">#489</a> не закрываю и статусы не меняю. Исторический факт первой неудачи остаётся в обсуждении. Связь с <a href=\"https://github.com/fum-lab/fum/pull/393\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/fum-lab/fum/pull/393/hovercard\">#393</a>, <a href=\"https://github.com/fum-lab/fum/issues/151\" data-hovercard-type=\"issue\" data-hovercard-url=\"/fum-lab/fum/issues/151/hovercard\">#151</a>, <a href=\"https://github.com/fum-lab/fum/issues/149\" data-hovercard-type=\"issue\" data-hovercard-url=\"/fum-lab/fum/issues/149/hovercard\">#149</a>.</p>"
++}
+diff --git a/Issues/489/comment-6545604402.json b/Issues/489/comment-6545604402.json
+new file mode 100644
+index 000000000..e79ccb5f6
+--- /dev/null
++++ b/Issues/489/comment-6545604402.json
+@@ -0,0 +1,22 @@
++{
++  "url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6545604402",
++  "body": "**FUM Codex**\n\nИсправление [PR №490 — «Сохранить режим Git-индекса и точные пути при откате переноса»](https://github.com/fum-lab/fum/pull/490) слито в коммит `833060b1716c40c74b44d2d62bb76198cf82987e`. Реальное применение к исходному сценарию опубликовано в ROOT-коммите [2a99c91791d603f6b961120b8c3edfebe5c5a4ad](https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad). Отчёт и квитанция сообщают об одном успешном переносе через `git mv`, обновлении одной ссылки, сохранении пяти прежних изменений и режима индекса `0644`; подробный readback сохранён в [предыдущем комментарии](https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039).\n\nНа момент свежего readback Issue №489 уже имел состояние `closed/completed`; повторное изменение статуса не требовалось. Эта запись относится только к подтверждённому дефекту однофайлового переноса. Массовая миграция, полный smoke/SDK, чистый клон и настоящий Native Stop callback остаются неподтверждёнными; Issue №151 — отдельная работа.",
++  "user": {
++    "login": "Roman-Kerimov",
++    "name": "Roman-Kerimov",
++    "email": null,
++    "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++    "id": 22149544
++  },
++  "id": 6545604402,
++  "pull_request_review_id": null,
++  "in_reply_to_id": null,
++  "created_at": null,
++  "updated_at": null,
++  "review": null,
++  "side": null,
++  "line": null,
++  "start_line": null,
++  "path": null,
++  "body_html": "<p dir=\"auto\"><strong>FUM Codex</strong></p>\n<p dir=\"auto\">Исправление <a href=\"https://github.com/fum-lab/fum/pull/490\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/fum-lab/fum/pull/490/hovercard\">PR №490 — «Сохранить режим Git-индекса и точные пути при откате переноса»</a> слито в коммит <code class=\"notranslate\">833060b1716c40c74b44d2d62bb76198cf82987e</code>. Реальное применение к исходному сценарию опубликовано в ROOT-коммите <a href=\"https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad\">2a99c91791d603f6b961120b8c3edfebe5c5a4ad</a>. Отчёт и квитанция сообщают об одном успешном переносе через <code class=\"notranslate\">git mv</code>, обновлении одной ссылки, сохранении пяти прежних изменений и режима индекса <code class=\"notranslate\">0644</code>; подробный readback сохранён в <a href=\"https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039\" data-hovercard-type=\"issue\" data-hovercard-url=\"/fum-lab/fum/issues/489/hovercard\">предыдущем комментарии</a>.</p>\n<p dir=\"auto\">На момент свежего readback Issue №489 уже имел состояние <code class=\"notranslate\">closed/completed</code>; повторное изменение статуса не требовалось. Эта запись относится только к подтверждённому дефекту однофайлового переноса. Массовая миграция, полный smoke/SDK, чистый клон и настоящий Native Stop callback остаются неподтверждёнными; Issue №151 — отдельная работа.</p>"
++}
+diff --git a/Issues/489/issue-489-readback-20261031-before-comment.json b/Issues/489/issue-489-readback-20261031-before-comment.json
+new file mode 100644
+index 000000000..af279b4a3
+--- /dev/null
++++ b/Issues/489/issue-489-readback-20261031-before-comment.json
+@@ -0,0 +1,44 @@
++{
++  "schema": "fum.github-issue-readback.1",
++  "source": {
++    "repository": "fum-lab/fum",
++    "issue_number": 489,
++    "url": "https://github.com/fum-lab/fum/issues/489",
++    "updated_at": "2026-10-31T11:15:36Z",
++    "comment_count": 2,
++    "readback_operation": "mcp__codex_apps__github_fetch_issue",
++    "captured_at_utc": "2026-10-31T15:46:36Z"
++  },
++  "issue": {
++    "url": "https://github.com/fum-lab/fum/issues/489",
++    "title": "Сбой при применении однофайлового переноса руководства после git mv",
++    "issue_number": 489,
++    "body": "## Итог аудита — 31 октября 2026: узкий дефект устранён\n\nПо поручению пользователя об обзоре FUM и обновлении задач эта issue закрыта как выполненная **в границах сбоя конкретного однофайлового переноса**, а не всей миграции репозитория.\n\nИсправление принято через [PR #490](https://github.com/fum-lab/fum/pull/490) в `833060b1716c40c74b44d2d62bb76198cf82987e`. Затем опубликован [рабочий результат `2a99c91791d603f6b961120b8c3edfebe5c5a4ad`](https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad): руководство действительно перенесено, одна ссылка обновлена, содержимое сохранено. [Первичный отчёт исполнителя](https://github.com/fum-lab/fum/blob/2a99c91791d603f6b961120b8c3edfebe5c5a4ad/zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/otchyot.md) подтверждает target/host `0/0`, сохранение 152 объявленных входов, режим индекса `0644`, отсутствие новых временных резервов и сохранение пяти прежних незакоммиченных изменений. Это не заявление, что всё рабочее дерево стало чистым.\n\nПодробный [отчёт о повторном применении уже имеется в обсуждении](https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039); новая копия тех же измерений не создаётся. Три резерва предыдущего неуспешного опыта сохранены в приватном карантине, а не удалены. Исторический отказ и уточнение причинности остаются ниже и в комментариях; первоначальный runtime-режим индекса не выдаётся за измеренный `0600`.\n\nОснование закрытия — принятый ремонт, различающие проверки исполнителя и опубликованное успешное применение в исходном сценарии. В текущем аудите прочитаны GitHub и сохранённый отчёт, Swift/ACT повторно не запускались. Полный smoke/SDK, чистый клон, массовая миграция и настоящий Native Stop callback этим закрытием не подтверждаются; #479 и общая сводка #151 остаются самостоятельными работами. Обнаруженный новый случай требует собственного свидетельства и при необходимости повторного открытия, а не объявления всей автоматизации безошибочной.\n\n<!-- FUM-AUDIT:20261031:489:completed:2a99c917 -->\n\n---\n\n## Историческая постановка на момент первого отказа — сохранена без изменения\n\n## Наблюдение\n\n31 октября 2026 года единственная попытка фактически применить однофайловый перенос руководства на принятой основе `f25efd3eb2facfe3d6355db3800c322291aaf34c` завершилась кодом 2 после `git mv`: проверка остановила применение, обнаружив изменение режима Git-индекса.\n\n## Восстановление\n\nИсходное руководство и потребительская ссылка восстановлены, целевое имя отсутствует. Итоговая чистота индекса и рабочего дерева не подтверждена; повторного применения не было.\n\n## Связь и исполнитель\n\nПродолжить в уже существующей работе владельца инструментов, без создания второй ветки или исполнителя. Назначение: @Roman-Kerimov.\n\nСвязанный результат: [PR #488 — «Ускорить однофайловый план переименования»](https://github.com/fum-lab/fum/pull/488). PR ускорил план, но фактический перенос руководства в этой поставке не выполнялся.",
++    "state": "closed",
++    "user": {
++      "login": "Roman-Kerimov",
++      "name": "Roman-Kerimov",
++      "email": null,
++      "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++      "id": 22149544
++    },
++    "assignees": [
++      {
++        "login": "Roman-Kerimov",
++        "name": "Roman-Kerimov",
++        "email": null,
++        "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++        "id": 22149544
++      }
++    ],
++    "labels": null,
++    "milestone": null,
++    "state_reason": "completed",
++    "comments": 2,
++    "created_at": "2026-10-31T09:20:18Z",
++    "updated_at": "2026-10-31T11:15:36Z",
++    "closed_at": "2026-10-31T11:15:35Z",
++    "display_url": "https://github.com/fum-lab/fum/issues/489",
++    "display_title": "Сбой при применении однофайлового переноса руководства после git mv"
++  }
++}
+diff --git a/Issues/489/issue-489-readback-20261031-final.json b/Issues/489/issue-489-readback-20261031-final.json
+new file mode 100644
+index 000000000..defcaf6ea
+--- /dev/null
++++ b/Issues/489/issue-489-readback-20261031-final.json
+@@ -0,0 +1,44 @@
++{
++  "schema": "fum.github-issue-readback.1",
++  "source": {
++    "repository": "fum-lab/fum",
++    "issue_number": 489,
++    "url": "https://github.com/fum-lab/fum/issues/489",
++    "updated_at": "2026-10-31T15:47:04Z",
++    "comment_count": 3,
++    "readback_operation": "mcp__codex_apps__github_fetch_issue",
++    "captured_at_utc": "2026-10-31T15:47:09Z"
++  },
++  "issue": {
++    "url": "https://github.com/fum-lab/fum/issues/489",
++    "title": "Сбой при применении однофайлового переноса руководства после git mv",
++    "issue_number": 489,
++    "body": "## Итог аудита — 31 октября 2026: узкий дефект устранён\n\nПо поручению пользователя об обзоре FUM и обновлении задач эта issue закрыта как выполненная **в границах сбоя конкретного однофайлового переноса**, а не всей миграции репозитория.\n\nИсправление принято через [PR #490](https://github.com/fum-lab/fum/pull/490) в `833060b1716c40c74b44d2d62bb76198cf82987e`. Затем опубликован [рабочий результат `2a99c91791d603f6b961120b8c3edfebe5c5a4ad`](https://github.com/fum-lab/fum/commit/2a99c91791d603f6b961120b8c3edfebe5c5a4ad): руководство действительно перенесено, одна ссылка обновлена, содержимое сохранено. [Первичный отчёт исполнителя](https://github.com/fum-lab/fum/blob/2a99c91791d603f6b961120b8c3edfebe5c5a4ad/zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/otchyot.md) подтверждает target/host `0/0`, сохранение 152 объявленных входов, режим индекса `0644`, отсутствие новых временных резервов и сохранение пяти прежних незакоммиченных изменений. Это не заявление, что всё рабочее дерево стало чистым.\n\nПодробный [отчёт о повторном применении уже имеется в обсуждении](https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039); новая копия тех же измерений не создаётся. Три резерва предыдущего неуспешного опыта сохранены в приватном карантине, а не удалены. Исторический отказ и уточнение причинности остаются ниже и в комментариях; первоначальный runtime-режим индекса не выдаётся за измеренный `0600`.\n\nОснование закрытия — принятый ремонт, различающие проверки исполнителя и опубликованное успешное применение в исходном сценарии. В текущем аудите прочитаны GitHub и сохранённый отчёт, Swift/ACT повторно не запускались. Полный smoke/SDK, чистый клон, массовая миграция и настоящий Native Stop callback этим закрытием не подтверждаются; #479 и общая сводка #151 остаются самостоятельными работами. Обнаруженный новый случай требует собственного свидетельства и при необходимости повторного открытия, а не объявления всей автоматизации безошибочной.\n\n<!-- FUM-AUDIT:20261031:489:completed:2a99c917 -->\n\n---\n\n## Историческая постановка на момент первого отказа — сохранена без изменения\n\n## Наблюдение\n\n31 октября 2026 года единственная попытка фактически применить однофайловый перенос руководства на принятой основе `f25efd3eb2facfe3d6355db3800c322291aaf34c` завершилась кодом 2 после `git mv`: проверка остановила применение, обнаружив изменение режима Git-индекса.\n\n## Восстановление\n\nИсходное руководство и потребительская ссылка восстановлены, целевое имя отсутствует. Итоговая чистота индекса и рабочего дерева не подтверждена; повторного применения не было.\n\n## Связь и исполнитель\n\nПродолжить в уже существующей работе владельца инструментов, без создания второй ветки или исполнителя. Назначение: @Roman-Kerimov.\n\nСвязанный результат: [PR #488 — «Ускорить однофайловый план переименования»](https://github.com/fum-lab/fum/pull/488). PR ускорил план, но фактический перенос руководства в этой поставке не выполнялся.",
++    "state": "closed",
++    "user": {
++      "login": "Roman-Kerimov",
++      "name": "Roman-Kerimov",
++      "email": null,
++      "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++      "id": 22149544
++    },
++    "assignees": [
++      {
++        "login": "Roman-Kerimov",
++        "name": "Roman-Kerimov",
++        "email": null,
++        "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++        "id": 22149544
++      }
++    ],
++    "labels": null,
++    "milestone": null,
++    "state_reason": "completed",
++    "comments": 3,
++    "created_at": "2026-10-31T09:20:18Z",
++    "updated_at": "2026-10-31T15:47:04Z",
++    "closed_at": "2026-10-31T11:15:35Z",
++    "display_url": "https://github.com/fum-lab/fum/issues/489",
++    "display_title": "Сбой при применении однофайлового переноса руководства после git mv"
++  }
++}
+diff --git a/Issues/489/provenance-20261031-before-comment.json b/Issues/489/provenance-20261031-before-comment.json
+new file mode 100644
+index 000000000..f0b4a1ba7
+--- /dev/null
++++ b/Issues/489/provenance-20261031-before-comment.json
+@@ -0,0 +1,22 @@
++{
++  "schema": "fum.github-issue-snapshot-provenance.1",
++  "captured_at_utc": "2026-10-31T15:46:36Z",
++  "source": {
++    "repository": "fum-lab/fum",
++    "issue_number": 489,
++    "issue_url": "https://github.com/fum-lab/fum/issues/489",
++    "readback_operation": "mcp__codex_apps__github_fetch_issue",
++    "state": "closed",
++    "state_reason": "completed",
++    "closed_at": "2026-10-31T11:15:35Z",
++    "updated_at": "2026-10-31T11:15:36Z",
++    "comments": 2
++  },
++  "boundary": {
++    "only_issue489": true,
++    "no_issue151_refresh": true,
++    "no_body_edit": true,
++    "no_state_change_in_this_stage": true
++  },
++  "note": "Issue #489 was already closed/completed before this stage's comment; no redundant state update was issued."
++}
+diff --git a/Issues/489/provenance-6542150039.json b/Issues/489/provenance-6542150039.json
+new file mode 100644
+index 000000000..1450ca0a6
+--- /dev/null
++++ b/Issues/489/provenance-6542150039.json
+@@ -0,0 +1,22 @@
++{
++  "schema": "fum.github-issue-comment-provenance.1",
++  "source": {
++    "repository": "fum-lab/fum",
++    "issue_number": 489,
++    "issue_url": "https://github.com/fum-lab/fum/issues/489",
++    "issue_snapshot_path": "Issues/489/issue-489-readback-20261031-before-comment.json",
++    "issue_updated_at": "2026-10-31T11:15:36Z",
++    "comments_after": 2,
++    "comment_id": 6542150039,
++    "comment_url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6542150039",
++    "readback_operation": "mcp__codex_apps__github_fetch_issue_comments",
++    "readback_confirmed": true,
++    "comment_edited_in_place": false,
++    "capture_method": "connected GitHub tools; normalized responses"
++  },
++  "captured_at_utc": "2026-10-31T15:46:36Z",
++  "boundary": {
++    "only_issue489": true,
++    "exact_comment_bytes_from_current_readback": true
++  }
++}
+diff --git a/Issues/489/provenance-6545604402.json b/Issues/489/provenance-6545604402.json
+new file mode 100644
+index 000000000..68fe473ed
+--- /dev/null
++++ b/Issues/489/provenance-6545604402.json
+@@ -0,0 +1,27 @@
++{
++  "schema": "fum.github-issue-comment-provenance.1",
++  "source": {
++    "repository": "fum-lab/fum",
++    "issue_number": 489,
++    "issue_url": "https://github.com/fum-lab/fum/issues/489",
++    "issue_snapshot_path": "Issues/489/issue-489-readback-20261031-final.json",
++    "issue_updated_at": "2026-10-31T15:47:04Z",
++    "comments_after": 3,
++    "comment_id": 6545604402,
++    "comment_url": "https://github.com/fum-lab/fum/issues/489#issuecomment-6545604402",
++    "creation_operation": "mcp__codex_apps__github_add_comment_to_issue",
++    "creation_result_id": 6545604402,
++    "readback_operation": "mcp__codex_apps__github_fetch_issue_comments",
++    "readback_confirmed": true,
++    "comment_edited_in_place": false,
++    "capture_method": "connected GitHub tools; normalized responses",
++    "state_before_comment": "closed/completed",
++    "state_update_issued": false
++  },
++  "captured_at_utc": "2026-10-31T15:47:09Z",
++  "boundary": {
++    "only_issue489": true,
++    "exact_comment_readback_matches_submitted_body": true,
++    "no_issue151_refresh": true
++  }
++}
+diff --git "a/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_18-44-33_MSK_PR490-\320\277\321\200\320\276\320\270\321\201\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265.json" "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_18-44-33_MSK_PR490-\320\277\321\200\320\276\320\270\321\201\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265.json"
+new file mode 100644
+index 000000000..75cc31176
+--- /dev/null
++++ "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_18-44-33_MSK_PR490-\320\277\321\200\320\276\320\270\321\201\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265.json"
+@@ -0,0 +1,40 @@
++{
++  "schema": "fum.github-pr-snapshot-provenance.1",
++  "repository": "fum-lab/fum",
++  "pull_request": 490,
++  "pull_request_url": "https://github.com/fum-lab/fum/pull/490",
++  "readback_operation": "mcp__codex_apps__github_fetch_pr",
++  "commit_readback_operation": "mcp__codex_apps__github_fetch_commit",
++  "commit_page_readback_url": "https://github.com/fum-lab/fum/commit/833060b1716c40c74b44d2d62bb76198cf82987e",
++  "captured_at_utc": "2026-10-31T15:46:36Z",
++  "verified": {
++    "state": "closed",
++    "merged": true,
++    "merged_at": "2026-10-31T10:00:27Z",
++    "merge_commit_sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
++    "base_sha": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
++    "head_sha": "eb512829deee70bd0c53be307148442d8aa95a88",
++    "changed_files": 6,
++    "commit_file_count": 6
++  },
++  "coverage": {
++    "pr_metadata_captured": true,
++    "merge_commit_metadata_captured": true,
++    "changed_file_names_captured": true,
++    "full_patch_persisted": false,
++    "pr_discussion_timeline_captured": false,
++    "merge_tree_sha_independently_read_from_commit_object": false
++  },
++  "boundary": {
++    "source_only_checkpoint": true,
++    "only_pr490_and_issue489": true,
++    "no_shared_markdown": true,
++    "no_private_absolute_paths": true,
++    "no_full_issue151_archive": true
++  },
++  "excluded_checks": {
++    "full_state_all_issue_archive": "not run",
++    "root_task_remainder": "excluded by explicit НОВОЕ-000032; prior terminal violation preserved",
++    "full_legacy_profile": "not run"
++  }
++}
+diff --git "a/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_18-44-33_MSK_PR490-\321\201\320\275\320\270\320\274\320\276\320\272.json" "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_18-44-33_MSK_PR490-\321\201\320\275\320\270\320\274\320\276\320\272.json"
+new file mode 100644
+index 000000000..e9e7821c5
+--- /dev/null
++++ "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_18-44-33_MSK_PR490-\321\201\320\275\320\270\320\274\320\276\320\272.json"
+@@ -0,0 +1,95 @@
++{
++  "schema": "fum.github-pr-snapshots.1",
++  "repository": "fum-lab/fum",
++  "number": 490,
++  "captured_at_utc": "2026-10-31T15:46:36Z",
++  "source": "connected GitHub tools; normalized responses",
++  "readback": {
++    "url": "https://github.com/fum-lab/fum/pull/490",
++    "number": 490,
++    "state": "closed",
++    "merged": true,
++    "mergeable": true,
++    "draft": false,
++    "body": "После `git mv` при umask 077 индекс с режимом 0644 мог стать 0600. Откат в кириллическом каталоге ошибочно сравнивал NFC-пути Git с NFD-путями Foundation и сохранял временные копии как признак неполного восстановления.\n\nИсправление возвращает исходный режим проверенному собственному дескриптору индекса и учитывает точные логические UTF-8-пути собственных резервов. Строгая проверка результата и сохранение неизвестных исходов остаются обязательными.\n\nПроверка: ошибки воспроизведены на прежнем коде; 20 адресных случаев Swift Testing прошли, после поправки переносимости теста повторно прошли 3 новые регрессии. Производственный CLI собран из тех же исходников. Полный smoke, чистый клон и полный SDK-контур не проверены. Связано с #489; фактическое восстановление ROOT выполнено отдельно, повторный рабочий перенос ещё предстоит.",
++    "title": "Сохранить режим Git-индекса и точные пути при откате переноса",
++    "base": "fum-lab/fum/master",
++    "base_sha": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
++    "head": "fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master",
++    "head_sha": "eb512829deee70bd0c53be307148442d8aa95a88",
++    "head_repo_id": 1285958028,
++    "head_repo_full_name": "fum-lab/fum",
++    "merge_commit_sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
++    "user": {
++      "login": "Roman-Kerimov",
++      "name": "Roman-Kerimov",
++      "email": null,
++      "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++      "id": 22149544
++    },
++    "requested_reviewers": null,
++    "requested_team_reviewers": null,
++    "created_at": "2026-10-31T09:59:17Z",
++    "updated_at": "2026-10-31T10:00:27Z",
++    "closed_at": "2026-10-31T10:00:27Z",
++    "merged_at": "2026-10-31T10:00:27Z",
++    "commits": 2,
++    "changed_files": 6,
++    "additions": 199,
++    "deletions": 12,
++    "display_url": "https://github.com/fum-lab/fum/pull/490",
++    "display_title": "Сохранить режим Git-индекса и точные пути при откате переноса"
++  },
++  "merge_commit_readback": {
++    "sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
++    "message": "Принять сохранение режима индекса и точные пути отката",
++    "url": "https://api.github.com/repos/fum-lab/fum/commits/833060b1716c40c74b44d2d62bb76198cf82987e",
++    "html_url": "https://github.com/fum-lab/fum/commit/833060b1716c40c74b44d2d62bb76198cf82987e",
++    "created_at": "2026-10-31T09:59:45Z",
++    "author": {
++      "login": "FUM Codex [gpt-6.1-sol; effort=ultra]",
++      "name": "FUM Codex [gpt-6.1-sol; effort=ultra]",
++      "email": null,
++      "avatar_url": null,
++      "id": null
++    },
++    "committer": {
++      "login": "FUM",
++      "name": "FUM",
++      "email": null,
++      "avatar_url": null,
++      "id": null
++    },
++    "files": [
++      {
++        "filename": "iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift",
++        "patch": "@@ -425,14 +425,9 @@ enum ПереименованиеФайла {\n         let правка: ПравкаФайлаПереименования\n         let новая: URL\n         let резервная: URL\n+        let логическиеКопии: [Data]\n     }\n-    private static func сверитьПрименение(_ план: ПланПереименованияФайла) throws {\n-        let контекст = КонтекстЧтения()\n-        try проверитьПрефиксыЦелей(план.корень, план.локальныеЦели.map { Data($0.utf8) == Data(план.исходный.utf8) ? план.целевой : $0 })\n-        let состояниеИндекса = try СостояниеФайлаПереименования(план.адресИндекса)\n-        try требовать(состояниеИндекса.обычный && состояниеИндекса.режим & 0o7777 == план.режимИндекса, \"Дрейф типа или режима индекса после переноса\")\n-        try требовать(try гит(план.корень, [\"rev-parse\", \"--verify\", \"HEAD\"]) == план.голова, \"Дрейф HEAD после переноса\")\n-        try требовать(try гит(план.корень, [\"symbolic-ref\", \"-q\", \"HEAD\"], коды: [0, 1]) == план.ветка, \"Дрейф ref после переноса\")\n+    private static func сверитьДельтуИндекса(_ план: ПланПереименованияФайла) throws {\n         var записи: [(Data, Data)] = []\n         for запись in план.записиИндекса.split(separator: 0) {\n             guard let граница = запись.firstIndex(of: 9) else { throw ОшибкаПутей.отказ(\"Повреждённая stage-запись\") }\n@@ -442,6 +437,47 @@ enum ПереименованиеФайла {\n         }\n         let ожидание = записи.sorted { $0.0.lexicographicallyPrecedes($1.0) }.reduce(into: Data()) { $0.append($1.1) }\n         try требовать(try гит(план.корень, [\"ls-files\", \"--stage\", \"-z\"]) == ожидание, \"Неожиданная дельта Git-индекса после переноса\")\n+    }\n+    private static func сохранитьРежимИндексаПослеПереноса(_ план: ПланПереименованияФайла) throws {\n+        // Git создаёт новый индекс с учётом umask. После известного успешного mv\n+        // возвращаем прежний режим только проверенному узлу, не меняя umask.\n+        try сверитьДельтуИндекса(план)\n+        try требовать(try гит(план.корень, [\"rev-parse\", \"--verify\", \"HEAD\"]) == план.голова, \"Дрейф HEAD после переноса\")\n+        try требовать(try гит(план.корень, [\"symbolic-ref\", \"-q\", \"HEAD\"], коды: [0, 1]) == план.ветка, \"Дрейф ref после переноса\")\n+        let родитель = план.адресИндекса.deletingLastPathComponent()\n+        let состояниеРодителя = try СостояниеФайлаПереименования(родитель)\n+        try требовать(состояниеРодителя.каталог, \"Не реальный родитель индекса\")\n+        let байты = try прочитатьОбычный(план.адресИндекса, предел: 33_554_432)\n+        var прежде = stat(), внутри = stat(), после = stat(), именованный = stat(), замок = stat()\n+        try требовать(lstat(план.адресИндекса.path, &прежде) == 0 && прежде.st_mode & S_IFMT == S_IFREG\n+            && прежде.st_uid == geteuid() && прежде.st_nlink == 1, \"Не собственный обычный индекс\")\n+        let дескриптор = open(план.адресИндекса.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)\n+        try требовать(дескриптор >= 0, \"Не открыт индекс для сохранения режима\")\n+        defer { close(дескриптор) }\n+        try требовать(fstat(дескриптор, &внутри) == 0 && внутри.st_dev == прежде.st_dev && внутри.st_ino == прежде.st_ino\n+            && внутри.st_mode == прежде.st_mode && внутри.st_uid == прежде.st_uid && внутри.st_gid == прежде.st_gid\n+            && внутри.st_nlink == 1 && внутри.st_size == прежде.st_size, \"Дрейф FD индекса\")\n+        try требовать(lstat(план.адресИндекса.path + \".lock\", &замок) == -1 && errno == ENOENT, \"Индекс занят другим писателем\")\n+        try требовать(try СостояниеФайлаПереименования(родитель) == состояниеРодителя\n+            && прочитатьОбычный(план.адресИндекса, предел: 33_554_432) == байты, \"Дрейф индекса перед сохранением режима\")\n+        try требовать(fchmod(дескриптор, план.режимИндекса) == 0 && fsync(дескриптор) == 0, \"Не сохранён режим индекса\")\n+        try требовать(fstat(дескриптор, &после) == 0 && lstat(план.адресИндекса.path, &именованный) == 0\n+            && после.st_dev == прежде.st_dev && после.st_ino == прежде.st_ino && после.st_uid == прежде.st_uid\n+            && после.st_gid == прежде.st_gid && после.st_nlink == 1 && после.st_size == прежде.st_size\n+            && после.st_mode == S_IFREG | план.режимИндекса && именованный.st_dev == после.st_dev\n+            && именованный.st_ino == после.st_ino && именованный.st_mode == после.st_mode, \"Дрейф узла после сохранения режима\")\n+        try требовать(lstat(план.адресИндекса.path + \".lock\", &замок) == -1 && errno == ENOENT, \"Поздний писатель индекса\")\n+        try требовать(try СостояниеФайлаПереименования(родитель) == состояниеРодителя\n+            && прочитатьОбычный(план.адресИндекса, предел: 33_554_432) == байты, \"Дрейф байтов индекса при сохранении режима\")\n+    }\n+    private static func сверитьПрименение(_ план: ПланПереименованияФайла) throws {\n+        let контекст = КонтекстЧтения()\n+        try проверитьПрефиксыЦелей(план.корень, план.локальныеЦели.map { Data($0.utf8) == Data(план.исходный.utf8) ? план.целевой : $0 })\n+        let состояниеИндекса = try СостояниеФайлаПереименования(план.адресИндекса)\n+        try требовать(состояниеИндекса.обычный && состояниеИндекса.режим & 0o7777 == план.режимИндекса, \"Дрейф типа или режима индекса после переноса\")\n+        try требовать(try гит(план.корень, [\"rev-parse\", \"--verify\", \"HEAD\"]) == план.голова, \"Дрейф HEAD после переноса\")\n+        try требовать(try гит(план.корень, [\"symbolic-ref\", \"-q\", \"HEAD\"], коды: [0, 1]) == план.ветка, \"Дрейф ref после переноса\")\n+        try сверитьДельтуИндекса(план)\n         for файл in план.файлы {\n             let путь = Data(файл.путь.utf8) == Data(план.исходный.utf8) ? план.целевой : файл.путь\n             let текущий = try снимок(план.корень, путь, контекст: контекст)\n@@ -472,8 +508,10 @@ enum ПереименованиеФайла {\n             return ошибки\n         }\n         func статусБезСобственныхКопий() throws -> Data {\n-            let адреса = подготовленные.flatMap { [$0.новая, $0.резервная] } + [резервИндекса] + (намерение.map { [$0] } ?? [])\n-            let пути = Set(адреса.map { Data($0.path.dropFirst(план.корень.path.count + 1).utf8) })\n+            // URL.deletingLastPathComponent может вернуть NFD. Git -z хранит\n+            // исходные байты имён: сохраняем логического родителя из плана.\n+            let корневыеКопии = [резервИндекса] + (намерение.map { [$0] } ?? [])\n+            let пути = Set(подготовленные.flatMap(\\.логическиеКопии) + корневыеКопии.map { Data($0.lastPathComponent.utf8) })\n             let статус = try гит(план.корень, [\"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"])\n             return статус.split(separator: 0).reduce(into: Data()) { итог, запись in\n                 if запись.starts(with: [63, 63, 32]) && пути.contains(Data(запись.dropFirst(3))) { return }\n@@ -491,7 +529,10 @@ enum ПереименованиеФайла {\n                 let новая = try копия(каталог, правка.байты, файл.состояние.режим & 0o7777, \"new\")\n                 do {\n                     let резервная = try копия(каталог, файл.байты, файл.состояние.режим & 0o7777, \"backup\")\n-                    подготовленные.append(.init(правка: правка, новая: новая, резервная: резервная))\n+                    let родитель = правка.итоговый.split(separator: \"/\").dropLast().joined(separator: \"/\")\n+                    let префикс = родитель.isEmpty ? \"\" : родитель + \"/\"\n+                    let логическиеКопии = [новая, резервная].map { Data((префикс + $0.lastPathComponent).utf8) }\n+                    подготовленные.append(.init(правка: правка, новая: новая, резервная: резервная, логическиеКопии: логическиеКопии))\n                 } catch { try? файловаяСистема.removeItem(at: новая); throw error }\n             }\n             try сверить(план, статус: false)\n@@ -502,6 +543,7 @@ enum ПереименованиеФайла {\n             if let переносДляПроверки { try переносДляПроверки() }\n             else { _ = try гит(план.корень, [\"mv\", \"--\", план.исходный, план.целевой]) }\n             перенесён = true\n+            try сохранитьРежимИндексаПослеПереноса(план)\n             for (номер, запись) in подготовленные.enumerated() {\n                 установленные.append(запись)\n                 try передУстановкой?(номер + 1)"
++      },
++      {
++        "filename": "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
++        "patch": "@@ -155,7 +155,9 @@ func префиксКонтейнераОграниченЛинейнымОбъ\n \n private final class ФикстураПереименования {\n     let корень: URL\n-    init(_ файлы: [String: Data] = [:], толькоЗаданные: Bool = false) throws {\n+    let сохранить: Bool\n+    init(_ файлы: [String: Data] = [:], толькоЗаданные: Bool = false, сохранить: Bool = false) throws {\n+        self.сохранить = сохранить\n         let созданный = FileManager.default.temporaryDirectory.appendingPathComponent(\"fum-single-file-\" + UUID().uuidString)\n         try FileManager.default.createDirectory(at: созданный, withIntermediateDirectories: true)\n         корень = созданный.resolvingSymlinksInPath().standardizedFileURL\n@@ -167,7 +169,7 @@ private final class ФикстураПереименования {\n         _ = try гит([\"init\", \"-q\"])\n         try коммит()\n     }\n-    deinit { try? FileManager.default.removeItem(at: корень) }\n+    deinit { if !сохранить { try? FileManager.default.removeItem(at: корень) } }\n     func записать(_ путь: String, _ байты: Data) throws {\n         // URL-based Foundation write на macOS создаёт NFD-компоненты.\n         // Открытая fixture должна сохранять заданные UTF8 имена, как git checkout.\n@@ -210,6 +212,59 @@ private func ожидатьОтказ<Значение>(_ причина: String\n }\n \n #if !ФУМ_ПРОВЕРКИ_СВЕЖЕСТИ_ПЕРЕИМЕНОВАНИЯ && !ФУМ_ПРОВЕРКИ_НАБЛЮДЕНИЯ_ПЕРЕИМЕНОВАНИЯ && !ФУМ_ПРОВЕРКИ_ПРЕФИКСОВ_ПЕРЕИМЕНОВАНИЯ\n+@Test(arguments: [mode_t(0o600), mode_t(0o644)])\n+func индексПослеПереносаСохраняетРежимПриОграниченномUmask(_ режим: mode_t) throws {\n+    let фикстура = try ФикстураПереименования(сохранить: true)\n+    print(\"Сохранённая mode-фикстура: \\(фикстура.корень.path)\")\n+    let проба = фикстура.корень.path + \"/umask-probe.bin\"\n+    let дескриптор = open(проба, O_CREAT | O_EXCL | O_NOFOLLOW | O_WRONLY, 0o666)\n+    #expect(дескриптор >= 0)\n+    if дескриптор >= 0 { close(дескриптор) }\n+    let режимПробы = try СостояниеФайлаПереименования(URL(fileURLWithPath: проба)).режим & 0o7777\n+    print(\"Наблюдаемый режим umask-пробы: \\(String(режимПробы, radix: 8))\")\n+    try FileManager.default.removeItem(atPath: проба)\n+    let первый = try фикстура.план()\n+    #expect(chmod(первый.адресИндекса.path, режим) == 0)\n+    let план = try фикстура.план()\n+    #expect(план.режимИндекса == режим)\n+    try ПереименованиеФайла.применить(план)\n+    #expect(try СостояниеФайлаПереименования(план.адресИндекса).режим & 0o7777 == режим)\n+    #expect(try фикстура.читать(\"archive/new.md\") == Data(\"# Старый\\n\".utf8))\n+    #expect(!FileManager.default.fileExists(atPath: фикстура.корень.path + \"/docs/old.md\"))\n+}\n+\n+@Test func откатВКириллическомКаталогеСохраняетПятьЧужихИзменений() throws {\n+    let каталог = \"Журнал/2026-10-28_21-26-31_MSK_создать-общую-миграцию-путей\"\n+    let путь = каталог + \"/note.md\", похожаяКопия = каталог + \"/.fum-rename-backup-foreign\"\n+    let исходные = Data(\"[Ссылка](../../docs/old.md)\\n\".utf8)\n+    let фикстура = try ФикстураПереименования([\n+        путь: исходные, \"foreign2.txt\": Data(\"принято\\n\".utf8)\n+    ], сохранить: true)\n+    print(\"Сохранённая rollback-фикстура: \\(фикстура.корень.path)\")\n+    let индекс = try фикстура.план().адресИндекса\n+    #expect(chmod(индекс.path, 0o600) == 0)\n+    try фикстура.записать(\"foreign.txt\", Data(\"первое чужое изменение\\n\".utf8))\n+    try фикстура.записать(\"foreign2.txt\", Data(\"второе чужое изменение\\n\".utf8))\n+    try фикстура.записать(\"loose/deep/one.txt\", Data(\"один\\n\".utf8))\n+    try фикстура.записать(\"loose/deep/two.txt\", Data(\"два\\n\".utf8))\n+    try фикстура.записать(похожаяКопия, Data(\"чужой файл, не резерв автоматизации\\n\".utf8))\n+    let план = try фикстура.план(), до = try фикстура.подпись()\n+    #expect(план.статус.split(separator: 0).count == 5)\n+    #expect(try фикстура.гит([\"ls-files\", \"-z\"]).split(separator: 0).contains(Data(путь.utf8)))\n+    let физическийРодитель = фикстура.корень.appendingPathComponent(путь).deletingLastPathComponent()\n+    print(\"Логический родитель UTF8: \\(Data(каталог.utf8).map { String(format: \"%02x\", $0) }.joined())\")\n+    print(\"Родитель URL UTF8: \\(Data(физическийРодитель.path.dropFirst(фикстура.корень.path.count + 1).utf8).map { String(format: \"%02x\", $0) }.joined())\")\n+    ожидатьОтказ(\"откат проверен\") {\n+        try ПереименованиеФайла.применить(план, передУстановкой: { _ in\n+            throw ОшибкаПутей.отказ(\"Внедрённый отказ до установки\")\n+        })\n+    }\n+    #expect(try фикстура.подпись() == до)\n+    #expect(try фикстура.читать(путь) == исходные)\n+    #expect(try фикстура.читать(похожаяКопия) == Data(\"чужой файл, не резерв автоматизации\\n\".utf8))\n+    #expect(!FileManager.default.fileExists(atPath: фикстура.корень.path + \"/archive/new.md\"))\n+}\n+\n @Test func точныеЦелиВсеФормыИДетерминированныйПлан() throws {\n     let текст = \"\"\"\n     [inline](docs/old.md?view=1#top \"Title\")"
++      },
++      {
++        "filename": "Журнал/2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/запрос.md",
++        "patch": "@@ -0,0 +1,26 @@\n+# Исправить режим индекса и сверку отката переноса\n+\n+## Происхождение\n+\n+Дочерний этап задачи `01a17797-519b-73c1-bcc8-fd295cdfe9b0` по поручению ROOT `01a07d3d-d376-7ad2-aafc-67e4c25a67eb`. Подтверждённый дефект зарегистрирован в [№489](https://github.com/fum-lab/fum/issues/489). Исходная принятая граница — `f25efd3eb2facfe3d6355db3800c322291aaf34c`.\n+\n+## Текст запроса\n+\n+> Root всё ещё не повторял apply и не менял index/3резерва после RO snapshot/evidence copy. Для твоего отчёта нужны фактический RED/исправление/GREEN и отдельный безопасный recovery step, не обещание будущей проверки.\n+\n+## Принятый объём\n+\n+В отдельном собственном worktree исправить сохранение режима Git-индекса при ограниченном umask и сверку собственного временного резерва в кириллическом каталоге. Сначала воспроизвести ошибки на прежнем коде, затем выполнить адресные проверки исправления и связанных отказных сценариев. Подготовить конкретные данные восстановления ROOT с сохранением доказательств.\n+\n+Писатель этого дерева — только корень дочерней задачи; два независимых разбора выполнялись только для чтения. Рабочая ветка: `fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master`. Исполнение восстановления и новый рабочий перенос принадлежат ROOT и этим этапом не выполнены.\n+\n+## Повлиял на файлы\n+\n+- [Однофайловый перенос](../../iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift).\n+- [Проверки переноса](../../proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift).\n+- [Отчёт этапа](отчёт.md).\n+\n+<!-- FUM-MD-RECENCY:BEGIN -->\n+<!-- last-content-edit: 2026-10-31 12:49:42 MSK -->\n+<!-- content-sha256: sha256:64370d75b7b294d440f7f7dec3d75b2a7d645e9115a94421edd1695cf9374cf4 -->\n+<!-- FUM-MD-RECENCY:END -->"
++      },
++      {
++        "filename": "Журнал/2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/отчёт.md",
++        "patch": "@@ -0,0 +1,34 @@\n+# Исправлены режим индекса и сверка отката переноса\n+\n+## Дефект и исправление\n+\n+После принятого `git mv` Git создавал индекс с учётом umask: прежний режим `0644` при umask `077` становился `0600`. Строгая итоговая проверка корректно обнаруживала дрейф, но перенос переходил в откат. В кириллическом каталоге `URL.deletingLastPathComponent()` возвращал NFD-представление родителя, тогда как Git `-z` сохранял исходное NFC-имя. Фильтр собственных временных копий сравнивал разные байты и объявлял откат неполным, сохраняя резервы. Оба поведения воспроизведены на этой системе.\n+\n+После известного успешного переноса сначала проверяются ожидаемая дельта stage-записей, HEAD и ref. Режим возвращается только открытому через `O_NOFOLLOW` дескриптору собственного обычного индекса, с проверками владельца, единственной ссылки, identity FD и имени, родителя, отсутствия чужого lock и неизменности байтов. Затем выполняются `fchmod`, `fsync` и независимая повторная сверка. Строгая итоговая проверка режима сохранена. Глобальный umask и настройки Git не меняются.\n+\n+Для временных копий сохраняется логический родитель из плана вместе с точным сгенерированным ASCII-именем. Сверка исключает только эти собственные raw UTF8-пути; чужой файл с похожим префиксом остаётся видимым. Общая нормализация Git-путей не выполняется. Прежний путь UNKNOWN после неподтверждённого эффекта `git mv` и сохранение доказательств не ослаблены.\n+\n+## Фактические проверки\n+\n+На неизменённом `f25efd3eb2facfe3d6355db3800c322291aaf34c` выполнена красная регрессия: режим `0600` прошёл как контроль; `0644` вызвал отказ итоговой проверки режима; откат в NFC-кириллическом каталоге с двумя изменёнными отслеживаемыми и тремя новыми чужими файлами не восстановил status. В последнем случае проверен также чужой файл с похожим именем резерва. Исходные фикстуры и точные исходы сохранены вне Git.\n+\n+После исправления прошли 20 случаев в 11 функциях: три новые регрессии и 17 существующих случаев переноса, поздних барьеров, типа и режима индекса, частичного и неполного отката, неизвестного эффекта, кириллического источника и восстановления свежести. Текст красных тестов на этом проходе был неизменным. Runtime завершился кодом 0 за 13,028899333 секунды; объявленные входы сохранились, группа отсутствовала. Максимальный наблюдённый RSS группы — 69304320 байт по трём сэмплам.\n+\n+Независимая проверка только для чтения выявила в новом тесте безусловное требование umask-пробы `0600`, непереносимое на обычный запуск с umask `022`. Требование заменено наблюдением фактического режима; проверки сохранения исходных `0600`/`0644` и полного отката сохранены. После этой единственной правки теста три новые регрессии пересобраны и прошли за 3,423235000 секунды. Это повтор трёх случаев, а не ещё три уникальные проверки. Фактически наблюдалась проба `0600`; глобальный umask не менялся. Других существенных замечаний RO-проверка не нашла.\n+\n+## Производственный CLI\n+\n+Из 29 точных производственных исходников с прежними строгими настройками Swift 6 и `-O` собран arm64 Mach-O: 3574840 байт, SHA-256 `7da213d4905675120e0953e93c19eaba2a40626a3077ab2180c91c6e196b12fd`. Компиляция завершилась кодом 0 за 65,385921958 секунды; пины сохранены, группа отсутствовала. Использован прежний объявленный архив LinguisticKit `837e2ce107b97ee7b9d3344c9fe99142281fe393`; свежая сборка зависимости и чистый клон не проверены. Бинарник, рецепты, манифесты и квитанции хранятся вне Git.\n+\n+## Восстановление ROOT и границы\n+\n+Подготовлены отдельные точные DATA восстановления: CAS текущего индекса через собственный `index.lock` с `O_EXCL`, возврат исходных 9426623 байт и режима 0644, затем сохранение ровно трёх резервов переносом без перезаписи в свежий приватный карантин. Сохранены обе версии индекса, намерение, резерв потребителя и снимки семи файлов; независимая RO-сверка подтвердила 11 копий доказательств. Reset, удаление доказательств и повтор рабочего применения не выполнялись. Выполнение этого плана принадлежит ROOT и не следует из готовности DATA.\n+\n+Оба сохранённых индекса дали одинаковые полные `ls-files --stage -z` и пустой cached raw diff к исходному коммиту. В двух просмотренных записях различается statcache. Все flags/extensions и остальные debug-записи полностью не сравнены; единственность этих различий и конкретная причина изменения raw SHA индекса не установлены.\n+\n+Проверки относятся к сотрудничающим писателям и принятому владению; они не обеспечивают атомарный CAS против враждебной гонки. Дополнительная сверка stage и чтения индекса имеют стоимость, ускорение не заявляется. Python, ROOT JSONL, полный smoke-check, полный SDK/dyld-контур и валидатор свежести Markdown не запускались: они исключены или UNKNOWN, не GREEN. Метки свежести двух документов вычислены по принятому формату и прочитаны обратно; это не запуск валидатора. Поставка исходников, приёмка ROOT, интеграция и реальный перенос различаются.\n+\n+<!-- FUM-MD-RECENCY:BEGIN -->\n+<!-- last-content-edit: 2026-10-31 12:53:14 MSK -->\n+<!-- content-sha256: sha256:c89333a8aa4423a90ff41b3f47659666c5dba6e43ba9871d4c40663342bb882b -->\n+<!-- FUM-MD-RECENCY:END -->"
++      },
++      {
++        "filename": "Журнал/2026-10-31_12-54-58_MSK_уточнить-автора-исправления-переноса/запрос.md",
++        "patch": "@@ -0,0 +1,18 @@\n+# Уточнить происхождение исправления переноса\n+\n+## Происхождение\n+\n+Продолжение задачи `01a17797-519b-73c1-bcc8-fd295cdfe9b0`, предыдущий этап: [исправление режима и отката](../2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/запрос.md). ROOT поручил продолжать commit/delivery исправления; отдельное изменение чужих Git-настроек не запрошено.\n+\n+## Текст запроса\n+\n+> Продолжай свой commit/delivery исправления и Native stable-anchor через своего владельца.\n+\n+## Уточнение этапа\n+\n+Сырой readback собственного локального коммита выявил унаследованное имя автора. Сохранить фактический объект и добавить точную поправку происхождения с явно заданным наблюдённым автором, без переписывания исходного коммита и общего Git-конфига. Предметные исходники и результаты проверок предыдущего этапа сохраняются.\n+\n+<!-- FUM-MD-RECENCY:BEGIN -->\n+<!-- last-content-edit: 2026-10-31 12:54:58 MSK -->\n+<!-- content-sha256: sha256:95009d7a00e68cee5ba1be7735f740769a226f96d54836c971884570044f68e6 -->\n+<!-- FUM-MD-RECENCY:END -->"
++      },
++      {
++        "filename": "Журнал/2026-10-31_12-54-58_MSK_уточнить-автора-исправления-переноса/отчёт.md",
++        "patch": "@@ -0,0 +1,12 @@\n+# Поправка происхождения локального коммита\n+\n+Собственный коммит `31ad467d04cdd1f0d651b119cbdb839365552daa` содержит проверенное исправление двух исходников и пару Журнала; его дерево `e927542dfe7cb818f2079c41a9bb682294f61abb`, родитель `f25efd3eb2facfe3d6355db3800c322291aaf34c`. Фактический author — `FUM Писатель <fum@local>`. Команда задавала `user.name`, но общий Git-конфиг содержал отдельное `author.name=FUM Писатель`; это переопределение не было проверено до создания коммита. Фактический committer — `FUM Codex [model=gpt-6.1-sol; effort=ultra] <fum@local>`. Исходный объект и частная квитанция сохранены неизменными.\n+\n+Текущий выбор модели собственного чата прочитан отдельно через readonly SQLite приложения: `gpt-6.1-sol`, усилие `ultra`, provider `openai`. Это наблюдение выбора на момент создания поправки; полный Native JSONL исключён, история переключений и фактическая маршрутизация всего этапа неизвестны. Наблюдение не переопределяет автора прежнего объекта. В новой команде явно задаётся author точного формата `FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local>` с проверкой raw Git-объекта после создания. Общий конфиг и прежняя история не меняются.\n+\n+Этот этап добавляет только данную пару Журнала. Код, пины компиляции, 20 выбранных случаев GREEN и финальный повтор трёх регрессий относятся к прежнему этапу и не объявляются заново выполненными. Новый рабочий перенос и восстановление ROOT этим этапом не выполняются. Применимые Python/ROOT JSONL/полный smoke/валидатор свежести исключены или UNKNOWN. Метки свежести вычислены по ранее сверённому формату; запуск валидатора не заявляется.\n+\n+<!-- FUM-MD-RECENCY:BEGIN -->\n+<!-- last-content-edit: 2026-10-31 12:54:58 MSK -->\n+<!-- content-sha256: sha256:da2b41e872e8de85a54b363df4c897b93e49d0aac9cb06ba50d1c95aa9cf66f3 -->\n+<!-- FUM-MD-RECENCY:END -->"
++      }
++    ],
++    "parent_shas_cross_checked": [
++      "f25efd3eb2facfe3d6355db3800c322291aaf34c",
++      "eb512829deee70bd0c53be307148442d8aa95a88"
++    ],
++    "parent_cross_check": "PR base/head full SHAs match the two abbreviated parents displayed on the GitHub commit page"
++  }
++}
+diff --git "a/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_PR490-\321\201\320\275\320\270\320\274\320\276\320\272-\321\201\320\273\320\270\321\217\320\275\320\270\321\217-\320\277\321\200\320\276\320\270\321\201\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265.json" "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_PR490-\321\201\320\275\320\270\320\274\320\276\320\272-\321\201\320\273\320\270\321\217\320\275\320\270\321\217-\320\277\321\200\320\276\320\270\321\201\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265.json"
+new file mode 100644
+index 000000000..443363ee8
+--- /dev/null
++++ "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_PR490-\321\201\320\275\320\270\320\274\320\276\320\272-\321\201\320\273\320\270\321\217\320\275\320\270\321\217-\320\277\321\200\320\276\320\270\321\201\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265.json"
+@@ -0,0 +1,39 @@
++{
++  "schema": "fum.github-pr-snapshot-provenance.1",
++  "repository": "fum-lab/fum",
++  "pull_request": 490,
++  "pull_request_url": "https://github.com/fum-lab/fum/pull/490",
++  "readback_operation": "github_get_pr_info",
++  "commit_readback_operation": "github_fetch_commit",
++  "commit_page_readback_url": "https://github.com/fum-lab/fum/commit/833060b1716c40c74b44d2d62bb76198cf82987e",
++  "captured_at_utc": "2026-10-31T10:14:01Z",
++  "verified": {
++    "state": "closed",
++    "merged": true,
++    "merged_at": "2026-10-31T10:00:27Z",
++    "merge_commit_sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
++    "base_sha": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
++    "head_sha": "eb512829deee70bd0c53be307148442d8aa95a88",
++    "changed_files": 6,
++    "commit_file_count": 6
++  },
++  "coverage": {
++    "pr_metadata_captured": true,
++    "merge_commit_metadata_captured": true,
++    "changed_file_names_captured": true,
++    "full_patch_persisted": false,
++    "pr_discussion_timeline_captured": false,
++    "merge_tree_sha_independently_read_from_commit_object": false
++  },
++  "boundary": {
++    "source_only_checkpoint": true,
++    "no_shared_markdown": true,
++    "no_private_absolute_paths": true,
++    "no_full_issue_archive": true
++  },
++  "excluded_checks": {
++    "full_state_all_issue_archive": "not run",
++    "root_task_remainder": "UNKNOWN; processing command returned code 3 with truncated output; retry capture interrupted before output",
++    "full_legacy_profile": "not run under bounded source-only scope"
++  }
++}
+diff --git "a/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_PR490-\321\201\320\275\320\270\320\274\320\276\320\272-\321\201\320\273\320\270\321\217\320\275\320\270\321\217.json" "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_PR490-\321\201\320\275\320\270\320\274\320\276\320\272-\321\201\320\273\320\270\321\217\320\275\320\270\321\217.json"
+new file mode 100644
+index 000000000..dbb24555b
+--- /dev/null
++++ "b/Issues/fum-lab/fum/\320\276\320\277\320\265\321\200\320\260\321\206\320\270\320\270/2026-10-31_PR490-\321\201\320\275\320\270\320\274\320\276\320\272-\321\201\320\273\320\270\321\217\320\275\320\270\321\217.json"
+@@ -0,0 +1,79 @@
++{
++  "schema": "fum.github-pr-snapshots.1",
++  "repository": "fum-lab/fum",
++  "number": 490,
++  "source": "connected GitHub tools; normalized responses",
++  "captured_at_utc": "2026-10-31T10:14:01Z",
++  "readback": {
++    "url": "https://github.com/fum-lab/fum/pull/490",
++    "number": 490,
++    "state": "closed",
++    "merged": true,
++    "mergeable": true,
++    "draft": false,
++    "body": "После `git mv` при umask 077 индекс с режимом 0644 мог стать 0600. Откат в кириллическом каталоге ошибочно сравнивал NFC-пути Git с NFD-путями Foundation и сохранял временные копии как признак неполного восстановления.\n\nИсправление возвращает исходный режим проверенному собственному дескриптору индекса и учитывает точные логические UTF-8-пути собственных резервов. Строгая проверка результата и сохранение неизвестных исходов остаются обязательными.\n\nПроверка: ошибки воспроизведены на прежнем коде; 20 адресных случаев Swift Testing прошли, после поправки переносимости теста повторно прошли 3 новые регрессии. Производственный CLI собран из тех же исходников. Полный smoke, чистый клон и полный SDK-контур не проверены. Связано с #489; фактическое восстановление ROOT выполнено отдельно, повторный рабочий перенос ещё предстоит.",
++    "title": "Сохранить режим Git-индекса и точные пути при откате переноса",
++    "base": "fum-lab/fum/master",
++    "base_sha": "f25efd3eb2facfe3d6355db3800c322291aaf34c",
++    "head": "fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master",
++    "head_sha": "eb512829deee70bd0c53be307148442d8aa95a88",
++    "head_repo_id": 1285958028,
++    "head_repo_full_name": "fum-lab/fum",
++    "merge_commit_sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
++    "user": {
++      "login": "Roman-Kerimov",
++      "name": "Roman-Kerimov",
++      "email": null,
++      "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
++      "id": 22149544
++    },
++    "requested_reviewers": null,
++    "requested_team_reviewers": null,
++    "diff": null,
++    "comments": null,
++    "created_at": "2026-10-31T09:59:17Z",
++    "updated_at": "2026-10-31T10:00:27Z",
++    "closed_at": "2026-10-31T10:00:27Z",
++    "merged_at": "2026-10-31T10:00:27Z",
++    "commits": 2,
++    "changed_files": 6,
++    "additions": 199,
++    "deletions": 12,
++    "display_url": "https://github.com/fum-lab/fum/pull/490",
++    "display_title": "Сохранить режим Git-индекса и точные пути при откате переноса"
++  },
++  "merge_commit_readback": {
++    "sha": "833060b1716c40c74b44d2d62bb76198cf82987e",
++    "message": "Принять сохранение режима индекса и точные пути отката",
++    "url": "https://api.github.com/repos/fum-lab/fum/commits/833060b1716c40c74b44d2d62bb76198cf82987e",
++    "html_url": "https://github.com/fum-lab/fum/commit/833060b1716c40c74b44d2d62bb76198cf82987e",
++    "created_at": "2026-10-31T09:59:45Z",
++    "author": {
++      "login": "FUM Codex [gpt-6.1-sol; effort=ultra]",
++      "name": "FUM Codex [gpt-6.1-sol; effort=ultra]",
++      "email": null,
++      "avatar_url": null,
++      "id": null
++    },
++    "committer": {
++      "login": "FUM",
++      "name": "FUM",
++      "email": null,
++      "avatar_url": null,
++      "id": null
++    },
++    "files": [
++      "iskhodniki/aktualizaciya-putej/pereimenovaniye-fajla-s-obnovleniyem-ssyilok.swift",
++      "proverki/aktualizaciya-putej/proverki-pereimenovaniya-fajla.swift",
++      "Журнал/2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/запрос.md",
++      "Журнал/2026-10-31_12-49-42_MSK_исправить-режим-индекса-и-откат-переноса/отчёт.md",
++      "Журнал/2026-10-31_12-54-58_MSK_уточнить-автора-исправления-переноса/запрос.md",
++      "Журнал/2026-10-31_12-54-58_MSK_уточнить-автора-исправления-переноса/отчёт.md"
++    ],
++    "parent_shas_cross_checked": [
++      "f25efd3eb2facfe3d6355db3800c322291aaf34c",
++      "eb512829deee70bd0c53be307148442d8aa95a88"
++    ],
++    "parent_cross_check": "PR base/head full SHAs match the two abbreviated parents displayed on the GitHub commit page"
++  }
++}
+diff --git "a/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_13-16-40_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\321\201\320\275\320\270\320\274\320\272\320\270-489-\320\270-151/\320\267\320\260\320\277\321\200\320\276\321\201.md" "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_13-16-40_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\321\201\320\275\320\270\320\274\320\272\320\270-489-\320\270-151/\320\267\320\260\320\277\321\200\320\276\321\201.md"
+new file mode 100644
+index 000000000..34d141ea8
+--- /dev/null
++++ "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_13-16-40_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\321\201\320\275\320\270\320\274\320\272\320\270-489-\320\270-151/\320\267\320\260\320\277\321\200\320\276\321\201.md"
+@@ -0,0 +1,17 @@
++# Сохранить адресные снимки GitHub №489 и №151
++
++## Дословное доступное поручение координатора
++
++> Сохраняй уже захваченные точные версии ближайшим коммитом, не ожидая неподвижности живого GitHub. Если №151 изменяется во время сбора, версии 84/85 сохраняются как последовательные наблюдения с явным watermark; это не атомарный или полный снимок. Следующее обновление — следующий checkpoint. Приоритет сейчас: реальная фиксация/доставка уже полученного архива; PR490 и закрытие489 можно следующей конечной порцией. Не расширяй текущий commit ради непрерывно прибывающих комментариев.
++
++## Предшествующая граница этой контрольной точки
++
++> Для текущего адресного архивного checkpoint 489/151/490 применим наш отдельный ограниченный source-only переход НОВОЕ-000032: сохраняй только точные выбранные snapshot/provenance и свою пару Журнала, исключения/UNKNOWN явно. Не запускай Python, ROOT RAW/JSONL, полный state=all или полный reader ради этого коммита. Вижу сообщение о захватчике остатка: уже начатый запуск не повторяй, сохрани его известный исход/границу; если это твой небольшой Swift-снимок, обозначь явно объём и вход. Коммит/публикация ограниченного архива не означает, что общая приёмка всех обязательств GREEN.
++
++## Уточнение следующей порции
++
++> Фактический потребитель fix490 проверен и опубликован в ROOT: C 2a99c91791d603f6b961120b8c3edfebe5c5a4ad, parent 833060b1. Один git mv руководства + один href/recency потребителя, текст/защищённый оригинал/5 dirty сохранены, временных резервов нет. Runtime target/host 0/0, 35.072636208 с, 152 pins, groupAbsent. Публичная квитанция zhurnal/2026-10-31_13-11-53_msk_perenesti-rukovodstvo/rezuljtat.json в этом коммите. После текущего архивного checkpoint можно добавить точный итоговый комментарий в Issue489 с подписью **FUM Codex**, ссылками на PR490 и commit2a99c9179, закрыть именно этот подтверждённый дефект и сохранить финальный snapshot/closure. Не закрывай широкую задачу миграции или Native Stop: они не завершены.
++
++## Недоступный исходный текст
++
++Первоначальная дословная формулировка пользовательского запроса, с которого началась эта архивная задача, не присутствует в восстановленном контексте. Она не восстанавливалась по сводке или догадке. Обязательная сверка остатка по ROOT JSONL вернула код 3 с неполным и обрезанным выводом; начатый повторный захват был остановлен до появления исходного вывода. Остаток и полнота задачи остаются UNKNOWN.
+diff --git "a/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_13-16-40_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\321\201\320\275\320\270\320\274\320\272\320\270-489-\320\270-151/\320\276\321\202\321\207\321\221\321\202.md" "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_13-16-40_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\321\201\320\275\320\270\320\274\320\272\320\270-489-\320\270-151/\320\276\321\202\321\207\321\221\321\202.md"
+new file mode 100644
+index 000000000..7efeefc79
+--- /dev/null
++++ "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_13-16-40_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\321\201\320\275\320\270\320\274\320\272\320\270-489-\320\270-151/\320\276\321\202\321\207\321\221\321\202.md"
+@@ -0,0 +1,50 @@
++# Отчёт: адресные снимки GitHub №489 и №151
++
++## Результат этапа
++
++Подготовлены две последовательные наблюдаемые версии Issue №151: снимок с 84 комментариями (`updated_at` 2026-10-31T09:36:25Z) и снимок с 85 комментариями (`updated_at` 2026-10-31T10:07:54Z). Это отдельные watermark-состояния, а не атомарный или полный снимок обсуждения. Сохранены выбранные комментарии №6541624472 и №6542046726; остальные комментарии не перенесены.
++
++Для Issue №489 обновлён снимок до `updated_at` 2026-10-31T09:56:26Z и сохранён точный readback комментария №6541701628. Runtime-значение режима после исходного `git mv` остаётся неизвестным; подтверждённые RED-сценарии и гипотезы описаны раздельно в опубликованных сообщениях.
++
++Между комментариями №6541701628 в Issue №489 и №6542046726 в Issue №151 есть расхождение: первый говорит, что `0600` не воспроизведён в фикстуре и остаётся гипотезой, второй сообщает о воспроизведении `0600` адресной RED-проверкой, не связывая это с исходным runtime. Расхождение оставлено неразрешённым; первичная квитанция RED в этой порции не читалась.
++
++## Граница фиксации
++
++Текущий набор для фиксации ограничен девятью JSON-файлами наблюдений Issues №489 и №151 в двух версиях и этой парой Журнала. Подготовленные два JSON-файла PR №490 остаются незастейдженными и вне текущего коммита по последнему поручению; PR №490 и итоговое действие по Issue №489 перенесены в следующую конечную порцию.
++
++Полная исходная пользовательская формулировка недоступна и не выдумана. В коммите будет сохранено дословное доступное поручение координатора из `запрос.md`; эта граница останется явно отмечена.
++
++## Проверки и незавершённое
++
++- `jq -e .` успешно разобрал 11 выбранных JSON-файлов после обновления watermark: девять файлов текущего набора и два отложенных файла PR №490.
++- `git diff --cached --check` завершился с кодом 0; ошибок whitespace не было.
++- Проверка symlink целевых каталогов и `git status` подтвердила отсутствие symlink в целевой цепочке и сохранение посторонней исходной грязи.
++- Адресный поиск локальных приватных путей и маркеров секретов не нашёл совпадений в текущих 11 файлах.
++- Тесты, валидаторы, сборки, smoke-check, полный `state=all`, полный reader и Python для этой порции не запускались по заданной границе.
++- Recency этой пары Журнала не сформирован: требуемая автоматизация Python исключена поручением. Общий Markdown-индекс не менялся.
++- Сверка остатка задачи ранее завершилась кодом 3: полнота источника и разбор сообщений не доказаны, вывод был обрезан. Повторный захват был остановлен до исходного вывода; его исход UNKNOWN. Завершение всей задачи не доказано.
++- На момент составления отчёта коммит, push, внешний комментарий и закрытие Issue №489 ещё не выполнены.
++
++## Профиль времени выполнения
++
++| Стадия | Длительность | Границы и способ измерения |
++| --- | --- | --- |
++| Адресные readback Issue №489, Issue №151 и PR №490 | не измерено | Длительность каждого API-запроса отдельно не зафиксирована. |
++| Сохранение нормализованных JSON-файлов и пары Журнала | не измерено | Отдельный wall-clock для последовательной записи не сохранён. |
++| Проверки состава, JSON, diff и публикационной чистоты | 0,441851168 с измеренной части | Сумма наблюдавшихся `git status`/symlink, двух `jq`, `git diff --cached --check` и адресного `rg`; preflight утилиты исключён из содержательных проверок. |
++
++### Прямые запуски проверок
++
++| Вызов | Длительность | Результат |
++| --- | --- | --- |
++| `jq -e .` по 11 JSON-файлам до watermark-уточнения | 0,000008084 с | Код 0; проверен исходный срез. |
++| `jq`-обновление watermark #151 | не измерено | Код 0; provenance преобразован успешно. |
++| `jq -e .` по 11 JSON-файлам после watermark-уточнения | 0,000007375 с | Код 0. |
++| Проверка целевых symlink и `git status` | 0,441818750 с | Код 0; symlink не обнаружен, посторонние изменения сохранены. |
++| `git diff --cached --check` | 0,000007125 с | Код 0; whitespace-ошибок нет. |
++| Адресный `rg`-поиск приватных путей и маркеров секретов | 0,000009834 с | Код 1 без совпадений; отсутствие совпадений ожидаемо. |
++
++Общее время измеренной части прямых проверок: 0,441851168 с. Полное время здесь неизвестно, поскольку длительность jq-преобразования не была сохранена.
++
++Граница профиля: адресные чтения и работа над выбранными снимками до текущего pre-commit readback; включает локальные проверки состава и JSON, исключает сверку ROOT JSONL, полный архив, коммит/публикацию и следующую порцию.
++- После подготовки отчёта повторные закрывающие readback-проверки подтвердили код 0 для `git diff --cached --check`, отсутствие совпадений в адресном `rg` и точный перечень из 11 ожидаемых staged-файлов; эти повторные closure-команды в измеренную сумму выше не входят.
+diff --git "a/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_18-44-33_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\320\270-\320\267\320\260\320\272\321\200\321\213\321\202\321\214-489/\320\267\320\260\320\277\321\200\320\276\321\201.md" "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_18-44-33_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\320\270-\320\267\320\260\320\272\321\200\321\213\321\202\321\214-489/\320\267\320\260\320\277\321\200\320\276\321\201.md"
+new file mode 100644
+index 000000000..4188a473f
+--- /dev/null
++++ "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_18-44-33_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\320\270-\320\267\320\260\320\272\321\200\321\213\321\202\321\214-489/\320\267\320\260\320\277\321\200\320\276\321\201.md"
+@@ -0,0 +1,40 @@
++# Сохранить снимок PR №490 и завершить адресный дефект №489
++
++## Навигация по запросам
++
++- Предыдущий запрос: [сохранить снимки №489 и №151](../2026-10-31_13-16-40_MSK_сохранить-снимки-489-и-151/запрос.md)
++- Следующий запрос: пока нет
++
++## Текст запроса
++
++Первоначальное поручение нового этапа:
++
++> Новый отдельный адресный этап по прямому поручению человека возобновить работу и нарастить параллельность. Прежний этап с нарушением области закрыт, его исход и stdout сохраняются, запретный запуск не повторяется. Для нового этапа ROOT явно выбирает НОВОЕ-000032: только PR №490, Issue №489, их уже полученные снимки/происхождение и своя новая пара Журнала; Python, полный reader, ROOT UUID/JSONL/остаток исключены и не GREEN. Не нужно ждать разбора ROOT RAW: он не входит в этот допуск. Свежо проверь собственные W/ref/HEAD/index/sole writer. Получи актуальный адресный snapshot PR490, опубликуй точный итог подтверждённого fix с реальным потребителем 2a99c91791d603f6b961120b8c3edfebe5c5a4ad и закрой только Issue489, сохрани readback/closure в Git и доставь checkpoint. Не расширяй на живую широкую Issue151. Родительский writer не меняет твоего дерева, новый разрешённый этап не объявляет старую ошибку успешной. Модель начни с gpt-6-luna low; фактический выбор можно прочитать read-only по PK своего UUID в native threads, он не является backend proof.
++
++Уточнение продолжения:
++
++> Продолжай конечный новый этап по уже выданному НОВОЕ-000032. Предыдущий5-секундный ACK завершил ход без проверки/архива/доставки; усилие повышено до Max как конкретная эскалация после незавершённого действия. Полномочия на точные PR490/Issue489/свою пару Журнала/commit/normal push и закрытие подтверждённого489 уже даны; нового вопроса человеку не требуется. Сейчас выполни actual W/ref/HEAD/index/sole writer и адресный archive490, затем точный итоговый комментарий/closure489 с readback и source checkpoint. Запрет ROOT RAW/остаток/Python сохраняется; старое нарушение не стирается. Если путь уже существует, сохрани новую версию, не затирай историю. Root C2a99 актуален как доказательство реального успешного переноса; исходники fix слиты через PR490. Не повторяй перенос. При реальном отказе инструмента передай ROOT exact блокер; не останавливайся на общем «сначала проверю».
++
++## Идентификатор сеанса Codex
++
++Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
++
++## Использованные инструменты
++
++- Codex GitHub: адресные чтения PR №490, Issue №489 и комментариев; создание одного итогового комментария.
++- `git`, `jq`, `rg`, shell `stat`, `shasum`; `clock__curr_time`.
++- Python и полный читатель сообщений исключены поручением; проверки не запускаются.
++
++## Проверки
++
++- До первой записи: проверены физический W, HEAD `feee33e9e2e3e55315a1ce4e525a218e4856fe59`, ref `refs/heads/fum-lab/fum/istochniki/master`, чистый индекс и AGENTS SHA-256 `8e9831234fd7d3168ff0b6e40c9faf99ac5cbc2bc9c4ce062a3b3c61b37faa9d`.
++- На старте сохранены три ранее изменённых файла, два подготовленных PR №490 JSON и два несвязанных untracked пути; включать их в индекс нельзя.
++- Свежий GitHub readback: PR №490 merged в `833060b1716c40c74b44d2d62bb76198cf82987e`; Issue №489 уже `closed/completed`, два комментария.
++- Итоговый комментарий, финальные снимки, commit и remote readback будут добавлены в отчёт по завершении.
++
++## Повлиял на файлы
++
++- [текущий запрос](запрос.md)
++- [текущий отчёт](отчёт.md)
++- `Issues/fum-lab/fum/операции/` — адресные снимок и происхождение PR №490.
++- `Issues/489/` — финальное состояние Issue №489, комментарии и происхождение.
+diff --git "a/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_18-44-33_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\320\270-\320\267\320\260\320\272\321\200\321\213\321\202\321\214-489/\320\276\321\202\321\207\321\221\321\202.md" "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_18-44-33_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\320\270-\320\267\320\260\320\272\321\200\321\213\321\202\321\214-489/\320\276\321\202\321\207\321\221\321\202.md"
+new file mode 100644
+index 000000000..7149d2801
+--- /dev/null
++++ "b/\320\226\321\203\321\200\320\275\320\260\320\273/2026-10-31_18-44-33_MSK_\321\201\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214-\320\270-\320\267\320\260\320\272\321\200\321\213\321\202\321\214-489/\320\276\321\202\321\207\321\221\321\202.md"
+@@ -0,0 +1,55 @@
++# Сохранён снимок PR №490 и завершён адресный дефект №489
++
++## Результат этапа
++
++Получен свежий readback PR №490: `closed`, `merged=true`, merge-коммит `833060b1716c40c74b44d2d62bb76198cf82987e`; base `f25efd3eb2facfe3d6355db3800c322291aaf34c`, head `eb512829deee70bd0c53be307148442d8aa95a88`, шесть файлов. Новый снимок и происхождение сохранены отдельными версиями в `Issues/fum-lab/fum/операции/`.
++
++До нашей записи GitHub уже показывал Issue №489 в состоянии `closed/completed` с `closed_at=2026-10-31T11:15:35Z`; его тело содержало финальный аудит. Состояние не менялось повторно. По прямому допуску опубликован один итоговый комментарий [№6545604402](https://github.com/fum-lab/fum/issues/489#issuecomment-6545604402). Последующий readback подтвердил точное совпадение текста, три комментария и сохранённое состояние `closed/completed`.
++
++Текущая полная цепочка комментариев №489 теперь распределена по архиву: №6541701628 сохранён предыдущим коммитом; №6542150039 и №6545604402 сохранены этим этапом. Новые снимки Issue до и после итогового комментария сохраняют тот факт, что закрытие предшествовало этому этапу.
++
++## Основание и границы
++
++PR №490 исправил сохранение режима индекса при ограниченном umask и сверку точных путей при откате. ROOT-коммит `2a99c91791d603f6b961120b8c3edfebe5c5a4ad` публикует успешное однократное применение исправления к исходному переносу. Комментарий ссылается на отчёт, квитанцию и подробный комментарий №6542150039; повторный перенос не запускался.
++
++Закрытие относится только к подтверждённому дефекту одного переноса. Массовая миграция, полный smoke/SDK, чистый клон и фактический Native Stop callback не подтверждены; №151 остаётся отдельной работой. Полный архив Issues, полный reader, Python и остаток ROOT исключены поручением. Предыдущее нарушение области и его приватный stdout не удалялись, не перечитывались и не объявлялись успешным результатом.
++
++## Сохранённые источники
++
++- `Issues/fum-lab/fum/операции/2026-10-31_18-44-33_MSK_PR490-снимок.json`
++- `Issues/fum-lab/fum/операции/2026-10-31_18-44-33_MSK_PR490-происхождение.json`
++- `Issues/489/issue-489-readback-20261031-before-comment.json` и `provenance-20261031-before-comment.json`
++- `Issues/489/comment-6542150039.json` и `provenance-6542150039.json`
++- `Issues/489/issue-489-readback-20261031-final.json`
++- `Issues/489/comment-6545604402.json` и `provenance-6545604402.json`
++
++Первый набор снимков был сформирован со строкой времени `... UTCZ`; до индексации все шесть артефактов переписаны с корректным ISO UTC `...Z` из тех же сохранённых ответов. Промежуточные некорректные файлы не публиковались.
++
++## Проверки и ограничения
++
++- Свежая проверка перед записью: физический W подтверждён, HEAD `feee33e9e2e3e55315a1ce4e525a218e4856fe59`, ref `refs/heads/fum-lab/fum/istochniki/master`; индекс пустой. Имеющиеся несвязанные изменения и untracked-файлы не включались.
++- PR readback и merge-коммит прочитаны адресно через GitHub. Полный state=all, обсуждение PR, дерево merge-коммита и полный патч независимо не проверялись.
++- Issue readback до комментария: два комментария и `closed/completed`. После: три комментария, `closed/completed`; новый комментарий №6545604402 совпал с отправленным текстом побайтно после нормализации инструмента.
++- Один черновой вызов подготовки комментария завершился синтаксической ошибкой до обращения к GitHub; повторён с исправленным JS-вызовом. GitHub вернул ID, поэтому создание комментария не повторялось.
++- Один обзорный `jq` по смешанным JSON-массивам и объектам завершился ошибкой типа; данные не изменялись. Целевые JSON ниже проверяются отдельно.
++- Проверки, валидаторы, сборки и тесты не запускались. Python запрещён допуском; автоматическое создание пары и генерация `FUM-MD-RECENCY` пропущены. Контрольная точка неполная, не GREEN и не общая приёмка.
++- Подготовлен точный список путей этапа: две прежние и две свежие версии снимка PR №490, адресные снимки и комментарии №489 и эта пара Журнала. Три прежних изменённых файла, посторонние untracked-файлы и индекс вне этого списка сохраняются.
++
++## Профиль времени выполнения
++
++| Стадия | Длительность | Границы |
++| --- | --- | --- |
++| Адресные readback PR, Issue и комментариев | около 3 мин 31 с измеренного окна | От 15:43:38 UTC до финального сохранения 15:47:09 UTC; отдельные вызовы не суммировались. |
++| Создание комментария и проверочный readback | не измерено отдельно | Один вызов создания, затем чтение Issue и всех комментариев. |
++| Локальное сохранение и структурная проверка JSON | не измерено отдельно | Без Python и без тестовых запусков. |
++
++## Проверки и прямые запуски
++
++- `jq -e .` по 11 выбранным JSON-файлам завершился кодом 0.
++- Адресный `rg` по 13 файлам не нашёл локальных абсолютных путей или маркеров токенов; код 1 без совпадений ожидаемый.
++- `git diff --cached --check` завершился кодом 0; в индексе ровно 13 адресных новых файлов, 551 строка добавления, без посторонних путей.
++- Проверка сырого Git-объекта и remote OID относится к доставке коммита; эти значения не подменяются текущим HEAD или локальным staging.
++
++## Решения
++
++Issue №489 уже закрыт к началу этапа, поэтому отдельный `update_issue` не отправлялся. Новый комментарий указывает точное ограниченное основание и сохраняет открытые границы. Локальная доставка этой контрольной точки и независимый remote readback остаются отдельными от факта публикации комментария.

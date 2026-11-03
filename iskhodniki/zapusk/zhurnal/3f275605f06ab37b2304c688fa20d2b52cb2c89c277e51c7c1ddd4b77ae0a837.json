@@ -1,0 +1,56 @@
+{
+  "входSHA256" : "66fd21617cda7a5ce3047052aebb890d59da53f1f6598798127a769fa4794b87",
+  "данные" : {
+    "время" : "2026-10-26T12:29:32Z",
+    "доставка" : [
+      {
+        "вид" : "Поступившаяprojectionветка",
+        "идентификатор" : "afc851a09b70a71f527de2e16a549aa586ee2894",
+        "свидетельство" : "Independent originreadback exact; correct author5.6/committerFUM/bodyROOTtrailer иcleanSTOP"
+      }
+    ],
+    "исход" : "Frozenprojectionreviewиsourceevidenceподготовлены; merge/checkpoint/readbackвпереди",
+    "область" : "iskhodniki/zapusk",
+    "остаток" : [
+      "Выполнить точный merge и combined metadata/PUB проверку, сохранить commit иnormalpush/remoteexact",
+      "Адресно материализовать толькоLK837 штатныминструментом, независимыйcheck и один rootSwiftbuild послеготовностиcombinedsource",
+      "Принять конечный canonical/NFDstartup; sourceNamesPUB1 остаётсябарьером, RAWSTOP сохраняется"
+    ],
+    "проверки" : [
+
+    ],
+    "происхождение" : [
+      "Consumer receivingL=655a51c4f9a4b713daaaf498a79990209b0b8ff1",
+      "ИсточникC=afc851a09b70a71f527de2e16a549aa586ee2894,tree=f647df7b5576932fb9d52f6a6f44c86115b74367,parentC5e; sourceassignment57e7e261/SHAe77ff772…",
+      "Native test invocation/result сохранены в собственных материалах, не новый тест; не изобретён separate rawstdout SHA"
+    ],
+    "публичная" : true,
+    "решения" : [
+      "Принимать13path чистый projectionсрез merge-коммитом в своюветку; sourcecodeнепереписывается",
+      "Предыдущий fullsourceRO C5e и собственный minimalcorrection review afc закрыли Names/runtimepin findings; rootPackage и старыйengineкод источником не изменены",
+      "Реальный сохранённый native testresult0:8tests; профиль118/122/169bytes wall_ns13058958/4450542/4129417 извлечён из этого же вывода. Подготовка/compile и nested executor intervals не выдаются за отдельный speedup",
+      "Parent selectedPUB всех13Gitblob файлов код0, READMErecency проверяется на combinedW; общийиндексобновиттолькоparent",
+      "В a707 сводка parentdirective ошибочно помечена буквальной. Здесь она учитывается как derivativechildstatement, неиспользуетсякак источник новых прав; pinnedassignment57 и прямой native transport сохраняют authority. Publishedа707непереписывается",
+      "Journalimage689ee... используется как frozenacceptedtool до импортановыхдвухSourceфайлов, source34pinsстаройсборкиневыдаютсязановуюwholeWbuild",
+      "FullRoot21GB/guards/Creator/coherence не запускались; Rootfinal, Namesbackend иliveRAW отдельно"
+    ],
+    "сообщения" : [
+      {
+        "вид" : "буквальное",
+        "происхождение" : "Видимый ответ координатора текущего этапа",
+        "роль" : "агент",
+        "текст" : "Исправленная проекция `afc851a` готова к объединению: проверил ASCII-имена, SHA ресурса до исполнения и сохранённый результат восьми тестов. Отдельно извлечён свежий профиль трёх небольших срезов; старые проверки не выдаются за новые. Подготовлю merge и затем проверку общего корневого запуска."
+      }
+    ],
+    "схема" : "fum.вход-локальной-записи.1",
+    "экземпляр" : {
+      "корень" : "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "номер" : 13,
+      "писатель" : "01a1698f-bb98-7691-b1c1-31ec737ed070",
+      "стадия" : "постановка-cli-пакета-девяти-путей"
+    }
+  },
+  "идентификатор" : "3f275605f06ab37b2304c688fa20d2b52cb2c89c277e51c7c1ddd4b77ae0a837",
+  "операторSHA256" : "3accaa35187423f1d6539816156863f005089d45282846a49b2f8368d1af916b",
+  "схема" : "fum.локальная-запись-журнала.1"
+}

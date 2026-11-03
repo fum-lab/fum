@@ -1,0 +1,48 @@
+{
+  "схема": "fum.фикстура-потерянного-merge-head.1",
+  "вид": "DATA_NEGATIVE_FIXTURE_NOT_EXECUTED",
+  "происхождение": "Адресное поручение ROOT через Tools; raw commit headers прочитаны отдельно без изменения Git",
+  "намерение": {
+    "L": "5bbad8787b1d995173b1cf518cc12302989c91a9",
+    "M": "4a2375a4dcbe1495b5afe520185795a00acaff9b",
+    "tree": "a5ddc7d989c741a6e76af2830f8268773a8faf38",
+    "ref": "refs/heads/fum-lab/fum/planirovaniye/master",
+    "parents": [
+      "5bbad8787b1d995173b1cf518cc12302989c91a9",
+      "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+    ]
+  },
+  "отрицательное_состояние": {
+    "HEAD": "5bbad8787b1d995173b1cf518cc12302989c91a9",
+    "indexTree": "a5ddc7d989c741a6e76af2830f8268773a8faf38",
+    "MERGE_HEAD": "ABSENT",
+    "наличие_здесь": "SYNTHETIC_EXPECTED_FIXTURE_STATE_ONLY"
+  },
+  "наблюдённая_история": [
+    {
+      "C": "89841f232dd6331902fbb18034a90773502daa5a",
+      "tree": "a5ddc7d989c741a6e76af2830f8268773a8faf38",
+      "parents": [
+        "5bbad8787b1d995173b1cf518cc12302989c91a9"
+      ],
+      "вердикт": "Не удовлетворяет [L,M] merge намерению"
+    },
+    {
+      "C": "f9f190fc9c0c998d91fa66387ff3547f20279c20",
+      "tree": "a5ddc7d989c741a6e76af2830f8268773a8faf38",
+      "parents": [
+        "89841f232dd6331902fbb18034a90773502daa5a",
+        "4a2375a4dcbe1495b5afe520185795a00acaff9b"
+      ],
+      "вердикт": "Add-only сохранение последующей истории, не доказательство исходного [L,M] намерения"
+    }
+  ],
+  "ожидание": {
+    "исход": "KNOWN_CONFLICT_BEFORE_COMMIT",
+    "commitCalls": 0,
+    "pushCalls": 0,
+    "fallbackOrdinaryCheckpoint": false,
+    "unknownReplay": false
+  },
+  "старые_коммиты": "Сохраняются; amend/rebase/force/delete запрещены"
+}

@@ -1,0 +1,104 @@
+{
+  "схема": "fum.итог-исходников-провайдера-этап-0003.1",
+  "состояние": "MATERIALIZED_SOURCE_ONLY_COMMIT_PUSH_HOLD",
+  "исполнитель": "01a192d0-6f09-7950-9251-b27101106bfc",
+  "корневойUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "основа": "ea5e1d61becd6da17ee38efd71a173b4cd206fe8",
+  "sourceACT": {
+    "файл": "metadata-stage0003-existing-provider-one-query-source-only-ACT-v1.json",
+    "байт": 8757,
+    "sha256": "1cb66be7d1b583f79d824bf12245c8d80a8e0555aead0f843ba8bb93181f4d15"
+  },
+  "независимыйSOURCEACK": {
+    "файл": "metadata-requirements-provider-v2-independent-SOURCE-DATA-ACK-1903fd5f-b591-4caa-8e92-1293e73ba678.json",
+    "байт": 9418,
+    "sha256": "13a524dd3edde19a96434971835c31359c4ec05ec3cffbc3d90d9c500a67256d",
+    "статус": "BOUNDED_THREE_SOURCE_DELTA_ACK_NOT_MATERIALIZED_NOT_COMPILED_NOT_RUN"
+  },
+  "исходники": [
+    {
+      "путь": "koordinaciya/координатор.swift",
+      "байт": 249760,
+      "sha256": "c6656b353a21e29411c225d123812a9e2eae1e4f1798e06fabd8036d536ae5a1",
+      "blob": "79fcb9884ec6198701f42873438d98005ec7329f",
+      "режим": "100644"
+    },
+    {
+      "путь": "koordinaciya/генератор-метаданных-коммита.swift",
+      "байт": 123015,
+      "sha256": "5ad630a9fa77793432533d9def0abd1285941bf1cdcf3561374ec57a1a11ff63",
+      "blob": "6b53dc359922d43e3976eda91f30b46966f7716d",
+      "режим": "100644"
+    },
+    {
+      "путь": "koordinaciya/proverki-priyoma-root.swift",
+      "байт": 150598,
+      "sha256": "7a4147725933461d27dc148a800708e646c96b84f7dfa45ce2f5763109debb62",
+      "blob": "0327cc750f40ea94fcd214464c6d64dc0c84935c",
+      "режим": "100644"
+    }
+  ],
+  "точнаяОбласть": [
+    "koordinaciya/координатор.swift",
+    "koordinaciya/генератор-метаданных-коммита.swift",
+    "koordinaciya/proverki-priyoma-root.swift",
+    "koordinaciya/metadannyie-kommita/этап-0003/план.json",
+    "koordinaciya/metadannyie-kommita/этап-0003/итог-исходников.json",
+    "koordinaciya/metadannyie-kommita/этап-0003/рецепт.txt",
+    "koordinaciya/metadannyie-kommita/Журнал/2026-11-01_20-09-57_MSK_подключить-одно-собственное-наблюдение/запрос.md",
+    "koordinaciya/metadannyie-kommita/Журнал/2026-11-01_20-09-57_MSK_подключить-одно-собственное-наблюдение/отчёт.md"
+  ],
+  "смыслИзменения": [
+    "Один SELECT без EXPLAIN, профиль fum.native-own-model-provider-profile.3.",
+    "Общий абсолютный deadline 5 секунд и combined stdout/stderr 16 КиБ в существующем reader; старые Git defaults сохранены.",
+    "Callable seam на прежнем prepared host context; отдельная trusted native actor binding; прежний O_EXCL/fsync artifact writer сохраняет intent до запроса.",
+    "Чистый мост к ordinary-child receipt принимает извне полный expected receipt/context/generation и не создаёт ожидание из факта."
+  ],
+  "проверки": {
+    "триИсходника": "BYTES_SHA256_BLOB_MATCH_SOURCE_ACK",
+    "исходныйИндекс": "UNCHANGED_UNSTAGED",
+    "N32": "NOT_PASSED",
+    "полныйROOT": "UNKNOWN_NOT_RUN",
+    "compiler": "NOT_RUN",
+    "typecheck": "NOT_RUN",
+    "tests": "NOT_RUN",
+    "provider": "NOT_RUN",
+    "formatter": "NOT_RUN",
+    "runtime": "NOT_RUN",
+    "SQL": 0,
+    "Python": "EXCLUDED_UNKNOWN",
+    "ROOT_RAW": "EXCLUDED_UNKNOWN",
+    "recency": "NOT_UPDATED_NOT_CHECKED_PYTHON_EXCLUDED",
+    "общийИндексНавигацияПроекция": "NOT_UPDATED_NOT_CHECKED",
+    "автор": "CURRENT_MODEL_EFFORT_UNAVAILABLE",
+    "commit": "HOLD",
+    "push": "HOLD"
+  },
+  "остаток": [
+    "Actual ROOT/Requirements caller и Segment binding не wired и не выполнены.",
+    "Observation остаётся Encodable-only; typed rehydration после reopen и успешное end-to-end recovery не доказаны.",
+    "Trusted native binding, поколение, полный independent expected receipt/context выдаёт ROOT/native caller отдельно; JSON/ENV не аутентифицируют их.",
+    "Полный цикл TDD, compiler/typecheck, профиль производительности, provider/formatter/runtime не выполнены.",
+    "Свежие собственные model/effort недоступны; commit/push HOLD до отдельного адресного механизма атрибуции.",
+    "Recency, общий индекс Markdown, навигация и проекция не обновлялись; N32/полный ROOT не пройдены."
+  ],
+  "неизменённыеГраницы": [
+    "koordinaciya/priyom-root.swift",
+    "koordinaciya/fuma/генератор-метаданных.json",
+    "Package.swift",
+    "koordinaciya/metadannyie-kommita/этап-0002/дополнение-raw-oid-и-host.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/итог-исходников.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/план.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/рецепт.txt",
+    "koordinaciya/metadannyie-kommita/этап-0002/сопоставление.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/уточнение-известного-конфликта.json",
+    "koordinaciya/metadannyie-kommita/этап-0002/фикстуры/потерянный-MERGE_HEAD.json"
+  ],
+  "новыйИсполнитель": false,
+  "новыйПостоянныйRubyRuntime": false,
+  "активация": false,
+  "профильВремениСохранения": {
+    "preflightAndIntent": 1.1614069999777712,
+    "copyAndReadback3": 0.0014049999881535769
+  }
+}

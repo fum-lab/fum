@@ -1,0 +1,9 @@
+{
+  "schema": "fum.private-source-save-input.1",
+  "source_label": "C2b",
+  "captured_at_utc": "2026-11-01T19:19:49Z",
+  "evidence_mode": "reported_user_instruction",
+  "verbatim": false,
+  "reported_input": "UI compatibility compiler C2b95: one known exit 1 in 20.249 s; groupAbsent; unknown[]; sampledRSS 554123264 B; operation label says ‘операции:’ where ‘операций:’ is expected; a separate source-fix checkpoint follows and the old target must not be rerun. Output custody reports one generated build/debug -> out/Products/Debug symlink and policy=false; not GREEN.",
+  "origin_note": "Compact task instruction only. No ROOT JSONL or primary run output read."
+}

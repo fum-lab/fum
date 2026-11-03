@@ -1,0 +1,591 @@
+{
+  "схема": "fum.этап-проверки-входного-файла.1",
+  "состояние": "адресная_коррекция_проверена_до_доставки",
+  "задача": {
+    "ROOT": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "писатель": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+    "ветка": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master",
+    "основа": "cd62b4b91a884db4dd54cbe7962fad61b8e76be2",
+    "дерево_основы": "b73adc3db845c175c4241ead8e8b6cc5bf2c4c1a",
+    "источник_правил": "540e80da5a3b03a982f6404816085a111adab381",
+    "дерево_источника_правил": "cf8f2f67604b850d7b6d009b3f1214a0cd21be67"
+  },
+  "допуски": [
+    {
+      "имя": "issue454-FIFO-four-path-write-grant-01a17797-20261029.json",
+      "байты": 8121,
+      "sha256": "623d0b57078109b655d56f0016d592b63f4d0e643d1336b6a0539f7ec20cc720"
+    },
+    {
+      "имя": "issue454-FIFO-six-process-addon-grant-01a17797-20261029.json",
+      "байты": 5893,
+      "sha256": "e6d64a865dbe95efee1962d2c0bd8784ddb4ad5027abdb3de3ce394e14dc4b31"
+    }
+  ],
+  "проблема": "Открытие входного манифеста O_RDONLY без O_NONBLOCK блокировало старый CLI на FIFO без писателя до fstat, проверки типа и вызовов Git.",
+  "изменение": {
+    "CLI": "O_NONBLOCK вместе с прежними O_NOFOLLOW и O_CLOEXEC. Ошибка fstat: ввод-вывод/code2; нерегулярный файл: тип-входа/code2; неверный размер: предел/code2. Дополнительные ограничения UID/nlink/формата не перенесены.",
+    "контроллер": "Два закрытых native режима fifo-red/fifo-green перед прежним build-tests. Отдельные PID/PGID, timeout/output-overflow, own sent signals и свежий успешный waitid-status для RED. Прежние три режима и их сроки сохранены.",
+    "SwiftTesting": "Новый native случай не является SwiftTesting @Test; прежний тестовый файл не менялся."
+  },
+  "программа": [
+    "Закрепить epoch, источники, четыре пути, бюджет и исходные человеческие тексты.",
+    "Собрать V4 и сохранить старый RED как диагностический UNKNOWN после позднего найденного дефекта его доказательства.",
+    "По отдельному добавочному допуску собрать точный V5.",
+    "На новой собственной FIFO без писателя подтвердить RED старого CLI, собственную остановку по сроку и закрытие группы.",
+    "Только затем записать минимальный CLI-патч и строго собрать три production source.",
+    "GREEN на том же новом dev/inode: code2/тип-входа/false/Git0, без таймаута и посланных сигналов, reaped/groupgone.",
+    "Сохранить exact3 C3, затем sole manifest D3 с точной B→C3 дельтой; raw Git/data validation и обычная точная доставка.",
+    "Отдельный будущий допуск на reverse ROOT; финальная приёмка этим этапом не выдаётся."
+  ],
+  "происхождение_FUMA": {
+    "источники": [
+      {
+        "commit": "540e80da5a3b03a982f6404816085a111adab381",
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "bytes": 16095,
+        "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e",
+        "blob": "060ebfdba605729aad1e340a817053ae412750f4",
+        "lines": [
+          27,
+          52
+        ]
+      },
+      {
+        "commit": "540e80da5a3b03a982f6404816085a111adab381",
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "bytes": 4320,
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f",
+        "blob": "2fd3777e03f80d6c9a137bd278ec87c6c7f8ca7c",
+        "lines": [
+          35,
+          60
+        ]
+      },
+      {
+        "commit": "540e80da5a3b03a982f6404816085a111adab381",
+        "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+        "bytes": 43264,
+        "sha256": "89c8e08275196e9b8700df40f6db38044fb591153fb920becdd9730fa16423b6",
+        "blob": "e5ae0173548b311b249c242b58025f0ad865a9eb",
+        "lines": [
+          525,
+          550
+        ]
+      }
+    ],
+    "принцип": "Принятые nonblock+nofollow и post-open fstat/S_IFREG используются как источник решения. Пакет, формат Segment, UID/nlink policy и runtime FUMA не импортированы и не запускались.",
+    "связь": "Дефект входного файла проверяющего FUM связан с уже принятым механизмом открытия файлов FUMA; будущий общий typed-file primitive требует отдельного исследования."
+  },
+  "исходники": {
+    "контроллер": {
+      "путь": "proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+      "байты": 47555,
+      "sha256": "1fb7fc1e53275714ef36dbf1e6e1fac07358ac7f9a2a794d41860c5ffd1bcbdb"
+    },
+    "CLI": {
+      "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Команда.swift",
+      "байты": 6835,
+      "sha256": "4733988c9851207775714f073b5f7dd526ea1d8e2eda47900aeeb29584ff5e9d"
+    },
+    "прежние_production_inputs": [
+      {
+        "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Манифест.swift",
+        "байты": 16721,
+        "sha256": "7ed37562b18eff284fb776ddeee585af96d518d60b11a31d959e3c6f43d188d6"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЧтениеОбъектов.swift",
+        "байты": 24905,
+        "sha256": "5606afd2e5600f72aa88aefd20a5bafa5408424f71e4e187b23d473c2fe533bd"
+      },
+      {
+        "путь": "iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Команда.swift",
+        "байты": 6668,
+        "sha256": "16757be2783be785c4b719426a67114e638685ac0209c5d28e5b55a86124df8c"
+      }
+    ]
+  },
+  "бинарники": {
+    "старый_CLI": {
+      "байты": 333400,
+      "sha256": "e26e920aed81956bd4408bd8c87d5859daff8b9e05bac4996ff283b93382b920",
+      "исходный_коммит": "809a6be0d00c3b1418532652a1bf55a7a8665710"
+    },
+    "контроллер_V4": {
+      "байты": 309640,
+      "sha256": "371d9a56bf46e85f8f6bba76478e4f3bac300382ca110b8593fad73bb8d617ad"
+    },
+    "контроллер_V5": {
+      "байты": 308512,
+      "sha256": "4dd6ba519782009f57e9795f936c2d2135605e773964b44ee52c129b45cb7a5d",
+      "source_sha256": "1fb7fc1e53275714ef36dbf1e6e1fac07358ac7f9a2a794d41860c5ffd1bcbdb"
+    },
+    "исправленный_CLI": {
+      "байты": 332168,
+      "sha256": "82c34f818d82672ab9037a07fa2160338e65e5cde4d97425cd43bdec5f87a0ea"
+    }
+  },
+  "компилятор": {
+    "байты": 173118384,
+    "sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "прежнее_наблюдение_версии": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+    "команда_версии_не_повторялась": true,
+    "SDK": "MacOSX27.0",
+    "target": "arm64-apple-macos14.0",
+    "режим": [
+      "Swift6",
+      "strict-concurrency=complete",
+      "warnings-as-errors",
+      "enable-actor-data-race-checks"
+    ]
+  },
+  "воспроизведение": {
+    "переменные": {
+      "W": "Физический корень изолированного checkout.",
+      "P": "Новый собственный приватный каталог0700 вне Git; в нём bin, tmp и module-cache. Каждый case создаётся пустым.",
+      "SDK": "Путь к SDK macOS установленного Xcode.",
+      "OLD_CLI": "Сохранённый бинарник из C2 с указанным SHA; для чистого воспроизведения его собирают отдельно из трёх закреплённых исходников C2. Эта дополнительная сборка в текущем этапе не выполнялась."
+    },
+    "команды": "В запусках сохранены переносимые argv. Полные фактические argv и приватные пути сохранены отдельно с intent/outcome hashes. Сборка и каждый native режим являются разными процессами."
+  },
+  "запуски": [
+    {
+      "порядок": 1,
+      "вид": "strict-controller-compile",
+      "команда": [
+        "swiftc",
+        "-sdk",
+        "${SDK}",
+        "-target",
+        "arm64-apple-macos14.0",
+        "-swift-version",
+        "6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-parse-as-library",
+        "-module-cache-path",
+        "${P}/module-cache",
+        "-Xfrontend",
+        "-enable-actor-data-race-checks",
+        "${W}/proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+        "-o",
+        "${P}/bin/controller"
+      ],
+      "входы": [
+        {
+          "путь": "${W}/proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+          "байты": 47348,
+          "sha256": "b3c0805f699ee61ace55d974a3a1d984a4dd6b68b9319b01cb9802e6eb62f9d2"
+        }
+      ],
+      "окружение": {},
+      "PID": 25044,
+      "код": 0,
+      "длительность_мс": 4286.065833002329,
+      "внешний_таймаут": false,
+      "превышен_вывод": false,
+      "закрыт": true,
+      "stdout_байты": 0,
+      "stderr_байты": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "intent_sha256": "76791a809888c7c687ab9ecbeaa13e3050cba2d338467c980f6ad74a2d978457",
+      "полная_история_потомков": "неизвестно; четыре прямых процесса не равны всем PID"
+    },
+    {
+      "порядок": 2,
+      "вид": "fifo-red",
+      "команда": [
+        "${P}/bin/controller",
+        "--корень",
+        "${W}",
+        "--сборка",
+        "${P}/case",
+        "--режим",
+        "fifo-red"
+      ],
+      "входы": [],
+      "окружение": {
+        "ФУМ_ПРОВЕРЯЮЩИЙ": "${OLD_CLI}",
+        "ФУМ_ХЭШ_ПРОВЕРЯЮЩЕГО": "e26e920aed81956bd4408bd8c87d5859daff8b9e05bac4996ff283b93382b920"
+      },
+      "PID": 25503,
+      "код": 0,
+      "длительность_мс": 1098.1704589948058,
+      "внешний_таймаут": false,
+      "превышен_вывод": false,
+      "закрыт": true,
+      "stdout_байты": 1297,
+      "stderr_байты": 0,
+      "stdout_sha256": "44a78e1e13f20429cf0148992c720433552b1ef177b6ecd2fb4f82431b286e7a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "intent_sha256": "272ab5bc79cfa5a371ce11466b0726e14ceb8ad4604871909ad0c9e1ca8de703",
+      "полная_история_потомков": "неизвестно; четыре прямых процесса не равны всем PID"
+    },
+    {
+      "порядок": 3,
+      "вид": "strict-controller-v5-compile",
+      "команда": [
+        "swiftc",
+        "-sdk",
+        "${SDK}",
+        "-target",
+        "arm64-apple-macos14.0",
+        "-swift-version",
+        "6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-parse-as-library",
+        "-module-cache-path",
+        "${P}/module-cache",
+        "-Xfrontend",
+        "-enable-actor-data-race-checks",
+        "${W}/proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+        "-o",
+        "${P}/bin/controller-v5"
+      ],
+      "входы": [
+        {
+          "путь": "${W}/proverki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЗапускПроверок.swift",
+          "байты": 47555,
+          "sha256": "1fb7fc1e53275714ef36dbf1e6e1fac07358ac7f9a2a794d41860c5ffd1bcbdb"
+        }
+      ],
+      "окружение": {},
+      "PID": 36211,
+      "код": 0,
+      "длительность_мс": 1250.2232920005918,
+      "внешний_таймаут": false,
+      "превышен_вывод": false,
+      "закрыт": true,
+      "stdout_байты": 0,
+      "stderr_байты": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "intent_sha256": "33067312d43102b153c9225e3685c99503b33a7b3dec398b0c89ec92de3a15e3",
+      "полная_история_потомков": "неизвестно; верхние процессы не равны всем PID"
+    },
+    {
+      "порядок": 4,
+      "вид": "fifo-red-v5",
+      "команда": [
+        "${P}/bin/controller-v5",
+        "--корень",
+        "${W}",
+        "--сборка",
+        "${P}/case-v5",
+        "--режим",
+        "fifo-red"
+      ],
+      "входы": [],
+      "окружение": {
+        "ФУМ_ПРОВЕРЯЮЩИЙ": "${OLD_CLI}",
+        "ФУМ_ХЭШ_ПРОВЕРЯЮЩЕГО": "e26e920aed81956bd4408bd8c87d5859daff8b9e05bac4996ff283b93382b920"
+      },
+      "PID": 36474,
+      "код": 0,
+      "длительность_мс": 1011.6839170008898,
+      "внешний_таймаут": false,
+      "превышен_вывод": false,
+      "закрыт": true,
+      "stdout_байты": 1297,
+      "stderr_байты": 0,
+      "stdout_sha256": "13df2374e5c1fc0f0ed586ecfe29b9fd503c90d98821b1bc119ed589a3782765",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "intent_sha256": "3d7523f101daef475208d6b8f80120ef77255420a776548d009014d87372d416",
+      "полная_история_потомков": "неизвестно; верхние процессы не равны всем PID"
+    },
+    {
+      "порядок": 5,
+      "вид": "strict-fixed-cli-compile",
+      "команда": [
+        "swiftc",
+        "-sdk",
+        "${SDK}",
+        "-target",
+        "arm64-apple-macos14.0",
+        "-swift-version",
+        "6",
+        "-strict-concurrency=complete",
+        "-warnings-as-errors",
+        "-parse-as-library",
+        "-module-cache-path",
+        "${P}/module-cache",
+        "-Xfrontend",
+        "-enable-actor-data-race-checks",
+        "${W}/iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Манифест.swift",
+        "${W}/iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЧтениеОбъектов.swift",
+        "${W}/iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Команда.swift",
+        "-o",
+        "${P}/bin/checker-v5"
+      ],
+      "входы": [
+        {
+          "путь": "${W}/iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Манифест.swift",
+          "байты": 16721,
+          "sha256": "7ed37562b18eff284fb776ddeee585af96d518d60b11a31d959e3c6f43d188d6"
+        },
+        {
+          "путь": "${W}/iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/ЧтениеОбъектов.swift",
+          "байты": 24905,
+          "sha256": "5606afd2e5600f72aa88aefd20a5bafa5408424f71e4e187b23d473c2fe533bd"
+        },
+        {
+          "путь": "${W}/iskhodniki/perekhod-vetok/proverka-celostnosti-iskhodnikov/Команда.swift",
+          "байты": 6835,
+          "sha256": "4733988c9851207775714f073b5f7dd526ea1d8e2eda47900aeeb29584ff5e9d"
+        }
+      ],
+      "окружение": {},
+      "PID": 36603,
+      "код": 0,
+      "длительность_мс": 1279.4928329959512,
+      "внешний_таймаут": false,
+      "превышен_вывод": false,
+      "закрыт": true,
+      "stdout_байты": 0,
+      "stderr_байты": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "intent_sha256": "70ef6b2c1b5ddaf61830cd4417536655d743eb3c50da0bb23aac64fd2c7e1fcb",
+      "полная_история_потомков": "неизвестно; верхние процессы не равны всем PID"
+    },
+    {
+      "порядок": 6,
+      "вид": "fifo-green-v5",
+      "команда": [
+        "${P}/bin/controller-v5",
+        "--корень",
+        "${W}",
+        "--сборка",
+        "${P}/case-v5",
+        "--режим",
+        "fifo-green"
+      ],
+      "входы": [],
+      "окружение": {
+        "ФУМ_ПРОВЕРЯЮЩИЙ": "${P}/bin/checker-v5",
+        "ФУМ_ХЭШ_ПРОВЕРЯЮЩЕГО": "82c34f818d82672ab9037a07fa2160338e65e5cde4d97425cd43bdec5f87a0ea"
+      },
+      "PID": 36763,
+      "код": 0,
+      "длительность_мс": 376.73375000059605,
+      "внешний_таймаут": false,
+      "превышен_вывод": false,
+      "закрыт": true,
+      "stdout_байты": 1414,
+      "stderr_байты": 0,
+      "stdout_sha256": "81e15fcf96f6132f3ae627e347635f152f41ef17c5b7cdf86cdf59cc6598f0c8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "intent_sha256": "b97a2c70134653f5a30994b3e71c484dd6a620b3db13c93658342df7819bc448",
+      "полная_история_потомков": "неизвестно; верхние процессы не равны всем PID"
+    }
+  ],
+  "диагностический_V4_RED": {
+    "семантический_исход": "UNKNOWN: отсутствовало свежее waitid-status свидетельство в итерации TERM. Native terminal/code0 сохранён; задним числом не принят как достаточный RED.",
+    "наблюдение": {
+      "cleanup_мс": 1000,
+      "FIFO_размер": 0,
+      "grace_мс": 200,
+      "inode": 154819007,
+      "PGID": 25559,
+      "PID": 25559,
+      "RED_подтверждён": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_байты": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_байты": 0,
+      "бинарник_sha256": "e26e920aed81956bd4408bd8c87d5859daff8b9e05bac4996ff283b93382b920",
+      "граница": "Только собственная созданная PGID; escaped descendants UNKNOWN; native-контур не является SwiftTesting @Test",
+      "группа_закрыта": true,
+      "дедлайн_мс": 500,
+      "код_CLI": -1,
+      "наносекунды": 520695625,
+      "остановлен_по_сроку": true,
+      "писатель_открыт": false,
+      "посланные_сигналы": [
+        15
+      ],
+      "превышен_вывод": false,
+      "режим": "fifo-red",
+      "родитель": 25503,
+      "сигнал": 15,
+      "собран": true,
+      "схема": "fum.native-проверка-типа-входа.1",
+      "таймаут": true,
+      "тип_отклонён": false,
+      "успех": true,
+      "устройство": 16777236
+    },
+    "case_байты": 1297,
+    "case_sha256": "44a78e1e13f20429cf0148992c720433552b1ef177b6ecd2fb4f82431b286e7a",
+    "исправление": "V5 сбрасывает fresh bool на каждой итерации и выставляет его только после успешного waitid/si_pid0; RED требует этот bool."
+  },
+  "принятый_адресный_RED": {
+    "наблюдение": {
+      "cleanup_мс": 1000,
+      "FIFO_размер": 0,
+      "grace_мс": 200,
+      "inode": 154830897,
+      "PGID": 36475,
+      "PID": 36475,
+      "RED_подтверждён": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_байты": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_байты": 0,
+      "бинарник_sha256": "e26e920aed81956bd4408bd8c87d5859daff8b9e05bac4996ff283b93382b920",
+      "граница": "Только собственная созданная PGID; escaped descendants UNKNOWN; native-контур не является SwiftTesting @Test",
+      "группа_закрыта": true,
+      "дедлайн_мс": 500,
+      "код_CLI": -1,
+      "наносекунды": 505429750,
+      "остановлен_по_сроку": true,
+      "писатель_открыт": false,
+      "посланные_сигналы": [
+        15
+      ],
+      "превышен_вывод": false,
+      "режим": "fifo-red",
+      "родитель": 36474,
+      "сигнал": 15,
+      "собран": true,
+      "схема": "fum.native-проверка-типа-входа.1",
+      "таймаут": true,
+      "тип_отклонён": false,
+      "успех": true,
+      "устройство": 16777236
+    },
+    "case_байты": 1297,
+    "case_sha256": "13df2374e5c1fc0f0ed586ecfe29b9fd503c90d98821b1bc119ed589a3782765",
+    "controller_source_sha256": "1fb7fc1e53275714ef36dbf1e6e1fac07358ac7f9a2a794d41860c5ffd1bcbdb",
+    "controller_binary_sha256": "4dd6ba519782009f57e9795f936c2d2135605e773964b44ee52c129b45cb7a5d"
+  },
+  "адресный_GREEN": {
+    "наблюдение": {
+      "cleanup_мс": 1000,
+      "FIFO_размер": 0,
+      "grace_мс": 200,
+      "inode": 154830897,
+      "PGID": 36764,
+      "PID": 36764,
+      "RED_подтверждён": false,
+      "stderr_sha256": "189fb03229c29ff1dd3a89dfd5994c72a8acd38d1fc5e604d4a6e3bd8166bc22",
+      "stderr_байты": 539,
+      "stdout_sha256": "e26dd23aa9ad8d751b23ce6b787f6a503883c284e04f999874fd9ddcd5c58bed",
+      "stdout_байты": 530,
+      "бинарник_sha256": "82c34f818d82672ab9037a07fa2160338e65e5cde4d97425cd43bdec5f87a0ea",
+      "вызовы_Git": 0,
+      "граница": "Только собственная созданная PGID; escaped descendants UNKNOWN; native-контур не является SwiftTesting @Test",
+      "группа_закрыта": true,
+      "дедлайн_мс": 500,
+      "код_CLI": 2,
+      "наносекунды": 343068667,
+      "остановлен_по_сроку": false,
+      "писатель_открыт": false,
+      "посланные_сигналы": [],
+      "превышен_вывод": false,
+      "причина": "тип-входа",
+      "режим": "fifo-green",
+      "результат_код": 2,
+      "родитель": 36763,
+      "собран": true,
+      "схема": "fum.native-проверка-типа-входа.1",
+      "таймаут": false,
+      "тип_отклонён": true,
+      "успех": true,
+      "устройство": 16777236,
+      "целостность": false
+    },
+    "case_байты": 1414,
+    "case_sha256": "81e15fcf96f6132f3ae627e347635f152f41ef17c5b7cdf86cdf59cc6598f0c8",
+    "controller_source_sha256": "1fb7fc1e53275714ef36dbf1e6e1fac07358ac7f9a2a794d41860c5ffd1bcbdb",
+    "controller_binary_sha256": "4dd6ba519782009f57e9795f936c2d2135605e773964b44ee52c129b45cb7a5d"
+  },
+  "связь_фикстуры": {
+    "новый_dev": 16777236,
+    "новый_inode": 154830897,
+    "RED_GREEN_тот_же_inode": true,
+    "старый_inode_сохранён": 154819007,
+    "размер": 0,
+    "писатель_не_открывался": true
+  },
+  "бюджет": {
+    "разрешено_верхних_процессов": 6,
+    "выполнено_верхних_процессов": 6,
+    "сборок": 3,
+    "native_случаев": 3,
+    "jobs": 1,
+    "CLI_deadline_мс": 500,
+    "TERM_grace_мс": 200,
+    "общий_cleanup_мс": 1000,
+    "compile_timeout_с": 180,
+    "вывод_на_процесс_байты": 32768,
+    "scratch_предел_байты": 268435456,
+    "fixture_предел_байты": 1048576,
+    "наблюдение_после_runtime": {
+      "scratch": {
+        "entries": 139,
+        "logicalBytes": 32205544,
+        "allocatedBytes": 32468992
+      },
+      "fixture": {
+        "entries": 19,
+        "logicalBytes": 5007,
+        "allocatedBytes": 49152
+      }
+    },
+    "граница": "История всех compiler descendants не наблюдалась. Шесть верхних процессов не означают всего шесть OS PID. CLI child PID/PGID сохранены отдельно. Седьмой проверочный процесс запрещён."
+  },
+  "профиль": {
+    "тип": "Разовые наблюдения функциональной регрессии; не сравнительный benchmark.",
+    "RSS": "не измерен",
+    "EINTR_injection": "не выполнялась; ветвь проверена только статически",
+    "SIGKILL_branch": "не исполнена в новых RED/GREEN; фактически достаточно TERM15",
+    "escaped_descendants": "UNKNOWN"
+  },
+  "исходные_человеческие_тексты": {
+    "тексты": [
+      "Tam u nas pochemu-to nepraviljnyiye imena avtorov kommitov proryivayutsya.",
+      "Znachit etu proverku nuzhno realizovatj na Swift / FUMA.",
+      "V kode Swift budem ispoljzovatj toljko Swift Concurrency i zapretim staryiye API."
+    ],
+    "источники": [
+      {
+        "имя": "delivery-human-origin-addon-01a17797-20261029.json",
+        "байты": 2988,
+        "sha256": "f4ce0fde803a6087edcc5aae88f7e867cd5dcf0aa391c7a4bb68c5fc272ef242"
+      },
+      {
+        "имя": "human-origin-factory-454.json",
+        "байты": 2096,
+        "sha256": "c96e6748af7c6c218587f4ed8a01219ad7a05ad5396f3befa737830fb0d2229e"
+      },
+      {
+        "имя": "human-origin-order-correction.json",
+        "байты": 1010,
+        "sha256": "4ead8f84ade24d65e62087abe1e2d05dcabe14ebe8a62aa82aa2e3919d6b8450"
+      }
+    ],
+    "происхождение": "root-transferred; тематическая выборка, полная хронология и native offsets UNKNOWN. Интерпретация назначения не является частью оригинальных текстов.",
+    "историческая_граница": "Опубликованные C43/D269/C2809a с пропуском цитат сохранены. Новое сообщение не утверждает их ретроактивное соответствие."
+  },
+  "поздний_ответ": {
+    "source_sha256": "53b285de507f529508fa9d2668b2415c43f2334f4c60f04dfa2f074b327f5dde",
+    "исход": "Старый checkpoint grant и terminal40code2 сохранены; повтор не выполнялся. Поздний ответ не изменил текущий FIFO epoch. Время доставки неизвестно."
+  },
+  "отключения_и_остаток": {
+    "Python": "исключён, не проверен и не GREEN",
+    "ROOT_JSONL": "исключён, не проверен и не GREEN",
+    "полный_профиль": "UNKNOWN",
+    "общий_канонический_PUB": "UNKNOWN; разрешён только bounded manual scope PUB4",
+    "старые_13_наборов": "не повторялись",
+    "положительные_14_48": "не повторялись",
+    "Names": "не запускался; использованы переданные ROOT имена",
+    "native_ACT": "не разрешён и не выполнен",
+    "reverse_ROOT": "требует отдельного нового допуска",
+    "ROOT_приёмка": "не выполнена",
+    "master_интеграция": "не выполнена"
+  }
+}

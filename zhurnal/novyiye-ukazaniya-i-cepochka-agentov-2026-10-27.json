@@ -1,0 +1,32 @@
+{
+  "тип": "Новые указания человека и маршрутизация между владельцами",
+  "роль_источника": "Сообщения человека в ROOT API-контексте; получателю передаются как ROOT-agent transfer",
+  "сообщения": [
+    "I vsegda tiketyi nuzhno oformlyatj v takikh sluchayakh, i pravitj srazu, yesli eto ne chto-to globaljnoye.",
+    "I cherez dosku obyyavlenij propuskatj, vdrug eto uzhe chinil kto-to.",
+    "Takzhe soglasovyivatj kto chto vzyal v rabotu mozhno i nuzhno tem ili inyim sposobom, no zhelateljno zapisyivayemyim.",
+    "Mozhet Luna Max stoit ponizitj usiliye?",
+    "Pustj Luna zadachi u tebya budut podopyitnyimi, a tyi kak raz organizuj sbor i zapisj trebovanij avtomatizacij, kotoryiye im trebuyutsya.",
+    "Avtomatizacii luchshe vyirazhatj na FUMA, i kak raz na FUMA iz nikh mozhno sdelatj translyator v Swift dlya realizacii AOT.",
+    "Tak myi budem srazu i FUMA otrabatyivatj i nakaplivatj testovuyu kodovuyu bazu na nej.",
+    "I translyaciyu s yazyika na yazyik osvoim.",
+    "Ne obyazateljno sam sobiraj i obrabatyivaj, a vyistraivaj processyi mezhdu agentami."
+  ],
+  "процесс": {
+    "производители": "Сохраняют наблюдаемые затруднения и потребности автоматизации в собственной памяти с происхождением.",
+    "доска": "Сверяет известные поставки и назначения; ведёт потребности и записанные claims без нового scheduler.",
+    "планирование": "Сопоставляет существующие Issues/требования и оформляет малые непересекающиеся срезы.",
+    "FUMA": "Ведёт реализацию FUMA-программ и generated Swift/AOT через своих прямых детей.",
+    "аудит": "Сопоставляет результаты/отказы интерпретатора и AOT; отдельно измеряет реальные затраты и качество модели.",
+    "ROOT": "Задаёт приоритеты и полномочия, устраняет пересечения и принимает поставки."
+  },
+  "фактические_действия": {
+    "ticket395": "Создан и прочитан обратно, body exact.",
+    "board": "Владелец01a17815 получил консультацию, потребность395 и требования записанного взятия; объявление ещё не подтверждено.",
+    "planning": "Роль01a08d77 получила конечную постановку сверить existingAOT/387/395 и оформить один пилот без второгоDSL.",
+    "FUMA": "Роль01a1698f получила следующий процесс; новый пилот до Issue/claim/source не начал. Текущий readonlyCLI d20 уже доставлен и ожидает Rootreview.",
+    "rules": "Роль01a17869 готовит минимальную правку стоящих норм с board/ticket/smallfix, canonical ещё не изменён.",
+    "Luna": "На существующий ROaudit01a177c7 запрошен gpt-6-luna/high. Итог подтвердил наблюдение High; экономия против Max не измерена контролируемо.",
+    "ограничения": "Другие активные модели/пишущие операции не переключались. Основной Root SolUltra остаётся. Новые постоянные фоновые циклы/heartbeat/dispatcher не включены."
+  }
+}

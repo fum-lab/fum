@@ -1,0 +1,39 @@
+{
+  "schema": "fum.private-reported-check-outcome.1",
+  "received_at_utc": "2026-11-01T19:07:07Z",
+  "event_time_utc": "UNKNOWN",
+  "evidence_mode": "reported",
+  "source_reference": "User-provided ROOT outcome in the current task; no primary log attached or opened.",
+  "subject": "UI compatibility compiler C2b95",
+  "source": {
+    "status": "source-fix checkpoint reported separately",
+    "checkpoint_locator": "UNKNOWN",
+    "checkpoint_oid": "UNKNOWN"
+  },
+  "check": {
+    "status": "failed",
+    "exit_code": 1,
+    "duration_seconds": 20.249,
+    "group": "absent",
+    "unknown_fields": [],
+    "sampled_rss_bytes": 554123264,
+    "reported_diagnostic": "label says операции:; expected операций:"
+  },
+  "tests": "UNKNOWN",
+  "commit": "UNKNOWN",
+  "push": "UNKNOWN",
+  "integration": "UNKNOWN",
+  "runtime": "UNKNOWN",
+  "output_custody": {
+    "reported_generated_item": "build/debug -> out/Products/Debug symlink",
+    "policy": false,
+    "green": false
+  },
+  "retry_policy": "Do not rerun the old target; any correction belongs to the separately reported source-fix checkpoint.",
+  "registry_context": {
+    "existing_snapshot": "istochniki/statistika-roya/snapshot-funnel-2026-11-01T10-19-56Z.json",
+    "snapshot_commit": "c1f14fd9c0add44e4cc56ba0f247adc0b4707843",
+    "contains_this_event": false
+  },
+  "limits": "This is one reported outcome, not a fresh ROOT inventory or direct process receipt. It does not establish test, commit, push, integration, or runtime success."
+}

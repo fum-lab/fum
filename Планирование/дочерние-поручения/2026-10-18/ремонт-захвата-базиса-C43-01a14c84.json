@@ -1,0 +1,23 @@
+{
+  "ветка": "refs/heads/codex/ustranitj-limityi-zakhvata-bazisa-01a14c84",
+  "исполнитель": "01a14c84-ae95-7540-b883-1bc9aa881fca",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/допуск_создания_базиса_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить_нативную_подготовку.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создания_базиса_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_создания_базиса_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/создание-базиса-узла.md",
+    "Журнал/2026-10-18_04-07-22_MSK_исправить-ресурс-и-нативное-ожидание-захвата-базиса/",
+    "Индексы/состав-журнала.json",
+    "Индексы/навигация-журнала.md"
+  ],
+  "постановка": {
+    "sha256": "167fdeb013316f676fe4020ed6b0f4dc6dbb0f3af3caee7ede19230bda74bbd5",
+    "коммит": "73a4bbc244f49e82904fbb36a8afcefe3f25c3f6",
+    "путь": "Планирование/доработки-автоматизаций/2026-10-16/допуск-реального-второго-цикла-узла.json"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "660d698907b35139a15988c3c7498f8da79b42c4635b5dcf80cdb6dab5f4d7c1"
+}

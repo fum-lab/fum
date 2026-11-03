@@ -1,0 +1,15 @@
+{
+  "schema_version": "fum.source-native-identity-addendum.1",
+  "captured_at_utc": "2026-11-01T11:25:19Z",
+  "correction_mode": "append_only; prior identity claims are retained",
+  "logical_source_node": "Sources",
+  "physical_writer": {
+    "fullref": "refs/heads/fum-lab/fum/istochniki/statistika-roya/master",
+    "head": "e9c48b4ee6f9fc67032c656f43aec5c62fe548d0"
+  },
+  "native_transport_identity": "recorded in private evidence; omitted from this public artifact",
+  "native_ui_to_physical_writer_binding": "UNKNOWN pending ordinary Tools binding/rebind; UI cwd absence is not evidence of missing Git refs or sources",
+  "permanent_swarm_growth": "not confirmed by this identity mapping",
+  "private_evidence_sha256": "d9933483bf4b71bcf36a102c265d2b2f43f47781296e7e7fd57342057dd0cbd2",
+  "scope": "No native DB, foreign W, ROOT/RAW JSONL, or archive payload was inspected; no snapshot or archive rename was performed."
+}

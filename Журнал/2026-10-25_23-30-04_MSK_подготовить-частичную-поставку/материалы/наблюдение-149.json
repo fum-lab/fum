@@ -1,0 +1,26 @@
+{
+  "источник": "https://github.com/fum-lab/fum/issues/149",
+  "updated_at": "2026-10-25T17:49:13Z",
+  "комментариев": 8,
+  "покрытие": "Адресный ответ и все страницы комментариев; для выбора прочитаны действующее тело и комментарии6/7 (нумерация с0).",
+  "raw_sha256": {
+    "issue": "07270003f2c1b36da4a005f1e2091cf4404df55b21f352b6afd3c4f4105cfed2",
+    "comments": "04ea26657661b4b2803c33cd1d2fe6c76d0e15f6aa44bdc2398c2816ecac26ea"
+  },
+  "актуальные_комментарии": [
+    {
+      "url": "https://github.com/fum-lab/fum/issues/149#issuecomment-6399856639",
+      "id": 6399856639,
+      "updated_at": null,
+      "body_sha256": "3057f453d1f23afa58be7221ade954ecd0cdc24ba70d44b0d2b6782491963ddb"
+    },
+    {
+      "url": "https://github.com/fum-lab/fum/issues/149#issuecomment-6401043866",
+      "id": 6401043866,
+      "updated_at": null,
+      "body_sha256": "a49e6ec247036bf6f8bf058e6ab805518685b0518813edefa522ebebc4a46180"
+    }
+  ],
+  "решение": "ПоR000030 выбран ручной сохраняющий путь; check-session-coherence.py отключён/не проверен. Поля, охват, recency, декомпозиция, публикационная дельта и поведение сохраняются.",
+  "ограничение": "ОбщаяIssue149 не закрывается; недоступные даты комментариев остаютсяnull."
+}

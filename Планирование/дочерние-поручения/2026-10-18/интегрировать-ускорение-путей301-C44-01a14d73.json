@@ -1,0 +1,27 @@
+{
+  "ветка": "refs/heads/codex/integrirovatj-uskoreniye-poiska-putej-zhurnala-01a14d73",
+  "исполнитель": "01a14d73-a108-78a2-8e17-8c6fc6a9f895",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_строгого_индекса_путей.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_установки_принятого_состава_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/строгий-индекс-путей.md",
+    "Инструменты/fum-struktura-papok-zaprosov/установка-принятого-состава-журнала.md",
+    "Инструменты/fum-struktura-papok-zaprosov/SKILL.md",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json",
+    "Журнал/2026-10-18_08-39-44_MSK_интегрировать-ускорение-поиска-путей-журнала/",
+    "Индексы/состав-журнала.json",
+    "Индексы/навигация-журнала.md"
+  ],
+  "постановка": {
+    "sha256": "167fdeb013316f676fe4020ed6b0f4dc6dbb0f3af3caee7ede19230bda74bbd5",
+    "коммит": "73a4bbc244f49e82904fbb36a8afcefe3f25c3f6",
+    "путь": "Планирование/доработки-автоматизаций/2026-10-16/допуск-реального-второго-цикла-узла.json"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "3db478ca11fe9316100c138a1876093cfb19b43ff5e4bc82c88daacabc637baa"
+}

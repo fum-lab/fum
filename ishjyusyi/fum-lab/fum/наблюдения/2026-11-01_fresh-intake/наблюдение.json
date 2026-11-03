@@ -1,0 +1,102 @@
+{
+  "схема": "fum.наблюдение-обсуждений-GitHub.1",
+  "репозиторий": "fum-lab/fum",
+  "метка": "2026-11-01_fresh-intake",
+  "порядок": 86,
+  "время": "2026-11-01T15:17:53Z",
+  "страницы": [
+    {
+      "тип": "issues",
+      "sha256": "9dfccc377234375215e6d88027ac996b3bf291f24fb288aedf0aadf96ec9d9ab",
+      "байты": 1013754,
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues?state=all&per_page=100",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoXzkqjjPAAAAAWkLpqM%3D&page=2",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "comments",
+      "sha256": "137b7d9f9848581a74c680f2496afd55ac945c8a99e5f3052a6957f926105bbc",
+      "байты": 867295,
+      "адрес": "https://api.github.com/repos/fum-lab/fum/issues/comments?per_page=100",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=2",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "issues",
+      "sha256": "ceb6ced2f9af742d9f28636cc42cb1a75f2ddb896597a4e2a8e14300b1c34f3b",
+      "байты": 952053,
+      "адрес": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoXzkqjjPAAAAAWkLpqM%3D&page=2",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoT4eQsjPAAAAAV1WdPQ%3D&page=3",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "issues",
+      "sha256": "85cf6ae01cc90f62c3d049ba264fe8e6f9a70de7637f37e2f817a8b3c133b806",
+      "байты": 1164900,
+      "адрес": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoT4eQsjPAAAAAV1WdPQ%3D&page=3",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQmx1eDPAAAAAVQN4FA%3D&page=4",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "issues",
+      "sha256": "fb011e2f5866abbb87bf93cb2b2d087a9c110b2eabe92a2ba7a037fdfce449eb",
+      "байты": 1831383,
+      "адрес": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQmx1eDPAAAAAVQN4FA%3D&page=4",
+      "следующий": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQMixgjPAAAAAVNOgJo%3D&page=5",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "issues",
+      "sha256": "7cfd54395fe92d96e716b57c2f0943650097b8244c38d978f141268439246c43",
+      "байты": 1398928,
+      "адрес": "https://api.github.com/repositories/1285958028/issues?state=all&per_page=100&after=Y3Vyc29yOnYyOpLPAAABoQMixgjPAAAAAVNOgJo%3D&page=5",
+      "следующий": null,
+      "разбор": "проверен"
+    },
+    {
+      "тип": "comments",
+      "sha256": "3e762c8c6fae45e705b345f41283cb0ae760ecaf1d2b65349af07f2320f9667e",
+      "байты": 877260,
+      "адрес": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=2",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=3",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "comments",
+      "sha256": "9ac0adf362fedc17d2be76cb2c1534fdc37116bdce164aefc1a0b36771a28a32",
+      "байты": 730194,
+      "адрес": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=3",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=4",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "comments",
+      "sha256": "1f5011ab99ae2a224494538534827c1415366ecaff071813c604122536637b4d",
+      "байты": 931507,
+      "адрес": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=4",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=5",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "comments",
+      "sha256": "efe2712d661e3edba334d3480f2b70b66c0e2e7d7c292220ba07a939e1546925",
+      "байты": 855149,
+      "адрес": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=5",
+      "следующий": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=6",
+      "разбор": "проверен"
+    },
+    {
+      "тип": "comments",
+      "sha256": "62d8e8a811e19b6f49b8bd7416e544fd7450dccc55a0718aeb1753d8e43f0ace",
+      "байты": 600919,
+      "адрес": "https://api.github.com/repositories/1285958028/issues/comments?per_page=100&page=6",
+      "следующий": null,
+      "разбор": "проверен"
+    }
+  ],
+  "полнота": true,
+  "состояние": "завершено",
+  "связи": {},
+  "обработка": "не разобрано",
+  "граница": "Завершены обе наблюдённые цепочки Link при state=all; это не атомарный снимок GitHub. Не покрывает изменения, удалённые до наблюдения, вложения, отдельные ревью PR и иные API-разделы."
+}

@@ -1,0 +1,151 @@
+{
+  "схема": "fum.zakaz-ustojchivogo-spiska-rabot.1",
+  "статус": "Зарегистрировано и поставлено следующим ограниченным этапом после #363; реализация и приёмка не выполнены",
+  "дата_по_клиенту": "2026-10-29",
+  "корневой_uuid": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источник_предложения": {
+    "вид": "Нативное координационное сообщение дочернего узла, не сообщение человека",
+    "native_uuid": "01a17797-519b-73c1-bcc8-fd295cdfe9b0",
+    "узел": "fum-lab/fum/instrumentyi/master"
+  },
+  "issue": {
+    "номер": 452,
+    "название": "Сохранять исходный worklist при уточнениях и выбирать безопасное продолжение",
+    "url": "https://github.com/fum-lab/fum/issues/452",
+    "нормализованный_снимок": {
+      "issue": {
+        "url": "https://github.com/fum-lab/fum/issues/452",
+        "title": "Сохранять исходный worklist при уточнениях и выбирать безопасное продолжение",
+        "issue_number": 452,
+        "body": "**FUM Codex**\n\nНаблюдение 29 октября: статусный вопрос или техническое уточнение иногда заменяет для исполнителя исходное поручение; ответ завершается, хотя прежние todo остаются. Старый Stop хранит счётчик продолжений многомесячной сессии, без достаточной привязки к текущему worklist/generation. Прошлый ROOT ход завершился собственным final при остатке; причинность конкретного Stop-вызова неизвестна. Различие primary/master и пишущего дерева само по себе причиной не установлено.\n\nНужен один ограниченный source+JSON этап у существующего владельца `fum-lab/fum/koordinaciya/master` ПОСЛЕ его текущего checkpoint [№363 — окружение и argv из подготовки](https://github.com/fum-lab/fum/issues/363). Сначала выбрать фактически доставленный и принятый OID №363 и получить ACK владельца; не переключать его раньше, не создавать второго реализатора или registry/daemon/dispatcher.\n\nПереиспользовать существующие обязательства, принятие делегации и операторную память. Вход: immutable worklist ID, принятый assignment/source commit-path-SHA, собственный native UUID отдельно от общего ROOT UUID, physical W/full ref/HEAD, зависимости и критерии приёмки. Поколение меняется при содержательном изменении todo; статусный вопрос/ответ — новое наблюдение, которое сохраняет первоначальные обязательства.\n\nЯвные переходы: add-steering; доказанные explicit-cancel/replace; progress/ACK; commit; push; ROOT acceptance. `continue` выбирает ID безопасной доступной работы; `wait-parent` требует exact blockers и отсутствия независимой работы; `complete-assignment` разрешён лишь для закрытого принятого назначения. Частичная история не даёт global ROOT complete. Human STOP имеет приоритет. Выбор действия не создаёт полномочий на effect.\n\nПеред терминальным решением сохранять intent, после — outcome с input/output SHA, code version, generation и before/after. Intent без outcome остаётся UNKNOWN; same-attempt восстанавливается идемпотентно. No-progress budget относится к содержательному worklist/generation/fingerprint, а не lifetime сессии.\n\nРазличающие RED/GREEN: pending todo → status question → status answer → прежний todo; additive steering сохраняет original; child commit не закрывает parent; ожидание ответа блокирует только зависимое; документ не закрывает implementation; item loss/недоказанная отмена отклоняются; crash intent/outcome → UNKNOWN; три старых continuation плюс новая generation; same-fingerprint repeat; human STOP; bad W/ref/HEAD/native UUID; broken chain/reentry; partial history не даёт complete. Сохранить малый воспроизводимый профиль и решение об оптимизации; неизменные результаты переносить по хэшам, без huge JSONL/89 МБ/27 МБ повторов.\n\nКонечный filelist подтверждает владелец до ACK: source перехода, targeted Swift Testing, форматированный JSON-контракт/постановка и собственный текущий state. Новый код FUMA/Swift; имена через принятую Names-автоматизацию. Это не немедленная live-активация.\n\nЗависимый native Stop — отдельный следующий заказ существующему `perekhod-vetok` после приёмки этого контракта, ресурсного восстановления и ACK его владельца. Не менять сейчас его 93 staged пути, live hooks/config/Trust. Связать [№361 — адресное восстановление поручений](https://github.com/fum-lab/fum/issues/361), существующие FUM-СБОЙ-0027 и STEP-0154 без дублей. Публичный паспорт/целостность принят в [PR №450](https://github.com/fum-lab/fum/pull/450), bounded reader — в [PR №451](https://github.com/fum-lab/fum/pull/451); они не являются реализацией этого worklist.\n\nИсточник: подготовленный заказ инструментового узла, native UUID `01a17797-519b-73c1-bcc8-fd295cdfe9b0`, получен ROOT `01a07d3d-d376-7ad2-aafc-67e4c25a67eb` 29 октября. Заказ сохраняется в Git-памяти ROOT; регистрация issue не означает выполненный код.",
+        "state": "open",
+        "user": {
+          "login": "Roman-Kerimov",
+          "name": "Roman-Kerimov",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+          "id": 22149544
+        },
+        "assignees": null,
+        "labels": null,
+        "milestone": null,
+        "state_reason": null,
+        "comments": 0,
+        "created_at": "2026-10-29T05:30:19Z",
+        "updated_at": "2026-10-29T05:30:19Z",
+        "closed_at": null,
+        "display_url": "https://github.com/fum-lab/fum/issues/452",
+        "display_title": "Сохранять исходный worklist при уточнениях и выбирать безопасное продолжение"
+      },
+      "url": "https://github.com/fum-lab/fum/issues/452",
+      "title": "Сохранять исходный worklist при уточнениях и выбирать безопасное продолжение",
+      "display_url": "https://github.com/fum-lab/fum/issues/452",
+      "display_title": "Сохранять исходный worklist при уточнениях и выбирать безопасное продолжение"
+    },
+    "точное_отправленное_тело": "**FUM Codex**\n\nНаблюдение 29 октября: статусный вопрос или техническое уточнение иногда заменяет для исполнителя исходное поручение; ответ завершается, хотя прежние todo остаются. Старый Stop хранит счётчик продолжений многомесячной сессии, без достаточной привязки к текущему worklist/generation. Прошлый ROOT ход завершился собственным final при остатке; причинность конкретного Stop-вызова неизвестна. Различие primary/master и пишущего дерева само по себе причиной не установлено.\n\nНужен один ограниченный source+JSON этап у существующего владельца `fum-lab/fum/koordinaciya/master` ПОСЛЕ его текущего checkpoint [№363 — окружение и argv из подготовки](https://github.com/fum-lab/fum/issues/363). Сначала выбрать фактически доставленный и принятый OID №363 и получить ACK владельца; не переключать его раньше, не создавать второго реализатора или registry/daemon/dispatcher.\n\nПереиспользовать существующие обязательства, принятие делегации и операторную память. Вход: immutable worklist ID, принятый assignment/source commit-path-SHA, собственный native UUID отдельно от общего ROOT UUID, physical W/full ref/HEAD, зависимости и критерии приёмки. Поколение меняется при содержательном изменении todo; статусный вопрос/ответ — новое наблюдение, которое сохраняет первоначальные обязательства.\n\nЯвные переходы: add-steering; доказанные explicit-cancel/replace; progress/ACK; commit; push; ROOT acceptance. `continue` выбирает ID безопасной доступной работы; `wait-parent` требует exact blockers и отсутствия независимой работы; `complete-assignment` разрешён лишь для закрытого принятого назначения. Частичная история не даёт global ROOT complete. Human STOP имеет приоритет. Выбор действия не создаёт полномочий на effect.\n\nПеред терминальным решением сохранять intent, после — outcome с input/output SHA, code version, generation и before/after. Intent без outcome остаётся UNKNOWN; same-attempt восстанавливается идемпотентно. No-progress budget относится к содержательному worklist/generation/fingerprint, а не lifetime сессии.\n\nРазличающие RED/GREEN: pending todo → status question → status answer → прежний todo; additive steering сохраняет original; child commit не закрывает parent; ожидание ответа блокирует только зависимое; документ не закрывает implementation; item loss/недоказанная отмена отклоняются; crash intent/outcome → UNKNOWN; три старых continuation плюс новая generation; same-fingerprint repeat; human STOP; bad W/ref/HEAD/native UUID; broken chain/reentry; partial history не даёт complete. Сохранить малый воспроизводимый профиль и решение об оптимизации; неизменные результаты переносить по хэшам, без huge JSONL/89 МБ/27 МБ повторов.\n\nКонечный filelist подтверждает владелец до ACK: source перехода, targeted Swift Testing, форматированный JSON-контракт/постановка и собственный текущий state. Новый код FUMA/Swift; имена через принятую Names-автоматизацию. Это не немедленная live-активация.\n\nЗависимый native Stop — отдельный следующий заказ существующему `perekhod-vetok` после приёмки этого контракта, ресурсного восстановления и ACK его владельца. Не менять сейчас его 93 staged пути, live hooks/config/Trust. Связать [№361 — адресное восстановление поручений](https://github.com/fum-lab/fum/issues/361), существующие FUM-СБОЙ-0027 и STEP-0154 без дублей. Публичный паспорт/целостность принят в [PR №450](https://github.com/fum-lab/fum/pull/450), bounded reader — в [PR №451](https://github.com/fum-lab/fum/pull/451); они не являются реализацией этого worklist.\n\nИсточник: подготовленный заказ инструментового узла, native UUID `01a17797-519b-73c1-bcc8-fd295cdfe9b0`, получен ROOT `01a07d3d-d376-7ad2-aafc-67e4c25a67eb` 29 октября. Заказ сохраняется в Git-памяти ROOT; регистрация issue не означает выполненный код."
+  },
+  "владелец": {
+    "узел": "fum-lab/fum/koordinaciya/master",
+    "native_uuid": "01a18294-b6ff-7352-92e1-6b576d412172",
+    "ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+    "один_писатель": true,
+    "условие": "Не прерывать текущий #363 и не создавать второго реализатора"
+  },
+  "предварительные_условия": [
+    "Завершён и фактически доставлен текущий checkpoint #363",
+    "ROOT независимо выбрал точный delivered OID #363 и границу следующего этапа",
+    "Владелец дал фактический ACK конечного состава и следующего действия"
+  ],
+  "основа_будущего_назначения": {
+    "статус": "Ещё не выбрана",
+    "условие": "Только фактически принятый checkpoint #363; нынешний HEAD не подставляется как будущее основание"
+  },
+  "переиспользовать": [
+    "Существующие обязательства",
+    "Принятие делегации",
+    "Операторную память"
+  ],
+  "не_создавать": [
+    "Второй registry",
+    "Фоновую службу",
+    "Dispatcher",
+    "Live hooks/config/Trust изменения в этом source этапе"
+  ],
+  "контракт": {
+    "вход": [
+      "immutable worklist ID",
+      "accepted assignment commit/path/SHA",
+      "native writer UUID отдельно от common-root UUID",
+      "physical W/full ref/HEAD",
+      "зависимости",
+      "критерии приёмки"
+    ],
+    "поколение": "Меняется при содержательном изменении todo; статусные сообщения добавляют наблюдения и сохраняют первоначальные обязательства",
+    "переходы": [
+      "add-steering",
+      "explicit-cancel с доказанным источником",
+      "explicit-replace с доказанным источником",
+      "progress",
+      "ACK",
+      "commit",
+      "push",
+      "ROOT acceptance"
+    ],
+    "continue": "Выбирает ID безопасной доступной работы; не создаёт новых полномочий на эффект",
+    "wait-parent": "Требует exact blockers и отсутствия независимой доступной работы",
+    "complete-assignment": "Только для закрытого принятого назначения; частичная история не даёт global ROOT complete",
+    "human_STOP": "Имеет приоритет",
+    "intent_outcome": "До терминального решения intent, после outcome с входным/выходным SHA, code version, generation, before/after; intent без outcome остаётся UNKNOWN",
+    "идемпотентность": "Повтор той же попытки сверяет прежний outcome; неизвестный эффект не повторяется новым UUID",
+    "no_progress_budget": "Привязан к worklist/generation/fingerprint, не lifetime многомесячной сессии"
+  },
+  "различающие_случаи": [
+    "pending todo → status question → status answer → прежний pending todo",
+    "additive steering сохраняет original",
+    "child commit оставляет parent todo",
+    "waiting answer блокирует только зависимое",
+    "document не закрывает implementation",
+    "item loss отклоняется",
+    "unsupported cancel отклоняется",
+    "crash между intent/outcome даёт UNKNOWN",
+    "три старых continuation плюс новая generation",
+    "повтор same fingerprint",
+    "human STOP",
+    "bad W/ref/HEAD/native UUID",
+    "broken chain/reentry",
+    "partial history не даёт complete"
+  ],
+  "предложенный_конечный_состав": {
+    "статус": "Предложение, уточняется единственным владельцем до ACK; имена через принятую Names-автоматизацию",
+    "артефакты": [
+      "Swift/FUMA исходник чистого перехода",
+      "Адресные Swift Testing регрессии",
+      "Форматированный JSON-контракт и постановка",
+      "Точный собственный state владельца"
+    ],
+    "область": "koordinaciya/**"
+  },
+  "профилирование": "Малые N/2N/4N либо подходящий воспроизводимый профиль; решение об оптимизации. Не повторять huge ROOT JSONL/89МБ/27МБ проходы.",
+  "native_Stop_следующий_зависимый_заказ": {
+    "владелец": "fum-lab/fum/instrumentyi/perekhod-vetok/master",
+    "native_uuid": "01a127bf-38dd-7fc0-8c7b-1d245d7706a5",
+    "наблюдённый_HEAD": "b73b1c628aa31401b80c1cb1bb88760113759414",
+    "наблюдённая_граница": "resource STOP, 93 staged; новая запись не разрешена без ресурсного восстановления и ACK владельца",
+    "source_Stop": "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25",
+    "accepted_merge": "6999fcb256d298302358d1329c2e57fead00a808",
+    "условие": "После приёмки worklist контракта отдельный finite заказ; live активация сейчас не выполняется"
+  },
+  "связи": [
+    "https://github.com/fum-lab/fum/issues/363",
+    "https://github.com/fum-lab/fum/issues/361",
+    "FUM-СБОЙ-0027",
+    "STEP-0154"
+  ],
+  "поиск_дубликата": {
+    "запросы": [
+      "repo:fum-lab/fum is:issue \"список работ\"",
+      "repo:fum-lab/fum is:issue worklist"
+    ],
+    "результат": "Совпадающих Issues в этих двух поисковых результатах не найдено; #361 проверена и относится к чтению координационных конвертов"
+  }
+}

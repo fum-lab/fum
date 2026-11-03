@@ -1,0 +1,148 @@
+{
+  "schema": "fum.fuma.source-checkpoint.v1",
+  "capturedAt": "2026-10-29T10:48:00+04:00",
+  "task": {
+    "coordinatorThreadUUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "nativeWriterUUID": "01a1698f-bb98-7691-b1c1-31ec737ed070",
+    "observedModel": "gpt-5.6-sol",
+    "observedEffort": "ultra",
+    "backend": "UNKNOWN"
+  },
+  "target": {
+    "worktree": "/Users/fum/.codex/worktrees/fuma-source-accept-383/FUM",
+    "baseCommit": "383327e805d41da22ed508931152cc9e1ba96bce",
+    "ref": "refs/heads/fum-lab/fum/fuma/priyom-iskhodnikov-383",
+    "singleWriterObserved": true
+  },
+  "grant": {
+    "kind": "direct-source-WIP",
+    "scope": "thirteen-published-blobs-plus-this-JSON",
+    "genericSwiftChecker": "UNKNOWN",
+    "profile000032Passed": false,
+    "effectAuthorizedByCheckpoint": false
+  },
+  "sourceBlobs": [
+    {
+      "group": "FS",
+      "sourceCommit": "1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0",
+      "sourceRef": "refs/heads/codex/fuma-local-fs-cycle-01a07d3d",
+      "path": "Журнал/2026-10-28_19-51-44_MSK_исправить-границы-переноса-файловой-системы/материалы/связь-исходников-и-квитанций.json",
+      "gitBlob": "120791f6692ae1e39f737c4f90fbf8ed86af9f22",
+      "sha256": "5f4d7a0923ef75848ae97e853eaee7101cb34a69eee2b6a2d5add59e8c2f55fd"
+    },
+    {
+      "group": "FS",
+      "sourceCommit": "1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0",
+      "sourceRef": "refs/heads/codex/fuma-local-fs-cycle-01a07d3d",
+      "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/НаблюдениеФайловойСистемы.swift",
+      "gitBlob": "f8e2722eb8f8b07c0d38dd29bd604184f40c1217",
+      "sha256": "87c0cc2d1f7a6ecee2ee3c28a9939f4020ef5a171f2d2eedeccc7508d379b8ff"
+    },
+    {
+      "group": "FS",
+      "sourceCommit": "1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0",
+      "sourceRef": "refs/heads/codex/fuma-local-fs-cycle-01a07d3d",
+      "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ЦиклФайловойСистемыTests.swift",
+      "gitBlob": "4d32f525a1a8d1ed2e3f34ceb2d092f2986f475b",
+      "sha256": "8f0e73ed3879fb78ec0f3495f30de195a5e989f0a28147479bf8451926447b08"
+    },
+    {
+      "group": "Input",
+      "sourceCommit": "49f584b0cb0c66e11d6a915d587c7f5bb7b76029",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/vkhod-jsonl-fuma/master",
+      "path": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/vkhod-jsonl-fuma/vkhod-jsonl.swift",
+      "gitBlob": "4215c2a40b55b75a0a4efefd4b34702d32dcbc99",
+      "sha256": "bff89e24c715cc9a2eea31f7070a23f4ca39e557bc51585427c8c6ee79b0206c"
+    },
+    {
+      "group": "Input",
+      "sourceCommit": "49f584b0cb0c66e11d6a915d587c7f5bb7b76029",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/vkhod-jsonl-fuma/master",
+      "path": "Прототипы/память-структурирующих-операторов/proverki/proverki-vkhoda-jsonl.swift",
+      "gitBlob": "aebab28bf0fc6b4998a960ba8a5e9b4b1e7dd483",
+      "sha256": "ccdb69704c6a4e97e3d41a2a90632f50f9fab91896a85e80708733b6c92378cb"
+    },
+    {
+      "group": "Input",
+      "sourceCommit": "49f584b0cb0c66e11d6a915d587c7f5bb7b76029",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/vkhod-jsonl-fuma/master",
+      "path": "Прототипы/память-структурирующих-операторов/zhurnal/12c9c4bfe3de810cd362b0f0a3b78348bd2e0f4236dcf1678ccd79777da89a77.json",
+      "gitBlob": "d6119fcfff3b14cacdddab16a8d91303f93e906f",
+      "sha256": "0fed7e7eda7a8f65e4527d156744a02eee383a94c6abeab76b4e002e53c45fba"
+    },
+    {
+      "group": "Frames",
+      "sourceCommit": "3939895a12cc0a4589157dfaace690559add8aaa",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/ramki-jsonl/master",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/ГраницаКурсораJSONL.swift",
+      "gitBlob": "f1793425d9813da3abc366d070af760b9901a669",
+      "sha256": "3cc438eacb6b1580b88e986e7f412ec7d1755401739b77d3599f837c0fc96b1d"
+    },
+    {
+      "group": "Frames",
+      "sourceCommit": "3939895a12cc0a4589157dfaace690559add8aaa",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/ramki-jsonl/master",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/proverki/граница-курсора-jsonl.swift",
+      "gitBlob": "39f4ef799c4d72be9fe25beb099b559f4285de00",
+      "sha256": "459fe152e9a47c2e8603a3741ecd1ceda39969747d7a26f226b7ffebe1bd7f8c"
+    },
+    {
+      "group": "Frames",
+      "sourceCommit": "3939895a12cc0a4589157dfaace690559add8aaa",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/ramki-jsonl/master",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/zhurnal/52921f651ca841ddf0fdeec94cbe221cef16a7cc8844f661417a4cec6f43f1fb.json",
+      "gitBlob": "3014ad4db8256ccea2107da96ae0cee19ac92887",
+      "sha256": "f6a5b34d1c76069dbe5c8bd0643df1785b5d0fcf0ffaf0ffca0b2f47f4016329"
+    },
+    {
+      "group": "Runtime",
+      "sourceCommit": "a4084c0e5114666c5795aa3e86956e22a64db213",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/zapusk/master",
+      "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Package.swift",
+      "gitBlob": "2faf47a8041582627b05cb359821f9333d9b05f1",
+      "sha256": "6eaefd27358e11ea9d1a1a9226eabc4685ae471c95e36786d2cc7639116f6e94"
+    },
+    {
+      "group": "Runtime",
+      "sourceCommit": "a4084c0e5114666c5795aa3e86956e22a64db213",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/zapusk/master",
+      "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Sources/КомпозицияНаблюдений/КомпозицияНаблюдений.swift",
+      "gitBlob": "ccba606591ffee8717e56bdc29a2ffb15cb2fd3b",
+      "sha256": "3deb68b309cddf6f54f0f4e4d452ff781305a90ebd3b643c6ca3c3668cbb8e5d"
+    },
+    {
+      "group": "Runtime",
+      "sourceCommit": "a4084c0e5114666c5795aa3e86956e22a64db213",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/zapusk/master",
+      "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/Tests/КомпозицияНаблюденийTests/КомпозицияНаблюденийTests.swift",
+      "gitBlob": "f53aad66529035f5400ff90bddadc6de08fa9224",
+      "sha256": "c989bf236aa0ae10e4c063961d35b73e47d9d5a371d735acf960d738cdc598b7"
+    },
+    {
+      "group": "Runtime",
+      "sourceCommit": "a4084c0e5114666c5795aa3e86956e22a64db213",
+      "sourceRef": "refs/heads/fum-lab/fum/fuma/zapusk/master",
+      "path": "Приложения/FUMA/Packages/КомпозицияНаблюдений/контрольная-точка-WIP.json",
+      "gitBlob": "d1860069eb760e8c2864a4c25f949f4e75357907",
+      "sha256": "206a6a7ed4fdd7f1194fceda5cf2b9beda744c5718f4518d4c68beb2a2a61d8b"
+    }
+  ],
+  "checks": {
+    "exactBlobReadback": "completed-for-source-worktree-and-index",
+    "exactFourteenPathDiff": "completed",
+    "historicalTestsForCurrentBlobs": "UNKNOWN",
+    "build": "not-run",
+    "python": "excluded-not-run",
+    "rootJSONL": "excluded-not-read",
+    "genericGate": "excluded-not-run"
+  },
+  "unknowns": [
+    "Historical receipts do not prove a current run for all selected source and test blobs.",
+    "Runtime dependencies and executable composition are not accepted by this checkpoint.",
+    "This checkpoint does not establish ROOT acceptance, integration, or production effect."
+  ],
+  "excluded": [
+    "Unrelated generic Swift checker WIP was preserved privately and is not part of this tree.",
+    "Git library files from 2492936ac563f76e7eeaf1027a8cd9e19ccedafa belong to a later stage."
+  ]
+}

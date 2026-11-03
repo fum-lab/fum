@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fum:istochniki/statistika-roya/deti/normalizaciya/schema.v2",
+  "title": "Privacy-safe funnel event for native Codex owner observations",
+  "description": "One compact event records one observed funnel stage or one evidenced/unknown transition outcome. It does not assert continuous runtime or causation beyond its evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "stage",
+    "event_time_utc",
+    "owner",
+    "source_reference",
+    "evidence_mode",
+    "observed_freshness_seconds",
+    "outcome",
+    "cause_classification",
+    "evidence",
+    "responsible_decision_owner",
+    "responsible_executor_owner",
+    "independent_work_availability",
+    "limit_domain",
+    "signals",
+    "model",
+    "tokens",
+    "cost",
+    "memory"
+  ],
+  "properties": {
+    "schema_version": {"const": "fum.codex-owner-funnel-event.2"},
+    "event_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,79}$"},
+    "stage": {
+      "enum": [
+        "independent_work_identified",
+        "parent_decision",
+        "executor_ref_worktree_assigned",
+        "setup",
+        "rules_access_read",
+        "first_substantive_step",
+        "source_commit",
+        "delivery",
+        "parent_handling",
+        "next_stage"
+      ]
+    },
+    "event_time_utc": {"oneOf": [{"type": "string", "format": "date-time"}, {"const": "UNKNOWN"}]},
+    "owner": {"type": "string", "minLength": 1, "maxLength": 80},
+    "source_reference": {
+      "type": "object",
+      "required": ["kind", "locator"],
+      "properties": {
+        "kind": {"enum": ["native_api_event", "public_commit", "public_issue_or_pr", "compact_summary", "human_report", "other_nonprivate"]},
+        "locator": {"type": "string", "minLength": 1, "maxLength": 240, "description": "Non-sensitive public or compact evidence locator. Never a private thread UUID, local path, or raw-text excerpt."}
+      },
+      "additionalProperties": false
+    },
+    "evidence_mode": {"enum": ["direct", "reported"]},
+    "observed_freshness_seconds": {"oneOf": [{"type": "integer", "minimum": 0}, {"const": "UNKNOWN"}]},
+    "outcome": {"enum": ["success", "stopped", "waiting", "failed", "not_observed", "unknown"]},
+    "cause_classification": {"enum": ["verified_limit", "unjustified_stop", "unknown"]},
+    "evidence": {"type": "array", "items": {"type": "string", "maxLength": 280}, "maxItems": 8, "description": "Short factual evidence statements only; no raw private text."},
+    "responsible_decision_owner": {"type": ["string", "null"], "maxLength": 80},
+    "responsible_executor_owner": {"type": ["string", "null"], "maxLength": 80},
+    "independent_work_availability": {"enum": ["available", "unavailable", "unknown"]},
+    "limit_domain": {
+      "enum": ["compiler_slot", "text_or_read_only", "network", "storage", "policy_or_authority", "other", "none_observed", "unknown"],
+      "description": "A compiler slot limit applies only to that capacity; do not generalize it to text or read-only work."
+    },
+    "signals": {
+      "type": "object",
+      "required": ["premature_final", "waited_for_available_prerequisite", "no_next_stage_after_finite_stop", "missing_result", "waited_for_shared_integration_despite_independent_work"],
+      "properties": {
+        "premature_final": {"enum": [true, false, "UNKNOWN"]},
+        "waited_for_available_prerequisite": {"enum": [true, false, "UNKNOWN"]},
+        "no_next_stage_after_finite_stop": {"enum": [true, false, "UNKNOWN"]},
+        "missing_result": {"enum": [true, false, "UNKNOWN"]},
+        "waited_for_shared_integration_despite_independent_work": {"enum": [true, false, "UNKNOWN"]}
+      },
+      "additionalProperties": false
+    },
+    "model": {"const": "UNKNOWN"},
+    "tokens": {"const": "UNKNOWN"},
+    "cost": {"const": "UNKNOWN"},
+    "memory": {"const": "UNKNOWN"}
+  }
+}

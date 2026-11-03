@@ -1,0 +1,246 @@
+{
+  "схема": "fum.bootstrap-proposal-manifest.1",
+  "статус": "proposed_not_active",
+  "активирует_инструкции": false,
+  "описание": "Частичная поставка bootstrap; исторические изменения общего набора правил сохранены как происхождение и не активны.",
+  "принятая_база": {
+    "commit": "6999fcb256d298302358d1329c2e57fead00a808",
+    "путь": "AGENTS.md",
+    "git_blob": "29b0d6dac00beff7d542f7eed2ed9566bd4675b8"
+  },
+  "исторический_снимок": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+  "исторические_коммиты_и_точные_объекты": [
+    {
+      "commit": "911f317d4c38645fe22a591974eb2123f4c90985",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Предложение-правил-продолжения.a312.json",
+      "git_blob": "3cecda56389e9b69530696eb0793d23b4790df7f",
+      "raw_sha256": "2db872492ac81cfbb070c098bb475c93a3930edc74a5da9a3087c57bfd0e5313"
+    },
+    {
+      "commit": "a3125478df244ceea0e49a7b4df84a89586699a4",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Пакет-общего-поведения-агентов.v3.json",
+      "git_blob": "60259a0575b727bb1c1cdff5dae26e200af48ea1",
+      "raw_sha256": "ae3ebdab29e53b53695e35ca4da05a4b5f64926427ce1c239bbf4e02c33fde4f"
+    },
+    {
+      "commit": "73e51abb3697aeefae870ff23eb908fe1fa6bae6",
+      "путь": "AGENTS.md",
+      "git_blob": "29b0d6dac00beff7d542f7eed2ed9566bd4675b8",
+      "raw_sha256": "8e9831234fd7d3168ff0b6e40c9faf99ac5cbc2bc9c4ce062a3b3c61b37faa9d"
+    }
+  ],
+  "сохраняемые_пути": [
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "18f067a159091f3998360cbe21969aafe1c18ebe",
+      "raw_sha256": "f23e9cc5196fe6cab1b5b10d5c3ed6b98051ebe1f49cd19c2ef41a4fb96a6b25"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/vhod-agenta-tests.swift",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "1897e155d196f5b850d60bbc6bdc8e784dd7a064",
+      "raw_sha256": "67c699e0f5ad9078278c54baca0fc3908410d0041f976a5af02a69d4749870a1"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-26-32_MSK_сохранить-пакет-поведения/материалы/нативная-проверка-локального-входа.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "7bee9bb6a71aaacb75a623cde86e088e8713112f",
+      "raw_sha256": "4f760c5cdeb1da2e552d08d10bc152a6a3adaa1a4b778060fecc056ea8bc804f"
+    }
+  ],
+  "исторический_состав_32_путей": [
+    {
+      "путь": "iskhodniki/aktualizaciya-putej/lokalniy-vkhod-agenta.swift",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "18f067a159091f3998360cbe21969aafe1c18ebe",
+      "raw_sha256": "f23e9cc5196fe6cab1b5b10d5c3ed6b98051ebe1f49cd19c2ef41a4fb96a6b25"
+    },
+    {
+      "путь": "pravila/zhurnal/3696e6f1ec09225876983b729939b33d82c7522b26978a09f3d674364b302c4e.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "47a4167d371c6974faaedbe6431aab6f20f5b54f",
+      "raw_sha256": "5fb81fd66be2f0366a6e899cbde9559e9db657a70c455db5420820a68ee826bf"
+    },
+    {
+      "путь": "pravila/zhurnal/a981175b94d6b307082770cf2017c5fda30e8971fcdd08fb135b300ca5d633df.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "33f6710c85a26b866ab1fac54e81ec70028d4e60",
+      "raw_sha256": "49b0eb443aff8b002bc95d45079c34bb68e22a60939b8f8994ce768a5303c426"
+    },
+    {
+      "путь": "proverki/aktualizaciya-putej/vhod-agenta-tests.swift",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "1897e155d196f5b850d60bbc6bdc8e784dd7a064",
+      "raw_sha256": "67c699e0f5ad9078278c54baca0fc3908410d0041f976a5af02a69d4749870a1"
+    },
+    {
+      "путь": "Журнал/2026-10-26_03-08-32_MSK_сохранить-приём-путей-и-границу-raw/запрос.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "b44ec01cbecb81551560fc575bd9b5c4ab33ce72",
+      "raw_sha256": "b00ea0a6bc4ff65bad19c4699f615fb4dab73472cb79896a28c1c8f2c57988ca"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-16-05_MSK_сохранить-компактную-контрольную-точку/запрос.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "cd96c74694dcbc2f9930c810b611278ef02f61a5",
+      "raw_sha256": "d4903f0c0d228b3e6c4716b79f9d48cea45f64c00a87e8d98310f3675ab7b585"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-16-05_MSK_сохранить-компактную-контрольную-точку/материалы/запуски-проверок/1_095229f3-4492-411d-b9ea-6f243efdc0a5.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "ebd448a8db31a21d7f1fdb6d2b91499985d60b02",
+      "raw_sha256": "bf942e1d087ec12de035f8da80a1fca76f9a29e2d0fa700c6cf07ebd34cb71b4"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-16-05_MSK_сохранить-компактную-контрольную-точку/отчёт.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "3576127e2f71a5f9d28e5c13492f6dc740b6cb52",
+      "raw_sha256": "a9a72720e532cdf294f1fa78373d7233cb7a70dce21f98f3604ea9bd63edf38d"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-20-14_MSK_проверить-принятый-базис/запрос.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "8e224df5d987718f61b24fd937e622ed85b2f117",
+      "raw_sha256": "c7d26a43a5c287dfa8315a5d63c3d3979b6d21f37175114fee8423d5f9b8ffcc"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-20-14_MSK_проверить-принятый-базис/материалы/запуски-проверок/1_fcaa31f3-f06a-405e-8329-30287821ee96.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "aa33f5b70c0dc48d542ac1f7a009c88c9f17d3de",
+      "raw_sha256": "86e15f245d420ac47fd2582d466200ca001fad60445544f9a4dab8fc77328f1d"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-20-14_MSK_проверить-принятый-базис/отчёт.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "035637dc67179e4f7baa8596d307db35461d1047",
+      "raw_sha256": "9df1c7c8ed47619741326b401baa567e9f560e95d710453974efac2fe06c392b"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-26-32_MSK_сохранить-пакет-поведения/запрос.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "c413488e7ffc04e8ff0b1d53ea2c40aacf84dc62",
+      "raw_sha256": "7e8f07431a2e674845fc2fbf972c058c1f006bd418b6c933f0df30bfe96c6be8"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-26-32_MSK_сохранить-пакет-поведения/материалы/запуски-проверок/1_76dfe21e-198a-4fc6-a12f-56a1af8103eb.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "dc1b5cdd858d185f0895bae30c58eee46ceb2694",
+      "raw_sha256": "830ba81acb4eced5d105844c7cdb06172a3709403678fdb56b29e93218f090bc"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-26-32_MSK_сохранить-пакет-поведения/материалы/запуски-проверок/2_fcc63cc3-d14b-4b75-ac1e-715c8c2f0d0f.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "a1ebed0a555ea85bea3c58401b0c721e5253e370",
+      "raw_sha256": "71ebfbe0b714085bdfc84a0ad41be25611650eae3e86d684ad34a0015f1d4b63"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-26-32_MSK_сохранить-пакет-поведения/материалы/нативная-проверка-локального-входа.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "7bee9bb6a71aaacb75a623cde86e088e8713112f",
+      "raw_sha256": "4f760c5cdeb1da2e552d08d10bc152a6a3adaa1a4b778060fecc056ea8bc804f"
+    },
+    {
+      "путь": "Журнал/2026-10-28_18-26-32_MSK_сохранить-пакет-поведения/отчёт.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "6cf45ab8ba4c29807e4f7a2781710d2478165318",
+      "raw_sha256": "e47502b146389da1907944e09b72117fd83d77c0dcd966923ce27cf4ced50d80"
+    },
+    {
+      "путь": "Журнал/README.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "8fbee20d3455f086105c68fd8ac871ea37423d1b",
+      "raw_sha256": "d09c51e1150751d10c95e420e900fd60d9cdb92b51f9ea6e3dfd861649e44eb4"
+    },
+    {
+      "путь": "Индексы/markdown-файлы-по-времени-редактирования.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "85421c554d06ff573d39f1b5dc244b574ace45ea",
+      "raw_sha256": "e320be416b4b286e4b48cef94873dfc81dbc34c70246f85cbda1fd64962827fc"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "07fe139372e0d84e9794820ef906dc312824bbf9",
+      "raw_sha256": "4066d5b822b37045e5b3c23217543c6b1dfc045e21019472e294bb1a624c5ffd"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/фикстуры/профили-продолжения.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "476fde94aee32e4b9d6f69a2190f6bfd05b28270",
+      "raw_sha256": "d32a598613d19db913bbefd34459516d09f710011c849299a140598e9f1395b4"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Пакет-общего-поведения-агентов.v1.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "353f2751add2d5e88e472255f25925530c9d9f5f",
+      "raw_sha256": "3bb26d8f1fb916cd9d43bdd597f40f7f9e48fdcee30916b79afbf48b49498bd8"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Пакет-общего-поведения-агентов.v2.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "6e91f00b4401f0c44cb17c65a4222db6d0757cd1",
+      "raw_sha256": "8ef2ed07d030a41baf797f4a9083c49ad32c9c0c52e11ee4a01fc7b33549e967"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Пакет-общего-поведения-агентов.v3.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "60259a0575b727bb1c1cdff5dae26e200af48ea1",
+      "raw_sha256": "ae3ebdab29e53b53695e35ca4da05a4b5f64926427ce1c239bbf4e02c33fde4f"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Предложение-правил-продолжения.a312.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "3cecda56389e9b69530696eb0793d23b4790df7f",
+      "raw_sha256": "2db872492ac81cfbb070c098bb475c93a3930edc74a5da9a3087c57bfd0e5313"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Проекция-общего-поведения-агентов.v1.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "fb4184b23da9c5b275b957b03df664e83d3354f4",
+      "raw_sha256": "fa0e3baf8d4fca45fb7d7cee2f8adae2db0b7bc6766947ba00b19d17df67cde3"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Проекция-общего-поведения-агентов.v2.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "352ceec54cc88d7f9f194029d348c9878c41979d",
+      "raw_sha256": "b273fa011e7aa46f29ed5dee9494fbb603216ed21554d3c511b11c4040972da7"
+    },
+    {
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/Проекция-общего-поведения-агентов.v3.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "f50bb2520bcf6b81fac0fea26127e829a8fe8a1f",
+      "raw_sha256": "3c618ad8e330f0e3ae05dd720de845c69f1a08de7f1b8fcf5669b1e6c9d5565d"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "c973e65657029d9a96bc4af73d615a1e7f129537",
+      "raw_sha256": "dddb0ce1cc37ad981fbf9ffaf91264c44744ed7a0147736fc1d11dd97298c1f6"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/обычный-независимый-журнал.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "53795a550394c17ef05f5cf2c3fb8bfaeb409604",
+      "raw_sha256": "c8f99127425ed5018a04597013d40f3a5f6996f79f8e87885234b017516de0cc"
+    },
+    {
+      "путь": "Правила/агентов/журнал-и-происхождение.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "5fb54fe2586d989e6ec3061cfd3236685ea43c31",
+      "raw_sha256": "7aaa0dfdb2b36255341d492a6015b68ae7c5e20b91ba427e975bebc4b7507f6b"
+    },
+    {
+      "путь": "Правила/агентов/инвентарь-правил.json",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "2e67a921da1b9959b80fffbe4f2e0e8750133d4a",
+      "raw_sha256": "d73b1470a7b62411c36ad191306c64a1a6ef446f671cc153e0552b43badf1872"
+    },
+    {
+      "путь": "Правила/агентов/локальные-навыки-и-инструменты.md",
+      "commit": "82b53aa696e8e3cfe26165be756d28417a1e55c0",
+      "git_blob": "17445de8d1d5b608501550655983165e6e970857",
+      "raw_sha256": "496d4838e953075650c97a393f5cfc636e33acf6f75238d6356f61ca8d98f4e4"
+    }
+  ]
+}

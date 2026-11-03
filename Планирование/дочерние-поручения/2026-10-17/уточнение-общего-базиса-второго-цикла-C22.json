@@ -1,0 +1,38 @@
+{
+  "ветка": "refs/heads/codex/prinyatj-obsjhij-bazis-vtorogo-cikla-uzla",
+  "исполнитель": "01a14916-c13f-7111-bc16-31e7f7ec3e93",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_свежести_внешнего_состава_ребёнка.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/профиль_свежести_внешнего_состава_ребёнка.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/внешний-состав-дочерней-связности.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_кандидата_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_кандидата_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_кандидата_базиса.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/подготовка-кандидата-базиса.md",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/независимый-контур/общий-базис-второго-цикла/",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/test_общего_базиса_узла.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/независимый_контур/профиль_общего_базиса_узла.py",
+    "Журнал/2026-10-17_12-09-52_MSK_подготовить-общий-базис-второго-цикла/",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Индексы/состав-журнала.json",
+    "Индексы/навигация-журнала.md",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/установка_принятого_состава_журнала.py",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/строгий_индекс_путей.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/test_строгий_индекс_путей.py",
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_строгого_индекса_путей.py",
+    "Инструменты/fum-struktura-papok-zaprosov/строгий-индекс-путей.md"
+  ],
+  "постановка": {
+    "sha256": "170ad8d94705e2d907448f84355cb8c6acab78664d9ac865ab5e1c35247d748f",
+    "коммит": "bac942c7bf9f0d6f68290ddc1fa12ea632d5bd76",
+    "путь": "Планирование/доработки-автоматизаций/2026-10-14/создание-проверенного-коммита-базиса.json"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "a8b8a1c3d9b97a47d3dc0dc6711518e9091053c9864627503246072a59112418"
+}
