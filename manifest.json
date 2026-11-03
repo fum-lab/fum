@@ -1,0 +1,1715 @@
+{
+  "schema": "fum.branch-archive.v1",
+  "created_at": "2026-11-03T13:31:08.521980+00:00",
+  "request": "Мы конкретно архивируем все эти ветки и stavim fum-lab/fum на последний момент активного действующего инструментария на Python.",
+  "repository": "fum-lab/fum",
+  "default_ref": "refs/heads/fum-lab/fum/master",
+  "default_before": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+  "branch_count": 340,
+  "branches": [
+    {
+      "source_ref": "refs/heads/avtozapusk",
+      "sha": "4e65aa2f72f378127b54bbc405113d36ae98cab3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/avtozapusk"
+    },
+    {
+      "source_ref": "refs/heads/codex/Telegram-TDLib-0222-01a09179",
+      "sha": "fe18610b813092b0ce52359533ebaf26d81f5d8c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/Telegram-TDLib-0222-01a09179"
+    },
+    {
+      "source_ref": "refs/heads/codex/android-runtime-01a0a633",
+      "sha": "43cdecd4014704dc5238dbedaafb4eec401ce444",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/android-runtime-01a0a633"
+    },
+    {
+      "source_ref": "refs/heads/codex/automatic-known-refusal-response",
+      "sha": "400cbc73aa7ed5d996743bd45a550f0b368a6575",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/automatic-known-refusal-response"
+    },
+    {
+      "source_ref": "refs/heads/codex/cache-preparer-race-01a07d3d",
+      "sha": "4a7c3c2cb8f6af211abce0e46101be558c66f639",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/cache-preparer-race-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/chastichnaya-postavka-paketa-otbor-01a148a5",
+      "sha": "ad5be10fd0c41361be87986fd172ddbca607a1d2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/chastichnaya-postavka-paketa-otbor-01a148a5"
+    },
+    {
+      "source_ref": "refs/heads/codex/cli-paketa-devyati-putej",
+      "sha": "d20fd76742186fb7b68b67f2e68405a3183e4be3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/cli-paketa-devyati-putej"
+    },
+    {
+      "source_ref": "refs/heads/codex/derived-pipeline-recovery-v1",
+      "sha": "f234b32c0cd6b5e8308e7fafadebd7ddd8e017df",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/derived-pipeline-recovery-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/derived-pipeline-v1",
+      "sha": "2fb28d9abaff00efe831cc862f04a2681c7c4607",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/derived-pipeline-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/avtor-kommitov-Codex-01a07d3d",
+      "sha": "9d389e54d28728450a09a90c70971f1d8e758d3a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/avtor-kommitov-Codex-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/chastichnaya-postavka-dopuska-bazisa-uzla",
+      "sha": "feac86eb1497faea8ed41fd1d065c9b11daf8c0d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/chastichnaya-postavka-dopuska-bazisa-uzla"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/chastichnaya-postavka-gibrida-odnoj-zadachi",
+      "sha": "83272d38f989750283df417523fb774924a5af77",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/chastichnaya-postavka-gibrida-odnoj-zadachi"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/dokumentaciya--53-vselennaya-fum--odin-svidetelj",
+      "sha": "caeae3fb0342fd3142a2ce2d98601e1306ea58f6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/dokumentaciya--53-vselennaya-fum--odin-svidetelj"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/fum-materialyi-zaprosov-01a07d3d",
+      "sha": "233afdf27c2851bce5b4a598990b095d63d49da8",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/fum-materialyi-zaprosov-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/fum-svyaznostj-rabochej-sessii-01a07d3d",
+      "sha": "6761d797cc8a3ecc433120ec13f7ecc6b454c1b1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/fum-svyaznostj-rabochej-sessii-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/fum-svyaznostj-rabochej-sessii-01a07d3d-2",
+      "sha": "36c22a55e6597abdf986872496cba63cffe9484b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/fum-svyaznostj-rabochej-sessii-01a07d3d-2"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/indeksyi--sobratj-sostav-dlya-cepi-otkryitogo-etapa",
+      "sha": "49a311b0d0396ee4fdc18ffb072fbc6d1959167a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/indeksyi--sobratj-sostav-dlya-cepi-otkryitogo-etapa"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--dopusk-vetok--chastj-149",
+      "sha": "b35abea7305da72f5fd7fa2d716e048f0952207d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--dopusk-vetok--chastj-149"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-materialyi-zaprosov--svyazatj-resheniya-s-versiyami-obzorov-github--01a143bb",
+      "sha": "05ef382c5348ba7b4c6d4f618937f85484481ab8",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-materialyi-zaprosov--svyazatj-resheniya-s-versiyami-obzorov-github--01a143bb"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-perevod-obyyavlenij-koda-na-russkij-yazyik--zhivoj-most",
+      "sha": "8e26101b1bd45108407f935a3388d847d21c28c1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-perevod-obyyavlenij-koda-na-russkij-yazyik--zhivoj-most"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-proverka-git-zavisimostej",
+      "sha": "d415f0c3b448297401717bceaf3b9ac4453fe287",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-proverka-git-zavisimostej"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-reyestr-planirovaniya--01a109ad",
+      "sha": "1ee6b7090ce8c2ec973773e5db65ff7454315ef3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-reyestr-planirovaniya--01a109ad"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-rusifikaciya-koda-pri-sliyanii",
+      "sha": "9bada4d38b826803b2fcdd07c44ad625d40ae0d9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-rusifikaciya-koda-pri-sliyanii"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii",
+      "sha": "546a105b03df6ea0401f62255b97ff0fe33393a2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0165",
+      "sha": "208a9475b1646b942c664caf822b845264155b16",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0165"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--01a109f3",
+      "sha": "12ee0a7a5badf6ea78b768fcd59de3b07e23d930",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--01a109f3"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228",
+      "sha": "adf492bc6e7e7c6febb27f7fb797d18109ead8ce",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228-2",
+      "sha": "223fcaf0435ab33484a68bcb25f94d7ac39a4e85",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228-2"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228-3",
+      "sha": "19af0d9817dbc09697c0fef36e8d5d98a0596055",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--0228-3"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--lokaljnyiye-resheniya",
+      "sha": "871191e8d237a6e250799a7143470a2b1515aa35",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--lokaljnyiye-resheniya"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--ogranichitj-vyivod-administrativnogo-json--01a143f4",
+      "sha": "6ae0c76121e2bf8f7dceaee5aa5b858a63154e7c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--ogranichitj-vyivod-administrativnogo-json--01a143f4"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--osnovaniye-dvustoronnej-koordinacii--01a120cb-2cf9",
+      "sha": "5916a232403c9250e336098f61250a4daa872f55",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--osnovaniye-dvustoronnej-koordinacii--01a120cb-2cf9"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--perepodgotovka-ustanovlennoj-operacii-ozhidanij--01a120cb-2d16",
+      "sha": "af064ba46eb5c57d43869e6f3408dc1c284b8c41",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--perepodgotovka-ustanovlennoj-operacii-ozhidanij--01a120cb-2d16"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--polnyij-prinyatyij-kontur-zhurnala--01a13f4a",
+      "sha": "47c2bf33b03a59de73a33bde75872f13ebf9496e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--polnyij-prinyatyij-kontur-zhurnala--01a13f4a"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--pozdnyaya-privyazka-zhurnala--01a1240e",
+      "sha": "ee728b83a1bc358902ca6a48105e73db50960686",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--pozdnyaya-privyazka-zhurnala--01a1240e"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--proverennyij-kod--01a121a8-d332",
+      "sha": "9285fef23933e8a90ae9be4fa0b845f28ba01e12",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--proverennyij-kod--01a121a8-d332"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--publikuyemoye-naznacheniye-pisatelya--01a11f4d",
+      "sha": "c38a8195bb950b345c766f06a86886eb382eb8f5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--publikuyemoye-naznacheniye-pisatelya--01a11f4d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--uskoritj-pozdnij-razbor-indeksa--01a143b9",
+      "sha": "6212960753fc9f859303b7e0bdc4c83758453afe",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--uskoritj-pozdnij-razbor-indeksa--01a143b9"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--prodolzheniye-otkryitoj-podgotovki--01a122b5",
+      "sha": "10c450783503e761ca4e0d2432ed843971c7978d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--prodolzheniye-otkryitoj-podgotovki--01a122b5"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--publichnoye-predstavleniye-zhurnala--01a122ed",
+      "sha": "b578c8baa63378c1083b02000dbf6ccef3a0a977",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--publichnoye-predstavleniye-zhurnala--01a122ed"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/instrumentyi--snimok-svyaznosti--01a12217",
+      "sha": "ca5aacd0c4d149caec6e33172fff11869c899921",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/instrumentyi--snimok-svyaznosti--01a12217"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/klassificirovatj-prodolzheniye-modeli-01a07d3d",
+      "sha": "a6f99f082c6a24469c41f821466b8ea7d48af122",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/klassificirovatj-prodolzheniye-modeli-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/nativnyij-most-podgotovki",
+      "sha": "8389ae5f181feb24e29207b1b75555c0864712bf",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/nativnyij-most-podgotovki"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/otdelitj-perekhod-proiskhozhdeniya-paryi-01a07d3d",
+      "sha": "ba2dba1dcb9768932b54682a4c743fec9bd51c9c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/otdelitj-perekhod-proiskhozhdeniya-paryi-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104",
+      "sha": "f2b0b806f6c4b89a4c626ad40cd5e900df794ad7",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/pamyatj--konvejyer--sobyitiya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104",
+      "sha": "d756a7720d894503be09a94bc8a2cbbb95943915",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/pamyatj--konvejyer--soobsjheniya--g-0fff5c07292e84b88339e9808c20cdd9fb55359cde0986fb4f7b3e707a0a2104"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-4d56ec2933973021223fa2d08a97e2d25e882c7cd089e19d0129939e63b39995",
+      "sha": "daa53209ebafe4208e26e70953d5adf8ad4a7b12",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/pamyatj--konvejyer--soobsjheniya--g-4d56ec2933973021223fa2d08a97e2d25e882c7cd089e19d0129939e63b39995"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/perekhod-proverki-povtornogo-sostoyaniya-uzla",
+      "sha": "241af77c06bb0857d3052f76644d63dcc4332230",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/perekhod-proverki-povtornogo-sostoyaniya-uzla"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/perenositj-modeljnyij-kontekst",
+      "sha": "58abe12c8e72fc83e41c712e1782ee02e6ab1d81",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/perenositj-modeljnyij-kontekst"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--ekonomicheskij-pasport",
+      "sha": "10b81f8ccee5dfbdc0a1bcd992a5ab175be80b52",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/planirovaniye--finansirovaniye-i-resursyi--ekonomicheskij-pasport"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--minimaljnyij-byudzhet",
+      "sha": "225f74d09f4dfdb641f84821147e68dd4df6d2fd",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/planirovaniye--finansirovaniye-i-resursyi--minimaljnyij-byudzhet"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--poluchatelj-i-marshrutyi",
+      "sha": "2e287a4f5bd9b21ad12dd2decc0f6c7f5952b03a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/planirovaniye--finansirovaniye-i-resursyi--poluchatelj-i-marshrutyi"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/podgotovitj-pervyij-proizvodstvennyij-sostav-zhurnala-01a07d3d",
+      "sha": "5fe2e665a961de4605b50bb2c58ca0117547e45a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/podgotovitj-pervyij-proizvodstvennyij-sostav-zhurnala-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/povtornaya-podgotovka-root",
+      "sha": "dee554538854b65140b92710d8dcb010a90818f3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/povtornaya-podgotovka-root"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/povtornyij-cikl-sostoyaniya-uzla",
+      "sha": "a7763a28bd6cd3486d82bd2448097dc3fe3a3c0e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/povtornyij-cikl-sostoyaniya-uzla"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/povtornyij-effekt-sostoyaniya-uzla-2",
+      "sha": "76e858f7437a8c08866062312606d0ab80880aeb",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/povtornyij-effekt-sostoyaniya-uzla-2"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttelegram",
+      "sha": "5951d9f8b72b5842803592218330850782b7a7b0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prilozheniya--fuma--kliyenttelegram"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttorrent",
+      "sha": "d21ca2ab719549e33ae9b92c8548c64d50eae5de",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prilozheniya--fuma--kliyenttorrent"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prilozheniya--fuma--operatoryi--klaviatura",
+      "sha": "73f477ad4961b8a7ef90b952f83092324dea4a61",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prilozheniya--fuma--operatoryi--klaviatura"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prilozheniya--fuma--operatoryi--linguistickit",
+      "sha": "8c1d4f1a5c3cbb24a0e002d12c6f3f720b3d565e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prilozheniya--fuma--operatoryi--linguistickit"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prilozheniya--fuma--packages--nablyudeniyedostupnosti",
+      "sha": "e0d47d4004ba59601b56ba828c1c33d75ce7ead4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prilozheniya--fuma--packages--nablyudeniyedostupnosti"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--chistyij-perenos-01a0fed7",
+      "sha": "7cac62d860521592546c60f32d87679fcf84cd9e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--chistyij-perenos-01a0fed7"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--kompoziciya",
+      "sha": "5f05b88cf25600686e1c375e15018df673b158f6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--kompoziciya"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/publikacionnyij-dopusk-dochernego-sostava",
+      "sha": "7216df27e0853b7b7f9cb96af0cc05f902a44b9d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/publikacionnyij-dopusk-dochernego-sostava"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/publikovatj-nablyudeniye-sozdaniya-zadachi-01a07d3d",
+      "sha": "782e151d4525d7b55ae0691317adae7000d1b261",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/publikovatj-nablyudeniye-sozdaniya-zadachi-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/realizovatj-chitayusjhuyu-sverku-kontroljnoj-tochki",
+      "sha": "1c75e19f163f4730a26a717968cc04421bec33e9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/realizovatj-chitayusjhuyu-sverku-kontroljnoj-tochki"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/realizovatj-yedinyij-razbor-ssyilok",
+      "sha": "471974b1a973e340d4e74dfcd73a5cb20ff5524e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/realizovatj-yedinyij-razbor-ssyilok"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/realjnyij-sozdatelj-bazisa-uzla",
+      "sha": "b9aeb44c6c8effdb6a5b7b8a23e517673b73d181",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/realjnyij-sozdatelj-bazisa-uzla"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/reestr-polnoj-istorii-01a07d3d",
+      "sha": "c380116ce957d4f5064273b1a08edfc189bbbb8c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/reestr-polnoj-istorii-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sobratj-novyij-sostav-zhurnala-01a07d3d",
+      "sha": "8413f0a45779b4c6b68c68b2edba33ef07c1a271",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sobratj-novyij-sostav-zhurnala-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sobratj-novyij-sostav-zhurnala-01a07d3d-3",
+      "sha": "bc77ebf265acc00a72332eac62b52b674185ca9a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sobratj-novyij-sostav-zhurnala-01a07d3d-3"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sobratj-pervyij-sostav-zhurnala-01a07d3d",
+      "sha": "49ef48920e6027d60fed75d1a1ab773e3baa4865",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sobratj-pervyij-sostav-zhurnala-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sobratj-vtoroj-sostav-zhurnala-01a07d3d-2",
+      "sha": "35f915c7ccd3c8e605abff1a4bffef575da0950f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sobratj-vtoroj-sostav-zhurnala-01a07d3d-2"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sobratj-vtoroj-sostav-zhurnala-01a07d3d-4",
+      "sha": "b4de41d4a26a06786a2dd5c3ee06f456b62104a6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sobratj-vtoroj-sostav-zhurnala-01a07d3d-4"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/soglasovatj-rezhimyi-istoricheskoj-razmetki-01a07d3d",
+      "sha": "6bb05d485aa71ee8edde132320f9f5f775022bec",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/soglasovatj-rezhimyi-istoricheskoj-razmetki-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sokhranitj-rezhimyi-istoricheskikh-materialov-01a07d3d",
+      "sha": "d4fe6e7b99478c5df22532e7b5e3ea3fb8b16b8a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sokhranitj-rezhimyi-istoricheskikh-materialov-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sokhranyatj-podgotovku-zavisimostej-pri-smene-vetki-01a07d3d",
+      "sha": "be9b58f1aa3b8d0332e91079b353dd59c3451bc0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sokhranyatj-podgotovku-zavisimostej-pri-smene-vetki-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/sozdatj-bazis-uzla-01a07d3d",
+      "sha": "31d8a62f10051c94314bd0fee56d9fd52adc675a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/sozdatj-bazis-uzla-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/uskoritj-strogiye-snimki-katalogov",
+      "sha": "21127044f704719a37f21bda6425dfe0dbadfb15",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/uskoritj-strogiye-snimki-katalogov"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/ustanovitj-prinyatyij-sostav-zhurnala-01a07d3d",
+      "sha": "3d9fbe702a0f7272840c61ffa7ab13cb60141347",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/ustanovitj-prinyatyij-sostav-zhurnala-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/voprosyi-cherez-korenj-i-ostanovka-detej-01a07d3d",
+      "sha": "71585de9ef2be547830ec79df00f4b0b6f9403d4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/voprosyi-cherez-korenj-i-ostanovka-detej-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/dir/zhurnal-01a07d3d",
+      "sha": "088e75d954aa6929121795367f98fca5c0c59b79",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/dir/zhurnal-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/disabled-libtorrent-gitlinks-01a0fdf3",
+      "sha": "239b62488f42dc742353ee9ce1ef39d72cddcf6c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/disabled-libtorrent-gitlinks-01a0fdf3"
+    },
+    {
+      "source_ref": "refs/heads/codex/fabrika-agentov-audit-01a127bf",
+      "sha": "1e6ee7836ac153bbcf3e0b7e9391ed28d728924d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fabrika-agentov-audit-01a127bf"
+    },
+    {
+      "source_ref": "refs/heads/codex/fabrika-agentov-nablyudeniye-01a127bf",
+      "sha": "d1d572aaab0acd3f48d6d84e0bba699f2e44ed4d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fabrika-agentov-nablyudeniye-01a127bf"
+    },
+    {
+      "source_ref": "refs/heads/codex/fabrika-agentov-vosstanovleniye-01a127bf",
+      "sha": "7f6f7c255b2e9f942d04ab5420f066893113c819",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fabrika-agentov-vosstanovleniye-01a127bf"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-aot-join-plan-20261027",
+      "sha": "e2d426ae7efef99e280ee881348b77c2ce08e2f4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-aot-join-plan-20261027"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-arkhiv-fsync-v2",
+      "sha": "06d38d11936f183eacf4d7d3fb7be7a5e52fec2d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-arkhiv-fsync-v2"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-git-readonly-observer-01a07d3d",
+      "sha": "2492936ac563f76e7eeaf1027a8cd9e19ccedafa",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-git-readonly-observer-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-llm-kvitanciya-v2",
+      "sha": "4e368467e13011c4c91a4b24dbae16907fdb7363",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-llm-kvitanciya-v2"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-local-fs-cycle-01a07d3d",
+      "sha": "1f2d9524acbab2d7d94b6c768b8d8e11a1cce7d0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-local-fs-cycle-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-postanovka-codex-app-server-01a177ae",
+      "sha": "ebd8f23debb910cf72f658006381fa8e0444e25a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-postanovka-codex-app-server-01a177ae"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-postanovka-grok-build-01a0f40a",
+      "sha": "68eadd0642502d0b3555ad60fe2299e1b9c350b4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-postanovka-grok-build-01a0f40a"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-postanovka-lokalnogo-inferensa-01a177ae",
+      "sha": "cc9fc69feed24e093184b8f3500f9b26da7f7b4f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-postanovka-lokalnogo-inferensa-01a177ae"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-postanovka-modelnogo-runtime-01a1778f",
+      "sha": "05d5e867fd1f002eae0ff0a6c7343fe71f4b99a5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-postanovka-modelnogo-runtime-01a1778f"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-postanovka-oborudovaniya-01a173f5",
+      "sha": "951801188bc4737ea969c0b6a83a3c9f95be55aa",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-postanovka-oborudovaniya-01a173f5"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-postanovka-shriftov-01a174e4",
+      "sha": "8c2df86c3ac804e3da0a6c85f15084ebcfa21951",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-postanovka-shriftov-01a174e4"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-schyotchik-fragmentov",
+      "sha": "50d842a1a368c081a8101e09b6735bcab2c0ff0e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-schyotchik-fragmentov"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma-uchet-prinyatoj-delegacii-v4-01a07d3d",
+      "sha": "7aab2f869711ef6c09ba5987ad8a9a9aa877ad00",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma-uchet-prinyatoj-delegacii-v4-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/fuma/ui-typing-owner-01a19716",
+      "sha": "33312be0e21210306f41328cba70088ca5bb28bf",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/fuma/ui-typing-owner-01a19716"
+    },
+    {
+      "source_ref": "refs/heads/codex/integraciya-fuma-01ca9886",
+      "sha": "01ca988635628b48024ae64c290d3c4912aff060",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/integraciya-fuma-01ca9886"
+    },
+    {
+      "source_ref": "refs/heads/codex/ishjyusyi-20261101-01a195e6",
+      "sha": "c4ef8e7ccbbc53e3916494954dc908ad7406dc5e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/ishjyusyi-20261101-01a195e6"
+    },
+    {
+      "source_ref": "refs/heads/codex/isklyucheniye-dvukh-chernovikov-01a17761",
+      "sha": "655b0ee2f344b512647f8d0fe32fd0fbfbca492f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/isklyucheniye-dvukh-chernovikov-01a17761"
+    },
+    {
+      "source_ref": "refs/heads/codex/issue-archive-delta-2026-10-31-01a17838",
+      "sha": "0be973dce373c6505bc2f0601ad5c2451c91f43a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/issue-archive-delta-2026-10-31-01a17838"
+    },
+    {
+      "source_ref": "refs/heads/codex/karta-dostavki-agentov-01a17797",
+      "sha": "5ffe8cfb1fe4501740ae8e83a97e513c93a36502",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/karta-dostavki-agentov-01a17797"
+    },
+    {
+      "source_ref": "refs/heads/codex/linguistickit-concurrency-01a07d3d",
+      "sha": "a7e0bbbf20d1fa8dba984d4ce156f6a819c5add6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/linguistickit-concurrency-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/live-residual-pages-01a17797",
+      "sha": "2302d1e18eee74bb0d4c8438eb360fd3238af7fc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/live-residual-pages-01a17797"
+    },
+    {
+      "source_ref": "refs/heads/codex/max-bot-api-01a0a634",
+      "sha": "f368dfc791e8f1b5db4020d62ff082c3a73dc196",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/max-bot-api-01a0a634"
+    },
+    {
+      "source_ref": "refs/heads/codex/merge-pr3-01a09047",
+      "sha": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/merge-pr3-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/merge-pr4-01a09047",
+      "sha": "9efd84ded4e0f47b47aaac4a7464f8c4e5171c8e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/merge-pr4-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/metadata-finder-projection-01a07d3d",
+      "sha": "e1fa94d0c54a339abab2a6d229163a07b47647ce",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/metadata-finder-projection-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/metadata-generator-consumer-01a17797",
+      "sha": "572e58542f403e8d53d9cad9264d82c438e4c8fe",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/metadata-generator-consumer-01a17797"
+    },
+    {
+      "source_ref": "refs/heads/codex/napravleniye-fuma-01a08d77",
+      "sha": "408e9c6419ef1a95740d3cb39d23fbd12f940da0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/napravleniye-fuma-01a08d77"
+    },
+    {
+      "source_ref": "refs/heads/codex/obyyedinitj-sluzhebnyiye-sobyitiya",
+      "sha": "d9a33f782785cc667c8bcba6559729f6cd5c7f7c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/obyyedinitj-sluzhebnyiye-sobyitiya"
+    },
+    {
+      "source_ref": "refs/heads/codex/peredatj-vneshnij-sostav-v-dochernyuyu-proverku",
+      "sha": "d4ece912779f5ea2d69ce3c09d05774584392806",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/peredatj-vneshnij-sostav-v-dochernyuyu-proverku"
+    },
+    {
+      "source_ref": "refs/heads/codex/perevoditj-polya-dinamicheskikh-modulej",
+      "sha": "bc850b54dbf1f4f0d616bb138834519cab2215be",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/perevoditj-polya-dinamicheskikh-modulej"
+    },
+    {
+      "source_ref": "refs/heads/codex/planetarnoe-mirnoe-soglashenie-01a0011d",
+      "sha": "2b4da98690185e0c03b740bd39e650beb703ebc0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/planetarnoe-mirnoe-soglashenie-01a0011d"
+    },
+    {
+      "source_ref": "refs/heads/codex/podderzhatj-istoricheskiye-ruchnyiye-porucheniya",
+      "sha": "6d56613e14d8920a9c3e1a3483519a43567bdfe1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/podderzhatj-istoricheskiye-ruchnyiye-porucheniya"
+    },
+    {
+      "source_ref": "refs/heads/codex/podderzhatj-sluzhebnuyu-obolochku-sobyitij-331-2",
+      "sha": "741ca744d103ef9fc338b568db3f614a18632553",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/podderzhatj-sluzhebnuyu-obolochku-sobyitij-331-2"
+    },
+    {
+      "source_ref": "refs/heads/codex/podderzhatj-sluzhebnuyu-obolochku-sobyitij-331-3",
+      "sha": "b16a503cce8a7c0ff4d22d09f6a483ca39973f10",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/podderzhatj-sluzhebnuyu-obolochku-sobyitij-331-3"
+    },
+    {
+      "source_ref": "refs/heads/codex/podgotovitj-kandidata-bazisa-uzla",
+      "sha": "1a667a975665bb065f140a724c3d5993c8f760cb",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/podgotovitj-kandidata-bazisa-uzla"
+    },
+    {
+      "source_ref": "refs/heads/codex/postavka-seti-agentov-01a1698f",
+      "sha": "f42c8b8bbd3df8a909a3d8e949b8952e28f7eb3c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/postavka-seti-agentov-01a1698f"
+    },
+    {
+      "source_ref": "refs/heads/codex/predproverka-vyikhodov-zakhvata",
+      "sha": "105f1b432218db3633372ef27efe6442b1536289",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/predproverka-vyikhodov-zakhvata"
+    },
+    {
+      "source_ref": "refs/heads/codex/preflight-materials-0225-01a0b3af",
+      "sha": "940e1848de14ee4718c855b346e1177ecfe1a267",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/preflight-materials-0225-01a0b3af"
+    },
+    {
+      "source_ref": "refs/heads/codex/preserving-profile",
+      "sha": "c16f58df2064d4f3479698be9e0d45dcdfd73377",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/preserving-profile"
+    },
+    {
+      "source_ref": "refs/heads/codex/prinyatj-obsjhij-bazis-vtorogo-cikla-uzla-01a14979",
+      "sha": "77921992b1f2bb0ca523d05a2620752c044f5b0a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/prinyatj-obsjhij-bazis-vtorogo-cikla-uzla-01a14979"
+    },
+    {
+      "source_ref": "refs/heads/codex/priyom-dvukh-production-blobov-c1-b0004eec",
+      "sha": "d349052753738042f910a6354df8f0ed8c1771e1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/priyom-dvukh-production-blobov-c1-b0004eec"
+    },
+    {
+      "source_ref": "refs/heads/codex/priyom-issues-01a139c4-20261030",
+      "sha": "fd501dd7089c88eacc55ae1a121cfc20fa076ba8",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/priyom-issues-01a139c4-20261030"
+    },
+    {
+      "source_ref": "refs/heads/codex/proveritj-kopiyu-i-masshtab-obratnogo-priyoma-l2",
+      "sha": "26607e692157226efd0d1fdf5e9c218b950012fa",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/proveritj-kopiyu-i-masshtab-obratnogo-priyoma-l2"
+    },
+    {
+      "source_ref": "refs/heads/codex/ramki-jsonl",
+      "sha": "3b4942ed072b6613671f528c5845803141894bcc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/ramki-jsonl"
+    },
+    {
+      "source_ref": "refs/heads/codex/soglasovatj-obratnuyu-dostavku-i-kontroljnuyu-tochku-231",
+      "sha": "ec5532bfe5518c29cbae34ff3bf1fb29e31b540e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/soglasovatj-obratnuyu-dostavku-i-kontroljnuyu-tochku-231"
+    },
+    {
+      "source_ref": "refs/heads/codex/sokhranyatj-chastnyij-etap-zhurnala",
+      "sha": "3bcd745619078893a5281e37f8793e0096d5098d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/sokhranyatj-chastnyij-etap-zhurnala"
+    },
+    {
+      "source_ref": "refs/heads/codex/sravneniye-astra-low-01a0a708",
+      "sha": "a827179c70083f9a682412f5c204ad35153ea818",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/sravneniye-astra-low-01a0a708"
+    },
+    {
+      "source_ref": "refs/heads/codex/sravneniye-luna-high-19327936",
+      "sha": "193279364854a6081491e02c26dd8c6f66dce0ca",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/sravneniye-luna-high-19327936"
+    },
+    {
+      "source_ref": "refs/heads/codex/sravneniye-luna-low-b2df9280",
+      "sha": "b2df928066fa84d3bf7ab8100baf519e934e4233",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/sravneniye-luna-low-b2df9280"
+    },
+    {
+      "source_ref": "refs/heads/codex/sravneniye-sol-high-abc217c2",
+      "sha": "abc217c2760c6cbeb778833116a619ba8df644ad",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/sravneniye-sol-high-abc217c2"
+    },
+    {
+      "source_ref": "refs/heads/codex/stop-handler-01a17797",
+      "sha": "34e9cd6067aa78b2eeb948beb0c0c55bf5dc4b25",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/stop-handler-01a17797"
+    },
+    {
+      "source_ref": "refs/heads/codex/stop-packed-refs-01a127bf",
+      "sha": "2d079e22238137dd0ae922921ec3c77023a54564",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/stop-packed-refs-01a127bf"
+    },
+    {
+      "source_ref": "refs/heads/codex/swift-route-inventory-01a17797",
+      "sha": "13bf46836aad224d2db42d649c32f661cb8d41ad",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/swift-route-inventory-01a17797"
+    },
+    {
+      "source_ref": "refs/heads/codex/swift-toolchain-plan-01a17838",
+      "sha": "5a47bbd06a2e63a9b1b82e95f14de58803791a83",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/swift-toolchain-plan-01a17838"
+    },
+    {
+      "source_ref": "refs/heads/codex/ui-observation-keyboard-01a1786a",
+      "sha": "acfc142d4657d79363137a974576215255fe0567",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/ui-observation-keyboard-01a1786a"
+    },
+    {
+      "source_ref": "refs/heads/codex/uskoritj-prokhodyi-razmetki-301",
+      "sha": "7c1ab55404619394d004fe0dcbf788b14ab8628d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/uskoritj-prokhodyi-razmetki-301"
+    },
+    {
+      "source_ref": "refs/heads/codex/uskoritj-stroguyu-proverku-zhurnala",
+      "sha": "e518a866b693539ae0f409bfcc9418d697af81a3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/uskoritj-stroguyu-proverku-zhurnala"
+    },
+    {
+      "source_ref": "refs/heads/codex/uskoritj-stroguyu-proverku-zhurnala-301-2",
+      "sha": "6449c1df16edbd9c51c4d3f5b0a72ae9961f90eb",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/uskoritj-stroguyu-proverku-zhurnala-301-2"
+    },
+    {
+      "source_ref": "refs/heads/codex/ustranitj-limityi-zakhvata-bazisa-01a14c84",
+      "sha": "1153e1cdaa7cc9013de5c889371c6eaafa60b61d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/ustranitj-limityi-zakhvata-bazisa-01a14c84"
+    },
+    {
+      "source_ref": "refs/heads/codex/vkhod-jsonl-fuma",
+      "sha": "afc851a09b70a71f527de2e16a549aa586ee2894",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/vkhod-jsonl-fuma"
+    },
+    {
+      "source_ref": "refs/heads/codex/vklad-literala-swift-396-20261027",
+      "sha": "9386715c79a0b9997f9fedb978aad1f56215d05f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/vklad-literala-swift-396-20261027"
+    },
+    {
+      "source_ref": "refs/heads/codex/vyidelitj-gotovyij-plan-gosuslug-01a07d3d",
+      "sha": "835c1aeadfda7881cf8846689459d78a6d5d2bc2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/vyidelitj-gotovyij-plan-gosuslug-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/windows-runtime-01a0a633",
+      "sha": "88c546a2cab280499f9dcbeab2cf8f92aacfded7",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/windows-runtime-01a0a633"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-fuma-adapteryi-i-katalogi-agentyi-01a07d3d",
+      "sha": "33bed1419d66f21a85f22c1b56898a8a93219a2b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-fuma-adapteryi-i-katalogi-agentyi-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-ispravleniye-base-pr-i-root-01a07d3d",
+      "sha": "057ec37a115490930d0d3d3fdb6b1dbe3e30477f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-ispravleniye-base-pr-i-root-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-minimaljnyij-swift-stop-01a07d3d",
+      "sha": "39b0f874474ff7e40040a20783a28849cd4becfc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-minimaljnyij-swift-stop-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-nablyudeniye-fs-git-i-uzkoye-mesto-01a07d3d",
+      "sha": "f8843d96265c1723abfd7320dd81555036400213",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-nablyudeniye-fs-git-i-uzkoye-mesto-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-nepreryivnyij-lifecycle-agentov-01a07d3d",
+      "sha": "122602e94a33e89d33b0e9ea45aee42c0574fb55",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-nepreryivnyij-lifecycle-agentov-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-ocheredj-remontov-i-fuma-01a07d3d",
+      "sha": "e6096655703ce74e9af43b232272f9b225416a5d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-ocheredj-remontov-i-fuma-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/zhurnal-programma-paketa-dostavki-01a07d3d",
+      "sha": "d789536cc27e9a0bcd0ca4f4a0d441a1f916fbde",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/zhurnal-programma-paketa-dostavki-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/адаптировать-приложение-0176",
+      "sha": "9d39f45a344af3d99d8402c8e7631e58e239c6fa",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/адаптировать-приложение-0176"
+    },
+    {
+      "source_ref": "refs/heads/codex/архивный-снимок-задачи-01a08641",
+      "sha": "81e2e2c6e830c0f742fffa719c38facde39e41a1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/архивный-снимок-задачи-01a08641"
+    },
+    {
+      "source_ref": "refs/heads/codex/безопасный-Python-0173-01a0a0e0",
+      "sha": "cf64f276837773b7b6eee40f9d5d8bc1c72e1f3e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/безопасный-Python-0173-01a0a0e0"
+    },
+    {
+      "source_ref": "refs/heads/codex/вселенная-FUM-01a08612",
+      "sha": "775f38b93ba144907419718be66b12b934c0c5f8",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/вселенная-FUM-01a08612"
+    },
+    {
+      "source_ref": "refs/heads/codex/вход-снимка-индекса-01a07d3d",
+      "sha": "f8a00f2320e41cc044e26d44b967b1582c77b37e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/вход-снимка-индекса-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/доставка-автоудаления-01a09047",
+      "sha": "48c52d0d7125bc47de431d2c9633c46dbd6b7111",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/доставка-автоудаления-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/защита-обязательств-01a07d3d",
+      "sha": "002bb953671fa82b2144e7ec506d4975df977e3c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/защита-обязательств-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/защита-профилей-01a07d3d",
+      "sha": "63f1b0f0f29c9f29cabcfe3e7fbb8f88c6f81fdb",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/защита-профилей-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/имя-приложения-FUMA-01a08d6d",
+      "sha": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/имя-приложения-FUMA-01a08d6d"
+    },
+    {
+      "source_ref": "refs/heads/codex/интеграция-fuma-master-01a07d3d",
+      "sha": "de9f81fec9e2bad840c6e37b049f5734f544d07b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/интеграция-fuma-master-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/интеграция-fuma-master-профили-01a07d3d",
+      "sha": "19765643195f0fb87dce58c7aba7fd1b50301531",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/интеграция-fuma-master-профили-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/интеграция-оператора-FUMA-01a0a5cc",
+      "sha": "18b695d45da0f4f5b335c57f59f993c806041fd5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/интеграция-оператора-FUMA-01a0a5cc"
+    },
+    {
+      "source_ref": "refs/heads/codex/интеграция-поставок-01a08f62",
+      "sha": "90f4cba01268d4a1833f1921b9427778e8b3740b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/интеграция-поставок-01a08f62"
+    },
+    {
+      "source_ref": "refs/heads/codex/интерпретатор-и-UTF-32-0208",
+      "sha": "c7cd5d33cbf44df0b714d76e188580e9b18d4473",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/интерпретатор-и-UTF-32-0208"
+    },
+    {
+      "source_ref": "refs/heads/codex/история-модели-01a0a5cd",
+      "sha": "cf7e92eb6f914eae2bf16d7dbf50df9487464dff",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/история-модели-01a0a5cd"
+    },
+    {
+      "source_ref": "refs/heads/codex/комплект-Swift-0220-публикация-01a09304",
+      "sha": "1a87a15ee88834551e6fdc78f6a03861894cb1d4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/комплект-Swift-0220-публикация-01a09304"
+    },
+    {
+      "source_ref": "refs/heads/codex/контейнер-наблюдений-01a07d3d",
+      "sha": "583704422445f32cf732f2625e6b5818880fd274",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/контейнер-наблюдений-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/контекст-свидетельства-01a0930d",
+      "sha": "b74e49b2b1a7a2a424e1d3445eb5a87ff57d9905",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/контекст-свидетельства-01a0930d"
+    },
+    {
+      "source_ref": "refs/heads/codex/контракт-индекса-01a07d3d",
+      "sha": "a2a3f8e2edb8f8cec98829f97795bb4623752f7c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/контракт-индекса-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/математическое-направление-0202",
+      "sha": "b762bd0cb77fdbcc418141a1f33800a7bdb630a6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/математическое-направление-0202"
+    },
+    {
+      "source_ref": "refs/heads/codex/матрица-Windows-0181-01a092ff",
+      "sha": "38eeaab8df29860046ea162b1d9e4ca7f3b8bae7",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/матрица-Windows-0181-01a092ff"
+    },
+    {
+      "source_ref": "refs/heads/codex/наблюдатель-Linux-VM-01a08fe2",
+      "sha": "0c0d1cf96e1dd46d2a0161a00974a04556c54f23",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/наблюдатель-Linux-VM-01a08fe2"
+    },
+    {
+      "source_ref": "refs/heads/codex/настроить-Linux-VM-01a08fe2",
+      "sha": "0f62797675ddbcd3c68bceefe6793de95c5d20b8",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/настроить-Linux-VM-01a08fe2"
+    },
+    {
+      "source_ref": "refs/heads/codex/необработанные-сообщения-01a07d3d",
+      "sha": "0e688997b174f8e16617e80033263fe9d16337f3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/необработанные-сообщения-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/необязательный-граф-0203",
+      "sha": "7acc2de8ca1dcbefd82c16faecd1c31bdfa6e648",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/необязательный-граф-0203"
+    },
+    {
+      "source_ref": "refs/heads/codex/обратная-доставка-интеграций-01a07d3d",
+      "sha": "740cf935a88b4fed7bce3687463ceee54b272780",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/обратная-доставка-интеграций-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/операторное-внимание-0218-01a091c7",
+      "sha": "fcfa02d1feb0b10f086dad7acdccccc37544bace",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/операторное-внимание-0218-01a091c7"
+    },
+    {
+      "source_ref": "refs/heads/codex/офлайн-комплект-0221-01a09306",
+      "sha": "f2a42cb04a347a79c8732b89fc82a142ffe34051",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/офлайн-комплект-0221-01a09306"
+    },
+    {
+      "source_ref": "refs/heads/codex/пакет-диагностики-0201",
+      "sha": "17ef8a59fa3c67a73e54c2348189afcb10849585",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/пакет-диагностики-0201"
+    },
+    {
+      "source_ref": "refs/heads/codex/параметрическое-3D-0224-01a09310",
+      "sha": "d4ed03209ec903bf2ee9033567b9c1bd162267da",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/параметрическое-3D-0224-01a09310"
+    },
+    {
+      "source_ref": "refs/heads/codex/паспорт-macOS-VM-0216-01a09302",
+      "sha": "dec167ee29bbab8ff5fd3d6722e1bedd4294f744",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/паспорт-macOS-VM-0216-01a09302"
+    },
+    {
+      "source_ref": "refs/heads/codex/перенести-исходники-FUMA-0176",
+      "sha": "6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/перенести-исходники-FUMA-0176"
+    },
+    {
+      "source_ref": "refs/heads/codex/перенос-рабочих-деревьев-0207",
+      "sha": "70dcc48ef17b142f3829fc6cabe360019309849a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/перенос-рабочих-деревьев-0207"
+    },
+    {
+      "source_ref": "refs/heads/codex/перехват-завершения-01a07d3d",
+      "sha": "cdd67b22c271be28cd0cdce1dda5f08f1a264c72",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/перехват-завершения-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/план-Госуслуг-01a0909c",
+      "sha": "f5716675472a9807d004e95144b98c621855bfc2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/план-Госуслуг-01a0909c"
+    },
+    {
+      "source_ref": "refs/heads/codex/планирование-наблюдения-macos-01a07d3d",
+      "sha": "ef0b528c8c117f7cfddb83d1699aa333d9c486a5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/планирование-наблюдения-macos-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/подключить-гостевые-команды-Linux-VM-01a08fe2",
+      "sha": "7e6a5ace3bbfa1ad5e7d3e98114a0a784d8237ec",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подключить-гостевые-команды-Linux-VM-01a08fe2"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-v1",
+      "sha": "01c8498eb671a2bbb437211cf63c1c14db63d308",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/fix-FUM-STEP-0150-C0-bootstrap-P1-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-legacy-bootstrap-v2",
+      "sha": "01c8498eb671a2bbb437211cf63c1c14db63d308",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/fix-FUM-STEP-0150-legacy-bootstrap-v2"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/fix-FUM-STEP-0150-pinned-bootstrap-v1",
+      "sha": "152a994eb44528a57fdc0bd0eca801cec42e7345",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/fix-FUM-STEP-0150-pinned-bootstrap-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/repair-post-terminal-01a0026f-v1",
+      "sha": "850d56806d01edf26454adc7861ca5f4497451a9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/repair-post-terminal-01a0026f-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/review-fum-step-0147-6ad10c37",
+      "sha": "249d076b1857f4e1727e5448587d13f16b15a30a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/review-fum-step-0147-6ad10c37"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/ревью-0a4df969-01a001a4-v1",
+      "sha": "249d076b1857f4e1727e5448587d13f16b15a30a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/ревью-0a4df969-01a001a4-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/ревью-643f568c-01a001a4-v1",
+      "sha": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/ревью-643f568c-01a001a4-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/ревью-результата-a3cbe22a3ae1d3f268636d75b86616da9a28c63f2edca61abbc789ceadaa71dd-v1",
+      "sha": "d8b33cd1d5782f7ae288693d094af82ef5ec6f7e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/ревью-результата-a3cbe22a3ae1d3f268636d75b86616da9a28c63f2edca61abbc789ceadaa71dd-v1"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-0e726c1afc99b3bc6b4df54b",
+      "sha": "62f3d8db20ec9ea5abb57b0cf090a4a3630402c6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-0e726c1afc99b3bc6b4df54b"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-0f0e16308c739e9d2d6f3b9f",
+      "sha": "3c38e4bda26abef9dc27c281ec46943f480d32d3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-0f0e16308c739e9d2d6f3b9f"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-12b43691fc6371660755681e",
+      "sha": "f821f3b55e0c3eab2cf1ea05d01cf02ffd571e1f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-12b43691fc6371660755681e"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-260d116b5d1f2911884d3651",
+      "sha": "1de99504e46497f4d384ee6c5fc110063bcbfb6c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-260d116b5d1f2911884d3651"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-2b381b69b99d4e96092ffa4f",
+      "sha": "b0403b8047a411255c66bc4e818402d5ec6ab300",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-2b381b69b99d4e96092ffa4f"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-409742d2b28e477012b06626",
+      "sha": "1a47d4746324bdb361d99398dc235d9bea192c4b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-409742d2b28e477012b06626"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-5145e5cfc1174e66a304a9ec",
+      "sha": "aa04f749400da6cb4b1a8eec1e86baa00fe11e5f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-5145e5cfc1174e66a304a9ec"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-781706e17230e4e1307fe6b2",
+      "sha": "7ee98fa4f72c319217d4284d30ecd1b1ca3198ab",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-781706e17230e4e1307fe6b2"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-bc79104b1252c679a5fcba21",
+      "sha": "cbeb686f4bc2ad7fa08fcb10fc0c44baeec1915b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-bc79104b1252c679a5fcba21"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-c8121b1382fa3ef091cd8fcf",
+      "sha": "0ded7d2ed7f89ef739c2a69d4bf594e322756994",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-c8121b1382fa3ef091cd8fcf"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-e4c4e011613e9dcfe6d0bc14",
+      "sha": "db927feb6fa9bce952d53a30ed15562f86ba25b6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-e4c4e011613e9dcfe6d0bc14"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-e56bcc3b0ea834216351fb42",
+      "sha": "87d0f3e4f80ec8df6eeacdf498dad8eced430543",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-e56bcc3b0ea834216351fb42"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-f19e343180b26b3d462e8269",
+      "sha": "3832cdae90d040052d212253b523596c024ef0a7",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-f19e343180b26b3d462e8269"
+    },
+    {
+      "source_ref": "refs/heads/codex/подузлы/сессия-ff6b955430eb0f6c79ff1532",
+      "sha": "28950e66a3ffc2e51ee87084c9bbc22e4e8752fe",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/подузлы/сессия-ff6b955430eb0f6c79ff1532"
+    },
+    {
+      "source_ref": "refs/heads/codex/политика-интеграции-01ca9886-01a09047",
+      "sha": "d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/политика-интеграции-01ca9886-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/постановка-README-01a08d77",
+      "sha": "6049110117aa2d46380422ff51e2e996f087ee90",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/постановка-README-01a08d77"
+    },
+    {
+      "source_ref": "refs/heads/codex/предпосылка-автоудаления-01a09047",
+      "sha": "20f3257bcd19a19473df28028794b78d5dd940ce",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/предпосылка-автоудаления-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/предпосылка-форматов-62a8-01a09047",
+      "sha": "08cffcc75c7a9776453b2d7497c1d2d75ca6f994",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/предпосылка-форматов-62a8-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/приём-направлений-FUMA-0201",
+      "sha": "b08b969c9c40bda90e53e8effee904f181dce7d6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/приём-направлений-FUMA-0201"
+    },
+    {
+      "source_ref": "refs/heads/codex/рабочий-контекст-0165-01a0930d",
+      "sha": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/рабочий-контекст-0165-01a0930d"
+    },
+    {
+      "source_ref": "refs/heads/codex/расширение-шаблонов-01a08f63",
+      "sha": "acab107170a4a1243b76cba4f25b0b408e735603",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/расширение-шаблонов-01a08f63"
+    },
+    {
+      "source_ref": "refs/heads/codex/реестр-организаций-поддержки-01a0904a",
+      "sha": "790156bedf407511ed4fd0eda14447a443784584",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/реестр-организаций-поддержки-01a0904a"
+    },
+    {
+      "source_ref": "refs/heads/codex/слияние-14044-48c52-01a09047",
+      "sha": "ac78d0b410395358797663dcc028150938839f06",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/слияние-14044-48c52-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/совместимость-master-FUMA-0175-01a09047",
+      "sha": "d05d9c3d4e19db097e6d2eca117708c50a807d2d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/совместимость-master-FUMA-0175-01a09047"
+    },
+    {
+      "source_ref": "refs/heads/codex/статистика-вызовов-01a07d3d",
+      "sha": "37ef3e5121169ec75a29f2dc3b34eab0594933d2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/статистика-вызовов-01a07d3d"
+    },
+    {
+      "source_ref": "refs/heads/codex/финансирование-фума-01a0904a",
+      "sha": "7cdc8747fd7f656d1bb9e5d920dae2fbbdc78e9a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/финансирование-фума-01a0904a"
+    },
+    {
+      "source_ref": "refs/heads/codex/форматы-приложения-FUMA-0176",
+      "sha": "582fae9778073ffedcdf347509887c84a4334e27",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/codex/форматы-приложения-FUMA-0176"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/arkhitektura/master",
+      "sha": "63b4559b2ebca19edca55f2ca1249ce150d44eb6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/arkhitektura/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/audit/istoriya-kommitov/master",
+      "sha": "418db43f19dbd8da4b89bb7d244d12986a1ad8e2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/audit/istoriya-kommitov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/audit/master",
+      "sha": "9249fec6a4f3dcce771de1766a151ec4bfcb7feb",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/audit/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/audit/roi-lifecycle/master",
+      "sha": "995ca4b26983e69a30d433a03637f2cf9ce68400",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/audit/roi-lifecycle/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/dokumentaciya/master",
+      "sha": "4622325d79d9bb6e94599af9d720ff199447cad4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/dokumentaciya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/dokumentaciya/priyom-b466/master",
+      "sha": "f89ab1cbf82af031af20912430e5b72f3e1f0f5c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/dokumentaciya/priyom-b466/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/dokumentaciya/priyom-e952/master",
+      "sha": "65eb15e8e66e90f712cb0efc79dd4655a7e72940",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/dokumentaciya/priyom-e952/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/doska-obyyavlenij/master",
+      "sha": "9bb093394ac3aac3acd4ce0dcd257ee1dbff076b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/doska-obyyavlenij/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/doska-obyyavlenij/potreby-01a17815",
+      "sha": "855dc38b4b09cd0264f4231598a13c1ec8a035df",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/doska-obyyavlenij/potreby-01a17815"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master",
+      "sha": "6338ea92dfd810c8b7f59be8f7d007d58f095d5b",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/agentomediator/normalizaciya-yachejki/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/agentomediator/signal-plana/master",
+      "sha": "f3eabe270c20de9d22cb76074723c7e9520c38f0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/agentomediator/signal-plana/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/agentomediator/stupeni-usiliya/master",
+      "sha": "4a55466e3231bbdbb4a1a5c2ffdc0dcc3630acaf",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/agentomediator/stupeni-usiliya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/aot-join-strings-396",
+      "sha": "b359443bb587cca80d4a8b240d47ad9deb5bb4b4",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/aot-join-strings-396"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/aot/transfer-join/master",
+      "sha": "934574591c481af7b22cef60d11bf8330050a9f1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/aot/transfer-join/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/arkhiv-codex/master",
+      "sha": "d5127c92736653a856c5f0b0700c0af149cb886e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/arkhiv-codex/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master",
+      "sha": "3973a731685e6ec395a1ff7a167558359dffadec",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/interfejs/minimaljnyj-ui/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/klaviatura/obshchij-perekhod/master",
+      "sha": "03b93a930fd75aa5e23291a02bf95484867806a7",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/klaviatura/obshchij-perekhod/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/klaviatura/vvod-okna/master",
+      "sha": "52c0d4b6e42401b10787a690d6ef344fbb93f373",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/klaviatura/vvod-okna/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/llm/master",
+      "sha": "39c79c29c9bd85185f77a07254762900e2a9e229",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/llm/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/master",
+      "sha": "e774da79e5e6a9490820314ca1aa259d2b15e0d5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/nablyudenie-fs/signal/master",
+      "sha": "90c20c492d026c6456512d55d533b39cf0fc0911",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/nablyudenie-fs/signal/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/packages/setj-agentov/master",
+      "sha": "59a74b2eaa16a03ff4b57aaf31604a4b00be5b48",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/packages/setj-agentov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/priyom-grok-23/master",
+      "sha": "e774da79e5e6a9490820314ca1aa259d2b15e0d5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/priyom-grok-23/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/priyom-grok-offline/postavka-iskhodnikov",
+      "sha": "390577b638b19ff0a39614b5ab311ba8481fd4ca",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/priyom-grok-offline/postavka-iskhodnikov"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/priyom-grok-offline/source",
+      "sha": "55088b0d7ef07f959e5b3dc0cb913752251a1671",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/priyom-grok-offline/source"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/priyom-iskhodnikov-383",
+      "sha": "5f851300e316f410eea548f68d5588a12a730c2c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/priyom-iskhodnikov-383"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/ramki-jsonl/master",
+      "sha": "3939895a12cc0a4589157dfaace690559add8aaa",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/ramki-jsonl/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/regressiya-obkhoda-segmenta-359",
+      "sha": "a3b0de3484f85a4cb8ff0092dd9150104c05baa1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/regressiya-obkhoda-segmenta-359"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/shrifty/model-glifa/master",
+      "sha": "cb82c5e310d375db74f54cda5292c1a45dc5e434",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/shrifty/model-glifa/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/vkhod-jsonl-fuma/master",
+      "sha": "49f584b0cb0c66e11d6a915d587c7f5bb7b76029",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/vkhod-jsonl-fuma/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/fuma/zapusk/master",
+      "sha": "a4084c0e5114666c5795aa3e86956e22a64db213",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/fuma/zapusk/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/glossarij/master",
+      "sha": "46f0a13c3ece38b2368ef368e8dcdf8b7c4a9983",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/glossarij/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/indeksyi/master",
+      "sha": "88396b09edeae2045dd5e7642025c9f304072eee",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/indeksyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/avtor-kommitov/master",
+      "sha": "ef98243246204844e0f36c79f7416ba8369f44e9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/avtor-kommitov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/dopusk-vetok/master",
+      "sha": "fe7f649e81bd0367aa08647bf615c75793a5127a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/dopusk-vetok/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/fabrika-agentov/pokryitiye/master",
+      "sha": "bfb5371ba3e51e1de8e650415af2c817c2926153",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/fabrika-agentov/pokryitiye/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/formatirovaniye-kornei-agentov/master",
+      "sha": "db01f9237cef11a805f3dbd1854ec0425cb3f676",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/format-dereva/formatirovaniye-kornei-agentov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi/master",
+      "sha": "62313ac7dd1baae117565c33a10128e49b26bdda",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/format-dereva/ishjyusyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/format-dereva/master",
+      "sha": "dfff2e08002f6a3e9387b91038bad8dfa96f827a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/format-dereva/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/chastj-swift/master",
+      "sha": "7da711b39ed356017afed7ffa861be5b5998c4d9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/chastj-swift/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/generaciya-polnogo-manifesta-paketa/master",
+      "sha": "94986cf7e62032e7669be934d1584cdd05fc8504",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/generaciya-polnogo-manifesta-paketa/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/master",
+      "sha": "5ff425f56fba6f94ea9a19006e3d4f3a2c29a082",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov-root/master",
+      "sha": "2b11dae0c9426a477b1b7e0e336776203346efcc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov-root/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov/master",
+      "sha": "137319cee3134cbe07c9c8503fec3f0f328c25c1",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/paket-iskhodnikov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/peredacha-fuma/master",
+      "sha": "6ba6d8ba5663bd61a0e8049665725b6862f0097e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/peredacha-fuma/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/pereimenovaniye-fajla-s-obnovleniyem-ssyilok/master",
+      "sha": "aa8e3e60e3913ac173164f7addc679a17df73afe",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/pereimenovaniye-fajla-s-obnovleniyem-ssyilok/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/publichnyij-fasad-imyon/master",
+      "sha": "3f0d14d4a4df2b118112530ab3bf2d00e1fff687",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/publichnyij-fasad-imyon/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/sovmestimostj-ssyilok-s-probelami/master",
+      "sha": "0321f277022d13e3153c28e215ba24758c31ced2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/sovmestimostj-ssyilok-s-probelami/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master",
+      "sha": "eb512829deee70bd0c53be307148442d8aa95a88",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/ispravlenie-indeksa/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/master",
+      "sha": "d9b41c67d7e9677e482d08ebc38b388dfd216e80",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/imena-katalogov/uskorenie-plana-rukovodstva/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/master",
+      "sha": "90ebaf9a7988d74c1bc3dae1a81d830ebca61627",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/obnovitj-svezhestj-markdown/master",
+      "sha": "fdad94ba0c2a6a1ecb6d8028815d907c5e6a95ed",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/obnovitj-svezhestj-markdown/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/optimizaciya/rabochaya-arkhitektura/master",
+      "sha": "54a9f842dc4058d5ad39864b0481cb1b1b86145c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/optimizaciya/rabochaya-arkhitektura/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perehod-vetok/fabrika-agentov/adapter-adresa/master",
+      "sha": "90fd6b04b481d1a9ef12827ece82c806e301024f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perehod-vetok/fabrika-agentov/adapter-adresa/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/checkpoint-v3-01a127bf",
+      "sha": "e033e6623bd8f96f84100f39cb58e991025e851e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/checkpoint-v3-01a127bf"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/fabrika-agentov/adapter-adresa/master",
+      "sha": "90fd6b04b481d1a9ef12827ece82c806e301024f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/fabrika-agentov/adapter-adresa/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/ispravitj-kornevoj-stop/master",
+      "sha": "9b1cf7417c7c8bae900c5529b5d3d95f91da5590",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/ispravitj-kornevoj-stop/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/master",
+      "sha": "b73b1c628aa31401b80c1cb1bb88760113759414",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/podgotovka-okruzheniya-kommita/master",
+      "sha": "a353cc2c2eedb38a4a5369f96fe69009324d76dc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/podgotovka-okruzheniya-kommita/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/priyom-packed-refs/master",
+      "sha": "692f6c6ffe0a49f5b10c5c967a0612bcc7bc25e2",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/priyom-packed-refs/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master",
+      "sha": "af02449ac6559baad43b3f4a5f3a1828cba00d7f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/proverka-celostnosti-iskhodnikov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master",
+      "sha": "3f286543c5c5e5ebf83a59c24763079bfac52b96",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/sinkhronizaciya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/ustanovitj-stop/master",
+      "sha": "b89fe126a6c7823285169bdf6da7bfcd02fe0c3d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/ustanovitj-stop/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/fabrika-agentov/master",
+      "sha": "c8c99bebaceac6aa8935ea51db32870db1e93936",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/fabrika-agentov/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master",
+      "sha": "b9d676f793cdb2e0f75b21b995fa1a87bb8c1e39",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/perekhod-vetok/vosstanovleniye/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/pravila/priyom-remonta-profilya/master",
+      "sha": "28189d59e7d7457596dff75340c5208f57ed0fcd",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/pravila/priyom-remonta-profilya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/pravila/vosstanovleniye-profilya/master",
+      "sha": "9014c473069a676e556a451fcd8bcc16caaf7d9a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/pravila/vosstanovleniye-profilya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master",
+      "sha": "c4e32f227dc0c3e585dd9af797e39fe352390e7d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/rantajm-agentov/zhiznennyj-cikl/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/shtatnyiye-otvetyi/master",
+      "sha": "09ec03d2eac45f1c4bcb99a59d8e378986f8e5ce",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/shtatnyiye-otvetyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/instrumentyi/zhurnal/master",
+      "sha": "3cc3a7265a31c0475edc9b66f420e50293719521",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/instrumentyi/zhurnal/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/integraciya/art-stage-3/master",
+      "sha": "b182272df6a218d8b5239da83a3ff79d650b3614",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/integraciya/art-stage-3/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/integraciya/candidate-issues/master",
+      "sha": "5813097f7e8c926a467966a038ce9461d23c772f",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/integraciya/candidate-issues/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/integraciya/master",
+      "sha": "50e30ff3f050995904cd211df1b97e5b16637826",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/integraciya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/integraciya/old-branches/master",
+      "sha": "db0fd441ea8a93f120d83e7f51649138a9576e49",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/integraciya/old-branches/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/integraciya/partial-issues/master",
+      "sha": "a09c79476d8b764ed1fa833ceefa82a7c5917908",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/integraciya/partial-issues/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/istochniki/arkhiv-pr490-issue489/master",
+      "sha": "eb20975b1007df2b2b3abde662f785902ab11599",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/istochniki/arkhiv-pr490-issue489/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/istochniki/delta-pr491-493/master",
+      "sha": "0be973dce373c6505bc2f0601ad5c2451c91f43a",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/istochniki/delta-pr491-493/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/istochniki/github-issues-snapshot-499",
+      "sha": "f43bf044cf7f9e8df333671f8dab1f2dfcdf8828",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/istochniki/github-issues-snapshot-499"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/istochniki/master",
+      "sha": "60a124f5ad1dbb3ea89526bb3b79768ad52868d9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/istochniki/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/istochniki/pulls-491-493/2026-10-31",
+      "sha": "c8b956f69ec400625fcfb60d6b4c2d6e2bcf37c9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/istochniki/pulls-491-493/2026-10-31"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/istochniki/statistika-roya/master",
+      "sha": "81447e534aed1cf0bab362a74a3e61579199b8b3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/istochniki/statistika-roya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/master",
+      "sha": "0cf49a8c40a7dfac8e88950d439b1afeb7062021",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/khudozhestvennoye-napravleniye/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/khudozhestvennoye-napravleniye/press-relizyi/master",
+      "sha": "a4a72b36ebfb2fc19e783f1fe068d4ed0c03cb05",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/khudozhestvennoye-napravleniye/press-relizyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/koordinaciya/avtovyidacha-polnomochij/kontrakt/master",
+      "sha": "efafc15f4682bf50dc8f605000270d454a8d39db",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/koordinaciya/avtovyidacha-polnomochij/kontrakt/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/koordinaciya/master",
+      "sha": "f5db4537777221b801d0ab9cc1ca9f5ea3b173a0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/koordinaciya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/koordinaciya/metadannyie-kommita/master",
+      "sha": "9b10778481519aeb4ac3e76bba5360abfeae82f3",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/koordinaciya/metadannyie-kommita/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master",
+      "sha": "95431459773f3e99cc0edeaccd3e50aed5965239",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/koordinaciya/potrebitelj-bajtov-soobsjheniya-fuma/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/master",
+      "sha": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/opisaniya/master",
+      "sha": "3a89941b76a9eb0ac5baf0dac8fb647d2cc97bc6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/opisaniya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/planirovaniye/master",
+      "sha": "8957186904f5773c123e96e470d85b0c8aa989cc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/planirovaniye/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/iyerarkhiya-vetok/master",
+      "sha": "ee993b1e0f9b4bdfa8b87fb635095063deeee708",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/iyerarkhiya-vetok/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/kompaktnostj/master",
+      "sha": "64c19c87ff5b1b7a8ff2ba8fec69164fda85af4c",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/kompaktnostj/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/lokaljnyie-svyazi-i-isklyucheniya/master",
+      "sha": "a42335e2df791e9d9e3e2e41b50c714356730e73",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/lokaljnyie-svyazi-i-isklyucheniya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/lokaljnyij-vkhod/marshrutizaciya/master",
+      "sha": "a909245562eee1dead39455c39c8e7102650e383",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/lokaljnyij-vkhod/marshrutizaciya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/lokaljnyij-vkhod/postavka/master",
+      "sha": "92e0adc5037b6cbbc7bc8df124fd2d330338d461",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/lokaljnyij-vkhod/postavka/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/master",
+      "sha": "f13c0bedbe65c8eb2759010f74110795e6cb2be5",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/pravila/ustanovka-lokaljnogo-vkhoda/master",
+      "sha": "62c706efc44b788b80adf58b79547e244c931b33",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/pravila/ustanovka-lokaljnogo-vkhoda/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/prototipyi/master",
+      "sha": "e127dc2cbd58db93f98eafd5dc62cc376fbcd91d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/prototipyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/sboi/master",
+      "sha": "2b81e27c9a522e3f31c09890bf3ae4869235a429",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/sboi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/trebovaniya/interfejs-i-vvod/master",
+      "sha": "f1ee034844afbcd2754834e0d85c85518823a8dc",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/trebovaniya/interfejs-i-vvod/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/trebovaniya/master",
+      "sha": "aa65d76f67cd52c172680b287df07064bf31a375",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/trebovaniya/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma",
+      "sha": "39b37059c6604e62c6c32bc3a841927672f5c66d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/trebovaniya/prinyatj-utochneniya-fuma"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/voprosyi-i-otvetyi/master",
+      "sha": "4f56fec46879f3d00ffb9b4de53c3fd688300909",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/voprosyi-i-otvetyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/voprosyi/master",
+      "sha": "b48e6158b390a2fd78cd90ce43bfc5a45c9ae473",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/voprosyi/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/zavisimosti/master",
+      "sha": "d927eabd24b03f9d4cc488299d0c632e49c55be0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/zavisimosti/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/zavisimosti/obzor-dlya-fabriki/master",
+      "sha": "aaf61a51fbfe5f24e0fca9ec020991cd7a6636dd",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/zavisimosti/obzor-dlya-fabriki/master"
+    },
+    {
+      "source_ref": "refs/heads/fum-lab/fum/zhurnal/master",
+      "sha": "a59a07ecf16b9b30dd03a66ff7e9fcdcbb517726",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fum-lab/fum/zhurnal/master"
+    },
+    {
+      "source_ref": "refs/heads/fuma",
+      "sha": "d8c79d943c39e88ea4f08b44b6ed0a5647ff831d",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/fuma"
+    },
+    {
+      "source_ref": "refs/heads/maintenance/archive-and-restore-python-20261103",
+      "sha": "cc351d0463a3ef5046e8bbbdeab7dae0b6872ea0",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/maintenance/archive-and-restore-python-20261103"
+    },
+    {
+      "source_ref": "refs/heads/master",
+      "sha": "c9399a970b1d834d518f019c86314136f2822ad6",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/master"
+    },
+    {
+      "source_ref": "refs/heads/planirovaniye",
+      "sha": "935d945aaf23a66fbc3abecd6ed9124c45038739",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/planirovaniye"
+    },
+    {
+      "source_ref": "refs/heads/sokhraneno/fum-lab/fum/01c161d3",
+      "sha": "01c161d36c7a0af4c986c7c908b2aba4ea58b5a9",
+      "archive_ref": "refs/tags/archive/2026-11-03/pre-python/sokhraneno/fum-lab/fum/01c161d3"
+    }
+  ],
+  "open_pr_count": 29,
+  "restoration_status": "NOT_APPLIED",
+  "local_unpushed_changes": "NOT_ACCESSIBLE_FROM_GITHUB",
+  "notes": "This archive preserves remote branch histories; it does not stop local agents or modify local worktrees."
+}
