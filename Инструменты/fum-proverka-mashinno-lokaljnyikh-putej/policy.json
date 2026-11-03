@@ -8073,6 +8073,150 @@
       "count": 3,
       "category": "allow.test-fixture",
       "reason": "Полный обезличенный вход и ожидаемый результат одного автономного FUMA-сценария: абсолютные пути являются проверяемыми фикстурами, не адресами машины пользователя."
+    },
+    {
+      "id": "git-commit-plan-fixture-01",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:20ca80099f9a5a7eb6e60bcdbf7fc0acd8b0697b10995f070c7da33ef2d45960",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-02",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:70776f93e65bc57203b5e660363303ced49ef61ffff31f5165c466286f59b341",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-03",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:be1ed80258253f9621f3c926f19d8a4a50ab586710c972753dc30487799c689c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-04",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b43f6ad3fe28391255ecd04d7726b01a198638ad3e02b183efc7c01b2c5310e4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-05",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:42d097845b6c6a068572648f95feeaf5eb33e19bf48616b2b93a4a22eef4d78c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-06",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b99bfcc8da049065eefbf13d13de194e0a4d29a6b1d91cb4c07db44e5e816308",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-07",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fcb3cf6f5d7ddea926b629b2052c3d99dbf1916aecddfd0254d4f4e2039a89b3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-08",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b36535ce0eb77305efd28e40a54fb7ddb80aeb25ab4b73e38f499d0efc36a9d5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-09",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2734ec1161bac9fc7878a3c7f216abc3c90a6456a7763705ebaf4a095d892d2b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "git-commit-plan-fixture-10",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:641d7270d36849379e35520d2e395b484160988ad4e5b98b6798d96657602326",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "git-commit-plan-fixture-11",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:17cfe86db47cdf416ad4bc03395f838b938505b4ede8e50020a6e8bb775fd1fa",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь открытой фикстуры плана Git; не адрес настоящего checkout или сообщения."
+    },
+    {
+      "id": "git-commit-plan-fixture-12",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2181b7dd68a45890563e882b65ebfc9ac7dd52f1be3657b496b6651ca34be224",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "git-commit-plan-fixture-13",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b5545df1aa380580f650bd0f57c324cf54aa9d4acf15ba53baf3d044c4016c23",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "git-commit-plan-fixture-14",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bb6520d473354c992037a1fcb4107a213896db6d4df73ca14f92dab0e4ff4234",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "git-commit-plan-fixture-15",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a60bee468e7c3dfba5e298cf07efced4ac851848a05a57177d162e7c9a34ba08",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "git-commit-plan-fixture-16",
+      "path": "fuma/packages/fiksaciya-git/примеры-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4552e16589d78bf0794fb6ca634bee45f48300d2f751205733ebae53adb50989",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
     }
   ],
   "метаданные": [
