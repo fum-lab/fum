@@ -1,0 +1,125 @@
+name: Restore verified Python baseline
+on:
+  push:
+    branches:
+      - maintenance/archive-and-restore-python-20261103
+    paths:
+      - .github/workflows/python-restore-apply.yml
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify archive, restore exact baseline, and retire archived branches
+        env:
+          RESTORE_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --bare --filter=blob:none https://github.com/fum-lab/fum.git repository.git
+          cd repository.git
+          python3 - <<'PY'
+          import base64, datetime, json, os, subprocess, urllib.request
+          REPO = 'fum-lab/fum'
+          ROOT = 'refs/heads/fum-lab/fum/master'
+          OLD = 'c3624c07e17588a221760624fd2ee9b5d69f8f4e'
+          TARGET = 'fc3e9776954ccbec5ff8c2e886606a137a98fd1a'
+          TREE = '1b8e36d88397b85ef4f966acd42275e96b1be9bf'
+          INDEX = 'refs/heads/archive/2026-11-03/pre-python-index'
+          INDEX_OLD = '2d17093043518a49ac8f62655674f9c29c4689ef'
+          MAINT = 'refs/heads/maintenance/archive-and-restore-python-20261103'
+          FINAL_TAG = 'refs/tags/archive/2026-11-03/pre-python-final/maintenance/archive-and-restore-python-20261103'
+          CHECK_RUN = 41645588313
+          TOKEN = os.environ['RESTORE_TOKEN']
+          def now():
+              return datetime.datetime.now(datetime.timezone.utc).isoformat()
+          def require(condition, message):
+              if not condition:
+                  raise RuntimeError(message)
+          def git(*args, data=None, env=None):
+              p = subprocess.run(['git', *args], input=data, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+              if p.returncode:
+                  print(p.stderr.decode('utf-8', 'replace'))
+                  raise RuntimeError('Git command failed: ' + args[0])
+              return p.stdout.decode('utf-8').strip()
+          def api(path):
+              request = urllib.request.Request('https://api.github.com/repos/' + REPO + path, headers={'Accept':'application/vnd.github+json','User-Agent':'FUM-Python-restoration','Authorization':'Bearer '+TOKEN})
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  return json.load(response)
+          def refs():
+              return {r:s for s,r in (line.split('\t',1) for line in git('ls-remote','origin').splitlines())}
+          def heads(values):
+              return {r:s for r,s in values.items() if r.startswith('refs/heads/')}
+          def encoded(value):
+              return (json.dumps(value, ensure_ascii=False, indent=2)+'\n').encode()
+          def index_commit(parent, files, message):
+              entries = {}
+              raw = subprocess.check_output(['git','ls-tree','-z',parent]).decode()
+              for item in raw.rstrip('\0').split('\0'):
+                  metadata, name = item.split('\t',1)
+                  entries[name] = metadata
+              for name, content in files.items():
+                  require('/' not in name and '\n' not in name, 'Only flat archive report paths are allowed')
+                  entries[name] = '100644 blob ' + git('hash-object','-w','--stdin',data=content)
+              tree = git('mktree','-z',data=''.join(entries[name]+'\t'+name+'\0' for name in sorted(entries)).encode())
+              return git('-c','user.name=FUM archive operation','-c','user.email=fum@local','commit-tree',tree,'-p',parent,data=message.encode())
+          auth = base64.b64encode(('x-access-token:'+TOKEN).encode()).decode()
+          write_env = os.environ.copy()
+          write_env.update({'GIT_CONFIG_COUNT':'1','GIT_CONFIG_KEY_0':'http.https://github.com/.extraheader','GIT_CONFIG_VALUE_0':'AUTHORIZATION: basic '+auth})
+          run = api('/actions/runs/'+str(CHECK_RUN))
+          require(run['status']=='completed' and run['conclusion']=='success', 'Historical Python checks are not successful')
+          require(run['head_sha']=='c4a8b2a583f58e82b76afb524deb70bf38f71522', 'Unexpected verification workflow source')
+          jobs = api('/actions/runs/'+str(CHECK_RUN)+'/jobs?per_page=100')['jobs']
+          require(len(jobs)==4 and all(j['conclusion']=='success' for j in jobs), 'Incomplete verification jobs')
+          require(api('')['default_branch']=='fum-lab/fum/master', 'Default branch changed')
+          require(git('rev-parse',TARGET+'^{tree}')==TREE, 'Target tree mismatch')
+          require(git('show','-s','--format=%P','d8c79d943c39e88ea4f08b44b6ed0a5647ff831d')==TARGET, 'Migration boundary mismatch')
+          manifest = json.loads(git('show',INDEX_OLD+':manifest.json'))
+          pull_snapshot = json.loads(git('show',INDEX_OLD+':open-pull-requests.json'))
+          require(manifest['branch_count']==340 and len(manifest['branches'])==340, 'Archive inventory mismatch')
+          before = refs()
+          expected = {x['source_ref']:x['sha'] for x in manifest['branches']}
+          expected[MAINT] = os.environ['GITHUB_SHA']
+          expected[INDEX] = INDEX_OLD
+          require(heads(before)==expected, 'Remote branches changed since archive; no restoration applied')
+          require(before.get(ROOT)==OLD, 'Current default head is not the archived head')
+          for item in manifest['branches']:
+              require(before.get(item['archive_ref'])==item['sha'], 'Missing or changed archive: '+item['source_ref'])
+          require(FINAL_TAG not in before, 'Final maintenance archive already exists; refusing overwrite')
+          deletions = sorted(r for r in expected if r not in (ROOT,INDEX))
+          require(len(deletions)==339, 'Unexpected retirement scope')
+          checks = {'run_id':CHECK_RUN,'url':run['html_url'],'head_sha':run['head_sha'],'conclusion':run['conclusion'],'jobs':[{'id':j['id'],'name':j['name'],'conclusion':j['conclusion']} for j in jobs], 'observed_from_completed_job_logs':{'python':'3.12.3','syntax_files':1479,'syntax_errors':0,'child_merge_tests':26,'ordinary_assignment_tests':14,'stop_hook_tests':32,'regression_total':72},'scope':'Selected existing regressions, not the complete project suite or a live local-agent deployment.'}
+          plan = {'schema':'fum.python-restoration-plan.v1','created_at':now(),'request':manifest['request'],'default_ref':ROOT,'before':OLD,'target':TARGET,'target_tree':TREE,'original_archive_index':INDEX_OLD,'maintenance_final':{'source_ref':MAINT,'sha':expected[MAINT],'archive_ref':FINAL_TAG},'delete_refs':[{'ref':r,'expected_sha':expected[r]} for r in deletions],'verification':checks,'status':'PREPARED_NOT_APPLIED','local_machines':'NOT_CHANGED','workflow_run_id':os.environ['GITHUB_RUN_ID']}
+          prepared = index_commit(INDEX_OLD, {'restore-plan.json':encoded(plan),'python-checks.json':encoded(checks)}, 'Подготовить точный возврат Python и сохранить границы проверки\n')
+          git('push','--atomic','--porcelain','--force-with-lease='+FINAL_TAG+':','--force-with-lease='+INDEX+':'+INDEX_OLD,'origin',expected[MAINT]+':'+FINAL_TAG,prepared+':'+INDEX,env=write_env)
+          saved = refs()
+          expected[INDEX] = prepared
+          require(heads(saved)==expected and saved.get(FINAL_TAG)==expected[MAINT], 'Final archive readback failed or branches drifted')
+          for item in manifest['branches']:
+              require(saved.get(item['archive_ref'])==item['sha'], 'Original archive changed')
+          print('FINAL_ARCHIVE_VERIFIED',json.dumps({'initial_tips':340,'final_maintenance_tip':expected[MAINT],'prepared_index':prepared},ensure_ascii=False))
+          leases = ['--force-with-lease='+ROOT+':'+OLD] + ['--force-with-lease='+r+':'+expected[r] for r in deletions]
+          specs = [TARGET+':'+ROOT] + [':'+r for r in deletions]
+          push_output = git('push','--atomic','--porcelain',*leases,'origin',*specs,env=write_env)
+          after = refs()
+          require(heads(after)=={ROOT:TARGET,INDEX:prepared}, 'Post-restoration branch inventory differs from expected')
+          for item in manifest['branches']:
+              require(after.get(item['archive_ref'])==item['sha'], 'Post-restoration archive mismatch')
+          require(after.get(FINAL_TAG)==expected[MAINT], 'Final workflow archive missing')
+          require(api('')['default_branch']=='fum-lab/fum/master', 'Default branch setting changed unexpectedly')
+          print('RESTORATION_VERIFIED',json.dumps({'default_ref':ROOT,'commit':TARGET,'tree':TREE,'retired_branch_count':len(deletions),'remaining_branch_count':2},ensure_ascii=False))
+          result = {'schema':'fum.python-restoration-result.v1','verified_at':now(),'status':'APPLIED_AND_READ_BACK','request':manifest['request'],'default_ref':ROOT,'before':OLD,'restored_commit':TARGET,'restored_tree':TREE,'retired_branch_count':len(deletions),'original_branch_tips_preserved':340,'final_maintenance_tip_preserved':expected[MAINT],'remaining_branches':[ROOT,INDEX],'prepared_index':prepared,'verification_run_id':CHECK_RUN,'application_run_id':os.environ['GITHUB_RUN_ID'],'local_unpushed_changes':'NOT_ACCESSIBLE_FROM_GITHUB','local_worktrees_hooks_processes':'NOT_CHANGED','issues':'NOT_CLOSED_OR_MARKED_COMPLETED','pull_requests':'Original 29 open PR snapshots are preserved. No manual PR merge or state update was performed; deleting branches may change GitHub PR state.'}
+          readme = '# Архив и возврат Python — 3 ноября 2026\n\nОсновная ветка `fum-lab/fum/master` возвращена на точный коммит `'+TARGET+'` от 25 октября 2026, непосредственно перед переходом приоритета на Swift/FUMA.\n\nВсе 340 опубликованных вершин исходной инвентаризации сохранены в тегах `archive/2026-11-03/pre-python/`; соответствия находятся в `manifest.json`. Дополнительно сохранена окончательная служебная ветка. 339 неосновных исходных refs удалены только после проверки архива. Остались рабочая основная ветка и эта отдельная ветка индекса архива.\n\n`restore-plan.json` содержит точный план и ожидаемые OID; `restoration-result.json` — проверенный результат; `python-checks.json` — свежую проверку выбранного Python-снимка: 1479 файлов без синтаксических ошибок и 72/72 регрессионных теста. Это не полный аудит проекта и не запуск локальных агентов.\n\nИсторический `manifest.json` сохраняет статус этапа создания архива NOT_APPLIED; текущий итог находится в `restoration-result.json`. Снимок 29 открытых PR находится в `open-pull-requests.json`. Их содержимое и история не объявляются выполненными.\n\nЛокальные рабочие деревья, незапушенные изменения, установленные hooks и процессы на машине пользователя не изменены и не проверены. Старые локальные исполнители должны быть остановлены или явно перепривязаны до новых push, иначе они способны снова опубликовать архивные ветки. Защиты и настройки доступа не ослаблялись.\n\nАрхивные направления не следует автоматически сливать обратно в восстановленную основу. Возврат конкретной ветки возможен из её тега; эта операция не удаляет предметные идеи и обсуждения issues.\n'
+          completed = index_commit(prepared, {'restoration-result.json':encoded(result),'restoration-push.txt':push_output.encode(),'README.md':readme.encode()}, 'Подтвердить возврат Python и архивирование исходных refs\n')
+          git('push','--porcelain','--force-with-lease='+INDEX+':'+prepared,'origin',completed+':'+INDEX,env=write_env)
+          final = refs()
+          require(heads(final)=={ROOT:TARGET,INDEX:completed}, 'Final result readback mismatch')
+          for item in manifest['branches']:
+              require(final.get(item['archive_ref'])==item['sha'], 'Final archive verification failed')
+          require(final.get(FINAL_TAG)==expected[MAINT], 'Final maintenance tag verification failed')
+          print('RESTORATION_COMPLETE',json.dumps({'default_commit':TARGET,'index_commit':completed,'retired_branches':339,'original_archived_tips':340,'additional_final_tip':expected[MAINT],'remaining_branches':list(heads(final))},ensure_ascii=False))
+          PY
