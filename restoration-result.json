@@ -1,0 +1,24 @@
+{
+  "schema": "fum.python-restoration-result.v1",
+  "verified_at": "2026-11-03T13:41:47.746037+00:00",
+  "status": "APPLIED_AND_READ_BACK",
+  "request": "Мы конкретно архивируем все эти ветки и stavim fum-lab/fum на последний момент активного действующего инструментария на Python.",
+  "default_ref": "refs/heads/fum-lab/fum/master",
+  "before": "c3624c07e17588a221760624fd2ee9b5d69f8f4e",
+  "restored_commit": "fc3e9776954ccbec5ff8c2e886606a137a98fd1a",
+  "restored_tree": "1b8e36d88397b85ef4f966acd42275e96b1be9bf",
+  "retired_branch_count": 339,
+  "original_branch_tips_preserved": 340,
+  "final_maintenance_tip_preserved": "a8ea5f991d8f64af21ddc6e688a1fae115489c9b",
+  "remaining_branches": [
+    "refs/heads/fum-lab/fum/master",
+    "refs/heads/archive/2026-11-03/pre-python-index"
+  ],
+  "prepared_index": "2023854525d2292884343b31906b458963789eee",
+  "verification_run_id": 41645588313,
+  "application_run_id": "41646583599",
+  "local_unpushed_changes": "NOT_ACCESSIBLE_FROM_GITHUB",
+  "local_worktrees_hooks_processes": "NOT_CHANGED",
+  "issues": "NOT_CLOSED_OR_MARKED_COMPLETED",
+  "pull_requests": "Original 29 open PR snapshots are preserved. No manual PR merge or state update was performed; deleting branches may change GitHub PR state."
+}
