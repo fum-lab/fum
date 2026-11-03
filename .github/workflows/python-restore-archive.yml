@@ -1,0 +1,110 @@
+name: Archive branches before Python restoration
+on:
+  push:
+    branches:
+      - maintenance/archive-and-restore-python-20261103
+    paths:
+      - .github/workflows/python-restore-archive.yml
+permissions:
+  contents: read
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Preserve and verify every published branch tip
+        env:
+          ARCHIVE_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --bare --filter=blob:none https://github.com/fum-lab/fum.git repository.git
+          cd repository.git
+          python3 - <<'PY'
+          import base64, datetime, json, os, subprocess, urllib.request
+          def git(*args, data=None, env=None):
+              p = subprocess.run(['git', *args], input=data, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, check=False)
+              if p.returncode:
+                  print(p.stderr.decode('utf-8', 'replace'))
+                  raise RuntimeError('Git operation failed: ' + args[0])
+              return p.stdout.decode('utf-8').strip()
+          token = os.environ['ARCHIVE_TOKEN']
+          auth = base64.b64encode(('x-access-token:' + token).encode()).decode()
+          write_env = os.environ.copy()
+          write_env.update({'GIT_CONFIG_COUNT':'1', 'GIT_CONFIG_KEY_0':'http.https://github.com/.extraheader', 'GIT_CONFIG_VALUE_0':'AUTHORIZATION: basic ' + auth})
+          branch_lines = git('for-each-ref', '--format=%(refname) %(objectname)', 'refs/heads').splitlines()
+          heads = dict(line.split(' ', 1) for line in branch_lines)
+          root = 'refs/heads/fum-lab/fum/master'
+          prefix = 'refs/tags/archive/2026-11-03/pre-python/'
+          index_ref = 'refs/heads/archive/2026-11-03/pre-python-index'
+          def remote_refs():
+              return {ref: sha for sha, ref in (line.split('\t', 1) for line in git('ls-remote', 'origin').splitlines())}
+          before = remote_refs()
+          if {r:s for r,s in before.items() if r.startswith('refs/heads/')} != heads:
+              raise RuntimeError('Branch inventory changed during preparation; nothing written')
+          mappings = [{'source_ref': r, 'sha': s, 'archive_ref': prefix + r[len('refs/heads/'):]} for r,s in sorted(heads.items())]
+          if index_ref in before or any(x['archive_ref'] in before for x in mappings):
+              raise RuntimeError('Archive namespace already exists; refusing to overwrite')
+          pulls = []
+          for page in range(1, 100):
+              req = urllib.request.Request('https://api.github.com/repos/fum-lab/fum/pulls?state=open&per_page=100&page=' + str(page), headers={'Accept':'application/vnd.github+json','User-Agent':'FUM-archive','Authorization':'Bearer '+token})
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  items = json.load(response)
+              pulls.extend({k:p[k] for k in ('number','html_url','title','body','state','draft','head','base','updated_at')} for p in items)
+              if len(items) < 100:
+                  break
+          manifest = {'schema':'fum.branch-archive.v1','created_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'request':'Мы конкретно архивируем все эти ветки и stavim fum-lab/fum на последний момент активного действующего инструментария на Python.','repository':'fum-lab/fum','default_ref':root,'default_before':heads[root],'branch_count':len(heads),'branches':mappings,'open_pr_count':len(pulls),'restoration_status':'NOT_APPLIED','local_unpushed_changes':'NOT_ACCESSIBLE_FROM_GITHUB','notes':'This archive preserves remote branch histories; it does not stop local agents or modify local worktrees.'}
+          readme = '# Архив перед возвратом к Python — 3 ноября 2026\n\nСохранены все опубликованные вершины веток. Точные соответствия исходный ref → OID → архивный тег находятся в manifest.json. Снимок открытых PR — в open-pull-requests.json.\n\nНа этапе создания архива исходные ветки и основная ветка не изменены. Архив не подтверждает сохранение неопубликованных локальных файлов или остановку процессов на компьютере пользователя.\n\nВосстановление конкретной архивной ветки возможно из соответствующего тега; не сливать весь архив обратно в восстановленную Python-основу автоматически.\n'
+          blobs = {}
+          for name, content in [('manifest.json', json.dumps(manifest, ensure_ascii=False, indent=2)+'\n'), ('open-pull-requests.json', json.dumps(pulls, ensure_ascii=False, indent=2)+'\n'), ('README.md', readme)]:
+              blobs[name] = git('hash-object', '-w', '--stdin', data=content.encode())
+          tree = git('mktree', data=''.join('100644 blob '+sha+'\t'+name+'\n' for name,sha in sorted(blobs.items())).encode())
+          message = 'Архив всех опубликованных веток перед возвратом Python\n\nПоручение Романа от 3 ноября 2026. Индекс архива, не слияние исходников и не выполненный возврат.\n'
+          commit = git('-c','user.name=FUM archive operation','-c','user.email=fum@local','commit-tree',tree,data=message.encode())
+          specs = [x['sha']+':'+x['archive_ref'] for x in mappings] + [commit+':'+index_ref]
+          leases = ['--force-with-lease='+x['archive_ref']+':' for x in mappings] + ['--force-with-lease='+index_ref+':']
+          print(git('push','--atomic','--porcelain',*leases,'origin',*specs,env=write_env))
+          after = remote_refs()
+          for x in mappings:
+              if after.get(x['archive_ref']) != x['sha']:
+                  raise RuntimeError('Archive readback mismatch: '+x['source_ref'])
+          if after.get(index_ref) != commit:
+              raise RuntimeError('Index readback mismatch')
+          print('ARCHIVE_VERIFIED',json.dumps({'count':len(mappings),'open_prs':len(pulls),'index_ref':index_ref,'index_commit':commit,'default_before':heads[root],'default_after':after.get(root)},ensure_ascii=False))
+          PY
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Inspect final Python checkpoint and migration boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --bare --filter=blob:none https://github.com/fum-lab/fum.git evidence.git
+          cd evidence.git
+          python3 - <<'PY'
+          import subprocess
+          def git(*args):
+              return subprocess.check_output(['git', '-c', 'core.quotepath=false', *args], text=True)
+          target='fc3e9776954ccbec5ff8c2e886606a137a98fd1a'
+          transition='d8c79d943c39e88ea4f08b44b6ed0a5647ff831d'
+          print('TARGET',git('show','-s','--format=%H %cI %s',target))
+          print('TRANSITION_PARENTS',git('show','-s','--format=%P',transition))
+          changed=git('diff-tree','--no-commit-id','--name-only','-r',target).splitlines()
+          print('TARGET_CHANGED_PATHS\n'+'\n'.join(changed))
+          for path in changed:
+              if path.endswith('/отчёт.md'):
+                  text=git('show',target+':'+path)
+                  print('REPORT',path,'\n',text[:28000])
+              elif path.endswith('.py'):
+                  text=git('show',target+':'+path)
+                  print('PYTHON_SOURCE_BOUNDARIES',path,'\n','\n'.join(text.splitlines()[:45]),'\nTAIL\n','\n'.join(text.splitlines()[-15:]))
+          paths=git('ls-tree','-r','--name-only',target).splitlines()
+          print('PYTHON_TEST_AND_ENTRYPOINT_PATHS')
+          for path in paths:
+              if path.endswith('.py') and any(x in path for x in ('svyaznostj-rabochej-sessii','dekompoziciya-pravil','test_','test-','stop','proverki')):
+                  print(path)
+          print('EVIDENCE_READ_COMPLETE_NO_CODE_EXECUTED')
+          PY
