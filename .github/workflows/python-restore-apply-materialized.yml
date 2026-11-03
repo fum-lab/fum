@@ -1,0 +1,37 @@
+name: Restore Python baseline with materialized archive index
+on:
+  push:
+    branches:
+      - maintenance/archive-and-restore-python-20261103
+    paths:
+      - .github/workflows/python-restore-apply-materialized.yml
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Execute the pinned restoration with archive blobs loaded
+        env:
+          RESTORE_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --bare --filter=blob:none https://github.com/fum-lab/fum.git repository.git
+          cd repository.git
+          python3 - <<'PY'
+          import subprocess, textwrap
+          pinned = '361661a08dbf9f5e2d9c2aaadf75a8e32650806f:.github/workflows/python-restore-apply.yml'
+          document = subprocess.check_output(['git', 'show', pinned]).decode('utf-8')
+          marker = "          python3 - <<'PY'\n"
+          terminator = '          PY\n'
+          assert document.count(marker) == 1 and document.endswith(terminator)
+          program = textwrap.dedent(document.split(marker, 1)[1][:-len(terminator)])
+          needle = '        entries[name] = metadata\n'
+          assert program.count(needle) == 1
+          program = program.replace(needle, "        git('cat-file', 'blob', metadata.split()[2])\n" + needle)
+          exec(compile(program, '<pinned-restoration-with-materialized-index>', 'exec'), {'__name__':'__main__'})
+          PY
