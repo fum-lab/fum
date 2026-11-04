@@ -1,0 +1,184 @@
+{
+  "схема": "fum.контракт-приёма-геометрии.1",
+  "оператор": "шаг-приёма-геометрии-окна",
+  "версия": 1,
+  "вход": "fum.шаг-приёма-геометрии.1",
+  "состояние": "fum.состояние-приёма-геометрии.1",
+  "выход": "fum.результат-приёма-геометрии.1",
+  "каноническиеСостояния": [
+    {
+      "next": 1,
+      "closed": false,
+      "revision": 0,
+      "candidate": false
+    },
+    {
+      "next": 2,
+      "closed": false,
+      "revision": 1,
+      "candidate": true
+    },
+    {
+      "next": 3,
+      "closed": false,
+      "revision": 1,
+      "candidate": true
+    },
+    {
+      "next": 4,
+      "closed": false,
+      "revision": 1,
+      "candidate": true
+    },
+    {
+      "next": 5,
+      "closed": false,
+      "revision": 2,
+      "candidate": true
+    },
+    {
+      "next": 6,
+      "closed": false,
+      "revision": 2,
+      "candidate": true
+    },
+    {
+      "next": 2,
+      "closed": true,
+      "revision": 1,
+      "candidate": false
+    },
+    {
+      "next": 3,
+      "closed": true,
+      "revision": 2,
+      "candidate": false
+    },
+    {
+      "next": 4,
+      "closed": true,
+      "revision": 2,
+      "candidate": false
+    },
+    {
+      "next": 5,
+      "closed": true,
+      "revision": 2,
+      "candidate": false
+    },
+    {
+      "next": 6,
+      "closed": true,
+      "revision": 3,
+      "candidate": false
+    },
+    {
+      "next": 7,
+      "closed": true,
+      "revision": 3,
+      "candidate": false
+    }
+  ],
+  "нормальныеЭтапы": [
+    {
+      "номер": 1,
+      "событие": "открыто",
+      "редакция": 1,
+      "изменено": true,
+      "послеNext": 2,
+      "newCandidate": true,
+      "DTO": true
+    },
+    {
+      "номер": 2,
+      "событие": "предъявление-запрошено",
+      "редакция": 1,
+      "изменено": false,
+      "послеNext": 3,
+      "newCandidate": false,
+      "DTO": false
+    },
+    {
+      "номер": 3,
+      "событие": "изменение-размера-запрошено",
+      "редакция": 1,
+      "изменено": false,
+      "послеNext": 4,
+      "newCandidate": false,
+      "DTO": false
+    },
+    {
+      "номер": 4,
+      "событие": "размер-изменён",
+      "редакция": 2,
+      "изменено": true,
+      "послеNext": 5,
+      "newCandidate": true,
+      "DTO": true
+    },
+    {
+      "номер": 5,
+      "событие": "предъявление-запрошено",
+      "редакция": 2,
+      "изменено": false,
+      "послеNext": 6,
+      "newCandidate": false,
+      "DTO": false
+    },
+    {
+      "номер": 6,
+      "событие": "закрыто",
+      "редакция": 3,
+      "изменено": false,
+      "послеNext": 7,
+      "newCandidate": false,
+      "DTO": false
+    }
+  ],
+  "границы": [
+    "Точный finite profileA, observedscale2: content320×240/backing640×480 иcontent400×300/backing800×600.",
+    "Request/present не создают DTO; только observed open/resize. Close снимает кандидат, включая ранний.",
+    "Ошибки/диагностика могут сохранять прежнийstate.candidate; новыйКандидат=false/DTOнет/эффектыРазрешены=false.",
+    "Previous canonical state не доказывает внешнюю свежесть; pure шаг не физическая дедупликация.",
+    "Старые namespace v1/v2 приёмника окна не конвертируются молча.",
+    "Весь inputInt64; дробная native geometry вне профиля, не округляется."
+  ],
+  "планировщик": {
+    "источник": "../okno-metal/определение.json",
+    "байты": 16689,
+    "sha256": "909264a9219e714eb5445ed6eb2e68298c4de495c871e29df4b8ed1b7699d1c1",
+    "передача": "Явный DTO через отдельное pure вычисление; память/эффекты не копируются."
+  },
+  "статусРеализации": "FIXED152_ACTUAL_EIGHT_AND_OFFLINE_SIX_PLUS_TWO_WHOLE_MATCH",
+  "пределСтруктуры": {
+    "глубинаJSON": 16,
+    "кореньНаУровне": 0,
+    "узловЗначений": 8192,
+    "ключиНеСчитаются": true,
+    "привязка": {
+      "парсер": {
+        "байты": 8117,
+        "sha256": "1004e6da58f7eaaf8545a905965d75a6c048f3e8eab52643634015c58a41ba28"
+      },
+      "review152": {
+        "байты": 16875,
+        "sha256": "0e90286a9852e6f39e278d715313e6122c4bde64acc4dcbd323f89823242fbc0"
+      },
+      "исходный": {
+        "узлов": 1830,
+        "глубина0": 18
+      },
+      "исправленный": {
+        "узлов": 1840,
+        "глубина0": 15
+      },
+      "лимитыИзменены": false
+    }
+  },
+  "текущийИсходник": {
+    "байты": 24209,
+    "sha256": "08e601afd1ec310fecffe593b019e62b4c44dd75ebdc2c4d019c4d264c982739",
+    "каноническийХэш": "sha256:6cb93d7cc4621e58415bf7ac5cb4dcf54b1cae7637e005f5cf5ab53cebf59adb",
+    "определений": 9
+  }
+}
