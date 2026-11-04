@@ -1,0 +1,30 @@
+{
+  "схема": "fum.проекция-независимой-приёмки.1",
+  "исходник": {
+    "байт": 21413,
+    "sha256": "ea26267943b10d2323bafcb92971cde911ac33b0281b0090bc254099c23af846"
+  },
+  "проверено": {
+    "originalIO219": 30,
+    "selectedRecords": 66,
+    "copyPayloads": 57,
+    "generatorWhole": 6,
+    "compileRaw": 0,
+    "directRaw": 0,
+    "wholeDirectAndInner": true,
+    "inputSHAAndCanonicalSHAAndStepJoins": true,
+    "actualSwiftExtractedAndGolden": true
+  },
+  "квалификация": "Независимый DATA consumer; новых runtime/Root/Git/build/Host/GPU/metadata0. Binary/object/module SHA — producer attribution, не повторное чтение содержимого232.",
+  "историческийМомент": "2026-11-04 13:00:28 MSK",
+  "находка": {
+    "тип": "Область описания byte-order",
+    "inner34": true,
+    "outer1": true,
+    "wholeJSONTrue": true,
+    "READMEИсправленRoot": true,
+    "точноеBДополнениеSHA256": "c191c73a6e06b65c59afbee730f8d523293811337b7992e10ddb9dcac74dabfe",
+    "SourceOracleActualEdits": 0
+  },
+  "историческиеОтказы": "209/212/216 не объявлены успешными; UNKNOWN сохранены."
+}

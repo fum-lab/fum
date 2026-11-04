@@ -1,0 +1,62 @@
+{
+  "схема": "fum.корневая-сверка-внедрения-сводки.1",
+  "база": "a7c1f90cba0e88ccd1045f74a0eeec2605e3d130",
+  "план": {
+    "байт": 22479,
+    "sha256": "529a7e676b69cce93c3b22a511583d5141847b804f80c3632c114c70ff377f24"
+  },
+  "перенос": {
+    "файлов": 57,
+    "байт": 252735,
+    "максимумФайла": 18548,
+    "SourceИОжиданияИActualНеИзменены": true,
+    "docOnlyUpdates": "В двух README уточнены подготовительный этап и ссылка текущего Git-внедрения; recency обновляется штатно."
+  },
+  "корневаяDataСверка": {
+    "wholeFiniteMatches": 12,
+    "wholeSummaryAndSnapshotAndText": true,
+    "wholeDirectAndIndependentOuterExpected": true,
+    "inputSHA": true,
+    "asOf": "2026-11-04 13:00:28 MSK",
+    "cards": 5,
+    "facts": 12,
+    "innerObjectOrderDifferences": 34,
+    "outerObjectOrderDifferences": [
+      "/результат/снимок/счётчики/поСтадиям"
+    ],
+    "bytesEqual": false,
+    "новыхRuntime": 0
+  },
+  "sourceCaps": [
+    {
+      "target": "fuma/packages/сводка-по-агентам/определение.json",
+      "nodes": 1605,
+      "depth": 16,
+      "bool": 0
+    },
+    {
+      "target": "fuma/packages/вывод-сводки-агентов/определение.json",
+      "nodes": 193,
+      "depth": 12,
+      "bool": 0
+    }
+  ],
+  "история231": {
+    "commit": "a7c1f90cba0e88ccd1045f74a0eeec2605e3d130",
+    "позднийPrivateGuard": {
+      "байт": 626,
+      "sha256": "a7b586559fa952bce8db384e6239e4a7518f0e1d8eb97c2f716a2ab2c865dfb9"
+    },
+    "факт": "Whole-text staged proof упёрся в установленную границу большого существующего README после add1, до write-tree/commit. Те же29 staged-файлов сверены stable NOFOLLOW streaming SHA1.",
+    "предотвращение": "Для больших существующих документов потоковая сверка; body cap не повышать. Add/capture/formatter/commit не повторялись. Этот поздний incident описан здесь впервые, старый закрытый отчёт231 не исправлялся."
+  },
+  "новаяРазработка": {
+    "поручение234": "PRIMARY FUMA ввод/чтение/представление, Source17792/8frozen, actual на момент регистрации не завершён",
+    "поручение237": "PRIMARY FUMA распознавание точного жеста переноса строки, actualUNKNOWN"
+  },
+  "границы": [
+    "Источник исторического среза не превращён в livecollector",
+    "Контрольные producer records не превращены в собственные прямые Root вызовы",
+    "Source, доставка, общая runtime-приёмка и NativeStop различаются"
+  ]
+}
