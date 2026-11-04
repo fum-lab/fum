@@ -1,0 +1,128 @@
+{
+  "схема": "fum.контракт-живого-приёма-геометрии.1",
+  "первоисточник": [
+    "определение-помощника.json",
+    "определение-окна.json"
+  ],
+  "профиль": 1,
+  "AST": {
+    "схема": "fum.программа-живой-геометрии.1",
+    "версия": 1,
+    "узлы": [
+      "помощник-состояния",
+      "окно-геометрии-А"
+    ],
+    "профиль": 1,
+    "толькоЗакрытыеПоля": true,
+    "строковогоSourceВводаНет": true
+  },
+  "структура": {
+    "каждыйЗначений": 141,
+    "глубинаRoot0": 12,
+    "пределГлубины": 16,
+    "пределЗначений": 8192,
+    "голыхBool": 0,
+    "исходникКаждыйНеБолееБайтов": 24576
+  },
+  "выходГенератора": {
+    "схема": "fum.исходник-живой-геометрии.1",
+    "варианты": [
+      "исходник: полный Swift6 и роль",
+      "диагностика: код без Source"
+    ],
+    "компиляцияВыполнена": false,
+    "выполнениеРазрешено": false
+  },
+  "композиция": {
+    "файлы": [
+      "Swifthelper: internal @MainActor ЖивойПриём, без @main",
+      "Swiftwindow: один @main; тот же target и existinglibrary.o/module"
+    ],
+    "аргументы": [
+      "абсолютный текущий redmetallib",
+      "абсолютное определение приёмника",
+      "абсолютное определение планировщика"
+    ],
+    "новогоИнтерпретатораНет": true,
+    "синхронныйPublicAPI": true,
+    "новыхПроцессовПотомковНет": true
+  },
+  "геометрия": {
+    "содержимоеДо": [
+      320,
+      240
+    ],
+    "запрос": [
+      400,
+      300
+    ],
+    "содержимоеПосле": [
+      400,
+      300
+    ],
+    "масштаб": 2,
+    "поверхностьДо": [
+      640,
+      480
+    ],
+    "поверхностьПосле": [
+      800,
+      600
+    ],
+    "толькоФактическиеИзмерения": true,
+    "requestНеObserved": true,
+    "таймерЗапросаМс": 600,
+    "таймерЗакрытияМс": 2200,
+    "таймерКооперативный": true
+  },
+  "состояние": {
+    "начало": "Canonicalinitialgeometry state с ACTUAL ownwindowidentity/gen",
+    "перенос": "ТОЛЬКО RAW ACTUAL result.state dictionary до следующего nativeevent, внутри процесса. Не expected-as-state и не файлы до каждого события.",
+    "план": "ТОЛЬКО ACTUAL explicitDTO при actualnewcandidate и currentidentity/gen/revision/notclosed; recheck после планировщика.",
+    "закрытие": "NativewindowWillClose → ACTUAL FUMAclosedstate перед exit; при ошибке не синтезировать closed/normaltrace.",
+    "snapshot": "Полный currentgeometry snapshot проверяется до drawable/послеdrawable/передpresent. Логический pendingcandidate гасится доpresent; это не GPUcompletion/physicalat-most-once proof."
+  },
+  "трасса": {
+    "nativeSchema": "fum.сигнал-геометрии-окна.1",
+    "приёмникSchema": "fum.свидетельство-живого-приёма-геометрии.1",
+    "планSchema": "fum.свидетельство-живого-плана-геометрии.1",
+    "nativeСчётчикОтдельно": true,
+    "нормальныйПорядок": [
+      "Native1",
+      "Receiver1",
+      "Planner1",
+      "Native2",
+      "Receiver2",
+      "Native3",
+      "Receiver3",
+      "Native4",
+      "Receiver4",
+      "Planner4",
+      "Native5",
+      "Receiver5",
+      "Native6",
+      "Receiver6"
+    ],
+    "nativeСобытий": 6,
+    "приёмников": 6,
+    "планов": 2,
+    "пределЗаписей": 32,
+    "пределЗаписиБайтов": 16384,
+    "пределВсегоБайтов": 524288
+  },
+  "допуск": "Caller отдельно сверяет actualSource/custody/physicalpaths/regular/nofollow/owner/SHA и текущий oneownwindow effectscope. Эти данные не дают grant.",
+  "ресурсы": "Существующие FUMA пределы/bytecaps/jobs1 не являются RSS/network/GPUmemory ограничителем. Внешний jobdeadline15с отдельно от кооперативного timer.",
+  "ошибки": "Постоянное удержание новых рендеров, без fallback/retry. Частичный stdout/неизвестный исход сохраняются. Уже запрошенный present не откатывается. Ошибочное закрытие может не доказать FUMAclosed.",
+  "приватность": "Только новые runtime/private UUID/windowNumber/framepositions/wholetrace. ProcesslocalwindowNumber не globalcapturebinding.",
+  "границы": [
+    "FiniteprofileA/scale2, не genericfloats/backingscale/generationreplacement.",
+    "Все presentationConfirmedfalse; GPUcompletion/visiblepixels не доказаны этим профилем.",
+    "Две цели Swift получаются только ACTUAL codegen, не из goldens.",
+    "Currentmachine/existingbuild110 artifacts; чистый клон/allABI не квалифицированы.",
+    "NativeStopUNREPAIRED; страховка остаётся."
+  ],
+  "предложение160": {
+    "байтов": 23631,
+    "sha256": "cb7f39880c96b19e95e54069219dd825b94ae3ab7b6bac47f752d2899e5154e5"
+  }
+}
