@@ -1,0 +1,116 @@
+{
+  "схема": "fum.результаты-проверок-снимка-Codex.1",
+  "статус": "FINITE_EIGHT_PLUS_HISTORICAL_PROJECTION_INDEPENDENTLY_ACCEPTED",
+  "исходник": {
+    "байтов": 24569,
+    "sha256": "615bc610ca5211bafeedec3cb33d7e7d9a82661e97a2f343dda6c492ade4eea6",
+    "каноническийХэш": "sha256:7cac24138f25f2d62fadf88f00ceb32322adc745a30865af74817eca49a158ab"
+  },
+  "синтетические": [
+    {
+      "number": 1,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "ГОТОВО"
+    },
+    {
+      "number": 2,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "ГОТОВО"
+    },
+    {
+      "number": 3,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "ГОТОВО"
+    },
+    {
+      "number": 4,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "УДЕРЖАНО"
+    },
+    {
+      "number": 5,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "УДЕРЖАНО"
+    },
+    {
+      "number": 6,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "УДЕРЖАНО"
+    },
+    {
+      "number": 7,
+      "rawExit": 0,
+      "expectation": "FULL_RESULT_JSON",
+      "wholeJSONMatch": true,
+      "typedPredicateMatch": null,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "УДЕРЖАНО"
+    },
+    {
+      "number": 8,
+      "rawExit": 1,
+      "expectation": "TYPED_ERROR_PREDICATE",
+      "wholeJSONMatch": null,
+      "typedPredicateMatch": true,
+      "sourceAndExpectedUnchanged": true,
+      "actualStatus": "TYPED_ERROR"
+    }
+  ],
+  "фактическаяПроекция": {
+    "rawExit": 0,
+    "wholeJSONMatch": true,
+    "новыхЧтенийCodex": 0,
+    "выход": {
+      "файл": "снимок-фактической-проекции.json",
+      "байтов": 7076,
+      "sha256": "b39453f59847a67ad2708bc4181d197b8207aed35009ce4eadf6e12139e65698"
+    },
+    "вход": "PRIVATE",
+    "происхождение": "Прежний фактический снимок175, новый чистый FUMA-вызов184"
+  },
+  "границы": {
+    "исходникИОжиданияНеМенялись": true,
+    "повторовCLI": 0,
+    "сборокBootstrap": 0,
+    "HostGPU": 0,
+    "exact3GateRoot": true,
+    "самостоятельныйСанитайзер": false,
+    "новыйПотокAppServer": false,
+    "восстановлениеАгента": false,
+    "NativeStopRepair": false
+  },
+  "независимыйПотребитель": {
+    "отчёт": {
+      "байтов": 24238,
+      "sha256": "f67f6e63a613cf1b64d896d0ab06ee4048beda6756aaa9f88ab46f5f77b66a47"
+    },
+    "провереноИсходныхIO": 36,
+    "хэшОпределенияСовпал": true,
+    "публичныйРезультатБезNativeTurnID": true,
+    "standaloneGap": "OPEN"
+  }
+}

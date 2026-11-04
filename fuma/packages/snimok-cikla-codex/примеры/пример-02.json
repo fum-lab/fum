@@ -1,0 +1,668 @@
+{
+  "номер": 2,
+  "имя": "одна-семантическая-дельта",
+  "вход": {
+    "схема": "fum.вход-снимка-цикла-Codex.1",
+    "срез": {
+      "схема": "fum.проекция-наблюдения-сеанса-Codex.1",
+      "провайдер": {
+        "инструмент": "mcp__codex_app__read_thread",
+        "версияКонверта": 1,
+        "параметры": {
+          "threadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "turnLimit": 1,
+          "includeOutputs": false,
+          "maxOutputCharsPerItem": 1
+        },
+        "нативныйAppServerTransport": "UNBOUND"
+      },
+      "исходныйОтвет": {
+        "имя": "синтетический-ответ-2.DATA",
+        "байтов": 1024,
+        "sha256": "0c638c2248a608b46aa2796c48d446610b9d246450abb1cd7eab4581f1e6c89d",
+        "размещение": "PRIVATE",
+        "повторныхВызовов": 0
+      },
+      "нативное": {
+        "thread": {
+          "id": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "kind": "codex",
+          "status": {
+            "type": "active",
+            "activeFlags": []
+          },
+          "createdAt": 1788807599,
+          "updatedAt": 1793774776
+        },
+        "turn": {
+          "id": "синтетический-ход-1",
+          "status": "inProgress",
+          "startedAt": 1793767818
+        },
+        "page": {
+          "order": "newest_first",
+          "limit": 1,
+          "hasMore": true
+        }
+      },
+      "наличиеПолей": {
+        "turnErrorNull": true,
+        "turnCompletedAtNull": true,
+        "turnDurationMsNull": true,
+        "модельКорня": "NOT_RETURNED",
+        "усилиеКорня": "NOT_RETURNED",
+        "потокAppServerСобытий": "NOT_OBSERVED"
+      },
+      "наблюдённыеТипыЭлементов": {
+        "userMessage": {
+          "count": 16,
+          "keys": [
+            "type",
+            "id",
+            "content"
+          ],
+          "statusCounts": {
+            "ABSENT": 16
+          }
+        },
+        "reasoning": {
+          "count": 300,
+          "keys": [
+            "type",
+            "id",
+            "summary"
+          ],
+          "statusCounts": {
+            "ABSENT": 300
+          }
+        },
+        "agentMessage": {
+          "count": 23,
+          "keys": [
+            "type",
+            "id",
+            "text",
+            "phase"
+          ],
+          "statusCounts": {
+            "ABSENT": 23
+          }
+        },
+        "mcpToolCall": {
+          "count": 144,
+          "keys": [
+            "type",
+            "id",
+            "server",
+            "tool",
+            "argumentsPreview",
+            "status",
+            "durationMs"
+          ],
+          "statusCounts": {
+            "completed": 143,
+            "failed": 1
+          }
+        },
+        "commandExecution": {
+          "count": 54,
+          "keys": [
+            "type",
+            "id",
+            "command",
+            "commandTruncated",
+            "cwd",
+            "status",
+            "exitCode",
+            "durationMs"
+          ],
+          "statusCounts": {
+            "completed": 50,
+            "failed": 4
+          }
+        },
+        "subAgentActivity": {
+          "count": 28,
+          "keys": [
+            "type",
+            "id",
+            "kind",
+            "agentThreadId",
+            "agentPath"
+          ],
+          "statusCounts": {
+            "ABSENT": 28
+          }
+        },
+        "collabAgentToolCall": {
+          "count": 1,
+          "keys": [
+            "type",
+            "id",
+            "tool",
+            "status",
+            "senderThreadId",
+            "receiverThreadIds",
+            "prompt",
+            "model",
+            "reasoningEffort"
+          ],
+          "statusCounts": {
+            "completed": 1
+          }
+        },
+        "contextCompaction": {
+          "count": 1,
+          "keys": [
+            "type",
+            "id"
+          ],
+          "statusCounts": {
+            "ABSENT": 1
+          }
+        }
+      },
+      "охват": {
+        "сеансов": 1,
+        "ходов": 1,
+        "элементов": 567,
+        "исходныеТела": "Не экспортированы",
+        "историческиеСтраницы": "Не запрашивались",
+        "целикомМодельюПрочитан": false,
+        "sourceBound": true
+      },
+      "источникПолей": {
+        "thread": [
+          "thread"
+        ],
+        "turn": [
+          "turns",
+          0
+        ],
+        "типыЭлементов": [
+          "turns",
+          0,
+          "items"
+        ],
+        "страница": [
+          "page"
+        ]
+      },
+      "собственнаяПривязкаGit": {
+        "commit": "aaddd03df680ff82fd360c438ae25804ce2ad252",
+        "tree": "008741359c6e715af6b4c3b1584c8467ef3a6294",
+        "ref": "refs/heads/fum-lab/fum/master",
+        "роль": "ROOTprovided, не поле nativeReply"
+      },
+      "статус": "SYNTHETIC_ONLY_NOT_REAL_NATIVE"
+    },
+    "ссылкаПроекции": {
+      "имя": "синтетический-срез-2.json",
+      "байтов": 2920,
+      "sha256": "1e2db181aef3ad22f2b54dc5e4468053fca39f7710eb0dd675420117ee9ef28b"
+    },
+    "связи": {
+      "контрольнаяТочка": "снимок-2",
+      "событие": "наблюдение-2",
+      "задание": "синтетическое-175",
+      "функция": "функция-снимка",
+      "назначение": "синтетическое-назначение",
+      "активныйПлан": "план-снимка",
+      "последнийПринятыйРезультат": "UNKNOWN"
+    },
+    "предыдущее": {
+      "вид": "есть",
+      "снимок": {
+        "схема": "fum.снимок-цикла-Codex.1",
+        "версия": 1,
+        "идентификатор": "снимок-1",
+        "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+        "привязкаGit": {
+          "commit": "aaddd03df680ff82fd360c438ae25804ce2ad252",
+          "tree": "008741359c6e715af6b4c3b1584c8467ef3a6294",
+          "ref": "refs/heads/fum-lab/fum/master",
+          "роль": "ROOT"
+        },
+        "наблюдение": {
+          "провайдер": {
+            "инструмент": "mcp__codex_app__read_thread",
+            "версияКонверта": 1,
+            "параметры": {
+              "threadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+              "turnLimit": 1,
+              "includeOutputs": false,
+              "maxOutputCharsPerItem": 1
+            },
+            "нативныйAppServerTransport": "UNBOUND"
+          },
+          "проекция": {
+            "имя": "синтетический-срез-1.json",
+            "байтов": 2920,
+            "sha256": "3a0f2c75e70f594f2a6e8084c35c3ed4720000216009ebd768e1c7e4ca1620df"
+          },
+          "исходныйОтвет": {
+            "имя": "синтетический-ответ-1.DATA",
+            "байтов": 1024,
+            "sha256": "9d1bbcb899f3c7286707ded423eb1ea5128d1aaf3319adb054036d02fbe0a2ce",
+            "размещение": "PRIVATE",
+            "повторныхВызовов": 0
+          },
+          "источникПолей": {
+            "thread": [
+              "thread"
+            ],
+            "turn": [
+              "turns",
+              0
+            ],
+            "типыЭлементов": [
+              "turns",
+              0,
+              "items"
+            ],
+            "страница": [
+              "page"
+            ]
+          }
+        },
+        "состояние": {
+          "сеанс": {
+            "kind": "codex",
+            "status": {
+              "type": "active",
+              "activeFlags": []
+            },
+            "createdAt": 1788807599,
+            "updatedAt": 1793774775
+          },
+          "ход": {
+            "отпечатокSHA256UTF8": "f735d57dd0ef460e45c4e9c0c9bcfcb02703640705c4da3457829c2ef0b58440",
+            "status": "inProgress",
+            "startedAt": 1793767818
+          },
+          "наличиеПолей": {
+            "turnErrorNull": true,
+            "turnCompletedAtNull": true,
+            "turnDurationMsNull": true,
+            "модельКорня": "NOT_RETURNED",
+            "усилиеКорня": "NOT_RETURNED",
+            "потокAppServerСобытий": "NOT_OBSERVED"
+          },
+          "пагинация": {
+            "order": "newest_first",
+            "limit": 1,
+            "hasMore": true
+          },
+          "числаЭлементов": {
+            "userMessage": 15,
+            "reasoning": 300,
+            "agentMessage": 23,
+            "mcpToolCall": 144,
+            "commandExecution": 54,
+            "subAgentActivity": 28,
+            "collabAgentToolCall": 1,
+            "contextCompaction": 1
+          },
+          "наблюдённыеКлючиЭлементов": {
+            "userMessage": [
+              "type",
+              "id",
+              "content"
+            ],
+            "reasoning": [
+              "type",
+              "id",
+              "summary"
+            ],
+            "agentMessage": [
+              "type",
+              "id",
+              "text",
+              "phase"
+            ],
+            "mcpToolCall": [
+              "type",
+              "id",
+              "server",
+              "tool",
+              "argumentsPreview",
+              "status",
+              "durationMs"
+            ],
+            "commandExecution": [
+              "type",
+              "id",
+              "command",
+              "commandTruncated",
+              "cwd",
+              "status",
+              "exitCode",
+              "durationMs"
+            ],
+            "subAgentActivity": [
+              "type",
+              "id",
+              "kind",
+              "agentThreadId",
+              "agentPath"
+            ],
+            "collabAgentToolCall": [
+              "type",
+              "id",
+              "tool",
+              "status",
+              "senderThreadId",
+              "receiverThreadIds",
+              "prompt",
+              "model",
+              "reasoningEffort"
+            ],
+            "contextCompaction": [
+              "type",
+              "id"
+            ]
+          },
+          "статусыЭлементов": {
+            "userMessage": {
+              "ABSENT": 15
+            },
+            "reasoning": {
+              "ABSENT": 300
+            },
+            "agentMessage": {
+              "ABSENT": 23
+            },
+            "mcpToolCall": {
+              "completed": 143,
+              "failed": 1
+            },
+            "commandExecution": {
+              "completed": 50,
+              "failed": 4
+            },
+            "subAgentActivity": {
+              "ABSENT": 28
+            },
+            "collabAgentToolCall": {
+              "completed": 1
+            },
+            "contextCompaction": {
+              "ABSENT": 1
+            }
+          }
+        },
+        "охват": {
+          "метаданные": {
+            "сеансов": 1,
+            "ходов": 1,
+            "элементов": 566,
+            "исходныеТела": "EXCLUDED",
+            "историческиеСтраницы": "NOT_REQUESTED",
+            "целикомМодельюПрочитан": false,
+            "sourceBound": true
+          },
+          "полноеСостояниеДоказано": false,
+          "нативныйПоток": "UNBOUND",
+          "идентификаторыДетей": "NOT_INCLUDED",
+          "идентификаторХода": "PRIVATE_HASH_ONLY",
+          "актуальность": "SOURCE_ONLY",
+          "единицыВремён": "UNINTERPRETED"
+        },
+        "связи": {
+          "задание": "синтетическое-175",
+          "функция": "функция-снимка",
+          "назначение": "синтетическое-назначение",
+          "активныйПлан": "план-снимка",
+          "последнийПринятыйРезультат": "UNKNOWN",
+          "роль": "ROOT"
+        },
+        "незавершённыеЭффекты": {
+          "известно": false,
+          "ссылки": [],
+          "роль": "UNKNOWN"
+        },
+        "эффектыРазрешены": false
+      }
+    },
+    "отпечатокХода": "f735d57dd0ef460e45c4e9c0c9bcfcb02703640705c4da3457829c2ef0b58440"
+  },
+  "ожидаемыйРезультат": {
+    "схема": "fum.результат-среза-Codex.1",
+    "статус": "ГОТОВО",
+    "снимок": {
+      "схема": "fum.снимок-цикла-Codex.1",
+      "версия": 1,
+      "идентификатор": "снимок-2",
+      "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "привязкаGit": {
+        "commit": "aaddd03df680ff82fd360c438ae25804ce2ad252",
+        "tree": "008741359c6e715af6b4c3b1584c8467ef3a6294",
+        "ref": "refs/heads/fum-lab/fum/master",
+        "роль": "ROOT"
+      },
+      "наблюдение": {
+        "провайдер": {
+          "инструмент": "mcp__codex_app__read_thread",
+          "версияКонверта": 1,
+          "параметры": {
+            "threadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+            "turnLimit": 1,
+            "includeOutputs": false,
+            "maxOutputCharsPerItem": 1
+          },
+          "нативныйAppServerTransport": "UNBOUND"
+        },
+        "проекция": {
+          "имя": "синтетический-срез-2.json",
+          "байтов": 2920,
+          "sha256": "1e2db181aef3ad22f2b54dc5e4468053fca39f7710eb0dd675420117ee9ef28b"
+        },
+        "исходныйОтвет": {
+          "имя": "синтетический-ответ-2.DATA",
+          "байтов": 1024,
+          "sha256": "0c638c2248a608b46aa2796c48d446610b9d246450abb1cd7eab4581f1e6c89d",
+          "размещение": "PRIVATE",
+          "повторныхВызовов": 0
+        },
+        "источникПолей": {
+          "thread": [
+            "thread"
+          ],
+          "turn": [
+            "turns",
+            0
+          ],
+          "типыЭлементов": [
+            "turns",
+            0,
+            "items"
+          ],
+          "страница": [
+            "page"
+          ]
+        }
+      },
+      "состояние": {
+        "сеанс": {
+          "kind": "codex",
+          "status": {
+            "type": "active",
+            "activeFlags": []
+          },
+          "createdAt": 1788807599,
+          "updatedAt": 1793774776
+        },
+        "ход": {
+          "отпечатокSHA256UTF8": "f735d57dd0ef460e45c4e9c0c9bcfcb02703640705c4da3457829c2ef0b58440",
+          "status": "inProgress",
+          "startedAt": 1793767818
+        },
+        "наличиеПолей": {
+          "turnErrorNull": true,
+          "turnCompletedAtNull": true,
+          "turnDurationMsNull": true,
+          "модельКорня": "NOT_RETURNED",
+          "усилиеКорня": "NOT_RETURNED",
+          "потокAppServerСобытий": "NOT_OBSERVED"
+        },
+        "пагинация": {
+          "order": "newest_first",
+          "limit": 1,
+          "hasMore": true
+        },
+        "числаЭлементов": {
+          "userMessage": 16,
+          "reasoning": 300,
+          "agentMessage": 23,
+          "mcpToolCall": 144,
+          "commandExecution": 54,
+          "subAgentActivity": 28,
+          "collabAgentToolCall": 1,
+          "contextCompaction": 1
+        },
+        "наблюдённыеКлючиЭлементов": {
+          "userMessage": [
+            "type",
+            "id",
+            "content"
+          ],
+          "reasoning": [
+            "type",
+            "id",
+            "summary"
+          ],
+          "agentMessage": [
+            "type",
+            "id",
+            "text",
+            "phase"
+          ],
+          "mcpToolCall": [
+            "type",
+            "id",
+            "server",
+            "tool",
+            "argumentsPreview",
+            "status",
+            "durationMs"
+          ],
+          "commandExecution": [
+            "type",
+            "id",
+            "command",
+            "commandTruncated",
+            "cwd",
+            "status",
+            "exitCode",
+            "durationMs"
+          ],
+          "subAgentActivity": [
+            "type",
+            "id",
+            "kind",
+            "agentThreadId",
+            "agentPath"
+          ],
+          "collabAgentToolCall": [
+            "type",
+            "id",
+            "tool",
+            "status",
+            "senderThreadId",
+            "receiverThreadIds",
+            "prompt",
+            "model",
+            "reasoningEffort"
+          ],
+          "contextCompaction": [
+            "type",
+            "id"
+          ]
+        },
+        "статусыЭлементов": {
+          "userMessage": {
+            "ABSENT": 16
+          },
+          "reasoning": {
+            "ABSENT": 300
+          },
+          "agentMessage": {
+            "ABSENT": 23
+          },
+          "mcpToolCall": {
+            "completed": 143,
+            "failed": 1
+          },
+          "commandExecution": {
+            "completed": 50,
+            "failed": 4
+          },
+          "subAgentActivity": {
+            "ABSENT": 28
+          },
+          "collabAgentToolCall": {
+            "completed": 1
+          },
+          "contextCompaction": {
+            "ABSENT": 1
+          }
+        }
+      },
+      "охват": {
+        "метаданные": {
+          "сеансов": 1,
+          "ходов": 1,
+          "элементов": 567,
+          "исходныеТела": "EXCLUDED",
+          "историческиеСтраницы": "NOT_REQUESTED",
+          "целикомМодельюПрочитан": false,
+          "sourceBound": true
+        },
+        "полноеСостояниеДоказано": false,
+        "нативныйПоток": "UNBOUND",
+        "идентификаторыДетей": "NOT_INCLUDED",
+        "идентификаторХода": "PRIVATE_HASH_ONLY",
+        "актуальность": "SOURCE_ONLY",
+        "единицыВремён": "UNINTERPRETED"
+      },
+      "связи": {
+        "задание": "синтетическое-175",
+        "функция": "функция-снимка",
+        "назначение": "синтетическое-назначение",
+        "активныйПлан": "план-снимка",
+        "последнийПринятыйРезультат": "UNKNOWN",
+        "роль": "ROOT"
+      },
+      "незавершённыеЭффекты": {
+        "известно": false,
+        "ссылки": [],
+        "роль": "UNKNOWN"
+      },
+      "эффектыРазрешены": false
+    },
+    "событие": {
+      "схема": "fum.событие-наблюдения-среза-Codex.1",
+      "версия": 1,
+      "идентификатор": "наблюдение-2",
+      "вид": "snapshotObserved",
+      "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "контрольнаяТочка": "снимок-2",
+      "проекция": {
+        "имя": "синтетический-срез-2.json",
+        "байтов": 2920,
+        "sha256": "1e2db181aef3ad22f2b54dc5e4468053fca39f7710eb0dd675420117ee9ef28b"
+      },
+      "нативноеСобытие": false
+    },
+    "дельта": {
+      "схема": "fum.семантическая-дельта-среза-Codex.1",
+      "вид": "изменение-состояния",
+      "предыдущаяКонтрольнаяТочка": "снимок-1",
+      "новаяКонтрольнаяТочка": "снимок-2",
+      "состояниеИзменено": true
+    },
+    "эффектыРазрешены": false
+  },
+  "статус": "EXPECTED_ONLY_NOT_RUN",
+  "происхождение": "SYNTHETIC_NOT_REAL_NATIVE_OR_EFFECT_RECEIPT"
+}

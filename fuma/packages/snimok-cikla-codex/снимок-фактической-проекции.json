@@ -1,0 +1,237 @@
+{
+  "дельта": {
+    "вид": "первый-снимок",
+    "новаяКонтрольнаяТочка": "ПРЕДЛОЖЕНО-снимок-ROOT-175-1",
+    "предыдущаяКонтрольнаяТочка": "нет",
+    "состояниеИзменено": true,
+    "схема": "fum.семантическая-дельта-среза-Codex.1"
+  },
+  "снимок": {
+    "версия": 1,
+    "идентификатор": "ПРЕДЛОЖЕНО-снимок-ROOT-175-1",
+    "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "наблюдение": {
+      "источникПолей": {
+        "thread": [
+          "thread"
+        ],
+        "turn": [
+          "turns",
+          0
+        ],
+        "страница": [
+          "page"
+        ],
+        "типыЭлементов": [
+          "turns",
+          0,
+          "items"
+        ]
+      },
+      "исходныйОтвет": {
+        "sha256": "0b460f2d71f6ebe5ac021ef0648d42720c822e50964d389f4121624873d8a80f",
+        "байтов": 128503,
+        "имя": "codex-state175-first-root-snapshot.original-mcp.UTF8.DATA",
+        "повторныхВызовов": 0,
+        "размещение": "PRIVATE"
+      },
+      "провайдер": {
+        "версияКонверта": 1,
+        "инструмент": "mcp__codex_app__read_thread",
+        "нативныйAppServerTransport": "UNBOUND",
+        "параметры": {
+          "includeOutputs": false,
+          "maxOutputCharsPerItem": 1,
+          "threadId": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+          "turnLimit": 1
+        }
+      },
+      "проекция": {
+        "sha256": "705fbfa446dcfb004d1ee65636247a550aebf0520b1869d3729661564a44e8f0",
+        "байтов": 4319,
+        "имя": "codex-state175-first-root-safe-projection.json"
+      }
+    },
+    "незавершённыеЭффекты": {
+      "известно": false,
+      "роль": "UNKNOWN",
+      "ссылки": []
+    },
+    "охват": {
+      "актуальность": "SOURCE_ONLY",
+      "единицыВремён": "UNINTERPRETED",
+      "идентификаторХода": "PRIVATE_HASH_ONLY",
+      "идентификаторыДетей": "NOT_INCLUDED",
+      "метаданные": {
+        "sourceBound": true,
+        "историческиеСтраницы": "NOT_REQUESTED",
+        "исходныеТела": "EXCLUDED",
+        "сеансов": 1,
+        "ходов": 1,
+        "целикомМодельюПрочитан": false,
+        "элементов": 566
+      },
+      "нативныйПоток": "UNBOUND",
+      "полноеСостояниеДоказано": false
+    },
+    "привязкаGit": {
+      "commit": "aaddd03df680ff82fd360c438ae25804ce2ad252",
+      "ref": "refs/heads/fum-lab/fum/master",
+      "tree": "008741359c6e715af6b4c3b1584c8467ef3a6294",
+      "роль": "ROOT"
+    },
+    "связи": {
+      "активныйПлан": "UNKNOWN",
+      "задание": "175",
+      "назначение": "UNKNOWN",
+      "последнийПринятыйРезультат": "UNKNOWN",
+      "роль": "ROOT",
+      "функция": "UNKNOWN"
+    },
+    "состояние": {
+      "наблюдённыеКлючиЭлементов": {
+        "agentMessage": [
+          "type",
+          "id",
+          "text",
+          "phase"
+        ],
+        "collabAgentToolCall": [
+          "type",
+          "id",
+          "tool",
+          "status",
+          "senderThreadId",
+          "receiverThreadIds",
+          "prompt",
+          "model",
+          "reasoningEffort"
+        ],
+        "commandExecution": [
+          "type",
+          "id",
+          "command",
+          "commandTruncated",
+          "cwd",
+          "status",
+          "exitCode",
+          "durationMs"
+        ],
+        "contextCompaction": [
+          "type",
+          "id"
+        ],
+        "mcpToolCall": [
+          "type",
+          "id",
+          "server",
+          "tool",
+          "argumentsPreview",
+          "status",
+          "durationMs"
+        ],
+        "reasoning": [
+          "type",
+          "id",
+          "summary"
+        ],
+        "subAgentActivity": [
+          "type",
+          "id",
+          "kind",
+          "agentThreadId",
+          "agentPath"
+        ],
+        "userMessage": [
+          "type",
+          "id",
+          "content"
+        ]
+      },
+      "наличиеПолей": {
+        "turnCompletedAtNull": true,
+        "turnDurationMsNull": true,
+        "turnErrorNull": true,
+        "модельКорня": "NOT_RETURNED",
+        "потокAppServerСобытий": "NOT_OBSERVED",
+        "усилиеКорня": "NOT_RETURNED"
+      },
+      "пагинация": {
+        "hasMore": true,
+        "limit": 1,
+        "order": "newest_first"
+      },
+      "сеанс": {
+        "createdAt": 1788807599,
+        "kind": "codex",
+        "status": {
+          "activeFlags": [],
+          "type": "active"
+        },
+        "updatedAt": 1793774775
+      },
+      "статусыЭлементов": {
+        "agentMessage": {
+          "ABSENT": 23
+        },
+        "collabAgentToolCall": {
+          "completed": 1
+        },
+        "commandExecution": {
+          "completed": 50,
+          "failed": 4
+        },
+        "contextCompaction": {
+          "ABSENT": 1
+        },
+        "mcpToolCall": {
+          "completed": 143,
+          "failed": 1
+        },
+        "reasoning": {
+          "ABSENT": 300
+        },
+        "subAgentActivity": {
+          "ABSENT": 28
+        },
+        "userMessage": {
+          "ABSENT": 15
+        }
+      },
+      "ход": {
+        "startedAt": 1793767818,
+        "status": "inProgress",
+        "отпечатокSHA256UTF8": "9d5817cc00a631a8db5be4d1f29a50159a6ded0a953631722d7ec05298458d65"
+      },
+      "числаЭлементов": {
+        "agentMessage": 23,
+        "collabAgentToolCall": 1,
+        "commandExecution": 54,
+        "contextCompaction": 1,
+        "mcpToolCall": 144,
+        "reasoning": 300,
+        "subAgentActivity": 28,
+        "userMessage": 15
+      }
+    },
+    "схема": "fum.снимок-цикла-Codex.1",
+    "эффектыРазрешены": false
+  },
+  "событие": {
+    "версия": 1,
+    "вид": "snapshotObserved",
+    "идентификатор": "ПРЕДЛОЖЕНО-наблюдение-ROOT-175-1",
+    "контрольнаяТочка": "ПРЕДЛОЖЕНО-снимок-ROOT-175-1",
+    "корень": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "нативноеСобытие": false,
+    "проекция": {
+      "sha256": "705fbfa446dcfb004d1ee65636247a550aebf0520b1869d3729661564a44e8f0",
+      "байтов": 4319,
+      "имя": "codex-state175-first-root-safe-projection.json"
+    },
+    "схема": "fum.событие-наблюдения-среза-Codex.1"
+  },
+  "статус": "ГОТОВО",
+  "схема": "fum.результат-среза-Codex.1",
+  "эффектыРазрешены": false
+}
