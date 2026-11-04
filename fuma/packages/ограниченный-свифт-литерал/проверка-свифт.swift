@@ -1,0 +1,8 @@
+print(("").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{41}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{22}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{5c}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{0}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{65}\u{301}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{41}\u{22}\u{5c}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
+print(("\u{65}\u{0}\u{41}").unicodeScalars.map { String($0.value, radix: 16) }.joined(separator: ","))
