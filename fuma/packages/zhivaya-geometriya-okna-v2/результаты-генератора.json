@@ -1,0 +1,121 @@
+{
+  "схема": "fum.результаты-генератора-живой-геометрии-с-завершением.1",
+  "статус": "FINITE_SIX_BUILD_LIVE_GPU_INDEPENDENTLY_ACCEPTED",
+  "исходник": {
+    "файл": "определение-окна.json",
+    "байтов": 24377,
+    "sha256": "0dc24366b054efea62f04306dd6144f075d1b8874b3767a3b2ab607e5d68b152",
+    "канонический": "sha256:4087bc82fc97d634d180124f30efbf666260e707c2478be91ca188abd045ebac"
+  },
+  "историческиеОжиданияНеИзменены": true,
+  "фактические": [
+    {
+      "номер": 1,
+      "имя": "завершение-двух-буферов-профиль-v2",
+      "rawExitCode": 0,
+      "stderrБайт": 0,
+      "весьJSONСовпал": true,
+      "статус": "исходник",
+      "диагностика": null,
+      "исходник": true,
+      "stdinSHA256": "02697d6b49ffb935f77fa3a37e8d4dc65d41c91fde483bb1afb3a07daecccb8a",
+      "stdoutSHA256": "5546133b664c7cb26d757401e94c3c1b3b1dc46579604e6e949a8bef9bf774c3",
+      "terminalSHA256": "7b76c9c6e7ccc68246d754ccea1794b617fde6516973d9fb88198b4ea84ac41c"
+    },
+    {
+      "номер": 2,
+      "имя": "старый-полный-AST-v1",
+      "rawExitCode": 0,
+      "stderrБайт": 0,
+      "весьJSONСовпал": true,
+      "статус": "диагностика",
+      "диагностика": "схема-не-поддержана",
+      "исходник": false,
+      "stdinSHA256": "82e1237861d48d9899c829ded64af8390778b1a3a051a85baee34a8cb2ee3bbe",
+      "stdoutSHA256": "cb79bfce4d61791aa950ba2a69b9900e761cf1a4bc4b9dc842c4fc911eaa2483",
+      "terminalSHA256": "7b76c9c6e7ccc68246d754ccea1794b617fde6516973d9fb88198b4ea84ac41c"
+    },
+    {
+      "номер": 3,
+      "имя": "будущая-версия-3",
+      "rawExitCode": 0,
+      "stderrБайт": 0,
+      "весьJSONСовпал": true,
+      "статус": "диагностика",
+      "диагностика": "версия-не-поддержана",
+      "исходник": false,
+      "stdinSHA256": "e4640a3077ffb1bbd9b9add3f727f3dc90e856f9c541e73b88a23f9d868ccc74",
+      "stdoutSHA256": "5c2eabfafda408b90fbc567da3c33cc8903e37d2f2c3952e16dcd5e6ca7ecac6",
+      "terminalSHA256": "7b76c9c6e7ccc68246d754ccea1794b617fde6516973d9fb88198b4ea84ac41c"
+    },
+    {
+      "номер": 4,
+      "имя": "другой-узел",
+      "rawExitCode": 0,
+      "stderrБайт": 0,
+      "весьJSONСовпал": true,
+      "статус": "диагностика",
+      "диагностика": "узел-не-поддержан",
+      "исходник": false,
+      "stdinSHA256": "0c447d6b6229b83bbb8733da2a6be5389e67d57c8f509a9c9474acdc5b65361b",
+      "stdoutSHA256": "f857e12100ab29fbe4a076f172b9470ef0a823ccc204e1c15969327ba6eef7c5",
+      "terminalSHA256": "7b76c9c6e7ccc68246d754ccea1794b617fde6516973d9fb88198b4ea84ac41c"
+    },
+    {
+      "номер": 5,
+      "имя": "лишнее-поле",
+      "rawExitCode": 0,
+      "stderrБайт": 0,
+      "весьJSONСовпал": true,
+      "статус": "диагностика",
+      "диагностика": "лишние-или-отсутствующие-поля",
+      "исходник": false,
+      "stdinSHA256": "61bddc1922c8ad8144f2b588d6577bd0c6ffa2397617ba7520aac89176047aac",
+      "stdoutSHA256": "b082cb1b17fbdf3a8db28b3d1d3167c01491885becca4f704c954fd45327ffb1",
+      "terminalSHA256": "7b76c9c6e7ccc68246d754ccea1794b617fde6516973d9fb88198b4ea84ac41c"
+    },
+    {
+      "номер": 6,
+      "имя": "неверный-тип-профиля",
+      "rawExitCode": 0,
+      "stderrБайт": 0,
+      "весьJSONСовпал": true,
+      "статус": "диагностика",
+      "диагностика": "тип-или-профиль-не-поддержан",
+      "исходник": false,
+      "stdinSHA256": "dfe88d0b91b6131fc30b2b7ffc3ea87cd3a67e8ef5fbf67f933c30f123684642",
+      "stdoutSHA256": "9497b059444c806ded90c725c29209b448840bc497611bd8927d2c6788c3842e",
+      "terminalSHA256": "7b76c9c6e7ccc68246d754ccea1794b617fde6516973d9fb88198b4ea84ac41c"
+    }
+  ],
+  "производныйSwift": {
+    "байтов": 21050,
+    "sha256": "be8ea4b2c5094a4d38f649ea4d9d96f3727f694c1f9d3d013f340ee6ce17fa51",
+    "происхождение": "Только actualstdout01→текстовыйрезультат→JSON→исходник; wholegoldenMATCH/manualedits0"
+  },
+  "сборка": {
+    "rawExitCode": 0,
+    "stdoutБайт": 0,
+    "stderrБайт": 0,
+    "внешнихВызовов": 1,
+    "внутренняяПараллельность": "NOT_ENFORCED/NOT_MEASURED",
+    "бинарникБайтов": 3284920,
+    "бинарникSHA256": "3df8dafc1d371b699052ff388d574cfcb4cc584599ea8661fe6b13dcf5f15786",
+    "область": "Текущая машина/Swift6/two-file importlink существующей библиотеки"
+  },
+  "независимыйConsumer": {
+    "байтов": 24479,
+    "sha256": "bf306a087b91cbc1ccd0407d04fe08bc89ac3ac8b775c8f8a426e00c0648e3be",
+    "всегоИсходныхIO": 30,
+    "всеНовыеФайлыСтабильны": true,
+    "RootПринялВесьJSON": true,
+    "бинарныеSHA": "Rootproducer attribution, A10 bodyreads0"
+  },
+  "частныйМанифест": {
+    "имя": "geometry-gpu165-six-codegen.actual-result.json",
+    "байтов": 11917,
+    "sha256": "f874d951c48d75d126c528568c331cad06655c02e2971ef36d64e6290b6064a7"
+  },
+  "retry": 0,
+  "новыйHostРазрешениемИзЭтихДанныхНеСтановится": true
+}

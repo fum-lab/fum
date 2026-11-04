@@ -1,0 +1,150 @@
+{
+  "схема": "fum.результаты-живого-завершения-Metal.1",
+  "статус": "FINITE_LIVE_GPU_TWO_INDEPENDENTLY_ACCEPTED",
+  "проекция": {
+    "scope": "FINITE_LIVE_FUMA_GEOMETRY_WITH_ACTUAL_TWO_COMMAND_BUFFERS_COMPLETED_ROOT_OBSERVED",
+    "native6": true,
+    "receiver6WholeMatch": true,
+    "actualStateCarry": true,
+    "actualDTOtoPlanner": 2,
+    "plans": [
+      {
+        "nativeNumber": 1,
+        "width": 640,
+        "height": 480,
+        "bytes": 2457600,
+        "fullFormulaMatch": true,
+        "resourcesAllocatedByPlanner": 0
+      },
+      {
+        "nativeNumber": 4,
+        "width": 800,
+        "height": 600,
+        "bytes": 3840000,
+        "fullFormulaMatch": true,
+        "resourcesAllocatedByPlanner": 0
+      }
+    ],
+    "GPU": [
+      {
+        "nativeCandidate": 1,
+        "revision": 1,
+        "width": 640,
+        "height": 480,
+        "status": "completed",
+        "statusRaw": 4,
+        "completed": true,
+        "presentationConfirmed": false,
+        "snapshotWholeMatch": true
+      },
+      {
+        "nativeCandidate": 4,
+        "revision": 2,
+        "width": 800,
+        "height": 600,
+        "status": "completed",
+        "statusRaw": 4,
+        "completed": true,
+        "presentationConfirmed": false,
+        "snapshotWholeMatch": true
+      }
+    ],
+    "normalRecords": 16,
+    "nativeSequence": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "revisions": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      3
+    ],
+    "geometryChanged": [
+      true,
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "initialContentPoints": [
+      320,
+      240
+    ],
+    "resizedContentPoints": [
+      400,
+      300
+    ],
+    "backingScale": 2,
+    "drawablePixels": [
+      [
+        640,
+        480
+      ],
+      [
+        800,
+        600
+      ]
+    ],
+    "final": {
+      "next": 7,
+      "revision": 3,
+      "closed": true,
+      "candidate": false,
+      "DTOAbsent": true
+    },
+    "allPresentationConfirmedFalse": true,
+    "visibleWindowPixels": "UNKNOWN",
+    "NativeStop": "UNREPAIRED",
+    "numericProfile": {
+      "count": 231,
+      "allSafeInteger": true,
+      "scope": "Onlythisactualtrace, not generalOSfloat guarantee"
+    },
+    "sameCommandBufferClaim": "Source binds present/commit/wait/status on same localbuffer; runtime status reports2completed with exactsnapshotcandidatebindings; not independentdriver/syscallaudit",
+    "timer": "Cooperative2200ms plus blockingFUMA/GPUwait; external15sdeadline separate; no measured<3s/RSS/parallelismclaim"
+  },
+  "порядок": [
+    "Native1",
+    "Receiver1",
+    "Planner1",
+    "GPU1",
+    "Native2",
+    "Receiver2",
+    "Native3",
+    "Receiver3",
+    "Native4",
+    "Receiver4",
+    "Planner4",
+    "GPU4",
+    "Native5",
+    "Receiver5",
+    "Native6",
+    "Receiver6"
+  ],
+  "rawExitCode": 0,
+  "stdoutБайтов": 18035,
+  "stdoutSHA256": "b2951d62eeb53ca4d2180057572aef162e0de1df67e78bf3fa19ed60cbf9d515",
+  "stderrБайтов": 0,
+  "HostВызовов": 1,
+  "retry": 0,
+  "независимыйConsumer": {
+    "байтов": 24479,
+    "sha256": "bf306a087b91cbc1ccd0407d04fe08bc89ac3ac8b775c8f8a426e00c0648e3be",
+    "RootПринялВесьJSON": true
+  },
+  "частныйМанифест": {
+    "имя": "geometry-gpu165-own-live-host.result.json",
+    "байтов": 15886,
+    "sha256": "49da0a2924fed1f0a89a4e4a746bcc343614ce271b9847458c85194aae8d6499"
+  },
+  "UUIDНомерОкнаПозиция": "Исключены из публичной проекции",
+  "файлыРеконструкции": "Созданы послеHost, compactsorted/noLF, ихSHA равен runtimeinputdigest. Это auditcontent, не runtimeinput/per-eventfsync."
+}
