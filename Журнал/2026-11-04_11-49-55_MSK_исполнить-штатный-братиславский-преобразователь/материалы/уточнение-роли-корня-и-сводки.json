@@ -1,0 +1,16 @@
+{
+  "схема": "fum.уточнение-вопрос-ответ.1",
+  "источник": "Прямые сообщения человека в текущем запросе",
+  "вопросы": [
+    "Ya dumayu, chto tyi v osnovnom dolzhen soderzhateljno otvetitj na vopros izuchiv lyubuyu pamyatj repozitoriya, i potom peredatj etot vopros i otvet kakomu-to agentu v vide utochneniya libo sozdatj agenta pod zadachu.",
+    "Svodku po agentam davaj v razvyornutom vide s otmetkami chem zanyat, chto vyipolnil za segodnya.",
+    "Yeyo kstati, myi sdelayem algoritmicheski generiruyemoj i v pamyati sokhranyayemoj."
+  ],
+  "ответКорня": "Корень изучает относящуюся память репозитория и даёт содержательный ответ. Исходный вопрос, ответ и проверенные основания передаются агенту соответствующей зоны как уточнение задачи. Для самостоятельной нужной функции выделяется агент. Корень принимает результат и связывает его с общей Git-памятью. Развёрнутая сводка должна алгоритмически строиться из сохранённых фактов, показывать текущую работу и завершённое за явный день и сохраняться в Git.",
+  "адреснаяПередача": {
+    "поручение194": "Q/A-квитанция сохранена; Source фикстур не изменялся ради нормы",
+    "поручение197": "PRIMARY FUMA генератор сводки готовится; ещё NOT_RUN",
+    "поручение198": "Каноническая норма и инвентарь готовятся отдельно"
+  },
+  "граница": "Текст ответа не доказывает исполнение генератора или восстановления агентов"
+}
