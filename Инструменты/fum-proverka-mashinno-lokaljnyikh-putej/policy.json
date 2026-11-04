@@ -8217,6 +8217,114 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Точный указатель изменения в открытом ожидаемом отрицательном случае FUMA; это адрес поля JSON, не путь машины."
+    },
+    {
+      "id": "worktree135-contract-01",
+      "path": "fuma/packages/imya-rabochego-dereva/контракт-проверки.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e92680eee0e8cc6284a180e1db853b8085b14f406f314208daecfea1ef536e92",
+      "count": 15,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-contract-02",
+      "path": "fuma/packages/imya-rabochego-dereva/контракт-проверки.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:204b03d192f9fb36e3dc547f753a5e1e983c8519ae3519384efa08a3f5772f5c",
+      "count": 13,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-contract-03",
+      "path": "fuma/packages/imya-rabochego-dereva/контракт-проверки.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4f635e4094cda5d08ddb4ae714dfd6fba9c003e64d999362bf313c3604eaf323",
+      "count": 13,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-contract-04",
+      "path": "fuma/packages/imya-rabochego-dereva/контракт-проверки.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3dc129c5eee8c0c9af8bb94f5798caec551353ae563523f549536dc8a97c2ded",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-contract-05",
+      "path": "fuma/packages/imya-rabochego-dereva/контракт-проверки.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:74efd66819b6bd39f2af8f4082af109fb05ae0a4a0b3168dba1dfe65057572d2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-contract-06",
+      "path": "fuma/packages/imya-rabochego-dereva/контракт-проверки.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2033baf5b721b137f7ace51b0b94e6a3a93b11a35e9589232f9af8f0df050d47",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-actual-01",
+      "path": "fuma/packages/imya-rabochego-dereva/результаты-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e92680eee0e8cc6284a180e1db853b8085b14f406f314208daecfea1ef536e92",
+      "count": 15,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-actual-02",
+      "path": "fuma/packages/imya-rabochego-dereva/результаты-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:204b03d192f9fb36e3dc547f753a5e1e983c8519ae3519384efa08a3f5772f5c",
+      "count": 13,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-actual-03",
+      "path": "fuma/packages/imya-rabochego-dereva/результаты-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4f635e4094cda5d08ddb4ae714dfd6fba9c003e64d999362bf313c3604eaf323",
+      "count": 13,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-actual-04",
+      "path": "fuma/packages/imya-rabochego-dereva/результаты-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3dc129c5eee8c0c9af8bb94f5798caec551353ae563523f549536dc8a97c2ded",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-actual-05",
+      "path": "fuma/packages/imya-rabochego-dereva/результаты-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:74efd66819b6bd39f2af8f4082af109fb05ae0a4a0b3168dba1dfe65057572d2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
+    },
+    {
+      "id": "worktree135-actual-06",
+      "path": "fuma/packages/imya-rabochego-dereva/результаты-проверок.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2033baf5b721b137f7ace51b0b94e6a3a93b11a35e9589232f9af8f0df050d47",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь в конечной проверке FUMA-нормализатора; не фактический адрес машины и не разрешение Git/FS-эффекта."
     }
   ],
   "метаданные": [
