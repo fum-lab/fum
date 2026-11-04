@@ -1,0 +1,76 @@
+{
+  "схема": "fum.проекция-диагностик-Swift.1",
+  "проекция": true,
+  "originalStderrSHA256": "a1bfe75f83ad3512627adcde140b6473d625dd34463710d7f469d793e551e5ea",
+  "originalStderrBytes": 21326,
+  "исходникSHA256": "07ae39baeca51bce643240a9bdd6f90639170129486e7ff3962b56866597ce44",
+  "диагностики": [
+    {
+      "строка": 6,
+      "столбец": 110,
+      "текст": "cannot convert return expression of type 'Never' to return type '[String : Any]'"
+    },
+    {
+      "строка": 7,
+      "столбец": 94,
+      "текст": "cannot convert return expression of type 'Never' to return type '[Any]'"
+    },
+    {
+      "строка": 8,
+      "столбец": 96,
+      "текст": "cannot convert return expression of type 'Never' to return type 'String'"
+    },
+    {
+      "строка": 9,
+      "столбец": 219,
+      "текст": "cannot convert return expression of type 'Never' to return type 'Int64'"
+    },
+    {
+      "строка": 10,
+      "столбец": 137,
+      "текст": "cannot convert return expression of type 'Never' to return type 'Bool'"
+    },
+    {
+      "строка": 12,
+      "столбец": 127,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 14,
+      "столбец": 129,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 14,
+      "столбец": 539,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 18,
+      "столбец": 65,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 18,
+      "столбец": 213,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 18,
+      "столбец": 346,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 50,
+      "столбец": 85,
+      "текст": "unexpected non-void return value in void function"
+    },
+    {
+      "строка": 50,
+      "столбец": 363,
+      "текст": "unexpected non-void return value in void function"
+    }
+  ],
+  "приватныеАбсолютныеПутиОпущены": true,
+  "оригинальныйПотокСохранёнПриватно": true
+}

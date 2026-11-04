@@ -1,0 +1,51 @@
+import Foundation
+import CoreFoundation
+import Darwin
+struct Отказ: Error { let код: String }
+func нет(_ код: String) throws -> Never { throw Отказ(код: код) }
+func объект(_ х: Any) throws -> [String: Any] { guard let п = х as? [String: Any] else { return try нет("тип-объекта") }; return п }
+func массив(_ х: Any) throws -> [Any] { guard let п = х as? [Any] else { return try нет("тип-массива") }; return п }
+func строка(_ х: Any) throws -> String { guard let п = х as? String else { return try нет("тип-строки") }; return п }
+func целое(_ х: Any) throws -> Int64 { guard let п = х as? NSNumber, CFGetTypeID(п) != CFBooleanGetTypeID(), !["f","d"].contains(String(cString: п.objCType)), let ч = Int64(п.stringValue) else { return try нет("тип-целого") }; return ч }
+func булево(_ х: Any) throws -> Bool { guard let п = х as? NSNumber, CFGetTypeID(п) == CFBooleanGetTypeID() else { return try нет("тип-логического") }; return п.boolValue }
+func данные(_ х: Any) throws -> Data { try JSONSerialization.data(withJSONObject: х, options: [.sortedKeys,.withoutEscapingSlashes,.fragmentsAllowed]) }
+func форма(_ п: [String: Any], _ ключи: [String]) throws { guard Set(п.keys) == Set(ключи) else { return try нет("поля") } }
+func поле(_ п: [String: Any], _ ключ: String) throws -> Any { guard let х = п[ключ] else { return try нет("нет-поля") }; return х }
+func структура(_ х: Any, _ г: Int, _ н: inout Int) throws { н += 1; guard г <= 16 && н <= 8192 else { return try нет("предел-структуры") }; if let п = х as? [String: Any] { for к in п.keys.sorted() { try структура(п[к]!, г+1, &н) } } else if let а = х as? [Any] { for ч in а { try структура(ч, г+1, &н) } } else if х is String || х is NSNull {} else if let ч = х as? NSNumber { if CFGetTypeID(ч) != CFBooleanGetTypeID() { _ = try целое(ч) } } else { return try нет("тип") } }
+let арности: [String: ClosedRange<Int>] = ["переменная":1...1,"путь":2...10,"если":3...3,"равно":2...2,"массив":0...64,"ложь":0...0,"истина":0...0,"сложить":2...2,"умножить":2...2,"длина":1...1,"в-строку":1...1,"соединить":1...64,"потребовать-диапазон":3...3]
+func проверить(_ х: Any, _ имена: Set<String>) throws {
+ if let п = х as? [String: Any] { for к in п.keys.sorted() { try проверить(п[к]!, имена) }; return }
+ if let а = х as? [Any] { guard !а.isEmpty else { return try нет("нет-операции") }; let о = try строка(а[0]); guard let р = арности[о], р.contains(а.count-1) else { return try нет("операция") }; if о == "переменная" { guard try имена.contains(строка(а[1])) else { return try нет("переменная") }; return }; for ч in а.dropFirst() { try проверить(ч, имена) }; return }
+ if х is String { return }; _ = try целое(х)
+}
+func вычислить(_ х: Any, _ с: [String: Any]) throws -> Any { let р = try вычислитьУзел(х,с); var н = 0; try структура(р,0,&н); guard try данные(р).count <= 65536 else { return try нет("предел-результата") }; return р }
+func вычислитьУзел(_ х: Any, _ с: [String: Any]) throws -> Any {
+ if let п = х as? [String: Any] { var р: [String: Any] = [:]; for к in п.keys.sorted() { р[к] = try вычислить(п[к]!, с) }; return р }
+ guard let а = х as? [Any] else { return х }; let о = try строка(а[0]); if о == "переменная" { return try поле(с, строка(а[1])) }; if о == "если" { return try вычислить(а[try булево(вычислить(а[1],с)) ? 2 : 3],с) }
+ let в = try а.dropFirst().map { try вычислить($0,с) }
+ switch о {
+ case "истина": return true
+ case "ложь": return false
+ case "массив": return в
+ case "равно": return try данные(в[0]) == данные(в[1])
+ case "путь": var р = в[0]; for к in в.dropFirst() { if let п = р as? [String: Any] { р = try поле(п,строка(к)) } else { let м = try массив(р); let и = try целое(к); guard и >= 0 && и < Int64(м.count) else { return try нет("индекс") }; р = м[Int(и)] } }; return р
+ case "длина": if let п = в[0] as? [String: Any] { return п.count }; if let м = в[0] as? [Any] { return м.count }; return try строка(в[0]).unicodeScalars.count
+ case "в-строку": return try String(целое(в[0]))
+ case "соединить": return try в.map { try строка($0) }.joined()
+ case "потребовать-диапазон": let ч = try целое(в[0]); guard try ч >= целое(в[1]) && ч <= целое(в[2]) else { return try нет("диапазон-JSON") }; return ч
+ case "сложить","умножить": let л = try целое(в[0]); let п = try целое(в[1]); let (р,переполнение) = о == "сложить" ? л.addingReportingOverflow(п) : л.multipliedReportingOverflow(by:п); guard !переполнение else { return try нет("переполнение-JSON") }; return р
+ default: return try нет("операция")
+ }
+}
+func исполнить(_ программа: Any, _ вход: Any) throws -> Any {
+ let п = try объект(программа); try форма(п,["схема","идентификатор","версия","правила","определения","шаги"])
+ guard try (строка(поле(п,"схема")) == "fum.определение-оператора.2" && !строка(поле(п,"идентификатор")).isEmpty && целое(поле(п,"версия")) == 1 && массив(поле(п,"правила")).isEmpty && массив(поле(п,"определения")).isEmpty) else { return try нет("профиль-программы") }
+ let ш = try массив(поле(п,"шаги")); guard ш.count == 1 else { return try нет("шаги") }; let т = try объект(ш[0]); try форма(т,["идентификатор","оператор","аргументы"]); guard try (строка(поле(т,"оператор")) == "вычислить-JSON" && !строка(поле(т,"идентификатор")).isEmpty) else { return try нет("шаг") }
+ let а = try объект(поле(т,"аргументы")); try форма(а,["граф"]); let г = try объект(поле(а,"граф")); try форма(г,["схема","числа","переменные","результат"]); guard try (строка(поле(г,"схема")) == "fuma.граф-JSON.2" && строка(поле(г,"числа")) == "целые64-без-дробей") else { return try нет("граф") }
+ let у = try массив(поле(г,"переменные")); guard у.count <= 64 else { return try нет("переменные") }; var имена: Set<String> = ["вход"]; for з in у { let ч = try объект(з); try форма(ч,["имя","значение"]); let и = try строка(поле(ч,"имя")); guard !и.isEmpty && и.utf8.count <= 128 && !имена.contains(и) else { return try нет("имя") }; try проверить(поле(ч,"значение"),имена); имена.insert(и) }; try проверить(поле(г,"результат"),имена)
+ var с: [String: Any] = ["вход":вход]; for з in у { let ч = try объект(з); с[try строка(поле(ч,"имя"))] = try вычислить(поле(ч,"значение"),с) }; return try вычислить(поле(г,"результат"),с)
+}
+func прочитать(_ путь: String, _ предел: Int) throws -> Any { let ф = try FileHandle(forReadingFrom: URL(fileURLWithPath:путь)); defer { try? ф.close() }; var д = Data(); while д.count <= предел { guard let ч = try ф.read(upToCount:предел+1-д.count), !ч.isEmpty else { break }; д.append(ч) }; guard д.count <= предел, String(data:д,encoding:.utf8) != nil else { return try нет("вход") }; let х = try JSONSerialization.jsonObject(with:д,options:[.fragmentsAllowed]); var н = 0; try структура(х,0,&н); return х }
+@main struct Ядро {
+ static func main() { do { guard CommandLine.arguments.count == 3 else { return try нет("аргументы") }; let п = try прочитать(CommandLine.arguments[1],65536); let в = try прочитать(CommandLine.arguments[2],262144); let х = try исполнить(п,в); var д = try данные(х); guard д.count+1 <= 65536 else { return try нет("предел-результата") }; д.append(10); try FileHandle.standardOutput.write(contentsOf:д) } catch { let код = (error as? Отказ)?.код ?? "ввод-вывод-или-JSON"; if var д = try? данные(["схема":"fum.отказ-ядра.1","код":код,"эффектыРазрешены":false]) { д.append(10); try? FileHandle.standardError.write(contentsOf:д) }; exit(1) } }
+}
