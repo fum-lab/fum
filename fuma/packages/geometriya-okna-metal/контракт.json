@@ -1,0 +1,146 @@
+{
+  "схема": "fum.контракт-геометрии-окна.1",
+  "первичныйИсходник": {
+    "байты": 22832,
+    "sha256": "c6e47f8d263846cb4f666d837a1badf9298515cebbc216530cb4d984fa12e295"
+  },
+  "вход": {
+    "схема": "fum.программа-геометрии-окна.1",
+    "версия": 1,
+    "узел": "окно-с-одним-изменением-размера",
+    "профили": [
+      {
+        "схема": "fum.программа-геометрии-окна.1",
+        "версия": 1,
+        "узел": "окно-с-одним-изменением-размера",
+        "ширинаПунктов": 320,
+        "высотаПунктов": 240,
+        "новаяШирина": 400,
+        "новаяВысота": 300,
+        "изменитьЧерезМс": 600,
+        "закрытьЧерезМс": 2200
+      },
+      {
+        "схема": "fum.программа-геометрии-окна.1",
+        "версия": 1,
+        "узел": "окно-с-одним-изменением-размера",
+        "ширинаПунктов": 480,
+        "высотаПунктов": 360,
+        "новаяШирина": 640,
+        "новаяВысота": 480,
+        "изменитьЧерезМс": 800,
+        "закрытьЧерезМс": 2600
+      }
+    ]
+  },
+  "результат": {
+    "схема": "fum.результат-компилятора-геометрии.1",
+    "положительный": "Полный Swift и метаданные, выполнениеРазрешено=false.",
+    "отрицательный": "Явная диагностика без поля исходник; шесть полных ожиданий закреплены заранее."
+  },
+  "сигналы": {
+    "схема": "fum.сигнал-геометрии-окна.1",
+    "общиеПоля": [
+      "схема",
+      "событие",
+      "экземпляр",
+      "поколение",
+      "редакция",
+      "номерСигнала",
+      "предъявлениеПодтверждено",
+      "геометрияИзменена"
+    ],
+    "наблюдённыеПоля": [
+      "рамкаПунктов",
+      "границыПунктов",
+      "масштабПодложки",
+      "размерПодложкиПикселей",
+      "размерПоверхностиПикселей"
+    ],
+    "запрос": {
+      "событие": "изменение-размера-запрошено",
+      "поле": "запросРазмераПунктов",
+      "толькоЗапрошенные": "validated newWidth/newHeight",
+      "неСодержит": [
+        "рамкаПунктов",
+        "границыПунктов",
+        "масштабПодложки",
+        "размерПодложкиПикселей",
+        "размерПоверхностиПикселей"
+      ],
+      "смысл": "Request не masquerades as observed resize; revision не повышается самим намерением."
+    },
+    "callbackEvents": [
+      {
+        "событие": "размер-изменён",
+        "native": "windowDidResize",
+        "допуск": "notification.object as? NSWindow ===own window"
+      },
+      {
+        "событие": "подложка-изменена",
+        "native": "windowDidChangeBackingProperties",
+        "допуск": "Тот же exact own-window guard."
+      }
+    ],
+    "редакция": "Первый наблюдённый snapshot даётrevision1. При callback update frame/bounds/scale/converted pixels/layer drawable property сравниваются с последним snapshot; изменение повышает revision, совпадение не повышает. Close отдельно повышает revision как инвалидирование.",
+    "максимумСигналов": 32,
+    "байтСтроки": 4096,
+    "предъявлениеПодтверждено": false
+  },
+  "границы": [
+    "Request не доказывает observed resize. Нужен последующий собственный native callback с фактическими bounds.",
+    "Таймер закрытия кооперативный; внешний процессный deadline задаётся отдельно.",
+    "Видимые пиксели/завершение GPU/readback этим geometry-профилем не подтверждаются.",
+    "Физические runtime UUID/номерОкна/позиции остаются приватными.",
+    "Callback backing может отсутствовать без изменения дисплея; масштаб2 не предполагается.",
+    "Это два конечных профиля, не общий UI-компилятор, AOT или live FUMA-controller."
+  ],
+  "происхождение": {
+    "старыеBackendV1V2НеМенялись": true,
+    "retained128PatchOperations": 11,
+    "rootOldBodyRereadForPatch": 0,
+    "статус": "Новый отдельный Source145; проверка patch — reviewer static, не собственный runtimeproof ROOT."
+  },
+  "официальныеAPI": [
+    {
+      "API": "NSWindow.setContentSize",
+      "url": "https://developer.apple.com/documentation/appkit/nswindow/setcontentsize(_:)",
+      "подтверждено": "Метод принимает NSSize и меняет размер content view в базовых координатах окна."
+    },
+    {
+      "API": "NSWindowDelegate.windowDidResize",
+      "url": "https://developer.apple.com/documentation/appkit/nswindowdelegate/windowdidresize(_:)",
+      "подтверждено": "Notification callback после изменения размера; window извлекается из object."
+    },
+    {
+      "API": "NSWindowDelegate.windowDidChangeBackingProperties",
+      "url": "https://developer.apple.com/documentation/appkit/nswindowdelegate/windowdidchangebackingproperties(_:)",
+      "подтверждено": "Notification о backing scale либо color-space изменениях; Source не выдаёт одно за другое."
+    },
+    {
+      "API": "NSView.convertToBacking(NSRect)",
+      "url": "https://developer.apple.com/documentation/appkit/nsview/converttobacking(_:)-3zors",
+      "подтверждено": "Перевод view-interior rect в backing pixel-aligned coordinate system."
+    },
+    {
+      "API": "CAMetalLayer.drawableSize",
+      "url": "https://developer.apple.com/documentation/quartzcore/cametallayer/drawablesize",
+      "подтверждено": "CGSize задаёт размеры drawable textures в pixels; не сигнал выполненияGPU."
+    },
+    {
+      "API": "NSView.AutoresizingMask.width/height",
+      "url": "https://developer.apple.com/documentation/appkit/nsview/autoresizingmask-swift.struct",
+      "подтверждено": "Width/height доступны как OptionSet flexible axes; применяется к content NSView."
+    },
+    {
+      "API": "NSWindow.contentMaxSize",
+      "url": "https://developer.apple.com/documentation/appkit/nswindow/contentmaxsize",
+      "подтверждено": "NSSize get/set ограничивает content size, включая programmatic setContentSize; не полный frame с заголовком."
+    },
+    {
+      "API": "CATransaction.begin/commit/setDisableActions",
+      "url": "https://developer.apple.com/documentation/quartzcore/catransaction",
+      "подтверждено": "Группировка layer property updates; setDisableActions Bool отключает actions. Это не GPU completion."
+    }
+  ]
+}

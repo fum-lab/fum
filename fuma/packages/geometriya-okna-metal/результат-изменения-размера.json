@@ -1,0 +1,177 @@
+{
+  "схема": "fum.фактическое-изменение-размера-окна.1",
+  "статус": "ACTUAL_SINGLE_RESIZE_INDEPENDENTLY_ACCEPTED",
+  "вызововHost": 1,
+  "повторов": 0,
+  "кодПроцесса": 0,
+  "stdout": {
+    "байты": 4537,
+    "sha256": "f66907c4df5facc0764e3257814f77522e6f24b05becfcba3d580cb2cd2492ab"
+  },
+  "stderr": {
+    "байты": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "FUMA": {
+    "байты": 22832,
+    "sha256": "c6e47f8d263846cb4f666d837a1badf9298515cebbc216530cb4d984fa12e295"
+  },
+  "фактическийSwift": {
+    "байты": 17013,
+    "sha256": "19e4aece8aa7cc68b490e9c04d8f82dc3d3ba9337267e83842622d7097d30796"
+  },
+  "сборка": {
+    "код": 0,
+    "stdoutБайтов": 0,
+    "stderrБайтов": 0,
+    "исполняемыйФайл": {
+      "байты": 198088,
+      "sha256": "6d86a0b29e096fe050f509211ed4032abd9efbb609990a27f8b775b26e5b1079"
+    }
+  },
+  "проверки": {
+    "raw0": true,
+    "stderr0": true,
+    "allSchema": true,
+    "oneInstanceGeneration": true,
+    "seqConsecutive": true,
+    "allPresentationUnconfirmed": true,
+    "open320x240": true,
+    "oneRequest": true,
+    "request400x300": true,
+    "requestNoObservedGeometry": true,
+    "actualResizeAfterRequest": true,
+    "resizeChanged": true,
+    "resizeRevisionIncreased": true,
+    "closeAfterResize": true,
+    "closeRevisionIncreased": true,
+    "noError": true,
+    "observedBackingLayerRelations": true
+  },
+  "безопасныеСигналы": [
+    {
+      "event": "открыто",
+      "sequence": 1,
+      "revision": 1,
+      "geometryChanged": true,
+      "contentPoints": {
+        "width": 320,
+        "height": 240
+      },
+      "scale": 2,
+      "backingPixels": {
+        "высота": 480,
+        "ширина": 640
+      },
+      "drawablePixels": {
+        "высота": 480,
+        "ширина": 640
+      }
+    },
+    {
+      "event": "предъявление-запрошено",
+      "sequence": 2,
+      "revision": 1,
+      "geometryChanged": false,
+      "contentPoints": {
+        "width": 320,
+        "height": 240
+      },
+      "scale": 2,
+      "backingPixels": {
+        "высота": 480,
+        "ширина": 640
+      },
+      "drawablePixels": {
+        "высота": 480,
+        "ширина": 640
+      }
+    },
+    {
+      "event": "изменение-размера-запрошено",
+      "sequence": 3,
+      "revision": 1,
+      "geometryChanged": false,
+      "requestedPoints": {
+        "высота": 300,
+        "ширина": 400
+      }
+    },
+    {
+      "event": "размер-изменён",
+      "sequence": 4,
+      "revision": 2,
+      "geometryChanged": true,
+      "contentPoints": {
+        "width": 400,
+        "height": 300
+      },
+      "scale": 2,
+      "backingPixels": {
+        "высота": 600,
+        "ширина": 800
+      },
+      "drawablePixels": {
+        "высота": 600,
+        "ширина": 800
+      }
+    },
+    {
+      "event": "предъявление-запрошено",
+      "sequence": 5,
+      "revision": 2,
+      "geometryChanged": false,
+      "contentPoints": {
+        "width": 400,
+        "height": 300
+      },
+      "scale": 2,
+      "backingPixels": {
+        "высота": 600,
+        "ширина": 800
+      },
+      "drawablePixels": {
+        "высота": 600,
+        "ширина": 800
+      }
+    },
+    {
+      "event": "закрыто",
+      "sequence": 6,
+      "revision": 3,
+      "geometryChanged": false,
+      "contentPoints": {
+        "width": 400,
+        "height": 300
+      },
+      "scale": 2,
+      "backingPixels": {
+        "высота": 600,
+        "ширина": 800
+      },
+      "drawablePixels": {
+        "высота": 600,
+        "ширина": 800
+      }
+    }
+  ],
+  "приватноеИсключено": [
+    "экземпляр",
+    "номерОкна",
+    "позиции рамки"
+  ],
+  "границы": [
+    "BackingScale2 наблюдён, изменение масштаба во время опыта не происходило.",
+    "Present/commit — API-запрос; видимые пиксели и завершение GPU не наблюдались.",
+    "Фактический resize callback — отдельный факт после request, не подстановка запрошенного размера.",
+    "Живой FUMA-reducer и NativeStop не проверены."
+  ],
+  "независимоеРевью": {
+    "байты": 20869,
+    "sha256": "0299d14e9a2e223417b749537cc168ad59bec2bad49650e7dcc01283f5060f69",
+    "выбранныхФайлов": 11,
+    "исходныхIO": 6,
+    "полныхСтрокTrace": 6,
+    "уровень": "Bound Source/API-report; не независимый driver/syscall audit."
+  }
+}
