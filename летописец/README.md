@@ -525,3 +525,9 @@ ROOT дополнительно сообщил адресную сверку SHA
 По сообщению ROOT, вместо дублирования отказа подготовлен reusable pure encoder candidate intent, selector и пятипольного active: `durable-intent-encoder-v1-source.patch.DATA` SHA `3abe02b65a1447e480f1014fe066664a8d39fe33015a6588c9672c320a073a1b`, tests SHA `df2357c9aad9442038f507d91ae914c557b13e8288698e86a40d38d2c0ca551c`. Автор указал коллизию имени для одинакового intent с разными selector: при реальном writer EEXIST должен оставаться UNKNOWN, но owner и custody не реализованы. Source claims — входные данные, подготовка не даёт допуска. Patch не применялся, тесты не запускались; независимый review назначен.
 
 По независимому static review encoder, переданному ROOT, одинаковые operation/session/command с selector A и B дают одинаковые intent и name, но разные active: это оговорённая потенциальная коллизия, не проверенный EEXIST. Обратно, одинаковые operation/session/selector с разными command меняют имя, поэтому content-hash имя не обеспечивает единственную reservation операции. Нужен отдельный authoritative атомарный gate по operation/session и проверка полного intent/selector; он пока отсутствует. Encoder не пишет и не доказывает authority, тесты не запускались.
+
+## Специализированные аналоги reservation
+
+По результату архитектора, переданному ROOT, `обновление_ожиданий_узла.py:565–639` содержит стабильную привязку ресурса под lock и запрет нового поколения до подтверждения; `запуск_приёма_базиса_узла.py:2880–2945` содержит O_EXCL lock, fsync и intent/квитанцию. Это статически найденные специализированные аналоги, не готовый gate обёртки. Session identity, per-operation atomic reservation, custody/recovery и совместимость с legacy/shared lock UNKNOWN.
+
+Sol также обнаружил в encoder-v2 source patch пустую строку без diff prefix. Автор готовит отдельную исправленную упаковку; tests и apply не запускались.
