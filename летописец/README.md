@@ -461,3 +461,7 @@ ROOT сообщил о проверенном source-level контрприме�
 ## Pure durable-projection-v1
 
 По сообщению ROOT, независимый Sol статически согласовал exact формат пятипольного active и hash исходных bytes в новом pure `durable-projection-v1`; flat prefilter и pins присутствуют. Успех означает только проекцию без proof или разрешения. No-spawn консервативно UNKNOWN, как оговорил автор; тесты не покрывают ряд mismatches, duplicate/depth и whitespace/escape. Исполнителю поручен отдельный versioned вариант без придумывания доверенности. Код и тесты не запускались и не интегрированы.
+
+## Pure durable-projection-v2
+
+По сообщению ROOT, в pure durable-projection-v2 добавлены no-spawn с `reap/custody=не_применим*`, typed states и тестовые случаи. Sol статически подтвердил узкие правила и отсутствие permit. Прямой KILL без TERM физически возможен, поэтому UNKNOWN для него — ограничение профиля TERM → KILL, не универсально невозможный факт. Автору переданы это уточнение и недостающие положительные spawned cases. Runtime, FS owner, gate и достоверность строк не установлены; тесты не запускались.
