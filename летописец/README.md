@@ -653,3 +653,9 @@ W2 graph-операции соответствуют resource по статик�
 Существующий private Process runner не injectable, mock tests и root dependency отсутствуют. Blocking read/wait, объединённые stdout/stderr, буфер 1 МиБ, недоказанная Git-config policy, ignored и submodules и неатомарный snapshot остаются. Все patch NOT APPLIED/NOT RUN, фактическая применимость UNKNOWN; это не Git ↔ JSONL sync.
 
 По независимому static review observer product, переданному ROOT, historical manifest/source patches совпадают с exact Git diff `26af → 2492936`, delta-v2 корректно добавляет `-C` и `GIT_NO_LAZY_FETCH=1`. Фактических apply, build и test не было. Остаются четыре отдельных Git-вызова без atomic snapshot, однократная проверка физического root, объединённые stdout/stderr и blocking read/terminate/wait без timeout, локальная Git config и ignored, `--ignore-submodules=all`, output 1 МиБ и локальные root/ref/path без подтверждённой publication cleanliness. Нет commit → tree → blob или JSONL. Автор готовит pure argv/env seam и Swift mock tests; runtime и root package dependency UNKNOWN.
+
+## Reviewable Git observer builder
+
+По сообщению ROOT, подготовлены pure command/environment builder patch SHA `209d52e1869d6c87362f4be84be2b8f3eae4141d94fc1153dad6c1407fe4860e`, production-use delta-v2 SHA `fb2714a6ddefb999d6766818557d6805cb56c40d072dd4d2ce76faa162deaa41` и Swift Testing draft SHA `fcce45d3166936f992f21972c367b787ac0e78c124b81a3e713f993c83046ac4`. Предыдущая use-builder-v1 имела неверный hunk count, использовать её нельзя. Автор утверждает закрытый набор четырёх вызовов и test bodies без Process или FS; Sol проверяет.
+
+Package не имеет test target и не подключён к корневому; clock, custody, output, root authority, privacy и source apply/compile/tests остаются UNKNOWN. W2 не менялся; подготовка не означает выполнения или интеграции.
