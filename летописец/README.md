@@ -275,3 +275,9 @@ ROOT сообщил, что read-only `stat` путей `/opt/homebrew/bin/gtime
 ## Частный Swift launcher v1
 
 По сообщению ROOT, инженер подготовил частный Swift launcher v1 вне W2 и до применения сам обнаружил отсутствие cleanup ребёнка при некоторых read/clock errors и отсутствие bounded reap после KILL. Сборка, тест и запуск не проводились. ROOT вернул v1 на исправление и запросил scope cleanup, TERM/KILL/wait, сохранение primary/secondary и честный UNKNOWN для потомков. Это не восстановленная отчётная обёртка.
+
+## Launcher v2 и synthetic JSONL/Git
+
+По сообщению ROOT, инженер подготовил private Swift launcher v2, но он не готов: реальных тестов нет, cleanup между spawn и supervise и потомки остаются UNKNOWN. Compiler и tests не запускались, guard и W2 сохранены. ROOT указал потенциальное повторное использование PGID после reaping в v1; автор пояснил, что v2 не сигналит после признанного `waitpid`, однако group custody и escaped descendants не доказаны. Локальный SDK header объявляет `waitid` и `WNOWAIT`, что не доказывает runtime.
+
+В отдельном направлении FUMA, по сообщению ROOT, подготовлен candidate v2 synthetic JSONL/Git с новыми проверками формы и внешним ещё не реализованным trusted producer. Live sync не подтверждён; независимое Sol-ревью назначено, но его результат данной записью не утверждается.
