@@ -533,3 +533,7 @@ ROOT дополнительно сообщил адресную сверку SHA
 Sol также обнаружил в encoder-v2 source patch пустую строку без diff prefix. Автор готовит отдельную исправленную упаковку; tests и apply не запускались.
 
 По сообщению ROOT, Sol статически подтвердил упаковку encoder-v3 SHA `ce0ee5cfecef1a34b3b907e43ea686ef709a05b30b23e0ade8bba02955ba2517`, hunk counts и единственное текстовое отличие от v2 — корректный `+` на пустой строке. `diff` exit 1 означал найденное ожидаемое отличие. Apply, AST и тесты не запускались. Автору поручен предметный анализ существующих reservation/intent паттернов; gate остаётся UNKNOWN.
+
+## Pure operation-reservation-plan-v1
+
+По сообщению ROOT, после адресного изучения двух существующих паттернов автор подготовил pure `operation-reservation-plan-v1`: source SHA `2341088f9433eb39c85135802a1cc91dbabe4866392b3e922b599a9601cd3c54`, tests SHA `7913c0c46158e7bc8a6ba56206da47aa0475505f6d1cb4cea471ecc2ca54251c`. План привязывает имя к session и operation, а не command или selector; любое предъявленное существующее значение даёт UNKNOWN, `None` — лишь заявленное отсутствие без доказательства. Это не atomic reservation, trusted owner, legacy coordination или допуск. Patches и test не применялись и не запускались; Sol проверяет.
