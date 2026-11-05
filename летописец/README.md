@@ -511,3 +511,7 @@ ROOT дополнительно сообщил адресную сверку SHA
 По сообщению ROOT, тестировщик подготовил полный in-memory dual Git-driver с раздельными diff-секциями и globals `ModuleType`; реального запуска не было. Первая попытка статического peer review завершилась до поступления текста; после подтверждения отправки review назначено повторно. Это не результат запуска: hash драйвера и ограниченный parent ещё не подтверждены, guard остаётся.
 
 По сообщению ROOT, Sol статически согласовал dual Git-driver с pinned product patches: две секции и отдельные TestCase, globals `ModuleType`, fake os/subprocess, trap и два точных mock tests. Host ENV и реальный Git в этих известных функциях не вызываются. Это анализ, не запуск: сам driver читает DATA и stdlib, пишет stderr, использует builtins, compile и exec; parent, защита ancestor/TOCTOU, SHA driver и разрешение остаются открытыми.
+
+## Pin dual-Git mock bootstrap
+
+По сообщению ROOT, он и тестировщик независимо воспроизвели новый in-memory поток UTF-8/LF с ровно одним завершающим LF: 4880 Б, SHA `8821e18c9193bbc4ad9d4030b6465b6600bc20ed7f46c278a4e278aa01e1206e`. Это не SHA исходного collaboration-сообщения и не доказанная доставка в argv. Sol статически проверил выделение двух helper, двух mock methods и fake os/subprocess. Такой запуск, Python и тесты не выполнялись; parent, custody, лимиты и отдельное разрешение пока отсутствуют.
