@@ -635,3 +635,9 @@ Source возвращает raw bytes и текст, не является са�
 W2 graph-операции соответствуют resource по статике, но полный symbol closure не доказан: неизменённый `AutomationExecutor` объёмом 32284 Б не читали из-за cap. Source label и hash не удостоверяют происхождение, исходные данные и текст не санируются. Git, app-server, тесты, runtime и интеграция UNKNOWN. Sol независимо сверяет patches; назначенная сверка не является её результатом.
 
 Уточнение ROOT: Sol независимо подтвердил пять JSONL → FUMA patches, каждый не более 24576 Б, как exact single-target Git diffs `26af → 2492936`; SHA resource совпадает с pin фасада. ROOT read-only выполнил `git -C W2 status --short` по десяти exact JSONL и shared-start targets: exit 0, изменений не показано. Это не подтверждает отсутствие игнорируемых путей, symlink и будущую актуальность. Apply, build и tests не выполнялись. Полная зависимость `AutomationExecutor` объёмом 32284 Б остаётся за cap, root manifest отсутствует.
+
+## Ограниченный trace product 249
+
+По адресному static trace ROOT, `priyomnik-fuma-jsonl.swift` связывает bytes/offset → LF framing → `ФасадJSONL` → callback и сам к Git не обращается; root `Package.swift` не включает Git/`НаблюдательРепозитория`. Отдельный Git observer выдаёт root, HEAD, branch и status несколькими командами, но не устанавливает commit → tree → path → blob или атомарный snapshot, не задаёт `GIT_NO_LAZY_FETCH=1`, не пишет commit и не связывает JSONL. `proverka-versionnoj-svyazi-priyomki.swift` сопоставляет переданные document claims, Git не читает; model receipt проверяет bytes/hash и статус, не Git.
+
+Проверен точный ограниченный набор исходников; отсутствие связи за его пределами не доказано. Ebd содержит только local intent, `2492936` шире, но настоящий JSONL ↔ Git/app-server runtime UNKNOWN. W2 не изменялся, программы и tests не запускались, содержимое RAW и ROOT JSONL не читалось.
