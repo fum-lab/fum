@@ -551,3 +551,5 @@ ROOT сообщил source-level находку в `reservation-writer-v3` SHA `
 ## Reservation writer v5
 
 По сообщению ROOT, reservation writer v5 имеет SHA `a189c2a3141f8653acbac52645564178612aec5a84e65f104b9126fd53d7ea47`, tests v3 — `1d9bdd0674fe6f037434b466b47bb3f0bc4066bcf9dc85ac880aea9545a6918b`. Sol статически подтвердил обнаружение append после EOF и сохранение предыдущего close-fail UNKNOWN. Тесты всех полных путей ожидают только UNKNOWN: всегда отказывающая реализация прошла бы их. Автору поручены normal success и nested exception tests. Same-size rewrite, поздний name swap, sole-owner custody и recovery остаются UNKNOWN; patch и test не применялись и не запускались.
+
+По сообщению ROOT, Sol статически принял mock tests writer-v4 SHA `971980ab0b8275f07282a5d90cc27184a64bb8bd84905db46aacede84aa7322f`: positive tuple с identity/hash исключает реализацию always-UNKNOWN, fake sequences соответствуют writer-v5, nested close group проверяет identity и UNKNOWN note. Это чтение, не фактический прогон и не доказательство FS durability или custody; owner, gate, legacy и guard остаются открыты.
