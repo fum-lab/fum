@@ -281,3 +281,9 @@ ROOT сообщил, что read-only `stat` путей `/opt/homebrew/bin/gtime
 По сообщению ROOT, инженер подготовил private Swift launcher v2, но он не готов: реальных тестов нет, cleanup между spawn и supervise и потомки остаются UNKNOWN. Compiler и tests не запускались, guard и W2 сохранены. ROOT указал потенциальное повторное использование PGID после reaping в v1; автор пояснил, что v2 не сигналит после признанного `waitpid`, однако group custody и escaped descendants не доказаны. Локальный SDK header объявляет `waitid` и `WNOWAIT`, что не доказывает runtime.
 
 В отдельном направлении FUMA, по сообщению ROOT, подготовлен candidate v2 synthetic JSONL/Git с новыми проверками формы и внешним ещё не реализованным trusted producer. Live sync не подтверждён; независимое Sol-ревью назначено, но его результат данной записью не утверждается.
+
+## Разрыв evaluator и launcher v4
+
+По статическому обзору владельца, переданному ROOT, у существующего `fuma.граф-JSON.2` не установлен примитив перехвата доменного отказа evaluator с отличием от сбоя запуска или транспорта. Поэтому adapter для 11 synthetic fixture остаётся контрактом, не реализацией. ROOT поручил candidate расширения graph evaluator с закрытым результатом успех/доменный отказ, не превращая cancellation, timeout или IO в expected rejection, с versioned primary FUMA и bootstrap существующего Swift. Источники и тесты не запускались; live sync не доказан.
+
+По сообщению ROOT, тестировщик статически отметил для launcher v4: наблюдённый `ECHILD` запрещает дальнейший kill, однако гонка со сторонним reaper и прочие гарантии остаются UNKNOWN. Это не подтверждение runtime.
