@@ -561,3 +561,5 @@ ROOT сообщил потенциально блокирующую static-на�
 По сообщению ROOT, Sol подтвердил: в Swift launcher-v8 synthetic `/bin/sh` и произвольные argv/env проходят только строковый guard при успешном setup. Реальный spawn и существование внешнего gate UNKNOWN; итоговый UNKNOWN не отменял бы уже совершённый эффект. Автор готовит отдельную fail-closed точку до pipe/spawn; это не замена будущей authority и не восстановление.
 
 Отдельно Sol статически проверил reservation-writer shortlist: два defs, пять mock tests, суммарно 14984 bytes, при условии общего fake os/ModuleType и отдельных stat. Драйвера и прогонов нет; это не доказательство реального IO или custody.
+
+ROOT передал уточнение Sol по Swift candidate: в v8 reachable source-path с `/bin/sh` и произвольными argv/env существует при успешном setup, но фактический запуск и внешний gate UNKNOWN. Автор подготовил private v9 SHA `9a6ea5efb084b6283f85f6d4b1c1a15dd33e0f28f1181beb9b232556b4ef7752`: public отказ до pipe/spawn, старый код — private не вызываемый draft. Это защита от ошибочного подключения, не реализация authority, owner или восстановления. Compile и tests NOT RUN, Sol проверяет.
