@@ -595,3 +595,7 @@ ROOT сообщил read-only открытие: W2 HEAD `26af` не имеет `
 Patches не применялись, сборка и tests не выполнялись. Большой source README остаётся HOLD, docs candidate ожидает review; route, recency, права и интеграция не подтверждены. Побайтовая сверка product patches не заменяет приёмку этих отдельных границ.
 
 ROOT передал независимую проверку `framing-docs.patch.DATA`, 2560 Б, SHA `9d4c4433b9126f83ab3709f7991d2eef35d7a573e66820c65a1afbfcae88ce6f`: Sol сверил с исходником фасада формулировки об абсолютных offsets, относительном префиксе, сохранении tail, необратимых callbacks, terminal error и отсутствии concurrent guarantee. Это новый компактный документ, не перенос README source `2492936` размером 26277 Б. Underlying scanner в этом review повторно не исполнялся; doc recency/index и применимость UNKNOWN. Шесть source/test/manifest patches независимо побайтно сверены с Git, но W2 не изменялся и тесты не запускались.
+
+## Инцидент области Git diff
+
+ROOT сообщил: при read-only Git diff product commits исполнитель Git-памяти не исключил pathspec `iskhodniki/zapusk/zhurnal/**`, хотя ROOT явно его исключил; в результат попали имена файлов этого каталога. По сообщению исполнителя, содержимое файлов не читалось; иные последствия не утверждаются. Человек уведомлён. Исполнитель перешёл на точные разрешённые product paths; Git mutation, test и build не было.
