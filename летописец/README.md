@@ -557,3 +557,7 @@ ROOT сообщил source-level находку в `reservation-writer-v3` SHA `
 ## Граница executable Swift launcher v8
 
 ROOT сообщил потенциально блокирующую static-находку в неприменённом Swift launcher v8: public `run` до `posix_spawn` проверяет у executable только абсолютный префикс и отсутствие NUL, а arguments и environment берёт произвольные из Intent. Например, строка `/tmp/../bin/sh` удовлетворяет этому конкретному guard, однако exact путь, аргументы, env и внешний authority gate не доказаны. Это не факт реального запуска или применимости пути. Terra и Sol проверяют отдельно; v8 NOT READY/NOT RUN, публичный guard W2 закрыт.
+
+По сообщению ROOT, Sol подтвердил: в Swift launcher-v8 synthetic `/bin/sh` и произвольные argv/env проходят только строковый guard при успешном setup. Реальный spawn и существование внешнего gate UNKNOWN; итоговый UNKNOWN не отменял бы уже совершённый эффект. Автор готовит отдельную fail-closed точку до pipe/spawn; это не замена будущей authority и не восстановление.
+
+Отдельно Sol статически проверил reservation-writer shortlist: два defs, пять mock tests, суммарно 14984 bytes, при условии общего fake os/ModuleType и отдельных stat. Драйвера и прогонов нет; это не доказательство реального IO или custody.
