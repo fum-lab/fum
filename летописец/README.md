@@ -627,3 +627,9 @@ Source возвращает raw bytes и текст, не является са�
 Уточнение независимого Sol, переданное ROOT: exact FUMA resource SHA `eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba` совпал с pin; ресурс использует семь graph tags, все есть в W2, `соединить-строки` не используется. Это source-level dependency result, не доказательство компиляции.
 
 У фасада три catch-участка decode, executor и сборки проекции преобразуют ошибки в `неподдержано` с code, но отсутствие или подмена ресурса и неправильный результат отдельно throw. Прежнее обобщение о «всех ошибках» слишком широко. Например, глубина больше 16 попадает в `неподдержано` с code `предел-структуры`; реальное проглатывание cancellation не доказано. Происхождение, приватность, Git и app-server остаются открыты. Тесты и код не запускали, реальные JSONL и RAW не читали, W2 не меняли.
+
+## Product candidates JSONL → FUMA
+
+По сообщению ROOT, подготовлены exact scoped patches из commit `2492936` к базе `26af`: фасад SHA `67610e7d6d2f927bbdd1acc6526becf52e9b4d77e7d3ff22c0e1d84b32028e5b`; первичный FUMA resource `5cdc3262b69b2502819311575c7b78b0b2d4cbb30d6929785dd80b405488db0d`; приёмник `9db75ba0d9193214e460615579b0bbf92c8988bb370d273ade8fa11b10653138`; test `9b6faf51bcdffd4a855829d1ad8364e93fdc1ae493a4e7c44cfe82a748cd91b9`; профиль `8e5de5ab8fb7d2ba498761edf9fdabd1ae6b6a9f8e24eac85222bf000b3111fd`. Они не включают JOIN, helper, root manifest, JSONL, RAW или zhurnal и не применены.
+
+W2 graph-операции соответствуют resource по статике, но полный symbol closure не доказан: неизменённый `AutomationExecutor` объёмом 32284 Б не читали из-за cap. Source label и hash не удостоверяют происхождение, исходные данные и текст не санируются. Git, app-server, тесты, runtime и интеграция UNKNOWN. Sol независимо сверяет patches; назначенная сверка не является её результатом.
