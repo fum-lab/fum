@@ -617,3 +617,9 @@ ROOT сообщил: при read-only Git diff product commits исполнит�
 ROOT сообщил: commit `2492936` содержит `iskhodniki/zapusk/priyomnik-fuma-jsonl.swift`, 2309 Б, связывающий LF framing с `FUMStructuringOperatorMemory.ФасадJSONL.выполнить`. Source tests объёмом 13334 Б текстом покрывают split UTF-8, CRLF, tail, offset, callback errors и reentry; runtime не выполнялся.
 
 По замечанию Sol и специалиста, hash создаётся из тех же bytes на внутреннем стыке и не является независимым provenance; `источник` — метка caller, output включает raw данные и текст и не является privacy sanitizer. Git, app-server, tailer и recovery не реализованы. ROOT сравнил Git trees `FUMStructuringOperatorMemory`: `26af` — `07700569cb1911f4f90c3d5e9f1f606d911c12b9`, `2492936` — `a21d0fe4ca97982ac267ff63b6c4f87d3178dcc8`; есть новый JSONL facade и изменения graph. Точная совместимость и ресурсы исследуются, blanket merge запрещён. Всё статически; W2 не меняли, тесты не запускали.
+
+## Ресурс входа JSONL FUMA
+
+По сообщению ROOT, ресурс `Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/vkhod-jsonl-fuma.json` commit `2492936` имеет blob `deb65877da37ab96911cc9e1585bb3ef6f4ffba7`, 4778 Б: это FUMA `fum.определение-оператора.1` / `fuma.граф-JSON.1`, Bundle.module ресурс с pin фасада SHA `eccd305caf8a61018f3e2607109be5b0f3b8bf20bb1a334ad4ea141a93056fba`. Он классифицирует message и function_call_output и выводит text_parts.
+
+Source возвращает raw bytes и текст, не является санитайзером; source label и hash из того же frame не доказывают provenance. Executor source `2492936` добавляет `соединить-строки`, но автор не нашёл его в данном FUMA-ресурсе, необходимость не доказана; Sol проверяет dependency closure. Содержимое реальных JSONL и RAW не читалось, tests и код не выполнялись, интеграции нет.
