@@ -611,3 +611,9 @@ ROOT сообщил: при read-only Git diff product commits исполнит�
 По сообщению ROOT, подготовлены пять точечных source/test/profile patches: `ПоляЗапуска`, `ПутьХранилища`, `ЦиклЗапуска`, `ПроверкиЦиклаЗапуска` и `ПрофильЗапуска`. Каждый не более 24576 Б; Sol независимо побайтно сверил exact Git diff `26af → 2492936`, blobs в `2492936` и ebd совпадают. Корневой manifest и недостающие targets не включены; apply, build, tests и runtime NOT RUN.
 
 Независимое source review установило: idempotence действует только при повторении того же explicit ID и bytes, nil создаёт новый ID; reopening сверяет bytes и квитанцию, но не доказывает fsync или crash durability. `.неНачата` относится к событию и не исключает уже созданных каталогов. Проверенный dirfd закрывается до открытия по URL, поэтому непрерывная custody пути неизвестна. Git и app-server не подключены. Статическая сверка patches не является интеграцией.
+
+## Source приёмника FUMA JSONL
+
+ROOT сообщил: commit `2492936` содержит `iskhodniki/zapusk/priyomnik-fuma-jsonl.swift`, 2309 Б, связывающий LF framing с `FUMStructuringOperatorMemory.ФасадJSONL.выполнить`. Source tests объёмом 13334 Б текстом покрывают split UTF-8, CRLF, tail, offset, callback errors и reentry; runtime не выполнялся.
+
+По замечанию Sol и специалиста, hash создаётся из тех же bytes на внутреннем стыке и не является независимым provenance; `источник` — метка caller, output включает raw данные и текст и не является privacy sanitizer. Git, app-server, tailer и recovery не реализованы. ROOT сравнил Git trees `FUMStructuringOperatorMemory`: `26af` — `07700569cb1911f4f90c3d5e9f1f606d911c12b9`, `2492936` — `a21d0fe4ca97982ac267ff63b6c4f87d3178dcc8`; есть новый JSONL facade и изменения graph. Точная совместимость и ресурсы исследуются, blanket merge запрещён. Всё статически; W2 не меняли, тесты не запускали.
