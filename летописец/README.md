@@ -669,3 +669,9 @@ ROOT сообщил: после замечания Sol о hunk use-builder-v2, �
 ## План наблюдения Git tree
 
 По сообщению ROOT, подготовлены `git-tree-plan-v1.patch.DATA` SHA `69e4a026153152f6cb60969210c5ba768224d60d81d2b0bcb324de9bdd01b19e` и Swift tests SHA `23af736d1b9b7f97d7fcdd3dd8d34dd177e4f513d0a3d3de06d568161994f7e8`. Автор сообщает три фиксированных argv: cat-file type, rev-parse commit tree и ls-tree literal path; чтения blob и Git runtime нет, заявленные repo algorithm/format не удостоверены. Нужно различить точный single-path blob output и pathspec subtree, missing object/partial, cap/timeout, доказать object-format и publication-clean boundary. Sol проверяет; patches и tests NOT RUN/NOT APPLIED. Это не готовая Git ↔ JSONL sync.
+
+## Source-only Git tree parser
+
+По сообщению ROOT, подготовлены product `git-tree-parser-v1.patch.DATA` SHA `f18d7785e1fdba5a8ec685de7f76097f56bfe7bdb8297ad317d4d293757e69a9` и `git-tree-parser-tests-v1.patch.DATA` SHA `e035dd57222bf03cbfbcc438942664d197cb0bad462c1e65b5fcda754121ebf8`. Они сопоставляют заявленное дерево и одну NUL-завершённую запись точного пути обычного blob; результат имеет метку без доверия. Код и тесты NOT RUN; доверенный runner, exit codes, локальная доступность объекта и происхождение не доказаны. Независимое ревью parser назначено.
+
+Ранее независимое статическое ревью чистого Git-плана указало, что control chars в пути и root пока допускаются, физический root не установлен, cap не enforced. Эти вопросы открыты; подготовка не означает готовой синхронизации.
