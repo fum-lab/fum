@@ -645,3 +645,9 @@ W2 graph-операции соответствуют resource по статик�
 Уточнение ROOT о source `2492936` Git observer: exact package содержит только `Package.swift` 403 Б и `Наблюдатель.swift` 11328 Б; test Swift paths нет. Он задаёт explicit env, но не включает `GIT_NO_LAZY_FETCH` и `git -C`, объединяет stdout и stderr и использует blocking read/wait без timeout; stdin явно не задан. Status использует `--ignore-submodules=all`, а untracked подчиняются Git ignores: это не полное дерево и не атомарный snapshot. Buffer limit кода 1048576 Б; применимость общего ROOT cap к внутреннему буферу UNKNOWN, менять cap догадкой нельзя.
 
 Компонент не вызывает commit или JSONL и не подключён как root target. Код, тесты и реальный Git observer не запускались. Автор готовит exact product source и минимальную delta, всё NOT RUN.
+
+## Product Git observer и delta v2
+
+По сообщению ROOT, исторический manifest Git observer имеет SHA `2c5b21fb29173943ced2935237fda196c8accb891c1c8fdbef4697080883c742`, source patch — `5fd86db730c7776ef5faba69463036cfb8596931c6abf3d38968397b24a10460`; отдельная delta v2 SHA `deecd76db98df06cb35c8304195a797830f7cc1f1b1b95fc9dfa419f462720e5` добавляет `git -C` и `GIT_NO_LAZY_FETCH=1`. Предыдущая delta `cf01…` имела неверный hunk count, её нельзя использовать; v2 Sol проверяет статически.
+
+Существующий private Process runner не injectable, mock tests и root dependency отсутствуют. Blocking read/wait, объединённые stdout/stderr, буфер 1 МиБ, недоказанная Git-config policy, ignored и submodules и неатомарный snapshot остаются. Все patch NOT APPLIED/NOT RUN, фактическая применимость UNKNOWN; это не Git ↔ JSONL sync.
