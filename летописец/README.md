@@ -443,3 +443,7 @@ ROOT и исполнитель read-only сверили private Swift launcher v
 ## Статическое ревью Swift v7
 
 По сообщению ROOT, Sol статически подтвердил clock/spawn seam и mock cases Swift v7; production вызывает тот же helper. Компиляции и выполнения не было, связь теста с run остаётся только статической, root package executable отсутствует. ROOT отдельно увидел, что вычисленная final граница нигде не используется, а cleanup формирует отдельные grace-окна для TERM и KILL/reap; общий cleanup budget не доказан, потенциальный compiler warning не проверен. Исполнителю поручена versioned коррекция единой границы с seam; guard сохраняется.
+
+## Статический результат Swift v8
+
+По сообщению ROOT, подготовлен Swift product patch объёмом 11684 Б с SHA `cb4c53c0c43ea5e2462035a53fb7361afedb961b21b1d2627817ea27e658e494`. Независимый Sol подтвердил арифметическое `now ≤ termEnd ≤ limit ≤ final` при успешном расчёте и верхнюю границу локального окна; это не ограничивает syscalls и не подтверждает реальный cleanup. При nil clock, истёкшем final или overflow вся ветка cleanup может не послать TERM/KILL незавершённому child. Отсутствие контролируемого durable gate означает блокирующий остаток. Компиляции, тестов и применения нет; дополнительный анализ продолжается.
