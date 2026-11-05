@@ -519,3 +519,7 @@ ROOT дополнительно сообщил адресную сверку SHA
 ## Отклонённый durable-owner-refuse-v1
 
 По сообщению ROOT, автор подготовил `durable-owner-refuse-v1` с безусловным UNKNOWN до IO, но ROOT отклонил его как недостаточный: он дублирует существующий закрытый guard и не реализует OPEN или recovery. Patch не применяли, тест не запускали. Автору поручен конкретный переиспользуемый фрагмент подготовки точных bytes и идентичности на базе текущей projection, без превращения входных claims в authority. Отклонение не доказывает готовности альтернативы.
+
+## Pure encoder durable intent
+
+По сообщению ROOT, вместо дублирования отказа подготовлен reusable pure encoder candidate intent, selector и пятипольного active: `durable-intent-encoder-v1-source.patch.DATA` SHA `3abe02b65a1447e480f1014fe066664a8d39fe33015a6588c9672c320a073a1b`, tests SHA `df2357c9aad9442038f507d91ae914c557b13e8288698e86a40d38d2c0ca551c`. Автор указал коллизию имени для одинакового intent с разными selector: при реальном writer EEXIST должен оставаться UNKNOWN, но owner и custody не реализованы. Source claims — входные данные, подготовка не даёт допуска. Patch не применялся, тесты не запускались; независимый review назначен.
