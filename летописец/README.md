@@ -537,3 +537,7 @@ Sol также обнаружил в encoder-v2 source patch пустую стр
 ## Pure operation-reservation-plan-v1
 
 По сообщению ROOT, после адресного изучения двух существующих паттернов автор подготовил pure `operation-reservation-plan-v1`: source SHA `2341088f9433eb39c85135802a1cc91dbabe4866392b3e922b599a9601cd3c54`, tests SHA `7913c0c46158e7bc8a6ba56206da47aa0475505f6d1cb4cea471ecc2ca54251c`. План привязывает имя к session и operation, а не command или selector; любое предъявленное существующее значение даёт UNKNOWN, `None` — лишь заявленное отсутствие без доказательства. Это не atomic reservation, trusted owner, legacy coordination или допуск. Patches и test не применялись и не запускались; Sol проверяет.
+
+## Private operation-reservation-writer-v3
+
+По сообщению ROOT, подготовлен private source fragment `operation-reservation-writer-v3` SHA `7b7a5ef3f6fffb78c3fdbb0033b3e2d5548da91b68812c4980f76c8249d9fff5` и mock tests SHA `f4d187c2a558480357e144caa98f3b4dca4cd17c96da325a23a0f13314a8fa55`. Это O_EXCL writer с receipt `БЕЗ_ДОПУСКА`/UNKNOWN; durable intent, trusted namespace и sole writer, окно open → fd, подмена имени и recovery не подтверждены, реальной проверки concurrency или success нет. Автор исправил ранние return в v1 и обработку ошибки close в v3; предыдущие артефакты сохранены. Патчи NOT READY/NOT RUN, Sol сверяет.
