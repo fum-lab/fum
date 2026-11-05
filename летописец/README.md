@@ -361,3 +361,7 @@ ROOT передал независимую статическую находку
 По последующей статической находке ROOT для synthetic теста 04, один вызов `AutomationExecutor` совмещает composition, validation и evaluate; метка только вокруг executor всё ещё не доказывает evaluator rejection. Нужна versioned граница происхождения внутри executor с сохранением старого CLI; реализации и исполнения нет.
 
 ROOT сообщил только read-only сверку Perl SHA `85e5621137742a37be052f58800372b2005f91f609ad55019832214b5d9e61bc` и Python SHA `5504147b44ff4544bb4f1039d2b4a7bed66aac3cfa4534471e32ef559687f28d`. Модули, runtime, driver bytes и сам запуск этой сверкой не подтверждены.
+
+## Новый in-memory driver
+
+ROOT передал статический разбор нового in-memory драйвера из supervisor-producer-v8: четыре определения и шесть mock-тестов. Наблюдатель подтвердил in-memory характер, но обнаружил зависимость pin/AST-проверок от `assert` и риск блокировки `O_RDONLY` на FIFO до fstat. Поручена отдельная v2 с явными отказами и `O_NONBLOCK`. `exec` и побочные системные импорты, custody ancestors, close и ограничения parent остаются открыты. Драйвер, wrapper и тесты не запускались, SHA driver не установлен.
