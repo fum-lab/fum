@@ -1067,3 +1067,35 @@ ROOT передал вопрос Направляющего: «No u upravlyayusj
 ROOT передал дословное указание Направляющего: «Ya dumayu tebe stoit nakaplivatj voprosyi ko mne i zadavatj ikh spiskom ili posledovateljno toljko togda, kogda ya podoshyolj k klaviature. Prichyom odnoj iz opcij dolzhna byitj opciya PRODOLZHITJ, kotoraya ostanovit priyom otvetov do moyego vozvrasjheniya. Mozhet predlozhishj boleye udachnoye nazvaniye?»
 
 ROOT предложил «Продолжай без меня»: отложить вопросы и сбор ответов до возвращения и продолжать независимую работу. Автоматическое распознавание возвращения пока не реализовано; предложение названия не считается принятым без ответа человека.
+
+По сообщению ROOT, договорённость об отложенных вопросах включена в `origin/fum-lab/fum/master` merge-коммитом `6353783fdaaa4676da62e70be2bd16012e7535ff` с родителями: предыдущий `c229…` и сообщённый летописцем `e6cbf215ccc5c16fc8ef1405d9618d7a15f0f08a`. Ordinary push завершился кодом 0; проверок памяти, хуков и независимого readback не было. Летописец не проверял чужие refs или память; это атрибутированное сообщение ROOT об исходе push.
+
+## Ежечасная фиксация
+
+ROOT передал прямое указание Направляющего: «Davaj tyi budeshj avtomaticheski kazhdyij chas kommititj.» По сообщению ROOT, создан отдельный ACTIVE heartbeat `automation-4` каждый час для текущего корневого чата; fum-4 не менялся. Пустые коммиты не создаются; для кода сохраняются проверки, для личной памяти действует исключение. Это настроенное расписание, будущее исполнение ещё не доказано.
+
+Направляющий указал: «Vrode idyom khorosho, tak chto mozhem vlivatj v master kazhdyij chas, kak dumayeshj?» Управляющий согласился и, по его сообщению, обновил уже созданный hourly heartbeat `automation-4`: ежечасная фиксация и вливание готовых результатов в `refs/heads/fum-lab/fum/master`. Личная память остаётся без проверок, коду необходимы проверки и приёмка, пустые слияния не создаются. Расписание ACTIVE/час и target корневого чата сохранены; будущий runtime ещё не подтверждён.
+
+## Вопрос о размере кириллицы
+
+ROOT передал вопрос Направляющего: «Ya praviljno ponimayu, chto iz-za kirillicyi procentov na 40 vyishe raskhod pamyati repozitoriya?» Ответ ROOT: кириллица в UTF-8 обычно занимает два байта против одного для ASCII, но увеличение размера Git-репозитория на 40% не установлено; результат зависит от состава, сжатия, истории и транслитерации и требует измерения. Измерение этим ответом не выполнено.
+
+Направляющий решил: «Znachit poka ostavlyayem repozitorij na russkom i ne perevodim na bratislavskij?» Управляющий согласился: основной репозиторий пока остаётся русским; размер до решения о переводе требуется измерить, отдельное производное представление возможно позднее. Измерение не утверждается выполненным.
+
+## Коды языка и письменности в именах
+
+ROOT передал предложение Направляющего: «A yesli srazu sdelatj sistemu s yazyikovyimi kodami i kodami pisjmennostej, a imenno *.ru.md dlya russkikh fajlov, *.ru-Latn.md dlya bratislavskikh fajlov, analogichno dlya prochikh rasshirenij i yazyikov?» По сообщению ROOT, оно пока оценивается как проект совместимой системы; массовые переименования не выполнялись. Предложение не является готовой реализацией.
+
+ROOT передал последующие слова Направляющего по порядку:
+
+> Vse fajlyi pri etom budem nazyivatj na bratislavskom — stremimsya k ispoljzovaniyu chistogo ASCII.
+>
+> Vse russkiye fajlyi, razumeyetsya. K anglijskim ne otnositsya.
+>
+> V kebab-kejse davaj vezde delatj.
+
+Речь о новой схеме языковых суффиксов; выполнение миграции ещё не подтверждено. Уточнение об английских файлах сохраняется вместе с первоначальной формулировкой.
+
+ROOT передал прямую команду Направляющего: «Pravitj i optimizirovatj mozhno i nuzhno.» Это указание сохраняется дословно; оно само по себе не отменяет другие действующие границы и не подтверждает выполнения конкретного исправления.
+
+Направляющий повторно указал: «V master tozhe vlivaj kazhdyij chas.» По сообщению ROOT, расписание Управляющий отдельно сверяет. Повтор сохранён отдельно и не доказывает исполнения будущего вливания.
