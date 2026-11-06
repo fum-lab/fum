@@ -885,3 +885,13 @@ ROOT передал вопрос человека: «Letopisec fiksiruyet nashi 
 ## Вопрос о постоянных помощниках ROOT
 
 ROOT передал вопрос человека: «A kakoj nabor iz postoyanno dejstvuyusjhikh agentov nuzhno sozdatj mne v pomosjhj, chtobyi oni funkcii moyej roli mogli chastichno i effektivno bratj na sebya?» По сообщению ROOT, он готовит предложение функциональных ролей с учётом ограничения слотов и подтверждённости runtime. Это вопрос и подготовка предложения, не согласованная схема и не доказательство постоянно действующих процессов.
+
+## Параллельные сессии и восстановление архитектора
+
+ROOT передал слова человека в порядке поступления:
+
+> Yesli stoljko slotov ogranichenij na sessiyu, to yego nuzhno priderzhivatjsya, ono ne zrya susjhestvuyet. Poetomu myi budem sozdavatj paralleljnyiye sessii. Myi tak umeyem.
+>
+> Kto remontiruyet arkhitektora?
+
+По сообщению ROOT, `/root/vosstanovit_kontur` назначен владельцем технического восстановления архитектора; ROOT отвечает за приёмку и координацию, Sol наблюдает. Автоматическое восстановление пока не доказано; назначение не подтверждает завершения ремонта.
