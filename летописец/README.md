@@ -901,3 +901,7 @@ ROOT передал слова человека в порядке поступл
 ROOT передал дословное указание человека: «I vyistraivaj ikh kak raz v derevo. Togda u agenta poluchayetsya 4 yadra dostupnyi, a uzhe derevo agentov budet derevom agentov, otrazhayusjhim fakticheski rabotayusjhuyu iyerarkhiyu. Rabotu dereva agentov nuzhno obespechivatj avtomatizaciyami, avtoformatirovaniyami, avtokonstruirovaniyami i t. p.»
 
 По сообщению ROOT, этому дереву сотрудничества сейчас предоставлены четыре слота всего, включая ROOT. Лимит отдельных сессий и автоматическое создание ещё не проверены. Указание описывает желаемую модель и требование; оно не доказывает доступность четырёх слотов каждому агенту или работающую автоматизацию.
+
+## Сигнал перед Popen в candidate обёртки
+
+По статической находке ROOT и инженера, переданной ROOT, в текущем candidate отчётной обёртки SIGINT и SIGTERM блокируются до первого lock; после active `Popen` вызывается до восстановления маски, а проверка отложенного сигнала находится позже. Поэтому сигнал до Popen может сопровождаться запуском child; одна проверка pending оставляет гонку. Исправление и проверки ещё не выполнены, публичный вход закрыт. Инженер готовит конкретное безопасное решение, ROOT принимает. Это статическая находка, не наблюдение реального запуска.
