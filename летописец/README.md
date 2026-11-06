@@ -1085,3 +1085,13 @@ ROOT передал вопрос Направляющего: «Ya praviljno poni
 ## Коды языка и письменности в именах
 
 ROOT передал предложение Направляющего: «A yesli srazu sdelatj sistemu s yazyikovyimi kodami i kodami pisjmennostej, a imenno *.ru.md dlya russkikh fajlov, *.ru-Latn.md dlya bratislavskikh fajlov, analogichno dlya prochikh rasshirenij i yazyikov?» По сообщению ROOT, оно пока оценивается как проект совместимой системы; массовые переименования не выполнялись. Предложение не является готовой реализацией.
+
+ROOT передал последующие слова Направляющего по порядку:
+
+> Vse fajlyi pri etom budem nazyivatj na bratislavskom — stremimsya k ispoljzovaniyu chistogo ASCII.
+>
+> Vse russkiye fajlyi, razumeyetsya. K anglijskim ne otnositsya.
+>
+> V kebab-kejse davaj vezde delatj.
+
+Речь о новой схеме языковых суффиксов; выполнение миграции ещё не подтверждено. Уточнение об английских файлах сохраняется вместе с первоначальной формулировкой.
