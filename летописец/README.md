@@ -1033,3 +1033,5 @@ ROOT передал реплику Направляющего: «Myi to i reshay
 ROOT передал дословную реплику Направляющего: «I dlya polucheniya svoyego sostoyaniya tem boleye uzh ne nuzhno smotretj skrinshotyi ekrana. Ono dolzhno byitj dostupno i redaktiruyemo nativno.» Контекст — доступ FUM/FUMA к собственному состоянию как к нативно читаемому и изменяемому, без необходимости распознавать экран. Это требование не доказывает реализации такого доступа.
 
 Направляющий уточнил: «Eto budet banaljno byistreye i prosjhe dlya lokaljnoj modeli.» ROOT передал это как ожидаемое преимущество нативного доступа; измерений пока нет.
+
+ROOT передал просьбу Направляющего: «Ya ochenj raschityivayu, chto informaciya ob etikh planakh popadyot v kommit kak mozhno skoreye.» Она относится к своевременному сохранению обсуждаемых планов; сам запрос не доказывает их реализации.
