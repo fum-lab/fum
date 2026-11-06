@@ -895,3 +895,9 @@ ROOT передал слова человека в порядке поступл
 > Kto remontiruyet arkhitektora?
 
 По сообщению ROOT, `/root/vosstanovit_kontur` назначен владельцем технического восстановления архитектора; ROOT отвечает за приёмку и координацию, Sol наблюдает. Автоматическое восстановление пока не доказано; назначение не подтверждает завершения ремонта.
+
+## Дерево агентов и автоматизация
+
+ROOT передал дословное указание человека: «I vyistraivaj ikh kak raz v derevo. Togda u agenta poluchayetsya 4 yadra dostupnyi, a uzhe derevo agentov budet derevom agentov, otrazhayusjhim fakticheski rabotayusjhuyu iyerarkhiyu. Rabotu dereva agentov nuzhno obespechivatj avtomatizaciyami, avtoformatirovaniyami, avtokonstruirovaniyami i t. p.»
+
+По сообщению ROOT, этому дереву сотрудничества сейчас предоставлены четыре слота всего, включая ROOT. Лимит отдельных сессий и автоматическое создание ещё не проверены. Указание описывает желаемую модель и требование; оно не доказывает доступность четырёх слотов каждому агенту или работающую автоматизацию.
