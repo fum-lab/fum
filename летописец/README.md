@@ -1067,3 +1067,5 @@ ROOT передал вопрос Направляющего: «No u upravlyayusj
 ROOT передал дословное указание Направляющего: «Ya dumayu tebe stoit nakaplivatj voprosyi ko mne i zadavatj ikh spiskom ili posledovateljno toljko togda, kogda ya podoshyolj k klaviature. Prichyom odnoj iz opcij dolzhna byitj opciya PRODOLZHITJ, kotoraya ostanovit priyom otvetov do moyego vozvrasjheniya. Mozhet predlozhishj boleye udachnoye nazvaniye?»
 
 ROOT предложил «Продолжай без меня»: отложить вопросы и сбор ответов до возвращения и продолжать независимую работу. Автоматическое распознавание возвращения пока не реализовано; предложение названия не считается принятым без ответа человека.
+
+По сообщению ROOT, договорённость об отложенных вопросах включена в `origin/fum-lab/fum/master` merge-коммитом `6353783fdaaa4676da62e70be2bd16012e7535ff` с родителями: предыдущий `c229…` и сообщённый летописцем `e6cbf215ccc5c16fc8ef1405d9618d7a15f0f08a`. Ordinary push завершился кодом 0; проверок памяти, хуков и независимого readback не было. Летописец не проверял чужие refs или память; это атрибутированное сообщение ROOT об исходе push.
