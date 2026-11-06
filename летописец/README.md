@@ -919,3 +919,11 @@ ROOT сообщил: read-only поиск `rg --files` по допустимом
 ROOT передал дословный ответ человека: «Razreshayu sejchas i kazhdyij raz, yesli tyi schitayeshj eto celesoobraznyim. Yesli ne uveren, to sprashivaj ne u menya, a u svoyego starshego nablyudatelya.» По сообщению ROOT, ответ дан на точный вопрос о правке bounded-lock и двух тестах вне закрытого маршрута и обёртки с одним запуском и разрешает аналогичные целесообразные действия далее. ROOT выполняет текущую правку; результата пока нет. Разрешение не является свидетельством выполнения или успеха проверки.
 
 Человек дополнил сохранённое выше разрешение о целесообразных правках и проверках вне закрытой обёртки: «Eto ya na sovsem tak reshil, mozheshj vnesti v spisok moikh ukazov.» ROOT передал это как постоянное указание с сохранением контекста предыдущих вопроса и ответа. Оно не распространяется на запреты новых `.py`, приватности, чужих областей и другие действующие ограничения.
+
+## Главстрой и адресная проверка bounded lock
+
+ROOT передал дословную команду человека: «Sozdaj novogo, peredaj pamyatj, no s glavnoj celjyu, chto on ne arkhitektor, a glavstroj, to yestj sam ponimayet na russkom i bratislavskom yazyike, chto eto oznachayet — glavnyij stroitelj — glavstroj. Pustj rabotayet khorosho.»
+
+По сообщению ROOT, создан `/root/glavstroj_terra`, ему переданы ориентиры чтения собственной памяти прежнего архитектора и поручено организовать собственную область; создание или работа этой области не заявлены. Прежний архитектор завершил обращение и сообщил commit `9d3ebe882`, push 0 без проверок и readback памяти. Летописец чужую память не проверял.
+
+ROOT сообщил адресный запуск двух тестов helper bounded lock: raw 0, 2 OK, 0.131 с, внешнее время 0.779 с. Public guard закрыт; этот результат нельзя переносить на всю обёртку. Код W2 не закоммичен. Сообщение о тесте не доказывает восстановление обёртки или доставку её кода.
