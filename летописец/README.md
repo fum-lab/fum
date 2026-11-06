@@ -1061,3 +1061,9 @@ ROOT сообщил, что вливание летописца `cdacf899bd5480b
 ## Обсуждение распорядителей
 
 ROOT передал вопрос Направляющего: «No u upravlyayusjhego zhe dolzhnyi byitj rasporyaditeli v podchinenii, verno?» Контекст — обсуждение названия «распорядитель» для программиста: Управляющий распределяет работу, подчинённые распорядители создают и изменяют распорядки. Это обсуждаемое название, не факт создания новых агентов.
+
+## Отложенные вопросы Направляющему
+
+ROOT передал дословное указание Направляющего: «Ya dumayu tebe stoit nakaplivatj voprosyi ko mne i zadavatj ikh spiskom ili posledovateljno toljko togda, kogda ya podoshyolj k klaviature. Prichyom odnoj iz opcij dolzhna byitj opciya PRODOLZHITJ, kotoraya ostanovit priyom otvetov do moyego vozvrasjheniya. Mozhet predlozhishj boleye udachnoye nazvaniye?»
+
+ROOT предложил «Продолжай без меня»: отложить вопросы и сбор ответов до возвращения и продолжать независимую работу. Автоматическое распознавание возвращения пока не реализовано; предложение названия не считается принятым без ответа человека.
