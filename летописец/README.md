@@ -783,3 +783,39 @@ ROOT сообщил, что поставил человеку вопрос:
 > Для восстановления обёртки и Stop разрешаете мне и исполнителям статически читать нужные исходники и тесты в рабочем дереве W2, даже если файл больше 24 576 байт? Прошлый раз я организовал однократное чтение неудачно: часть вывода потерялась. При новом чтении будем показывать только необходимые фрагменты без усечения; ENV, RAW и ROOT JSONL не читаем. Это разрешение касается только чтения и не отменяет остальные ваши ограничения.
 
 Варианты: «Разрешаю необходимые исходники и тесты W2» и «Сохранить прежний предел». Ответ пока не поступил; разрешение человеку не приписывается.
+
+## Возобновление ролей и ограниченная цель
+
+ROOT передал следующие дословные слова человека в указанном порядке:
+
+> Pochemu rabota nad celjyu ostanavlivayetsya?
+>
+> Kak tak Arkhitektor i Letopisec ischezli?
+>
+> I cepochka rassyipalasj, a nam nuzhno byilo, chtobyi letopisec vsegda zapisyival.
+>
+> A yego nuzhno obespechivatj! Kto otvechayet za to, chtobyi sleditj za etim?
+>
+> Kto sledit za soblyudeniyem balansa i za zagruzhennostjyu agentov, kto za eto otvechayet?
+>
+> Tyi chto-to govoril pro ogranicheniya na kolichestvo agentov dlya orkestracii toboj?
+>
+> A svoyego nablyudatelya Sol tyi sozdal?
+>
+> On zhe tozhe dolzhen vsegda rabotatj i vosstanavlivatjsya posle zapuska, i eto nuzhno obespechitj v prioritete dlya prodolzheniya daljnejshej rabotyi.
+>
+> Dazhe dumayu mozheshj aktualjnuyu kartochku tekusjhej celi poka obnovitj, chtobyi sosredotochitjsya na dostizhenii boleye ogranichennoj celi. A tekusjhuyu kartochku celi vernyom pozzhe.
+>
+> A kto sdelal nevozmozhnyim menyatj kartochku celi?
+>
+> Nu tak nuzhno zakazatj izgotovleniye etogo instrumenta s vozmozhnostjyu menyatj celj? Chej instrument?
+>
+> A tyi sebe vyidelil oblastj pamyati, kotoruyu mozheshj pravitj bez proverok?
+>
+> Letopisec zarabotal?
+>
+> Pochemu korenj nepraviljno nazyivayetsya? fum-lab/fum/master/oserver/gpt-6.1-sol-ultra ili tipa togo dolzhen byitj, net?
+
+По сообщению ROOT, он отвечает за баланс и восстановление ролей. Sol-наблюдатель активен и вручную возобновлён под прежним адресом; автостарт после перезапуска приложения не доказан. Список collaboration ошибочно выглядел как отсутствие прежних летописца и архитектора, но оба ответили на `followup_task`; ROOT ранее неверно заключил, что адрес недоступен. Человек выбрал ждать прежнего летописца, резервный не создан. Летописец самостоятельно подтвердил свою доступность ответом ROOT.
+
+По сообщению ROOT, в его собственном W2 появилась область `корень/память.md`, создан коммит `25d921a245f80e42390e9b4b5352496685d4616d`, push завершился кодом 0 без проверок личной памяти, хуков и независимого remote readback. Это не поставка кода обёртки. Инструмент редактирования цели заказан исполнителю; upstream API существует, но действующий transport и поведение учёта не установлены. Неоднозначность о названии чата находится на уточнении; ответ не предполагается. Сообщения и назначения сами не доказывают автоматического восстановления или реализации инструмента.
