@@ -1035,3 +1035,13 @@ ROOT передал дословную реплику Направляющего
 Направляющий уточнил: «Eto budet banaljno byistreye i prosjhe dlya lokaljnoj modeli.» ROOT передал это как ожидаемое преимущество нативного доступа; измерений пока нет.
 
 ROOT передал просьбу Направляющего: «Ya ochenj raschityivayu, chto informaciya ob etikh planakh popadyot v kommit kak mozhno skoreye.» Она относится к своевременному сохранению обсуждаемых планов; сам запрос не доказывает их реализации.
+
+## Анализ истории для автоматизаций
+
+ROOT передал вопросы Направляющего в порядке поступления:
+
+> A kto u nas analiziruyet istoriyu na predmet potrebnosti avtomatizacij?
+>
+> Regulyarno i nepreryivno.
+
+По сообщению ROOT, эта функция назначена Наблюдателю; Управляющий отвечает за постановку и приёмку. Автоматическое непрерывное восстановление пока не доказано. Назначение не подтверждает непрерывного исполнения.
