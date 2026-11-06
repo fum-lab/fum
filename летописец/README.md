@@ -1023,3 +1023,7 @@ ROOT сообщил дополнительную адресную проверк
 ## Test-only fd-примитив
 
 ROOT сообщил: закрытый test-only fd-примитив главстроя после предварительного ревью Sol применён им; один тест идентичности, symlink, fork/unwind, ошибочного close, срока, callback и конкуренции прошёл raw 0, 1 OK за 0.659 с под group watchdog. Authority NOT_PROVEN; same-UID unlink/recreate и close-error остаются границей, реальный RAW/U-lock и public guard не подключены. Код не закоммичен. SHA wrapper `53930f19e6e360074e6fa3dd543fe843d80eb168b19d0b6b5316b3fd21127f4e`, tests `4a3ffe0340ec2446e2a91c64ae56ba5fecbf01aa09c0f6f6df735786efd7fb79`. Это адресный тест кода, не доказательство полной authority или проверка личной памяти.
+
+## Управление Codex в рамках FUMA
+
+ROOT передал реплику Направляющего: «Myi to i reshayem etot vopros v ramkakh FUMA.» Контекст — обсуждение управления Codex естественным языком вместо зависимости от кнопок. Это направление обсуждения, не свидетельство уже реализованного управления.
