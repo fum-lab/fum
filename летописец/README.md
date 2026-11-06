@@ -1051,3 +1051,19 @@ ROOT передал вопросы Направляющего в порядке 
 ## Видимость взаимодействия с человеком
 
 ROOT передал дословное указание Направляющего: «Takzhe dolzhno byitj tebe v ramkakh FUMA absolyutno vidimo vzaimodejstviye ot cheloveka v kontekste tvoyego vozdejstviya na cheloveka, to yestj vzaimodejstviye s chelovekom.» Контекст — нативное полное наблюдение взаимодействия в обе стороны, включая фактическое воздействие на человека и его ответы. Непокрытые каналы нельзя выдавать за наблюдаемые; это требование не доказывает текущей реализации.
+
+## Недоставленное вливание памяти
+
+ROOT сообщил, что вливание летописца `cdacf899bd5480b2ceb82efdac04b68eb5870bce` и Наблюдателя `8781c7b1c4a4586e703b865117a1374d496bd885` создано локально merge-коммитами `1149fe150ba8753ab896963ad5ed0d1e3709c570` и `c2299b48e3c187ff722aa796636b093684e04e40`. Единственный exact push завершился кодом 128: Git в изолированной среде не получил имя пользователя GitHub, terminal prompts disabled. ROOT ищет штатную авторизацию; remote readback и проверки памяти не выполнялись. Удалённая доставка этих merge не подтверждена; неизвестный исход нельзя подменять успешным.
+
+Позднее ROOT сообщил восстановление отправки: после авторизационного отказа exact обычный push `c2299b48e3c187ff722aa796636b093684e04e40` в `fum-lab/fum/master` завершился кодом 0 через штатный gh credential helper, без изменения Git config, проверок памяти, hooks и независимого readback. Это сообщение Git об успешном push; поздние коммиты летописца после `cdacf` и другие поздние вершины остаются для следующего периодического вливания.
+
+## Обсуждение распорядителей
+
+ROOT передал вопрос Направляющего: «No u upravlyayusjhego zhe dolzhnyi byitj rasporyaditeli v podchinenii, verno?» Контекст — обсуждение названия «распорядитель» для программиста: Управляющий распределяет работу, подчинённые распорядители создают и изменяют распорядки. Это обсуждаемое название, не факт создания новых агентов.
+
+## Отложенные вопросы Направляющему
+
+ROOT передал дословное указание Направляющего: «Ya dumayu tebe stoit nakaplivatj voprosyi ko mne i zadavatj ikh spiskom ili posledovateljno toljko togda, kogda ya podoshyolj k klaviature. Prichyom odnoj iz opcij dolzhna byitj opciya PRODOLZHITJ, kotoraya ostanovit priyom otvetov do moyego vozvrasjheniya. Mozhet predlozhishj boleye udachnoye nazvaniye?»
+
+ROOT предложил «Продолжай без меня»: отложить вопросы и сбор ответов до возвращения и продолжать независимую работу. Автоматическое распознавание возвращения пока не реализовано; предложение названия не считается принятым без ответа человека.
