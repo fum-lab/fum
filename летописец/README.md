@@ -1081,3 +1081,7 @@ ROOT передал прямое указание Направляющего: «
 ROOT передал вопрос Направляющего: «Ya praviljno ponimayu, chto iz-za kirillicyi procentov na 40 vyishe raskhod pamyati repozitoriya?» Ответ ROOT: кириллица в UTF-8 обычно занимает два байта против одного для ASCII, но увеличение размера Git-репозитория на 40% не установлено; результат зависит от состава, сжатия, истории и транслитерации и требует измерения. Измерение этим ответом не выполнено.
 
 Направляющий решил: «Znachit poka ostavlyayem repozitorij na russkom i ne perevodim na bratislavskij?» Управляющий согласился: основной репозиторий пока остаётся русским; размер до решения о переводе требуется измерить, отдельное производное представление возможно позднее. Измерение не утверждается выполненным.
+
+## Коды языка и письменности в именах
+
+ROOT передал предложение Направляющего: «A yesli srazu sdelatj sistemu s yazyikovyimi kodami i kodami pisjmennostej, a imenno *.ru.md dlya russkikh fajlov, *.ru-Latn.md dlya bratislavskikh fajlov, analogichno dlya prochikh rasshirenij i yazyikov?» По сообщению ROOT, оно пока оценивается как проект совместимой системы; массовые переименования не выполнялись. Предложение не является готовой реализацией.
