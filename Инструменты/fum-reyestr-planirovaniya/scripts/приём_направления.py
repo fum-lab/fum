@@ -330,9 +330,17 @@ def проверить_состояние(состояние, общий):
 
 
 def гит(корень, *аргументы, вход=None, сырые=False):
-    среда = {ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith("GIT_")}
-    среда["GIT_OPTIONAL_LOCKS"] = "0"
-    процесс = subprocess.run(["git", "--no-replace-objects", "-c", "core.quotepath=false", *аргументы], cwd=корень, env=среда, input=вход, capture_output=True)
+    среда = {
+        "PATH": os.defpath, "LC_ALL": "C", "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_NO_LAZY_FETCH": "1", "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_ATTR_NOSYSTEM": "1", "GIT_TERMINAL_PROMPT": "0",
+    }
+    ввод = {"stdin": subprocess.DEVNULL} if вход is None else {"input": вход}
+    процесс = subprocess.run(
+        ["git", "-C", str(корень), "--no-replace-objects", "-c", "core.quotepath=false", *аргументы],
+        cwd=корень, env=среда, capture_output=True, **ввод,
+    )
     требовать(процесс.returncode == 0, "Не удалось прочитать Git: " + аргументы[0])
     return процесс.stdout if сырые else процесс.stdout.decode("utf-8")
 
