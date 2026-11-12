@@ -11,6 +11,28 @@ from unittest import mock
 from test_братиславская_проекция_памяти import модуль
 
 
+class ПроверкаСредыGit(unittest.TestCase):
+    def test_проекция_читает_git_в_заданной_среде(сам):
+        корень = Path("/private/tmp/репозиторий")
+        результат = subprocess.CompletedProcess([], 0, "вершина\n", "")
+        with mock.patch.object(модуль.os, "environ", object()), \
+             mock.patch.object(модуль.subprocess, "run", return_value=результат) as запуск:
+            сам.assertEqual(
+                модуль.выполнить_команду_контроля_версий(корень, "rev-parse", "HEAD"), "вершина\n",
+            )
+        сам.assertEqual(запуск.call_args.args[0], ["git", "-C", str(корень), "rev-parse", "HEAD"])
+        сам.assertEqual(запуск.call_args.kwargs["env"], {
+            "PATH": os.defpath,
+            "LC_ALL": "C",
+            "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_NO_LAZY_FETCH": "1",
+            "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_CONFIG_GLOBAL": os.devnull,
+            "GIT_ATTR_NOSYSTEM": "1",
+        })
+
+
 class ПроверкаКэшаПреобразователя(unittest.TestCase):
     def setUp(сам):
         сам.временный = tempfile.TemporaryDirectory()
