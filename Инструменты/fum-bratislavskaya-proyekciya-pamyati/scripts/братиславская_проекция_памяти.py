@@ -800,14 +800,16 @@ def загрузить_политику(путь: Path) -> dict[str, Any]:
 
 
 def окружение_команды_контроля_версий() -> dict[str, str]:
-    окружение = {
-        ключ: значение
-        for ключ, значение in os.environ.items()
-        if not ключ.startswith("GIT_")
+    return {
+        "PATH": os.defpath,
+        "LC_ALL": "C",
+        "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_NO_LAZY_FETCH": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_ATTR_NOSYSTEM": "1",
     }
-    окружение["GIT_NO_REPLACE_OBJECTS"] = "1"
-    окружение["GIT_OPTIONAL_LOCKS"] = "0"
-    return окружение
 
 
 def выполнить_команду_контроля_версий(
