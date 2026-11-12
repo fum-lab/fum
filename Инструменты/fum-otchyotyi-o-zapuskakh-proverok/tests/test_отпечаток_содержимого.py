@@ -29,9 +29,32 @@ class ТестыОтпечаткаСодержимого(unittest.TestCase):
         сам.выполнить_гит("config", "user.email", "fum-tests@example.invalid")
         сам.выполнить_гит("add", ".")
         сам.выполнить_гит("commit", "-qm", "Исходный снимок")
+        # Боевой reader закрыт; алгоритм испытывается на своём Git без host ENV.
+        from unittest import mock
+        def читать_фикстуру(корень, *аргументы):
+            try:
+                return сам.выполнить_гит(*аргументы, корень=корень)
+            except subprocess.CalledProcessError as ошибка:
+                raise модуль.ОшибкаОтчёта("Git синтетической фикстуры отказал") from ошибка
+        подмена = mock.patch.object(модуль, "выполнить_чтение_репозитория", читать_фикстуру)
+        подмена.start()
+        сам.addCleanup(подмена.stop)
 
     def выполнить_гит(сам, *аргументы, корень=None):
-        return subprocess.check_output(["git", *аргументы], cwd=корень or сам.корень)
+        return subprocess.check_output(
+            ["git", "-C", str(корень or сам.корень), *аргументы],
+            env={
+                "PATH": "/bin:/usr/bin",
+                "LC_ALL": "C",
+                "GIT_OPTIONAL_LOCKS": "0",
+                "GIT_NO_LAZY_FETCH": "1",
+                "GIT_NO_REPLACE_OBJECTS": "1",
+                "GIT_CONFIG_NOSYSTEM": "1",
+                "GIT_CONFIG_GLOBAL": "/dev/null",
+                "GIT_ATTR_NOSYSTEM": "1",
+            },
+            stdin=subprocess.DEVNULL,
+        )
 
     def отпечаток(сам):
         return модуль.вычислить_отпечаток_содержимого(сам.корень, сам.сессия)
@@ -107,6 +130,302 @@ class ТестыОтпечаткаСодержимого(unittest.TestCase):
         with сам.assertRaises(модуль.ОшибкаОтчёта):
             сам.отпечаток()
 
+    def test_подмена_файла_или_его_каталога_перед_открытием_отклоняется(сам):
+        import os
+        from unittest import mock
+
+        with tempfile.TemporaryDirectory(dir="/tmp") as внешний:
+            вне_корня = Path(внешний)
+            внешний_файл = вне_корня / "вход.txt"
+            внешний_файл.write_bytes(b"outside fixture")
+            for менять_каталог in (False, True):
+                with сам.subTest(каталог=менять_каталог):
+                    каталог = сам.корень / "папка"
+                    каталог.mkdir()
+                    файл = каталог / "вход.txt"
+                    файл.write_bytes(b"inside fixture")
+                    путь_подмены = каталог if менять_каталог else файл
+                    назначение = вне_корня if менять_каталог else внешний_файл
+                    сохранённый = путь_подмены.with_name("сохранённый")
+                    заменён = False
+                    исходный_open = os.open
+                    исходный_path_open = Path.open
+
+                    def заменить():
+                        nonlocal заменён
+                        if not заменён:
+                            путь_подмены.rename(сохранённый)
+                            путь_подмены.symlink_to(назначение, target_is_directory=менять_каталог)
+                            заменён = True
+
+                    def открыть_по_пути(путь, *аргументы, **ключи):
+                        if путь == файл:
+                            заменить()
+                        return исходный_path_open(путь, *аргументы, **ключи)
+
+                    def открыть_от_каталога(путь, *аргументы, **ключи):
+                        if ключи.get("dir_fd") is not None and os.fsdecode(путь) == файл.name:
+                            заменить()
+                        return исходный_open(путь, *аргументы, **ключи)
+
+                    try:
+                        with mock.patch.object(Path, "open", открыть_по_пути), mock.patch.object(
+                            модуль.os, "open", открыть_от_каталога,
+                        ):
+                            with сам.assertRaises(модуль.ОшибкаОтчёта):
+                                сам.отпечаток()
+                        сам.assertTrue(заменён)
+                    finally:
+                        if заменён:
+                            путь_подмены.unlink()
+                            сохранённый.rename(путь_подмены)
+                        файл.unlink()
+                        каталог.rmdir()
+
+
+    def test_отпечаток_совпадает_с_независимым_эталоном(сам):
+        import hashlib
+        import stat
+
+        запрос = сам.корень / сам.сессия / "запрос.md"
+        сам.файл.chmod(0o755)
+        подмодуль = сам.корень / "пакет"
+        подмодуль.mkdir()
+        сам.выполнить_гит("init", "-q", корень=подмодуль)
+        сам.выполнить_гит("config", "user.name", "FUM Тесты", корень=подмодуль)
+        сам.выполнить_гит("config", "user.email", "fum-tests@example.invalid", корень=подмодуль)
+        вход_подмодуля = подмодуль / "код.txt"
+        вход_подмодуля.write_bytes(b"pinned module\n")
+        вход_подмодуля.chmod(0o755)
+        сам.выполнить_гит("add", ".", корень=подмодуль)
+        сам.выполнить_гит("commit", "-qm", "Зависимость", корень=подмодуль)
+        ревизия = сам.выполнить_гит("rev-parse", "HEAD", корень=подмодуль).strip()
+        сам.выполнить_гит(
+            "update-index", "--add", "--cacheinfo", f"160000,{ревизия.decode('ascii')},пакет",
+        )
+        хэш = hashlib.sha256()
+        def добавить(метка, данные):
+            имя = метка.encode("utf-8")
+            хэш.update(len(имя).to_bytes(8, "big") + имя)
+            хэш.update(len(данные).to_bytes(8, "big") + данные)
+        добавить("схема", "fum.каноническое-содержимое.1".encode("utf-8"))
+        входы = [
+            (запрос.relative_to(сам.корень).as_posix(), запрос),
+            ("пакет", подмодуль),
+            (сам.файл.name, сам.файл),
+        ]
+        for имя, путь in sorted(входы, key=lambda значение: значение[0].encode("utf-8")):
+            if путь == подмодуль:
+                режим = stat.S_IMODE(вход_подмодуля.stat().st_mode)
+                добавить(f"файл-подмодуля:пакет/код.txt:{режим:o}", вход_подмодуля.read_bytes())
+                добавить("подмодуль:пакет", ревизия)
+            else:
+                добавить(f"файл:{имя}:{stat.S_IMODE(путь.stat().st_mode):o}", путь.read_bytes())
+        сам.assertEqual(сам.отпечаток(), "sha256:" + хэш.hexdigest())
+
+    def test_дескрипторы_закрываются_при_отказе_открытия(сам):
+        import os
+        from collections import Counter
+        from unittest import mock
+
+        открыть, закрыть = os.open, os.close
+        открытые, закрытые = [], []
+        def отказать_в_файле(путь, *аргументы, **ключи):
+            if ключи.get("dir_fd") is not None and os.fsdecode(путь) == сам.файл.name:
+                raise PermissionError("синтетический отказ")
+            fd = открыть(путь, *аргументы, **ключи)
+            if ключи.get("dir_fd") is not None or os.fsdecode(путь) == "/":
+                открытые.append(fd)
+            return fd
+        def запомнить_закрытие(fd):
+            if fd in открытые:
+                закрытые.append(fd)
+            return закрыть(fd)
+        with mock.patch.object(модуль.os, "open", отказать_в_файле), mock.patch.object(
+            модуль.os, "close", запомнить_закрытие,
+        ):
+            with сам.assertRaises(модуль.ОшибкаОтчёта):
+                сам.отпечаток()
+        сам.assertTrue(открытые)
+        сам.assertEqual(Counter(открытые), Counter(закрытые))
+
+    def test_подмена_корня_подмодуля_во_время_чтения_отклоняется(сам):
+        import os
+        from unittest import mock
+
+        подмодуль = сам.корень / "пакет"
+        подмодуль.mkdir()
+        сам.выполнить_гит("init", "-q", корень=подмодуль)
+        сам.выполнить_гит("config", "user.name", "FUM Тесты", корень=подмодуль)
+        сам.выполнить_гит("config", "user.email", "fum-tests@example.invalid", корень=подмодуль)
+        (подмодуль / "код.txt").write_text("Вход подмодуля\n")
+        сам.выполнить_гит("add", ".", корень=подмодуль)
+        сам.выполнить_гит("commit", "-qm", "Зависимость", корень=подмодуль)
+        ревизия = сам.выполнить_гит("rev-parse", "HEAD", корень=подмодуль).decode().strip()
+        сам.выполнить_гит("update-index", "--add", "--cacheinfo", f"160000,{ревизия},пакет")
+        with tempfile.TemporaryDirectory(dir="/tmp") as внешний:
+            внешний_каталог = Path(внешний)
+            (внешний_каталог / "код.txt").write_text("Посторонний вход\n")
+            сохранённый = сам.корень / "сохранённый-пакет"
+            открыть = os.open
+            заменён = False
+            def заменить_перед_чтением(путь, *аргументы, **ключи):
+                nonlocal заменён
+                if not заменён and ключи.get("dir_fd") is not None and os.fsdecode(путь) == "код.txt":
+                    подмодуль.rename(сохранённый)
+                    подмодуль.symlink_to(внешний_каталог, target_is_directory=True)
+                    заменён = True
+                    fd = открыть(путь, *аргументы, **ключи)
+                    сам.assertEqual(os.fstat(fd).st_ino, (сохранённый / "код.txt").stat().st_ino)
+                    return fd
+                return открыть(путь, *аргументы, **ключи)
+            try:
+                with mock.patch.object(модуль.os, "open", заменить_перед_чтением):
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        сам.отпечаток()
+                сам.assertTrue(заменён)
+            finally:
+                if заменён:
+                    подмодуль.unlink()
+                    сохранённый.rename(подмодуль)
+
+    def test_смена_дескриптора_каталога_обнаруживается_до_чтения(сам):
+        import os
+        from types import SimpleNamespace
+        from unittest import mock
+
+        каталог = сам.корень / "папка"
+        каталог.mkdir()
+        root_fd = os.open(сам.корень, os.O_RDONLY | os.O_DIRECTORY)
+        fstat = os.fstat
+        проверок = [0]
+        def подменить(fd):
+            сведения = fstat(fd)
+            if fd != root_fd:
+                проверок[0] += 1
+                if проверок[0] == 2:
+                    return SimpleNamespace(st_dev=сведения.st_dev, st_ino=сведения.st_ino + 1)
+            return сведения
+        try:
+            with mock.patch.object(модуль.os, "fstat", подменить):
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "каталог.*подменён"):
+                    with модуль._удержать_каталог_отпечатка(root_fd, ("папка",)):
+                        сам.fail("подменённый каталог не должен передать управление")
+            сам.assertEqual(проверок[0], 2)
+        finally:
+            os.close(root_fd)
+
+    def test_изменение_git_подмодуля_после_чтения_отклоняется(сам):
+        from unittest import mock
+
+        подмодуль = сам.корень / "пакет"
+        подмодуль.mkdir()
+        сам.выполнить_гит("init", "-q", корень=подмодуль)
+        сам.выполнить_гит("config", "user.name", "FUM Тесты", корень=подмодуль)
+        сам.выполнить_гит("config", "user.email", "fum-tests@example.invalid", корень=подмодуль)
+        (подмодуль / "код.txt").write_bytes(b"first\n")
+        сам.выполнить_гит("add", ".", корень=подмодуль)
+        сам.выполнить_гит("commit", "-qm", "Зависимость", корень=подмодуль)
+        ревизия = сам.выполнить_гит("rev-parse", "HEAD", корень=подмодуль).decode().strip()
+        сам.выполнить_гит("update-index", "--add", "--cacheinfo", f"160000,{ревизия},пакет")
+        исходное_чтение = модуль._добавить_подмодуль_в_отпечаток
+
+        for операция in ("вершина", "индекс", "неотслеживаемые"):
+            with сам.subTest(операция=операция):
+                изменён = [False]
+
+                def прочитать(*аргументы):
+                    исходное_чтение(*аргументы)
+                    if операция == "вершина":
+                        сам.выполнить_гит("commit", "--allow-empty", "-qm", "Другая вершина",
+                                          корень=подмодуль)
+                    elif операция == "индекс":
+                        сам.выполнить_гит("update-index", "--chmod=+x", "--", "код.txt",
+                                          корень=подмодуль)
+                    else:
+                        (подмодуль / "лишний.txt").write_bytes(b"new\n")
+                    изменён[0] = True
+
+                try:
+                    with mock.patch.object(модуль, "_добавить_подмодуль_в_отпечаток", прочитать):
+                        with сам.assertRaises(модуль.ОшибкаОтчёта):
+                            сам.отпечаток()
+                    сам.assertTrue(изменён[0])
+                finally:
+                    if операция == "индекс":
+                        сам.выполнить_гит("update-index", "--chmod=-x", "--", "код.txt",
+                                          корень=подмодуль)
+                    elif операция == "неотслеживаемые":
+                        (подмодуль / "лишний.txt").unlink(missing_ok=True)
+
+    def test_изменение_подмодуля_после_его_чтения_отклоняется(сам):
+        from unittest import mock
+
+        подмодуль = сам.корень / "пакет"
+        подмодуль.mkdir()
+        сам.выполнить_гит("init", "-q", корень=подмодуль)
+        сам.выполнить_гит("config", "user.name", "FUM Тесты", корень=подмодуль)
+        сам.выполнить_гит("config", "user.email", "fum-tests@example.invalid", корень=подмодуль)
+        вход = подмодуль / "код.txt"
+        вход.write_bytes(b"first\n")
+        сам.выполнить_гит("add", ".", корень=подмодуль)
+        сам.выполнить_гит("commit", "-qm", "Зависимость", корень=подмодуль)
+        ревизия = сам.выполнить_гит("rev-parse", "HEAD", корень=подмодуль).decode().strip()
+        сам.выполнить_гит("update-index", "--add", "--cacheinfo", f"160000,{ревизия},пакет")
+        исходное_чтение = модуль._добавить_подмодуль_в_отпечаток
+        изменён = [False]
+
+        def прочитать(*аргументы):
+            исходное_чтение(*аргументы)
+            вход.write_bytes(b"changed after submodule reading\n")
+            изменён[0] = True
+
+        with mock.patch.object(модуль, "_добавить_подмодуль_в_отпечаток", прочитать):
+            with сам.assertRaises(модуль.ОшибкаОтчёта):
+                сам.отпечаток()
+        сам.assertTrue(изменён[0])
+
+    def test_вернувшийся_во_время_чтения_файл_отклоняется(сам):
+        from unittest import mock
+
+        исходное_чтение = модуль._прочитать_вход_отпечатка
+        подмена = [False]
+        with tempfile.TemporaryDirectory(dir="/tmp") as временный:
+            сохранённый = Path(временный) / "сохранённый"
+
+            def прочитать(корневой_fd, имя):
+                if имя == сам.файл.name and not подмена[0]:
+                    подмена[0] = True
+                    сам.файл.rename(сохранённый)
+                    try:
+                        return исходное_чтение(корневой_fd, имя)
+                    finally:
+                        сохранённый.rename(сам.файл)
+                return исходное_чтение(корневой_fd, имя)
+
+            with mock.patch.object(модуль, "_прочитать_вход_отпечатка", прочитать):
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    сам.отпечаток()
+            сам.assertTrue(подмена[0])
+
+    def test_изменённый_после_чтения_файл_отклоняется(сам):
+        from unittest import mock
+
+        исходное_чтение = модуль._прочитать_вход_отпечатка
+        подмена = [False]
+
+        def прочитать(корневой_fd, имя):
+            результат = исходное_чтение(корневой_fd, имя)
+            if имя == сам.файл.name and not подмена[0]:
+                подмена[0] = True
+                сам.файл.write_bytes(b"changed after reading\n")
+            return результат
+
+        with mock.patch.object(модуль, "_прочитать_вход_отпечатка", прочитать):
+            with сам.assertRaises(модуль.ОшибкаОтчёта):
+                сам.отпечаток()
+        сам.assertTrue(подмена[0])
+
     def test_конфликт_индекса_не_получает_приёмочный_отпечаток(сам):
         сам.выполнить_гит("checkout", "-qb", "изменение")
         сам.файл.write_text("Сторона один\n")
@@ -114,7 +433,8 @@ class ТестыОтпечаткаСодержимого(unittest.TestCase):
         сам.выполнить_гит("checkout", "-q", "HEAD~1")
         сам.файл.write_text("Сторона два\n")
         сам.выполнить_гит("commit", "-qam", "Другая сторона")
-        subprocess.run(["git", "merge", "изменение"], cwd=сам.корень, capture_output=True)
+        with сам.assertRaises(subprocess.CalledProcessError):
+            сам.выполнить_гит("merge", "изменение")
         with сам.assertRaises(модуль.ОшибкаОтчёта):
             сам.отпечаток()
 

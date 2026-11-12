@@ -24,6 +24,87 @@ def выделить_параллельно(параметры):
         f"событие-{номер}", ["FUM-STEP"], "подтверждённый открытый вход")
 
 
+class ГраницаЧтенияGit(unittest.TestCase):
+    def test_git_использует_явный_корень_и_защитные_переменные(проверка):
+        корень = Path("/тестовый-корень")
+        среда = {
+            "PATH": "/bin",
+            "GIT_DIR": "/чужой-каталог",
+            "GIT_OPTIONAL_LOCKS": "1",
+            "GIT_NO_LAZY_FETCH": "0",
+            "GIT_NO_REPLACE_OBJECTS": "0",
+        }
+        завершение = subprocess.CompletedProcess([], 0, stdout="результат".encode("utf-8"))
+        with mock.patch.object(ПРИЁМ.os, "environ", среда), \
+             mock.patch.object(ПРИЁМ.subprocess, "run", return_value=завершение) as вызов:
+            проверка.assertEqual("результат", ПРИЁМ.гит(корень, "rev-parse", "HEAD"))
+        аргументы, параметры = вызов.call_args
+        команда = аргументы[0]
+        проверка.assertIn("-C", команда)
+        проверка.assertEqual(str(корень), команда[команда.index("-C") + 1])
+        проверка.assertEqual("0", параметры["env"]["GIT_OPTIONAL_LOCKS"])
+        проверка.assertEqual("1", параметры["env"]["GIT_NO_LAZY_FETCH"])
+        проверка.assertEqual("1", параметры["env"]["GIT_NO_REPLACE_OBJECTS"])
+        проверка.assertNotIn("GIT_DIR", параметры["env"])
+
+    def test_отказ_git_не_превращается_в_результат_и_не_повторяется(проверка):
+        завершение = subprocess.CompletedProcess([], 128, stdout=b"")
+        with mock.patch.object(ПРИЁМ.os, "environ", {"PATH": "/bin"}), \
+             mock.patch.object(ПРИЁМ.subprocess, "run", return_value=завершение) as вызов:
+            with проверка.assertRaises(ПРИЁМ.ОшибкаПриёма):
+                ПРИЁМ.гит(Path("/тестовый-корень"), "cat-file", "-s", "недоступный-объект")
+        проверка.assertEqual(1, вызов.call_count)
+
+    def test_среда_git_не_читается_у_родителя_и_stdin_закрыт(проверка):
+        class ЗапрещённаяСреда:
+            def items(сам):
+                raise AssertionError("чтение окружения родителя")
+
+        завершение = subprocess.CompletedProcess([], 0, stdout=b"ok")
+        with mock.patch.object(ПРИЁМ.os, "environ", ЗапрещённаяСреда()), \
+             mock.patch.object(ПРИЁМ.subprocess, "run", return_value=завершение) as вызов:
+            проверка.assertEqual("ok", ПРИЁМ.гит(Path("/тестовый-корень"), "rev-parse", "HEAD"))
+        параметры = вызов.call_args.kwargs
+        проверка.assertEqual({
+            "PATH": os.defpath, "LC_ALL": "C", "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_NO_LAZY_FETCH": "1", "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+            "GIT_ATTR_NOSYSTEM": "1", "GIT_TERMINAL_PROMPT": "0",
+        }, параметры["env"])
+        проверка.assertEqual(subprocess.DEVNULL, параметры["stdin"])
+        проверка.assertNotIn("input", параметры)
+
+    def test_явные_байты_передаются_git_без_наследования_среды(проверка):
+        class ЗапрещённаяСреда:
+            def items(сам):
+                raise AssertionError("чтение окружения родителя")
+
+        данные = b"fixture\x00bytes"
+        завершение = subprocess.CompletedProcess([], 0, stdout=b"object-id")
+        with mock.patch.object(ПРИЁМ.os, "environ", ЗапрещённаяСреда()), \
+             mock.patch.object(ПРИЁМ.subprocess, "run", return_value=завершение) as вызов:
+            проверка.assertEqual(b"object-id", ПРИЁМ.гит(
+                Path("/тестовый-корень"), "hash-object", "--stdin", вход=данные, сырые=True))
+        проверка.assertEqual(данные, вызов.call_args.kwargs["input"])
+        проверка.assertNotIn("stdin", вызов.call_args.kwargs)
+
+    def test_общая_git_фикстура_не_наследует_среду_и_stdin(проверка):
+        фикстура = ПриёмНаправления('test_новая_карточка_публична_а_состояние_приватно')
+        фикстура.корень = Path('/тестовый-корень')
+        with mock.patch.object(subprocess, 'check_output', return_value=' ok\n') as вызов:
+            проверка.assertEqual(фикстура.гит('status'), 'ok')
+        команда = вызов.call_args.args[0]
+        параметры = вызов.call_args.kwargs
+        проверка.assertEqual(команда[команда.index('-C') + 1], str(фикстура.корень))
+        проверка.assertEqual(параметры['stdin'], subprocess.DEVNULL)
+        проверка.assertEqual(параметры['env'], {
+            'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'GIT_CONFIG_NOSYSTEM': '1',
+            'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_ATTR_NOSYSTEM': '1',
+            'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1',
+            'GIT_NO_REPLACE_OBJECTS': '1', 'GIT_TERMINAL_PROMPT': '0',
+        })
+
+
 class ПриёмНаправления(unittest.TestCase):
     def setUp(проверка):
         проверка.временный = tempfile.TemporaryDirectory()
@@ -39,7 +120,20 @@ class ПриёмНаправления(unittest.TestCase):
         проверка.хранилище = ПРИЁМ.Хранилище(проверка.корень, ЗАДАЧА)
 
     def гит(проверка, *аргументы):
-        return subprocess.check_output(["git", *аргументы], cwd=проверка.корень, text=True).strip()
+        среда = {
+            "PATH": "/usr/bin:/bin",
+            "LC_ALL": "C",
+            "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_CONFIG_GLOBAL": os.devnull,
+            "GIT_ATTR_NOSYSTEM": "1",
+            "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_NO_LAZY_FETCH": "1",
+            "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_TERMINAL_PROMPT": "0",
+        }
+        return subprocess.check_output(
+            ["git", "--no-replace-objects", "-C", str(проверка.корень), *аргументы],
+            cwd=проверка.корень, env=среда, stdin=subprocess.DEVNULL, text=True).strip()
 
     def test_новая_карточка_публична_а_состояние_приватно(проверка):
         прежняя_маска = os.umask(0o077)

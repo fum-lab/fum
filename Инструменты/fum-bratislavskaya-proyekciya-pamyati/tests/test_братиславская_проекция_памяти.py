@@ -1,11 +1,13 @@
 import hashlib
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest import mock
@@ -1096,19 +1098,40 @@ class ПроверкаКонтрактаБратиславскойПроекци
                 модуль.проверить_материализацию_зависимости(сам.корень)
 
     def test_процесс_использует_изолированный_архив_закреплённого_дерева(сам):
+        пакетный_путь = "Инструменты/fum-proverka-nazvanij-avtomatizacij"
+        манифест = f"{пакетный_путь}/Package.swift"
+        вход_сборки = f"{пакетный_путь}/Sources/Runner/main.swift"
         сам._записать(
-            "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift",
+            манифест,
             "// swift-tools-version: 6.0\n",
         )
+        сам._записать(вход_сборки, "print(1)\n")
         сам._зафиксировать()
         зависимость, исходник, ревизия = сам._создать_репозиторий_зависимости()
-        with mock.patch.object(модуль, "РЕВИЗИЯ_ЗАВИСИМОСТИ", ревизия):
+        блоб = сам._выполнить_команду_контроля_версий("rev-parse", f"HEAD:{манифест}").stdout.strip()
+        сам._выполнить_команду_контроля_версий(
+            "update-index", "--add", "--cacheinfo", f"100644,{блоб},{пакетный_путь}/scripts/посторонний.py",
+        )
+        сам._выполнить_команду_контроля_версий("commit", "-q", "-m", "Посторонний объект только в Git")
+        извлечь = модуль.развернуть_архив_дерева
+
+        def развернуть(байты_архива, цель, *аргументы):
+            if цель.name != "LinguisticKit":
+                with tarfile.open(fileobj=io.BytesIO(байты_архива), mode="r:") as архив:
+                    файлы = {элемент.name for элемент in архив.getmembers() if not элемент.isdir()}
+                сам.assertEqual(файлы, {манифест, вход_сборки})
+            извлечь(байты_архива, цель, *аргументы)
+
+        with mock.patch.object(модуль, "РЕВИЗИЯ_ЗАВИСИМОСТИ", ревизия), mock.patch.object(
+            модуль, "развернуть_архив_дерева", side_effect=развернуть,
+        ):
             with модуль.подготовить_изолированный_преобразователь(
                 сам.корень
             ) as (команда, проверить_границу):
                 сам.assertEqual(команда.count("--configuration"), 1)
                 сам.assertEqual(команда[команда.index("--configuration") + 1], "release")
                 пакет = Path(команда[команда.index("--package-path") + 1])
+                сам.assertEqual((пакет / "Sources/Runner/main.swift").read_bytes(), b"print(1)\n")
                 временный_корень = пакет.parents[1]
                 изолированный_исходник = (
                     временный_корень
@@ -1131,6 +1154,31 @@ class ПроверкаКонтрактаБратиславскойПроекци
                     "Байты файла",
                 ):
                     проверить_границу()
+
+    def test_неверный_состав_архива_отклоняется_до_записи(сам):
+        цель = сам.корень / "снимок"
+        цель.mkdir()
+        манифест = "Package.swift"
+        исходник = "Sources/Runner/main.swift"
+        for имя, тип, ожидаемые in (
+            ("Sources/лишний.swift", tarfile.REGTYPE, {манифест, исходник}),
+            ("Sources/скрипт.PY", tarfile.REGTYPE, {манифест, "Sources/скрипт.PY"}),
+            (исходник, tarfile.SYMTYPE, {манифест, исходник}),
+            (None, None, {манифест, исходник}),
+        ):
+            with сам.subTest(имя=имя, тип=тип):
+                поток = io.BytesIO()
+                with tarfile.open(fileobj=поток, mode="w") as архив:
+                    файл = tarfile.TarInfo(манифест)
+                    файл.size = 1
+                    архив.addfile(файл, io.BytesIO(b"\n"))
+                    if имя is not None:
+                        файл = tarfile.TarInfo(имя)
+                        файл.type = тип
+                        архив.addfile(файл)
+                with сам.assertRaises(модуль.ОшибкаКонтракта):
+                    модуль.развернуть_архив_дерева(поток.getvalue(), цель, ожидаемые)
+                сам.assertEqual(list(цель.iterdir()), [])
 
     def test_ленивая_команда_реально_исполняется_без_предварительной_сборки(сам):
         сам._записать(

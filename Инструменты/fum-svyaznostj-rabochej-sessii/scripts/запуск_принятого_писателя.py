@@ -1,4 +1,34 @@
 """Новый -I -S -B процесс конечного принятого писателя; не sandbox ОС."""
+import sys
+
+_ОШИБКА_ЗАКРЫТОЙ_СМЕНЫ = (
+    'смена закрыта до восстановления ограниченной среды и отчётной обёртки'
+)
+
+
+def _запрошена_смена(аргументы):
+    """Ранний консервативный отказ до argparse и его чтения локали."""
+    for номер, аргумент in enumerate(аргументы):
+        if type(аргумент) is not str:
+            return True
+        ключ, разделитель, значение = аргумент.partition('=')
+        if len(ключ) > 2 and '--режим'.startswith(ключ):
+            if разделитель and значение == 'смена':
+                return True
+            if not разделитель and номер + 1 < len(аргументы) and аргументы[номер + 1] == 'смена':
+                return True
+    return False
+
+
+def _сообщить_закрытую_смену():
+    sys.stderr.write('{"ошибка": "' + _ОШИБКА_ЗАКРЫТОЙ_СМЕНЫ
+                     + '", "автоматический_повтор": false, "трасса": []}\n')
+
+
+if __name__ == '__main__' and _запрошена_смена(sys.argv[1:]):
+    _сообщить_закрытую_смену()
+    raise SystemExit(2)
+
 import argparse
 import ast
 import hashlib
@@ -9,7 +39,6 @@ from pathlib import Path
 import shutil
 import stat
 import subprocess
-import sys
 import time
 import types
 
@@ -39,22 +68,127 @@ def обычный(путь, *, приватный=False):
     return путь.read_bytes()
 
 
+def _ограниченная_среда_гита():
+    return {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'GIT_OPTIONAL_LOCKS': '0',
+        'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+        'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+        'GIT_ATTR_NOSYSTEM': '1', 'GIT_TERMINAL_PROMPT': '0'}
+
+
+def _список_git_каталога(корень, коммит, каталог):
+    требовать(type(корень) is str and '\0' not in корень
+        and корень.startswith('/') and not корень.startswith('//')
+        and str(Path(корень)) == корень and '..' not in Path(корень).parts,
+        'нужен абсолютный нормализованный корень Git')
+    требовать(type(коммит) is str and len(коммит) == 40
+        and all(с in '0123456789abcdef' for с in коммит), 'нужен полный OID каталога')
+    требовать(type(каталог) is str and '\0' not in каталог
+        and all(ч and ч not in ('.', '..') for ч in каталог.split('/')),
+        'нужен относительный нормализованный каталог')
+    return subprocess.check_output([
+        '/usr/bin/git', '--no-optional-locks', '--no-replace-objects',
+        '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false',
+        '-c', 'protocol.allow=never', '-C', корень,
+        'ls-tree', '-z', коммит + ':' + каталог],
+        env=_ограниченная_среда_гита(), stdin=subprocess.DEVNULL, timeout=30)
+
+
+def _разобрать_git_каталог(данные):
+    требовать(type(данные) is bytes, 'нужны байты списка Git-каталога')
+    if not данные:
+        return {}
+    требовать(данные.endswith(b'\0'), 'список Git-каталога без завершающего NUL')
+    имена = {}
+    for запись in данные[:-1].split(b'\0'):
+        требовать(запись and b'\t' in запись, 'неполная запись Git-каталога')
+        мета, сырое_имя = запись.split(b'\t', 1)
+        части = мета.split(b' ')
+        требовать(len(части) == 3, 'неверные метаданные Git-каталога')
+        режим, тип, oid = части
+        требовать(тип == b'blob' and режим in (b'100644', b'100755')
+            and len(oid) == 40 and all(с in b'0123456789abcdef' for с in oid),
+            'необычный элемент каталога ресурсов')
+        try:
+            имя = сырое_имя.decode('utf-8')
+        except UnicodeDecodeError:
+            raise ValueError('имя ресурса не является UTF-8') from None
+        требовать(имя and '/' not in имя and имя not in ('.', '..') and имя not in имена,
+            'пустое, составное или повторённое имя ресурса')
+        имена[имя] = режим.decode('ascii')
+    return имена
+
+
 def git_blob(корень, коммит, имя):
     требовать(len(коммит) == 40 and all(с in '0123456789abcdef' for с in коммит), 'нужен полный OID Q')
-    среда = {к: в for к, в in os.environ.items() if not к.startswith('GIT_')}
-    argv = ['git', '--no-optional-locks', '-C', str(корень)]
-    запись = subprocess.check_output([*argv, 'ls-tree', '-z', коммит, '--', имя], env=среда)
+    среда = _ограниченная_среда_гита()
+    argv = ['/usr/bin/git', '--no-optional-locks', '--no-replace-objects', '--literal-pathspecs',
+        '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false',
+        '-c', 'protocol.allow=never', '-C', str(корень)]
+    запись = subprocess.check_output([*argv, 'ls-tree', '-z', коммит, '--', имя],
+        env=среда, stdin=subprocess.DEVNULL, timeout=30)
     части = запись.split(b'\0'); требовать(len(части) == 2 and части[1] == b'', 'неоднозначный bootstrap blob')
     мета, путь = части[0].split(b'\t'); режим, тип, oid = мета.decode().split()
     требовать(путь.decode() == имя and тип == 'blob' and режим == '100644', 'нужен обычный bootstrap blob0644')
-    данные = subprocess.check_output([*argv, 'cat-file', 'blob', oid], env=среда)
+    данные = subprocess.check_output([*argv, 'cat-file', 'blob', oid],
+        env=среда, stdin=subprocess.DEVNULL, timeout=30)
     требовать(hashlib.sha1(b'blob '+str(len(данные)).encode()+b'\0'+данные).hexdigest() == oid,
         'bootstrap blob не соответствует байтам')
     требовать(обычный(корень / имя) == данные, 'рабочие байты bootstrap не равны Q')
     return данные
 
 
+def _профиль_явного_гита(исполняемый, argv, cwd, среда, корни):
+    """Распознать только ограниченные reader-вызовы; полномочия корней задаёт вызывающий."""
+    def строка(значение):
+        return os.fsdecode(значение) if type(значение) in (str, bytes) else None
+
+    первый = argv[0] if type(argv) in (list, tuple) and argv else None
+    эталон = _ограниченная_среда_гита()
+    среда_совпадает = (type(среда) is dict and len(среда) == len(эталон)
+        and all(type(к) is str and type(в) is str for к, в in среда.items()) and среда == эталон)
+    похож = (строка(исполняемый) == '/usr/bin/git' or строка(первый) == '/usr/bin/git'
+        or среда_совпадает)
+    if not похож:
+        return None
+    требовать(type(исполняемый) is str and исполняемый == '/usr/bin/git'
+        and type(argv) in (list, tuple) and all(type(а) is str for а in argv)
+        and среда_совпадает and cwd is None
+        and type(корни) is tuple and корни and all(type(к) is str for к in корни),
+        'неверный явный Git: исполнитель, среда или корни')
+    начало = ['/usr/bin/git', '--no-optional-locks', '--no-replace-objects']
+    буквальные = len(argv) > 3 and argv[3] == '--literal-pathspecs'
+    if буквальные:
+        начало.append('--literal-pathspecs')
+    начало += ['-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false',
+        '-c', 'protocol.allow=never', '-C']
+    требовать(len(argv) > len(начало) + 1 and list(argv[:len(начало)]) == начало
+        and argv[len(начало)] in корни, 'неверный явный Git: argv или корень')
+    хвост = list(argv[len(начало) + 1:])
+
+    def oid(значение):
+        return len(значение) == 40 and all(с in '0123456789abcdef' for с in значение)
+
+    def путь(значение):
+        части = значение.split('/')
+        return bool(значение) and '\0' not in значение and not значение.startswith('/') \
+            and all(ч and ч not in ('.', '..') for ч in части) \
+            and (буквальные or not значение.startswith(':') \
+                 and not any(с in значение for с in '*?[]\\'))
+
+    допустимо = (not буквальные and len(хвост) == 2 and хвост[0] == 'rev-parse'
+        and (хвост[1] in ('HEAD', '--show-object-format')
+             or хвост[1].endswith('^{commit}') and oid(хвост[1][:-9])))
+    допустимо |= (not буквальные and хвост == ['cat-file', '--batch'])
+    допустимо |= (len(хвост) == 3 and хвост[:2] == ['cat-file', 'blob'] and oid(хвост[2]))
+    допустимо |= (len(хвост) >= 5 and хвост[:2] == ['ls-tree', '-z']
+        and oid(хвост[2]) and хвост[3] == '--' and all(путь(п) for п in хвост[4:]))
+    требовать(допустимо, 'неверный явный Git: команда или путь')
+    return хвост
+
+
 def конечный_запуск(а):
+    if getattr(а, 'режим', None) == 'смена':
+        raise ValueError(_ОШИБКА_ЗАКРЫТОЙ_СМЕНЫ)
     требовать(sys.flags.isolated and sys.flags.no_site and sys.dont_write_bytecode,
         'нужен новый процесс -I -S -B')
     path_env = os.environ.get('PATH')
@@ -126,20 +260,12 @@ def конечный_запуск(а):
     # Неизменные каталоги шаблонов/типов: полный список имён и Git-режимов,
     # включая неисполняемые блоки; их содержимое не объявляется прочитанным.
     каталоги = {}
-    среда = {к: в for к, в in os.environ.items() if not к.startswith('GIT_')}
     for запись in ресурсы.values():
         папка = Path(запись['физический_путь']).parent
         if папка.name not in ('шаблоны', 'типы') or str(папка) in каталоги: continue
         rel = папка.relative_to(Path(запись['корень'])).as_posix()
-        raw = subprocess.check_output(['git', '--no-optional-locks', '-C', запись['корень'],
-            'ls-tree', '-z', запись['коммит'] + ':' + rel], env=среда)
-        имена = {}
-        for э in raw.split(b'\0'):
-            if not э: continue
-            мета, имя = э.split(b'\t'); mode, kind, _ = мета.decode().split()
-            требовать(kind == 'blob' and mode in ('100644', '100755'), 'необычный элемент каталога ресурсов')
-            имена[имя.decode()] = mode
-        каталоги[str(папка)] = имена
+        raw = _список_git_каталога(запись['корень'], запись['коммит'], rel)
+        каталоги[str(папка)] = _разобрать_git_каталог(raw)
     # File-only guard: ни Git, ни Popen, ни blanket recursion bypass здесь нет.
     защищённые = {а.манифест: сырые, вход['путь']: u_bytes, новые['путь']: новые_bytes}
     if возврат_bytes is not None: защищённые[настройки['возврат_RAW']['путь']] = возврат_bytes
@@ -193,7 +319,11 @@ def конечный_запуск(а):
                 return
         if событие == 'subprocess.Popen':
             сверить()
-            exe, argv, _, env = аргументы
+            exe, argv, cwd, env = аргументы
+            профиль = _профиль_явного_гита(exe, argv, cwd, env, (str(Q), данные['корень']))
+            if профиль is not None:
+                требовать(git == '/usr/bin/git', 'неверный явный Git: другой выбранный исполнитель')
+                return
             требовать(os.environ.get('PATH') == path_env
                 and (env is None or env.get('PATH') == path_env), 'PATH изменился перед subprocess')
             требовать(type(argv) in (list, tuple), 'неизвестная команда subprocess')
@@ -242,6 +372,9 @@ def конечный_запуск(а):
 
 
 def главная():
+    if _запрошена_смена(sys.argv[1:]):
+        _сообщить_закрытую_смену()
+        return 2
     п = argparse.ArgumentParser(description=__doc__)
     п.add_argument('--корень-кода', required=True); п.add_argument('--коммит-кода', required=True)
     п.add_argument('--bootstrap-sha256', required=True); п.add_argument('--engine-sha256', required=True)
