@@ -29,6 +29,16 @@ class ТестыОтпечаткаСодержимого(unittest.TestCase):
         сам.выполнить_гит("config", "user.email", "fum-tests@example.invalid")
         сам.выполнить_гит("add", ".")
         сам.выполнить_гит("commit", "-qm", "Исходный снимок")
+        # Боевой reader закрыт; алгоритм испытывается на своём Git без host ENV.
+        from unittest import mock
+        def читать_фикстуру(корень, *аргументы):
+            try:
+                return сам.выполнить_гит(*аргументы, корень=корень)
+            except subprocess.CalledProcessError as ошибка:
+                raise модуль.ОшибкаОтчёта("Git синтетической фикстуры отказал") from ошибка
+        подмена = mock.patch.object(модуль, "выполнить_чтение_репозитория", читать_фикстуру)
+        подмена.start()
+        сам.addCleanup(подмена.stop)
 
     def выполнить_гит(сам, *аргументы, корень=None):
         return subprocess.check_output(
