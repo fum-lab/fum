@@ -1847,3 +1847,7 @@ Writer использовал direct Popen, bounded EOF/статус, пофаз
 Новая идея человека дословно: «Sobstvenno implementaciya takogo opensorsnogo biznesa na FUMA veroyatno mozhet sluzhitj odnim iz pervyikh elementov samofinansirovaniya FUMA.» Она связана с прежним замыслом: цифровой бизнес должен быть воспроизводим по информации и копируем подобно приложению. Это направление и гипотеза, не доказанная бизнес-модель и не уже работающий FUMA runtime. Новая постановка внешних публикаций, продаж или финансовых обещаний отсутствует.
 
 Дополнение человека к идее открытого бизнеса дословно: «Takzhe vozmozhna nastrojka i podderzhka po podpisochnoj modeli.» Предложенная возможная модель может включать настройку и поддержку открытого решения; выручка, спрос и цены не подтверждены.
+
+Последние сообщения человека дословно и по порядку: «Kakikh agentov nam nuzhno sozdatj dlya realizacii vsej neobkhodimoj upravlencheskoj cepochki dlya razvitiya FUMA i upravleniya FUM Lab?», «Razvivaj nashu komandu imenno kak komandu FUM Lab — sozdavaj neobkhodimyikh agentov dlya etogo. Najm yesjhyo nikogda raneye ne byil nastoljko prostyim)», «Poyavilasj potrebnostj v novom specialiste — sozdavaj agenta. Tak i dejstvuj.»
+
+По сообщению Управляющего, он создал `/root/produkt_fum_lab` и `/root/postavka_fum_lab`: первый подготовил и передал предложение проверяемого среза заявок, второй начал синтетический путь Probe. Новые личные Git-деревья и автовосстановление пока не подтверждены.
