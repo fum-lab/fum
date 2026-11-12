@@ -29,8 +29,15 @@ def требовать(условие, пояснение):
 
 
 def вызвать_гит(корень, *аргументы, вход=None):
-    среда = {к:в for к,в in os.environ.items() if not к.startswith('GIT_')}
-    return subprocess.check_output(['git','--no-optional-locks','-C',str(корень),*аргументы],env=среда,input=вход)
+    среда = {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'GIT_OPTIONAL_LOCKS': '0',
+        'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+        'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+        'GIT_ATTR_NOSYSTEM': '1', 'GIT_TERMINAL_PROMPT': '0'}
+    параметры_входа = {'stdin': subprocess.DEVNULL} if вход is None else {'input': вход}
+    return subprocess.check_output(['/usr/bin/git', '--no-optional-locks', '--no-replace-objects',
+        '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false',
+        '-c', 'protocol.allow=never', '-C', str(корень), *аргументы],
+        env=среда, timeout=30, **параметры_входа)
 
 
 def обычный_путь(корень, относительный):
