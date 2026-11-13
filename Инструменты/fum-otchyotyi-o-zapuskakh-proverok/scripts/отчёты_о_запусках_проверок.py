@@ -456,10 +456,6 @@ def атомарно_записать_байты(путь: Path, байты: byt
     finally:
         if дескриптор is not None:
             os.close(дескриптор)
-        try:
-            временный.unlink()
-        except FileNotFoundError:
-            pass
 
 
 def атомарно_записать_текст(путь: Path, текст: str) -> None:

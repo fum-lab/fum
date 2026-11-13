@@ -264,6 +264,55 @@ class ПроверкаКаноническихМашинныхЗаписей(uni
                     модуль.канонические_машинные_байты({'вложено': [значение]})
 
 
+class ПроверкаСохранностиВременнойАтомарнойЗаписи(unittest.TestCase):
+    def setUp(self):
+        self.модуль = загрузить_модуль_автоматизации()
+        каталог = tempfile.TemporaryDirectory(prefix="fum-atomic-test-", dir="/private/tmp")
+        self.addCleanup(каталог.cleanup)
+        self.путь = Path(каталог.name) / "отчёт.txt"
+        self.путь.write_bytes(b"old")
+        self.uuid = uuid.UUID("12345678-1234-4678-9234-123456789abc")
+        self.временный = self.путь.parent / f".{self.путь.name}.{self.uuid}.tmp"
+
+    def test_занятое_временное_имя_сохраняется(self):
+        self.временный.write_bytes(b"other-owner")
+        with mock.patch.object(self.модуль.uuid, "uuid4", return_value=self.uuid):
+            with self.assertRaises(self.модуль.ОшибкаОтчёта):
+                self.модуль.атомарно_записать_байты(self.путь, b"new")
+        self.assertEqual(self.путь.read_bytes(), b"old")
+        self.assertTrue(self.временный.is_file())
+        self.assertEqual(self.временный.read_bytes(), b"other-owner")
+
+    def test_ошибка_синхронизации_сохраняет_остаток(self):
+        with mock.patch.object(self.модуль.uuid, "uuid4", return_value=self.uuid):
+            with mock.patch.object(self.модуль.os, "fsync", side_effect=OSError("synthetic fsync failure")):
+                with self.assertRaises(self.модуль.ОшибкаОтчёта):
+                    self.модуль.атомарно_записать_байты(self.путь, b"new")
+        self.assertEqual(self.путь.read_bytes(), b"old")
+        self.assertTrue(self.временный.is_file())
+        self.assertEqual(self.временный.read_bytes(), b"new")
+
+    def test_новый_владелец_имени_после_replace_сохраняется(self):
+        прежняя_замена = os.replace
+
+        def заменить_и_занять(временный, цель):
+            прежняя_замена(временный, цель)
+            Path(временный).write_bytes(b"new-owner")
+
+        with mock.patch.object(self.модуль.uuid, "uuid4", return_value=self.uuid):
+            with mock.patch.object(self.модуль.os, "replace", side_effect=заменить_и_занять):
+                self.модуль.атомарно_записать_байты(self.путь, b"new")
+        self.assertEqual(self.путь.read_bytes(), b"new")
+        self.assertTrue(self.временный.is_file())
+        self.assertEqual(self.временный.read_bytes(), b"new-owner")
+
+    def test_обычная_замена_без_остатка(self):
+        with mock.patch.object(self.модуль.uuid, "uuid4", return_value=self.uuid):
+            self.модуль.атомарно_записать_байты(self.путь, b"new")
+        self.assertEqual(self.путь.read_bytes(), b"new")
+        self.assertFalse(self.временный.exists())
+
+
 class ПроверкаСтрогогоЧтенияМашиннойЗаписи(unittest.TestCase):
     def test_корректный_json_сохраняет_значение_и_байты(сам):
         модуль = загрузить_модуль_автоматизации()
