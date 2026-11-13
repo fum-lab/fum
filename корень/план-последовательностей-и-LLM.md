@@ -19,3 +19,25 @@
 Главстрой поддержал последовательность: минимальное ядро, затем LLM-преобразование и ленивое продолжение. Кандидат модели следует проверять до передачи потребителю; при повторе полезно сохранять уже проверенный префикс. Конечная тестовая последовательность может служить первым примером, но не ограничивает универсальный оператор конечными последовательностями.
 
 Главстрой предложил отдельно определить отмену, пределы времени и расходов и состояние незавершённого результата. Это предложения для последующего проектирования, не принятое изменение: указание Направляющего повторять генерацию до успешной проверки типов сохраняется. Оценка стоимости приблизительна и сама по себе не гарантирует фактические затраты.
+
+## Жизненный цикл любого оператора
+
+Направляющий уточнил: быстрый вариант через универсальные LLM-операторы и возможная алгоритмическая оптимизация относятся к жизненному циклу любого оператора FUMA, а не только к этапу разработки самой FUMA. Универсальный механизм должен позволять сразу задавать нужный оператор; часто требующуюся работу можно реализовать алгоритмически, когда это целесообразно. Это цель развития, не свидетельство того, что произвольный оператор уже работает или что проверка типов доказывает его смысловую правильность.
+
+## Цель для человека
+
+Направляющий ожидает, что FUMA будет выполнять задачи человека без необходимости специального технического контроля с его стороны и со временем ускоряться, оптимизируя повторяющуюся работу. Это целевое поведение, не подтверждённая готовность текущего runtime. Предлагается оценивать самостоятельность и скорость по сопоставимым задачам с проверенным качеством результата, учитывая повторы, ошибки и затраты.
+
+## Исходные указания Направляющего
+
+> Posle zaversheniya minimaljnogo yadra FUMA, chtobyi v itoge vsyo eto yadro byilo napisano na FUMA bez Swift-literala, v plan sleduyusjhim shagom postavim realizaciyu universaljnyij operator translyacii odnoj posledovateljnosti v druguyu posledovateljnostj na baze LLM.&#x20;
+>
+> Zatem sdelayem universaljnyij operator lenivogo prodolzheniya posledovateljnosti na baze LLM.&#x20;
+>
+> Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otkaza budet zapuskatjsya sleduyusjhaya iteraciya generacii vplotj do uspeka proverki tipov.
+
+> V processe rabotyi FUMA budet byistro poluchatj rabotayusjhij prototip, i toljko v sluchaye celesoobraznosti pisatj algoritmicheskuyu realizaciyu operatora bez LLM.
+
+> Algoritmicheskij variant — eto ne pro etap razrabotki FUMA, a pro etap zhiznennogo cikla lyubogo operatora FUMA. Blagodarya universaljnyim LLM operatoram myi fakticheski srazu imeyem lyuboj operator, a algoritmicheskij operatoryi — eto uzhe kak etap optimizacii chasto trebuyusjhejsya rabotyi.
+
+> Takim obrazom fuma dazhe bez specialjnogo tekhnicheskogo kontrolya so storonyi cheloveka budet rabotatj s yego zadachami vsyo byistreye i byistreye.
