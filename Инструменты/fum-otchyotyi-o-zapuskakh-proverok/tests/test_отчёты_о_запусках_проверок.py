@@ -19,6 +19,236 @@ from pathlib import Path
 from unittest import mock
 
 
+class ПроверкаОграниченногоПредпросмотра(unittest.TestCase):
+    удерживаемые_фикстуры = []
+
+    def _сценарий_с_занятым_замком(сам, длительность, ожидается_тайм_аут):
+        import errno
+        import select
+        модуль = загрузить_модуль_автоматизации()
+        временный = tempfile.TemporaryDirectory(dir='/private/tmp')
+        временный._finalizer.detach()
+        удержание = [временный, None]
+        сам.удерживаемые_фикстуры.append(удержание)
+        процесс = None
+        запуск_начат = False
+        состояние_ожидания = 'не начато'
+        код_процесса = None
+
+        def дождаться():
+            nonlocal состояние_ожидания, код_процесса
+            if состояние_ожидания == 'получено':
+                return код_процесса
+            if состояние_ожидания != 'не начато':
+                raise AssertionError('неизвестное ожидание процесса не повторяется')
+            состояние_ожидания = 'начато'
+            try:
+                код_процесса = процесс.wait(timeout=16)
+            except BaseException:
+                состояние_ожидания = 'неизвестно'
+                raise
+            состояние_ожидания = 'получено'
+            return код_процесса
+
+        try:
+            база = Path(временный.name).resolve()
+            корень = база / 'репозиторий'
+            корень.mkdir()
+            каталог_замка = база / 'замки'
+            каталог_замка.mkdir(mode=0o700)
+            сессия = 'Журнал/сессия/запрос.md'
+            запрос = корень / сессия
+            запрос.parent.mkdir(parents=True)
+            запрос.write_text('запрос\n', encoding='utf-8')
+            отчёт = запрос.with_name('отчёт.md')
+            исходный = ('до\n' + модуль.ОТКРЫТЫЙ_МАРКЕР + '\nпока пусто\n' +
+                        модуль.КОНЕЧНЫЙ_МАРКЕР + '\nпосле\n').encode('utf-8')
+            отчёт.write_bytes(исходный)
+            история = запрос.parent / 'материалы/запуски-проверок'
+            история.mkdir(parents=True)
+            идентификатор = '00000000-0000-4000-8000-000000000001'
+            запись = история / ('1_' + идентификатор + '.json')
+            данные = {
+                'схема': 'fum.test-run.v1', 'идентификатор': идентификатор,
+                'сессия': сессия, 'порядок': 1, 'исполнитель': 'root',
+                'вызов': 'синтетическая проверка', 'состояние': 'завершён',
+                'длительность_наносекунды': 1, 'статус': 'успешно',
+                'код_завершения': 0, 'пояснение': None,
+            }
+            байты_записи = (json.dumps(данные, ensure_ascii=False, sort_keys=True,
+                                      separators=(',', ':')) + '\n').encode('utf-8')
+            запись.write_bytes(байты_записи)
+            ключ = hashlib.sha256((str(корень) + '\0' + сессия).encode('utf-8')).hexdigest()
+            замок = каталог_замка / ('fum-check-runs-' + ключ + '.lock')
+            fd = os.open(замок, os.O_CREAT | os.O_EXCL | os.O_RDWR | os.O_CLOEXEC, 0o600)
+            try:
+                os.fchmod(fd, 0o600)
+                метка = os.fstat(fd)
+            finally:
+                os.close(fd)
+            код = '\n'.join([
+                'import fcntl,os,signal,sys,time',
+                'def timeout(_number,_frame): raise TimeoutError("срок владельца фикстуры")',
+                'signal.signal(signal.SIGALRM,timeout); signal.alarm(15)',
+                'fd=os.open(sys.argv[1],os.O_RDWR|os.O_NOFOLLOW|os.O_CLOEXEC)',
+                's=os.fstat(fd); assert (s.st_dev,s.st_ino)==(int(sys.argv[2]),int(sys.argv[3]))',
+                'fcntl.flock(fd,fcntl.LOCK_EX); os.write(1,b"R")',
+                'time.sleep(float(sys.argv[4]))',
+                'fcntl.flock(fd,fcntl.LOCK_UN); os.close(fd); os.write(1,b"D")',
+            ])
+            запуск_начат = True
+            процесс = subprocess.Popen(
+                [sys.executable, '-I', '-S', '-B', '-c', код, str(замок),
+                 str(метка.st_dev), str(метка.st_ino), str(длительность)],
+                env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'},
+                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                close_fds=True, start_new_session=True)
+            удержание[1] = процесс
+            сам.assertTrue(select.select([процесс.stdout.fileno()], [], [], 5.0)[0])
+            сам.assertEqual(os.read(процесс.stdout.fileno(), 1), b'R')
+            настоящий_flock = модуль.fcntl.flock
+            наблюдалась_занятость = []
+            def наблюдать(fd, операция):
+                try:
+                    return настоящий_flock(fd, операция)
+                except BlockingIOError as причина:
+                    текущая = os.fstat(fd)
+                    if (операция == модуль.fcntl.LOCK_EX | модуль.fcntl.LOCK_NB
+                        and причина.errno in (errno.EAGAIN, errno.EWOULDBLOCK)
+                        and (текущая.st_dev, текущая.st_ino) == (метка.st_dev, метка.st_ino)):
+                        наблюдалась_занятость.append(time.monotonic())
+                    raise
+            with mock.patch.object(модуль.tempfile, 'gettempdir', return_value=str(каталог_замка)), \
+                 mock.patch.object(модуль.fcntl, 'flock', side_effect=наблюдать):
+                начало = time.monotonic()
+                if ожидается_тайм_аут:
+                    with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'срок'):
+                        модуль.выполнить_предпросмотр(корень, запрос)
+                    сам.assertGreaterEqual(time.monotonic() - начало, 4.9)
+                    сам.assertTrue(наблюдалась_занятость)
+                    сам.assertEqual(отчёт.read_bytes(), исходный)
+                    сам.assertIsNone(процесс.poll())
+                    сам.assertEqual([(p.name, p.read_bytes()) for p in история.iterdir()],
+                                    [(запись.name, байты_записи)])
+                    сам.assertEqual(дождаться(), 0)
+                    сам.assertEqual(os.read(процесс.stdout.fileno(), 1), b'D')
+                сам.assertEqual(модуль.выполнить_предпросмотр(корень, запрос), 0)
+                сам.assertTrue(наблюдалась_занятость)
+                сам.assertNotEqual(отчёт.read_bytes(), исходный)
+                сам.assertIn(модуль.ОТКРЫТЫЙ_МАРКЕР.encode('utf-8'), отчёт.read_bytes())
+                сам.assertEqual(дождаться(), 0)
+                if not ожидается_тайм_аут:
+                    сам.assertEqual(os.read(процесс.stdout.fileno(), 1), b'D')
+        finally:
+            if процесс is not None:
+                if состояние_ожидания == 'не начато':
+                    дождаться()
+                if состояние_ожидания == 'получено':
+                    процесс.stdout.close()
+                    процесс.stderr.close()
+                    временный.cleanup()
+                    сам.удерживаемые_фикстуры.remove(удержание)
+            elif not запуск_начат:
+                временный.cleanup()
+                сам.удерживаемые_фикстуры.remove(удержание)
+
+    def test_занятый_замок_ограничивает_предпросмотр_без_записи(сам):
+        сам._сценарий_с_занятым_замком(8.0, True)
+
+    def test_освобождение_замка_до_срока_разрешает_предпросмотр(сам):
+        сам._сценарий_с_занятым_замком(0.75, False)
+
+    def test_прошедший_срок_после_flock_не_открывает_секцию(сам):
+        import fcntl
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as временный:
+            корень = Path(временный).resolve()
+            with mock.patch.object(модуль.tempfile, 'gettempdir', return_value=str(корень)), \
+                 mock.patch.object(модуль.time, 'monotonic', side_effect=[1.0, 1.0, 3.0]):
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'срок'):
+                    with модуль.межпроцессная_блокировка(корень, 'fixture', срок_монотонный=2.0):
+                        сам.fail('истёкший срок допустил защищённую секцию')
+            ключ = hashlib.sha256((str(корень) + '\0fixture').encode('utf-8')).hexdigest()
+            fd = os.open(корень / ('fum-check-runs-' + ключ + '.lock'), os.O_RDWR | os.O_CLOEXEC)
+            try:
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(fd, fcntl.LOCK_UN)
+            finally:
+                os.close(fd)
+
+    def test_без_срока_сохраняется_блокирующий_flock(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as временный:
+            корень = Path(временный).resolve()
+            with mock.patch.object(модуль.tempfile, 'gettempdir', return_value=str(корень)), \
+                 mock.patch.object(модуль.fcntl, 'flock', wraps=модуль.fcntl.flock) as вызовы:
+                with модуль.межпроцессная_блокировка(корень, 'fixture'):
+                    pass
+            операции = [вызов.args[1] for вызов in вызовы.call_args_list]
+            сам.assertEqual(операции, [модуль.fcntl.LOCK_EX, модуль.fcntl.LOCK_UN])
+
+    def test_недостоверные_часы_не_открывают_секцию(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as временный:
+            корень = Path(временный).resolve()
+            with mock.patch.object(модуль.tempfile, 'gettempdir', return_value=str(корень)), \
+                 mock.patch.object(модуль.time, 'monotonic', return_value=float('nan')):
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    with модуль.межпроцессная_блокировка(корень, 'fixture', срок_монотонный=2.0):
+                        сам.fail('недостоверные часы допустили защищённую секцию')
+
+    def test_ошибка_часов_до_захвата_возвращает_ошибку_отчёта(сам):
+        модуль = загрузить_модуль_автоматизации()
+        корень = Path('/private/tmp')
+        запрос = корень / 'запрос.md'
+        with mock.patch.object(модуль, 'разрешить_сессию',
+                               return_value=(корень, запрос, корень / 'отчёт.md',
+                                             корень / 'история', 'fixture')), \
+             mock.patch.object(модуль, 'прочитать_историю_проверок', return_value=[]), \
+             mock.patch.object(модуль.time, 'monotonic', side_effect=OSError('часы')), \
+             mock.patch.object(модуль, 'межпроцессная_блокировка') as замок:
+            with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'срок'):
+                модуль.выполнить_предпросмотр(корень, запрос)
+            замок.assert_not_called()
+
+    def test_неожиданный_errno_не_считается_занятостью(сам):
+        import errno
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as временный:
+            корень = Path(временный).resolve()
+            причина = BlockingIOError(errno.EBADF, 'неожиданный errno')
+            with mock.patch.object(модуль.tempfile, 'gettempdir', return_value=str(корень)), \
+                 mock.patch.object(модуль.fcntl, 'flock', side_effect=причина) as вызовы:
+                with сам.assertRaises(BlockingIOError) as отказ:
+                    with модуль.межпроцессная_блокировка(
+                        корень, 'fixture', срок_монотонный=time.monotonic() + 1.0
+                    ):
+                        сам.fail('ошибка flock допустила защищённую секцию')
+            сам.assertIs(отказ.exception, причина)
+            сам.assertEqual(вызовы.call_count, 1)
+
+    def test_ошибка_close_сохраняется_вместе_с_истечением(сам):
+        import errno
+        модуль = загрузить_модуль_автоматизации()
+        настоящий_close = модуль.os.close
+        def закрыть_и_отказать(fd):
+            настоящий_close(fd)
+            raise OSError('ошибка после закрытия')
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as временный:
+            корень = Path(временный).resolve()
+            with mock.patch.object(модуль.tempfile, 'gettempdir', return_value=str(корень)), \
+                 mock.patch.object(модуль.time, 'monotonic', side_effect=[1.0, 1.0, 3.0]), \
+                 mock.patch.object(модуль.fcntl, 'flock', side_effect=BlockingIOError(errno.EAGAIN, 'занят')), \
+                 mock.patch.object(модуль.os, 'close', side_effect=закрыть_и_отказать) as закрытия:
+                with сам.assertRaises(BaseExceptionGroup) as отказ:
+                    with модуль.межпроцессная_блокировка(корень, 'fixture', срок_монотонный=2.0):
+                        сам.fail('занятый замок допустил защищённую секцию')
+            сам.assertEqual(закрытия.call_count, 1)
+            сам.assertTrue(any(isinstance(e, модуль.ОшибкаОтчёта) for e in отказ.exception.exceptions))
+            сам.assertTrue(any(isinstance(e, OSError) for e in отказ.exception.exceptions))
+
+
+
 class ПроверкаКаноническихМашинныхЗаписей(unittest.TestCase):
     def test_обычная_запись_сохраняет_канонические_байты(сам):
         модуль = загрузить_модуль_автоматизации()

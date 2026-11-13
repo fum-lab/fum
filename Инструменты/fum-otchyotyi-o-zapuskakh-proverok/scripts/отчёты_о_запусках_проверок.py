@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import ast
 import contextlib
+import errno
 import fcntl
 import hashlib
 import json
@@ -302,13 +303,51 @@ def разрешить_сессию(
     )
 
 
+def _остаток_срока_блокировки(срок: float, название: str) -> float:
+    try:
+        сейчас = time.monotonic()
+        if type(сейчас) not in (int, float) or not math.isfinite(сейчас):
+            raise ValueError("недостоверные часы")
+        остаток = срок - сейчас
+        if not math.isfinite(остаток) or остаток <= 0:
+            raise ValueError("недостоверный или истёкший срок")
+        return остаток
+    except (OSError, OverflowError, TypeError, ValueError) as ошибка:
+        raise ОшибкаОтчёта(f"истёк срок или недостоверны часы {название}") from ошибка
+
+
+
+def _взять_файловый_замок(дескриптор: int, срок: float | None) -> None:
+    if срок is None:
+        fcntl.flock(дескриптор, fcntl.LOCK_EX)
+        return
+    while True:
+        _остаток_срока_блокировки(срок, 'межпроцессной блокировки')
+        try:
+            fcntl.flock(дескриптор, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            return
+        except BlockingIOError as причина:
+            if причина.errno not in (errno.EAGAIN, errno.EWOULDBLOCK):
+                raise
+            остаток = _остаток_срока_блокировки(срок, 'межпроцессной блокировки')
+            time.sleep(min(0.01, остаток))
+
+
+
 @contextlib.contextmanager
-def межпроцессная_блокировка(корень: Path, сессия: str) -> Iterator[None]:
+def межпроцессная_блокировка(
+    корень: Path, сессия: str, *, срок_монотонный: float | None = None,
+) -> Iterator[None]:
     """Удержать прежний файл замка и обнаружить его замену до допуска.
 
     Требуется доверенный каталог и запрет удаления файла другими участниками:
     проверки имени не защищают от замены после последней сверки или ABA.
     """
+    if срок_монотонный is not None:
+        if (type(срок_монотонный) is not float
+            or not math.isfinite(срок_монотонный) or срок_монотонный <= 0):
+            raise ОшибкаОтчёта("нужен конечный положительный срок блокировки")
+        _остаток_срока_блокировки(срок_монотонный, 'межпроцессной блокировки')
     ключ = хэш_содержимого(f"{корень}\0{сессия}".encode("utf-8"))
     путь = Path(tempfile.gettempdir()) / f"fum-check-runs-{ключ}.lock"
     флаги = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC
@@ -353,9 +392,11 @@ def межпроцессная_блокировка(корень: Path, сесс
                 raise ОшибкаОтчёта("заменён существующий файл межпроцессной блокировки")
 
         сверить()
-        fcntl.flock(дескриптор, fcntl.LOCK_EX)
+        _взять_файловый_замок(дескриптор, срок_монотонный)
         взят = True
         сверить()
+        if срок_монотонный is not None:
+            _остаток_срока_блокировки(срок_монотонный, 'межпроцессной блокировки')
         yield
         сверить()
     except BaseException as ошибка:
@@ -2922,7 +2963,16 @@ def выполнить_предпросмотр(корень_репозитор�
         запрос,
     )
     _запретить_историю_с_неизвестным_git_профилем(прочитать_историю_проверок(каталог, сессия))
-    with межпроцессная_блокировка(корень, сессия):
+    try:
+        сейчас = time.monotonic()
+        if type(сейчас) not in (int, float) or not math.isfinite(сейчас):
+            raise ValueError('недостоверные часы')
+        срок = сейчас + 5.0
+        if not math.isfinite(срок) or срок <= сейчас:
+            raise ValueError('непредставимый срок')
+    except (OSError, OverflowError, TypeError, ValueError) as причина:
+        raise ОшибкаОтчёта('не удалось определить срок замка предпросмотра') from причина
+    with межпроцессная_блокировка(корень, сессия, срок_монотонный=срок):
         запретить_действие_при_возобновлении(каталог, "предпросмотр")
         if (каталог / ИМЯ_СНИМКА).exists():
             raise ОшибкаОтчёта("закрытый отчёт нельзя обновить предпросмотром")
