@@ -1,2 +1,5 @@
 [skills]
 include_instructions = false
+
+[agents]
+max_concurrent_threads_per_session = 16
