@@ -41,3 +41,7 @@
 > Algoritmicheskij variant — eto ne pro etap razrabotki FUMA, a pro etap zhiznennogo cikla lyubogo operatora FUMA. Blagodarya universaljnyim LLM operatoram myi fakticheski srazu imeyem lyuboj operator, a algoritmicheskij operatoryi — eto uzhe kak etap optimizacii chasto trebuyusjhejsya rabotyi.
 
 > Takim obrazom fuma dazhe bez specialjnogo tekhnicheskogo kontrolya so storonyi cheloveka budet rabotatj s yego zadachami vsyo byistreye i byistreye.
+
+## Рабочая трактовка повторов
+
+Управляющий и Наблюдатель предлагают согласовать два положения так: логический процесс повторяет генерацию до успешной проверки типов без общего конечного предела попыток; отдельный физический запуск соблюдает применимый ресурсный контракт. Прерывание оставляет задачу незавершённой, а продолжение без технического вмешательства человека является целевым поведением при появлении допустимого ресурса и сохранении полномочий. Это не подтверждённый runtime и не разрешение автоматически пополнять бюджет или сбрасывать общий лимит. Механизмы предоставления следующего запуска, учёта суммарных расходов и возобновляемых состояний ещё предстоит определить.
