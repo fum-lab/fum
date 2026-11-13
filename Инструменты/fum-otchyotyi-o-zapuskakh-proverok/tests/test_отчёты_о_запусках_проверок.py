@@ -19,6 +19,87 @@ from pathlib import Path
 from unittest import mock
 
 
+class ПроверкаСинхронизацииКаталога(unittest.TestCase):
+    def setUp(сам):
+        сам.модуль = загрузить_модуль_автоматизации()
+
+    def test_прерывание_синхронизации_не_скрывается_отказом_закрытия(сам):
+        прерывание = KeyboardInterrupt('остановить')
+        закрытие = OSError('отказ закрытия')
+        with mock.patch.object(сам.модуль.os, 'open', return_value=123), \
+             mock.patch.object(сам.модуль.os, 'fsync', side_effect=прерывание) as синхронизация, \
+             mock.patch.object(сам.модуль.os, 'close', side_effect=закрытие) as закрыть:
+            with сам.assertRaises(KeyboardInterrupt) as исход:
+                сам.модуль.синхронизировать_каталог(Path('/fixture'))
+        сам.assertIs(исход.exception, прерывание)
+        сам.assertIs(исход.exception.__cause__, закрытие)
+        синхронизация.assert_called_once_with(123)
+        закрыть.assert_called_once_with(123)
+
+    def test_сигнал_обёртки_не_скрывается_отказом_закрытия(сам):
+        import signal
+        прерывание = сам.модуль.ПрерываниеОбёртки(signal.SIGTERM)
+        закрытие = OSError('отказ закрытия')
+        with mock.patch.object(сам.модуль.os, 'open', return_value=123), \
+             mock.patch.object(сам.модуль.os, 'fsync', side_effect=прерывание), \
+             mock.patch.object(сам.модуль.os, 'close', side_effect=закрытие) as закрыть:
+            with сам.assertRaises(сам.модуль.ПрерываниеОбёртки) as исход:
+                сам.модуль.синхронизировать_каталог(Path('/fixture'))
+        сам.assertIs(исход.exception, прерывание)
+        сам.assertIs(исход.exception.__cause__, закрытие)
+        закрыть.assert_called_once_with(123)
+
+    def test_прерывание_закрытия_не_скрывается_отказом_синхронизации(сам):
+        запись = OSError('отказ синхронизации')
+        прерывание = KeyboardInterrupt('остановить')
+        with mock.patch.object(сам.модуль.os, 'open', return_value=123), \
+             mock.patch.object(сам.модуль.os, 'fsync', side_effect=запись) as синхронизация, \
+             mock.patch.object(сам.модуль.os, 'close', side_effect=прерывание) as закрыть:
+            with сам.assertRaises(KeyboardInterrupt) as исход:
+                сам.модуль.синхронизировать_каталог(Path('/fixture'))
+        сам.assertIs(исход.exception, прерывание)
+        сам.assertIs(исход.exception.__cause__, запись)
+        синхронизация.assert_called_once_with(123)
+        закрыть.assert_called_once_with(123)
+
+    def test_двойной_обычный_отказ_сохраняет_обе_причины(сам):
+        запись = OSError('отказ синхронизации')
+        закрытие = OSError('отказ закрытия')
+        with mock.patch.object(сам.модуль.os, 'open', return_value=123), \
+             mock.patch.object(сам.модуль.os, 'fsync', side_effect=запись) as синхронизация, \
+             mock.patch.object(сам.модуль.os, 'close', side_effect=закрытие) as закрыть:
+            with сам.assertRaises(OSError) as исход:
+                сам.модуль.синхронизировать_каталог(Path('/fixture'))
+        сам.assertIs(исход.exception, закрытие)
+        сам.assertIs(исход.exception.__cause__, запись)
+        синхронизация.assert_called_once_with(123)
+        закрыть.assert_called_once_with(123)
+
+    def test_успешная_синхронизация_закрывает_один_раз(сам):
+        with mock.patch.object(сам.модуль.os, 'open', return_value=123) as открыть, \
+             mock.patch.object(сам.модуль.os, 'fsync') as синхронизация, \
+             mock.patch.object(сам.модуль.os, 'close') as закрыть:
+            сам.модуль.синхронизировать_каталог(Path('/fixture'))
+        открыть.assert_called_once_with(Path('/fixture'), os.O_RDONLY)
+        синхронизация.assert_called_once_with(123)
+        закрыть.assert_called_once_with(123)
+
+    def test_одиночный_отказ_синхронизации_сохраняется(сам):
+        запись = OSError('отказ синхронизации')
+        with mock.patch.object(сам.модуль.os, 'open', return_value=123), \
+             mock.patch.object(сам.модуль.os, 'fsync', side_effect=запись) as синхронизация, \
+             mock.patch.object(сам.модуль.os, 'close') as закрыть:
+            with сам.assertRaises(OSError) as исход:
+                сам.модуль.синхронизировать_каталог(Path('/fixture'))
+        сам.assertIs(исход.exception, запись)
+        синхронизация.assert_called_once_with(123)
+        закрыть.assert_called_once_with(123)
+
+    def test_реальный_временный_каталог(сам):
+        with tempfile.TemporaryDirectory(prefix='fum-directory-sync-', dir='/private/tmp') as каталог:
+            сам.модуль.синхронизировать_каталог(Path(каталог))
+
+
 class ПроверкаПравПриПредпросмотре(unittest.TestCase):
 
     def setUp(сам):

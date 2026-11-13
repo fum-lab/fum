@@ -421,10 +421,21 @@ def межпроцессная_блокировка(
 
 def синхронизировать_каталог(каталог: Path) -> None:
     дескриптор = os.open(каталог, os.O_RDONLY)
+    ошибка_синхронизации = None
     try:
         os.fsync(дескриптор)
+    except BaseException as ошибка:
+        ошибка_синхронизации = ошибка
+        raise
     finally:
-        os.close(дескриптор)
+        try:
+            os.close(дескриптор)
+        except BaseException as ошибка_закрытия:
+            if ошибка_синхронизации is None or ошибка_синхронизации is ошибка_закрытия:
+                raise
+            if not isinstance(ошибка_синхронизации, Exception):
+                raise ошибка_синхронизации from ошибка_закрытия
+            raise ошибка_закрытия from ошибка_синхронизации
 
 
 def атомарно_записать_байты(путь: Path, байты: bytes) -> None:
