@@ -2061,3 +2061,5 @@ Planning передал суточную сводку за [2026-11-12 20:56:52,
 Zatem sdelayem universaljnyij operator lenivogo prodolzheniya posledovateljnosti na baze LLM.&#x20;
 
 Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otkaza budet zapuskatjsya sleduyusjhaya iteraciya generacii vplotj do uspeka proverki tipov.»
+
+Прямое указание человека дословно: «V processe rabotyi FUMA budet byistro poluchatj rabotayusjhij prototip, i toljko v sluchaye celesoobraznosti pisatj algoritmicheskuyu realizaciyu operatora bez LLM.» Сначала предполагается действующий LLM-прототип оператора, алгоритмическая реализация без LLM — только при целесообразности; это план, не реализованная функция.
