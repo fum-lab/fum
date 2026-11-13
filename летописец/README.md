@@ -2053,3 +2053,11 @@ Planning передал суточную сводку за [2026-11-12 20:56:52,
 Программист установил, что прежний базовый предпросмотр тоже может терять права и метаданные при атомарной замене: риск унаследованный. Управляющий воспроизвёл на синтетическом Git выполнение локального clean-фильтра функцией `git_dirty_paths` через `git status` при изменении файла прежнего размера, несмотря на ограниченную среду. Создан отдельный кодовый кандидат трёх исправлений без нового участка предпросмотра; на его точных байтах прошли 11+19 адресных тестов, независимый обзор продолжается, в основную ветку кандидат не доставлен.
 
 Направляющий указал (первая часть дословно в переданном транслите): «Posle zaversheniya minimaljnogo yadra FUMA, chtobyi v itoge vsyo eto yadro byilo napisano na FUMA bez Swift-literala, v plan sleduyusjhim shagom postavim realizaciyu universaljnyij operator translyacii odnoj posledovateljnosti v druguyu posledovateljnostj na baze LLM.» По смыслу последующего сообщения: затем создать универсальный оператор ленивого продолжения последовательности на базе LLM; корректность проверять универсальной проверкой типов и при отказе повторять генерацию до успеха проверки. Порядок: минимальное ядро FUMA без Swift-литерала, трансляция, ленивое продолжение и повтор по отказу проверки типов. Это план, не реализация. Ранее человек отдельно требовал приблизительную оценку стоимости следующего элемента; её формат и доступность остаются открыты.
+
+Управляющий передал уточнение: точный оригинал предыдущего сообщения человека целиком:
+
+«Posle zaversheniya minimaljnogo yadra FUMA, chtobyi v itoge vsyo eto yadro byilo napisano na FUMA bez Swift-literala, v plan sleduyusjhim shagom postavim realizaciyu universaljnyij operator translyacii odnoj posledovateljnosti v druguyu posledovateljnostj na baze LLM.&#x20;
+
+Zatem sdelayem universaljnyij operator lenivogo prodolzheniya posledovateljnosti na baze LLM.&#x20;
+
+Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otkaza budet zapuskatjsya sleduyusjhaya iteraciya generacii vplotj do uspeka proverki tipov.»
