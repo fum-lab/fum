@@ -287,6 +287,184 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
                     with сам.assertRaises(модуль.ОшибкаОтчёта):
                         модуль.прочитать_машинную_запись(путь)
 
+    def test_предел_машинной_записи_до_чтения(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            данные = b'{"a":1}'
+            путь.write_bytes(данные)
+            сам.assertEqual(модуль.прочитать_машинную_запись(путь, предел=len(данные)),
+                            ({'a': 1}, данные))
+            with mock.patch.object(модуль.os, 'read', side_effect=AssertionError('чтение')):
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    модуль.прочитать_машинную_запись(путь, предел=len(данные) - 1)
+            for предел in (-1, True, 16 * 1024 * 1024 + 1):
+                with сам.subTest(предел=предел), mock.patch.object(
+                        модуль.os, 'open', side_effect=AssertionError('открытие')):
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        модуль.прочитать_машинную_запись(путь, предел=предел)
+
+    def test_ошибки_json_и_close_сохраняются_без_повтора(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            путь.write_bytes(b'{')
+            настоящий_close = os.close
+            вызовы = []
+            def закрыть_с_неизвестным_исходом(fd):
+                вызовы.append(fd)
+                настоящий_close(fd)
+                raise OSError('модельный UNKNOWN после close')
+            with mock.patch.object(модуль.os, 'close', side_effect=закрыть_с_неизвестным_исходом):
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'неизвестен исход закрытия') as отказ:
+                    модуль.прочитать_машинную_запись(путь)
+            сам.assertEqual(len(вызовы), 1)
+            ошибки = отказ.exception.__cause__
+            сам.assertIsInstance(ошибки, ExceptionGroup)
+            сам.assertEqual(len(ошибки.exceptions), 2)
+            сам.assertIsInstance(ошибки.exceptions[0], модуль.ОшибкаОтчёта)
+            сам.assertIsInstance(ошибки.exceptions[1], OSError)
+
+    def test_ошибка_close_после_успешного_json_не_выглядит_успехом(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            путь.write_bytes(b'{}')
+            настоящий_close = os.close
+            вызовы = []
+            def закрыть_с_неизвестным_исходом(fd):
+                вызовы.append(fd)
+                настоящий_close(fd)
+                raise OSError('модельный UNKNOWN после close')
+            with mock.patch.object(модуль.os, 'close', side_effect=закрыть_с_неизвестным_исходом):
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'неизвестен исход закрытия') as отказ:
+                    модуль.прочитать_машинную_запись(путь)
+            сам.assertEqual(len(вызовы), 1)
+            сам.assertIsInstance(отказ.exception.__cause__, ExceptionGroup)
+            сам.assertIsInstance(отказ.exception.__cause__.exceptions[0], OSError)
+
+    def test_короткие_чтения_собирают_полную_запись(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            данные = b'{"name":"value"}\n'
+            путь.write_bytes(данные)
+            настоящий_read = os.read
+            размеры = []
+            def прочитать(fd, размер):
+                размеры.append(размер)
+                return настоящий_read(fd, min(2, размер))
+            with mock.patch.object(модуль.os, 'read', side_effect=прочитать):
+                сам.assertEqual(модуль.прочитать_машинную_запись(путь), ({'name': 'value'}, данные))
+            сам.assertGreater(len(размеры), 2)
+
+    def test_ошибка_read_закрывает_открытый_fd(сам):
+        import errno
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            путь.write_bytes(b'{}')
+            настоящий_open = os.open
+            открытые = []
+            def открыть(*args, **kwargs):
+                fd = настоящий_open(*args, **kwargs)
+                открытые.append(fd)
+                return fd
+            with mock.patch.object(модуль.os, 'open', side_effect=открыть), \
+                 mock.patch.object(модуль.os, 'read', side_effect=OSError('модельный отказ')):
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    модуль.прочитать_машинную_запись(путь)
+            сам.assertEqual(len(открытые), 1)
+            with сам.assertRaises(OSError) as ошибка:
+                os.fstat(открытые[0])
+            сам.assertEqual(ошибка.exception.errno, errno.EBADF)
+
+    def test_чтение_машинной_записи_отклоняет_подмену_перед_open(сам):
+        модуль = загрузить_модуль_автоматизации()
+        for вариант in ('fifo', 'symlink'):
+            with сам.subTest(вариант=вариант), tempfile.TemporaryDirectory(dir='/tmp') as каталог:
+                путь = Path(каталог) / 'запись.json'
+                путь.write_bytes(b'{"a":1}\n')
+                исходный_open = os.open
+                попытки = []
+                def открыть(адрес, флаги, *аргументы, **ключи):
+                    if Path(адрес) == путь and not попытки:
+                        попытки.append(True)
+                        сам.assertTrue(флаги & os.O_NONBLOCK)
+                        сам.assertTrue(флаги & os.O_NOFOLLOW)
+                        путь.rename(Path(каталог) / 'old.json')
+                        if вариант == 'fifo':
+                            os.mkfifo(путь, 0o600)
+                        else:
+                            путь.symlink_to('old.json')
+                    return исходный_open(адрес, флаги, *аргументы, **ключи)
+                with mock.patch.object(модуль.os, 'open', side_effect=открыть):
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        модуль.прочитать_машинную_запись(путь)
+                сам.assertEqual(попытки, [True])
+                сам.assertEqual((Path(каталог) / 'old.json').read_bytes(), b'{"a":1}\n')
+
+    def test_замена_машинной_записи_при_чтении_не_возвращает_данные(сам):
+        import errno
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            исходные = b'{"a":1}\n'
+            путь.write_bytes(исходные)
+            штатный_open, штатный_read = os.open, os.read
+            открытые, изменено = [], []
+            def открыть(адрес, флаги, *аргументы, **ключи):
+                fd = штатный_open(адрес, флаги, *аргументы, **ключи)
+                if Path(адрес) == путь:
+                    открытые.append(fd)
+                return fd
+            def читать(fd, размер):
+                часть = штатный_read(fd, размер)
+                if открытые and fd == открытые[0] and часть and not изменено:
+                    изменено.append(True)
+                    путь.rename(Path(каталог) / 'old.json')
+                    путь.write_bytes(b'{"a":2}\n')
+                return часть
+            with mock.patch.object(модуль.os, 'open', side_effect=открыть), \
+                 mock.patch.object(модуль.os, 'read', side_effect=читать):
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'изменилась'):
+                    модуль.прочитать_машинную_запись(путь)
+            сам.assertEqual(изменено, [True])
+            сам.assertEqual(len(открытые), 1)
+            with сам.assertRaises(OSError) as закрыт:
+                os.fstat(открытые[0])
+            сам.assertEqual(закрыт.exception.errno, errno.EBADF)
+            сам.assertEqual((Path(каталог) / 'old.json').read_bytes(), исходные)
+            сам.assertEqual(путь.read_bytes(), b'{"a":2}\n')
+
+    def test_рост_или_усечение_машинной_записи_отклоняется(сам):
+        модуль = загрузить_модуль_автоматизации()
+        for вариант in ('рост', 'усечение'):
+            with сам.subTest(вариант=вариант), tempfile.TemporaryDirectory(dir='/tmp') as каталог:
+                путь = Path(каталог) / 'запись.json'
+                исходные = b'{"a":1}\n'
+                путь.write_bytes(исходные)
+                штатный_read = os.read
+                изменено = []
+                def читать(fd, размер):
+                    часть = штатный_read(fd, размер)
+                    if часть and not изменено:
+                        изменено.append(True)
+                        путь.write_bytes(исходные + b' ' if вариант == 'рост' else b'')
+                    return часть
+                with mock.patch.object(модуль.os, 'read', side_effect=читать):
+                    with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'изменилась'):
+                        модуль.прочитать_машинную_запись(путь)
+                сам.assertEqual(изменено, [True])
+
+    def test_машинная_запись_сохраняет_точные_байты(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/tmp') as каталог:
+            путь = Path(каталог) / 'запись.json'
+            данные = b'{ "a": 1 }\n'
+            путь.write_bytes(данные)
+            сам.assertEqual(модуль.прочитать_машинную_запись(путь), ({'a': 1}, данные))
+
 
 def путь_проверяемой_реализации(путь: Path) -> Path:
     выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")

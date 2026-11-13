@@ -466,14 +466,67 @@ def атомарно_записать_текст(путь: Path, текст: str
     атомарно_записать_байты(путь, текст.encode("utf-8"))
 
 
-def прочитать_машинную_запись(путь: Path) -> tuple[object, bytes]:
-    проверить_обычный_путь(путь, "машинная запись")
+def прочитать_машинную_запись(путь: Path, *, предел: int | None = None) -> tuple[object, bytes]:
+    """Прочитать конечный компонент без перехода по ссылке или ожидания FIFO."""
+    if предел is not None and (type(предел) is not int or not 0 <= предел <= 16 * 1024 * 1024):
+        raise ОшибкаОтчёта('неверный предел машинной записи')
+    дескрипторы: list[int] = []
+    первичная: BaseException | None = None
+    def метка(сведения):
+        return (сведения.st_dev, сведения.st_ino, сведения.st_mode, сведения.st_uid,
+                сведения.st_gid, сведения.st_nlink, сведения.st_size,
+                сведения.st_mtime_ns, сведения.st_ctime_ns)
+    def читать(fd: int, размер: int) -> bytes:
+        части = bytearray()
+        while len(части) < размер:
+            try:
+                часть = os.read(fd, min(1024 * 1024, размер - len(части)))
+            except InterruptedError:
+                continue
+            if not часть:
+                raise ОшибкаОтчёта("машинная запись изменилась во время чтения")
+            части.extend(часть)
+        while True:
+            try:
+                лишнее = os.read(fd, 1)
+                break
+            except InterruptedError:
+                continue
+        if лишнее:
+            raise ОшибкаОтчёта("машинная запись изменилась во время чтения")
+        return bytes(части)
     try:
-        байты = путь.read_bytes()
-        значение = _разобрать_машинный_json(байты.decode("utf-8"))
-    except (OSError, UnicodeError, ValueError, RecursionError) as ошибка:
-        raise ОшибкаОтчёта(f"не удалось прочитать JSON {путь}: {ошибка}") from ошибка
-    return значение, байты
+        try:
+            исходное = путь.lstat()
+            if not stat.S_ISREG(исходное.st_mode):
+                raise ОшибкаОтчёта(f"машинная запись должна быть обычным файлом: {путь}")
+            fd = _приобрести_fd(дескрипторы, os.open, путь,
+                                os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+            открытое = os.fstat(fd)
+            if not stat.S_ISREG(открытое.st_mode) or метка(открытое) != метка(исходное):
+                raise ОшибкаОтчёта("машинная запись заменена до чтения")
+            if предел is not None and открытое.st_size > предел:
+                raise ОшибкаОтчёта('превышен предел машинной записи')
+            байты = читать(fd, открытое.st_size)
+            if метка(os.fstat(fd)) != метка(открытое) or метка(путь.lstat()) != метка(открытое):
+                raise ОшибкаОтчёта("машинная запись изменилась во время чтения")
+            текст = байты.decode("utf-8")
+            try:
+                значение = _разобрать_машинный_json(текст)
+            except (ValueError, RecursionError) as ошибка:
+                raise ОшибкаОтчёта(f"не удалось прочитать JSON {путь}: {ошибка}") from ошибка
+        except (OSError, UnicodeError) as ошибка:
+            raise ОшибкаОтчёта(f"не удалось прочитать JSON {путь}: {ошибка}") from ошибка
+        return значение, байты
+    except BaseException as ошибка:
+        первичная = ошибка
+        raise
+    finally:
+        try:
+            _закрыть_удержанные_fd(дескрипторы, первичная, 'машинной записи',
+                                   _сохранять_ошибки=True)
+        except ExceptionGroup as ошибки_закрытия:
+            raise ОшибкаОтчёта('неизвестен исход закрытия машинной записи') from ошибки_закрытия
 
 
 def проверить_строку(
