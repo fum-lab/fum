@@ -2073,3 +2073,5 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 «Takim obrazom fuma dazhe bez specialjnogo tekhnicheskogo kontrolya so storonyi cheloveka budet rabotatj s yego zadachami vsyo byistreye i byistreye.»
 
 Это целевая автономная работа над задачами человека и ускорение часто повторяемой работы; соответствующий runtime и устойчивое ускорение ещё не подтверждены.
+
+По сообщению программиста FUM, при исследовании маршрута Журнала он адресно открыл SKILL.md отчётной системы в W2, хотя файл вне его текущего checkout и исключён для него по FUM-ПРАВИЛО-000048. Он сообщил, что файлы не менял, содержимое не использует и получил требование не повторять. Пользователь уведомлён; иные последствия не исключены без доказательства.
