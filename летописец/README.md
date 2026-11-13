@@ -2029,3 +2029,5 @@ Planning передал суточную сводку за [2026-11-12 20:56:52,
 Обсуждаемый patch сохранения прав отклонён на обзоре из-за опасности временного доступа другой группе; готовится более узкое исправление.
 
 Направляющий указал дословно: «Nam yesjhyo pokhozhe nuzhna v FUMA vozmozhnostj vyirazhatj beskonechnyiye lenivyiye avtoprodolzhayemyiye spiski — printcip LLM, no obobsjhyonnyij na lyubyiye tipyi.» По текущему фокусу на обёртке предметная реализация не начата.
+
+Уточнение Направляющего к предыдущему указанию о ленивых последовательностях дословно: «I kak raz nuzhno budet obespechitj primernoye predskazaniye stoimsoti vyichisleniya sleduyusjhego elementa.» Формат, точность и доступность оценки предстоит определить; оценка может быть неизвестна.
