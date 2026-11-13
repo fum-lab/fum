@@ -196,6 +196,104 @@ class ПроверкаПравПриПредпросмотре(unittest.TestCase
                 self.assertEqual(self.отчёт.read_bytes(), self.новый)
                 self.assertEqual(наблюдения, [(0o600, self.новый, self.старый)])
 
+    def test_специальные_биты_не_допускают_замену_отчёта(сам):
+        import stat
+
+        os.chown(сам.отчёт.parent, -1, os.getgid())
+        os.chown(сам.отчёт, -1, os.getgid())
+        for режим in (0o4644, 0o2644, 0o1644):
+            октальный = oct(режим)
+            with сам.subTest(режим=октальный):
+                сам.отчёт.write_bytes(сам.старый)
+                сам.отчёт.chmod(режим)
+                до = сам.отчёт.stat()
+                сам.assertEqual(stat.S_IMODE(до.st_mode), режим)
+                проверка = mock.Mock()
+                with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+                     mock.patch.object(сам.модуль.os, 'open', wraps=os.open) as открыть, \
+                     mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+                    with сам.assertRaisesRegex(сам.модуль.ОшибкаОтчёта, 'специальными битами'):
+                        сам.модуль.заменить_управляемый_блок(
+                            сам.отчёт, сам.блок, перед_публикацией=проверка,
+                            _сохранить_права=True)
+                    заменить.assert_not_called()
+                    сам.assertNotIn(сам.временный, [вызов.args[0] for вызов in открыть.call_args_list])
+
+                проверка.assert_not_called()
+                сам.assertFalse(сам.временный.exists())
+                после = сам.отчёт.stat()
+                сам.assertEqual((после.st_dev, после.st_ino, stat.S_IMODE(после.st_mode),
+                                 после.st_uid, после.st_gid),
+                                (до.st_dev, до.st_ino, режим, до.st_uid, до.st_gid), октальный)
+                сам.assertEqual(сам.отчёт.read_bytes(), сам.старый)
+
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'нужны ACL и xattr macOS')
+    def test_отказ_сохраняет_ограничивающий_acl_и_xattr(сам):
+        import stat
+
+        сам.отчёт.chmod(0o4755)
+        сам.assertTrue(os.access(сам.отчёт, os.X_OK))
+        окружение = {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'}
+        subprocess.run(
+            ['/bin/chmod', '+a', 'everyone deny execute', str(сам.отчёт)],
+            env=окружение, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, check=True, timeout=5)
+        subprocess.run(
+            ['/usr/bin/xattr', '-w', 'com.fum.synthetic', 'marker', str(сам.отчёт)],
+            env=окружение, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, check=True, timeout=5)
+        до = сам.отчёт.stat()
+        сам.assertEqual(stat.S_IMODE(до.st_mode), 0o4755)
+        сам.assertFalse(os.access(сам.отчёт, os.X_OK))
+        def прочитать_acl():
+            результат = subprocess.run(
+                ['/bin/ls', '-le', str(сам.отчёт)], env=окружение,
+                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, check=True, timeout=5)
+            return результат.stdout.splitlines()[1:]
+        до_acl = прочитать_acl()
+        сам.assertTrue(до_acl)
+        with mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaisesRegex(сам.модуль.ОшибкаОтчёта, 'специальными битами'):
+                сам.модуль.заменить_управляемый_блок(
+                    сам.отчёт, сам.блок, _сохранить_права=True)
+            заменить.assert_not_called()
+        после = сам.отчёт.stat()
+        сам.assertEqual((после.st_dev, после.st_ino, stat.S_IMODE(после.st_mode)),
+                        (до.st_dev, до.st_ino, 0o4755))
+        сам.assertFalse(os.access(сам.отчёт, os.X_OK))
+        сам.assertEqual(прочитать_acl(), до_acl)
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.старый)
+        атрибут = subprocess.run(
+            ['/usr/bin/xattr', '-p', 'com.fum.synthetic', str(сам.отчёт)],
+            env=окружение, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, check=True, timeout=5)
+        сам.assertEqual(атрибут.stdout.strip(), b'marker')
+
+
+    def test_потеря_бита_доступа_после_замены_не_считается_успехом(сам):
+        сам.отчёт.chmod(0o755)
+        штатный_fchmod = os.fchmod
+
+        def без_исполнения(fd, режим):
+            штатный_fchmod(fd, режим & ~0o111)
+
+        with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+             mock.patch.object(сам.модуль.os, 'fchmod', side_effect=без_исполнения) as chmod, \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaisesRegex(сам.модуль.ОшибкаОтчёта,
+                                       'исход публикации отчёта не подтверждён'):
+                сам.модуль.заменить_управляемый_блок(
+                    сам.отчёт, сам.блок, _сохранить_права=True)
+            заменить.assert_called_once()
+            chmod.assert_called_once()
+            сам.assertEqual(chmod.call_args.args[1], 0o755)
+
+        сам.assertEqual(сам.отчёт.stat().st_mode & 0o7777, 0o644)
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+
     def test_временный_отчёт_не_раскрывает_данные_группе_до_замены(сам):
         import stat
 
