@@ -2027,3 +2027,5 @@ Writer использовал direct Popen, bounded EOF/статус, пофаз
 Planning передал суточную сводку за [2026-11-12 20:56:52, 2026-11-13 20:56:52) Europe/Saratov: по его данным, локальный tracking основной ветки достиг merge `65ad6fd…` в 16:20:06, tracking `codex/uchyot-i-trebovaniya` — `dff2c5e…`. Управляющий самостоятельно эти сведения не сверял, свежий сетевой readback не заявляется; общий runtime UNKNOWN, суточный отчёт пока им не принят.
 
 Обсуждаемый patch сохранения прав отклонён на обзоре из-за опасности временного доступа другой группе; готовится более узкое исправление.
+
+Направляющий указал дословно: «Nam yesjhyo pokhozhe nuzhna v FUMA vozmozhnostj vyirazhatj beskonechnyiye lenivyiye avtoprodolzhayemyiye spiski — printcip LLM, no obobsjhyonnyij na lyubyiye tipyi.» По текущему фокусу на обёртке предметная реализация не начата.
