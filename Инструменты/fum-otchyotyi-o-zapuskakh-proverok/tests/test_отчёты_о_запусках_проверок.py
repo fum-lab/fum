@@ -4598,3 +4598,81 @@ print('UNKNOWN')
             сам.м.выполнить_предпросмотр(сам.корень, запрос)
         сам.assertEqual(отчёт.read_bytes(), до)
         сам.assertEqual(цель.read_bytes(), b'unchanged')
+
+
+class ПроверкаОграниченнойСреды(unittest.TestCase):
+    def test_дочерняя_среда_не_читает_унаследованную_и_различает_проекцию(сам):
+        модуль = загрузить_модуль_автоматизации()
+        идентификатор = "00000000-0000-4000-8000-000000000001"
+        наблюдения = Path("/tmp/наблюдения.json")
+        запретная_среда = object()
+        базовая = {"PATH": os.defpath, "GIT_OPTIONAL_LOCKS": "0", "GIT_NO_LAZY_FETCH": "1",
+                   "GIT_NO_REPLACE_OBJECTS": "1", "LC_ALL": "C"}
+        with mock.patch.object(модуль.os, "environ", запретная_среда):
+            обычная = модуль.подготовить_ограниченную_среду_проверки(
+                идентификатор, наблюдения, неполная_проекция=False)
+            без_наблюдений = модуль.подготовить_ограниченную_среду_проверки(
+                идентификатор, None, неполная_проекция=False)
+            проекция = модуль.подготовить_ограниченную_среду_проверки(
+                идентификатор, None, неполная_проекция=True)
+        сам.assertEqual(обычная, базовая | {"FUM_CHECK_RUN_ID": идентификатор,
+                                           "FUM_CHECK_RUN_OBSERVATIONS_PATH": str(наблюдения)})
+        сам.assertEqual(без_наблюдений, базовая | {"FUM_CHECK_RUN_ID": идентификатор})
+        сам.assertEqual(проекция, базовая)
+
+    def test_изолированный_git_не_читает_внешнюю_конфигурацию(сам):
+        модуль = загрузить_модуль_автоматизации()
+        идентификатор = '00000000-0000-4000-8000-000000000001'
+        with mock.patch.object(модуль.os, 'environ', object()):
+            изолированная = модуль.подготовить_ограниченную_среду_проверки(
+                идентификатор, None, неполная_проекция=False, изолировать_git=True)
+            изолированная_проекция = модуль.подготовить_ограниченную_среду_проверки(
+                идентификатор, None, неполная_проекция=True, изолировать_git=True)
+        with сам.assertRaises(модуль.ОшибкаОтчёта):
+            модуль.подготовить_ограниченную_среду_проверки(
+                идентификатор, None, неполная_проекция=False, изолировать_git=1)
+        сам.assertEqual(изолированная_проекция, {
+            'PATH': os.defpath, 'LC_ALL': 'C', 'GIT_OPTIONAL_LOCKS': '0',
+            'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+            'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+            'GIT_ATTR_NOSYSTEM': '1',
+        })
+        сам.assertEqual(изолированная, изолированная_проекция | {'FUM_CHECK_RUN_ID': идентификатор})
+        with tempfile.TemporaryDirectory(dir='/tmp') as временный:
+            корень = Path(временный).resolve()
+            личный_каталог = корень / 'fixture-home'
+            личный_каталог.mkdir()
+            (личный_каталог / '.gitconfig').write_text(
+                '[fumfixture]\n\tmarker = fixture-global\n', encoding='utf-8')
+            системный = корень / 'fixture-system.gitconfig'
+            системный.write_text('[fumfixture]\n\tmarker = fixture-system\n', encoding='utf-8')
+            проверка = ['/usr/bin/git', '-C', str(корень), 'config', '--show-scope', '--get-all', 'fumfixture.marker']
+            среда = изолированная | {
+                'HOME': str(личный_каталог), 'GIT_CONFIG_SYSTEM': str(системный),
+                'GIT_CEILING_DIRECTORIES': str(корень.parent),
+            }
+            без_защиты = dict(среда)
+            for ключ in ('GIT_CONFIG_NOSYSTEM', 'GIT_CONFIG_GLOBAL', 'GIT_ATTR_NOSYSTEM'):
+                без_защиты.pop(ключ)
+            открытая = subprocess.run(проверка, env=без_защиты, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5, check=False)
+            сам.assertEqual(открытая.returncode, 0, открытая.stderr)
+            сам.assertEqual(set(открытая.stdout.splitlines()),
+                {b'system\tfixture-system', b'global\tfixture-global'})
+            закрытая = subprocess.run(проверка, env=среда, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5, check=False)
+            сам.assertEqual(закрытая.returncode, 1, закрытая.stderr)
+            сам.assertEqual(закрытая.stdout, b'')
+
+    def test_среда_отказывает_при_неоднозначных_входах(сам):
+        модуль = загрузить_модуль_автоматизации()
+        идентификатор = "00000000-0000-4000-8000-000000000001"
+        for параметры in (("не-uuid", None, False),
+                          (идентификатор, Path("относительный.json"), False),
+                          (идентификатор, Path("/tmp/../наблюдения.json"), False),
+                          (идентификатор, Path("/tmp/данные\0.json"), False),
+                          (идентификатор, Path("/tmp/наблюдения.json"), True),
+                          (идентификатор, None, 1)):
+            with сам.subTest(параметры=параметры), сам.assertRaises(модуль.ОшибкаОтчёта):
+                модуль.подготовить_ограниченную_среду_проверки(
+                    параметры[0], параметры[1], неполная_проекция=параметры[2])
