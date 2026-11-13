@@ -187,15 +187,17 @@ class ПрерываниеОбёртки(BaseException):
 
 
 def канонические_машинные_байты(значение: object) -> bytes:
-    return (
-        json.dumps(
+    try:
+        текст = json.dumps(
             значение,
             ensure_ascii=False,
             indent=2,
             sort_keys=True,
+            allow_nan=False,
         )
-        + "\n"
-    ).encode("utf-8")
+    except ValueError as ошибка:
+        raise ОшибкаОтчёта("не удалось сериализовать машинную запись") from ошибка
+    return (текст + "\n").encode("utf-8")
 
 
 def хэш_содержимого(байты: bytes) -> str:
