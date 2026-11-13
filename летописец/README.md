@@ -2031,3 +2031,5 @@ Planning передал суточную сводку за [2026-11-12 20:56:52,
 Направляющий указал дословно: «Nam yesjhyo pokhozhe nuzhna v FUMA vozmozhnostj vyirazhatj beskonechnyiye lenivyiye avtoprodolzhayemyiye spiski — printcip LLM, no obobsjhyonnyij na lyubyiye tipyi.» По текущему фокусу на обёртке предметная реализация не начата.
 
 Уточнение Направляющего к предыдущему указанию о ленивых последовательностях дословно: «I kak raz nuzhno budet obespechitj primernoye predskazaniye stoimsoti vyichisleniya sleduyusjhego elementa.» Формат, точность и доступность оценки предстоит определить; оценка может быть неизвестна.
+
+После 14 адресных проверок и read-only обзора программиста Управляющий создал кодовый commit `a955408eb45591c1b755b377de5761d79e227b96` от `dff2c5e8a6551cc6026ad67d5021b5c158bf18aa`; точный ordinary nonforce push в `codex/uchyot-i-trebovaniya` exit 0, независимое чтение именно кодовой ветки совпало. Это исправление сохранения прав отчёта при предпросмотре, не открытие полной обёртки и пока не интеграция в основную ветку. Отдельный остаток — унаследованный двойной отказ fsync/close каталога.
