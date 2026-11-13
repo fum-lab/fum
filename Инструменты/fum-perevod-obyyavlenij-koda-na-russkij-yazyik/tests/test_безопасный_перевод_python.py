@@ -137,6 +137,104 @@ def work(env, name, path, errors):
         итог = сам.перевод(текст, {'sqrt': 'корень'})
         сам.assertIn('@sqrt\ndef f(корень=sqrt(4)):', итог)
 
+    def test_посторонний_декоратор_не_мешает_другому_параметру(сам):
+        for декоратор in ("@unittest.skip('причина')", "@unittest.skipUnless(True, 'причина')"):
+            текст = ('import unittest\nclass Проверка:\n    ' + декоратор
+                     + '\n    def тест(self):\n        self.assertEqual(1, 1)\n'
+                       'def own(value, /):\n    return value\nresult = own(1)\n')
+            ожидаемый = ('import unittest\nclass Проверка:\n    ' + декоратор
+                         + '\n    def тест(self):\n        self.assertEqual(1, 1)\n'
+                           'def own(значение, /):\n    return значение\nresult = own(1)\n')
+            with сам.subTest(декоратор=декоратор):
+                сам.assertEqual(сам.перевод(текст, {'value': 'значение'}), ожидаемый)
+
+    def test_посторонний_декоратор_при_новой_сигнатуре_по_прежнему_закрыт(сам):
+        текст = ('import unittest\nclass Проверка:\n    @unittest.skip("причина")\n'
+                 '    def тест(self): self.assertEqual(1, 1)\n'
+                 'def own(value): return value\nresult = own(value=1)\n')
+        with сам.assertRaises(ValueError):
+            сам.перевод(текст, {'value': 'значение'})
+
+    def test_неизвестный_декоратор_не_разрешает_затронутые_поля_и_вызовы(сам):
+        случаи = (
+            ('class Box:\n    @unknown\n    def run(self):\n        self.value = 1\n', 'value'),
+            ('class Box:\n    def run(self, value): return value\n'
+             '    @unknown\n    def call(self): return self.run(value=1)\n', 'value'),
+            ('class Box:\n    def run(self, value): return value\n'
+             '    @unknown\n    def call(self, data): return self.run(**data)\n', 'value'),
+            ('class Box:\n    @unknown\n    def run(self, value): return value\n'
+             '    def call(self): return self.run(value=1)\n', 'value'),
+        )
+        for текст, имя in случаи:
+            with сам.subTest(текст=текст), сам.assertRaises(ValueError):
+                сам.перевод(текст, {имя: 'значение'})
+
+    def test_обычный_свой_именованный_вызов_по_прежнему_переводится(сам):
+        текст = ('class Box:\n    def run(self, value): return value\n'
+                 '    def call(self): return self.run(value=1)\n')
+        итог = сам.перевод(текст, {'value': 'значение'})
+        сам.assertEqual(итог, ('class Box:\n    def run(self, значение): return значение\n'
+                               '    def call(self): return self.run(значение=1)\n'))
+
+    def test_неизвестный_декоратор_вложенного_конструктора_закрыт(сам):
+        текст = ('class Outer:\n    class Inner:\n        @unknown\n'
+                 '        def __init__(self, value): pass\n'
+                 '    def make(self): return self.Inner(1)\n')
+        with сам.assertRaises(ValueError):
+            сам.перевод(текст, {'value': 'значение'})
+
+    def test_обычный_вложенный_конструктор_по_прежнему_переводится(сам):
+        текст = ('class Outer:\n    class Inner:\n'
+                 '        def __init__(self, value): self.данные = value\n'
+                 '    def make(self): return self.Inner(1)\n')
+        итог = сам.перевод(текст, {'value': 'значение'})
+        сам.assertEqual(итог, ('class Outer:\n    class Inner:\n'
+                               '        def __init__(self, значение): self.данные = значение\n'
+                               '    def make(self): return self.Inner(1)\n'))
+
+    def test_лямбда_конструктора_под_неизвестным_декоратором_закрыта(сам):
+        текст = ('class Outer:\n    class Inner:\n'
+                 '        __init__ = lambda self, value: None\n'
+                 '    @unknown\n    def make(self): return self.Inner(1)\n')
+        with сам.assertRaises(ValueError):
+            сам.перевод(текст, {'value': 'значение'})
+
+    def test_псевдоним_вложенного_конструктора_под_декоратором_закрыт(сам):
+        текст = ('class Outer:\n    class Inner:\n'
+                 '        def __init__(self, value): pass\n'
+                 '    Alias = Inner\n    @unknown\n'
+                 '    def make(self): return self.Alias(1)\n')
+        with сам.assertRaises(ValueError):
+            сам.перевод(текст, {'value': 'значение'})
+
+    def test_повторный_вложенный_конструктор_под_декоратором_закрыт(сам):
+        текст = ('class Outer:\n    class Inner:\n'
+                 '        def __init__(self, value): pass\n'
+                 '        def __init__(self, value): pass\n'
+                 '    @unknown\n    def make(self): return self.Inner(1)\n')
+        with сам.assertRaises(ValueError):
+            сам.перевод(текст, {'value': 'значение'})
+
+    def test_выбранный_метод_под_неизвестным_декоратором_закрыт(сам):
+        текст = ('class Box:\n    def old(self): pass\n'
+                 '    @unknown\n    def call(self): return self.old()\n')
+        with сам.assertRaises(ValueError):
+            сам.перевод(текст, {'old': 'новое'})
+
+    def test_выбранный_собственный_метод_без_декоратора_переводится(сам):
+        текст = ('class Box:\n    def old(self): return 1\n'
+                 '    def call(self): return self.old()\n')
+        итог = сам.перевод(текст, {'old': 'новое'})
+        сам.assertEqual(итог, ('class Box:\n    def новое(self): return 1\n'
+                               '    def call(self): return self.новое()\n'))
+
+    def test_динамическая_среда_и_рефлексия_по_прежнему_закрыты(сам):
+        for текст in ('def old(): pass\nexec("pass")\n',
+                      'def old(): pass\ngetattr(объект, "old")\n',
+                      'def old(): pass\nsetattr(объект, "old", 1)\n'):
+            with сам.subTest(текст=текст), сам.assertRaises(ValueError):
+                сам.перевод(текст, {'old': 'новое'})
+
     def test_конструктор_и_параметр_инициализатора(сам):
         текст = 'class Box:\n    def __init__(self, value):\n        self.данные = value\nx = Box(value=2)\n'
         итог = сам.перевод(текст, {'value': 'значение'})
