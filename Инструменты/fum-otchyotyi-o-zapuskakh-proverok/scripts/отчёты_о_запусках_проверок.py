@@ -304,16 +304,79 @@ def разрешить_сессию(
 
 @contextlib.contextmanager
 def межпроцессная_блокировка(корень: Path, сессия: str) -> Iterator[None]:
+    """Удержать прежний файл замка и обнаружить его замену до допуска.
+
+    Требуется доверенный каталог и запрет удаления файла другими участниками:
+    проверки имени не защищают от замены после последней сверки или ABA.
+    """
     ключ = хэш_содержимого(f"{корень}\0{сессия}".encode("utf-8"))
     путь = Path(tempfile.gettempdir()) / f"fum-check-runs-{ключ}.lock"
-    дескриптор = os.open(путь, os.O_CREAT | os.O_RDWR, 0o600)
-    try:
-        fcntl.flock(дескриптор, fcntl.LOCK_EX)
-        yield
-    finally:
-        fcntl.flock(дескриптор, fcntl.LOCK_UN)
-        os.close(дескриптор)
+    флаги = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC
+    дескрипторы: list[int] = []
+    первичная: BaseException | None = None
+    взят = False
 
+    class УжеСуществует(Exception):
+        pass
+
+    def создать():
+        try:
+            return os.open(путь, флаги | os.O_CREAT | os.O_EXCL, 0o600)
+        except FileExistsError as ошибка:
+            raise УжеСуществует() from ошибка
+
+    def проверить_метку(метка):
+        if not (stat.S_ISREG(метка.st_mode) and метка.st_nlink == 1
+                and stat.S_IMODE(метка.st_mode) == 0o600
+                and метка.st_uid == os.getuid() == os.geteuid()):
+            raise ОшибкаОтчёта("небезопасный файл межпроцессной блокировки")
+
+    try:
+        try:
+            дескриптор = _приобрести_fd(дескрипторы, создать)
+            исходный = None
+        except УжеСуществует:
+            исходный = путь.lstat()
+            проверить_метку(исходный)
+            дескриптор = _приобрести_fd(дескрипторы, os.open, путь, флаги)
+
+        def сверить():
+            открытый, текущий = os.fstat(дескриптор), путь.lstat()
+            проверить_метку(открытый)
+            проверить_метку(текущий)
+            if not fcntl.fcntl(дескриптор, fcntl.F_GETFD) & fcntl.FD_CLOEXEC:
+                raise ОшибкаОтчёта("дескриптор замка наследуется")
+            if (открытый.st_dev, открытый.st_ino) != (текущий.st_dev, текущий.st_ino):
+                raise ОшибкаОтчёта("подменён файл межпроцессной блокировки")
+            if исходный is not None and (открытый.st_dev, открытый.st_ino) != (
+                    исходный.st_dev, исходный.st_ino):
+                raise ОшибкаОтчёта("заменён существующий файл межпроцессной блокировки")
+
+        сверить()
+        fcntl.flock(дескриптор, fcntl.LOCK_EX)
+        взят = True
+        сверить()
+        yield
+        сверить()
+    except BaseException as ошибка:
+        первичная = ошибка
+        raise
+    finally:
+        ошибка_разблокировки = None
+        try:
+            if взят:
+                fcntl.flock(дескриптор, fcntl.LOCK_UN)
+        except BaseException as ошибка:
+            ошибка_разблокировки = ошибка
+        итог = первичная
+        if ошибка_разблокировки is not None:
+            итог = (BaseExceptionGroup("ошибки блокировки и разблокировки",
+                                       [первичная, ошибка_разблокировки])
+                    if первичная is not None else ошибка_разблокировки)
+        _закрыть_удержанные_fd(дескрипторы, итог, "межпроцессной блокировки",
+                               _сохранять_ошибки=True)
+        if ошибка_разблокировки is not None:
+            raise итог from None
 
 def синхронизировать_каталог(каталог: Path) -> None:
     дескриптор = os.open(каталог, os.O_RDONLY)

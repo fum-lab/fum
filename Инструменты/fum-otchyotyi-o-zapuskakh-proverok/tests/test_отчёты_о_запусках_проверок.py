@@ -3932,3 +3932,261 @@ class ТестыГраницыИсторическогоПрофиля(unittest.
         сам.assertEqual(путь.read_bytes(), v3)
         сам.assertEqual(сам.отчёт.read_bytes(), до)
         сам.assertEqual(путь_снимка.read_bytes(), байты_снимка)
+
+class ПроверкаЗащитыПрежнегоЗамка(unittest.TestCase):
+    def setUp(сам):
+        сам.м = загрузить_модуль_автоматизации()
+        временный = tempfile.TemporaryDirectory(prefix='fum-lock-', dir='/private/tmp')
+        сам.addCleanup(временный.cleanup)
+        сам.каталог = Path(временный.name)
+        сам.корень = сам.каталог / 'repo'
+        сам.сессия = 'проверка/одна'
+        ключ = hashlib.sha256(f'{сам.корень}\0{сам.сессия}'.encode('utf-8')).hexdigest()
+        сам.путь = сам.каталог / f'fum-check-runs-{ключ}.lock'
+        патч = mock.patch.object(сам.м.tempfile, 'gettempdir', return_value=str(сам.каталог))
+        патч.start()
+        сам.addCleanup(патч.stop)
+
+    def замок(сам):
+        return сам.м.межпроцессная_блокировка(сам.корень, сам.сессия)
+
+    def создать(сам):
+        fd = os.open(сам.путь, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+        os.close(fd)
+        сам.путь.chmod(0o600)
+
+    def test_новый_и_существующий_файл_сохраняют_формат(сам):
+        with сам.замок():
+            сведения = сам.путь.stat()
+            сам.assertEqual(сведения.st_mode & 0o777, 0o600)
+            сам.assertEqual(сведения.st_nlink, 1)
+        with сам.замок():
+            сам.assertEqual(сам.путь.stat().st_ino, сведения.st_ino)
+
+    def test_опасные_существующие_файлы_отклоняются(сам):
+        import stat
+        цель = сам.каталог / 'цель'
+        цель.write_bytes('не менять'.encode('utf-8'))
+        случаи = ('ссылка', 'fifo', 'несколько_ссылок', 'права')
+        for вид in случаи:
+            with сам.subTest(вид=вид):
+                if os.path.lexists(сам.путь):
+                    сам.путь.unlink()
+                if вид == 'ссылка':
+                    сам.путь.symlink_to(цель)
+                elif вид == 'fifo':
+                    os.mkfifo(сам.путь, 0o600)
+                elif вид == 'несколько_ссылок':
+                    os.link(цель, сам.путь)
+                else:
+                    сам.создать()
+                    сам.путь.chmod(0o644)
+                with сам.assertRaises((OSError, сам.м.ОшибкаОтчёта)):
+                    with сам.замок():
+                        сам.fail('опасный замок допущен')
+                сам.путь.unlink()
+        сам.assertEqual(цель.read_bytes(), 'не менять'.encode('utf-8'))
+
+    def test_замена_после_lstat_или_после_flock_отклоняется(сам):
+        import fcntl
+        for момент in ('open', 'flock'):
+            with сам.subTest(момент=момент):
+                прежний = сам.путь.with_name('прежний')
+                if os.path.lexists(сам.путь):
+                    сам.путь.unlink()
+                if os.path.lexists(прежний):
+                    прежний.unlink()
+                сам.создать()
+                открыть, flock = os.open, fcntl.flock
+                заменено = []
+                def заменить():
+                    сам.путь.rename(прежний)
+                    fd = открыть(сам.путь, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+                    os.close(fd)
+                    заменено.append(True)
+                def открыть_с_подменой(путь, *а, **к):
+                    if момент == 'open' and Path(путь) == сам.путь and а and not а[0] & os.O_CREAT and not заменено:
+                        заменить()
+                    return открыть(путь, *а, **к)
+                def flock_с_подменой(fd, операция):
+                    результат = flock(fd, операция)
+                    if момент == 'flock' and операция & fcntl.LOCK_EX and not заменено:
+                        заменить()
+                    return результат
+                with mock.patch.object(сам.м.os, 'open', side_effect=открыть_с_подменой), \
+                     mock.patch.object(сам.м.fcntl, 'flock', side_effect=flock_с_подменой):
+                    with сам.assertRaises((OSError, сам.м.ОшибкаОтчёта)):
+                        with сам.замок():
+                            сам.fail('замена файла не обнаружена')
+                сам.assertTrue(заменено)
+                сам.путь.unlink()
+                прежний.unlink()
+
+    def test_другой_процесс_видит_тот_же_замок(сам):
+        код = ('import fcntl,os,sys\n'
+               'fd=os.open(sys.argv[1],os.O_RDWR)\n'
+               'try:\n'
+               ' fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)\n'
+               ' print("OPEN")\n'
+               'except BlockingIOError:\n'
+               ' print("BUSY")\n'
+               'finally:\n'
+               ' os.close(fd)\n')
+        def проверить():
+            р = subprocess.run([sys.executable, '-I', '-S', '-B', '-c', код, str(сам.путь)],
+                env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'}, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5, check=False)
+            сам.assertEqual(р.returncode, 0, р.stderr)
+            return р.stdout
+        with сам.замок():
+            сам.assertEqual(проверить(), b'BUSY\n')
+        сам.assertEqual(проверить(), b'OPEN\n')
+
+    def test_неизвестное_закрытие_сохраняет_исходную_ошибку(сам):
+        закрыть = os.close
+        ошибки = []
+        def закрыть_с_отказом(fd):
+            закрыть(fd)
+            ошибки.append(fd)
+            raise OSError('исход close неизвестен')
+        with mock.patch.object(сам.м.os, 'close', side_effect=закрыть_с_отказом):
+            with сам.assertRaises(BaseException) as перехват:
+                with сам.замок():
+                    raise ValueError('ошибка тела')
+        текст = repr(перехват.exception)
+        if isinstance(перехват.exception, BaseExceptionGroup):
+            текст += repr(перехват.exception.exceptions)
+        сам.assertIn('ошибка тела', текст)
+        сам.assertEqual(len(ошибки), 1)
+
+    def test_подмена_во_время_работы_не_объявляется_успехом(сам):
+        with сам.assertRaises(сам.м.ОшибкаОтчёта):
+            with сам.замок():
+                сам.путь.rename(сам.каталог / 'старый')
+                сам.создать()
+
+    def test_отказ_flock_закрывает_fd_без_повтора(сам):
+        import fcntl
+        закрыть = os.close
+        операции, закрытия = [], []
+        def отказ(fd, операция):
+            операции.append(операция)
+            raise OSError('отказ flock')
+        def закрыть_один(fd):
+            закрытия.append(fd)
+            return закрыть(fd)
+        with mock.patch.object(сам.м.fcntl, 'flock', side_effect=отказ), \
+             mock.patch.object(сам.м.os, 'close', side_effect=закрыть_один):
+            with сам.assertRaisesRegex(OSError, 'отказ flock'):
+                with сам.замок():
+                    сам.fail('отказ блокировки пропущен')
+        сам.assertEqual(операции, [fcntl.LOCK_EX])
+        сам.assertEqual(len(закрытия), 1)
+
+    def test_ошибки_тела_unlock_и_close_сохраняются(сам):
+        import fcntl
+        flock, закрыть = fcntl.flock, os.close
+        закрытия = []
+        def отказ_unlock(fd, операция):
+            результат = flock(fd, операция)
+            if операция & fcntl.LOCK_UN:
+                raise OSError('отказ unlock')
+            return результат
+        def отказ_close(fd):
+            закрыть(fd)
+            закрытия.append(fd)
+            raise OSError('исход close неизвестен')
+        def листья(ошибка):
+            if isinstance(ошибка, BaseExceptionGroup):
+                return sum((листья(вложенная) for вложенная in ошибка.exceptions), [])
+            return [str(ошибка)]
+        with mock.patch.object(сам.м.fcntl, 'flock', side_effect=отказ_unlock), \
+             mock.patch.object(сам.м.os, 'close', side_effect=отказ_close):
+            with сам.assertRaises(BaseExceptionGroup) as перехват:
+                with сам.замок():
+                    raise ValueError('ошибка тела')
+        сам.assertEqual(len(закрытия), 1)
+        сам.assertCountEqual(листья(перехват.exception),
+                            ['ошибка тела', 'отказ unlock', 'исход close неизвестен'])
+
+    def test_ошибка_close_не_повторяется_при_неизвестном_исходе(сам):
+        код = """
+import os, sys, types
+from pathlib import Path
+исходник, каталог, режим = sys.argv[1:]
+м = types.ModuleType('candidate_lock_child')
+м.__file__ = исходник
+exec(compile(Path(исходник).read_bytes(), исходник, 'exec'), м.__dict__)
+м.tempfile.gettempdir = lambda: каталог
+обычный_close = os.close
+вызовы = []
+def неизвестный_close(fd):
+    вызовы.append(fd)
+    if режим == 'после':
+        обычный_close(fd)
+    raise OSError('неизвестный исход close')
+м.os.close = неизвестный_close
+try:
+    try:
+        with м.межпроцессная_блокировка(Path(каталог) / 'repo', 'проверка/одна'):
+            pass
+    except BaseExceptionGroup as ошибка:
+        assert 'неизвестен исход закрытия' in str(ошибка)
+    else:
+        raise AssertionError('потеряна ошибка close')
+finally:
+    м.os.close = обычный_close
+assert len(вызовы) == 1
+try:
+    os.fstat(вызовы[0])
+except OSError:
+    assert режим == 'после'
+else:
+    assert режим == 'до'
+print('UNKNOWN')
+"""
+        for режим in ('до', 'после'):
+            with сам.subTest(режим=режим):
+                # Известный тесту незакрытый FD освободит ОС при выходе процесса.
+                with tempfile.TemporaryDirectory(dir=сам.каталог) as отдельный:
+                    р = subprocess.run([sys.executable, '-I', '-S', '-B', '-c', код,
+                                        сам.м.__file__, отдельный, режим],
+                                       env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'},
+                                       stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE, timeout=5, check=False)
+                    сам.assertEqual((р.returncode, р.stdout), (0, b'UNKNOWN\n'), р.stderr)
+
+    def test_настоящий_предпросмотр_отказывает_на_подменном_замке(сам):
+        запрос = Path('Журнал/проверка/запрос.md')
+        каталог = сам.корень / запрос.parent
+        каталог.mkdir(parents=True)
+        (каталог / 'запрос.md').write_text('# Запрос\n', encoding='utf-8')
+        отчёт = каталог / 'отчёт.md'
+        отчёт.write_text('начало\n' + сам.м.ОТКРЫТЫЙ_МАРКЕР + '\nстарое\n'
+                         + сам.м.КОНЕЧНЫЙ_МАРКЕР + '\nконец\n', encoding='utf-8')
+        история = каталог / 'материалы/запуски-проверок'
+        история.mkdir(parents=True)
+        идентификатор = '00000000-0000-4000-8000-000000000011'
+        запись = {'схема': 'fum.test-run.v1', 'идентификатор': идентификатор,
+                  'сессия': запрос.as_posix(), 'порядок': 1, 'исполнитель': 'root',
+                  'вызов': 'проверка', 'состояние': 'завершён',
+                  'длительность_наносекунды': 1_000_000, 'статус': 'успешно',
+                  'код_завершения': 0, 'пояснение': None}
+        (история / f'1_{идентификатор}.json').write_text(
+            json.dumps(запись, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\n',
+            encoding='utf-8')
+        сам.assertEqual(сам.м.выполнить_предпросмотр(сам.корень, запрос), 0)
+        до = отчёт.read_bytes()
+        сам.assertIn('проверка'.encode('utf-8'), до)
+        сам.assertTrue(до.startswith('начало\n'.encode('utf-8')))
+        сам.assertTrue(до.endswith('конец\n'.encode('utf-8')))
+        ключ = hashlib.sha256(f'{сам.корень}\0{запрос.as_posix()}'.encode('utf-8')).hexdigest()
+        замок = сам.каталог / f'fum-check-runs-{ключ}.lock'
+        замок.unlink()
+        цель = сам.каталог / 'чужой'
+        цель.write_bytes(b'unchanged')
+        замок.symlink_to(цель)
+        with сам.assertRaises((OSError, сам.м.ОшибкаОтчёта)):
+            сам.м.выполнить_предпросмотр(сам.корень, запрос)
+        сам.assertEqual(отчёт.read_bytes(), до)
+        сам.assertEqual(цель.read_bytes(), b'unchanged')
