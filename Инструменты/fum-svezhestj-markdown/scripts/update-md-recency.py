@@ -257,6 +257,19 @@ def parse_git_status_paths(status_text: str) -> set[str]:
     return paths
 
 
+def среда_чтения_гита() -> dict[str, str]:
+    return {
+        "PATH": os.defpath,
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_NO_LAZY_FETCH": "1",
+        "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_ATTR_NOSYSTEM": "1",
+        "LC_ALL": "C",
+    }
+
+
 def git_dirty_paths(repo_root: Path, use_git: bool) -> set[str]:
     if not use_git or not (repo_root / ".git").exists():
         return set()
@@ -266,11 +279,14 @@ def git_dirty_paths(repo_root: Path, use_git: bool) -> set[str]:
             "-C",
             str(repo_root),
             "-c",
+            "core.fsmonitor=false",
+            "-c",
             "core.quotepath=false",
             "status",
             "--short",
             "--untracked-files=all",
         ],
+        env=среда_чтения_гита(),
         check=False,
         text=True,
         stdout=subprocess.PIPE,
@@ -289,12 +305,15 @@ def git_last_commit_time(path: Path, repo_root: Path, use_git: bool) -> str | No
             "git",
             "-C",
             str(repo_root),
+            "-c",
+            "core.fsmonitor=false",
             "log",
             "-1",
             "--format=%cI",
             "--",
             repo_relative(path, repo_root),
         ],
+        env=среда_чтения_гита(),
         check=False,
         text=True,
         stdout=subprocess.PIPE,

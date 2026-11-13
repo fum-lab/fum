@@ -1,10 +1,12 @@
 import importlib.util
 import os
+import shlex
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT_PATH = (
@@ -18,6 +20,75 @@ update_md_recency = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
 sys.modules[spec.name] = update_md_recency
 spec.loader.exec_module(update_md_recency)
+
+
+class ПроверкаИзоляцииГитаДляСвежести(unittest.TestCase):
+    def test_оба_чтения_передают_ограниченную_среду(сам):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог)
+            (корень / '.git').mkdir()
+            результаты = [
+                subprocess.CompletedProcess([], 0, ' M README.md\n', ''),
+                subprocess.CompletedProcess([], 0, '2026-01-02T03:04:05+03:00\n', ''),
+            ]
+            with mock.patch.object(update_md_recency.subprocess, 'run', side_effect=результаты) as запуск:
+                изменения = update_md_recency.git_dirty_paths(корень, True)
+                время = update_md_recency.git_last_commit_time(корень / 'README.md', корень, True)
+            сам.assertEqual(изменения, {'README.md'})
+            сам.assertEqual(время, '2026-01-02 03:04:05 MSK')
+            сам.assertEqual(запуск.call_count, 2)
+            ожидаемая_среда = {
+                'PATH': os.defpath, 'LC_ALL': 'C',
+                'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1',
+                'GIT_NO_REPLACE_OBJECTS': '1', 'GIT_CONFIG_NOSYSTEM': '1',
+                'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_ATTR_NOSYSTEM': '1',
+            }
+            for вызов in запуск.call_args_list:
+                сам.assertEqual(вызов.kwargs['env'], ожидаемая_среда)
+                сам.assertEqual(вызов.args[0][:5],
+                                ['git', '-C', str(корень), '-c', 'core.fsmonitor=false'])
+
+    def test_чтение_изменений_и_истории_в_отдельном_гите(сам):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог) / 'репозиторий'
+            корень.mkdir()
+            среда = {
+                'PATH': os.defpath, 'LC_ALL': 'C',
+                'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1',
+                'GIT_NO_REPLACE_OBJECTS': '1', 'GIT_CONFIG_NOSYSTEM': '1',
+                'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_ATTR_NOSYSTEM': '1',
+                'GIT_AUTHOR_DATE': '2026-01-02T03:04:05+03:00',
+                'GIT_COMMITTER_DATE': '2026-01-02T03:04:05+03:00',
+            }
+            гит = ['/usr/bin/git', '-C', str(корень), '-c', 'core.fsmonitor=false',
+                   '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgsign=false',
+                   '-c', 'user.name=FUM Tests', '-c', 'user.email=fum-tests@example.invalid']
+            def выполнить(*аргументы):
+                subprocess.run([*гит, *аргументы], env=среда, stdin=subprocess.DEVNULL,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10, check=True)
+            выполнить('init', '-q', '--template=')
+            файл = корень / 'README.md'
+            файл.write_text('до\n', encoding='utf-8')
+            выполнить('add', 'README.md')
+            выполнить('commit', '-q', '-m', 'Исходная фикстура')
+            маркер = Path(каталог) / 'маркер'
+            наблюдатель = Path(каталог) / 'наблюдатель.sh'
+            наблюдатель.write_text(
+                '#!/bin/sh\nprintf called > ' + shlex.quote(str(маркер)) + '\nexit 1\n',
+                encoding='utf-8')
+            наблюдатель.chmod(0o700)
+            выполнить('config', 'core.fsmonitor', str(наблюдатель))
+            subprocess.run(['/usr/bin/git', '-C', str(корень), 'status', '--short'],
+                           env=среда, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, timeout=10, check=True)
+            сам.assertTrue(маркер.is_file(), 'контроль не вызвал заданный fsmonitor')
+            маркер.unlink()
+            файл.write_text('после\n', encoding='utf-8')
+            (корень / 'новый.md').write_text('новый\n', encoding='utf-8')
+            сам.assertEqual(update_md_recency.git_dirty_paths(корень, True), {'README.md', 'новый.md'})
+            сам.assertEqual(update_md_recency.git_last_commit_time(файл, корень, True),
+                            '2026-01-02 03:04:05 MSK')
+            сам.assertFalse(маркер.exists(), 'чтение свежести вызвало fsmonitor')
 
 
 class UpdateMdRecencyTests(unittest.TestCase):
@@ -315,20 +386,34 @@ class UpdateMdRecencyTests(unittest.TestCase):
             self.assertEqual(target.read_text(encoding="utf-8"), original)
 
     def test_initializes_clean_tracked_file_from_git_history(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
             root = Path(tmp)
             tracked = root / "README.md"
             tracked.write_text("# README\n\nИсторический текст.\n", encoding="utf-8")
-            subprocess.run(["git", "init"], cwd=root, check=True, stdout=subprocess.PIPE)
-            subprocess.run(["git", "add", "README.md"], cwd=root, check=True)
             env = {
-                **os.environ,
+                'PATH': os.defpath, 'LC_ALL': 'C',
+                'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1',
+                'GIT_NO_REPLACE_OBJECTS': '1', 'GIT_CONFIG_NOSYSTEM': '1',
+                'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_ATTR_NOSYSTEM': '1',
                 "GIT_AUTHOR_DATE": "2026-01-02T03:04:05+03:00",
                 "GIT_COMMITTER_DATE": "2026-01-02T03:04:05+03:00",
             }
+            subprocess.run(["/usr/bin/git", "-C", str(root), "init", "-q", "--template="],
+                           check=True, env=env, stdout=subprocess.PIPE)
+            subprocess.run(["/usr/bin/git", "-C", str(root), "-c", "core.fsmonitor=false",
+                            "-c", "core.hooksPath=/dev/null", "add", "README.md"],
+                           check=True, env=env, stdout=subprocess.PIPE)
             subprocess.run(
                 [
-                    "git",
+                    "/usr/bin/git",
+                    "-C",
+                    str(root),
+                    "-c",
+                    "core.fsmonitor=false",
+                    "-c",
+                    "core.hooksPath=/dev/null",
+                    "-c",
+                    "commit.gpgsign=false",
                     "-c",
                     "user.name=FUM Test",
                     "-c",
@@ -337,7 +422,6 @@ class UpdateMdRecencyTests(unittest.TestCase):
                     "-m",
                     "initial",
                 ],
-                cwd=root,
                 check=True,
                 env=env,
                 stdout=subprocess.PIPE,
