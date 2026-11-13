@@ -2065,3 +2065,11 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Прямое указание человека дословно: «V processe rabotyi FUMA budet byistro poluchatj rabotayusjhij prototip, i toljko v sluchaye celesoobraznosti pisatj algoritmicheskuyu realizaciyu operatora bez LLM.» Сначала предполагается действующий LLM-прототип оператора, алгоритмическая реализация без LLM — только при целесообразности; это план, не реализованная функция.
 
 По запрошенному человеком обзору Главстрой поддержал LLM-прототипирование после минимального ядра FUMA, различил трансляцию последовательности и ленивое получение элемента, рекомендовал проверять кандидат до передачи и сохранять проверенный префикс; проверка типов не доказывает смысловую правильность, оценка стоимости приблизительна. Рекомендации об отмене и лимитах повторов, времени и денег — предложения, не принятое изменение: прямое указание человека повторять до успешной проверки сохраняется, условия прерывания ещё не определены. Конечная тестовая фикстура — пример проверки, не ограничение универсального оператора. Алгоритмический вариант без LLM — только при целесообразности.
+
+Направляющий указал дословно и по порядку:
+
+«Algoritmicheskij variant — eto ne pro etap razrabotki FUMA, a pro etap zhiznennogo cikla lyubogo operatora FUMA. Blagodarya universaljnyim LLM operatoram myi fakticheski srazu imeyem lyuboj operator, a algoritmicheskij operatoryi — eto uzhe kak etap optimizacii chasto trebuyusjhejsya rabotyi.»
+
+«Takim obrazom fuma dazhe bez specialjnogo tekhnicheskogo kontrolya so storonyi cheloveka budet rabotatj s yego zadachami vsyo byistreye i byistreye.»
+
+Это целевая автономная работа над задачами человека и ускорение часто повторяемой работы; соответствующий runtime и устойчивое ускорение ещё не подтверждены.
