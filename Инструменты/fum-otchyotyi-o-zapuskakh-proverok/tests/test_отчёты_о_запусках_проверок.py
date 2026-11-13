@@ -19,6 +19,335 @@ from pathlib import Path
 from unittest import mock
 
 
+class ПроверкаПравПриПредпросмотре(unittest.TestCase):
+
+    def setUp(сам):
+        сам.модуль = загрузить_модуль_автоматизации()
+        каталог = tempfile.TemporaryDirectory(prefix='fum-preview-mode-', dir='/private/tmp')
+        if сам._testMethodName in (
+            'test_сбой_прав_после_replace_не_повторяет_замену',
+            'test_неизвестный_исход_replace_не_повторяется',
+            'test_сбой_синхронизации_после_замены_не_повторяет_запись',
+            'test_прерывание_после_замены_сохраняет_тип_и_пометку',
+        ):
+            каталог._finalizer.detach()
+        else:
+            сам.addCleanup(каталог.cleanup)
+        сам.отчёт = Path(каталог.name) / 'отчёт.md'
+        сам.старый = ('До\n' + открытый_маркер + '\nСтарый блок\n' +
+                      конечный_маркер + '\nПосле\n').encode('utf-8')
+        сам.блок = открытый_маркер + '\nНовый блок\n' + конечный_маркер
+        сам.новый = сам.модуль.заменить_управляемый_блок_в_байтах(сам.старый, сам.блок)
+        сам.отчёт.write_bytes(сам.старый)
+        сам.uuid = uuid.UUID('12345678-1234-4678-9234-123456789abc')
+        сам.временный = сам.отчёт.parent / f'.{сам.отчёт.name}.{сам.uuid}.tmp'
+
+    def test_существующий_отчёт_сохраняет_режим_при_строгой_umask(сам):
+        import stat
+        модуль = загрузить_модуль_автоматизации()
+        for режим in (0o644, 0o755):
+            with сам.subTest(режим=режим), tempfile.TemporaryDirectory(
+                prefix='fum-preview-existing-mode-', dir='/private/tmp'
+            ) as временный:
+                корень = Path(временный).resolve()
+                сессия = 'Журнал/2026-09-15_00-00-00_MSK_проверить-поля/запрос.md'
+                запрос = корень / сессия
+                запрос.parent.mkdir(parents=True)
+                запрос.write_text('синтетический запрос\n', encoding='utf-8')
+                отчёт = запрос.with_name('отчёт.md')
+                старый = ('До\n' + модуль.ОТКРЫТЫЙ_МАРКЕР + '\nСтарый блок\n'
+                          + модуль.КОНЕЧНЫЙ_МАРКЕР + '\nПосле\n').encode('utf-8')
+                отчёт.write_bytes(старый)
+                отчёт.chmod(режим)
+                каталог = запрос.parent / 'материалы/запуски-проверок'
+                каталог.mkdir(parents=True)
+                идентификатор = '00000000-0000-4000-8000-000000000001'
+                запись = {'схема': 'fum.test-run.v1', 'идентификатор': идентификатор,
+                          'сессия': сессия, 'порядок': 1, 'исполнитель': 'фикстура',
+                          'вызов': 'проверка', 'состояние': 'завершён',
+                          'длительность_наносекунды': 1, 'статус': 'успешно',
+                          'код_завершения': 0, 'пояснение': None}
+                (каталог / ('1_' + идентификатор + '.json')).write_text(
+                    json.dumps(запись, ensure_ascii=False) + '\n', encoding='utf-8')
+                прежняя = os.umask(0o077)
+                try:
+                    with mock.patch.object(модуль, 'межпроцессная_блокировка',
+                                           return_value=contextlib.nullcontext(lambda: None)):
+                        сам.assertEqual(модуль.выполнить_предпросмотр(корень, Path(сессия)), 0)
+                finally:
+                    os.umask(прежняя)
+                сам.assertNotEqual(отчёт.read_bytes(), старый)
+                сам.assertEqual(stat.S_IMODE(отчёт.stat().st_mode), режим)
+
+    def test_новая_запись_не_ослабляет_umask(сам):
+        import stat
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(prefix='fum-new-atomic-mode-', dir='/private/tmp') as временный:
+            путь = Path(временный).resolve() / 'новая-запись'
+            прежняя = os.umask(0o077)
+            try:
+                модуль.атомарно_записать_байты(путь, b'new\n')
+            finally:
+                os.umask(прежняя)
+            сам.assertEqual(путь.read_bytes(), b'new\n')
+            сам.assertEqual(stat.S_IMODE(путь.stat().st_mode), 0o600)
+
+    def test_замена_сохраняет_права_и_владельца(self):
+        for режим in (0o644, 0o755):
+            with self.subTest(режим=режим):
+                self.отчёт.write_bytes(self.старый); self.отчёт.chmod(режим)
+                до = self.отчёт.stat()
+                наблюдения = []
+                def проверить():
+                    наблюдения.append((self.временный.stat().st_mode & 0o777,
+                                       self.временный.read_bytes(), self.отчёт.read_bytes()))
+                прежняя = os.umask(0o077)
+                try:
+                    with mock.patch.object(self.модуль.uuid, 'uuid4', return_value=self.uuid):
+                        self.модуль.заменить_управляемый_блок(
+                            self.отчёт, self.блок, перед_публикацией=проверить,
+                            _сохранить_права=True)
+                finally:
+                    os.umask(прежняя)
+                после = self.отчёт.stat()
+                self.assertEqual((после.st_mode & 0o777, после.st_uid, после.st_gid),
+                                 (режим, до.st_uid, до.st_gid))
+                self.assertEqual(self.отчёт.read_bytes(), self.новый)
+                self.assertEqual(наблюдения, [(0o600, self.новый, self.старый)])
+
+    def test_временный_отчёт_не_раскрывает_данные_группе_до_замены(сам):
+        import stat
+
+        сам.отчёт.chmod(0o640)
+        до = сам.отчёт.stat()
+        режимы_записи = []
+        штатная_запись = os.write
+        def записать(fd, данные):
+            режимы_записи.append(stat.S_IMODE(os.fstat(fd).st_mode))
+            return штатная_запись(fd, данные)
+        прежняя = os.umask(0o022)
+        try:
+            with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+                 mock.patch.object(сам.модуль.os, 'write', side_effect=записать):
+                сам.модуль.заменить_управляемый_блок(
+                    сам.отчёт, сам.блок, _сохранить_права=True)
+        finally:
+            os.umask(прежняя)
+        после = сам.отчёт.stat()
+        сам.assertTrue(режимы_записи)
+        сам.assertTrue(all(режим == 0o600 for режим in режимы_записи), режимы_записи)
+        сам.assertEqual((stat.S_IMODE(после.st_mode), после.st_uid, после.st_gid),
+                        (0o640, до.st_uid, до.st_gid))
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+    def test_другой_uid_или_gid_отклоняется_до_записи_временного_отчёта(сам):
+        import fcntl
+        import stat
+
+        сам.отчёт.chmod(0o640)
+        реальный_fstat = os.fstat
+        for поле, индекс in (('uid', stat.ST_UID), ('gid', stat.ST_GID)):
+            with сам.subTest(поле=поле):
+                идентификатор = uuid.uuid4()
+                временный = сам.отчёт.parent / f'.{сам.отчёт.name}.{идентификатор}.tmp'
+                def чужой_владелец(fd):
+                    сведения = реальный_fstat(fd)
+                    флаги = fcntl.fcntl(fd, fcntl.F_GETFL)
+                    if stat.S_ISREG(сведения.st_mode) and флаги & os.O_ACCMODE == os.O_WRONLY:
+                        части = list(сведения)
+                        части[индекс] += 1
+                        return os.stat_result(части)
+                    return сведения
+                with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=идентификатор), \
+                     mock.patch.object(сам.модуль.os, 'fstat', side_effect=чужой_владелец), \
+                     mock.patch.object(сам.модуль.os, 'write', wraps=os.write) as запись, \
+                     mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+                    with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+                        сам.модуль.заменить_управляемый_блок(
+                            сам.отчёт, сам.блок, _сохранить_права=True)
+                    запись.assert_not_called()
+                    заменить.assert_not_called()
+                сам.assertEqual(сам.отчёт.read_bytes(), сам.старый)
+                сам.assertEqual(временный.read_bytes(), b'')
+                сам.assertEqual(stat.S_IMODE(временный.stat().st_mode), 0o600)
+
+    def test_исчезнувший_отчёт_не_создаётся_заново(сам):
+        сам.отчёт.chmod(0o644)
+        прежняя = os.umask(0o077)
+        try:
+            with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+                 mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+                with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+                    сам.модуль.заменить_управляемый_блок(
+                        сам.отчёт, сам.блок, перед_публикацией=сам.отчёт.unlink,
+                        _сохранить_права=True)
+                заменить.assert_not_called()
+        finally:
+            os.umask(прежняя)
+        сам.assertFalse(сам.отчёт.exists())
+        сам.assertEqual(сам.временный.stat().st_mode & 0o777, 0o600)
+
+    def test_подмена_временного_имени_отклоняется_до_replace(сам):
+        сам.отчёт.chmod(0o644)
+        сохранённый = сам.отчёт.parent / 'сохранённый-файл'
+        def подменить():
+            сам.временный.rename(сохранённый)
+            сам.временный.write_bytes(b'other')
+        with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+                сам.модуль.заменить_управляемый_блок(
+                    сам.отчёт, сам.блок, перед_публикацией=подменить,
+                    _сохранить_права=True)
+            заменить.assert_not_called()
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.старый)
+        сам.assertEqual(сохранённый.read_bytes(), сам.новый)
+
+    def test_сбой_прав_после_replace_не_повторяет_замену(сам):
+        сам.отчёт.chmod(0o644)
+        прежняя = os.umask(0o077)
+        try:
+            with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+                 mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить, \
+                 mock.patch.object(сам.модуль.os, 'fchmod', side_effect=OSError('ошибка прав')) as chmod:
+                with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+                    сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+                сам.assertEqual(заменить.call_count, 1)
+                сам.assertEqual(chmod.call_count, 1)
+        finally:
+            os.umask(прежняя)
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+        сам.assertEqual(сам.отчёт.stat().st_mode & 0o777, 0o600)
+        сам.assertFalse(сам.временный.exists())
+
+    def test_неизвестный_исход_replace_не_повторяется(сам):
+        сам.отчёт.chmod(0o644)
+        штатная_замена = os.replace
+        def заменить_и_отказать(*аргументы, **ключи):
+            штатная_замена(*аргументы, **ключи)
+            raise OSError('исход замены неизвестен')
+        прежняя = os.umask(0o077)
+        try:
+            with mock.patch.object(сам.модуль.uuid, 'uuid4', return_value=сам.uuid), \
+                 mock.patch.object(сам.модуль.os, 'replace', side_effect=заменить_и_отказать) as заменить, \
+                 mock.patch.object(сам.модуль.os, 'fchmod') as chmod:
+                with сам.assertRaisesRegex(сам.модуль.ОшибкаОтчёта, 'не подтверждён'):
+                    сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+                сам.assertEqual(заменить.call_count, 1)
+                chmod.assert_not_called()
+        finally:
+            os.umask(прежняя)
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+        сам.assertEqual(сам.отчёт.stat().st_mode & 0o777, 0o600)
+
+    def test_сбой_синхронизации_после_замены_не_повторяет_запись(сам):
+        сам.отчёт.chmod(0o644)
+        штатная_синхронизация = os.fsync
+        попытки = []
+        def синхронизировать(fd):
+            попытки.append(fd)
+            if len(попытки) == 2:
+                raise OSError('сбой синхронизации прав')
+            return штатная_синхронизация(fd)
+        with mock.patch.object(сам.модуль.os, 'fsync', side_effect=синхронизировать), \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaisesRegex(сам.модуль.ОшибкаОтчёта, 'не подтверждён'):
+                сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+            сам.assertEqual(заменить.call_count, 1)
+        сам.assertEqual(len(попытки), 2)
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+    def test_прерывание_после_замены_сохраняет_тип_и_пометку(сам):
+        with mock.patch.object(сам.модуль.os, 'fchmod', side_effect=KeyboardInterrupt), \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaises(KeyboardInterrupt) as исход:
+                сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+            сам.assertEqual(заменить.call_count, 1)
+        сам.assertTrue(any('не подтверждён' in заметка
+                           for заметка in getattr(исход.exception, '__notes__', ())))
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+
+    def test_прерывание_и_сбой_закрытия_после_замены(сам):
+        исходное_закрытие = os.close
+        закрытия = []
+        def закрыть(fd):
+            сведения = os.fstat(fd)
+            текущий = сам.отчёт.stat()
+            if заменить.call_count and (сведения.st_dev, сведения.st_ino) == (текущий.st_dev, текущий.st_ino):
+                закрытия.append(fd)
+                исходное_закрытие(fd)
+                raise OSError('контрольный сбой закрытия')
+            исходное_закрытие(fd)
+        with mock.patch.object(сам.модуль.os, 'fchmod', side_effect=KeyboardInterrupt), \
+             mock.patch.object(сам.модуль.os, 'close', side_effect=закрыть), \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaises(KeyboardInterrupt) as исход:
+                сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+            сам.assertEqual(заменить.call_count, 1)
+        сам.assertEqual(len(закрытия), 1)
+        сам.assertIsNotNone(исход.exception.__cause__)
+        сам.assertTrue(any('не подтверждён' in заметка
+                           for заметка in getattr(исход.exception, '__notes__', ())))
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+    def test_сбой_закрытия_после_замены_даёт_ошибку_отчёта(сам):
+        исходное_закрытие = os.close
+        закрытия = []
+        def закрыть(fd):
+            сведения = os.fstat(fd)
+            текущий = сам.отчёт.stat()
+            if заменить.call_count and (сведения.st_dev, сведения.st_ino) == (текущий.st_dev, текущий.st_ino):
+                закрытия.append(fd)
+                исходное_закрытие(fd)
+                raise OSError('контрольный сбой закрытия')
+            исходное_закрытие(fd)
+        with mock.patch.object(сам.модуль.os, 'close', side_effect=закрыть), \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaises(сам.модуль.ОшибкаОтчёта) as исход:
+                сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+            сам.assertEqual(заменить.call_count, 1)
+        сам.assertEqual(len(закрытия), 1)
+        сам.assertIn('не подтверждён', str(исход.exception))
+        сам.assertIsNotNone(исход.exception.__cause__)
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+    def test_сбой_прав_и_закрытия_сохраняет_обе_причины(сам):
+        исходное_закрытие = os.close
+        закрытия = []
+        def закрыть(fd):
+            сведения = os.fstat(fd)
+            текущий = сам.отчёт.stat()
+            if заменить.call_count and (сведения.st_dev, сведения.st_ino) == (текущий.st_dev, текущий.st_ino):
+                закрытия.append(fd)
+                исходное_закрытие(fd)
+                raise OSError('контрольный сбой закрытия')
+            исходное_закрытие(fd)
+        with mock.patch.object(сам.модуль.os, 'fchmod', side_effect=OSError('контрольный сбой прав')), \
+             mock.patch.object(сам.модуль.os, 'close', side_effect=закрыть), \
+             mock.patch.object(сам.модуль.os, 'replace', wraps=os.replace) as заменить:
+            with сам.assertRaises(сам.модуль.ОшибкаОтчёта) as исход:
+                сам.модуль.заменить_управляемый_блок(сам.отчёт, сам.блок, _сохранить_права=True)
+            сам.assertEqual(заменить.call_count, 1)
+        сам.assertEqual(len(закрытия), 1)
+        сам.assertIn('не подтверждён', str(исход.exception))
+        причины, очередь, посещено = [], [исход.exception], set()
+        while очередь:
+            ошибка = очередь.pop()
+            if id(ошибка) in посещено:
+                continue
+            посещено.add(id(ошибка))
+            причины.append(str(ошибка))
+            if ошибка.__cause__ is not None:
+                очередь.append(ошибка.__cause__)
+            if isinstance(ошибка, BaseExceptionGroup):
+                очередь.extend(ошибка.exceptions)
+        сам.assertTrue(any('контрольный сбой прав' in причина for причина in причины))
+        сам.assertTrue(any('контрольный сбой закрытия' in причина for причина in причины))
+        сам.assertEqual(сам.отчёт.read_bytes(), сам.новый)
+
+
+
 class ПроверкаОграниченногоПредпросмотра(unittest.TestCase):
     удерживаемые_фикстуры = []
 
