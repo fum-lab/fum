@@ -1,1 +1,0 @@
-https://developers.google.com/youtube/v3/live/getting-started

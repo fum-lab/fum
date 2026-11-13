@@ -1,4 +1,0 @@
-module CMpvShim {
-    header "CMpvShim.h"
-    export *
-}
