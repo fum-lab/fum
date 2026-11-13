@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import json
 import importlib.util
+import hashlib
 import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 import uuid
 from pathlib import Path
@@ -24,6 +26,125 @@ def путь_проверяемой_реализации(путь: Path) -> Path
 
 
 сценарий = путь_проверяемой_реализации(Path(__file__).resolve().parents[1] / "scripts/связь_отпечатка_с_коммитом.py")
+
+
+class ТестыОграниченнойСредыЧтенияGit(unittest.TestCase):
+    def setUp(сам):
+        каталог = str(сценарий.parent)
+        sys.path.insert(0, каталог)
+        try:
+            спецификация = importlib.util.spec_from_file_location('тестовая_связь_с_коммитом', сценарий)
+            сам.assertIsNotNone(спецификация)
+            сам.модуль = importlib.util.module_from_spec(спецификация)
+            спецификация.loader.exec_module(сам.модуль)
+        finally:
+            sys.path.remove(каталог)
+
+    def test_явная_среда_и_stdin_без_чтения_окружения(сам):
+        м = сам.модуль
+        ожидаемая = {
+            'PATH': os.defpath, 'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_REPLACE_OBJECTS': '1',
+            'GIT_NO_LAZY_FETCH': '1', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': os.devnull,
+            'GIT_ATTR_NOSYSTEM': '1', 'LC_ALL': 'C',
+        }
+        for вход in (None, 'тест'.encode('utf-8')):
+            with сам.subTest(вход=вход), mock.patch.object(м.os, 'environ', object()), \
+                 mock.patch.object(м.subprocess, 'run',
+                                   return_value=subprocess.CompletedProcess([], 0, b'answer', b'')) as запуск:
+                итог = м.выполнить_чтение_репозитория(Path('/private/tmp'), 'hash-object', '--stdin', вход=вход)
+                сам.assertEqual(итог, b'answer')
+                сам.assertEqual(запуск.call_args.args[0][:3], ['git', '-C', '/private/tmp'])
+                сам.assertEqual(запуск.call_args.kwargs['env'], ожидаемая)
+                if вход is None:
+                    сам.assertEqual(запуск.call_args.kwargs['stdin'], subprocess.DEVNULL)
+                    сам.assertNotIn('input', запуск.call_args.kwargs)
+                else:
+                    сам.assertEqual(запуск.call_args.kwargs['input'], вход)
+                    сам.assertNotIn('stdin', запуск.call_args.kwargs)
+
+    def test_реальный_git_читает_blob_в_изолированной_среде(сам):
+        м = сам.модуль
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог)
+            subprocess.run(['/usr/bin/git', '-C', str(корень), 'init', '-q'],
+                           env=м.ограниченная_среда_чтения_гит(), stdin=subprocess.DEVNULL,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=5)
+            данные = b'fixture-data'
+            ожидаемый = hashlib.sha1(b'blob ' + str(len(данные)).encode('ascii') + b'\0' + данные).hexdigest()
+            факт = м.выполнить_чтение_репозитория(корень, 'hash-object', '--stdin', вход=данные)
+            сам.assertEqual(факт.strip().decode('ascii'), ожидаемый)
+            настоящий_запуск = subprocess.run
+            def с_ограничением(*args, **kwargs):
+                return настоящий_запуск(*args, **kwargs, timeout=5)
+            with mock.patch.object(м.subprocess, 'run', side_effect=с_ограничением):
+                пустой = м.выполнить_чтение_репозитория(корень, 'hash-object', '--stdin')
+            сам.assertEqual(пустой.strip().decode('ascii'), hashlib.sha1(b'blob 0\0').hexdigest())
+
+    def test_ненулевой_код_git_остаётся_ошибкой(сам):
+        м = сам.модуль
+        отказ = subprocess.CompletedProcess([], 7, b'', b'fixture-error')
+        with mock.patch.object(м.subprocess, 'run', return_value=отказ):
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'fixture-error'):
+                м.выполнить_чтение_репозитория(Path('/private/tmp'), 'rev-parse', 'HEAD')
+
+    def test_изолированная_среда_не_воспроизводит_чужие_глобальные_настройки_diff(сам):
+        м = сам.модуль
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог) / 'репозиторий'
+            корень.mkdir()
+            глобальная = Path(каталог) / 'глобальные-настройки'
+            глобальная.write_text('[diff]\n\tcontext = 0\n\tmnemonicPrefix = true\n', encoding='utf-8')
+            среда = м.ограниченная_среда_чтения_гит()
+            основа = ['/usr/bin/git', '-C', str(корень)]
+            subprocess.run([*основа, 'init', '-q'], env=среда, stdin=subprocess.DEVNULL,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=5)
+            файл = корень / 'data.txt'
+            файл.write_text('один\nдва\nтри\nчетыре\nпять\nшесть\nсемь\nвосемь\n', encoding='utf-8')
+            subprocess.run([*основа, 'add', '--', 'data.txt'], env=среда, stdin=subprocess.DEVNULL,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=5)
+            файл.write_text('один\nдва\nтри\nзамена\nпять\nшесть\nсемь\nвосемь\n', encoding='utf-8')
+            аргументы = ['diff', '--binary', '--no-ext-diff', '--no-textconv', '--ignore-submodules=none',
+                         '--', 'data.txt']
+            пользовательская = {**среда, 'GIT_CONFIG_GLOBAL': str(глобальная)}
+            прежний = subprocess.run([*основа, '-c', 'core.fsmonitor=false', *аргументы],
+                                     env=пользовательская, stdin=subprocess.DEVNULL,
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                     check=True, timeout=5).stdout
+            текущий = м.выполнить_чтение_репозитория(корень, *аргументы)
+            сам.assertNotEqual(прежний, текущий)
+            сам.assertIn(b'diff --git i/data.txt w/data.txt', прежний)
+            сам.assertIn(b'diff --git a/data.txt b/data.txt', текущий)
+            def git(*аргументы, env=среда):
+                return subprocess.run([*основа, *аргументы], env=env, stdin=subprocess.DEVNULL,
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      check=True, timeout=5).stdout
+            автор = ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid']
+            git(*автор, 'commit', '-qm', 'База фикстуры')
+            родитель = git('rev-parse', 'HEAD').strip().decode('ascii')
+            git('add', '--', 'data.txt')
+            сессия = 'Журнал/фикстура'
+            пути = м.пути_границы(сессия)
+            старые_байты = git('-c', 'core.fsmonitor=false', 'diff', *м.ФЛАГИ_РАЗНИЦЫ,
+                               '--cached', родитель, '--', *пути, env=пользовательская)
+            git(*автор, 'commit', '-qm', 'Изменение фикстуры')
+            коммит = git('rev-parse', 'HEAD').strip().decode('ascii')
+            разница = ['diff', *м.ФЛАГИ_РАЗНИЦЫ, родитель, коммит, '--', *пути]
+            новые_байты = м.выполнить_чтение_репозитория(корень, *разница)
+            сам.assertNotEqual(старые_байты, новые_байты)
+            def отпечаток(байты):
+                хэш = hashlib.sha256()
+                м.добавить_часть_отпечатка(хэш, 'вершина', родитель.encode('ascii'))
+                м.добавить_часть_отпечатка(хэш, 'индекс', байты)
+                м.добавить_часть_отпечатка(хэш, 'рабочее_дерево', b'')
+                return 'sha256:' + хэш.hexdigest()
+            старый_отпечаток = отпечаток(старые_байты)
+            новый_отпечаток = отпечаток(новые_байты)
+            старый_итог = м.связать_отпечаток_с_коммитом(
+                корень, сессия, коммит, старый_отпечаток, старый_отпечаток)
+            новый_итог = м.связать_отпечаток_с_коммитом(
+                корень, сессия, коммит, новый_отпечаток, новый_отпечаток)
+            сам.assertEqual(старый_итог['состояние'], 'не восстановлен')
+            сам.assertEqual(новый_итог['состояние'], 'подтверждён')
 
 
 class ТестыСвязиОтпечаткаСКоммитом(unittest.TestCase):

@@ -22,14 +22,25 @@ from отчёты_о_запусках_проверок import (
 ФЛАГИ_РАЗНИЦЫ = ("--binary", "--no-ext-diff", "--no-textconv", "--ignore-submodules=none")
 
 
+def ограниченная_среда_чтения_гит() -> dict[str, str]:
+    """Без унаследованной среды; старый diff с глобальными настройками может отличаться."""
+    return {
+        "PATH": os.defpath,
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_NO_LAZY_FETCH": "1",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_ATTR_NOSYSTEM": "1",
+        "LC_ALL": "C",
+    }
+
+
 def выполнить_чтение_репозитория(корень: Path, *аргументы: str, вход: bytes | None = None) -> bytes:
-    # Убираем также модификаторы pathspec и переменные трассировки/переадресации.
-    границы_настроек = {"GIT_CONFIG_SYSTEM", "GIT_CONFIG_GLOBAL", "GIT_CONFIG_NOSYSTEM"}
-    окружение = {имя: значение for имя, значение in os.environ.items() if not имя.startswith("GIT_") or имя in границы_настроек}
-    окружение.update({"GIT_OPTIONAL_LOCKS": "0", "GIT_NO_REPLACE_OBJECTS": "1", "GIT_NO_LAZY_FETCH": "1", "LC_ALL": "C"})
     итог = subprocess.run(
         ["git", "-C", str(корень), "-c", "core.fsmonitor=false", *аргументы],
-        capture_output=True, input=вход, env=окружение, check=False,
+        capture_output=True, env=ограниченная_среда_чтения_гит(), check=False,
+        **({"stdin": subprocess.DEVNULL} if вход is None else {"input": вход}),
     )
     if итог.returncode:
         raise ОшибкаОтчёта("чтение локальных объектов Git не выполнено: " + итог.stderr.decode("utf-8", errors="replace").strip())
