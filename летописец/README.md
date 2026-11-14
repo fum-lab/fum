@@ -2145,3 +2145,7 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Новые реплики человека дословно по порядку: «Chto yesli soberyom vsekh agentov v papku staf?», «I sgruppiruyem ikh v papki po komandam.», «Ya dumayu po logike russkogo yazyika stoit rovno naoborot nazyivatj tipyi so strochnoj bukvyi, a uzhe ekzemplyaryi s propisnoj.» Структура и имена — направление работы; существующие ветки и пути ещё не перенесены.
 
 К предыдущему указанию о типах со строчной и экземплярах с прописной человек уточнил дословно: «Imena naricateljnyiye i sobstvennyiye.» и «V tom chisle v kode.» Применение в коде и переход существующих имён требуют отдельной предметной проработки; выполненный перенос не утверждается.
+
+Человек уточнил дословно: «Maksimaljno priblizhayem stilj kodirovaniya na yazyikakh k pravilam russkogo yazyika.» и «Yesli probel v imenakh identifikatorov nedostupen, to ispoljzuyem \_.» Это продолжение указания о типах со строчной и экземплярах с прописной, уточнённого как различие нарицательных и собственных имён, включая код. Существующие технические контракты и миграция требуют отдельной проработки.
+
+Человек спросил: «Pochemu proyekcii yesjhyo ne udalenyi iz master?» Управляющий отдельно проверяет факты; ответ на момент записи не установлен.
