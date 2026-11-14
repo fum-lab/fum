@@ -14,7 +14,7 @@ private func флагиФайла(_ дескриптор: Int32, _ команд�
 private func hold(_ версия: String) -> Never {
     // .6 closes the anchor's control writer on failure. Its EOF watchdog
     // attempts group cleanup. Exit 125 leaves the outcome unconfirmed.
-    if версия == "fum-run-witness.6" { exit(125) }
+    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" { exit(125) }
     var mask = sigset_t()
     _ = sigfillset(&mask)
     _ = pthread_sigmask(SIG_SETMASK, &mask, nil)
@@ -93,6 +93,39 @@ private func targetSignalSettings(_ numbers: [Int32]) -> (sigset_t, sigset_t)? {
     return (mask, defaults)
 }
 
+// Проверяет существующую опору, но не устанавливает доверие к вызывающему
+// или к коду цели. Пространство имён должно оставаться согласованным.
+private func подтвердитьОпору(_ опора: ОпораКаталогаПрежнегоЗамка) -> Bool {
+    guard getuid() == geteuid() else { return false }
+    let флаги = флагиФайла(опора.дескриптор, F_GETFL)
+    let дескрипторныеФлаги = флагиФайла(опора.дескриптор, F_GETFD)
+    guard флаги >= 0, флаги & O_ACCMODE == O_RDONLY,
+          дескрипторныеФлаги >= 0, дескрипторныеФлаги & FD_CLOEXEC != 0 else { return false }
+    func соответствует(_ метка: stat) -> Bool {
+        let допустимыйРежим = (опора.режим == 0o700 && опора.владелец == getuid()) ||
+            (опора.режим == 0o1777 && опора.владелец == 0)
+        return допустимыйРежим && метка.st_mode & UInt16(S_IFMT) == UInt16(S_IFDIR) &&
+            метка.st_mode & 0o7777 == опора.режим && метка.st_uid == опора.владелец &&
+            UInt64(exactly: метка.st_dev) == опора.устройство && метка.st_ino == опора.инод
+    }
+    func сверитьМетки() -> Bool {
+        var открытая = stat()
+        var именованная = stat()
+        let кодИмени = опора.путь.withCString { lstat($0, &именованная) }
+        return fstat(опора.дескриптор, &открытая) == 0 && кодИмени == 0 &&
+            соответствует(открытая) && соответствует(именованная)
+    }
+    guard сверитьМетки() else { return false }
+    let физический = опора.путь.withCString { вход in
+        var буфер = [CChar](repeating: 0, count: 1024)
+        return буфер.withUnsafeMutableBufferPointer { область in
+            guard let указатель = область.baseAddress, realpath(вход, указатель) != nil else { return false }
+            return strcmp(вход, указатель) == 0
+        }
+    }
+    return физический && сверитьМетки()
+}
+
 private func run() -> Int32 {
     let args = CommandLine.arguments
     let raw = CommandLine.unsafeArgv
@@ -103,8 +136,11 @@ private func run() -> Int32 {
     }
     guard raw[args.count] == nil, args.count >= 6 else { return 125 }
     let версия = args[1]
+    let передаётОпору = версия == "fum-run-witness.7"
+    let версияПоведения = передаётОпору ? "fum-run-witness.6" : версия
     let targetMode = ["fum-run-witness.1", "fum-run-witness.2", "fum-run-witness.3",
-                      "fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6"].contains(версия)
+                      "fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6",
+                      "fum-run-witness.7"].contains(версия)
     let разрешитьИмя = ["fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6"].contains(версия)
     guard targetMode || версия == "fum-anchor-witness.1",
           let id = ИдентификаторЗапуска(args[2]),
@@ -113,11 +149,12 @@ private func run() -> Int32 {
           let budget = Int64(args[5]), (1000...30000).contains(budget), String(budget) == args[5],
           getpid() > 1, getpid() == getpgrp(), getsid(0) == getpid() else { return 125 }
     var targetSpec: ПараметрыЗапуска?
+    var опораПрежнегоЗамка: ОпораКаталогаПрежнегоЗамка?
     var индексЦели = 10
     var длительностьЦели: String?
     if targetMode {
         guard args.count >= 11 else { return 125 }
-        let штатныйПрофиль = версия == "fum-run-witness.6"
+        let штатныйПрофиль = версияПоведения == "fum-run-witness.6"
         var профильСреды = ["run", "none"]
         var разделитель = 9
         if штатныйПрофиль {
@@ -135,6 +172,18 @@ private func run() -> Int32 {
                 разделитель += 1
             default: break
             }
+        }
+        if передаётОпору {
+            guard профильСреды == ["run", "none"], args.indices.contains(разделитель + 6),
+                  args[разделитель] == "--опора-старого-замка",
+                  let опора = ОпораКаталогаПрежнегоЗамка(args[разделитель + 1], args[разделитель + 2],
+                      args[разделитель + 3], args[разделитель + 4], args[разделитель + 5],
+                      args[разделитель + 6], дескрипторСтатуса: statusFD) else { return 125 }
+            let флаги = флагиФайла(опора.дескриптор, F_GETFD)
+            guard флаги >= 0, флагиФайла(опора.дескриптор, F_SETFD, флаги | FD_CLOEXEC) == 0,
+                  подтвердитьОпору(опора) else { return 125 }
+            опораПрежнегоЗамка = опора
+            разделитель += 7
         }
         индексЦели = разделитель + 1
         guard args.count > индексЦели, args[разделитель] == "--" else { return 125 }
@@ -154,7 +203,7 @@ private func run() -> Int32 {
     var режимСрока: РежимСрокаНаблюдателя?
     if targetMode {
         guard let now = nowMilliseconds(),
-              let режим = РежимСрокаНаблюдателя(версия: версия, край: args[7],
+              let режим = РежимСрокаНаблюдателя(версия: версияПоведения, край: args[7],
                                                  второйПараметр: args[8], сейчас: now,
                                                  длительностьЦели: длительностьЦели) else { return 125 }
         режимСрока = режим
@@ -210,7 +259,7 @@ private func run() -> Int32 {
     pointers.append(nil)
     var environment: [UnsafeMutablePointer<CChar>?] = [nil]
     let крайПодготовкиЯкоря: Int64?
-    if версия == "fum-run-witness.6" {
+    if версияПоведения == "fum-run-witness.6" {
         guard let край = режимСрока?.крайПодготовки,
               let сейчас = nowMilliseconds(), сейчас < край else { return 125 }
         крайПодготовкиЯкоря = край
@@ -277,7 +326,7 @@ private func run() -> Int32 {
         }
         guard let goDeadline = deadline(budget),
               let команда = readExact(STDIN_FILENO, count: 1, until: min(goDeadline, runDeadline)),
-              let командаДопуска = try? разобратьКомандуДопуска(версия, команда[0]) else {
+              let командаДопуска = try? разобратьКомандуДопуска(версияПоведения, команда[0]) else {
             abandonToAnchor()
         }
         guard let beforeSpawn = nowMilliseconds(), beforeSpawn < runDeadline else { abandonToAnchor() }
@@ -297,7 +346,7 @@ private func run() -> Int32 {
                   posix_spawnattr_setsigdefault(&targetAttributes, &settings.1) == 0,
                   posix_spawnattr_setflags(&targetAttributes, Int16(POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGMASK |
                       POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_CLOEXEC_DEFAULT)) == 0 else { abandonToAnchor() }
-            let targetEnvironment = spec.targetEnvironment
+            let targetEnvironment = spec.targetEnvironment + (опораПрежнегоЗамка.map { ["TMPDIR=" + $0.путь] } ?? [])
             var envPointers: [UnsafeMutablePointer<CChar>?] = []
             defer { for pointer in envPointers { free(pointer) } }
             for entry in targetEnvironment {
@@ -324,10 +373,23 @@ private func run() -> Int32 {
                     abandonToAnchor()
                 }
                 времяПоследнейПопытки = времяПопытки
-                targetSpawn = путьЦели.withCString { путь in
-                    envPointers.withUnsafeMutableBufferPointer { env in
-                        posix_spawn(&target, путь, &targetActions, &targetAttributes, targetArgv, env.baseAddress)
+                func запуститьПоПути() -> Int32 {
+                    путьЦели.withCString { путь in
+                        envPointers.withUnsafeMutableBufferPointer { env in
+                            posix_spawn(&target, путь, &targetActions, &targetAttributes, targetArgv, env.baseAddress)
+                        }
                     }
+                }
+                if let опораПрежнегоЗамка {
+                    guard let попытка = запуститьПослеПроверкиОпоры(
+                        предыдущее: времяПоследнейПопытки, срок: runDeadline,
+                        подтвердить: { подтвердитьОпору(опораПрежнегоЗамка) },
+                        часы: { nowMilliseconds() }, запуск: { запуститьПоПути() }
+                    ) else { abandonToAnchor() }
+                    времяПоследнейПопытки = попытка.время
+                    targetSpawn = попытка.результат
+                } else {
+                    targetSpawn = запуститьПоПути()
                 }
                 // На Darwin ненулевой posix_spawn не создаёт ребёнка; следующий
                 // явный каталог проверяется только после такого исхода.
@@ -338,7 +400,7 @@ private func run() -> Int32 {
                 abandonToAnchor()
             }
             if targetSpawn != 0 {
-                guard версия == "fum-run-witness.6", let бюджетОчистки else { abandonToAnchor() }
+                guard версияПоведения == "fum-run-witness.6", let бюджетОчистки else { abandonToAnchor() }
                 let (край, переполнение) = immediatelyAfterSpawn.addingReportingOverflow(бюджетОчистки)
                 guard !переполнение,
                       let отказ = try? received.кадрОтказаЗапуска(код: targetSpawn),
@@ -455,7 +517,7 @@ private func run() -> Int32 {
                     timedOut = true
                     break
                 }
-                if версия == "fum-run-witness.6", let бюджетОчистки,
+                if версияПоведения == "fum-run-witness.6", let бюджетОчистки,
                    let командаПрерывания = КомандаПрерыванияНаблюдателя(rawValue: command) {
                     if !statusSent, let срокЦели, commandTime >= срокЦели.работа {
                         истёкШтатныйСрок = true
@@ -554,6 +616,9 @@ private func run() -> Int32 {
     } else {
         guard let frame = try? КадрОчисткиЯкоря(runID: runID, anchorPID: anchor) else { hold(версия) }
         finish = frame.encoded()
+    }
+    if let опораПрежнегоЗамка {
+        guard close(опораПрежнегоЗамка.дескриптор) == 0 else { hold(версия) }
     }
     guard send(finish, to: statusFD),
           let afterSend = nowMilliseconds(), afterSend >= now, afterSend < stopDeadline else { hold(версия) }
