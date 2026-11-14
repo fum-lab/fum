@@ -12,6 +12,40 @@ import unittest
 from pathlib import Path
 
 
+def загрузить_контур_для_проверки_среды():
+    путь = Path(__file__).resolve().parents[1] / "scripts/контур_слияния.py"
+    if os.environ.get("FUM_CHECKED_CODE_ROOT"):
+        путь = Path(os.environ["FUM_CHECKED_CODE_ROOT"]) / путь.relative_to(Path(__file__).resolve().parents[3])
+    спецификация = importlib.util.spec_from_file_location("контур_для_проверки_среды", путь)
+    модуль = importlib.util.module_from_spec(спецификация)
+    спецификация.loader.exec_module(модуль)
+    return модуль
+
+
+class ПроверкаСредыКонтура(unittest.TestCase):
+    def test_вызов_git_получает_явную_среду_и_закрытый_stdin(сам):
+        from types import SimpleNamespace
+        from unittest import mock
+        модуль = загрузить_контур_для_проверки_среды()
+        ожидаемая_среда = {
+            "PATH": os.defpath, "LC_ALL": "C", "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_NO_LAZY_FETCH": "1", "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+            "GIT_ATTR_NOSYSTEM": "1", "PYTHONDONTWRITEBYTECODE": "1",
+        }
+        with mock.patch.object(модуль.os, "environ", object()), \
+             mock.patch.object(модуль.subprocess, "run",
+                               return_value=SimpleNamespace(returncode=0, stdout=b"fixture")) as запуск:
+            результат = модуль.прочитать_гит(Path("/fixture"), "rev-parse", "HEAD")
+        сам.assertEqual(результат, b"fixture")
+        запуск.assert_called_once_with(
+            ["git", "--no-optional-locks", "-c", "core.fsmonitor=false",
+             "-C", "/fixture", "rev-parse", "HEAD"],
+            env=ожидаемая_среда, stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        )
+
+
 class КонтурСлияния(unittest.TestCase):
     def setUp(сам):
         сам.временный = tempfile.TemporaryDirectory()

@@ -24,11 +24,10 @@ from pathlib import Path
 
 
 def окружение_контура() -> dict[str, str]:
-    среда = {ключ: значение for ключ, значение in os.environ.items()
-             if not ключ.startswith(("GIT_", "PYTHON"))}
-    среда.update(GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1", GIT_OPTIONAL_LOCKS="0",
-                 PYTHONDONTWRITEBYTECODE="1")
-    return среда
+    return {"PATH": os.defpath, "LC_ALL": "C", "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_NO_LAZY_FETCH": "1", "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+            "GIT_ATTR_NOSYSTEM": "1", "PYTHONDONTWRITEBYTECODE": "1"}
 
 
 def канонические_байты(значение: dict) -> bytes:
@@ -109,7 +108,7 @@ def проверить_запуск(источник: Path, кандидат: Pa
 def прочитать_гит(корень: Path, *аргументы: str) -> bytes:
     процесс = subprocess.run(
         ["git", "--no-optional-locks", "-c", "core.fsmonitor=false", "-C", str(корень), *аргументы],
-        env=окружение_контура(), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        env=окружение_контура(), stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     if процесс.returncode:
         raise ValueError("не удалось прочитать границу Git проверяющего контура")
