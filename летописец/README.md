@@ -2101,3 +2101,7 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Уточнение человека дословно: «No Swift u nas vsyo ravno v prioritete, yesli on dlya novyikh vozmozhnostej, ne zavisyasjhikh ot Python.» По передаче Управляющего, новые независимые от Python возможности приоритетно реализуются на Swift, а разблокированный Python переиспользуется там, где ускоряет существующие инструменты и интеграцию.
 
 Прямое требование человека дословно: «Nam yesjhyo nuzhno obespechitj, chtobyi fork ne nachinal rabotu nad zadachami kornevego repozitoriya bez soglasovaniye cherez ishjyusyi i ostaljnuyu infrastrukturu GitHub.» Требуется согласование общих задач для форков через issue и инфраструктуру GitHub; способ и enforce ещё не доказаны, простой комментарий не объявляется атомарной бронью.
+
+Человек добавил дословно: «A novomu poljzovatelyu budem interesno i interaktivno obyyasnyatj, chto eto i dlya chego, kak rabotatj.» Затем уточнил: «Kak obsjhatjsya tochneye)». Требуется интересное интерактивное знакомство, объясняющее назначение FUM и как с ним общаться; реальный интерактивный интерфейс ещё не подтверждён.
+
+Документация сообщила: требование согласования задач форков дословно учтено в черновике v8; issue/комментарий не выдаются за атомарную бронь, механизм и runtime не подтверждены. В Git документ не внесён, первичный канонический источник ещё нужен.
