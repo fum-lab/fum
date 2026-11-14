@@ -2117,3 +2117,5 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Указание человека дословно: «Takzhe FUM pozvolyayet prisoyedinitjsya k razrabotke FUM za schyot sobstvennogo limita ili za schyot sobstvennogo zheleza.» Человек хочет понятный путь участия со своими ресурсами; поддержка конкретного оборудования и автоматический GitHub-допуск не доказаны.
 
 Документация сообщила: команда знакомства и уточнение о Low внесены в частный черновик, сохранение и адресное возвращение знаний различены как расширение рабочего контекста; готовый автомат восстановления не утверждается. Документ в Git не внесён.
+
+Указания человека о названиях по порядку: «khozyajstvennik i knigoderzhatelj», поправка «knigoderzhec», затем «Dlya znakomstva vyivodi novichkam v skobkakh bukhgalter i ekonomist nekotoroye vremya dlya obucheniya.» Канонические имена — хозяйственник и книгодержец; при знакомстве новичков некоторое время показываются синонимы «экономист» и «бухгалтер» в скобках соответственно.
