@@ -2121,3 +2121,7 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Указания человека о названиях по порядку: «khozyajstvennik i knigoderzhatelj», поправка «knigoderzhec», затем «Dlya znakomstva vyivodi novichkam v skobkakh bukhgalter i ekonomist nekotoroye vremya dlya obucheniya.» Канонические имена — хозяйственник и книгодержец; при знакомстве новичков некоторое время показываются синонимы «экономист» и «бухгалтер» в скобках соответственно.
 
 Уточнение человека дословно: «Ponyal, togda akcent delayem na zasjhite putyom mekhanicheskoj neuyazvimosti.» Направление — пассивная механическая защита гражданских помещений; абсолютная неуязвимость и подтверждённая безопасность не заявляются.
+
+Новые слова человека по порядку: «Myi zh uzhe kak raz prorabatyivayem vopros s podkhodyasjhej cenoj stroiteljstva takikh konstrukcij.» и «Da, chem boljshe variantov myi rassmotrim — tem luchshe. Mozhet nam kak raz prigodyatsya raznyiye formatyi v raznyikh usloviyakh.» Разнообразные форматы исследуются в уже действующем проекте с единой ценовой моделью, применимость зависит от условий; конкретные цены и лучший вариант пока не установлены.
+
+Документация сообщила, что названия хозяйственника и книгодержца и указание о механической защите внесены в частный тематический черновик и переданы Управляющему; осуществимость и критерии UNKNOWN, каноническое внесение и доставка отсутствуют, первичные ссылки ещё нужны.
