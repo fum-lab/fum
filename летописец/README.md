@@ -2113,3 +2113,7 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Человек уточнил правило создания дословно: «Vsekh s Low bez isklyucheniya sozdayom.» Все новые агенты создаются с усилием Low без исключений; автоматическое изменение режима существующих агентов этим не подтверждено.
 
 Человек поручил создать специализированную команду FUM для естественного интерактивного знакомства и обучения взаимодействию; дополнительно установил: «Vsekh s Low bez isklyucheniya sozdayom.» По сообщению Управляющего, на Low созданы `/root/proektirovshchik_vzaimodeystviya`, `/root/scenarist_vstrechi`, `/root/issledovatel_opyta`, подключены существующие рыночник и редактор. Команда создана в runtime; персональные Git-области ещё не подтверждены.
+
+Указание человека дословно: «Takzhe FUM pozvolyayet prisoyedinitjsya k razrabotke FUM za schyot sobstvennogo limita ili za schyot sobstvennogo zheleza.» Человек хочет понятный путь участия со своими ресурсами; поддержка конкретного оборудования и автоматический GitHub-допуск не доказаны.
+
+Документация сообщила: команда знакомства и уточнение о Low внесены в частный черновик, сохранение и адресное возвращение знаний различены как расширение рабочего контекста; готовый автомат восстановления не утверждается. Документ в Git не внесён.
