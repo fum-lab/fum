@@ -1,1 +1,0 @@
-Nam nuzhno byi avtomaticheski generirovatj predstavleniya na Swift i Python iz obsjhego opisaniya mekhanizmom strukturiruyusjhikh operatorov.

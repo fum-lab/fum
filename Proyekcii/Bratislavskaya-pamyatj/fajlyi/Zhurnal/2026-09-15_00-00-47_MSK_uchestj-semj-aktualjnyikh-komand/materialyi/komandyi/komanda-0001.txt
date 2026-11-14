@@ -1,1 +1,0 @@
-Vsyu rabotu stavim na pauzu i aktivnyij upor delayem na optimizaciyu raskhoda konteksta.

@@ -1,1 +1,0 @@
-Budut pryam skhemyi mapinga s mapingom v kompaktnyiye JSON-strukturyi cherez Codable?
