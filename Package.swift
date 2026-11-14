@@ -44,6 +44,7 @@ let package = Package(
         ),
         .executableTarget(
             name: "ФУМПроверкаНачальнойСреды",
+            dependencies: ["СистемныеВызовы"],
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Tests/ПроверкаНачальнойСреды",
             swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors", "-parse-as-library"])]
         ),

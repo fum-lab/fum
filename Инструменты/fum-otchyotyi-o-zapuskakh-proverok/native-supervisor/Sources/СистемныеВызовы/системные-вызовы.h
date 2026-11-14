@@ -10,3 +10,6 @@
 #include <spawn.h>
 #include <stdlib.h>
 #include <string.h>
+
+// C-адаптер: прямой вызов системного flock без неоднозначности имени структуры.
+static inline int fum_flock(int fd, int operation) { return flock(fd, operation); }
