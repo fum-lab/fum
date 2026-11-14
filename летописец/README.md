@@ -2119,3 +2119,5 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Документация сообщила: команда знакомства и уточнение о Low внесены в частный черновик, сохранение и адресное возвращение знаний различены как расширение рабочего контекста; готовый автомат восстановления не утверждается. Документ в Git не внесён.
 
 Указания человека о названиях по порядку: «khozyajstvennik i knigoderzhatelj», поправка «knigoderzhec», затем «Dlya znakomstva vyivodi novichkam v skobkakh bukhgalter i ekonomist nekotoroye vremya dlya obucheniya.» Канонические имена — хозяйственник и книгодержец; при знакомстве новичков некоторое время показываются синонимы «экономист» и «бухгалтер» в скобках соответственно.
+
+Уточнение человека дословно: «Ponyal, togda akcent delayem na zasjhite putyom mekhanicheskoj neuyazvimosti.» Направление — пассивная механическая защита гражданских помещений; абсолютная неуязвимость и подтверждённая безопасность не заявляются.
