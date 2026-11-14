@@ -2143,3 +2143,5 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Созданы четыре Low специалиста: координатор медиатеки, педагогический редактор, программист медиаконвейера и программист торрент-каталога; Главстрой и Наблюдатель согласовали. Существующий адаптер libtorrent остаётся у прежнего владельца; его точный runtime-адрес и последнее свидетельство коммита, теста или интеграции Летописцу UNKNOWN.
 
 Новые реплики человека дословно по порядку: «Chto yesli soberyom vsekh agentov v papku staf?», «I sgruppiruyem ikh v papki po komandam.», «Ya dumayu po logike russkogo yazyika stoit rovno naoborot nazyivatj tipyi so strochnoj bukvyi, a uzhe ekzemplyaryi s propisnoj.» Структура и имена — направление работы; существующие ветки и пути ещё не перенесены.
+
+К предыдущему указанию о типах со строчной и экземплярах с прописной человек уточнил дословно: «Imena naricateljnyiye i sobstvennyiye.» и «V tom chisle v kode.» Применение в коде и переход существующих имён требуют отдельной предметной проработки; выполненный перенос не утверждается.
