@@ -144,6 +144,40 @@ public struct ОпораКаталогаПрежнегоЗамка: Equatable, S
     }
 }
 
+/// Синтаксис опоры для явной передачи одного заимствованного файлового FD.
+/// Идентичность FD и доверие к вызывающему проверяются за пределами этого типа.
+public struct ОпораЗаимствованногоДопуска: Equatable, Sendable {
+    public let путь: String
+    public let дескриптор: Int32
+    public let устройство: UInt64
+    public let инод: UInt64
+    public let владелец: UInt32
+    public let режим: UInt16
+
+    public init?(_ путь: String, _ текстДескриптора: String, _ устройство: String, _ инод: String,
+                 _ владелец: String, _ режим: String,
+                 дескрипторСтатуса: Int32, дескрипторКаталога: Int32) {
+        let части = путь.split(separator: "/", omittingEmptySubsequences: false)
+        guard путь.utf8.count < 1024, !путь.utf8.contains(0), части.count >= 2,
+              части.first == "", части.dropFirst().allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." }),
+              let fd = Int32(текстДескриптора), fd > 2,
+              fd != дескрипторСтатуса, fd != дескрипторКаталога, String(fd) == текстДескриптора,
+              let dev = UInt64(устройство), String(dev) == устройство,
+              let ino = UInt64(инод), ino > 0, String(ino) == инод,
+              let uid = UInt32(владелец), String(uid) == владелец,
+              let mode = UInt16(режим), String(mode) == режим, mode <= 0o7777 else { return nil }
+        self.путь = путь
+        self.дескриптор = fd
+        self.устройство = dev
+        self.инод = ino
+        self.владелец = uid
+        self.режим = mode
+    }
+
+    /// Данные для доверенной цели; номер сам по себе не является полномочием.
+    public var переменнаяЦели: String { "FUM_BORROWED_ADMISSION_FD=\(дескриптор)" }
+}
+
 public enum ПолитикаСредыЦели: Equatable, Sendable {
     case legacy
     case isolatedGit
