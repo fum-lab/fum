@@ -1,0 +1,4 @@
+module СистемныеВызовы [system] {
+    header "системные-вызовы.h"
+    export *
+}
