@@ -4883,24 +4883,24 @@ class ФикстураОтчётов:
 
 
 class ОтчётыОЗапускахПроверок(unittest.TestCase):
-    def test_полный_запуск_слияния_требует_точного_источника_и_полного_набора_аргументов(сам):
-        спецификация = importlib.util.spec_from_file_location("отчёты_слияния_для_теста", сценарий)
-        модуль = importlib.util.module_from_spec(спецификация)
-        спецификация.loader.exec_module(модуль)
-        источник = сценарий.resolve().parents[3]
-        with tempfile.TemporaryDirectory() as временный:
-            кандидат = Path(временный).resolve()
-            команда = [sys.executable, "-B", str(источник / "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py"),
-                       "--repo-root", str(кандидат), "--request", путь_запроса,
-                       "--commit-message-file", str(кандидат / "коммит.txt"), "--codex-thread-id", "00000000-0000-4000-8000-000000000001",
-                       "--источник-проверок", "1" * 40, "--ведущая-основа", "2" * 40,
-                       "--свидетельство-контура", str(Path(путь_запроса).parent / "материалы/контур-слияния.json")]
-            сам.assertTrue(модуль.является_запуском_полной_проверки(кандидат, команда))
-            for хвост in (["--list"], ["--skip-session-coherence"], ["--repo-root", str(источник)]):
-                with сам.subTest(хвост=хвост):
-                    сам.assertFalse(модуль.является_запуском_полной_проверки(кандидат, команда + хвост))
-            команда[2] = str(кандидат / "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py")
-            сам.assertFalse(модуль.является_запуском_полной_проверки(кандидат, команда))
+    def test_контур_слияния_отклоняется_до_загрузки(сам):
+        модуль = загрузить_модуль_автоматизации()
+        фикстура = _синтетический_корень_классификации(сам, модуль)
+        источник = Path(модуль.__file__).resolve().parents[3]
+        кандидат = фикстура / "candidate"
+        команда = [sys.executable, "-B", str(источник / модуль.ПУТЬ_ПОЛНОЙ_ПРОВЕРКИ),
+                   "--repo-root", str(кандидат), "--request", путь_запроса,
+                   "--commit-message-file", str(фикстура / "message.DATA"),
+                   "--codex-thread-id", "00000000-0000-4000-8000-000000000001",
+                   "--источник-проверок", "1" * 40, "--ведущая-основа", "2" * 40,
+                   "--свидетельство-контура",
+                   str(Path(путь_запроса).parent / "материалы/контур-слияния.json")]
+        with mock.patch.object(модуль.os, "environ", object()), \
+             mock.patch.object(модуль, "загрузить_контур_слияния",
+                               side_effect=AssertionError("недопущенная загрузка")) as загрузить:
+            with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "контур слияния закрыт"):
+                модуль.является_запуском_полной_проверки(кандидат, команда)
+        загрузить.assert_not_called()
 
     @property
     def фикстура(сам) -> ФикстураОтчётов:
@@ -8771,7 +8771,122 @@ print('UNKNOWN')
         сам.assertEqual(цель.read_bytes(), b'unchanged')
 
 
+def _синтетический_корень_классификации(тест, модуль):
+    владелец = tempfile.TemporaryDirectory(dir="/tmp")
+    тест.addCleanup(владелец.cleanup)
+    корень = Path(владелец.name)
+    подмена = mock.patch.object(модуль, "__file__", str(корень / "a/b/c/source.DATA"))
+    подмена.start()
+    тест.addCleanup(подмена.stop)
+    return корень
+
+
 class ПроверкаОграниченнойСреды(unittest.TestCase):
+    def test_прямой_smoke_с_параметрами_контура_отказывает_до_загрузки(сам):
+        модуль = загрузить_модуль_автоматизации()
+        фикстура = _синтетический_корень_классификации(сам, модуль)
+        кандидат = фикстура / "candidate"
+        источник = Path(модуль.__file__).resolve().parents[3]
+        параметры = (
+            ("--источник-проверок", "a"), ("--источник-проверок=a",),
+            ("--источ", "a"), ("--ведущ", "b"), ("--свидетельство-контура=x",),
+            ("--проекция", "отложена", "--источник-проверок", "a"),
+        )
+        с_интерпретатором = (
+            (sys.executable,), (sys.executable, "-I", "-S", "-B"),
+            (sys.executable, "-X", "dev"), (sys.executable, "-Wignore"),
+            (sys.executable, "-BXdev"), (sys.executable, "-IBX", "dev"),
+            (sys.executable, "-IWignore"), (sys.executable, "--"),
+        )
+        with mock.patch.object(модуль.os, "environ", object()), \
+             mock.patch.object(модуль, "загрузить_контур_слияния",
+                               side_effect=AssertionError("недопущенная загрузка")) as загрузить:
+            for корень_скрипта in (кандидат, источник):
+                путь = str(корень_скрипта / модуль.ПУТЬ_ПОЛНОЙ_ПРОВЕРКИ)
+                for хвост in параметры:
+                    for начало in с_интерпретатором:
+                        команда = [*начало, путь, *хвост]
+                        with сам.subTest(команда=команда), \
+                             сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "контур слияния закрыт"):
+                            модуль.является_запуском_полной_проверки(кандидат, команда)
+                    with сам.subTest(команда=[путь, *хвост]), \
+                         сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "контур слияния закрыт"):
+                        модуль.является_запуском_полной_проверки(кандидат, [путь, *хвост])
+        загрузить.assert_not_called()
+
+    def test_разделитель_проекция_и_чужие_команды_не_загружают_контур(сам):
+        модуль = загрузить_модуль_автоматизации()
+        фикстура = _синтетический_корень_классификации(сам, модуль)
+        корень = фикстура / "candidate"
+        smoke = str(корень / модуль.ПУТЬ_ПОЛНОЙ_ПРОВЕРКИ)
+        чужие = (
+            ["/bin/true", "--источник-проверок"],
+            ["/bin/true", "--источник-проверок=x"],
+            ["/bin/true", smoke, "--источник-проверок"],
+            ["--источник-проверок"],
+            [sys.executable, "-c", smoke, "--источник-проверок"],
+            [sys.executable, "-m", smoke, "--источник-проверок"],
+            [sys.executable, "-X"], [sys.executable, "-W"],
+        )
+        with mock.patch.object(модуль.os, "environ", object()), \
+             mock.patch.object(модуль, "загрузить_контур_слияния",
+                               side_effect=AssertionError("недопущенная загрузка")) as загрузить:
+            for команда in чужие:
+                with сам.subTest(команда=команда):
+                    сам.assertIs(модуль.является_запуском_полной_проверки(корень, команда), False)
+            сам.assertIs(модуль.является_запуском_полной_проверки(
+                корень, [sys.executable, smoke, "--", "--источник-проверок"]), True)
+            сам.assertIs(модуль.является_запуском_полной_проверки(
+                корень, [sys.executable, smoke, "--проекция=отложена"]), False)
+            сам.assertIs(модуль.является_запуском_полной_проверки(
+                корень, [sys.executable, smoke, "--", "--проекция=отложена"]), True)
+        загрузить.assert_not_called()
+
+    def test_алиас_smoke_по_физической_метке_и_неизвестный_stat(сам):
+        from types import SimpleNamespace
+        модуль = загрузить_модуль_автоматизации()
+        фикстура = _синтетический_корень_классификации(сам, модуль)
+        корень = фикстура / "candidate"
+        скрипт = корень / "smoke.DATA"
+        алиас = фикстура / "alias.DATA"
+        чужой = фикстура / "other.DATA"
+        метки = {
+            str(скрипт): SimpleNamespace(st_mode=0o100644, st_dev=5, st_ino=17),
+            str(алиас): SimpleNamespace(st_mode=0o100644, st_dev=5, st_ino=17),
+            str(чужой): SimpleNamespace(st_mode=0o100644, st_dev=5, st_ino=18),
+        }
+        обычный_stat = os.stat
+        def stat_фикстуры(путь, *аргументы, **параметры):
+            имя = os.fspath(путь)
+            if имя in метки:
+                результат = метки[имя]
+                if isinstance(результат, BaseException):
+                    raise результат
+                return результат
+            return обычный_stat(путь, *аргументы, **параметры)
+        with mock.patch.object(модуль, "ПУТЬ_ПОЛНОЙ_ПРОВЕРКИ", Path("smoke.DATA")), \
+             mock.patch.object(модуль.os, "stat", side_effect=stat_фикстуры), \
+             mock.patch.object(модуль, "загрузить_контур_слияния",
+                               side_effect=AssertionError("недопущенная загрузка")) as загрузить:
+            with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "контур слияния закрыт"):
+                модуль.является_запуском_полной_проверки(
+                    корень, [str(алиас), "--источник-проверок=x"])
+            сам.assertIs(модуль.является_запуском_полной_проверки(
+                корень, [str(чужой), "--источник-проверок=x"]), False)
+            метки[str(алиас)] = PermissionError(errno.EACCES, "synthetic")
+            with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "неизвестна физическая идентичность"):
+                модуль.является_запуском_полной_проверки(
+                    корень, [str(алиас), "--источник-проверок=x"])
+            метки[str(скрипт)] = PermissionError(errno.EACCES, "synthetic")
+            with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "неизвестна физическая идентичность"):
+                модуль.является_запуском_полной_проверки(
+                    корень, [str(чужой), "--источник-проверок=x"])
+            метки[str(скрипт)] = SimpleNamespace(st_mode=0o100644, st_dev=5, st_ino=17)
+            del метки[str(алиас)]
+            сам.assertIs(модуль.является_запуском_полной_проверки(
+                корень, [str(алиас), "--источник-проверок=x"]), False)
+        загрузить.assert_not_called()
+
     def test_фактический_вызов_цели_получает_явную_среду_и_stdin(сам):
         # Без запуска исполняются реальные операторы подготовки и Popen,
         # остальные части закрытого маршрута не исполняются.
@@ -8805,9 +8920,10 @@ class ПроверкаОграниченнойСреды(unittest.TestCase):
         сам.assertEqual(len(фрагменты), 1)
         код = compile(ast.fix_missing_locations(ast.Module(body=фрагменты[0], type_ignores=[])),
                       "<фрагмент вызова проверки>", "exec")
-        корень = Path("/fixture")
+        фикстура = _синтетический_корень_классификации(сам, модуль)
+        корень = фикстура / "candidate"
         идентификатор = "00000000-0000-4000-8000-000000000001"
-        путь_наблюдений = Path("/fixture/наблюдения.json")
+        путь_наблюдений = фикстура / "наблюдения.json"
         базовая = {"PATH": os.defpath, "LC_ALL": "C", "GIT_OPTIONAL_LOCKS": "0",
                    "GIT_NO_LAZY_FETCH": "1", "GIT_NO_REPLACE_OBJECTS": "1"}
         for проекция, наблюдения in ((False, путь_наблюдений), (True, None)):
@@ -8832,77 +8948,18 @@ class ПроверкаОграниченнойСреды(unittest.TestCase):
                 вызов.assert_called_once_with(["/bin/true"], cwd=корень, env=ожидаемая,
                     stdin=subprocess.DEVNULL, start_new_session=True, preexec_fn=None)
 
-    def test_точно_распознанный_контур_закрыт_до_проверки_запуска(сам):
-        # Контур предварительно загружен из проверяемого источника; это не
-        # доказательство доверия к его незакреплённой загрузке в рабочем пути.
+    def test_закрытый_маршрут_не_вызывает_загрузчик_контура(сам):
         import ast
         модуль = загрузить_модуль_автоматизации()
-        контур = модуль.загрузить_контур_слияния()
         дерево = ast.parse(Path(модуль.__file__).read_bytes(), filename=модуль.__file__)
-        функция = next(узел for узел in дерево.body
-                       if isinstance(узел, ast.FunctionDef) and узел.name == "выполнить_запуск")
-        сам.assertIsInstance(функция.body[0], ast.Raise)
-        классификации = [н for н, узел in enumerate(функция.body)
-                         if isinstance(узел, ast.Assign)
-                         and any(isinstance(цель, ast.Name)
-                                 and цель.id == "запуск_полной_проверки"
-                                 for цель in узел.targets)]
-        проверки = [н for н, узел in enumerate(функция.body)
-                    if isinstance(узел, ast.If)
-                    and any(isinstance(часть, ast.Constant)
-                            and часть.value == "контур слияния закрыт до подтверждения его источника"
-                            for часть in ast.walk(узел))]
-        сам.assertEqual(len(классификации), 1)
-        сам.assertEqual(len(проверки), 1)
-        сам.assertEqual(проверки[0], классификации[0] + 1)
-        вызовы_проверки_контура = [
-            номер for номер, оператор in enumerate(функция.body)
-            if any(isinstance(часть, ast.Call)
-                   and isinstance(часть.func, ast.Attribute)
-                   and isinstance(часть.func.value, ast.Name)
-                   and часть.func.value.id == "контур_слияния"
-                   and часть.func.attr == "проверить_запуск"
-                   for часть in ast.walk(оператор))
-        ]
-        сам.assertTrue(вызовы_проверки_контура)
-        сам.assertTrue(all(номер > проверки[0] for номер in вызовы_проверки_контура))
-        код = compile(ast.fix_missing_locations(ast.Module(
-            body=[функция.body[классификации[0]], функция.body[проверки[0]]],
-            type_ignores=[])), "<классификация контура>", "exec")
-        корень = Path("/fixture/candidate")
-        запрос = "Журнал/2026-11-14_12-00-00_MSK/запрос.md"
-        источник = Path(модуль.__file__).resolve().parents[3]
-        специальная = [
-            sys.executable, str(источник / контур.СКРИПТ_КОМПЛЕКСНОЙ_ПРОВЕРКИ),
-            "--repo-root", str(корень), "--request", запрос,
-            "--commit-message-file", "/fixture/message",
-            "--codex-thread-id", "00000000-0000-4000-8000-000000000001",
-            "--источник-проверок", "a" * 40, "--ведущая-основа", "b" * 40,
-            "--свидетельство-контура", контур.путь_свидетельства(запрос),
-        ]
-        варианты = [(специальная, True),
-                    (["/bin/true", "--источник-проверок"], False),
-                    (["/bin/true", "--источник-проверок=fixture"], False),
-                    (["/bin/true", "--обычный-флаг"], False)]
-        for команда, специальный in варианты:
-            with сам.subTest(команда=команда):
-                область = dict(модуль.__dict__)
-                область.update(корень=корень, команда=команда)
-                with mock.patch.object(модуль.os, "environ", object()), \
-                     mock.patch.object(модуль, "загрузить_контур_слияния",
-                                       return_value=контур), \
-                     mock.patch.object(контур, "окружение_контура",
-                                       side_effect=AssertionError("среда контура")) as среда, \
-                     mock.patch.object(контур, "проверить_запуск",
-                                       side_effect=AssertionError("проверка контура")) as проверка:
-                    if специальный:
-                        with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, "контур слияния закрыт"):
-                            exec(код, область)
-                    else:
-                        exec(код, область)
-                        сам.assertIs(область["запуск_полной_проверки"], False)
-                среда.assert_not_called()
-                проверка.assert_not_called()
+        for имя in ("является_запуском_полной_проверки", "выполнить_запуск"):
+            функция = next(узел for узел in дерево.body
+                           if isinstance(узел, ast.FunctionDef) and узел.name == имя)
+            with сам.subTest(функция=имя):
+                сам.assertFalse(any(isinstance(узел, ast.Call)
+                    and isinstance(узел.func, ast.Name)
+                    and узел.func.id == "загрузить_контур_слияния"
+                    for узел in ast.walk(функция)))
 
     def test_дочерняя_среда_не_читает_унаследованную_и_различает_проекцию(сам):
         модуль = загрузить_модуль_автоматизации()
