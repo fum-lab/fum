@@ -2111,3 +2111,5 @@ Korrektnostj budet proveryatjsya universaljnoj proverkoj tipov, i v sluchaye otk
 Последовательные уточнения человека о знакомстве нового пользователя: «Kak vzaimodejstvovatj.» и «Ya dumayu nuzhno stroitj eto kak normaljnyij razgovor, kak mezhdu khoroshimi lyudjmi pri khoroshej vstreche.» Речь об обучении всему взаимодействию в форме естественной дружелюбной встречи, не утверждение готового интерфейса.
 
 Человек уточнил правило создания дословно: «Vsekh s Low bez isklyucheniya sozdayom.» Все новые агенты создаются с усилием Low без исключений; автоматическое изменение режима существующих агентов этим не подтверждено.
+
+Человек поручил создать специализированную команду FUM для естественного интерактивного знакомства и обучения взаимодействию; дополнительно установил: «Vsekh s Low bez isklyucheniya sozdayom.» По сообщению Управляющего, на Low созданы `/root/proektirovshchik_vzaimodeystviya`, `/root/scenarist_vstrechi`, `/root/issledovatel_opyta`, подключены существующие рыночник и редактор. Команда создана в runtime; персональные Git-области ещё не подтверждены.
