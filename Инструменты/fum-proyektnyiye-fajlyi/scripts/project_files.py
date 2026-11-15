@@ -309,6 +309,7 @@ def _git_status_for_path(repo_root: Path, relative: Path) -> bytes:
     return _run_git(
         repo_root,
         [
+            "--literal-pathspecs",
             "-c",
             "core.quotepath=false",
             "status",
@@ -357,7 +358,17 @@ def project_markdown_paths(
     """Return tracked and new non-ignored Markdown files under one policy."""
 
     root = Path(repo_root).resolve()
-    git_available = (root / ".git").exists()
+    метка_гита = root / ".git"
+    try:
+        состояние_метки = метка_гита.lstat()
+    except FileNotFoundError:
+        git_available = False
+    except OSError as exc:
+        raise ProjectFilesError(f"cannot inspect .git marker: {метка_гита}") from exc
+    else:
+        if not (stat.S_ISDIR(состояние_метки.st_mode) or stat.S_ISREG(состояние_метки.st_mode)):
+            raise ProjectFilesError(f"unsupported .git marker: {метка_гита}")
+        git_available = True
     if use_git is True and not git_available:
         raise ProjectFilesError(f"repository has no .git entry: {root}")
     should_use_git = git_available if use_git is None else use_git and git_available

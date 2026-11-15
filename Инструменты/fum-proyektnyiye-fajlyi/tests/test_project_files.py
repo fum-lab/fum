@@ -1,4 +1,5 @@
 import importlib.util
+import os
 import subprocess
 import sys
 import tempfile
@@ -21,6 +22,120 @@ spec.loader.exec_module(project_files)
 
 
 class ProjectFilesTests(unittest.TestCase):
+    def test_необычная_метка_гита_отказывает_до_обхода_и_запуска(сам):
+        варианты = ['разорванная ссылка', 'ссылка на каталог']
+        if hasattr(os, 'mkfifo'):
+            варианты.append('канал')
+        for вариант in варианты:
+            with сам.subTest(вариант=вариант), tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+                корень = Path(каталог).resolve()
+                метка = корень / '.git'
+                if вариант == 'разорванная ссылка':
+                    метка.symlink_to(корень / 'отсутствует', target_is_directory=True)
+                elif вариант == 'ссылка на каталог':
+                    цель = корень / 'цель'
+                    цель.mkdir()
+                    метка.symlink_to(цель, target_is_directory=True)
+                else:
+                    os.mkfifo(метка)
+
+                with mock.patch.object(project_files.os, 'walk',
+                                       side_effect=AssertionError('неожиданный обход')), \
+                     mock.patch.object(project_files.subprocess, 'run',
+                                       side_effect=AssertionError('неожиданный процесс')):
+                    with сам.assertRaisesRegex(project_files.ProjectFilesError, r'\.git'):
+                        project_files.project_markdown_paths(корень)
+
+    def test_ошибка_проверки_метки_гита_не_разрешает_обход(сам):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            обычная_проверка = Path.lstat
+
+            def ошибочная_проверка(путь, *аргументы, **параметры):
+                if путь == корень / '.git':
+                    raise PermissionError(13, 'synthetic marker failure')
+                return обычная_проверка(путь, *аргументы, **параметры)
+
+            with mock.patch.object(Path, 'lstat', new=ошибочная_проверка), \
+                 mock.patch.object(project_files.os, 'walk',
+                                   side_effect=AssertionError('неожиданный обход')), \
+                 mock.patch.object(project_files.subprocess, 'run',
+                                   side_effect=AssertionError('неожиданный процесс')):
+                with сам.assertRaisesRegex(project_files.ProjectFilesError, r'\.git'):
+                    project_files.project_markdown_paths(корень)
+
+    def test_файловая_метка_связанного_рабочего_дерева_остаётся_допустимой(сам):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            область = Path(каталог).resolve()
+            исходный, связанный = область / 'исходный', область / 'связанный'
+            исходный.mkdir()
+            среда = {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'GIT_CONFIG_NOSYSTEM': '1',
+                     'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_TERMINAL_PROMPT': '0',
+                     'GIT_AUTHOR_NAME': 'Fikstura', 'GIT_AUTHOR_EMAIL': 'fum@local',
+                     'GIT_COMMITTER_NAME': 'Fikstura', 'GIT_COMMITTER_EMAIL': 'fum@local'}
+            гит = ['/usr/bin/git', '-C', str(исходный), '-c', 'core.hooksPath=/dev/null',
+                   '-c', 'core.fsmonitor=false', '-c', 'commit.gpgsign=false']
+
+            def выполнить(*аргументы):
+                subprocess.run([*гит, *аргументы], env=среда, stdin=subprocess.DEVNULL,
+                               capture_output=True, timeout=10, check=True)
+
+            выполнить('init', '-q', '--template=')
+            (исходный / 'README.md').write_text('# Фикстура\n', encoding='utf-8')
+            выполнить('add', '--', 'README.md')
+            выполнить('commit', '-q', '--no-verify', '-m', 'Фикстура')
+            выполнить('worktree', 'add', '-q', '--detach', str(связанный), 'HEAD')
+            сам.assertTrue((связанный / '.git').is_file())
+            сам.assertEqual(project_files.project_markdown_paths(связанный, use_git=True),
+                            [связанный / 'README.md'])
+
+    def test_чужое_имя_по_шаблону_не_скрывает_отсутствующий_файл(сам):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            среда = {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'GIT_CONFIG_NOSYSTEM': '1',
+                     'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_TERMINAL_PROMPT': '0',
+                     'GIT_AUTHOR_NAME': 'Fikstura', 'GIT_AUTHOR_EMAIL': 'fum@local',
+                     'GIT_COMMITTER_NAME': 'Fikstura', 'GIT_COMMITTER_EMAIL': 'fum@local'}
+            гит = ['/usr/bin/git', '--literal-pathspecs', '-C', str(корень),
+                   '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false',
+                   '-c', 'commit.gpgsign=false']
+
+            def выполнить(*аргументы):
+                subprocess.run([*гит, *аргументы], env=среда, stdin=subprocess.DEVNULL,
+                               capture_output=True, timeout=10, check=True)
+
+            выполнить('init', '-q', '--template=')
+            отслеживаемый = корень / 'a[1].md'
+            отслеживаемый.write_text('# Один\n', encoding='utf-8')
+            выполнить('add', '--', 'a[1].md')
+            выполнить('commit', '-q', '--no-verify', '-m', 'Фикстура')
+            выполнить('update-index', '--skip-worktree', '--', 'a[1].md')
+            отслеживаемый.unlink()
+            (корень / 'a1.md').write_text('# Другой\n', encoding='utf-8')
+
+            with сам.assertRaisesRegex(project_files.ProjectFilesError,
+                                       'tracked Markdown is absent'):
+                project_files.project_markdown_paths(корень, use_git=True)
+
+    def test_видимое_удаление_буквального_имени_остаётся_допустимым(сам):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            среда = {'PATH': '/usr/bin:/bin', 'LC_ALL': 'C', 'GIT_CONFIG_NOSYSTEM': '1',
+                     'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_TERMINAL_PROMPT': '0'}
+            гит = ['/usr/bin/git', '--literal-pathspecs', '-C', str(корень),
+                   '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false']
+            subprocess.run([*гит, 'init', '-q', '--template='], env=среда,
+                           stdin=subprocess.DEVNULL, capture_output=True, timeout=10, check=True)
+            отслеживаемый = корень / 'a[1].md'
+            отслеживаемый.write_text('# Один\n', encoding='utf-8')
+            subprocess.run([*гит, 'add', '--', 'a[1].md'], env=среда,
+                           stdin=subprocess.DEVNULL, capture_output=True, timeout=10, check=True)
+            отслеживаемый.unlink()
+            другой = корень / 'a1.md'
+            другой.write_text('# Другой\n', encoding='utf-8')
+
+            сам.assertEqual(project_files.project_markdown_paths(корень, use_git=True), [другой])
+
     def test_normalizes_only_repository_relative_portable_paths(сам):
         with tempfile.TemporaryDirectory() as временный_каталог:
             корень = Path(временный_каталог)
