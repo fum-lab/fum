@@ -4748,6 +4748,32 @@ def _прочитать_источник_git_через_fd(каталог: int, 
         raise ОшибкаОтчёта('не удалось проверить источник Git') from ошибка
 
 
+def _сверить_источник_git_с_fd(каталог: int, имя: str, fd: int, ожидаемые: bytes) -> None:
+    """Сверить имя, удержанный FD и байты; effective path и custody внешние."""
+    if type(fd) is not int or fd < 0 or type(ожидаемые) is not bytes or len(ожидаемые) > 65536:
+        raise ОшибкаОтчёта('неверный удержанный источник Git')
+    def метка(с):
+        return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid, с.st_nlink,
+                с.st_size, с.st_mtime_ns, с.st_ctime_ns)
+    try:
+        до = os.fstat(fd)
+        данные = _прочитать_источник_git_через_fd(каталог, имя, 65536)
+        if данные is None or данные != ожидаемые or метка(os.stat(имя, dir_fd=каталог, follow_symlinks=False)) != метка(до):
+            raise ОшибкаОтчёта('имя источника Git не совпадает с удержанным FD')
+        прочитано = bytearray()
+        while len(прочитано) < len(ожидаемые):
+            часть = os.pread(fd, len(ожидаемые) - len(прочитано), len(прочитано))
+            if not часть:
+                raise ОшибкаОтчёта('неполное чтение удержанного источника Git')
+            прочитано.extend(часть)
+        if (bytes(прочитано) != ожидаемые or os.pread(fd, 1, len(прочитано))
+            or метка(os.fstat(fd)) != метка(до)
+            or метка(os.stat(имя, dir_fd=каталог, follow_symlinks=False)) != метка(до)):
+            raise ОшибкаОтчёта('удержанный источник Git изменился')
+    except OSError as ошибка:
+        raise ОшибкаОтчёта('не удалось сверить удержанный источник Git') from ошибка
+
+
 def _допустимая_ссылка_git(ссылка: bytes) -> bool:
     """Распознать UTF-8 refs/heads по синтаксическим правилам Git."""
     if type(ссылка) is not bytes or not ссылка.startswith(b'refs/heads/') or len(ссылка) > 4096:

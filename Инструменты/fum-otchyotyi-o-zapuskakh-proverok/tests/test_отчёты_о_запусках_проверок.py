@@ -5509,6 +5509,67 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_внешний_excludesfile_влияет_на_точный_список_git(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            база = Path(каталог).resolve()
+            домашний, репозиторий, дерево = база / 'home', база / 'repo', база / 'work'
+            домашний.mkdir()
+            окружение = {'PATH': os.defpath, 'HOME': str(домашний), 'LC_ALL': 'C',
+                         'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1',
+                         'GIT_ALLOW_PROTOCOL': '', 'GIT_OPTIONAL_LOCKS': '0',
+                         'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1'}
+            def вызвать_git(*аргументы):
+                return subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null', *аргументы],
+                                      env=окружение, stdin=subprocess.DEVNULL,
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=10)
+            вызвать_git('init', '-q', str(репозиторий))
+            вызвать_git('-C', str(репозиторий), '-c', 'user.name=fixture', '-c', 'user.email=fixture@invalid',
+                        'commit', '-q', '--allow-empty', '-m', 'fixture')
+            вызвать_git('-C', str(репозиторий), 'worktree', 'add', '-q', '-b', 'fixture-linked', str(дерево))
+            исключения = домашний / 'ignore'
+            исключения.write_bytes(b'ignored.tmp\n')
+            (домашний / '.gitconfig').write_text('[core]\n\texcludesfile = ' + str(исключения) + '\n')
+            (дерево / 'ignored.tmp').write_bytes(b'fixture\n')
+            (дерево / 'kept.txt').write_bytes(b'fixture\n')
+            def список():
+                аргументы = ('/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', '/usr/bin/git',
+                             '-C', str(дерево), '--no-pager', '-c', 'core.fsmonitor=false',
+                             '--work-tree=' + str(дерево), 'ls-files', '--others', '--exclude-standard', '-z', '--', '.')
+                итог = subprocess.run(аргументы, env=окружение, stdin=subprocess.DEVNULL,
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=10)
+                сам.assertEqual(итог.stderr, b'')
+                return итог.stdout
+            with contextlib.ExitStack() as стек:
+                каталог_fd = os.open(домашний, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, каталог_fd)
+                файл_fd = os.open('ignore', os.O_RDONLY | os.O_NOFOLLOW, dir_fd=каталог_fd)
+                стек.callback(os.close, файл_fd)
+                сверить = модуль._сверить_источник_git_с_fd
+                сверить(каталог_fd, 'ignore', файл_fd, b'ignored.tmp\n')
+                другой_fd = os.open('.gitconfig', os.O_RDONLY | os.O_NOFOLLOW, dir_fd=каталог_fd)
+                стек.callback(os.close, другой_fd)
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    сверить(каталог_fd, 'ignore', другой_fd, b'ignored.tmp\n')
+                до = список()
+                сверить(каталог_fd, 'ignore', файл_fd, b'ignored.tmp\n')
+                сам.assertEqual(до, b'kept.txt\0')
+                os.rename(исключения, домашний / 'old-ignore')
+                исключения.write_bytes(b'')
+                потребитель = mock.Mock(side_effect=AssertionError('потребитель вызван до отказа'))
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    сверить(каталог_fd, 'ignore', файл_fd, b'ignored.tmp\n')
+                    потребитель()
+                потребитель.assert_not_called()
+                новый_fd = os.open('ignore', os.O_RDONLY | os.O_NOFOLLOW, dir_fd=каталог_fd)
+                стек.callback(os.close, новый_fd)
+                сверить(каталог_fd, 'ignore', новый_fd, b'')
+                после = список()
+                сверить(каталог_fd, 'ignore', новый_fd, b'')
+                сам.assertEqual(после, b'ignored.tmp\0kept.txt\0')
+                print('with_excludes_hex=' + до.hex())
+                print('empty_excludes_hex=' + после.hex())
+
     def test_формат_git_ref_сверяется_с_git_для_utf8(сам):
         модуль = загрузить_модуль_автоматизации()
         примеры = ('refs/heads/ветка/тест', 'refs/heads/release/1.2', 'refs/heads/a..b',
