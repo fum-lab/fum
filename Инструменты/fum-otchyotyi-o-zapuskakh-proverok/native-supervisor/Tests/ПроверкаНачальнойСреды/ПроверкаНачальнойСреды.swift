@@ -55,7 +55,13 @@ public func проверитьНачальнуюСреду(
 ) -> Int32 {
     if количество >= 2, let аргументы, let первый = аргументы[1] {
         let режим = String(cString: первый)
-        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout"].contains(режим) {
+        if режим == "--witness8-descendant" {
+            signal(SIGTERM, SIG_IGN)
+            let line = "DESC \(getpid()) \(getpgrp())\n"
+            guard line.utf8CString.withUnsafeBytes({ Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count-1) }) == line.utf8.count else { return 49 }
+            while true { Darwin.pause() }
+        }
+        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant"].contains(режим) {
             var args = [String]()
             for индекс in 0..<Int(количество) {
                 guard let часть = аргументы[индекс] else { return 40 }
@@ -251,6 +257,14 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
           Darwin.fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == 0 else { return 47 }
     let итог = Darwin.fcntl(fd, F_GETFD)
     guard итог >= 0, итог & FD_CLOEXEC != 0 else { return 47 }
+    if args[1] == "--witness8-target-descendant" {
+        signal(SIGTERM, SIG_IGN)
+        var child: pid_t = 0
+        var argv = [strdup(args[0]), strdup("--witness8-descendant"), nil]
+        var env: [UnsafeMutablePointer<CChar>?] = [nil]
+        guard posix_spawn(&child, args[0], nil, nil, &argv, &env) == 0, child > 1 else { return 49 }
+        while true { Darwin.pause() }
+    }
     if args[1] == "--witness8-target-timeout" { while true { Darwin.pause() } }
     if args[1] == "--witness8-target-overflow" {
         let block = [UInt8](repeating: 65, count: 1024)
@@ -266,7 +280,7 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
 }
 
 private func запуститьСлучайПрофиля(_ helper: String, _ witness: String, _ anchor: String,
-                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool) -> Bool {
+                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool, потомок: Bool) -> Bool {
     var шаблон = Array("/private/tmp/fum-witness8-swift.XXXXXXXX".utf8CString)
     guard let указатель = mkdtemp(&шаблон) else { сообщениеПрофиля("FAIL mkdtemp"); return false }
     let каталог = String(cString: указатель)
@@ -357,9 +371,9 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
                 String(каталогStat.st_uid), String(каталогStat.st_mode & 0o7777),
                 "--опора-допуска", имяB, String(bFD), String(bDev), String(inoB),
                 String(bStat.st_uid), String(bStat.st_mode & 0o7777), "--", helper,
-                таймаут ? "--witness8-target-timeout" : (переполнение ? "--witness8-target-overflow" : "--witness8-target"), маркер, String(bFD), String(bDev), String(bStat.st_ino),
+                потомок ? "--witness8-target-descendant" : (таймаут ? "--witness8-target-timeout" : (переполнение ? "--witness8-target-overflow" : "--witness8-target")), маркер, String(bFD), String(bDev), String(bStat.st_ino),
                 String(чужойFD), String(чужойDev), String(чужойStat.st_ino)]
-    if таймаут { argv.insert("250", at: 9) }
+    if таймаут { argv.insert(потомок ? "1500" : "250", at: 9) }
     var pointers: [UnsafeMutablePointer<CChar>?] = []
     defer { for указатель in pointers { free(указатель) } }
     for значение in argv {
@@ -430,6 +444,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
             var saved = [[UInt8]](repeating: [], count: 3)
             let fds = [status[0], output[0], errors[0]], limits = [37, 4096, 4096]
             var eof = [false, false, false], sent = false, exceeded = false, total = [0, 0, 0]
+            var descendant: pid_t?
             while !eof.allSatisfy({ $0 }) {
                 guard let now = обновитьСрокПрофиля(&последниеЧасы, до: крайОпыта) else { неизвестно("poll deadline") }
                 var pollfds = (0..<3).map { pollfd(fd: eof[$0] ? -1 : fds[$0], events: Int16(POLLIN | POLLHUP), revents: 0) }
@@ -448,6 +463,11 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
                     let room = max(0, limits[i] - saved[i].count)
                     saved[i].append(contentsOf: chunk.prefix(min(count, room)))
                     if i == 0 { полученные.append(contentsOf: chunk.prefix(min(count, room))) }
+                    if i == 1 && потомок && descendant == nil, let line = String(bytes: saved[1], encoding: .utf8), line.hasSuffix("\n") {
+                        let pieces = line.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ")
+                        guard pieces.count == 3, pieces[0] == "DESC", let child = pid_t(pieces[1]), let group = pid_t(pieces[2]), child > 1, child != pid_t(targetPID), group == pid_t(anchorPID), Darwin.getpgid(child) == group, Darwin.kill(child, 0) == 0 else { неизвестно("descendant identity") }
+                        descendant = child
+                    }
                     if count > room {
                         if i == 0 { неизвестно("status overflow") }
                         exceeded = true
@@ -458,13 +478,13 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
             let fui = saved[0]
             guard (таймаут ? (!exceeded && !sent) : (exceeded && sent)), fui.count == 37, Array(fui.prefix(4)) == [0x46,0x55,таймаут ? 0x44 : 0x49,0x31],
                   Array(fui[4..<20]) == idБайты, словоПрофиля(fui,20) == anchorPID,
-                  словоПрофиля(fui,24) == targetPID, словоПрофиля(fui,28) == UInt32(SIGTERM),
+                  словоПрофиля(fui,24) == targetPID, словоПрофиля(fui,28) == UInt32(потомок ? SIGKILL : SIGTERM),
                   словоПрофиля(fui,32) == UInt32(SIGKILL), fui[36] == (таймаут ? 1 : 0x45) else { неизвестно("FUI") }
             цельУспешна = true
             var timing = ""
             if таймаут {
-                guard let start = стартЦели, let now = часыПрофиля(), now >= start, now - start >= 250 else { неизвестно("timeout duration") }
-                timing = "; elapsed_ms=\(now-start); FUS=\(fus.map { String(format: "%02x", $0) }.joined())"
+                guard let start = стартЦели, let now = часыПрофиля(), now >= start, now - start >= (потомок ? 1500 : 250), !потомок || descendant != nil else { неизвестно("timeout duration") }
+                timing = "; elapsed_ms=\(now-start); FUS=\(fus.map { String(format: "%02x", $0) }.joined()); descendant=\(descendant ?? 0)"
             }
             let hex = fui.map { String(format: "%02x", $0) }.joined()
             let hashes = saved.map { SHA256.hash(data: Data($0)).map { String(format: "%02x", $0) }.joined() }
@@ -545,8 +565,9 @@ private func профильWitness8(_ args: [String]) -> Int32 {
     guard sigemptyset(&игнорировать.sa_mask) == 0, sigaction(SIGPIPE, &игнорировать, nil) == 0 else { return 40 }
     _ = Darwin.umask(0o077)
     let переполнение = args[1] == "--проверить-witness8-overflow"
-    let таймаут = args[1] == "--проверить-witness8-timeout"
-    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут),
-          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут) else { return 1 }
+    let потомок = args[1] == "--проверить-witness8-descendant"
+    let таймаут = args[1] == "--проверить-witness8-timeout" || потомок
+    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок),
+          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок) else { return 1 }
     return 0
 }
