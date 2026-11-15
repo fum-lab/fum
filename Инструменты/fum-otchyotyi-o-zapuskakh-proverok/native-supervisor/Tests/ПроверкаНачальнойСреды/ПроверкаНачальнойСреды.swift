@@ -1,4 +1,6 @@
+import Foundation
 import Darwin
+import CryptoKit
 import СистемныеВызовы
 
 // Проверочная цель сравнивает начальный envp без вывода его содержимого.
@@ -53,13 +55,13 @@ public func проверитьНачальнуюСреду(
 ) -> Int32 {
     if количество >= 2, let аргументы, let первый = аргументы[1] {
         let режим = String(cString: первый)
-        if режим == "--witness8-target" || режим == "--проверить-witness8" {
+        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow"].contains(режим) {
             var args = [String]()
             for индекс in 0..<Int(количество) {
                 guard let часть = аргументы[индекс] else { return 40 }
                 args.append(String(cString: часть))
             }
-            return режим == "--witness8-target" ? цельПрофиля(args) : профильWitness8(args)
+            return режим.hasPrefix("--witness8-target") ? цельПрофиля(args) : профильWitness8(args)
         }
     }
     guard (количество == 2 || количество == 3), let аргументы, let идентификатор = аргументы[1],
@@ -249,13 +251,21 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
           Darwin.fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == 0 else { return 47 }
     let итог = Darwin.fcntl(fd, F_GETFD)
     guard итог >= 0, итог & FD_CLOEXEC != 0 else { return 47 }
+    if args[1] == "--witness8-target-overflow" {
+        let block = [UInt8](repeating: 65, count: 1024)
+        while true {
+            let out = block.withUnsafeBytes { Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count) }
+            let err = block.withUnsafeBytes { Darwin.write(STDERR_FILENO, $0.baseAddress, $0.count) }
+            if out <= 0 || err <= 0 { return 48 }
+        }
+    }
     let o: [UInt8] = [79, 85, 84, 10], e: [UInt8] = [69, 82, 82, 10]
     guard o.withUnsafeBytes({ Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count) }) == 4, e.withUnsafeBytes({ Darwin.write(STDERR_FILENO, $0.baseAddress, $0.count) }) == 4 else { return 48 }
     return 0
 }
 
 private func запуститьСлучайПрофиля(_ helper: String, _ witness: String, _ anchor: String,
-                                    корректнаяОпора: Bool) -> Bool {
+                                    корректнаяОпора: Bool, переполнение: Bool) -> Bool {
     var шаблон = Array("/private/tmp/fum-witness8-swift.XXXXXXXX".utf8CString)
     guard let указатель = mkdtemp(&шаблон) else { сообщениеПрофиля("FAIL mkdtemp"); return false }
     let каталог = String(cString: указатель)
@@ -346,7 +356,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
                 String(каталогStat.st_uid), String(каталогStat.st_mode & 0o7777),
                 "--опора-допуска", имяB, String(bFD), String(bDev), String(inoB),
                 String(bStat.st_uid), String(bStat.st_mode & 0o7777), "--", helper,
-                "--witness8-target", маркер, String(bFD), String(bDev), String(bStat.st_ino),
+                переполнение ? "--witness8-target-overflow" : "--witness8-target", маркер, String(bFD), String(bDev), String(bStat.st_ino),
                 String(чужойFD), String(чужойDev), String(чужойStat.st_ino)]
     var pointers: [UnsafeMutablePointer<CChar>?] = []
     defer { for указатель in pointers { free(указатель) } }
@@ -390,6 +400,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     закрыть(&output[1], "output writer")
     закрыть(&errors[1], "errors writer")
     var цельУспешна = true
+    var итогПереполнения: String?
     if корректнаяОпора {
         guard let fua = читатьПрофиль(status[0], число: 24, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
               Array(fua.prefix(4)) == [0x46, 0x55, 0x41, 0x31], Array(fua[4..<20]) == idБайты else { неизвестно("FUA") }
@@ -406,17 +417,59 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
               словоПрофиля(fus, 20) == anchorPID else { неизвестно("FUS") }
         let targetPID = словоПрофиля(fus, 24)
         guard targetPID > 1, targetPID != anchorPID, targetPID != UInt32(pid) else { неизвестно("PID цели") }
-        guard let fup = читатьПрофиль(status[0], число: 32, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
-              Array(fup.prefix(4)) == [0x46, 0x55, 0x50, 0x32], Array(fup[4..<20]) == idБайты else { неизвестно("FUP") }
-        let targetStatus = словоПрофиля(fup, 20)
-        guard let out = читатьПрофиль(output[0], число: 4, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), out == [79,85,84,10], let err = читатьПрофиль(errors[0], число: 4, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), err == [69,82,82,10] else { неизвестно("streams") }
-        цельУспешна = targetStatus == 0
-        guard обновитьСрокПрофиля(&последниеЧасы, до: крайОпыта) != nil else { неизвестно("срок перед C") }
-        guard командаПрофиля(control[1], 0x43) else { неизвестно("C") }
-        guard let fud = читатьПрофиль(status[0], число: 37, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
-              Array(fud.prefix(4)) == [0x46, 0x55, 0x44, 0x31], Array(fud[4..<20]) == idБайты,
-              словоПрофиля(fud, 20) == anchorPID, словоПрофиля(fud, 24) == targetPID,
-              словоПрофиля(fud, 28) == targetStatus, словоПрофиля(fud, 32) == 9, fud[36] == 0 else { неизвестно("FUD") }
+        if переполнение {
+            // Изолированная fixture: контроль остаётся живым, пока не собраны кадр и EOF.
+            var saved = [[UInt8]](repeating: [], count: 3)
+            let fds = [status[0], output[0], errors[0]], limits = [37, 4096, 4096]
+            var eof = [false, false, false], sent = false, exceeded = false, total = [0, 0, 0]
+            while !eof.allSatisfy({ $0 }) {
+                guard let now = обновитьСрокПрофиля(&последниеЧасы, до: крайОпыта) else { неизвестно("poll deadline") }
+                var pollfds = (0..<3).map { pollfd(fd: eof[$0] ? -1 : fds[$0], events: Int16(POLLIN | POLLHUP), revents: 0) }
+                let ready = Darwin.poll(&pollfds, 3, Int32(min(крайОпыта-now,100)))
+                guard ready >= 0 else { неизвестно("poll errno=\(errno)") }
+                if ready == 0 { continue }
+                for i in 0..<3 where !eof[i] && pollfds[i].revents != 0 {
+                    guard pollfds[i].revents & Int16(POLLERR | POLLNVAL) == 0 else { неизвестно("poll channel") }
+                    var chunk = [UInt8](repeating: 0, count: 1024)
+                    let count = Darwin.read(fds[i], &chunk, chunk.count)
+                    guard count >= 0 else { неизвестно("read errno=\(errno)") }
+                    if count == 0 { eof[i] = true; continue }
+                    let (sum, overflowCount) = total[i].addingReportingOverflow(count)
+                    guard !overflowCount else { неизвестно("counter overflow") }
+                    total[i] = sum
+                    let room = max(0, limits[i] - saved[i].count)
+                    saved[i].append(contentsOf: chunk.prefix(min(count, room)))
+                    if i == 0 { полученные.append(contentsOf: chunk.prefix(min(count, room))) }
+                    if count > room {
+                        if i == 0 { неизвестно("status overflow") }
+                        exceeded = true
+                        if !sent { guard командаПрофиля(control[1], 0x45) else { неизвестно("interrupt E") }; sent = true }
+                    }
+                }
+            }
+            let fui = saved[0]
+            guard exceeded, sent, fui.count == 37, Array(fui.prefix(4)) == [0x46,0x55,0x49,0x31],
+                  Array(fui[4..<20]) == idБайты, словоПрофиля(fui,20) == anchorPID,
+                  словоПрофиля(fui,24) == targetPID, словоПрофиля(fui,28) == UInt32(SIGTERM),
+                  словоПрофиля(fui,32) == UInt32(SIGKILL), fui[36] == 0x45 else { неизвестно("FUI") }
+            цельУспешна = true
+            let hex = fui.map { String(format: "%02x", $0) }.joined()
+            let hashes = saved.map { SHA256.hash(data: Data($0)).map { String(format: "%02x", $0) }.joined() }
+            let prefixes = saved[1...2].map { $0.map { String(format: "%02x", $0) }.joined() }
+            итогПереполнения = "PROVISIONAL overflow E; captured=\(saved[1].count),\(saved[2].count); total=\(total[1]),\(total[2]); sha256=\(hashes[1]),\(hashes[2]); FUI=\(hex); stdout=\(prefixes[0]); stderr=\(prefixes[1])"
+        } else {
+            guard let fup = читатьПрофиль(status[0], число: 32, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
+                  Array(fup.prefix(4)) == [0x46, 0x55, 0x50, 0x32], Array(fup[4..<20]) == idБайты else { неизвестно("FUP") }
+            let targetStatus = словоПрофиля(fup, 20)
+            guard let out = читатьПрофиль(output[0], число: 4, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), out == [79,85,84,10], let err = читатьПрофиль(errors[0], число: 4, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), err == [69,82,82,10] else { неизвестно("streams") }
+            цельУспешна = targetStatus == 0
+            guard обновитьСрокПрофиля(&последниеЧасы, до: крайОпыта) != nil else { неизвестно("срок перед C") }
+            guard командаПрофиля(control[1], 0x43) else { неизвестно("C") }
+            guard let fud = читатьПрофиль(status[0], число: 37, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
+                  Array(fud.prefix(4)) == [0x46, 0x55, 0x44, 0x31], Array(fud[4..<20]) == idБайты,
+                  словоПрофиля(fud, 20) == anchorPID, словоПрофиля(fud, 24) == targetPID,
+                  словоПрофиля(fud, 28) == targetStatus, словоПрофиля(fud, 32) == 9, fud[36] == 0 else { неизвестно("FUD") }
+        }
     }
     guard конецПрофиля(status[0], до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), let завершение = ждатьПрофиль(pid, до: крайОпыта, последниеЧасы: &последниеЧасы) else {
         неизвестно("EOF или waitpid")
@@ -441,7 +494,8 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     guard имяЧужого.withCString({ Darwin.unlink($0) }) == 0 else { неизвестно("unlink чужой файл") }
     guard имяB.withCString({ Darwin.unlink($0) }) == 0 else { неизвестно("unlink B") }
     guard каталог.withCString({ Darwin.rmdir($0) }) == 0 else { неизвестно("rmdir fixture") }
-    return сообщениеПрофиля(корректнаяОпора ? "PASS witness8 B" : "PASS witness8 неверный inode")
+    if let итогПереполнения { guard сообщениеПрофиля(итогПереполнения) else { неизвестно("печать результата") } }
+    return сообщениеПрофиля(корректнаяОпора ? "PROVISIONAL witness8 B" : "PROVISIONAL witness8 неверный inode")
 }
 
 private func каталогФизическогоИсполняемогоФайла(_ путь: String, имя: String) -> String? {
@@ -477,7 +531,8 @@ private func профильWitness8(_ args: [String]) -> Int32 {
     игнорировать.__sigaction_u.__sa_handler = SIG_IGN
     guard sigemptyset(&игнорировать.sa_mask) == 0, sigaction(SIGPIPE, &игнорировать, nil) == 0 else { return 40 }
     _ = Darwin.umask(0o077)
-    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true),
-          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false) else { return 1 }
+    let переполнение = args[1] == "--проверить-witness8-overflow"
+    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение),
+          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение) else { return 1 }
     return 0
 }
