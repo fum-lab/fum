@@ -22,6 +22,12 @@ func readFile(_ dir:Int32,_ name:String,_ maxSize:Int,_ label:String)->Data {
  return bytes
 }
 func absent(_ dir:Int32,_ name:String) { var st=stat();if fstatat(dir,name,&st,AT_SYMLINK_NOFOLLOW)==0 { hold("unaccounted \(name)") };guard errno==ENOENT else { hold("probe \(name) errno=\(errno)") };print("ABSENT \(name)") }
+func optionalFile(_ dir:Int32,_ name:String,_ maxSize:Int,_ label:String) {
+ var st=stat()
+ if fstatat(dir,name,&st,AT_SYMLINK_NOFOLLOW)==0 { _ = readFile(dir,name,maxSize,label);return }
+ guard errno==ENOENT else { hold("probe \(name) errno=\(errno)") }
+ print("ABSENT \(label)")
+}
 guard CommandLine.arguments.count==4 else { hold("arguments") }
 let work=CommandLine.arguments[1],gitdir=CommandLine.arguments[2],common=CommandLine.arguments[3]
 guard gitdir.hasPrefix(common+"/worktrees/"), !String(gitdir.dropFirst((common+"/worktrees/").count)).contains("/") else { hold("gitdir outside scoped common") }
@@ -29,7 +35,9 @@ let w=openAbsoluteDirectory(work),g=openAbsoluteDirectory(gitdir),c=openAbsolute
 let marker=readFile(w,".git",4096,"work/.git"), backlink=readFile(g,"gitdir",4096,"gitdir/gitdir"), relative=readFile(g,"commondir",64,"gitdir/commondir")
 guard marker==Data(("gitdir: "+gitdir+"\n").utf8),backlink==Data((work+"/.git\n").utf8),relative==Data("../..\n".utf8) else { hold("linked topology") }
 _ = readFile(g,"HEAD",4096,"gitdir/HEAD");_ = readFile(g,"index",16_777_216,"gitdir/index");_ = readFile(c,"config",65536,"common/config")
-absent(g,"config.worktree");absent(w,".gitattributes")
+optionalFile(g,"config.worktree",65536,"gitdir/config.worktree")
+print("UNKNOWN extensions.worktreeConfig: effective configuration not established")
+absent(w,".gitattributes")
 let info=openat(c,"info",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);guard info>=0 else { hold("info directory") };absent(info,"attributes");close(info)
 let objects=openat(c,"objects",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);guard objects>=0 else { hold("objects directory") }
 let objectInfo=openat(objects,"info",O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);guard objectInfo>=0 else { hold("objects info directory") };absent(objectInfo,"alternates");close(objectInfo);close(objects)
