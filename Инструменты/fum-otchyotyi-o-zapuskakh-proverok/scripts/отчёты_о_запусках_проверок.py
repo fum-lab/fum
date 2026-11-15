@@ -4885,6 +4885,9 @@ def _проверить_неинициализированный_gitlink(кор�
             try:
                 os.stat('.git', dir_fd=текущий, follow_symlinks=False)
             except FileNotFoundError:
+                with os.scandir(текущий) as содержимое:
+                    if next(содержимое, None) is not None:
+                        raise ОшибкаОтчёта('неинициализированный каталог подмодуля не пуст')
                 после = os.fstat(текущий)
                 if (до.st_dev, до.st_ino, до.st_mtime_ns, до.st_ctime_ns) != (после.st_dev, после.st_ino, после.st_mtime_ns, после.st_ctime_ns):
                     raise ОшибкаОтчёта('каталог подмодуля изменился')

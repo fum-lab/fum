@@ -5568,6 +5568,13 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 собрать = модуль._собрать_локальные_конфиги_связанного_git
                 параметры = (рабочий, общий, str(дерево), str(репозиторий / '.git'), 'work')
                 сам.assertEqual(len(собрать(*параметры)), 2)
+                (дерево / 'module/untracked.txt').write_text('fixture\n')
+                непустая_разница = разница()
+                print('nonempty_directory_diff_hex=' + непустая_разница.hex())
+                сам.assertEqual(непустая_разница, b'')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
+                (дерево / 'module/untracked.txt').unlink()
                 (дерево / 'module').rmdir()
                 удаление = (f'diff --git a/module b/module\ndeleted file mode 160000\n'
                             f'index {вершина[:7]}..{"0" * 7}\n--- a/module\n+++ /dev/null\n'
