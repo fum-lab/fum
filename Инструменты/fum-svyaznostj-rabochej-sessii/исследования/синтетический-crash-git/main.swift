@@ -33,6 +33,17 @@ func ребёнок(_ base:String,_ режим:String) -> Never {
     _=gitВызов(repo,["-c","user.name=Synthetic","-c","user.email=synthetic@example.invalid","commit","--quiet","-m","synthetic event"])
     Darwin._exit(73)
 }
+func восстановитель(_ base:String,_ исходный:String) -> Never {
+    проверитьКаталог(base); проверитьКаталог(base+"/repo"); проверитьКаталог(base+"/repo/.git")
+    let repo=base+"/repo", текущий=строка(gitВызов(repo,["rev-parse","HEAD"]))
+    требовать(текущий != исходный && строка(gitВызов(repo,["rev-parse","HEAD^"])) == исходный &&
+              gitВызов(repo,["diff-tree","--no-commit-id","--name-only","-r","HEAD"]) == Data("event.DATA\n".utf8) &&
+              gitВызов(repo,["show","HEAD:event.DATA"]) == событие &&
+              строка(gitВызов(repo,["rev-parse","HEAD"])) == текущий,"свидетельство нового процесса")
+    let д=Data(("RECOVERED "+текущий+"\n").utf8)
+    требовать(д.withUnsafeBytes { Darwin.write(STDOUT_FILENO,$0.baseAddress,$0.count) }==д.count,"ответ восстановителя")
+    Darwin._exit(0)
+}
 func родитель(_ base:String,_ режим:String) {
     проверитьКаталог(base); проверитьКаталог(base+"/repo"); проверитьКаталог(base+"/repo/.git")
     let repo=base+"/repo", исходный=строка(gitВызов(repo,["rev-parse","HEAD"]))
@@ -52,9 +63,20 @@ func родитель(_ base:String,_ режим:String) {
         требовать(gitВызов(repo,["diff-tree","--no-commit-id","--name-only","-r","HEAD"]) == Data("event.DATA\n".utf8),"состав коммита")
         let считано=gitВызов(repo,["show","HEAD:event.DATA"])
         требовать(считано==событие && хэш(считано)==хэш(событие),"байты события")
+        let восстановление=Process(), восстановленныйВывод=Pipe(), восстановленныеОшибки=Pipe()
+        восстановление.executableURL=URL(fileURLWithPath:CommandLine.arguments[0])
+        восстановление.arguments=["--recover",base,исходный,git]; восстановление.environment=среда
+        восстановление.standardOutput=восстановленныйВывод; восстановление.standardError=восстановленныеОшибки
+        do { try восстановление.run() } catch { отказ("старт восстановителя UNKNOWN") }
+        let доказательство=восстановленныйВывод.fileHandleForReading.readDataToEndOfFile()
+        let ошибкаВосстановления=восстановленныеОшибки.fileHandleForReading.readDataToEndOfFile()
+        восстановление.waitUntilExit()
+        требовать(восстановление.terminationReason == .exit && восстановление.terminationStatus==0 &&
+                  ошибкаВосстановления.isEmpty && доказательство==Data(("RECOVERED "+текущий+"\n").utf8),
+                  "повторный процесс")
         let повторноеЧтение=строка(gitВызов(repo,["rev-parse","HEAD"]))
         требовать(повторноеЧтение==текущий,"без повторного коммита")
-        print("RECOVERED after commit; parent and event bytes match; no replay")
+        print("RECOVERED in new process; parent and event bytes match; no replay")
     }
 }
 func проверитьКаталог(_ путь: String) {
@@ -95,6 +117,9 @@ func конкуренция(_ base:String) {
     требовать(flock(fd,LOCK_UN)==0 && close(fd)==0,"освобождение владельца")
     проверитьСоперника("free")
     let d=Data("PASS synthetic competing writer rejected while lock held\n".utf8); _=d.withUnsafeBytes { Darwin.write(STDOUT_FILENO,$0.baseAddress,$0.count) }
+}
+if CommandLine.arguments.count==5 && CommandLine.arguments[1]=="--recover" {
+    восстановитель(CommandLine.arguments[2],CommandLine.arguments[3])
 }
 if CommandLine.arguments.count==6 && CommandLine.arguments[1]=="--lock-child" {
     соперник(CommandLine.arguments[2],CommandLine.arguments[3],CommandLine.arguments[4],CommandLine.arguments[5])
