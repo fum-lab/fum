@@ -5527,15 +5527,21 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             вызвать_git('-C', str(репозиторий), 'config', 'extensions.worktreeConfig', 'true')
             вызвать_git('-C', str(репозиторий), 'worktree', 'add', '-q', '-b', 'fixture-linked', str(дерево))
             вызвать_git('-C', str(дерево), 'config', '--worktree', 'core.autocrlf', 'false')
-            общий = os.open(репозиторий / '.git', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-            связанный = os.open(репозиторий / '.git/worktrees/work', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-            try:
+            with contextlib.ExitStack() as стек:
+                корень = os.open(репозиторий, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, корень)
+                общий = модуль._открыть_каталог_git_через_fd(корень, '.git')
+                стек.callback(os.close, общий)
+                деревья = модуль._открыть_каталог_git_через_fd(общий, 'worktrees')
+                стек.callback(os.close, деревья)
+                связанный = модуль._открыть_каталог_git_через_fd(деревья, 'work')
+                стек.callback(os.close, связанный)
                 конфиг = модуль._прочитать_источник_git_через_fd(общий, 'config', 65536)
                 конфиг_дерева = модуль._прочитать_источник_git_через_fd(связанный, 'config.worktree', 65536)
                 сам.assertTrue(модуль._проверить_узкую_конфигурацию_git((конфиг, конфиг_дерева)))
-            finally:
-                os.close(связанный)
-                os.close(общий)
+                os.symlink('.git', репозиторий / 'ссылка')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    модуль._открыть_каталог_git_через_fd(корень, 'ссылка')
 
     def test_источник_git_читается_через_fd_или_отказывает(сам):
         модуль = загрузить_модуль_автоматизации()

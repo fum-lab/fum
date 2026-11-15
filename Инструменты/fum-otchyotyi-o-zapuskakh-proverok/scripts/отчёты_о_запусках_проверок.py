@@ -4674,6 +4674,35 @@ class _НастройкиGitОтпечатка(NamedTuple):
     системные_настройки: bool = True
 
 
+def _открыть_каталог_git_через_fd(родитель: int, имя: str) -> int:
+    """Открыть один компонент; владение полученным FD переходит вызывающему."""
+    if (type(родитель) is not int or родитель < 0 or type(имя) is not str
+        or not имя or имя in ('.', '..') or '/' in имя or '\0' in имя):
+        raise ОшибкаОтчёта('неверный каталог источника Git')
+    def метка(с):
+        return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid, с.st_nlink,
+                с.st_mtime_ns, с.st_ctime_ns)
+    try:
+        до = os.fstat(родитель)
+        if not stat.S_ISDIR(до.st_mode):
+            raise ОшибкаОтчёта('родитель источника Git не каталог')
+        fd = os.open(имя, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC,
+                     dir_fd=родитель)
+        try:
+            открытый = os.fstat(fd)
+            if (not stat.S_ISDIR(открытый.st_mode) or открытый.st_uid != os.geteuid()
+                or stat.S_IMODE(открытый.st_mode) & 0o022
+                or метка(os.stat(имя, dir_fd=родитель, follow_symlinks=False)) != метка(открытый)
+                or метка(os.fstat(родитель)) != метка(до)):
+                raise ОшибкаОтчёта('каталог источника Git изменился или небезопасен')
+            return fd
+        except BaseException:
+            os.close(fd)
+            raise
+    except OSError as ошибка:
+        raise ОшибкаОтчёта('не удалось открыть каталог источника Git') from ошибка
+
+
 def _прочитать_источник_git_через_fd(каталог: int, имя: str, предел: int) -> bytes | None:
     """Наблюдение одной записи; непрерывная custody остаётся внешним условием."""
     if (type(каталог) is not int or каталог < 0 or type(имя) is not str
