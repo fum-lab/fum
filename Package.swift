@@ -10,8 +10,14 @@ let package = Package(
         .executable(name: "fum-process-anchor", targets: ["FUMProcessAnchor"]),
         .executable(name: "fum-anchor-witness", targets: ["FUMAnchorWitness"]),
         .executable(name: "фум-проверка-начальной-среды", targets: ["ФУМПроверкаНачальнойСреды"]),
+        .executable(name: "фум-проверка-ограниченной-среды", targets: ["ФУМПроверкаОграниченнойСреды"]),
     ],
     targets: [
+        .executableTarget(
+            name: "ФУМПроверкаОграниченнойСреды",
+            path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/ограниченная-среда",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
         .systemLibrary(
             name: "СистемныеВызовы",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Sources/СистемныеВызовы"
