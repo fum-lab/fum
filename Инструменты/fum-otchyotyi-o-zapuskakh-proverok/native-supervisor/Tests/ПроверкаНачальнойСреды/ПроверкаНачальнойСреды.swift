@@ -55,7 +55,7 @@ public func проверитьНачальнуюСреду(
 ) -> Int32 {
     if количество >= 2, let аргументы, let первый = аргументы[1] {
         let режим = String(cString: первый)
-        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow"].contains(режим) {
+        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout"].contains(режим) {
             var args = [String]()
             for индекс in 0..<Int(количество) {
                 guard let часть = аргументы[индекс] else { return 40 }
@@ -251,6 +251,7 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
           Darwin.fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == 0 else { return 47 }
     let итог = Darwin.fcntl(fd, F_GETFD)
     guard итог >= 0, итог & FD_CLOEXEC != 0 else { return 47 }
+    if args[1] == "--witness8-target-timeout" { while true { Darwin.pause() } }
     if args[1] == "--witness8-target-overflow" {
         let block = [UInt8](repeating: 65, count: 1024)
         while true {
@@ -265,7 +266,7 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
 }
 
 private func запуститьСлучайПрофиля(_ helper: String, _ witness: String, _ anchor: String,
-                                    корректнаяОпора: Bool, переполнение: Bool) -> Bool {
+                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool) -> Bool {
     var шаблон = Array("/private/tmp/fum-witness8-swift.XXXXXXXX".utf8CString)
     guard let указатель = mkdtemp(&шаблон) else { сообщениеПрофиля("FAIL mkdtemp"); return false }
     let каталог = String(cString: указатель)
@@ -350,14 +351,15 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     let idБайты: [UInt8] = [0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x46, 0x77,
                             0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff]
     let inoB = корректнаяОпора ? bStat.st_ino : (bStat.st_ino == 1 ? 2 : bStat.st_ino - 1)
-    let argv = [witness, "fum-run-witness.8", id, anchor,
+    var argv = [witness, "fum-run-witness.8", id, anchor,
                 String(status[1]), "5000", "none", String(крайЗапуска), "5000",
                 "--опора-старого-замка", каталог, String(dirFD), String(dirDev), String(каталогStat.st_ino),
                 String(каталогStat.st_uid), String(каталогStat.st_mode & 0o7777),
                 "--опора-допуска", имяB, String(bFD), String(bDev), String(inoB),
                 String(bStat.st_uid), String(bStat.st_mode & 0o7777), "--", helper,
-                переполнение ? "--witness8-target-overflow" : "--witness8-target", маркер, String(bFD), String(bDev), String(bStat.st_ino),
+                таймаут ? "--witness8-target-timeout" : (переполнение ? "--witness8-target-overflow" : "--witness8-target"), маркер, String(bFD), String(bDev), String(bStat.st_ino),
                 String(чужойFD), String(чужойDev), String(чужойStat.st_ino)]
+    if таймаут { argv.insert("250", at: 9) }
     var pointers: [UnsafeMutablePointer<CChar>?] = []
     defer { for указатель in pointers { free(указатель) } }
     for значение in argv {
@@ -412,12 +414,18 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         }
         guard обновитьСрокПрофиля(&последниеЧасы, до: крайЗапуска) != nil else { неизвестно("срок перед G") }
         guard командаПрофиля(control[1], 0x47) else { неизвестно("G") }
-        guard let fus = читатьПрофиль(status[0], число: 28, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
-              Array(fus.prefix(4)) == [0x46, 0x55, 0x53, 0x31], Array(fus[4..<20]) == idБайты,
+        guard let fus = читатьПрофиль(status[0], число: таймаут ? 36 : 28, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
+              Array(fus.prefix(4)) == [0x46, 0x55, 0x53, таймаут ? 0x32 : 0x31], Array(fus[4..<20]) == idБайты,
               словоПрофиля(fus, 20) == anchorPID else { неизвестно("FUS") }
         let targetPID = словоПрофиля(fus, 24)
+        var стартЦели: Int64?
+        if таймаут {
+            let raw = fus[28..<36].reduce(UInt64(0)) { ($0 << 8) | UInt64($1) }
+            guard let start = Int64(exactly: raw), let now = часыПрофиля(), start > 0, start <= now else { неизвестно("FUS time") }
+            стартЦели = start
+        }
         guard targetPID > 1, targetPID != anchorPID, targetPID != UInt32(pid) else { неизвестно("PID цели") }
-        if переполнение {
+        if переполнение || таймаут {
             // Изолированная fixture: контроль остаётся живым, пока не собраны кадр и EOF.
             var saved = [[UInt8]](repeating: [], count: 3)
             let fds = [status[0], output[0], errors[0]], limits = [37, 4096, 4096]
@@ -448,15 +456,20 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
                 }
             }
             let fui = saved[0]
-            guard exceeded, sent, fui.count == 37, Array(fui.prefix(4)) == [0x46,0x55,0x49,0x31],
+            guard (таймаут ? (!exceeded && !sent) : (exceeded && sent)), fui.count == 37, Array(fui.prefix(4)) == [0x46,0x55,таймаут ? 0x44 : 0x49,0x31],
                   Array(fui[4..<20]) == idБайты, словоПрофиля(fui,20) == anchorPID,
                   словоПрофиля(fui,24) == targetPID, словоПрофиля(fui,28) == UInt32(SIGTERM),
-                  словоПрофиля(fui,32) == UInt32(SIGKILL), fui[36] == 0x45 else { неизвестно("FUI") }
+                  словоПрофиля(fui,32) == UInt32(SIGKILL), fui[36] == (таймаут ? 1 : 0x45) else { неизвестно("FUI") }
             цельУспешна = true
+            var timing = ""
+            if таймаут {
+                guard let start = стартЦели, let now = часыПрофиля(), now >= start, now - start >= 250 else { неизвестно("timeout duration") }
+                timing = "; elapsed_ms=\(now-start); FUS=\(fus.map { String(format: "%02x", $0) }.joined())"
+            }
             let hex = fui.map { String(format: "%02x", $0) }.joined()
             let hashes = saved.map { SHA256.hash(data: Data($0)).map { String(format: "%02x", $0) }.joined() }
             let prefixes = saved[1...2].map { $0.map { String(format: "%02x", $0) }.joined() }
-            итогПереполнения = "PROVISIONAL overflow E; captured=\(saved[1].count),\(saved[2].count); total=\(total[1]),\(total[2]); sha256=\(hashes[1]),\(hashes[2]); FUI=\(hex); stdout=\(prefixes[0]); stderr=\(prefixes[1])"
+            итогПереполнения = "PROVISIONAL \(таймаут ? "timeout" : "overflow E"); captured=\(saved[1].count),\(saved[2].count); total=\(total[1]),\(total[2]); sha256=\(hashes[1]),\(hashes[2]); FRAME=\(hex)\(timing); stdout=\(prefixes[0]); stderr=\(prefixes[1])"
         } else {
             guard let fup = читатьПрофиль(status[0], число: 32, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
                   Array(fup.prefix(4)) == [0x46, 0x55, 0x50, 0x32], Array(fup[4..<20]) == idБайты else { неизвестно("FUP") }
@@ -532,7 +545,8 @@ private func профильWitness8(_ args: [String]) -> Int32 {
     guard sigemptyset(&игнорировать.sa_mask) == 0, sigaction(SIGPIPE, &игнорировать, nil) == 0 else { return 40 }
     _ = Darwin.umask(0o077)
     let переполнение = args[1] == "--проверить-witness8-overflow"
-    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение),
-          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение) else { return 1 }
+    let таймаут = args[1] == "--проверить-witness8-timeout"
+    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут),
+          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут) else { return 1 }
     return 0
 }
