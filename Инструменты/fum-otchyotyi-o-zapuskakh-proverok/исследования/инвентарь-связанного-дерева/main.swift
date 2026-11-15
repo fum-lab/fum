@@ -13,7 +13,7 @@ func openAbsoluteDirectory(_ path:String)->Int32 {
 }
 func readFile(_ dir:Int32,_ name:String,_ maxSize:Int,_ label:String)->Data {
  guard !name.contains("/") && name != "." && name != ".." else { hold("component") }
- let fd=openat(dir,name,O_RDONLY|O_NOFOLLOW|O_CLOEXEC);guard fd>=0 else { hold("open \(name) errno=\(errno)") }
+ let fd=openat(dir,name,O_RDONLY|O_NONBLOCK|O_NOFOLLOW|O_CLOEXEC);guard fd>=0 else { hold("open \(name) errno=\(errno)") }
  var a=stat(),b=stat(),named=stat();guard fstat(fd,&a)==0 && (a.st_mode & S_IFMT)==S_IFREG && a.st_uid==geteuid() && a.st_nlink==1 && (a.st_mode & 0o022)==0 && a.st_size>=0 && a.st_size<=maxSize else { hold("file policy \(name)") }
  var bytes=Data(count:Int(a.st_size)),pos=0
  while pos<bytes.count { let n=bytes.withUnsafeMutableBytes { Darwin.read(fd,$0.baseAddress!.advanced(by:pos),$0.count-pos) }; guard n>0 else { hold("read \(name)") };pos+=n }
