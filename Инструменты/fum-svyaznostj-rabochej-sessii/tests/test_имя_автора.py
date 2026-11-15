@@ -17,7 +17,7 @@ class ИмяАвтора(unittest.TestCase):
         файл = Path(__file__).resolve().parents[1] / 'scripts/обычное_поручение.py'
         дерево = ast.parse(файл.read_text())
         функции = [узел for узел in дерево.body if isinstance(узел, ast.FunctionDef)
-                   and узел.name in {'прочитать_акт', 'сверить_авторство_акта'}]
+                   and узел.name in {'прочитать_акт', 'сверить_авторство_акта', 'сверить_выбор_в_нативном_тексте'}]
         модуль = ast.fix_missing_locations(ast.Module(body=функции, type_ignores=[]))
         def поля(данные, ожидаемые):
             if type(данные) is not dict or set(данные) != ожидаемые:
@@ -30,7 +30,6 @@ class ИмяАвтора(unittest.TestCase):
         акт = {'схема': 'fum.поручение-дочерней-контрольной-точки.5', 'координатор': 'root',
                'исполнитель': 'child', 'ветка': 'refs/heads/codex/test', 'область': ['x'],
                'постановка': {'коммит': a, 'путь': 'task', 'sha256': b},
-               'хэш_нативного_поручения': b,
                'авторство': {'роль': 'Ustranitelj problem komand', 'основа': a, 'операция': 'контрольная-точка'}}
         закреплённые = json.dumps(акт).encode()
         pin = hashlib.sha256(закреплённые).hexdigest()
@@ -49,6 +48,15 @@ class ИмяАвтора(unittest.TestCase):
         exec(compile(модуль, str(файл), 'exec'), область)
         reader = область['прочитать_акт']
         сам.assertEqual(акт, reader(None, выбор))
+        блок = '<fum-act-selector-v1>\n' + json.dumps(выбор) + '\n</fum-act-selector-v1>'
+        сверить_выбор = область['сверить_выбор_в_нативном_тексте']
+        сам.assertEqual(выбор, сверить_выбор(блок, выбор))
+        with сам.assertRaises(ValueError):
+            сверить_выбор(блок, {**выбор, 'sha256': 'c' * 64})
+        with сам.assertRaises(ValueError):
+            сверить_выбор(блок + блок, выбор)
+        with сам.assertRaises(ValueError):
+            сверить_выбор('нет блока', выбор)
         параметры = {'режим': 'контрольная-точка', 'исполнитель': 'child',
                      'ветка': 'refs/heads/codex/test', 'исходный_коммит': a,
                      'имя_автора': 'Ustranitelj problem komand'}
@@ -63,6 +71,17 @@ class ИмяАвтора(unittest.TestCase):
             reader(None, выбор)
         with сам.assertRaises(ValueError):
             reader(None, {**выбор, 'sha256': hashlib.sha256(json.dumps(акт).encode()).hexdigest()})
+
+        # Заглушка источника позволяет отдельно проверить прежние формы reader,
+        # но не доказывает полный исторический replay стадий.
+        for версия in ('1', '4'):
+            прежний = {к: v for к, v in акт.items() if к != 'авторство'}
+            прежний['схема'] = 'fum.поручение-дочерней-контрольной-точки.' + версия
+            прежний['хэш_нативного_поручения'] = b
+            if версия == '4':
+                прежний['слияние'] = {}
+            область['делегация'] = SimpleNamespace(сверить_источник=lambda *_: json.dumps(прежний).encode())
+            сам.assertEqual(прежний, reader(None, выбор, новый_эффект=False))
 
     def test_сравнение_полей_не_доказывает_происхождение(сам):
         назначение = {"схема": "fum.назначение-автора.1", "исполнитель": "agent-1",
