@@ -5584,6 +5584,12 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 атрибут_индекса.unlink()
                 with сам.assertRaises(модуль.ОшибкаОтчёта):
                     собрать(*параметры)
+                вызвать_git('-C', str(дерево), 'update-index', '--force-remove', '--', '.gitattributes')
+                вершина = вызвать_git('-C', str(дерево), 'rev-parse', '--verify', 'HEAD').stdout.strip().decode('ascii')
+                вызвать_git('-C', str(дерево), 'update-index', '--add', '--cacheinfo',
+                            '160000', вершина, 'submodule-fixture')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
                 os.symlink('.git', репозиторий / 'ссылка')
                 with сам.assertRaises(модуль.ОшибкаОтчёта):
                     модуль._открыть_каталог_git_через_fd(корень, 'ссылка')
