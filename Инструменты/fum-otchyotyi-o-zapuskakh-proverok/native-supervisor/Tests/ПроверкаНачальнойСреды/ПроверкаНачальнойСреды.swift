@@ -45,7 +45,7 @@ private func корректныйИдентификатор(_ аргумент: 
     return аргумент[36] == 0
 }
 
-@_cdecl("main")
+@_cdecl("ФУМПроверкаНачальнойСреды_main")
 public func проверитьНачальнуюСреду(
     _ количество: Int32,
     _ аргументы: UnsafeMutablePointer<UnsafeMutablePointer<CChar>?>?,
