@@ -14,8 +14,14 @@ let package = Package(
         .executable(name: "фум-проверка-связанного-дерева", targets: ["ФУМПроверкаСвязанногоДерева"]),
         .executable(name: "фум-проверка-событий-памяти", targets: ["ФУМПроверкаСобытийПамяти"]),
         .executable(name: "фум-проверка-аварии-памяти", targets: ["ФУМПроверкаАварииПамяти"]),
+        .executable(name: "фум-проверка-повтора-памяти", targets: ["ФУМПроверкаПовтораПамяти"]),
     ],
     targets: [
+        .executableTarget(
+            name: "ФУМПроверкаПовтораПамяти",
+            path: "Инструменты/fum-svyaznostj-rabochej-sessii/исследования/синтетический-повтор-git",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
         .executableTarget(
             name: "ФУМПроверкаАварииПамяти",
             path: "Инструменты/fum-svyaznostj-rabochej-sessii/исследования/синтетический-crash-git",
