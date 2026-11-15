@@ -11,8 +11,14 @@ let package = Package(
         .executable(name: "fum-anchor-witness", targets: ["FUMAnchorWitness"]),
         .executable(name: "фум-проверка-начальной-среды", targets: ["ФУМПроверкаНачальнойСреды"]),
         .executable(name: "фум-проверка-ограниченной-среды", targets: ["ФУМПроверкаОграниченнойСреды"]),
+        .executable(name: "фум-проверка-связанного-дерева", targets: ["ФУМПроверкаСвязанногоДерева"]),
     ],
     targets: [
+        .executableTarget(
+            name: "ФУМПроверкаСвязанногоДерева",
+            path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/ограниченная-среда-linked",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
         .executableTarget(
             name: "ФУМПроверкаОграниченнойСреды",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/ограниченная-среда",
