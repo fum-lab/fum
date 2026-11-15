@@ -16,8 +16,14 @@ let package = Package(
         .executable(name: "фум-проверка-аварии-памяти", targets: ["ФУМПроверкаАварииПамяти"]),
         .executable(name: "фум-проверка-повтора-памяти", targets: ["ФУМПроверкаПовтораПамяти"]),
         .executable(name: "фум-проверка-байтового-префикса", targets: ["ФУМПроверкаБайтовогоПрефикса"]),
+        .executable(name: "фум-проверка-предела-фильтра", targets: ["ФУМПроверкаПределаФильтра"]),
     ],
     targets: [
+        .executableTarget(
+            name: "ФУМПроверкаПределаФильтра",
+            path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/git-фильтр-предел",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
         .executableTarget(
             name: "ФУМПроверкаБайтовогоПрефикса",
             path: "Инструменты/fum-svyaznostj-rabochej-sessii/исследования/байтовый-префикс",
