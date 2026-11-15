@@ -10,6 +10,7 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -104,6 +105,10 @@ def parse_args() -> argparse.Namespace:
         "--no-git",
         action="store_true",
         help="Do not use Git status or history while choosing initial timestamps.",
+    )
+    parser.add_argument(
+        "--выбранный-файл", action="append", nargs=2, metavar=("ПУТЬ", "SHA256"),
+        help="Адресный профиль: точный путь и SHA256 исходных байтов; допускается повторить.",
     )
     return parser.parse_args()
 
@@ -331,6 +336,7 @@ def process_markdown_file(
     now_label: str,
     check: bool,
     use_git: bool,
+    *, перед_записью=None,
 ) -> tuple[MarkdownRecord | None, list[str], bool]:
     errors: list[str] = []
     if not path.exists():
@@ -380,7 +386,14 @@ def process_markdown_file(
     expected_text = attach_recency_block(content, timestamp, digest)
     changed = expected_text != original_text
     if changed and not check:
-        path.write_text(expected_text, encoding="utf-8")
+        if перед_записью is not None:
+            перед_записью()
+            try:
+                path.write_text(expected_text, encoding="utf-8")
+            except BaseException as причина:
+                raise RuntimeError(f"UNKNOWN запись {rel_path}: {причина}") from причина
+        else:
+            path.write_text(expected_text, encoding="utf-8")
     return record, errors, changed
 
 
@@ -484,6 +497,51 @@ def process_index_file(
     return record, errors, changed
 
 
+def обновить_выбранные(repo_root, выбранные, *, now=None, check=False):
+    """Адресный профиль требует доверенный стабильный namespace и одного писателя."""
+    root = Path(repo_root).resolve(strict=True)
+    if (not выбранные or len({имя for имя, _ in выбранные}) != len(выбранные)
+            or len({unicodedata.normalize('NFC', имя).casefold() for имя, _ in выбранные}) != len(выбранные)):
+        raise ValueError("Нужен непустой список уникальных путей")
+    подготовленные, метки = [], set()
+    for имя, отпечаток in выбранные:
+        относительный = Path(имя)
+        if (not имя or относительный.is_absolute() or any(часть in ("", ".", "..") for часть in имя.split("/"))
+                or относительный.as_posix() != имя
+                or unicodedata.normalize('NFC', имя).casefold() == unicodedata.normalize('NFC', INDEX_PATH.as_posix()).casefold()
+                or относительный.suffix != ".md" or re.fullmatch(r"[0-9a-f]{64}", отпечаток) is None):
+            raise ValueError("Недопустимый путь или SHA256")
+        путь = safe_project_output_path(root / относительный, root)
+        if not путь.is_file() or путь.is_symlink():
+            raise ValueError(f"Нет обычного файла: {имя}")
+        метка = путь.stat()
+        if метка.st_nlink != 1 or (метка.st_dev, метка.st_ino) in метки or hashlib.sha256(путь.read_bytes()).hexdigest() != отпечаток:
+            raise ValueError(f"Повтор файла или неверный preimage: {имя}")
+        метки.add((метка.st_dev, метка.st_ino))
+        подготовленные.append((путь, отпечаток))
+    now_label = format_msk(now or parse_now())
+    # До первого эффекта проверить каждую выбранную разметку существующим разбором.
+    for путь, _ in подготовленные:
+        _, ошибки, _ = process_markdown_file(путь, root, set(), now_label, True, False)
+        if any(not ошибка.startswith(("missing recency metadata: ", "stale recency metadata: ")) for ошибка in ошибки):
+            return RecencyResult(errors=ошибки, changed_paths=[])
+    ошибки, изменённые = [], []
+    for путь, отпечаток in подготовленные:
+        def проверить():
+            повтор = safe_project_output_path(путь, root)
+            if повтор != путь or not путь.is_file() or путь.is_symlink() or hashlib.sha256(путь.read_bytes()).hexdigest() != отпечаток:
+                raise ValueError(f"Изменён preimage: {путь}")
+        try:
+            проверить()
+            _, текущие, изменён = process_markdown_file(путь, root, set(), now_label, check, False, перед_записью=проверить)
+        except (OSError, ValueError, ProjectFilesError, RuntimeError) as причина:
+            return RecencyResult(errors=[*ошибки, str(причина)], changed_paths=изменённые)
+        ошибки.extend(текущие)
+        if изменён and not check:
+            изменённые.append(путь)
+    return RecencyResult(errors=ошибки, changed_paths=изменённые)
+
+
 def update_repository(
     repo_root: str | Path,
     now: datetime | None = None,
@@ -543,20 +601,35 @@ def update_repository(
 
 def main() -> int:
     args = parse_args()
-    result = update_repository(
-        args.repo_root,
-        now=parse_now(args.now),
-        check=args.check,
-        use_git=not args.no_git,
-    )
+    if args.выбранный_файл:
+        if not args.no_git:
+            print("Адресный профиль требует --no-git", file=sys.stderr)
+            return 1
+        try:
+            result = обновить_выбранные(args.repo_root, args.выбранный_файл, now=parse_now(args.now), check=args.check)
+        except (OSError, ValueError, ProjectFilesError) as причина:
+            print(str(причина), file=sys.stderr)
+            return 1
+    else:
+        result = update_repository(
+            args.repo_root,
+            now=parse_now(args.now),
+            check=args.check,
+            use_git=not args.no_git,
+        )
     if result.errors:
+        if args.выбранный_файл and not args.check:
+            if result.changed_paths:
+                print("PARTIAL: предыдущие вызовы записи вернули успех; readback и fsync не подтверждены", file=sys.stderr)
+            for path in result.changed_paths:
+                print(f"успешный возврат записи: {repo_relative(path, Path(args.repo_root).resolve())}", file=sys.stderr)
         for error in result.errors:
             print(error, file=sys.stderr)
         return 1
     if args.check:
-        print("md recency check passed")
+        print("md recency selected check passed" if args.выбранный_файл else "md recency check passed")
     else:
-        print(f"md recency updated: {len(result.changed_paths)} file(s) changed")
+        print(f"md recency {'selected ' if args.выбранный_файл else ''}updated: {len(result.changed_paths)} file(s) changed")
     return 0
 
 
