@@ -12,8 +12,15 @@ let package = Package(
         .executable(name: "фум-проверка-начальной-среды", targets: ["ФУМПроверкаНачальнойСреды"]),
         .executable(name: "фум-проверка-ограниченной-среды", targets: ["ФУМПроверкаОграниченнойСреды"]),
         .executable(name: "фум-проверка-связанного-дерева", targets: ["ФУМПроверкаСвязанногоДерева"]),
+        .executable(name: "фум-проверка-событий-памяти", targets: ["ФУМПроверкаСобытийПамяти"]),
     ],
     targets: [
+        .executableTarget(
+            name: "ФУМПроверкаСобытийПамяти",
+            path: "Инструменты/fum-svyaznostj-rabochej-sessii/исследования/события-памяти",
+            exclude: ["контракт.txt"],
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
         .executableTarget(
             name: "ФУМПроверкаСвязанногоДерева",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/ограниченная-среда-linked",
