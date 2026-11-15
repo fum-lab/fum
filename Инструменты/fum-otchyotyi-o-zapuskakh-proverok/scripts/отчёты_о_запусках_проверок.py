@@ -4674,6 +4674,35 @@ class _НастройкиGitОтпечатка(NamedTuple):
     системные_настройки: bool = True
 
 
+def _проверить_узкую_конфигурацию_git(источники: tuple[bytes, ...]) -> bool:
+    """Проверить только заданные байты; полнота источников и допуск неизвестны."""
+    if type(источники) is not tuple or not 1 <= len(источники) <= 8:
+        return False
+    if any(type(данные) is not bytes or not данные or not данные.endswith(b'\n')
+           for данные in источники):
+        return False
+    if sum(map(len, источники)) > 65536:
+        return False
+    допустимые = {
+        (b'core', b'repositoryformatversion = 0'),
+        (b'core', b'bare = false'),
+        (b'core', b'filemode = true'),
+        (b'extensions', b'worktreeconfig = true'),
+    }
+    встреченные = set()
+    for данные in источники:
+        раздел = None
+        for строка in данные[:-1].split(b'\n'):
+            if строка in (b'[core]', b'[extensions]'):
+                раздел = строка[1:-1]
+                continue
+            запись = (раздел, строка)
+            if запись not in допустимые or запись in встреченные:
+                return False
+            встреченные.add(запись)
+    return bool(встреченные)
+
+
 def _стандартные_настройки_git_отпечатка() -> _НастройкиGitОтпечатка:
     try:
         домашний_каталог = pwd.getpwuid(os.getuid()).pw_dir

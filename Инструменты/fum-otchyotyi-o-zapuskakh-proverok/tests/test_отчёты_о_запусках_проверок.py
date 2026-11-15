@@ -5509,6 +5509,27 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_узкое_подмножество_конфигурации_не_запускает_git(сам):
+        модуль = загрузить_модуль_автоматизации()
+        допустимая = (b'[core]\nrepositoryformatversion = 0\nbare = false\nfilemode = true\n',
+                       b'[extensions]\nworktreeconfig = true\n')
+        отклонить = (
+            (), (b'[include]\npath = /tmp/x\n',),
+            (b'[includeIf "gitdir:/tmp/"]\npath = /tmp/x\n',),
+            (b'[filter "trap"]\nclean = cat\n',),
+            (b'[core]\nunknown = true\n',),
+            (b'[core]\nbare = false\nbare = false\n',),
+            (b'[core]\nbare = false',), (b'[core]\nbare = false\r\n',),
+            (b'[core]\nbare = "false"\n',), (b'bare = false\n',),
+            (b'[core]\nbare = false\n', b'[core]\nbare = false\n'),
+            (b'\xff\n',), (b'\x00\n',), (b'x' * 65537,), ('[core]',),
+        )
+        with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):
+            сам.assertTrue(модуль._проверить_узкую_конфигурацию_git(допустимая))
+            for вход in отклонить:
+                with сам.subTest(вход=repr(вход)[:100]):
+                    сам.assertFalse(модуль._проверить_узкую_конфигурацию_git(вход))
+
     def test_cli_запуска_отказывает_до_argparse_с_ведущими_разделителями(сам):
         import io
         модуль = загрузить_модуль_автоматизации()
