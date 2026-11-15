@@ -23,7 +23,7 @@ let package = Package(
         .executableTarget(
             name: "ФУМПроверкаКооперативногоGit",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/допуск-связанного-git",
-            exclude: ["границы.md", "подготовить.sh", "проверить.sh", "игнорировать-sigchld.swift"],
+            exclude: ["границы.md", "подготовить.sh", "проверить.sh", "игнорировать-sigchld.swift", "контроль-фильтров.sh"],
             swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
         ),
         .executableTarget(
