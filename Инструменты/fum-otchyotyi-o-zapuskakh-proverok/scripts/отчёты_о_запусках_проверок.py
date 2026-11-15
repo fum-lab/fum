@@ -4748,8 +4748,37 @@ def _прочитать_источник_git_через_fd(каталог: int, 
         raise ОшибкаОтчёта('не удалось проверить источник Git') from ошибка
 
 
+def _допустимая_ссылка_git(ссылка: bytes) -> bool:
+    """Распознать UTF-8 refs/heads по синтаксическим правилам Git."""
+    if type(ссылка) is not bytes or not ссылка.startswith(b'refs/heads/') or len(ссылка) > 4096:
+        return False
+    try:
+        ссылка.decode('utf-8')
+    except UnicodeError:
+        return False
+    части = ссылка.split(b'/')
+    return (all(часть and not часть.startswith(b'.') and not часть.endswith(b'.lock') for часть in части)
+            and not ссылка.endswith(b'.') and b'..' not in ссылка and b'@{' not in ссылка
+            and not any(байт <= 32 or байт == 127 or байт in b'~^:?*[\\' for байт in ссылка))
+
+
+def _форма_https_git(значение: bytes) -> bool:
+    """Проверить только форму HTTPS; доверие к адресу не выводится."""
+    if type(значение) is not bytes or len(значение) > 2048:
+        return False
+    совпадение = re.fullmatch(rb'https://([A-Za-z0-9.-]+)/([A-Za-z0-9._/-]+)', значение)
+    if совпадение is None:
+        return False
+    хост, путь = совпадение.groups()
+    метки = хост.split(b'.')
+    return (len(хост) <= 253 and len(метки) >= 2
+            and all(0 < len(метка) <= 63 and re.fullmatch(rb'[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?', метка)
+                    for метка in метки)
+            and all(часть not in (b'', b'.', b'..') for часть in путь.split(b'/')))
+
+
 def _проверить_узкую_конфигурацию_git(источники: tuple[bytes, ...]) -> bool:
-    """Проверить только заданные байты; полнота источников и допуск неизвестны."""
+    """Распознать узкие байты; значение URL и полный допуск не подтверждаются."""
     if type(источники) is not tuple or not 1 <= len(источники) <= 8:
         return False
     if any(type(данные) is not bytes or not данные or not данные.endswith(b'\n')
@@ -4757,35 +4786,69 @@ def _проверить_узкую_конфигурацию_git(источник
         return False
     if sum(map(len, источники)) > 65536:
         return False
-    допустимые = {
-        (b'core', b'repositoryformatversion = 0'),
-        (b'core', b'bare = false'),
-        (b'core', b'filemode = true'),
-        (b'core', b'logallrefupdates = true'),
-        (b'core', b'autocrlf = false'),
-        (b'core', b'ignorecase = true'),
-        (b'core', b'precomposeunicode = true'),
-        (b'extensions', b'worktreeconfig = true'),
+    фиксированные = {
+        (b'core', b'repositoryformatversion'): b'0', (b'core', b'bare'): b'false',
+        (b'core', b'filemode'): b'true', (b'core', b'logallrefupdates'): b'true',
+        (b'core', b'autocrlf'): b'false', (b'core', b'ignorecase'): b'true',
+        (b'core', b'precomposeunicode'): b'true', (b'extensions', b'worktreeconfig'): b'true',
     }
-    встреченные = set()
+    встреченные = {}
     for данные in источники:
         раздел = None
+        подраздел = None
         число_записей = 0
         for строка in данные[:-1].split(b'\n'):
-            if строка in (b'[core]', b'[extensions]'):
+            if строка in (b'[core]', b'[extensions]', b'[codex]'):
                 раздел = строка[1:-1]
+                подраздел = None
+                continue
+            заголовок = re.fullmatch(rb'\[(remote|branch|submodule) "([^"\\\r\n]+)"\]', строка)
+            if заголовок is not None:
+                раздел, подраздел = заголовок.groups()
+                if подраздел != подраздел.strip() or any(байт < 32 or байт == 127 for байт in подраздел):
+                    return False
                 continue
             строка = строка[1:] if строка.startswith(b'\t') else строка
             if раздел == b'extensions' and строка == b'worktreeConfig = true':
                 строка = b'worktreeconfig = true'
-            запись = (раздел, строка)
-            if запись not in допустимые or запись in встреченные:
+            поле = re.fullmatch(rb'([a-z][a-z0-9]*) = ([^"\\\r\n#;]+)', строка)
+            if поле is None or раздел is None:
                 return False
-            встреченные.add(запись)
+            ключ, значение = поле.groups()
+            if not значение or значение != значение.strip() or any(байт < 32 or байт == 127 for байт in значение):
+                return False
+            запись = (раздел, подраздел, ключ)
+            if запись in встреченные:
+                return False
+            if подраздел is None and (раздел, ключ) in фиксированные:
+                допустимо = значение == фиксированные[(раздел, ключ)]
+            elif раздел == b'codex' and подраздел is None and ключ == b'localenvironmentconfigpath':
+                допустимо = (bool(re.fullmatch(rb'[A-Za-z0-9._/-]+', значение))
+                             and all(часть not in (b'', b'.', b'..') for часть in значение.split(b'/')))
+            elif раздел == b'remote' and подраздел == b'origin':
+                допустимо = ((ключ == b'url' and _форма_https_git(значение))
+                             or (ключ == b'fetch' and значение == b'+refs/heads/*:refs/remotes/origin/*'))
+            elif раздел == b'branch' and подраздел is not None:
+                допустимо = ((ключ == b'remote' and значение == b'origin')
+                             or (ключ == b'merge' and _допустимая_ссылка_git(значение)))
+            elif раздел == b'submodule' and подраздел is not None:
+                допустимо = ((ключ == b'active' and значение == b'true')
+                             or (ключ == b'url' and _форма_https_git(значение)))
+            else:
+                допустимо = False
+            if not допустимо:
+                return False
+            встреченные[запись] = значение
             число_записей += 1
         if not число_записей:
             return False
-    return bool(встреченные)
+    группы = {}
+    for (раздел, подраздел, ключ) in встреченные:
+        if подраздел is not None:
+            группы.setdefault((раздел, подраздел), set()).add(ключ)
+    ожидаемые = {b'remote': {b'url', b'fetch'}, b'branch': {b'remote', b'merge'},
+                 b'submodule': {b'active', b'url'}}
+    return bool(встреченные) and all(ключи == ожидаемые[раздел] for (раздел, _), ключи in группы.items())
 
 
 def _проверить_дерево_без_файлов_атрибутов_git(
@@ -4859,8 +4922,7 @@ def _проверить_неинициализированный_gitlink(кор�
     if (set(значения) != {b'path', b'url', b'fumUpstream'} or len(значения) != len(поля)
         or any(not значение or значение != значение.strip() or any(байт < 32 or байт == 127 for байт in значение)
                for значение in значения.values())
-        or any(re.fullmatch(rb'https://[A-Za-z0-9._/-]+', значения[ключ]) is None
-               for ключ in (b'url', b'fumUpstream'))
+        or any(not _форма_https_git(значения[ключ]) for ключ in (b'url', b'fumUpstream'))
         or заголовок.group(1) != значения[b'path'] or значения[b'path'] != ссылки[0]):
         raise ОшибкаОтчёта('неподтверждённая связь описания и gitlink')
     try:
@@ -4933,6 +4995,9 @@ def _собрать_локальные_конфиги_связанного_git(
                     источники = (конфиг,) if конфиг_дерева is None else (конфиг, конфиг_дерева)
                     if not _проверить_узкую_конфигурацию_git(источники):
                         raise ОшибкаОтчёта('неподдерживаемый локальный конфиг Git')
+                    if any(строка.startswith((b'[remote "', b'[branch "', b'[submodule "'))
+                           or строка == b'[codex]' for данные in источники for строка in данные.split(b'\n')):
+                        raise ОшибкаОтчёта('динамические настройки Git не привязаны к независимому источнику')
                     строки = {строка.lstrip(b'\t') for строка in конфиг.split(b'\n')}
                     расширение = bool(строки & {b'worktreeconfig = true', b'worktreeConfig = true'})
                     if конфиг_дерева is not None and not расширение:

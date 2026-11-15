@@ -5509,6 +5509,24 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_формат_git_ref_сверяется_с_git_для_utf8(сам):
+        модуль = загрузить_модуль_автоматизации()
+        примеры = ('refs/heads/ветка/тест', 'refs/heads/release/1.2', 'refs/heads/a..b',
+                    'refs/heads/.hidden', 'refs/heads/a.lock', 'refs/heads/a b',
+                    'refs/heads/a@{b', 'refs/heads/ok-name')
+        with tempfile.TemporaryDirectory() as каталог:
+            окружение = {'PATH': os.defpath, 'HOME': каталог, 'LC_ALL': 'C',
+                         'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1'}
+            for ссылка in примеры:
+                with сам.subTest(ссылка=ссылка):
+                    итог = subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null',
+                                           'check-ref-format', ссылка], cwd=каталог, env=окружение,
+                                          stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                          stderr=subprocess.PIPE, timeout=10, check=False)
+                    сам.assertIn(итог.returncode, (0, 1))
+                    сам.assertEqual(модуль._допустимая_ссылка_git(ссылка.encode('utf-8')), итог.returncode == 0)
+            сам.assertFalse(модуль._допустимая_ссылка_git(b'refs/heads/\xff'))
+
     def test_неинициализированный_gitlink_и_родительский_diff(сам):
         модуль = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
@@ -5534,6 +5552,13 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             вызвать_git('-C', str(репозиторий), 'config', 'extensions.worktreeConfig', 'true')
             вызвать_git('-C', str(репозиторий), 'worktree', 'add', '-q', '-b', 'fixture-linked', str(дерево))
             вызвать_git('-C', str(дерево), 'config', '--worktree', 'core.autocrlf', 'false')
+            вызвать_git('-C', str(репозиторий), 'config', 'remote.origin.url', 'https://example.invalid/repo')
+            вызвать_git('-C', str(репозиторий), 'config', 'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*')
+            вызвать_git('-C', str(репозиторий), 'config', 'branch.fixture.remote', 'origin')
+            вызвать_git('-C', str(репозиторий), 'config', 'branch.fixture.merge', 'refs/heads/fixture')
+            вызвать_git('-C', str(репозиторий), 'config', 'submodule.obsolete.active', 'true')
+            вызвать_git('-C', str(репозиторий), 'config', 'submodule.obsolete.url', 'https://example.invalid/module')
+            вызвать_git('-C', str(дерево), 'config', '--worktree', 'codex.localenvironmentconfigpath', '.codex/local')
             вершина = вызвать_git('-C', str(дерево), 'rev-parse', '--verify', 'HEAD').stdout.strip().decode('ascii')
             вызвать_git('-C', str(дерево), 'update-index', '--add', '--cacheinfo', '160000', вершина, 'module')
             (дерево / 'module').mkdir()
@@ -5567,6 +5592,11 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 стек.callback(os.close, общий)
                 собрать = модуль._собрать_локальные_конфиги_связанного_git
                 параметры = (рабочий, общий, str(дерево), str(репозиторий / '.git'), 'work')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
+                for раздел in ('remote.origin', 'branch.fixture', 'submodule.obsolete'):
+                    вызвать_git('-C', str(репозиторий), 'config', '--remove-section', раздел)
+                вызвать_git('-C', str(дерево), 'config', '--worktree', '--remove-section', 'codex')
                 сам.assertEqual(len(собрать(*параметры)), 2)
                 (дерево / 'module/untracked.txt').write_text('fixture\n')
                 непустая_разница = разница()
@@ -5758,10 +5788,24 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             (b'[core]\nbare = fa\\lse\n',),
             (b'[core]\n\tbare = false\nbare = false\n',),
             (b'[extensions]\nworktreeconfig = true\nworktreeConfig = true\n',),
+            (b'[remote "origin"]\n\turl = https://example.invalid/repo\n\tuploadpack = evil\n',),
+            (b'[branch "fixture"]\n\tremote = origin\n\tmerge = refs/heads/../bad\n',),
+            (b'[submodule "fixture"]\n\tactive = true\n\turl = ext::evil\n',),
+            (b'[codex]\n\tlocalenvironmentconfigpath = ../outside\n',),
+            (b'[codex]\n\tlocalenvironmentconfigpath = /absolute\n',),
+            (b'[codex]\n\tlocalenvironmentconfigpath = ./local\n',),
+            (b'[codex]\n\tlocalenvironmentconfigpath = a//b\n',),
+            (b'[remote "origin"]\n\turl = https://-bad.invalid/repo\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n',),
+            (b'[remote "origin"]\n\turl = https://example.invalid/a/../b\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n',),
+            (b'[core]\n\tattributesfile = /tmp/attrs\n',),
             (b'\xff\n',), (b'\x00\n',), (b'x' * 65537,), ('[core]',),
         )
         with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):
             сам.assertTrue(модуль._проверить_узкую_конфигурацию_git(допустимая))
+            динамическая = ('[branch "fixture"]\n\tremote = origin\n\tmerge = refs/heads/ветка/1.2\n'
+                            '[remote "origin"]\n\turl = https://example.invalid/repo\n'
+                            '\tfetch = +refs/heads/*:refs/remotes/origin/*\n').encode('utf-8')
+            сам.assertTrue(модуль._проверить_узкую_конфигурацию_git((динамическая,)))
             for вход in отклонить:
                 with сам.subTest(вход=repr(вход)[:100]):
                     сам.assertFalse(модуль._проверить_узкую_конфигурацию_git(вход))
