@@ -6,6 +6,7 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [
         .library(name: "FUMProcessProtocol", targets: ["FUMProcessProtocol"]),
+        .library(name: "FUMGitPlan", targets: ["FUMGitPlan"]),
         .executable(name: "фум-проверка-кооперативного-git", targets: ["ФУМПроверкаКооперативногоGit"]),
         .executable(name: "fum-process-supervisor", targets: ["FUMProcessSupervisor"]),
         .executable(name: "fum-process-anchor", targets: ["FUMProcessAnchor"]),
@@ -20,6 +21,17 @@ let package = Package(
         .executable(name: "фум-проверка-предела-фильтра", targets: ["ФУМПроверкаПределаФильтра"]),
     ],
     targets: [
+        .target(
+            name: "FUMGitPlan",
+            path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Sources/FUMGitPlan",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
+        .testTarget(
+            name: "FUMGitPlanTests",
+            dependencies: ["FUMGitPlan"],
+            path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Tests/FUMGitPlanTests",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+        ),
         .executableTarget(
             name: "ФУМПроверкаКооперативногоGit",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/исследования/допуск-связанного-git",
