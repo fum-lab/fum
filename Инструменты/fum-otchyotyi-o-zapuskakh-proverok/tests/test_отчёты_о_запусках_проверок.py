@@ -5596,6 +5596,30 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 вызвать_git('init', '-q', str(дерево / 'module'))
                 with сам.assertRaises(модуль.ОшибкаОтчёта):
                     собрать(*параметры)
+                вызвать_git('-C', str(дерево / 'module'), '-c', 'user.name=fixture',
+                            '-c', 'user.email=fixture@invalid', 'commit', '-q', '--allow-empty', '-m', 'child')
+                вершина_подмодуля = вызвать_git('-C', str(дерево / 'module'), 'rev-parse', '--verify', 'HEAD').stdout.strip().decode('ascii')
+                вызвать_git('-C', str(дерево), 'update-index', '--add', '--cacheinfo',
+                            '160000', вершина_подмодуля, 'module')
+                путь_подмодуля = str(дерево / 'module')
+                def статус_подмодуля():
+                    аргументы = ('/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', '/usr/bin/git',
+                                 '-C', путь_подмодуля, '--no-pager', '-c', 'core.fsmonitor=false',
+                                 '--work-tree=' + путь_подмодуля, 'status', '--porcelain=v2', '-z',
+                                 '--untracked-files=all', '--ignore-submodules=dirty', '--', '.')
+                    итог = subprocess.run(аргументы, env=окружение, stdin=subprocess.DEVNULL,
+                                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=10)
+                    сам.assertEqual(итог.stderr, b'')
+                    return итог.stdout
+                сам.assertEqual(статус_подмодуля(), b'')
+                сам.assertEqual(разница(), b'')
+                (дерево / 'module/dirty.txt').write_bytes(b'fixture\n')
+                грязный_статус = статус_подмодуля()
+                разница_с_грязным = разница()
+                сам.assertEqual(грязный_статус, b'? dirty.txt\0')
+                сам.assertEqual(разница_с_грязным, b'')
+                print('initialized_dirty_status_hex=' + грязный_статус.hex())
+                print('initialized_dirty_parent_diff_hex=' + разница_с_грязным.hex())
 
     def test_байты_конфигурации_связанного_дерева_git(сам):
         модуль = загрузить_модуль_автоматизации()
