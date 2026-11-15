@@ -2,12 +2,68 @@
 from pathlib import Path
 import sys
 import unittest
+import ast
+import json
+import hashlib
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from автор_коммита import составить_имя, проверить_формат, проверить_назначение_автора
 
 
 class ИмяАвтора(unittest.TestCase):
+    def test_reader_act_5_изолированно(сам):
+        """Тело reader реально; внешнее чтение и проверка источников заменены заглушками."""
+        файл = Path(__file__).resolve().parents[1] / 'scripts/обычное_поручение.py'
+        дерево = ast.parse(файл.read_text())
+        функции = [узел for узел in дерево.body if isinstance(узел, ast.FunctionDef)
+                   and узел.name in {'прочитать_акт', 'сверить_авторство_акта'}]
+        модуль = ast.fix_missing_locations(ast.Module(body=функции, type_ignores=[]))
+        def поля(данные, ожидаемые):
+            if type(данные) is not dict or set(данные) != ожидаемые:
+                raise ValueError('поля')
+        def требовать(условие, сообщение):
+            if not условие:
+                raise ValueError(сообщение)
+        a, b = 'a' * 40, 'b' * 64
+        выбор = {'координатор': 'root', 'исполнитель': 'child', 'коммит': a, 'путь': 'act', 'sha256': b}
+        акт = {'схема': 'fum.поручение-дочерней-контрольной-точки.5', 'координатор': 'root',
+               'исполнитель': 'child', 'ветка': 'refs/heads/codex/test', 'область': ['x'],
+               'постановка': {'коммит': a, 'путь': 'task', 'sha256': b},
+               'хэш_нативного_поручения': b,
+               'авторство': {'роль': 'Ustranitelj problem komand', 'основа': a, 'операция': 'контрольная-точка'}}
+        закреплённые = json.dumps(акт).encode()
+        pin = hashlib.sha256(закреплённые).hexdigest()
+        выбор['sha256'] = pin
+        def источник(_корень, селектор):
+            if селектор['путь'] == 'act':
+                if селектор['sha256'] != pin or hashlib.sha256(json.dumps(акт).encode()).hexdigest() != pin:
+                    raise ValueError('pin')
+                return json.dumps(акт).encode()
+            return 'постановка'.encode()
+        import re
+        область = {'выбор': lambda _: None, 'путь': lambda *_: None,
+                   'делегация': SimpleNamespace(сверить_источник=источник),
+                   'контракт': SimpleNamespace(разобрать_байты=json.loads, поля=поля),
+                   'требовать': требовать, 're': re}
+        exec(compile(модуль, str(файл), 'exec'), область)
+        reader = область['прочитать_акт']
+        сам.assertEqual(акт, reader(None, выбор))
+        параметры = {'режим': 'контрольная-точка', 'исполнитель': 'child',
+                     'ветка': 'refs/heads/codex/test', 'исходный_коммит': a,
+                     'имя_автора': 'Ustranitelj problem komand'}
+        сверить = область['сверить_авторство_акта']
+        сам.assertEqual(акт['авторство'], сверить(акт, параметры))
+        with сам.assertRaises(ValueError):
+            сверить(акт, {**параметры, 'имя_автора': 'Drugoj'})
+        with сам.assertRaises(ValueError):
+            reader(None, {**выбор, 'sha256': 'c' * 64})
+        акт['авторство']['роль'] = 'Root'
+        with сам.assertRaises(ValueError):
+            reader(None, выбор)
+        with сам.assertRaises(ValueError):
+            reader(None, {**выбор, 'sha256': hashlib.sha256(json.dumps(акт).encode()).hexdigest()})
+
     def test_сравнение_полей_не_доказывает_происхождение(сам):
         назначение = {"схема": "fum.назначение-автора.1", "исполнитель": "agent-1",
                       "ветка": "refs/heads/codex/example", "основа": "a" * 40,
