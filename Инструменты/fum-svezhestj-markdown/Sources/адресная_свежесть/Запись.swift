@@ -3,38 +3,38 @@ import Darwin
 
 // Синтетический срез: вызывающий удерживает дескриптор и обеспечивает единственного писателя.
 public enum исход_записи { case завершено, без_изменения, отказ_до_записи, неизвестно }
-public struct метка_файла { public let устройство: dev_t; public let индекс: ino_t; public init(устройство: dev_t, индекс: ino_t) { self.устройство=устройство; self.индекс=индекс } }
-func тестово_записать(_ дескриптор: Int32, метка: метка_файла, исходные: Data, новые: Data,
-                             _писать: (Int32, UnsafeRawPointer, Int, off_t) -> Int = { Darwin.pwrite($0,$1,$2,$3) }) -> исход_записи {
-    guard исходные.count<=4_194_304, новые.count<=4_194_304 else { return .отказ_до_записи }
-    var до=stat(); guard fstat(дескриптор,&до)==0, до.st_mode & mode_t(S_IFMT)==mode_t(S_IFREG), до.st_nlink==1, до.st_dev==метка.устройство, до.st_ino==метка.индекс, до.st_size==off_t(исходные.count) else { return .отказ_до_записи }
-    var прочитано=Data(count:исходные.count); var смещение=0
-    while смещение<прочитано.count {
-        let оставлено=прочитано.count-смещение
-        let количество=прочитано.withUnsafeMutableBytes { Darwin.pread(дескриптор,$0.baseAddress!.advanced(by:смещение),оставлено,off_t(смещение)) }
-        guard количество>0 else { return .отказ_до_записи }; смещение += количество
+public struct метка_файла { public let устройство: dev_t; public let индекс: ino_t; public init(устройство Устройство: dev_t, индекс Индекс: ino_t) { self.устройство=Устройство; self.индекс=Индекс } }
+func тестово_записать(_ Дескриптор: Int32, метка Метка: метка_файла, исходные Исходные: Data, новые Новые: Data,
+                             _писать Писать: (Int32, UnsafeRawPointer, Int, off_t) -> Int = { Darwin.pwrite($0,$1,$2,$3) }) -> исход_записи {
+    guard Исходные.count<=4_194_304, Новые.count<=4_194_304 else { return .отказ_до_записи }
+    var До=stat(); guard fstat(Дескриптор,&До)==0, До.st_mode & mode_t(S_IFMT)==mode_t(S_IFREG), До.st_nlink==1, До.st_dev==Метка.устройство, До.st_ino==Метка.индекс, До.st_size==off_t(Исходные.count) else { return .отказ_до_записи }
+    var Прочитано=Data(count:Исходные.count); var Смещение=0
+    while Смещение<Прочитано.count {
+        let Оставлено=Прочитано.count-Смещение
+        let Количество=Прочитано.withUnsafeMutableBytes { Darwin.pread(Дескриптор,$0.baseAddress!.advanced(by:Смещение),Оставлено,off_t(Смещение)) }
+        guard Количество>0 else { return .отказ_до_записи }; Смещение += Количество
     }
-    var после=stat(); guard прочитано==исходные, fstat(дескриптор,&после)==0, после.st_dev==до.st_dev, после.st_ino==до.st_ino, после.st_size==до.st_size, после.st_mtimespec.tv_sec==до.st_mtimespec.tv_sec, после.st_mtimespec.tv_nsec==до.st_mtimespec.tv_nsec, после.st_ctimespec.tv_sec==до.st_ctimespec.tv_sec, после.st_ctimespec.tv_nsec==до.st_ctimespec.tv_nsec else { return .отказ_до_записи }
-    if новые==исходные { return .без_изменения }
-    смещение=0
-    while смещение<новые.count {
-        let количество=новые.withUnsafeBytes { _писать(дескриптор,$0.baseAddress!.advanced(by:смещение),новые.count-смещение,off_t(смещение)) }
-        guard количество>0 && количество<=новые.count-смещение else { return .неизвестно }; смещение += количество
+    var После=stat(); guard Прочитано==Исходные, fstat(Дескриптор,&После)==0, После.st_dev==До.st_dev, После.st_ino==До.st_ino, После.st_size==До.st_size, После.st_mtimespec.tv_sec==До.st_mtimespec.tv_sec, После.st_mtimespec.tv_nsec==До.st_mtimespec.tv_nsec, После.st_ctimespec.tv_sec==До.st_ctimespec.tv_sec, После.st_ctimespec.tv_nsec==До.st_ctimespec.tv_nsec else { return .отказ_до_записи }
+    if Новые==Исходные { return .без_изменения }
+    Смещение=0
+    while Смещение<Новые.count {
+        let Количество=Новые.withUnsafeBytes { Писать(Дескриптор,$0.baseAddress!.advanced(by:Смещение),Новые.count-Смещение,off_t(Смещение)) }
+        guard Количество>0 && Количество<=Новые.count-Смещение else { return .неизвестно }; Смещение += Количество
     }
-    guard ftruncate(дескриптор,off_t(новые.count))==0, fsync(дескриптор)==0 else { return .неизвестно }
-    var итог=stat(); guard fstat(дескриптор,&итог)==0, итог.st_dev==до.st_dev, итог.st_ino==до.st_ino, итог.st_nlink==1, итог.st_size==off_t(новые.count) else { return .неизвестно }
-    var проверка=Data(count:новые.count); смещение=0
-    while смещение<проверка.count {
-        let осталось=проверка.count-смещение
-        let количество=проверка.withUnsafeMutableBytes { Darwin.pread(дескриптор,$0.baseAddress!.advanced(by:смещение),осталось,off_t(смещение)) }
-        guard количество>0 else { return .неизвестно }; смещение += количество
+    guard ftruncate(Дескриптор,off_t(Новые.count))==0, fsync(Дескриптор)==0 else { return .неизвестно }
+    var Итог=stat(); guard fstat(Дескриптор,&Итог)==0, Итог.st_dev==До.st_dev, Итог.st_ino==До.st_ino, Итог.st_nlink==1, Итог.st_size==off_t(Новые.count) else { return .неизвестно }
+    var Проверка=Data(count:Новые.count); Смещение=0
+    while Смещение<Проверка.count {
+        let Осталось=Проверка.count-Смещение
+        let Количество=Проверка.withUnsafeMutableBytes { Darwin.pread(Дескриптор,$0.baseAddress!.advanced(by:Смещение),Осталось,off_t(Смещение)) }
+        guard Количество>0 else { return .неизвестно }; Смещение += Количество
     }
-    var лишний: UInt8=0
-    guard pread(дескриптор,&лишний,1,off_t(новые.count))==0 else { return .неизвестно }
-    var окончательно=stat()
-    guard проверка==новые, fstat(дескриптор,&окончательно)==0, окончательно.st_dev==итог.st_dev, окончательно.st_ino==итог.st_ino, окончательно.st_size==итог.st_size, окончательно.st_nlink==итог.st_nlink, окончательно.st_mtimespec.tv_sec==итог.st_mtimespec.tv_sec, окончательно.st_mtimespec.tv_nsec==итог.st_mtimespec.tv_nsec, окончательно.st_ctimespec.tv_sec==итог.st_ctimespec.tv_sec, окончательно.st_ctimespec.tv_nsec==итог.st_ctimespec.tv_nsec else { return .неизвестно }
+    var Лишний: UInt8=0
+    guard pread(Дескриптор,&Лишний,1,off_t(Новые.count))==0 else { return .неизвестно }
+    var Окончательно=stat()
+    guard Проверка==Новые, fstat(Дескриптор,&Окончательно)==0, Окончательно.st_dev==Итог.st_dev, Окончательно.st_ino==Итог.st_ino, Окончательно.st_size==Итог.st_size, Окончательно.st_nlink==Итог.st_nlink, Окончательно.st_mtimespec.tv_sec==Итог.st_mtimespec.tv_sec, Окончательно.st_mtimespec.tv_nsec==Итог.st_mtimespec.tv_nsec, Окончательно.st_ctimespec.tv_sec==Итог.st_ctimespec.tv_sec, Окончательно.st_ctimespec.tv_nsec==Итог.st_ctimespec.tv_nsec else { return .неизвестно }
     return .завершено
 }
-func записать_по_дескриптору(_ дескриптор: Int32, метка: метка_файла, исходные: Data, новые: Data) -> исход_записи {
-    тестово_записать(дескриптор,метка:метка,исходные:исходные,новые:новые)
+func записать_по_дескриптору(_ Дескриптор: Int32, метка Метка: метка_файла, исходные Исходные: Data, новые Новые: Data) -> исход_записи {
+    тестово_записать(Дескриптор,метка:Метка,исходные:Исходные,новые:Новые)
 }

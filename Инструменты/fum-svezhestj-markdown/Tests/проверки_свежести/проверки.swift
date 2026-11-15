@@ -4,74 +4,74 @@ import CryptoKit
 import Darwin
 @testable import адресная_свежесть
 
-private func отпечаток(_ данные:Data)->String { SHA256.hash(data:данные).map { String(format:"%02x",$0) }.joined() }
+private func отпечаток(_ Данные:Data)->String { SHA256.hash(data:Данные).map { String(format:"%02x",$0) }.joined() }
 @Test func отказ_close_не_считается_успехом() { #expect(!закрыть_один(-1)) }
 @Test func формат_входа_ограничен_и_не_допускает_лишних_полей() throws {
- let тело=Data("# Пример\n".utf8), путь=Data("Проекты/ниокр/пример.md".utf8), время="2026-11-15 12:00:00 MSK"
- let вход="fum.адресная-свежесть.1\n\(время)\n1\n\(путь.base64EncodedString())\n\(тело.base64EncodedString())\n\(отпечаток(тело))\n\(время)\n"
- let разобранный=try разобрать_вход(Data(вход.utf8)); #expect(разобранный.файлы.count==1); #expect(разобранный.файлы[0].путь==путь)
- for неверный in [String(вход.dropLast()),вход+"лишнее\n",вход.replacingOccurrences(of:"\n1\n",with:"\n01\n"),вход.replacingOccurrences(of:"fum.адресная-свежесть.1",with:"fum.адресная-свежесть.2")] {
-  #expect(throws:ошибка.self) { try разобрать_вход(Data(неверный.utf8)) }
+ let Тело=Data("# Пример\n".utf8), Путь=Data("Проекты/ниокр/пример.md".utf8), Время="2026-11-15 12:00:00 MSK"
+ let Вход="fum.адресная-свежесть.1\n\(Время)\n1\n\(Путь.base64EncodedString())\n\(Тело.base64EncodedString())\n\(отпечаток(Тело))\n\(Время)\n"
+ let Разобранный=try разобрать_вход(Data(Вход.utf8)); #expect(Разобранный.файлы.count==1); #expect(Разобранный.файлы[0].путь==Путь)
+ for Неверный in [String(Вход.dropLast()),Вход+"лишнее\n",Вход.replacingOccurrences(of:"\n1\n",with:"\n01\n"),Вход.replacingOccurrences(of:"fum.адресная-свежесть.1",with:"fum.адресная-свежесть.2")] {
+  #expect(throws:ошибка.self) { try разобрать_вход(Data(Неверный.utf8)) }
  }
 }
 @Test func сохраняется_время_при_неизменном_теле() throws {
- let тело=Data("# Пример\n".utf8), прежнее="2026-11-15 12:00:00 MSK", новое="2026-11-15 13:00:00 MSK"
- let запись=try предпросмотр(тело,ожидаемый:отпечаток(тело),при_отсутствии:прежнее,сейчас:прежнее)
- let повтор=try предпросмотр(запись,ожидаемый:отпечаток(запись),при_отсутствии:новое,сейчас:новое)
- #expect(повтор==запись)
+ let Тело=Data("# Пример\n".utf8), Прежнее="2026-11-15 12:00:00 MSK", Новое="2026-11-15 13:00:00 MSK"
+ let Запись=try предпросмотр(Тело,ожидаемый:отпечаток(Тело),при_отсутствии:Прежнее,сейчас:Прежнее)
+ let Повтор=try предпросмотр(Запись,ожидаемый:отпечаток(Запись),при_отсутствии:Новое,сейчас:Новое)
+ #expect(Повтор==Запись)
 }
 @Test func отклоняются_сложные_и_повреждённые_входы() throws {
- let время="2026-11-15 12:00:00 MSK"
- for текст in ["x\r\n", "x\0y\n", "```\u{301}\n", "<!--\u{301}содержимое -->\n", "FUM-MD-RECENCY поломан\n"] {
-  let вход=Data(текст.utf8); #expect(throws:ошибка.self) { try предпросмотр(вход,ожидаемый:отпечаток(вход),при_отсутствии:время,сейчас:время) }
+ let Время="2026-11-15 12:00:00 MSK"
+ for Текст in ["x\r\n", "x\0y\n", "```\u{301}\n", "<!--\u{301}содержимое -->\n", "FUM-MD-RECENCY поломан\n"] {
+  let Вход=Data(Текст.utf8); #expect(throws:ошибка.self) { try предпросмотр(Вход,ожидаемый:отпечаток(Вход),при_отсутствии:Время,сейчас:Время) }
  }
 }
 @Test func план_не_принимает_повторы_и_общий_индекс() throws {
- let текст=Data("# Пример\n".utf8), время="2026-11-15 12:00:00 MSK"
- let файл=вход_файла(путь:Data("Проекты/ниокр/пример.md".utf8),исходные:текст,отпечаток:отпечаток(текст),при_отсутствии:время)
- #expect(throws:ошибка.self) { try составить_план([файл,файл],сейчас:время) }
- let индекс=вход_файла(путь:Data("Индексы/markdown-файлы-по-времени-редактирования.md".utf8),исходные:текст,отпечаток:отпечаток(текст),при_отсутствии:время)
- #expect(throws:ошибка.self) { try составить_план([индекс],сейчас:время) }
+ let Текст=Data("# Пример\n".utf8), Время="2026-11-15 12:00:00 MSK"
+ let Файл=вход_файла(путь:Data("Проекты/ниокр/пример.md".utf8),исходные:Текст,отпечаток:отпечаток(Текст),при_отсутствии:Время)
+ #expect(throws:ошибка.self) { try составить_план([Файл,Файл],сейчас:Время) }
+ let Индекс=вход_файла(путь:Data("Индексы/markdown-файлы-по-времени-редактирования.md".utf8),исходные:Текст,отпечаток:отпечаток(Текст),при_отсутствии:Время)
+ #expect(throws:ошибка.self) { try составить_план([Индекс],сейчас:Время) }
 }
 @Test func запись_требует_точный_исходник_и_сохраняет_соседа() throws {
- var шаблон=Array("/private/tmp/fum-recency-swift-test-XXXXXX".utf8CString)
- guard let адрес=mkdtemp(&шаблон) else { Issue.record("каталог"); return }
- let корень=String(cString:адрес); var известный_исход=false
- defer { if известный_исход { try? FileManager.default.removeItem(atPath:корень) } }
- let цель=корень+"/цель.md", сосед=корень+"/сосед.md", старое=Data("before\n".utf8), новое=Data("after\n".utf8)
- try старое.write(to:URL(fileURLWithPath:цель),options:.withoutOverwriting); try Data("neighbor\n".utf8).write(to:URL(fileURLWithPath:сосед),options:.withoutOverwriting)
- let дескриптор=open(цель,O_RDWR | O_NOFOLLOW | O_CLOEXEC); guard дескриптор>=0 else { Issue.record("open"); return }
- var сведения=stat(); guard fstat(дескриптор,&сведения)==0 else { Issue.record("stat"); return }
- let метка=метка_файла(устройство:сведения.st_dev,индекс:сведения.st_ino)
- var вызов=false
- let отказ=тестово_записать(дескриптор,метка:метка,исходные:Data("before?".utf8),новые:новое,_писать:{ _,_,_,_ in вызов=true; return -1 })
- guard case .отказ_до_записи = отказ else { Issue.record("отказ"); return }; #expect(!вызов)
- let без_изменения=тестово_записать(дескриптор,метка:метка,исходные:старое,новые:старое,_писать:{ _,_,_,_ in вызов=true; return -1 })
- guard case .без_изменения = без_изменения else { Issue.record("без изменения"); return }; #expect(!вызов)
- let исход=записать_по_дескриптору(дескриптор,метка:метка,исходные:старое,новые:новое)
- guard case .завершено = исход else { Issue.record("исход записи неизвестен"); return }
- #expect(try Data(contentsOf:URL(fileURLWithPath:цель))==новое)
- #expect(try Data(contentsOf:URL(fileURLWithPath:сосед))==Data("neighbor\n".utf8))
- guard close(дескриптор)==0 else { Issue.record("close unknown"); return }; известный_исход=true
+ var Шаблон=Array("/private/tmp/fum-recency-swift-test-XXXXXX".utf8CString)
+ guard let Адрес=mkdtemp(&Шаблон) else { Issue.record("каталог"); return }
+ let Корень=String(cString:Адрес); var Известный_исход=false
+ defer { if Известный_исход { try? FileManager.default.removeItem(atPath:Корень) } }
+ let Цель=Корень+"/цель.md", Сосед=Корень+"/сосед.md", Старое=Data("before\n".utf8), Новое=Data("after\n".utf8)
+ try Старое.write(to:URL(fileURLWithPath:Цель),options:.withoutOverwriting); try Data("neighbor\n".utf8).write(to:URL(fileURLWithPath:Сосед),options:.withoutOverwriting)
+ let Дескриптор=open(Цель,O_RDWR | O_NOFOLLOW | O_CLOEXEC); guard Дескриптор>=0 else { Issue.record("open"); return }
+ var Сведения=stat(); guard fstat(Дескриптор,&Сведения)==0 else { Issue.record("stat"); return }
+ let Метка=метка_файла(устройство:Сведения.st_dev,индекс:Сведения.st_ino)
+ var Вызов=false
+ let Отказ=тестово_записать(Дескриптор,метка:Метка,исходные:Data("before?".utf8),новые:Новое,_писать:{ _,_,_,_ in Вызов=true; return -1 })
+ guard case .отказ_до_записи = Отказ else { Issue.record("отказ"); return }; #expect(!Вызов)
+ let Без_изменения=тестово_записать(Дескриптор,метка:Метка,исходные:Старое,новые:Старое,_писать:{ _,_,_,_ in Вызов=true; return -1 })
+ guard case .без_изменения = Без_изменения else { Issue.record("без изменения"); return }; #expect(!Вызов)
+ let Исход=записать_по_дескриптору(Дескриптор,метка:Метка,исходные:Старое,новые:Новое)
+ guard case .завершено = Исход else { Issue.record("исход записи неизвестен"); return }
+ #expect(try Data(contentsOf:URL(fileURLWithPath:Цель))==Новое)
+ #expect(try Data(contentsOf:URL(fileURLWithPath:Сосед))==Data("neighbor\n".utf8))
+ guard close(Дескриптор)==0 else { Issue.record("close unknown"); return }; Известный_исход=true
 }
 @Test func перенос_родителя_показывает_границу_namespace() throws {
- var шаблон=Array("/private/tmp/fum-recency-namespace-XXXXXX".utf8CString)
- guard let адрес=mkdtemp(&шаблон) else { Issue.record("каталог"); return }
- let корень=String(cString:адрес), файловая=FileManager.default
- try файловая.createDirectory(atPath:корень+"/Индексы",withIntermediateDirectories:false)
- try файловая.createDirectory(atPath:корень+"/каталог",withIntermediateDirectories:false)
- try Data("index".utf8).write(to:URL(fileURLWithPath:корень+"/Индексы/markdown-файлы-по-времени-редактирования.md"),options:.withoutOverwriting)
- let старое=Data("body\n".utf8), время="2026-11-15 12:00:00 MSK"
- try старое.write(to:URL(fileURLWithPath:корень+"/каталог/цель.md"),options:.withoutOverwriting)
- let вход=вход_файла(путь:Data("каталог/цель.md".utf8),исходные:старое,отпечаток:отпечаток(старое),при_отсутствии:время)
- let план=try составить_план([вход],сейчас:время), корневой=open(корень,O_RDONLY|O_DIRECTORY|O_NOFOLLOW), владелец=владелец_дескрипторов()
- guard корневой>=0 else { Issue.record("open root"); return }
- let файл=try привязать(план,корень:корневой,владелец:владелец)[0]
- try файловая.moveItem(atPath:корень+"/каталог",toPath:корень+"/отсоединённый")
- guard case .завершено = выполнить(файл) else { Issue.record("запись UNKNOWN"); return }
- #expect(!файловая.fileExists(atPath:корень+"/каталог/цель.md"))
- #expect(try Data(contentsOf:URL(fileURLWithPath:корень+"/отсоединённый/цель.md")) != старое)
- for дескриптор in владелец.дескрипторы.reversed() { guard close(дескриптор)==0 else { Issue.record("close UNKNOWN"); return } }
- guard close(корневой)==0 else { Issue.record("close root UNKNOWN"); return }
- try файловая.removeItem(atPath:корень)
+ var Шаблон=Array("/private/tmp/fum-recency-namespace-XXXXXX".utf8CString)
+ guard let Адрес=mkdtemp(&Шаблон) else { Issue.record("каталог"); return }
+ let Корень=String(cString:Адрес), Файловая=FileManager.default
+ try Файловая.createDirectory(atPath:Корень+"/Индексы",withIntermediateDirectories:false)
+ try Файловая.createDirectory(atPath:Корень+"/каталог",withIntermediateDirectories:false)
+ try Data("index".utf8).write(to:URL(fileURLWithPath:Корень+"/Индексы/markdown-файлы-по-времени-редактирования.md"),options:.withoutOverwriting)
+ let Старое=Data("body\n".utf8), Время="2026-11-15 12:00:00 MSK"
+ try Старое.write(to:URL(fileURLWithPath:Корень+"/каталог/цель.md"),options:.withoutOverwriting)
+ let Вход=вход_файла(путь:Data("каталог/цель.md".utf8),исходные:Старое,отпечаток:отпечаток(Старое),при_отсутствии:Время)
+ let План=try составить_план([Вход],сейчас:Время), Корневой=open(Корень,O_RDONLY|O_DIRECTORY|O_NOFOLLOW), Владелец=владелец_дескрипторов()
+ guard Корневой>=0 else { Issue.record("open root"); return }
+ let Файл=try привязать(План,корень:Корневой,владелец:Владелец)[0]
+ try Файловая.moveItem(atPath:Корень+"/каталог",toPath:Корень+"/отсоединённый")
+ guard case .завершено = выполнить(Файл) else { Issue.record("запись UNKNOWN"); return }
+ #expect(!Файловая.fileExists(atPath:Корень+"/каталог/цель.md"))
+ #expect(try Data(contentsOf:URL(fileURLWithPath:Корень+"/отсоединённый/цель.md")) != Старое)
+ for Дескриптор in Владелец.дескрипторы.reversed() { guard close(Дескриптор)==0 else { Issue.record("close UNKNOWN"); return } }
+ guard close(Корневой)==0 else { Issue.record("close root UNKNOWN"); return }
+ try Файловая.removeItem(atPath:Корень)
 }
