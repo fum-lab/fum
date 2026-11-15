@@ -5,6 +5,7 @@ let package = Package(
     name: "FUM",
     platforms: [.macOS(.v13)],
     products: [
+        .executable(name: "адресная_актуализация", targets: ["запуск_адресной_свежести"]),
         .library(name: "FUMProcessProtocol", targets: ["FUMProcessProtocol"]),
         .executable(name: "fum-process-supervisor", targets: ["FUMProcessSupervisor"]),
         .executable(name: "fum-process-anchor", targets: ["FUMProcessAnchor"]),
@@ -12,6 +13,9 @@ let package = Package(
         .executable(name: "фум-проверка-начальной-среды", targets: ["ФУМПроверкаНачальнойСреды"]),
     ],
     targets: [
+        .target(name: "адресная_свежесть", path: "Инструменты/fum-svezhestj-markdown/Sources/адресная_свежесть", swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]),
+        .executableTarget(name: "запуск_адресной_свежести", dependencies: ["адресная_свежесть"], path: "Инструменты/fum-svezhestj-markdown/Sources/запуск_адресной_свежести", swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]),
+        .testTarget(name: "проверки_свежести", dependencies: ["адресная_свежесть"], path: "Инструменты/fum-svezhestj-markdown/Tests/проверки_свежести", swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]),
         .systemLibrary(
             name: "СистемныеВызовы",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Sources/СистемныеВызовы"
