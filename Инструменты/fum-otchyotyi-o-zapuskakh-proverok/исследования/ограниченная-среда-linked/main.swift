@@ -32,6 +32,28 @@ func сверить(_ удержания:[УдержанныйФайл])->Bool {
     }
     return true
 }
+// Цепь ограничена синтетической структурой. openat не делает Git-потребитель дескрипторным.
+struct УдержанныйКаталог { let fd:Int32; let родитель:Int32?; let имя:String; let метка:Метка }
+func меткаКаталога(_ s:stat)->Метка? {
+    guard s.st_mode & mode_t(S_IFMT)==mode_t(S_IFDIR), s.st_uid==geteuid() else { return nil }
+    return Метка(dev:s.st_dev,inode:s.st_ino,mode:s.st_mode,size:s.st_size,mt:s.st_mtimespec,ct:s.st_ctimespec)
+}
+func взятьКаталог(_ родитель:Int32?,_ имя:String,_ ожидаемая:Метка)->УдержанныйКаталог? {
+    let flags=O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC
+    let fd = родитель.map { openat($0,имя,flags) } ?? open(имя,flags)
+    var s=stat()
+    guard fd >= 0, fstat(fd,&s)==0, меткаКаталога(s)==ожидаемая else { return nil }
+    return УдержанныйКаталог(fd:fd,родитель:родитель,имя:имя,метка:ожидаемая)
+}
+func сверитьКаталоги(_ каталоги:[УдержанныйКаталог])->Bool {
+    for каталог in каталоги {
+        var открытый=stat(), поИмени=stat()
+        guard fstat(каталог.fd,&открытый)==0, меткаКаталога(открытый)==каталог.метка else { return false }
+        let итог=каталог.родитель.map { fstatat($0,каталог.имя,&поИмени,AT_SYMLINK_NOFOLLOW) } ?? lstat(каталог.имя,&поИмени)
+        guard итог==0, меткаКаталога(поИмени)==каталог.метка else { return false }
+    }
+    return true
+}
 func отсутствует(_ p:String)->Bool { var s=stat(); return lstat(p,&s) == -1 && errno == ENOENT }
 func данные(_ p:String)->Data? { try? Data(contentsOf:URL(fileURLWithPath:p)) }
 struct Снимок: Equatable { let метки:[Метка]; let индексХэш:String; let gitМетка:Метка }
@@ -58,12 +80,26 @@ func снимок(_ base:String)->Снимок? {
 }
 guard CommandLine.arguments.count==5 else { отказ("аргументы") }
 let base=CommandLine.arguments[1], режим=CommandLine.arguments[2]
-guard ["positive","worktree","include","attributes","nested","swap-config","swap-index"].contains(режим) else { отказ("режим") }
+guard ["positive","worktree","include","attributes","nested","swap-config","swap-index","swap-work","swap-gitdir"].contains(режим) else { отказ("режим") }
 guard let первый=снимок(base) else {
     if ["worktree","include","attributes","nested"].contains(режим) { строка("REJECT до consumer режим=\(режим) вызовы=0"); Darwin._exit(0) }
     отказ("неподтверждённый профиль")
 }
 let work=base+"/work", common=base+"/repo/.git", gitdir=common+"/worktrees/work"
+let каталогПути:[(Int?,String)] = [(nil,base),(0,"repo"),(1,".git"),(2,"info"),(2,"worktrees"),(4,"work"),(0,"work"),(6,"nested")]
+var каталоги:[УдержанныйКаталог]=[]
+for (номер,(родитель,имя)) in каталогПути.enumerated() {
+    let parentFD=родитель.map { каталоги[$0].fd }
+    guard let каталог=взятьКаталог(parentFD,имя,первый.метки[номер]) else { отказ("цепь каталогов UNKNOWN") }
+    каталоги.append(каталог)
+}
+guard каталоги.count==8 && сверитьКаталоги(каталоги) else { отказ("сверка каталогов") }
+if режим == "swap-work" || режим == "swap-gitdir" {
+    let путь = режим == "swap-work" ? work : gitdir
+    guard rename(путь,путь+".fixture-saved")==0, mkdir(путь,0o700)==0 else { отказ("подмена каталога UNKNOWN") }
+    guard !сверитьКаталоги(каталоги) else { отказ("подмена каталога не обнаружена") }
+    строка("REJECT цепь режим=\(режим) вызовы=0"); Darwin._exit(0)
+}
 let источники = [work+"/.git",gitdir+"/gitdir",gitdir+"/commondir",gitdir+"/HEAD",gitdir+"/index",gitdir+"/config.worktree",common+"/config",work+"/fixture.txt",git]
 let исходныеМетки = Array(первый.метки.suffix(8)) + [первый.gitМетка]
 var удержания:[УдержанныйФайл]=[]
@@ -82,7 +118,7 @@ if режим == "swap-config" || режим == "swap-index" {
     guard !сверить(удержания) else { отказ("подмена не обнаружена") }
     строка("REJECT удержание режим=\(режим) вызовы=0"); Darwin._exit(0)
 }
-guard режим == "positive", let второй=снимок(base), первый==второй && сверить(удержания) else { отказ("дрейф до запуска") }
+guard режим == "positive", let второй=снимок(base), первый==второй && сверитьКаталоги(каталоги) && сверить(удержания) else { отказ("дрейф до запуска") }
 let root=base+"/work", p=Process(), out=Pipe(), err=Pipe()
 p.executableURL=URL(fileURLWithPath:git)
 p.arguments=["-C",root,"-c","core.fsmonitor=false","--work-tree="+root,"diff","--binary","--no-ext-diff","--no-textconv","--ignore-submodules=dirty","--",".",":(exclude)Журнал/фикстура/отчёт.md",":(exclude)Журнал/фикстура/материалы/запуски-проверок",":(exclude)Журнал/фикстура/материалы/запуски-проверок/**",":(top,exclude,literal)Proyekcii",":(top,exclude,glob)Proyekcii/**"]
@@ -92,5 +128,5 @@ do { try p.run() } catch { отказ("старт UNKNOWN") }
 let данныеВывода=out.fileHandleForReading.readDataToEndOfFile(), ошибки=err.fileHandleForReading.readDataToEndOfFile();p.waitUntilExit()
 let ожидается=Data("diff --git a/fixture.txt b/fixture.txt\nindex 4b48dee..5ea2ed4 100644\n--- a/fixture.txt\n+++ b/fixture.txt\n@@ -1 +1 @@\n-original\n+changed\n".utf8)
 guard p.terminationReason == .exit && p.terminationStatus==0 && ошибки.isEmpty && данныеВывода==ожидается else { отказ("diff") }
-guard let третий=снимок(base), третий==второй && сверить(удержания) else { отказ("дрейф после") }
-строка("PASS linked fixture diff; consumer=1; exact bytes; held fds pre/post equal")
+guard let третий=снимок(base), третий==второй && сверитьКаталоги(каталоги) && сверить(удержания) else { отказ("дрейф после") }
+строка("PASS linked fixture diff; consumer=1; exact bytes; held files and directories pre/post equal")
