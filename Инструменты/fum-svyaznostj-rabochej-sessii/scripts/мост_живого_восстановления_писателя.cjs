@@ -28,7 +28,7 @@ async function выполнить_живое_восстановление(сре
             параметры.корень+"/Инструменты/fum-svyaznostj-rabochej-sessii/scripts/живое_восстановление_писателя.py"];
         for(const элемент of имена)аргументы.push("--"+элемент.replaceAll("_","-"),параметры[элемент]);
         let результат_процесса=await набор_инструментов.exec_command({cmd:аргументы.map(кавычки).join(" "),workdir:параметры.корень,
-            tty:true,yield_time_ms:1000,max_output_tokens:60000});
+            shell:"/bin/sh",login:false,tty:true,yield_time_ms:1000,max_output_tokens:60000});
         if(Number.isInteger(результат_процесса.session_id))сеанс=результат_процесса.session_id;
         let опросов=0;
         while(true) {

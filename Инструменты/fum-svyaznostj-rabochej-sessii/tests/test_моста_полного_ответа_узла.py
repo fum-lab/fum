@@ -180,7 +180,7 @@ async function проверить(сбой) {
   let вызовов=0, записей=0, описаний=0, кадр='';const память=new Map();
   const ответ={content:[{type:'text',text:'ё🙂\n'.repeat(10000)}]};
   const среда={хэш:отпечаток_строки,сохранить:(к,з)=>память.set(к,з),загрузить:к=>память.get(к),
-    инструменты:{exec_command:async()=>({session_id:7,output:JSON.stringify({схема:'fum.готовность-приёма-ответа.1',цикл,задача,файл})+'\n'}),
+    инструменты:{exec_command:async п=>{проверка.equal(п.shell,'/bin/sh');проверка.equal(п.login,false);return {session_id:7,output:JSON.stringify({схема:'fum.готовность-приёма-ответа.1',цикл,задача,файл})+'\n'};},
       mcp__codex_app__read_thread:async п=>{проверка.deepEqual(п,запрос.параметры);вызовов++;return ответ;},
       write_stdin:async п=>{записей++;if(сбой==='unknown'&&записей===2)throw Error('неизвестный исход');кадр+=п.chars;
         проверка(Buffer.byteLength(JSON.stringify(п))<=4096);

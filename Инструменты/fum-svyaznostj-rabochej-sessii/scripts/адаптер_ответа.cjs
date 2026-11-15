@@ -14,7 +14,7 @@ async function прочитать_кратко(среда, параметры) {
         const инструменты = среда.инструменты;
         async function команда(аргументы) {
             let результат = await инструменты.exec_command({cmd: аргументы.map(кавычки).join(" "),
-                workdir: корень, max_output_tokens: 16000, yield_time_ms: 1000});
+                workdir: корень, shell: "/bin/sh", login: false, max_output_tokens: 16000, yield_time_ms: 1000});
             let вывод = результат.output || "";
             while (результат.session_id) {
                 результат = await инструменты.write_stdin({session_id: результат.session_id,

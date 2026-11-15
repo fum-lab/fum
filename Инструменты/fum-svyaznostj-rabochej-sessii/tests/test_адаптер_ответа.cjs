@@ -7,8 +7,43 @@ const ос = require("node:os");
 const процессы = require("node:child_process");
 const крипто = require("node:crypto");
 const {прочитать_кратко} = require("../scripts/адаптер_ответа.cjs");
+const {передать_полный_ответ} = require("../scripts/мост_полного_ответа_узла.cjs");
+const {выполнить_живое_восстановление} = require("../scripts/мост_живого_восстановления_писателя.cjs");
 const корень = пути.resolve(__dirname, "../../..");
 const задача = "00000000-0000-0000-0000-000000000165";
+
+проверить("Запрос процесса явно отключает login shell", async () => {
+    let вызов;
+    const среда = {сохранить: () => {}, инструменты: {exec_command: async аргументы => {
+        вызов = аргументы;
+        return {exit_code: 1, output: ""};
+    }}};
+    await прочитать_кратко(среда, {корень: "/synthetic/repo", задача, режим: "новый",
+        снимок: "/synthetic/snapshot", ключ_кэша: "test"});
+    утверждать.ok(вызов);
+    утверждать.equal(вызов.shell, "/bin/sh");
+    утверждать.equal(вызов.login, false);
+});
+
+проверить("Оба моста передают фиксированный shell и login false", async () => {
+    let вызов;
+    const инструменты = {exec_command: async аргументы => {вызов = аргументы; return {exit_code: 1, output: ""};},
+        write_stdin: async () => ({}), mcp__codex_app__read_thread: async () => ({}),
+        mcp__codex_app__send_message_to_thread: async () => ({})};
+    const среда = {инструменты, хэш: async () => "a".repeat(64), сохранить: () => {}, загрузить: () => null,
+        принять_описание: async () => {}, интерпретатор: "/synthetic/python3.14"};
+    const id = "00000000-0000-0000-0000-000000000001";
+    await передать_полный_ответ(среда, {корень: "/synthetic/repo", контейнер: "/synthetic/container",
+        запрос: {схема: "fum.запрос-внешнего-чтения.1", цикл: id,
+            параметры: {threadId: id, hostId: "local", turnLimit: 1, includeOutputs: true, maxOutputCharsPerItem: 10}}});
+    утверждать.ok(вызов); утверждать.equal(вызов.shell, "/bin/sh"); утверждать.equal(вызов.login, false);
+    вызов = undefined;
+    await выполнить_живое_восстановление(среда, {корень: "/synthetic/repo", вход: "/synthetic/input",
+        вход_sha256: "a".repeat(64), выбор: "/synthetic/choice", выбор_sha256: "b".repeat(64),
+        контейнер: "/synthetic/container", писатель: "/synthetic/writer", писатель_sha256: "c".repeat(64),
+        читатель: "/synthetic/reader", читатель_sha256: "d".repeat(64)});
+    утверждать.ok(вызов); утверждать.equal(вызов.shell, "/bin/sh"); утверждать.equal(вызов.login, false);
+});
 
 function окружение(контекст, ошибка = null, вариант = {}) {
     const временный = фс.realpathSync(фс.mkdtempSync(пути.join(ос.tmpdir(), "fum-ответ-")));
@@ -27,6 +62,7 @@ function окружение(контекст, ошибка = null, вариан�
                 утверждать.equal(параметры.threadId, задача); состояние.обращения++; return состояние.ответ;
             },
             exec_command: async параметры => {
+                утверждать.equal(параметры.shell, "/bin/sh"); утверждать.equal(параметры.login, false);
                 состояние.команды++;
                 try {
                     состояние.вывод = процессы.execFileSync("sh", ["-c", параметры.cmd],

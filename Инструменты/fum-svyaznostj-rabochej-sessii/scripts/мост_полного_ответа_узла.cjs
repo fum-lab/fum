@@ -40,7 +40,7 @@ async function передать_полный_ответ(среда, параме
         const файл=контейнер+"/чтение-"+цикл+".json";
         const аргументы=["python3","-B",корень+"/Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_полного_ответа_узла.py",
             "--корень-контейнера",контейнер,"--цикл",цикл,"--задача",задача,"--запрос",JSON.stringify(чтение)];
-        let результат=await инструменты.exec_command({cmd:аргументы.map(кавычки).join(" "),workdir:корень,tty:true,yield_time_ms:1000,max_output_tokens:1000});
+        let результат=await инструменты.exec_command({cmd:аргументы.map(кавычки).join(" "),workdir:корень,shell:"/bin/sh",login:false,tty:true,yield_time_ms:1000,max_output_tokens:1000});
         if(!Number.isInteger(результат.session_id)||результат.exit_code!==undefined) throw Error("Приёмник не ожидает поток");
         сеанс=результат.session_id;
         const готовность=JSON.parse(результат.output);
