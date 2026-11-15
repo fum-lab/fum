@@ -32,7 +32,7 @@ def проверить_назначение_автора(назначение, �
            or назначение[поле] != запрос[поле] for поле in поля):
         return False
     роль = назначение["роль"]
-    return (re.fullmatch(r"[A-Z][A-Za-z]*(?: [A-Z][A-Za-z]*)*", роль) is not None
+    return (re.fullmatch(r"[A-Z][A-Za-z]*(?: [A-Za-z]+)*", роль) is not None
             and роль.lower() not in НЕИЗВЕСТНО
             and роль not in {"Root", "FUM Codex"}
             and назначение["ветка"].startswith("refs/heads/")

@@ -15,6 +15,8 @@ class ИмяАвтора(unittest.TestCase):
         запрос = {"исполнитель": "agent-1", "ветка": "refs/heads/codex/example",
                   "основа": "a" * 40, "роль": "Upravlyayusjhij"}
         сам.assertTrue(проверить_назначение_автора(назначение, запрос))
+        роль = "Ustranitelj problem komand"
+        сам.assertTrue(проверить_назначение_автора({**назначение, "роль": роль}, {**запрос, "роль": роль}))
         for ключ, значение in (("роль", "Drugoj"), ("исполнитель", "agent-2"),
                                ("основа", "b" * 40), ("ветка", "refs/heads/codex/other")):
             with сам.subTest(ключ=ключ):
