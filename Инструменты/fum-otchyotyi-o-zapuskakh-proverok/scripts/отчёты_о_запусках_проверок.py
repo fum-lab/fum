@@ -4838,6 +4838,62 @@ def _проверить_дерево_без_файлов_атрибутов_git(
         raise ОшибкаОтчёта('не удалось проверить дерево атрибутов Git') from ошибка
 
 
+def _проверить_неинициализированный_gitlink(корень: int, записи: tuple) -> tuple:
+    """Узкий случай одного gitlink; материализованный checkout не допускается."""
+    ссылки = [имя for имя, режим, _ in записи if режим == 0o160000]
+    if not ссылки:
+        return ()
+    if len(ссылки) != 1:
+        raise ОшибкаОтчёта('неподдерживаемое число подмодулей Git')
+    описания = [(режим, oid) for имя, режим, oid in записи if имя == b'.gitmodules']
+    данные = _прочитать_источник_git_через_fd(корень, '.gitmodules', 65536)
+    if (len(описания) != 1 or описания[0][0] != 0o100644 or данные is None
+        or hashlib.sha1(b'blob ' + str(len(данные)).encode('ascii') + b'\0' + данные).digest() != описания[0][1]):
+        raise ОшибкаОтчёта('описание подмодулей не совпадает с индексом')
+    строки = данные.splitlines(keepends=True)
+    заголовок = re.fullmatch(rb'\[submodule "([^"\\\r\n]+)"\]\n', строки[0]) if строки else None
+    поля = [re.fullmatch(rb'\t(path|url|fumUpstream) = ([^"\\\r\n]+)\n', строка) for строка in строки[1:]]
+    if заголовок is None or len(поля) != 3 or any(поле is None for поле in поля):
+        raise ОшибкаОтчёта('неподдерживаемое описание подмодуля')
+    значения = {поле.group(1): поле.group(2) for поле in поля}
+    if (set(значения) != {b'path', b'url', b'fumUpstream'} or len(значения) != len(поля)
+        or any(not значение or значение != значение.strip() or any(байт < 32 or байт == 127 for байт in значение)
+               for значение in значения.values())
+        or any(re.fullmatch(rb'https://[A-Za-z0-9._/-]+', значения[ключ]) is None
+               for ключ in (b'url', b'fumUpstream'))
+        or заголовок.group(1) != значения[b'path'] or значения[b'path'] != ссылки[0]):
+        raise ОшибкаОтчёта('неподтверждённая связь описания и gitlink')
+    try:
+        части = ссылки[0].decode('utf-8').split('/')
+        with contextlib.ExitStack() as стек:
+            текущий = корень
+            for часть in части:
+                до = os.fstat(текущий)
+                try:
+                    состояние = os.stat(часть, dir_fd=текущий, follow_symlinks=False)
+                except FileNotFoundError:
+                    после = os.fstat(текущий)
+                    if (до.st_dev, до.st_ino, до.st_mtime_ns, до.st_ctime_ns) != (после.st_dev, после.st_ino, после.st_mtime_ns, после.st_ctime_ns):
+                        raise ОшибкаОтчёта('путь подмодуля изменился')
+                    return (ссылки[0], 'отсутствует')
+                if not stat.S_ISDIR(состояние.st_mode):
+                    raise ОшибкаОтчёта('небезопасный путь подмодуля')
+                следующий = _открыть_каталог_git_через_fd(текущий, часть)
+                стек.callback(os.close, следующий)
+                текущий = следующий
+            до = os.fstat(текущий)
+            try:
+                os.stat('.git', dir_fd=текущий, follow_symlinks=False)
+            except FileNotFoundError:
+                после = os.fstat(текущий)
+                if (до.st_dev, до.st_ino, до.st_mtime_ns, до.st_ctime_ns) != (после.st_dev, после.st_ino, после.st_mtime_ns, после.st_ctime_ns):
+                    raise ОшибкаОтчёта('каталог подмодуля изменился')
+                return (ссылки[0], 'неинициализирован')
+            raise ОшибкаОтчёта('материализованный подмодуль не подтверждён')
+    except (OSError, UnicodeError) as ошибка:
+        raise ОшибкаОтчёта('не удалось проверить путь подмодуля') from ошибка
+
+
 def _собрать_локальные_конфиги_связанного_git(
     рабочий: int, общий: int, путь_рабочего: str, путь_общего: str, имя: str,
 ) -> tuple[bytes, ...]:
@@ -4882,11 +4938,10 @@ def _собрать_локальные_конфиги_связанного_git(
                     if индекс is None:
                         raise ОшибкаОтчёта('отсутствует Git index')
                     записи = _разобрать_git_index_v2(индекс, 'sha1', _разрешить_gitlink=True)
-                    if any(режим == 0o160000 for _, режим, _ in записи):
-                        raise ОшибкаОтчёта('состояние подмодулей Git не подтверждено')
                     if any(имя.split(b'/')[-1].lower() == b'.gitattributes' for имя, _, _ in записи):
                         raise ОшибкаОтчёта('индекс содержит атрибуты Git')
-                    return источники, индекс
+                    подмодуль = _проверить_неинициализированный_gitlink(рабочий, записи)
+                    return источники, индекс, подмодуль
                 результат = читать()
                 if _прочитать_источник_git_через_fd(информация, 'attributes', 65536) is not None:
                     raise ОшибкаОтчёта('обнаружены общие атрибуты Git')

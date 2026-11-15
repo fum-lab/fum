@@ -5509,6 +5509,87 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_неинициализированный_gitlink_и_родительский_diff(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            база = Path(каталог).resolve()
+            репозиторий, дерево = база / 'repo', база / 'work'
+            окружение = {'PATH': os.defpath, 'HOME': каталог, 'LC_ALL': 'C',
+                         'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1',
+                         'GIT_ATTR_NOSYSTEM': '1', 'GIT_ALLOW_PROTOCOL': '',
+                         'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1',
+                         'GIT_NO_REPLACE_OBJECTS': '1'}
+            def вызвать_git(*аргументы):
+                return subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null', *аргументы],
+                                      env=окружение, stdin=subprocess.DEVNULL,
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=10)
+            вызвать_git('init', '-q', str(репозиторий))
+            модули = (b'[submodule "module"]\n\tpath = module\n'
+                      b'\turl = https://example.invalid/fork\n'
+                      b'\tfumUpstream = https://example.invalid/upstream\n')
+            (репозиторий / '.gitmodules').write_bytes(модули)
+            вызвать_git('-C', str(репозиторий), 'add', '--', '.gitmodules')
+            вызвать_git('-C', str(репозиторий), '-c', 'user.name=fixture', '-c', 'user.email=fixture@invalid',
+                'commit', '-q', '-m', 'fixture')
+            вызвать_git('-C', str(репозиторий), 'config', 'extensions.worktreeConfig', 'true')
+            вызвать_git('-C', str(репозиторий), 'worktree', 'add', '-q', '-b', 'fixture-linked', str(дерево))
+            вызвать_git('-C', str(дерево), 'config', '--worktree', 'core.autocrlf', 'false')
+            вершина = вызвать_git('-C', str(дерево), 'rev-parse', '--verify', 'HEAD').stdout.strip().decode('ascii')
+            вызвать_git('-C', str(дерево), 'update-index', '--add', '--cacheinfo', '160000', вершина, 'module')
+            (дерево / 'module').mkdir()
+            исключения = ('.', ':(exclude)Журнал/фикстура/отчёт.md',
+                          ':(exclude)Журнал/фикстура/материалы/запуски-проверок',
+                          ':(exclude)Журнал/фикстура/материалы/запуски-проверок/**',
+                          ':(top,exclude,literal)Proyekcii', ':(top,exclude,glob)Proyekcii/**')
+            общая = ('/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', '/usr/bin/git',
+                     '-C', str(дерево), '--no-pager', '-c', 'core.fsmonitor=false',
+                     '--work-tree=' + str(дерево), 'diff', '--binary', '--no-ext-diff',
+                     '--no-textconv', '--ignore-submodules=dirty')
+            def разница(*параметры):
+                итог = subprocess.run((*общая, *параметры, '--', *исключения), env=окружение,
+                                      stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      check=True, timeout=10)
+                сам.assertEqual(итог.stderr, b'')
+                return итог.stdout
+            пустая_разница = разница()
+            сам.assertEqual(пустая_разница, b'')
+            ожидаемое = (f'diff --git a/module b/module\nnew file mode 160000\n'
+                         f'index {"0" * 7}..{вершина[:7]}\n--- /dev/null\n+++ b/module\n'
+                         f'@@ -0,0 +1 @@\n+Subproject commit {вершина}\n').encode('ascii')
+            индексная_разница = разница('--cached', вершина)
+            сам.assertEqual(индексная_разница, ожидаемое)
+            print('empty_directory_diff_hex=' + пустая_разница.hex())
+            print('cached_diff_hex=' + индексная_разница.hex())
+            with contextlib.ExitStack() as стек:
+                рабочий = os.open(дерево, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, рабочий)
+                общий = os.open(репозиторий / '.git', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, общий)
+                собрать = модуль._собрать_локальные_конфиги_связанного_git
+                параметры = (рабочий, общий, str(дерево), str(репозиторий / '.git'), 'work')
+                сам.assertEqual(len(собрать(*параметры)), 2)
+                (дерево / 'module').rmdir()
+                удаление = (f'diff --git a/module b/module\ndeleted file mode 160000\n'
+                            f'index {вершина[:7]}..{"0" * 7}\n--- a/module\n+++ /dev/null\n'
+                            f'@@ -1 +0,0 @@\n-Subproject commit {вершина}\n').encode('ascii')
+                разница_отсутствующего = разница()
+                сам.assertEqual(разница_отсутствующего, удаление)
+                print('absent_directory_diff_hex=' + разница_отсутствующего.hex())
+                сам.assertEqual(разница('--cached', вершина), ожидаемое)
+                сам.assertEqual(len(собрать(*параметры)), 2)
+                os.symlink('/tmp', дерево / 'module')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
+                (дерево / 'module').unlink()
+                (дерево / 'module').mkdir()
+                (дерево / '.gitmodules').write_bytes(модули + b'# changed\n')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
+                (дерево / '.gitmodules').write_bytes(модули)
+                вызвать_git('init', '-q', str(дерево / 'module'))
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
+
     def test_байты_конфигурации_связанного_дерева_git(сам):
         модуль = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
