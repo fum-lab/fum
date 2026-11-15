@@ -53,7 +53,7 @@ struct Разбор {
             let низ = try четыреШестнадцатеричные(); guard (0xdc00...0xdfff).contains(низ) else { throw Ошибка.вход }
             значениеСкаляра = 0x10000 + (значениеСкаляра - 0xd800) * 0x400 + низ - 0xdc00
           } else if (0xdc00...0xdfff).contains(значениеСкаляра) { throw Ошибка.вход }
-          guard let скаляр = Unicode.Scalar(значениеСкаляра) else { throw Ошибка.вход }; с.unicodeScalars.append(скаляр)
+          guard let знакЮникода = Unicode.Scalar(значениеСкаляра) else { throw Ошибка.вход }; с.unicodeScalars.append(знакЮникода)
         default: throw Ошибка.вход
         }
       } else { guard ч.unicodeScalars.allSatisfy({ $0.value >= 32 }) else { throw Ошибка.вход }; с.append(ч) }
