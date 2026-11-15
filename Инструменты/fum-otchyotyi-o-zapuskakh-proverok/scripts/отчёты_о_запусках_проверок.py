@@ -4687,19 +4687,25 @@ def _проверить_узкую_конфигурацию_git(источник
         (b'core', b'repositoryformatversion = 0'),
         (b'core', b'bare = false'),
         (b'core', b'filemode = true'),
+        (b'core', b'logallrefupdates = true'),
+        (b'core', b'autocrlf = false'),
         (b'extensions', b'worktreeconfig = true'),
     }
     встреченные = set()
     for данные in источники:
         раздел = None
+        число_записей = 0
         for строка in данные[:-1].split(b'\n'):
             if строка in (b'[core]', b'[extensions]'):
                 раздел = строка[1:-1]
                 continue
-            запись = (раздел, строка)
+            запись = (раздел, строка[1:] if строка.startswith(b'\t') else строка)
             if запись not in допустимые or запись in встреченные:
                 return False
             встреченные.add(запись)
+            число_записей += 1
+        if not число_записей:
+            return False
     return bool(встреченные)
 
 

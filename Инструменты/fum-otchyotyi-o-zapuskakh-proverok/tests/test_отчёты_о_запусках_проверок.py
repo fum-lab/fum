@@ -5509,6 +5509,12 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_узкая_конфигурация_узнаёт_текущую_тестовую_константу(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):
+            сам.assertTrue(модуль._проверить_узкую_конфигурацию_git(
+                (модуль._ТЕСТОВАЯ_КОНФИГУРАЦИЯ_БЕЗ_ПРЕОБРАЗОВАНИЙ,)))
+
     def test_узкое_подмножество_конфигурации_не_запускает_git(сам):
         модуль = загрузить_модуль_автоматизации()
         допустимая = (b'[core]\nrepositoryformatversion = 0\nbare = false\nfilemode = true\n',
@@ -5522,6 +5528,12 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             (b'[core]\nbare = false',), (b'[core]\nbare = false\r\n',),
             (b'[core]\nbare = "false"\n',), (b'bare = false\n',),
             (b'[core]\nbare = false\n', b'[core]\nbare = false\n'),
+            (b'[core]\n', b'[core]\nbare = false\n'),
+            (b'[core]\n',) * 8, (b'[core]\n',) * 9,
+            (b'[core]\nBare = false\n',), (b'[core]\n bare = false\n',),
+            (b'[core]\nbare = false # comment\n',),
+            (b'[core]\nbare = fa\\lse\n',),
+            (b'[core]\n\tbare = false\nbare = false\n',),
             (b'\xff\n',), (b'\x00\n',), (b'x' * 65537,), ('[core]',),
         )
         with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):
