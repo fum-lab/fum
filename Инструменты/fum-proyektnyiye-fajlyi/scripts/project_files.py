@@ -309,6 +309,7 @@ def _git_status_for_path(repo_root: Path, relative: Path) -> bytes:
     return _run_git(
         repo_root,
         [
+            "--literal-pathspecs",
             "-c",
             "core.quotepath=false",
             "status",
