@@ -1,0 +1,11 @@
+Myi dobilisj ochenj byistryikh vyicheslenij ciklov obratnoj svyazi v kompjyuterakh, i upyorshisj v predelyi, nachali rasparallelivatj. Algoritm razuma stremitjsya dostjchj maksimaljnogo byistrodejstviya cikla obratnoj svyazi na paralleljnoj sisteme, a potom snova rasparallelivayetsya i dostigayet maksimaljnogo byistrodejstviya.
+
+Sdelav LLM, myi razmenyali byistrodejstviye na paralleljnostj, potomu chto cikl obratnoj svyazi u agenta skazhem tak ochenj medlennyij.
+
+U cheloveka yestj vnutrenniye ciklyi obratnoj svyazi, i ciklyi obratnoj svyazi, zamyikayusjhiyesya na okruzhayusjhuyu sredu.
+
+Granica mezhdu vnutrennim mirom i okruzhayusjhej sredoj — eto granica mezhdu parallelizmom i maksimaljnyim byistrodejstviyem, to yestj maksimizaciya vyichislenij na yedinicu energii. Energiya — eto ni chto inoye kak samaya abstraktnaya mera vesa v etoj neroseti.
+
+Vselenskoj nejroseti.
+
+Kosmologicheskij gorizont sobyitij i gorizontyi sobyitij chyornyikh dyir — eto granicyi togo, gde svyazi s okruzhayusjhej sredoj obryivayutsya na samom fundamentaljnom urovne. Vselennaya — razum vne okruzhayusjhej sredyi.
