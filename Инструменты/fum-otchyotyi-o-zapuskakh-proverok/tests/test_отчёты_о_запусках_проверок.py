@@ -5509,6 +5509,32 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_источник_git_читается_через_fd_или_отказывает(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            (корень / 'config').write_bytes(b'[core]\n')
+            os.symlink('config', корень / 'link')
+            os.mkfifo(корень / 'fifo')
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                читать = модуль._прочитать_источник_git_через_fd
+                сам.assertEqual(читать(fd, 'config', 64), b'[core]\n')
+                сам.assertIsNone(читать(fd, 'missing', 64))
+                for имя, предел in (('link', 64), ('fifo', 64), ('config', 2), ('../config', 64)):
+                    with сам.subTest(имя=имя), сам.assertRaises(модуль.ОшибкаОтчёта):
+                        читать(fd, имя, предел)
+                настоящее_чтение = os.pread
+                def изменить(дескриптор, размер, смещение):
+                    данные = настоящее_чтение(дескриптор, размер, смещение)
+                    (корень / 'config').write_bytes(b'[other]\n')
+                    return данные
+                with mock.patch.object(модуль.os, 'pread', side_effect=изменить):
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        читать(fd, 'config', 64)
+            finally:
+                os.close(fd)
+
     def test_узкая_конфигурация_узнаёт_текущую_тестовую_константу(сам):
         модуль = загрузить_модуль_автоматизации()
         with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):

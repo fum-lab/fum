@@ -4674,6 +4674,51 @@ class _НастройкиGitОтпечатка(NamedTuple):
     системные_настройки: bool = True
 
 
+def _прочитать_источник_git_через_fd(каталог: int, имя: str, предел: int) -> bytes | None:
+    """Наблюдение одной записи; непрерывная custody остаётся внешним условием."""
+    if (type(каталог) is not int or каталог < 0 or type(имя) is not str
+        or not имя or имя in ('.', '..') or '/' in имя or '\0' in имя
+        or type(предел) is not int or not 0 <= предел <= 16_777_216):
+        raise ОшибкаОтчёта('неверный адрес источника Git')
+    def метка(с):
+        return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid, с.st_nlink,
+                с.st_size, с.st_mtime_ns, с.st_ctime_ns)
+    try:
+        родитель = os.fstat(каталог)
+        if not stat.S_ISDIR(родитель.st_mode):
+            raise ОшибкаОтчёта('источник Git не имеет каталога')
+        try:
+            fd = os.open(имя, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC,
+                         dir_fd=каталог)
+        except FileNotFoundError:
+            if метка(os.fstat(каталог)) != метка(родитель):
+                raise ОшибкаОтчёта('каталог источника Git изменился')
+            return None
+        try:
+            начало = os.fstat(fd)
+            if (not stat.S_ISREG(начало.st_mode) or начало.st_uid != os.geteuid()
+                or начало.st_nlink != 1 or stat.S_IMODE(начало.st_mode) & 0o022
+                or not 0 <= начало.st_size <= предел):
+                raise ОшибкаОтчёта('небезопасный источник Git')
+            части = []
+            смещение = 0
+            while смещение < начало.st_size:
+                часть = os.pread(fd, min(65536, начало.st_size - смещение), смещение)
+                if not часть:
+                    raise ОшибкаОтчёта('неполное чтение источника Git')
+                части.append(часть)
+                смещение += len(часть)
+            if (os.pread(fd, 1, смещение) or метка(os.fstat(fd)) != метка(начало)
+                or метка(os.stat(имя, dir_fd=каталог, follow_symlinks=False)) != метка(начало)
+                or метка(os.fstat(каталог)) != метка(родитель)):
+                raise ОшибкаОтчёта('источник Git изменился при чтении')
+            return b''.join(части)
+        finally:
+            os.close(fd)
+    except OSError as ошибка:
+        raise ОшибкаОтчёта('не удалось проверить источник Git') from ошибка
+
+
 def _проверить_узкую_конфигурацию_git(источники: tuple[bytes, ...]) -> bool:
     """Проверить только заданные байты; полнота источников и допуск неизвестны."""
     if type(источники) is not tuple or not 1 <= len(источники) <= 8:
