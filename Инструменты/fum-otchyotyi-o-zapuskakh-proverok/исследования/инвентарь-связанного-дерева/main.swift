@@ -3,7 +3,7 @@ import Darwin
 import CryptoKit
 func hold(_ s:String)->Never { print("HOLD \(s)"); exit(2) }
 func hash(_ d:Data)->String { SHA256.hash(data:d).map { String(format:"%02x",$0) }.joined() }
-func same(_ a:stat,_ b:stat)->Bool { a.st_dev==b.st_dev && a.st_ino==b.st_ino && a.st_mode==b.st_mode && a.st_nlink==b.st_nlink && a.st_size==b.st_size && a.st_mtimespec.tv_sec==b.st_mtimespec.tv_sec && a.st_mtimespec.tv_nsec==b.st_mtimespec.tv_nsec && a.st_ctimespec.tv_sec==b.st_ctimespec.tv_sec && a.st_ctimespec.tv_nsec==b.st_ctimespec.tv_nsec }
+func same(_ a:stat,_ b:stat)->Bool { a.st_dev==b.st_dev && a.st_ino==b.st_ino && a.st_mode==b.st_mode && a.st_uid==b.st_uid && a.st_gid==b.st_gid && a.st_nlink==b.st_nlink && a.st_size==b.st_size && a.st_mtimespec.tv_sec==b.st_mtimespec.tv_sec && a.st_mtimespec.tv_nsec==b.st_mtimespec.tv_nsec && a.st_ctimespec.tv_sec==b.st_ctimespec.tv_sec && a.st_ctimespec.tv_nsec==b.st_ctimespec.tv_nsec }
 func openAbsoluteDirectory(_ path:String)->Int32 {
  guard path.hasPrefix("/"), path != "/", !path.hasSuffix("/"), !path.contains("//") else { hold("absolute path") }
  let parts=path.split(separator:"/").map(String.init); guard !parts.contains(".") && !parts.contains("..") else { hold("path traversal") }
