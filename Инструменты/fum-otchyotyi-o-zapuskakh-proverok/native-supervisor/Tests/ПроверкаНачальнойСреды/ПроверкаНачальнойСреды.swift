@@ -1,5 +1,7 @@
 import Foundation
 import Darwin
+@_silgen_name("kevent")
+private func системныйKevent(_ queue: Int32, _ changes: UnsafePointer<kevent>?, _ changeCount: Int32, _ events: UnsafeMutablePointer<kevent>?, _ eventCount: Int32, _ timeout: UnsafePointer<timespec>?) -> Int32
 import CryptoKit
 import СистемныеВызовы
 
@@ -61,7 +63,7 @@ public func проверитьНачальнуюСреду(
             guard line.utf8CString.withUnsafeBytes({ Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count-1) }) == line.utf8.count else { return 49 }
             while true { Darwin.pause() }
         }
-        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant"].contains(режим) {
+        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant", "--проверить-witness8-descendant-exit"].contains(режим) {
             var args = [String]()
             for индекс in 0..<Int(количество) {
                 guard let часть = аргументы[индекс] else { return 40 }
@@ -280,11 +282,11 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
 }
 
 private func запуститьСлучайПрофиля(_ helper: String, _ witness: String, _ anchor: String,
-                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool, потомок: Bool) -> Bool {
+                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool, потомок: Bool, наблюдатьВыход: Bool) -> Bool {
     var шаблон = Array("/private/tmp/fum-witness8-swift.XXXXXXXX".utf8CString)
     guard let указатель = mkdtemp(&шаблон) else { сообщениеПрофиля("FAIL mkdtemp"); return false }
     let каталог = String(cString: указатель)
-    var dirFD: Int32 = -1, bFD: Int32 = -1, чужойFD: Int32 = -1
+    var dirFD: Int32 = -1, bFD: Int32 = -1, чужойFD: Int32 = -1, очередьВыхода: Int32 = -1
     var control = [Int32](repeating: -1, count: 2), status = [Int32](repeating: -1, count: 2)
     var output = [Int32](repeating: -1, count: 2), errors = [Int32](repeating: -1, count: 2)
     var pid: pid_t = 0
@@ -301,6 +303,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         if номер >= 0, Darwin.close(номер) != 0 { неизвестно("close \(имя), fd=\(номер)") }
     }
     func освободить() {
+        закрыть(&очередьВыхода, "exit kqueue")
         закрыть(&output[0], "output reader")
         закрыть(&output[1], "output writer")
         закрыть(&errors[0], "errors reader")
@@ -466,6 +469,16 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
                     if i == 1 && потомок && descendant == nil, let line = String(bytes: saved[1], encoding: .utf8), line.hasSuffix("\n") {
                         let pieces = line.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ")
                         guard pieces.count == 3, pieces[0] == "DESC", let child = pid_t(pieces[1]), let group = pid_t(pieces[2]), child > 1, child != pid_t(targetPID), group == pid_t(anchorPID), Darwin.getpgid(child) == group, Darwin.kill(child, 0) == 0 else { неизвестно("descendant identity") }
+                        if наблюдатьВыход {
+                            очередьВыхода = Darwin.kqueue()
+                            guard очередьВыхода > 2 else { неизвестно("kqueue errno=\(errno)") }
+                            var change = kevent()
+                            change.ident = UInt(child); change.filter = Int16(EVFILT_PROC)
+                            change.flags = UInt16(EV_ADD | EV_ENABLE | EV_ONESHOT); change.fflags = UInt32(NOTE_EXIT)
+                            var instant = timespec(tv_sec: 0, tv_nsec: 0)
+                            guard системныйKevent(очередьВыхода, &change, 1, nil, 0, &instant) == 0,
+                                  Darwin.getpgid(child) == group, Darwin.kill(child, 0) == 0 else { неизвестно("exit registration") }
+                        }
                         descendant = child
                     }
                     if count > room {
@@ -481,6 +494,15 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
                   словоПрофиля(fui,24) == targetPID, словоПрофиля(fui,28) == UInt32(потомок ? SIGKILL : SIGTERM),
                   словоПрофиля(fui,32) == UInt32(SIGKILL), fui[36] == (таймаут ? 1 : 0x45) else { неизвестно("FUI") }
             цельУспешна = true
+            var exitEvent = ""
+            if наблюдатьВыход {
+                guard let child = descendant, очередьВыхода > 2 else { неизвестно("exit watch absent") }
+                var event = kevent(), instant = timespec(tv_sec: 0, tv_nsec: 0)
+                guard системныйKevent(очередьВыхода, nil, 0, &event, 1, &instant) == 1,
+                      event.ident == UInt(child), event.filter == Int16(EVFILT_PROC),
+                      event.fflags & UInt32(NOTE_EXIT) != 0, event.flags & UInt16(EV_ERROR) == 0 else { неизвестно("exit event") }
+                exitEvent = "; exit_pid=\(event.ident); exit_fflags=\(event.fflags); identity_rc=0; register_rc=0"
+            }
             var timing = ""
             if таймаут {
                 guard let start = стартЦели, let now = часыПрофиля(), now >= start, now - start >= (потомок ? 1500 : 250), !потомок || descendant != nil else { неизвестно("timeout duration") }
@@ -489,7 +511,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
             let hex = fui.map { String(format: "%02x", $0) }.joined()
             let hashes = saved.map { SHA256.hash(data: Data($0)).map { String(format: "%02x", $0) }.joined() }
             let prefixes = saved[1...2].map { $0.map { String(format: "%02x", $0) }.joined() }
-            итогПереполнения = "PROVISIONAL \(таймаут ? "timeout" : "overflow E"); captured=\(saved[1].count),\(saved[2].count); total=\(total[1]),\(total[2]); sha256=\(hashes[1]),\(hashes[2]); FRAME=\(hex)\(timing); stdout=\(prefixes[0]); stderr=\(prefixes[1])"
+            итогПереполнения = "PROVISIONAL \(таймаут ? "timeout" : "overflow E"); captured=\(saved[1].count),\(saved[2].count); total=\(total[1]),\(total[2]); sha256=\(hashes[1]),\(hashes[2]); FRAME=\(hex)\(timing)\(exitEvent); status_frames=\(полученные.map { String(format: "%02x", $0) }.joined()); stdout=\(prefixes[0]); stderr=\(prefixes[1])"
         } else {
             guard let fup = читатьПрофиль(status[0], число: 32, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
                   Array(fup.prefix(4)) == [0x46, 0x55, 0x50, 0x32], Array(fup[4..<20]) == idБайты else { неизвестно("FUP") }
@@ -565,9 +587,10 @@ private func профильWitness8(_ args: [String]) -> Int32 {
     guard sigemptyset(&игнорировать.sa_mask) == 0, sigaction(SIGPIPE, &игнорировать, nil) == 0 else { return 40 }
     _ = Darwin.umask(0o077)
     let переполнение = args[1] == "--проверить-witness8-overflow"
-    let потомок = args[1] == "--проверить-witness8-descendant"
+    let наблюдатьВыход = args[1] == "--проверить-witness8-descendant-exit"
+    let потомок = args[1] == "--проверить-witness8-descendant" || наблюдатьВыход
     let таймаут = args[1] == "--проверить-witness8-timeout" || потомок
-    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок),
-          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок) else { return 1 }
+    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход),
+          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход) else { return 1 }
     return 0
 }
