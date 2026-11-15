@@ -5530,6 +5530,22 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             исключения = домашний / 'ignore'
             исключения.write_bytes(b'ignored.tmp\n')
             (домашний / '.gitconfig').write_text('[core]\n\texcludesfile = ' + str(исключения) + '\n')
+            глобальный_конфиг = (домашний / '.gitconfig').read_bytes()
+            определить = модуль._определить_абсолютное_исключение_git
+            выбранный_путь = определить((глобальный_конфиг,))
+            сам.assertEqual(выбранный_путь, str(исключения))
+            with сам.assertRaises(модуль.ОшибкаОтчёта):
+                определить((глобальный_конфиг, b'[include]\n\tpath = /tmp/unknown\n'))
+            for опасный in (b'[includeIf "gitdir:/tmp/"]\n\tpath = /tmp/x\n',
+                            b'[core]\n\texcludesfile = ~/ignore\n',
+                            b'[core]\n\texcludesfile = /\n',
+                            b'[core]\n\texcludesfile = relative\n',
+                            b'[core]\n\texcludesfile = /tmp/../ignore\n',
+                            b'[core]\n\texcludesfile = "/tmp/ignore"\n',
+                            b'[other]\n\tvalue = \x00\n',
+                            b'[core]\n\texcludesfile = /tmp/ignore'):
+                with сам.subTest(опасный=опасный), сам.assertRaises(модуль.ОшибкаОтчёта):
+                    определить((глобальный_конфиг, опасный))
             (дерево / 'ignored.tmp').write_bytes(b'fixture\n')
             (дерево / 'kept.txt').write_bytes(b'fixture\n')
             def список():
@@ -5547,12 +5563,19 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 стек.callback(os.close, файл_fd)
                 сверить = модуль._сверить_источник_git_с_fd
                 сверить(каталог_fd, 'ignore', файл_fd, b'ignored.tmp\n')
+                сверить_путь = модуль._сверить_абсолютный_путь_источника_git
+                сверить_путь(выбранный_путь, каталог_fd, файл_fd, b'ignored.tmp\n')
+                ссылка = база / 'home-link'
+                os.symlink(домашний, ссылка)
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    сверить_путь(str(ссылка / 'ignore'), каталог_fd, файл_fd, b'ignored.tmp\n')
                 другой_fd = os.open('.gitconfig', os.O_RDONLY | os.O_NOFOLLOW, dir_fd=каталог_fd)
                 стек.callback(os.close, другой_fd)
                 with сам.assertRaises(модуль.ОшибкаОтчёта):
                     сверить(каталог_fd, 'ignore', другой_fd, b'ignored.tmp\n')
                 до = список()
                 сверить(каталог_fd, 'ignore', файл_fd, b'ignored.tmp\n')
+                сверить_путь(выбранный_путь, каталог_fd, файл_fd, b'ignored.tmp\n')
                 сам.assertEqual(до, b'kept.txt\0')
                 os.rename(исключения, домашний / 'old-ignore')
                 исключения.write_bytes(b'')
@@ -5564,11 +5587,28 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 новый_fd = os.open('ignore', os.O_RDONLY | os.O_NOFOLLOW, dir_fd=каталог_fd)
                 стек.callback(os.close, новый_fd)
                 сверить(каталог_fd, 'ignore', новый_fd, b'')
+                сверить_путь(выбранный_путь, каталог_fd, новый_fd, b'')
                 после = список()
                 сверить(каталог_fd, 'ignore', новый_fd, b'')
+                сверить_путь(выбранный_путь, каталог_fd, новый_fd, b'')
                 сам.assertEqual(после, b'ignored.tmp\0kept.txt\0')
+                локальное_исключение = домашний / 'override'
+                локальное_исключение.write_bytes(b'kept.txt\n')
+                вызвать_git('-C', str(дерево), 'config', '--local', 'core.excludesfile', str(локальное_исключение))
+                локальный_конфиг = (репозиторий / '.git/config').read_bytes()
+                локальный_путь = определить((глобальный_конфиг, локальный_конфиг))
+                сам.assertEqual(локальный_путь, str(локальное_исключение))
+                локальный_fd = os.open('override', os.O_RDONLY | os.O_NOFOLLOW, dir_fd=каталог_fd)
+                стек.callback(os.close, локальный_fd)
+                сверить(каталог_fd, 'override', локальный_fd, b'kept.txt\n')
+                сверить_путь(локальный_путь, каталог_fd, локальный_fd, b'kept.txt\n')
+                локальный_список = список()
+                сверить(каталог_fd, 'override', локальный_fd, b'kept.txt\n')
+                сверить_путь(локальный_путь, каталог_fd, локальный_fd, b'kept.txt\n')
+                сам.assertEqual(локальный_список, b'ignored.tmp\0')
                 print('with_excludes_hex=' + до.hex())
                 print('empty_excludes_hex=' + после.hex())
+                print('local_override_hex=' + локальный_список.hex())
 
     def test_формат_git_ref_сверяется_с_git_для_utf8(сам):
         модуль = загрузить_модуль_автоматизации()

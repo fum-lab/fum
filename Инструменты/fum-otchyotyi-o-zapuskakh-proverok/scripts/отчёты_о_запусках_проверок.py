@@ -4774,6 +4774,86 @@ def _сверить_источник_git_с_fd(каталог: int, имя: str,
         raise ОшибкаОтчёта('не удалось сверить удержанный источник Git') from ошибка
 
 
+def _сверить_абсолютный_путь_источника_git(путь: str, каталог: int, fd: int, ожидаемые: bytes) -> None:
+    """Сверить nofollow-цепь и FD; effective config и custody остаются внешними."""
+    if (type(путь) is not str or not os.path.isabs(путь) or путь == '/' or путь.startswith('//')
+        or '\0' in путь or os.path.normpath(путь) != путь or len(путь) > 4096):
+        raise ОшибкаОтчёта('неверный абсолютный путь источника Git')
+    def метка(с):
+        return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid)
+    def допустим(с):
+        return stat.S_ISDIR(с.st_mode) and с.st_uid in (0, os.geteuid()) and not stat.S_IMODE(с.st_mode) & 0o022
+    try:
+        with contextlib.ExitStack() as стек:
+            текущий = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            стек.callback(os.close, текущий)
+            корень = os.fstat(текущий)
+            if not допустим(корень):
+                raise ОшибкаОтчёта('небезопасный корень источника Git')
+            цепь = [(текущий, None, None, метка(корень))]
+            части = путь.split('/')[1:]
+            for часть in части[:-1]:
+                следующий = os.open(часть, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC,
+                                    dir_fd=текущий)
+                стек.callback(os.close, следующий)
+                состояние = os.fstat(следующий)
+                if not допустим(состояние) or метка(os.stat(часть, dir_fd=текущий, follow_symlinks=False)) != метка(состояние):
+                    raise ОшибкаОтчёта('небезопасный каталог источника Git')
+                цепь.append((следующий, текущий, часть, метка(состояние)))
+                текущий = следующий
+            if метка(os.fstat(каталог)) != метка(os.fstat(текущий)):
+                raise ОшибкаОтчёта('путь источника Git не совпадает с каталогом FD')
+            _сверить_источник_git_с_fd(каталог, части[-1], fd, ожидаемые)
+            for открытый, родитель, имя, было in цепь:
+                адрес = os.stat('/', follow_symlinks=False) if родитель is None else os.stat(имя, dir_fd=родитель, follow_symlinks=False)
+                if метка(os.fstat(открытый)) != было or метка(адрес) != было:
+                    raise ОшибкаОтчёта('цепь источника Git изменилась')
+    except OSError as ошибка:
+        raise ОшибкаОтчёта('не удалось сверить путь источника Git') from ошибка
+
+
+def _определить_абсолютное_исключение_git(источники: tuple[bytes, ...]) -> str:
+    """Кандидат из выбранных config; полнота, effective path и custody не доказаны."""
+    if (type(источники) is not tuple or not 1 <= len(источники) <= 8
+        or any(type(данные) is not bytes or len(данные) > 65536 for данные in источники)):
+        raise ОшибкаОтчёта('неверные источники исключений Git')
+    выбран = None
+    for данные in источники:
+        if данные and not данные.endswith(b'\n'):
+            raise ОшибкаОтчёта('неполный конфиг исключений Git')
+        раздел, подраздел = None, None
+        for строка in данные.split(b'\n')[:-1]:
+            if not строка.strip(b' \t') or строка.lstrip(b' \t').startswith((b'#', b';')):
+                continue
+            заголовок = re.fullmatch(rb'[ \t]*\[([A-Za-z][A-Za-z0-9-]*)(?:[ \t]+"([^"\\\r\n]+)")?\][ \t]*', строка)
+            if заголовок is not None:
+                раздел, подраздел = заголовок.groups()
+                раздел = раздел.lower()
+                if раздел in (b'include', b'includeif'):
+                    raise ОшибкаОтчёта('include в конфиге исключений Git не поддерживается')
+                continue
+            поле = re.fullmatch(rb'[ \t]*([A-Za-z][A-Za-z0-9-]*)[ \t]*=[ \t]*([^"\\#;\r\n]*)', строка)
+            if поле is None or раздел is None:
+                raise ОшибкаОтчёта('неподдерживаемый синтаксис конфига исключений Git')
+            ключ, значение = поле.groups()
+            if (значение != значение.strip(b' \t')
+                or any(байт < 32 or байт == 127 for байт in значение)):
+                raise ОшибкаОтчёта('неподдерживаемые пробелы в конфиге Git')
+            if раздел == b'core' and подраздел is None and ключ.lower() == b'excludesfile':
+                try:
+                    путь = значение.decode('utf-8')
+                except UnicodeError as ошибка:
+                    raise ОшибкаОтчёта('неверная кодировка исключений Git') from ошибка
+                if (not путь or путь == '/' or not os.path.isabs(путь) or путь.startswith('//') or '\0' in путь
+                    or os.path.normpath(путь) != путь or len(путь) > 4096
+                    or any(ord(символ) < 32 or ord(символ) == 127 for символ in путь)):
+                    raise ОшибкаОтчёта('неподдерживаемый путь исключений Git')
+                выбран = путь
+    if выбран is None:
+        raise ОшибкаОтчёта('путь исключений Git не определён')
+    return выбран
+
+
 def _допустимая_ссылка_git(ссылка: bytes) -> bool:
     """Распознать UTF-8 refs/heads по синтаксическим правилам Git."""
     if type(ссылка) is not bytes or not ссылка.startswith(b'refs/heads/') or len(ссылка) > 4096:
