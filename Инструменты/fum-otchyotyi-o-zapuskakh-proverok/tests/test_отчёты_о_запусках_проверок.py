@@ -5558,6 +5558,8 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             вызвать_git('-C', str(репозиторий), 'config', 'branch.fixture.merge', 'refs/heads/fixture')
             вызвать_git('-C', str(репозиторий), 'config', 'submodule.obsolete.active', 'true')
             вызвать_git('-C', str(репозиторий), 'config', 'submodule.obsolete.url', 'https://example.invalid/module')
+            вызвать_git('-C', str(репозиторий), 'config', 'submodule.module.active', 'true')
+            вызвать_git('-C', str(репозиторий), 'config', 'submodule.module.url', 'https://example.invalid/fork')
             вызвать_git('-C', str(дерево), 'config', '--worktree', 'codex.localenvironmentconfigpath', '.codex/local')
             вершина = вызвать_git('-C', str(дерево), 'rev-parse', '--verify', 'HEAD').stdout.strip().decode('ascii')
             вызвать_git('-C', str(дерево), 'update-index', '--add', '--cacheinfo', '160000', вершина, 'module')
@@ -5592,9 +5594,15 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 стек.callback(os.close, общий)
                 собрать = модуль._собрать_локальные_конфиги_связанного_git
                 параметры = (рабочий, общий, str(дерево), str(репозиторий / '.git'), 'work')
-                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                with mock.patch.object(модуль, '_сверить_url_подмодуля_git',
+                                       wraps=модуль._сверить_url_подмодуля_git) as сверка:
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        собрать(*параметры)
+                    сверка.assert_called_once()
+                вызвать_git('-C', str(репозиторий), 'config', 'submodule.module.url', 'https://example.invalid/other')
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'URL подмодуля'):
                     собрать(*параметры)
-                for раздел in ('remote.origin', 'branch.fixture', 'submodule.obsolete'):
+                for раздел in ('remote.origin', 'branch.fixture', 'submodule.obsolete', 'submodule.module'):
                     вызвать_git('-C', str(репозиторий), 'config', '--remove-section', раздел)
                 вызвать_git('-C', str(дерево), 'config', '--worktree', '--remove-section', 'codex')
                 сам.assertEqual(len(собрать(*параметры)), 2)
