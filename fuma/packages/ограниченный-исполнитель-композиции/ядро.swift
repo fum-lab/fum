@@ -2,10 +2,10 @@
 enum Ошибка: Error { case вход, схема, тип, диапазон, переполнение, операция }
 indirect enum Значение: Equatable { case логическое(Bool);  case число(Int64), строка(String), массив([Значение]), объект([String: Значение]) }
 struct Разбор {
-  let символы: [Character]; var индекс = 0
-  init(_ текст: String) { символы = Array(текст) }
-  mutating func пробелы() { while индекс < символы.count && " \n\r\t".contains(символы[индекс]) { индекс += 1 } }
-  mutating func взять(_ с: Character) throws { пробелы(); guard индекс < символы.count && символы[индекс] == с else { throw Ошибка.вход }; индекс += 1 }
+  let символы: [Unicode.Scalar]; var индекс = 0
+  init(_ текст: String) { символы = Array(текст.unicodeScalars) }
+  mutating func пробелы() { while индекс < символы.count && " \n\r\t".unicodeScalars.contains(символы[индекс]) { индекс += 1 } }
+  mutating func взять(_ с: Unicode.Scalar) throws { пробелы(); guard индекс < символы.count && символы[индекс] == с else { throw Ошибка.вход }; индекс += 1 }
   mutating func значение(_ глубина: Int = 0) throws -> Значение {
     guard глубина <= 16 else { throw Ошибка.вход }; пробелы(); guard индекс < символы.count else { throw Ошибка.вход }
     let с = символы[индекс]
@@ -20,9 +20,57 @@ struct Разбор {
       if индекс < символы.count && символы[индекс] == "}" { индекс += 1; return .объект(о) }
       while true { guard о.count < 64 else { throw Ошибка.вход }; let к = try строка(); try взять(":"); let в = try значение(глубина + 1); guard о.updateValue(в, forKey: к) == nil else { throw Ошибка.вход }; пробелы(); guard индекс < символы.count else { throw Ошибка.вход }; if символы[индекс] == "}" { индекс += 1; return .объект(о) }; try взять(",") }
     }
-    let начало = индекс; if с == "-" { индекс += 1 }; while индекс < символы.count && символы[индекс].isASCII && символы[индекс].isNumber { индекс += 1 }; guard индекс > начало, let числоРезультат = Int64(String(символы[начало..<индекс])) else { throw Ошибка.тип }; return .число(числоРезультат)
+    let начало = индекс
+    if с == "-" { индекс += 1 }
+    guard индекс < символы.count, (48...57).contains(символы[индекс].value) else { throw Ошибка.тип }
+    if символы[индекс].value == 48 {
+      индекс += 1
+      guard индекс == символы.count || !(48...57).contains(символы[индекс].value) else { throw Ошибка.тип }
+    } else {
+      while индекс < символы.count && (48...57).contains(символы[индекс].value) { индекс += 1 }
+    }
+    guard let числоРезультат = Int64(String(String.UnicodeScalarView(символы[начало..<индекс]))) else { throw Ошибка.тип }
+    return .число(числоРезультат)
+
   }
-  mutating func строка() throws -> String { try взять("\""); var с = ""; while индекс < символы.count { let ч = символы[индекс]; индекс += 1; if ч == "\"" { return с }; guard ч != "\\" && ч != "\n" && ч != "\r" else { throw Ошибка.вход }; с.append(ч) }; throw Ошибка.вход }
+  mutating func четыреШестнадцатеричные() throws -> UInt32 {
+    var число: UInt32 = 0
+    for _ in 0..<4 {
+      guard индекс < символы.count, let скаляр = Optional(символы[индекс]) else { throw Ошибка.вход }
+      индекс += 1; let значениеСкаляра = скаляр.value; let цифра: UInt32
+      switch значениеСкаляра { case 48...57: цифра = значениеСкаляра - 48; case 65...70: цифра = значениеСкаляра - 55; case 97...102: цифра = значениеСкаляра - 87; default: throw Ошибка.вход }
+      число = число * 16 + цифра
+    }
+    return число
+  }
+  mutating func строка() throws -> String {
+    try взять("\""); var с = ""
+    while индекс < символы.count {
+      let ч = символы[индекс]; индекс += 1
+      if ч == "\"" { return с }
+      if ч == "\\" {
+        guard индекс < символы.count else { throw Ошибка.вход }; let кодЭкранирования = символы[индекс]; индекс += 1
+        switch кодЭкранирования {
+        case "\"", "\\", "/": с.unicodeScalars.append(кодЭкранирования)
+        case "b": с.append("\u{8}")
+        case "f": с.append("\u{c}")
+        case "n": с.append("\n")
+        case "r": с.append("\r")
+        case "t": с.append("\t")
+        case "u":
+          var значениеСкаляра = try четыреШестнадцатеричные()
+          if (0xd800...0xdbff).contains(значениеСкаляра) {
+            guard индекс + 1 < символы.count, символы[индекс] == "\\", символы[индекс + 1] == "u" else { throw Ошибка.вход }; индекс += 2
+            let низ = try четыреШестнадцатеричные(); guard (0xdc00...0xdfff).contains(низ) else { throw Ошибка.вход }
+            значениеСкаляра = 0x10000 + (значениеСкаляра - 0xd800) * 0x400 + низ - 0xdc00
+          } else if (0xdc00...0xdfff).contains(значениеСкаляра) { throw Ошибка.вход }
+          guard let скаляр = Unicode.Scalar(значениеСкаляра) else { throw Ошибка.вход }; с.unicodeScalars.append(скаляр)
+        default: throw Ошибка.вход
+        }
+      } else { guard ч.value >= 32 else { throw Ошибка.вход }; с.unicodeScalars.append(ч) }
+    }
+    throw Ошибка.вход
+  }
   mutating func весь() throws -> Значение { let в = try значение(); пробелы(); guard индекс == символы.count else { throw Ошибка.вход }; return в }
 }
 func объект(_ узел: Значение) throws -> [String: Значение] { guard case let .объект(значение) = узел else { throw Ошибка.тип }; return значение }
@@ -36,7 +84,7 @@ func сериализовать(_ узел: Значение) throws -> String {
  case .логическое(let значение): return значение ? "true" : "false"
  case .строка(let значение):
   var результат = "\""
-  for скаляр in значение.unicodeScalars { switch скаляр.value { case 34: результат += "\\\""; case 92: результат += "\\\\"; case 0...31: throw Ошибка.вход; default: результат.unicodeScalars.append(скаляр) } }
+  for скаляр in значение.unicodeScalars { switch скаляр.value { case 34: результат += "\\\""; case 92: результат += "\\\\"; case 0...31: let цифры = Array("0123456789abcdef"); результат += "\\u00"; результат.append(цифры[Int(скаляр.value / 16)]); результат.append(цифры[Int(скаляр.value % 16)]); default: результат.unicodeScalars.append(скаляр) } }
   return результат + "\""
  case .массив(let значения): return "[" + (try значения.map { try сериализовать($0) }).joined(separator: ",") + "]"
  case .объект(let поля): return "{" + (try поля.keys.sorted().map { ключ in try сериализовать(.строка(ключ)) + ":" + сериализовать(поля[ключ]!) }).joined(separator: ",") + "}"
