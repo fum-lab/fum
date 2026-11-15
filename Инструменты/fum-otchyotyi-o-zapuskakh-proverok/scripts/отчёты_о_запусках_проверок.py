@@ -4734,6 +4734,8 @@ def _проверить_узкую_конфигурацию_git(источник
         (b'core', b'filemode = true'),
         (b'core', b'logallrefupdates = true'),
         (b'core', b'autocrlf = false'),
+        (b'core', b'ignorecase = true'),
+        (b'core', b'precomposeunicode = true'),
         (b'extensions', b'worktreeconfig = true'),
     }
     встреченные = set()
@@ -4744,7 +4746,10 @@ def _проверить_узкую_конфигурацию_git(источник
             if строка in (b'[core]', b'[extensions]'):
                 раздел = строка[1:-1]
                 continue
-            запись = (раздел, строка[1:] if строка.startswith(b'\t') else строка)
+            строка = строка[1:] if строка.startswith(b'\t') else строка
+            if раздел == b'extensions' and строка == b'worktreeConfig = true':
+                строка = b'worktreeconfig = true'
+            запись = (раздел, строка)
             if запись not in допустимые or запись in встреченные:
                 return False
             встреченные.add(запись)

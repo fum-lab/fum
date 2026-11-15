@@ -5509,6 +5509,34 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_байты_конфигурации_связанного_дерева_git(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            база = Path(каталог)
+            репозиторий, дерево = база / 'repo', база / 'work'
+            окружение = {'PATH': '/usr/bin:/bin', 'HOME': каталог, 'LC_ALL': 'C',
+                         'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1',
+                         'GIT_ATTR_NOSYSTEM': '1'}
+            def вызвать_git(*аргументы):
+                return subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null', *аргументы],
+                                      env=окружение, stdin=subprocess.DEVNULL,
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=10)
+            вызвать_git('init', '-q', str(репозиторий))
+            вызвать_git('-C', str(репозиторий), '-c', 'user.name=fixture', '-c', 'user.email=fixture@invalid',
+                'commit', '-q', '--allow-empty', '-m', 'fixture')
+            вызвать_git('-C', str(репозиторий), 'config', 'extensions.worktreeConfig', 'true')
+            вызвать_git('-C', str(репозиторий), 'worktree', 'add', '-q', '-b', 'fixture-linked', str(дерево))
+            вызвать_git('-C', str(дерево), 'config', '--worktree', 'core.autocrlf', 'false')
+            общий = os.open(репозиторий / '.git', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            связанный = os.open(репозиторий / '.git/worktrees/work', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                конфиг = модуль._прочитать_источник_git_через_fd(общий, 'config', 65536)
+                конфиг_дерева = модуль._прочитать_источник_git_через_fd(связанный, 'config.worktree', 65536)
+                сам.assertTrue(модуль._проверить_узкую_конфигурацию_git((конфиг, конфиг_дерева)))
+            finally:
+                os.close(связанный)
+                os.close(общий)
+
     def test_источник_git_читается_через_fd_или_отказывает(сам):
         модуль = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
@@ -5560,6 +5588,7 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             (b'[core]\nbare = false # comment\n',),
             (b'[core]\nbare = fa\\lse\n',),
             (b'[core]\n\tbare = false\nbare = false\n',),
+            (b'[extensions]\nworktreeconfig = true\nworktreeConfig = true\n',),
             (b'\xff\n',), (b'\x00\n',), (b'x' * 65537,), ('[core]',),
         )
         with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):
