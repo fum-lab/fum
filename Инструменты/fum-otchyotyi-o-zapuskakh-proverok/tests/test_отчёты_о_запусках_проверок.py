@@ -5577,6 +5577,13 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                     файл.write(b'[include]\n\tpath = /tmp/unknown\n')
                 with сам.assertRaises(модуль.ОшибкаОтчёта):
                     собрать(*параметры)
+                (репозиторий / '.git/config').write_bytes(конфиг)
+                атрибут_индекса = дерево / '.gitattributes'
+                атрибут_индекса.write_bytes(b'*.dat text\n')
+                вызвать_git('-C', str(дерево), 'add', '--', '.gitattributes')
+                атрибут_индекса.unlink()
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    собрать(*параметры)
                 os.symlink('.git', репозиторий / 'ссылка')
                 with сам.assertRaises(модуль.ОшибкаОтчёта):
                     модуль._открыть_каталог_git_через_fd(корень, 'ссылка')
