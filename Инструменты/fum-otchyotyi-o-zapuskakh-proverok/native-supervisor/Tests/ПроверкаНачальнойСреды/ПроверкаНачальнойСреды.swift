@@ -249,6 +249,8 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
           Darwin.fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == 0 else { return 47 }
     let итог = Darwin.fcntl(fd, F_GETFD)
     guard итог >= 0, итог & FD_CLOEXEC != 0 else { return 47 }
+    let o: [UInt8] = [79, 85, 84, 10], e: [UInt8] = [69, 82, 82, 10]
+    guard o.withUnsafeBytes({ Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count) }) == 4, e.withUnsafeBytes({ Darwin.write(STDERR_FILENO, $0.baseAddress, $0.count) }) == 4 else { return 48 }
     return 0
 }
 
@@ -259,6 +261,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     let каталог = String(cString: указатель)
     var dirFD: Int32 = -1, bFD: Int32 = -1, чужойFD: Int32 = -1
     var control = [Int32](repeating: -1, count: 2), status = [Int32](repeating: -1, count: 2)
+    var output = [Int32](repeating: -1, count: 2), errors = [Int32](repeating: -1, count: 2)
     var pid: pid_t = 0
     var bВзят = false, terminal = false
     var меткаКаталога: (UInt64, UInt64)?
@@ -273,6 +276,10 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         if номер >= 0, Darwin.close(номер) != 0 { неизвестно("close \(имя), fd=\(номер)") }
     }
     func освободить() {
+        закрыть(&output[0], "output reader")
+        закрыть(&output[1], "output writer")
+        закрыть(&errors[0], "errors reader")
+        закрыть(&errors[1], "errors writer")
         закрыть(&control[0], "control reader")
         закрыть(&control[1], "control writer")
         закрыть(&status[0], "status reader")
@@ -321,9 +328,9 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         неизвестно("flock B, fd=\(bFD)")
     }
     bВзят = true
-    guard Darwin.pipe(&control) == 0, Darwin.pipe(&status) == 0,
-          Set(control + status + [dirFD, bFD, чужойFD]).count == 7,
-          (control + status).allSatisfy({ $0 > 2 }) else { return отказ("pipe") }
+    guard Darwin.pipe(&output) == 0, Darwin.pipe(&errors) == 0, Darwin.pipe(&control) == 0, Darwin.pipe(&status) == 0,
+          Set(output + errors + control + status + [dirFD, bFD, чужойFD]).count == 11,
+          (output + errors + control + status).allSatisfy({ $0 > 2 }) else { return отказ("pipe") }
     guard let старт = часыПрофиля() else { return отказ("часы") }
     var последниеЧасы = старт
     let (крайЗапуска, переполнение1) = старт.addingReportingOverflow(10_000)
@@ -355,8 +362,8 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     guard posix_spawnattr_init(&attr) == 0 else { return отказ("spawn attributes init") }
     defer { _ = posix_spawnattr_destroy(&attr) }
     guard posix_spawn_file_actions_adddup2(&actions, control[0], STDIN_FILENO) == 0,
-          posix_spawn_file_actions_addopen(&actions, STDOUT_FILENO, "/dev/null", O_WRONLY, 0) == 0,
-          posix_spawn_file_actions_addopen(&actions, STDERR_FILENO, "/dev/null", O_WRONLY, 0) == 0,
+          posix_spawn_file_actions_adddup2(&actions, output[1], STDOUT_FILENO) == 0,
+          posix_spawn_file_actions_adddup2(&actions, errors[1], STDERR_FILENO) == 0,
           posix_spawn_file_actions_addinherit_np(&actions, status[1]) == 0,
           posix_spawn_file_actions_addinherit_np(&actions, dirFD) == 0,
           posix_spawn_file_actions_addinherit_np(&actions, bFD) == 0,
@@ -380,6 +387,8 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     сообщениеПрофиля("START: pid=\(pid); fixture=\(каталог)")
     закрыть(&control[0], "control reader")
     закрыть(&status[1], "status writer")
+    закрыть(&output[1], "output writer")
+    закрыть(&errors[1], "errors writer")
     var цельУспешна = true
     if корректнаяОпора {
         guard let fua = читатьПрофиль(status[0], число: 24, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
@@ -400,6 +409,7 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         guard let fup = читатьПрофиль(status[0], число: 32, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
               Array(fup.prefix(4)) == [0x46, 0x55, 0x50, 0x32], Array(fup[4..<20]) == idБайты else { неизвестно("FUP") }
         let targetStatus = словоПрофиля(fup, 20)
+        guard let out = читатьПрофиль(output[0], число: 4, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), out == [79,85,84,10], let err = читатьПрофиль(errors[0], число: 4, до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы), err == [69,82,82,10] else { неизвестно("streams") }
         цельУспешна = targetStatus == 0
         guard обновитьСрокПрофиля(&последниеЧасы, до: крайОпыта) != nil else { неизвестно("срок перед C") }
         guard командаПрофиля(control[1], 0x43) else { неизвестно("C") }
