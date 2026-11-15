@@ -4,10 +4,24 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from автор_коммита import составить_имя, проверить_формат
+from автор_коммита import составить_имя, проверить_формат, проверить_назначение_автора
 
 
 class ИмяАвтора(unittest.TestCase):
+    def test_сравнение_полей_не_доказывает_происхождение(сам):
+        назначение = {"схема": "fum.назначение-автора.1", "исполнитель": "agent-1",
+                      "ветка": "refs/heads/codex/example", "основа": "a" * 40,
+                      "роль": "Upravlyayusjhij"}
+        запрос = {"исполнитель": "agent-1", "ветка": "refs/heads/codex/example",
+                  "основа": "a" * 40, "роль": "Upravlyayusjhij"}
+        сам.assertTrue(проверить_назначение_автора(назначение, запрос))
+        for ключ, значение in (("роль", "Drugoj"), ("исполнитель", "agent-2"),
+                               ("основа", "b" * 40), ("ветка", "refs/heads/codex/other")):
+            with сам.subTest(ключ=ключ):
+                сам.assertFalse(проверить_назначение_автора(назначение, {**запрос, ключ: значение}))
+        сам.assertFalse(проверить_назначение_автора(None, запрос))
+        сам.assertFalse(проверить_назначение_автора(назначение, {**запрос, "роль": "UNKNOWN"}))
+
     def test_точная_роль_из_имени_инструмента(сам):
         имя = составить_имя("FUM Codex", {"модель": "gpt-6-sol", "усилие": "ultra"})
         сам.assertEqual("FUM Codex [gpt-6-sol; effort=ultra]", имя)

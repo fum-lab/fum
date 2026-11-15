@@ -21,6 +21,24 @@ def проверить_свежую_роль(роль):
     return isinstance(роль, str) and роль == "FUM Codex"
 
 
+def проверить_назначение_автора(назначение, запрос):
+    """Сверяет поля; доверенный выбор назначения проверяет вызывающий допуск."""
+    поля = {"исполнитель", "ветка", "основа", "роль"}
+    if (type(назначение) is not dict or set(назначение) != поля | {"схема"}
+            or назначение.get("схема") != "fum.назначение-автора.1"
+            or type(запрос) is not dict or set(запрос) != поля):
+        return False
+    if any(type(назначение.get(поле)) is not str or not назначение[поле]
+           or назначение[поле] != запрос[поле] for поле in поля):
+        return False
+    роль = назначение["роль"]
+    return (re.fullmatch(r"[A-Z][A-Za-z]*(?: [A-Z][A-Za-z]*)*", роль) is not None
+            and роль.lower() not in НЕИЗВЕСТНО
+            and роль not in {"Root", "FUM Codex"}
+            and назначение["ветка"].startswith("refs/heads/")
+            and re.fullmatch(r"[0-9a-f]{40}", назначение["основа"]) is not None)
+
+
 def проверить_токен(значение):
     return (isinstance(значение, str) and re.fullmatch(ТОКЕН, значение) is not None
             and значение.lower() not in НЕИЗВЕСТНО)
