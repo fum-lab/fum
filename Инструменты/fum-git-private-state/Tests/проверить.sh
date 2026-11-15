@@ -21,4 +21,19 @@ printf 'protocol=https\nhost=fixture.invalid\n\n' | env -i FUM_TEST_HELPER="$tmp
 test -f "$tmp/state/gh/device-id"
 test ! -e "$tmp/repo/.local"
 test "$(cat "$tmp/state/gh/cwd")" -ef "$tmp/cwd"
+reject() {
+    set +e
+    env -i FUM_TEST_HELPER="$tmp/helper" "$tmp/launcher" "$1" "$2" "$3" "$4" --version > "$tmp/reject-out" 2> "$tmp/reject-err"
+    code=$?
+    set -e
+    test "$code" -eq 2
+}
+reject "$tmp/repo" "$tmp/repo" "$tmp/state" "$tmp/config"
+reject "$tmp/repo" "$tmp/cwd" "$tmp/repo" "$tmp/config"
+reject "$tmp/repo" "$tmp/cwd" "$tmp/state" "$tmp/repo"
+reject "$tmp/repo" "$tmp/cwd" "$tmp/cwd" "$tmp/config"
+reject "$tmp/repo" "$tmp/cwd" "$tmp/state" "$tmp/cwd"
+reject "$tmp/repo" "$tmp/cwd" "$tmp/state" "$tmp/state"
+reject "$tmp/repo" / "$tmp/state" "$tmp/config"
+reject "$tmp/repo" "$tmp" "$tmp/state" "$tmp/config"
 printf 'fixture: %s\n' "$tmp"
