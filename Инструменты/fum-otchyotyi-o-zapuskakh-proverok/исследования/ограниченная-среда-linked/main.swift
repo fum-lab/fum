@@ -12,6 +12,26 @@ func метка(_ path: String, _ тип: mode_t, _ владелец: uid_t) -> 
     var s=stat(); guard lstat(path,&s)==0 && s.st_mode & mode_t(S_IFMT)==тип && s.st_uid==владелец else { return nil }
     return Метка(dev:s.st_dev,inode:s.st_ino,mode:s.st_mode,size:s.st_size,mt:s.st_mtimespec,ct:s.st_ctimespec)
 }
+// Открытые дескрипторы удерживаются до конца синтетического процесса.
+// Они обнаруживают подмену имени, но Git пока открывает пути заново при exec.
+struct УдержанныйФайл { let fd: Int32; let путь: String; let метка: Метка }
+func меткаДескриптора(_ fd: Int32) -> Метка? {
+    var s=stat(); guard fstat(fd,&s)==0 && s.st_mode & mode_t(S_IFMT)==mode_t(S_IFREG) && s.st_nlink == 1 else { return nil }
+    return Метка(dev:s.st_dev,inode:s.st_ino,mode:s.st_mode,size:s.st_size,mt:s.st_mtimespec,ct:s.st_ctimespec)
+}
+func удержать(_ путь:String,_ ожидаемая:Метка)->УдержанныйФайл? {
+    let fd=open(путь,O_RDONLY|O_NOFOLLOW|O_CLOEXEC)
+    guard fd >= 0, let фактическая=меткаДескриптора(fd), фактическая==ожидаемая else { return nil }
+    return УдержанныйФайл(fd:fd,путь:путь,метка:ожидаемая)
+}
+func сверить(_ удержания:[УдержанныйФайл])->Bool {
+    for объект in удержания {
+        let uid: uid_t = объект.путь == git ? 0 : geteuid()
+        guard меткаДескриптора(объект.fd)==объект.метка,
+              метка(объект.путь,mode_t(S_IFREG),uid)==объект.метка else { return false }
+    }
+    return true
+}
 func отсутствует(_ p:String)->Bool { var s=stat(); return lstat(p,&s) == -1 && errno == ENOENT }
 func данные(_ p:String)->Data? { try? Data(contentsOf:URL(fileURLWithPath:p)) }
 struct Снимок: Equatable { let метки:[Метка]; let индексХэш:String; let gitМетка:Метка }
@@ -38,12 +58,31 @@ func снимок(_ base:String)->Снимок? {
 }
 guard CommandLine.arguments.count==5 else { отказ("аргументы") }
 let base=CommandLine.arguments[1], режим=CommandLine.arguments[2]
-guard ["positive","worktree","include","attributes","nested"].contains(режим) else { отказ("режим") }
+guard ["positive","worktree","include","attributes","nested","swap-config","swap-index"].contains(режим) else { отказ("режим") }
 guard let первый=снимок(base) else {
-    if режим != "positive" { строка("REJECT до consumer режим=\(режим) вызовы=0"); Darwin._exit(0) }
+    if ["worktree","include","attributes","nested"].contains(режим) { строка("REJECT до consumer режим=\(режим) вызовы=0"); Darwin._exit(0) }
     отказ("неподтверждённый профиль")
 }
-guard режим == "positive", let второй=снимок(base), первый==второй else { отказ("дрейф до запуска") }
+let work=base+"/work", common=base+"/repo/.git", gitdir=common+"/worktrees/work"
+let источники = [work+"/.git",gitdir+"/gitdir",gitdir+"/commondir",gitdir+"/HEAD",gitdir+"/index",gitdir+"/config.worktree",common+"/config",work+"/fixture.txt",git]
+let исходныеМетки = Array(первый.метки.suffix(8)) + [первый.gitМетка]
+var удержания:[УдержанныйФайл]=[]
+for (путь,ожидаемая) in zip(источники,исходныеМетки) {
+    guard let объект=удержать(путь,ожидаемая) else { отказ("удержание UNKNOWN") }
+    удержания.append(объект)
+}
+guard удержания.count==9 && сверить(удержания) else { отказ("удержание до запуска") }
+if режим == "swap-config" || режим == "swap-index" {
+    let путь = режим == "swap-config" ? common+"/config" : gitdir+"/index"
+    guard let исходные=данные(путь) else { отказ("чтение подмены") }
+    let временный=путь+".fixture-swap"
+    let fd=open(временный,O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW|O_CLOEXEC,0o600)
+    guard fd>=0, исходные.withUnsafeBytes({ Darwin.write(fd,$0.baseAddress,$0.count) })==исходные.count,
+          fsync(fd)==0, close(fd)==0, rename(временный,путь)==0 else { отказ("подмена UNKNOWN") }
+    guard !сверить(удержания) else { отказ("подмена не обнаружена") }
+    строка("REJECT удержание режим=\(режим) вызовы=0"); Darwin._exit(0)
+}
+guard режим == "positive", let второй=снимок(base), первый==второй && сверить(удержания) else { отказ("дрейф до запуска") }
 let root=base+"/work", p=Process(), out=Pipe(), err=Pipe()
 p.executableURL=URL(fileURLWithPath:git)
 p.arguments=["-C",root,"-c","core.fsmonitor=false","--work-tree="+root,"diff","--binary","--no-ext-diff","--no-textconv","--ignore-submodules=dirty","--",".",":(exclude)Журнал/фикстура/отчёт.md",":(exclude)Журнал/фикстура/материалы/запуски-проверок",":(exclude)Журнал/фикстура/материалы/запуски-проверок/**",":(top,exclude,literal)Proyekcii",":(top,exclude,glob)Proyekcii/**"]
@@ -53,5 +92,5 @@ do { try p.run() } catch { отказ("старт UNKNOWN") }
 let данныеВывода=out.fileHandleForReading.readDataToEndOfFile(), ошибки=err.fileHandleForReading.readDataToEndOfFile();p.waitUntilExit()
 let ожидается=Data("diff --git a/fixture.txt b/fixture.txt\nindex 4b48dee..5ea2ed4 100644\n--- a/fixture.txt\n+++ b/fixture.txt\n@@ -1 +1 @@\n-original\n+changed\n".utf8)
 guard p.terminationReason == .exit && p.terminationStatus==0 && ошибки.isEmpty && данныеВывода==ожидается else { отказ("diff") }
-guard let третий=снимок(base), третий==второй else { отказ("дрейф после") }
-строка("PASS linked fixture diff; consumer=1; exact bytes; pre/post equal")
+guard let третий=снимок(base), третий==второй && сверить(удержания) else { отказ("дрейф после") }
+строка("PASS linked fixture diff; consumer=1; exact bytes; held fds pre/post equal")
