@@ -31,6 +31,32 @@ let подменаАтрибутов = ПрофильGit(локальнаяКо�
                                  полныйСоставАтрибутовПодтверждён: true)
 требовать(подменаАтрибутов.проверить() == .отказ, "атрибуты")
 print("ПРОЙДЕНО чистая модель без допуска Git")
+// Отдельный искусственный include проверяет отказ до потребителя, а не разрешение Git.
+if CommandLine.arguments.count == 4 && CommandLine.arguments[3] == "include" {
+    let корень = URL(fileURLWithPath:CommandLine.arguments[1],isDirectory:true)
+    guard let local=try? Data(contentsOf:корень.appendingPathComponent(".git/config")),
+          let approved=try? Data(contentsOf:корень.appendingPathComponent("approved-config")),
+          let external=try? Data(contentsOf:корень.appendingPathComponent("external.gitconfig")),
+          let attributes=try? Data(contentsOf:корень.appendingPathComponent("hostile.attributes")),
+          local.range(of:Data("[include]".utf8)) != nil, external.range(of:Data("attributesfile".utf8)) != nil,
+          attributes==Data("fixture.txt filter=hostile\n".utf8) else { требовать(false,"include фикстура"); exit(1) }
+    let профиль=ПрофильGit(локальнаяКонфигурация:local,утверждённаяКонфигурация:approved,
+                           корневыеАтрибуты:nil,служебныеАтрибуты:nil,полныйСоставАтрибутовПодтверждён:false)
+    var вызовы=0
+    func доПотребителя(_ профиль:ПрофильGit,_ потребитель:()->Void)->ИсходПрофиля {
+        switch профиль.проверить() { case .отказ: return .отказ; case .неизвестно: return .неизвестно }
+    }
+    let итог=доПотребителя(профиль) {
+        вызовы += 1
+        let p=Process(); p.executableURL=URL(fileURLWithPath:CommandLine.arguments[2])
+        p.arguments=["-C",корень.path,"-c","core.fsmonitor=false","diff","--binary","--no-ext-diff","--no-textconv","--ignore-submodules=dirty","--","."]
+        p.environment=исходная
+        do { try p.run(); p.waitUntilExit() } catch { требовать(false,"потребитель UNKNOWN") }
+    }
+    требовать(итог == .отказ && вызовы == 0 && !FileManager.default.fileExists(atPath:корень.appendingPathComponent("filter-executed").path),"include до потребителя")
+    print("ПРОЙДЕНО include: отказ до Git, вызовы=0, marker отсутствует")
+    exit(0)
+}
 требовать(CommandLine.arguments.count == 3 && CommandLine.arguments[2].hasPrefix("/") && !CommandLine.arguments[2].split(separator: "/").contains(".."), "пути фикстуры")
 let корень = URL(fileURLWithPath: CommandLine.arguments[1], isDirectory: true)
 let репозиторий = корень.appendingPathComponent("repo", isDirectory: true)
