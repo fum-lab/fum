@@ -14,7 +14,7 @@ private func флагиФайла(_ дескриптор: Int32, _ команд�
 private func hold(_ версия: String) -> Never {
     // .6 closes the anchor's control writer on failure. Its EOF watchdog
     // attempts group cleanup. Exit 125 leaves the outcome unconfirmed.
-    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" || версия == "fum-run-witness.8" { exit(125) }
+    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" || версия == "fum-run-witness.8" || версия == "fum-run-witness.9" { exit(125) }
     var mask = sigset_t()
     _ = sigfillset(&mask)
     _ = pthread_sigmask(SIG_SETMASK, &mask, nil)
@@ -168,11 +168,12 @@ private func run() -> Int32 {
     guard raw[args.count] == nil, args.count >= 6 else { return 125 }
     let версия = args[1]
     let передаётДопуск = версия == "fum-run-witness.8"
-    let передаётОпору = версия == "fum-run-witness.7" || передаётДопуск
+    let передаётКаталог = версия == "fum-run-witness.9"
+    let передаётОпору = версия == "fum-run-witness.7" || передаётДопуск || передаётКаталог
     let версияПоведения = передаётОпору ? "fum-run-witness.6" : версия
     let targetMode = ["fum-run-witness.1", "fum-run-witness.2", "fum-run-witness.3",
                       "fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6",
-                      "fum-run-witness.7", "fum-run-witness.8"].contains(версия)
+                      "fum-run-witness.7", "fum-run-witness.8", "fum-run-witness.9"].contains(версия)
     let разрешитьИмя = ["fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6"].contains(версия)
     guard targetMode || версия == "fum-anchor-witness.1",
           let id = ИдентификаторЗапуска(args[2]),
@@ -183,6 +184,7 @@ private func run() -> Int32 {
     var targetSpec: ПараметрыЗапуска?
     var опораПрежнегоЗамка: ОпораКаталогаПрежнегоЗамка?
     var опораДопуска: ОпораЗаимствованногоДопуска?
+    var опораКаталога: ОпораЗаимствованногоКаталога?
     var индексЦели = 10
     var длительностьЦели: String?
     if targetMode {
@@ -212,12 +214,29 @@ private func run() -> Int32 {
                   let опора = ОпораКаталогаПрежнегоЗамка(args[разделитель + 1], args[разделитель + 2],
                       args[разделитель + 3], args[разделитель + 4], args[разделитель + 5],
                       args[разделитель + 6], дескрипторСтатуса: statusFD) else { return 125 }
-            if !передаётДопуск {
+            if !передаётДопуск && !передаётКаталог {
                 let флаги = флагиФайла(опора.дескриптор, F_GETFD)
                 guard флаги >= 0, флагиФайла(опора.дескриптор, F_SETFD, флаги | FD_CLOEXEC) == 0,
                       подтвердитьОпору(опора) else { return 125 }
             }
             опораПрежнегоЗамка = опора
+            разделитель += 7
+        }
+        if передаётКаталог {
+            guard let замок = опораПрежнегоЗамка, args.indices.contains(разделитель + 6),
+                  args[разделитель] == "--опора-каталога",
+                  let каталог = ОпораЗаимствованногоКаталога(args[разделитель + 1], args[разделитель + 2],
+                      args[разделитель + 3], args[разделитель + 4], args[разделитель + 5],
+                      args[разделитель + 6], область: .рабочееДерево,
+                      занятыеДескрипторы: [statusFD, замок.дескриптор]),
+                  каталог.устройство != замок.устройство || каталог.инод != замок.инод else { return 125 }
+            let флагиЗамка = флагиФайла(замок.дескриптор, F_GETFD)
+            let флагиКаталога = флагиФайла(каталог.дескриптор, F_GETFD)
+            guard флагиЗамка >= 0, флагиКаталога >= 0,
+                  флагиФайла(замок.дескриптор, F_SETFD, флагиЗамка | FD_CLOEXEC) == 0,
+                  флагиФайла(каталог.дескриптор, F_SETFD, флагиКаталога | FD_CLOEXEC) == 0,
+                  подтвердитьОпору(замок), подтвердитьОткрытыйКаталог(каталог) else { return 125 }
+            опораКаталога = каталог
             разделитель += 7
         }
         if передаётДопуск {
@@ -283,6 +302,9 @@ private func run() -> Int32 {
           Set(control + ready + [statusFD]).count == 5 else { return 125 }
     if let опораДопуска, let каталог = опораПрежнегоЗамка {
         guard Set(control + ready + [statusFD, каталог.дескриптор, опораДопуска.дескриптор]).count == 7 else { return 125 }
+    }
+    if let опораКаталога, let замок = опораПрежнегоЗамка {
+        guard Set(control + ready + [statusFD, замок.дескриптор, опораКаталога.дескриптор]).count == 7 else { return 125 }
     }
     for fd in control + ready {
         let flags = флагиФайла(fd, F_GETFD)
@@ -406,8 +428,14 @@ private func run() -> Int32 {
                     abandonToAnchor()
                 }
             }
+            if let опораКаталога {
+                guard posix_spawn_file_actions_addinherit_np(&targetActions, опораКаталога.дескриптор) == 0 else {
+                    abandonToAnchor()
+                }
+            }
             let targetEnvironment = spec.targetEnvironment + (опораПрежнегоЗамка.map { ["TMPDIR=" + $0.путь] } ?? []) +
-                (опораДопуска.map { [$0.переменнаяЦели] } ?? [])
+                (опораДопуска.map { [$0.переменнаяЦели] } ?? []) +
+                (опораКаталога.map { ["FUM_BORROWED_DIRECTORY_FD=\($0.дескриптор)"] } ?? [])
             var envPointers: [UnsafeMutablePointer<CChar>?] = []
             defer { for pointer in envPointers { free(pointer) } }
             for entry in targetEnvironment {
@@ -444,7 +472,9 @@ private func run() -> Int32 {
                 if let опораПрежнегоЗамка {
                     guard let попытка = запуститьПослеПроверкиОпоры(
                         предыдущее: времяПоследнейПопытки, срок: runDeadline,
-                        подтвердить: { подтвердитьОпору(опораПрежнегоЗамка) && (опораДопуска.map { подтвердитьОпоруДопуска($0) } ?? true) },
+                        подтвердить: { подтвердитьОпору(опораПрежнегоЗамка) &&
+                            (опораДопуска.map { подтвердитьОпоруДопуска($0) } ?? true) &&
+                            (опораКаталога.map { подтвердитьОткрытыйКаталог($0) } ?? true) },
                         часы: { nowMilliseconds() }, запуск: { запуститьПоПути() }
                     ) else { abandonToAnchor() }
                     времяПоследнейПопытки = попытка.время
@@ -684,6 +714,9 @@ private func run() -> Int32 {
     if let опораДопуска {
         // Закрываем только копию свидетеля; LOCK_UN общего описания недопустим.
         guard close(опораДопуска.дескриптор) == 0 else { hold(версия) }
+    }
+    if let опораКаталога {
+        guard close(опораКаталога.дескриптор) == 0 else { hold(версия) }
     }
     guard send(finish, to: statusFD),
           let afterSend = nowMilliseconds(), afterSend >= now, afterSend < stopDeadline else { hold(версия) }
