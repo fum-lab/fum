@@ -60,6 +60,10 @@ public func проверитьНачальнуюСреду(
         if режим == "--проверить-shim" || режим == "--shim-target" {
             проверитьNoSignalShim()
         }
+        if ["--проверить-owner", "--owner-target", "--owner-target-fail", "--owner-target-wait"].contains(режим) {
+            if #available(macOS 13.0, *) { проверитьNoSignalOwner() }
+            return 40
+        }
         if режим == "--witness8-descendant" {
             signal(SIGTERM, SIG_IGN)
             let line = "DESC \(getpid()) \(getpgrp())\n"

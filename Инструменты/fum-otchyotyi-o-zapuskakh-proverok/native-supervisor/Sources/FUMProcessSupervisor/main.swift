@@ -147,6 +147,9 @@ private func run() -> Int32 {
     if arguments.count > 1 && arguments[1] == "fum-nosignal-shim.1" {
         return выполнитьШлюзБезСигналов(arguments)
     }
+    if arguments.count > 1 && arguments[1] == "fum-nosignal-owner.1" {
+        return выполнитьВладельцаБезСигналов(arguments)
+    }
     guard
           let spec = try? ПараметрыЗапуска.legacySupervisor(arguments: Array(arguments.dropFirst())),
           getpid() == getpgrp(), getsid(0) == getpid() else { return 125 }
