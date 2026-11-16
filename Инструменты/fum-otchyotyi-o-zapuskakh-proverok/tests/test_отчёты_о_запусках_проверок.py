@@ -39848,6 +39848,16 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (fd, связь):
                 сам.assertEqual(связь.состояние, 'UNKNOWN')
                 описание = json.loads(связь.описание)
+                исходное_описание = связь.описание
+                with сам.assertRaises(AttributeError):
+                    связь.описание = b'tampered'
+                with сам.assertRaises(AttributeError):
+                    связь._описание = b'tampered'
+                with сам.assertRaises(AttributeError):
+                    del связь._описание
+                with сам.assertRaises(AttributeError):
+                    связь._описание = b'tampered after delete'
+                сам.assertIs(связь.описание, исходное_описание)
                 сам.assertEqual((описание['схема'], описание['предел_каталогов']), ('fum.test-linked-git-held.1', 128))
                 сам.assertEqual(описание['index_sha256'], hashlib.sha256((gitdir / 'index').read_bytes()).hexdigest())
                 связь.проверить()
