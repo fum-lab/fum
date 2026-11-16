@@ -6143,6 +6143,103 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 собрать = модуль._собрать_локальные_конфиги_связанного_git
                 параметры = (рабочий, общий, str(дерево.resolve()), str((репозиторий / '.git').resolve()), 'work')
                 сам.assertEqual(собрать(*параметры), (конфиг, конфиг_дерева))
+                синтетический_корень = база / 'system-fixture'
+                (синтетический_корень / 'private' / 'etc').mkdir(parents=True)
+                (синтетический_корень / 'etc').symlink_to('private/etc')
+                глобальный = база / 'global-fixture'
+                исключения = база / 'ignore-fixture'
+                исключения.write_bytes(b'fixture\n')
+                глобальный.write_text('[core]\n\texcludesfile = ' + str(исключения.resolve()) + '\n')
+                sysfd = os.open(синтетический_корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, sysfd)
+                внешний = os.open(база, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, внешний)
+                globalfd = os.open(глобальный, os.O_RDONLY | os.O_NOFOLLOW)
+                стек.callback(os.close, globalfd)
+                ignorefd = os.open(исключения, os.O_RDONLY | os.O_NOFOLLOW)
+                стек.callback(os.close, ignorefd)
+                (дерево / '.gitmodules').write_bytes(b'fixture\n')
+                (дерево / '.gitignore').write_bytes(b'fixture\n')
+                (репозиторий / '.git' / 'info' / 'exclude').write_bytes(b'fixture\n')
+                контекст = модуль._наблюдать_частичные_источники_git
+                аргументы = (sysfd, параметры, str(глобальный.resolve()), внешний, globalfd,
+                             внешний, ignorefd)
+                with контекст(*аргументы) as состояние:
+                    сам.assertEqual(состояние.состояние, 'UNKNOWN')
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        bool(состояние)
+                    with сам.assertRaises(AttributeError):
+                        состояние.состояние = 'READY'
+                    вызовы = []
+                    with сам.assertRaises(модуль.ОшибкаОтчёта):
+                        состояние.вызвать(lambda: вызовы.append(True))
+                    сам.assertEqual(вызовы, [])
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    with контекст(*аргументы):
+                        исключения.write_bytes(b'changed\n')
+                исключения.write_bytes(b'fixture\n')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    with контекст(*аргументы):
+                        глобальный.write_bytes(b'[core]\n\texcludesfile = /tmp/other\n')
+                глобальный.write_text('[core]\n\texcludesfile = ' + str(исключения.resolve()) + '\n')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    with контекст(*аргументы):
+                        (синтетический_корень / 'private' / 'etc' / 'gitconfig').write_bytes(b'[core]\n')
+                (синтетический_корень / 'private' / 'etc' / 'gitconfig').unlink()
+                with сам.assertRaises((модуль.ОшибкаОтчёта, модуль._СовокупныйОтказСистемногоGit)):
+                    with контекст(*аргументы):
+                        (репозиторий / '.git' / 'info' / 'attributes').write_bytes(b'* filter=trap\n')
+                (репозиторий / '.git' / 'info' / 'attributes').unlink()
+                info = репозиторий / '.git' / 'info'
+                info_резерв = info.with_name('info-fixture-backup')
+                try:
+                    with сам.assertRaises((модуль.ОшибкаОтчёта, модуль._СовокупныйОтказСистемногоGit)):
+                        with контекст(*аргументы):
+                            info.rename(info_резерв)
+                            info.mkdir()
+                            (info / 'exclude').write_bytes(b'fixture\n')
+                finally:
+                    if info_резерв.exists():
+                        if info.exists():
+                            (info / 'exclude').unlink()
+                            info.rmdir()
+                        info_резерв.rename(info)
+                for путь in (дерево / '.git', дерево / '.gitmodules', дерево / '.gitignore',
+                             репозиторий / '.git' / 'config', репозиторий / '.git' / 'info' / 'exclude',
+                             репозиторий / '.git' / 'worktrees' / 'work' / 'gitdir',
+                             репозиторий / '.git' / 'worktrees' / 'work' / 'commondir',
+                             репозиторий / '.git' / 'worktrees' / 'work' / 'config.worktree',
+                             репозиторий / '.git' / 'worktrees' / 'work' / 'index'):
+                    резерв = путь.with_name(путь.name + '.fixture-backup')
+                    данные = путь.read_bytes()
+                    try:
+                        with сам.assertRaises((модуль.ОшибкаОтчёта, модуль._СовокупныйОтказСистемногоGit)):
+                            with контекст(*аргументы):
+                                путь.rename(резерв)
+                                путь.write_bytes(данные)
+                                путь.unlink()
+                                путь.write_bytes(данные)
+                    finally:
+                        if резерв.exists():
+                            if путь.exists():
+                                путь.unlink()
+                            резерв.rename(путь)
+                штатное_закрытие = os.close
+                ошибка_включена, сработала = [False], []
+                def закрыть_с_отказом(fd):
+                    штатное_закрытие(fd)
+                    if ошибка_включена[0] and not сработала:
+                        сработала.append(True)
+                        raise OSError('postcheck close fixture')
+                отмена = KeyboardInterrupt('fixture')
+                with mock.patch.object(модуль.os, 'close', side_effect=закрыть_с_отказом):
+                    with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit) as исход:
+                        with контекст(*аргументы):
+                            ошибка_включена[0] = True
+                            raise отмена
+                сам.assertTrue(сработала)
+                сам.assertIs(исход.exception.первичная, отмена)
+                сам.assertTrue(исход.exception.вторичные)
                 проверить_атрибуты = модуль._проверить_дерево_без_файлов_атрибутов_git
                 проверить_атрибуты(рабочий, предел_записей=128, предел_глубины=16)
                 вложенный = дерево / 'nested'
