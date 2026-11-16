@@ -38797,6 +38797,58 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_чтение_каталога_не_пропускает_поздний_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        run = "00112233-4455-4677-8899-aabbccddeeff"
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог)
+            (путь / "intent.DATA").write_bytes(f"run={run} phase=before-spawn\n".encode())
+            (путь / "owner.DATA").write_bytes(f"run={run} child=123 pgid=123 phase=before-gate\n".encode())
+            (путь / "terminal.DATA").write_bytes(f"run={run} child=123 pgid=123 waitpid=123 raw=1792 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n".encode())
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                frame = f"DONE {run} 1792\n".encode()
+                with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as отказ:
+                    м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertEqual(отказ.exception.код_лидера, 7)
+                читать = м._прочитать_источник_git_через_fd
+                def поздний(каталог_fd, имя, предел):
+                    ответ = читать(каталог_fd, имя, предел)
+                    if имя == "terminal.DATA":
+                        (путь / "unknown.DATA").write_bytes(b"UNKNOWN\n")
+                    return ответ
+                with mock.patch.object(м, "_прочитать_источник_git_через_fd", side_effect=поздний):
+                    with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                        м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                сам.assertEqual(str(ошибка.exception), "обнаружена unknown.DATA после чтения owner.4")
+                (путь / "unknown.DATA").unlink()
+                (путь / "terminal.DATA").unlink()
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "terminal.DATA").symlink_to("owner.DATA")
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "terminal.DATA").unlink()
+                os.mkfifo(путь / "terminal.DATA")
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "terminal.DATA").unlink()
+                (путь / "terminal.DATA").write_bytes(b"x" * 257)
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                os.chmod(каталог, 0o755)
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_owner4(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                os.chmod(каталог, 0o700)
+            finally:
+                os.close(fd)
+
     def test_граница_адаптера_сохраняет_unknown_и_код_target(сам):
         м = загрузить_модуль_автоматизации()
         run = "00112233-4455-4677-8899-aabbccddeeff"

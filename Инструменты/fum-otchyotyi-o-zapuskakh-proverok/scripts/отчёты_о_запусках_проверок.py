@@ -15378,6 +15378,34 @@ def _адаптировать_свидетельство_owner4(run, intent, own
     raise ОшибкаНеподтверждённойГруппы(код)
 
 
+def _адаптировать_каталог_owner4(каталог_fd, run, frame, код_owner):
+    """Два наблюдения private каталога, без утверждения непрерывной custody."""
+    if type(каталог_fd) is not int or каталог_fd < 0:
+        raise ОшибкаОтчёта("неверный каталог квитанций owner.4")
+    try:
+        до = os.fstat(каталог_fd)
+        if (not stat.S_ISDIR(до.st_mode) or до.st_uid != os.geteuid()
+            or stat.S_IMODE(до.st_mode) != 0o700):
+            raise ОшибкаОтчёта("недопустимый каталог квитанций owner.4")
+        до_unknown = _прочитать_источник_git_через_fd(каталог_fd, "unknown.DATA", 256)
+        if до_unknown is not None:
+            raise ОшибкаОтчёта("обнаружена unknown.DATA до чтения owner.4")
+        intent = _прочитать_источник_git_через_fd(каталог_fd, "intent.DATA", 256)
+        owner = _прочитать_источник_git_через_fd(каталог_fd, "owner.DATA", 256)
+        terminal = _прочитать_источник_git_через_fd(каталог_fd, "terminal.DATA", 256)
+        после_unknown = _прочитать_источник_git_через_fd(каталог_fd, "unknown.DATA", 256)
+        if после_unknown is not None:
+            raise ОшибкаОтчёта("обнаружена unknown.DATA после чтения owner.4")
+        после = os.fstat(каталог_fd)
+        метка = lambda с: (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid, с.st_mtime_ns, с.st_ctime_ns)
+        if метка(до) != метка(после):
+            raise ОшибкаОтчёта("каталог квитанций owner.4 изменился")
+        return _адаптировать_свидетельство_owner4(
+            run, intent, owner, terminal, frame, код_owner, до_unknown is not None, после_unknown is not None)
+    except OSError as ошибка:
+        raise ОшибкаОтчёта("не удалось прочитать квитанции owner.4") from ошибка
+
+
 def группа_процессов_существует(идентификатор_группы: int) -> bool:
     try:
         os.killpg(идентификатор_группы, 0)
