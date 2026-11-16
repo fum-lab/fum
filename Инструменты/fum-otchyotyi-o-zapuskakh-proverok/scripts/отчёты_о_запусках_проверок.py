@@ -4748,6 +4748,125 @@ def _прочитать_источник_git_через_fd(каталог: int, 
         raise ОшибкаОтчёта('не удалось проверить источник Git') from ошибка
 
 
+class _СовокупныйОтказСистемногоGit(Exception):
+    def __init__(сам, первичная, вторичные):
+        super().__init__('неизвестный исход consumer и системного конфига Git')
+        сам.первичная = первичная
+        сам.вторичные = tuple(вторичные)
+
+
+class _ПрерванныйОтказСистемногоGit(BaseException):
+    def __init__(сам, первичная, вторичные):
+        super().__init__('прерывание и неизвестный исход системного конфига Git')
+        сам.первичная = первичная
+        сам.вторичные = tuple(вторичные)
+
+
+def _составить_отказ_системного_git(первичная, вторичные):
+    вторичные = tuple(вторичные)
+    класс = (_ПрерванныйОтказСистемногоGit
+             if any(not isinstance(ошибка, Exception) for ошибка in (первичная, *вторичные))
+             else _СовокупныйОтказСистемногоGit)
+    return класс(первичная, вторичные)
+
+
+def _передать_прерванный_отказ_системного_git(отказ, сохранить):
+    """Сначала сохранить UNKNOWN и все объекты исхода, затем продолжить отмену."""
+    if not isinstance(отказ, _ПрерванныйОтказСистемногоGit) or not callable(сохранить):
+        raise ОшибкаОтчёта('неверный обработчик прерванного Git')
+    try:
+        сохранить(отказ)
+    except BaseException as ошибка:
+        raise _составить_отказ_системного_git(
+            отказ.первичная, отказ.вторичные + (ошибка,)) from None
+    найденные = []
+    счётчик = [0]
+    def собрать(ошибка, путь):
+        счётчик[0] += 1
+        if счётчик[0] > 256 or len(путь) >= 64 or id(ошибка) in путь:
+            raise ОшибкаОтчёта('циклический или чрезмерный отказ Git')
+        if isinstance(ошибка, (_СовокупныйОтказСистемногоGit, _ПрерванныйОтказСистемногоGit)):
+            for часть in (ошибка.первичная, *ошибка.вторичные):
+                собрать(часть, путь | {id(ошибка)})
+        elif isinstance(ошибка, getattr(sys.modules['builtins'], 'BaseExceptionGroup', ())):
+            for часть in ошибка.exceptions:
+                собрать(часть, путь | {id(ошибка)})
+        elif not isinstance(ошибка, Exception):
+            найденные.append(ошибка)
+    собрать(отказ, set())
+    if not найденные:
+        raise ОшибкаОтчёта('прерывание Git отсутствует')
+    raise найденные[0]
+
+
+@contextlib.contextmanager
+def _удержать_системный_конфиг_git(корень: int):
+    """Наблюдать отсутствие /etc/gitconfig; custody и образ Git внешние."""
+    def метка(с):
+        return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid)
+    def допустим(с):
+        return stat.S_ISDIR(с.st_mode) and с.st_uid in (0, os.geteuid()) and not stat.S_IMODE(с.st_mode) & 0o022
+    ошибки_закрытия = []
+    def закрыть(fd):
+        try:
+            os.close(fd)
+        except BaseException as ошибка:
+            ошибки_закрытия.append(ошибка)
+    try:
+        with contextlib.ExitStack() as стек:
+            исходный = os.fstat(корень)
+            if not допустим(исходный):
+                raise ОшибкаОтчёта('небезопасный корень системного конфига Git')
+            ссылка = os.stat('etc', dir_fd=корень, follow_symlinks=False)
+            if not stat.S_ISLNK(ссылка.st_mode) or os.readlink('etc', dir_fd=корень) != 'private/etc':
+                raise ОшибкаОтчёта('неподтверждённый путь системного конфига Git')
+            private = os.open('private', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=корень)
+            стек.callback(закрыть, private)
+            etc = os.open('etc', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=private)
+            стек.callback(закрыть, etc)
+            первая, вторая = os.fstat(private), os.fstat(etc)
+            if not допустим(первая) or not допустим(вторая):
+                raise ОшибкаОтчёта('небезопасный каталог системного конфига Git')
+            def проверить():
+                if (метка(os.fstat(корень)) != метка(исходный)
+                    or метка(os.stat('etc', dir_fd=корень, follow_symlinks=False)) != метка(ссылка)
+                    or os.readlink('etc', dir_fd=корень) != 'private/etc'
+                    or метка(os.stat('private', dir_fd=корень, follow_symlinks=False)) != метка(первая)
+                    or метка(os.fstat(private)) != метка(первая)
+                    or метка(os.stat('etc', dir_fd=private, follow_symlinks=False)) != метка(вторая)
+                    or метка(os.fstat(etc)) != метка(вторая)
+                    or _прочитать_источник_git_через_fd(etc, 'gitconfig', 65536) is not None):
+                    raise ОшибкаОтчёта('системный конфиг Git изменился или присутствует')
+                return None
+            проверить()
+            try:
+                yield проверить
+            except BaseException as исходная:
+                try:
+                    проверить()
+                except BaseException as вторичная:
+                    raise _составить_отказ_системного_git(исходная, (вторичная,)) from None
+                raise
+            else:
+                проверить()
+    except BaseException as исходная:
+        if ошибки_закрытия:
+            if isinstance(исходная, (_СовокупныйОтказСистемногоGit, _ПрерванныйОтказСистемногоGit)):
+                raise _составить_отказ_системного_git(
+                    исходная.первичная, исходная.вторичные + tuple(ошибки_закрытия)) from None
+            raise _составить_отказ_системного_git(исходная, ошибки_закрытия) from None
+        if not isinstance(исходная, Exception) and not isinstance(исходная, _ПрерванныйОтказСистемногоGit):
+            raise _составить_отказ_системного_git(исходная, ()) from None
+        raise
+    if ошибки_закрытия:
+        исходная = ошибки_закрытия.pop(0)
+        if ошибки_закрытия:
+            raise _составить_отказ_системного_git(исходная, ошибки_закрытия) from None
+        if not isinstance(исходная, Exception):
+            raise _составить_отказ_системного_git(исходная, ()) from None
+        raise исходная
+
+
 def _сверить_источник_git_с_fd(каталог: int, имя: str, fd: int, ожидаемые: bytes) -> None:
     """Сверить имя, удержанный FD и байты; effective path и custody внешние."""
     if type(fd) is not int or fd < 0 or type(ожидаемые) is not bytes or len(ожидаемые) > 65536:

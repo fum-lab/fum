@@ -5509,6 +5509,152 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_системный_конфиг_git_проверяется_на_всём_интервале(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            (корень / 'private' / 'etc').mkdir(parents=True)
+            (корень / 'etc').symlink_to('private/etc')
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                with модуль._удержать_системный_конфиг_git(fd) as проверить:
+                    сам.assertIsNone(проверить())
+                with сам.assertRaisesRegex(RuntimeError, 'только consumer'):
+                    with модуль._удержать_системный_конфиг_git(fd):
+                        raise RuntimeError('только consumer')
+                with сам.assertRaisesRegex(OSError, 'ошибка consumer'):
+                    with модуль._удержать_системный_конфиг_git(fd):
+                        raise OSError('ошибка consumer')
+                штатное_закрытие = os.close
+                вызвано = []
+                def закрыть_с_ошибкой(номер):
+                    штатное_закрытие(номер)
+                    if not вызвано:
+                        вызвано.append(номер)
+                        raise OSError('ошибка закрытия')
+                with mock.patch.object(модуль.os, 'close', side_effect=закрыть_с_ошибкой):
+                    with сам.assertRaises(модуль._СовокупныйОтказСистемногоGit) as обе:
+                        with модуль._удержать_системный_конфиг_git(fd):
+                            raise OSError('ошибка consumer')
+                сам.assertEqual(str(обе.exception.первичная), 'ошибка consumer')
+                сам.assertEqual(str(обе.exception.вторичные[0]), 'ошибка закрытия')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    with модуль._удержать_системный_конфиг_git(fd) as проверить:
+                        сам.assertIsNone(проверить())
+                        (корень / 'private' / 'etc' / 'gitconfig').write_bytes(b'[core]\n')
+                (корень / 'private' / 'etc' / 'gitconfig').unlink()
+                причина = ValueError('существующая причина')
+                исходная = RuntimeError('исход consumer')
+                исходная.__cause__ = причина
+                with сам.assertRaises(модуль._СовокупныйОтказСистемногоGit) as обе:
+                    with модуль._удержать_системный_конфиг_git(fd):
+                        (корень / 'private' / 'etc' / 'gitconfig').write_bytes(b'[core]\n')
+                        raise исходная
+                сам.assertIs(обе.exception.первичная, исходная)
+                сам.assertIs(исходная.__cause__, причина)
+                сам.assertIsInstance(обе.exception.вторичные[0], модуль.ОшибкаОтчёта)
+                (корень / 'private' / 'etc' / 'gitconfig').unlink()
+                def закрыть_каждый_с_ошибкой(номер):
+                    штатное_закрытие(номер)
+                    raise OSError('ошибка закрытия')
+                with mock.patch.object(модуль.os, 'close', side_effect=закрыть_каждый_с_ошибкой):
+                    with сам.assertRaises(модуль._СовокупныйОтказСистемногоGit) as три:
+                        with модуль._удержать_системный_конфиг_git(fd):
+                            (корень / 'private' / 'etc' / 'gitconfig').write_bytes(b'[core]\n')
+                            raise исходная
+                сам.assertIs(три.exception.первичная, исходная)
+                сам.assertIs(исходная.__cause__, причина)
+                сам.assertEqual(len(три.exception.вторичные), 3)
+                сам.assertIsInstance(три.exception.вторичные[0], модуль.ОшибкаОтчёта)
+                сам.assertTrue(all(isinstance(ошибка, OSError) for ошибка in три.exception.вторичные[1:]))
+                (корень / 'private' / 'etc' / 'gitconfig').unlink()
+                for тип in (KeyboardInterrupt, SystemExit):
+                    прерывание = тип('отмена')
+                    сохранено = []
+                    with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit) as одиночное:
+                        with модуль._удержать_системный_конфиг_git(fd):
+                            raise прерывание
+                    with сам.assertRaises(тип) as передано:
+                        модуль._передать_прерванный_отказ_системного_git(одиночное.exception, сохранено.append)
+                    сам.assertIs(передано.exception, прерывание)
+                    сам.assertEqual(сохранено, [одиночное.exception])
+                    сохранено.clear()
+                    with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit) as прервано:
+                        with модуль._удержать_системный_конфиг_git(fd):
+                            (корень / 'private' / 'etc' / 'gitconfig').write_bytes(b'[core]\n')
+                            raise прерывание
+                    сам.assertIs(прервано.exception.первичная, прерывание)
+                    with сам.assertRaises(тип) as передано:
+                        модуль._передать_прерванный_отказ_системного_git(прервано.exception, сохранено.append)
+                    сам.assertIs(передано.exception, прерывание)
+                    сам.assertEqual(сохранено, [прервано.exception])
+                    def не_сохранить(_):
+                        raise OSError('сохранение UNKNOWN не удалось')
+                    with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit) as не_сохранено:
+                        модуль._передать_прерванный_отказ_системного_git(прервано.exception, не_сохранить)
+                    сам.assertIs(не_сохранено.exception.первичная, прерывание)
+                    сам.assertIsInstance(не_сохранено.exception.вторичные[-1], OSError)
+                    (корень / 'private' / 'etc' / 'gitconfig').unlink()
+                прерывание_закрытия = KeyboardInterrupt('отмена закрытия')
+                def прервать_закрытие(номер):
+                    штатное_закрытие(номер)
+                    if not вызвано:
+                        вызвано.append(номер)
+                        raise прерывание_закрытия
+                вызвано.clear()
+                with mock.patch.object(модуль.os, 'close', side_effect=прервать_закрытие):
+                    with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit) as прервано:
+                        with модуль._удержать_системный_конфиг_git(fd):
+                            raise RuntimeError('исход consumer')
+                сохранено = []
+                with сам.assertRaises(KeyboardInterrupt) as передано:
+                    модуль._передать_прерванный_отказ_системного_git(прервано.exception, сохранено.append)
+                сам.assertIs(передано.exception, прерывание_закрытия)
+                сам.assertIsInstance(сохранено[0].первичная, RuntimeError)
+                первый, второй = SystemExit('первый'), KeyboardInterrupt('второй')
+                вложенный = модуль._составить_отказ_системного_git(первый, (второй,))
+                составной = модуль._составить_отказ_системного_git(RuntimeError('consumer'), (вложенный,))
+                сохранено = []
+                with сам.assertRaises(SystemExit) as передано:
+                    модуль._передать_прерванный_отказ_системного_git(составной, сохранено.append)
+                сам.assertIs(передано.exception, первый)
+                сам.assertIs(сохранено[0].вторичные[0].вторичные[0], второй)
+                циклический = модуль._ПрерванныйОтказСистемногоGit(первый, ())
+                циклический.первичная = циклический
+                сохранено = []
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    модуль._передать_прерванный_отказ_системного_git(циклический, сохранено.append)
+                сам.assertEqual(сохранено, [циклический])
+                чрезмерный = модуль._ПрерванныйОтказСистемногоGit(первый, (второй,) * 256)
+                сохранено = []
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    модуль._передать_прерванный_отказ_системного_git(чрезмерный, сохранено.append)
+                сам.assertEqual(сохранено, [чрезмерный])
+                класс_группы = getattr(sys.modules['builtins'], 'BaseExceptionGroup', None)
+                if класс_группы is not None:
+                    группа = класс_группы('две отмены', [первый, второй])
+                    составной = модуль._составить_отказ_системного_git(группа, ())
+                    сохранено = []
+                    with сам.assertRaises(SystemExit) as передано:
+                        модуль._передать_прерванный_отказ_системного_git(составной, сохранено.append)
+                    сам.assertIs(передано.exception, первый)
+                    сам.assertIs(сохранено[0].первичная, группа)
+                (корень / 'private' / 'etc').rmdir()
+                with mock.patch.object(модуль.os, 'close', side_effect=закрыть_каждый_с_ошибкой):
+                    with сам.assertRaises(модуль._СовокупныйОтказСистемногоGit) as вход:
+                        with модуль._удержать_системный_конфиг_git(fd):
+                            сам.fail('нельзя вызвать consumer')
+                сам.assertIsInstance(вход.exception.первичная, OSError)
+                сам.assertEqual(len(вход.exception.вторичные), 1)
+                (корень / 'private' / 'etc').mkdir()
+                (корень / 'etc').unlink()
+                (корень / 'etc').symlink_to('other')
+                with сам.assertRaises(модуль.ОшибкаОтчёта):
+                    with модуль._удержать_системный_конфиг_git(fd):
+                        сам.fail('нельзя вызвать consumer')
+            finally:
+                os.close(fd)
+
     def test_внешний_excludesfile_влияет_на_точный_список_git(сам):
         модуль = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
