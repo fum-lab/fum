@@ -23309,7 +23309,27 @@ def построить_разбор_аргументов() -> argparse.ArgumentP
     return разбор
 
 
+def _проверить_среду_обёртки() -> None:
+    """Проверить возможности вызываемого интерпретатора до действий CLI."""
+    if sys.implementation.name != 'cpython' or sys.version_info < (3, 11):
+        raise ОшибкаОтчёта('обёртке требуется CPython 3.11 или новее; укажите его явным путём')
+    import builtins
+    if not all(isinstance(getattr(builtins, имя, None), type)
+               for имя in ('BaseExceptionGroup', 'ExceptionGroup')):
+        raise ОшибкаОтчёта('интерпретатор не предоставляет группы исключений')
+    if not callable(getattr(os, 'waitid', None)) or not all(
+        type(getattr(os, имя, None)) is int for имя in
+        ('P_PID', 'WEXITED', 'WNOHANG', 'WNOWAIT', 'CLD_EXITED', 'CLD_KILLED', 'CLD_DUMPED')
+    ):
+        raise ОшибкаОтчёта('интерпретатор не предоставляет необходимые возможности os.waitid')
+
+
 def главная(аргументы: Sequence[str] | None = None) -> int:
+    try:
+        _проверить_среду_обёртки()
+    except ОшибкаОтчёта as ошибка:
+        print(str(ошибка), file=sys.stderr)
+        return 1
     аргументы = sys.argv[1:] if аргументы is None else аргументы
     if next((слово for слово in аргументы if слово != "--"), None) == "запустить":
         print(_ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА, file=sys.stderr)

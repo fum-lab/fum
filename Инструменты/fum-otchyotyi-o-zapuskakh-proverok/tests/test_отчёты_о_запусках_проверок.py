@@ -39211,3 +39211,66 @@ class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
         ):
             with сам.assertRaises(м.ОшибкаОтчёта):
                 м._разобрать_свидетельство_owner4(плохой_run, плохой_owner, плохой_terminal, плохой_frame, unknown)
+
+
+class ПроверкаСредыОбёртки(unittest.TestCase):
+    def test_доступная_среда_принимается(сам):
+        м = загрузить_модуль_автоматизации()
+        м._проверить_среду_обёртки()
+
+    def test_неподдержанный_интерпретатор_отказывает_до_разбора(сам):
+        м = загрузить_модуль_автоматизации()
+        with mock.patch.object(м.sys, 'version_info', (3, 9, 6)), \
+             mock.patch.object(м, 'построить_разбор_аргументов') as разбор, \
+             mock.patch.object(м.sys, 'stderr', new_callable=__import__('io').StringIO) as вывод:
+            сам.assertEqual(м.главная(['предпросмотр']), 1)
+            сам.assertIn('CPython 3.11', вывод.getvalue())
+            разбор.assert_not_called()
+
+    def test_неполная_среда_и_чужая_реализация_отклоняются(сам):
+        м = загрузить_модуль_автоматизации()
+        with mock.patch.object(м.sys, 'implementation', mock.Mock(name='pypy')):
+            м.sys.implementation.name = 'pypy'
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._проверить_среду_обёртки()
+        with mock.patch.object(м.os, 'waitid', None, create=True):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._проверить_среду_обёртки()
+        with mock.patch.object(м.os, 'CLD_EXITED', None, create=True):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._проверить_среду_обёртки()
+        import builtins
+        with mock.patch.object(builtins, 'BaseExceptionGroup', None, create=True):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._проверить_среду_обёртки()
+
+    def test_обычная_команда_не_заменяется_интерпретатором(сам):
+        м = загрузить_модуль_автоматизации()
+        команда = ('python3', '-m', 'unittest', 'кириллица')
+        with mock.patch.object(м, 'индекс_канонического_исполнителя_проверок', return_value=None):
+            сам.assertIs(м.команда_полного_smoke(Path('/'), команда), команда)
+
+    def test_полный_smoke_использует_интерпретатор_обёртки(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            скрипт = корень / м.ПУТЬ_ПОЛНОЙ_ПРОВЕРКИ
+            скрипт.parent.mkdir(parents=True, exist_ok=True)
+            скрипт.write_bytes(b'')
+            команда = (sys.executable, str(скрипт), '--профиль', 'полный')
+            with mock.patch.object(м, 'индекс_канонического_исполнителя_проверок', return_value=1):
+                итог = м.команда_полного_smoke(корень, команда)
+            сам.assertEqual(итог, (str(Path(sys.executable).resolve()), '-I', '-S', '-B',
+                                  str(скрипт.resolve()), '--профиль', 'полный'))
+
+    def test_закрытый_запуск_не_меняет_аргументы_и_не_создаёт_процесс(сам):
+        м = загрузить_модуль_автоматизации()
+        аргументы = ['запустить', '--', 'проверка', 'кириллица', '--flag']
+        with mock.patch.object(м, '_проверить_среду_обёртки'), \
+             mock.patch.object(м, 'построить_разбор_аргументов') as разбор, \
+             mock.patch.object(м.subprocess, 'Popen') as запуск, \
+             mock.patch.object(м.sys, 'stderr', new_callable=__import__('io').StringIO):
+            сам.assertEqual(м.главная(аргументы), 1)
+        сам.assertEqual(аргументы, ['запустить', '--', 'проверка', 'кириллица', '--flag'])
+        разбор.assert_not_called()
+        запуск.assert_not_called()
