@@ -38797,6 +38797,30 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_граница_адаптера_сохраняет_unknown_и_код_target(сам):
+        м = загрузить_модуль_автоматизации()
+        run = "00112233-4455-4677-8899-aabbccddeeff"
+        intent = f"run={run} phase=before-spawn\n".encode()
+        owner = f"run={run} child=123 pgid=123 phase=before-gate\n".encode()
+        terminal = f"run={run} child=123 pgid=123 waitpid=123 raw=1792 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n".encode()
+        frame = f"DONE {run} 1792\n".encode()
+        with mock.patch.object(м, "группа_процессов_существует", side_effect=AssertionError("не наблюдать повторно")):
+            with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as ошибка:
+                м._адаптировать_свидетельство_owner4(run, intent, owner, terminal, frame, 0, False, False)
+            сам.assertEqual(ошибка.exception.код_лидера, 7)
+            for raw, ожидание in ((0, 0), (15, -15)):
+                with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as ошибка:
+                    м._адаптировать_свидетельство_owner4(
+                        run, intent, owner, terminal.replace(b"raw=1792", f"raw={raw}".encode()),
+                        frame.replace(b"1792", str(raw).encode()), 0, False, False)
+                сам.assertEqual(ошибка.exception.код_лидера, ожидание)
+            for bad_intent, owner_code, before, after in ((b"", 0, False, False), (intent, 1, False, False),
+                                                           (intent, 0, True, False), (intent, 0, False, True),
+                                                           (intent, False, False, False), (intent, 0, None, False)):
+                with сам.assertRaises(м.ОшибкаОтчёта) as отказ:
+                    м._адаптировать_свидетельство_owner4(run, bad_intent, owner, terminal, frame, owner_code, before, after)
+                сам.assertIs(type(отказ.exception), м.ОшибкаОтчёта)
+
     def test_связанные_наблюдения_не_превращают_unknown_в_допуск(сам):
         м = загрузить_модуль_автоматизации()
         run = "00112233-4455-4677-8899-aabbccddeeff"

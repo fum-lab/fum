@@ -15366,6 +15366,18 @@ def _разобрать_свидетельство_owner4(run, owner, terminal, 
     return child, pgid, код, "UNKNOWN"
 
 
+def _адаптировать_свидетельство_owner4(run, intent, owner, terminal, frame, код_owner,
+                                      неизвестно_до, неизвестно_после):
+    """Отказ на неподтверждённой группе; байты и отсутствие UNKNOWN задаёт caller."""
+    if (type(код_owner) is not int or код_owner != 0 or type(неизвестно_до) is not bool or
+        type(неизвестно_после) is not bool or неизвестно_до or неизвестно_после):
+        raise ОшибкаОтчёта("неизвестен исход owner.4")
+    _, _, код, _ = _разобрать_свидетельство_owner4(run, owner, terminal, frame, False)
+    if type(intent) is not bytes or intent != f"run={run} phase=before-spawn\n".encode("ascii"):
+        raise ОшибкаОтчёта("неверный intent owner.4")
+    raise ОшибкаНеподтверждённойГруппы(код)
+
+
 def группа_процессов_существует(идентификатор_группы: int) -> bool:
     try:
         os.killpg(идентификатор_группы, 0)
