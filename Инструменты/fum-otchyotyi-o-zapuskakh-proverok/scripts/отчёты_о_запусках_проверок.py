@@ -3439,6 +3439,69 @@ def _тестовое_чтение_двух_каналов(
         raise итоговая_ошибка from ошибка
 
 
+def _тестово_прочитать_три_канала(дескрипторы, ожидаемый_кадр, *, срок, пределы, предел_суммы):
+    """Пробный общий selector; FD и их непрерывная custody принадлежат caller.
+
+    Любой отказ означает UNKNOWN; частично прочитанные байты не возвращаются.
+    Эта функция не собирает owner и не допускает запуск проверок.
+    """
+    if (type(дескрипторы) is not tuple or len(дескрипторы) != 3
+        or any(type(fd) is not int or fd < 0 for fd in дескрипторы)
+        or len(set(дескрипторы)) != 3 or type(пределы) is not tuple or len(пределы) != 2
+        or any(type(предел) is not int or not 0 <= предел <= 1024 * 1024 for предел in пределы)
+        or type(предел_суммы) is not int or not 0 <= предел_суммы <= 2 * 1024 * 1024
+        or type(ожидаемый_кадр) is not bytes or not 1 <= len(ожидаемый_кадр) <= 256
+        or not _срок_действителен(срок)):
+        raise ОшибкаОтчёта('неверные параметры трёх каналов')
+    буферы = [bytearray(), bytearray(), bytearray()]
+    ограничения = (*пределы, len(ожидаемый_кадр))
+    try:
+        метки = []
+        for fd in дескрипторы:
+            метка = os.fstat(fd)
+            флаги = fcntl.fcntl(fd, fcntl.F_GETFL)
+            if (not stat.S_ISFIFO(метка.st_mode) or флаги & os.O_ACCMODE != os.O_RDONLY
+                or not флаги & os.O_NONBLOCK):
+                raise ОшибкаОтчёта('нужны три nonblocking pipe')
+            метки.append((метка.st_dev, метка.st_ino))
+        if len(set(метки)) != 3:
+            raise ОшибкаОтчёта('каналы совпадают')
+        with selectors.DefaultSelector() as выбор:
+            for номер, fd in enumerate(дескрипторы):
+                выбор.register(fd, selectors.EVENT_READ, номер)
+            while выбор.get_map():
+                if not _срок_действителен(срок):
+                    raise ОшибкаОтчёта('истёк срок трёх каналов')
+                try:
+                    события = выбор.select(max(0, срок - time.monotonic()))
+                except InterruptedError:
+                    continue
+                if not _срок_действителен(срок):
+                    raise ОшибкаОтчёта('истёк срок трёх каналов')
+                for ключ, _ in события:
+                    номер = ключ.data
+                    try:
+                        доступно = ограничения[номер] - len(буферы[номер])
+                        if номер < 2:
+                            доступно = min(доступно, предел_суммы - len(буферы[0]) - len(буферы[1]))
+                        часть = os.read(ключ.fd, min(65536, доступно + 1))
+                    except (BlockingIOError, InterruptedError):
+                        continue
+                    if not _срок_действителен(срок):
+                        raise ОшибкаОтчёта('истёк срок трёх каналов')
+                    if not часть:
+                        выбор.unregister(ключ.fd)
+                    elif len(часть) > доступно:
+                        raise ОшибкаОтчёта('превышен предел трёх каналов')
+                    else:
+                        буферы[номер].extend(часть)
+        if bytes(буферы[2]) != ожидаемый_кадр:
+            raise ОшибкаОтчёта('неверный кадр трёх каналов')
+        return bytes(буферы[0]), bytes(буферы[1])
+    except OSError as ошибка:
+        raise ОшибкаОтчёта('неизвестен исход чтения трёх каналов') from ошибка
+
+
 class _ТестовыйОбменКаналовGit:
     """Одноразовый обмен по трём заимствованным pipe, без допуска production.
 

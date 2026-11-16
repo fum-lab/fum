@@ -15,6 +15,7 @@ import sys
 import tempfile
 import time
 import unittest
+import threading
 import uuid
 from decimal import Decimal
 from pathlib import Path
@@ -36945,6 +36946,85 @@ class ПроверкаОбменаКаналовGit(unittest.TestCase):
         сам.открытые.update((чтение, запись))
         return чтение, запись
 
+    def test_три_канала_большие_данные_и_точный_кадр(сам):
+        пары = [сам.труба() for _ in range(3)]
+        for чтение, _ in пары:
+            os.set_blocking(чтение, False)
+        данные = (b'A' * 131072, b'B' * 131072, b'DONE\n')
+        сбои = []
+        def писать(fd, содержимое):
+            try:
+                позиция = 0
+                while позиция < len(содержимое):
+                    длина = os.write(fd, содержимое[позиция:])
+                    if длина <= 0:
+                        raise OSError('короткая запись')
+                    позиция += длина
+            except BaseException as ошибка:
+                сбои.append(ошибка)
+            finally:
+                try:
+                    os.close(fd)
+                except BaseException as ошибка:
+                    сбои.append(ошибка)
+        потоки = []
+        try:
+            for (_, запись), содержимое in zip(пары, данные):
+                поток = threading.Thread(target=писать, args=(запись, содержимое), daemon=True)
+                поток.start()
+                сам.открытые.remove(запись)
+                потоки.append(поток)
+            результат = сам.модуль._тестово_прочитать_три_канала(
+                tuple(чтение for чтение, _ in пары), b'DONE\n', срок=time.monotonic() + 5,
+                пределы=(131072, 131072), предел_суммы=262144)
+            сам.assertEqual(результат, данные[:2])
+        finally:
+            первичная = sys.exception()
+            for чтение, _ in пары:
+                try:
+                    сам.закрыть(чтение)
+                except BaseException as ошибка:
+                    сбои.append(ошибка)
+            for _, запись in пары:
+                if запись in сам.открытые:
+                    try:
+                        сам.закрыть(запись)
+                    except BaseException as ошибка:
+                        сбои.append(ошибка)
+            for поток in потоки:
+                поток.join(2)
+            if any(поток.is_alive() for поток in потоки):
+                raise AssertionError('неизвестно завершение потоков записи') from первичная
+            if сбои:
+                ошибка = AssertionError('неизвестен исход потоков или закрытий')
+                ошибка.add_note(repr(сбои[0]))
+                raise ошибка from первичная
+        сам.assertFalse(any(поток.is_alive() for поток in потоки))
+        сам.assertEqual(сбои, [])
+
+    def test_три_канала_отклоняют_хвост_переполнение_и_срок(сам):
+        for вывод, кадр, предел, открытый, причина in ((b'', b'DON\0\n', 0, False, 'неверный кадр'),
+                                                      (b'', b'DONE\n\0', 0, False, 'превышен предел'),
+                                                      (b'X', b'DONE\n', 0, False, 'превышен предел'),
+                                                      (b'', b'DONE\n', 1, True, 'истёк срок')):
+            with сам.subTest(вывод=вывод, кадр=кадр, открытый=открытый):
+                пары = [сам.труба() for _ in range(3)]
+                for чтение, _ in пары:
+                    os.set_blocking(чтение, False)
+                for (_, запись), содержимое in zip(пары, (вывод, b'', кадр)):
+                    if содержимое:
+                        os.write(запись, содержимое)
+                    if not открытый or запись != пары[0][1]:
+                        сам.закрыть(запись)
+                with сам.assertRaisesRegex(сам.модуль.ОшибкаОтчёта, причина):
+                    сам.модуль._тестово_прочитать_три_канала(
+                        tuple(чтение for чтение, _ in пары), b'DONE\n',
+                        срок=time.monotonic() + (0.1 if открытый else 2), пределы=(предел, 1), предел_суммы=2)
+                for чтение, запись in пары:
+                    сам.закрыть(чтение)
+                    if запись in сам.открытые:
+                        сам.закрыть(запись)
+
     def фикстура(сам, данные=b'', stdout=b'', stderr=b'', *, пределы=(20, 20, 40), срок=None,
                 закрыть_вход=None):
         вход_чтение, вход_запись = сам.труба()
@@ -39387,3 +39467,7 @@ class ПроверкаСредыОбёртки(unittest.TestCase):
         сам.assertEqual(аргументы, ['запустить', '--', 'проверка', 'кириллица', '--flag'])
         разбор.assert_not_called()
         запуск.assert_not_called()
+
+
+if __name__ == '__main__':
+    raise SystemExit('Запускайте тесты через unittest: прямой запуск не выполняет проверки')
