@@ -39815,6 +39815,88 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def подготовить_gitlink(сам, рабочий, общий, gitdir):
+        путь = 'Зависимости/LinguisticKit'
+        модули = (f'[submodule "{путь}"]\n\tpath = {путь}\n'
+                  '\turl = https://example.invalid/fork\n'
+                  '\tfumUpstream = https://example.invalid/upstream\n').encode()
+        (рабочий / '.gitmodules').write_bytes(модули)
+        (рабочий / путь).mkdir(parents=True)
+        конфиг = (b'[core]\n\trepositoryformatversion = 0\n\tbare = false\n'
+                  b'[remote "origin"]\n\turl = https://example.invalid/repo\n'
+                  b'\tfetch = +refs/heads/*:refs/remotes/origin/*\n'
+                  b'[branch "fixture"]\n\tremote = origin\n\tmerge = refs/heads/fixture\n'
+                  + f'[submodule "{путь}"]\n\tactive = true\n\turl = https://example.invalid/fork\n'.encode())
+        (общий / 'config').write_bytes(конфиг)
+        oid = hashlib.sha1(b'blob ' + str(len(модули)).encode() + b'\0' + модули).digest()
+        def запись(имя, режим, oid):
+            имя = имя.encode()
+            часть = b''.join(число.to_bytes(4, 'big') for число in (0, 0, 0, 0, 0, 0, режим, 0, 0, 0))
+            часть += oid + len(имя).to_bytes(2, 'big') + имя + b'\0'
+            return часть + b'\0' * (-len(часть) % 8)
+        индекс = b'DIRC' + (2).to_bytes(4, 'big') + (2).to_bytes(4, 'big')
+        индекс += запись('.gitmodules', 0o100644, oid) + запись(путь, 0o160000, bytes.fromhex('1' * 40))
+        (gitdir / 'index').write_bytes(индекс + hashlib.sha1(индекс).digest())
+
+    def test_synthetic_gitlink_с_динамическим_config_остаётся_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            сам.подготовить_gitlink(рабочий, общий, gitdir)
+            срок = time.monotonic() + 10
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=срок):
+                    сам.fail('legacy допущен')
+            with mock.patch.object(м.subprocess, 'Popen') as запуск:
+                with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=срок, _динамика=True) as (_, связь):
+                    сам.assertEqual(связь.состояние, 'UNKNOWN')
+                    сам.assertTrue(json.loads(связь.описание)['динамика_только_synthetic'])
+                    связь.проверить()
+                запуск.assert_not_called()
+
+    def test_synthetic_gitlink_не_принимает_неподтверждённые_формы(сам):
+        м = загрузить_модуль_автоматизации()
+        for случай in ('url', 'include', 'nonempty'):
+            with сам.subTest(случай=случай), сам.фикстура() as (рабочий, общий, gitdir):
+                сам.подготовить_gitlink(рабочий, общий, gitdir)
+                конфиг = общий / 'config'
+                if случай == 'url':
+                    конфиг.write_bytes(конфиг.read_bytes().replace(b'example.invalid/fork', b'example.invalid/other'))
+                elif случай == 'include':
+                    конфиг.write_bytes(конфиг.read_bytes() + b'[include]\n\tpath = /tmp/x\n')
+                else:
+                    (рабочий / 'Зависимости/LinguisticKit/file').write_bytes(b'x')
+                with mock.patch.object(м.subprocess, 'Popen') as запуск:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        with м._тестово_удержать_связанный_профиль_git(
+                                рабочий, общий, 'work', срок=time.monotonic() + 10, _динамика=True):
+                            сам.fail('неподтверждённая форма допущена')
+                    запуск.assert_not_called()
+
+    def test_gitlink_capability_unknown_не_запускает_observer(сам):
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            сам.подготовить_gitlink(рабочий, общий, gitdir)
+            каталог = рабочий / м.КАТАЛОГ_ЖУРНАЛА / 'проверка'
+            каталог.mkdir(parents=True)
+            запрос = каталог / м.ИМЯ_ЗАПРОСА
+            запрос.write_bytes(b'fixture'); (каталог / м.ИМЯ_ОТЧЁТА).write_bytes(b'fixture')
+            with м._тестово_удержать_связанный_профиль_git(
+                    рабочий, общий, 'work', срок=time.monotonic() + 10, _динамика=True) as (_, связь):
+                профиль = м._связать_профиль_git_с_сессией(связь, run, рабочий, запрос)
+                способность = м._неактивная_способность_git(профиль, run, запрос.relative_to(рабочий).as_posix())
+                сам.assertEqual((способность.схема, способность.состояние), ('fum.git-observer-capability.1', 'UNKNOWN'))
+                сам.assertIn('effective-config-unknown', способность.причины)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    bool(способность)
+                with mock.patch.object(м, '_выполнить_ограниченный_запуск_внутри') as внутри, \
+                     mock.patch.object(м.subprocess, 'Popen') as запуск, \
+                     mock.patch.object(м, 'атомарно_записать_байты') as записать:
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'способность Git и observer неизвестна'):
+                        м._выполнить_ограниченный_запуск(рабочий, запрос, 'проверка', 'исполнитель',
+                            run, 10, ['true'], тайм_аут_блокировки=1, _профиль_источников_git=способность)
+                    внутри.assert_not_called(); запуск.assert_not_called(); записать.assert_not_called()
+
     def граф(сам, ошибка):
         результат, ожидают, видели = [], [ошибка], set()
         while ожидают:
