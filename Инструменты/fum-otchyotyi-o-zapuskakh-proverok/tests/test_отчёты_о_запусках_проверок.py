@@ -37051,6 +37051,38 @@ class ПроверкаОбменаКаналовGit(unittest.TestCase):
                 for чтение, _ in пары:
                     сам.закрыть(чтение)
 
+    def test_только_кадр_группы_до_eof(сам):
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        чтение, запись = сам.труба()
+        os.set_blocking(чтение, False)
+        os.write(запись, b'Y')
+        with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+            сам.модуль._тестово_прочитать_кадр_группы(чтение, 'неверный', срок=time.monotonic() + 2)
+        сам.assertEqual(os.read(чтение, 1), b'Y')
+        сам.закрыть(чтение)
+        сам.закрыть(запись)
+        for окончание, допустимо, держать in ((b'0\n', True, False), (b'1792\n', True, False),
+                                               (b'15\n', True, False), (b'127\n', False, False),
+                                               (b'0\n\0', False, False), (b'X' * 257, False, False),
+                                               (b'0\n', False, True)):
+            with сам.subTest(окончание=окончание, держать=держать):
+                чтение, запись = сам.труба()
+                os.set_blocking(чтение, False)
+                frame = ('DONE ' + run + ' ').encode() + окончание
+                os.write(запись, frame)
+                if not держать:
+                    сам.закрыть(запись)
+                if допустимо:
+                    сам.assertEqual(сам.модуль._тестово_прочитать_кадр_группы(
+                        чтение, run, срок=time.monotonic() + 2), frame)
+                else:
+                    with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+                        сам.модуль._тестово_прочитать_кадр_группы(
+                            чтение, run, срок=time.monotonic() + (0.1 if держать else 2))
+                сам.закрыть(чтение)
+                if запись in сам.открытые:
+                    сам.закрыть(запись)
+
     def фикстура(сам, данные=b'', stdout=b'', stderr=b'', *, пределы=(20, 20, 40), срок=None,
                 закрыть_вход=None):
         вход_чтение, вход_запись = сам.труба()
@@ -38912,6 +38944,21 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_связка_унаследованного_вывода_остаётся_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        процесс = mock.Mock(pid=123, returncode=None)
+        frame = b'DONE run 1792\n'
+        with mock.patch.object(м, '_тестово_прочитать_кадр_группы', return_value=frame) as чтение, \
+             mock.patch.object(м, '_кандидат_собрать_статус_лидера', return_value=0) as сбор, \
+             mock.patch.object(м, '_адаптировать_каталог_целевой_группы_1',
+                               side_effect=м.ОшибкаНеподтверждённойГруппы(7)) as адаптер:
+            with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as отказ:
+                м._тестово_завершить_владельца_группы_3(процесс, 3, 4, 'run', срок=10)
+            сам.assertEqual((отказ.exception.код_лидера, отказ.exception.код_owner, отказ.exception.frame), (7, 0, frame))
+            чтение.assert_called_once_with(3, 'run', срок=10)
+            сбор.assert_called_once_with(процесс, срок=10)
+            адаптер.assert_called_once_with(4, 'run', frame, 0)
+
     def test_фактический_кадр_сверяется_с_квитанцией_группы(сам):
         м = загрузить_модуль_автоматизации()
         run = '00112233-4455-4677-8899-aabbccddeeff'
