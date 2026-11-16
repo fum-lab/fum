@@ -38886,6 +38886,29 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_связка_трёх_каналов_сохраняет_unknown_и_данные(сам):
+        м = загрузить_модуль_автоматизации()
+        процесс = mock.Mock(pid=123, returncode=None)
+        frame = b'DONE run 1792\n'
+        with mock.patch.object(м, '_тестово_прочитать_три_канала', return_value=(b'out', b'err')) as чтение, \
+             mock.patch.object(м, '_кандидат_собрать_статус_лидера', return_value=0) as сбор, \
+             mock.patch.object(м, '_адаптировать_каталог_целевой_группы_1',
+                               side_effect=м.ОшибкаНеподтверждённойГруппы(7)) as адаптер:
+            with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as отказ:
+                м._тестово_завершить_владельца_группы_1(
+                    процесс, (3, 4, 5), 6, 'run', frame, срок=10, пределы=(3, 3), предел_суммы=6)
+            сам.assertEqual((отказ.exception.stdout, отказ.exception.stderr, отказ.exception.код_owner,
+                             отказ.exception.код_лидера), (b'out', b'err', 0, 7))
+            чтение.assert_called_once()
+            сбор.assert_called_once_with(процесс, срок=10)
+            адаптер.assert_called_once_with(6, 'run', frame, 0)
+        with mock.patch.object(м, '_тестово_прочитать_три_канала', side_effect=м.ОшибкаОтчёта('UNKNOWN')), \
+             mock.patch.object(м, '_кандидат_собрать_статус_лидера') as сбор:
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'UNKNOWN'):
+                м._тестово_завершить_владельца_группы_1(
+                    процесс, (3, 4, 5), 6, 'run', frame, срок=10, пределы=(3, 3), предел_суммы=6)
+            сбор.assert_not_called()
+
     def test_git_recovery_сохраняет_cld_и_отмену_закрытия(сам):
         м = загрузить_модуль_автоматизации()
         def создать():
