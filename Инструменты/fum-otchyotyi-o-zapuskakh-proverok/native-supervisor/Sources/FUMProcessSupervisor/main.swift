@@ -143,7 +143,11 @@ private func stopOwnGroup(statusFD: Int32, runBytes: [UInt8], holdMask: sigset_t
 }
 
 private func run() -> Int32 {
-    guard let arguments = exactArguments(),
+    guard let arguments = exactArguments() else { return 125 }
+    if arguments.count > 1 && arguments[1] == "fum-nosignal-shim.1" {
+        return выполнитьШлюзБезСигналов(arguments)
+    }
+    guard
           let spec = try? ПараметрыЗапуска.legacySupervisor(arguments: Array(arguments.dropFirst())),
           getpid() == getpgrp(), getsid(0) == getpid() else { return 125 }
 

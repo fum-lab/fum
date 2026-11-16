@@ -57,6 +57,9 @@ public func проверитьНачальнуюСреду(
 ) -> Int32 {
     if количество >= 2, let аргументы, let первый = аргументы[1] {
         let режим = String(cString: первый)
+        if режим == "--проверить-shim" || режим == "--shim-target" {
+            проверитьNoSignalShim()
+        }
         if режим == "--witness8-descendant" {
             signal(SIGTERM, SIG_IGN)
             let line = "DESC \(getpid()) \(getpgrp())\n"
