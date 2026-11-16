@@ -38797,6 +38797,69 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_сигнал_ноль_отличает_esrch_от_eperm_и_ошибки(сам):
+        м = загрузить_модуль_автоматизации()
+        with mock.patch.object(м.os, "killpg") as опрос:
+            сам.assertTrue(м.группа_процессов_существует(123))
+            опрос.assert_called_once_with(123, 0)
+            опрос.side_effect = ProcessLookupError(errno.ESRCH, "нет группы")
+            сам.assertFalse(м.группа_процессов_существует(123))
+            опрос.side_effect = PermissionError(errno.EPERM, "нет прав")
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м.группа_процессов_существует(123)
+            опрос.side_effect = OSError(errno.EIO, "ошибка")
+            with сам.assertRaises(OSError):
+                м.группа_процессов_существует(123)
+
+    def test_прямой_собранный_лидер_и_наблюдение_группы(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 7
+        class Владелец:
+            pid = 123
+            процесс = Процесс()
+        владелец = Владелец()
+        with mock.patch.object(м, "_КЛАСС_СОБСТВЕННОГО_POPEN", Процесс), \
+             mock.patch.object(м, "_срок_действителен", return_value=True), \
+             mock.patch.object(м, "группа_процессов_существует", return_value=False) as опрос:
+            м._подтвердить_прямую_группу_после_сбора(владелец, владелец.процесс, 123, 7, 100.0)
+            опрос.assert_called_once_with(123)
+            for result in (True, PermissionError(), OSError()):
+                опрос.reset_mock()
+                опрос.return_value = result
+                опрос.side_effect = result if isinstance(result, BaseException) else None
+                with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы):
+                    м._подтвердить_прямую_группу_после_сбора(владелец, владелец.процесс, 123, 7, 100.0)
+            опрос.reset_mock(side_effect=True)
+            for pid, код in ((124, 7), (123, 0), (True, 7)):
+                with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы):
+                    м._подтвердить_прямую_группу_после_сбора(владелец, владелец.процесс, pid, код, 100.0)
+            опрос.assert_not_called()
+            with mock.patch.object(м, "_срок_действителен", side_effect=[True, False]), \
+                 mock.patch.object(м, "группа_процессов_существует", return_value=False):
+                with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы):
+                    м._подтвердить_прямую_группу_после_сбора(владелец, владелец.процесс, 123, 7, 100.0)
+
+    @unittest.skipUnless(sys.platform == "darwin", "кодировка mask owner.4 относится к Darwin")
+    def test_маска_owner4_точно_представляет_исходный_set(сам):
+        м = загрузить_модуль_автоматизации()
+        сам.assertEqual(м._маска_для_owner4(set()), "0")
+        сам.assertEqual(м._маска_для_owner4({signal.SIGUSR1}), str(1 << (int(signal.SIGUSR1) - 1)))
+        сам.assertEqual(м._маска_для_owner4({signal.SIGINT, signal.SIGTERM}),
+                        str((1 << (int(signal.SIGINT) - 1)) | (1 << (int(signal.SIGTERM) - 1))))
+        for bad in (None, [], {True}, {0}, {32}, {signal.SIGKILL}, {signal.SIGSTOP}, {"2"}):
+            with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                м._маска_для_owner4(bad)
+            сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+
+    def test_маска_owner4_отклоняет_иную_платформу(сам):
+        м = загрузить_модуль_автоматизации()
+        with mock.patch.object(м.sys, "platform", "linux"):
+            with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                м._маска_для_owner4(set())
+        сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+
     def test_чтение_каталога_не_пропускает_поздний_unknown(сам):
         м = загрузить_модуль_автоматизации()
         run = "00112233-4455-4677-8899-aabbccddeeff"
