@@ -39857,6 +39857,10 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                     del связь._описание
                 with сам.assertRaises(AttributeError):
                     связь._описание = b'tampered after delete'
+                with сам.assertRaises(AttributeError):
+                    связь._корень = Path('/other')
+                with сам.assertRaises(AttributeError):
+                    del связь._корень
                 сам.assertIs(связь.описание, исходное_описание)
                 сам.assertEqual((описание['схема'], описание['предел_каталогов']), ('fum.test-linked-git-held.1', 128))
                 сам.assertEqual(описание['index_sha256'], hashlib.sha256((gitdir / 'index').read_bytes()).hexdigest())
@@ -40180,6 +40184,11 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                     with mock.patch.object(м._ТестовоеУдержаниеСвязанногоGit, 'проверить') as сверка:
                         with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'сессия не совпадает'):
                             м._выполнить_ограниченный_запуск(рабочий, рабочий / 'Журнал/другая/запрос.md',
+                                'проверка', 'исполнитель', run, 10, ['true'], тайм_аут_блокировки=1,
+                                _профиль_источников_git=профиль)
+                        сверка.assert_not_called()
+                        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'корень не совпадает'):
+                            м._выполнить_ограниченный_запуск(Path('/different'), Path('/different') / сессия,
                                 'проверка', 'исполнитель', run, 10, ['true'], тайм_аут_блокировки=1,
                                 _профиль_источников_git=профиль)
                         сверка.assert_not_called()
