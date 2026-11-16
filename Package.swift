@@ -10,6 +10,7 @@ let package = Package(
         .executable(name: "фум-проверка-кооперативного-git", targets: ["ФУМПроверкаКооперативногоGit"]),
         .executable(name: "fum-process-supervisor", targets: ["FUMProcessSupervisor"]),
         .executable(name: "fum-process-anchor", targets: ["FUMProcessAnchor"]),
+        .executable(name: "фум-проверка-якоря-группы", targets: ["ФУМПроверкаЯкоряГруппы"]),
         .executable(name: "fum-anchor-witness", targets: ["FUMAnchorWitness"]),
         .executable(name: "фум-проверка-начальной-среды", targets: ["ФУМПроверкаНачальнойСреды"]),
         .executable(name: "фум-проверка-ограниченной-среды", targets: ["ФУМПроверкаОграниченнойСреды"]),
@@ -96,6 +97,11 @@ let package = Package(
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Sources/FUMProcessAnchor",
             swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])],
             linkerSettings: [.linkedLibrary("swiftDarwin", .when(platforms: [.macOS]))]
+        ),
+        .executableTarget(
+            name: "ФУМПроверкаЯкоряГруппы",
+            path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Tests/ПроверкаЯкоря",
+            swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors", "-parse-as-library"])]
         ),
         .executableTarget(
             name: "FUMAnchorWitness",
