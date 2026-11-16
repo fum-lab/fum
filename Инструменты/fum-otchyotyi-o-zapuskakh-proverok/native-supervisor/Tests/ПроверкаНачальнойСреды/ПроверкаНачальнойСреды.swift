@@ -63,13 +63,13 @@ public func проверитьНачальнуюСреду(
             guard line.utf8CString.withUnsafeBytes({ Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count-1) }) == line.utf8.count else { return 49 }
             while true { Darwin.pause() }
         }
-        if ["--witness8-target", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant", "--проверить-witness8-descendant-exit"].contains(режим) {
+        if ["--witness8-target", "--witness9-target", "--проверить-witness9", "--проверить-witness9-eof", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant", "--проверить-witness8-descendant-exit"].contains(режим) {
             var args = [String]()
             for индекс in 0..<Int(количество) {
                 guard let часть = аргументы[индекс] else { return 40 }
                 args.append(String(cString: часть))
             }
-            return режим.hasPrefix("--witness8-target") ? цельПрофиля(args) : профильWitness8(args)
+            return режим.hasPrefix("--witness8-target") || режим == "--witness9-target" ? цельПрофиля(args) : профильWitness8(args)
         }
     }
     guard (количество == 2 || количество == 3), let аргументы, let идентификатор = аргументы[1],
@@ -246,7 +246,8 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
     guard let fd = Int32(args[3]), let dev = UInt64(args[4]), let ino = UInt64(args[5]),
           let чужойFD = Int32(args[6]), let чужойDev = UInt64(args[7]), let чужойIno = UInt64(args[8]),
           fd > 2, чужойFD > 2, fd != чужойFD,
-          let получено = getenv("FUM_BORROWED_ADMISSION_FD"), String(cString: получено) == args[3] else { return 43 }
+          let получено = getenv(args[1] == "--witness9-target" ? "FUM_BORROWED_DIRECTORY_FD" : "FUM_BORROWED_ADMISSION_FD"),
+          String(cString: получено) == args[3] else { return 43 }
     var опора = stat()
     guard Darwin.fstat(fd, &опора) == 0, UInt64(exactly: опора.st_dev) == dev, опора.st_ino == ino else { return 44 }
     var чужой = stat()
@@ -282,7 +283,8 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
 }
 
 private func запуститьСлучайПрофиля(_ helper: String, _ witness: String, _ anchor: String,
-                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool, потомок: Bool, наблюдатьВыход: Bool) -> Bool {
+                                    корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool, потомок: Bool,
+                                    наблюдатьВыход: Bool, каталогВместоФайла: Bool, закрытьДопуск: Bool) -> Bool {
     var шаблон = Array("/private/tmp/fum-witness8-swift.XXXXXXXX".utf8CString)
     guard let указатель = mkdtemp(&шаблон) else { сообщениеПрофиля("FAIL mkdtemp"); return false }
     let каталог = String(cString: указатель)
@@ -339,7 +341,12 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         неизвестно("не получена исходная метка каталога")
     }
     меткаКаталога = (исходноеDev, исходнаяМетка.st_ino)
-    bFD = имяB.withCString { Darwin.open($0, O_RDONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600) }
+    if каталогВместоФайла {
+        guard имяB.withCString({ Darwin.mkdir($0, 0o700) }) == 0 else { return отказ("создание каталога B") }
+        bFD = имяB.withCString { Darwin.open($0, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC) }
+    } else {
+        bFD = имяB.withCString { Darwin.open($0, O_RDONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600) }
+    }
     guard bFD > 2 else { return отказ("создание B") }
     чужойFD = имяЧужого.withCString { Darwin.open($0, O_RDONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600) }
     guard чужойFD > 2 else { return отказ("создание постороннего FD") }
@@ -368,13 +375,13 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     let idБайты: [UInt8] = [0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x46, 0x77,
                             0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff]
     let inoB = корректнаяОпора ? bStat.st_ino : (bStat.st_ino == 1 ? 2 : bStat.st_ino - 1)
-    var argv = [witness, "fum-run-witness.8", id, anchor,
+    var argv = [witness, каталогВместоФайла ? "fum-run-witness.9" : "fum-run-witness.8", id, anchor,
                 String(status[1]), "5000", "none", String(крайЗапуска), "5000",
                 "--опора-старого-замка", каталог, String(dirFD), String(dirDev), String(каталогStat.st_ino),
                 String(каталогStat.st_uid), String(каталогStat.st_mode & 0o7777),
-                "--опора-допуска", имяB, String(bFD), String(bDev), String(inoB),
+                каталогВместоФайла ? "--опора-каталога" : "--опора-допуска", имяB, String(bFD), String(bDev), String(inoB),
                 String(bStat.st_uid), String(bStat.st_mode & 0o7777), "--", helper,
-                потомок ? "--witness8-target-descendant" : (таймаут ? "--witness8-target-timeout" : (переполнение ? "--witness8-target-overflow" : "--witness8-target")), маркер, String(bFD), String(bDev), String(bStat.st_ino),
+                каталогВместоФайла ? "--witness9-target" : (потомок ? "--witness8-target-descendant" : (таймаут ? "--witness8-target-timeout" : (переполнение ? "--witness8-target-overflow" : "--witness8-target"))), маркер, String(bFD), String(bDev), String(bStat.st_ino),
                 String(чужойFD), String(чужойDev), String(чужойStat.st_ino)]
     if таймаут { argv.insert(потомок ? "1500" : "250", at: 9) }
     var pointers: [UnsafeMutablePointer<CChar>?] = []
@@ -428,6 +435,23 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
               Darwin.getpgid(pid) == pid, Darwin.getsid(pid) == pid,
               Darwin.getpgid(anchorЧисло) == anchorЧисло, Darwin.getsid(anchorЧисло) == pid else {
             неизвестно("SID/PGID свидетеля или якоря")
+        }
+        if закрытьДопуск {
+            закрыть(&control[1], "gate EOF")
+            guard конецПрофиля(status[0], до: крайОпыта, сохранённые: &полученные, последниеЧасы: &последниеЧасы),
+                  let сырой = ждатьПрофиль(pid, до: крайОпыта, последниеЧасы: &последниеЧасы) else { неизвестно("EOF/reap") }
+            terminal = true
+            var меткаМаркера = stat()
+            let кодМаркера = маркер.withCString { Darwin.lstat($0, &меткаМаркера) }
+            let ошибкаМаркера = errno
+            guard сырой == (125 << 8), кодМаркера == -1, ошибкаМаркера == ENOENT else { return отказ("EOF outcome") }
+            let кадры = полученные.map { String(format: "%02x", $0) }.joined()
+            guard сообщениеПрофиля("EOF witness=\(pid) waitpid=\(pid) raw=\(сырой) marker_rc=\(кодМаркера) errno=\(ошибкаМаркера) frames=\(кадры)") else { неизвестно("EOF output") }
+            освободить()
+            guard имяЧужого.withCString({ Darwin.unlink($0) }) == 0,
+                  имяB.withCString({ Darwin.rmdir($0) }) == 0,
+                  каталог.withCString({ Darwin.rmdir($0) }) == 0 else { неизвестно("EOF cleanup") }
+            return true
         }
         guard обновитьСрокПрофиля(&последниеЧасы, до: крайЗапуска) != nil else { неизвестно("срок перед G") }
         guard командаПрофиля(control[1], 0x47) else { неизвестно("G") }
@@ -547,10 +571,10 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         guard маркер.withCString({ Darwin.unlink($0) }) == 0 else { неизвестно("unlink marker") }
     }
     guard имяЧужого.withCString({ Darwin.unlink($0) }) == 0 else { неизвестно("unlink чужой файл") }
-    guard имяB.withCString({ Darwin.unlink($0) }) == 0 else { неизвестно("unlink B") }
+    guard имяB.withCString({ каталогВместоФайла ? Darwin.rmdir($0) : Darwin.unlink($0) }) == 0 else { неизвестно("удаление B") }
     guard каталог.withCString({ Darwin.rmdir($0) }) == 0 else { неизвестно("rmdir fixture") }
     if let итогПереполнения { guard сообщениеПрофиля(итогПереполнения) else { неизвестно("печать результата") } }
-    return сообщениеПрофиля(корректнаяОпора ? "PROVISIONAL witness8 B" : "PROVISIONAL witness8 неверный inode")
+    return сообщениеПрофиля("PROVISIONAL witness\(каталогВместоФайла ? "9" : "8") \(корректнаяОпора ? "B" : "неверный inode")")
 }
 
 private func каталогФизическогоИсполняемогоФайла(_ путь: String, имя: String) -> String? {
@@ -590,7 +614,11 @@ private func профильWitness8(_ args: [String]) -> Int32 {
     let наблюдатьВыход = args[1] == "--проверить-witness8-descendant-exit"
     let потомок = args[1] == "--проверить-witness8-descendant" || наблюдатьВыход
     let таймаут = args[1] == "--проверить-witness8-timeout" || потомок
-    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход),
-          запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход) else { return 1 }
+    let закрытьДопуск = args[1] == "--проверить-witness9-eof"
+    let каталогВместоФайла = args[1] == "--проверить-witness9" || закрытьДопуск
+    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход, каталогВместоФайла: каталогВместоФайла, закрытьДопуск: закрытьДопуск) else { return 1 }
+    if !закрытьДопуск {
+        guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход, каталогВместоФайла: каталогВместоФайла, закрытьДопуск: false) else { return 1 }
+    }
     return 0
 }
