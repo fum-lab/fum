@@ -39168,6 +39168,72 @@ class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
             finally:
                 os.close(fd)
 
+    def test_каталог_целевой_группы_не_пропускает_поздний_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        run = "00112233-4455-4677-8899-aabbccddeeff"
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог)
+            записи = {
+                "intent.DATA": f"run={run} phase=before-spawn\n",
+                "owner.DATA": f"run={run} target=123 anchor=124 pgid=123 phase=before-gate\n",
+                "target-reap.DATA": f"run={run} pid=123 raw=1792 outcome=OBSERVED\n",
+                "anchor-reap.DATA": f"run={run} pid=124 raw=0 outcome=OBSERVED\n",
+                "terminal.DATA": f"run={run} target=123 target_raw=1792 anchor=124 anchor_raw=0 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n",
+            }
+            for имя, текст in записи.items():
+                (путь / имя).write_bytes(текст.encode())
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY)
+            frame = f"DONE {run} 1792\n".encode()
+            try:
+                with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as отказ:
+                    м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertEqual(отказ.exception.код_лидера, 7)
+                читать = м._прочитать_источник_git_через_fd
+                def поздний(каталог_fd, имя, предел):
+                    ответ = читать(каталог_fd, имя, предел)
+                    if имя == "terminal.DATA":
+                        (путь / "unknown.DATA").write_bytes(b"UNKNOWN\n")
+                    return ответ
+                with mock.patch.object(м, "_прочитать_источник_git_через_fd", side_effect=поздний):
+                    with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                        м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                сам.assertEqual(str(ошибка.exception), "обнаружена unknown.DATA после чтения целевой группы")
+                (путь / "unknown.DATA").unlink()
+                (путь / "anchor-reap.DATA").unlink()
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "anchor-reap.DATA").symlink_to("target-reap.DATA")
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "anchor-reap.DATA").unlink()
+                os.mkfifo(путь / "anchor-reap.DATA")
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "anchor-reap.DATA").unlink()
+                (путь / "anchor-reap.DATA").write_bytes(b"x" * 257)
+                with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                    м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                (путь / "anchor-reap.DATA").write_bytes(записи["anchor-reap.DATA"].encode())
+                with mock.patch.object(м.os, "pread", side_effect=OSError("synthetic read")):
+                    with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                        м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+                закрыть = os.close
+                def ошибка_закрытия(дескриптор):
+                    закрыть(дескриптор)
+                    raise OSError("synthetic close result")
+                with mock.patch.object(м.os, "close", side_effect=ошибка_закрытия):
+                    with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                        м._адаптировать_каталог_целевой_группы_1(fd, run, frame, 0)
+                сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+            finally:
+                os.close(fd)
+
     def test_адаптер_целевой_группы_сверяет_оба_wait_и_поздний_unknown(сам):
         м = загрузить_модуль_автоматизации()
         run = "00112233-4455-4677-8899-aabbccddeeff"
