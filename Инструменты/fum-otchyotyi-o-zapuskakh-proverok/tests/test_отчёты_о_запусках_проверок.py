@@ -5509,6 +5509,96 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_удержание_дерева_git_отклоняет_предел_каталогов(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                ссылка = Path(каталог) / 'unsafe-link'
+                ссылка.symlink_to('/tmp')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    with м._удержать_дерево_источников_git(fd):
+                        сам.fail('ссылка не разрешает consumer')
+                ссылка.unlink()
+                регистр = Path(каталог) / '.GITIGNORE'
+                регистр.write_bytes(b'fixture\n')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    with м._удержать_дерево_источников_git(fd):
+                        сам.fail('неоднозначный регистр не разрешает consumer')
+                регистр.unlink()
+                for номер in range(127):
+                    (Path(каталог) / ('d' + str(номер))).mkdir()
+                with м._удержать_дерево_источников_git(fd):
+                    pass
+                (Path(каталог) / 'd127').mkdir()
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    with м._удержать_дерево_источников_git(fd):
+                        сам.fail('превышенный предел не разрешает consumer')
+            finally:
+                os.close(fd)
+
+    def test_удержание_дерева_git_закрывает_fd_при_исчерпании(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            for имя in ('one', 'two', 'three'):
+                (Path(каталог) / имя).mkdir()
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            штатное_открытие = os.open
+            открытые = []
+            def открыть(путь, флаги, *аргументы, **ключи):
+                if путь in ('one', 'two', 'three'):
+                    if len(открытые) == 2:
+                        raise OSError(errno.EMFILE, 'fixture fd exhaustion')
+                    результат = штатное_открытие(путь, флаги, *аргументы, **ключи)
+                    открытые.append(результат)
+                    return результат
+                return штатное_открытие(путь, флаги, *аргументы, **ключи)
+            try:
+                with mock.patch.object(м.os, 'open', side_effect=открыть):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        with м._удержать_дерево_источников_git(fd):
+                            сам.fail('исчерпание FD не разрешает consumer')
+                сам.assertEqual(len(открытые), 2)
+                for дочерний in открытые:
+                    with сам.assertRaises(OSError):
+                        os.fstat(дочерний)
+            finally:
+                os.close(fd)
+
+    def test_удержание_дерева_git_сохраняет_отмену_и_сбои_закрытия(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            for имя in ('one', 'two'):
+                (Path(каталог) / имя).mkdir()
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            штатное_открытие, штатное_закрытие = os.open, os.close
+            открытые, закрытые = [], []
+            def открыть(путь, флаги, *аргументы, **ключи):
+                результат = штатное_открытие(путь, флаги, *аргументы, **ключи)
+                if путь in ('one', 'two'):
+                    открытые.append(результат)
+                return результат
+            def закрыть(номер):
+                штатное_закрытие(номер)
+                if номер in открытые:
+                    закрытые.append(номер)
+                    raise OSError('fixture close')
+            отмена = KeyboardInterrupt('fixture')
+            try:
+                with mock.patch.object(м.os, 'open', side_effect=открыть), \
+                     mock.patch.object(м.os, 'close', side_effect=закрыть):
+                    with сам.assertRaises(м._ПрерванныйОтказСистемногоGit) as исход:
+                        with м._удержать_дерево_источников_git(fd):
+                            raise отмена
+                сам.assertIs(исход.exception.первичная, отмена)
+                сам.assertEqual(len(исход.exception.вторичные), 2)
+                сам.assertEqual(len(закрытые), 2)
+                for дочерний in открытые:
+                    with сам.assertRaises(OSError):
+                        os.fstat(дочерний)
+            finally:
+                os.close(fd)
+
     def test_квитанция_git_отказ_при_fsync_и_неверном_readback(сам):
         м = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
@@ -6160,6 +6250,9 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 стек.callback(os.close, ignorefd)
                 (дерево / '.gitmodules').write_bytes(b'fixture\n')
                 (дерево / '.gitignore').write_bytes(b'fixture\n')
+                вложенный_источник = дерево / 'nested-fixture'
+                вложенный_источник.mkdir()
+                (вложенный_источник / '.gitignore').write_bytes(b'fixture\n')
                 (репозиторий / '.git' / 'info' / 'exclude').write_bytes(b'fixture\n')
                 контекст = модуль._наблюдать_частичные_источники_git
                 аргументы = (sysfd, параметры, str(глобальный.resolve()), внешний, globalfd,
@@ -6209,7 +6302,8 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                              репозиторий / '.git' / 'worktrees' / 'work' / 'gitdir',
                              репозиторий / '.git' / 'worktrees' / 'work' / 'commondir',
                              репозиторий / '.git' / 'worktrees' / 'work' / 'config.worktree',
-                             репозиторий / '.git' / 'worktrees' / 'work' / 'index'):
+                             репозиторий / '.git' / 'worktrees' / 'work' / 'index',
+                             вложенный_источник / '.gitignore'):
                     резерв = путь.with_name(путь.name + '.fixture-backup')
                     данные = путь.read_bytes()
                     try:
@@ -6224,6 +6318,23 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                             if путь.exists():
                                 путь.unlink()
                             резерв.rename(путь)
+                резерв_дерева = дерево / 'nested-fixture-backup'
+                try:
+                    with сам.assertRaises((модуль.ОшибкаОтчёта, модуль._СовокупныйОтказСистемногоGit)):
+                        with контекст(*аргументы):
+                            вложенный_источник.rename(резерв_дерева)
+                            вложенный_источник.mkdir()
+                            (вложенный_источник / '.gitignore').write_bytes(b'fixture\n')
+                finally:
+                    if резерв_дерева.exists():
+                        if вложенный_источник.exists():
+                            (вложенный_источник / '.gitignore').unlink()
+                            вложенный_источник.rmdir()
+                        резерв_дерева.rename(вложенный_источник)
+                with сам.assertRaises((модуль.ОшибкаОтчёта, модуль._СовокупныйОтказСистемногоGit)):
+                    with контекст(*аргументы):
+                        (вложенный_источник / '.gitattributes').write_bytes(b'* filter=fixture\n')
+                (вложенный_источник / '.gitattributes').unlink()
                 штатное_закрытие = os.close
                 ошибка_включена, сработала = [False], []
                 def закрыть_с_отказом(fd):
@@ -6240,6 +6351,8 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                 сам.assertTrue(сработала)
                 сам.assertIs(исход.exception.первичная, отмена)
                 сам.assertTrue(исход.exception.вторичные)
+                (вложенный_источник / '.gitignore').unlink()
+                вложенный_источник.rmdir()
                 проверить_атрибуты = модуль._проверить_дерево_без_файлов_атрибутов_git
                 проверить_атрибуты(рабочий, предел_записей=128, предел_глубины=16)
                 вложенный = дерево / 'nested'
