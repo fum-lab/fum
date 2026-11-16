@@ -38796,3 +38796,32 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
         with сам.assertRaises(OSError) as отказ:
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
+class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_связанные_наблюдения_не_превращают_unknown_в_допуск(сам):
+        м = загрузить_модуль_автоматизации()
+        run = "00112233-4455-4677-8899-aabbccddeeff"
+        owner = f"run={run} child=123 pgid=123 phase=before-gate\n".encode()
+        terminal = f"run={run} child=123 pgid=123 waitpid=123 raw=1792 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n".encode()
+        frame = f"DONE {run} 1792\n".encode()
+        сам.assertEqual(м._разобрать_свидетельство_owner4(run, owner, terminal, frame, False), (123, 123, 7, "UNKNOWN"))
+        for варианты in ((owner, terminal, frame, True), (owner.replace(b"pgid=123", b"pgid=124"), terminal, frame, False),
+                         (owner, terminal.replace(b"waitpid=123", b"waitpid=124"), frame, False),
+                         (owner, terminal, frame.replace(b"1792", b"0"), False),
+                         (owner, terminal.replace(b"reuse=UNKNOWN", b"reuse=NO"), frame, False),
+                         (owner, terminal.replace(b"raw=1792", b"raw=127"), frame.replace(b"1792", b"127"), False)):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._разобрать_свидетельство_owner4(run, *варианты)
+
+        signal_terminal = terminal.replace(b"raw=1792", b"raw=15")
+        сам.assertEqual(м._разобрать_свидетельство_owner4(run, owner, signal_terminal, frame.replace(b"1792", b"15"), False),
+                        (123, 123, -15, "UNKNOWN"))
+        for плохой_run, плохой_owner, плохой_terminal, плохой_frame, unknown in (
+            (run.upper(), owner, terminal, frame, False),
+            (run, owner + b"x" * 257, terminal, frame, False),
+            (run, owner.replace(b"child=123", b"child=0123"), terminal, frame, False),
+            (run, owner, terminal.replace(b"raw=1792", b"raw=65536"), frame, False),
+            (run, owner, terminal, frame + b"extra", False),
+            (run, owner, terminal, frame, None),
+        ):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._разобрать_свидетельство_owner4(плохой_run, плохой_owner, плохой_terminal, плохой_frame, unknown)

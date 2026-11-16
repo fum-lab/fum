@@ -15339,6 +15339,33 @@ def выполнить_возобновление(корень_репозито�
     return 0
 
 
+def _разобрать_свидетельство_owner4(run, owner, terminal, frame, неизвестная_квитанция):
+    """Разобрать ограниченные байты; UNKNOWN не является допуском группы."""
+    if (type(run) is not str or re.fullmatch(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", run) is None
+        or type(неизвестная_квитанция) is not bool or неизвестная_квитанция
+        or any(type(данные) is not bytes or len(данные) > 256 for данные in (owner, terminal, frame))):
+        raise ОшибкаОтчёта("неизвестно свидетельство owner.4")
+    номер = rb"([1-9][0-9]{0,9})"
+    префикс = b"run=" + run.encode("ascii") + b" child="
+    первый = re.fullmatch(префикс + номер + rb" pgid=" + номер + rb" phase=before-gate\n", owner)
+    последний = re.fullmatch(префикс + номер + rb" pgid=" + номер + rb" waitpid=" + номер +
+                             rb" raw=(0|[1-9][0-9]{0,4}) group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n", terminal)
+    if первый is None or последний is None:
+        raise ОшибкаОтчёта("неверная квитанция owner.4")
+    child, pgid = map(int, первый.groups())
+    terminal_child, terminal_group, waited, raw = map(int, последний.groups())
+    if (child <= 1 or child > 2_147_483_647 or pgid != child or
+        (terminal_child, terminal_group, waited) != (child, pgid, child) or raw > 65_535 or
+        not (os.WIFEXITED(raw) or os.WIFSIGNALED(raw)) or
+        frame != f"DONE {run} {raw}\n".encode("ascii")):
+        raise ОшибкаОтчёта("несогласованное свидетельство owner.4")
+    try:
+        код = os.waitstatus_to_exitcode(raw)
+    except ValueError as ошибка:
+        raise ОшибкаОтчёта("неверный статус owner.4") from ошибка
+    return child, pgid, код, "UNKNOWN"
+
+
 def группа_процессов_существует(идентификатор_группы: int) -> bool:
     try:
         os.killpg(идентификатор_группы, 0)
