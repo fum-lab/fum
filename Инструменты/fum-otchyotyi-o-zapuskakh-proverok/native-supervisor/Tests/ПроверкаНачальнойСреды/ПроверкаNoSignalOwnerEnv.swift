@@ -2,7 +2,8 @@ import Darwin
 import Foundation
 func проверитьNoSignalOwnerEnv() -> Never {
 let исходные = CommandLine.arguments
-let a = исходные.count > 1 && исходные[1] == "--проверить-owner-env" ? [исходные[0]] + Array(исходные.dropFirst(2)) : исходные
+let группа = исходные.count > 1 && исходные[1] == "--проверить-owner-group"
+let a = исходные.count > 1 && (исходные[1] == "--проверить-owner-env" || группа) ? [исходные[0]] + Array(исходные.dropFirst(2)) : исходные
 guard a.count == 6, ["normal", "empty", "duplicate", "malformed", "changed"].contains(a[1]), a[4].hasSuffix("/root"), a[2].hasPrefix("/"), a[3].hasPrefix("/") else { exit(90) }
 let base = String(a[4].dropLast(5)), prefix = "/private/tmp/fum-owner2env."
 guard base.hasPrefix(prefix), a[5] == base + "/receipt", base.dropFirst(prefix.count).utf8.count == 8,
@@ -38,7 +39,7 @@ guard posix_spawn_file_actions_init(&actions) == 0, posix_spawnattr_init(&attrs)
       posix_spawnattr_setflags(&attrs, Int16(POSIX_SPAWN_CLOEXEC_DEFAULT)) == 0 else { exit(95) }
 let run = "00112233-4455-4677-8899-aabbccddeeff"
 let limit = clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / 1_000_000 + 5_000
-let values = [a[2], "fum-nosignal-owner.2", run, String(limit), String(status[1]), a[4], String(root), String(rootStat.st_dev), String(rootStat.st_ino), String(rootStat.st_uid), String(rootStat.st_mode & 0o7777), String(receipt), String(envFD), "--", a[3], "--env-target", a[1], String(root), String(envFD), a[4] + "/target.DATA"]
+let values = [a[2], группа ? "fum-nosignal-owner.4" : "fum-nosignal-owner.2", run, String(limit), String(status[1]), a[4], String(root), String(rootStat.st_dev), String(rootStat.st_ino), String(rootStat.st_uid), String(rootStat.st_mode & 0o7777), String(receipt), String(envFD)] + (группа ? ["0"] : []) + ["--", a[3], "--env-target", a[1], String(root), String(envFD), a[4] + "/target.DATA"]
 let argv = values.map { strdup($0) } + [nil]
 var env: [UnsafeMutablePointer<CChar>?] = [nil]; var pid: pid_t = 0
 let spawned = argv.withUnsafeBufferPointer { p in env.withUnsafeMutableBufferPointer { e in posix_spawn(&pid, a[2], &actions, &attrs, UnsafeMutablePointer(mutating:p.baseAddress), e.baseAddress) } }
@@ -166,9 +167,12 @@ if a[1] == "changed" {
 guard line(status[0]) == "DONE \(run) 0\n" else { unknown(99) }
 guard file(receipt,"intent.DATA") == "run=\(run) phase=before-spawn\n", let owner = file(receipt,"owner.DATA") else { unknown(100) }
 let fields = owner.split(whereSeparator: { $0.isWhitespace })
-guard fields.count == 3, fields[0] == Substring("run=\(run)"), fields[1].hasPrefix("child="),
-      let child = Int32(fields[1].dropFirst(6)), child > 1, fields[2] == "phase=before-gate",
-      file(receipt,"terminal.DATA") == "run=\(run) child=\(child) waitpid=\(child) raw=0 outcome=PRE-CLOSE\n",
+guard fields.count == (группа ? 4 : 3), fields[0] == Substring("run=\(run)"), fields[1].hasPrefix("child="),
+      let child = Int32(fields[1].dropFirst(6)), child > 1,
+      (группа ? fields[2] == Substring("pgid=\(child)") && fields[3] == "phase=before-gate" : fields[2] == "phase=before-gate"),
+      file(receipt,"terminal.DATA") == (группа
+        ? "run=\(run) child=\(child) pgid=\(child) waitpid=\(child) raw=0 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n"
+        : "run=\(run) child=\(child) waitpid=\(child) raw=0 outcome=PRE-CLOSE\n"),
       file(root,"target.DATA") == "pid=\(child)\n" else { unknown(101) }
 var absent = stat(); errno = 0
 let unknownRC = fstatat(receipt,"unknown.DATA",&absent,AT_SYMLINK_NOFOLLOW), unknownErrno = errno

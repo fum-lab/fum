@@ -60,7 +60,7 @@ public func проверитьНачальнуюСреду(
         if режим == "--проверить-shim" || режим == "--shim-target" {
             проверитьNoSignalShim()
         }
-        if режим == "--проверить-owner-env" {
+        if режим == "--проверить-owner-env" || режим == "--проверить-owner-group" {
             проверитьNoSignalOwnerEnv()
         }
         if ["--проверить-owner", "--owner-target", "--owner-target-fail", "--owner-target-wait"].contains(режим) {

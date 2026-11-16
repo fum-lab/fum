@@ -57,8 +57,9 @@ private func сохранитьСобытие(_ dir: Int32, _ name: String, _ va
 
 // Only the direct parent may call this mode. It never sends a signal.
 func выполнитьВладельцаБезСигналов(_ args: [String]) -> Int32 {
-    guard args.count >= 14, ["fum-nosignal-owner.1", "fum-nosignal-owner.2", "fum-nosignal-owner.3"].contains(args[1]) else { return 125 }
-    let новаяВерсия = args[1] == "fum-nosignal-owner.3"
+    guard args.count >= 14, ["fum-nosignal-owner.1", "fum-nosignal-owner.2", "fum-nosignal-owner.3", "fum-nosignal-owner.4"].contains(args[1]) else { return 125 }
+    let наблюдатьГруппу = args[1] == "fum-nosignal-owner.4"
+    let новаяВерсия = args[1] == "fum-nosignal-owner.3" || наблюдатьГруппу
     let сОкружением = args[1] != "fum-nosignal-owner.1"
     let разделитель = новаяВерсия ? 14 : (сОкружением ? 13 : 12)
     guard args.indices.contains(разделитель + 1),
@@ -215,7 +216,11 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
     }
     var причина: String?
     if actionCleanup != 0 || attributeCleanup != 0 || gateReadClose != 0 { причина = "spawn-cleanup" }
-    if !сохранитьСобытие(receiptFD, "owner.DATA", "run=\(run.текст) child=\(child) phase=before-gate\n"), причина == nil { причина = "owner-receipt" }
+    if наблюдатьГруппу && getpgid(child) != child && причина == nil { причина = "group-before-gate" }
+    let записьВладельца = наблюдатьГруппу
+        ? "run=\(run.текст) child=\(child) pgid=\(child) phase=before-gate\n"
+        : "run=\(run.текст) child=\(child) phase=before-gate\n"
+    if (!наблюдатьГруппу || причина == nil) && !сохранитьСобытие(receiptFD, "owner.DATA", записьВладельца) && причина == nil { причина = "owner-receipt" }
     if причина == nil {
         var peerBeforeGate = pollfd(fd: STDIN_FILENO, events: Int16(POLLIN | POLLHUP), revents: 0)
         if let beforeRelease = монотонныеМиллисекундыНаблюдателя(), beforeRelease >= beforeSpawn,
@@ -288,10 +293,17 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
         return неизвестноПослеСбора("deadline-after-wait")
     }
     guard подтвердитьОткрытыйКаталог(root), средаСовпадает() else { return неизвестноПослеСбора("source-after-wait") }
+    if наблюдатьГруппу {
+        errno = 0
+        guard kill(-child, 0) == -1, errno == ESRCH else { return неизвестноПослеСбора("group-after-wait") }
+    }
     guard let afterFinal = монотонныеМиллисекундыНаблюдателя(), afterFinal >= beforeFinal, afterFinal < deadline else {
         return неизвестноПослеСбора("clock-or-deadline-after-source")
     }
-    guard сохранитьСобытие(receiptFD, "terminal.DATA", "run=\(run.текст) child=\(child) waitpid=\(child) raw=\(raw) outcome=PRE-CLOSE\n") else {
+    let записьТерминала = наблюдатьГруппу
+        ? "run=\(run.текст) child=\(child) pgid=\(child) waitpid=\(child) raw=\(raw) group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n"
+        : "run=\(run.текст) child=\(child) waitpid=\(child) raw=\(raw) outcome=PRE-CLOSE\n"
+    guard сохранитьСобытие(receiptFD, "terminal.DATA", записьТерминала) else {
         return неизвестноПослеСбора("terminal-receipt")
     }
     guard let afterReceipt = монотонныеМиллисекундыНаблюдателя(), afterReceipt >= afterFinal, afterReceipt < deadline else {
