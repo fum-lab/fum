@@ -40079,9 +40079,37 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                             удержание=удержание, общий_fd=общий_fd, head=head)
                     сам.assertEqual(json.loads(итог.манифест)['packed_refs'],
                         {'состояние': 'присутствует', 'размер': 0, 'sha256': hashlib.sha256(b'').hexdigest()})
+                    (общий / 'refs' / 'heads' / 'codex' / 'work').unlink()
+                    (общий / 'packed-refs').write_bytes(b'# pack-refs\n' + значение.rstrip(b'\n') + b' refs/heads/codex/work\n')
+                    читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                        предел_вызовов=1, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                    with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__', new=читать):
+                        итог = м._тестово_связать_symbolic_git(читатель, fd, связь, pin,
+                            '00112233-4455-4677-8899-aabbccddeeff', срок=срок,
+                            удержание=удержание, общий_fd=общий_fd, head=head)
+                    данные = json.loads(итог.манифест)
+                    сам.assertEqual(данные['источник_ref'], 'packed')
+                    сам.assertEqual(данные['packed_ref_sha256'], hashlib.sha256(значение).hexdigest())
+                    сам.assertNotIn('loose_ref_sha256', данные)
                     (общий / 'packed-refs').unlink()
                 finally:
                     os.close(общий_fd)
+
+    def test_неоднозначный_packed_ref_отклоняется(сам):
+        м = загрузить_модуль_автоматизации()
+        head = b'ref: refs/heads/codex/work\n'
+        запись = b'0123456789abcdef0123456789abcdef01234567 refs/heads/codex/work\n'
+        for packed in (запись + запись, запись + b'^bad\n', b'# only comment\n'):
+            with сам.subTest(packed=packed), сам.фикстура() as (_, общий, _):
+                (общий / 'refs' / 'heads' / 'codex').mkdir(parents=True)
+                (общий / 'packed-refs').write_bytes(packed)
+                fd = os.open(общий, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                try:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        with м._тестово_удержать_loose_ref_git(fd, head):
+                            сам.fail('неоднозначный ref допущен')
+                finally:
+                    os.close(fd)
 
 
 if __name__ == '__main__':
