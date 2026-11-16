@@ -57,6 +57,105 @@ private func stopOwnGroup(session: pid_t) -> Never {
     hold()
 }
 
+// Член группы цели не является её лидером. Только явное завершение закрывает якорь.
+private func выполнитьЯкорьГруппыЦели(_ аргументыЯкоря: [String]) -> Int32 {
+    guard аргументыЯкоря.count == 7, let идентификаторЯкоря = ИдентификаторЗапуска(аргументыЯкоря[2]),
+          let владелецЯкоря = Int32(аргументыЯкоря[3]), владелецЯкоря > 1, String(владелецЯкоря) == аргументыЯкоря[3],
+          let дескрипторГотовности = Int32(аргументыЯкоря[4]), дескрипторГотовности > 2, String(дескрипторГотовности) == аргументыЯкоря[4],
+          let группаЦели = Int32(аргументыЯкоря[5]), группаЦели > 1, String(группаЦели) == аргументыЯкоря[5],
+          getpid() > 1, getpid() != группаЦели, getpgrp() == группаЦели,
+          getppid() == владелецЯкоря, getsid(0) == владелецЯкоря, getsid(владелецЯкоря) == владелецЯкоря else { return 125 }
+    let крайРаботы: Int64?
+    if аргументыЯкоря[6] == "none" {
+        крайРаботы = nil
+    } else {
+        guard let заданныйКрай = Int64(аргументыЯкоря[6]), String(заданныйКрай) == аргументыЯкоря[6] else { return 125 }
+        крайРаботы = заданныйКрай
+    }
+    var меткаУправления = stat()
+    var меткаГотовности = stat()
+    let флагиУправления = флагиФайла(STDIN_FILENO, F_GETFL)
+    let флагиГотовности = флагиФайла(дескрипторГотовности, F_GETFL)
+    guard fstat(STDIN_FILENO, &меткаУправления) == 0, fstat(дескрипторГотовности, &меткаГотовности) == 0,
+          меткаУправления.st_mode & UInt16(S_IFMT) == UInt16(S_IFIFO),
+          меткаГотовности.st_mode & UInt16(S_IFMT) == UInt16(S_IFIFO),
+          меткаУправления.st_dev != меткаГотовности.st_dev || меткаУправления.st_ino != меткаГотовности.st_ino,
+          флагиУправления >= 0, флагиУправления & O_ACCMODE == O_RDONLY,
+          флагиГотовности >= 0, флагиГотовности & O_ACCMODE == O_WRONLY,
+          флагиГотовности & O_NONBLOCK != 0 else { return 125 }
+    let флагиДескриптораУправления = флагиФайла(STDIN_FILENO, F_GETFD)
+    let флагиДескриптораГотовности = флагиФайла(дескрипторГотовности, F_GETFD)
+    guard флагиДескриптораУправления >= 0, флагиДескриптораГотовности >= 0,
+          флагиФайла(STDIN_FILENO, F_SETFD, флагиДескриптораУправления | FD_CLOEXEC) == 0,
+          флагиФайла(дескрипторГотовности, F_SETFD, флагиДескриптораГотовности | FD_CLOEXEC) == 0,
+          флагиФайла(STDIN_FILENO, F_SETFL, флагиУправления | O_NONBLOCK) == 0 else { return 125 }
+    var входнаяМаска = sigset_t()
+    guard pthread_sigmask(SIG_BLOCK, nil, &входнаяМаска) == 0,
+          sigismember(&входнаяМаска, SIGINT) == 1, sigismember(&входнаяМаска, SIGTERM) == 1 else { return 125 }
+    func часыЯкоря() -> Int64? {
+        монотонныеМиллисекундыНаблюдателя()
+    }
+    guard let началоЯкоря = часыЯкоря(), крайРаботы.map({ началоЯкоря < $0 }) ?? true else { return 125 }
+    var предыдущееВремяЯкоря = началоЯкоря
+    func ждатьГотовностьЯкоря(_ ожидаемыйДескриптор: Int32, _ ожидаемыеСобытия: Int16) -> Bool {
+        while true {
+            guard let текущееВремяОпроса = часыЯкоря(), текущееВремяОпроса >= предыдущееВремяЯкоря, крайРаботы.map({ текущееВремяОпроса < $0 }) ?? true else { return false }
+            предыдущееВремяЯкоря = текущееВремяОпроса
+            var опросЯкоря = pollfd(fd: ожидаемыйДескриптор, events: ожидаемыеСобытия, revents: 0)
+            let результатОпроса = poll(&опросЯкоря, 1, Int32(крайРаботы.map({ min($0 - текущееВремяОпроса, 1000) }) ?? 1000))
+            if результатОпроса < 0 && errno == EINTR { continue }
+            guard результатОпроса >= 0, опросЯкоря.revents & Int16(POLLERR | POLLNVAL) == 0 else { return false }
+            if опросЯкоря.revents & ожидаемыеСобытия != 0 { return true }
+            if опросЯкоря.revents & Int16(POLLHUP) != 0 { return false }
+        }
+    }
+    var игнорируемоеДействие = sigaction()
+    игнорируемоеДействие.__sigaction_u.__sa_handler = SIG_IGN
+    guard sigemptyset(&игнорируемоеДействие.sa_mask) == 0,
+          sigaction(SIGINT, &игнорируемоеДействие, nil) == 0,
+          sigaction(SIGTERM, &игнорируемоеДействие, nil) == 0,
+          sigaction(SIGPIPE, &игнорируемоеДействие, nil) == 0 else { return 125 }
+    var пустаяМаска = sigset_t()
+    guard sigemptyset(&пустаяМаска) == 0, pthread_sigmask(SIG_SETMASK, &пустаяМаска, nil) == 0,
+          getppid() == владелецЯкоря, getpgrp() == группаЦели, getsid(0) == владелецЯкоря,
+          let кадрГотовности = try? КадрГотовностиЯкоря(runID: идентификаторЯкоря.байты, pid: getpid()) else { return 125 }
+    let байтыГотовности = кадрГотовности.encoded()
+    guard ждатьГотовностьЯкоря(дескрипторГотовности, Int16(POLLOUT)),
+          байтыГотовности.withUnsafeBytes({ write(дескрипторГотовности, $0.baseAddress, $0.count) }) == байтыГотовности.count,
+          let времяПослеГотовности = часыЯкоря(), времяПослеГотовности >= предыдущееВремяЯкоря, крайРаботы.map({ времяПослеГотовности < $0 }) ?? true,
+          close(дескрипторГотовности) == 0 else { return 125 }
+    предыдущееВремяЯкоря = времяПослеГотовности
+    var командаЯкоря = [UInt8](repeating: 0, count: 17)
+    var смещениеКоманды = 0
+    while смещениеКоманды < командаЯкоря.count {
+        guard ждатьГотовностьЯкоря(STDIN_FILENO, Int16(POLLIN)) else { return 125 }
+        let длинаЧастиКоманды = командаЯкоря.withUnsafeMutableBytes {
+            read(STDIN_FILENO, $0.baseAddress!.advanced(by: смещениеКоманды), $0.count - смещениеКоманды)
+        }
+        if длинаЧастиКоманды < 0 && (errno == EINTR || errno == EAGAIN) { continue }
+        guard длинаЧастиКоманды > 0 else { return 125 }
+        guard let времяПослеЧтения = часыЯкоря(), времяПослеЧтения >= предыдущееВремяЯкоря, крайРаботы.map({ времяПослеЧтения < $0 }) ?? true else { return 125 }
+        предыдущееВремяЯкоря = времяПослеЧтения
+        смещениеКоманды += длинаЧастиКоманды
+    }
+    // Владелец закрывает единственный writer после кадра: лишние байты — отказ.
+    var лишнийБайт: UInt8 = 0
+    while true {
+        guard let времяПроверкиХвоста = часыЯкоря(), времяПроверкиХвоста >= предыдущееВремяЯкоря, крайРаботы.map({ времяПроверкиХвоста < $0 }) ?? true else { return 125 }
+        предыдущееВремяЯкоря = времяПроверкиХвоста
+        let длинаЛишнегоХвоста = read(STDIN_FILENO, &лишнийБайт, 1)
+        if длинаЛишнегоХвоста == 0 { break }
+        if длинаЛишнегоХвоста > 0 { return 125 }
+        if errno == EINTR { continue }
+        guard errno == EAGAIN, ждатьГотовностьЯкоря(STDIN_FILENO, Int16(POLLIN | POLLHUP)) else { return 125 }
+    }
+    guard командаЯкоря[0] == 0x58, Array(командаЯкоря.dropFirst()) == идентификаторЯкоря.байты,
+          getppid() == владелецЯкоря, getpgrp() == группаЦели, getsid(0) == владелецЯкоря,
+          close(STDIN_FILENO) == 0, let времяЗавершения = часыЯкоря(), времяЗавершения >= предыдущееВремяЯкоря,
+          крайРаботы.map({ времяЗавершения < $0 }) ?? true else { return 125 }
+    return 0
+}
+
 private func run() -> Int32 {
     let args = CommandLine.arguments
     let raw = CommandLine.unsafeArgv
@@ -67,6 +166,7 @@ private func run() -> Int32 {
         guard argument.utf8.elementsEqual(bytes) else { return 125 }
     }
     guard raw[args.count] == nil else { return 125 }
+    if args.count > 1 && args[1] == "fum-anchor.2" { return выполнитьЯкорьГруппыЦели(args) }
     guard args.count == 5, args[1] == "fum-anchor.1",
           let id = ИдентификаторЗапуска(args[2]),
           let parent = Int32(args[3]), parent > 1, String(parent) == args[3],
