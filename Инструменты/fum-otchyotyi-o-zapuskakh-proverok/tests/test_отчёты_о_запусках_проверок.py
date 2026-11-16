@@ -39880,10 +39880,10 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
     def test_изменения_источников_не_дают_допуска(сам):
         м = загрузить_модуль_автоматизации()
-        for имя in ('config', 'index', 'ignore', 'exclude'):
+        for имя in ('config', 'index', 'ignore', 'exclude', 'head'):
             with сам.subTest(имя=имя), сам.фикстура() as (рабочий, общий, gitdir):
                 путь = {'config': общий / 'config', 'index': gitdir / 'index', 'ignore': рабочий / '.gitignore',
-                        'exclude': общий / 'info' / 'exclude'}[имя]
+                        'exclude': общий / 'info' / 'exclude', 'head': gitdir / 'HEAD'}[имя]
                 with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
                     with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, связь):
                         путь.write_bytes((путь.read_bytes() if путь.exists() else b'') + b'changed')
@@ -39990,6 +39990,55 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                             '00112233-4455-4677-8899-aabbccddeeff', ('rev-parse', '--show-object-format'), срок=срок)
                     запуск.assert_not_called()
                     сам.assertTrue(читатель._отказ)
+
+    def test_detached_head_связан_с_результатом_git(сам):
+        м = загрузить_модуль_автоматизации()
+        pin = ('/usr/bin/git', 'sha256:' + '1' * 64)
+        голова = b'0123456789abcdef0123456789abcdef01234567\n'
+        for результат in (голова, b'wrong\n'):
+            with сам.subTest(результат=результат), сам.фикстура() as (рабочий, общий, gitdir):
+                (gitdir / 'HEAD').write_bytes(голова)
+                срок = time.monotonic() + 10
+                with м._тестово_связать_источники_linked_git(рабочий, общий, 'work', срок=срок) as (fd, связь, удержание):
+                    читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                        предел_вызовов=1, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                    def читать(объект, корень, *операция, срок):
+                        владелец = м._ТестовыйВладелецGit()
+                        владелец.pid = 123
+                        владелец.процесс = mock.Mock(pid=123, returncode=0)
+                        владелец.код, владелец.закрытие, владелец.состояние = 0, ('закрыт', 'закрыт'), 'лидер-собран'
+                        объект.владельцы.append(владелец)
+                        return результат
+                    with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__', new=читать):
+                        def вызвать():
+                            return м._тестово_связать_удержанный_git(читатель, fd, связь, pin,
+                                '00112233-4455-4677-8899-aabbccddeeff', ('rev-parse', '--verify', 'HEAD'), срок=срок,
+                                _linked=удержание, _detached_head=голова)
+                        if результат == голова:
+                            итог = вызвать()
+                            сам.assertEqual(итог.состояние, 'UNKNOWN')
+                            сам.assertEqual(json.loads(итог.манифест)['detached_head_sha256'], hashlib.sha256(голова).hexdigest())
+                        else:
+                            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'результат Git'):
+                                вызвать()
+                            сам.assertTrue(читатель._отказ)
+
+    def test_symbolic_head_отклоняется_до_git(сам):
+        м = загрузить_модуль_автоматизации()
+        pin = ('/usr/bin/git', 'sha256:' + '1' * 64)
+        голова = b'ref: refs/heads/main\n'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            (gitdir / 'HEAD').write_bytes(голова)
+            срок = time.monotonic() + 10
+            with м._тестово_связать_источники_linked_git(рабочий, общий, 'work', срок=срок) as (fd, связь, удержание):
+                читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                    предел_вызовов=1, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__') as запуск:
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'detached HEAD'):
+                        м._тестово_связать_удержанный_git(читатель, fd, связь, pin,
+                            '00112233-4455-4677-8899-aabbccddeeff', ('rev-parse', '--verify', 'HEAD'), срок=срок,
+                            _linked=удержание, _detached_head=голова)
+                    запуск.assert_not_called()
 
 
 if __name__ == '__main__':

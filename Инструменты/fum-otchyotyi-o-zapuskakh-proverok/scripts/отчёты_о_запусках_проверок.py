@@ -4998,7 +4998,7 @@ class _ТестовоеНаблюдениеGitСПрофилем(NamedTuple):
         raise ОшибкаОтчёта('наблюдение Git не является допуском')
 
 
-def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок, _linked=None):
+def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок, _linked=None, _detached_head=None):
     """Один вызов существующего test-only transport под удержанием источников.
 
     Привязка действует только для synthetic конфигурации читателя. Caller
@@ -5024,6 +5024,17 @@ def _тестово_связать_удержанный_git(читатель, fd
                 raise ОшибкаОтчёта('неверное synthetic linked удержание')
             if связанное_удержание is not _linked:
                 raise ОшибкаОтчёта('не совпадает synthetic linked удержание')
+        if _detached_head is not None:
+            if (type(_linked) is not _ТестовоеУдержаниеСвязанногоGit or type(_detached_head) is not bytes
+                or re.fullmatch(rb'[0-9a-f]{40}\n', _detached_head) is None
+                or операция != ('rev-parse', '--verify', 'HEAD')):
+                raise ОшибкаОтчёта('неподтверждённый detached HEAD')
+            описание = json.loads(_linked.описание)
+            головы = [источник for источник in описание['объявленные_источники'] if источник['роль'] == 'head']
+            if (len(головы) != 1 or головы[0]['состояние'] != 'присутствует'
+                or головы[0]['размер'] != len(_detached_head)
+                or головы[0]['sha256'] != hashlib.sha256(_detached_head).hexdigest()):
+                raise ОшибкаОтчёта('HEAD не совпадает с удержанным источником')
         читатель._сверить_заявленную_связь(fd, связь, pin)
     except BaseException:
         читатель._отказ = True
@@ -5032,6 +5043,8 @@ def _тестово_связать_удержанный_git(читатель, fd
     try:
         stdout = читатель(Path(читатель.корень), *операция, срок=срок)
         читатель._сверить_заявленную_связь(fd, связь, pin)
+        if _detached_head is not None and stdout != _detached_head:
+            raise ОшибкаОтчёта('результат Git не совпадает с detached HEAD')
         if len(читатель.владельцы) != исходное_число + 1:
             raise ОшибкаОтчёта('не подтверждён единственный вызов Git')
         владелец = читатель.владельцы[-1]
@@ -5053,6 +5066,8 @@ def _тестово_связать_удержанный_git(читатель, fd
             данные['схема'] = 'fum.test-linked-git-bound-observation.1'
             del данные['config_sha256']
             данные['linked_описание_sha256'] = hashlib.sha256(_linked.описание).hexdigest()
+        if _detached_head is not None:
+            данные['detached_head_sha256'] = hashlib.sha256(_detached_head).hexdigest()
         манифест = json.dumps(данные, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
         return _ТестовоеНаблюдениеGitСПрофилем(данные['схема'], манифест,
                                                'sha256:' + hashlib.sha256(манифест).hexdigest())
@@ -5857,6 +5872,7 @@ def _удержать_локальные_источники_git(рабочий: 
                                               (общий, 'config', 65536, True),
                                               (связанный, 'gitdir', 4096, True),
                                               (связанный, 'commondir', 64, True),
+                                              (связанный, 'HEAD', 4096, False),
                                               (связанный, 'config.worktree', 65536, False),
                                               (связанный, 'index', 16 * 1024 * 1024, True),
                                               (информация, 'attributes', 65536, False),
@@ -6188,6 +6204,7 @@ def _тестово_удержать_связанный_профиль_git(ра�
                         ('gitfile', рабочий_fd, '.git', 4096),
                         ('backlink', gitdir_fd, 'gitdir', 4096),
                         ('commondir', gitdir_fd, 'commondir', 64),
+                        ('head', gitdir_fd, 'HEAD', 4096),
                         ('worktree_config', gitdir_fd, 'config.worktree', 65536),
                         ('info_attributes', информация_fd, 'attributes', 65536),
                         ('info_exclude', информация_fd, 'exclude', 65536),
