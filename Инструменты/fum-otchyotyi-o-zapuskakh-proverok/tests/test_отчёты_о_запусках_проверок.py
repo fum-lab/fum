@@ -5509,6 +5509,199 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_квитанция_git_отказ_при_fsync_и_неверном_readback(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            отказ = м._составить_отказ_системного_git(KeyboardInterrupt('fixture'), ())
+            try:
+                with mock.patch.object(м.os, 'fsync', side_effect=OSError('fixture fsync')):
+                    with сам.assertRaises(OSError):
+                        м._записать_частный_unknown_git(fd, 'fsync.DATA', отказ, 'fsync', 'до-spawn', None)
+                сам.assertTrue((Path(каталог) / 'fsync.DATA').exists())
+                with mock.patch.object(м.os, 'pread', return_value=b'bad'):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._записать_частный_unknown_git(fd, 'readback.DATA', отказ, 'readback', 'до-spawn', None)
+                сам.assertTrue((Path(каталог) / 'readback.DATA').exists())
+            finally:
+                os.close(fd)
+
+    def test_изолированный_git_consumer_прерван_и_собран(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            окружение = {'PATH': os.defpath, 'HOME': каталог, 'LC_ALL': 'C',
+                         'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null'}
+            процесс = subprocess.Popen(['/usr/bin/git', 'hash-object', '--stdin'], env=окружение,
+                                       stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            собран = False
+            def очистить(цель, уже_собран, первичная):
+                ошибки = []
+                if цель.stdin is not None:
+                    try:
+                        цель.stdin.close()
+                    except BaseException as ошибка:
+                        ошибки.append(ошибка)
+                if not уже_собран:
+                    try:
+                        цель.wait(timeout=5)
+                    except BaseException as ошибка:
+                        ошибки.append(ошибка)
+                if ошибки:
+                    if первичная is not None:
+                        raise м._составить_отказ_системного_git(первичная, ошибки) from None
+                    raise м._составить_отказ_системного_git(ошибки[0], ошибки[1:]) from None
+            try:
+                pid, статус = os.waitpid(процесс.pid, os.WNOHANG)
+                if pid:
+                    собран = True
+                    процесс.returncode = os.waitstatus_to_exitcode(статус)
+                    сам.fail('consumer завершился до прерывания')
+                os.kill(процесс.pid, signal.SIGTERM)
+                срок = time.monotonic() + 5
+                while time.monotonic() < срок:
+                    pid, статус = os.waitpid(процесс.pid, os.WNOHANG)
+                    if pid:
+                        собран = True
+                        процесс.returncode = os.waitstatus_to_exitcode(статус)
+                        break
+                    time.sleep(0.01)
+                if not собран:
+                    сам.fail('неизвестно завершение consumer после сигнала')
+                сам.assertEqual(pid, процесс.pid)
+                сам.assertTrue(os.WIFSIGNALED(статус))
+                сам.assertEqual(os.WTERMSIG(статус), signal.SIGTERM)
+                прерывание = KeyboardInterrupt('synthetic consumer')
+                отказ = м._составить_отказ_системного_git(прерывание, ())
+                fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                try:
+                    м._записать_частный_unknown_git(fd, 'исход.DATA', отказ,
+                                                    'consumer-fixture', 'после-reap', статус, pid)
+                finally:
+                    os.close(fd)
+                запись = json.loads((Path(каталог) / 'исход.DATA').read_bytes())
+                сам.assertEqual(запись['wait_status'], статус)
+                сам.assertEqual(запись['child_pid'], pid)
+                сам.assertEqual(запись['phase'], 'после-reap')
+                print('synthetic_git_child=' + str(процесс.pid) + ' waitpid=' + str(pid)
+                      + ' raw_wait=' + str(статус) + ' signal=' + str(signal.SIGTERM))
+            finally:
+                очистить(процесс, собран, sys.exc_info()[1])
+            имитация = mock.Mock()
+            имитация.stdin.close.side_effect = OSError('close fixture')
+            имитация.wait.side_effect = TimeoutError('wait fixture')
+            исходная = RuntimeError('исход fixture')
+            with сам.assertRaises(м._СовокупныйОтказСистемногоGit) as обе:
+                очистить(имитация, False, исходная)
+            сам.assertIs(обе.exception.первичная, исходная)
+            сам.assertEqual([str(ошибка) for ошибка in обе.exception.вторичные], ['close fixture', 'wait fixture'])
+
+    def test_ограниченная_квитанция_git_сохраняет_связи_ошибок(сам):
+        м = загрузить_модуль_автоматизации()
+        общий = ValueError('общий')
+        основной = KeyboardInterrupt('отмена')
+        основной.__cause__ = общий
+        основной.__context__ = общий
+        основной.__suppress_context__ = True
+        отказ = м._составить_отказ_системного_git(основной, (общий,))
+        данные = м._сформировать_квитанцию_неизвестного_git(отказ, 'fixture-1', 'после-reap', 9, 101)
+        запись = json.loads(данные)
+        сам.assertEqual(запись['outcome'], 'UNKNOWN')
+        сам.assertEqual(запись['intent'], 'fixture-1')
+        сам.assertEqual(запись['wait_status'], 9)
+        узлы = запись['exceptions']
+        корень = узлы[запись['root']]
+        первичный = узлы[корень['primary']]
+        сам.assertEqual(первичный['type'], 'builtins.KeyboardInterrupt')
+        сам.assertEqual(первичный['cause'], первичный['context'])
+        сам.assertEqual(первичный['cause'], корень['secondary'][0])
+        сам.assertTrue(первичный['suppress_context'])
+        сам.assertEqual(узлы[первичный['cause']]['args'], ['общий'])
+        общий.__cause__ = общий
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._сформировать_квитанцию_неизвестного_git(отказ, 'fixture-1', 'после-reap', 9, 101)
+        общий.__cause__ = None
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._сформировать_квитанцию_неизвестного_git(отказ, 'fixture-1', 'после-reap', -1, 101)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._сформировать_квитанцию_неизвестного_git(RuntimeError(object()), 'fixture-1', 'после-reap', 9, 101)
+        for фаза, статус, ребёнок in (('до-spawn', None, 101), ('после-spawn', 9, 101),
+                                      ('после-spawn', None, None), ('после-reap', None, 101),
+                                      ('после-reap', 0x7f, 101), ('после-reap', 9, None)):
+            with сам.subTest(фаза=фаза, статус=статус, ребёнок=ребёнок), сам.assertRaises(м.ОшибкаОтчёта):
+                м._сформировать_квитанцию_неизвестного_git(отказ, 'fixture-1', фаза, статус, ребёнок)
+        выход = SystemExit('исходный аргумент')
+        выход.code = 17
+        запись = json.loads(м._сформировать_квитанцию_неизвестного_git(выход, 'fixture-2', 'до-spawn', None))
+        сам.assertEqual(запись['exceptions'][запись['root']]['args'], ['исходный аргумент'])
+        сам.assertEqual(запись['exceptions'][запись['root']]['exit_code'], 17)
+
+    def test_частный_unknown_и_linked_git_с_синтетическим_корнем(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            база = Path(каталог).resolve()
+            домашний, репозиторий, дерево, корень, квитанции = (база / имя for имя in
+                ('home', 'repo', 'work', 'system', 'receipts'))
+            домашний.mkdir()
+            квитанции.mkdir(mode=0o700)
+            (корень / 'private' / 'etc').mkdir(parents=True)
+            (корень / 'etc').symlink_to('private/etc')
+            окружение = {'PATH': os.defpath, 'HOME': str(домашний), 'LC_ALL': 'C',
+                         'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1',
+                         'GIT_ALLOW_PROTOCOL': '', 'GIT_OPTIONAL_LOCKS': '0',
+                         'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1'}
+            def git(*аргументы):
+                return subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null', *аргументы],
+                                      env=окружение, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                      stderr=subprocess.PIPE, check=True, timeout=10)
+            git('init', '-q', str(репозиторий))
+            git('-C', str(репозиторий), '-c', 'user.name=fixture', '-c', 'user.email=fixture@invalid',
+                'commit', '-q', '--allow-empty', '-m', 'fixture')
+            git('-C', str(репозиторий), 'worktree', 'add', '-q', '-b', 'linked-fixture', str(дерево))
+            (дерево / 'new.txt').write_bytes(b'fixture\n')
+            rootfd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            receiptfd = os.open(квитанции, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                отмена = KeyboardInterrupt('fixture')
+                with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit) as исход:
+                    with модуль._удержать_системный_конфиг_git(rootfd):
+                        ответ = git('-C', str(дерево), 'ls-files', '--others', '--exclude-standard', '-z', '--', '.')
+                        сам.assertEqual(ответ.stdout, b'new.txt\0')
+                        сам.assertEqual(ответ.stderr, b'')
+                        raise отмена
+                with сам.assertRaises(KeyboardInterrupt) as передано:
+                    модуль._передать_прерванный_отказ_системного_git(
+                        исход.exception, lambda ошибка: модуль._записать_частный_unknown_git(
+                            receiptfd, 'исход.DATA', ошибка, 'linked-fixture', 'синтетика-без-связи', None))
+                сам.assertIs(передано.exception, отмена)
+                сам.assertEqual(json.loads((квитанции / 'исход.DATA').read_bytes())['outcome'], 'UNKNOWN')
+            finally:
+                os.close(receiptfd)
+                os.close(rootfd)
+
+    def test_частный_unknown_перед_передачей_отмены(сам):
+        модуль = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                прерывание = KeyboardInterrupt('fixture')
+                отказ = модуль._составить_отказ_системного_git(прерывание, ())
+                with сам.assertRaises(KeyboardInterrupt) as передано:
+                    модуль._передать_прерванный_отказ_системного_git(
+                        отказ, lambda ошибка: модуль._записать_частный_unknown_git(
+                            fd, 'исход.DATA', ошибка, 'fixture', 'до-spawn', None))
+                сам.assertIs(передано.exception, прерывание)
+                данные = (Path(каталог) / 'исход.DATA').read_bytes()
+                запись = json.loads(данные)
+                сам.assertEqual(запись['outcome'], 'UNKNOWN')
+                сам.assertEqual(запись['exceptions'][запись['exceptions'][запись['root']]['primary']]['args'], ['fixture'])
+                with сам.assertRaises(модуль._ПрерванныйОтказСистемногоGit):
+                    модуль._передать_прерванный_отказ_системного_git(
+                        отказ, lambda ошибка: модуль._записать_частный_unknown_git(
+                            fd, 'исход.DATA', ошибка, 'fixture', 'до-spawn', None))
+                сам.assertEqual((Path(каталог) / 'исход.DATA').read_bytes(), данные)
+            finally:
+                os.close(fd)
+
     def test_системный_конфиг_git_проверяется_на_всём_интервале(сам):
         модуль = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:

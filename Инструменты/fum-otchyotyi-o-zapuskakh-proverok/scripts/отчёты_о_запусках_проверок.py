@@ -4770,8 +4770,133 @@ def _составить_отказ_системного_git(первичная, 
     return класс(первичная, вторичные)
 
 
+def _сформировать_квитанцию_неизвестного_git(отказ, intent: str, фаза: str, статус: int | None,
+                                            ребёнок: int | None = None) -> bytes:
+    """Закрытый bounded граф исключений; traceback и неподдержанные значения не кодируются."""
+    if (type(intent) is not str or re.fullmatch(r'[A-Za-z0-9_-]{1,64}', intent) is None
+        or фаза not in ('до-spawn', 'после-spawn', 'после-reap', 'синтетика-без-связи')
+        or (фаза in ('до-spawn', 'синтетика-без-связи') and (статус is not None or ребёнок is not None))
+        or (фаза == 'после-spawn' and (статус is not None or ребёнок is None))
+        or (фаза == 'после-reap' and (статус is None or ребёнок is None))
+        or (ребёнок is not None and (type(ребёнок) is not int or ребёнок <= 0))
+        or (статус is not None and (type(статус) is not int or not 0 <= статус <= 65535))):
+        raise ОшибкаОтчёта('неверная идентичность или статус квитанции Git')
+    if статус is not None and not (os.WIFEXITED(статус) or os.WIFSIGNALED(статус)):
+        raise ОшибкаОтчёта('статус Git не является терминальным')
+    допустимые = {KeyboardInterrupt, SystemExit, RuntimeError, ValueError, OSError,
+                  PermissionError, FileExistsError, FileNotFoundError, ОшибкаОтчёта,
+                  _СовокупныйОтказСистемногоGit, _ПрерванныйОтказСистемногоGit}
+    тип_группы = getattr(sys.modules['builtins'], 'BaseExceptionGroup', None)
+    узлы, известные, активные = [], {}, set()
+    def аргумент(значение):
+        if значение is None or type(значение) is bool:
+            return значение
+        if type(значение) is int and -(2 ** 63) <= значение < 2 ** 63:
+            return значение
+        if type(значение) is str and len(значение) <= 4096 and len(значение.encode('utf-8')) <= 4096:
+            return значение
+        raise ОшибкаОтчёта('неподдерживаемый аргумент ошибки Git')
+    def обойти(ошибка):
+        if ошибка is None:
+            return None
+        if not isinstance(ошибка, BaseException):
+            raise ОшибкаОтчёта('неверный узел ошибки Git')
+        номер_объекта = id(ошибка)
+        if номер_объекта in активные:
+            raise ОшибкаОтчёта('цикл ошибок Git')
+        if номер_объекта in известные:
+            return известные[номер_объекта]
+        группа = тип_группы is not None and type(ошибка) in (тип_группы, getattr(sys.modules['builtins'], 'ExceptionGroup', тип_группы))
+        if type(ошибка) not in допустимые and not группа:
+            raise ОшибкаОтчёта('неподдерживаемый тип ошибки Git')
+        if len(ошибка.args) > 32 or (группа and len(ошибка.exceptions) > 64):
+            raise ОшибкаОтчёта('превышен предел ошибки Git')
+        if len(узлы) >= 64:
+            raise ОшибкаОтчёта('превышен предел ошибок Git')
+        номер = len(узлы)
+        известные[номер_объекта] = номер
+        активные.add(номер_объекта)
+        узел = {'type': type(ошибка).__module__ + '.' + type(ошибка).__qualname__,
+                'args': [], 'cause': None, 'context': None,
+                'suppress_context': ошибка.__suppress_context__}
+        узлы.append(узел)
+        составной = type(ошибка) in (_СовокупныйОтказСистемногоGit, _ПрерванныйОтказСистемногоGit)
+        if группа:
+            узел['args'] = [аргумент(ошибка.message)]
+            узел['children'] = [обойти(часть) for часть in ошибка.exceptions]
+        else:
+            узел['args'] = [аргумент(часть) for часть in ошибка.args]
+        if составной:
+            if type(ошибка.вторичные) is not tuple or len(ошибка.вторичные) > 64:
+                raise ОшибкаОтчёта('превышен предел вторичных ошибок Git')
+            узел['primary'] = обойти(ошибка.первичная)
+            узел['secondary'] = [обойти(часть) for часть in ошибка.вторичные]
+        elif ошибка.__dict__:
+            raise ОшибкаОтчёта('неподдерживаемые поля ошибки Git')
+        if isinstance(ошибка, OSError):
+            узел['errno'] = аргумент(ошибка.errno)
+            узел['filename'] = аргумент(ошибка.filename)
+            узел['filename2'] = аргумент(ошибка.filename2)
+        if type(ошибка) is SystemExit:
+            узел['exit_code'] = аргумент(ошибка.code)
+        узел['cause'] = обойти(ошибка.__cause__)
+        узел['context'] = обойти(ошибка.__context__)
+        активные.remove(номер_объекта)
+        return номер
+    if отказ is None:
+        raise ОшибкаОтчёта('исход Git отсутствует')
+    корень = обойти(отказ)
+    данные = (json.dumps({'outcome': 'UNKNOWN', 'intent': intent, 'phase': фаза,
+                         'wait_status': статус, 'child_pid': ребёнок, 'root': корень, 'exceptions': узлы},
+                        ensure_ascii=True, sort_keys=True, separators=(',', ':')) + '\n').encode('ascii')
+    if len(данные) > 65536:
+        raise ОшибкаОтчёта('превышен предел квитанции Git')
+    return данные
+
+
+def _записать_частный_unknown_git(каталог: int, имя: str, отказ, intent: str,
+                                 фаза: str, статус: int | None, ребёнок: int | None = None) -> None:
+    """Создать квитанцию поддержанного графа; custody не удостоверяется."""
+    if (type(каталог) is not int or каталог < 0 or type(имя) is not str
+        or not имя or имя in ('.', '..') or '/' in имя or '\0' in имя):
+        raise ОшибкаОтчёта('неверный адрес квитанции Git')
+    данные = _сформировать_квитанцию_неизвестного_git(отказ, intent, фаза, статус, ребёнок)
+    до = os.fstat(каталог)
+    if not stat.S_ISDIR(до.st_mode) or до.st_uid != os.geteuid() or stat.S_IMODE(до.st_mode) & 0o077:
+        raise ОшибкаОтчёта('небезопасный каталог квитанции Git')
+    fd = os.open(имя, os.O_RDWR | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                 0o600, dir_fd=каталог)
+    try:
+        начальное = os.fstat(fd)
+        if (not stat.S_ISREG(начальное.st_mode) or начальное.st_uid != os.geteuid()
+            or начальное.st_nlink != 1 or stat.S_IMODE(начальное.st_mode) != 0o600):
+            raise ОшибкаОтчёта('небезопасная квитанция Git')
+        смещение = 0
+        while смещение < len(данные):
+            записано = os.write(fd, данные[смещение:])
+            if записано <= 0:
+                raise ОшибкаОтчёта('неполная запись квитанции Git')
+            смещение += записано
+        os.fsync(fd)
+        итог = os.fstat(fd)
+        названный = os.stat(имя, dir_fd=каталог, follow_symlinks=False)
+        после = os.fstat(каталог)
+        if (os.pread(fd, len(данные) + 1, 0) != данные or итог.st_size != len(данные)
+            or (итог.st_dev, итог.st_ino) != (названный.st_dev, названный.st_ino)
+            or (до.st_dev, до.st_ino, до.st_mode, до.st_uid) != (после.st_dev, после.st_ino, после.st_mode, после.st_uid)):
+            raise ОшибкаОтчёта('квитанция Git изменилась')
+        os.fsync(каталог)
+    except BaseException as исходная:
+        try:
+            os.close(fd)
+        except BaseException as закрытие:
+            raise _составить_отказ_системного_git(исходная, (закрытие,)) from None
+        raise
+    os.close(fd)
+
+
 def _передать_прерванный_отказ_системного_git(отказ, сохранить):
-    """Сначала сохранить UNKNOWN и все объекты исхода, затем продолжить отмену."""
+    """Передать объект callback, затем продолжить отмену; сохранность не подтверждается."""
     if not isinstance(отказ, _ПрерванныйОтказСистемногоGit) or not callable(сохранить):
         raise ОшибкаОтчёта('неверный обработчик прерванного Git')
     try:
