@@ -29320,6 +29320,82 @@ class ПроверкаКандидатаАдресногоЗапуска(unittes
                     raise
                 shutil.rmtree(корень)
 
+    def test_прямой_caller_сохраняет_сырой_статус_перед_unknown(сам):
+        модуль = загрузить_модуль_автоматизации()
+        владелец = модуль._ТестовыйВладелецЗапуска()
+        with tempfile.TemporaryDirectory(prefix='fum-direct-raw-', dir='/tmp') as временный:
+            корень = Path(временный).resolve(); отчёт = корень / 'отчёт.md'; отчёт.write_bytes(b'test')
+            путь_запроса = корень / 'запрос.md'
+            каталог = корень / 'материалы' / 'запуски-проверок'
+            идентификатор = '00000000-0000-4000-8000-000000000019'
+            ребёнок = mock.Mock(pid=12345, returncode=None)
+            параметры = (корень, корень / 'запрос.md', 'test', 'root', идентификатор, 5.0, ['/bin/true'])
+            with mock.patch.object(модуль, 'разрешить_сессию', return_value=(корень, путь_запроса, отчёт, каталог, 'test')), \
+                 mock.patch.object(модуль, 'межпроцессная_блокировка', return_value=contextlib.nullcontext(lambda: None)), \
+                 mock.patch.object(модуль, 'является_неполной_проверкой_проекции', return_value=False), \
+                 mock.patch.object(модуль, 'является_запуском_полной_проверки', return_value=False), \
+                 mock.patch.object(модуль, 'границы_управляемого_блока', return_value=(None, None, модуль.ОТКРЫТЫЙ_МАРКЕР)), \
+                 mock.patch.object(модуль, 'вычислить_отпечаток_снимка', return_value='sha256:' + '0' * 64), \
+                 mock.patch.object(модуль, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+                 mock.patch.object(модуль.os, 'waitpid', return_value=(12345, 1792)) as ожидание, \
+                 mock.patch.object(модуль, '_подтвердить_прямую_группу_после_сбора',
+                                   side_effect=модуль.ОшибкаНеподтверждённойГруппы(7)), \
+                 mock.patch.object(модуль.subprocess, 'Popen', return_value=ребёнок), \
+                 mock.patch.object(модуль.os, 'kill') as сигнал, \
+                 mock.patch.object(модуль.os, 'killpg') as группа:
+                with сам.assertRaises(модуль.ОшибкаНеподтверждённойГруппы):
+                    модуль._выполнить_ограниченный_запуск(
+                        *параметры, класс_проверки='адресная', тайм_аут_блокировки=1.0,
+                        _тестовый_владелец=владелец)
+                сам.assertEqual((владелец.сырой_статус, ребёнок.returncode, владелец.этап_сбора), (1792, 7, 'собран'))
+                ожидание.assert_called_once_with(12345, os.WNOHANG)
+                сигнал.assert_not_called(); группа.assert_not_called()
+            записи = list(каталог.glob('*.json'))
+            сам.assertEqual(len(записи), 1)
+            сам.assertEqual(json.loads(записи[0].read_bytes())['состояние'], 'выполняется')
+
+    def test_ошибка_приёма_сырого_во_внешнем_caller_не_повторяет_wait(сам):
+        модуль = загрузить_модуль_автоматизации()
+        владелец = модуль._ТестовыйВладелецЗапуска()
+        исходная = OSError(errno.EIO, 'запись raw')
+        исходный_setattr = type(владелец).__setattr__
+        def записать(объект, имя, значение):
+            if объект is владелец and имя == 'сырой_статус' and значение == 1792:
+                raise исходная
+            исходный_setattr(объект, имя, значение)
+        with tempfile.TemporaryDirectory(prefix='fum-direct-raw-fail-', dir='/tmp') as временный:
+            корень = Path(временный).resolve(); отчёт = корень / 'отчёт.md'; отчёт.write_bytes(b'test')
+            путь_запроса = корень / 'запрос.md'
+            каталог = корень / 'материалы' / 'запуски-проверок'
+            идентификатор = '00000000-0000-4000-8000-000000000020'
+            ребёнок = mock.Mock(pid=12345, returncode=None)
+            параметры = (корень, корень / 'запрос.md', 'test', 'root', идентификатор, 5.0, ['/bin/true'])
+            with mock.patch.object(type(владелец), '__setattr__', new=записать), \
+                 mock.patch.object(модуль, 'разрешить_сессию', return_value=(корень, путь_запроса, отчёт, каталог, 'test')), \
+                 mock.patch.object(модуль, 'межпроцессная_блокировка', return_value=contextlib.nullcontext(lambda: None)), \
+                 mock.patch.object(модуль, 'является_неполной_проверкой_проекции', return_value=False), \
+                 mock.patch.object(модуль, 'является_запуском_полной_проверки', return_value=False), \
+                 mock.patch.object(модуль, 'границы_управляемого_блока', return_value=(None, None, модуль.ОТКРЫТЫЙ_МАРКЕР)), \
+                 mock.patch.object(модуль, 'вычислить_отпечаток_снимка', return_value='sha256:' + '0' * 64), \
+                 mock.patch.object(модуль, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+                 mock.patch.object(модуль.os, 'waitpid', return_value=(12345, 1792)) as ожидание, \
+                 mock.patch.object(модуль.subprocess, 'Popen', return_value=ребёнок), \
+                 mock.patch.object(модуль.os, 'kill') as сигнал, \
+                 mock.patch.object(модуль.os, 'killpg') as группа:
+                with сам.assertRaises(BaseException) as отказ:
+                    модуль._выполнить_ограниченный_запуск(
+                        *параметры, класс_проверки='адресная', тайм_аут_блокировки=1.0,
+                        _тестовый_владелец=владелец)
+                части = отказ.exception.exceptions
+                сам.assertIs(части[0], исходная)
+                сам.assertEqual(части[1].сырой_статус, 1792)
+                сам.assertEqual((ребёнок.returncode, владелец.этап_сбора), (7, 'сбор начат'))
+                ожидание.assert_called_once_with(12345, os.WNOHANG)
+                сигнал.assert_not_called(); группа.assert_not_called()
+            записи = list(каталог.glob('*.json'))
+            сам.assertEqual(len(записи), 1)
+            сам.assertEqual(json.loads(записи[0].read_bytes())['состояние'], 'выполняется')
+
     def test_истечение_без_статуса_оставляет_active_и_не_сигналит(сам):
         модуль = загрузить_модуль_автоматизации()
         владелец = модуль._ТестовыйВладелецЗапуска()
@@ -38944,6 +39020,85 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_прямой_сбор_передаёт_сырой_статус_после_returncode(сам):
+        м = загрузить_модуль_автоматизации()
+        for сырой, ожидаемый in ((0, 0), (1792, 7), (15, -15)):
+            with сам.subTest(сырой=сырой):
+                процесс = mock.Mock(pid=123, returncode=None)
+                принятые = []
+                def принять(данные):
+                    сам.assertEqual(процесс.returncode, ожидаемый)
+                    принятые.append(данные)
+                with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+                     mock.patch.object(м, '_срок_действителен', return_value=True), \
+                     mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=ожидаемый), \
+                     mock.patch.object(м.os, 'waitpid', return_value=(123, сырой)):
+                    код = м._кандидат_собрать_статус_лидера(процесс, срок=100.0, _приём_сырого=принять)
+                сам.assertEqual((код, процесс.returncode, принятые), (ожидаемый, ожидаемый, [сырой]))
+        исходная = OSError(errno.EIO, 'приём')
+        процесс = mock.Mock(pid=123, returncode=None)
+        with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+             mock.patch.object(м, '_срок_действителен', return_value=True), \
+             mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+             mock.patch.object(м.os, 'waitpid', return_value=(123, 1792)) as ожидание:
+            with сам.assertRaises(BaseException) as отказ:
+                м._кандидат_собрать_статус_лидера(процесс, срок=100.0, _приём_сырого=mock.Mock(side_effect=исходная))
+        части = getattr(отказ.exception, 'exceptions', None)
+        if части is None:
+            части = (отказ.exception.первичная, *отказ.exception.вторичные)
+        сам.assertIs(части[0], исходная)
+        сам.assertEqual(части[1].сырой_статус, 1792)
+        сам.assertEqual(процесс.returncode, 7)
+        ожидание.assert_called_once_with(123, os.WNOHANG)
+        процесс = mock.Mock(pid=123, returncode=None)
+        приём = mock.Mock()
+        with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+             mock.patch.object(м, '_срок_действителен', return_value=True), \
+             mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+             mock.patch.object(м.os, 'waitpid', return_value=(123, 1792)) as ожидание, \
+             mock.patch.object(м.os, 'waitstatus_to_exitcode', side_effect=ValueError('decode')):
+            with сам.assertRaises(м.ОшибкаСбораЛидера) as отказ:
+                м._кандидат_собрать_статус_лидера(процесс, срок=100.0, _приём_сырого=приём)
+        сам.assertEqual(отказ.exception.сырой_статус, 1792)
+        ожидание.assert_called_once_with(123, os.WNOHANG)
+        приём.assert_not_called()
+        class НеверноеЧтение:
+            pid = 123
+            def __init__(сам): сам.записан = False
+            @property
+            def returncode(сам): return 8 if сам.записан else None
+            @returncode.setter
+            def returncode(сам, значение): сам.записан = True
+        процесс = НеверноеЧтение()
+        with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+             mock.patch.object(м, '_срок_действителен', return_value=True), \
+             mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+             mock.patch.object(м.os, 'waitpid', return_value=(123, 1792)) as ожидание:
+            with сам.assertRaises(BaseException) as отказ:
+                м._кандидат_собрать_статус_лидера(процесс, срок=100.0, _приём_сырого=приём)
+        сам.assertEqual(отказ.exception.exceptions[1].сырой_статус, 1792)
+        ожидание.assert_called_once_with(123, os.WNOHANG)
+        приём.assert_not_called()
+        for отмена in (KeyboardInterrupt(), SystemExit(17), м.ПрерываниеОбёртки(signal.SIGTERM)):
+            with сам.subTest(отмена=type(отмена)):
+                процесс = mock.Mock(pid=123, returncode=None)
+                with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+                     mock.patch.object(м, '_срок_действителен', return_value=True), \
+                     mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+                     mock.patch.object(м.os, 'waitpid', return_value=(123, 1792)):
+                    with сам.assertRaises(type(отмена)) as отказ:
+                        м._кандидат_собрать_статус_лидера(процесс, срок=100.0, _приём_сырого=mock.Mock(side_effect=отмена))
+                if isinstance(отмена, м.ПрерываниеОбёртки):
+                    сам.assertIs(отказ.exception, отмена)
+                    сам.assertEqual((отмена.pid_собранного, отмена.сырой_статус), (123, 1792))
+                else:
+                    сам.assertIs(отказ.exception.исходная, отмена)
+                    части = отказ.exception.отказ.exceptions
+                    сам.assertEqual(части[1].сырой_статус, 1792)
+                    if isinstance(отмена, SystemExit):
+                        сам.assertEqual(отказ.exception.code, 17)
+                сам.assertEqual(процесс.returncode, 7)
+
     def test_связка_унаследованного_вывода_остаётся_unknown(сам):
         м = загрузить_модуль_автоматизации()
         процесс = mock.Mock(pid=123, returncode=None)
