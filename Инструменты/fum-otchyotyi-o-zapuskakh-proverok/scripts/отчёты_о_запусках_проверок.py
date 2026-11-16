@@ -4998,7 +4998,7 @@ class _ТестовоеНаблюдениеGitСПрофилем(NamedTuple):
         raise ОшибкаОтчёта('наблюдение Git не является допуском')
 
 
-def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок):
+def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок, _linked=None):
     """Один вызов существующего test-only transport под удержанием источников.
 
     Привязка действует только для synthetic конфигурации читателя. Caller
@@ -5014,6 +5014,16 @@ def _тестово_связать_удержанный_git(читатель, fd
     if срок != читатель.срок:
         raise ОшибкаОтчёта('не совпадает срок тестового Git')
     try:
+        with _тестово_охранять_связи_конфигурации():
+            запись = _тестовые_связи_конфигурации.get(связь)
+        связанное_удержание = getattr(запись[1], '__self__', None) if запись is not None else None
+        if type(связанное_удержание) is _ТестовоеУдержаниеСвязанногоGit and _linked is not связанное_удержание:
+            raise ОшибкаОтчёта('не указан synthetic linked профиль')
+        if _linked is not None:
+            if type(_linked) is not _ТестовоеУдержаниеСвязанногоGit:
+                raise ОшибкаОтчёта('неверное synthetic linked удержание')
+            if связанное_удержание is not _linked:
+                raise ОшибкаОтчёта('не совпадает synthetic linked удержание')
         читатель._сверить_заявленную_связь(fd, связь, pin)
     except BaseException:
         читатель._отказ = True
@@ -5039,8 +5049,12 @@ def _тестово_связать_удержанный_git(читатель, fd
                   'env_ожидаемая_sha256': hashlib.sha256(json.dumps(среда, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
                   'config_sha256': hashlib.sha256(_ТЕСТОВАЯ_КОНФИГУРАЦИЯ_БЕЗ_ПРЕОБРАЗОВАНИЙ).hexdigest(),
                   'stdout_sha256': hashlib.sha256(stdout).hexdigest(), 'stdout_размер': len(stdout)}
+        if _linked is not None:
+            данные['схема'] = 'fum.test-linked-git-bound-observation.1'
+            del данные['config_sha256']
+            данные['linked_описание_sha256'] = hashlib.sha256(_linked.описание).hexdigest()
         манифест = json.dumps(данные, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
-        return _ТестовоеНаблюдениеGitСПрофилем('fum.test-git-bound-observation.1', манифест,
+        return _ТестовоеНаблюдениеGitСПрофилем(данные['схема'], манифест,
                                                'sha256:' + hashlib.sha256(манифест).hexdigest())
     except BaseException:
         читатель._отказ = True
@@ -6069,6 +6083,154 @@ def _удержать_дерево_источников_git(корень: int):
         raise
     if ошибки:
         raise _составить_отказ_системного_git(ошибки[0], ошибки[1:]) from None
+
+
+class _ТестовоеУдержаниеСвязанногоGit:
+    """Снимок части linked Git; не является разрешением запуска или consumer."""
+    __slots__ = ('_проверка', '_активно', '_сбой', '_pid', '_поток', 'описание')
+
+    def __init__(сам, проверка, описание):
+        сам._проверка, сам.описание = проверка, описание
+        сам._активно, сам._pid, сам._поток = True, os.getpid(), threading.current_thread()
+        сам._сбой = None
+
+    @property
+    def состояние(сам):
+        return 'UNKNOWN'
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('удержание связанных источников Git не является допуском')
+
+    def проверить(сам):
+        if not сам._активно or сам._pid != os.getpid() or сам._поток is not threading.current_thread():
+            raise ОшибкаОтчёта('удержание связанных источников Git недействительно')
+        try:
+            сам._проверка()
+        except BaseException as ошибка:
+            сам._активно = False
+            сам._сбой = ошибка
+            raise
+
+
+@contextlib.contextmanager
+def _тестово_удержать_связанный_профиль_git(рабочий: Path, общий: Path, имя: str, *, срок: float):
+    """Только synthetic linked worktree под /private/tmp; неполный профиль UNKNOWN.
+
+    Держит локальные источники и дерево ignore, проверяет config/index до и
+    после. Не разрешает Git consumer; custody, ABA и полнота attrs внешние.
+    Действует существующий предел 128 каталогов, без повышения при отказе.
+    """
+    if (type(рабочий) is not type(Path('/')) or type(общий) is not type(Path('/'))
+        or not рабочий.is_absolute() or not общий.is_absolute() or общий.name != '.git'
+        or рабочий.parent.parent != Path('/private/tmp') or общий.parent.parent != рабочий.parent
+        or type(имя) is not str or not имя or имя in ('.', '..') or '/' in имя or '\0' in имя
+        or not _срок_действителен(срок)):
+        raise ОшибкаОтчёта('неверная synthetic связка Git')
+    дескрипторы = []
+    первичная = None
+    удержание = None
+    try:
+        if рабочий.resolve(strict=True) != рабочий or общий.resolve(strict=True) != общий:
+            raise ОшибкаОтчёта('нефизический путь synthetic Git')
+        база = рабочий.parent.lstat()
+        if not stat.S_ISDIR(база.st_mode) or база.st_uid != os.geteuid() or stat.S_IMODE(база.st_mode) != 0o700:
+            raise ОшибкаОтчёта('небезопасная база synthetic Git')
+        флаги = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+        рабочий_fd = _приобрести_fd(дескрипторы, os.open, рабочий, флаги)
+        общий_fd = _приобрести_fd(дескрипторы, os.open, общий, флаги)
+        деревья_fd = _приобрести_fd(дескрипторы, _открыть_каталог_git_через_fd, общий_fd, 'worktrees')
+        gitdir_fd = _приобрести_fd(дескрипторы, _открыть_каталог_git_через_fd, деревья_fd, имя)
+        def метка(fd):
+            с = os.fstat(fd)
+            return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid)
+        def названная_метка(fd, имя):
+            с = os.stat(имя, dir_fd=fd, follow_symlinks=False)
+            return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid)
+        метки = (метка(рабочий_fd), метка(общий_fd), метка(gitdir_fd))
+        if any(not stat.S_ISDIR(значение[2]) or значение[3] != os.geteuid() or значение[2] & 0o022 for значение in метки):
+            raise ОшибкаОтчёта('небезопасные каталоги synthetic Git')
+        with _удержать_локальные_источники_git(рабочий_fd, общий_fd, имя) as локальная, \
+             _удержать_дерево_источников_git(рабочий_fd) as дерево:
+            def снять():
+                if (not _срок_действителен(срок) or рабочий.resolve(strict=True) != рабочий
+                    or общий.resolve(strict=True) != общий or (метка(рабочий_fd), метка(общий_fd), метка(gitdir_fd)) != метки
+                    or названная_метка(None, рабочий) != метка(рабочий_fd)
+                    or названная_метка(None, общий) != метка(общий_fd)
+                    or названная_метка(общий_fd, 'worktrees') != метка(деревья_fd)
+                    or названная_метка(деревья_fd, имя) != метка(gitdir_fd)):
+                    raise ОшибкаОтчёта('идентичность synthetic Git изменилась')
+                локальная(); дерево()
+                конфиги = _собрать_локальные_конфиги_связанного_git(
+                    рабочий_fd, общий_fd, str(рабочий), str(общий), имя)
+                индекс = _прочитать_источник_git_через_fd(gitdir_fd, 'index', 16 * 1024 * 1024)
+                if индекс is None:
+                    raise ОшибкаОтчёта('отсутствует index synthetic Git')
+                дерево_sha = _снять_дерево_git_потоком(рабочий_fd, срок=срок)
+                локальная(); дерево()
+                return конфиги, индекс, дерево_sha
+            исходные = снять()
+            описание = {'схема': 'fum.test-linked-git-held.1', 'состояние': 'UNKNOWN',
+                        'рабочий': метки[0][:2], 'общий': метки[1][:2], 'gitdir': метки[2][:2],
+                        'конфиги_sha256': [hashlib.sha256(данные).hexdigest() for данные in исходные[0]],
+                        'index_sha256': hashlib.sha256(исходные[1]).hexdigest(), 'дерево_источников_sha256': исходные[2],
+                        'глобальный': 'не проверен', 'системный': 'не проверен', 'include': 'неполно',
+                        'предел_каталогов': 128, 'предел_записей': 100000, 'предел_глубины': 64}
+            def проверить():
+                if снять() != исходные:
+                    raise ОшибкаОтчёта('источники synthetic Git изменились')
+            описание = json.dumps(описание, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
+            удержание = _ТестовоеУдержаниеСвязанногоGit(проверить, описание)
+            try:
+                удержание.проверить()
+                try:
+                    yield рабочий_fd, удержание
+                except BaseException as ошибка_тела:
+                    if удержание._сбой is not None:
+                        if ошибка_тела is удержание._сбой:
+                            raise
+                        raise _составить_отказ_системного_git(ошибка_тела, (удержание._сбой,)) from None
+                    try:
+                        удержание.проверить()
+                    except BaseException as ошибка_сверки:
+                        raise _составить_отказ_системного_git(ошибка_тела, (ошибка_сверки,)) from None
+                    raise
+                else:
+                    if удержание._сбой is not None:
+                        raise удержание._сбой
+                    удержание.проверить()
+            finally:
+                удержание._активно = False
+    except BaseException as ошибка:
+        первичная = ошибка
+        raise
+    finally:
+        _закрыть_удержанные_fd(дескрипторы, первичная, 'synthetic linked Git', _сохранять_ошибки=True)
+
+
+@contextlib.contextmanager
+def _тестово_связать_источники_linked_git(рабочий, общий, имя, *, срок):
+    """Связывает только synthetic удержание с существующим test-only reader."""
+    with _тестово_удержать_связанный_профиль_git(рабочий, общий, имя, срок=срок) as (fd, удержание):
+        связь = _ТестоваяСвязьКонфигурации()
+        запись = (fd, удержание.проверить, os.getpid(), threading.current_thread())
+        with _тестово_охранять_связи_конфигурации():
+            _тестовые_связи_конфигурации[связь] = запись
+        первичная = None
+        try:
+            yield fd, связь, удержание
+        except BaseException as ошибка:
+            первичная = ошибка
+            raise
+        finally:
+            try:
+                with _тестово_охранять_связи_конфигурации():
+                    if _тестовые_связи_конфигурации.get(связь) is not запись:
+                        raise ОшибкаОтчёта('связь synthetic linked Git изменилась')
+                    del _тестовые_связи_конфигурации[связь]
+            except BaseException as ошибка_очистки:
+                if первичная is not None:
+                    raise _составить_отказ_системного_git(первичная, (ошибка_очистки,)) from None
+                raise
 
 
 class _НеполныйКонтекстGit:

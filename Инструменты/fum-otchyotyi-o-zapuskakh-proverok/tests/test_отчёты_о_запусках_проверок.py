@@ -39814,5 +39814,162 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
             сам.assertTrue(читатель._отказ)
 
 
+class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def граф(сам, ошибка):
+        результат, ожидают, видели = [], [ошибка], set()
+        while ожидают:
+            текущая = ожидают.pop()
+            if id(текущая) in видели:
+                continue
+            видели.add(id(текущая)); результат.append(текущая)
+            if hasattr(текущая, 'первичная'):
+                ожидают.extend(reversed((текущая.первичная, *текущая.вторичные)))
+        return результат
+
+    @contextlib.contextmanager
+    def фикстура(сам):
+        with tempfile.TemporaryDirectory(prefix='fum-linked-profile-', dir='/private/tmp') as каталог:
+            база = Path(каталог); рабочий = база / 'work'; общий = база / 'repo' / '.git'
+            рабочий.mkdir(); (общий / 'worktrees' / 'work').mkdir(parents=True); (общий / 'info').mkdir()
+            os.chmod(база, 0o700)
+            gitdir = общий / 'worktrees' / 'work'
+            (рабочий / '.git').write_bytes(b'gitdir: ' + os.fsencode(gitdir) + b'\n')
+            (gitdir / 'gitdir').write_bytes(os.fsencode(рабочий / '.git') + b'\n')
+            (gitdir / 'commondir').write_bytes(b'../..\n')
+            (общий / 'config').write_bytes(b'[core]\n\trepositoryformatversion = 0\n\tbare = false\n')
+            заголовок = b'DIRC' + (2).to_bytes(4, 'big') + (0).to_bytes(4, 'big')
+            (gitdir / 'index').write_bytes(заголовок + hashlib.sha1(заголовок).digest())
+            (рабочий / '.gitignore').write_bytes(b'fixture\n')
+            yield рабочий, общий, gitdir
+
+    def test_связанные_источники_удерживаются_и_остаются_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (fd, связь):
+                сам.assertEqual(связь.состояние, 'UNKNOWN')
+                описание = json.loads(связь.описание)
+                сам.assertEqual((описание['схема'], описание['предел_каталогов']), ('fum.test-linked-git-held.1', 128))
+                сам.assertEqual(описание['index_sha256'], hashlib.sha256((gitdir / 'index').read_bytes()).hexdigest())
+                связь.проверить()
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    bool(связь)
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                связь.проверить()
+            with сам.assertRaises(OSError):
+                os.fstat(fd)
+
+    def test_изменения_источников_не_дают_допуска(сам):
+        м = загрузить_модуль_автоматизации()
+        for имя in ('config', 'index', 'ignore'):
+            with сам.subTest(имя=имя), сам.фикстура() as (рабочий, общий, gitdir):
+                путь = {'config': общий / 'config', 'index': gitdir / 'index', 'ignore': рабочий / '.gitignore'}[имя]
+                with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
+                    with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, связь):
+                        путь.write_bytes(путь.read_bytes() + b'changed')
+                        связь.проверить()
+
+    def test_сверка_при_ошибке_тела_сохраняет_причины(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, _):
+            исходная = ValueError('ошибка тела')
+            сверки = []
+            проверить = м._ТестовоеУдержаниеСвязанногоGit.проверить
+            def записать_ошибку(связь):
+                try:
+                    return проверить(связь)
+                except BaseException as ошибка:
+                    сверки.append(ошибка)
+                    raise
+            with mock.patch.object(м._ТестовоеУдержаниеСвязанногоGit, 'проверить', записать_ошибку):
+                with сам.assertRaises(м._СовокупныйОтказСистемногоGit) as отказ:
+                    with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10):
+                        (общий / 'config').write_bytes(b'changed')
+                        raise исходная
+            граф = сам.граф(отказ.exception)
+            сам.assertEqual(len(сверки), 1)
+            узел = next(ошибка for ошибка in граф if getattr(ошибка, 'первичная', None) is исходная)
+            сам.assertIs(узел.вторичные[0], сверки[0])
+
+    def test_перехваченная_сверка_сохраняется_при_другой_ошибке(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, _):
+            исходная = ValueError('ошибка тела')
+            первая = None
+            with сам.assertRaises(м._СовокупныйОтказСистемногоGit) as отказ:
+                with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, связь):
+                    (общий / 'config').write_bytes(b'changed')
+                    try:
+                        связь.проверить()
+                    except м.ОшибкаОтчёта as ошибка:
+                        первая = ошибка
+                    raise исходная
+            граф = сам.граф(отказ.exception)
+            сам.assertIsNotNone(первая)
+            сам.assertIn(исходная, граф)
+            сам.assertIn(первая, граф)
+            узел = next(ошибка for ошибка in граф if getattr(ошибка, 'первичная', None) is исходная)
+            сам.assertIs(узел.вторичные[0], первая)
+
+    def test_перехваченная_сверка_не_даёт_успеха(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, _):
+            первая = None
+            with сам.assertRaises(м._СовокупныйОтказСистемногоGit) as отказ:
+                with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, связь):
+                    (общий / 'config').write_bytes(b'changed')
+                    try:
+                        связь.проверить()
+                    except м.ОшибкаОтчёта as ошибка:
+                        первая = ошибка
+            сам.assertIsNotNone(первая)
+            граф = сам.граф(отказ.exception)
+            сам.assertIn(первая, граф)
+            первичная = отказ.exception
+            while hasattr(первичная, 'первичная'):
+                первичная = первичная.первичная
+            сам.assertIs(первичная, первая)
+
+    def test_linked_consumer_связывает_профиль_и_остаётся_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        pin = ('/usr/bin/git', 'sha256:' + '1' * 64)
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        with сам.фикстура() as (рабочий, общий, _):
+            срок = time.monotonic() + 10
+            with м._тестово_связать_источники_linked_git(рабочий, общий, 'work', срок=срок) as (fd, связь, удержание):
+                читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                    предел_вызовов=2, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                def читать(объект, корень, *операция, срок):
+                    владелец = м._ТестовыйВладелецGit()
+                    владелец.pid = 123
+                    владелец.процесс = mock.Mock(pid=123, returncode=0)
+                    владелец.код, владелец.закрытие, владелец.состояние = 0, ('закрыт', 'закрыт'), 'лидер-собран'
+                    объект.владельцы.append(владелец)
+                    return b'sha1\n'
+                with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__', new=читать):
+                    итог = м._тестово_связать_удержанный_git(читатель, fd, связь, pin, run,
+                        ('rev-parse', '--show-object-format'), срок=срок, _linked=удержание)
+                описание = json.loads(итог.манифест)
+                сам.assertEqual((итог.состояние, итог.схема), ('UNKNOWN', 'fum.test-linked-git-bound-observation.1'))
+                сам.assertEqual(описание['linked_описание_sha256'], hashlib.sha256(удержание.описание).hexdigest())
+                сам.assertNotIn('config_sha256', описание)
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                связь.проверить(fd)
+
+    def test_linked_consumer_отказывает_без_профиля_до_git(сам):
+        м = загрузить_модуль_автоматизации()
+        pin = ('/usr/bin/git', 'sha256:' + '1' * 64)
+        with сам.фикстура() as (рабочий, общий, _):
+            срок = time.monotonic() + 10
+            with м._тестово_связать_источники_linked_git(рабочий, общий, 'work', срок=срок) as (fd, связь, _):
+                читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                    предел_вызовов=2, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__') as запуск:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._тестово_связать_удержанный_git(читатель, fd, связь, pin,
+                            '00112233-4455-4677-8899-aabbccddeeff', ('rev-parse', '--show-object-format'), срок=срок)
+                    запуск.assert_not_called()
+                    сам.assertTrue(читатель._отказ)
+
+
 if __name__ == '__main__':
     raise SystemExit('Запускайте тесты через unittest: прямой запуск не выполняет проверки')
