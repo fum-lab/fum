@@ -4898,6 +4898,12 @@ class _ТестовыйОграниченныйGit:
         except OSError as ошибка:
             raise ОшибкаОтчёта('недоступен корень конфигурации Git') from ошибка
 
+    def _сверить_заявленную_связь(сам, fd, связь, pin):
+        if (сам.__конфигурация is None or сам.__конфигурация[0] != fd
+            or сам.__конфигурация[1] is not связь or сам.__ожидаемый_pin != pin):
+            raise ОшибкаОтчёта('не совпадает удержанная конфигурация или pin Git')
+        сам._сверить_конфигурацию()
+
     def __call__(сам, корень: Path, *операция: str, срок: float) -> bytes:
         if (type(корень) not in (str, type(Path('/'))) or str(корень) != сам.корень
             or type(срок) not in (int, float) or срок != сам.срок):
@@ -4979,6 +4985,66 @@ class _ТестовыйОграниченныйGit:
             return данные
         finally:
             сам._блокировка.release()
+
+
+class _ТестовоеНаблюдениеGitСПрофилем(NamedTuple):
+    """Частичное свидетельство отдельного child; не допускает Git consumer."""
+    схема: str
+    манифест: bytes
+    sha256: str
+    состояние: str = 'UNKNOWN'
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('наблюдение Git не является допуском')
+
+
+def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок):
+    """Один вызов существующего test-only transport под удержанием источников.
+
+    Привязка действует только для synthetic конфигурации читателя. Caller
+    удерживает FD, владельцев и пути; исполненный образ, потомки, полнота
+    профиля и отсутствие ABA остаются UNKNOWN. Старый Git-reader не открыт.
+    """
+    if (type(читатель) is not _ТестовыйОграниченныйGit or type(fd) is not int or fd < 0
+        or type(связь) is not _ТестоваяСвязьКонфигурации or type(run) is not str
+        or re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None):
+        raise ОшибкаОтчёта('неверная привязка тестового Git')
+    _тестово_проверить_форму_pin_git(pin)
+    команда, среда = _подготовить_чтение_метаданных_гит(читатель.исполнитель, читатель.корень, операция, срок=срок)
+    if срок != читатель.срок:
+        raise ОшибкаОтчёта('не совпадает срок тестового Git')
+    try:
+        читатель._сверить_заявленную_связь(fd, связь, pin)
+    except BaseException:
+        читатель._отказ = True
+        raise
+    исходное_число = len(читатель.владельцы)
+    try:
+        stdout = читатель(Path(читатель.корень), *операция, срок=срок)
+        читатель._сверить_заявленную_связь(fd, связь, pin)
+        if len(читатель.владельцы) != исходное_число + 1:
+            raise ОшибкаОтчёта('не подтверждён единственный вызов Git')
+        владелец = читатель.владельцы[-1]
+        if (type(stdout) is not bytes or type(владелец) is not _ТестовыйВладелецGit or владелец.состояние != 'лидер-собран'
+            or type(владелец.pid) is not int or владелец.pid <= 1 or type(владелец.код) is not int or владелец.код != 0
+            or владелец.процесс is None or владелец.процесс.pid != владелец.pid
+            or type(владелец.процесс.returncode) is not int or владелец.процесс.returncode != 0
+            or владелец.закрытие != ('закрыт', 'закрыт')):
+            raise ОшибкаОтчёта('не подтверждён исход Git child')
+        метка = os.fstat(fd)
+        данные = {'схема': 'fum.test-git-bound-observation.1', 'состояние': 'UNKNOWN',
+                  'run_объявлен': run, 'pid': владелец.pid, 'код': владелец.код,
+                  'корень_dev': метка.st_dev, 'корень_ino': метка.st_ino,
+                  'git_pin': pin[1], 'argv_ожидаемый_sha256': hashlib.sha256(json.dumps(команда, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest(),
+                  'env_ожидаемая_sha256': hashlib.sha256(json.dumps(среда, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
+                  'config_sha256': hashlib.sha256(_ТЕСТОВАЯ_КОНФИГУРАЦИЯ_БЕЗ_ПРЕОБРАЗОВАНИЙ).hexdigest(),
+                  'stdout_sha256': hashlib.sha256(stdout).hexdigest(), 'stdout_размер': len(stdout)}
+        манифест = json.dumps(данные, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
+        return _ТестовоеНаблюдениеGitСПрофилем('fum.test-git-bound-observation.1', манифест,
+                                               'sha256:' + hashlib.sha256(манифест).hexdigest())
+    except BaseException:
+        читатель._отказ = True
+        raise
 
 
 class _НастройкиGitОтпечатка(NamedTuple):
