@@ -38797,6 +38797,253 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_git_recovery_сохраняет_cld_и_отмену_закрытия(сам):
+        м = загрузить_модуль_автоматизации()
+        def создать():
+            владелец = м._ТестовыйВладелецGit()
+            процесс = mock.Mock(pid=123, returncode=None)
+            процесс.stdout.fileno.return_value = 4
+            процесс.stderr.fileno.return_value = 5
+            владелец.состояние, владелец.этап, владелец.pid = "неизвестно", "переполнение до сбора", 123
+            владелец.процесс = процесс
+            владелец.ошибка_чтения = м.ОшибкаПереполненияЧтения("переполнение")
+            владелец.ошибка_чтения.наблюдение = (123, 1, 7)
+            владелец.каналы = (процесс.stdout, процесс.stderr, 4, 5, (1, 2, 3), (1, 3, 3))
+            return владелец, процесс
+        владелец, процесс = создать()
+        def собрать(процесс, *, срок):
+            процесс.returncode = 7
+            return 7
+        with mock.patch.object(м, "_срок_действителен", return_value=True), \
+             mock.patch.object(м, "_тестовая_метка_канала_git", side_effect=[(1, 2, 3), (1, 3, 3)]), \
+             mock.patch.object(м, "_кандидат_собрать_статус_лидера", side_effect=собрать):
+            сам.assertEqual(м._тестовый_разобрать_переполнение_git(владелец, срок=100.0), 7)
+        владелец, процесс = создать()
+        прерывание = KeyboardInterrupt()
+        процесс.stdout.close.side_effect = прерывание
+        with mock.patch.object(м, "_срок_действителен", return_value=True), \
+             mock.patch.object(м, "_тестовая_метка_канала_git", side_effect=[(1, 2, 3), (1, 3, 3)]):
+            with сам.assertRaises(KeyboardInterrupt) as отказ:
+                м._тестовый_разобрать_переполнение_git(владелец, срок=100.0)
+        сам.assertIs(отказ.exception.исходная, прерывание)
+        сам.assertIs(отказ.exception.отказ, владелец.отказ_наблюдения)
+        сам.assertEqual(владелец.состояние, "неизвестно")
+
+    def test_git_caller_сохраняет_composite_до_передачи_отмены(сам):
+        м = загрузить_модуль_автоматизации()
+        for отмена in (KeyboardInterrupt(), SystemExit(17)):
+            владелец = м._ТестовыйВладелецGit()
+            исходная = м._сохранить_ошибки_наблюдения("неизвестно", отмена, OSError(errno.EIO, "сбор"))
+            процесс = mock.Mock(pid=123, returncode=None)
+            процесс.stdout.fileno.return_value = 4
+            процесс.stderr.fileno.return_value = 5
+            with mock.patch.object(м, "_подготовить_чтение_метаданных_гит", return_value=(["/synthetic"], {})), \
+                 mock.patch.object(м.subprocess, "Popen", return_value=процесс), \
+                 mock.patch.object(м.os, "set_blocking"), \
+                 mock.patch.object(м, "_тестовая_метка_канала_git", side_effect=[(1, 2, 3), (1, 3, 3)]), \
+                 mock.patch.object(м, "_тестовое_согласовать_чтение_и_сбор", side_effect=исходная):
+                with сам.assertRaises(type(отмена)) as отказ:
+                    м._тестовый_запустить_метаданные_git_внутри(
+                        владелец, None, None, None, срок=100.0, предел_stdout=16, предел_stderr=16)
+            сам.assertEqual(владелец.состояние, "неизвестно")
+            сам.assertIs(владелец.отказ_наблюдения, исходная)
+            сам.assertIs(отказ.exception.исходная, отмена)
+            сам.assertIs(отказ.exception.отказ, исходная)
+            if isinstance(отмена, SystemExit):
+                сам.assertEqual(отказ.exception.code, 17)
+
+    def test_git_caller_сохраняет_циклический_отказ_при_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        владелец = м._ТестовыйВладелецGit()
+        исходная = м._ПрерванныеОшибкиНаблюдения("неизвестно", KeyboardInterrupt(), ())
+        исходная.вторичные = (исходная,)
+        процесс = mock.Mock(pid=123, returncode=None)
+        процесс.stdout.fileno.return_value = 4
+        процесс.stderr.fileno.return_value = 5
+        with mock.patch.object(м, "_подготовить_чтение_метаданных_гит", return_value=(["/synthetic"], {})), \
+             mock.patch.object(м.subprocess, "Popen", return_value=процесс), \
+             mock.patch.object(м.os, "set_blocking"), \
+             mock.patch.object(м, "_тестовая_метка_канала_git", side_effect=[(1, 2, 3), (1, 3, 3)]), \
+             mock.patch.object(м, "_тестовое_согласовать_чтение_и_сбор", side_effect=исходная):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._тестовый_запустить_метаданные_git_внутри(
+                    владелец, None, None, None, срок=100.0, предел_stdout=16, предел_stderr=16)
+        сам.assertEqual(владелец.состояние, "неизвестно")
+        сам.assertIs(владелец.отказ_наблюдения, исходная)
+        oversized = м._ОшибкиНаблюдения("неизвестно", ValueError(), (ValueError(),) * 256)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._отмена_в_ошибках_наблюдения(oversized)
+
+    def test_упаковка_ошибок_сохраняет_порядок_причину_и_прерывание(сам):
+        м = загрузить_модуль_автоматизации()
+        причина = ValueError("причина")
+        первая = RuntimeError("первая")
+        первая.__cause__ = причина
+        вторая = OSError(errno.EIO, "вторая")
+        третья = KeyboardInterrupt()
+        итог = м._сохранить_ошибки_наблюдения("неизвестно", первая, вторая, третья)
+        части = getattr(итог, "exceptions", None)
+        if части is None:
+            части = (итог.первичная, *итог.вторичные)
+        сам.assertEqual(len(части), 3)
+        сам.assertIs(части[0], первая)
+        сам.assertIs(части[1], вторая)
+        сам.assertIs(части[2], третья)
+        сам.assertIs(первая.__cause__, причина)
+        сам.assertNotIsInstance(итог, Exception)
+        передача = м._передать_ошибки_наблюдения(итог)
+        сам.assertIsInstance(передача, KeyboardInterrupt)
+        сам.assertIs(передача.исходная, третья)
+        сам.assertIs(передача.отказ, итог)
+        сам.assertIs(первая.__cause__, причина)
+
+    def test_ошибки_после_наблюдения_и_сбора_сохраняют_оба_исхода(сам):
+        м = загрузить_модуль_автоматизации()
+        первая = OSError(errno.EIO, "чтение")
+        def каналы(*args, _осмотреть, **kwargs):
+            _осмотреть()
+            raise первая
+        with contextlib.ExitStack() as стек:
+            стек.enter_context(mock.patch.object(м, "_срок_действителен", return_value=True))
+            стек.enter_context(mock.patch.object(м, "_тестовое_чтение_двух_каналов", side_effect=каналы))
+            if hasattr(os, "waitid"):
+                состояние = mock.Mock(si_pid=123, si_code=os.CLD_EXITED, si_status=7)
+                стек.enter_context(mock.patch.object(м.os, "waitid", return_value=состояние))
+            else:
+                стек.enter_context(mock.patch.object(м, "_darwin_waitid_без_сбора", return_value=(123, 1, 7)))
+            with сам.assertRaises(BaseException) as отказ:
+                м._тестовое_чтение_и_наблюдение(123, 4, 5, срок=100.0,
+                    предел_вывода=16, предел_ошибок=16, предел_суммы=32)
+        части = getattr(отказ.exception, "exceptions", None)
+        if части is None:
+            части = (отказ.exception.первичная, *отказ.exception.вторичные)
+        сам.assertIs(части[0], первая)
+        сам.assertEqual(части[1].наблюдение, (123, 1, 7))
+
+        class Процесс:
+            pid = 123
+            @property
+            def returncode(сам): return None
+            @returncode.setter
+            def returncode(сам, значение): raise ValueError("отказ записи")
+        with mock.patch.object(м, "_остаток_наблюдения", return_value=1.0), \
+             mock.patch.object(м, "_срок_действителен", return_value=True), \
+             mock.patch.object(м, "_тестовое_наблюдение_дочернего_процесса", return_value=7), \
+             mock.patch.object(м.os, "waitpid", return_value=(123, 1792)):
+            with сам.assertRaises(BaseException) as отказ:
+                м._кандидат_собрать_статус_лидера(Процесс(), срок=100.0)
+        части = getattr(отказ.exception, "exceptions", None)
+        if части is None:
+            части = (отказ.exception.первичная, *отказ.exception.вторичные)
+        сам.assertIs(type(части[0]), ValueError)
+        сам.assertEqual(части[1].сырой_статус, 1792)
+        прерывание = KeyboardInterrupt()
+        class ПрерванныйПроцесс:
+            pid = 123
+            @property
+            def returncode(сам): return None
+            @returncode.setter
+            def returncode(сам, значение): raise прерывание
+        with mock.patch.object(м, "_остаток_наблюдения", return_value=1.0), \
+             mock.patch.object(м, "_срок_действителен", return_value=True), \
+             mock.patch.object(м, "_тестовое_наблюдение_дочернего_процесса", return_value=7), \
+             mock.patch.object(м.os, "waitpid", return_value=(123, 1792)):
+            with сам.assertRaises(BaseException) as отказ:
+                м._кандидат_собрать_статус_лидера(ПрерванныйПроцесс(), срок=100.0)
+        части = getattr(отказ.exception, "exceptions", None)
+        if части is None:
+            части = (отказ.exception.первичная, *отказ.exception.вторичные)
+        сам.assertIs(части[0], прерывание)
+        сам.assertEqual(части[1].сырой_статус, 1792)
+        сам.assertNotIsInstance(отказ.exception, Exception)
+
+    def test_ошибка_сбора_после_чтения_сохраняет_наблюдение(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = None
+        исходная = OSError(errno.EIO, "сбор")
+        with mock.patch.object(м, "_тестовое_чтение_и_наблюдение", return_value=(b"out", b"err", 7)), \
+             mock.patch.object(м, "_кандидат_собрать_статус_лидера", side_effect=исходная):
+            with сам.assertRaises(BaseException) as отказ:
+                м._тестовое_согласовать_чтение_и_сбор(Процесс(), 4, 5, срок=100.0,
+                    предел_вывода=16, предел_ошибок=16, предел_суммы=32)
+        части = getattr(отказ.exception, "exceptions", None)
+        if части is None:
+            части = (отказ.exception.первичная, *отказ.exception.вторичные)
+        сам.assertIs(части[0], исходная)
+        сам.assertEqual((части[1].pid, части[1].первый, части[1].второй), (123, 7, None))
+
+    @unittest.skipUnless(sys.platform == "darwin" and not hasattr(os, "waitid"), "fallback системного Python Darwin")
+    def test_чтение_каналов_использует_darwin_fallback(сам):
+        м = загрузить_модуль_автоматизации()
+        def каналы(*args, _осмотреть, **kwargs):
+            _осмотреть()
+            return b"out", b"err"
+        with mock.patch.object(м, "_darwin_waitid_без_сбора", return_value=(123, 1, 7)) as вызов, \
+             mock.patch.object(м, "_срок_действителен", return_value=True), \
+             mock.patch.object(м, "_тестовое_чтение_двух_каналов", side_effect=каналы):
+            сам.assertEqual(м._тестовое_чтение_и_наблюдение(123, 4, 5, срок=100.0,
+                предел_вывода=16, предел_ошибок=16, предел_суммы=32), (b"out", b"err", 7))
+            вызов.assert_called_once_with(123)
+
+    @unittest.skipUnless(sys.platform == "darwin" and not hasattr(os, "waitid"), "fallback системного Python Darwin")
+    def test_наблюдение_лидера_вызывает_darwin_fallback(сам):
+        м = загрузить_модуль_автоматизации()
+        with mock.patch.object(м, "_darwin_waitid_без_сбора", return_value=(123, 1, 7)) as вызов, \
+             mock.patch.object(м, "_остаток_наблюдения", return_value=1.0):
+            сам.assertEqual(м._тестовое_наблюдение_дочернего_процесса(123, срок=100.0), 7)
+            вызов.assert_called_once_with(123)
+        with mock.patch.object(м, "_darwin_waitid_без_сбора", return_value=(123, 1, 7)), \
+             mock.patch.object(м, "_остаток_наблюдения", side_effect=[1.0, 0.0]):
+            with сам.assertRaises(м.ОшибкаПозднегоНаблюдения) as ошибка:
+                м._тестовое_наблюдение_дочернего_процесса(123, срок=100.0)
+            сам.assertEqual(ошибка.exception.наблюдение, (123, 1, 7))
+
+    @unittest.skipUnless(all(hasattr(os, имя) for имя in ("waitid", "P_PID", "WEXITED", "WNOHANG", "WNOWAIT", "CLD_EXITED", "CLD_KILLED", "CLD_DUMPED")), "штатный os.waitid недоступен")
+    def test_наблюдение_лидера_сохраняет_штатный_waitid(сам):
+        м = загрузить_модуль_автоматизации()
+        состояние = mock.Mock(si_pid=123, si_code=os.CLD_EXITED, si_status=7)
+        with mock.patch.object(м.os, "waitid", return_value=состояние) as вызов, \
+             mock.patch.object(м, "_остаток_наблюдения", return_value=1.0):
+            сам.assertEqual(м._тестовое_наблюдение_дочернего_процесса(123, срок=100.0), 7)
+            вызов.assert_called_once_with(os.P_PID, 123, os.WEXITED | os.WNOHANG | os.WNOWAIT)
+
+    @unittest.skipUnless(sys.platform == "darwin" and os.uname().machine == "arm64", "ABI probe выполнен для Darwin arm64")
+    def test_darwin_waitid_abi_не_собирает_и_отличает_ошибки(сам):
+        import ctypes
+        м = загрузить_модуль_автоматизации()
+        class Вызов:
+            def __init__(сам, pid=0, код=0, статус=0, ошибка=0, rc=0):
+                сам.pid, сам.код, сам.статус, сам.ошибка, сам.rc = pid, код, статус, ошибка, rc
+            def __call__(сам, вид, pid, буфер, flags):
+                assert (вид, pid, flags) == (1, 123, 0x25)
+                if сам.ошибка:
+                    ctypes.set_errno(сам.ошибка)
+                    return -1
+                адрес = ctypes.cast(буфер, ctypes.c_void_p).value
+                ctypes.c_int.from_address(адрес).value = int(signal.SIGCHLD) if сам.pid else 0
+                ctypes.c_int.from_address(адрес + 8).value = сам.код
+                ctypes.c_int.from_address(адрес + 12).value = сам.pid
+                ctypes.c_int.from_address(адрес + 20).value = сам.статус
+                return сам.rc
+        class Библиотека:
+            def __init__(сам, вызов): сам.waitid = вызов
+        for вызов, ожидаемый in ((Вызов(), None), (Вызов(123, 1, 7), (123, 1, 7)),
+                                  (Вызов(123, 2, 15), (123, 2, 15))):
+            with mock.patch.object(ctypes, "CDLL", return_value=Библиотека(вызов)):
+                сам.assertEqual(м._darwin_waitid_без_сбора(123), ожидаемый)
+        for номер in (errno.EINTR, errno.ECHILD):
+            with mock.patch.object(ctypes, "CDLL", return_value=Библиотека(Вызов(ошибка=номер))):
+                with сам.assertRaises(OSError) as ошибка:
+                    м._darwin_waitid_без_сбора(123)
+                сам.assertEqual(ошибка.exception.errno, номер)
+        for вызов in (Вызов(124, 1, 0), Вызов(123, 99, 0), Вызов(123, 1, 256),
+                      Вызов(123, 2, 0), Вызов(0, 1, 7), Вызов(rc=1), Вызов(rc=-1)):
+            with mock.patch.object(ctypes, "CDLL", return_value=Библиотека(вызов)):
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._darwin_waitid_без_сбора(123)
+
     def test_сигнал_ноль_отличает_esrch_от_eperm_и_ошибки(сам):
         м = загрузить_модуль_автоматизации()
         with mock.patch.object(м.os, "killpg") as опрос:
