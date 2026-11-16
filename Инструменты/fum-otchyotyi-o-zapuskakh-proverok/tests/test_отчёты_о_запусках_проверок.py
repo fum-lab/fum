@@ -5534,6 +5534,13 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             определить = модуль._определить_абсолютное_исключение_git
             выбранный_путь = определить((глобальный_конфиг,))
             сам.assertEqual(выбранный_путь, str(исключения))
+            с_кавычками = глобальный_конфиг + b'[difftool "fixture"]\n\tcmd = "tool \\"arg\\""\n'
+            сам.assertEqual(определить((с_кавычками,)), str(исключения))
+            конфиг_для_git = домашний / 'quoted-config'
+            конфиг_для_git.write_bytes(с_кавычками)
+            ответ_git = вызвать_git('config', '--no-includes', '--file', str(конфиг_для_git), '--get', 'core.excludesfile')
+            сам.assertEqual(ответ_git.stdout, os.fsencode(исключения) + b'\n')
+            сам.assertEqual(ответ_git.stderr, b'')
             with сам.assertRaises(модуль.ОшибкаОтчёта):
                 определить((глобальный_конфиг, b'[include]\n\tpath = /tmp/unknown\n'))
             for опасный in (b'[includeIf "gitdir:/tmp/"]\n\tpath = /tmp/x\n',
@@ -5543,6 +5550,8 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
                             b'[core]\n\texcludesfile = /tmp/../ignore\n',
                             b'[core]\n\texcludesfile = "/tmp/ignore"\n',
                             b'[other]\n\tvalue = \x00\n',
+                            b'[other]\n\tvalue = "unfinished\n',
+                            b'[other]\n\tvalue = invalid\\q\n',
                             b'[core]\n\texcludesfile = /tmp/ignore'):
                 with сам.subTest(опасный=опасный), сам.assertRaises(модуль.ОшибкаОтчёта):
                     определить((глобальный_конфиг, опасный))
