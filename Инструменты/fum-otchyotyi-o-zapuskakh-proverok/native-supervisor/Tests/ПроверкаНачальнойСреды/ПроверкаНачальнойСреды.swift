@@ -60,6 +60,9 @@ public func проверитьНачальнуюСреду(
         if режим == "--проверить-shim" || режим == "--shim-target" {
             проверитьNoSignalShim()
         }
+        if режим == "--проверить-owner-env" {
+            проверитьNoSignalOwnerEnv()
+        }
         if ["--проверить-owner", "--owner-target", "--owner-target-fail", "--owner-target-wait"].contains(режим) {
             if #available(macOS 13.0, *) { проверитьNoSignalOwner() }
             return 40

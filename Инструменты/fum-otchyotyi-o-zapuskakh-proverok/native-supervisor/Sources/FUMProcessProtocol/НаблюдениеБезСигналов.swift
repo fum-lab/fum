@@ -53,7 +53,7 @@ public enum ИсходОграниченногоНаблюдения: Equatable,
 public final class ОграниченноеНаблюдениеБезСигналов {
     private let наблюдение: НаблюдениеДочернегоПроцесса
     private let край: Int64
-    private var последнееВремя: Int64
+    public private(set) var последнееВремя: Int64
     public private(set) var итог: ИсходОграниченногоНаблюдения?
 
     public init?(pid: Int32, начало: Int64, край: Int64) {

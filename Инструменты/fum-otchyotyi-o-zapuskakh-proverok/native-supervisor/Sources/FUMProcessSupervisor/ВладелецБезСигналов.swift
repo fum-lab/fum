@@ -57,15 +57,45 @@ private func сохранитьСобытие(_ dir: Int32, _ name: String, _ va
 
 // Only the direct parent may call this mode. It never sends a signal.
 func выполнитьВладельцаБезСигналов(_ args: [String]) -> Int32 {
-    guard args.count >= 14, args[1] == "fum-nosignal-owner.1",
+    guard args.count >= 14, ["fum-nosignal-owner.1", "fum-nosignal-owner.2"].contains(args[1]) else { return 125 }
+    let сОкружением = args[1] == "fum-nosignal-owner.2"
+    let разделитель = сОкружением ? 13 : 12
+    guard args.indices.contains(разделитель + 1),
           let run = ИдентификаторЗапуска(args[2]), let deadline = Int64(args[3]), String(deadline) == args[3],
           let statusFD = Int32(args[4]), statusFD > 2, String(statusFD) == args[4],
           let receiptFD = Int32(args[11]), receiptFD > 2, String(receiptFD) == args[11],
-          args[12] == "--", args[0].hasPrefix("/"), args[13].hasPrefix("/"),
+          args[разделитель] == "--", args[0].hasPrefix("/"), args[разделитель + 1].hasPrefix("/") else { return 125 }
+    var envFD: Int32?, ожидаемаяСреда: ЯвноеОкружение?, меткаСреды: stat?
+    if сОкружением {
+        var метка = stat()
+        guard let число = Int32(args[12]), число > 2, String(число) == args[12],
+              число != statusFD, число != receiptFD, fstat(число, &метка) == 0,
+              let среда = прочитатьОкружение(число) else { return 125 }
+        envFD = число
+        ожидаемаяСреда = среда
+        меткаСреды = метка
+    }
+    guard
           let root = ОпораЗаимствованногоКаталога(args[5], args[6], args[7], args[8], args[9], args[10],
-              область: .рабочееДерево, занятыеДескрипторы: [statusFD, receiptFD]),
+              область: .рабочееДерево, занятыеДескрипторы: [statusFD, receiptFD] + (envFD.map { [$0] } ?? [])),
           statusFD != receiptFD, getuid() == geteuid(), подтвердитьОткрытыйКаталог(root),
           let start = монотонныеМиллисекундыНаблюдателя(), start < deadline, deadline - start <= 30_000 else { return 125 }
+    func средаСовпадает() -> Bool {
+        guard let envFD else { return true }
+        guard let исходная = меткаСреды else { return false }
+        var до = stat(), после = stat()
+        func совпадает(_ метка: stat) -> Bool {
+            метка.st_dev == исходная.st_dev && метка.st_ino == исходная.st_ino &&
+                метка.st_mode == исходная.st_mode && метка.st_uid == исходная.st_uid &&
+                метка.st_gid == исходная.st_gid && метка.st_nlink == исходная.st_nlink &&
+                метка.st_size == исходная.st_size && метка.st_mtimespec.tv_sec == исходная.st_mtimespec.tv_sec &&
+                метка.st_mtimespec.tv_nsec == исходная.st_mtimespec.tv_nsec &&
+                метка.st_ctimespec.tv_sec == исходная.st_ctimespec.tv_sec &&
+                метка.st_ctimespec.tv_nsec == исходная.st_ctimespec.tv_nsec
+        }
+        return fstat(envFD, &до) == 0 && совпадает(до) && прочитатьОкружение(envFD) == ожидаемаяСреда &&
+            fstat(envFD, &после) == 0 && совпадает(после)
+    }
     var status = stat(), receipt = stat(), rootInfo = stat(), input = stat(), action = sigaction()
     let statusFlags = fcntl(statusFD, F_GETFL), inputFlags = fcntl(STDIN_FILENO, F_GETFL)
     guard fstat(statusFD, &status) == 0, status.st_mode & UInt16(S_IFMT) == UInt16(S_IFIFO),
@@ -120,7 +150,8 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
           подтвердитьОткрытыйКаталог(root) else { return unknownBeforeSpawn("command-or-root") }
     var gate = [Int32](repeating: -1, count: 2)
     guard pipe(&gate) == 0 else { return unknownBeforeSpawn("pipe") }
-    guard gate.allSatisfy({ $0 > 2 }), Set(gate + [statusFD, receiptFD, root.дескриптор]).count == 5 else {
+    let занятые = [statusFD, receiptFD, root.дескриптор] + (envFD.map { [$0] } ?? [])
+    guard gate.allSatisfy({ $0 > 2 }), Set(gate + занятые).count == gate.count + занятые.count else {
         let r = close(gate[0]), w = close(gate[1])
         return unknownBeforeSpawn("pipe-collision-close-\(r)-\(w)")
     }
@@ -146,14 +177,18 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
           posix_spawn_file_actions_addinherit_np(&actions, gate[0]) == 0,
           posix_spawnattr_setsigdefault(&attrs, &defaults) == 0,
           posix_spawnattr_setflags(&attrs, Int16(POSIX_SPAWN_CLOEXEC_DEFAULT | POSIX_SPAWN_SETSID | POSIX_SPAWN_SETSIGDEF)) == 0 else { return cleanupBeforeSpawn("spawn-setup") }
-    let shimArgs = [args[0], "fum-nosignal-shim.1", args[5], args[6], args[7], args[8], args[9], args[10], String(gate[0]), "--"] + Array(args.dropFirst(13))
+    if let envFD, posix_spawn_file_actions_addinherit_np(&actions, envFD) != 0 { return cleanupBeforeSpawn("env-inherit") }
+    let shimArgs = [args[0], сОкружением ? "fum-nosignal-shim.2" : "fum-nosignal-shim.1", args[5], args[6], args[7], args[8], args[9], args[10], String(gate[0])] +
+        (envFD.map { [String($0)] } ?? []) + ["--"] + Array(args.dropFirst(разделитель + 1))
     let argv = shimArgs.map { strdup($0) } + [nil]
     var env: [UnsafeMutablePointer<CChar>?] = [nil]
     defer { for p in argv { free(p) } }
     guard argv.dropLast().allSatisfy({ $0 != nil }) else { return cleanupBeforeSpawn("arguments") }
     var peerBeforeSpawn = pollfd(fd: STDIN_FILENO, events: Int16(POLLIN | POLLHUP), revents: 0)
     guard let spawnTime = монотонныеМиллисекундыНаблюдателя(), spawnTime >= beforeSpawn,
-          spawnTime < deadline, подтвердитьОткрытыйКаталог(root), poll(&peerBeforeSpawn, 1, 0) == 0 else {
+          spawnTime < deadline, подтвердитьОткрытыйКаталог(root), средаСовпадает(),
+          let afterSpawnChecks = монотонныеМиллисекундыНаблюдателя(), afterSpawnChecks >= spawnTime, afterSpawnChecks < deadline,
+          poll(&peerBeforeSpawn, 1, 0) == 0 else {
         return cleanupBeforeSpawn("deadline-or-peer-before-spawn")
     }
     var child: pid_t = 0
@@ -179,7 +214,9 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
     if причина == nil {
         var peerBeforeGate = pollfd(fd: STDIN_FILENO, events: Int16(POLLIN | POLLHUP), revents: 0)
         if let beforeRelease = монотонныеМиллисекундыНаблюдателя(), beforeRelease >= beforeSpawn,
-           beforeRelease < deadline, подтвердитьОткрытыйКаталог(root), poll(&peerBeforeGate, 1, 0) == 0 {
+           beforeRelease < deadline, подтвердитьОткрытыйКаталог(root), средаСовпадает(),
+           let afterReleaseChecks = монотонныеМиллисекундыНаблюдателя(), afterReleaseChecks >= beforeRelease, afterReleaseChecks < deadline,
+           poll(&peerBeforeGate, 1, 0) == 0 {
             var go: UInt8 = 0x47
             if write(gate[1], &go, 1) != 1 { причина = "gate-write" }
         } else { причина = "before-gate" }
@@ -233,8 +270,28 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
         _ = сохранитьСобытие(receiptFD, "reap.DATA", "run=\(run.текст) child=\(child) waitpid=\(child) raw=\(raw) outcome=UNKNOWN\n")
         return 125
     }
-    guard подтвердитьОткрытыйКаталог(root),
-          сохранитьСобытие(receiptFD, "terminal.DATA", "run=\(run.текст) child=\(child) waitpid=\(child) raw=\(raw) outcome=PRE-CLOSE\n"),
-          send("DONE \(run.текст) \(raw)\n") else { return 125 }
+    func неизвестноПослеСбора(_ причина: String) -> Int32 {
+        let observed = монотонныеМиллисекундыНаблюдателя().map { String($0) } ?? "UNKNOWN"
+        if сохранитьСобытие(receiptFD, "unknown.DATA", "run=\(run.текст) child=\(child) outcome=UNKNOWN reason=\(причина) observed_ms=\(observed) deadline_ms=\(deadline)\n") {
+            _ = send("UNKNOWN \(run.текст) \(причина) \(observed) \(deadline)\n")
+        }
+        _ = сохранитьСобытие(receiptFD, "reap.DATA", "run=\(run.текст) child=\(child) waitpid=\(child) raw=\(raw) outcome=UNKNOWN\n")
+        return 125
+    }
+    guard let beforeFinal = монотонныеМиллисекундыНаблюдателя(), beforeFinal >= наблюдение.последнееВремя,
+          beforeFinal < deadline else {
+        return неизвестноПослеСбора("deadline-after-wait")
+    }
+    guard подтвердитьОткрытыйКаталог(root), средаСовпадает() else { return неизвестноПослеСбора("source-after-wait") }
+    guard let afterFinal = монотонныеМиллисекундыНаблюдателя(), afterFinal >= beforeFinal, afterFinal < deadline else {
+        return неизвестноПослеСбора("clock-or-deadline-after-source")
+    }
+    guard сохранитьСобытие(receiptFD, "terminal.DATA", "run=\(run.текст) child=\(child) waitpid=\(child) raw=\(raw) outcome=PRE-CLOSE\n") else {
+        return неизвестноПослеСбора("terminal-receipt")
+    }
+    guard let afterReceipt = монотонныеМиллисекундыНаблюдателя(), afterReceipt >= afterFinal, afterReceipt < deadline else {
+        return неизвестноПослеСбора("clock-or-deadline-after-receipt")
+    }
+    guard send("DONE \(run.текст) \(raw)\n") else { return неизвестноПослеСбора("terminal-frame") }
     return 0
 }
