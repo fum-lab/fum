@@ -2,7 +2,7 @@ import Darwin
 import FUMProcessProtocol
 
 // Это проверка текущих имён, не защита от alias, ABA или вложенности в общий Git-dir.
-private func разнестиИменаКаталогов(_ rootPath: String, _ root: stat, _ receiptFD: Int32, _ receipt: stat) -> Bool {
+func разнестиИменаКаталогов(_ rootPath: String, _ root: stat, _ receiptFD: Int32, _ receipt: stat) -> Bool {
     var bytes = [CChar](repeating: 0, count: 1024)
     guard fcntl(receiptFD, F_GETPATH, &bytes) == 0,
           let rootReal = rootPath.withCString({ realpath($0, nil) }) else { return false }
@@ -25,7 +25,7 @@ private func разнестиИменаКаталогов(_ rootPath: String, _ 
 }
 
 // Экспериментальный owner: файлы квитанции частные, ошибка или частичная запись — UNKNOWN.
-private func сохранитьСобытие(_ dir: Int32, _ name: String, _ value: String) -> Bool {
+func сохранитьСобытие(_ dir: Int32, _ name: String, _ value: String) -> Bool {
     let bytes = Array(value.utf8)
     guard !bytes.isEmpty, bytes.count <= 512 else { return false }
     let fd = name.withCString { openat(dir, $0, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600) }
