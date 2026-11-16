@@ -37025,6 +37025,32 @@ class ПроверкаОбменаКаналовGit(unittest.TestCase):
                     if запись in сам.открытые:
                         сам.закрыть(запись)
 
+    def test_фактический_кадр_трёх_каналов_проверяет_статус(сам):
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        префикс = ('DONE ' + run + ' ').encode()
+        варианты = ((b'0\n', True), (b'1792\n', True), (b'15\n', True),
+                    (b'127\n', False), (b'65536\n', False), (b'01\n', False),
+                    (b'0\n\0', False), (b'X' * 257, False))
+        for окончание, допустимо in варианты:
+            with сам.subTest(окончание=окончание):
+                пары = [сам.труба() for _ in range(3)]
+                for чтение, _ in пары:
+                    os.set_blocking(чтение, False)
+                frame = префикс + окончание
+                for (_, запись), данные in zip(пары, (b'out', b'err', frame)):
+                    os.write(запись, данные)
+                    сам.закрыть(запись)
+                аргументы = (tuple(чтение for чтение, _ in пары), run)
+                параметры = dict(срок=time.monotonic() + 2, пределы=(3, 3), предел_суммы=6)
+                if допустимо:
+                    сам.assertEqual(сам.модуль._тестово_прочитать_три_канала_2(*аргументы, **параметры),
+                                    (b'out', b'err', frame))
+                else:
+                    with сам.assertRaises(сам.модуль.ОшибкаОтчёта):
+                        сам.модуль._тестово_прочитать_три_канала_2(*аргументы, **параметры)
+                for чтение, _ in пары:
+                    сам.закрыть(чтение)
+
     def фикстура(сам, данные=b'', stdout=b'', stderr=b'', *, пределы=(20, 20, 40), срок=None,
                 закрыть_вход=None):
         вход_чтение, вход_запись = сам.труба()
@@ -38886,6 +38912,36 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_фактический_кадр_сверяется_с_квитанцией_группы(сам):
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        процесс = mock.Mock(pid=123, returncode=None)
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог)
+            записи = {'intent.DATA': f'run={run} phase=before-spawn\n',
+                      'owner.DATA': f'run={run} target=123 anchor=124 pgid=123 phase=before-gate\n',
+                      'target-reap.DATA': f'run={run} pid=123 raw=1792 outcome=OBSERVED\n',
+                      'anchor-reap.DATA': f'run={run} pid=124 raw=0 outcome=OBSERVED\n',
+                      'terminal.DATA': f'run={run} target=123 target_raw=1792 anchor=124 anchor_raw=0 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n'}
+            for имя, значение in записи.items():
+                (путь / имя).write_bytes(значение.encode())
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                for сырой, согласован in ((1792, True), (0, False)):
+                    frame = f'DONE {run} {сырой}\n'.encode()
+                    with mock.patch.object(м, '_тестово_прочитать_три_канала_2', return_value=(b'out', b'err', frame)), \
+                         mock.patch.object(м, '_кандидат_собрать_статус_лидера', return_value=0):
+                        with сам.assertRaises(м.ОшибкаОтчёта) as отказ:
+                            м._тестово_завершить_владельца_группы_2(
+                                процесс, (3, 4, 5), fd, run, срок=10, пределы=(3, 3), предел_суммы=6)
+                        if согласован:
+                            сам.assertIs(type(отказ.exception), м.ОшибкаНеподтверждённойГруппы)
+                            сам.assertEqual((отказ.exception.код_лидера, отказ.exception.frame), (7, frame))
+                        else:
+                            сам.assertIs(type(отказ.exception), м.ОшибкаОтчёта)
+            finally:
+                os.close(fd)
+
     def test_связка_трёх_каналов_сохраняет_unknown_и_данные(сам):
         м = загрузить_модуль_автоматизации()
         процесс = mock.Mock(pid=123, returncode=None)
