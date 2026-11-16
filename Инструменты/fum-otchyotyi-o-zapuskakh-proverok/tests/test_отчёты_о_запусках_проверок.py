@@ -40112,5 +40112,57 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                     os.close(fd)
 
 
+class ПроверкаВерсионированногоПрофиляGit(unittest.TestCase):
+    def test_public_guard_и_preflight_до_закрепления(сам):
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        профиль = м._профиль_неизвестных_источников_git(run, 'Журнал/проверка', b'fixture')
+        исходник = __import__('inspect').getsource(м.выполнить_запуск)
+        guard = '    raise ОшибкаОтчёта(_ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА)\n'
+        сам.assertEqual(исходник.count(guard), 1)
+        среда = dict(м.__dict__)
+        exec(compile(исходник.replace(guard, '    pass  # только изолированный тест preflight\n', 1),
+                     '<изолированный-публичный-preflight>', 'exec'), среда)
+        аргументы = (Path('/fixture'), Path('/fixture/запрос.md'), 'проверка', 'исполнитель', run, 10, ['true'])
+        with mock.patch.object(м.os, 'open') as открыть, \
+             mock.patch.object(м.subprocess, 'Popen') as запуск, \
+             mock.patch.object(Path, 'lstat') as lstat, \
+             mock.patch.object(м, 'атомарно_записать_байты') as записать, \
+             mock.patch.object(м, '_закрепить_каталог_прежнего_замка') as замок:
+            среда['_закрепить_каталог_прежнего_замка'] = замок
+            среда['атомарно_записать_байты'] = записать
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, м._ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА):
+                м.выполнить_запуск(*аргументы, _профиль_источников_git=профиль)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'профиль источников Git неизвестен'):
+                среда['выполнить_запуск'](*аргументы, _профиль_источников_git=профиль)
+            открыть.assert_not_called(); запуск.assert_not_called(); lstat.assert_not_called()
+            записать.assert_not_called(); замок.assert_not_called()
+
+    def test_unknown_закрывает_штатный_путь_до_записи(сам):
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        профиль = м._профиль_неизвестных_источников_git(run, 'Журнал/проверка', b'fixture')
+        сам.assertEqual((профиль.схема, профиль.состояние), ('fum.git-source-profile.1', 'UNKNOWN'))
+        with mock.patch.object(м, '_выполнить_ограниченный_запуск_внутри') as внутри, \
+             mock.patch.object(м.subprocess, 'Popen') as запуск, \
+             mock.patch.object(м.os, 'open') as открыть, \
+             mock.patch.object(Path, 'lstat') as lstat, \
+             mock.patch.object(м, 'атомарно_записать_байты') as записать:
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'профиль источников Git неизвестен'):
+                м._выполнить_ограниченный_запуск(Path('/fixture'), Path('/fixture/запрос.md'),
+                    'проверка', 'исполнитель', run, 10, ['true'], тайм_аут_блокировки=1,
+                    _профиль_источников_git=профиль)
+            внутри.assert_not_called(); запуск.assert_not_called(); открыть.assert_not_called()
+            lstat.assert_not_called(); записать.assert_not_called()
+
+    def test_legacy_профиль_не_перекодируется(сам):
+        м = загрузить_модуль_автоматизации()
+        with mock.patch.object(м, '_выполнить_ограниченный_запуск_внутри', return_value=73) as внутри:
+            итог = м._выполнить_ограниченный_запуск(Path('/fixture'), Path('/fixture/запрос.md'),
+                'проверка', 'исполнитель', None, 10, ['true'], тайм_аут_блокировки=1)
+        сам.assertEqual(итог, 73)
+        внутри.assert_called_once()
+
+
 if __name__ == '__main__':
     raise SystemExit('Запускайте тесты через unittest: прямой запуск не выполняет проверки')
