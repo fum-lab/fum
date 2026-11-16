@@ -57,14 +57,18 @@ private func сохранитьСобытие(_ dir: Int32, _ name: String, _ va
 
 // Only the direct parent may call this mode. It never sends a signal.
 func выполнитьВладельцаБезСигналов(_ args: [String]) -> Int32 {
-    guard args.count >= 14, ["fum-nosignal-owner.1", "fum-nosignal-owner.2"].contains(args[1]) else { return 125 }
-    let сОкружением = args[1] == "fum-nosignal-owner.2"
-    let разделитель = сОкружением ? 13 : 12
+    guard args.count >= 14, ["fum-nosignal-owner.1", "fum-nosignal-owner.2", "fum-nosignal-owner.3"].contains(args[1]) else { return 125 }
+    let новаяВерсия = args[1] == "fum-nosignal-owner.3"
+    let сОкружением = args[1] != "fum-nosignal-owner.1"
+    let разделитель = новаяВерсия ? 14 : (сОкружением ? 13 : 12)
     guard args.indices.contains(разделитель + 1),
           let run = ИдентификаторЗапуска(args[2]), let deadline = Int64(args[3]), String(deadline) == args[3],
           let statusFD = Int32(args[4]), statusFD > 2, String(statusFD) == args[4],
           let receiptFD = Int32(args[11]), receiptFD > 2, String(receiptFD) == args[11],
           args[разделитель] == "--", args[0].hasPrefix("/"), args[разделитель + 1].hasPrefix("/") else { return 125 }
+    if новаяВерсия {
+        guard let маска = UInt32(args[13]), String(маска) == args[13] else { return 125 }
+    }
     var envFD: Int32?, ожидаемаяСреда: ЯвноеОкружение?, меткаСреды: stat?
     if сОкружением {
         var метка = stat()
@@ -178,8 +182,9 @@ func выполнитьВладельцаБезСигналов(_ args: [String]
           posix_spawnattr_setsigdefault(&attrs, &defaults) == 0,
           posix_spawnattr_setflags(&attrs, Int16(POSIX_SPAWN_CLOEXEC_DEFAULT | POSIX_SPAWN_SETSID | POSIX_SPAWN_SETSIGDEF)) == 0 else { return cleanupBeforeSpawn("spawn-setup") }
     if let envFD, posix_spawn_file_actions_addinherit_np(&actions, envFD) != 0 { return cleanupBeforeSpawn("env-inherit") }
-    let shimArgs = [args[0], сОкружением ? "fum-nosignal-shim.2" : "fum-nosignal-shim.1", args[5], args[6], args[7], args[8], args[9], args[10], String(gate[0])] +
-        (envFD.map { [String($0)] } ?? []) + ["--"] + Array(args.dropFirst(разделитель + 1))
+    let версияШлюза = новаяВерсия ? "fum-nosignal-shim.3" : (сОкружением ? "fum-nosignal-shim.2" : "fum-nosignal-shim.1")
+    let shimArgs = [args[0], версияШлюза, args[5], args[6], args[7], args[8], args[9], args[10], String(gate[0])] +
+        (envFD.map { [String($0)] } ?? []) + (новаяВерсия ? [args[13]] : []) + ["--"] + Array(args.dropFirst(разделитель + 1))
     let argv = shimArgs.map { strdup($0) } + [nil]
     var env: [UnsafeMutablePointer<CChar>?] = [nil]
     defer { for p in argv { free(p) } }

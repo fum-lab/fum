@@ -147,10 +147,10 @@ private func run() -> Int32 {
     if arguments.count > 1 && arguments[1] == "fum-nosignal-shim.1" {
         return выполнитьШлюзБезСигналов(arguments)
     }
-    if arguments.count > 1 && arguments[1] == "fum-nosignal-shim.2" {
+    if arguments.count > 1 && ["fum-nosignal-shim.2", "fum-nosignal-shim.3"].contains(arguments[1]) {
         return выполнитьШлюзСОкружением(arguments)
     }
-    if arguments.count > 1 && ["fum-nosignal-owner.1", "fum-nosignal-owner.2"].contains(arguments[1]) {
+    if arguments.count > 1 && ["fum-nosignal-owner.1", "fum-nosignal-owner.2", "fum-nosignal-owner.3"].contains(arguments[1]) {
         return выполнитьВладельцаБезСигналов(arguments)
     }
     guard

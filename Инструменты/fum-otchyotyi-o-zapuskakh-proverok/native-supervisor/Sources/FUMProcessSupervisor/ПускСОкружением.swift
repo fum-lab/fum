@@ -30,12 +30,19 @@ func прочитатьОкружение(_ fd: Int32) -> ЯвноеОкруже
 
 // Environment имеет byte framing, а не политику доверия; её устанавливает caller.
 func выполнитьШлюзСОкружением(_ args: [String]) -> Int32 {
-    guard args.count >= 12, args[1] == "fum-nosignal-shim.2",
+    let новаяВерсия = args.count > 1 && args[1] == "fum-nosignal-shim.3"
+    let разделитель = новаяВерсия ? 11 : 10
+    guard args.count > разделитель + 1, ["fum-nosignal-shim.2", "fum-nosignal-shim.3"].contains(args[1]),
           let gate = Int32(args[8]), gate > 2, String(gate) == args[8],
           let envFD = Int32(args[9]), envFD > 2, String(envFD) == args[9], envFD != gate,
-          args[10] == "--", let root = ОпораЗаимствованногоКаталога(args[2], args[3], args[4], args[5], args[6], args[7],
+          args[разделитель] == "--", let root = ОпораЗаимствованногоКаталога(args[2], args[3], args[4], args[5], args[6], args[7],
               область: .рабочееДерево, занятыеДескрипторы: [gate, envFD]),
-          args[11].hasPrefix("/"), !args[11].split(separator: "/").contains("..") else { return 125 }
+          args[разделитель + 1].hasPrefix("/"), !args[разделитель + 1].split(separator: "/").contains("..") else { return 125 }
+    var исходнаяМаска: sigset_t = 0
+    if новаяВерсия {
+        guard let mask = UInt32(args[10]), String(mask) == args[10] else { return 125 }
+        исходнаяМаска = sigset_t(mask)
+    }
     var gateStat = stat()
     let gateFlags = fcntl(gate, F_GETFL), gateFDFlags = fcntl(gate, F_GETFD)
     guard fstat(gate, &gateStat) == 0, gateStat.st_mode & UInt16(S_IFMT) == UInt16(S_IFIFO),
@@ -46,10 +53,17 @@ func выполнитьШлюзСОкружением(_ args: [String]) -> Int32
     repeat { count = read(gate, &command, 1) } while count == -1 && errno == EINTR
     guard count == 1, command == 0x47, let environment = прочитатьОкружение(envFD),
           подтвердитьОткрытыйКаталог(root) else { return 125 }
+    if новаяВерсия {
+        guard fchdir(root.дескриптор) == 0 else { return 125 }
+        var текущаяМаска: sigset_t = 0
+        guard pthread_sigmask(SIG_SETMASK, &исходнаяМаска, nil) == 0,
+              pthread_sigmask(SIG_BLOCK, nil, &текущаяМаска) == 0,
+              текущаяМаска == исходнаяМаска else { return 125 }
+    }
     // Закрываем все три независимо и не запускаем target при любой ошибке.
     let gateClose = close(gate), envClose = close(envFD), rootClose = close(root.дескриптор)
     guard gateClose == 0, envClose == 0, rootClose == 0 else { return 125 }
-    let argv = args.dropFirst(11).map { strdup($0) } + [nil]
+    let argv = args.dropFirst(разделитель + 1).map { strdup($0) } + [nil]
     var env: [UnsafeMutablePointer<CChar>?] = []
     defer { for p in argv { free(p) }; for p in env { free(p) } }
     guard argv.dropLast().allSatisfy({ $0 != nil }) else { return 125 }
@@ -62,7 +76,7 @@ func выполнитьШлюзСОкружением(_ args: [String]) -> Int32
     }
     env.append(nil)
     _ = argv.withUnsafeBufferPointer { a in env.withUnsafeBufferPointer { e in
-        execve(args[11], UnsafeMutablePointer(mutating: a.baseAddress), UnsafeMutablePointer(mutating: e.baseAddress))
+        execve(args[разделитель + 1], UnsafeMutablePointer(mutating: a.baseAddress), UnsafeMutablePointer(mutating: e.baseAddress))
     } }
     return 125
 }
