@@ -138,7 +138,8 @@ private func исполнитьПроверку(_ аргументы: [String]) 
     guard close(допуск[1]) == 0 else { удерживать("target-close", процессЦели) }
     let сыройЦели = собрать(процессЦели, край)
     guard сыройЯкоря == 125 << 8, сыройЦели == 61 << 8 else { удерживать("unexpected-raw", процессЦели) }
-    print("mode=" + аргументы[2] + " target=" + String(процессЦели) + " target_raw=" + String(сыройЦели) + " anchor=" + String(процессЯкоря) + " anchor_raw=" + String(сыройЯкоря))
+    // Исполняемый путь задаёт вызывающий: образ и custody до exec здесь не аттестуются.
+    print("mode=" + аргументы[2] + " target=" + String(процессЦели) + " target_raw=" + String(сыройЦели) + " anchor=" + String(процессЯкоря) + " anchor_raw=" + String(сыройЯкоря) + " образ_якоря=UNKNOWN")
     exit(0)
 }
 @main struct Проверка {
