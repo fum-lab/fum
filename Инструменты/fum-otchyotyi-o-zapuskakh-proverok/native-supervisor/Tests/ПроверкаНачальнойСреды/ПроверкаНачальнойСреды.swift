@@ -63,7 +63,7 @@ public func проверитьНачальнуюСреду(
             guard line.utf8CString.withUnsafeBytes({ Darwin.write(STDOUT_FILENO, $0.baseAddress, $0.count-1) }) == line.utf8.count else { return 49 }
             while true { Darwin.pause() }
         }
-        if ["--witness8-target", "--witness9-target", "--проверить-witness9", "--проверить-witness9-eof", "--проверить-witness9-alias", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant", "--проверить-witness8-descendant-exit"].contains(режим) {
+        if ["--witness8-target", "--witness9-target", "--проверить-witness9", "--проверить-witness9-eof", "--проверить-witness9-alias", "--проверить-witness9-owner", "--проверить-witness8", "--witness8-target-overflow", "--проверить-witness8-overflow", "--witness8-target-timeout", "--проверить-witness8-timeout", "--witness8-target-descendant", "--проверить-witness8-descendant", "--проверить-witness8-descendant-exit"].contains(режим) {
             var args = [String]()
             for индекс in 0..<Int(количество) {
                 guard let часть = аргументы[индекс] else { return 40 }
@@ -285,7 +285,7 @@ private func цельПрофиля(_ args: [String]) -> Int32 {
 private func запуститьСлучайПрофиля(_ helper: String, _ witness: String, _ anchor: String,
                                     корректнаяОпора: Bool, переполнение: Bool, таймаут: Bool, потомок: Bool,
                                     наблюдатьВыход: Bool, каталогВместоФайла: Bool, закрытьДопуск: Bool,
-                                    общаяОпора: Bool) -> Bool {
+                                    общаяОпора: Bool, квитанции: Int32?) -> Bool {
     var шаблон = Array("/private/tmp/fum-witness8-swift.XXXXXXXX".utf8CString)
     guard let указатель = mkdtemp(&шаблон) else { сообщениеПрофиля("FAIL mkdtemp"); return false }
     let каталог = String(cString: указатель)
@@ -375,6 +375,15 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     let id = "00112233-4455-4677-8899-aabbccddeeff"
     let idБайты: [UInt8] = [0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x46, 0x77,
                             0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff]
+    if let квитанции {
+        var меткаКвитанций = stat()
+        guard Darwin.fstat(квитанции, &меткаКвитанций) == 0,
+              меткаКвитанций.st_dev != каталогStat.st_dev || меткаКвитанций.st_ino != каталогStat.st_ino,
+              меткаКвитанций.st_dev != bStat.st_dev || меткаКвитанций.st_ino != bStat.st_ino,
+              записатьКвитанциюВладельца(квитанции, "intent.DATA", "run=\(id) phase=before-spawn\n") else {
+            return отказ("intent владельца")
+        }
+    }
     let inoB = корректнаяОпора || общаяОпора ? bStat.st_ino : (bStat.st_ino == 1 ? 2 : bStat.st_ino - 1)
     var argv = [witness, каталогВместоФайла ? "fum-run-witness.9" : "fum-run-witness.8", id, anchor,
                 String(status[1]), "5000", "none", String(крайЗапуска), "5000",
@@ -421,6 +430,10 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
         return отказ("posix_spawn вернул \(код); POSIX_SPAWN_SETSID не обходится")
     }
     guard pid > 1 else { неизвестно("нет PID после spawn") }
+    if let квитанции {
+        guard записатьКвитанциюВладельца(квитанции, "owner.DATA",
+            "run=\(id) witness=\(pid) phase=before-gate\n") else { неизвестно("owner receipt") }
+    }
     сообщениеПрофиля("START: pid=\(pid); fixture=\(каталог)")
     закрыть(&control[0], "control reader")
     закрыть(&status[1], "status writer")
@@ -577,6 +590,10 @@ private func запуститьСлучайПрофиля(_ helper: String, _ wi
     guard имяЧужого.withCString({ Darwin.unlink($0) }) == 0 else { неизвестно("unlink чужой файл") }
     guard имяB.withCString({ каталогВместоФайла ? Darwin.rmdir($0) : Darwin.unlink($0) }) == 0 else { неизвестно("удаление B") }
     guard каталог.withCString({ Darwin.rmdir($0) }) == 0 else { неизвестно("rmdir fixture") }
+    if let квитанции {
+        guard записатьКвитанциюВладельца(квитанции, "terminal.DATA",
+            "run=\(id) witness=\(pid) waitpid=\(pid) raw=\(завершение) outcome=PRE-CLOSE\n") else { неизвестно("terminal receipt") }
+    }
     if let итогПереполнения { guard сообщениеПрофиля(итогПереполнения) else { неизвестно("печать результата") } }
     return сообщениеПрофиля("PROVISIONAL witness\(каталогВместоФайла ? "9" : "8") \(общаяОпора ? "alias" : (корректнаяОпора ? "B" : "неверный inode"))")
 }
@@ -606,7 +623,8 @@ private func профильWitness8(_ args: [String]) -> Int32 {
           вывод.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG), вывод.st_nlink == 1,
           вывод.st_uid == getuid(), getuid() == geteuid(), флагиВывода >= 0,
           [O_WRONLY, O_RDWR].contains(флагиВывода & O_ACCMODE) else { return 40 }
-    guard args.count == 4,
+    let сКвитанцией = args.count == 5 && args[1] == "--проверить-witness9-owner"
+    guard (args.count == 4 || сКвитанцией),
           let каталог = каталогФизическогоИсполняемогоФайла(args[0], имя: "фум-проверка-начальной-среды"),
           каталогФизическогоИсполняемогоФайла(args[2], имя: "fum-anchor-witness") == каталог,
           каталогФизическогоИсполняемогоФайла(args[3], имя: "fum-process-anchor") == каталог else { return 40 }
@@ -620,13 +638,16 @@ private func профильWitness8(_ args: [String]) -> Int32 {
     let таймаут = args[1] == "--проверить-witness8-timeout" || потомок
     let закрытьДопуск = args[1] == "--проверить-witness9-eof"
     let общаяОпора = args[1] == "--проверить-witness9-alias"
-    let каталогВместоФайла = args[1] == "--проверить-witness9" || закрытьДопуск || общаяОпора
+    let каталогВместоФайла = args[1] == "--проверить-witness9" || закрытьДопуск || общаяОпора || сКвитанцией
+    let квитанции = сКвитанцией ? args[4].withCString { Darwin.open($0, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC) } : -1
+    if сКвитанцией && квитанции <= 2 { return 40 }
+    defer { if квитанции >= 0 { _ = Darwin.close(квитанции) } }
     if общаяОпора {
-        return запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: false, таймаут: false, потомок: false, наблюдатьВыход: false, каталогВместоФайла: true, закрытьДопуск: false, общаяОпора: true) ? 0 : 1
+        return запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: false, таймаут: false, потомок: false, наблюдатьВыход: false, каталогВместоФайла: true, закрытьДопуск: false, общаяОпора: true, квитанции: nil) ? 0 : 1
     }
-    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход, каталогВместоФайла: каталогВместоФайла, закрытьДопуск: закрытьДопуск, общаяОпора: false) else { return 1 }
-    if !закрытьДопуск {
-        guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход, каталогВместоФайла: каталогВместоФайла, закрытьДопуск: false, общаяОпора: false) else { return 1 }
+    guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: true, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход, каталогВместоФайла: каталогВместоФайла, закрытьДопуск: закрытьДопуск, общаяОпора: false, квитанции: сКвитанцией ? квитанции : nil) else { return 1 }
+    if !закрытьДопуск && !сКвитанцией {
+        guard запуститьСлучайПрофиля(args[0], args[2], args[3], корректнаяОпора: false, переполнение: переполнение, таймаут: таймаут, потомок: потомок, наблюдатьВыход: наблюдатьВыход, каталогВместоФайла: каталогВместоФайла, закрытьДопуск: false, общаяОпора: false, квитанции: nil) else { return 1 }
     }
     return 0
 }
