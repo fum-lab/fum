@@ -4998,7 +4998,7 @@ class _ТестовоеНаблюдениеGitСПрофилем(NamedTuple):
         raise ОшибкаОтчёта('наблюдение Git не является допуском')
 
 
-def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок, _linked=None, _detached_head=None):
+def _тестово_связать_удержанный_git(читатель, fd, связь, pin, run, операция, *, срок, _linked=None, _detached_head=None, _symbolic=None):
     """Один вызов существующего test-only transport под удержанием источников.
 
     Привязка действует только для synthetic конфигурации читателя. Caller
@@ -5035,6 +5035,17 @@ def _тестово_связать_удержанный_git(читатель, fd
                 or головы[0]['размер'] != len(_detached_head)
                 or головы[0]['sha256'] != hashlib.sha256(_detached_head).hexdigest()):
                 raise ОшибкаОтчёта('HEAD не совпадает с удержанным источником')
+        if _symbolic is not None:
+            if (_detached_head is not None or type(_linked) is not _ТестовоеУдержаниеСвязанногоGit
+                or type(_symbolic) is not _ТестовыйLooseRef
+                or _symbolic.удержание is not _linked
+                or операция != ('rev-parse', '--verify', 'HEAD')):
+                raise ОшибкаОтчёта('неподтверждённый symbolic HEAD')
+            головы = [источник for источник in json.loads(_linked.описание)['объявленные_источники'] if источник['роль'] == 'head']
+            if (len(головы) != 1 or головы[0]['состояние'] != 'присутствует'
+                or головы[0]['sha256'] != hashlib.sha256(_symbolic.head).hexdigest()):
+                raise ОшибкаОтчёта('symbolic HEAD не совпадает с удержанным источником')
+            _symbolic.проверить()
         читатель._сверить_заявленную_связь(fd, связь, pin)
     except BaseException:
         читатель._отказ = True
@@ -5045,6 +5056,10 @@ def _тестово_связать_удержанный_git(читатель, fd
         читатель._сверить_заявленную_связь(fd, связь, pin)
         if _detached_head is not None and stdout != _detached_head:
             raise ОшибкаОтчёта('результат Git не совпадает с detached HEAD')
+        if _symbolic is not None:
+            _symbolic.проверить()
+            if stdout != _symbolic.значение:
+                raise ОшибкаОтчёта('результат Git не совпадает с loose ref')
         if len(читатель.владельцы) != исходное_число + 1:
             raise ОшибкаОтчёта('не подтверждён единственный вызов Git')
         владелец = читатель.владельцы[-1]
@@ -5068,6 +5083,12 @@ def _тестово_связать_удержанный_git(читатель, fd
             данные['linked_описание_sha256'] = hashlib.sha256(_linked.описание).hexdigest()
         if _detached_head is not None:
             данные['detached_head_sha256'] = hashlib.sha256(_detached_head).hexdigest()
+        if _symbolic is not None:
+            данные['symbolic_head_sha256'] = hashlib.sha256(_symbolic.head).hexdigest()
+            данные['loose_ref_sha256'] = hashlib.sha256(_symbolic.значение).hexdigest()
+            данные['packed_refs'] = ({'состояние': 'отсутствует'} if _symbolic.packed is None else
+                {'состояние': 'присутствует', 'размер': len(_symbolic.packed),
+                 'sha256': hashlib.sha256(_symbolic.packed).hexdigest()})
         манифест = json.dumps(данные, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
         return _ТестовоеНаблюдениеGitСПрофилем(данные['схема'], манифест,
                                                'sha256:' + hashlib.sha256(манифест).hexdigest())
@@ -6281,6 +6302,105 @@ def _тестово_связать_источники_linked_git(рабочий,
                 if первичная is not None:
                     raise _составить_отказ_системного_git(первичная, (ошибка_очистки,)) from None
                 raise
+
+
+@contextlib.contextmanager
+def _тестово_удержать_loose_ref_git(общий: int, head: bytes):
+    """Только refs/heads и loose ref; наличие packed-refs удерживается отдельно.
+
+    Непрерывная custody, объекты, backend refs и происхождение образа UNKNOWN.
+    """
+    if type(общий) is not int or общий < 0 or type(head) is not bytes:
+        raise ОшибкаОтчёта('неверный symbolic HEAD')
+    совпадение = re.fullmatch(rb'ref: refs/heads/([A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+){0,7})\n', head)
+    if совпадение is None:
+        raise ОшибкаОтчёта('неподдерживаемый symbolic HEAD')
+    части = совпадение.group(1).decode('ascii').split('/')
+    if any(часть.startswith('.') or часть.endswith(('.', '.lock')) or '..' in часть for часть in части):
+        raise ОшибкаОтчёта('небезопасный symbolic ref')
+    дескрипторы, первичная = [], None
+    try:
+        packed = _прочитать_источник_git_через_fd(общий, 'packed-refs', 1048576)
+        packed_fd = None
+        if packed is not None:
+            packed_fd = _приобрести_fd(дескрипторы, os.open, 'packed-refs',
+                os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC, dir_fd=общий)
+        родители = []
+        текущий = общий
+        def метка(fd):
+            с = os.fstat(fd)
+            return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid, с.st_nlink, с.st_size, с.st_mtime_ns, с.st_ctime_ns)
+        def имя_совпадает(родитель, имя, fd):
+            с = os.stat(имя, dir_fd=родитель, follow_symlinks=False)
+            return (с.st_dev, с.st_ino, с.st_mode, с.st_uid, с.st_gid, с.st_nlink, с.st_size, с.st_mtime_ns, с.st_ctime_ns) == метка(fd)
+        packed_метка = None if packed_fd is None else метка(packed_fd)
+        for имя in ('refs', 'heads', *части[:-1]):
+            fd = _приобрести_fd(дескрипторы, _открыть_каталог_git_через_fd, текущий, имя)
+            родители.append((текущий, имя, fd, метка(fd)))
+            текущий = fd
+        имя = части[-1]
+        данные = _прочитать_источник_git_через_fd(текущий, имя, 4096)
+        if type(данные) is not bytes or re.fullmatch(rb'[0-9a-f]{40}\n', данные) is None:
+            raise ОшибкаОтчёта('неподтверждённый loose ref')
+        ref_fd = _приобрести_fd(дескрипторы, os.open, имя,
+            os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC, dir_fd=текущий)
+        ref_метка = метка(ref_fd)
+        def проверить():
+            if (_прочитать_источник_git_через_fd(общий, 'packed-refs', 1048576) != packed
+                or (packed_fd is not None and (метка(packed_fd) != packed_метка or not имя_совпадает(общий, 'packed-refs', packed_fd)))
+                or any(метка(fd) != было or not имя_совпадает(родитель, имя, fd)
+                       for родитель, имя, fd, было in родители)
+                or метка(ref_fd) != ref_метка or not имя_совпадает(текущий, имя, ref_fd)
+                or _прочитать_источник_git_через_fd(текущий, имя, 4096) != данные):
+                raise ОшибкаОтчёта('symbolic ref изменился')
+        проверить()
+        try:
+            yield данные, проверить, packed
+        except BaseException as ошибка:
+            try:
+                проверить()
+            except BaseException as вторичная:
+                raise _составить_отказ_системного_git(ошибка, (вторичная,)) from None
+            raise
+        else:
+            проверить()
+    except BaseException as ошибка:
+        первичная = ошибка
+        raise
+    finally:
+        _закрыть_удержанные_fd(дескрипторы, первичная, 'synthetic loose ref', _сохранять_ошибки=True)
+
+
+class _ТестовыйLooseRef:
+    """Живой test-only ref; не граница от произвольного Python."""
+    __slots__ = ('удержание', 'head', 'значение', 'packed', '_проверка', '_активно', '_pid', '_поток')
+
+    def __init__(сам, удержание, head, значение, packed, проверка):
+        сам.удержание, сам.head, сам.значение, сам._проверка = удержание, head, значение, проверка
+        сам.packed = packed
+        сам._активно, сам._pid, сам._поток = True, os.getpid(), threading.current_thread()
+
+    def проверить(сам):
+        if not сам._активно or сам._pid != os.getpid() or сам._поток is not threading.current_thread():
+            raise ОшибкаОтчёта('удержание loose ref недействительно')
+        сам._проверка()
+
+
+def _тестово_связать_symbolic_git(читатель, fd, связь, pin, run, *, срок, удержание, общий_fd, head):
+    """Один UNKNOWN consumer при удержанном linked HEAD и loose ref."""
+    if type(удержание) is not _ТестовоеУдержаниеСвязанногоGit or type(общий_fd) is not int:
+        raise ОшибкаОтчёта('неверное удержание symbolic Git')
+    общий = os.fstat(общий_fd)
+    описание = json.loads(удержание.описание)
+    if (общий.st_dev, общий.st_ino) != tuple(описание['общий']):
+        raise ОшибкаОтчёта('чужой общий каталог symbolic Git')
+    with _тестово_удержать_loose_ref_git(общий_fd, head) as (значение, проверить, packed):
+        ref = _ТестовыйLooseRef(удержание, head, значение, packed, проверить)
+        try:
+            return _тестово_связать_удержанный_git(читатель, fd, связь, pin, run,
+                ('rev-parse', '--verify', 'HEAD'), срок=срок, _linked=удержание, _symbolic=ref)
+        finally:
+            ref._активно = False
 
 
 class _НеполныйКонтекстGit:

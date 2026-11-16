@@ -40040,6 +40040,49 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                             _linked=удержание, _detached_head=голова)
                     запуск.assert_not_called()
 
+    def test_symbolic_loose_ref_связан_с_consumer(сам):
+        м = загрузить_модуль_автоматизации()
+        pin = ('/usr/bin/git', 'sha256:' + '1' * 64)
+        head = b'ref: refs/heads/codex/work\n'
+        значение = b'0123456789abcdef0123456789abcdef01234567\n'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            (gitdir / 'HEAD').write_bytes(head)
+            (общий / 'refs' / 'heads' / 'codex').mkdir(parents=True)
+            (общий / 'refs' / 'heads' / 'codex' / 'work').write_bytes(значение)
+            срок = time.monotonic() + 10
+            with м._тестово_связать_источники_linked_git(рабочий, общий, 'work', срок=срок) as (fd, связь, удержание):
+                общий_fd = os.open(общий, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                try:
+                    читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                        предел_вызовов=1, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                    def читать(объект, корень, *операция, срок):
+                        владелец = м._ТестовыйВладелецGit()
+                        владелец.pid = 123
+                        владелец.процесс = mock.Mock(pid=123, returncode=0)
+                        владелец.код, владелец.закрытие, владелец.состояние = 0, ('закрыт', 'закрыт'), 'лидер-собран'
+                        объект.владельцы.append(владелец)
+                        return значение
+                    with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__', new=читать):
+                        итог = м._тестово_связать_symbolic_git(читатель, fd, связь, pin,
+                            '00112233-4455-4677-8899-aabbccddeeff', срок=срок,
+                            удержание=удержание, общий_fd=общий_fd, head=head)
+                    данные = json.loads(итог.манифест)
+                    сам.assertEqual(итог.состояние, 'UNKNOWN')
+                    сам.assertEqual(данные['loose_ref_sha256'], hashlib.sha256(значение).hexdigest())
+                    сам.assertEqual(данные['packed_refs'], {'состояние': 'отсутствует'})
+                    (общий / 'packed-refs').write_bytes(b'')
+                    читатель = м._ТестовыйОграниченныйGit('/usr/bin/git', str(рабочий), [], срок=срок,
+                        предел_вызовов=1, предел_списка=1024, _конфигурация=(fd, связь), _ожидаемый_pin=pin)
+                    with mock.patch.object(м._ТестовыйОграниченныйGit, '__call__', new=читать):
+                        итог = м._тестово_связать_symbolic_git(читатель, fd, связь, pin,
+                            '00112233-4455-4677-8899-aabbccddeeff', срок=срок,
+                            удержание=удержание, общий_fd=общий_fd, head=head)
+                    сам.assertEqual(json.loads(итог.манифест)['packed_refs'],
+                        {'состояние': 'присутствует', 'размер': 0, 'sha256': hashlib.sha256(b'').hexdigest()})
+                    (общий / 'packed-refs').unlink()
+                finally:
+                    os.close(общий_fd)
+
 
 if __name__ == '__main__':
     raise SystemExit('Запускайте тесты через unittest: прямой запуск не выполняет проверки')
