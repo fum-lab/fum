@@ -15583,6 +15583,47 @@ def _адаптировать_каталог_owner4(каталог_fd, run, fram
         raise ОшибкаОтчёта("не удалось прочитать квитанции owner.4") from ошибка
 
 
+def _адаптировать_свидетельство_целевой_группы_1(
+    run, intent, owner, target_reap, anchor_reap, terminal, frame,
+    код_owner, неизвестно_до, неизвестно_после,
+):
+    """Проверить согласованность переданных байтов, сохраняя отказ допуска группы."""
+    if (type(run) is not str or re.fullmatch(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", run) is None
+        or type(код_owner) is not int or код_owner != 0
+        or type(неизвестно_до) is not bool or неизвестно_до
+        or type(неизвестно_после) is not bool or неизвестно_после
+        or any(type(данные) is not bytes or len(данные) > 256
+               for данные in (intent, owner, target_reap, anchor_reap, terminal, frame))):
+        raise ОшибкаОтчёта("неизвестен исход владельца целевой группы")
+    if intent != f"run={run} phase=before-spawn\n".encode("ascii"):
+        raise ОшибкаОтчёта("неверный intent целевой группы")
+    префикс = b"run=" + run.encode("ascii")
+    номер = rb"([1-9][0-9]{0,9})"
+    статус = rb"(0|[1-9][0-9]{0,4})"
+    первый = re.fullmatch(префикс + rb" target=" + номер + rb" anchor=" + номер +
+                          rb" pgid=" + номер + rb" phase=before-gate\n", owner)
+    последний = re.fullmatch(префикс + rb" target=" + номер + rb" target_raw=" + статус +
+                             rb" anchor=" + номер + rb" anchor_raw=" + статус +
+                             rb" group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n", terminal)
+    if первый is None or последний is None:
+        raise ОшибкаОтчёта("неверная квитанция целевой группы")
+    цель, якорь, группа = map(int, первый.groups())
+    итог_цели, сырой_цели, итог_якоря, сырой_якоря = map(int, последний.groups())
+    if (not 1 < цель <= 2_147_483_647 or not 1 < якорь <= 2_147_483_647
+        or цель == якорь or группа != цель or итог_цели != цель or итог_якоря != якорь or сырой_якоря != 0
+        or any(сырой > 65_535 or not (os.WIFEXITED(сырой) or os.WIFSIGNALED(сырой))
+               for сырой in (сырой_цели, сырой_якоря))
+        or target_reap != f"run={run} pid={цель} raw={сырой_цели} outcome=OBSERVED\n".encode("ascii")
+        or anchor_reap != f"run={run} pid={якорь} raw={сырой_якоря} outcome=OBSERVED\n".encode("ascii")
+        or frame != f"DONE {run} {сырой_цели}\n".encode("ascii")):
+        raise ОшибкаОтчёта("несогласованное свидетельство целевой группы")
+    try:
+        код = os.waitstatus_to_exitcode(сырой_цели)
+    except ValueError as ошибка:
+        raise ОшибкаОтчёта("неверный статус целевой группы") from ошибка
+    raise ОшибкаНеподтверждённойГруппы(код)
+
+
 def группа_процессов_существует(идентификатор_группы: int) -> bool:
     try:
         os.killpg(идентификатор_группы, 0)

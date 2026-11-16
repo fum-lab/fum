@@ -39168,6 +39168,44 @@ class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
             finally:
                 os.close(fd)
 
+    def test_адаптер_целевой_группы_сверяет_оба_wait_и_поздний_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        run = "00112233-4455-4677-8899-aabbccddeeff"
+        intent = f"run={run} phase=before-spawn\n".encode()
+        owner = f"run={run} target=123 anchor=124 pgid=123 phase=before-gate\n".encode()
+        target = f"run={run} pid=123 raw=1792 outcome=OBSERVED\n".encode()
+        anchor = f"run={run} pid=124 raw=0 outcome=OBSERVED\n".encode()
+        terminal = f"run={run} target=123 target_raw=1792 anchor=124 anchor_raw=0 group=ESRCH reuse=UNKNOWN outcome=PRE-CLOSE\n".encode()
+        frame = f"DONE {run} 1792\n".encode()
+        данные = (run, intent, owner, target, anchor, terminal, frame, 0, False, False)
+        with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as отказ:
+            м._адаптировать_свидетельство_целевой_группы_1(*данные)
+        сам.assertEqual(отказ.exception.код_лидера, 7)
+        for сырой, ожидаемый in ((0, 0), (15, -15)):
+            варианты = list(данные)
+            for позиция in (3, 5, 6):
+                варианты[позиция] = варианты[позиция].replace(b"1792", str(сырой).encode())
+            with сам.assertRaises(м.ОшибкаНеподтверждённойГруппы) as отказ:
+                м._адаптировать_свидетельство_целевой_группы_1(*варианты)
+            сам.assertEqual(отказ.exception.код_лидера, ожидаемый)
+        for позиция, значение in ((1, b""), (2, owner.replace(b"pgid=123", b"pgid=124")),
+                                  (3, target.replace(b"pid=123", b"pid=124")),
+                                  (4, anchor.replace(b"raw=0", b"raw=15")),
+                                  (5, terminal.replace(b"anchor_raw=0", b"anchor_raw=127")),
+                                  (6, frame + b"x"), (7, 1), (7, False), (8, True), (9, True)):
+            неверно = list(данные)
+            неверно[позиция] = значение
+            with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                м._адаптировать_свидетельство_целевой_группы_1(*неверно)
+            сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+        for сырой_якоря in (15, 1792):
+            неверно = list(данные)
+            неверно[4] = anchor.replace(b"raw=0", f"raw={сырой_якоря}".encode())
+            неверно[5] = terminal.replace(b"anchor_raw=0", f"anchor_raw={сырой_якоря}".encode())
+            with сам.assertRaises(м.ОшибкаОтчёта) as ошибка:
+                м._адаптировать_свидетельство_целевой_группы_1(*неверно)
+            сам.assertIs(type(ошибка.exception), м.ОшибкаОтчёта)
+
     def test_граница_адаптера_сохраняет_unknown_и_код_target(сам):
         м = загрузить_модуль_автоматизации()
         run = "00112233-4455-4677-8899-aabbccddeeff"
