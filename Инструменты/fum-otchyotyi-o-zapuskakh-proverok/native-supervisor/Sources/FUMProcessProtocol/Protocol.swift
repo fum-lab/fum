@@ -178,6 +178,47 @@ public struct ОпораЗаимствованногоДопуска: Equatable,
     public var переменнаяЦели: String { "FUM_BORROWED_ADMISSION_FD=\(дескриптор)" }
 }
 
+/// Область directory FD задаётся отдельно от файлового допуска.
+public enum ОбластьЗаимствованногоКаталога: Equatable, Sendable {
+    case рабочееДерево
+    case приватныеКвитанции
+}
+
+/// Только синтаксис и заявленная identity; открытие и custody проверяются отдельно.
+public struct ОпораЗаимствованногоКаталога: Equatable, Sendable {
+    public static let версия = "фум.заимствованный-каталог.1"
+    public let путь: String
+    public let дескриптор: Int32
+    public let устройство: UInt64
+    public let инод: UInt64
+    public let владелец: UInt32
+    public let режим: UInt16
+    public let область: ОбластьЗаимствованногоКаталога
+
+    public init?(_ путь: String, _ текстДескриптора: String, _ устройство: String, _ инод: String,
+                 _ владелец: String, _ режим: String, область: ОбластьЗаимствованногоКаталога,
+                 занятыеДескрипторы: [Int32]) {
+        let части = путь.split(separator: "/", omittingEmptySubsequences: false)
+        guard путь.utf8.count < 1024, !путь.utf8.contains(0), части.count >= 2,
+              части.first == "", части.dropFirst().allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." }),
+              занятыеДескрипторы.count <= 16, занятыеДескрипторы.allSatisfy({ $0 >= 0 }),
+              Set(занятыеДескрипторы).count == занятыеДескрипторы.count,
+              let номер = Int32(текстДескриптора), номер > 2, String(номер) == текстДескриптора,
+              !занятыеДескрипторы.contains(номер),
+              let устройствоЧисло = UInt64(устройство), String(устройствоЧисло) == устройство,
+              let инодЧисло = UInt64(инод), инодЧисло > 0, String(инодЧисло) == инод,
+              let владелецЧисло = UInt32(владелец), String(владелецЧисло) == владелец,
+              let режимЧисло = UInt16(режим), String(режимЧисло) == режим, режимЧисло <= 0o7777 else { return nil }
+        self.путь = путь
+        self.дескриптор = номер
+        self.устройство = устройствоЧисло
+        self.инод = инодЧисло
+        self.владелец = владелецЧисло
+        self.режим = режимЧисло
+        self.область = область
+    }
+}
+
 public enum ПолитикаСредыЦели: Equatable, Sendable {
     case legacy
     case isolatedGit
