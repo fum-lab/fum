@@ -5509,6 +5509,148 @@ class ПроверкаСтрогогоЧтенияМашиннойЗаписи(u
 
 
 class ПроверкаЗакрытыхПубличныхВходов(unittest.TestCase):
+    def test_ro_worker_таймаут_без_сигнала_и_явный_reap(сам):
+        процесс = subprocess.Popen(['/bin/cat'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL,
+                                   stderr=subprocess.DEVNULL, env={'PATH': os.defpath, 'LC_ALL': 'C'})
+        собран, stdin_закрыт = False, False
+        try:
+            начало = time.monotonic()
+            срок = начало + 0.2
+            while time.monotonic() < срок:
+                pid, статус = os.waitpid(процесс.pid, os.WNOHANG)
+                if pid:
+                    собран = True
+                    процесс.returncode = os.waitstatus_to_exitcode(статус)
+                    сам.fail('worker завершился до deadline')
+                time.sleep(0.01)
+            решение = 'UNKNOWN'
+            процесс.stdin.close()
+            stdin_закрыт = True
+            срок_очистки = time.monotonic() + 3
+            while time.monotonic() < срок_очистки:
+                pid, статус = os.waitpid(процесс.pid, os.WNOHANG)
+                if pid:
+                    собран = True
+                    процесс.returncode = os.waitstatus_to_exitcode(статус)
+                    break
+                time.sleep(0.01)
+            if not собран:
+                сам.fail('UNKNOWN: worker не собран после закрытия synthetic pipe')
+            сам.assertEqual(решение, 'UNKNOWN')
+            сам.assertEqual(pid, процесс.pid)
+            сам.assertTrue(os.WIFEXITED(статус))
+            сам.assertEqual(os.WEXITSTATUS(статус), 0)
+            print('synthetic_worker=' + str(pid) + ' decision=UNKNOWN raw_wait=' + str(статус) + ' signals=0')
+        finally:
+            if not stdin_закрыт and процесс.stdin is not None:
+                процесс.stdin.close()
+
+    def test_потоковый_git_ограничивает_глубину_и_fd(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            текущий = Path(каталог)
+            for _ in range(64):
+                текущий = текущий / 'd'
+                текущий.mkdir()
+            (текущий / '.gitignore').write_bytes(b'fixture\n')
+            rootfd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            штатное_открытие, штатное_закрытие = os.open, os.close
+            открытые, максимум = set(), [0]
+            def открыть(*аргументы, **ключи):
+                результат = штатное_открытие(*аргументы, **ключи)
+                открытые.add(результат)
+                максимум[0] = max(максимум[0], len(открытые))
+                return результат
+            def закрыть(номер):
+                штатное_закрытие(номер)
+                открытые.discard(номер)
+            try:
+                with mock.patch.object(м.os, 'open', side_effect=открыть), \
+                     mock.patch.object(м.os, 'close', side_effect=закрыть):
+                    м._снять_дерево_git_потоком(rootfd, срок=time.monotonic() + 10)
+                    сам.assertEqual(максимум[0], 65)
+                    сам.assertEqual(открытые, set())
+                    (текущий / 'd').mkdir()
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._снять_дерево_git_потоком(rootfd, срок=time.monotonic() + 10)
+                    сам.assertEqual(открытые, set())
+                print('synthetic_deep_python_open_peak=65; kernel_internal_fd=UNKNOWN')
+            finally:
+                os.close(rootfd)
+
+    def test_потоковый_обход_git_и_untracked_negation(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            база = Path(каталог).resolve()
+            репо, дерево = база / 'repo', база / 'work'
+            окружение = {'PATH': os.defpath, 'HOME': str(база), 'LC_ALL': 'C',
+                         'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+                         'GIT_ATTR_NOSYSTEM': '1', 'GIT_ALLOW_PROTOCOL': ''}
+            def git(*аргументы):
+                return subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null', *аргументы],
+                                      env=окружение, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                      stderr=subprocess.PIPE, check=True, timeout=10)
+            git('init', '-q', str(репо))
+            (репо / 'nested').mkdir()
+            (репо / 'nested' / 'tracked.txt').write_bytes(b'tracked\n')
+            git('-C', str(репо), 'add', 'nested/tracked.txt')
+            git('-C', str(репо), '-c', 'user.name=fixture', '-c', 'user.email=fixture@invalid',
+                'commit', '-q', '-m', 'fixture')
+            git('-C', str(репо), 'worktree', 'add', '-q', '-b', 'stream-fixture', str(дерево))
+            (дерево / '.gitignore').write_bytes(b'ignored/\n')
+            (дерево / 'nested' / '.gitignore').write_bytes(b'*.tmp\n!keep.tmp\n')
+            (дерево / 'nested' / 'ignored.tmp').write_bytes(b'ignored\n')
+            (дерево / 'nested' / 'keep.tmp').write_bytes(b'keep\n')
+            (дерево / 'nested' / 'visible.txt').write_bytes(b'visible\n')
+            (дерево / 'ignored').mkdir()
+            (дерево / 'ignored' / '.gitignore').write_bytes(b'!keep\n')
+            (дерево / 'ignored' / 'keep').write_bytes(b'ignored parent\n')
+            for номер in range(129):
+                (дерево / 'ignored' / ('d' + str(номер))).mkdir()
+            ответ = git('-C', str(дерево), 'ls-files', '--others', '--exclude-standard', '-z', '--', '.')
+            сам.assertEqual(ответ.stdout, b'.gitignore\0nested/.gitignore\0nested/keep.tmp\0nested/visible.txt\0')
+            print('synthetic_untracked_hex=' + ответ.stdout.hex())
+            fd = os.open(дерево, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                снять = м._снять_дерево_git_потоком
+                первый = снять(fd, срок=time.monotonic() + 10)
+                штатное_открытие, штатное_закрытие = os.open, os.close
+                открытые, максимум = set(), [0]
+                def открыть(*аргументы, **ключи):
+                    результат = штатное_открытие(*аргументы, **ключи)
+                    открытые.add(результат)
+                    максимум[0] = max(максимум[0], len(открытые))
+                    return результат
+                def закрыть(номер):
+                    штатное_закрытие(номер)
+                    открытые.discard(номер)
+                with mock.patch.object(м.os, 'open', side_effect=открыть), \
+                     mock.patch.object(м.os, 'close', side_effect=закрыть):
+                    сам.assertEqual(первый, снять(fd, срок=time.monotonic() + 10))
+                сам.assertEqual(открытые, set())
+                сам.assertLessEqual(максимум[0], 4)
+                print('synthetic_python_open_peak=' + str(максимум[0]))
+                for ограничения in ({'срок': time.monotonic() - 1},
+                                   {'срок': time.monotonic() + 10, 'предел_записей': 1},
+                                   {'срок': time.monotonic() + 10, 'предел_глубины': 0},
+                                   {'срок': time.monotonic() + 10, 'предел_записей': 100_001},
+                                   {'срок': time.monotonic() + 10, 'предел_глубины': 65},
+                                   {'срок': time.monotonic() + 10, 'предел_байтов_имён': 1},
+                                   {'срок': time.monotonic() + 10, 'предел_байтов_имён': 25_500_001}):
+                    with сам.subTest(ограничения=ограничения), сам.assertRaises(м.ОшибкаОтчёта):
+                        снять(fd, **ограничения)
+                (дерево / 'ignored' / '.gitignore').write_bytes(b'changed\n')
+                сам.assertNotEqual(первый, снять(fd, срок=time.monotonic() + 10))
+                (дерево / 'nested' / '.gitattributes').write_bytes(b'tracked.txt filter=trap\n')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    снять(fd, срок=time.monotonic() + 10)
+                (дерево / 'nested' / '.gitattributes').unlink()
+                (дерево / 'bad-link').symlink_to('/tmp')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    снять(fd, срок=time.monotonic() + 10)
+            finally:
+                os.close(fd)
+
     def test_удержание_дерева_git_отклоняет_предел_каталогов(сам):
         м = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
