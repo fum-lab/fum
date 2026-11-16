@@ -39860,6 +39860,10 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                 сам.assertIs(связь.описание, исходное_описание)
                 сам.assertEqual((описание['схема'], описание['предел_каталогов']), ('fum.test-linked-git-held.1', 128))
                 сам.assertEqual(описание['index_sha256'], hashlib.sha256((gitdir / 'index').read_bytes()).hexdigest())
+                источники = {источник['роль']: источник for источник in описание['объявленные_источники']}
+                сам.assertEqual(источники['info_exclude']['состояние'], 'отсутствует')
+                сам.assertEqual(источники['root_ignore']['sha256'], hashlib.sha256(b'fixture\n').hexdigest())
+                сам.assertEqual(источники['gitfile']['sha256'], hashlib.sha256((рабочий / '.git').read_bytes()).hexdigest())
                 связь.проверить()
                 with сам.assertRaises(м.ОшибкаОтчёта):
                     bool(связь)
@@ -39867,15 +39871,22 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                 связь.проверить()
             with сам.assertRaises(OSError):
                 os.fstat(fd)
+        with сам.фикстура() as (рабочий, общий, _):
+            (общий / 'info' / 'exclude').write_bytes(b'')
+            with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, связь):
+                источники = {источник['роль']: источник for источник in json.loads(связь.описание)['объявленные_источники']}
+                сам.assertEqual(источники['info_exclude'], {'роль': 'info_exclude', 'состояние': 'присутствует',
+                    'размер': 0, 'sha256': hashlib.sha256(b'').hexdigest()})
 
     def test_изменения_источников_не_дают_допуска(сам):
         м = загрузить_модуль_автоматизации()
-        for имя in ('config', 'index', 'ignore'):
+        for имя in ('config', 'index', 'ignore', 'exclude'):
             with сам.subTest(имя=имя), сам.фикстура() as (рабочий, общий, gitdir):
-                путь = {'config': общий / 'config', 'index': gitdir / 'index', 'ignore': рабочий / '.gitignore'}[имя]
+                путь = {'config': общий / 'config', 'index': gitdir / 'index', 'ignore': рабочий / '.gitignore',
+                        'exclude': общий / 'info' / 'exclude'}[имя]
                 with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
                     with м._тестово_удержать_связанный_профиль_git(рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, связь):
-                        путь.write_bytes(путь.read_bytes() + b'changed')
+                        путь.write_bytes((путь.read_bytes() if путь.exists() else b'') + b'changed')
                         связь.проверить()
 
     def test_сверка_при_ошибке_тела_сохраняет_причины(сам):
