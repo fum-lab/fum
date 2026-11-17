@@ -11787,6 +11787,7 @@ def _выполнить_контролируемый_цикл(
     if (type(заявка) is not _ЗаявкаЗакрытогоПрофиляGit or type(корень) is not type(Path('/'))
         or type(активная_запись) is not type(Path('/')) or not активная_запись.is_absolute()
         or type(байты_записи) is not bytes or not байты_записи
+        or not callable(получить_замок)
         or type(срок_наблюдателя) is not int or type(срок_остановки) is not int
         or type(каталог_истории_fd) is not int or not _срок_действителен(срок)):
         raise ОшибкаОтчёта('неполные ресурсы контролируемого цикла')
@@ -11796,7 +11797,18 @@ def _выполнить_контролируемый_цикл(
     удержание_цикла = (владелец, владение)
     _карантин_контролируемых_циклов.append(удержание_цикла)
     try:
-        владение.подготовить_intent(каталог_истории_fd)
+        # Замок удерживается только в короткой секции без Popen; дальнейшая
+        # защита active зависит от кооперации всех участников протокола.
+        with получить_замок() as сверить:
+            сверить()
+            значение, байты = прочитать_машинную_запись(активная_запись, предел=256)
+            if (байты != байты_записи or type(значение) is not dict
+                or значение.get('идентификатор') != run or значение.get('состояние') != 'выполняется'):
+                raise ОшибкаОтчёта('неподтверждённая активная запись controlled Git')
+            владение._удержание.проверить(владелец, run, заявка.сессия)
+            владение.подготовить_intent(каталог_истории_fd)
+            владение._удержание.проверить(владелец, run, заявка.сессия)
+            сверить()
         вершина = владение.удержать_вершину()
         пакеты = tuple(_ТестовыйВладелецПакетногоGit() for _ in range(7))
         _тестово_собрать_закрытый_снимок_git(
@@ -11854,6 +11866,47 @@ def _прочитать_сохранённую_историю_контролир
                                                     'sha256:' + hashlib.sha256(history).hexdigest())
     except (UnicodeError, ValueError, OSError) as ошибка:
         raise ОшибкаОтчёта('не удалось прочитать controlled-историю') from ошибка
+    finally:
+        os.close(fd)
+
+
+def _оценить_восстановление_контролируемого_git(каталог, run, policy):
+    """Определить сохранённую стадию без разрешения повтора или вывода READY."""
+    if (type(каталог) is not type(Path('/')) or not каталог.is_absolute()
+        or каталог.resolve(strict=True) != каталог or type(run) is not str
+        or re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None
+        or type(policy) is not str or re.fullmatch(r'sha256:[0-9a-f]{64}', policy) is None):
+        raise ОшибкаОтчёта('неверные параметры восстановления controlled Git')
+    fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        до = os.fstat(fd)
+        if not stat.S_ISDIR(до.st_mode) or до.st_uid != os.geteuid() or stat.S_IMODE(до.st_mode) != 0o700:
+            raise ОшибкаОтчёта('неподтверждённый каталог восстановления')
+        имена = ('intent.json', 'terminal.json', 'release.json', 'history.json')
+        данные = tuple(_прочитать_источник_git_через_fd(fd, имя, 4096) for имя in имена)
+        if данные[0] is None or any(данные[i] is not None and данные[i - 1] is None for i in range(1, 4)):
+            raise ОшибкаОтчёта('неполная последовательность квитанций')
+        схемы = ('fum.git-controlled-intent-evidence.1', 'fum.git-controlled-terminal-evidence.1',
+                 'fum.git-controlled-release-evidence.1', 'fum.git-controlled-history-observation.1')
+        for содержимое, схема in zip(данные, схемы):
+            if содержимое is None:
+                continue
+            запись = _разобрать_машинный_json(содержимое.decode('utf-8'))
+            if (type(запись) is not dict or запись.get('schema') != схема
+                or запись.get('state') != 'UNKNOWN' or запись.get('run') != run
+                or запись.get('policy_sha256') != policy):
+                raise ОшибкаОтчёта('несовместимая квитанция восстановления')
+        if данные[3] is not None and данные[3] != _сформировать_наблюдение_контролируемого_git(
+                run, bytes.fromhex(policy[7:]), данные[1], данные[2]):
+            raise ОшибкаОтчёта('история восстановления не совпадает')
+        после = os.fstat(fd)
+        if (до.st_dev, до.st_ino, до.st_uid, до.st_mode) != (после.st_dev, после.st_ino, после.st_uid, после.st_mode):
+            raise ОшибкаОтчёта('каталог восстановления изменился')
+        стадия = ('intent', 'terminal', 'release', 'history')[sum(x is not None for x in данные) - 1]
+        return {'схема': 'fum.git-controlled-recovery.1', 'состояние': 'UNKNOWN',
+                'run': run, 'стадия': стадия, 'повтор_разрешён': False}
+    except (UnicodeError, ValueError, OSError) as ошибка:
+        raise ОшибкаОтчёта('не удалось прочитать восстановление controlled Git') from ошибка
     finally:
         os.close(fd)
 
@@ -26155,6 +26208,10 @@ def построить_разбор_аргументов() -> argparse.ArgumentP
     история.add_argument('--каталог', type=Path, required=True)
     история.add_argument('--run', required=True)
     история.add_argument('--policy-sha256', required=True)
+    восстановление = команды.add_parser('проверить-controlled-восстановление', allow_abbrev=False)
+    восстановление.add_argument('--каталог', type=Path, required=True)
+    восстановление.add_argument('--run', required=True)
+    восстановление.add_argument('--policy-sha256', required=True)
     for имя in ("предпросмотр", "проверить-план", "закрыть", "возобновить", "проверить"):
         подкоманда = команды.add_parser(имя, allow_abbrev=False)
         добавить_общие_аргументы(подкоманда)
@@ -26214,6 +26271,14 @@ def главная(аргументы: Sequence[str] | None = None) -> int:
         return 1
     пространство = построить_разбор_аргументов().parse_args(аргументы)
     try:
+        if пространство.подкоманда == 'проверить-controlled-восстановление':
+            try:
+                результат = _оценить_восстановление_контролируемого_git(
+                    пространство.каталог, пространство.run, пространство.policy_sha256)
+            except OSError as ошибка:
+                raise ОшибкаОтчёта('не удалось открыть controlled-восстановление') from ошибка
+            print(json.dumps(результат, ensure_ascii=True, sort_keys=True, separators=(',', ':')))
+            return 3
         if пространство.подкоманда == 'прочитать-controlled-историю':
             try:
                 результат = _прочитать_сохранённую_историю_контролируемого_git(

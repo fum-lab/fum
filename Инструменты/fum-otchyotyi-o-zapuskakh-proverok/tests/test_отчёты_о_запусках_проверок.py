@@ -40944,6 +40944,115 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         сам.assertEqual(запись['schema'], 'fum.git-controlled-history-observation.1')
         сам.assertNotIn('fingerprint_sha256', запись)
 
+    def test_короткий_lock_отклоняет_реального_конкурента(сам):
+        import select
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог).resolve()
+            замки = корень / 'locks'
+            замки.mkdir(mode=0o700)
+            fd, конкурент = None, None
+            try:
+                fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                метка = os.fstat(fd)
+                сессия = 'container-synthetic'
+                селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                            метка.st_uid, метка.st_mode & 0o7777, сессия, str(корень))
+                имя = 'fum-check-runs-' + hashlib.sha256(f'{корень}\0{сессия}'.encode()).hexdigest() + '.lock'
+                скрипт = ('import fcntl,os,sys; p=sys.argv[1]; '
+                          'exec("while True:\\n c=os.read(0,1)\\n if c!=b\'P\': break\\n f=os.open(p,os.O_RDWR|os.O_NOFOLLOW)\\n try:\\n  fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)\\n except BlockingIOError:\\n  os.write(1,b\'B\')\\n else:\\n  fcntl.flock(f,fcntl.LOCK_UN); os.write(1,b\'A\')\\n os.close(f)")')
+                конкурент = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, str(замки / имя)],
+                                              stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                def проба():
+                    конкурент.stdin.write(b'P'); конкурент.stdin.flush()
+                    сам.assertTrue(select.select([конкурент.stdout], [], [], 10)[0])
+                    return os.read(конкурент.stdout.fileno(), 1)
+                with м._тестовый_замок_новой_сессии(селектор, fd, корень, сессия,
+                                                     срок_монотонный=time.monotonic() + 10) as сверить:
+                    сверить()
+                    сам.assertEqual(проба(), b'B')
+                сам.assertEqual(проба(), b'A')
+                конкурент.stdin.close()
+                сам.assertEqual(конкурент.wait(timeout=10), 0)
+                сам.assertEqual(конкурент.stderr.read(), b'')
+            finally:
+                ошибки = []
+                if конкурент is not None:
+                    try:
+                        жив = конкурент.poll() is None
+                    except BaseException as ошибка:
+                        ошибки.append(ошибка)
+                        жив = None
+                        сам._конкурент_unknown = конкурент
+                    if жив:
+                        try:
+                            конкурент.kill()
+                        except BaseException as ошибка:
+                            ошибки.append(ошибка)
+                        try:
+                            конкурент.wait(timeout=10)
+                        except BaseException as ошибка:
+                            ошибки.append(ошибка)
+                    for поток in (конкурент.stdin, конкурент.stdout, конкурент.stderr):
+                        try:
+                            поток.close()
+                        except BaseException as ошибка:
+                            ошибки.append(ошибка)
+                if fd is not None:
+                    try:
+                        os.close(fd)
+                    except BaseException as ошибка:
+                        ошибки.append(ошибка)
+                if ошибки:
+                    raise BaseExceptionGroup('ошибки очистки synthetic конкурента', ошибки)
+
+    def test_recovery_после_аварийного_intent_не_разрешает_повтор(сам):
+        import io
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        policy = 'sha256:' + '2' * 64
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог).resolve()
+            intent = json.dumps({'schema': 'fum.git-controlled-intent-evidence.1', 'state': 'UNKNOWN',
+                                 'run': run, 'policy_sha256': policy}).encode()
+            скрипт = ('import os,sys; d=os.open(sys.argv[1],os.O_RDONLY|os.O_DIRECTORY); '
+                      'f=os.open("intent.json",os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600,dir_fd=d); '
+                      'b=bytes.fromhex(sys.argv[2]); assert os.write(f,b)==len(b); '
+                      'os.fsync(f); os.close(f); os.fsync(d); os._exit(73)')
+            ребёнок = subprocess.run([sys.executable, '-I', '-B', '-c', скрипт, str(путь), intent.hex()],
+                                     stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+            сам.assertEqual((ребёнок.returncode, ребёнок.stdout, ребёнок.stderr), (73, b'', b''))
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                код = м.главная(['проверить-controlled-восстановление', '--каталог', str(путь),
+                                 '--run', run, '--policy-sha256', policy])
+            запись = json.loads(out.getvalue())
+            сам.assertEqual((код, запись['стадия'], запись['состояние'], запись['повтор_разрешён']),
+                            (3, 'intent', 'UNKNOWN', False))
+
+    def test_recovery_intent_не_разрешает_повтор_и_отклоняет_дыры(сам):
+        import io
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        policy = 'sha256:' + '2' * 64
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог).resolve()
+            intent = {'schema': 'fum.git-controlled-intent-evidence.1', 'state': 'UNKNOWN',
+                      'run': run, 'policy_sha256': policy}
+            (путь / 'intent.json').write_text(json.dumps(intent))
+            args = ['проверить-controlled-восстановление', '--каталог', str(путь), '--run', run,
+                    '--policy-sha256', policy]
+            out, err = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err), \
+                 mock.patch.object(м.subprocess, 'Popen') as запуск:
+                сам.assertEqual(м.главная(args), 3)
+                запись = json.loads(out.getvalue())
+                сам.assertEqual((запись['состояние'], запись['стадия'], запись['повтор_разрешён']),
+                                ('UNKNOWN', 'intent', False))
+                (путь / 'release.json').write_bytes(b'{}')
+                сам.assertEqual(м.главная(args), 1)
+                запуск.assert_not_called()
+
     def test_цикл_удерживает_владение_при_ошибке_intent(сам):
         м = загрузить_модуль_автоматизации()
         заявка = м._ЗаявкаЗакрытогоПрофиляGit(0, (), 0, 'запрос', time.monotonic() + 10)
@@ -40953,12 +41062,14 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         полномочие.принять.return_value = владение
         before = len(м._карантин_контролируемых_циклов)
         try:
-            with mock.patch.object(м, '_выдать_полномочие_собственного_git', return_value=полномочие):
+            with mock.patch.object(м, '_выдать_полномочие_собственного_git', return_value=полномочие), \
+                 mock.patch.object(м, 'прочитать_машинную_запись', return_value=({'идентификатор': 'run', 'состояние': 'выполняется'}, b'{}')):
                 with сам.assertRaises(м.ОшибкаОтчёта):
                     м._выполнить_контролируемый_цикл(
                         заявка, 'run', Path('/tmp'), 'запрос', 0, '/usr/bin/git', '/tmp',
-                        None, None, None, None, ('/bin/true',), lambda: None, Path('/tmp/active'), b'{}',
+                        None, None, None, None, ('/bin/true',), lambda: contextlib.nullcontext(lambda: None), Path('/tmp/active'), b'{}',
                         срок=time.monotonic() + 5, срок_наблюдателя=1, срок_остановки=2, изолировать_git=True)
+            владение.подготовить_intent.assert_called_once_with(0)
             сам.assertEqual(владение._состояние, 'неизвестно')
             сам.assertEqual(len(м._карантин_контролируемых_циклов), before + 1)
             сам.assertIs(м._карантин_контролируемых_циклов[-1][1], владение)
