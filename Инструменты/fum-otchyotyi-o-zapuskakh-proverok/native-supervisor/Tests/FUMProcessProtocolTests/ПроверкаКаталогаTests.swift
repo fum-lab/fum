@@ -4,6 +4,102 @@ import Foundation
 import Testing
 @testable import FUMProcessProtocol
 
+@Test func мостИОтдельнаяОпораПередаютсяДочернейФикстуре() throws {
+    let база = "/private/tmp/fum-eight-fds-" + UUID().uuidString
+    try FileManager.default.createDirectory(atPath: база, withIntermediateDirectories: false,
+                                            attributes: [.posixPermissions: 0o700])
+    var fd: [Int32] = []
+    defer { for номер in fd { _ = close(номер) } }
+    var каталоги: [ОпораЗаимствованногоКаталога] = []
+    for (индекс, имя) in ["root", "lock", "receipt", "session", "bridge"].enumerated() {
+        let путь = база + "/" + имя
+        try FileManager.default.createDirectory(atPath: путь, withIntermediateDirectories: false,
+                                                attributes: [.posixPermissions: 0o700])
+        let номер = open(путь, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard номер > 2 else { throw ОшибкаПротокола.неверныеАргументы }
+        fd.append(номер)
+        var метка = stat()
+        guard fstat(номер, &метка) == 0, let dev = UInt64(exactly: метка.st_dev) else {
+            throw ОшибкаПротокола.неверныеАргументы
+        }
+        каталоги.append(try #require(ОпораЗаимствованногоКаталога(
+            путь, String(номер), String(dev), String(метка.st_ino), String(метка.st_uid),
+            String(метка.st_mode & 0o7777), область: индекс == 0 ? .рабочееДерево : .приватныеКвитанции,
+            занятыеДескрипторы: [])))
+    }
+    let grant = база + "/digest"
+    let запись = open(grant, O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC, 0o600)
+    guard запись > 2 else { throw ОшибкаПротокола.неверныеАргументы }
+    fd.append(запись)
+    let digest = [UInt8](repeating: 49, count: 64)
+    guard digest.withUnsafeBytes({ write(запись, $0.baseAddress, $0.count) }) == 64,
+          fsync(запись) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    fd.removeLast()
+    if close(запись) != 0 { while true { _ = pause() } }
+    let issuer = open(grant, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+    guard issuer > 2 else { throw ОшибкаПротокола.неверныеАргументы }
+    fd.append(issuer)
+    var вход: [Int32] = [-1, -1], выход: [Int32] = [-1, -1]
+    guard pipe(&вход) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    fd.append(contentsOf: вход)
+    guard pipe(&выход) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    fd.append(contentsOf: выход)
+    for номер in вход + выход {
+        guard fcntl(номер, F_SETFD, FD_CLOEXEC) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    }
+    let номера = try #require(ДескрипторыСинтетическогоПомощника(
+        String(вход[0]), String(каталоги[0].дескриптор), String(каталоги[1].дескриптор),
+        String(каталоги[2].дескриптор), занятые: [issuer]))
+    let дуплекс = try #require(ДуплексныеОпорыПомощника(номера, ответ: String(выход[1]), занятые: [issuer]))
+    let опоры = try #require(ОпорыМостаПомощника(
+        дуплекс, сессия: String(каталоги[3].дескриптор), мост: String(каталоги[4].дескриптор), занятые: [issuer]))
+    var действия: posix_spawn_file_actions_t?
+    var настройки: posix_spawnattr_t?
+    guard posix_spawn_file_actions_init(&действия) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = posix_spawn_file_actions_destroy(&действия) }
+    guard posix_spawnattr_init(&настройки) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = posix_spawnattr_destroy(&настройки) }
+    guard posix_spawn_file_actions_addopen(&действия, STDIN_FILENO, "/dev/null", O_RDONLY, 0) == 0,
+          posix_spawn_file_actions_addopen(&действия, STDOUT_FILENO, "/dev/null", O_WRONLY, 0) == 0,
+          posix_spawn_file_actions_addopen(&действия, STDERR_FILENO, "/dev/null", O_WRONLY, 0) == 0,
+          posix_spawnattr_setflags(&настройки, Int16(POSIX_SPAWN_CLOEXEC_DEFAULT)) == 0,
+          подготовитьПередачуМостаПомощника(опоры, корень: каталоги[0], замок: каталоги[1],
+            квитанции: каталоги[2], сессия: каталоги[3], мост: каталоги[4], действия: &действия),
+          posix_spawn_file_actions_addinherit_np(&действия, issuer) == 0 else {
+        throw ОшибкаПротокола.неверныеАргументы
+    }
+    let вызов = Array("fixture-nonce\n".utf8)
+    guard вызов.withUnsafeBytes({ write(вход[1], $0.baseAddress, $0.count) }) == вызов.count else {
+        throw ОшибкаПротокола.неверныеАргументы
+    }
+    let проверкаКаталогов = каталоги.map { "[ -d /dev/fd/\($0.дескриптор) ]" }.joined(separator: " && ")
+    let программа = "IFS= read -r x < /dev/fd/\(вход[0]); [ \"$x\" = fixture-nonce ] && " +
+        проверкаКаталогов + " && { IFS= read -r y < /dev/fd/\(issuer); [ \"$y\" = " +
+        String(repeating: "1", count: 64) + " ]; } && printf 'fixture-ack\\n' > /dev/fd/\(выход[1])"
+    let argv = ["/bin/sh", "-c", программа].map { strdup($0) } + [nil]
+    defer { for часть in argv { free(часть) } }
+    var среда: [UnsafeMutablePointer<CChar>?] = [nil]
+    var pid: pid_t = 0
+    let старт = argv.withUnsafeBufferPointer { a in среда.withUnsafeMutableBufferPointer { e in
+        posix_spawn(&pid, "/bin/sh", &действия, &настройки, UnsafeMutablePointer(mutating: a.baseAddress), e.baseAddress)
+    } }
+    guard старт == 0, pid > 1 else { throw ОшибкаПротокола.неверныеАргументы }
+    var сырой: Int32 = 0
+    var собран = false
+    for _ in 0..<500 {
+        let итог = waitpid(pid, &сырой, WNOHANG)
+        if итог == pid { собран = true; break }
+        if итог < 0 { break }
+        usleep(10_000)
+    }
+    if !собран { while true { _ = pause() } }
+    print("fixture-child=\(pid) raw=\(сырой)")
+    guard сырой == 0, fcntl(выход[0], F_SETFL, O_NONBLOCK) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    var буфер = [UInt8](repeating: 0, count: 32)
+    let число = буфер.withUnsafeMutableBytes { read(выход[0], $0.baseAddress, $0.count) }
+    #expect(число == 12 && Array(буфер.prefix(12)) == Array("fixture-ack\n".utf8))
+}
+
 @Test func опорыМостаПроверяютПятьРазныхКаталогов() throws {
     let база = NSTemporaryDirectory() + "fum-bridge-fds-" + UUID().uuidString
     try FileManager.default.createDirectory(atPath: база, withIntermediateDirectories: false,
