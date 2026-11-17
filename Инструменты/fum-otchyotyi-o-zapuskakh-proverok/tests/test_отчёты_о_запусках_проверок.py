@@ -6593,7 +6593,7 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             (b'[core]\nbare = false\n', b'[core]\nbare = false\n'),
             (b'[core]\n', b'[core]\nbare = false\n'),
             (b'[core]\n',) * 8, (b'[core]\n',) * 9,
-            (b'[core]\nBare = false\n',), (b'[core]\n bare = false\n',),
+            (b'[core]\n bare = false\n',),
             (b'[core]\nbare = false # comment\n',),
             (b'[core]\nbare = fa\\lse\n',),
             (b'[core]\n\tbare = false\nbare = false\n',),
@@ -6612,6 +6612,7 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
         )
         with mock.patch.object(модуль.subprocess, 'run', side_effect=AssertionError('Git вызван')):
             сам.assertTrue(модуль._проверить_узкую_конфигурацию_git(допустимая))
+            сам.assertTrue(модуль._проверить_узкую_конфигурацию_git((b'[core]\nBare = false\n',)))
             динамическая = ('[branch "fixture"]\n\tremote = origin\n\tmerge = refs/heads/ветка/1.2\n'
                             '[remote "origin"]\n\turl = https://example.invalid/repo\n'
                             '\tfetch = +refs/heads/*:refs/remotes/origin/*\n').encode('utf-8')
@@ -6619,6 +6620,19 @@ class ПроверкаЗакрытыхПубличныхВходов(unittest.Te
             for вход in отклонить:
                 with сам.subTest(вход=repr(вход)[:100]):
                     сам.assertFalse(модуль._проверить_узкую_конфигурацию_git(вход))
+
+    def test_ключи_git_без_учёта_регистра_сохраняют_границы(сам):
+        модуль = загрузить_модуль_автоматизации()
+        допустимая = (b'[codex]\n\tlocalEnvironmentConfigPath = config/local.toml\n',)
+        дубликат = (b'[codex]\n\tlocalEnvironmentConfigPath = config/local.toml\n'
+                    b'\tlocalenvironmentconfigpath = config/local.toml\n',)
+        неизвестный = (b'[codex]\n\tlocalEnvironmentConfigPathExtra = config/local.toml\n',)
+        опасное = (b'[codex]\n\tlocalEnvironmentConfigPath = ../outside\n',)
+        with mock.patch.object(модуль.subprocess, 'Popen') as запуск:
+            сам.assertTrue(модуль._проверить_узкую_конфигурацию_git(допустимая))
+            for вход in (дубликат, неизвестный, опасное):
+                сам.assertFalse(модуль._проверить_узкую_конфигурацию_git(вход))
+            запуск.assert_not_called()
 
     def test_cli_запуска_отказывает_до_argparse_с_ведущими_разделителями(сам):
         import io
@@ -24356,6 +24370,8 @@ class ПроверкаСобственногоСупервизора(unittest.Te
             сам.assertEqual(сам.контейнер._политика_среды,
                             'isolated-git.2' if изолировать_git else 'legacy.1')
             свидетельство = сам.контейнер.довести(получить_замок)
+            if проверка_среды and изолировать_git:
+                сам.assertEqual(сам.owner_контейнера.сырой_статус, 0)
             raw, код, тайм_аут = свидетельство.сырой_статус, свидетельство.код_цели, свидетельство.тайм_аут
             кадры, код_наблюдателя = свидетельство.кадры, свидетельство.код_наблюдателя
             сам.assertEqual(свидетельство.идентификатор, идентификатор)
@@ -39019,7 +39035,254 @@ class ПроверкаЦелостностиАктивнойМетки(unittest.
         with сам.assertRaises(OSError) as отказ:
             os.fstat(дескриптор)
         сам.assertEqual(отказ.exception.errno, errno.EBADF)
+class ПроверкаОбъявленныхИсточниковРабочегоGit(unittest.TestCase):
+    def test_неполный_профиль_отказывает_collector_до_git(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                владелец = м._ТестовыйВладелецЗапуска()
+                удержание = м._ЗаявленныеИсточникиРабочегоGit(корень, fd, (('gitfile', корень, fd, '.git', 4096),),
+                    владелец, run, сессия, срок=time.monotonic() + 10)
+                with mock.patch.object(м, '_подготовить_чтение_git_отпечатка') as подготовка, \
+                     mock.patch.object(м, '_выполнить_чтение_гит') as git, \
+                     mock.patch.object(м.subprocess, 'Popen') as запуск:
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'полнота источников'):
+                        м.вычислить_отпечаток_снимка(корень, сессия, _удерживаемый_профиль=(удержание, владелец, run))
+                    подготовка.assert_not_called(); git.assert_not_called(); запуск.assert_not_called()
+            finally:
+                os.close(fd)
+
+    def test_повторная_сверка_отклоняет_смену_owner_и_истечение(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                владелец = м._ТестовыйВладелецЗапуска()
+                источники = (('config', корень, fd, 'config', 100),)
+                def создать():
+                    return м._ЗаявленныеИсточникиРабочегоGit(корень, fd, источники, владелец, run, сессия,
+                        срок=time.monotonic() + 10)
+                первое, второе = создать(), создать()
+                настоящий = м._прочитать_источник_git_через_fd
+                def изменить(*аргументы):
+                    ответ = настоящий(*аргументы)
+                    владелец.состояние = 'занят'
+                    return ответ
+                with mock.patch.object(м, '_прочитать_источник_git_через_fd', side_effect=изменить):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        первое.проверить(владелец, run, сессия)
+                владелец.состояние = 'готов'
+                with mock.patch.object(м, '_срок_действителен', side_effect=(True, False)):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        второе.проверить(владелец, run, сессия)
+                with mock.patch.object(м, '_прочитать_источник_git_через_fd') as чтение:
+                    for удержание in (первое, второе):
+                        with сам.assertRaises(м.ОшибкаОтчёта):
+                            удержание.проверить(владелец, run, сессия)
+                    чтение.assert_not_called()
+            finally:
+                os.close(fd)
+
+    def test_начальный_owner_и_срок_сверяются_после_snapshot(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                владелец = м._ТестовыйВладелецЗапуска()
+                источники = (('config', корень, fd, 'config', 100),)
+                def создать():
+                    return м._ЗаявленныеИсточникиРабочегоGit(корень, fd, источники, владелец, run, сессия,
+                        срок=time.monotonic() + 10)
+                владелец.состояние = 'занят'
+                with mock.patch.object(м, '_прочитать_источник_git_через_fd') as чтение:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        создать()
+                    чтение.assert_not_called()
+                владелец.состояние = 'готов'
+                настоящий = м._прочитать_источник_git_через_fd
+                def изменить(*аргументы):
+                    ответ = настоящий(*аргументы)
+                    владелец.состояние = 'неизвестно'
+                    return ответ
+                with mock.patch.object(м, '_прочитать_источник_git_через_fd', side_effect=изменить):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        создать()
+                владелец.состояние = 'готов'
+                with mock.patch.object(м, '_срок_действителен', side_effect=(True, True, False)):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        создать()
+            finally:
+                os.close(fd)
+
+    def test_файлы_и_отсутствие_сверяются_и_дрейф_закрывает(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            (корень / 'config').write_bytes(b'fixture\n')
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                владелец = м._ТестовыйВладелецЗапуска()
+                источники = (('config', корень, fd, 'config', 100), ('absent', корень, fd, 'absent', 100))
+                удержание = м._ЗаявленныеИсточникиРабочегоGit(корень, fd, источники, владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                сам.assertEqual(удержание.проверить(владелец, run, сессия), 'UNKNOWN')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    bool(удержание)
+                (корень / 'absent').write_bytes(b'')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    удержание.проверить(владелец, run, сессия)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    удержание.проверить(владелец, run, сессия)
+                os.fstat(fd)
+            finally:
+                os.close(fd)
+
+    def test_чужой_root_fd_и_дубли_отклоняются(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as один, tempfile.TemporaryDirectory(dir='/private/tmp') as другой:
+            корень, чужой = Path(один).resolve(), Path(другой).resolve()
+            fd = os.open(чужой, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                владелец = м._ТестовыйВладелецЗапуска()
+                запись = ('config', чужой, fd, 'config', 100)
+                with mock.patch.object(м, '_прочитать_источник_git_через_fd') as чтение:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._ЗаявленныеИсточникиРабочегоGit(корень, fd, (запись,), владелец, run, сессия,
+                            срок=time.monotonic() + 10)
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._ЗаявленныеИсточникиРабочегоGit(чужой, fd, (запись, запись), владелец, run, сессия,
+                            срок=time.monotonic() + 10)
+                    чтение.assert_not_called()
+            finally:
+                os.close(fd)
+
+    def test_чужой_owner_и_истечение_не_читают_повторно(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                владелец = м._ТестовыйВладелецЗапуска()
+                удержание = м._ЗаявленныеИсточникиРабочегоGit(корень, fd, (('config', корень, fd, 'config', 100),),
+                    владелец, run, сессия, срок=time.monotonic() + 10)
+                второе = м._ЗаявленныеИсточникиРабочегоGit(корень, fd, (('config', корень, fd, 'config', 100),),
+                    владелец, run, сессия, срок=time.monotonic() + 10)
+                with mock.patch.object(м, '_прочитать_источник_git_через_fd') as чтение:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        удержание.проверить(м._ТестовыйВладелецЗапуска(), run, сессия)
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        удержание.проверить(владелец, run, сессия)
+                    with mock.patch.object(м, '_срок_действителен', return_value=False):
+                        with сам.assertRaises(м.ОшибкаОтчёта):
+                            второе.проверить(владелец, run, сессия)
+                    чтение.assert_not_called()
+            finally:
+                os.close(fd)
+
+
+class ПроверкаУдержанногоНеотслеживаемогоGit(unittest.TestCase):
+    def test_обычные_файлы_и_ссылки_сохраняют_legacy_байты(сам):
+        import stat
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            (корень / 'под').mkdir()
+            файл = корень / 'под/данные'
+            файл.write_bytes(b'\x00\xff\n')
+            файл.chmod(0o751)
+            сам.assertEqual(м._прочитать_неотслеживаемый_вход_git(корень, 'под/данные'),
+                            ('файл', 0o751, b'\x00\xff\n'))
+            (корень / 'пусто').write_bytes(b'')
+            сам.assertEqual(м._прочитать_неотслеживаемый_вход_git(корень, 'пусто')[2], b'')
+            for номер, цель in enumerate(('несуществующий'.encode(), b'../outside', b'/absolute', b'bad\xff')):
+                имя = 'ссылка' + str(номер)
+                os.symlink(цель, os.fsencode(корень / имя))
+                тип, режим, байты = м._прочитать_неотслеживаемый_вход_git(корень, имя)
+                сам.assertEqual((тип, режим, байты),
+                    ('символическая_ссылка', stat.S_IMODE((корень / имя).lstat().st_mode), цель))
+
+    def test_подмена_файла_не_возвращает_байты(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            (корень / 'файл').write_bytes(b'old')
+            настоящий = os.pread
+            попытки = []
+            def подмена(fd, размер, смещение):
+                if not попытки:
+                    попытки.append(True)
+                    (корень / 'файл').rename(корень / 'прежний')
+                    (корень / 'файл').write_bytes(b'new')
+                return настоящий(fd, размер, смещение)
+            with mock.patch.object(м.os, 'pread', side_effect=подмена):
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._прочитать_неотслеживаемый_вход_git(корень, 'файл')
+            сам.assertEqual(попытки, [True])
+
+    def test_предел_и_неподдерживаемый_тип_до_чтения(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as каталог:
+            корень = Path(каталог).resolve()
+            with (корень / 'большой').open('wb') as файл:
+                файл.truncate(16 * 1024 * 1024 + 1)
+            (корень / 'остаток').write_bytes(b'123456')
+            os.mkfifo(корень / 'канал')
+            with mock.patch.object(м.os, 'pread') as чтение:
+                for имя in ('большой', 'канал'):
+                    with сам.subTest(имя=имя), сам.assertRaises(м.ОшибкаОтчёта):
+                        м._прочитать_неотслеживаемый_вход_git(корень, имя)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._прочитать_неотслеживаемый_вход_git(корень, 'остаток', 5)
+                чтение.assert_not_called()
+
+
 class ПроверкаКвитанцииГруппыOwner4(unittest.TestCase):
+    def test_наблюдатель_принимает_raw_только_от_своего_сбора(сам):
+        м = загрузить_модуль_автоматизации()
+        for сырой, ожидаемый in ((0, 0), (1792, 7), (15, -15)):
+            with сам.subTest(сырой=сырой):
+                процесс = mock.Mock(pid=123, returncode=None)
+                владелец = м._ТестовыйВладелецЗапуска()
+                владелец.процесс, владелец.pid = процесс, 123
+                приём = lambda статус: м._принять_сырой_статус_наблюдателя(владелец, процесс, статус)
+                with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+                     mock.patch.object(м, '_срок_действителен', return_value=True), \
+                     mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=ожидаемый), \
+                     mock.patch.object(м.os, 'waitpid', return_value=(123, сырой)) as ожидание:
+                    код = м._кандидат_собрать_статус_лидера(процесс, срок=100.0, _приём_сырого=приём)
+                сам.assertEqual((код, процесс.returncode, владелец.сырой_статус), (ожидаемый, ожидаемый, сырой))
+                ожидание.assert_called_once_with(123, os.WNOHANG)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    приём(сырой)
+        процесс = mock.Mock(pid=123, returncode=None)
+        владелец = м._ТестовыйВладелецЗапуска()
+        владелец.процесс, владелец.pid = процесс, 124
+        with mock.patch.object(м, '_остаток_наблюдения', return_value=1.0), \
+             mock.patch.object(м, '_срок_действителен', return_value=True), \
+             mock.patch.object(м, '_тестовое_наблюдение_дочернего_процесса', return_value=7), \
+             mock.patch.object(м.os, 'waitpid', return_value=(123, 1792)) as ожидание:
+            with сам.assertRaises(BaseException) as отказ:
+                м._кандидат_собрать_статус_лидера(процесс, срок=100.0,
+                    _приём_сырого=lambda статус: м._принять_сырой_статус_наблюдателя(владелец, процесс, статус))
+        части = getattr(отказ.exception, 'exceptions', None)
+        if части is None:
+            части = (отказ.exception.первичная, *отказ.exception.вторичные)
+        сам.assertIsInstance(части[0], м.ОшибкаОтчёта)
+        сам.assertEqual(части[1].сырой_статус, 1792)
+        сам.assertEqual(процесс.returncode, 7)
+        сам.assertIsNone(владелец.сырой_статус)
+        ожидание.assert_called_once_with(123, os.WNOHANG)
+
     def test_прямой_сбор_передаёт_сырой_статус_после_returncode(сам):
         м = загрузить_модуль_автоматизации()
         for сырой, ожидаемый in ((0, 0), (1792, 7), (15, -15)):
@@ -39751,6 +40014,60 @@ class ПроверкаСредыОбёртки(unittest.TestCase):
 
 
 class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
+    def test_заявленная_policy_git_имеет_канонический_вектор(сам):
+        м = загрузить_модуль_автоматизации()
+        роли = ('backlink', 'common_config', 'commondir', 'gitfile', 'gitmodules', 'global_config',
+                'global_excludes', 'head', 'index', 'info_attributes', 'info_exclude', 'root_attributes',
+                'root_ignore', 'system_config', 'worktree_config', 'xdg_config')
+        источники = tuple((роль, None, None, None, 0) for роль in роли)
+        данные, digest = м._заявленная_политика_закрытого_git('sha256:' + '1' * 64, источники)
+        сам.assertEqual(len(данные), 3540)
+        сам.assertEqual(digest.hex(), '50020b024eb2a7e32c0b89534a87e4b41ed553e9006265a9e00d8da492a6630e')
+        сам.assertEqual(м._заявленная_политика_закрытого_git('sha256:' + '1' * 64, tuple(reversed(источники))),
+                        (данные, digest))
+        сам.assertNotEqual(м._заявленная_политика_закрытого_git('sha256:' + '2' * 64, источники)[1], digest)
+        for ошибка in (источники[:-1], источники[:-1] + (источники[0],)):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._заявленная_политика_закрытого_git('sha256:' + '1' * 64, ошибка)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._заявленная_политика_закрытого_git('sha256:' + 'A' * 64, источники)
+
+    def test_закрытый_профиль_не_сопоставляется_с_историей(сам):
+        м = загрузить_модуль_автоматизации()
+        хэш = 'sha256:' + '1' * 64
+        профиль = м._описать_закрытый_профиль_git(хэш, хэш)
+        сам.assertEqual((профиль.схема, профиль.состояние), ('fum.git-closed-profile.1', 'UNKNOWN'))
+        for действие in (lambda: bool(профиль), lambda: str(профиль)):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                действие()
+        запись = {'схема': м.СХЕМА_ПРОФИЛИРОВАННОГО_ЗАПУСКА,
+                  'профиль_проверки': {'отпечаток_снимка': профиль}}
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+            м.профиль_записи(запись)
+        for значение in (профиль, профиль._asdict()):
+            новый = {'класс': 'адресная', 'отпечаток_снимка': значение, 'полные_наборы': [],
+                     'основание': None, 'идентификатор_отказа': None, 'ожидаемое_свидетельство': None}
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+                м.проверить_профиль_проверки(новый, None, [], 'завершён')
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+                м.проверить_отпечаток_раундов(значение, 'снимок')
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+                м.построить_план_успешной_сессии([], текущий_отпечаток=значение)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+                м.проверить_ссылку_диагностики_на_отказ({'отпечаток_снимка': значение}, [])
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+                м.проверить_допуск_запуска_раундов({'отпечаток_снимка': значение}, хэш, [])
+            сохранённая = {'схема': м.СХЕМА_ЗАПУСКА_С_РАУНДАМИ,
+                           'профиль_проверки': {'отпечаток_снимка': значение}}
+            заявленный = {'класс': 'адресная', 'основание': None, 'отпечаток_снимка': хэш}
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместим'):
+                м.проверить_допуск_запуска_раундов(заявленный, хэш, [(Path('record'), сохранённая, b'')])
+        запись['профиль_проверки']['отпечаток_снимка'] = хэш
+        сам.assertIs(м.профиль_записи(запись), запись['профиль_проверки'])
+        сам.assertEqual(м.проверить_отпечаток_раундов(хэш, 'снимок'), хэш)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._описать_закрытый_профиль_git('sha256:bad', хэш)
+
     def test_связь_с_владельцем_остаётся_unknown(сам):
         м = загрузить_модуль_автоматизации()
         связь = м._ТестоваяСвязьКонфигурации()
@@ -39815,6 +40132,1561 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def _тестовый_образ_git(сам, путь):
+        fd = os.open(путь, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        сам.addCleanup(os.close, fd)
+        return fd
+
+    def test_синтетический_контроль_лимита_и_версии_git(сам):
+        м = загрузить_модуль_автоматизации()
+        сам._каталог_контроля = tempfile.TemporaryDirectory(prefix='fum-git-limit-', dir='/private/tmp')
+        домашний = Path(сам._каталог_контроля.name).resolve()
+        среда = {'PATH': os.defpath, 'HOME': str(домашний), 'LC_ALL': 'C',
+                 'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+                 'GIT_ALLOW_PROTOCOL': '', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1'}
+        оболочка = ['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git']
+        команды = (оболочка + ['/usr/bin/true'], ['/usr/bin/git', '--version'],
+                   оболочка + ['/usr/bin/git', '--version'])
+        сам._пакеты_контроля = tuple(м._ТестовыйВладелецПакетногоGit() for _ in команды)
+        for номер, (пакет, команда) in enumerate(zip(сам._пакеты_контроля, команды), 1):
+            try:
+                with м._тестовый_допуск_git():
+                    м._тестовый_пакет_git_внутри(пакет, команда, среда, b'', time.monotonic() + 20,
+                                                  4096, 4096, 8192)
+            except м._ТестовыйОтказПакетногоGit:
+                if номер < 3:
+                    raise
+            сам.assertIn(пакет.состояние, ('лидер-собран', 'лидер-собран-с-отказом'))
+            сам.assertEqual(пакет.закрытие, ('закрыт', 'закрыт'))
+            сам.assertIsInstance(пакет.stderr, bytes)
+            if номер < 3:
+                сам.assertEqual(пакет.код, 0)
+        сам._каталог_контроля.cleanup()
+        сам._каталог_контроля = None
+
+    @contextlib.contextmanager
+    def закрытая_вершина_для_неотслеживаемых(сам, м, *, с_объектом=False, срок=15):
+        with сам.фикстура() as (рабочий, общий, gitdir), contextlib.ExitStack() as стек:
+            run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+            oid = b'1' * 40
+            if с_объектом:
+                import zlib
+                дерево = b'tree 0\0'
+                oid_дерева = hashlib.sha1(дерево).hexdigest().encode('ascii')
+                тело = (b'tree ' + oid_дерева + b'\nauthor Fixture <fixture@example.invalid> 0 +0000\n'
+                        b'committer Fixture <fixture@example.invalid> 0 +0000\n\nfixture\n')
+                коммит = b'commit ' + str(len(тело)).encode('ascii') + b'\0' + тело
+                oid = hashlib.sha1(коммит).hexdigest().encode('ascii')
+                for идентификатор, объект in ((oid_дерева, дерево), (oid, коммит)):
+                    путь = общий / 'objects' / идентификатор[:2].decode() / идентификатор[2:].decode()
+                    путь.parent.mkdir(parents=True, exist_ok=True)
+                    путь.write_bytes(zlib.compress(объект))
+                (общий / 'HEAD').write_bytes(b'ref: refs/heads/fixture\n')
+            (gitdir / 'HEAD').write_bytes(b'ref: refs/heads/fixture\n')
+            (общий / 'refs/heads').mkdir(parents=True)
+            (общий / 'refs/heads/fixture').write_bytes(oid + b'\n')
+            домашний = рабочий.parent / 'home'
+            (домашний / '.config/git').mkdir(parents=True)
+            (домашний / '.gitconfig').write_bytes(b'')
+            (домашний / '.config/git/config').write_bytes(b'')
+            (домашний / 'system-config').write_bytes(b'')
+            флаги = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+            def открыть(путь):
+                fd = os.open(путь, флаги)
+                стек.callback(os.close, fd)
+                return fd
+            fd_root, fd_git, fd_common = открыть(рабочий), открыть(gitdir), открыть(общий)
+            fd_home, fd_xdg, fd_info = открыть(домашний), открыть(домашний / '.config/git'), открыть(общий / 'info')
+            источники = (('gitfile', рабочий, fd_root, '.git', 4096),
+                ('backlink', gitdir, fd_git, 'gitdir', 4096), ('commondir', gitdir, fd_git, 'commondir', 64),
+                ('head', gitdir, fd_git, 'HEAD', 4096), ('index', gitdir, fd_git, 'index', 65536),
+                ('common_config', общий, fd_common, 'config', 65536),
+                ('worktree_config', gitdir, fd_git, 'config.worktree', 4096),
+                ('system_config', домашний, fd_home, 'system-config', 4096),
+                ('global_config', домашний, fd_home, '.gitconfig', 4096),
+                ('xdg_config', домашний / '.config/git', fd_xdg, 'config', 4096),
+                ('global_excludes', домашний / '.config/git', fd_xdg, 'ignore', 4096),
+                ('info_exclude', общий / 'info', fd_info, 'exclude', 4096),
+                ('info_attributes', общий / 'info', fd_info, 'attributes', 4096),
+                ('root_ignore', рабочий, fd_root, '.gitignore', 4096),
+                ('root_attributes', рабочий, fd_root, '.gitattributes', 4096),
+                ('gitmodules', рабочий, fd_root, '.gitmodules', 65536))
+            владелец = м._ТестовыйВладелецЗапуска()
+            удержание = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец,
+                                                            run, сессия, срок=time.monotonic() + срок)
+            with м._удержать_объявленную_вершину_git(удержание, владелец, run, сессия) as вершина:
+                yield вершина, рабочий, домашний
+
+    def test_единый_снимок_и_наблюдатель_с_настоящим_git(сам):
+        import stat
+        if not all(getattr(сам, имя, None) for имя in ('исполнитель_наблюдателя', 'отпечаток_наблюдателя',
+                                                       'исполнитель_якоря', 'отпечаток_якоря')):
+            сам.skipTest('нужны закреплённые исполнители наблюдателя и якоря')
+        м = загрузить_модуль_автоматизации()
+        сам._контекст_единого = сам.закрытая_вершина_для_неотслеживаемых(м, с_объектом=True, срок=90)
+        исходная, корень, домашний = сам._контекст_единого.__enter__()
+        исходное, владелец, run = исходная._удержание, исходная._владелец, исходная._run
+        image_fd = os.open('/Library/Developer/CommandLineTools/usr/bin/git', os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        try:
+            заявка = м._ЗаявкаЗакрытогоПрофиляGit(исходное._корневой_fd, исходное._источники,
+                                                  image_fd, исходная._сессия, time.monotonic() + 90)
+            сам._владение_единого = м._ВладениеЗакрытымПрофилемGit(
+                заявка, владелец, run, корень, исходная._сессия)
+        finally:
+            os.close(image_fd)
+        каталог_квитанций = getattr(сам, 'каталог_квитанций', None)
+        if type(каталог_квитанций) is not str:
+            raise м.ОшибкаОтчёта('не задан каталог квитанций испытания')
+        сам._fd_квитанций_единого = os.open(каталог_квитанций, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        сам._владение_единого.подготовить_intent(сам._fd_квитанций_единого)
+        вершина = сам._владение_единого.удержать_вершину()
+        сам._вершина_единого = вершина
+        активная = корень / 'active.json'
+        байты = json.dumps({'идентификатор': run, 'состояние': 'выполняется'}, ensure_ascii=False).encode()
+        активная.write_bytes(байты)
+        (корень / 'foo').write_bytes(b'fixture-content')
+        каталог_замка = корень.parent / 'lock-root'
+        каталог_замка.mkdir(mode=0o700)
+        def часть(метка, данные):
+            метка = метка.encode('utf-8')
+            return len(метка).to_bytes(8, 'big') + метка + len(данные).to_bytes(8, 'big') + данные
+        вход = часть('вершина', вершина._oid) + часть('индекс', b'') + часть('рабочее_дерево', b'')
+        for имя, данные in (('.gitignore', b'fixture\n'), ('active.json', байты), ('foo', b'fixture-content')):
+            режим = stat.S_IMODE((корень / имя).lstat().st_mode)
+            вход += часть(f'неотслеживаемый:{имя}:файл:{режим:o}', данные)
+        оракул = 'sha256:' + hashlib.sha256(вход).hexdigest()
+        сам._пакеты_единого = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+        снимок = м._тестово_собрать_закрытый_снимок_git(
+            вершина, сам._пакеты_единого, '/Library/Developer/CommandLineTools/usr/bin/git',
+            str(домашний), срок=time.monotonic() + 60,
+            _тестовый_оракул=оракул)
+        сам.assertEqual((снимок.схема, снимок.состояние), ('fum.git-closed-snapshot.1', 'UNKNOWN'))
+        pending = вершина._отложенный_отпечаток
+        сам.assertIsInstance(pending, м._ОтложенныйКонтролируемыйОтпечаток)
+        сам.assertEqual(pending._состояние, 'ожидает-terminal')
+        сам.assertEqual(len(вершина._удержание._завершённые_пакеты), 7)
+        владелец._блокировка.acquire()
+        владелец._поток_владельца = м._thread.get_ident()
+        владелец._объект_потока = threading.current_thread()
+        владелец.активная_запись, владелец.байты_записи, владелец.запись_вернула_успех = активная, байты, True
+        сам._fd_замка_единого = os.open(каталог_замка, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        метка = os.fstat(сам._fd_замка_единого)
+        сессия = 'container-' + run
+        селектор = ('fum.test-lock-root.2', str(каталог_замка), метка.st_dev, метка.st_ino,
+                    метка.st_uid, метка.st_mode & 0o7777, сессия, str(корень))
+        срок = time.monotonic_ns() // 1_000_000 + 10000
+        стоп = срок + 5000
+        def получить_замок():
+            return м._тестовый_замок_новой_сессии(селектор, сам._fd_замка_единого, корень, сессия,
+                                                    срок_монотонный=стоп / 1000)
+        сам._контур_единого = м._ТестовыйКонтурНаблюдателя(владелец, run, срок, стоп)
+        контур = сам._контур_единого
+        контур._тестово_связать_вершину(вершина, _требовать_снимок=True)
+        контур.запустить(Path(сам.исполнитель_наблюдателя), сам.отпечаток_наблюдателя,
+                         Path(сам.исполнитель_якоря), сам.отпечаток_якоря, корень,
+                         ('/bin/sh', '-c', 'exit 0'), получить_замок, _изолировать_git=True)
+        свидетельство = контур.довести(получить_замок)
+        сам.assertEqual((свидетельство.код_цели, владелец.сырой_статус), (0, 0))
+        контур.закрыть_после_успеха()
+        сам.assertEqual(контур._фаза_источников, 'завершена')
+        сам._владение_единого.завершить(контур)
+        сам.assertEqual(сам._владение_единого._состояние, 'освобождён')
+        сам.assertEqual(pending._состояние, 'UNKNOWN')
+        сам.assertIsNone(pending._хэш)
+        for имя in ('intent.json', 'terminal.json', 'release.json'):
+            байты_квитанции = (Path(каталог_квитанций) / имя).read_bytes()
+            запись_квитанции = json.loads(байты_квитанции)
+            сам.assertEqual(запись_квитанции['state'], 'UNKNOWN')
+            сам.assertNotIn('fingerprint_sha256', запись_квитанции)
+            if имя == 'terminal.json':
+                сам.assertEqual(байты_квитанции, сам._владение_единого._терминальные_байты)
+        os.close(сам._fd_квитанций_единого)
+        os.close(сам._fd_замка_единого)
+        владелец._блокировка.release()
+        сам._контекст_единого.__exit__(None, None, None)
+        сам._контекст_единого = None
+        print('state=UNKNOWN packets=7 observer_raw=0 context=closed', flush=True)
+
+    def test_единый_снимок_git_сохраняет_legacy_обрамление(сам):
+        import stat
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        with mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            (корень / 'foo').write_bytes(b'fixture-content')
+            режим = stat.S_IMODE((корень / 'foo').lstat().st_mode)
+            def часть(метка, данные):
+                метка = метка.encode('utf-8')
+                return len(метка).to_bytes(8, 'big') + метка + len(данные).to_bytes(8, 'big') + данные
+            вход = (часть('вершина', b'1' * 40) + часть('индекс', b'cached-diff\n')
+                    + часть('рабочее_дерево', b'working-diff\n')
+                    + часть(f'неотслеживаемый:foo:файл:{режим:o}', b'fixture-content'))
+            ожидаемый = 'sha256:' + hashlib.sha256(вход).hexdigest()
+            policy_bytes, policy_digest = м._заявленная_политика_закрытого_git(
+                'sha256:' + '1' * 64, вершина._удержание._источники)
+            вершина._заявленная_policy = (policy_bytes, policy_digest)
+            fd_образа = сам._тестовый_образ_git('/usr/bin/git')
+            вершина._образ_git = (fd_образа, м._метка_исполнителя_git(os.fstat(fd_образа)))
+            def ответить(пакет, команда, среда, *_аргументы, **_ключи):
+                if 'check-attr' in команда:
+                    вывод = b''
+                elif '--show-toplevel' in команда:
+                    вывод = os.fsencode(корень) + b'\n'
+                elif '--verify' in команда:
+                    вывод = b'1' * 40 + b'\n'
+                elif 'ls-files' in команда:
+                    вывод = b'foo\0'
+                elif '--cached' in команда:
+                    вывод = b'cached-diff\n'
+                else:
+                    вывод = b'working-diff\n'
+                пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+                пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+                пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), вывод, b''
+                return вывод, b'', 0
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри', side_effect=ответить) as запуск:
+                итог = м._тестово_собрать_закрытый_снимок_git(
+                    вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10,
+                    _тестовый_оракул=ожидаемый)
+                сам.assertEqual(запуск.call_count, 7)
+                pending = вершина._отложенный_отпечаток
+                сам.assertEqual(pending._состояние, 'ожидает-terminal')
+                сам.assertEqual(pending._хэш.copy().digest(),
+                    hashlib.sha256(b'fum.git-controlled-snapshot.1\0' + policy_digest + вход).digest())
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    bool(pending)
+            сам.assertEqual((итог.схема, итог.состояние), ('fum.git-closed-snapshot.1', 'UNKNOWN'))
+            сам.assertEqual(len(вершина._удержание._завершённые_пакеты), 7)
+
+    def test_единый_снимок_при_расхождении_head_не_читает_diff(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            def ответить(пакет, команда, среда, *_аргументы, **_ключи):
+                if '--show-toplevel' in команда:
+                    вывод = os.fsencode(корень) + b'\n'
+                elif 'check-attr' in команда:
+                    вывод = b''
+                else:
+                    вывод = b'2' * 40 + b'\n'
+                пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+                пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+                пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), вывод, b''
+                return вывод, b'', 0
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри', side_effect=ответить) as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'HEAD единого снимка Git не совпадает'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                сам.assertEqual(запуск.call_count, 3)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+            сам.assertFalse(вершина._активна)
+
+    def test_неверный_повтор_collector_гасит_pending_до_git(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            policy = (b'synthetic', hashlib.sha256(b'fum.git-controlled-policy.1\0synthetic').digest())
+            вершина._заявленная_policy = policy
+            pending = м._ОтложенныйКонтролируемыйОтпечаток(вершина, policy, hashlib.sha256())
+            вершина._отложенный_отпечаток = pending
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри') as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'повторный сбор снимка Git запрещён'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, (), '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                запуск.assert_not_called()
+            сам.assertEqual(pending._состояние, 'UNKNOWN')
+            сам.assertIsNone(pending._хэш)
+            сам.assertFalse(вершина._активна)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+
+    def test_повтор_collector_по_snapshot_без_pending_отклонён(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            вершина._контроль_снимка = ('synthetic', b'1' * 32, time.monotonic() + 10)
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри') as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'повторный сбор снимка Git запрещён'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                запуск.assert_not_called()
+            сам.assertFalse(вершина._активна)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+
+    def test_policy_git_сверяет_точные_argv_и_env(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            вершина._заявленная_policy = м._заявленная_политика_закрытого_git(
+                'sha256:' + '1' * 64, вершина._удержание._источники)
+            fd_образа = сам._тестовый_образ_git('/usr/bin/git')
+            вершина._образ_git = (fd_образа, м._метка_исполнителя_git(os.fstat(fd_образа)))
+            команда = ['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', '/usr/bin/git',
+                       '-C', str(корень), '--no-pager', '-c', 'core.fsmonitor=false', 'rev-parse', '--show-toplevel']
+            среда = {'PATH': os.defpath, 'HOME': str(домашний), 'LC_ALL': 'C', 'GIT_OPTIONAL_LOCKS': '0',
+                     'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1', 'GIT_ALLOW_PROTOCOL': '',
+                     'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1'}
+            м._сверить_команду_с_заявленной_policy(вершина, 0, '/usr/bin/git', str(домашний), команда, среда)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'команда или среда расходятся'):
+                м._сверить_команду_с_заявленной_policy(вершина, 0, '/usr/bin/git', str(домашний), команда + ['--extra'], среда)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'команда или среда расходятся'):
+                м._сверить_команду_с_заявленной_policy(вершина, 0, '/usr/bin/git', str(домашний), команда, {**среда, 'GIT_CONFIG_NOSYSTEM': '0'})
+
+    def test_policy_git_отклоняет_несовпадающий_fd_и_path_до_popen(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            вершина._заявленная_policy = м._заявленная_политика_закрытого_git(
+                'sha256:' + '1' * 64, вершина._удержание._источники)
+            fd_образа = сам._тестовый_образ_git('/usr/bin/true')
+            вершина._образ_git = (fd_образа, м._метка_исполнителя_git(os.fstat(fd_образа)))
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри') as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'путь и удержанный образ Git не совпадают'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                запуск.assert_not_called()
+            сам.assertFalse(вершина._активна)
+            сам.assertIsNone(вершина._отложенный_отпечаток)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+
+    def test_policy_git_отклоняет_подмену_до_popen(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            policy_bytes = b'{}'
+            вершина._заявленная_policy = (policy_bytes, hashlib.sha256(
+                b'fum.git-controlled-policy.1\0' + policy_bytes).digest())
+            fd_образа = сам._тестовый_образ_git('/usr/bin/git')
+            вершина._образ_git = (fd_образа, м._метка_исполнителя_git(os.fstat(fd_образа)))
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри') as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'неверная заявленная policy команды Git'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                запуск.assert_not_called()
+            сам.assertFalse(вершина._активна)
+            сам.assertIsNone(вершина._отложенный_отпечаток)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+
+    def test_единый_снимок_отклоняет_вложенные_атрибуты_до_git(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'вершина рабочего Git недействительна'), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            (корень / 'nested').mkdir()
+            (корень / 'nested' / '.gitattributes').write_bytes(b'* filter=lfs\n')
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри') as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'атрибуты Git требуют отдельного допуска'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                запуск.assert_not_called()
+            сам.assertFalse(вершина._активна)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+
+    def test_единый_снимок_отклоняет_индексные_атрибуты_до_git(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'вершина рабочего Git недействительна'), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            пакеты = tuple(м._ТестовыйВладелецПакетногоGit() for _ in range(7))
+            with mock.patch.object(м, '_разобрать_git_index_v2', return_value=((b'nested/.gitattributes', 0o100644, b'1' * 20),)), \
+                 mock.patch.object(м, '_тестовый_пакет_git_внутри') as запуск:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'атрибуты Git в индексе требуют отдельного допуска'):
+                    м._тестово_собрать_закрытый_снимок_git(
+                        вершина, пакеты, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                запуск.assert_not_called()
+            сам.assertFalse(вершина._активна)
+            сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+
+    def test_список_неотслеживаемых_сохраняет_legacy_байты(сам):
+        import stat
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        with mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            (корень / 'foo.bin').write_bytes(b'\x00data\xff')
+            (корень / 'link').symlink_to('missing-target')
+            режим_файла = stat.S_IMODE((корень / 'foo.bin').lstat().st_mode)
+            режим_ссылки = stat.S_IMODE((корень / 'link').lstat().st_mode)
+            ответ = b'link\0foo.bin\0\xd0\x96\xd1\x83\xd1\x80\xd0\xbd\xd0\xb0\xd0\xbb/\xd0\xbf\xd1\x80\xd0\xbe\xd0\xb2\xd0\xb5\xd1\x80\xd0\xba\xd0\xb0/\xd0\xbe\xd1\x82\xd1\x87\xd1\x91\xd1\x82.md\0Proyekcii/ignored\0'
+            def завершить(пакет, *_аргументы, **_ключи):
+                пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+                пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+                пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), ответ, b''
+                return ответ, b'', 0
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри', side_effect=завершить) as запуск:
+                итог = м._тестово_наблюдать_неотслеживаемые_git(
+                    вершина, м._ТестовыйВладелецПакетногоGit(), '/usr/bin/git', str(домашний),
+                    срок=time.monotonic() + 10)
+                запуск.assert_called_once()
+            def часть(метка, данные):
+                метка = метка.encode('utf-8')
+                return len(метка).to_bytes(8, 'big') + метка + len(данные).to_bytes(8, 'big') + данные
+            ожидаемый = часть(f'неотслеживаемый:foo.bin:файл:{режим_файла:o}', b'\x00data\xff')
+            ожидаемый += часть(f'неотслеживаемый:link:символическая_ссылка:{режим_ссылки:o}', b'missing-target')
+            сам.assertEqual((итог.состояние, итог.путей, итог.байтов), ('UNKNOWN', 2, 20))
+            сам.assertEqual(итог.sha256, 'sha256:' + hashlib.sha256(ожидаемый).hexdigest())
+
+    def test_сбой_списка_или_дрейф_неотслеживаемых_сохраняет_owner(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        for случай in ('дубликат', 'дрейф'):
+            with сам.subTest(случай=случай), сам.assertRaises(м.ОшибкаОтчёта), \
+                 mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+                 сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+                (корень / 'file').write_bytes(b'data')
+                пакет = м._ТестовыйВладелецПакетногоGit()
+                ответ = b'file\0file\0' if случай == 'дубликат' else b'file\0'
+                def завершить(пакет, *_аргументы, **_ключи):
+                    пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+                    пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+                    пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), ответ, b''
+                    return ответ, b'', 0
+                читать = м._прочитать_неотслеживаемый_вход_git
+                def изменить(*аргументы):
+                    результат = читать(*аргументы)
+                    (корень / '.gitignore').write_bytes(b'changed\n')
+                    return результат
+                with mock.patch.object(м, '_тестовый_пакет_git_внутри', side_effect=завершить), \
+                     mock.patch.object(м, '_прочитать_неотслеживаемый_вход_git',
+                                       side_effect=изменить if случай == 'дрейф' else читать):
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._тестово_наблюдать_неотслеживаемые_git(
+                            вершина, пакет, '/usr/bin/git', str(домашний), срок=time.monotonic() + 10)
+                сам.assertEqual(вершина._владелец.состояние, 'неизвестно')
+                сам.assertIs(вершина._владелец._ожидающие_пакеты_git[0].пакет, пакет)
+
+    def test_сборщик_закрытого_профиля_читает_дескрипторы_и_отклоняет_дрейф(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, gitdir), contextlib.ExitStack() as стек:
+            (gitdir / 'HEAD').write_bytes(b'1' * 40 + b'\n')
+            (общий / 'config').write_bytes(b'[core]\n\trepositoryformatversion = 0\n\tbare = false\n'
+                                            b'[branch "fixture"]\n\tremote = origin\n'
+                                            b'\tmerge = refs/heads/fixture\n')
+            for имя in ('system-config', 'global-config', 'xdg-config'):
+                (рабочий / имя).write_bytes(b'')
+            образ = рабочий / 'fixture-git'
+            образ.write_bytes(b'synthetic executable bytes')
+            образ.chmod(0o700)
+            флаги = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+            def открыть(путь, режим=флаги):
+                fd = os.open(путь, режим)
+                стек.callback(os.close, fd)
+                return fd
+            fd_root, fd_git, fd_common = открыть(рабочий), открыть(gitdir), открыть(общий)
+            fd_образа = открыть(образ, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            источники = (('gitfile', рабочий, fd_root, '.git', 4096),
+                         ('backlink', gitdir, fd_git, 'gitdir', 4096),
+                         ('commondir', gitdir, fd_git, 'commondir', 64),
+                         ('head', gitdir, fd_git, 'HEAD', 4096),
+                         ('index', gitdir, fd_git, 'index', 65536),
+                         ('common_config', общий, fd_common, 'config', 65536),
+                         ('worktree_config', gitdir, fd_git, 'config.worktree', 4096),
+                         ('system_config', рабочий, fd_root, 'system-config', 4096),
+                         ('global_config', рабочий, fd_root, 'global-config', 4096),
+                         ('xdg_config', рабочий, fd_root, 'xdg-config', 4096),
+                         ('info_exclude', рабочий, fd_root, 'info-exclude', 4096),
+                         ('info_attributes', рабочий, fd_root, 'info-attributes', 4096))
+            владелец = м._ТестовыйВладелецЗапуска()
+            run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+            неполное = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники[:6], владелец,
+                                                           run, сессия, срок=time.monotonic() + 10)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'неполный заявленный набор'):
+                м._снять_закрытый_профиль_git(неполное, владелец, run, сессия, fd_образа)
+            сам.assertFalse(неполное._активен)
+            неверные = tuple((роль, путь, fd, 'NOT-HEAD' if роль == 'head' else имя, предел)
+                              for роль, путь, fd, имя, предел in источники)
+            неверное = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, неверные, владелец,
+                                                          run, сессия, срок=time.monotonic() + 10)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'несовместимые роли'):
+                м._снять_закрытый_профиль_git(неверное, владелец, run, сессия, fd_образа)
+            сам.assertFalse(неверное._активен)
+            удержание = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец,
+                                                            run, сессия, срок=time.monotonic() + 10)
+            профиль = м._снять_закрытый_профиль_git(удержание, владелец, run, сессия, fd_образа)
+            сам.assertEqual(профиль.состояние, 'UNKNOWN')
+            конфиг = м._сверить_закрытую_конфигурацию_git(удержание, владелец, run, сессия)
+            сам.assertEqual((конфиг.схема, конфиг.состояние, конфиг.файлов),
+                            ('fum.git-closed-config-observation.1', 'UNKNOWN', 4))
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                bool(конфиг)
+            сам.assertEqual(профиль.исполнитель_sha256,
+                            'sha256:' + hashlib.sha256(b'synthetic executable bytes').hexdigest())
+            полные_источники = источники + (
+                ('root_ignore', рабочий, fd_root, '.gitignore', 4096),
+                ('root_attributes', рабочий, fd_root, '.gitattributes', 4096),
+                ('gitmodules', рабочий, fd_root, '.gitmodules', 4096),
+                ('global_excludes', рабочий, fd_root, 'global-excludes', 4096))
+            заявка = м._ЗаявкаЗакрытогоПрофиляGit(fd_root, полные_источники, fd_образа, сессия, time.monotonic() + 10)
+            аргументы = (рабочий, Path(сессия), 'проверка', 'исполнитель', run, 10, ['true'])
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, м._ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА):
+                м.выполнить_запуск(*аргументы, _профиль_источников_git=заявка)
+            исходник = __import__('inspect').getsource(м.выполнить_запуск)
+            guard = '    raise ОшибкаОтчёта(_ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА)\n'
+            сам.assertEqual(исходник.count(guard), 1)
+            среда = dict(м.__dict__)
+            exec(compile(исходник.replace(guard, '    pass  # изолированный preflight\n', 1),
+                         '<закрытый-профиль-preflight>', 'exec'), среда)
+            сборщик = mock.Mock(wraps=м._ВладениеЗакрытымПрофилемGit)
+            среда['_ВладениеЗакрытымПрофилемGit'] = сборщик
+            до_карантина = tuple(м._карантин_владений_закрытого_git)
+            with mock.patch.object(м.subprocess, 'Popen') as запуск, \
+                 mock.patch.object(м, 'атомарно_записать_байты') as записать:
+                среда['атомарно_записать_байты'] = записать
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'закрытый профиль Git неизвестен'):
+                    среда['выполнить_запуск'](*аргументы, _профиль_источников_git=заявка)
+                сборщик.assert_called_once()
+                сам.assertEqual(tuple(м._карантин_владений_закрытого_git), до_карантина)
+                запуск.assert_not_called(); записать.assert_not_called()
+            чужие = (рабочий, Path('Журнал/другая/запрос.md'), *аргументы[2:])
+            with mock.patch.object(м.os, 'pread') as чтение:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'сессия owner-scoped Git не совпадает'):
+                    среда['выполнить_запуск'](*чужие, _профиль_источников_git=заявка)
+                чтение.assert_not_called()
+            (gitdir / 'HEAD').write_bytes(b'2' * 40 + b'\n')
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._снять_закрытый_профиль_git(удержание, владелец, run, сессия, fd_образа)
+            сам.assertFalse(удержание._активен)
+            (общий / 'config').write_bytes(b'[include]\n\tpath = /private/secret\n')
+            с_include = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец,
+                                                          run, сессия, срок=time.monotonic() + 10)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'неподдерживаемая конфигурация Git или include'):
+                м._сверить_закрытую_конфигурацию_git(с_include, владелец, run, сессия)
+            сам.assertFalse(с_include._активен)
+            (рабочий / 'global-config').write_bytes(b'[filter "lfs"]\n\tprocess = helper\n')
+            внешний = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец,
+                                                         run, сессия, срок=time.monotonic() + 10)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'внешняя конфигурация закрытого Git не пуста'):
+                м._сверить_закрытую_конфигурацию_git(внешний, владелец, run, сессия)
+            сам.assertFalse(внешний._активен)
+
+    @contextlib.contextmanager
+    def объявленная_вершина(сам, м, *, с_gitlink=False, с_объектом=False, срок=10):
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            if с_gitlink:
+                сам.подготовить_gitlink(рабочий, общий, gitdir)
+            тело = b'tree ' + b'1' * 40 + b'\n\nfixture\n'
+            oid = hashlib.sha1(b'commit ' + str(len(тело)).encode() + b'\0' + тело).hexdigest().encode()
+            (gitdir / 'HEAD').write_bytes(b'ref: refs/heads/fixture\n')
+            (общий / 'refs/heads').mkdir(parents=True)
+            (общий / 'refs/heads/fixture').write_bytes(oid + b'\n')
+            if с_объектом:
+                import zlib
+                путь_объекта = общий / 'objects' / oid[:2].decode() / oid[2:].decode()
+                путь_объекта.parent.mkdir(parents=True)
+                путь_объекта.write_bytes(zlib.compress(b'commit ' + str(len(тело)).encode() + b'\0' + тело))
+            флаги = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+            with contextlib.ExitStack() as стек:
+                def открыть(путь):
+                    fd = os.open(путь, флаги); стек.callback(os.close, fd); return fd
+                fd_root, fd_git, fd_common = открыть(рабочий), открыть(gitdir), открыть(общий)
+                источники = (('gitfile', рабочий, fd_root, '.git', 4096),
+                    ('backlink', gitdir, fd_git, 'gitdir', 4096), ('commondir', gitdir, fd_git, 'commondir', 64),
+                    ('head', gitdir, fd_git, 'HEAD', 4096), ('index', gitdir, fd_git, 'index', 65536),
+                    ('common_config', общий, fd_common, 'config', 65536))
+                владелец = м._ТестовыйВладелецЗапуска()
+                удержание = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец, run, сессия,
+                    срок=time.monotonic() + срок)
+                with м._удержать_объявленную_вершину_git(удержание, владелец, run, сессия) as вершина:
+                    yield вершина, тело, oid, общий
+
+    def test_объект_git_и_наблюдатель_держат_одну_вершину(сам):
+        if not all(getattr(сам, имя, None) for имя in ('исполнитель_наблюдателя', 'отпечаток_наблюдателя',
+                                                       'исполнитель_якоря', 'отпечаток_якоря')):
+            сам.skipTest('нужны закреплённые исполнители наблюдателя и якоря')
+        м = загрузить_модуль_автоматизации()
+        сам._контекст_вершины = сам.объявленная_вершина(м, с_объектом=True, срок=60)
+        вершина, _, _, _ = сам._контекст_вершины.__enter__()
+        сам._вершина_испытания = вершина
+        владелец = вершина._владелец
+        сам._пакет_испытания = м._ТестовыйВладелецПакетногоGit()
+        сам.assertEqual(м._тестово_проверить_объект_объявленной_вершины_git(
+            вершина, сам._пакет_испытания, '/usr/bin/git', срок=time.monotonic() + 30), 'UNKNOWN')
+        сам.assertEqual(len(вершина._удержание._завершённые_пакеты), 1)
+        корень = вершина._удержание._корень
+        run = вершина._run
+        владелец._блокировка.acquire()
+        владелец._поток_владельца = м._thread.get_ident()
+        владелец._объект_потока = threading.current_thread()
+        активная = корень / 'active.json'
+        байты = json.dumps({'идентификатор': run, 'состояние': 'выполняется'}, ensure_ascii=False).encode()
+        активная.write_bytes(байты)
+        владелец.активная_запись, владелец.байты_записи, владелец.запись_вернула_успех = активная, байты, True
+        каталог_замка = корень / 'lock-root'
+        каталог_замка.mkdir(mode=0o700)
+        сам._fd_замка_испытания = os.open(каталог_замка, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        метка = os.fstat(сам._fd_замка_испытания)
+        сессия = 'container-' + run
+        селектор = ('fum.test-lock-root.2', str(каталог_замка), метка.st_dev, метка.st_ino,
+                    метка.st_uid, метка.st_mode & 0o7777, сессия, str(корень))
+        срок = time.monotonic_ns() // 1_000_000 + 10000
+        стоп = срок + 5000
+        def получить_замок():
+            return м._тестовый_замок_новой_сессии(селектор, сам._fd_замка_испытания, корень, сессия,
+                                                    срок_монотонный=стоп / 1000)
+        сам._контур_испытания = м._ТестовыйКонтурНаблюдателя(владелец, run, срок, стоп)
+        контур = сам._контур_испытания
+        контур._тестово_связать_вершину(вершина)
+        контур.запустить(Path(сам.исполнитель_наблюдателя), сам.отпечаток_наблюдателя,
+                         Path(сам.исполнитель_якоря), сам.отпечаток_якоря, корень,
+                         ('/bin/sh', '-c', 'exit 0'), получить_замок, _изолировать_git=True)
+        свидетельство = контур.довести(получить_замок)
+        сам.assertEqual((свидетельство.код_цели, владелец.сырой_статус), (0, 0))
+        контур.закрыть_после_успеха()
+        сам.assertEqual(контур._фаза_источников, 'завершена')
+        os.close(сам._fd_замка_испытания)
+        владелец._блокировка.release()
+        сам._контекст_вершины.__exit__(None, None, None)
+        сам._контекст_вершины = None
+        print('packet_pid=' + str(сам._пакет_испытания.pid) + ' packet_code=' + str(сам._пакет_испытания.код)
+              + ' observer_pid=' + str(владелец.pid) + ' observer_raw=' + str(владелец.сырой_статус), flush=True)
+
+    def test_объявленная_вершина_связывает_check_attr_с_index(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        with mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+             сам.объявленная_вершина(м, с_gitlink=True) as (вершина, _, _, _):
+            пути = (b'.gitmodules', 'Зависимости/LinguisticKit'.encode())
+            ответ = пути[0] + b'\0filter\0unspecified\0' + пути[1] + b'\0filter\0lfs\0'
+            def завершить(пакет, *_аргументы, **_ключи):
+                пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+                пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+                пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), ответ, b''
+                return ответ, b'', 0
+            with mock.patch.object(м, '_тестовый_пакет_git_внутри', side_effect=завершить) as пакет:
+                итог = м._тестово_проверить_фильтры_объявленного_git(
+                    вершина, м._ТестовыйВладелецПакетногоGit(), '/usr/bin/git', '/private/tmp',
+                    срок=time.monotonic() + 10)
+                сам.assertEqual((итог.состояние, итог.путей, итог.unspecified, итог.lfs), ('UNKNOWN', 2, 1, 1))
+                сам.assertEqual(пакет.call_args.args[3], b''.join(путь + b'\0' for путь in пути))
+                пакет.assert_called_once()
+
+    def test_наблюдатель_отвергает_подмену_вершины(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), сам.объявленная_вершина(м) as (вершина, _, _, _):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                срок = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                контур._тестово_связать_вершину(вершина)
+                другая = object.__new__(м._ЗаявленнаяВершинаGit)
+                другая.__dict__.update(вершина.__dict__)
+                сам.assertEqual(другая.проверить(), 'UNKNOWN')
+                контур._вершина_источников = другая
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    контур._сверить_вершину_наблюдателя('подготовлена')
+                сам.assertFalse(вершина._активна)
+                сам.assertIs(контур._ТестовыйКонтурНаблюдателя__исходная_вершина_источников, вершина)
+            finally:
+                владелец._блокировка.release()
+
+    def test_утрата_вершины_отклоняется_после_запуска_и_сбора(сам):
+        м = загрузить_модуль_автоматизации()
+        for фаза in ('запущена', 'собрана'):
+            with сам.subTest(фаза=фаза), сам.assertRaises(м.ОшибкаОтчёта), \
+                 сам.объявленная_вершина(м) as (вершина, _, _, _):
+                владелец = вершина._владелец
+                владелец._блокировка.acquire()
+                владелец._поток_владельца = м._thread.get_ident()
+                владелец._объект_потока = threading.current_thread()
+                try:
+                    срок = time.monotonic_ns() // 1_000_000 + 10000
+                    контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                    контур._тестово_связать_вершину(вершина)
+                    процесс = object()
+                    владелец.процесс, владелец.pid, владелец.сырой_статус = процесс, 123, 0
+                    контур._процесс_источников, контур._pid_источников = процесс, 123
+                    контур._фаза_источников = фаза
+                    контур._вершина_источников = None
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        контур._сверить_вершину_наблюдателя(фаза)
+                    сам.assertFalse(вершина._активна)
+                    сам.assertEqual(владелец.состояние, 'неизвестно')
+                finally:
+                    владелец._блокировка.release()
+
+    def test_owner_scoped_git_удерживает_дубликаты_при_неизвестном_terminal(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            исходное, владелец = вершина._удержание, вершина._владелец
+            заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                вершина._сессия, time.monotonic() + 20)
+            профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+            with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль):
+                владение = м._ВладениеЗакрытымПрофилемGit(
+                    заявка, владелец, вершина._run, корень, вершина._сессия)
+            try:
+                сам.assertIs(владение._профиль, профиль)
+                сам.assertTrue(владение._fd)
+                сам.assertNotEqual(владение._удержание._корневой_fd, исходное._корневой_fd)
+                with владение:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        владение.завершить(object())
+                сам.assertEqual(владение._состояние, 'неизвестно')
+                сам.assertIn(владение, м._карантин_владений_закрытого_git)
+                for fd in владение._fd:
+                    os.fstat(fd)
+            finally:
+                for fd in владение._fd:
+                    os.close(fd)
+                владение._fd.clear()
+                владение._удержание.закрыть()
+                м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_owner_scoped_не_освобождает_при_pending_или_close(сам):
+        м = загрузить_модуль_автоматизации()
+        for случай in ('packet', 'close'):
+            with сам.subTest(случай=случай), сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+                исходное, владелец = вершина._удержание, вершина._владелец
+                заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                    исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                    вершина._сессия, time.monotonic() + 20)
+                профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+                with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль):
+                    владение = м._ВладениеЗакрытымПрофилемGit(
+                        заявка, владелец, вершина._run, корень, вершина._сессия)
+                if случай == 'packet':
+                    владелец._ожидающие_пакеты_git.append(object())
+                else:
+                    владение._попытка_close = (владение._fd[-1], 'начата')
+                try:
+                    with mock.patch.object(м.os, 'close') as закрыть:
+                        with сам.assertRaises(м.ОшибкаОтчёта):
+                            владение.отменить_до_пуска()
+                        закрыть.assert_not_called()
+                    сам.assertEqual(владение._состояние, 'неизвестно')
+                    сам.assertIn(владение, м._карантин_владений_закрытого_git)
+                    for fd in владение._fd:
+                        os.fstat(fd)
+                finally:
+                    владелец._ожидающие_пакеты_git.clear()
+                    for fd in владение._fd:
+                        os.close(fd)
+                    владение._fd.clear()
+                    владение._удержание.закрыть()
+                    м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_owner_scoped_intent_не_перезаписывает_существующее(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний), \
+             tempfile.TemporaryDirectory(prefix='fum-receipts-', dir='/private/tmp') as каталог:
+            исходное, владелец = вершина._удержание, вершина._владелец
+            заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                вершина._сессия, time.monotonic() + 20)
+            профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+            with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль):
+                владение = м._ВладениеЗакрытымПрофилемGit(
+                    заявка, владелец, вершина._run, корень, вершина._сессия)
+            (Path(каталог) / 'intent.json').write_bytes(b'occupied')
+            fd_каталога = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                with сам.assertRaises(FileExistsError):
+                    владение.подготовить_intent(fd_каталога)
+                сам.assertEqual((Path(каталог) / 'intent.json').read_bytes(), b'occupied')
+                сам.assertEqual(владение._состояние, 'неизвестно')
+                сам.assertIn(владение, м._карантин_владений_закрытого_git)
+                сам.assertFalse(владение._intent_подтверждён)
+            finally:
+                os.close(fd_каталога)
+                for fd in владение._fd_квитанций:
+                    os.close(fd)
+                for fd in владение._fd:
+                    os.close(fd)
+                владение._fd.clear()
+                владение._fd_квитанций.clear()
+                владение._удержание.закрыть()
+                м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_owner_scoped_intent_ошибки_записи_удерживают_карантин(сам):
+        м = загрузить_модуль_автоматизации()
+        for случай in ('write', 'fsync', 'close', 'readback'):
+            with сам.subTest(случай=случай), \
+                 сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний), \
+                 tempfile.TemporaryDirectory(prefix='fum-receipts-fault-', dir='/private/tmp') as каталог:
+                исходное, владелец = вершина._удержание, вершина._владелец
+                заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                    исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                    вершина._сессия, time.monotonic() + 20)
+                профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+                with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль):
+                    владение = м._ВладениеЗакрытымПрофилемGit(
+                        заявка, владелец, вершина._run, корень, вершина._сессия)
+                fd_каталога = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+                настоящий_close, настоящий_pread = os.close, os.pread
+                def close(fd):
+                    if случай == 'close' and владение._попытка_квитанции == ('intent.json', 'закрытие-записи', fd):
+                        raise OSError('synthetic close')
+                    return настоящий_close(fd)
+                def pread(fd, n, offset):
+                    if случай == 'readback' and владение._попытка_квитанции == ('intent.json', 'чтение'):
+                        return b''
+                    return настоящий_pread(fd, n, offset)
+                try:
+                    with contextlib.ExitStack() as patches:
+                        if случай == 'write':
+                            patches.enter_context(mock.patch.object(м.os, 'write', side_effect=OSError('synthetic write')))
+                        if случай == 'fsync':
+                            patches.enter_context(mock.patch.object(м.os, 'fsync', side_effect=OSError('synthetic fsync')))
+                        if случай == 'close':
+                            patches.enter_context(mock.patch.object(м.os, 'close', side_effect=close))
+                        if случай == 'readback':
+                            patches.enter_context(mock.patch.object(м.os, 'pread', side_effect=pread))
+                        with сам.assertRaises((OSError, м.ОшибкаОтчёта)):
+                            владение.подготовить_intent(fd_каталога)
+                    сам.assertEqual(владение._состояние, 'неизвестно')
+                    сам.assertFalse(владение._intent_подтверждён)
+                    сам.assertIn(владение, м._карантин_владений_закрытого_git)
+                    сам.assertIsNotNone(владение._попытка_квитанции)
+                finally:
+                    if случай == 'close' and len(владение._попытка_квитанции) == 3:
+                        настоящий_close(владение._попытка_квитанции[2])
+                    настоящий_close(fd_каталога)
+                    for fd in владение._fd_квитанций:
+                        настоящий_close(fd)
+                    for fd in владение._fd:
+                        настоящий_close(fd)
+                    владение._fd.clear()
+                    владение._fd_квитанций.clear()
+                    владение._удержание.закрыть()
+                    м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_owner_scoped_readback_fifo_отклонён_без_ожидания(сам):
+        import stat
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний), \
+             tempfile.TemporaryDirectory(prefix='fum-receipts-fifo-', dir='/private/tmp') as каталог:
+            исходное, владелец = вершина._удержание, вершина._владелец
+            заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                вершина._сессия, time.monotonic() + 20)
+            профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+            with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль):
+                владение = м._ВладениеЗакрытымПрофилемGit(
+                    заявка, владелец, вершина._run, корень, вершина._сессия)
+            fd_каталога = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            fsync, настоящий_open = os.fsync, os.open
+            заменено = []
+            def проверить_open(путь, флаги, *args, **kwargs):
+                if путь == 'intent.json' and флаги & os.O_ACCMODE == os.O_RDONLY:
+                    сам.assertTrue(флаги & os.O_NONBLOCK)
+                return настоящий_open(путь, флаги, *args, **kwargs)
+            def заменить(fd):
+                fsync(fd)
+                if stat.S_ISDIR(os.fstat(fd).st_mode) and not заменено:
+                    os.unlink('intent.json', dir_fd=fd)
+                    os.mkfifo('intent.json', 0o600, dir_fd=fd)
+                    заменено.append(True)
+            try:
+                with mock.patch.object(м.os, 'fsync', side_effect=заменить), \
+                     mock.patch.object(м.os, 'open', side_effect=проверить_open):
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'readback квитанции Git не совпал'):
+                        владение.подготовить_intent(fd_каталога)
+                сам.assertEqual(заменено, [True])
+                сам.assertEqual(владение._состояние, 'неизвестно')
+                сам.assertFalse(владение._intent_подтверждён)
+                сам.assertIn(владение, м._карантин_владений_закрытого_git)
+            finally:
+                os.close(fd_каталога)
+                for fd in владение._fd_квитанций:
+                    os.close(fd)
+                for fd in владение._fd:
+                    os.close(fd)
+                владение._fd.clear()
+                владение._fd_квитанций.clear()
+                владение._удержание.закрыть()
+                м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_owner_scoped_ошибка_close_остаётся_в_карантине(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            исходное, владелец = вершина._удержание, вершина._владелец
+            заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                вершина._сессия, time.monotonic() + 20)
+            профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+            with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль):
+                владение = м._ВладениеЗакрытымПрофилемGit(
+                    заявка, владелец, вершина._run, корень, вершина._сессия)
+            fd_отказа = владение._fd[-1]
+            настоящий_close = os.close
+            вызовы = []
+            def закрыть(fd):
+                вызовы.append(fd)
+                if fd == fd_отказа:
+                    raise OSError('synthetic close error')
+                настоящий_close(fd)
+            try:
+                with mock.patch.object(м.os, 'close', side_effect=закрыть):
+                    with сам.assertRaises(BaseException):
+                        владение.отменить_до_пуска()
+                сам.assertEqual(владение._состояние, 'неизвестно')
+                сам.assertIn(владение, м._карантин_владений_закрытого_git)
+                сам.assertEqual(вызовы.count(fd_отказа), 1)
+                сам.assertEqual(владение._ошибки_close[0][0], fd_отказа)
+            finally:
+                настоящий_close(fd_отказа)
+                м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_owner_scoped_git_сверяет_terminal_raw_до_освобождения(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid, returncode = 123, 0
+        for raw in (0, 1792):
+            with сам.subTest(raw=raw), сам.закрытая_вершина_для_неотслеживаемых(м) as (исходная, корень, домашний):
+                исходное, владелец = исходная._удержание, исходная._владелец
+                заявка = м._ЗаявкаЗакрытогоПрофиляGit(
+                    исходное._корневой_fd, исходное._источники, сам._тестовый_образ_git('/usr/bin/true'),
+                    исходная._сессия, time.monotonic() + 20)
+                профиль = м._описать_закрытый_профиль_git('sha256:' + '1' * 64, 'sha256:' + '2' * 64)
+                with mock.patch.object(м, '_снять_закрытый_профиль_git', return_value=профиль), \
+                     mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс):
+                    владение = м._ВладениеЗакрытымПрофилемGit(
+                        заявка, владелец, исходная._run, корень, исходная._сессия)
+                    каталог_квитанций = tempfile.TemporaryDirectory(prefix='fum-receipts-', dir='/private/tmp')
+                    сам.addCleanup(каталог_квитанций.cleanup)
+                    fd_каталога = os.open(каталог_квитанций.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+                    сам.addCleanup(os.close, fd_каталога)
+                    владение.подготовить_intent(fd_каталога)
+                    владелец._блокировка.acquire()
+                    владелец._поток_владельца = м._thread.get_ident()
+                    владелец._объект_потока = threading.current_thread()
+                    try:
+                        вершина = владение.удержать_вершину()
+                        вершина._сверить_образ_git('/usr/bin/true')
+                        удержание = владение._удержание
+                        срок = time.monotonic() + 20
+                        дерево = м._снять_дерево_git_потоком(удержание._корневой_fd, срок=срок)
+                        роль = next(р for р in удержание._источники if р[0] == 'index')
+                        индекс = м._прочитать_источник_git_через_fd(роль[2], роль[3], роль[4])
+                        вершина._контроль_снимка = (дерево, hashlib.sha256(индекс).digest(), срок)
+                        вершина._отложенный_отпечаток = м._ОтложенныйКонтролируемыйОтпечаток(
+                            вершина, вершина._заявленная_policy, hashlib.sha256())
+                        край = time.monotonic_ns() // 1_000_000 + 10000
+                        контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, край, край + 5000)
+                        контур._тестово_связать_вершину(вершина, _требовать_снимок=True)
+                        процесс = Процесс()
+                        владелец.процесс, владелец.pid, владелец.сырой_статус = процесс, 123, raw
+                        контур._процесс_источников, контур._pid_источников = процесс, 123
+                        контур._состояние, контур._фаза_источников = 'закрыт', 'завершена'
+                        контур._свидетельство = м._ТестовоеСвидетельствоНаблюдателя(
+                            вершина._run, 123, 124, 125, 0, 0, False, (), 0, 1, 2, 3, 4)
+                        if raw == 0:
+                            владение.завершить(контур)
+                            сам.assertEqual(владение._состояние, 'освобождён')
+                            запись = json.loads(владение._терминальные_байты)
+                            сам.assertEqual((запись['schema'], запись['state'], запись['observer_raw_wait'],
+                                             запись['group_observation'], запись['durable'], запись['cleanup']),
+                                            ('fum.git-controlled-terminal-evidence.1', 'UNKNOWN', 0,
+                                             'UNKNOWN', 'not-written', 'pending'))
+                            сам.assertNotIn('fingerprint_sha256', запись)
+                            сам.assertEqual(вершина._отложенный_отпечаток._состояние, 'UNKNOWN')
+                            сам.assertIsNone(вершина._отложенный_отпечаток._хэш)
+                            сам.assertEqual(владение._fd, [])
+                            сам.assertEqual(владение._fd_квитанций, [])
+                            сам.assertNotIn(владение, м._карантин_владений_закрытого_git)
+                            for имя in ('intent.json', 'terminal.json', 'release.json'):
+                                зафиксировано = json.loads((Path(каталог_квитанций.name) / имя).read_bytes())
+                                сам.assertEqual(зафиксировано['state'], 'UNKNOWN')
+                                сам.assertNotIn('fingerprint_sha256', зафиксировано)
+                        else:
+                            with сам.assertRaises(м.ОшибкаОтчёта):
+                                владение.завершить(контур)
+                            сам.assertEqual(владение._состояние, 'неизвестно')
+                            сам.assertIsNone(владение._терминальные_байты)
+                            сам.assertFalse((Path(каталог_квитанций.name) / 'terminal.json').exists())
+                            сам.assertFalse((Path(каталог_квитанций.name) / 'release.json').exists())
+                            сам.assertIn(владение, м._карантин_владений_закрытого_git)
+                            for fd in владение._fd:
+                                os.fstat(fd)
+                    finally:
+                        владелец._блокировка.release()
+                        владелец.процесс, владелец.pid, владелец.сырой_статус = None, None, None
+                        if владение in м._карантин_владений_закрытого_git:
+                            if владение._контекст_вершины is not None:
+                                владение._контекст_вершины.__exit__(None, None, None)
+                            for fd in владение._fd:
+                                os.close(fd)
+                            владение._fd.clear()
+                            for fd in владение._fd_квитанций:
+                                os.close(fd)
+                            владение._fd_квитанций.clear()
+                            владение._удержание.закрыть()
+                            м._карантин_владений_закрытого_git.remove(владение)
+
+    def test_связь_нового_снимка_требует_его_наличия(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                край = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, край, край + 5000)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    контур._тестово_связать_вершину(вершина, _требовать_снимок=True)
+                сам.assertIsNone(владелец.процесс)
+                сам.assertIsNone(контур._вершина_источников)
+            finally:
+                владелец._блокировка.release()
+
+    def test_наблюдатель_отклоняет_дрейф_дерева_после_сбора(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            удержание, владелец = вершина._удержание, вершина._владелец
+            срок = time.monotonic() + 20
+            дерево = м._снять_дерево_git_потоком(удержание._корневой_fd, срок=срок)
+            роль = next(р for р in удержание._источники if р[0] == 'index')
+            индекс = м._прочитать_источник_git_через_fd(роль[2], роль[3], роль[4])
+            вершина._контроль_снимка = (дерево, hashlib.sha256(индекс).digest(), срок)
+            policy = (b'synthetic', hashlib.sha256(b'fum.git-controlled-policy.1\0synthetic').digest())
+            вершина._заявленная_policy = policy
+            pending = м._ОтложенныйКонтролируемыйОтпечаток(вершина, policy, hashlib.sha256())
+            вершина._отложенный_отпечаток = pending
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                край = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, край, край + 5000)
+                контур._тестово_связать_вершину(вершина)
+                процесс = object()
+                владелец.процесс, владелец.pid, владелец.сырой_статус = процесс, 123, 0
+                контур._процесс_источников, контур._pid_источников = процесс, 123
+                контур._фаза_источников = 'собрана'
+                контур._сверить_вершину_наблюдателя('собрана')
+                (корень / 'new-file').write_bytes(b'drift')
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'снимок Git изменился'):
+                    контур._сверить_вершину_наблюдателя('собрана')
+                сам.assertFalse(вершина._активна)
+                сам.assertEqual(владелец.состояние, 'неизвестно')
+                сам.assertEqual(pending._состояние, 'UNKNOWN')
+                сам.assertIsNone(pending._хэш)
+            finally:
+                владелец._блокировка.release()
+
+    def test_ошибка_маркера_запрещает_приёмник(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), сам.объявленная_вершина(м) as (вершина, _, _, _):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                срок = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                контур._тестово_связать_вершину(вершина)
+                контур._ТестовыйКонтурНаблюдателя__маркер_шага = None
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    контур._шаг('готов', lambda: сам.fail('шаг не должен выполняться'))
+                сам.assertEqual(контур._приёмник._фаза, 'неизвестно')
+                сам.assertEqual(владелец.состояние, 'неизвестно')
+                сам.assertFalse(вершина._активна)
+            finally:
+                владелец._блокировка.release()
+
+    def test_ошибка_захвата_шага_инвалидирует_вершину(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), сам.объявленная_вершина(м) as (вершина, _, _, _):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                срок = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                контур._тестово_связать_вершину(вершина)
+                исходная = OSError('synthetic acquire')
+                class Замок:
+                    def acquire(сам, *_аргументы):
+                        raise исходная
+                контур._блокировка = Замок()
+                with сам.assertRaises(OSError) as ошибка:
+                    контур._шаг('готов', lambda: сам.fail('шаг не должен выполняться'))
+                сам.assertIs(ошибка.exception, исходная)
+                сам.assertIs(контур._ошибка, исходная)
+                сам.assertEqual(владелец.состояние, 'неизвестно')
+                сам.assertFalse(вершина._активна)
+            finally:
+                владелец._блокировка.release()
+
+    def test_ошибка_освобождения_шага_инвалидирует_вершину(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), сам.объявленная_вершина(м) as (вершина, _, _, _):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                срок = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                контур._тестово_связать_вершину(вершина)
+                процесс = object()
+                владелец.процесс, владелец.pid, владелец.сырой_статус = процесс, 123, 0
+                контур._процесс_источников, контур._pid_источников = процесс, 123
+                контур._фаза_источников, контур._состояние = 'собрана', 'свидетельство получено'
+                ошибка_release = OSError('synthetic release')
+                class Замок:
+                    def acquire(сам, *_аргументы):
+                        return True
+                    def release(сам):
+                        raise ошибка_release
+                контур._блокировка = Замок()
+                with сам.assertRaises(OSError) as ошибка:
+                    контур.закрыть_после_успеха()
+                сам.assertIs(ошибка.exception, ошибка_release)
+                сам.assertIs(контур._ошибка, ошибка_release)
+                сам.assertIn(ошибка_release, контур._ошибки_освобождения)
+                сам.assertEqual(владелец.состояние, 'неизвестно')
+                сам.assertFalse(вершина._активна)
+            finally:
+                владелец._блокировка.release()
+
+    def test_ошибка_закрытия_наблюдателя_инвалидирует_вершину(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), сам.объявленная_вершина(м) as (вершина, _, _, _):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                срок = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                контур._тестово_связать_вершину(вершина)
+                процесс = object()
+                владелец.процесс, владелец.pid, владелец.сырой_статус = процесс, 123, 0
+                контур._процесс_источников, контур._pid_источников = процесс, 123
+                контур._фаза_источников, контур._состояние = 'собрана', 'свидетельство получено'
+                контур._дескрипторы.append(123)
+                исходная = OSError('synthetic close')
+                вторичная = OSError('synthetic release after close')
+                class Замок:
+                    def acquire(сам, *_аргументы):
+                        return True
+                    def release(сам):
+                        raise вторичная
+                контур._блокировка = Замок()
+                with mock.patch.object(м, '_отпустить_зарегистрированный_fd', side_effect=исходная):
+                    with сам.assertRaises(OSError) as ошибка:
+                        контур.закрыть_после_успеха()
+                сам.assertIs(ошибка.exception, исходная)
+                сам.assertIs(контур._ошибка, исходная)
+                сам.assertIn(вторичная, контур._ошибки_освобождения)
+                сам.assertEqual(контур._фаза_источников, 'неизвестно')
+                сам.assertFalse(вершина._активна)
+            finally:
+                владелец._блокировка.release()
+
+    def test_вершина_наблюдателя_отвергает_подмену_процесса(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises(м.ОшибкаОтчёта), сам.объявленная_вершина(м) as (вершина, _, _, _):
+            владелец = вершина._владелец
+            владелец._блокировка.acquire()
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            try:
+                срок = time.monotonic_ns() // 1_000_000 + 10000
+                контур = м._ТестовыйКонтурНаблюдателя(владелец, вершина._run, срок, срок + 5000)
+                контур._тестово_связать_вершину(вершина)
+                сам.assertIs(владелец._транспорт_binding._вершина_источников, вершина)
+                контур._сверить_вершину_наблюдателя('подготовлена')
+                процесс = object()
+                владелец.процесс, владелец.pid = процесс, 123
+                контур._процесс_источников, контур._pid_источников = процесс, 123
+                контур._фаза_источников = 'запущена'
+                контур._сверить_вершину_наблюдателя('запущена')
+                владелец.процесс = object()
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    контур._сверить_вершину_наблюдателя('запущена')
+                сам.assertEqual((контур._фаза_источников, владелец.состояние), ('неизвестно', 'неизвестно'))
+                сам.assertIs(контур._вершина_источников, вершина)
+            finally:
+                владелец._блокировка.release()
+
+    def test_связь_пакета_удерживает_identity_и_запрещает_replay(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        with сам.assertRaises(м.ОшибкаОтчёта), \
+             mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+             сам.объявленная_вершина(м) as (вершина, _, _, _):
+            пакет = м._ТестовыйВладелецПакетногоGit()
+            связь = м._СвязьПакетаИсточниковGit(вершина, пакет)
+            владелец = вершина._владелец
+            сам.assertIs(владелец._ожидающие_пакеты_git[0], связь)
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._СвязьПакетаИсточниковGit(вершина, м._ТестовыйВладелецПакетногоGit())
+            связь.начать()
+            пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+            пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+            пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), b'out', b''
+            связь.подтвердить(b'out', b'', 0)
+            сам.assertEqual(владелец._ожидающие_пакеты_git, [])
+            сам.assertIs(вершина._удержание._завершённые_пакеты[0][0], пакет)
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                связь.начать()
+            пакет.процесс = Процесс()
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                вершина.проверить()
+
+    def test_неизвестный_пакет_остаётся_у_своего_owner(сам):
+        м = загрузить_модуль_автоматизации()
+        исходная = OSError('synthetic spawn uncertainty')
+        with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
+            with сам.объявленная_вершина(м, с_gitlink=True) as (вершина, _, _, _):
+                владелец, пакет = вершина._владелец, м._ТестовыйВладелецПакетногоGit()
+                with mock.patch.object(м, '_тестовый_пакет_git_внутри', side_effect=исходная) as запуск:
+                    with сам.assertRaises(OSError) as отказ:
+                        м._тестово_проверить_фильтры_объявленного_git(
+                            вершина, пакет, '/usr/bin/git', '/private/tmp', срок=time.monotonic() + 10)
+                    сам.assertIs(отказ.exception, исходная)
+                    запуск.assert_called_once()
+                сам.assertEqual(владелец.состояние, 'неизвестно')
+                сам.assertEqual(len(владелец._ожидающие_пакеты_git), 1)
+                связь = владелец._ожидающие_пакеты_git[0]
+                сам.assertIs(связь.пакет, пакет)
+                сам.assertIs(связь.вершина, вершина)
+                сам.assertEqual(связь.состояние, 'неизвестно')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    связь.начать()
+
+    def test_ожидающий_пакет_блокирует_запуск_наблюдателя(сам):
+        м = загрузить_модуль_автоматизации()
+        владелец = м._ТестовыйВладелецЗапуска()
+        владелец._блокировка.acquire()
+        try:
+            владелец._поток_владельца = м._thread.get_ident()
+            владелец._объект_потока = threading.current_thread()
+            срок = time.monotonic_ns() // 1_000_000 + 10000
+            контур = м._ТестовыйКонтурНаблюдателя(
+                владелец, '00112233-4455-4677-8899-aabbccddeeff', срок, срок + 5000)
+            запись = object()
+            владелец._ожидающие_пакеты_git.append(запись)
+            with mock.patch.object(м.subprocess, 'Popen') as запуск, \
+                 mock.patch.object(контур, '_проверить_исполнитель') as исполнитель:
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'завершение пакета'):
+                    контур.запустить(Path('/private/tmp/witness'), '0' * 64, Path('/private/tmp/anchor'),
+                        '0' * 64, Path('/private/tmp'), ('/usr/bin/true',),
+                        lambda: contextlib.nullcontext(lambda: None))
+                запуск.assert_not_called(); исполнитель.assert_not_called()
+            сам.assertIs(владелец._ожидающие_пакеты_git[0], запись)
+        finally:
+            владелец._блокировка.release()
+
+    def test_неполный_check_attr_инвалидирует_объявленную_вершину(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
+            with сам.объявленная_вершина(м, с_gitlink=True) as (вершина, _, _, _):
+                with mock.patch.object(м, '_тестовый_пакет_git_внутри', return_value=(b'partial', b'', 0)) as пакет:
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'NUL'):
+                        м._тестово_проверить_фильтры_объявленного_git(
+                            вершина, м._ТестовыйВладелецПакетногоGit(), '/usr/bin/git', '/private/tmp',
+                            срок=time.monotonic() + 10)
+                    пакет.assert_called_once()
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        вершина.проверить()
+
+    def test_объявленная_вершина_сверяет_ref_и_commit(сам):
+        м = загрузить_модуль_автоматизации()
+        class Процесс:
+            pid = 123
+            returncode = 0
+        with mock.patch.object(м, '_КЛАСС_СОБСТВЕННОГО_POPEN', Процесс), \
+             сам.объявленная_вершина(м) as (вершина, тело, oid, _):
+            ответ = oid + b' commit ' + str(len(тело)).encode() + b'\n' + тело + b'\n'
+            owner = м._ТестовыйВладелецПакетногоGit()
+            def завершить(пакет, *_аргументы, **_ключи):
+                пакет.процесс, пакет.pid, пакет.код = Процесс(), 123, 0
+                пакет.состояние, пакет.фаза = 'лидер-собран', 'лидер собран и каналы закрыты'
+                пакет.закрытие, пакет.stdout, пакет.stderr = ('закрыт', 'закрыт'), ответ, b''
+                return ответ, b'', 0
+            with mock.patch.object(м, '_тестовый_запустить_чтение_git', side_effect=завершить) as чтение:
+                сам.assertEqual(м._тестово_проверить_объект_объявленной_вершины_git(
+                    вершина, owner, '/usr/bin/git', срок=time.monotonic() + 10), 'UNKNOWN')
+                сам.assertEqual(чтение.call_args.kwargs['вход'], oid + b'\n')
+                чтение.assert_called_once()
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                bool(вершина)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            вершина.проверить()
+
+    def test_объявленная_вершина_отклоняет_чужой_commit(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
+            with сам.объявленная_вершина(м) as (вершина, тело, oid, _):
+                ответ = oid + b' commit ' + str(len(тело)).encode() + b'\n' + b'x' * len(тело) + b'\n'
+                with mock.patch.object(м, '_тестовый_запустить_чтение_git', return_value=(ответ, b'', 0)) as чтение:
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'commit'):
+                        м._тестово_проверить_объект_объявленной_вершины_git(
+                            вершина, м._ТестовыйВладелецПакетногоGit(), '/usr/bin/git', срок=time.monotonic() + 10)
+                    чтение.assert_called_once()
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        вершина.проверить()
+
+    def test_дрейф_ref_закрывает_чтение_commit(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
+            with сам.объявленная_вершина(м) as (вершина, _, _, общий):
+                (общий / 'refs/heads/fixture').write_bytes(b'2' * 40 + b'\n')
+                with mock.patch.object(м, '_тестовый_запустить_чтение_git') as чтение:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        м._тестово_проверить_объект_объявленной_вершины_git(
+                            вершина, м._ТестовыйВладелецПакетногоGit(), '/usr/bin/git', срок=time.monotonic() + 10)
+                    чтение.assert_not_called()
+
+    def test_ошибка_тела_сверяет_holder_и_сохраняет_причины(сам):
+        м = загрузить_модуль_автоматизации()
+        for сбой_сверки in (False, True):
+            with сам.subTest(сбой_сверки=сбой_сверки):
+                первичная = RuntimeError('synthetic body')
+                вторичная = м.ОшибкаОтчёта('synthetic postcheck')
+                вызовы = []
+                with сам.assertRaises(BaseException) as отказ:
+                    with сам.объявленная_вершина(м) as (вершина, _, _, _):
+                        удержание = вершина._удержание
+                        исходная_сверка = удержание._снять
+                        def проверить():
+                            вызовы.append(True)
+                            if сбой_сверки:
+                                raise вторичная
+                            return исходная_сверка()
+                        удержание._снять = проверить
+                        raise первичная
+                сам.assertEqual(вызовы, [True])
+                сам.assertFalse(удержание._активен)
+                if сбой_сверки:
+                    сам.assertIsInstance(отказ.exception, BaseExceptionGroup)
+                    сам.assertEqual(отказ.exception.exceptions, (первичная, вторичная))
+                else:
+                    сам.assertIs(отказ.exception, первичная)
+
+    def test_объявленная_связность_git_и_подмена_backlink(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            (gitdir / 'HEAD').write_bytes(b'ref: refs/heads/fixture\n')
+            флаги = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+            with contextlib.ExitStack() as стек:
+                def открыть(путь):
+                    fd = os.open(путь, флаги)
+                    стек.callback(os.close, fd)
+                    return fd
+                fd_root, fd_git, fd_common = открыть(рабочий), открыть(gitdir), открыть(общий)
+                источники = (('gitfile', рабочий, fd_root, '.git', 4096),
+                    ('backlink', gitdir, fd_git, 'gitdir', 4096),
+                    ('commondir', gitdir, fd_git, 'commondir', 64),
+                    ('head', gitdir, fd_git, 'HEAD', 4096), ('index', gitdir, fd_git, 'index', 65536),
+                    ('common_config', общий, fd_common, 'config', 65536))
+                владелец = м._ТестовыйВладелецЗапуска()
+                неполное = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники[:-1], владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._проверить_связность_объявленного_git(неполное, владелец, run, сессия)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    неполное.проверить(владелец, run, сессия)
+                неверные = источники[:-1] + (('common_config', gitdir, fd_git, 'config', 65536),)
+                неверная_связь = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, неверные, владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._проверить_связность_объявленного_git(неверная_связь, владелец, run, сессия)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    неверная_связь.проверить(владелец, run, сессия)
+                (gitdir / 'HEAD').write_bytes(b'invalid\n')
+                неверный_head = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'форма HEAD'):
+                    м._проверить_связность_объявленного_git(неверный_head, владелец, run, сессия)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    неверный_head.проверить(владелец, run, сессия)
+                (gitdir / 'HEAD').write_bytes(b'ref: refs/heads/fixture\n')
+                ранний = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                первичная = OSError('synthetic head read')
+                настоящий = м._прочитать_источник_git_через_fd
+                попытки = []
+                def отказать_один_раз(*аргументы):
+                    попытки.append(True)
+                    if len(попытки) == 1:
+                        raise первичная
+                    return настоящий(*аргументы)
+                with mock.patch.object(м, '_проверить_связность_объявленного_git', return_value='UNKNOWN'), \
+                     mock.patch.object(м, '_прочитать_источник_git_через_fd', side_effect=отказать_один_раз):
+                    with сам.assertRaises(OSError) as отказ:
+                        with м._удержать_объявленную_вершину_git(ранний, владелец, run, сессия):
+                            сам.fail('ошибка HEAD пропущена')
+                    сам.assertIs(отказ.exception, первичная)
+                    сам.assertGreater(len(попытки), 1)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    ранний.проверить(владелец, run, сессия)
+                двойной = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                вторичная = м.ОшибкаОтчёта('synthetic postcheck')
+                with mock.patch.object(м, '_проверить_связность_объявленного_git', return_value='UNKNOWN'), \
+                     mock.patch.object(м, '_прочитать_источник_git_через_fd', side_effect=первичная), \
+                     mock.patch.object(м._ЗаявленныеИсточникиРабочегоGit, 'проверить', side_effect=вторичная):
+                    with сам.assertRaises(BaseExceptionGroup) as отказ:
+                        with м._удержать_объявленную_вершину_git(двойной, владелец, run, сессия):
+                            сам.fail('ошибки HEAD пропущены')
+                сам.assertEqual(отказ.exception.exceptions, (первичная, вторичная))
+                сам.assertFalse(двойной._активен)
+                удержание = м._ЗаявленныеИсточникиРабочегоGit(рабочий, fd_root, источники, владелец, run, сессия,
+                    срок=time.monotonic() + 10)
+                сам.assertEqual(м._проверить_связность_объявленного_git(удержание, владелец, run, сессия), 'UNKNOWN')
+                (gitdir / 'gitdir').write_bytes(b'/private/tmp/other/.git\n')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._проверить_связность_объявленного_git(удержание, владелец, run, сессия)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    удержание.проверить(владелец, run, сессия)
+
+    def test_ошибка_git_и_дрейф_сохраняют_обе_причины(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        первичная = RuntimeError('synthetic consumer')
+        ошибки_сверки = []
+        with сам.фикстура() as (рабочий, общий, _):
+            with сам.assertRaises(BaseException) as отказ:
+                with м._тестово_удержать_связанный_профиль_git(
+                        рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, удержание):
+                    настоящая_сверка = удержание._проверка
+                    def запомнить_сверку():
+                        try:
+                            настоящая_сверка()
+                        except BaseException as ошибка:
+                            ошибки_сверки.append(ошибка)
+                            raise
+                    удержание._проверка = запомнить_сверку
+                    профиль = м._связать_профиль_источников_git(удержание, run, сессия)
+                    владелец = м._ТестовыйВладелецЗапуска()
+                    связь = м._СвязьПрофиляСВладельцем(профиль, владелец, run)
+                    def читать(*_):
+                        (общий / 'info' / 'exclude').write_bytes(b'changed\n')
+                        raise первичная
+                    with mock.patch.object(м, '_подготовить_чтение_git_отпечатка', return_value=(object(), читать)), \
+                         mock.patch.object(м, '_выполнить_чтение_гит') as следующий, \
+                         mock.patch.object(м, 'проверить_чистоту_подмодулей', return_value=()):
+                        try:
+                            м.вычислить_отпечаток_снимка(рабочий, сессия,
+                                _удерживаемый_профиль=(связь, владелец, run))
+                        finally:
+                            следующий.assert_not_called()
+            узлы, ожидают = [], [отказ.exception]
+            while ожидают:
+                текущая = ожидают.pop()
+                узлы.append(текущая)
+                ожидают.extend(getattr(текущая, 'exceptions', ()))
+                if hasattr(текущая, 'первичная'):
+                    ожидают.extend((текущая.первичная, *текущая.вторичные))
+            сам.assertTrue(any(ошибка is первичная for ошибка in узлы))
+            сам.assertEqual(len(ошибки_сверки), 1)
+            сам.assertTrue(any(ошибка is ошибки_сверки[0] for ошибка in узлы))
+            сам.assertTrue(any(getattr(ошибка, 'exceptions', ())[:2] == (первичная, ошибки_сверки[0])
+                                or (getattr(ошибка, 'первичная', None) is первичная
+                                    and getattr(ошибка, 'вторичные', ())[:1] == (ошибки_сверки[0],))
+                                for ошибка in узлы))
+
+    def test_дрейф_после_git_не_вызывает_следующий_consumer(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with сам.фикстура() as (рабочий, общий, _):
+            with сам.assertRaises((м.ОшибкаОтчёта, м._СовокупныйОтказСистемногоGit)):
+                with м._тестово_удержать_связанный_профиль_git(
+                        рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, удержание):
+                    профиль = м._связать_профиль_источников_git(удержание, run, сессия)
+                    владелец = м._ТестовыйВладелецЗапуска()
+                    связь = м._СвязьПрофиляСВладельцем(профиль, владелец, run)
+                    def читать(*_):
+                        (общий / 'info' / 'exclude').write_bytes(b'changed\n')
+                        return b'1' * 40 + b'\n'
+                    with mock.patch.object(м, '_подготовить_чтение_git_отпечатка', return_value=(object(), читать)), \
+                         mock.patch.object(м, '_выполнить_чтение_гит') as следующий, \
+                         mock.patch.object(м, 'проверить_чистоту_подмодулей', return_value=()):
+                        try:
+                            м.вычислить_отпечаток_снимка(рабочий, сессия,
+                                _удерживаемый_профиль=(связь, владелец, run))
+                        finally:
+                            следующий.assert_not_called()
+
+    def test_версионированный_снимок_сохраняет_legacy_части_и_unknown(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            (рабочий / 'untracked').write_bytes(b'\x00fixture\xff')
+            with м._тестово_удержать_связанный_профиль_git(
+                    рабочий, общий, 'work', срок=time.monotonic() + 10) as (_, удержание):
+                профиль = м._связать_профиль_источников_git(удержание, run, сессия)
+                владелец = м._ТестовыйВладелецЗапуска()
+                связь = м._СвязьПрофиляСВладельцем(профиль, владелец, run)
+                def читать(корень, *операция):
+                    if операция[:2] == ('rev-parse', '--verify'):
+                        return b'1' * 40 + b'\n'
+                    if операция[:2] == ('ls-files', '--others'):
+                        return b'untracked\0'
+                    raise AssertionError(операция)
+                сжатие = м.добавить_часть_отпечатка
+                with mock.patch.object(м, '_подготовить_чтение_git_отпечатка', return_value=(object(), читать)), \
+                     mock.patch.object(м, '_выполнить_чтение_гит', return_value=b'diff'), \
+                     mock.patch.object(м, 'проверить_чистоту_подмодулей', return_value=()), \
+                     mock.patch.object(м, 'добавить_часть_отпечатка', wraps=сжатие) as части:
+                    прежний = м.вычислить_отпечаток_снимка(рабочий, сессия)
+                    прежние = [вызов.args[1:] for вызов in части.call_args_list]
+                    части.reset_mock()
+                    новый = м.вычислить_отпечаток_снимка(рабочий, сессия,
+                        _удерживаемый_профиль=(связь, владелец, run))
+                    новые = [вызов.args[1:] for вызов in части.call_args_list]
+                сам.assertRegex(прежний, r'^sha256:[0-9a-f]{64}$')
+                сам.assertEqual(прежние, новые)
+                сам.assertEqual((новый.схема, новый.состояние), ('fum.git-held-snapshot.1', 'UNKNOWN'))
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    bool(новый)
+
+    def test_gitmodules_пробелы_порядок_и_дубли(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            сам.подготовить_gitlink(рабочий, общий, gitdir)
+            путь = рабочий / '.gitmodules'
+            исходное = путь.read_bytes()
+            оригинальный_индекс = (gitdir / 'index').read_bytes()
+            исходный_oid = hashlib.sha1(b'blob ' + str(len(исходное)).encode() + b'\0' + исходное).digest()
+            def установить(данные):
+                новый_oid = hashlib.sha1(b'blob ' + str(len(данные)).encode() + b'\0' + данные).digest()
+                тело = оригинальный_индекс[:-20].replace(исходный_oid, новый_oid, 1)
+                путь.write_bytes(данные)
+                (gitdir / 'index').write_bytes(тело + hashlib.sha1(тело).digest())
+            данные = (b'[submodule "\xd0\x97\xd0\xb0\xd0\xb2\xd0\xb8\xd1\x81\xd0\xb8\xd0\xbc\xd0\xbe\xd1\x81\xd1\x82\xd0\xb8/LinguisticKit"]\n'
+                      b'  url=https://example.invalid/fork  \n'
+                      b'fumUpstream = https://example.invalid/upstream\n'
+                      b' path = \xd0\x97\xd0\xb0\xd0\xb2\xd0\xb8\xd1\x81\xd0\xb8\xd0\xbc\xd0\xbe\xd1\x81\xd1\x82\xd0\xb8/LinguisticKit\n')
+            установить(данные)
+            with м._тестово_удержать_связанный_профиль_git(
+                    рабочий, общий, 'work', срок=time.monotonic() + 10, _динамика=True) as (_, удержание):
+                сам.assertEqual(удержание.состояние, 'UNKNOWN')
+            установить(данные + b'path = duplicate\n')
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                with м._тестово_удержать_связанный_профиль_git(
+                        рабочий, общий, 'work', срок=time.monotonic() + 10, _динамика=True):
+                    сам.fail('дублирующее поле допущено')
+
     def подготовить_gitlink(сам, рабочий, общий, gitdir):
         путь = 'Зависимости/LinguisticKit'
         модули = (f'[submodule "{путь}"]\n\tpath = {путь}\n'
@@ -39924,6 +41796,45 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                     with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'связь owner профиля'):
                         м._наблюдать_фильтры_удержанного_git(связь, м._ТестовыйВладелецЗапуска(), run, сессия, ответ)
                     запуск.assert_not_called()
+
+    def test_чтение_атрибутов_связывает_вход_и_ответ(сам):
+        м = загрузить_модуль_автоматизации()
+        run, сессия = '00112233-4455-4677-8899-aabbccddeeff', 'Журнал/проверка/запрос.md'
+        with сам.фикстура() as (рабочий, общий, gitdir):
+            сам.подготовить_gitlink(рабочий, общий, gitdir)
+            with м._тестово_удержать_связанный_профиль_git(
+                    рабочий, общий, 'work', срок=time.monotonic() + 10, _динамика=True) as (_, удержание):
+                профиль = м._связать_профиль_источников_git(удержание, run, сессия)
+                владелец = м._ТестовыйВладелецЗапуска()
+                связь = м._СвязьПрофиляСВладельцем(профиль, владелец, run)
+                пути = [путь for путь, _, _ in м._разобрать_git_index_v2(удержание._индекс, 'sha1', _разрешить_gitlink=True)]
+                ответ = b''.join(путь + b'\0filter\0unspecified\0' for путь in пути)
+                with mock.patch.object(м, '_тестовый_пакет_git_внутри', return_value=(ответ, b'', 0)) as пакет:
+                    итог = м._тестово_прочитать_фильтры_git(связь, владелец, м._ТестовыйВладелецПакетногоGit(),
+                        run, сессия, '/usr/bin/git', '/private/tmp', срок=time.monotonic() + 10)
+                    сам.assertEqual((итог.состояние, итог.путей, итог.unspecified), ('UNKNOWN', 2, 2))
+                    аргументы, настройки = пакет.call_args
+                    сам.assertEqual(аргументы[3], b''.join(путь + b'\0' for путь in пути))
+                    сам.assertEqual(аргументы[1][-4:], ['check-attr', '-z', '--stdin', 'filter'])
+                    сам.assertNotIn('GIT_CONFIG_NOSYSTEM', аргументы[2])
+                    сам.assertNotIn('GIT_CONFIG_GLOBAL', аргументы[2])
+                    сам.assertTrue(настройки['_атрибуты'])
+                with mock.patch.object(м, '_тестовый_пакет_git_внутри', return_value=(ответ[:-1], b'', 0)):
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'NUL'):
+                        м._тестово_прочитать_фильтры_git(связь, владелец, м._ТестовыйВладелецПакетногоGit(),
+                            run, сессия, '/usr/bin/git', '/private/tmp', срок=time.monotonic() + 10)
+
+    def test_обмен_атрибутов_имеет_отдельные_пределы(сам):
+        м = загрузить_модуль_автоматизации()
+        срок = time.monotonic() + 10
+        обмен = м._ТестовыйОбменАтрибутовGit(3, 4, 5, b'x' * 65537, lambda _: None, срок=срок)
+        сам.assertEqual(len(обмен.данные), 65537)
+        сам.assertEqual(обмен.пределы, (16 * 1024 * 1024, 1024 * 1024))
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._ТестовыйОбменАтрибутовGit(3, 4, 5, b'x' * (16 * 1024 * 1024 + 1), lambda _: None, срок=срок)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._ТестовыйОбменКаналовGit(3, 4, 5, b'x' * 65537, lambda _: None, срок=срок,
+                предел_вывода=1, предел_ошибок=1, предел_суммы=2)
 
     def test_filter_triples_дрейф_источника_закрывает_наблюдение(сам):
         м = загрузить_модуль_автоматизации()

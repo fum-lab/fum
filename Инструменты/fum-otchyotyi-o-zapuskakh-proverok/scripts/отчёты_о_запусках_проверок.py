@@ -3761,6 +3761,19 @@ class _ТестовыйОбменКаналовGit:
         return bytes(сам.буферы[0]), bytes(сам.буферы[1])
 
 
+class _ТестовыйОбменАтрибутовGit(_ТестовыйОбменКаналовGit):
+    """Отдельный ограниченный обмен для check-attr; custody и допуск не подтверждает."""
+
+    def __init__(сам, вход, вывод, ошибки, данные, закрыть_вход, *, срок):
+        if type(данные) is not bytes or len(данные) > 16 * 1024 * 1024:
+            raise ОшибкаОтчёта('превышен предел входа атрибутов Git')
+        super().__init__(вход, вывод, ошибки, b'', закрыть_вход, срок=срок,
+                         предел_вывода=0, предел_ошибок=0, предел_суммы=0)
+        сам.данные = данные
+        сам.пределы = (16 * 1024 * 1024, 1024 * 1024)
+        сам.предел_суммы = 17 * 1024 * 1024
+
+
 def _подготовить_чтение_метаданных_гит(
     исполнитель: str | Path, корень: str | Path, операция: tuple[str, ...], *, срок: float
 ) -> tuple[list[str], dict[str, str]]:
@@ -4412,7 +4425,7 @@ def _тестовый_запустить_чтение_git(владелец, ис
 
 
 def _тестовый_пакет_git_внутри(владелец, команда, среда, вход, срок,
-                                предел_stdout, предел_stderr, предел_суммы):
+                                предел_stdout, предел_stderr, предел_суммы, *, _атрибуты=False):
     if not владелец._блокировка.acquire(False):
         raise ОшибкаОтчёта('владелец пакетного Git уже используется')
     первичная = None
@@ -4447,9 +4460,12 @@ def _тестовый_пакет_git_внутри(владелец, команд
                 if число != fd[0] or процесс.stdin is not потоки[0] or потоки[0].fileno() != число:
                     raise ОшибкаОтчёта('изменён вход пакетного Git')
                 потоки[0].close()
-            владелец.обмен = _ТестовыйОбменКаналовGit(
-                *fd, вход, закрыть_вход, срок=срок, предел_вывода=предел_stdout,
-                предел_ошибок=предел_stderr, предел_суммы=предел_суммы)
+            if _атрибуты:
+                владелец.обмен = _ТестовыйОбменАтрибутовGit(*fd, вход, закрыть_вход, срок=срок)
+            else:
+                владелец.обмен = _ТестовыйОбменКаналовGit(
+                    *fd, вход, закрыть_вход, срок=срок, предел_вывода=предел_stdout,
+                    предел_ошибок=предел_stderr, предел_суммы=предел_суммы)
             владелец.фаза = 'обмен'
             stdout, stderr = владелец.обмен.выполнить()
             владелец.stdout, владелец.stderr = stdout, stderr
@@ -5608,10 +5624,11 @@ def _проверить_узкую_конфигурацию_git(источник
             строка = строка[1:] if строка.startswith(b'\t') else строка
             if раздел == b'extensions' and строка == b'worktreeConfig = true':
                 строка = b'worktreeconfig = true'
-            поле = re.fullmatch(rb'([a-z][a-z0-9]*) = ([^"\\\r\n#;]+)', строка)
+            поле = re.fullmatch(rb'([A-Za-z][A-Za-z0-9]*) = ([^"\\\r\n#;]+)', строка)
             if поле is None or раздел is None:
                 return False
             ключ, значение = поле.groups()
+            ключ = ключ.lower()
             if not значение or значение != значение.strip() or any(байт < 32 or байт == 127 for байт in значение):
                 return False
             запись = (раздел, подраздел, ключ)
@@ -5712,7 +5729,8 @@ def _проверить_неинициализированный_gitlink(кор�
         raise ОшибкаОтчёта('описание подмодулей не совпадает с индексом')
     строки = данные.splitlines(keepends=True)
     заголовок = re.fullmatch(rb'\[submodule "([^"\\\r\n]+)"\]\n', строки[0]) if строки else None
-    поля = [re.fullmatch(rb'\t(path|url|fumUpstream) = ([^"\\\r\n]+)\n', строка) for строка in строки[1:]]
+    поля = [re.fullmatch(rb'[ \t]*(path|url|fumUpstream)[ \t]*=[ \t]*([^"\\\r\n#;]+?)[ \t]*\n', строка)
+            for строка in строки[1:]]
     if заголовок is None or len(поля) != 3 or any(поле is None for поле in поля):
         raise ОшибкаОтчёта('неподдерживаемое описание подмодуля')
     значения = {поле.group(1): поле.group(2) for поле in поля}
@@ -10694,6 +10712,135 @@ class _ВерсионированныйПрофильИсточниковGit(Nam
     источники_sha256: str
 
 
+class _ЗакрытыйПрофильGit(NamedTuple):
+    """Описание заявленных входов; не отпечаток и не допуск запуска."""
+    схема: str
+    состояние: str
+    исполнитель_sha256: str
+    конфигурация_sha256: str
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('закрытый профиль Git не является допуском')
+
+    def __str__(сам):
+        raise ОшибкаОтчёта('закрытый профиль Git не является историческим отпечатком')
+
+
+def _заявленная_политика_закрытого_git(исполнитель_sha256, источники):
+    """Канонизировать только объявленную policy; полнота и custody UNKNOWN."""
+    роли = ('backlink', 'common_config', 'commondir', 'gitfile', 'gitmodules', 'global_config',
+            'global_excludes', 'head', 'index', 'info_attributes', 'info_exclude', 'root_attributes',
+            'root_ignore', 'system_config', 'worktree_config', 'xdg_config')
+    if (type(исполнитель_sha256) is not str
+        or re.fullmatch(r'sha256:[0-9a-f]{64}', исполнитель_sha256) is None
+        or type(источники) is not tuple or len(источники) != len(роли)
+        or os.defpath != '/bin:/usr/bin'):
+        raise ОшибкаОтчёта('неполная заявленная policy Git')
+    пределы = {}
+    for запись in источники:
+        if (type(запись) is not tuple or len(запись) != 5 or type(запись[0]) is not str
+            or запись[0] not in роли or запись[0] in пределы
+            or type(запись[4]) is not int or not 0 <= запись[4] <= 16 * 1024 * 1024):
+            raise ОшибкаОтчёта('неверные роли заявленной policy Git')
+        пределы[запись[0]] = запись[4]
+    if tuple(sorted(пределы)) != роли or sum(пределы.values()) > 32 * 1024 * 1024:
+        raise ОшибкаОтчёта('неполные пределы заявленной policy Git')
+    префикс = ['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', '<git>',
+               '-C', '<root>', '--no-pager', '-c', 'core.fsmonitor=false']
+    дерево = префикс + ['--work-tree=<root>']
+    пути = ['.', ':(exclude)<session>/отчёт.md', ':(exclude)<session>/материалы/запуски-проверок',
+            ':(exclude)<session>/материалы/запуски-проверок/**', ':(top,exclude,literal)Proyekcii',
+            ':(top,exclude,glob)Proyekcii/**']
+    diff = ['diff', '--binary', '--no-ext-diff', '--no-textconv', '--ignore-submodules=dirty']
+    argv = [префикс + ['rev-parse', '--show-toplevel'],
+            ['<git>', '--no-optional-locks', '--no-replace-objects', '-C', '<root>',
+             'check-attr', '-z', '--stdin', 'filter'],
+            дерево + ['rev-parse', '--verify', 'HEAD'],
+            дерево + diff + ['--cached', '<head>', '--'] + пути,
+            дерево + diff + ['--'] + пути,
+            дерево + ['ls-files', '--others', '--exclude-standard', '-z', '--', '.'],
+            дерево + ['rev-parse', '--verify', 'HEAD']]
+    policy = {
+        'schema': 'fum.git-controlled-policy-declared.1',
+        'object_format': 'sha1',
+        'git_sha256': исполнитель_sha256,
+        'source_limits': [[роль, пределы[роль]] for роль in роли],
+        'environment': {'PATH': '/bin:/usr/bin', 'LC_ALL': 'C', 'HOME': 'private-empty',
+                        'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+                        'GIT_ALLOW_PROTOCOL': '', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1',
+                        'check_attr_GIT_TERMINAL_PROMPT': '0'},
+        'operations': ['show-toplevel', 'check-attr-filter-index', 'head-before', 'cached-diff',
+                       'worktree-diff', 'untracked-exclude-standard', 'head-after'],
+        'argv_templates': argv,
+        'config': 'strict-common-worktree-no-include-private-empty-global-system-off',
+        'path_placeholders': {'<root>': 'physical-worktree', '<session>': 'relative-session-parent',
+                              '<git>': 'pinned-executable', '<head>': 'sha1-oid'},
+        'attributes': 'no-worktree-or-index-gitattributes-and-no-applied-filter',
+        'submodule': 'zero-or-one-uninitialized-checked-gitlink',
+        'tree_limits': [100000, 64, 25500000],
+        'untracked_file_limit': 16 * 1024 * 1024,
+        'untracked_total_limit': 64 * 1024 * 1024,
+    }
+    байты = json.dumps(policy, ensure_ascii=True, sort_keys=True, separators=(',', ':'), allow_nan=False).encode('utf-8')
+    return байты, hashlib.sha256(b'fum.git-controlled-policy.1\0' + байты).digest()
+
+
+def _сверить_команду_с_заявленной_policy(вершина, номер, исполнитель, домашний, команда, среда):
+    """Сверить argv/env до Popen; происхождение образа и custody UNKNOWN."""
+    policy = вершина._заявленная_policy
+    if policy is None:
+        return
+    вершина._сверить_образ_git(исполнитель)
+    if (type(policy) is not tuple or len(policy) != 2 or type(policy[0]) is not bytes
+        or type(policy[1]) is not bytes or len(policy[1]) != 32 or type(номер) is not int
+        or not 0 <= номер < 7 or type(исполнитель) is not str or type(домашний) is not str
+        or type(команда) is not list or type(среда) is not dict):
+        raise ОшибкаОтчёта('неверная связь команды с policy Git')
+    try:
+        описание = json.loads(policy[0].decode('utf-8'))
+        каноническая, digest = _заявленная_политика_закрытого_git(
+            описание['git_sha256'], вершина._удержание._источники)
+        if каноническая != policy[0] or digest != policy[1]:
+            raise ОшибкаОтчёта('заявленная policy Git изменилась')
+        подстановки = {'<git>': исполнитель, '<root>': str(вершина._удержание._корень),
+                       '<session>': PurePosixPath(вершина._сессия).parent.as_posix(),
+                       '<head>': вершина._oid.decode('ascii')}
+        шаблон = описание['argv_templates'][номер]
+        ожидаемая = [re.sub(r'<git>|<root>|<session>|<head>', lambda match: подстановки[match.group()], часть)
+                     for часть in шаблон]
+        окружение = dict(описание['environment'])
+        окружение['HOME'] = домашний
+        терминал = окружение.pop('check_attr_GIT_TERMINAL_PROMPT')
+        if номер == 1:
+            окружение['GIT_TERMINAL_PROMPT'] = терминал
+        if команда != ожидаемая or среда != окружение:
+            raise ОшибкаОтчёта('команда или среда расходятся с policy Git')
+    except (KeyError, TypeError, UnicodeError, ValueError) as ошибка:
+        raise ОшибкаОтчёта('неверная заявленная policy команды Git') from ошибка
+
+
+class _ЗаявкаЗакрытогоПрофиляGit(NamedTuple):
+    """Заимствованные дескрипторы и границы однократного чтения."""
+    корень_fd: int
+    источники: tuple
+    исполнитель_fd: int
+    сессия: str
+    срок: float
+
+
+def _описать_закрытый_профиль_git(исполнитель_sha256, конфигурация_sha256):
+    for значение in (исполнитель_sha256, конфигурация_sha256):
+        if type(значение) is not str or re.fullmatch(r'sha256:[0-9a-f]{64}', значение) is None:
+            raise ОшибкаОтчёта('неверный заявленный вход закрытого профиля Git')
+    return _ЗакрытыйПрофильGit('fum.git-closed-profile.1', 'UNKNOWN', исполнитель_sha256, конфигурация_sha256)
+
+
+def _запретить_закрытый_профиль_в_истории(значение):
+    if (type(значение) is _ЗакрытыйПрофильGit
+        or type(значение) is dict and значение.get('схема') == 'fum.git-closed-profile.1'):
+        raise ОшибкаОтчёта('закрытый профиль Git несовместим с историческим отпечатком')
+
+
 class _НеактивнаяСпособностьПрофиляGit(NamedTuple):
     """Версионированный отказ, не свидетельство готовности observer."""
     схема: str
@@ -10723,6 +10870,8 @@ def _потребовать_профиль_источников_git(профил
         raise ОшибкаОтчёта('неподтверждённый владелец профиля Git')
     if type(профиль) is _НеактивнаяСпособностьПрофиляGit:
         raise ОшибкаОтчёта('способность Git и observer неизвестна; запуск закрыт')
+    if type(профиль) is _ЗакрытыйПрофильGit:
+        raise ОшибкаОтчёта('закрытый профиль Git неизвестен; запуск закрыт')
     связь_владельца = профиль if type(профиль) is _СвязьПрофиляСВладельцем else None
     if связь_владельца is not None:
         профиль = связь_владельца._связанный
@@ -10865,6 +11014,24 @@ class _НаблюдениеФильтровGit(NamedTuple):
         raise ОшибкаОтчёта('наблюдение атрибутов Git не является допуском')
 
 
+def _разобрать_фильтры_индекса_git(записи, ответ):
+    if type(записи) is not tuple or type(ответ) is not bytes or len(ответ) > 16 * 1024 * 1024:
+        raise ОшибкаОтчёта('неверное наблюдение атрибутов Git')
+    части = ответ.split(b'\0') if ответ else [b'']
+    if части[-1] != b'' or len(части) != 3 * len(записи) + 1:
+        raise ОшибкаОтчёта('неверное NUL-обрамление атрибутов Git')
+    unspecified = lfs = другое = 0
+    for номер, (путь, _, _) in enumerate(записи):
+        смещение = 3 * номер
+        if части[смещение] != путь or части[смещение + 1] != b'filter' or not части[смещение + 2]:
+            raise ОшибкаОтчёта('атрибут Git относится к другому пути')
+        значение = части[смещение + 2]
+        unspecified += значение == b'unspecified'
+        lfs += значение == b'lfs'
+        другое += значение not in (b'unspecified', b'lfs')
+    return unspecified, lfs, другое
+
+
 def _наблюдать_фильтры_удержанного_git(связь, владелец, run, сессия, ответ):
     """Сверить NUL triples caller с index; реальное происхождение ответа UNKNOWN."""
     if type(связь) is not _СвязьПрофиляСВладельцем or type(ответ) is not bytes or len(ответ) > 16 * 1024 * 1024:
@@ -10880,35 +11047,1368 @@ def _наблюдать_фильтры_удержанного_git(связь, в
     if описание['index_sha256'] != индекс_sha:
         raise ОшибкаОтчёта('удержанный index не совпадает с описанием')
     записи = _разобрать_git_index_v2(индекс, 'sha1', _разрешить_gitlink=True)
-    части = ответ.split(b'\0') if ответ else [b'']
-    if части[-1] != b'' or len(части) != 3 * len(записи) + 1:
-        raise ОшибкаОтчёта('неверное NUL-обрамление атрибутов Git')
-    unspecified = lfs = другое = 0
-    for номер, (путь, _, _) in enumerate(записи):
-        смещение = 3 * номер
-        if части[смещение] != путь or части[смещение + 1] != b'filter' or not части[смещение + 2]:
-            raise ОшибкаОтчёта('атрибут Git относится к другому пути')
-        значение = части[смещение + 2]
-        unspecified += значение == b'unspecified'
-        lfs += значение == b'lfs'
-        другое += значение not in (b'unspecified', b'lfs')
+    unspecified, lfs, другое = _разобрать_фильтры_индекса_git(записи, ответ)
     связанный.проверить(run, сессия)
     связь.проверить_владельца(run, владелец)
     return _НаблюдениеФильтровGit('fum.git-filter-observation.1', 'UNKNOWN', run, сессия,
         'sha256:' + индекс_sha, 'sha256:' + hashlib.sha256(ответ).hexdigest(), len(записи), unspecified, lfs, другое)
 
 
+def _тестово_прочитать_фильтры_git(связь, владелец, владелец_git, run, сессия,
+                                  исполнитель, домашний_каталог, *, срок, _без_системного=False):
+    """Однократный synthetic check-attr; источники и identity процесса остаются UNKNOWN."""
+    if (type(связь) is not _СвязьПрофиляСВладельцем
+        or type(владелец_git) is not _ТестовыйВладелецПакетногоGit
+        or type(исполнитель) is not str or type(домашний_каталог) is not str
+        or type(_без_системного) is not bool or not _срок_действителен(срок)):
+        raise ОшибкаОтчёта('неверные параметры чтения атрибутов Git')
+    связь.проверить_владельца(run, владелец)
+    связанный = связь._связанный
+    связанный.проверить(run, сессия)
+    удержание = связанный._удержание
+    путь_git, домашний = Path(исполнитель), Path(домашний_каталог)
+    корень = удержание._корень
+    if (not путь_git.is_absolute() or str(путь_git) != исполнитель or путь_git.resolve() != путь_git
+        or not путь_git.is_file() or not домашний.is_absolute() or str(домашний) != домашний_каталог
+        or домашний.resolve() != домашний or not домашний.is_dir()
+        or путь_git.is_relative_to(корень) or signal.getsignal(signal.SIGPIPE) != signal.SIG_IGN):
+        raise ОшибкаОтчёта('неверные пути или SIGPIPE для атрибутов Git')
+    записи = _разобрать_git_index_v2(удержание._индекс, 'sha1', _разрешить_gitlink=True)
+    if sum(len(путь) + 1 for путь, _, _ in записи) > 16 * 1024 * 1024:
+        raise ОшибкаОтчёта('превышен предел путей атрибутов Git')
+    вход = b''.join(путь + b'\0' for путь, _, _ in записи)
+    связанный.проверить(run, сессия)
+    связь.проверить_владельца(run, владелец)
+    команда = [исполнитель, '--no-optional-locks', '--no-replace-objects', '-C', str(корень),
+               'check-attr', '-z', '--stdin', 'filter']
+    среда = {'PATH': os.defpath, 'HOME': домашний_каталог, 'LC_ALL': 'C',
+             'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+             'GIT_TERMINAL_PROMPT': '0', 'GIT_ALLOW_PROTOCOL': ''}
+    if _без_системного:
+        среда['GIT_CONFIG_NOSYSTEM'] = '1'
+        среда['GIT_ATTR_NOSYSTEM'] = '1'
+    with _тестовый_допуск_git():
+        try:
+            _тестовые_git_под_надзором.add(владелец_git)
+            вывод, ошибки, код = _тестовый_пакет_git_внутри(
+                владелец_git, команда, среда, вход, срок, 0, 0, 0, _атрибуты=True)
+            if код != 0 or ошибки:
+                raise ОшибкаОтчёта('неподтверждённый исход атрибутов Git')
+            return _наблюдать_фильтры_удержанного_git(связь, владелец, run, сессия, вывод)
+        finally:
+            if (владелец_git.состояние in ('лидер-собран', 'лидер-собран-с-отказом')
+                and not владелец_git._блокировка.locked()
+                or (владелец_git.состояние == 'готов' and владелец_git.процесс is None
+                    and владелец_git.pid is None and владелец_git.фаза == 'не начата'
+                    and not владелец_git._блокировка.locked())):
+                _тестовые_git_под_надзором.discard(владелец_git)
+
+
+def _метка_исполнителя_git(состояние):
+    if not stat.S_ISREG(состояние.st_mode) or not состояние.st_mode & 0o111 or not 0 < состояние.st_size <= 64 * 1024 * 1024:
+        raise ОшибкаОтчёта('неверная идентичность исполнителя Git')
+    return tuple(getattr(состояние, поле) for поле in
+                 ('st_dev', 'st_ino', 'st_mode', 'st_uid', 'st_gid', 'st_size', 'st_mtime_ns', 'st_ctime_ns'))
+
+
+class _ЗаявленныеИсточникиРабочегоGit:
+    """Проверяемые caller FD и файлы; полнота, authority и custody не подтверждены."""
+    схема = 'fum.git-declared-held.1'
+
+    def __init__(сам, корень, корневой_fd, источники, владелец, run, сессия, *, срок):
+        if (type(корень) is not type(Path('/')) or not корень.is_absolute()
+            or type(корневой_fd) is not int or корневой_fd < 0
+            or type(источники) is not tuple or not 1 <= len(источники) <= 16
+            or type(владелец) is not _ТестовыйВладелецЗапуска
+            or type(run) is not str or re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None
+            or type(сессия) is not str or not сессия or not _срок_действителен(срок)):
+            raise ОшибкаОтчёта('неверные объявленные источники рабочего Git')
+        путь_сессии = PurePosixPath(сессия)
+        if путь_сессии.is_absolute() or путь_сессии.as_posix() != сессия or any(часть in ('.', '..') for часть in путь_сессии.parts):
+            raise ОшибкаОтчёта('неверная сессия рабочего Git')
+        роли = set()
+        for запись in источники:
+            if (type(запись) is not tuple or len(запись) != 5
+                or type(запись[0]) is not str or re.fullmatch(r'[a-z][a-z0-9_-]{0,63}', запись[0]) is None
+                or запись[0] in роли or type(запись[1]) is not type(Path('/')) or not запись[1].is_absolute()
+                or type(запись[2]) is not int or запись[2] < 0 or type(запись[3]) is not str
+                or not запись[3] or запись[3] in ('.', '..') or '/' in запись[3] or '\0' in запись[3]
+                or type(запись[4]) is not int or not 0 <= запись[4] <= 16 * 1024 * 1024):
+                raise ОшибкаОтчёта('неверный descriptor источника рабочего Git')
+            роли.add(запись[0])
+        if sum(запись[4] for запись in источники) > 32 * 1024 * 1024:
+            raise ОшибкаОтчёта('превышен предел источников рабочего Git')
+        сам._корень, сам._корневой_fd, сам._источники = корень, корневой_fd, источники
+        сам._владелец, сам._run, сам._сессия, сам._срок = владелец, run, сессия, срок
+        сам._pid, сам._поток, сам._активен = os.getpid(), threading.current_thread(), True
+        сам._завершённые_пакеты = []
+        def сверить_начального_владельца():
+            if (владелец.состояние != 'готов' or владелец.процесс is not None or владелец.pid is not None
+                or владелец.активная_запись is not None or владелец._pid_владельца != os.getpid()
+                or сам._поток is not threading.current_thread() or not _срок_действителен(срок)):
+                raise ОшибкаОтчёта('неверный начальный владелец рабочего Git')
+        try:
+            сверить_начального_владельца()
+            сам._исходное = сам._снять()
+            сверить_начального_владельца()
+        except BaseException:
+            сам._активен = False
+            raise
+
+    @staticmethod
+    def _метка(fd, имя):
+        if имя.resolve(strict=True) != имя:
+            raise ОшибкаОтчёта('нефизический каталог источников рабочего Git')
+        открытый, названный = os.fstat(fd), имя.lstat()
+        if not stat.S_ISDIR(открытый.st_mode) or not stat.S_ISDIR(названный.st_mode) or not os.path.samestat(открытый, названный):
+            raise ОшибкаОтчёта('каталог источников рабочего Git подменён')
+        return (открытый.st_dev, открытый.st_ino, открытый.st_mode, открытый.st_uid, открытый.st_gid)
+
+    def _снять(сам):
+        корень = сам._метка(сам._корневой_fd, сам._корень)
+        данные = []
+        for роль, путь, fd, имя, предел in сам._источники:
+            метка = сам._метка(fd, путь)
+            содержимое = _прочитать_источник_git_через_fd(fd, имя, предел)
+            if сам._метка(fd, путь) != метка:
+                raise ОшибкаОтчёта('каталог источника рабочего Git изменился')
+            данные.append((роль, метка, None if содержимое is None else (len(содержимое), hashlib.sha256(содержимое).digest())))
+        if сам._метка(сам._корневой_fd, сам._корень) != корень:
+            raise ОшибкаОтчёта('корень рабочего Git изменился')
+        return корень, tuple(данные)
+
+    def проверить(сам, владелец, run, сессия):
+        try:
+            def сверить_владельца():
+                if (not сам._активен or владелец is not сам._владелец or run != сам._run or сессия != сам._сессия
+                    or владелец.состояние == 'неизвестно' or владелец._pid_владельца != os.getpid()
+                    or сам._pid != os.getpid() or сам._поток is not threading.current_thread()
+                    or not _срок_действителен(сам._срок)):
+                    raise ОшибкаОтчёта('удержание рабочего Git недействительно')
+                return (владелец.состояние, id(владелец.процесс), владелец.pid, id(владелец.активная_запись))
+            метка_владельца = сверить_владельца()
+            for запись in сам._завершённые_пакеты:
+                _сверить_завершённый_пакет_источников_git(запись)
+            if сам._снять() != сам._исходное:
+                raise ОшибкаОтчёта('объявленные источники рабочего Git изменились')
+            for запись in сам._завершённые_пакеты:
+                _сверить_завершённый_пакет_источников_git(запись)
+            if сверить_владельца() != метка_владельца:
+                raise ОшибкаОтчёта('владелец рабочего Git изменился при проверке')
+        except BaseException:
+            сам._активен = False
+            raise
+        return 'UNKNOWN'
+
+    def закрыть(сам):
+        сам._активен = False
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('объявленные источники рабочего Git не являются допуском')
+
+
+class _НаблюдениеЗакрытойКонфигурацииGit(NamedTuple):
+    схема: str
+    состояние: str
+    файлов: int
+    sha256: str
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('наблюдение конфигурации Git не является допуском')
+
+
+def _сверить_закрытую_конфигурацию_git(удержание, владелец, run, сессия):
+    """Сверить узкие common/worktree и пустые явно заданные внешние файлы."""
+    if type(удержание) is not _ЗаявленныеИсточникиРабочегоGit:
+        raise ОшибкаОтчёта('нет удержания конфигурации Git')
+    try:
+        удержание.проверить(владелец, run, сессия)
+        роли = {запись[0]: запись for запись in удержание._источники}
+        порядок = ('system_config', 'global_config', 'xdg_config', 'common_config', 'worktree_config')
+        if not set(порядок).issubset(роли):
+            raise ОшибкаОтчёта('неполный набор конфигурации Git')
+        ожидаемые = {роль: данные for роль, _, данные in удержание._исходное[1]}
+        снимки = []
+        for роль in порядок:
+            _, _, fd, имя, предел = роли[роль]
+            данные = _прочитать_источник_git_через_fd(fd, имя, предел)
+            метка = None if данные is None else (len(данные), hashlib.sha256(данные).digest())
+            if метка != ожидаемые[роль]:
+                raise ОшибкаОтчёта('изменился источник конфигурации Git')
+            снимки.append(данные)
+        if any(данные != b'' for данные in снимки[:3]) or снимки[3] is None:
+            raise ОшибкаОтчёта('внешняя конфигурация закрытого Git не пуста или отсутствует')
+        рабочие = tuple(данные for данные in снимки[3:] if данные)
+        if not _проверить_узкую_конфигурацию_git(рабочие):
+            raise ОшибкаОтчёта('неподдерживаемая конфигурация Git или include')
+        удержание.проверить(владелец, run, сессия)
+        хэш = hashlib.sha256()
+        for роль, данные in zip(порядок, снимки):
+            добавить_часть_отпечатка(хэш, роль + (':отсутствует' if данные is None else ':файл'),
+                                    b'' if данные is None else данные)
+        return _НаблюдениеЗакрытойКонфигурацииGit('fum.git-closed-config-observation.1', 'UNKNOWN',
+                                                  sum(данные is not None for данные in снимки),
+                                                  'sha256:' + хэш.hexdigest())
+    except BaseException:
+        удержание._активен = False
+        raise
+
+
+def _снять_закрытый_профиль_git(удержание, владелец, run, сессия, fd_исполнителя):
+    """Наблюдать заявленные FD и источники; полнота и право доступа UNKNOWN."""
+    if type(удержание) is not _ЗаявленныеИсточникиРабочегоGit:
+        raise ОшибкаОтчёта('неверное удержание закрытого профиля Git')
+    try:
+        обязательные = {'gitfile', 'backlink', 'commondir', 'head', 'index', 'common_config',
+                        'worktree_config', 'system_config', 'global_config', 'xdg_config',
+                        'info_exclude', 'info_attributes'}
+        if (type(fd_исполнителя) is not int or fd_исполнителя < 0
+            or not обязательные.issubset({запись[0] for запись in удержание._источники})):
+            raise ОшибкаОтчёта('неполный заявленный набор закрытого профиля Git')
+        _проверить_связность_объявленного_git(удержание, владелец, run, сессия, _конфиг_не_разобран=True)
+        _сверить_закрытую_конфигурацию_git(удержание, владелец, run, сессия)
+        удержание.проверить(владелец, run, сессия)
+        до = os.fstat(fd_исполнителя)
+        if (not stat.S_ISREG(до.st_mode) or not до.st_mode & 0o111
+            or not 0 < до.st_size <= 64 * 1024 * 1024):
+            raise ОшибкаОтчёта('неверный заявленный исполнитель Git')
+        хэш = hashlib.sha256()
+        позиция = 0
+        while позиция < до.st_size:
+            часть = os.pread(fd_исполнителя, min(1024 * 1024, до.st_size - позиция), позиция)
+            if not часть:
+                raise ОшибкаОтчёта('неполное чтение исполнителя Git')
+            хэш.update(часть)
+            позиция += len(часть)
+        if os.pread(fd_исполнителя, 1, позиция):
+            raise ОшибкаОтчёта('исполнитель Git увеличился при чтении')
+        после = os.fstat(fd_исполнителя)
+        поля = ('st_dev', 'st_ino', 'st_mode', 'st_uid', 'st_gid', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+        if tuple(getattr(до, поле) for поле in поля) != tuple(getattr(после, поле) for поле in поля):
+            raise ОшибкаОтчёта('исполнитель Git изменился при чтении')
+        снимок = удержание._снять()
+        if снимок != удержание._исходное:
+            raise ОшибкаОтчёта('заявленные источники Git изменились')
+        удержание.проверить(владелец, run, сессия)
+        дескрипторы = tuple((роль, str(путь), имя, предел) for роль, путь, _, имя, предел in удержание._источники)
+        канонический = (дескрипторы, снимок[0], tuple(
+            (роль, метка, None if данные is None else (данные[0], данные[1].hex()))
+            for роль, метка, данные in снимок[1]))
+        описание = json.dumps(канонический, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+        return _описать_закрытый_профиль_git('sha256:' + хэш.hexdigest(),
+                                             'sha256:' + hashlib.sha256(описание).hexdigest())
+    except BaseException:
+        удержание._активен = False
+        raise
+
+
+def _снять_закрытый_профиль_из_заявки(заявка, владелец, run, корень, запрос):
+    """Связать заявленные FD с owner до активной записи; допуск остаётся UNKNOWN."""
+    if (type(заявка) is not _ЗаявкаЗакрытогоПрофиляGit
+        or type(корень) not in (str, type(Path('/'))) or type(запрос) not in (str, type(Path('/')))
+        or type(заявка.сессия) is not str):
+        raise ОшибкаОтчёта('неверная заявка закрытого профиля Git')
+    корень_путь, запрос_путь = PurePosixPath(корень), PurePosixPath(запрос)
+    if not корень_путь.is_absolute() or '..' in корень_путь.parts or '..' in запрос_путь.parts:
+        raise ОшибкаОтчёта('неверные пути заявки закрытого профиля Git')
+    if not запрос_путь.is_absolute():
+        запрос_путь = корень_путь / запрос_путь
+    try:
+        сессия = запрос_путь.relative_to(корень_путь).as_posix()
+    except ValueError as ошибка:
+        raise ОшибкаОтчёта('запрос закрытого профиля вне корня') from ошибка
+    if сессия != заявка.сессия:
+        raise ОшибкаОтчёта('сессия закрытого профиля не совпадает')
+    удержание = _ЗаявленныеИсточникиРабочегоGit(
+        Path(корень_путь), заявка.корень_fd, заявка.источники, владелец, run, сессия, срок=заявка.срок)
+    try:
+        return _снять_закрытый_профиль_git(удержание, владелец, run, сессия, заявка.исполнитель_fd)
+    finally:
+        удержание.закрыть()
+
+
+# Неизвестный исход оставляет сильные ссылки и известные FD до отдельного разбора.
+_карантин_владений_закрытого_git = []
+
+
+class _ВладениеЗакрытымПрофилемGit:
+    """Опытное owner-scoped владение дубликатами FD; authority и custody UNKNOWN."""
+    схема = 'fum.git-closed-owner-hold.1'
+
+    def __init__(сам, заявка, владелец, run, корень, запрос):
+        if (type(заявка) is not _ЗаявкаЗакрытогоПрофиляGit
+            or type(владелец) is not _ТестовыйВладелецЗапуска
+            or type(корень) is not type(Path('/')) or not корень.is_absolute()
+            or type(запрос) not in (str, type(Path('/')))):
+            raise ОшибкаОтчёта('неверная заявка owner-scoped Git')
+        путь = PurePosixPath(запрос)
+        if not путь.is_absolute():
+            путь = PurePosixPath(корень) / путь
+        try:
+            сессия = путь.relative_to(PurePosixPath(корень)).as_posix()
+        except ValueError as ошибка:
+            raise ОшибкаОтчёта('запрос owner-scoped Git вне корня') from ошибка
+        if сессия != заявка.сессия or '..' in путь.parts:
+            raise ОшибкаОтчёта('сессия owner-scoped Git не совпадает')
+        сам._заявка, сам._владелец, сам._run, сам._сессия = заявка, владелец, run, сессия
+        сам._pid, сам._поток = os.getpid(), threading.current_thread()
+        сам._fd, сам._удержание, сам._профиль = [], None, None
+        сам._попытка_dup, сам._попытка_close = None, None
+        сам._ошибки_close = []
+        сам._контекст_вершины, сам._вершина = None, None
+        сам._терминальные_байты = None
+        сам._каталог_квитанций_fd, сам._метка_каталога_квитанций = None, None
+        сам._fd_квитанций, сам._попытка_квитанции = [], None
+        сам._intent_подтверждён, сам._terminal_подтверждён = False, False
+        сам._состояние = 'создание'
+        _карантин_владений_закрытого_git.append(сам)
+        try:
+            соответствие = {}
+            def дубликат(fd):
+                if type(fd) is not int or fd < 0:
+                    raise ОшибкаОтчёта('неверный FD заявки Git')
+                if fd not in соответствие:
+                    сам._попытка_dup = (fd, 'начата')
+                    новый = os.dup(fd)
+                    сам._fd.append(новый)
+                    соответствие[fd] = новый
+                    сам._попытка_dup = None
+                return соответствие[fd]
+            корневой_fd = дубликат(заявка.корень_fd)
+            источники = tuple((роль, путь, дубликат(fd), имя, предел)
+                              for роль, путь, fd, имя, предел in заявка.источники)
+            исполнитель_fd = дубликат(заявка.исполнитель_fd)
+            сам._удержание = _ЗаявленныеИсточникиРабочегоGit(
+                корень, корневой_fd, источники, владелец, run, сессия, срок=заявка.срок)
+            метка_до = _метка_исполнителя_git(os.fstat(исполнитель_fd))
+            сам._профиль = _снять_закрытый_профиль_git(
+                сам._удержание, владелец, run, сессия, исполнитель_fd)
+            сам._исполнитель_fd = исполнитель_fd
+            сам._образ_метка = _метка_исполнителя_git(os.fstat(исполнитель_fd))
+            if сам._образ_метка != метка_до:
+                raise ОшибкаОтчёта('исполнитель Git изменился после измерения')
+            сам._policy_байты, сам._policy_digest = _заявленная_политика_закрытого_git(
+                сам._профиль.исполнитель_sha256, источники)
+            сам._состояние = 'удерживается'
+        except BaseException:
+            сам._состояние = 'неизвестно'
+            raise
+
+    def __enter__(сам):
+        if сам._состояние != 'удерживается':
+            raise ОшибкаОтчёта('owner-scoped Git недоступен')
+        return сам
+
+    def __exit__(сам, тип, ошибка, трасса):
+        if тип is not None or сам._состояние != 'освобождён':
+            if сам._вершина is not None and type(сам._вершина._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
+                сам._вершина._отложенный_отпечаток.отказаться()
+            сам._состояние = 'неизвестно'
+        return False
+
+    def _записать_квитанцию(сам, имя, байты):
+        """EXCL + fsync + readback в удержанном private FD; ошибки остаются UNKNOWN."""
+        if (имя not in ('intent.json', 'terminal.json', 'release.json')
+            or type(байты) is not bytes or not 0 < len(байты) <= 4096
+            or type(сам._каталог_квитанций_fd) is not int or сам._попытка_квитанции is not None):
+            raise ОшибкаОтчёта('неверная попытка записи квитанции Git')
+        каталог_fd = сам._каталог_квитанций_fd
+        def метка_каталога():
+            данные = os.fstat(каталог_fd)
+            if (not stat.S_ISDIR(данные.st_mode) or данные.st_uid != os.getuid()
+                or данные.st_uid != os.geteuid() or stat.S_IMODE(данные.st_mode) != 0o700):
+                raise ОшибкаОтчёта('неподтверждённый каталог квитанций Git')
+            return данные.st_dev, данные.st_ino, данные.st_uid, stat.S_IMODE(данные.st_mode)
+        if метка_каталога() != сам._метка_каталога_квитанций:
+            raise ОшибкаОтчёта('каталог квитанций Git изменился')
+        сам._попытка_квитанции = (имя, 'создание')
+        fd = os.open(имя, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                     0o600, dir_fd=каталог_fd)
+        сам._fd_квитанций.append(fd)
+        положение = 0
+        while положение < len(байты):
+            n = os.write(fd, байты[положение:])
+            if type(n) is not int or n <= 0 or n > len(байты) - положение:
+                raise ОшибкаОтчёта('неполная запись квитанции Git')
+            положение += n
+        os.fsync(fd)
+        состояние = os.fstat(fd)
+        if (not stat.S_ISREG(состояние.st_mode) or состояние.st_uid != os.getuid()
+            or stat.S_IMODE(состояние.st_mode) != 0o600 or состояние.st_nlink != 1
+            or состояние.st_size != len(байты)):
+            raise ОшибкаОтчёта('неверный файл квитанции Git')
+        identity = состояние.st_dev, состояние.st_ino
+        сам._попытка_квитанции = (имя, 'закрытие-записи', fd)
+        сам._fd_квитанций.pop()
+        os.close(fd)
+        os.fsync(каталог_fd)
+        сам._попытка_квитанции = (имя, 'чтение')
+        fd = os.open(имя, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=каталог_fd)
+        сам._fd_квитанций.append(fd)
+        повтор = os.fstat(fd)
+        if ((повтор.st_dev, повтор.st_ino) != identity or not stat.S_ISREG(повтор.st_mode)
+            or повтор.st_uid != os.getuid() or stat.S_IMODE(повтор.st_mode) != 0o600
+            or повтор.st_nlink != 1 or повтор.st_size != len(байты)
+            or os.pread(fd, len(байты) + 1, 0) != байты
+            or метка_каталога() != сам._метка_каталога_квитанций):
+            raise ОшибкаОтчёта('readback квитанции Git не совпал')
+        именованный = os.stat(имя, dir_fd=каталог_fd, follow_symlinks=False)
+        if (именованный.st_dev, именованный.st_ino) != identity:
+            raise ОшибкаОтчёта('путь квитанции Git изменился')
+        сам._попытка_квитанции = (имя, 'закрытие-чтения', fd)
+        сам._fd_квитанций.pop()
+        os.close(fd)
+        сам._попытка_квитанции = None
+
+    def подготовить_intent(сам, каталог_fd):
+        """Начать отдельный приватный журнал до эффекта; authority остаётся UNKNOWN."""
+        try:
+            владелец = сам._владелец
+            if (сам._состояние != 'удерживается' or сам._контекст_вершины is not None
+                or сам._каталог_квитанций_fd is not None or type(каталог_fd) is not int or каталог_fd <= 2
+                or сам._pid != os.getpid() or сам._поток is not threading.current_thread()
+                or владелец.состояние != 'готов' or владелец.процесс is not None or владелец.pid is not None
+                or владелец.активная_запись is not None or владелец._ожидающие_пакеты_git):
+                raise ОшибкаОтчёта('intent Git недопустим после эффекта')
+            сам._удержание.проверить(владелец, сам._run, сам._сессия)
+            исходная = os.fstat(каталог_fd)
+            сам._попытка_квитанции = ('каталог', 'dup')
+            fd = os.dup(каталог_fd)
+            сам._fd_квитанций.append(fd)
+            сам._каталог_квитанций_fd = fd
+            метка = os.fstat(fd)
+            поля = ('st_dev', 'st_ino', 'st_mode', 'st_uid', 'st_gid')
+            if (tuple(getattr(исходная, поле) for поле in поля) != tuple(getattr(метка, поле) for поле in поля)
+                or tuple(getattr(os.fstat(каталог_fd), поле) for поле in поля) != tuple(getattr(метка, поле) for поле in поля)):
+                raise ОшибкаОтчёта('каталог квитанций Git изменился при dup')
+            if (not stat.S_ISDIR(метка.st_mode) or метка.st_uid != os.getuid()
+                or метка.st_uid != os.geteuid() or stat.S_IMODE(метка.st_mode) != 0o700):
+                raise ОшибкаОтчёта('неподтверждённый каталог квитанций Git')
+            сам._метка_каталога_квитанций = (метка.st_dev, метка.st_ino, метка.st_uid, stat.S_IMODE(метка.st_mode))
+            сам._попытка_квитанции = None
+            запись = {'schema': 'fum.git-controlled-intent-evidence.1', 'state': 'UNKNOWN',
+                      'run': сам._run, 'session': сам._сессия,
+                      'policy_sha256': 'sha256:' + сам._policy_digest.hex(),
+                      'declared_sources_sha256': сам._профиль.конфигурация_sha256,
+                      'durable': 'not-yet-confirmed'}
+            байты = json.dumps(запись, ensure_ascii=True, sort_keys=True,
+                               separators=(',', ':'), allow_nan=False).encode('utf-8')
+            сам._записать_квитанцию('intent.json', байты)
+            сам._удержание.проверить(владелец, сам._run, сам._сессия)
+            сам._intent_подтверждён = True
+        except BaseException:
+            сам._состояние = 'неизвестно'
+            raise
+
+    def _освободить_известные_fd(сам, *, _сохранить_карантин=False):
+        ошибки = []
+        while сам._fd:
+            fd = сам._fd[-1]
+            сам._попытка_close = (fd, 'начата')
+            сам._fd.pop()
+            try:
+                os.close(fd)
+            except BaseException as ошибка:
+                ошибки.append(ошибка)
+                сам._ошибки_close.append((fd, ошибка))
+            else:
+                сам._попытка_close = None
+        if ошибки:
+            raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                'ошибки освобождения owner-scoped Git', ошибки[0], *ошибки[1:]))
+        сам._состояние = 'освобождён'
+        if not _сохранить_карантин:
+            _карантин_владений_закрытого_git.remove(сам)
+
+    def отменить_до_пуска(сам):
+        try:
+            владелец = сам._владелец
+            if (сам._состояние != 'удерживается' or сам._pid != os.getpid()
+                or сам._поток is not threading.current_thread() or сам._попытка_dup is not None
+                or сам._попытка_close is not None or сам._ошибки_close
+                or сам._каталог_квитанций_fd is not None or сам._fd_квитанций
+                or сам._попытка_квитанции is not None
+                or type(владелец._ожидающие_пакеты_git) is not list or владелец._ожидающие_пакеты_git
+                or сам._контекст_вершины is not None or сам._вершина is not None
+                or владелец.состояние != 'готов' or владелец.процесс is not None or владелец.pid is not None
+                or владелец.активная_запись is not None or владелец._транспорт_binding is not None):
+                raise ОшибкаОтчёта('не подтверждён отказ до пуска Git')
+            сам._удержание.проверить(владелец, сам._run, сам._сессия)
+            сам._удержание.закрыть()
+            сам._освободить_известные_fd()
+        except BaseException:
+            сам._состояние = 'неизвестно'
+            raise
+
+    def удержать_вершину(сам):
+        try:
+            if (сам._состояние != 'удерживается' or сам._контекст_вершины is not None
+                or (сам._каталог_квитанций_fd is not None and not сам._intent_подтверждён)):
+                raise ОшибкаОтчёта('вершина owner-scoped Git уже занята')
+            сам._контекст_вершины = _удержать_объявленную_вершину_git(
+                сам._удержание, сам._владелец, сам._run, сам._сессия)
+            сам._вершина = сам._контекст_вершины.__enter__()
+            сам._вершина._заявленная_policy = (сам._policy_байты, сам._policy_digest)
+            сам._вершина._образ_git = (сам._исполнитель_fd, сам._образ_метка)
+            return сам._вершина
+        except BaseException:
+            сам._состояние = 'неизвестно'
+            raise
+
+    def завершить(сам, контур):
+        try:
+            if (сам._состояние != 'удерживается' or сам._pid != os.getpid()
+                or сам._поток is not threading.current_thread()
+                or type(контур) is not _ТестовыйКонтурНаблюдателя
+                or контур._владелец is not сам._владелец or контур._идентификатор != сам._run
+                or контур._состояние != 'закрыт' or контур._фаза_источников != 'завершена'
+                or контур._дескрипторы or type(сам._владелец.сырой_статус) is not int
+                or сам._владелец.сырой_статус < 0
+                or type(сам._владелец.процесс) is not _КЛАСС_СОБСТВЕННОГО_POPEN
+                or сам._владелец.процесс.pid != сам._владелец.pid
+                or сам._владелец.процесс.returncode != 0
+                or os.waitstatus_to_exitcode(сам._владелец.сырой_статус) != 0
+                or сам._владелец._транспорт_binding is not контур
+                or контур._процесс_источников is not сам._владелец.процесс
+                or контур._pid_источников != сам._владелец.pid
+                or type(контур._свидетельство) is not _ТестовоеСвидетельствоНаблюдателя
+                or контур._свидетельство.идентификатор != сам._run
+                or контур._свидетельство.pid_наблюдателя != сам._владелец.pid
+                or контур._свидетельство.код_наблюдателя != 0):
+                raise ОшибкаОтчёта('нет terminal owner-scoped Git')
+            вершина = контур._ТестовыйКонтурНаблюдателя__исходная_вершина_источников
+            if (type(вершина) is not _ЗаявленнаяВершинаGit or вершина is not сам._вершина
+                or сам._контекст_вершины is None or вершина._удержание is not сам._удержание
+                or вершина._образ_git != (сам._исполнитель_fd, сам._образ_метка)
+                or type(вершина._путь_образа) is not str
+                or вершина._владелец is not сам._владелец or вершина._контроль_снимка is None):
+                raise ОшибкаОтчёта('terminal относится к другой вершине Git')
+            вершина.проверить()
+            policy = вершина._заявленная_policy
+            pending = вершина._отложенный_отпечаток
+            if (type(policy) is not tuple or len(policy) != 2 or policy[0] != сам._policy_байты
+                or policy[1] != сам._policy_digest or type(pending) is not _ОтложенныйКонтролируемыйОтпечаток):
+                raise ОшибкаОтчёта('нет связанного отложенного снимка Git')
+            pending.проверить(вершина, policy)
+            контроль = вершина._контроль_снимка
+            связь = контур._ТестовыйКонтурНаблюдателя__исходная_связь_источников
+            if (type(контроль) is not tuple or len(контроль) != 3 or type(связь) is not tuple
+                or len(связь) != 7 or связь[4] is not контроль
+                or связь[5] is not вершина._образ_git or связь[6] != вершина._путь_образа):
+                raise ОшибкаОтчёта('снимок terminal Git подменён')
+            дерево, индекс_sha256, срок = контроль
+            роль = next(запись for запись in сам._удержание._источники if запись[0] == 'index')
+            индекс = _прочитать_источник_git_через_fd(роль[2], роль[3], роль[4])
+            if (type(индекс) is not bytes or hashlib.sha256(индекс).digest() != индекс_sha256
+                or _снять_дерево_git_потоком(сам._удержание._корневой_fd, срок=срок) != дерево):
+                raise ОшибкаОтчёта('снимок Git изменился перед освобождением')
+            вершина.проверить()
+            сам._контекст_вершины.__exit__(None, None, None)
+            сам._контекст_вершины = None
+            сам._удержание.проверить(сам._владелец, сам._run, сам._сессия)
+            if (сам._терминальные_байты is not None or type(сам._policy_digest) is not bytes
+                or len(сам._policy_digest) != 32 or type(сам._профиль) is not _ЗакрытыйПрофильGit
+                or сам._профиль.состояние != 'UNKNOWN'):
+                raise ОшибкаОтчёта('неполное наблюдение terminal контролируемого Git')
+            запись = {'schema': 'fum.git-controlled-terminal-evidence.1', 'state': 'UNKNOWN',
+                      'run': сам._run, 'session': сам._сессия,
+                      'policy_sha256': 'sha256:' + сам._policy_digest.hex(),
+                      'declared_sources_sha256': сам._профиль.конфигурация_sha256,
+                      'owner_pid': сам._pid, 'observer_pid': сам._владелец.pid,
+                      'observer_raw_wait': сам._владелец.сырой_статус, 'observer_exit': 0,
+                      'group_observation': 'UNKNOWN', 'postcheck': 'observed',
+                      'durable': 'not-written', 'cleanup': 'pending'}
+            байты = json.dumps(запись, ensure_ascii=True, sort_keys=True,
+                               separators=(',', ':'), allow_nan=False).encode('utf-8')
+            if len(байты) > 4096:
+                raise ОшибкаОтчёта('квитанция terminal Git превышает предел')
+            сам._терминальные_байты = байты
+            с_квитанциями = сам._каталог_квитанций_fd is not None
+            if с_квитанциями:
+                if not сам._intent_подтверждён:
+                    raise ОшибкаОтчёта('нет подтверждённого intent Git')
+                сам._записать_квитанцию('terminal.json', байты)
+                сам._terminal_подтверждён = True
+            # Внешняя custody не подтверждена: accumulator уничтожается без выдачи digest.
+            pending.отказаться()
+            сам._удержание.закрыть()
+            сам._освободить_известные_fd(_сохранить_карантин=с_квитанциями)
+            if с_квитанциями:
+                запись_освобождения = {'schema': 'fum.git-controlled-release-evidence.1', 'state': 'UNKNOWN',
+                                       'run': сам._run, 'policy_sha256': 'sha256:' + сам._policy_digest.hex(),
+                                       'terminal_receipt': 'readback-matched', 'source_fd_cleanup': 'closed',
+                                       'group_observation': 'UNKNOWN', 'durable': 'not-yet-confirmed'}
+                байты_освобождения = json.dumps(запись_освобождения, ensure_ascii=True, sort_keys=True,
+                                                separators=(',', ':'), allow_nan=False).encode('utf-8')
+                сам._записать_квитанцию('release.json', байты_освобождения)
+                if сам._fd_квитанций != [сам._каталог_квитанций_fd]:
+                    raise ОшибкаОтчёта('неполный реестр квитанций Git')
+                fd = сам._каталог_квитанций_fd
+                сам._попытка_квитанции = ('каталог', 'закрытие', fd)
+                сам._fd_квитанций.pop()
+                сам._каталог_квитанций_fd = None
+                os.close(fd)
+                сам._попытка_квитанции = None
+                _карантин_владений_закрытого_git.remove(сам)
+        except BaseException:
+            if сам._вершина is not None and type(сам._вершина._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
+                сам._вершина._отложенный_отпечаток.отказаться()
+            сам._состояние = 'неизвестно'
+            raise
+
+
+def _проверить_связность_объявленного_git(удержание, владелец, run, сессия, *, _конфиг_не_разобран=False):
+    """Сверить gitfile/backlink/commondir и форму HEAD; ref/object остаются UNKNOWN."""
+    if type(удержание) is not _ЗаявленныеИсточникиРабочегоGit or type(_конфиг_не_разобран) is not bool:
+        raise ОшибкаОтчёта('неверное удержание рабочего Git')
+    роли = {запись[0]: запись for запись in удержание._источники}
+    нужные = {'gitfile', 'backlink', 'commondir', 'head', 'index', 'common_config'}
+    if not нужные.issubset(роли):
+        удержание._активен = False
+        raise ОшибкаОтчёта('неполная связность рабочего Git')
+    корень = удержание._корень
+    gitdir = роли['backlink'][1]
+    общий = роли['common_config'][1]
+    if (роли['gitfile'][1] != корень or роли['gitfile'][3] != '.git'
+        or роли['backlink'][3] != 'gitdir' or роли['commondir'][1] != gitdir
+        or роли['commondir'][3] != 'commondir' or роли['head'][1] != gitdir or роли['head'][3] != 'HEAD'
+        or роли['index'][1] != gitdir or роли['index'][3] != 'index'
+        or роли['common_config'][3] != 'config' or gitdir.parent != общий / 'worktrees'
+        or not gitdir.name or gitdir.name in ('.', '..')):
+        удержание._активен = False
+        raise ОшибкаОтчёта('несовместимые роли связанного рабочего Git')
+    удержание.проверить(владелец, run, сессия)
+    try:
+        def читать(роль):
+            _, _, fd, имя, предел = роли[роль]
+            return _прочитать_источник_git_через_fd(fd, имя, предел)
+        gitfile, backlink, commondir = (читать(роль) for роль in ('gitfile', 'backlink', 'commondir'))
+        if (gitfile != b'gitdir: ' + os.fsencode(gitdir) + b'\n'
+            or backlink != os.fsencode(корень / '.git') + b'\n' or commondir != b'../..\n'):
+            raise ОшибкаОтчёта('не подтверждена связность рабочего Git')
+        head, индекс, конфиг = (читать(роль) for роль in ('head', 'index', 'common_config'))
+        if head is None or индекс is None or конфиг is None:
+            raise ОшибкаОтчёта('отсутствует обязательный источник рабочего Git')
+        if (re.fullmatch(rb'[0-9a-f]{40}\n', head) is None
+            and not (head.startswith(b'ref: ') and head.endswith(b'\n')
+                     and _допустимая_ссылка_git(head[5:-1]))):
+            raise ОшибкаОтчёта('неподдерживаемая форма HEAD рабочего Git')
+        _разобрать_git_index_v2(индекс, 'sha1', _разрешить_gitlink=True)
+        if not _конфиг_не_разобран and not _проверить_узкую_конфигурацию_git((конфиг,)):
+            raise ОшибкаОтчёта('неподдерживаемый common config рабочего Git')
+    except BaseException as первичная:
+        try:
+            if удержание._активен:
+                удержание.проверить(владелец, run, сессия)
+        except BaseException as ошибка_сверки:
+            удержание._активен = False
+            raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                'ошибка связности и повторной сверки рабочего Git', первичная, ошибка_сверки)) from None
+        удержание._активен = False
+        raise
+    удержание.проверить(владелец, run, сессия)
+    return 'UNKNOWN'
+
+
+class _ЗаявленнаяВершинаGit:
+    """HEAD/ref с ограниченным временем жизни; объекты и custody ещё UNKNOWN."""
+    def __init__(сам, удержание, владелец, run, сессия, head, oid, сверить_ref):
+        сам._удержание, сам._владелец, сам._run, сам._сессия = удержание, владелец, run, сессия
+        сам._head, сам._oid, сам._сверить_ref = head, oid, сверить_ref
+        сам._контроль_снимка = None
+        сам._заявленная_policy = None
+        сам._образ_git, сам._путь_образа = None, None
+        сам._отложенный_отпечаток = None
+        сам._активна = True
+
+    def _сверить_образ_git(сам, путь=None):
+        if сам._образ_git is None:
+            if путь is not None:
+                raise ОшибкаОтчёта('нет удержанного образа Git')
+            return
+        if путь is not None:
+            if type(путь) is not str or not Path(путь).is_absolute() or str(Path(путь)) != путь:
+                raise ОшибкаОтчёта('неверный путь исполнителя Git')
+            if сам._путь_образа is not None and сам._путь_образа != путь:
+                raise ОшибкаОтчёта('путь исполнителя Git изменился')
+        else:
+            путь = сам._путь_образа
+        fd, ожидается = сам._образ_git
+        if _метка_исполнителя_git(os.fstat(fd)) != ожидается:
+            raise ОшибкаОтчёта('удержанный образ Git изменился')
+        if путь is not None:
+            объект = Path(путь)
+            if (объект.resolve(strict=True) != объект
+                or _метка_исполнителя_git(os.stat(объект, follow_symlinks=False)) != ожидается
+                or _метка_исполнителя_git(os.fstat(fd)) != ожидается):
+                raise ОшибкаОтчёта('путь и удержанный образ Git не совпадают')
+            сам._путь_образа = путь
+
+    def _погасить_отпечаток(сам):
+        if type(сам._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
+            сам._отложенный_отпечаток.отказаться()
+
+    def проверить(сам):
+        if not сам._активна:
+            raise ОшибкаОтчёта('вершина рабочего Git недействительна')
+        try:
+            сам._удержание.проверить(сам._владелец, сам._run, сам._сессия)
+            сам._сверить_образ_git()
+            роли = {запись[0]: запись for запись in сам._удержание._источники}
+            _, _, fd, имя, предел = роли['head']
+            if _прочитать_источник_git_через_fd(fd, имя, предел) != сам._head:
+                raise ОшибкаОтчёта('HEAD рабочего Git изменился')
+            сам._сверить_ref()
+            сам._удержание.проверить(сам._владелец, сам._run, сам._сессия)
+        except BaseException:
+            сам._активна = False
+            сам._удержание._активен = False
+            raise
+        return 'UNKNOWN'
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('вершина рабочего Git не является допуском')
+
+
+def _сверить_завершённый_пакет_источников_git(запись):
+    if type(запись) is not tuple or len(запись) != 6:
+        raise ОшибкаОтчёта('неверная запись пакета источников Git')
+    пакет, процесс, pid, код, хэш_вывода, хэш_ошибок = запись
+    if (type(пакет) is not _ТестовыйВладелецПакетногоGit or type(процесс) is not _КЛАСС_СОБСТВЕННОГО_POPEN
+        or пакет.процесс is not процесс or type(pid) is not int or pid <= 1 or пакет.pid != pid
+        or процесс.pid != pid or type(код) is not int or код != 0 or пакет.код != код or процесс.returncode != код
+        or пакет.состояние != 'лидер-собран' or пакет.фаза != 'лидер собран и каналы закрыты'
+        or пакет.закрытие != ('закрыт', 'закрыт') or пакет.ошибка is not None
+        or пакет.ошибка_блокировки is not None or пакет._блокировка.locked()
+        or type(пакет.stdout) is not bytes or type(пакет.stderr) is not bytes
+        or hashlib.sha256(пакет.stdout).digest() != хэш_вывода
+        or hashlib.sha256(пакет.stderr).digest() != хэш_ошибок):
+        raise ОшибкаОтчёта('пакет источников Git не подтверждён')
+
+
+class _СвязьПакетаИсточниковGit:
+    """Однократная in-process привязка; durable custody и exec image UNKNOWN."""
+    def __init__(сам, вершина, пакет):
+        if type(вершина) is not _ЗаявленнаяВершинаGit or type(пакет) is not _ТестовыйВладелецПакетногоGit:
+            raise ОшибкаОтчёта('неверная связь пакета Git')
+        вершина.проверить()
+        владелец = вершина._владелец
+        if (type(владелец._ожидающие_пакеты_git) is not list or владелец._ожидающие_пакеты_git
+            or len(вершина._удержание._завершённые_пакеты) >= 16
+            or пакет.состояние != 'готов' or пакет.фаза != 'не начата' or пакет.процесс is not None
+            or пакет.pid is not None or пакет.код is not None or пакет.ошибка is not None
+            or пакет.ошибка_блокировки is not None or пакет._блокировка.locked()):
+            raise ОшибкаОтчёта('пакет Git занят или уже использован')
+        сам.вершина, сам.пакет, сам.владелец = вершина, пакет, владелец
+        сам.состояние = 'зарегистрирован'
+        владелец._ожидающие_пакеты_git.append(сам)
+
+    def начать(сам):
+        if (сам.состояние != 'зарегистрирован' or сам.владелец._ожидающие_пакеты_git != [сам]
+            or сам.вершина._владелец is not сам.владелец):
+            raise ОшибкаОтчёта('связь пакета Git изменилась до запуска')
+        сам.вершина.проверить()
+        сам.состояние = 'запуск'
+
+    def подтвердить(сам, вывод, ошибки, код):
+        if (сам.состояние != 'запуск' or сам.владелец._ожидающие_пакеты_git != [сам]
+            or сам.вершина._владелец is not сам.владелец or type(вывод) is not bytes
+            or type(ошибки) is not bytes or type(код) is not int):
+            raise ОшибкаОтчёта('неверное подтверждение пакета Git')
+        пакет = сам.пакет
+        запись = (пакет, пакет.процесс, пакет.pid, код, hashlib.sha256(вывод).digest(), hashlib.sha256(ошибки).digest())
+        _сверить_завершённый_пакет_источников_git(запись)
+        сам.вершина.проверить()
+        сам.вершина._удержание._завершённые_пакеты.append(запись)
+        if сам.владелец._ожидающие_пакеты_git.pop() is not сам:
+            raise ОшибкаОтчёта('реестр пакета Git изменился')
+        сам.состояние = 'завершён'
+
+    def отказать(сам):
+        сам.состояние = 'неизвестно'
+        сам.вершина._активна = False
+        сам.вершина._удержание._активен = False
+        сам.владелец.состояние = 'неизвестно'
+
+
+@contextlib.contextmanager
+def _удержать_объявленную_вершину_git(удержание, владелец, run, сессия):
+    """Удержать узкий symbolic ref или detached HEAD до выхода вызывающего."""
+    _проверить_связность_объявленного_git(удержание, владелец, run, сессия)
+    роли = {запись[0]: запись for запись in удержание._источники}
+    _, _, fd_head, имя_head, предел_head = роли['head']
+    вершина = None
+    try:
+        head = _прочитать_источник_git_через_fd(fd_head, имя_head, предел_head)
+        if head is None:
+            raise ОшибкаОтчёта('отсутствует HEAD рабочего Git')
+        общий_fd = роли['common_config'][2]
+        if head.startswith(b'ref: '):
+            контекст = _тестово_удержать_loose_ref_git(общий_fd, head)
+        else:
+            контекст = contextlib.nullcontext((head, lambda: None, None, 'detached'))
+        with контекст as (значение, сверить_ref, _, _):
+            if re.fullmatch(rb'[0-9a-f]{40}\n', значение) is None:
+                raise ОшибкаОтчёта('неверный объект вершины рабочего Git')
+            вершина = _ЗаявленнаяВершинаGit(удержание, владелец, run, сессия, head, значение[:-1], сверить_ref)
+            вершина.проверить()
+            yield вершина
+            вершина.проверить()
+    except BaseException as первичная:
+        try:
+            if удержание._активен:
+                удержание.проверить(владелец, run, сессия)
+        except BaseException as ошибка_сверки:
+            удержание._активен = False
+            raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                'ошибка вершины и сверки рабочего Git', первичная, ошибка_сверки)) from None
+        удержание._активен = False
+        raise
+    finally:
+        if вершина is not None:
+            вершина._активна = False
+
+
+def _тестово_проверить_объект_объявленной_вершины_git(вершина, владелец_git, исполнитель, *, срок):
+    """Проверить commit через отдельного test-only Git owner; admission UNKNOWN."""
+    if type(вершина) is not _ЗаявленнаяВершинаGit or type(владелец_git) is not _ТестовыйВладелецПакетногоGit:
+        raise ОшибкаОтчёта('неверное чтение объекта вершины Git')
+    вершина.проверить()
+    связь_пакета = _СвязьПакетаИсточниковGit(вершина, владелец_git)
+    try:
+        связь_пакета.начать()
+        вывод, ошибки, код = _тестовый_запустить_чтение_git(
+            владелец_git, исполнитель, вершина._удержание._корень, ('cat-file', '--batch'),
+            вход=вершина._oid + b'\n', срок=срок, предел_stdout=1024 * 1024,
+            предел_stderr=0, предел_суммы=1024 * 1024)
+        заголовок, разделитель, тело = вывод.partition(b'\n')
+        совпадение = re.fullmatch(rb'([0-9a-f]{40}) commit (0|[1-9][0-9]{0,6})', заголовок)
+        if (код != 0 or ошибки or not разделитель or совпадение is None or совпадение.group(1) != вершина._oid
+            or len(тело) != int(совпадение.group(2)) + 1 or not тело.endswith(b'\n')
+            or hashlib.sha1(b'commit ' + совпадение.group(2) + b'\0' + тело[:-1]).hexdigest().encode('ascii') != вершина._oid):
+            raise ОшибкаОтчёта('не подтверждён commit вершины рабочего Git')
+        вершина.проверить()
+        связь_пакета.подтвердить(вывод, ошибки, код)
+    except BaseException as первичная:
+        try:
+            if вершина._активна:
+                вершина.проверить()
+        except BaseException as ошибка_сверки:
+            связь_пакета.отказать()
+            raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                'ошибка объекта и сверки вершины Git', первичная, ошибка_сверки)) from None
+        связь_пакета.отказать()
+        raise
+    return 'UNKNOWN'
+
+
+def _тестово_проверить_фильтры_объявленного_git(вершина, владелец_git, исполнитель,
+                                                 домашний_каталог, *, срок, _без_системного=False):
+    """Один check-attr по объявленному index; полнота конфигурации остаётся UNKNOWN."""
+    if (type(вершина) is not _ЗаявленнаяВершинаGit or type(владелец_git) is not _ТестовыйВладелецПакетногоGit
+        or type(исполнитель) is not str or type(домашний_каталог) is not str
+        or type(_без_системного) is not bool or not _срок_действителен(срок)):
+        raise ОшибкаОтчёта('неверные параметры проверки фильтров Git')
+    вершина.проверить()
+    связь_пакета = None
+    try:
+        удержание = вершина._удержание
+        путь_git, домашний, корень = Path(исполнитель), Path(домашний_каталог), удержание._корень
+        if (not путь_git.is_absolute() or str(путь_git) != исполнитель or путь_git.resolve() != путь_git
+            or not путь_git.is_file() or not домашний.is_absolute() or str(домашний) != домашний_каталог
+            or домашний.resolve() != домашний or not домашний.is_dir() or путь_git.is_relative_to(корень)
+            or signal.getsignal(signal.SIGPIPE) != signal.SIG_IGN):
+            raise ОшибкаОтчёта('неверные пути или SIGPIPE для фильтров Git')
+        роли = {запись[0]: запись for запись in удержание._источники}
+        _, _, fd, имя, предел = роли['index']
+        индекс = _прочитать_источник_git_через_fd(fd, имя, предел)
+        if индекс is None:
+            raise ОшибкаОтчёта('отсутствует index для фильтров Git')
+        записи = _разобрать_git_index_v2(индекс, 'sha1', _разрешить_gitlink=True)
+        if sum(len(путь) + 1 for путь, _, _ in записи) > 16 * 1024 * 1024:
+            raise ОшибкаОтчёта('превышен предел путей фильтров Git')
+        вход = b''.join(путь + b'\0' for путь, _, _ in записи)
+        вершина.проверить()
+        команда = [исполнитель, '--no-optional-locks', '--no-replace-objects', '-C', str(корень),
+                   'check-attr', '-z', '--stdin', 'filter']
+        среда = {'PATH': os.defpath, 'HOME': домашний_каталог, 'LC_ALL': 'C',
+                 'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+                 'GIT_TERMINAL_PROMPT': '0', 'GIT_ALLOW_PROTOCOL': ''}
+        if _без_системного:
+            среда['GIT_CONFIG_NOSYSTEM'] = '1'
+            среда['GIT_ATTR_NOSYSTEM'] = '1'
+        _сверить_команду_с_заявленной_policy(вершина, 1, исполнитель, домашний_каталог, команда, среда)
+        связь_пакета = _СвязьПакетаИсточниковGit(вершина, владелец_git)
+        связь_пакета.начать()
+        with _тестовый_допуск_git():
+            try:
+                _тестовые_git_под_надзором.add(владелец_git)
+                вывод, ошибки, код = _тестовый_пакет_git_внутри(
+                    владелец_git, команда, среда, вход, срок, 0, 0, 0, _атрибуты=True)
+            finally:
+                if (владелец_git.состояние in ('лидер-собран', 'лидер-собран-с-отказом')
+                    and not владелец_git._блокировка.locked()
+                    or (владелец_git.состояние == 'готов' and владелец_git.процесс is None
+                        and владелец_git.pid is None and владелец_git.фаза == 'не начата'
+                        and not владелец_git._блокировка.locked())):
+                    _тестовые_git_под_надзором.discard(владелец_git)
+        if код != 0 or ошибки:
+            raise ОшибкаОтчёта('неподтверждённый исход фильтров Git')
+        unspecified, lfs, другое = _разобрать_фильтры_индекса_git(записи, вывод)
+        вершина.проверить()
+        связь_пакета.подтвердить(вывод, ошибки, код)
+        return _НаблюдениеФильтровGit('fum.git-filter-observation.1', 'UNKNOWN', вершина._run, вершина._сессия,
+            'sha256:' + hashlib.sha256(индекс).hexdigest(), 'sha256:' + hashlib.sha256(вывод).hexdigest(),
+            len(записи), unspecified, lfs, другое)
+    except BaseException as первичная:
+        try:
+            if вершина._активна:
+                вершина.проверить()
+        except BaseException as ошибка_сверки:
+            if связь_пакета is not None:
+                связь_пакета.отказать()
+            else:
+                вершина._активна = False
+                вершина._удержание._активен = False
+            raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                'ошибка фильтров и сверки вершины Git', первичная, ошибка_сверки)) from None
+        if связь_пакета is not None:
+            связь_пакета.отказать()
+        else:
+            вершина._активна = False
+            вершина._удержание._активен = False
+        raise
+
+
+def _прочитать_неотслеживаемый_вход_git(корень: Path, имя: str, предел=16 * 1024 * 1024) -> tuple[str, int, bytes]:
+    """Ограниченно прочитать legacy-вход; ABA и внешняя custody остаются UNKNOWN."""
+    if (type(корень) is not type(Path('/')) or not корень.is_absolute() or type(имя) is not str
+        or type(предел) is not int or not 0 <= предел <= 16 * 1024 * 1024):
+        raise ОшибкаОтчёта('неверный путь неотслеживаемого входа Git')
+    части = PurePosixPath(имя).parts
+    if (not части or PurePosixPath(имя).is_absolute()
+        or PurePosixPath(имя).as_posix() != имя or any(часть in ('.', '..') for часть in части)):
+        raise ОшибкаОтчёта('неверный путь неотслеживаемого входа Git')
+    дескрипторы = []
+    ошибка = None
+    def метка(сведения):
+        return (сведения.st_dev, сведения.st_ino, сведения.st_mode, сведения.st_size,
+                сведения.st_mtime_ns, сведения.st_ctime_ns)
+    try:
+        до_корня = корень.lstat()
+        корневой_fd = _приобрести_fd(дескрипторы, os.open, корень,
+            os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        if not stat.S_ISDIR(до_корня.st_mode) or not os.path.samestat(до_корня, os.fstat(корневой_fd)):
+            raise ОшибкаОтчёта('корень неотслеживаемого входа подменён')
+        with _удержать_каталог_отпечатка(корневой_fd, части[:-1]) as (родитель, сверить_каталог):
+            до = os.stat(части[-1], dir_fd=родитель, follow_symlinks=False)
+            if до.st_size < 0 or до.st_size > предел:
+                raise ОшибкаОтчёта('превышен предел неотслеживаемого входа Git')
+            if stat.S_ISREG(до.st_mode):
+                fd = _приобрести_fd(дескрипторы, os.open, части[-1],
+                    os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC, dir_fd=родитель)
+                if метка(os.fstat(fd)) != метка(до):
+                    raise ОшибкаОтчёта('неотслеживаемый файл подменён до чтения')
+                буфер = bytearray()
+                while len(буфер) <= до.st_size:
+                    часть = os.pread(fd, min(65536, до.st_size + 1 - len(буфер)), len(буфер))
+                    if not часть:
+                        break
+                    буфер.extend(часть)
+                содержимое = bytes(буфер)
+                if len(содержимое) != до.st_size or метка(os.fstat(fd)) != метка(до):
+                    raise ОшибкаОтчёта('неотслеживаемый файл изменён при чтении')
+                тип = 'файл'
+            elif stat.S_ISLNK(до.st_mode):
+                содержимое = os.fsencode(os.readlink(части[-1], dir_fd=родитель))
+                if (len(содержимое) != до.st_size or len(содержимое) > предел
+                    or os.fsencode(os.readlink(части[-1], dir_fd=родитель)) != содержимое):
+                    raise ОшибкаОтчёта('символическая ссылка изменилась при чтении')
+                тип = 'символическая_ссылка'
+            else:
+                raise ОшибкаОтчёта('неподдерживаемый тип неотслеживаемого входа Git')
+            if метка(os.stat(части[-1], dir_fd=родитель, follow_symlinks=False)) != метка(до):
+                raise ОшибкаОтчёта('имя неотслеживаемого входа изменилось')
+            сверить_каталог()
+            if not os.path.samestat(до_корня, корень.lstat()) or not os.path.samestat(до_корня, os.fstat(корневой_fd)):
+                raise ОшибкаОтчёта('корень неотслеживаемого входа изменился')
+            return тип, stat.S_IMODE(до.st_mode), содержимое
+    except OSError as исходная:
+        ошибка = ОшибкаОтчёта('не удалось безопасно прочитать неотслеживаемый вход Git')
+        raise ошибка from исходная
+    except BaseException as исходная:
+        ошибка = исходная
+        raise
+    finally:
+        _закрыть_удержанные_fd(дескрипторы, ошибка, 'неотслеживаемого входа Git', _сохранять_ошибки=True)
+
+
+class _НаблюдениеНеотслеживаемыхGit(NamedTuple):
+    схема: str
+    состояние: str
+    путей: int
+    байтов: int
+    sha256: str
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('наблюдение неотслеживаемых файлов не является допуском')
+
+    def __str__(сам):
+        raise ОшибкаОтчёта('наблюдение не является историческим отпечатком')
+
+
+def _тестово_наблюдать_неотслеживаемые_git(вершина, владелец_git, исполнитель, домашний_каталог, *, срок,
+                                            _хэш_снимка=None, _хэш_контролируемый=None, _наследованный_argv=False):
+    """Один ограниченный ls-files и безопасное чтение; полнота ignore и custody UNKNOWN."""
+    if (type(вершина) is not _ЗаявленнаяВершинаGit or type(владелец_git) is not _ТестовыйВладелецПакетногоGit
+        or type(исполнитель) is not str or type(домашний_каталог) is not str or not _срок_действителен(срок)
+        or type(_наследованный_argv) is not bool
+        or (_хэш_снимка is not None and (type(_хэш_снимка) is not type(hashlib.sha256())
+                                        or _хэш_снимка.name != 'sha256'))
+        or (_хэш_контролируемый is not None and (_хэш_снимка is None
+            or type(_хэш_контролируемый) is not type(hashlib.sha256())
+            or _хэш_контролируемый.name != 'sha256'))):
+        raise ОшибкаОтчёта('неверные параметры неотслеживаемых файлов Git')
+    связь_пакета = None
+    try:
+        вершина.проверить()
+        удержание = вершина._удержание
+        корень, домашний, путь_git = удержание._корень, Path(домашний_каталог), Path(исполнитель)
+        роли = {запись[0]: запись for запись in удержание._источники}
+        нужные = {'root_ignore', 'info_exclude', 'root_attributes', 'info_attributes',
+                  'global_config', 'xdg_config', 'global_excludes', 'common_config'}
+        if (not нужные.issubset(роли) or not путь_git.is_absolute() or str(путь_git) != исполнитель
+            or путь_git.resolve() != путь_git or not путь_git.is_file() or путь_git.is_relative_to(корень)
+            or not домашний.is_absolute() or str(домашний) != домашний_каталог
+            or домашний.resolve() != домашний or not домашний.is_dir()
+            or роли['global_config'][1] != домашний or роли['global_config'][3] != '.gitconfig'
+            or роли['xdg_config'][1] != домашний / '.config/git' or роли['xdg_config'][3] != 'config'
+            or роли['global_excludes'][1] != домашний / '.config/git' or роли['global_excludes'][3] != 'ignore'
+            or роли['root_ignore'][1] != корень or роли['root_ignore'][3] != '.gitignore'
+            or роли['root_attributes'][1] != корень or роли['root_attributes'][3] != '.gitattributes'
+            or роли['info_exclude'][1] != роли['common_config'][1] / 'info' or роли['info_exclude'][3] != 'exclude'
+            or роли['info_attributes'][1] != роли['common_config'][1] / 'info' or роли['info_attributes'][3] != 'attributes'
+            or signal.getsignal(signal.SIGPIPE) != signal.SIG_IGN):
+            raise ОшибкаОтчёта('неподтверждённые пути или источники неотслеживаемых файлов Git')
+        _сверить_закрытую_конфигурацию_git(удержание, вершина._владелец, вершина._run, вершина._сессия)
+        команда = [исполнитель, '--no-optional-locks', '--no-replace-objects', '-C', str(корень),
+                   'ls-files', '--others', '--exclude-standard', '-z', '--', '.']
+        среда = {'PATH': os.defpath, 'HOME': домашний_каталог, 'LC_ALL': 'C',
+                 'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+                 'GIT_TERMINAL_PROMPT': '0', 'GIT_ALLOW_PROTOCOL': '',
+                 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1'}
+        if _наследованный_argv:
+            if исполнитель not in ('/usr/bin/git', '/Library/Developer/CommandLineTools/usr/bin/git'):
+                raise ОшибкаОтчёта('неверный исполнитель наследованного Git-чтения')
+            команда = ['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', исполнитель,
+                       '-C', str(корень), '--no-pager', '-c', 'core.fsmonitor=false',
+                       '--work-tree=' + str(корень), 'ls-files', '--others', '--exclude-standard', '-z', '--', '.']
+            среда.pop('GIT_TERMINAL_PROMPT')
+        _сверить_команду_с_заявленной_policy(вершина, 5, исполнитель, домашний_каталог, команда, среда)
+        связь_пакета = _СвязьПакетаИсточниковGit(вершина, владелец_git)
+        связь_пакета.начать()
+        with _тестовый_допуск_git():
+            try:
+                _тестовые_git_под_надзором.add(владелец_git)
+                вывод, ошибки, код = _тестовый_пакет_git_внутри(
+                    владелец_git, команда, среда, b'', срок, 0, 0, 0, _атрибуты=True)
+            finally:
+                if (владелец_git.состояние in ('лидер-собран', 'лидер-собран-с-отказом')
+                    and not владелец_git._блокировка.locked()
+                    or (владелец_git.состояние == 'готов' and владелец_git.процесс is None
+                        and владелец_git.pid is None and владелец_git.фаза == 'не начата'
+                        and not владелец_git._блокировка.locked())):
+                    _тестовые_git_под_надзором.discard(владелец_git)
+        if код != 0 or ошибки:
+            raise ОшибкаОтчёта('неподтверждённый список неотслеживаемых файлов Git')
+        _проверить_nul_обрамление_списка(вывод)
+        имена = вывод[:-1].split(b'\0') if вывод else []
+        if len(имена) != len(set(имена)):
+            raise ОшибкаОтчёта('повтор неотслеживаемого пути Git')
+        сессия = PurePosixPath(вершина._сессия).parent
+        отчёт = (сессия / ИМЯ_ОТЧЁТА).as_posix()
+        запуски = (сессия / ОТНОСИТЕЛЬНЫЙ_КАТАЛОГ_ЗАПУСКОВ.as_posix()).as_posix()
+        хэш, число, всего = hashlib.sha256(), 0, 0
+        общий_хэш = None if _хэш_снимка is None else _хэш_снимка.copy()
+        controlled_хэш = None if _хэш_контролируемый is None else _хэш_контролируемый.copy()
+        for сырое in sorted(имена):
+            if not _срок_действителен(срок):
+                raise ОшибкаОтчёта('истёк срок чтения неотслеживаемых файлов Git')
+            try:
+                имя = сырое.decode('utf-8')
+            except UnicodeError as ошибка:
+                raise ОшибкаОтчёта('не-UTF-8 путь неотслеживаемого файла') from ошибка
+            if имя == отчёт or имя == запуски or имя.startswith(запуски + '/') or путь_в_производном_пространстве(имя):
+                continue
+            имя = проверить_аналитический_ключ(имя, 'путь Git-снимка')
+            вершина.проверить()
+            тип, режим, данные = _прочитать_неотслеживаемый_вход_git(
+                корень, имя, min(16 * 1024 * 1024, 64 * 1024 * 1024 - всего))
+            вершина.проверить()
+            if not _срок_действителен(срок):
+                raise ОшибкаОтчёта('истёк срок чтения неотслеживаемых файлов Git')
+            всего += len(данные)
+            if всего > 64 * 1024 * 1024:
+                raise ОшибкаОтчёта('превышен общий предел неотслеживаемых файлов Git')
+            добавить_часть_отпечатка(хэш, f'неотслеживаемый:{имя}:{тип}:{режим:o}', данные)
+            if общий_хэш is not None:
+                добавить_часть_отпечатка(общий_хэш, f'неотслеживаемый:{имя}:{тип}:{режим:o}', данные)
+            if controlled_хэш is not None:
+                добавить_часть_отпечатка(controlled_хэш, f'неотслеживаемый:{имя}:{тип}:{режим:o}', данные)
+            число += 1
+        _сверить_закрытую_конфигурацию_git(удержание, вершина._владелец, вершина._run, вершина._сессия)
+        вершина.проверить()
+        связь_пакета.подтвердить(вывод, ошибки, код)
+        наблюдение = _НаблюдениеНеотслеживаемыхGit('fum.git-closed-untracked-observation.1', 'UNKNOWN',
+                                                    число, всего, 'sha256:' + хэш.hexdigest())
+        if controlled_хэш is not None:
+            return наблюдение, общий_хэш, controlled_хэш
+        return наблюдение if общий_хэш is None else (наблюдение, общий_хэш)
+    except BaseException as первичная:
+        try:
+            if вершина._активна:
+                вершина.проверить()
+        except BaseException as ошибка_сверки:
+            if связь_пакета is not None:
+                связь_пакета.отказать()
+            else:
+                вершина._активна = False
+                вершина._удержание._активен = False
+            raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                'ошибка списка и повторной сверки Git', первичная, ошибка_сверки)) from None
+        if связь_пакета is not None:
+            связь_пакета.отказать()
+        else:
+            вершина._активна = False
+            вершина._удержание._активен = False
+        raise
+
+
+class _ОтложенныйКонтролируемыйОтпечаток:
+    """Внутренний accumulator; ни digest, ни допуск наружу не выдаёт."""
+    def __init__(сам, вершина, policy, хэш):
+        if (type(вершина) is not _ЗаявленнаяВершинаGit or type(policy) is not tuple or len(policy) != 2
+            or type(policy[0]) is not bytes or type(policy[1]) is not bytes or len(policy[1]) != 32
+            or hashlib.sha256(b'fum.git-controlled-policy.1\0' + policy[0]).digest() != policy[1]
+            or type(хэш) is not type(hashlib.sha256()) or хэш.name != 'sha256'):
+            raise ОшибкаОтчёта('неверный отложенный снимок Git')
+        сам._вершина, сам._владелец, сам._удержание = вершина, вершина._владелец, вершина._удержание
+        сам._run, сам._сессия, сам._policy = вершина._run, вершина._сессия, policy
+        сам._хэш, сам._состояние = хэш.copy(), 'ожидает-terminal'
+
+    def проверить(сам, вершина, policy):
+        if (сам._состояние != 'ожидает-terminal' or сам._вершина is not вершина
+            or сам._владелец is not вершина._владелец or сам._удержание is not вершина._удержание
+            or сам._run != вершина._run or сам._сессия != вершина._сессия or сам._policy is not policy
+            or вершина._заявленная_policy is not policy or сам._хэш is None):
+            raise ОшибкаОтчёта('отложенный снимок Git недействителен')
+
+    def отказаться(сам):
+        сам._хэш = None
+        сам._состояние = 'UNKNOWN'
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('отложенный снимок Git не является допуском')
+
+
+def _тестово_собрать_закрытый_снимок_git(вершина, пакеты, исполнитель, домашний_каталог, *, срок,
+                                          _тестовый_оракул=None):
+    """Собрать один поток legacy framing под общей вершиной; итог всегда UNKNOWN."""
+    if (type(вершина) is _ЗаявленнаяВершинаGit
+        and (вершина._отложенный_отпечаток is not None or вершина._контроль_снимка is not None)):
+        if type(вершина._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
+            вершина._отложенный_отпечаток.отказаться()
+        вершина._активна = False
+        вершина._удержание._активен = False
+        вершина._владелец.состояние = 'неизвестно'
+        raise ОшибкаОтчёта('повторный сбор снимка Git запрещён')
+    if (type(вершина) is not _ЗаявленнаяВершинаGit or type(пакеты) is not tuple or len(пакеты) != 7
+        or any(type(пакет) is not _ТестовыйВладелецПакетногоGit for пакет in пакеты)
+        or len({id(пакет) for пакет in пакеты}) != 7
+        or исполнитель not in ('/usr/bin/git', '/Library/Developer/CommandLineTools/usr/bin/git')
+        or type(домашний_каталог) is not str or not _срок_действителен(срок)
+        or (_тестовый_оракул is not None and (type(_тестовый_оракул) is not str
+            or re.fullmatch(r'sha256:[0-9a-f]{64}', _тестовый_оракул) is None))):
+        raise ОшибкаОтчёта('неверные параметры единого снимка Git')
+    удержание, владелец = вершина._удержание, вершина._владелец
+    корень = удержание._корень
+    домашний = Path(домашний_каталог)
+    роли = {запись[0]: запись for запись in удержание._источники}
+    policy = вершина._заявленная_policy
+    try:
+        if policy is not None and (type(policy) is not tuple or len(policy) != 2
+            or type(policy[0]) is not bytes or type(policy[1]) is not bytes or len(policy[1]) != 32
+            or hashlib.sha256(b'fum.git-controlled-policy.1\0' + policy[0]).digest() != policy[1]):
+            raise ОшибкаОтчёта('неверная заявленная policy снимка Git')
+        if ('gitmodules' not in роли or роли['gitmodules'][1] != корень or роли['gitmodules'][3] != '.gitmodules'
+            or not домашний.is_absolute() or str(домашний) != домашний_каталог
+            or домашний.resolve() != домашний or not домашний.is_dir()
+            or роли['global_config'][1] != домашний or роли['global_config'][3] != '.gitconfig'
+            or роли['xdg_config'][1] != домашний / '.config/git' or роли['xdg_config'][3] != 'config'):
+            raise ОшибкаОтчёта('неподтверждённые источники единого снимка Git')
+        вершина.проверить()
+        _сверить_закрытую_конфигурацию_git(удержание, владелец, вершина._run, вершина._сессия)
+        дерево_до = _снять_дерево_git_потоком(удержание._корневой_fd, срок=срок)
+        вершина.проверить()
+        индекс_роль = роли['index']
+        индекс = _прочитать_источник_git_через_fd(индекс_роль[2], индекс_роль[3], индекс_роль[4])
+        записи = _разобрать_git_index_v2(индекс, 'sha1', _разрешить_gitlink=True)
+        if any(имя.rsplit(b'/', 1)[-1].lower() == b'.gitattributes' for имя, _, _ in записи):
+            raise ОшибкаОтчёта('атрибуты Git в индексе требуют отдельного допуска')
+        подмодули = _проверить_неинициализированный_gitlink(удержание._корневой_fd, записи)
+        вершина.проверить()
+        def читать(пакет, операция, *, дерево=True):
+            связь = _СвязьПакетаИсточниковGit(вершина, пакет)
+            try:
+                связь.начать()
+                команда = ['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', исполнитель,
+                           '-C', str(корень), '--no-pager', '-c', 'core.fsmonitor=false']
+                if дерево:
+                    команда.append('--work-tree=' + str(корень))
+                команда.extend(операция)
+                среда = {'PATH': os.defpath, 'HOME': домашний_каталог, 'LC_ALL': 'C',
+                         'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+                         'GIT_ALLOW_PROTOCOL': '', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1'}
+                номер = next(индекс for индекс, кандидат in enumerate(пакеты) if кандидат is пакет)
+                _сверить_команду_с_заявленной_policy(вершина, номер, исполнитель, домашний_каталог, команда, среда)
+                with _тестовый_допуск_git():
+                    try:
+                        _тестовые_git_под_надзором.add(пакет)
+                        вывод, ошибки, код = _тестовый_пакет_git_внутри(
+                            пакет, команда, среда, b'', срок, 0, 0, 0, _атрибуты=True)
+                    finally:
+                        if (пакет.состояние in ('лидер-собран', 'лидер-собран-с-отказом')
+                            and not пакет._блокировка.locked()
+                            or пакет.состояние == 'готов' and пакет.процесс is None and пакет.pid is None
+                               and пакет.фаза == 'не начата' and not пакет._блокировка.locked()):
+                            _тестовые_git_под_надзором.discard(пакет)
+                if код != 0 or ошибки:
+                    raise ОшибкаОтчёта('не подтверждено чтение части снимка Git')
+                вершина.проверить()
+                связь.подтвердить(вывод, ошибки, код)
+                return вывод
+            except BaseException as первичная:
+                try:
+                    if вершина._активна:
+                        вершина.проверить()
+                except BaseException as ошибка_сверки:
+                    связь.отказать()
+                    raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                        'ошибка чтения и сверки снимка Git', первичная, ошибка_сверки)) from None
+                связь.отказать()
+                raise
+        if читать(пакеты[0], ('rev-parse', '--show-toplevel'), дерево=False) != os.fsencode(корень) + b'\n':
+            raise ОшибкаОтчёта('Git выбрал другой корень снимка')
+        фильтры = _тестово_проверить_фильтры_объявленного_git(
+            вершина, пакеты[1], исполнитель, домашний_каталог, срок=срок, _без_системного=True)
+        if фильтры.lfs or фильтры.другое:
+            raise ОшибкаОтчёта('обнаружен неподдерживаемый filter Git')
+        голова = читать(пакеты[2], ('rev-parse', '--verify', 'HEAD'))
+        if голова != вершина._oid + b'\n':
+            raise ОшибкаОтчёта('HEAD единого снимка Git не совпадает')
+        сессия = PurePosixPath(вершина._сессия).parent
+        отчёт = (сессия / ИМЯ_ОТЧЁТА).as_posix()
+        запуски = (сессия / ОТНОСИТЕЛЬНЫЙ_КАТАЛОГ_ЗАПУСКОВ.as_posix()).as_posix()
+        пути = ('.', f':(exclude){отчёт}', f':(exclude){запуски}', f':(exclude){запуски}/**',
+                f':(top,exclude,literal){ПРОИЗВОДНОЕ_ПРОСТРАНСТВО}',
+                f':(top,exclude,glob){ПРОИЗВОДНОЕ_ПРОСТРАНСТВО}/**')
+        общие = ('diff', '--binary', '--no-ext-diff', '--no-textconv', '--ignore-submodules=dirty')
+        кэш = читать(пакеты[3], (*общие, '--cached', вершина._oid.decode('ascii'), '--', *пути))
+        работа = читать(пакеты[4], (*общие, '--', *пути))
+        хэш = hashlib.sha256()
+        controlled_хэш = None if policy is None else hashlib.sha256(b'fum.git-controlled-snapshot.1\0' + policy[1])
+        for метка, данные in (('вершина', вершина._oid), ('индекс', кэш), ('рабочее_дерево', работа)):
+            добавить_часть_отпечатка(хэш, метка, данные)
+            if controlled_хэш is not None:
+                добавить_часть_отпечатка(controlled_хэш, метка, данные)
+        результат_неотслеживаемых = _тестово_наблюдать_неотслеживаемые_git(
+            вершина, пакеты[5], исполнитель, домашний_каталог, срок=срок,
+            _хэш_снимка=хэш, _хэш_контролируемый=controlled_хэш, _наследованный_argv=True)
+        if controlled_хэш is None:
+            _, хэш = результат_неотслеживаемых
+        else:
+            _, хэш, controlled_хэш = результат_неотслеживаемых
+        if читать(пакеты[6], ('rev-parse', '--verify', 'HEAD')) != голова:
+            raise ОшибкаОтчёта('HEAD изменился во время единого снимка Git')
+        if _проверить_неинициализированный_gitlink(удержание._корневой_fd, записи) != подмодули:
+            raise ОшибкаОтчёта('gitlink изменился во время единого снимка Git')
+        _сверить_закрытую_конфигурацию_git(удержание, владелец, вершина._run, вершина._сессия)
+        if _снять_дерево_git_потоком(удержание._корневой_fd, срок=срок) != дерево_до:
+            raise ОшибкаОтчёта('дерево Git изменилось во время единого снимка')
+        вершина.проверить()
+        if _тестовый_оракул is not None and 'sha256:' + хэш.hexdigest() != _тестовый_оракул:
+            raise ОшибкаОтчёта('единый снимок не совпал с тестовым оракулом')
+        if вершина._контроль_снимка is not None:
+            raise ОшибкаОтчёта('снимок вершины Git уже закреплён')
+        if вершина._заявленная_policy is not policy or вершина._отложенный_отпечаток is not None:
+            raise ОшибкаОтчёта('policy или отложенный снимок Git изменились')
+        вершина._контроль_снимка = (дерево_до, hashlib.sha256(индекс).digest(), срок)
+        if controlled_хэш is not None:
+            вершина._отложенный_отпечаток = _ОтложенныйКонтролируемыйОтпечаток(вершина, policy, controlled_хэш)
+        return _НеподтверждённыйСнимокGit('fum.git-closed-snapshot.1', 'UNKNOWN',
+                                          'не подтверждены полные источники и жизненный цикл observer')
+    except BaseException:
+        if type(вершина._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
+            вершина._отложенный_отпечаток.отказаться()
+        вершина._активна = False
+        удержание._активен = False
+        владелец.состояние = 'неизвестно'
+        raise
+
+
+class _НеподтверждённыйСнимокGit(NamedTuple):
+    схема: str
+    состояние: str
+    причина: str
+
+    def __bool__(сам):
+        raise ОшибкаОтчёта('неподтверждённый снимок Git не является допуском')
+
+
 def вычислить_отпечаток_снимка(
     корень_репозитория: str | Path,
     сессия: str | Path,
     *, настройки_git: _НастройкиGitОтпечатка | None = None,
-) -> str:
+    _удерживаемый_профиль=None,
+) -> str | _НеподтверждённыйСнимокGit:
     корень = Path(корень_репозитория).resolve()
     сессия_путь = PurePosixPath(Path(сессия).as_posix())
     if сессия_путь.is_absolute() or any(
         часть in {"", ".", ".."} for часть in сессия_путь.parts
     ):
         raise ОшибкаОтчёта("путь сессии для отпечатка неканоничен")
+    if _удерживаемый_профиль is not None:
+        if (type(_удерживаемый_профиль) is not tuple or len(_удерживаемый_профиль) != 3
+            or type(_удерживаемый_профиль[0]) not in (_СвязьПрофиляСВладельцем, _ЗаявленныеИсточникиРабочегоGit)):
+            raise ОшибкаОтчёта('неверное удержание снимка Git')
+        связь, владелец, run = _удерживаемый_профиль
+        if type(связь) is _ЗаявленныеИсточникиРабочегоGit:
+            if связь._корень != корень:
+                raise ОшибкаОтчёта('снимок Git относится к другому корню')
+            связь.проверить(владелец, run, сессия_путь.as_posix())
+            raise ОшибкаОтчёта('не подтверждена полнота источников рабочего Git')
+        def сверить_удержание():
+            связь.проверить_владельца(run, владелец)
+            if связь._связанный._удержание._корень != корень:
+                raise ОшибкаОтчёта('снимок Git относится к другому корню')
+            связь._связанный.проверить(run, сессия_путь.as_posix())
+            связь.проверить_владельца(run, владелец)
+        сверить_удержание()
+    def выполнить_с_удержанием(операция, *аргументы, **ключи):
+        if _удерживаемый_профиль is None:
+            return операция(*аргументы, **ключи)
+        сверить_удержание()
+        try:
+            результат = операция(*аргументы, **ключи)
+        except BaseException as первичная:
+            try:
+                сверить_удержание()
+            except BaseException as ошибка_сверки:
+                raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                    'ошибка операции и повторной сверки снимка Git', первичная, ошибка_сверки)) from None
+            raise
+        сверить_удержание()
+        return результат
     исключённый_отчёт = (сессия_путь / ИМЯ_ОТЧЁТА).as_posix()
     исключённые_запуски = (
         сессия_путь / ОТНОСИТЕЛЬНЫЙ_КАТАЛОГ_ЗАПУСКОВ.as_posix()
@@ -10921,8 +12421,10 @@ def вычислить_отпечаток_снимка(
         f":(top,exclude,literal){ПРОИЗВОДНОЕ_ПРОСТРАНСТВО}",
         f":(top,exclude,glob){ПРОИЗВОДНОЕ_ПРОСТРАНСТВО}/**",
     ]
-    настройки_git, читать = _подготовить_чтение_git_отпечатка(корень, настройки_git)
-    подмодули = проверить_чистоту_подмодулей(корень, настройки_git=настройки_git)
+    настройки_git, исходное_чтение = выполнить_с_удержанием(_подготовить_чтение_git_отпечатка, корень, настройки_git)
+    def читать(*аргументы):
+        return выполнить_с_удержанием(исходное_чтение, *аргументы)
+    подмодули = выполнить_с_удержанием(проверить_чистоту_подмодулей, корень, настройки_git=настройки_git)
     вершина_с_переносом = читать(корень, "rev-parse", "--verify", "HEAD")
     if re.fullmatch(rb"(?:[0-9a-f]{40}|[0-9a-f]{64})\n", вершина_с_переносом) is None:
         raise ОшибкаОтчёта("неверная вершина Git для отпечатка")
@@ -10934,11 +12436,11 @@ def вычислить_отпечаток_снимка(
         "--no-textconv",
         "--ignore-submodules=dirty",
     )
-    индекс = _выполнить_чтение_гит(
+    индекс = выполнить_с_удержанием(_выполнить_чтение_гит,
         корень, (*общие_аргументы_разницы, "--cached", вершина.decode("ascii"), "--", *пути_для_разницы),
         без_дочерних_процессов=True, настройки_отпечатка=настройки_git,
     )
-    рабочее_дерево = _выполнить_чтение_гит(
+    рабочее_дерево = выполнить_с_удержанием(_выполнить_чтение_гит,
         корень, (*общие_аргументы_разницы, "--", *пути_для_разницы),
         без_дочерних_процессов=True, настройки_отпечатка=настройки_git,
     )
@@ -10967,32 +12469,41 @@ def вычислить_отпечаток_снимка(
         if путь_в_производном_пространстве(имя):
             continue
         каноническое_имя = проверить_аналитический_ключ(имя, "путь Git-снимка")
-        путь = корень / Path(каноническое_имя)
-        try:
-            сведения = путь.lstat()
-            if stat.S_ISREG(сведения.st_mode):
-                тип = "файл"
-                содержимое = путь.read_bytes()
-            elif stat.S_ISLNK(сведения.st_mode):
-                тип = "символическая_ссылка"
-                содержимое = os.fsencode(os.readlink(путь))
-            else:
+        if _удерживаемый_профиль is not None:
+            сверить_удержание()
+            тип, режим, содержимое = _прочитать_неотслеживаемый_вход_git(корень, каноническое_имя)
+            сверить_удержание()
+        else:
+            путь = корень / Path(каноническое_имя)
+            try:
+                сведения = путь.lstat()
+                if stat.S_ISREG(сведения.st_mode):
+                    тип = "файл"
+                    содержимое = путь.read_bytes()
+                elif stat.S_ISLNK(сведения.st_mode):
+                    тип = "символическая_ссылка"
+                    содержимое = os.fsencode(os.readlink(путь))
+                else:
+                    raise ОшибкаОтчёта(
+                        f"неотслеживаемый путь имеет опасный тип: {имя}"
+                    )
+            except OSError as ошибка:
                 raise ОшибкаОтчёта(
-                    f"неотслеживаемый путь имеет опасный тип: {имя}"
-                )
-        except OSError as ошибка:
-            raise ОшибкаОтчёта(
-                f"не удалось прочитать неотслеживаемый путь: {имя}"
-            ) from ошибка
+                    f"не удалось прочитать неотслеживаемый путь: {имя}"
+                ) from ошибка
+            режим = stat.S_IMODE(сведения.st_mode)
         добавить_часть_отпечатка(
             хэш,
-            f"неотслеживаемый:{каноническое_имя}:{тип}:{stat.S_IMODE(сведения.st_mode):o}",
+            f"неотслеживаемый:{каноническое_имя}:{тип}:{режим:o}",
             содержимое,
         )
-    if проверить_чистоту_подмодулей(корень, настройки_git=настройки_git) != подмодули:
+    if выполнить_с_удержанием(проверить_чистоту_подмодулей, корень, настройки_git=настройки_git) != подмодули:
         raise ОшибкаОтчёта("подмодули изменились во время чтения Git-снимка")
     if читать(корень, "rev-parse", "--verify", "HEAD") != вершина_с_переносом:
         raise ОшибкаОтчёта("вершина Git изменилась во время чтения снимка")
+    if _удерживаемый_профиль is not None:
+        сверить_удержание()
+        return _НеподтверждённыйСнимокGit('fum.git-held-snapshot.1', 'UNKNOWN', 'не подтверждены источники Git и observer')
     return f"sha256:{хэш.hexdigest()}"
 
 
@@ -11269,6 +12780,7 @@ def проверить_профиль_проверки(
     if not isinstance(класс, str) or класс not in КЛАССЫ_ПРОВЕРОК:
         raise ОшибкаОтчёта("неверный класс проверки")
     отпечаток = значение["отпечаток_снимка"]
+    _запретить_закрытый_профиль_в_истории(отпечаток)
     if not isinstance(отпечаток, str) or re.fullmatch(
         r"sha256:[0-9a-f]{64}", отпечаток
     ) is None:
@@ -11764,6 +13276,7 @@ def проверить_согласованность_наблюдений(
 
 
 def проверить_отпечаток_раундов(значение: object, поле: str) -> str:
+    _запретить_закрытый_профиль_в_истории(значение)
     if not isinstance(значение, str) or re.fullmatch(r"sha256:[0-9a-f]{64}", значение) is None:
         raise ОшибкаОтчёта(f"неверный отпечаток: {поле}")
     return значение
@@ -12271,6 +13784,8 @@ def профиль_записи(запись: dict[str, object]) -> dict[str, ob
     if запись.get("схема") != СХЕМА_ПРОФИЛИРОВАННОГО_ЗАПУСКА:
         return None
     профиль = запись.get("профиль_проверки")
+    if isinstance(профиль, dict):
+        _запретить_закрытый_профиль_в_истории(профиль.get('отпечаток_снимка'))
     return профиль if isinstance(профиль, dict) else None
 
 
@@ -12627,6 +14142,7 @@ def построить_план_успешной_сессии(
     записи: Sequence[tuple[Path, dict[str, object], bytes]],
     текущий_отпечаток: str | None = None,
 ) -> dict[str, object]:
+    _запретить_закрытый_профиль_в_истории(текущий_отпечаток)
     запретить_понижение_схемы_раундов(записи)
     все_записи = sorted(
         (запись for _, запись, _ in записи),
@@ -16565,6 +18081,7 @@ def проверить_ссылку_диагностики_на_отказ(
     профиль: dict[str, object],
     записи: Sequence[tuple[Path, dict[str, object], bytes]],
 ) -> None:
+    _запретить_закрытый_профиль_в_истории(профиль.get('отпечаток_снимка'))
     if профиль["класс"] != "диагностическая" or профиль[
         "основание"
     ] != "локализация_наблюдаемого_отказа":
@@ -16594,8 +18111,11 @@ def проверить_допуск_запуска_раундов(
     профиль: dict[str, object], содержимое: str,
     записи: Sequence[tuple[Path, dict[str, object], bytes]],
 ) -> None:
+    _запретить_закрытый_профиль_в_истории(профиль.get('отпечаток_снимка'))
     проверить_отпечаток_раундов(содержимое, "содержимое нового запуска")
     новые = [запись for _, запись, _ in записи if запись["схема"] == СХЕМА_ЗАПУСКА_С_РАУНДАМИ]
+    for запись in новые:
+        _запретить_закрытый_профиль_в_истории(запись['профиль_проверки'].get('отпечаток_снимка'))
     if профиль["класс"] == "полная" and any(
         запись["профиль_проверки"]["класс"] == "полная"
         and запись["отпечаток_содержимого"] == содержимое
@@ -16617,6 +18137,17 @@ def проверить_допуск_запуска_раундов(
             and отказ["отпечаток_содержимого"] == содержимое
         ):
             raise ОшибкаОтчёта("локализация раунда требует предшествующий отказ на обоих отпечатках")
+
+
+def _принять_сырой_статус_наблюдателя(владелец, процесс, сырой):
+    """Принять один результат wait; это не подтверждает очистку группы."""
+    if (type(владелец) is not _ТестовыйВладелецЗапуска or type(сырой) is not int or сырой < 0
+        or владелец.процесс is not процесс or type(владелец.pid) is not int
+        or владелец.pid != процесс.pid or владелец.сырой_статус is not None):
+        raise ОшибкаОтчёта('неверный сырой статус наблюдателя')
+    владелец.сырой_статус = сырой
+    if владелец.сырой_статус != сырой:
+        raise ОшибкаОтчёта('сырой статус наблюдателя не сохранился')
 
 
 _ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА = "запуск проверок закрыт до восстановления ограниченной среды"
@@ -16679,6 +18210,21 @@ def выполнить_запуск(
     предварительный_владелец = None
     if _профиль_источников_git is not None:
         предварительный_владелец = _ТестовыйВладелецЗапуска()
+        if type(_профиль_источников_git) is _ЗаявкаЗакрытогоПрофиляGit:
+            владение_профиля_git = _ВладениеЗакрытымПрофилемGit(
+                _профиль_источников_git, предварительный_владелец, идентификатор_запуска,
+                корень_репозитория, запрос)
+            try:
+                _потребовать_профиль_источников_git(владение_профиля_git._профиль, идентификатор_запуска,
+                    корень_репозитория, запрос, предварительный_владелец)
+            except BaseException as первичная:
+                try:
+                    владение_профиля_git.отменить_до_пуска()
+                except BaseException as очистка:
+                    raise _передать_ошибки_наблюдения(_сохранить_ошибки_наблюдения(
+                        'отказ профиля и освобождение до пуска', первичная, очистка)) from None
+                raise
+            raise ОшибкаОтчёта('owner-scoped профиль Git ещё не допущен к запуску')
         if type(_профиль_источников_git) is _СвязанныйПрофильИсточниковGit:
             _профиль_источников_git = _СвязьПрофиляСВладельцем(
                 _профиль_источников_git, предварительный_владелец, идентификатор_запуска)
@@ -17885,7 +19431,8 @@ class _ТестовыйВладелецЗапуска:
                  '_каталог_legacy_fd', '_каталог_legacy_состояние', '_каталог_legacy_ошибка',
                  '_каталог_legacy_попытка', '_приём_опор_binding', '_попытка_фиксации_опор',
                  '_фаза_реестра_запуска', '_результат_захвата_охраны',
-                 '_сигнальная_фаза', '_сигнальная_ошибка', '_сигнальные_данные', '_жизненный_барьер')
+                 '_сигнальная_фаза', '_сигнальная_ошибка', '_сигнальные_данные', '_жизненный_барьер',
+                 '_ожидающие_пакеты_git')
 
     def __init__(сам):
         сам.состояние = 'готов'
@@ -17926,6 +19473,7 @@ class _ТестовыйВладелецЗапуска:
         сам._сигнальная_ошибка = None
         сам._сигнальные_данные = None
         сам._жизненный_барьер = None
+        сам._ожидающие_пакеты_git = []
 
     @contextlib.contextmanager
     def удержать_неизвестный_транспорт(сам):
@@ -20054,7 +21602,83 @@ class _ТестовыйКонтурНаблюдателя:
         сам._предпуск_участок = None
         сам._свидетельство_предпуска = None
         сам._попытка_канала_предпуска = None
+        сам._вершина_источников = None
+        сам.__исходная_вершина_источников = None
+        сам.__исходная_связь_источников = None
+        сам._фаза_источников = None
+        сам._процесс_источников = None
+        сам._pid_источников = None
         владелец._транспорт_binding = сам
+
+    def _тестово_связать_вершину(сам, вершина, *, _требовать_снимок=False):
+        if (type(_требовать_снимок) is not bool
+            or (_требовать_снимок and (type(вершина) is not _ЗаявленнаяВершинаGit
+                or вершина._контроль_снимка is None))
+            or сам._состояние != 'готов' or сам._вершина_источников is not None
+            or type(вершина) is not _ЗаявленнаяВершинаGit
+            or вершина._владелец is not сам._владелец or вершина._run != сам._идентификатор
+            or сам._владелец.процесс is not None or сам._владелец.pid is not None
+            or сам._владелец._ожидающие_пакеты_git):
+            raise ОшибкаОтчёта('неверная вершина источников наблюдателя')
+        вершина.проверить()
+        сам._вершина_источников = вершина
+        сам.__исходная_вершина_источников = вершина
+        сам.__исходная_связь_источников = (вершина._удержание, вершина._run, вершина._сессия,
+                                            вершина._удержание._корень, вершина._контроль_снимка,
+                                            вершина._образ_git, вершина._путь_образа)
+        сам._фаза_источников = 'подготовлена'
+
+    def _сверить_вершину_наблюдателя(сам, фаза):
+        вершина = сам.__исходная_вершина_источников
+        if вершина is None:
+            if сам._вершина_источников is not None:
+                raise ОшибкаОтчёта('появилась незакреплённая вершина источников')
+            return
+        try:
+            владелец = сам._владелец
+            связь = сам.__исходная_связь_источников
+            if (сам._вершина_источников is not вершина
+                or type(вершина) is not _ЗаявленнаяВершинаGit or вершина._владелец is not владелец
+                or type(связь) is not tuple or len(связь) != 7
+                or вершина._контроль_снимка is not связь[4]
+                or вершина._образ_git is not связь[5] or вершина._путь_образа != связь[6]
+                or вершина._удержание is not связь[0] or вершина._run != связь[1]
+                or вершина._сессия != связь[2] or вершина._удержание._корень != связь[3]
+                or вершина._run != сам._идентификатор or сам._фаза_источников != фаза
+                or владелец._транспорт_binding is not сам or владелец._ожидающие_пакеты_git):
+                raise ОшибкаОтчёта('изменилась связь источников наблюдателя')
+            if фаза == 'подготовлена':
+                if владелец.процесс is not None or владелец.pid is not None:
+                    raise ОшибкаОтчёта('процесс уже занят до запуска')
+            elif фаза in ('запущена', 'собрана'):
+                if (владелец.процесс is not сам._процесс_источников
+                    or владелец.pid != сам._pid_источников or сам._pid_источников <= 1):
+                    raise ОшибкаОтчёта('изменился процесс наблюдателя')
+                if фаза == 'собрана' and type(владелец.сырой_статус) is not int:
+                    raise ОшибкаОтчёта('нет сырого статуса наблюдателя')
+            else:
+                raise ОшибкаОтчёта('неверная фаза источников наблюдателя')
+            вершина.проверить()
+            контроль = связь[4]
+            if фаза == 'собрана' and контроль is not None:
+                if type(контроль) is not tuple or len(контроль) != 3:
+                    raise ОшибкаОтчёта('неверный контроль снимка Git')
+                дерево, индекс_sha256, срок = контроль
+                роли = {запись[0]: запись for запись in вершина._удержание._источники}
+                _, _, fd, имя, предел = роли['index']
+                индекс = _прочитать_источник_git_через_fd(fd, имя, предел)
+                if (type(индекс) is not bytes or hashlib.sha256(индекс).digest() != индекс_sha256
+                    or _снять_дерево_git_потоком(вершина._удержание._корневой_fd, срок=срок) != дерево):
+                    raise ОшибкаОтчёта('снимок Git изменился до завершения наблюдателя')
+                вершина.проверить()
+        except BaseException:
+            сам._фаза_источников = 'неизвестно'
+            if type(вершина._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
+                вершина._отложенный_отпечаток.отказаться()
+            вершина._активна = False
+            сам.__исходная_связь_источников[0]._активен = False
+            сам._владелец.состояние = 'неизвестно'
+            raise
 
     @property
     def состояние(сам):
@@ -20171,12 +21795,28 @@ class _ТестовыйКонтурНаблюдателя:
                 return действие()
             except BaseException as ошибка:
                 сам._состояние = 'неизвестно'
+                if сам.__исходная_вершина_источников is not None:
+                    сам._фаза_источников = 'неизвестно'
+                    сам.__исходная_вершина_источников._погасить_отпечаток()
+                    сам.__исходная_вершина_источников._активна = False
+                    сам.__исходная_связь_источников[0]._активен = False
+                    владелец.состояние = 'неизвестно'
                 if сам._ошибка is None:
                     сам._ошибка = ошибка
                 _тестово_запретить_приёмник_с_ошибкой(сам._приёмник, ошибка)
                 raise
         except BaseException as ошибка:
             первичная = ошибка
+            if сам.__исходная_вершина_источников is not None:
+                сам._состояние = 'неизвестно'
+                сам._фаза_источников = 'неизвестно'
+                сам.__исходная_вершина_источников._погасить_отпечаток()
+                сам.__исходная_вершина_источников._активна = False
+                сам.__исходная_связь_источников[0]._активен = False
+                владелец.состояние = 'неизвестно'
+                if сам._ошибка is None:
+                    сам._ошибка = ошибка
+                _тестово_запретить_приёмник_с_ошибкой(сам._приёмник, ошибка)
             if (type(сам.__маркер_шага) is dict and сам.__маркер_шага.get(0) is маркер
                 and not отказ_фазы and сам._состояние != 'неизвестно'):
                 сам._состояние = 'неизвестно'
@@ -20197,6 +21837,12 @@ class _ТестовыйКонтурНаблюдателя:
                         del сам.__маркер_шага[0]
                 except BaseException as ошибка_освобождения:
                     сам._состояние = 'неизвестно'
+                    if сам.__исходная_вершина_источников is not None:
+                        сам._фаза_источников = 'неизвестно'
+                        сам.__исходная_вершина_источников._погасить_отпечаток()
+                        сам.__исходная_вершина_источников._активна = False
+                        сам.__исходная_связь_источников[0]._активен = False
+                        владелец.состояние = 'неизвестно'
                     if сам._ошибка is None:
                         сам._ошибка = первичная if первичная is not None else ошибка_освобождения
                     сам._ошибки_освобождения.append(ошибка_освобождения)
@@ -20260,6 +21906,8 @@ class _ТестовыйКонтурНаблюдателя:
         """
         def действие():
             владелец = сам._владелец
+            if type(владелец._ожидающие_пакеты_git) is not list or владелец._ожидающие_пакеты_git:
+                raise ОшибкаОтчёта('не подтверждено завершение пакета источников Git')
             приёмник = сам._приёмник
             if (type(приёмник) is not _ТестовыйПриёмникБессрочногоНаблюдателя
                 or приёмник._версия != 'fum-run-witness.6'
@@ -21071,6 +22719,8 @@ class _ТестовыйКонтурНаблюдателя:
                   путь_наблюдений: Path | None = None, без_наблюдений: bool = False):
         def действие():
             владелец = сам._владелец
+            if type(владелец._ожидающие_пакеты_git) is not list or владелец._ожидающие_пакеты_git:
+                raise ОшибкаОтчёта('не подтверждено завершение пакета источников Git')
             сам.__проверить_связь_версии()
             бессрочный = type(сам._приёмник) is _ТестовыйПриёмникБессрочногоНаблюдателя
             if бессрочный and (_связь_изолированного_запуска is not None or _тестовый_живой_вывод):
@@ -21216,6 +22866,11 @@ class _ТестовыйКонтурНаблюдателя:
                 сам._начало_попытки_ns = начало
                 if сам._версия_для_пуска(изолированная) != версия_пуска or версия_пуска == "fum-run-witness.3":
                     raise ОшибкаОтчёта("изменилась версия до запуска наблюдателя")
+                сам._сверить_вершину_наблюдателя('подготовлена')
+                if сам.__исходная_вершина_источников is not None:
+                    if сам.__исходная_связь_источников[3] != корень:
+                        raise ОшибкаОтчёта('корень источников не совпадает с наблюдателем')
+                    сам._фаза_источников = 'запуск'
                 сам._попытка_popen = 'начата'
                 процесс = subprocess.Popen(argv, cwd=корень, env={}, stdin=управление[0],
                                             stdout=сам._пара_выхода[1] if _тестовый_живой_вывод else None,
@@ -21226,6 +22881,10 @@ class _ТестовыйКонтурНаблюдателя:
                 сам._попытка_popen = 'объект получен'
                 if type(процесс) is not _КЛАСС_СОБСТВЕННОГО_POPEN or type(процесс.pid) is not int or процесс.pid <= 1:
                     raise ОшибкаОтчёта('неверный процесс наблюдателя')
+                if сам.__исходная_вершина_источников is not None:
+                    сам._процесс_источников, сам._pid_источников = процесс, процесс.pid
+                    сам._фаза_источников = 'запущена'
+                    сам._сверить_вершину_наблюдателя('запущена')
                 if (time.monotonic_ns() // 1_000_000 >= срок_подготовки
                     or not бессрочный and set(signal.sigpending()) & {signal.SIGINT, signal.SIGTERM}):
                     raise ОшибкаОтчёта('неизвестен исход запуска после срока или сигнала')
@@ -21304,6 +22963,7 @@ class _ТестовыйКонтурНаблюдателя:
                         return False
                     def сверить_go():
                         сам._проверить_режим()
+                        сам._сверить_вершину_наблюдателя('запущена')
                         сверить_исполнители()
                         if связь is not None:
                             связь.сверить(сам, сам._корень_связи, сам._команда_связи, сам._исполнители, сверить)
@@ -21374,16 +23034,24 @@ class _ТестовыйКонтурНаблюдателя:
             остаток = стоп / 1000 - time.monotonic()
             if остаток <= 0:
                 raise ОшибкаОтчёта('истёк срок до сбора наблюдателя')
+            if сам._владелец.сырой_статус is not None:
+                raise ОшибкаОтчёта('сырой статус наблюдателя уже занят')
             def перед_сбором():
                 сам._владелец.этап_сбора = 'сбор начат'
+            def принять_сырой(сырой):
+                _принять_сырой_статус_наблюдателя(сам._владелец, процесс, сырой)
+                if сам.__исходная_вершина_источников is not None:
+                    сам._фаза_источников = 'собрана'
+                    сам._сверить_вершину_наблюдателя('собрана')
             with _тестовая_маска_транспорта():
                 if приём_выходов is None:
                     код_наблюдателя = _кандидат_собрать_статус_лидера(
-                        процесс, срок=стоп / 1000, _перед_сбором=перед_сбором)
+                        процесс, срок=стоп / 1000, _перед_сбором=перед_сбором,
+                        _приём_сырого=принять_сырой)
                 else:
                     код_наблюдателя = _кандидат_собрать_статус_лидера(
                         процесс, срок=стоп / 1000, _перед_сбором=перед_сбором,
-                        _тестовый_приём_выходов=приём_выходов)
+                        _тестовый_приём_выходов=приём_выходов, _приём_сырого=принять_сырой)
                 сам._владелец.код_лидера = код_наблюдателя
                 сам._владелец.этап_сбора = 'собран'
             if приём_выходов is None:
@@ -21537,6 +23205,7 @@ class _ТестовыйКонтурНаблюдателя:
 
     def закрыть_после_успеха(сам):
         def действие():
+            сам._сверить_вершину_наблюдателя('собрана')
             if сам._тестовый_живой_вывод:
                 приём = сам._приём_собственных_выходов
                 if (type(приём) is not _ТестовыйПриёмСобственныхВыходов
@@ -21550,6 +23219,9 @@ class _ТестовыйКонтурНаблюдателя:
                 приём._состояние = 'закрыт'
                 сам._фаза_собственных_выходов = 'закрыты после запуска'
             сам._состояние = 'закрыт'
+            if сам.__исходная_вершина_источников is not None:
+                сам._сверить_вершину_наблюдателя('собрана')
+                сам._фаза_источников = 'завершена'
         return сам._шаг('свидетельство получено', действие)
 
 
@@ -22510,7 +24182,9 @@ def _выполнить_ограниченный_запуск(
             or type(владелец.ошибки_освобождения) is not list or владелец.ошибки_освобождения
             or владелец._go_binding is not None or владелец._транспорт_binding is not None
             or владелец._читатель_binding is not None
-            or владелец._предпроверка_fd or владелец._git_снимка or владелец._снимок_binding is not None
+            or владелец._предпроверка_fd or владелец._git_снимка
+            or type(владелец._ожидающие_пакеты_git) is not list or владелец._ожидающие_пакеты_git
+            or владелец._снимок_binding is not None
             or владелец._контейнер_снимка is not None
             or владелец._проект_свидетельства is not None
             or владелец._жизненный_барьер is not None
@@ -22894,7 +24568,8 @@ def _выполнить_ограниченный_запуск_внутри(
         or type(_владелец.ошибки_освобождения) is not list or _владелец.ошибки_освобождения
         or _владелец._go_binding is not None or _владелец._транспорт_binding is not None
         or _владелец._читатель_binding is not None or _владелец._предпроверка_fd
-        or _владелец._git_снимка or _владелец._снимок_binding is not None
+        or _владелец._git_снимка or type(_владелец._ожидающие_пакеты_git) is not list
+        or _владелец._ожидающие_пакеты_git or _владелец._снимок_binding is not None
         or _владелец._контейнер_снимка is not None or _владелец._проект_свидетельства is not None
         or _владелец._доступ_запрещён is not False
         or _владелец._сигнальная_фаза != 'не начата' or _владелец._сигнальная_ошибка is not None
