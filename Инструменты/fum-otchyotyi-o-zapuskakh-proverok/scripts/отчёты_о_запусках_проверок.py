@@ -44,7 +44,7 @@ _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_НОВЫМ_СНИМКОМ = "fum.
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_УДЕРЖАНИЕМ = "fum.test-run.experimental-physical-lease.1"
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_ИЗОЛЯЦИЕЙ_GIT = "fum.test-run.experimental-physical-lease.2"
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_PIN_GIT = "fum.test-run.experimental-physical-lease.3"
-_ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ = "4cdad6bcf378f57478e30be3478ff03a293ee2b2fe8d4da88849ececbff82224"
+_ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ = "898c4d2c6af6047d732ca15d2f9e387f6c7e55e1f811d86014a15a3743bb6e27"
 СХЕМА_НАБЛЮДЕНИЙ_ПОЛНОЙ_ПРОВЕРКИ = "fum.smoke-test-observations.v1"
 ПРЕДЕЛ_КОНВЕРТА_НАБЛЮДЕНИЙ = 4 * 1024 * 1024
 СХЕМА_СНИМКА = "fum.test-run-report.v1"
@@ -17237,6 +17237,7 @@ class _ТестоваяСверкаЗаписиПомощника:
         сам._контроль_root = None
         сам._использование = None
         сам._канальное_намерение = None
+        сам._опора_issuer = None
         каталоги = [os.fstat(fd) for fd in (rootfd, lockfd, receiptfd)]
         if (any(not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.geteuid()
                 or stat.S_IMODE(ст.st_mode) != 0o700 for ст in каталоги)
@@ -17378,6 +17379,20 @@ class _ТестоваяСверкаЗаписиПомощника:
                 or hashlib.sha256(raw).hexdigest() != сам._intent_sha256):
                 raise ОшибкаОтчёта('synthetic намерение изменилось')
             if запись['schema'] == 'fum.test-helper-authority.2':
+                if сам._опора_issuer is not None:
+                    if (type(сам._опора_issuer) is not tuple or len(сам._опора_issuer) != 3
+                        or type(сам._опора_issuer[0]) is not int or type(сам._опора_issuer[1]) is not list
+                        or type(сам._опора_issuer[2]) is not bytes):
+                        raise ОшибкаОтчёта('неверная synthetic опора issuer')
+                    fd_issuer, метка_issuer, байты_issuer = сам._опора_issuer
+                    до_issuer = os.fstat(fd_issuer)
+                    if (not stat.S_ISREG(до_issuer.st_mode) or до_issuer.st_uid != os.geteuid()
+                        or до_issuer.st_nlink != 1 or stat.S_IMODE(до_issuer.st_mode) != 0o600
+                        or сам._метка_файла(до_issuer) != метка_issuer
+                        or os.pread(fd_issuer, 65, 0) != байты_issuer
+                        or сам._метка_файла(os.fstat(fd_issuer)) != метка_issuer
+                        or байты_issuer != сам._intent_sha256.encode('ascii')):
+                        raise ОшибкаОтчёта('synthetic опора issuer изменилась')
                 if (type(сам._канальное_намерение) is not tuple or len(сам._канальное_намерение) != 2
                     or type(сам._канальное_намерение[0]) is not list
                     or type(сам._канальное_намерение[1]) is not bytes):

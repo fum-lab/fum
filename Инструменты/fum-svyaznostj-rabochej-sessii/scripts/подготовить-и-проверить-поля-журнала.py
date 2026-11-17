@@ -23,7 +23,29 @@ from отчёты_о_запусках_проверок import (
 from проверка_полей_журнала import проверить
 
 
-def _тестовый_канал_без_записи(корень: Path, *, запрос: Path | None = None) -> bool:
+def _тестово_сверить_опору_issuer(текст_fd, номера, grant_sha256, сверка):
+    if (type(текст_fd) is not str or not текст_fd.isascii() or not текст_fd.isdecimal()
+        or str(int(текст_fd)) != текст_fd or int(текст_fd) <= 2 or int(текст_fd) in номера):
+        raise ОшибкаОтчёта('неверный synthetic FD issuer')
+    fd_issuer = int(текст_fd)
+    флаги = fcntl.fcntl(fd_issuer, fcntl.F_GETFL)
+    флаги_fd = fcntl.fcntl(fd_issuer, fcntl.F_GETFD)
+    if флаги < 0 or флаги & os.O_ACCMODE != os.O_RDONLY or флаги_fd < 0:
+        raise ОшибкаОтчёта('неверный доступ synthetic issuer')
+    fcntl.fcntl(fd_issuer, fcntl.F_SETFD, флаги_fd | fcntl.FD_CLOEXEC)
+    issuer = os.fstat(fd_issuer)
+    if (not stat.S_ISREG(issuer.st_mode) or issuer.st_uid != os.geteuid()
+        or issuer.st_nlink != 1 or stat.S_IMODE(issuer.st_mode) != 0o600 or issuer.st_size != 64):
+        raise ОшибкаОтчёта('неверный файл synthetic issuer')
+    expected = os.pread(fd_issuer, 65, 0)
+    if (сверка._метка_файла(os.fstat(fd_issuer)) != сверка._метка_файла(issuer)
+        or expected != grant_sha256.encode('ascii')):
+        raise ОшибкаОтчёта('synthetic digest issuer не совпадает')
+    return fd_issuer, сверка._метка_файла(issuer), expected
+
+
+def _тестовый_канал_без_записи(корень: Path, *, запрос: Path | None = None,
+                               опора_issuer: bool = False) -> bool:
     """Synthetic обмен с UNKNOWN; не подтверждает authority и не пишет отчёт."""
     if (not корень.is_absolute() or корень == Path('/private/tmp')
         or not корень.is_relative_to(Path('/private/tmp')) or корень.resolve(strict=True) != корень
@@ -32,6 +54,8 @@ def _тестовый_канал_без_записи(корень: Path, *, за
     текст = os.environ.get('FUM_SYNTHETIC_HELPER_FDS', '')
     части = текст.split(',')
     с_записью = запрос is not None
+    if type(опора_issuer) is not bool or опора_issuer and not с_записью:
+        raise ОшибкаОтчёта('неверный synthetic режим issuer')
     if len(части) != (7 if с_записью else 5) or any(not часть.isascii() or not часть.isdecimal() for часть in части):
         raise ОшибкаОтчёта('неверные дескрипторы тестового канала')
     номера = [int(часть) for часть in части]
@@ -133,6 +157,9 @@ def _тестовый_канал_без_записи(корень: Path, *, за
         сверка = _ТестоваяСверкаЗаписиПомощника(
             корень, rootfd, lockfd, receiptfd, значение['grant_sha256'], _мосты=tuple(номера[5:]))
         сверка._канальное_намерение = (сверка._метка_файла(до), raw)
+        if опора_issuer:
+            сверка._опора_issuer = _тестово_сверить_опору_issuer(
+                os.environ.get('FUM_BORROWED_ADMISSION_FD', ''), номера, значение['grant_sha256'], сверка)
         authority = сверка._запись
         if (authority['schema'] != 'fum.test-helper-authority.2'
             or authority['run'] != значение['run'] or authority['generation'] != значение['generation']
@@ -210,19 +237,25 @@ def выполнить() -> int:
     разбор.add_argument("--тестовые-опоры", nargs=4, type=int)
     разбор.add_argument("--тестовый-канал-без-записи", action="store_true")
     разбор.add_argument("--тестовый-канал-с-записью", action="store_true")
+    разбор.add_argument("--тестовая-опора-issuer", action="store_true")
     аргументы = разбор.parse_args()
     try:
         if аргументы.тестовый_канал_без_записи or аргументы.тестовый_канал_с_записью:
             if аргументы.тестовый_канал_без_записи and аргументы.тестовый_канал_с_записью:
                 raise ОшибкаОтчёта('тестовые режимы несовместимы')
+            if аргументы.тестовая_опора_issuer and not аргументы.тестовый_канал_с_записью:
+                raise ОшибкаОтчёта('synthetic issuer требует канал с записью')
             if any(значение is not None for значение in (аргументы.каталог_замка,
                 аргументы.тестовый_каталог_нового_замка, аргументы.тестовый_active, аргументы.тестовые_опоры)):
                 raise ОшибкаОтчёта('тестовый канал не принимает bridge параметры')
             if _тестовый_канал_без_записи(аргументы.корень,
-                запрос=аргументы.запрос if аргументы.тестовый_канал_с_записью else None):
+                запрос=аргументы.запрос if аргументы.тестовый_канал_с_записью else None,
+                опора_issuer=аргументы.тестовая_опора_issuer):
                 return 3
             print(json.dumps({'схема': 'fum.test-helper-channel.1', 'состояние': 'UNKNOWN'}, ensure_ascii=False))
             return 3
+        if аргументы.тестовая_опора_issuer:
+            raise ОшибкаОтчёта('synthetic issuer требует канал с записью')
         опытные = (аргументы.тестовый_каталог_нового_замка,
                    аргументы.тестовый_active, аргументы.тестовые_опоры)
         if any(значение is not None for значение in опытные):

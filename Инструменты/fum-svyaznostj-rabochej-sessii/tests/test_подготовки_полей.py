@@ -25,6 +25,23 @@ from фикстура_полей_журнала import создать_пару
 
 
 class ПроверкаПараметровПомощника(unittest.TestCase):
+    def test_issuer_fifo_отклоняется_до_pread(сам):
+        спецификация = importlib.util.spec_from_file_location('помощник_issuer_test', помощник)
+        модуль = importlib.util.module_from_spec(спецификация)
+        with mock.patch('sys.path', [str(помощник.parent), *sys.path]):
+            спецификация.loader.exec_module(модуль)
+        чтение, запись = os.pipe()
+        try:
+            сам.assertGreater(чтение, 2)
+            with mock.patch.object(модуль.os, 'pread', side_effect=AssertionError('чтение FIFO')) as читать:
+                with сам.assertRaisesRegex(модуль.ОшибкаОтчёта, 'неверный файл synthetic issuer'):
+                    модуль._тестово_сверить_опору_issuer(
+                        str(чтение), [], '0' * 64, модуль._ТестоваяСверкаЗаписиПомощника)
+                читать.assert_not_called()
+        finally:
+            os.close(чтение)
+            os.close(запись)
+
     def test_bridge_принимает_только_полный_набор(сам):
         спецификация = importlib.util.spec_from_file_location('помощник_полей', помощник)
         модуль = importlib.util.module_from_spec(спецификация)
