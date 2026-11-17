@@ -40218,6 +40218,43 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             with м._удержать_объявленную_вершину_git(удержание, владелец, run, сессия) as вершина:
                 yield вершина, рабочий, домашний
 
+    def test_cooperative_legacy_закрытие_не_пишет_при_active_и_не_запускает_git(сам):
+        import shutil
+        import stat
+        м = загрузить_модуль_автоматизации()
+        фикстура = ФикстураОтчётов(_без_git=True)
+        try:
+            фикстура.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+            with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+                shutil.copytree(фикстура.корень / 'Журнал', корень / 'Журнал')
+                роли = {запись[0]: запись for запись in вершина._удержание._источники}
+                замки = роли['head'][1] / 'fum-controlled-lock'; замки.mkdir(mode=0o700)
+                fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+                try:
+                    метка = os.fstat(fd)
+                    селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                                метка.st_uid, stat.S_IMODE(метка.st_mode), путь_запроса, str(корень))
+                    контракт = ('fum.test-lock-cooperative.1', селектор, fd)
+                    отчёт = корень / Path(путь_запроса).parent / 'отчёт.md'
+                    исходный = отчёт.read_bytes()
+                    active = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+                    active.write_bytes(b'{}')
+                    with mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под lock')) as запуск, \
+                         mock.patch.object(м, 'вычислить_отпечаток_снимка', side_effect=AssertionError('Git под lock')) as git:
+                        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
+                            м.выполнить_закрытие(корень, Path(путь_запроса), _контракт_замка=контракт,
+                                                 _срок_замка=time.monotonic()+10)
+                        сам.assertEqual(отчёт.read_bytes(), исходный)
+                        active.unlink()
+                        сам.assertEqual(м.выполнить_закрытие(корень, Path(путь_запроса), _контракт_замка=контракт,
+                                                             _срок_замка=time.monotonic()+10), 0)
+                        сам.assertNotEqual(отчёт.read_bytes(), исходный)
+                        запуск.assert_not_called(); git.assert_not_called()
+                finally:
+                    os.close(fd)
+        finally:
+            фикстура.очистить()
+
     def test_cooperative_legacy_writer_обновляет_непустой_отчёт_и_уважает_active(сам):
         import shutil
         import stat
