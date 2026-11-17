@@ -40268,7 +40268,7 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
-    def test_synthetic_root_bridge_собственный_active_публикует_отчёт(сам):
+    def test_synthetic_root_bridge_собственный_active_публикует_отчёт(сам, _случай='успех'):
         import stat
         м = загрузить_модуль_автоматизации()
         сам._synthetic_ресурсы = {'фаза': 'создание fixture', 'fd': [], 'cap': None, 'база': None}
@@ -40347,8 +40347,20 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                 селектор(дескрипторы[4], новый, сессия), дескрипторы[4])
         опоры = tuple((p.stat().st_dev, p.stat().st_ino) for p in (старый / имя_lock, новый / имя_lock))
         сам._synthetic_ресурсы['фаза'] = 'путь записи начат'
-        сам.assertEqual(м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок), 0)
-        сам.assertNotEqual(отчёт.read_bytes(), исходный)
+        if _случай == 'active':
+            controlled.write_bytes(b'{}')
+        elif _случай == 'intent':
+            intent.write_bytes(raw + b' ')
+        if _случай == 'успех':
+            сам.assertEqual(м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок), 0)
+            сам.assertNotEqual(отчёт.read_bytes(), исходный)
+        else:
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок)
+            сам.assertEqual(отчёт.read_bytes(), исходный)
+            сам.assertTrue(cap._ошибка)
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок)
         сам.assertEqual(active.read_bytes(), м.канонические_машинные_байты(запись))
         while дескрипторы:
             fd = дескрипторы[-1]
@@ -40356,6 +40368,12 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             os.close(fd)
             дескрипторы.pop()
         сам._synthetic_ресурсы['фаза'] = 'завершена'
+
+    def test_synthetic_root_bridge_не_пишет_при_чужом_active(сам):
+        сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('active')
+
+    def test_synthetic_root_bridge_не_пишет_при_изменённом_intent(сам):
+        сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('intent')
 
     def test_synthetic_root_lock_ошибка_выхода_не_повторяется(сам):
         м = загрузить_модуль_автоматизации()
