@@ -35,6 +35,16 @@ import Testing
     let номера = try #require(ДескрипторыСинтетическогоПомощника(String(канал[0]), String(каталогFD[0]),
         String(каталогFD[1]), String(каталогFD[2]), занятые: []))
     #expect(подтвердитьОпорыСинтетическогоПомощника(номера, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+    var ответ: [Int32] = [-1, -1]
+    guard pipe(&ответ) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = close(ответ[0]); _ = close(ответ[1]) }
+    #expect(fcntl(ответ[0], F_SETFD, FD_CLOEXEC) == 0)
+    #expect(fcntl(ответ[1], F_SETFD, FD_CLOEXEC) == 0)
+    let дуплекс = try #require(ДуплексныеОпорыПомощника(номера, ответ: String(ответ[1]), занятые: []))
+    #expect(ДуплексныеОпорыПомощника(номера, ответ: String(канал[0]), занятые: []) == nil)
+    let неверныйОтвет = try #require(ДуплексныеОпорыПомощника(номера, ответ: String(ответ[0]), занятые: []))
+    #expect(!подтвердитьДуплексныеОпорыПомощника(неверныйОтвет, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+    #expect(подтвердитьДуплексныеОпорыПомощника(дуплекс, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
     let лишний = open("/dev/null", O_RDONLY | O_CLOEXEC)
     guard лишний > 2 else { throw ОшибкаПротокола.неверныеАргументы }
     defer { _ = close(лишний) }
@@ -50,12 +60,13 @@ import Testing
           posix_spawn_file_actions_addopen(&действия, STDOUT_FILENO, "/dev/null", O_WRONLY, 0) == 0,
           posix_spawn_file_actions_addopen(&действия, STDERR_FILENO, "/dev/null", O_WRONLY, 0) == 0,
           posix_spawnattr_setflags(&настройки, Int16(POSIX_SPAWN_CLOEXEC_DEFAULT)) == 0,
-          подготовитьПередачуОпорПомощника(номера, корень: опоры[0], замок: опоры[1],
-                                            квитанции: опоры[2], действия: &действия) else {
+          подготовитьДуплекснуюПередачуПомощника(дуплекс, корень: опоры[0], замок: опоры[1],
+                                                 квитанции: опоры[2], действия: &действия) else {
         throw ОшибкаПротокола.неверныеАргументы
     }
     let программа = "IFS= read -r x < /dev/fd/\(канал[0]); [ \"$x\" = fixture-nonce ] && " +
-        каталогFD.map { "[ -d /dev/fd/\($0) ]" }.joined(separator: " && ") + " && [ ! -e /dev/fd/\(лишний) ]"
+        каталогFD.map { "[ -d /dev/fd/\($0) ]" }.joined(separator: " && ") +
+        " && [ ! -e /dev/fd/\(лишний) ] && printf 'fixture-ack\\n' > /dev/fd/\(ответ[1])"
     let argv = ["/bin/sh", "-c", программа].map { strdup($0) } + [nil]
     defer { for часть in argv { free(часть) } }
     var среда: [UnsafeMutablePointer<CChar>?] = [nil]
@@ -78,6 +89,11 @@ import Testing
     }
     print("fixture-child=\(pid) raw=\(сырой)")
     #expect(сырой == 0)
+    guard fcntl(ответ[0], F_SETFL, O_NONBLOCK) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    var буфер = [UInt8](repeating: 0, count: 32)
+    let число = буфер.withUnsafeMutableBytes { read(ответ[0], $0.baseAddress, $0.count) }
+    #expect(число == 12)
+    if число == 12 { #expect(Array(буфер.prefix(12)) == Array("fixture-ack\n".utf8)) }
     let запись = try #require(ДескрипторыСинтетическогоПомощника(String(канал[1]), String(каталогFD[0]),
         String(каталогFD[1]), String(каталогFD[2]), занятые: []))
     #expect(!подтвердитьОпорыСинтетическогоПомощника(запись, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
