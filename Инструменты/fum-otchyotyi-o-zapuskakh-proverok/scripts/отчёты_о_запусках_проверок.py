@@ -17219,9 +17219,149 @@ def _тестово_запретить_помощника_без_pin(коман�
         raise ОшибкаОтчёта('опытный помощник требует явный pin')
 
 
+class _ТестоваяСверкаЗаписиПомощника:
+    """Сверяет synthetic намерение и preimage; не устанавливает происхождение issuer."""
+    def __init__(сам, корень, rootfd, lockfd, receiptfd, intent_sha256):
+        if (type(корень) is not type(Path('/')) or not корень.is_absolute()
+            or корень == Path('/private/tmp') or not корень.is_relative_to(Path('/private/tmp'))
+            or корень.resolve(strict=True) != корень
+            or any(type(fd) is not int or fd <= 2 for fd in (rootfd, lockfd, receiptfd))
+            or len({rootfd, lockfd, receiptfd}) != 3 or type(intent_sha256) is not str
+            or re.fullmatch(r'[0-9a-f]{64}', intent_sha256) is None):
+            raise ОшибкаОтчёта('неверные опоры synthetic проверки записи')
+        сам._корень, сам._rootfd, сам._lockfd, сам._receiptfd = корень, rootfd, lockfd, receiptfd
+        сам._intent_sha256 = intent_sha256
+        сам._pid, сам._поток = os.getpid(), threading.current_thread()
+        сам._ошибка = False
+        сам._использован = False
+        сам._контроль_root = None
+        каталоги = [os.fstat(fd) for fd in (rootfd, lockfd, receiptfd)]
+        if (any(not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.geteuid()
+                or stat.S_IMODE(ст.st_mode) != 0o700 for ст in каталоги)
+            or len({(ст.st_dev, ст.st_ino) for ст in каталоги}) != 3):
+            raise ОшибкаОтчёта('неверные каталоги synthetic проверки')
+        raw, метка_intent = сам._прочитать_файл(receiptfd, 'authority.json', 4096)
+        if метка_intent[3] != 0o600:
+            raise ОшибкаОтчёта('неверный режим synthetic намерения')
+        if hashlib.sha256(raw).hexdigest() != intent_sha256:
+            raise ОшибкаОтчёта('synthetic намерение не совпадает')
+        def объект(пары):
+            результат = {}
+            for ключ, значение in пары:
+                if ключ in результат:
+                    raise ValueError('повтор поля')
+                результат[ключ] = значение
+            return результат
+        try:
+            запись = json.loads(raw.decode('utf-8'), object_pairs_hook=объект)
+        except (ValueError, UnicodeError) as ошибка:
+            raise ОшибкаОтчёта('неверная synthetic запись') from ошибка
+        ключи = {'schema', 'fixture', 'run', 'generation', 'nonce_sha256', 'session', 'deadline_ns',
+                 'root', 'lock', 'receipt', 'report', 'active', 'controlled_active', 'helper_sha256', 'operation'}
+        def опора(значение):
+            return (type(значение) is list and len(значение) == 4
+                    and all(type(э) is int and э >= 0 for э in значение))
+        def файл(значение):
+            return (type(значение) is dict and set(значение) == {'identity', 'sha256'}
+                    and type(значение['identity']) is list and len(значение['identity']) == 8
+                    and all(type(э) is int and э >= 0 for э in значение['identity'])
+                    and type(значение['sha256']) is str
+                    and re.fullmatch(r'[0-9a-f]{64}', значение['sha256']) is not None)
+        if (type(запись) is not dict or set(запись) != ключи
+            or запись['schema'] != 'fum.test-helper-authority.1'
+            or запись['operation'] != 'synthetic-active-preview'
+            or any(type(запись[ключ]) is not str or проверить_идентификатор(запись[ключ]) != запись[ключ]
+                   for ключ in ('fixture', 'run', 'generation'))
+            or type(запись['session']) is not str or len(Path(запись['session']).parts) != 3
+            or Path(запись['session']).parts[0] != 'Журнал' or Path(запись['session']).parts[2] != 'запрос.md'
+            or Path(запись['session']).as_posix() != запись['session'] or '..' in Path(запись['session']).parts
+            or type(запись['deadline_ns']) is not int or not 0 < запись['deadline_ns'] <= 2**63 - 1
+            or not _срок_действителен(запись['deadline_ns'] / 1_000_000_000)
+            or any(not опора(запись[ключ]) for ключ in ('root', 'lock', 'receipt'))
+            or any(not файл(запись[ключ]) for ключ in ('report', 'active', 'controlled_active'))
+            or запись['helper_sha256'] != _ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ
+            or type(запись['nonce_sha256']) is not str
+            or re.fullmatch(r'[0-9a-f]{64}', запись['nonce_sha256']) is None):
+            raise ОшибкаОтчёта('неверная форма synthetic записи')
+        сам._запись, сам._raw, сам._метка_intent = запись, raw, метка_intent
+
+    @staticmethod
+    def _метка(ст):
+        return [ст.st_dev, ст.st_ino, ст.st_uid, stat.S_IMODE(ст.st_mode)]
+
+    @staticmethod
+    def _метка_файла(ст):
+        return [ст.st_dev, ст.st_ino, ст.st_uid, stat.S_IMODE(ст.st_mode),
+                ст.st_nlink, ст.st_size, ст.st_mtime_ns, ст.st_ctime_ns]
+
+    def _прочитать_файл(сам, каталог_fd, имя, предел):
+        fd = os.open(имя, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=каталог_fd)
+        try:
+            до = os.fstat(fd)
+            if (not stat.S_ISREG(до.st_mode) or до.st_uid != os.geteuid() or до.st_nlink != 1
+                or not 0 < до.st_size <= предел):
+                raise ОшибкаОтчёта('неверный файл synthetic проверки')
+            raw = os.pread(fd, до.st_size + 1, 0)
+            после = os.fstat(fd)
+            имя_ст = os.stat(имя, dir_fd=каталог_fd, follow_symlinks=False)
+            if (len(raw) != до.st_size or сам._метка_файла(до) != сам._метка_файла(после)
+                or сам._метка_файла(до) != сам._метка_файла(имя_ст)):
+                raise ОшибкаОтчёта('файл synthetic проверки изменился')
+            return raw, сам._метка_файла(до)
+        finally:
+            os.close(fd)
+
+    def проверить(сам):
+        try:
+            if (сам._ошибка or сам._pid != os.getpid() or сам._поток is not threading.current_thread()
+                or not сам._использован or сам._контроль_root is None):
+                raise ОшибкаОтчёта('synthetic проверка недоступна')
+            сам._контроль_root()
+            запись = сам._запись
+            if not _срок_действителен(запись['deadline_ns'] / 1_000_000_000):
+                raise ОшибкаОтчёта('истёк synthetic срок')
+            for fd, ключ in ((сам._rootfd, 'root'), (сам._lockfd, 'lock'), (сам._receiptfd, 'receipt')):
+                ст = os.fstat(fd)
+                if (not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.geteuid()
+                    or stat.S_IMODE(ст.st_mode) != 0o700 or сам._метка(ст) != запись[ключ]):
+                    raise ОшибкаОтчёта('synthetic опора изменилась')
+            if сам._метка(os.stat(сам._корень, follow_symlinks=False)) != запись['root']:
+                raise ОшибкаОтчёта('synthetic корень изменился')
+            raw, метка_intent = сам._прочитать_файл(сам._receiptfd, 'authority.json', 4096)
+            if (метка_intent != сам._метка_intent or raw != сам._raw
+                or hashlib.sha256(raw).hexdigest() != сам._intent_sha256):
+                raise ОшибкаОтчёта('synthetic намерение изменилось')
+            имя_active = 'controlled-active-' + hashlib.sha256(os.fsencode(сам._корень)).hexdigest() + '.json'
+            raw_active, метка_active = сам._прочитать_файл(сам._lockfd, имя_active, 4096)
+            if (метка_active != запись['controlled_active']['identity']
+                or hashlib.sha256(raw_active).hexdigest() != запись['controlled_active']['sha256']
+                or raw_active != json.dumps({'идентификатор': запись['run'], 'состояние': 'выполняется'},
+                                             ensure_ascii=False).encode('utf-8')):
+                raise ОшибкаОтчёта('controlled active изменился')
+            папка = сам._корень / Path(запись['session']).parent
+            отчёт = папка / 'отчёт.md'
+            active = папка / 'материалы/запуски-проверок' / ('1_' + запись['run'] + '.json')
+            for путь, ключ, предел in ((отчёт, 'report', 4 * 1024 * 1024), (active, 'active', 1024 * 1024)):
+                проверить_компоненты_без_ссылок(сам._корень, путь)
+                каталог = os.open(путь.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+                try:
+                    содержимое, метка = сам._прочитать_файл(каталог, путь.name, предел)
+                finally:
+                    os.close(каталог)
+                if метка != запись[ключ]['identity'] or hashlib.sha256(содержимое).hexdigest() != запись[ключ]['sha256']:
+                    raise ОшибкаОтчёта('synthetic preimage изменился')
+            сам._контроль_root()
+            if not _срок_действителен(запись['deadline_ns'] / 1_000_000_000):
+                raise ОшибкаОтчёта('synthetic root или срок не подтверждён')
+        except BaseException:
+            сам._ошибка = True
+            raise
+
+
 def _выполнить_физический_предпросмотр(корень_репозитория, запрос, *, контракт, срок, владелец,
                                       схема=None, _ожидаемый_active=None, _ожидаемые_опоры=None,
-                                      _ожидаемый_терминал=None, _закреплённая_пара=None):
+                                      _ожидаемый_терминал=None, _закреплённая_пара=None,
+                                      _synthetic_сверка=None):
     """Опытно отобразить историю со сверкой ограниченного физического состава.
 
     Это не Git-снимок и не приёмка: содержимое .git исключено. Замок согласует
@@ -17230,6 +17370,14 @@ def _выполнить_физический_предпросмотр(корен
     Ожидание терминала передаёт доверенный вызывающий; само оно не удостоверяет writer.
     """
     схема = _выбрать_схему_физической_истории(True, схема)
+    if _synthetic_сверка is not None and (
+        type(_synthetic_сверка) is not _ТестоваяСверкаЗаписиПомощника
+        or _synthetic_сверка._корень != корень_репозитория
+        or _synthetic_сверка._запись['session'] != запрос
+        or _synthetic_сверка._запись['run'] != _ожидаемый_active
+        or not _synthetic_сверка._использован or _synthetic_сверка._контроль_root is None
+    ):
+        raise ОшибкаОтчёта('неверная synthetic сверка предпросмотра')
     if _ожидаемый_active is None:
         if _ожидаемые_опоры is not None:
             raise ОшибкаОтчёта('опоры допустимы только для опытного active')
@@ -17347,6 +17495,8 @@ def _выполнить_физический_предпросмотр(корен
             приём_живой_пары._предпросмотр = (владелец, удержание)
             приём_живой_пары._фаза_предпросмотра = 'вход начат'
         with удержание as сверить_замок:
+            if _synthetic_сверка is not None:
+                _synthetic_сверка.проверить()
             def сверить_опоры():
                 if _ожидаемый_active is None:
                     return
@@ -17458,6 +17608,10 @@ def _выполнить_физический_предпросмотр(корен
                     _временный_отчёт=(имя_временного, временный_режим))
                 сверить_историю()
                 сверить_замок()
+                if _synthetic_сверка is not None:
+                    _synthetic_сверка.проверить()
+                    сверить_историю()
+                    сверить_замок()
             сверить_замок()
             if ожидаемый != исходный:
                 владелец.состояние = 'запись начата'
@@ -17541,6 +17695,66 @@ def _выполнить_физический_предпросмотр(корен
                     raise ошибка
                 приём_живой_пары._фаза_предпросмотра = 'подтверждён'
                 приём_живой_пары._предпросмотр = None
+
+
+_карантин_synthetic_замков_помощника = []
+
+
+def _тестово_предпросмотреть_собственный_active(сверка, селектор_root, контракт_моста, опоры, срок):
+    """Опытный путь для согласованной фикстуры; не устанавливает происхождение intent."""
+    if type(сверка) is not _ТестоваяСверкаЗаписиПомощника:
+        raise ОшибкаОтчёта('нужна synthetic сверка')
+    if сверка._использован:
+        сверка._ошибка = True
+        raise ОшибкаОтчёта('synthetic сверка уже использована')
+    сверка._использован = True
+    владелец = _ТестовыйВладелецПредпросмотра()
+    контекст, вход_начат, вошёл, выход_начат = None, False, False, False
+    try:
+        запись = сверка._запись
+        if (сверка._ошибка or сверка._pid != os.getpid()
+            or сверка._поток is not threading.current_thread()
+            or type(срок) is not float or not _срок_действителен(срок)
+            or срок > запись['deadline_ns'] / 1_000_000_000
+            or type(селектор_root) is not tuple or len(селектор_root) != 8
+            or селектор_root[0] != 'fum.test-lock-root.2'
+            or селектор_root[2:6] != tuple(запись['lock'])
+            or селектор_root[6:] != ('controlled-own.1', str(сверка._корень))
+            or type(контракт_моста) is not tuple or len(контракт_моста) != 5
+            or контракт_моста[0] != 'fum.test-lock-bridge.1'):
+            raise ОшибкаОтчёта('неверные synthetic опоры записи')
+        контекст = _тестовый_замок_новой_сессии(
+            селектор_root, сверка._lockfd, сверка._корень, 'controlled-own.1', срок_монотонный=срок)
+        вход_начат = True
+        контроль = контекст.__enter__()
+        вошёл = True
+        сверка._контроль_root = контроль
+        сверка.проверить()
+        результат = _выполнить_физический_предпросмотр(
+            сверка._корень, запись['session'], контракт=контракт_моста, срок=срок, владелец=владелец,
+            схема=_ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_ИЗОЛЯЦИЕЙ_GIT,
+            _ожидаемый_active=запись['run'], _ожидаемые_опоры=опоры, _synthetic_сверка=сверка)
+        выход_начат = True
+        контекст.__exit__(None, None, None)
+        вошёл = False
+        сверка._контроль_root = None
+        return результат
+    except BaseException as ошибка:
+        сверка._ошибка = True
+        if вход_начат and (not вошёл or выход_начат
+                            or владелец.состояние in ('запись начата', 'неизвестно')):
+            _карантин_synthetic_замков_помощника.append((контекст, владелец, сверка, ошибка))
+        elif вошёл:
+            выход_начат = True
+            карантинная_запись = (контекст, владелец, сверка, ошибка)
+            _карантин_synthetic_замков_помощника.append(карантинная_запись)
+            try:
+                контекст.__exit__(type(ошибка), ошибка, ошибка.__traceback__)
+            except BaseException as выход:
+                raise BaseExceptionGroup('synthetic ошибка и ошибка root-lock', [ошибка, выход]) from None
+            _карантин_synthetic_замков_помощника.remove(карантинная_запись)
+            сверка._контроль_root = None
+        raise
 
 
 def _тестово_предпросмотреть_active_помощника(

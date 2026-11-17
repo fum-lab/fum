@@ -40268,6 +40268,164 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def test_synthetic_root_bridge_собственный_active_публикует_отчёт(сам):
+        import stat
+        м = загрузить_модуль_автоматизации()
+        сам._synthetic_ресурсы = {'фаза': 'создание fixture', 'fd': [], 'cap': None, 'база': None}
+        база = Path(tempfile.mkdtemp(prefix='fum-root-bridge-', dir='/private/tmp')).resolve()
+        сам._synthetic_ресурсы['база'] = база
+        корень, замки, старый, новый, квитанции = (база / имя for имя in ('root', 'locks', 'old', 'new', 'receipt'))
+        for каталог in (корень, замки, старый, новый, квитанции):
+            каталог.mkdir(mode=0o700)
+        сессия = 'Журнал/этап/запрос.md'
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        папка = корень / Path(сессия).parent
+        история = папка / 'материалы/запуски-проверок'
+        история.mkdir(parents=True)
+        (папка / 'запрос.md').write_text('synthetic\n', encoding='utf-8')
+        отчёт = папка / 'отчёт.md'
+        исходный = (открытый_маркер + '\nстарое\n' + конечный_маркер + '\n').encode()
+        отчёт.write_bytes(исходный)
+        снимок = м._тестовый_отпечаток_физического_снимка('Журнал/этап', bytes(range(32)), 'isolated-git.2')
+        запись = {'схема': м._ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_ИЗОЛЯЦИЕЙ_GIT, 'идентификатор': run,
+            'сессия': сессия, 'порядок': 1, 'исполнитель': 'root', 'вызов': 'test',
+            'состояние': 'выполняется', 'длительность_наносекунды': None, 'статус': None,
+            'код_завершения': None, 'пояснение': None, 'план': None, 'наблюдения': [],
+            'профиль_проверки': {'класс': 'адресная', 'отпечаток_снимка': снимок._asdict(),
+                'полные_наборы': [], 'основание': None, 'идентификатор_отказа': None,
+                'ожидаемое_свидетельство': None}}
+        active = история / ('1_' + run + '.json')
+        active.write_bytes(м.канонические_машинные_байты(запись))
+        controlled = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+        controlled.write_bytes(json.dumps({'идентификатор': run, 'состояние': 'выполняется'},
+                                          ensure_ascii=False).encode('utf-8'))
+        имя_lock = 'fum-check-runs-' + hashlib.sha256((str(корень) + '\0' + сессия).encode()).hexdigest() + '.lock'
+        for каталог in (старый, новый):
+            сам._synthetic_ресурсы['фаза'] = 'создание lock fd начато'
+            fd = os.open(каталог / имя_lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_CLOEXEC, 0o600)
+            сам._synthetic_ресурсы['fd'].append(fd)
+            сам._synthetic_ресурсы['фаза'] = 'закрытие lock fd начато'
+            os.close(fd)
+            сам._synthetic_ресурсы['fd'].remove(fd)
+        флаги = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+        дескрипторы = сам._synthetic_ресурсы['fd']
+        for каталог in (корень, замки, квитанции, старый, новый):
+            сам._synthetic_ресурсы['фаза'] = 'открытие directory fd начато'
+            fd = os.open(каталог, флаги)
+            дескрипторы.append(fd)
+        def метка(fd):
+            return м._ТестоваяСверкаЗаписиПомощника._метка(os.fstat(fd))
+        def файл(путь):
+            return {'identity': м._ТестоваяСверкаЗаписиПомощника._метка_файла(путь.stat()),
+                    'sha256': hashlib.sha256(путь.read_bytes()).hexdigest()}
+        def селектор(fd, каталог, имя):
+            сведения = os.fstat(fd)
+            return ('fum.test-lock-root.2', str(каталог), сведения.st_dev, сведения.st_ino,
+                    сведения.st_uid, stat.S_IMODE(сведения.st_mode), имя, str(корень))
+        срок = time.monotonic() + 20.0
+        authority = {'schema': 'fum.test-helper-authority.1', 'fixture': '00000000-0000-4000-8000-000000000002',
+            'run': run, 'generation': '00000000-0000-4000-8000-000000000003', 'nonce_sha256': '1'*64,
+            'session': сессия, 'deadline_ns': int((срок+1.0)*1_000_000_000),
+            'root': метка(дескрипторы[0]), 'lock': метка(дескрипторы[1]), 'receipt': метка(дескрипторы[2]),
+            'report': файл(отчёт), 'active': файл(active), 'controlled_active': файл(controlled),
+            'helper_sha256': м._ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ, 'operation': 'synthetic-active-preview'}
+        raw = json.dumps(authority, sort_keys=True, separators=(',', ':')).encode('utf-8')
+        intent = квитанции / 'authority.json'
+        сам._synthetic_ресурсы['фаза'] = 'открытие intent fd начато'
+        fd = os.open(intent, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_CLOEXEC, 0o600)
+        дескрипторы.append(fd)
+        сам.assertEqual(os.write(fd, raw), len(raw)); os.fsync(fd)
+        сам._synthetic_ресурсы['фаза'] = 'закрытие intent fd начато'
+        os.close(fd)
+        дескрипторы.remove(fd)
+        os.fsync(дескрипторы[2])
+        сам.assertEqual(intent.read_bytes(), raw)
+        cap = м._ТестоваяСверкаЗаписиПомощника(корень, *дескрипторы[:3], hashlib.sha256(raw).hexdigest())
+        сам._synthetic_ресурсы['cap'] = cap
+        root_селектор = селектор(дескрипторы[1], замки, 'controlled-own.1')
+        мост = ('fum.test-lock-bridge.1', селектор(дескрипторы[3], старый, сессия), дескрипторы[3],
+                селектор(дескрипторы[4], новый, сессия), дескрипторы[4])
+        опоры = tuple((p.stat().st_dev, p.stat().st_ino) for p in (старый / имя_lock, новый / имя_lock))
+        сам._synthetic_ресурсы['фаза'] = 'путь записи начат'
+        сам.assertEqual(м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок), 0)
+        сам.assertNotEqual(отчёт.read_bytes(), исходный)
+        сам.assertEqual(active.read_bytes(), м.канонические_машинные_байты(запись))
+        while дескрипторы:
+            fd = дескрипторы[-1]
+            сам._synthetic_ресурсы['фаза'] = 'закрытие directory fd начато'
+            os.close(fd)
+            дескрипторы.pop()
+        сам._synthetic_ресурсы['фаза'] = 'завершена'
+
+    def test_synthetic_root_lock_ошибка_выхода_не_повторяется(сам):
+        м = загрузить_модуль_автоматизации()
+        сверка = object.__new__(м._ТестоваяСверкаЗаписиПомощника)
+        сверка._использован = сверка._ошибка = False
+        сверка._pid, сверка._поток = os.getpid(), threading.current_thread()
+        сверка._корень, сверка._lockfd = Path('/private/tmp/fixture-only'), 37
+        срок = time.monotonic() + 10.0
+        сверка._запись = {'deadline_ns': int((срок + 1.0) * 1_000_000_000), 'lock': [1, 2, 3, 448],
+                          'session': 'Журнал/фикстура/запрос.md', 'run': '00000000-0000-4000-8000-000000000001'}
+        селектор = ('fum.test-lock-root.2', '/private/tmp/locks', 1, 2, 3, 448,
+                    'controlled-own.1', str(сверка._корень))
+        мост = ('fum.test-lock-bridge.1', None, 1, None, 2)
+        class Контекст:
+            вызовы = 0
+            def __enter__(сам):
+                return lambda: None
+            def __exit__(сам, *аргументы):
+                сам.вызовы += 1
+                raise OSError('неизвестно освобождение')
+        контекст = Контекст()
+        карантин = м._карантин_synthetic_замков_помощника
+        до = len(карантин)
+        try:
+            with mock.patch.object(м, '_тестовый_замок_новой_сессии', return_value=контекст), \
+                 mock.patch.object(м._ТестоваяСверкаЗаписиПомощника, 'проверить'), \
+                 mock.patch.object(м, '_выполнить_физический_предпросмотр', return_value=0):
+                with сам.assertRaisesRegex(OSError, 'неизвестно освобождение'):
+                    м._тестово_предпросмотреть_собственный_active(сверка, селектор, мост, (), срок)
+            сам.assertEqual(контекст.вызовы, 1)
+            сам.assertTrue(сверка._ошибка)
+            сам.assertIs(карантин[-1][0], контекст)
+            сам.assertEqual(len(карантин), до + 1)
+        finally:
+            del карантин[до:]
+
+    def test_synthetic_root_lock_неизвестный_вход_остаётся_в_карантине(сам):
+        м = загрузить_модуль_автоматизации()
+        сверка = object.__new__(м._ТестоваяСверкаЗаписиПомощника)
+        сверка._использован = False
+        сверка._ошибка = False
+        сверка._pid = os.getpid()
+        сверка._поток = threading.current_thread()
+        сверка._корень = Path('/private/tmp/fixture-only')
+        сверка._lockfd = 37
+        срок = time.monotonic() + 10.0
+        сверка._запись = {'deadline_ns': int((срок + 1.0) * 1_000_000_000), 'lock': [1, 2, 3, 448]}
+        селектор = ('fum.test-lock-root.2', '/private/tmp/locks', 1, 2, 3, 448,
+                    'controlled-own.1', str(сверка._корень))
+        мост = ('fum.test-lock-bridge.1', None, 1, None, 2)
+        class Контекст:
+            def __enter__(сам):
+                raise RuntimeError('неизвестен результат входа')
+            def __exit__(сам, *аргументы):
+                raise AssertionError('нельзя повторять неизвестный выход')
+        контекст = Контекст()
+        карантин = м._карантин_synthetic_замков_помощника
+        до = len(карантин)
+        try:
+            with mock.patch.object(м, '_тестовый_замок_новой_сессии', return_value=контекст):
+                with сам.assertRaisesRegex(RuntimeError, 'неизвестен результат входа'):
+                    м._тестово_предпросмотреть_собственный_active(сверка, селектор, мост, (), срок)
+            сам.assertTrue(сверка._ошибка)
+            сам.assertTrue(сверка._использован)
+            сам.assertEqual(len(карантин), до + 1)
+            сам.assertIs(карантин[-1][0], контекст)
+            сам.assertIs(карантин[-1][2], сверка)
+        finally:
+            del карантин[до:]
+
     def _тестовый_образ_git(сам, путь):
         fd = os.open(путь, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
         сам.addCleanup(os.close, fd)
