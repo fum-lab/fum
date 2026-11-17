@@ -40307,6 +40307,15 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         запись_истории = json.loads(история)
         сам.assertEqual(запись_истории['state'], 'UNKNOWN')
         сам.assertNotIn('fingerprint_sha256', запись_истории)
+        результат = м._прочитать_результат_контролируемого_git(
+            сам._владение_единого, сам._fd_квитанций_единого)
+        сам.assertEqual((результат.состояние, результат.run), ('UNKNOWN', run))
+        сам.assertEqual(результат.история_sha256, 'sha256:' + hashlib.sha256(история).hexdigest())
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            bool(результат)
+        with mock.patch.object(м, '_прочитать_источник_git_через_fd', return_value=b'tampered'):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._прочитать_результат_контролируемого_git(сам._владение_единого, сам._fd_квитанций_единого)
         os.close(сам._fd_квитанций_единого)
         os.close(сам._fd_замка_единого)
         владелец._блокировка.release()
@@ -40886,6 +40895,30 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         сам.assertEqual(запись['state'], 'UNKNOWN')
         сам.assertEqual(запись['schema'], 'fum.git-controlled-history-observation.1')
         сам.assertNotIn('fingerprint_sha256', запись)
+
+    def test_потребитель_истории_обнаруживает_реальную_подмену_файла(сам):
+        import stat
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                владение = object.__new__(м._ВладениеЗакрытымПрофилемGit)
+                владение._состояние, владение._terminal_подтверждён = 'освобождён', True
+                владение._терминальные_байты, владение._байты_освобождения = b'terminal', b'release'
+                владение._попытка_квитанции, владение._fd, владение._fd_квитанций = None, [], []
+                владение._run, владение._policy_digest = 'run', b'1' * 32
+                метка = os.fstat(fd)
+                владение._метка_каталога_квитанций = (метка.st_dev, метка.st_ino, метка.st_uid, stat.S_IMODE(метка.st_mode))
+                данные = {'terminal.json': b'terminal', 'release.json': b'release',
+                          'history.json': м._запись_наблюдения_контролируемого_git(владение)}
+                for имя, содержимое in данные.items():
+                    (Path(каталог) / имя).write_bytes(содержимое)
+                сам.assertEqual(м._прочитать_результат_контролируемого_git(владение, fd).состояние, 'UNKNOWN')
+                (Path(каталог) / 'history.json').write_bytes(b'tampered')
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._прочитать_результат_контролируемого_git(владение, fd)
+            finally:
+                os.close(fd)
 
     def test_owner_scoped_git_удерживает_дубликаты_при_неизвестном_terminal(сам):
         м = загрузить_модуль_автоматизации()
