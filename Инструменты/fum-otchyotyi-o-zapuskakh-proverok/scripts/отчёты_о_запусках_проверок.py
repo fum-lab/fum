@@ -44,7 +44,7 @@ _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_НОВЫМ_СНИМКОМ = "fum.
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_УДЕРЖАНИЕМ = "fum.test-run.experimental-physical-lease.1"
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_ИЗОЛЯЦИЕЙ_GIT = "fum.test-run.experimental-physical-lease.2"
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_PIN_GIT = "fum.test-run.experimental-physical-lease.3"
-_ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ = "898c4d2c6af6047d732ca15d2f9e387f6c7e55e1f811d86014a15a3743bb6e27"
+_ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ = "a7f417636ed5f4e72eea0ec791eeecc900373b4bab61088e895e3e596fb9ba30"
 СХЕМА_НАБЛЮДЕНИЙ_ПОЛНОЙ_ПРОВЕРКИ = "fum.smoke-test-observations.v1"
 ПРЕДЕЛ_КОНВЕРТА_НАБЛЮДЕНИЙ = 4 * 1024 * 1024
 СХЕМА_СНИМКА = "fum.test-run-report.v1"
@@ -17238,6 +17238,7 @@ class _ТестоваяСверкаЗаписиПомощника:
         сам._использование = None
         сам._канальное_намерение = None
         сам._опора_issuer = None
+        сам._роли_fd = None
         каталоги = [os.fstat(fd) for fd in (rootfd, lockfd, receiptfd)]
         if (any(not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.geteuid()
                 or stat.S_IMODE(ст.st_mode) != 0o700 for ст in каталоги)
@@ -17270,12 +17271,19 @@ class _ТестоваяСверкаЗаписиПомощника:
                     and all(type(э) is int and э >= 0 for э in значение['identity'])
                     and type(значение['sha256']) is str
                     and re.fullmatch(r'[0-9a-f]{64}', значение['sha256']) is not None)
-        вторая_версия = type(запись) is dict and запись.get('schema') == 'fum.test-helper-authority.2'
-        if вторая_версия:
+        расширенная = type(запись) is dict and запись.get('schema') in (
+            'fum.test-helper-authority.2', 'fum.test-helper-authority.3', 'fum.test-helper-authority.4')
+        третья_версия = type(запись) is dict and запись.get('schema') in (
+            'fum.test-helper-authority.3', 'fum.test-helper-authority.4')
+        четвёртая_версия = type(запись) is dict and запись.get('schema') == 'fum.test-helper-authority.4'
+        if расширенная:
             ключи |= {'lock_path', 'session_lock', 'bridge_lock'}
+        if третья_версия:
+            ключи |= {'role_fds', 'images', 'request'}
         if (type(запись) is not dict or set(запись) != ключи
-            or запись['schema'] not in ('fum.test-helper-authority.1', 'fum.test-helper-authority.2')
-            or (not вторая_версия and _мосты is not None)
+            or запись['schema'] not in ('fum.test-helper-authority.1', 'fum.test-helper-authority.2',
+                                        'fum.test-helper-authority.3', 'fum.test-helper-authority.4')
+            or (not расширенная and _мосты is not None)
             or запись['operation'] != 'synthetic-active-preview'
             or any(type(запись[ключ]) is not str or проверить_идентификатор(запись[ключ]) != запись[ключ]
                    for ключ in ('fixture', 'run', 'generation'))
@@ -17290,7 +17298,7 @@ class _ТестоваяСверкаЗаписиПомощника:
             or type(запись['nonce_sha256']) is not str
             or re.fullmatch(r'[0-9a-f]{64}', запись['nonce_sha256']) is None):
             raise ОшибкаОтчёта('неверная форма synthetic записи')
-        if вторая_версия:
+        if расширенная:
             def каталог(значение):
                 if (type(значение) is not str or not значение.startswith('/private/tmp/')
                     or Path(значение).resolve(strict=True) != Path(значение)):
@@ -17308,6 +17316,27 @@ class _ТестоваяСверкаЗаписиПомощника:
                     or any(type(x) is not int or x <= 0 for x in значение['lock_identity'])):
                     raise ОшибкаОтчёта('неверная synthetic роль моста')
                 каталог(значение['path'])
+        if третья_версия:
+            if not файл(запись['request']):
+                raise ОшибкаОтчёта('неверный synthetic запрос')
+            images = запись['images']
+            ожидаемые_images = {'helper', 'report', 'validator', 'witness', 'anchor', 'python'}
+            if четвёртая_версия:
+                ожидаемые_images |= {'pair_path', 'coherence', 'author', 'project_files', 'request_layout'}
+            if (type(images) is not dict or set(images) != ожидаемые_images
+                or any(type(digest) is not str or re.fullmatch(r'[0-9a-f]{64}', digest) is None
+                       for digest in images.values()) or images['helper'] != запись['helper_sha256']):
+                raise ОшибкаОтчёта('неверные synthetic pins образов')
+            роли = запись['role_fds']
+            имена = ('input', 'output', 'root', 'controlled_lock', 'receipt', 'session_lock', 'bridge_lock')
+            if (type(роли) is not list or len(роли) != len(имена)
+                or any(type(роль) is not dict or set(роль) != {'role', 'fd', 'dev', 'ino', 'uid', 'mode'}
+                       or роль['role'] != имя
+                       or any(type(роль[ключ]) is not int or роль[ключ] < 0
+                              for ключ in ('fd', 'dev', 'ino', 'uid', 'mode'))
+                       or роль['fd'] <= 2 for роль, имя in zip(роли, имена))
+                or len({роль['fd'] for роль in роли}) != len(роли)):
+                raise ОшибкаОтчёта('неверные synthetic роли FD')
         сам._мосты = _мосты
         сам._запись, сам._raw, сам._метка_intent = запись, raw, метка_intent
 
@@ -17378,7 +17407,43 @@ class _ТестоваяСверкаЗаписиПомощника:
             if (метка_intent != сам._метка_intent or raw != сам._raw
                 or hashlib.sha256(raw).hexdigest() != сам._intent_sha256):
                 raise ОшибкаОтчёта('synthetic намерение изменилось')
-            if запись['schema'] == 'fum.test-helper-authority.2':
+            if запись['schema'] in ('fum.test-helper-authority.2', 'fum.test-helper-authority.3',
+                                    'fum.test-helper-authority.4'):
+                if запись['schema'] in ('fum.test-helper-authority.3', 'fum.test-helper-authority.4'):
+                    if сам._опора_issuer is None:
+                        raise ОшибкаОтчёта('нет synthetic опоры issuer')
+                    if type(сам._роли_fd) is not tuple or len(сам._роли_fd) != 7:
+                        raise ОшибкаОтчёта('не связаны synthetic роли FD')
+                    for fd, роль in zip(сам._роли_fd, запись['role_fds']):
+                        ст = os.fstat(fd)
+                        if (fd != роль['fd'] or (ст.st_dev, ст.st_ino, ст.st_uid, ст.st_mode) !=
+                            (роль['dev'], роль['ino'], роль['uid'], роль['mode'])):
+                            raise ОшибкаОтчёта('synthetic роль FD изменилась')
+                if запись['schema'] == 'fum.test-helper-authority.4':
+                    инструменты = Path(__file__).resolve(strict=True).parents[2]
+                    исходники = {
+                        'report': Path(__file__),
+                        'helper': инструменты / 'fum-svyaznostj-rabochej-sessii/scripts/подготовить-и-проверить-поля-журнала.py',
+                        'validator': инструменты / 'fum-svyaznostj-rabochej-sessii/scripts/проверка_полей_журнала.py',
+                        'pair_path': инструменты / 'fum-svyaznostj-rabochej-sessii/scripts/путь_пары_журнала.py',
+                        'coherence': инструменты / 'fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py',
+                        'author': инструменты / 'fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py',
+                        'project_files': инструменты / 'fum-proyektnyiye-fajlyi/scripts/project_files.py',
+                        'request_layout': инструменты / 'fum-struktura-papok-zaprosov/scripts/request_folder_layout.py',
+                    }
+                    for роль, путь_исходника in исходники.items():
+                        fd = os.open(путь_исходника, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW | os.O_CLOEXEC)
+                        try:
+                            до = os.fstat(fd)
+                            if not stat.S_ISREG(до.st_mode) or not 0 < до.st_size <= 4 * 1024 * 1024:
+                                raise ОшибкаОтчёта('неверный synthetic исходник')
+                            raw = os.pread(fd, до.st_size + 1, 0)
+                            if (len(raw) != до.st_size or сам._метка_файла(до) != сам._метка_файла(os.fstat(fd))
+                                or сам._метка_файла(до) != сам._метка_файла(os.stat(путь_исходника, follow_symlinks=False))
+                                or hashlib.sha256(raw).hexdigest() != запись['images'][роль]):
+                                raise ОшибкаОтчёта('synthetic исходник изменился')
+                        finally:
+                            os.close(fd)
                 if сам._опора_issuer is not None:
                     if (type(сам._опора_issuer) is not tuple or len(сам._опора_issuer) != 3
                         or type(сам._опора_issuer[0]) is not int or type(сам._опора_issuer[1]) is not list
@@ -17423,7 +17488,10 @@ class _ТестоваяСверкаЗаписиПомощника:
             папка = сам._корень / Path(запись['session']).parent
             отчёт = папка / 'отчёт.md'
             active = папка / 'материалы/запуски-проверок' / ('1_' + запись['run'] + '.json')
-            for путь, ключ, предел in ((отчёт, 'report', 4 * 1024 * 1024), (active, 'active', 1024 * 1024)):
+            файлы = [(отчёт, 'report', 4 * 1024 * 1024), (active, 'active', 1024 * 1024)]
+            if запись['schema'] in ('fum.test-helper-authority.3', 'fum.test-helper-authority.4'):
+                файлы.append((сам._корень / запись['session'], 'request', 4 * 1024 * 1024))
+            for путь, ключ, предел in файлы:
                 проверить_компоненты_без_ссылок(сам._корень, путь)
                 каталог = os.open(путь.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
                 try:

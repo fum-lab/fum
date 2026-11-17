@@ -160,8 +160,9 @@ def _тестовый_канал_без_записи(корень: Path, *, за
         if опора_issuer:
             сверка._опора_issuer = _тестово_сверить_опору_issuer(
                 os.environ.get('FUM_BORROWED_ADMISSION_FD', ''), номера, значение['grant_sha256'], сверка)
+            сверка._роли_fd = tuple(номера)
         authority = сверка._запись
-        if (authority['schema'] != 'fum.test-helper-authority.2'
+        if (authority['schema'] != ('fum.test-helper-authority.4' if опора_issuer else 'fum.test-helper-authority.2')
             or authority['run'] != значение['run'] or authority['generation'] != значение['generation']
             or authority['nonce_sha256'] != hashlib.sha256(hello[36:52]).hexdigest()
             or authority['session'] != запрос.as_posix()):

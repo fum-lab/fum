@@ -40329,7 +40329,8 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             'root': метка(дескрипторы[0]), 'lock': метка(дескрипторы[1]), 'receipt': метка(дескрипторы[2]),
             'report': файл(отчёт), 'active': файл(active), 'controlled_active': файл(controlled),
             'helper_sha256': м._ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ, 'operation': 'synthetic-active-preview'}
-        if _случай == 'channel_intent':
+        source_test = _случай in ('source_missing', 'source_changed')
+        if _случай == 'channel_intent' or source_test:
             def роль(путь, fd):
                 сведения = (путь / имя_lock).stat()
                 return {'path': str(путь), 'identity': метка(fd),
@@ -40337,6 +40338,43 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             authority.update({'schema': 'fum.test-helper-authority.2', 'lock_path': str(замки),
                               'session_lock': роль(старый, дескрипторы[3]),
                               'bridge_lock': роль(новый, дескрипторы[4])})
+        if source_test:
+            import shutil
+            зеркало = база / 'mirror'
+            репозиторий = Path(__file__).resolve().parents[3]
+            исходники = {
+                'report': 'Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py',
+                'helper': 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-и-проверить-поля-журнала.py',
+                'validator': 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверка_полей_журнала.py',
+                'pair_path': 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/путь_пары_журнала.py',
+                'coherence': 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py',
+                'author': 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py',
+                'project_files': 'Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py',
+                'request_layout': 'Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py',
+            }
+            for путь in исходники.values():
+                цель = зеркало / путь
+                цель.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(репозиторий / путь, цель)
+            м.__file__ = str(зеркало / исходники['report'])
+            метки_каналов = []
+            for _ in range(2):
+                сам._synthetic_ресурсы['фаза'] = 'создание pipe начато'
+                пара = os.pipe()
+                дескрипторы.extend(пара)
+                метки_каналов.append(пара)
+            роли = (метки_каналов[0][0], метки_каналов[1][1], *дескрипторы[:5])
+            имена = ('input', 'output', 'root', 'controlled_lock', 'receipt', 'session_lock', 'bridge_lock')
+            def роль_fd(имя, fd):
+                сведения = os.fstat(fd)
+                return {'role': имя, 'fd': fd, 'dev': сведения.st_dev, 'ino': сведения.st_ino,
+                        'uid': сведения.st_uid, 'mode': сведения.st_mode}
+            images = {имя: hashlib.sha256((зеркало / путь).read_bytes()).hexdigest()
+                      for имя, путь in исходники.items()}
+            images.update({'witness': '1' * 64, 'anchor': '2' * 64, 'python': '3' * 64})
+            authority.update({'schema': 'fum.test-helper-authority.4', 'images': images,
+                              'request': файл(папка / 'запрос.md'),
+                              'role_fds': [роль_fd(имя, fd) for имя, fd in zip(имена, роли)]})
         raw = json.dumps(authority, sort_keys=True, separators=(',', ':')).encode('utf-8')
         intent = квитанции / 'authority.json'
         сам._synthetic_ресурсы['фаза'] = 'открытие intent fd начато'
@@ -40350,8 +40388,11 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         сам.assertEqual(intent.read_bytes(), raw)
         cap = м._ТестоваяСверкаЗаписиПомощника(
             корень, *дескрипторы[:3], hashlib.sha256(raw).hexdigest(),
-            _мосты=tuple(дескрипторы[3:]) if _случай == 'channel_intent' else None)
+            _мосты=tuple(дескрипторы[3:5]) if _случай == 'channel_intent' or source_test else None)
         сам._synthetic_ресурсы['cap'] = cap
+        if source_test:
+            cap._роли_fd = роли
+            cap._опора_issuer = (дескрипторы[0], [], b'')  # До этой проверки выполнение не должно дойти.
         if _случай == 'channel_intent':
             канал = квитанции / 'intent.json'
             used = квитанции / ('used-' + run + '.json')
@@ -40377,12 +40418,22 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             intent.write_bytes(raw + b' ')
         elif _случай == 'channel_intent':
             канал.write_bytes(b'channel-intent-changed')
+        elif _случай == 'source_missing':
+            (зеркало / исходники['pair_path']).unlink()
+        elif _случай == 'source_changed':
+            (зеркало / исходники['pair_path']).write_bytes(b'changed synthetic source\n')
         if _случай == 'успех':
             сам.assertEqual(м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок), 0)
             сам.assertNotEqual(отчёт.read_bytes(), исходный)
         else:
-            with сам.assertRaises(м.ОшибкаОтчёта):
+            ожидаемое_исключение = FileNotFoundError if _случай == 'source_missing' else м.ОшибкаОтчёта
+            with сам.assertRaises(ожидаемое_исключение) as ошибка:
                 м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок)
+            if _случай == 'source_missing':
+                сам.assertIsInstance(ошибка.exception, FileNotFoundError)
+                сам.assertEqual(Path(ошибка.exception.filename), зеркало / исходники['pair_path'])
+            elif _случай == 'source_changed':
+                сам.assertIn('synthetic исходник изменился', str(ошибка.exception))
             сам.assertEqual(отчёт.read_bytes(), исходный)
             сам.assertTrue(cap._ошибка)
             with сам.assertRaises(м.ОшибкаОтчёта):
@@ -40403,6 +40454,12 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
     def test_synthetic_root_bridge_не_пишет_при_изменённом_канальном_intent(сам):
         сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('channel_intent')
+
+    def test_synthetic_root_bridge_не_пишет_при_отсутствующем_import(сам):
+        сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('source_missing')
+
+    def test_synthetic_root_bridge_не_пишет_при_подменённом_import(сам):
+        сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('source_changed')
 
     def test_synthetic_root_lock_ошибка_выхода_не_повторяется(сам):
         м = загрузить_модуль_автоматизации()
