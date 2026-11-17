@@ -40255,6 +40255,69 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         finally:
             фикстура.очистить()
 
+    def test_cooperative_writer_и_controlled_cli_сериализуются_между_процессами(сам):
+        import select
+        import shutil
+        import stat
+        source = getattr(сам, 'точный_исходник', None)
+        if type(source) is not str:
+            сам.skipTest('нужен закреплённый исходник конкурента')
+        м = загрузить_модуль_автоматизации()
+        сам._legacy_fixture = ФикстураОтчётов(_без_git=True)
+        сам._legacy_fixture.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+        сам._legacy_context = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._legacy_context.__enter__()
+        shutil.copytree(сам._legacy_fixture.корень / 'Журнал', корень / 'Журнал')
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        gitdir, общий = роли['head'][1], роли['common_config'][1]
+        config, замки, receipts = корень.parent / 'config-private', gitdir / 'fum-controlled-lock', корень.parent / 'receipts-private'
+        config.mkdir(mode=0o700); замки.mkdir(mode=0o700); receipts.mkdir(mode=0o700)
+        (config / 'system-disabled').write_bytes(b'')
+        fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        сам._legacy_lock_fd = fd
+        метка = os.fstat(fd)
+        селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                    метка.st_uid, stat.S_IMODE(метка.st_mode), путь_запроса, str(корень))
+        контракт = ('fum.test-lock-cooperative.1', селектор, fd)
+        args = ['запустить-controlled', '--корень', str(корень), '--gitdir', str(gitdir), '--общий', str(общий),
+                '--домашний', str(домашний), '--config', str(config), '--замки', str(замки), '--квитанции', str(receipts),
+                '--git', '/Library/Developer/CommandLineTools/usr/bin/git', '--run', '00112233-4455-4677-8899-aabbccddeefe',
+                '--запрос', путь_запроса, '--наблюдатель', '/bin/true', '--наблюдатель-sha256', '0' * 64,
+                '--якорь', '/bin/true', '--якорь-sha256', '0' * 64, '--', '/bin/sh', '-c', 'test -f .git']
+        lockname = 'fum-check-runs-' + hashlib.sha256(f'{корень}\0controlled-own.1'.encode()).hexdigest() + '.lock'
+        скрипт = ('import fcntl,json,os,sys,types; from pathlib import Path; '
+                  'm=types.ModuleType("controlled_child"); m.__file__=sys.argv[1]; sys.modules[m.__name__]=m; '
+                  'exec(compile(Path(sys.argv[1]).read_bytes(),sys.argv[1],"exec"),m.__dict__); '
+                  'assert sys.stdin.buffer.read(1)==b"P"; '
+                  'exec("f=os.open(sys.argv[3],os.O_RDWR|os.O_NOFOLLOW)\\ntry:\\n fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)\\nexcept BlockingIOError:\\n os.write(1,b\'B\')\\nelse:\\n os.write(1,b\'X\'); fcntl.flock(f,fcntl.LOCK_UN)\\nos.close(f)"); '
+                  'm._выполнить_контролируемый_цикл=lambda *a,**k: m._РезультатКонтролируемойПроверки("fum.git-controlled-check-result.1","UNKNOWN",0,"sha256:"+"0"*64); '
+                  'm.subprocess.Popen=lambda *a,**k: (_ for _ in ()).throw(RuntimeError("unexpected Popen")); '
+                  'raise SystemExit(m.главная(json.loads(sys.argv[2])))')
+        child = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, source, json.dumps(args), str(замки / lockname)],
+                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        сам._legacy_child = child
+        исходный_writer = м.заменить_управляемый_блок
+        def writer_с_конкурентом(*args, **kwargs):
+            child.stdin.write(b'P'); child.stdin.flush()
+            сам.assertTrue(select.select([child.stdout], [], [], 10)[0])
+            сам.assertEqual(os.read(child.stdout.fileno(), 1), b'B')
+            return исходный_writer(*args, **kwargs)
+        with mock.patch.object(м, 'заменить_управляемый_блок', side_effect=writer_с_конкурентом), \
+             mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под root-lock')):
+            сам.assertEqual(м.выполнить_предпросмотр(корень, Path(путь_запроса),
+                _контракт_замка=контракт, _срок_замка=time.monotonic()+10), 0)
+        child.stdin.close(); child.stdin = None
+        stdout, stderr = child.communicate(timeout=10)
+        сам.assertEqual((child.returncode, stderr), (3, b''))
+        сам.assertEqual(json.loads(stdout)['состояние'], 'UNKNOWN')
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
+            м.выполнить_предпросмотр(корень, Path(путь_запроса), _контракт_замка=контракт,
+                                     _срок_замка=time.monotonic()+10)
+        os.close(fd)
+        сам._legacy_context.__exit__(None, None, None)
+        сам._legacy_context = None
+        сам._legacy_fixture.очистить()
+
     def test_cooperative_план_git_вне_lock_и_отказ_при_active(сам):
         import fcntl
         import stat
