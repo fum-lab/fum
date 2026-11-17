@@ -40284,6 +40284,48 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
 
 class ПроверкаВерсионированногоПрофиляGit(unittest.TestCase):
+    def test_ошибка_new_owner_не_запускает_cleanup(сам):
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        профиль = м._профиль_неизвестных_источников_git(run, 'Журнал/проверка', b'fixture')
+        исходник = __import__('inspect').getsource(м.выполнить_запуск)
+        guard = '    raise ОшибкаОтчёта(_ПРИЧИНА_ЗАКРЫТОГО_ЗАПУСКА)\n'
+        сам.assertEqual(исходник.count(guard), 1)
+        среда = dict(м.__dict__)
+        exec(compile(исходник.replace(guard, '    pass  # только изолированный тест preflight\n', 1),
+                     '<изолированный-конструктор>', 'exec'), среда)
+        причина = RuntimeError('constructor fixture')
+        создать = mock.Mock(side_effect=причина)
+        очистить = mock.Mock()
+        среда['_ТестовыйВладелецЗапуска'] = создать
+        среда['_очистить_ошибочный_штатный_транспорт'] = очистить
+        аргументы = (Path('/fixture'), Path('/fixture/Журнал/проверка'), 'проверка', 'исполнитель', run, 10, ['true'])
+        with mock.patch.object(м.os, 'open') as открыть, mock.patch.object(Path, 'lstat') as lstat, \
+             mock.patch.object(м.subprocess, 'Popen') as запуск:
+            with сам.assertRaises(RuntimeError) as отказ:
+                среда['выполнить_запуск'](*аргументы, _профиль_источников_git=профиль)
+            сам.assertIs(отказ.exception, причина)
+            создать.assert_called_once(); очистить.assert_not_called()
+            открыть.assert_not_called(); lstat.assert_not_called(); запуск.assert_not_called()
+        создать.reset_mock()
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'без общего каталога замка'):
+            среда['выполнить_запуск'](*аргументы)
+        создать.assert_not_called()
+
+    def test_повреждённый_owner_отклоняется_до_доступа(сам):
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        профиль = м._профиль_неизвестных_источников_git(run, 'Журнал/проверка', b'fixture')
+        владелец = м._ТестовыйВладелецЗапуска()
+        владелец.состояние = 'неизвестно'
+        with mock.patch.object(м.os, 'open') as открыть, mock.patch.object(Path, 'lstat') as lstat, \
+             mock.patch.object(м.subprocess, 'Popen') as запуск:
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'владелец профиля'):
+                м._выполнить_ограниченный_запуск(Path('/fixture'), Path('/fixture/Журнал/проверка'),
+                    'проверка', 'исполнитель', run, 10, ['true'], тайм_аут_блокировки=1,
+                    _тестовый_владелец=владелец, _профиль_источников_git=профиль)
+            открыть.assert_not_called(); lstat.assert_not_called(); запуск.assert_not_called()
+
     def test_лексическая_сессия_проверяется_до_эффектов(сам):
         м = загрузить_модуль_автоматизации()
         run = '00112233-4455-4677-8899-aabbccddeeff'
