@@ -40398,12 +40398,19 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             сам.assertEqual(os.write(parent_fd, data), len(data)); os.fsync(parent_fd)
         finally:
             os.close(parent_fd)
+        сам.assertLessEqual(len(stdout), 4096)
+        result_fd = os.open(receipts / 'CHILD-RESULT.json', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        try:
+            сам.assertEqual(os.write(result_fd, stdout), len(stdout)); os.fsync(result_fd)
+        finally:
+            os.close(result_fd)
         receipt_dir_fd = os.open(receipts, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
         try:
             os.fsync(receipt_dir_fd)
         finally:
             os.close(receipt_dir_fd)
-        сам.assertEqual(json.loads(stdout)['состояние'], 'UNKNOWN')
+        результат_child = json.loads(stdout)
+        сам.assertEqual((результат_child['состояние'], результат_child['код_цели']), ('UNKNOWN', 0))
         with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
             м.выполнить_предпросмотр(корень, Path(путь_запроса), _контракт_замка=контракт,
                                      _срок_замка=time.monotonic()+10)
