@@ -178,6 +178,29 @@ public struct ОпораЗаимствованногоДопуска: Equatable,
     public var переменнаяЦели: String { "FUM_BORROWED_ADMISSION_FD=\(дескриптор)" }
 }
 
+/// Только синтаксис и отсутствие коллизий объявленных FD помощника.
+/// Типы открытых объектов, их происхождение и право передачи проверяются отдельно.
+public struct ДескрипторыСинтетическогоПомощника: Equatable, Sendable {
+    public let канал: Int32
+    public let корень: Int32
+    public let замок: Int32
+    public let квитанции: Int32
+
+    public init?(_ канал: String, _ корень: String, _ замок: String, _ квитанции: String,
+                 занятые: [Int32]) {
+        let тексты = [канал, корень, замок, квитанции]
+        let значения = тексты.compactMap { Int32($0) }
+        guard значения.count == тексты.count,
+              zip(значения, тексты).allSatisfy({ String($0.0) == $0.1 && $0.0 > 2 }),
+              занятые.allSatisfy({ $0 > 2 }), Set(занятые).count == занятые.count,
+              Set(значения + занятые).count == значения.count + занятые.count else { return nil }
+        self.канал = значения[0]
+        self.корень = значения[1]
+        self.замок = значения[2]
+        self.квитанции = значения[3]
+    }
+}
+
 /// Область directory FD задаётся отдельно от файлового допуска.
 public enum ОбластьЗаимствованногоКаталога: Equatable, Sendable {
     case рабочееДерево
