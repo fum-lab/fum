@@ -11,10 +11,47 @@ private func флагиФайла(_ дескриптор: Int32, _ команд�
 @_silgen_name("$s6Darwin5fcntlys5Int32VAD_A2DtF")
 private func флагиФайла(_ дескриптор: Int32, _ команда: Int32, _ значение: Int32) -> Int32
 
+private struct СинтетическиеОпорыПомощника {
+    let номера: ДуплексныеОпорыПомощника
+    let корень: ОпораЗаимствованногоКаталога
+    let замок: ОпораЗаимствованногоКаталога
+    let квитанции: ОпораЗаимствованногоКаталога
+}
+
+private func совпадаетРабочийКаталог(_ путь: String) -> Bool {
+    var буфер = [CChar](repeating: 0, count: 1024)
+    return буфер.withUnsafeMutableBufferPointer { область in
+        guard let указатель = область.baseAddress, getcwd(указатель, область.count) != nil else { return false }
+        return путь.withCString { strcmp($0, указатель) == 0 }
+    }
+}
+
+// Две точечные сверки имён не доказывают custody предков и отсутствие ABA.
+private func подтвердитьИменаПомощника(_ опоры: СинтетическиеОпорыПомощника) -> Bool {
+    let каталоги = [опоры.корень, опоры.замок, опоры.квитанции]
+    func совпадает(_ опора: ОпораЗаимствованногоКаталога) -> Bool {
+        var имя = stat()
+        guard опора.путь.withCString({ lstat($0, &имя) }) == 0,
+              имя.st_mode & UInt16(S_IFMT) == UInt16(S_IFDIR), имя.st_uid == опора.владелец,
+              имя.st_mode & 0o7777 == опора.режим, UInt64(exactly: имя.st_dev) == опора.устройство,
+              имя.st_ino == опора.инод else { return false }
+        return опора.путь.withCString { путь in
+            var буфер = [CChar](repeating: 0, count: 1024)
+            return буфер.withUnsafeMutableBufferPointer { область in
+                guard let указатель = область.baseAddress, realpath(путь, указатель) != nil else { return false }
+                return strcmp(путь, указатель) == 0
+            }
+        }
+    }
+    return совпадаетРабочийКаталог(опоры.корень.путь) && каталоги.allSatisfy(совпадает) && подтвердитьДуплексныеОпорыПомощника(
+        опоры.номера, корень: опоры.корень, замок: опоры.замок, квитанции: опоры.квитанции) &&
+        каталоги.allSatisfy(совпадает)
+}
+
 private func hold(_ версия: String) -> Never {
     // .6 closes the anchor's control writer on failure. Its EOF watchdog
     // attempts group cleanup. Exit 125 leaves the outcome unconfirmed.
-    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" || версия == "fum-run-witness.8" || версия == "fum-run-witness.9" { exit(125) }
+    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" || версия == "fum-run-witness.8" || версия == "fum-run-witness.9" || версия == "fum-run-witness.10" { exit(125) }
     var mask = sigset_t()
     _ = sigfillset(&mask)
     _ = pthread_sigmask(SIG_SETMASK, &mask, nil)
@@ -169,11 +206,12 @@ private func run() -> Int32 {
     let версия = args[1]
     let передаётДопуск = версия == "fum-run-witness.8"
     let передаётКаталог = версия == "fum-run-witness.9"
-    let передаётОпору = версия == "fum-run-witness.7" || передаётДопуск || передаётКаталог
+    let передаётПомощнику = версия == "fum-run-witness.10"
+    let передаётОпору = версия == "fum-run-witness.7" || передаётДопуск || передаётКаталог || передаётПомощнику
     let версияПоведения = передаётОпору ? "fum-run-witness.6" : версия
     let targetMode = ["fum-run-witness.1", "fum-run-witness.2", "fum-run-witness.3",
                       "fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6",
-                      "fum-run-witness.7", "fum-run-witness.8", "fum-run-witness.9"].contains(версия)
+                      "fum-run-witness.7", "fum-run-witness.8", "fum-run-witness.9", "fum-run-witness.10"].contains(версия)
     let разрешитьИмя = ["fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6"].contains(версия)
     guard targetMode || версия == "fum-anchor-witness.1",
           let id = ИдентификаторЗапуска(args[2]),
@@ -185,6 +223,7 @@ private func run() -> Int32 {
     var опораПрежнегоЗамка: ОпораКаталогаПрежнегоЗамка?
     var опораДопуска: ОпораЗаимствованногоДопуска?
     var опораКаталога: ОпораЗаимствованногоКаталога?
+    var опорыПомощника: СинтетическиеОпорыПомощника?
     var индексЦели = 10
     var длительностьЦели: String?
     if targetMode {
@@ -256,6 +295,42 @@ private func run() -> Int32 {
             опораДопуска = опора
             разделитель += 7
         }
+        if передаётПомощнику {
+            guard let прежний = опораПрежнегоЗамка, args.indices.contains(разделитель + 20),
+                  args[разделитель] == "--опоры-синтетического-помощника" else { return 125 }
+            let занятые = [statusFD, прежний.дескриптор]
+            guard let корень = ОпораЗаимствованногоКаталога(
+                args[разделитель + 3], args[разделитель + 4], args[разделитель + 5],
+                args[разделитель + 6], args[разделитель + 7], args[разделитель + 8],
+                область: .рабочееДерево, занятыеДескрипторы: занятые),
+                  let замок = ОпораЗаимствованногоКаталога(
+                    args[разделитель + 9], args[разделитель + 10], args[разделитель + 11],
+                    args[разделитель + 12], args[разделитель + 13], args[разделитель + 14],
+                    область: .приватныеКвитанции, занятыеДескрипторы: занятые),
+                  let квитанции = ОпораЗаимствованногоКаталога(
+                    args[разделитель + 15], args[разделитель + 16], args[разделитель + 17],
+                    args[разделитель + 18], args[разделитель + 19], args[разделитель + 20],
+                    область: .приватныеКвитанции, занятыеДескрипторы: занятые),
+                  совпадаетРабочийКаталог(корень.путь),
+                  [корень.путь, замок.путь, квитанции.путь].allSatisfy({ $0.hasPrefix("/private/tmp/") }),
+                  [корень, замок, квитанции].allSatisfy({
+                    $0.устройство != прежний.устройство || $0.инод != прежний.инод
+                  }),
+                  let вход = ДескрипторыСинтетическогоПомощника(
+                    args[разделитель + 1], String(корень.дескриптор), String(замок.дескриптор),
+                    String(квитанции.дескриптор), занятые: занятые),
+                  let номера = ДуплексныеОпорыПомощника(вход, ответ: args[разделитель + 2], занятые: занятые)
+            else { return 125 }
+            for fd in [вход.канал, вход.корень, вход.замок, вход.квитанции, номера.ответ] {
+                let флаги = флагиФайла(fd, F_GETFD)
+                guard флаги >= 0, флагиФайла(fd, F_SETFD, флаги | FD_CLOEXEC) == 0 else { return 125 }
+            }
+            let опоры = СинтетическиеОпорыПомощника(
+                номера: номера, корень: корень, замок: замок, квитанции: квитанции)
+            guard подтвердитьИменаПомощника(опоры) else { return 125 }
+            опорыПомощника = опоры
+            разделитель += 21
+        }
         индексЦели = разделитель + 1
         guard args.count > индексЦели, args[разделитель] == "--" else { return 125 }
         let policyVersion = версия == "fum-run-witness.1" ? "fum-supervisor.3" : "fum-supervisor.4"
@@ -305,6 +380,11 @@ private func run() -> Int32 {
     }
     if let опораКаталога, let замок = опораПрежнегоЗамка {
         guard Set(control + ready + [statusFD, замок.дескриптор, опораКаталога.дескриптор]).count == 7 else { return 125 }
+    }
+    if let опорыПомощника, let прежний = опораПрежнегоЗамка {
+        let вход = опорыПомощника.номера.вход
+        let роли = [вход.канал, вход.корень, вход.замок, вход.квитанции, опорыПомощника.номера.ответ]
+        guard Set(control + ready + [statusFD, прежний.дескриптор] + роли).count == 11 else { return 125 }
     }
     for fd in control + ready {
         let flags = флагиФайла(fd, F_GETFD)
@@ -433,9 +513,19 @@ private func run() -> Int32 {
                     abandonToAnchor()
                 }
             }
+            if let опорыПомощника {
+                guard подтвердитьИменаПомощника(опорыПомощника), подготовитьДуплекснуюПередачуПомощника(
+                    опорыПомощника.номера, корень: опорыПомощника.корень, замок: опорыПомощника.замок,
+                    квитанции: опорыПомощника.квитанции, действия: &targetActions),
+                    подтвердитьИменаПомощника(опорыПомощника) else { abandonToAnchor() }
+            }
             let targetEnvironment = spec.targetEnvironment + (опораПрежнегоЗамка.map { ["TMPDIR=" + $0.путь] } ?? []) +
                 (опораДопуска.map { [$0.переменнаяЦели] } ?? []) +
-                (опораКаталога.map { ["FUM_BORROWED_DIRECTORY_FD=\($0.дескриптор)"] } ?? [])
+                (опораКаталога.map { ["FUM_BORROWED_DIRECTORY_FD=\($0.дескриптор)"] } ?? []) +
+                (опорыПомощника.map { опоры in
+                    let вход = опоры.номера.вход
+                    return ["FUM_SYNTHETIC_HELPER_FDS=\(вход.канал),\(опоры.номера.ответ),\(вход.корень),\(вход.замок),\(вход.квитанции)"]
+                } ?? [])
             var envPointers: [UnsafeMutablePointer<CChar>?] = []
             defer { for pointer in envPointers { free(pointer) } }
             for entry in targetEnvironment {
@@ -474,7 +564,8 @@ private func run() -> Int32 {
                         предыдущее: времяПоследнейПопытки, срок: runDeadline,
                         подтвердить: { подтвердитьОпору(опораПрежнегоЗамка) &&
                             (опораДопуска.map { подтвердитьОпоруДопуска($0) } ?? true) &&
-                            (опораКаталога.map { подтвердитьОткрытыйКаталог($0) } ?? true) },
+                            (опораКаталога.map { подтвердитьОткрытыйКаталог($0) } ?? true) &&
+                            (опорыПомощника.map { подтвердитьИменаПомощника($0) } ?? true) },
                         часы: { nowMilliseconds() }, запуск: { запуститьПоПути() }
                     ) else { abandonToAnchor() }
                     времяПоследнейПопытки = попытка.время
@@ -717,6 +808,12 @@ private func run() -> Int32 {
     }
     if let опораКаталога {
         guard close(опораКаталога.дескриптор) == 0 else { hold(версия) }
+    }
+    if let опорыПомощника {
+        let вход = опорыПомощника.номера.вход
+        for fd in [вход.канал, опорыПомощника.номера.ответ, вход.корень, вход.замок, вход.квитанции] {
+            guard close(fd) == 0 else { hold(версия) }
+        }
     }
     guard send(finish, to: statusFD),
           let afterSend = nowMilliseconds(), afterSend >= now, afterSend < stopDeadline else { hold(версия) }
