@@ -11357,6 +11357,7 @@ class _ВладениеЗакрытымПрофилемGit:
         сам._ошибки_close = []
         сам._контекст_вершины, сам._вершина = None, None
         сам._терминальные_байты = None
+        сам._байты_освобождения = None
         сам._каталог_квитанций_fd, сам._метка_каталога_квитанций = None, None
         сам._fd_квитанций, сам._попытка_квитанции = [], None
         сам._intent_подтверждён, сам._terminal_подтверждён = False, False
@@ -11408,7 +11409,7 @@ class _ВладениеЗакрытымПрофилемGit:
 
     def _записать_квитанцию(сам, имя, байты):
         """EXCL + fsync + readback в удержанном private FD; ошибки остаются UNKNOWN."""
-        if (имя not in ('intent.json', 'terminal.json', 'release.json')
+        if (имя not in ('intent.json', 'terminal.json', 'release.json', 'history.json')
             or type(байты) is not bytes or not 0 < len(байты) <= 4096
             or type(сам._каталог_квитанций_fd) is not int or сам._попытка_квитанции is not None):
             raise ОшибкаОтчёта('неверная попытка записи квитанции Git')
@@ -11641,6 +11642,9 @@ class _ВладениеЗакрытымПрофилемGit:
                 байты_освобождения = json.dumps(запись_освобождения, ensure_ascii=True, sort_keys=True,
                                                 separators=(',', ':'), allow_nan=False).encode('utf-8')
                 сам._записать_квитанцию('release.json', байты_освобождения)
+                байты_истории = _сформировать_наблюдение_контролируемого_git(
+                    сам._run, сам._policy_digest, сам._терминальные_байты, байты_освобождения)
+                сам._записать_квитанцию('history.json', байты_истории)
                 if сам._fd_квитанций != [сам._каталог_квитанций_fd]:
                     raise ОшибкаОтчёта('неполный реестр квитанций Git')
                 fd = сам._каталог_квитанций_fd
@@ -11650,11 +11654,87 @@ class _ВладениеЗакрытымПрофилемGit:
                 os.close(fd)
                 сам._попытка_квитанции = None
                 _карантин_владений_закрытого_git.remove(сам)
+                сам._байты_освобождения = байты_освобождения
         except BaseException:
             if сам._вершина is not None and type(сам._вершина._отложенный_отпечаток) is _ОтложенныйКонтролируемыйОтпечаток:
                 сам._вершина._отложенный_отпечаток.отказаться()
             сам._состояние = 'неизвестно'
             raise
+
+
+def _сформировать_наблюдение_контролируемого_git(run, policy_digest, terminal, release):
+    if (type(run) is not str or type(policy_digest) is not bytes or len(policy_digest) != 32
+        or type(terminal) is not bytes or not terminal or type(release) is not bytes or not release):
+        raise ОшибкаОтчёта('неполное наблюдение контролируемого Git')
+    запись = {'schema': 'fum.git-controlled-history-observation.1', 'state': 'UNKNOWN',
+              'run': run, 'policy_sha256': 'sha256:' + policy_digest.hex(),
+              'terminal_sha256': 'sha256:' + hashlib.sha256(terminal).hexdigest(),
+              'release_sha256': 'sha256:' + hashlib.sha256(release).hexdigest()}
+    return json.dumps(запись, ensure_ascii=True, sort_keys=True,
+                      separators=(',', ':'), allow_nan=False).encode('ascii')
+
+
+def _запись_наблюдения_контролируемого_git(владение):
+    """Закрытая запись наблюдения; UNKNOWN не содержит отпечатка или допуска."""
+    if (type(владение) is not _ВладениеЗакрытымПрофилемGit
+        or владение._состояние != 'освобождён' or not владение._terminal_подтверждён
+        or type(владение._терминальные_байты) is not bytes
+        or type(владение._байты_освобождения) is not bytes
+        or владение._попытка_квитанции is not None or владение._fd or владение._fd_квитанций
+        or владение in _карантин_владений_закрытого_git):
+        raise ОшибкаОтчёта('нет завершённого наблюдения контролируемого Git')
+    return _сформировать_наблюдение_контролируемого_git(
+        владение._run, владение._policy_digest, владение._терминальные_байты, владение._байты_освобождения)
+
+
+class _ПолномочиеСобственногоGit:
+    """Однократное полномочие лишь для явно назначенного рабочего дерева.
+
+    Это разрешение владельца на заявленные FD, а не доказательство custody,
+    совместимости истории или готовности штатного запуска.
+    """
+    def __init__(сам, корень, заявка, владелец, run, запрос):
+        if (type(корень) is not type(Path('/')) or not корень.is_absolute()
+            or корень.resolve(strict=True) != корень
+            or type(заявка) is not _ЗаявкаЗакрытогоПрофиляGit
+            or type(заявка.источники) is not tuple
+            or type(заявка.корень_fd) is not int or заявка.корень_fd < 0
+            or type(владелец) is not _ТестовыйВладелецЗапуска
+            or type(run) is not str or type(запрос) not in (str, type(Path('/')))
+            or not _срок_действителен(заявка.срок)):
+            raise ОшибкаОтчёта('неподтверждённое полномочие собственного Git')
+        открытый = os.fstat(заявка.корень_fd)
+        именованный = os.stat(корень, follow_symlinks=False)
+        if (not stat.S_ISDIR(открытый.st_mode) or not stat.S_ISDIR(именованный.st_mode)
+            or открытый.st_uid != os.geteuid()
+            or (открытый.st_dev, открытый.st_ino) != (именованный.st_dev, именованный.st_ino)):
+            raise ОшибкаОтчёта('дескриптор назначенного корня Git не совпадает')
+        сам._корень, сам._заявка, сам._владелец = корень, заявка, владелец
+        сам._корень_метка = (открытый.st_dev, открытый.st_ino, открытый.st_uid)
+        сам._run, сам._запрос = run, запрос
+        сам._pid, сам._поток = os.getpid(), threading.current_thread()
+        сам._использовано = False
+
+    def принять(сам, заявка, владелец, run, корень, запрос):
+        if сам._использовано:
+            raise ОшибкаОтчёта('полномочие собственного Git уже использовано')
+        сам._использовано = True
+        if (заявка is not сам._заявка or владелец is not сам._владелец
+            or run != сам._run or корень != сам._корень or запрос != сам._запрос
+            or сам._pid != os.getpid() or сам._поток is not threading.current_thread()
+            or not _срок_действителен(заявка.срок)):
+            raise ОшибкаОтчёта('полномочие собственного Git не совпадает')
+        открытый = os.fstat(заявка.корень_fd)
+        именованный = os.stat(корень, follow_symlinks=False)
+        if (not stat.S_ISDIR(открытый.st_mode) or not stat.S_ISDIR(именованный.st_mode)
+            or (открытый.st_dev, открытый.st_ino, открытый.st_uid) != сам._корень_метка
+            or (именованный.st_dev, именованный.st_ino, именованный.st_uid) != сам._корень_метка):
+            raise ОшибкаОтчёта('назначенный корень Git изменился')
+        return _ВладениеЗакрытымПрофилемGit(заявка, владелец, run, корень, запрос)
+
+
+def _выдать_полномочие_собственного_git(корень, заявка, владелец, run, запрос):
+    return _ПолномочиеСобственногоGit(корень, заявка, владелец, run, запрос)
 
 
 def _проверить_связность_объявленного_git(удержание, владелец, run, сессия, *, _конфиг_не_разобран=False):
