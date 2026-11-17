@@ -4,6 +4,50 @@ import Foundation
 import Testing
 @testable import FUMProcessProtocol
 
+@Test func опорыПомощникаПроверяютРеальныеТипы() throws {
+    let база = NSTemporaryDirectory() + "fum-helper-fds-" + UUID().uuidString
+    try FileManager.default.createDirectory(atPath: база, withIntermediateDirectories: false,
+                                            attributes: [.posixPermissions: 0o700])
+    var каталогFD: [Int32] = []
+    defer { for fd in каталогFD { _ = close(fd) } }
+    var опоры: [ОпораЗаимствованногоКаталога] = []
+    for (номер, имя) in ["root", "lock", "receipts"].enumerated() {
+        let путь = база + "/" + имя
+        try FileManager.default.createDirectory(atPath: путь, withIntermediateDirectories: false,
+                                                attributes: [.posixPermissions: 0o700])
+        let fd = open(путь, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard fd >= 0 else { throw ОшибкаПротокола.неверныеАргументы }
+        каталогFD.append(fd)
+        var метка = stat()
+        guard fstat(fd, &метка) == 0, let устройство = UInt64(exactly: метка.st_dev) else {
+            throw ОшибкаПротокола.неверныеАргументы
+        }
+        let область: ОбластьЗаимствованногоКаталога = номер == 0 ? .рабочееДерево : .приватныеКвитанции
+        опоры.append(try #require(ОпораЗаимствованногоКаталога(путь, String(fd), String(устройство),
+            String(метка.st_ino), String(метка.st_uid), String(метка.st_mode & 0o7777),
+            область: область, занятыеДескрипторы: [])))
+    }
+    var канал: [Int32] = [-1, -1]
+    guard pipe(&канал) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = close(канал[0]); _ = close(канал[1]) }
+    #expect(fcntl(канал[0], F_SETFD, FD_CLOEXEC) == 0)
+    #expect(fcntl(канал[1], F_SETFD, FD_CLOEXEC) == 0)
+    let номера = try #require(ДескрипторыСинтетическогоПомощника(String(канал[0]), String(каталогFD[0]),
+        String(каталогFD[1]), String(каталогFD[2]), занятые: []))
+    #expect(подтвердитьОпорыСинтетическогоПомощника(номера, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+    let запись = try #require(ДескрипторыСинтетическогоПомощника(String(канал[1]), String(каталогFD[0]),
+        String(каталогFD[1]), String(каталогFD[2]), занятые: []))
+    #expect(!подтвердитьОпорыСинтетическогоПомощника(запись, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+    let закрытый = dup(канал[0])
+    guard закрытый > 2 else { throw ОшибкаПротокола.неверныеАргументы }
+    #expect(close(закрытый) == 0)
+    let закрытые = try #require(ДескрипторыСинтетическогоПомощника(String(закрытый), String(каталогFD[0]),
+        String(каталогFD[1]), String(каталогFD[2]), занятые: []))
+    #expect(!подтвердитьОпорыСинтетическогоПомощника(закрытые, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+    #expect(fcntl(канал[0], F_SETFD, 0) == 0)
+    #expect(!подтвердитьОпорыСинтетическогоПомощника(номера, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+}
+
 @Test func открытыйКаталогПроверяетТипИМетки() throws {
     let путь = NSTemporaryDirectory() + "fum-directory-fd-" + UUID().uuidString
     try FileManager.default.createDirectory(atPath: путь, withIntermediateDirectories: false,
