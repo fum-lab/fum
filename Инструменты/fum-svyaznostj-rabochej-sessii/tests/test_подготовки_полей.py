@@ -3,11 +3,17 @@
 import json
 import importlib.util
 import io
+import hashlib
+import os
 from pathlib import Path
+import select
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 import unittest
+import uuid
 from unittest import mock
 
 from фикстура_полей_журнала import создать_пару
@@ -42,6 +48,120 @@ class ПроверкаПараметровПомощника(unittest.TestCase):
                 сам.assertEqual(модуль.выполнить(), 0)
             bridge.assert_called_once_with(Path('/private/tmp/fixture'), Path('запрос.md'),
                 Path('/private/tmp/old'), Path('/private/tmp/new'), 'fixture', ((1, 2), (3, 4)))
+
+    def _проверить_реальный_канал(сам, режим):
+        база = Path(tempfile.mkdtemp(prefix='fum-helper-channel-', dir='/private/tmp')).resolve()
+        root, locks, receipts = (база / имя for имя in ('root', 'locks', 'receipts'))
+        for путь in (root, locks, receipts):
+            путь.mkdir(mode=0o700)
+        fds = []
+        def учесть(fd):
+            fds.append(fd)
+            return fd
+        def закрыть(fd):
+            os.close(fd)
+            fds.remove(fd)
+        def точно(fd, размер, срок):
+            результат = b''
+            while len(результат) < размер:
+                осталось = срок - time.monotonic()
+                if осталось <= 0 or not select.select([fd], [], [], осталось)[0]:
+                    raise RuntimeError('срок канала неизвестен')
+                часть = os.read(fd, размер - len(результат))
+                if not часть:
+                    raise RuntimeError('неполный кадр')
+                результат += часть
+            return результат
+        def до_eof(fd, срок):
+            os.set_blocking(fd, False)
+            результат = bytearray()
+            while True:
+                осталось = срок - time.monotonic()
+                if осталось <= 0 or not select.select([fd], [], [], осталось)[0]:
+                    raise RuntimeError('EOF канала неизвестен')
+                try:
+                    часть = os.read(fd, 4097 - len(результат))
+                except BlockingIOError:
+                    continue
+                if not часть:
+                    return bytes(результат)
+                результат.extend(часть)
+                if len(результат) > 4096:
+                    raise RuntimeError('превышен предел вывода')
+        процесс = None
+        собран = False
+        завершено = False
+        try:
+            корень_fd, lock_fd, receipt_fd = (учесть(os.open(путь, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW))
+                                             for путь in (root, locks, receipts))
+            вход_r, вход_w = (учесть(fd) for fd in os.pipe())
+            выход_r, выход_w = (учесть(fd) for fd in os.pipe())
+            run, generation = uuid.uuid4(), uuid.uuid4()
+            raw = json.dumps({'schema': 'fum.test-helper-intent.1', 'state': 'UNKNOWN',
+                              'run': str(run), 'generation': str(generation), 'grant_sha256': '0' * 64},
+                             sort_keys=True, separators=(',', ':')).encode()
+            fd = учесть(os.open('intent.json', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                0o600, dir_fd=receipt_fd))
+            сам.assertEqual(os.write(fd, raw), len(raw)); os.fsync(fd); закрыть(fd); os.fsync(receipt_fd)
+            nonce = bytes(range(1, 17)); digest = hashlib.sha256(raw).digest()
+            if режим == 'плохой-hash': digest = bytes(32)
+            hello = b'FHU1' + run.bytes + generation.bytes + nonce + digest
+            среда = {'FUM_SYNTHETIC_HELPER_FDS': ','.join(map(str, (вход_r, выход_w, корень_fd, lock_fd, receipt_fd)))}
+            процесс = subprocess.Popen([sys.executable, '-S', '-B', str(помощник), '--корень', str(root),
+                                        '--запрос', 'Журнал/fixture/запрос.md', '--тестовый-канал-без-записи'],
+                                       cwd=root, env=среда, stdin=subprocess.DEVNULL,
+                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       pass_fds=(вход_r, выход_w, корень_fd, lock_fd, receipt_fd),
+                                       close_fds=True, start_new_session=True)
+            закрыть(вход_r); закрыть(выход_w)
+            срок = time.monotonic() + 15.0
+            сам.assertEqual(os.write(вход_w, hello), len(hello))
+            if режим != 'плохой-hash':
+                сам.assertEqual(точно(выход_r, 84, срок), b'FHR1' + hello[4:])
+                go = b'FHG1' + hello[4:] + (b'!' if режим == 'хвост' else b'')
+                сам.assertEqual(os.write(вход_w, go), len(go))
+            закрыть(вход_w)
+            if режим == 'успех':
+                сам.assertEqual(точно(выход_r, 84, срок), b'FHX1' + hello[4:])
+            raw_status = None
+            while time.monotonic() < срок:
+                pid, значение = os.waitpid(процесс.pid, os.WNOHANG)
+                if pid == процесс.pid:
+                    raw_status = значение; процесс.returncode = os.waitstatus_to_exitcode(значение); собран = True
+                    break
+                time.sleep(0.01)
+            if raw_status is None:
+                raise RuntimeError('исход процесса неизвестен')
+            сам.assertEqual(raw_status, (3 if режим == 'успех' else 2) << 8)
+            вывод = до_eof(процесс.stdout.fileno(), срок); ошибки = до_eof(процесс.stderr.fileno(), срок)
+            сам.assertLessEqual(len(вывод), 4096); сам.assertEqual(ошибки, b'')
+            сам.assertNotIn(os.fsencode(root), вывод)
+            сам.assertEqual(до_eof(выход_r, срок), b'')
+            процесс.stdout.close(); процесс.stderr.close()
+            завершено = True
+            данные = json.loads(вывод)
+            if режим == 'успех':
+                сам.assertEqual(данные, {'схема': 'fum.test-helper-channel.1', 'состояние': 'UNKNOWN'})
+            else:
+                сам.assertEqual(данные['ошибки'], ['тестовый канал не подтверждён'])
+            сам.assertEqual(list(root.iterdir()), [])
+        except BaseException:
+            if процесс is not None and not завершено:
+                print('state=UNKNOWN HOLD', flush=True)
+                threading.Event().wait()
+            raise
+        finally:
+            for fd in reversed(fds):
+                os.close(fd)
+
+    def test_реальный_канал_helper_без_записи(self):
+        self._проверить_реальный_канал('успех')
+
+    def test_реальный_канал_helper_отклоняет_неверный_hash(self):
+        self._проверить_реальный_канал('плохой-hash')
+
+    def test_реальный_канал_helper_отклоняет_хвост(self):
+        self._проверить_реальный_канал('хвост')
 
 
 class ПроверкиПодготовкиПолей(unittest.TestCase):
