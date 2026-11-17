@@ -1,11 +1,14 @@
 """Настоящий вложенный запуск готовит управляемый блок до проверки полей."""
 
 import json
+import importlib.util
+import io
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from фикстура_полей_журнала import создать_пару
 
@@ -13,6 +16,32 @@ from фикстура_полей_журнала import создать_пару
 помощник = Path(__file__).resolve().parents[1] / "scripts/подготовить-и-проверить-поля-журнала.py"
 обёртка = корень_кода / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
 маркер = "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"
+
+
+class ПроверкаПараметровПомощника(unittest.TestCase):
+    def test_bridge_принимает_только_полный_набор(сам):
+        спецификация = importlib.util.spec_from_file_location('помощник_полей', помощник)
+        модуль = importlib.util.module_from_spec(спецификация)
+        with mock.patch('sys.path', [str(помощник.parent), *sys.path]):
+            спецификация.loader.exec_module(модуль)
+        общие = ['helper', '--корень', '/private/tmp/fixture', '--запрос', 'запрос.md']
+        опытные = ['--каталог-замка', '/private/tmp/old',
+                   '--тестовый-каталог-нового-замка', '/private/tmp/new',
+                   '--тестовый-active', 'fixture', '--тестовые-опоры', '1', '2', '3', '4']
+        with mock.patch.object(модуль, 'выполнить_предпросмотр') as обычный, \
+             mock.patch.object(модуль, '_тестово_предпросмотреть_active_помощника') as bridge, \
+             mock.patch.object(модуль, 'проверить', return_value={'ошибки': []}), \
+             mock.patch('sys.stdout', new_callable=io.StringIO):
+            with mock.patch('sys.argv', общие):
+                сам.assertEqual(модуль.выполнить(), 0)
+            обычный.assert_called_once()
+            with mock.patch('sys.argv', общие + ['--тестовый-active', 'fixture']):
+                сам.assertEqual(модуль.выполнить(), 2)
+            bridge.assert_not_called()
+            with mock.patch('sys.argv', общие + опытные):
+                сам.assertEqual(модуль.выполнить(), 0)
+            bridge.assert_called_once_with(Path('/private/tmp/fixture'), Path('запрос.md'),
+                Path('/private/tmp/old'), Path('/private/tmp/new'), 'fixture', ((1, 2), (3, 4)))
 
 
 class ПроверкиПодготовкиПолей(unittest.TestCase):
