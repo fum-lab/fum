@@ -40318,6 +40318,100 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         сам._legacy_context = None
         сам._legacy_fixture.очистить()
 
+    def test_cooperative_writer_и_реальный_controlled_cycle_между_процессами(сам):
+        import select
+        import shutil
+        import stat
+        source = getattr(сам, 'точный_исходник', None)
+        if (type(source) is not str or not all(getattr(сам, имя, None) for имя in
+            ('исполнитель_наблюдателя', 'отпечаток_наблюдателя', 'исполнитель_якоря', 'отпечаток_якоря', 'каталог_квитанций'))):
+            сам.skipTest('нужны закреплённые исходник и исполнители')
+        м = загрузить_модуль_автоматизации()
+        сам._legacy_fixture = ФикстураОтчётов(_без_git=True)
+        сам._legacy_fixture.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+        сам._legacy_context = сам.закрытая_вершина_для_неотслеживаемых(м, с_объектом=True, срок=90)
+        вершина, корень, домашний = сам._legacy_context.__enter__()
+        shutil.copytree(сам._legacy_fixture.корень / 'Журнал', корень / 'Журнал')
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        gitdir, общий = роли['head'][1], роли['common_config'][1]
+        config, замки, receipts = корень.parent / 'config-private', gitdir / 'fum-controlled-lock', Path(сам.каталог_квитанций)
+        config.mkdir(mode=0o700); замки.mkdir(mode=0o700)
+        (config / 'system-disabled').write_bytes(b'')
+        fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        сам._legacy_lock_fd = fd
+        метка = os.fstat(fd)
+        селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                    метка.st_uid, stat.S_IMODE(метка.st_mode), путь_запроса, str(корень))
+        контракт = ('fum.test-lock-cooperative.1', селектор, fd)
+        args = ['запустить-controlled', '--корень', str(корень), '--gitdir', str(gitdir), '--общий', str(общий),
+                '--домашний', str(домашний), '--config', str(config), '--замки', str(замки), '--квитанции', str(receipts),
+                '--git', '/Library/Developer/CommandLineTools/usr/bin/git', '--run', '00112233-4455-4677-8899-aabbccddeefe',
+                '--запрос', путь_запроса, '--наблюдатель', сам.исполнитель_наблюдателя, '--наблюдатель-sha256', сам.отпечаток_наблюдателя,
+                '--якорь', сам.исполнитель_якоря, '--якорь-sha256', сам.отпечаток_якоря, '--', '/bin/sh', '-c', 'test -f .git']
+        lockname = 'fum-check-runs-' + hashlib.sha256(f'{корень}\0controlled-own.1'.encode()).hexdigest() + '.lock'
+        git = '/Library/Developer/CommandLineTools/usr/bin/git'
+        prefix = ['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fum-git', git,
+                  '-C', str(корень), '--no-pager', '-c', 'core.fsmonitor=false']
+        tree = prefix + ['--work-tree=' + str(корень)]
+        parent = str(Path(путь_запроса).parent)
+        report, runs = parent + '/отчёт.md', parent + '/' + м.ОТНОСИТЕЛЬНЫЙ_КАТАЛОГ_ЗАПУСКОВ.as_posix()
+        paths = ['.', ':(exclude)' + report, ':(exclude)' + runs, ':(exclude)' + runs + '/**',
+                 ':(top,exclude,literal)' + м.ПРОИЗВОДНОЕ_ПРОСТРАНСТВО,
+                 ':(top,exclude,glob)' + м.ПРОИЗВОДНОЕ_ПРОСТРАНСТВО + '/**']
+        diff = ['diff', '--binary', '--no-ext-diff', '--no-textconv', '--ignore-submodules=dirty']
+        expected = [prefix + ['rev-parse', '--show-toplevel'],
+                    [git, '--no-optional-locks', '--no-replace-objects', '-C', str(корень), 'check-attr', '-z', '--stdin', 'filter'],
+                    tree + ['rev-parse', '--verify', 'HEAD'], tree + diff + ['--cached', вершина._oid.decode('ascii'), '--'] + paths,
+                    tree + diff + ['--'] + paths, tree + ['ls-files', '--others', '--exclude-standard', '-z', '--', '.'],
+                    tree + ['rev-parse', '--verify', 'HEAD']]
+        env = {'PATH': os.defpath, 'HOME': str(домашний), 'LC_ALL': 'C', 'GIT_OPTIONAL_LOCKS': '0',
+               'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1', 'GIT_ALLOW_PROTOCOL': '',
+               'GIT_CONFIG_NOSYSTEM': '1', 'GIT_ATTR_NOSYSTEM': '1'}
+        envs = [dict(env) for _ in range(7)]; envs[1]['GIT_TERMINAL_PROMPT'] = '0'
+        скрипт = ('import fcntl,json,os,sys,types; from pathlib import Path; '
+                  'm=types.ModuleType("controlled_child"); m.__file__=sys.argv[1]; sys.modules[m.__name__]=m; '
+                  'exec(compile(Path(sys.argv[1]).read_bytes(),sys.argv[1],"exec"),m.__dict__); '
+                  'assert sys.stdin.buffer.read(1)==b"P"; '
+                  'exec("f=os.open(sys.argv[3],os.O_RDWR|os.O_NOFOLLOW)\\ntry:\\n fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)\\nexcept BlockingIOError:\\n os.write(1,b\'B\')\\nelse:\\n os.write(1,b\'X\'); fcntl.flock(f,fcntl.LOCK_UN)\\nos.close(f)"); '
+                  + "children=[]\nwaits=[]\nreal_popen=m.subprocess.Popen\nreal_waitpid=m.os.waitpid\ndef receipt(name,data):\n f=os.open(os.path.join(sys.argv[4],name),os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)\n try:\n  if os.write(f,data)!=len(data): raise OSError('short receipt')\n  os.fsync(f)\n finally: os.close(f)\ndef popen(argv,*a,**kw):\n i=len(children)\n if i>=8 or len(waits)!=i: raise ValueError('unexpected process count')\n if kw.get('start_new_session') is not True: raise ValueError('missing session')\n if i<7 and (list(argv)!=json.loads(sys.argv[5])[i] or kw.get('env')!=json.loads(sys.argv[6])[i]): raise ValueError('unexpected git argv or env')\n if i==7 and (not isinstance(argv,list) or len(argv)<12 or argv[0]!=sys.argv[8] or argv[3]!=sys.argv[9] or argv[-4:]!=['--','/bin/sh','-c','test -f .git'] or str(kw.get('cwd'))!=sys.argv[7] or kw.get('env')!={}): raise ValueError('unexpected observer argv or env')\n receipt('INTENT-'+str(i+1),b'one-process\\n')\n p=real_popen(argv,*a,**kw); children.append(p)\n receipt('START-'+str(i+1),('pid='+str(p.pid)+'\\n').encode())\n return p\ndef waitpid(pid,flags):\n if len(children)!=len(waits)+1 or pid!=children[-1].pid: raise ValueError('unexpected wait')\n got,raw=real_waitpid(pid,flags)\n if got:\n  if got!=pid: raise ValueError('unexpected pid')\n  waits.append((got,raw))\n  if len(waits)<=7 and raw!=0:\n   packets=[q for q in m._тестовые_git_под_надзором if q.pid==got]\n   if len(packets)!=1 or type(packets[0].stderr) is not bytes or len(packets[0].stderr)>4096: raise ValueError('unconfirmed git stderr')\n   receipt('STDERR-'+str(len(waits)),packets[0].stderr)\n  receipt('REAP-'+str(len(waits)),('pid='+str(got)+' raw='+str(raw)+'\\n').encode())\n return got,raw\nm.subprocess.Popen=popen\nm.os.waitpid=waitpid\ncode=m.главная(json.loads(sys.argv[2]))\nif len(children)!=8 or len(waits)!=8 or any(raw!=0 for _,raw in waits): raise ValueError('unconfirmed children')\nreceipt('CHILD-OUTCOME',('exit='+str(code)+'\\n').encode())\nraise SystemExit(code)")
+        child = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, source, json.dumps(args), str(замки / lockname), str(receipts), json.dumps(expected), json.dumps(envs),
+                                  str(корень), сам.исполнитель_наблюдателя, сам.исполнитель_якоря],
+                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        сам._legacy_child = child
+        исходный_writer = м.заменить_управляемый_блок
+        def writer_с_конкурентом(*args, **kwargs):
+            child.stdin.write(b'P'); child.stdin.flush()
+            сам.assertTrue(select.select([child.stdout], [], [], 10)[0])
+            сам.assertEqual(os.read(child.stdout.fileno(), 1), b'B')
+            return исходный_writer(*args, **kwargs)
+        with mock.patch.object(м, 'заменить_управляемый_блок', side_effect=writer_с_конкурентом), \
+             mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под root-lock')):
+            сам.assertEqual(м.выполнить_предпросмотр(корень, Path(путь_запроса),
+                _контракт_замка=контракт, _срок_замка=time.monotonic()+10), 0)
+        child.stdin.close(); child.stdin = None
+        stdout, stderr = child.communicate(timeout=60)
+        сам.assertEqual((child.returncode, stderr), (3, b''))
+        parent_receipt = receipts / 'PARENT-CHILD-EXIT'
+        parent_fd = os.open(parent_receipt, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        try:
+            data = ('exit=' + str(child.returncode) + '\n').encode()
+            сам.assertEqual(os.write(parent_fd, data), len(data)); os.fsync(parent_fd)
+        finally:
+            os.close(parent_fd)
+        receipt_dir_fd = os.open(receipts, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        try:
+            os.fsync(receipt_dir_fd)
+        finally:
+            os.close(receipt_dir_fd)
+        сам.assertEqual(json.loads(stdout)['состояние'], 'UNKNOWN')
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
+            м.выполнить_предпросмотр(корень, Path(путь_запроса), _контракт_замка=контракт,
+                                     _срок_замка=time.monotonic()+10)
+        os.close(fd)
+        сам._legacy_context.__exit__(None, None, None)
+        сам._legacy_context = None
+        сам._legacy_fixture.очистить()
+
     def test_cooperative_план_git_вне_lock_и_отказ_при_active(сам):
         import fcntl
         import stat
