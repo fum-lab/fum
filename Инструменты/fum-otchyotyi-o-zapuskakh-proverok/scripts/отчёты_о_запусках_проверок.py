@@ -44,7 +44,7 @@ _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_НОВЫМ_СНИМКОМ = "fum.
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_УДЕРЖАНИЕМ = "fum.test-run.experimental-physical-lease.1"
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_ИЗОЛЯЦИЕЙ_GIT = "fum.test-run.experimental-physical-lease.2"
 _ТЕСТОВАЯ_СХЕМА_ЗАПУСКА_С_PIN_GIT = "fum.test-run.experimental-physical-lease.3"
-_ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ = "36d1c92a5b68ddf3c6e92f92ec87f04323e22c529b05ac2c0bbfd6ca3038eb54"
+_ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ = "4cdad6bcf378f57478e30be3478ff03a293ee2b2fe8d4da88849ececbff82224"
 СХЕМА_НАБЛЮДЕНИЙ_ПОЛНОЙ_ПРОВЕРКИ = "fum.smoke-test-observations.v1"
 ПРЕДЕЛ_КОНВЕРТА_НАБЛЮДЕНИЙ = 4 * 1024 * 1024
 СХЕМА_СНИМКА = "fum.test-run-report.v1"
@@ -17221,7 +17221,7 @@ def _тестово_запретить_помощника_без_pin(коман�
 
 class _ТестоваяСверкаЗаписиПомощника:
     """Сверяет synthetic намерение и preimage; не устанавливает происхождение issuer."""
-    def __init__(сам, корень, rootfd, lockfd, receiptfd, intent_sha256):
+    def __init__(сам, корень, rootfd, lockfd, receiptfd, intent_sha256, *, _мосты=None):
         if (type(корень) is not type(Path('/')) or not корень.is_absolute()
             or корень == Path('/private/tmp') or not корень.is_relative_to(Path('/private/tmp'))
             or корень.resolve(strict=True) != корень
@@ -17235,6 +17235,8 @@ class _ТестоваяСверкаЗаписиПомощника:
         сам._ошибка = False
         сам._использован = False
         сам._контроль_root = None
+        сам._использование = None
+        сам._канальное_намерение = None
         каталоги = [os.fstat(fd) for fd in (rootfd, lockfd, receiptfd)]
         if (any(not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.geteuid()
                 or stat.S_IMODE(ст.st_mode) != 0o700 for ст in каталоги)
@@ -17267,8 +17269,12 @@ class _ТестоваяСверкаЗаписиПомощника:
                     and all(type(э) is int and э >= 0 for э in значение['identity'])
                     and type(значение['sha256']) is str
                     and re.fullmatch(r'[0-9a-f]{64}', значение['sha256']) is not None)
+        вторая_версия = type(запись) is dict and запись.get('schema') == 'fum.test-helper-authority.2'
+        if вторая_версия:
+            ключи |= {'lock_path', 'session_lock', 'bridge_lock'}
         if (type(запись) is not dict or set(запись) != ключи
-            or запись['schema'] != 'fum.test-helper-authority.1'
+            or запись['schema'] not in ('fum.test-helper-authority.1', 'fum.test-helper-authority.2')
+            or (not вторая_версия and _мосты is not None)
             or запись['operation'] != 'synthetic-active-preview'
             or any(type(запись[ключ]) is not str or проверить_идентификатор(запись[ключ]) != запись[ключ]
                    for ключ in ('fixture', 'run', 'generation'))
@@ -17283,6 +17289,25 @@ class _ТестоваяСверкаЗаписиПомощника:
             or type(запись['nonce_sha256']) is not str
             or re.fullmatch(r'[0-9a-f]{64}', запись['nonce_sha256']) is None):
             raise ОшибкаОтчёта('неверная форма synthetic записи')
+        if вторая_версия:
+            def каталог(значение):
+                if (type(значение) is not str or not значение.startswith('/private/tmp/')
+                    or Path(значение).resolve(strict=True) != Path(значение)):
+                    raise ОшибкаОтчёта('неверный путь synthetic замка')
+            каталог(запись['lock_path'])
+            if (type(_мосты) is not tuple or len(_мосты) != 2
+                or any(type(fd) is not int or fd <= 2 for fd in _мосты)
+                or len({rootfd, lockfd, receiptfd, *_мосты}) != 5):
+                raise ОшибкаОтчёта('неверные synthetic FD моста')
+            for ключ in ('session_lock', 'bridge_lock'):
+                значение = запись[ключ]
+                if (type(значение) is not dict or set(значение) != {'path', 'identity', 'lock_identity'}
+                    or not опора(значение['identity']) or type(значение['lock_identity']) is not list
+                    or len(значение['lock_identity']) != 2
+                    or any(type(x) is not int or x <= 0 for x in значение['lock_identity'])):
+                    raise ОшибкаОтчёта('неверная synthetic роль моста')
+                каталог(значение['path'])
+        сам._мосты = _мосты
         сам._запись, сам._raw, сам._метка_intent = запись, raw, метка_intent
 
     @staticmethod
@@ -17325,12 +17350,54 @@ class _ТестоваяСверкаЗаписиПомощника:
                 if (not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.geteuid()
                     or stat.S_IMODE(ст.st_mode) != 0o700 or сам._метка(ст) != запись[ключ]):
                     raise ОшибкаОтчёта('synthetic опора изменилась')
+            if сам._мосты is not None:
+                все_fd = (сам._rootfd, сам._lockfd, сам._receiptfd, *сам._мосты)
+                метки_fd = [(ст.st_dev, ст.st_ino) for ст in map(os.fstat, все_fd)]
+                if len(set(метки_fd)) != 5:
+                    raise ОшибкаОтчёта('совпали synthetic каталоги')
+                if сам._метка(os.stat(запись['lock_path'], follow_symlinks=False)) != запись['lock']:
+                    raise ОшибкаОтчёта('synthetic каталог root-lock изменился')
+                имя_lock = 'fum-check-runs-' + hashlib.sha256(
+                    (str(сам._корень) + '\0' + запись['session']).encode('utf-8')).hexdigest() + '.lock'
+                for fd, ключ in zip(сам._мосты, ('session_lock', 'bridge_lock')):
+                    роль = запись[ключ]
+                    открытый = os.fstat(fd)
+                    именованный = os.stat(роль['path'], follow_symlinks=False)
+                    замок = os.stat(имя_lock, dir_fd=fd, follow_symlinks=False)
+                    if (not stat.S_ISDIR(открытый.st_mode) or открытый.st_uid != os.geteuid()
+                        or stat.S_IMODE(открытый.st_mode) != 0o700
+                        or сам._метка(открытый) != роль['identity'] or сам._метка(именованный) != роль['identity']
+                        or not stat.S_ISREG(замок.st_mode) or замок.st_uid != os.geteuid()
+                        or замок.st_nlink != 1 or stat.S_IMODE(замок.st_mode) != 0o600
+                        or [замок.st_dev, замок.st_ino] != роль['lock_identity']):
+                        raise ОшибкаОтчёта('synthetic мост изменился')
             if сам._метка(os.stat(сам._корень, follow_symlinks=False)) != запись['root']:
                 raise ОшибкаОтчёта('synthetic корень изменился')
             raw, метка_intent = сам._прочитать_файл(сам._receiptfd, 'authority.json', 4096)
             if (метка_intent != сам._метка_intent or raw != сам._raw
                 or hashlib.sha256(raw).hexdigest() != сам._intent_sha256):
                 raise ОшибкаОтчёта('synthetic намерение изменилось')
+            if запись['schema'] == 'fum.test-helper-authority.2':
+                if (type(сам._канальное_намерение) is not tuple or len(сам._канальное_намерение) != 2
+                    or type(сам._канальное_намерение[0]) is not list
+                    or type(сам._канальное_намерение[1]) is not bytes):
+                    raise ОшибкаОтчёта('нет synthetic канального намерения')
+                метка_канала, raw_канала = сам._канальное_намерение
+                фактический_канал, фактическая_метка_канала = сам._прочитать_файл(
+                    сам._receiptfd, 'intent.json', 4096)
+                if (фактический_канал != raw_канала or фактическая_метка_канала != метка_канала
+                    or метка_канала[3] != 0o600):
+                    raise ОшибкаОтчёта('synthetic канальное намерение изменилось')
+                if (type(сам._использование) is not tuple or len(сам._использование) != 3
+                    or type(сам._использование[0]) is not str or type(сам._использование[1]) is not list
+                    or type(сам._использование[2]) is not bytes):
+                    raise ОшибкаОтчёта('нет synthetic квитанции использования')
+                имя_used, метка_used, raw_used = сам._использование
+                if имя_used != 'used-' + запись['run'] + '.json':
+                    raise ОшибкаОтчёта('чужая synthetic квитанция использования')
+                фактический_used, фактическая_метка = сам._прочитать_файл(сам._receiptfd, имя_used, 4096)
+                if фактический_used != raw_used or фактическая_метка != метка_used or метка_used[3] != 0o600:
+                    raise ОшибкаОтчёта('synthetic квитанция использования изменилась')
             имя_active = 'controlled-active-' + hashlib.sha256(os.fsencode(сам._корень)).hexdigest() + '.json'
             raw_active, метка_active = сам._прочитать_файл(сам._lockfd, имя_active, 4096)
             if (метка_active != запись['controlled_active']['identity']

@@ -40329,6 +40329,14 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             'root': метка(дескрипторы[0]), 'lock': метка(дескрипторы[1]), 'receipt': метка(дескрипторы[2]),
             'report': файл(отчёт), 'active': файл(active), 'controlled_active': файл(controlled),
             'helper_sha256': м._ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ, 'operation': 'synthetic-active-preview'}
+        if _случай == 'channel_intent':
+            def роль(путь, fd):
+                сведения = (путь / имя_lock).stat()
+                return {'path': str(путь), 'identity': метка(fd),
+                        'lock_identity': [сведения.st_dev, сведения.st_ino]}
+            authority.update({'schema': 'fum.test-helper-authority.2', 'lock_path': str(замки),
+                              'session_lock': роль(старый, дескрипторы[3]),
+                              'bridge_lock': роль(новый, дескрипторы[4])})
         raw = json.dumps(authority, sort_keys=True, separators=(',', ':')).encode('utf-8')
         intent = квитанции / 'authority.json'
         сам._synthetic_ресурсы['фаза'] = 'открытие intent fd начато'
@@ -40340,8 +40348,24 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         дескрипторы.remove(fd)
         os.fsync(дескрипторы[2])
         сам.assertEqual(intent.read_bytes(), raw)
-        cap = м._ТестоваяСверкаЗаписиПомощника(корень, *дескрипторы[:3], hashlib.sha256(raw).hexdigest())
+        cap = м._ТестоваяСверкаЗаписиПомощника(
+            корень, *дескрипторы[:3], hashlib.sha256(raw).hexdigest(),
+            _мосты=tuple(дескрипторы[3:]) if _случай == 'channel_intent' else None)
         сам._synthetic_ресурсы['cap'] = cap
+        if _случай == 'channel_intent':
+            канал = квитанции / 'intent.json'
+            used = квитанции / ('used-' + run + '.json')
+            for путь, содержимое in ((канал, b'channel-intent'), (used, b'used-marker')):
+                сам._synthetic_ресурсы['фаза'] = 'открытие квитанции начато'
+                fd = os.open(путь, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_CLOEXEC, 0o600)
+                дескрипторы.append(fd)
+                сам.assertEqual(os.write(fd, содержимое), len(содержимое))
+                os.fsync(fd)
+                сам._synthetic_ресурсы['фаза'] = 'закрытие квитанции начато'
+                os.close(fd); дескрипторы.remove(fd)
+            os.fsync(дескрипторы[2])
+            cap._канальное_намерение = (cap._метка_файла(канал.stat()), канал.read_bytes())
+            cap._использование = (used.name, cap._метка_файла(used.stat()), used.read_bytes())
         root_селектор = селектор(дескрипторы[1], замки, 'controlled-own.1')
         мост = ('fum.test-lock-bridge.1', селектор(дескрипторы[3], старый, сессия), дескрипторы[3],
                 селектор(дескрипторы[4], новый, сессия), дескрипторы[4])
@@ -40351,6 +40375,8 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             controlled.write_bytes(b'{}')
         elif _случай == 'intent':
             intent.write_bytes(raw + b' ')
+        elif _случай == 'channel_intent':
+            канал.write_bytes(b'channel-intent-changed')
         if _случай == 'успех':
             сам.assertEqual(м._тестово_предпросмотреть_собственный_active(cap, root_селектор, мост, опоры, срок), 0)
             сам.assertNotEqual(отчёт.read_bytes(), исходный)
@@ -40374,6 +40400,9 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
     def test_synthetic_root_bridge_не_пишет_при_изменённом_intent(сам):
         сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('intent')
+
+    def test_synthetic_root_bridge_не_пишет_при_изменённом_канальном_intent(сам):
+        сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('channel_intent')
 
     def test_synthetic_root_lock_ошибка_выхода_не_повторяется(сам):
         м = загрузить_модуль_автоматизации()
