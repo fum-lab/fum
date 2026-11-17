@@ -40218,6 +40218,71 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             with м._удержать_объявленную_вершину_git(удержание, владелец, run, сессия) as вершина:
                 yield вершина, рабочий, домашний
 
+    def test_cooperative_план_git_вне_lock_и_отказ_при_active(сам):
+        import fcntl
+        import stat
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            роли = {запись[0]: запись for запись in вершина._удержание._источники}
+            замки = роли['head'][1] / 'fum-controlled-lock'
+            замки.mkdir(mode=0o700)
+            fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            try:
+                метка = os.fstat(fd); сессия = 'fixture-session'
+                селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                            метка.st_uid, stat.S_IMODE(метка.st_mode), сессия, str(корень))
+                контракт = ('fum.test-lock-cooperative.1', селектор, fd)
+                отчёт = корень / 'report.md'; отчёт.write_bytes(b'initial')
+                фабрика = ТестыЭкономногоПорядкаПроверок()
+                записи = [фабрика.запись(1, 'адресная', статус='неуспешно'),
+                          фабрика.запись(2, 'адресная'), фабрика.запись(3, 'адресная'),
+                          фабрика.запись(4, 'адресная'), фабрика.запись(5, 'адресная'),
+                          фабрика.запись(6, 'полная', ключи=[фабрика.ключ])]
+                for имя, запись, _ in записи:
+                    м.проверить_запись(запись, имя.name, запись['сессия'])
+                lockname = 'fum-check-runs-' + hashlib.sha256(f'{корень}\0controlled-own.1'.encode()).hexdigest() + '.lock'
+                active = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+                def git_вне_lock(*_args):
+                    проверка_fd = os.open(lockname, os.O_RDWR | os.O_NOFOLLOW, dir_fd=fd)
+                    try:
+                        fcntl.flock(проверка_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        fcntl.flock(проверка_fd, fcntl.LOCK_UN)
+                    finally:
+                        os.close(проверка_fd)
+                    return фабрика.снимок, None
+                сессия_значение = (корень, корень / 'request', отчёт, корень, сессия)
+                with mock.patch.object(м, 'разрешить_сессию', return_value=сессия_значение), \
+                     mock.patch.object(м, 'запретить_действие_при_возобновлении'), \
+                     mock.patch.object(м, 'границы_управляемого_блока', return_value=(None, None, м.ОТКРЫТЫЙ_МАРКЕР)), \
+                     mock.patch.object(м, 'прочитать_историю_проверок', return_value=записи), \
+                     mock.patch.object(м, 'проверить_порядок_проверок', wraps=м.проверить_порядок_проверок) as проверить, \
+                     mock.patch.object(м, 'текущий_контекст_проверок', side_effect=git_вне_lock):
+                    сам.assertEqual(м.выполнить_проверку_плана(корень, Path('request'), _контракт_замка=контракт,
+                                                               _срок_замка=time.monotonic()+10), 0)
+                    проверить.assert_called_once()
+                    проверить.reset_mock()
+                    def git_и_active(*args):
+                        результат = git_вне_lock(*args)
+                        active.write_bytes(b'{}')
+                        return результат
+                    with mock.patch.object(м, 'текущий_контекст_проверок', side_effect=git_и_active):
+                        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
+                            м.выполнить_проверку_плана(корень, Path('request'), _контракт_замка=контракт,
+                                                       _срок_замка=time.monotonic()+10)
+                    проверить.assert_not_called()
+                    active.unlink()
+                    def git_и_дрейф(*args):
+                        результат = git_вне_lock(*args)
+                        отчёт.write_bytes(b'changed')
+                        return результат
+                    with mock.patch.object(м, 'текущий_контекст_проверок', side_effect=git_и_дрейф):
+                        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'история или отчёт изменились'):
+                            м.выполнить_проверку_плана(корень, Path('request'), _контракт_замка=контракт,
+                                                       _срок_замка=time.monotonic()+10)
+                    проверить.assert_not_called()
+            finally:
+                os.close(fd)
+
     def test_controlled_cli_отклоняет_два_чужих_namespace_до_эффектов(сам):
         м = загрузить_модуль_автоматизации()
         with tempfile.TemporaryDirectory() as каталог:
