@@ -67,7 +67,7 @@ private func подтвердитьМостПомощника(_ мост: Син
 private func hold(_ версия: String) -> Never {
     // .6 closes the anchor's control writer on failure. Its EOF watchdog
     // attempts group cleanup. Exit 125 leaves the outcome unconfirmed.
-    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" || версия == "fum-run-witness.8" || версия == "fum-run-witness.9" || версия == "fum-run-witness.10" || версия == "fum-run-witness.11" { exit(125) }
+    if версия == "fum-run-witness.6" || версия == "fum-run-witness.7" || версия == "fum-run-witness.8" || версия == "fum-run-witness.9" || версия == "fum-run-witness.10" || версия == "fum-run-witness.11" || версия == "fum-run-witness.12" { exit(125) }
     var mask = sigset_t()
     _ = sigfillset(&mask)
     _ = pthread_sigmask(SIG_SETMASK, &mask, nil)
@@ -220,16 +220,16 @@ private func run() -> Int32 {
     }
     guard raw[args.count] == nil, args.count >= 6 else { return 125 }
     let версия = args[1]
-    let передаётДопуск = версия == "fum-run-witness.8"
+    let передаётДопуск = версия == "fum-run-witness.8" || версия == "fum-run-witness.12"
     let передаётКаталог = версия == "fum-run-witness.9"
-    let передаётМост = версия == "fum-run-witness.11"
+    let передаётМост = версия == "fum-run-witness.11" || версия == "fum-run-witness.12"
     let передаётПомощнику = версия == "fum-run-witness.10" || передаётМост
     let передаётОпору = версия == "fum-run-witness.7" || передаётДопуск || передаётКаталог || передаётПомощнику
     let версияПоведения = передаётОпору ? "fum-run-witness.6" : версия
     let targetMode = ["fum-run-witness.1", "fum-run-witness.2", "fum-run-witness.3",
                       "fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6",
                       "fum-run-witness.7", "fum-run-witness.8", "fum-run-witness.9", "fum-run-witness.10",
-                      "fum-run-witness.11"].contains(версия)
+                      "fum-run-witness.11", "fum-run-witness.12"].contains(версия)
     let разрешитьИмя = ["fum-run-witness.4", "fum-run-witness.5", "fum-run-witness.6"].contains(версия)
     guard targetMode || версия == "fum-anchor-witness.1",
           let id = ИдентификаторЗапуска(args[2]),
@@ -304,6 +304,9 @@ private func run() -> Int32 {
                       args[разделитель + 3], args[разделитель + 4], args[разделитель + 5],
                       args[разделитель + 6], дескрипторСтатуса: statusFD,
                       дескрипторКаталога: каталог.дескриптор) else { return 125 }
+            if версия == "fum-run-witness.12" && (!опора.путь.hasPrefix("/private/tmp/") || опора.режим != 0o600) {
+                return 125
+            }
             // Обе опоры разобраны и проверены на коллизию до изменения флагов.
             let флагиКаталога = флагиФайла(каталог.дескриптор, F_GETFD)
             let флагиДопуска = флагиФайла(опора.дескриптор, F_GETFD)
@@ -317,7 +320,7 @@ private func run() -> Int32 {
         if передаётПомощнику {
             guard let прежний = опораПрежнегоЗамка, args.indices.contains(разделитель + 20),
                   args[разделитель] == "--опоры-синтетического-помощника" else { return 125 }
-            let занятые = [statusFD, прежний.дескриптор]
+            let занятые = [statusFD, прежний.дескриптор] + (опораДопуска.map { [$0.дескриптор] } ?? [])
             guard let корень = ОпораЗаимствованногоКаталога(
                 args[разделитель + 3], args[разделитель + 4], args[разделитель + 5],
                 args[разделитель + 6], args[разделитель + 7], args[разделитель + 8],
@@ -356,7 +359,7 @@ private func run() -> Int32 {
             else { return 125 }
             let вход = опоры.номера.вход
             let занятые = [statusFD, прежний.дескриптор, вход.канал, опоры.номера.ответ,
-                           вход.корень, вход.замок, вход.квитанции]
+                           вход.корень, вход.замок, вход.квитанции] + (опораДопуска.map { [$0.дескриптор] } ?? [])
             guard let сессия = ОпораЗаимствованногоКаталога(
                 args[разделитель + 1], args[разделитель + 2], args[разделитель + 3],
                 args[разделитель + 4], args[разделитель + 5], args[разделитель + 6],
@@ -368,7 +371,8 @@ private func run() -> Int32 {
                   [сессия, мост].allSatisfy({ $0.путь.hasPrefix("/private/tmp/") &&
                     ($0.устройство != прежний.устройство || $0.инод != прежний.инод) }),
                   let номера = ОпорыМостаПомощника(опоры.номера, сессия: String(сессия.дескриптор),
-                      мост: String(мост.дескриптор), занятые: [statusFD, прежний.дескриптор])
+                      мост: String(мост.дескриптор), занятые: [statusFD, прежний.дескриптор] +
+                        (опораДопуска.map { [$0.дескриптор] } ?? []))
             else { return 125 }
             for fd in [сессия.дескриптор, мост.дескриптор] {
                 let флаги = флагиФайла(fd, F_GETFD)
@@ -433,7 +437,9 @@ private func run() -> Int32 {
         let вход = опорыПомощника.номера.вход
         let роли = [вход.канал, вход.корень, вход.замок, вход.квитанции, опорыПомощника.номера.ответ] +
             (мостПомощника.map { [$0.номера.сессия, $0.номера.мост] } ?? [])
-        guard Set(control + ready + [statusFD, прежний.дескриптор] + роли).count == 6 + роли.count else { return 125 }
+        let дополнительные = опораДопуска.map { [$0.дескриптор] } ?? []
+        guard Set(control + ready + [statusFD, прежний.дескриптор] + роли + дополнительные).count ==
+                6 + роли.count + дополнительные.count else { return 125 }
     }
     for fd in control + ready {
         let flags = флагиФайла(fd, F_GETFD)
