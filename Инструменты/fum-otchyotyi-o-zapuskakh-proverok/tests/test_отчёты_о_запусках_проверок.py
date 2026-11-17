@@ -40186,6 +40186,7 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             (общий / 'refs/heads').mkdir(parents=True)
             (общий / 'refs/heads/fixture').write_bytes(oid + b'\n')
             домашний = рабочий.parent / 'home'
+            домашний.mkdir(mode=0o700)
             (домашний / '.config/git').mkdir(parents=True)
             (домашний / '.gitconfig').write_bytes(b'')
             (домашний / '.config/git/config').write_bytes(b'')
@@ -40216,6 +40217,140 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                                                             run, сессия, срок=time.monotonic() + срок)
             with м._удержать_объявленную_вершину_git(удержание, владелец, run, сессия) as вершина:
                 yield вершина, рабочий, домашний
+
+    def test_controlled_cli_отклоняет_два_чужих_namespace_до_эффектов(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory() as каталог:
+            base = Path(каталог).resolve()
+            общий = base / 'common'
+            gitdir = общий / 'worktrees' / 'own'
+            for имя in ('first', 'second'):
+                args = м.argparse.Namespace(корень=str(base / 'root'), gitdir=str(gitdir), общий=str(общий),
+                    домашний=str(base / 'home'), config=str(base / 'config'), замки=str(base / имя),
+                    квитанции=str(base / 'receipts'), git='/Library/Developer/CommandLineTools/usr/bin/git',
+                    run='00112233-4455-4677-8899-aabbccddeeff', запрос='Журнал/проверка/запрос.md',
+                    цель=['--', '/bin/sh', '-c', 'test -f .git'])
+                with сам.subTest(namespace=имя), mock.patch.object(м.os, 'open') as открыть, \
+                     mock.patch.object(м.subprocess, 'Popen') as запустить:
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'namespace'):
+                        м._запустить_явный_контролируемый_git(args)
+                    открыть.assert_not_called(); запустить.assert_not_called()
+
+    def test_controlled_cli_отклоняет_второй_active_без_popen(сам):
+        м = загрузить_модуль_автоматизации()
+        with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+            роли = {запись[0]: запись for запись in вершина._удержание._источники}
+            gitdir, общий = роли['head'][1], роли['common_config'][1]
+            config, замки, receipts = корень.parent / 'config-private', gitdir / 'fum-controlled-lock', корень.parent / 'receipts-private'
+            config.mkdir(mode=0o700); замки.mkdir(mode=0o700); receipts.mkdir(mode=0o700)
+            (config / 'system-disabled').write_bytes(b'')
+            args = м.argparse.Namespace(корень=str(корень), gitdir=str(gitdir), общий=str(общий),
+                домашний=str(домашний), config=str(config), замки=str(замки), квитанции=str(receipts),
+                git='/Library/Developer/CommandLineTools/usr/bin/git', run=вершина._run, запрос=вершина._сессия,
+                наблюдатель='/bin/true', наблюдатель_sha256='0' * 64, якорь='/bin/true', якорь_sha256='0' * 64,
+                цель=['--', '/bin/sh', '-c', 'test -f .git'])
+            результат = м._РезультатКонтролируемойПроверки('fum.git-controlled-check-result.1', 'UNKNOWN', 0, 'sha256:' + '0' * 64)
+            with mock.patch.object(м, '_выполнить_контролируемый_цикл', return_value=результат) as цикл, \
+                 mock.patch.object(м.subprocess, 'Popen') as запустить:
+                сам.assertIs(м._запустить_явный_контролируемый_git(args), результат)
+                args.run = '00112233-4455-4677-8899-aabbccddeefe'
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active уже существует'):
+                    м._запустить_явный_контролируемый_git(args)
+                цикл.assert_called_once(); запустить.assert_not_called()
+
+    def test_controlled_cli_конкурентный_второй_writer_без_popen(сам):
+        source = getattr(сам, 'точный_исходник', None)
+        if type(source) is not str:
+            сам.skipTest('нужен закреплённый исходник конкурента')
+        м = загрузить_модуль_автоматизации()
+        сам._контекст_конкурента = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._контекст_конкурента.__enter__()
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        gitdir, общий = роли['head'][1], роли['common_config'][1]
+        config, замки, receipts = корень.parent / 'config-private', gitdir / 'fum-controlled-lock', корень.parent / 'receipts-private'
+        config.mkdir(mode=0o700); замки.mkdir(mode=0o700); receipts.mkdir(mode=0o700)
+        (config / 'system-disabled').write_bytes(b'')
+        args = ['запустить-controlled', '--корень', str(корень), '--gitdir', str(gitdir), '--общий', str(общий),
+                '--домашний', str(домашний), '--config', str(config), '--замки', str(замки), '--квитанции', str(receipts),
+                '--git', '/Library/Developer/CommandLineTools/usr/bin/git', '--run', '00112233-4455-4677-8899-aabbccddeefe',
+                '--запрос', вершина._сессия, '--наблюдатель', '/bin/true', '--наблюдатель-sha256', '0' * 64,
+                '--якорь', '/bin/true', '--якорь-sha256', '0' * 64, '--', '/bin/sh', '-c', 'test -f .git']
+        скрипт = ('import json,sys,types; from pathlib import Path; '
+                  'm=types.ModuleType("controlled_child"); m.__file__=sys.argv[1]; sys.modules[m.__name__]=m; '
+                  'exec(compile(Path(sys.argv[1]).read_bytes(),sys.argv[1],"exec"),m.__dict__); '
+                  'm.subprocess.Popen=lambda *a,**k: (_ for _ in ()).throw(RuntimeError("unexpected Popen")); '
+                  'assert sys.stdin.buffer.read(1)==b"P"; raise SystemExit(m.главная(json.loads(sys.argv[2])))')
+        конкурент = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, source, json.dumps(args)],
+                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        сам._конкурент_controlled = конкурент
+        try:
+            ожидается = м._РезультатКонтролируемойПроверки('fum.git-controlled-check-result.1', 'UNKNOWN', 0, 'sha256:' + '0' * 64)
+            def цикл(*_args, **_kwargs):
+                stdout, stderr = конкурент.communicate(input=b'P', timeout=10)
+                сам.assertEqual((конкурент.returncode, stdout), (1, b''))
+                сам.assertIn('active уже существует', stderr.decode('utf-8'))
+                сам.assertNotIn('unexpected Popen', stderr.decode('utf-8'))
+                return ожидается
+            args[args.index('--run') + 1] = вершина._run
+            пространство = м.построить_разбор_аргументов().parse_args(args)
+            with mock.patch.object(м, '_выполнить_контролируемый_цикл', side_effect=цикл):
+                сам.assertIs(м._запустить_явный_контролируемый_git(пространство), ожидается)
+        finally:
+            ошибки = []
+            try:
+                жив = конкурент.poll() is None
+            except BaseException as ошибка:
+                ошибки.append(ошибка); жив = None
+            if жив:
+                try:
+                    конкурент.kill()
+                except BaseException as ошибка:
+                    ошибки.append(ошибка)
+                try:
+                    конкурент.wait(timeout=10)
+                except BaseException as ошибка:
+                    ошибки.append(ошибка)
+            for поток in (конкурент.stdin, конкурент.stdout, конкурент.stderr):
+                if поток is not None:
+                    try:
+                        поток.close()
+                    except BaseException as ошибка:
+                        ошибки.append(ошибка)
+            if ошибки:
+                raise BaseExceptionGroup('ошибки очистки controlled конкурента', ошибки)
+        сам._контекст_конкурента.__exit__(None, None, None)
+        сам._контекст_конкурента = None
+
+    def test_cli_контролируемого_запуска_с_git(сам):
+        import io
+        if not all(getattr(сам, имя, None) for имя in ('исполнитель_наблюдателя', 'отпечаток_наблюдателя',
+                                                       'исполнитель_якоря', 'отпечаток_якоря', 'каталог_квитанций')):
+            сам.skipTest('нужны закреплённые исполнители и каталог квитанций')
+        м = загрузить_модуль_автоматизации()
+        сам._контекст_единого = сам.закрытая_вершина_для_неотслеживаемых(м, с_объектом=True, срок=90)
+        исходная, корень, домашний = сам._контекст_единого.__enter__()
+        сам._вершина_единого = исходная
+        роли = {запись[0]: запись for запись in исходная._удержание._источники}
+        gitdir, общий = роли['head'][1], роли['common_config'][1]
+        config, замки = корень.parent / 'private-config', gitdir / 'fum-controlled-lock'
+        config.mkdir(mode=0o700); замки.mkdir(mode=0o700)
+        (config / 'system-disabled').write_bytes(b'')
+        args = ['запустить-controlled', '--корень', str(корень), '--gitdir', str(gitdir), '--общий', str(общий),
+                '--домашний', str(домашний), '--config', str(config), '--замки', str(замки),
+                '--квитанции', сам.каталог_квитанций, '--git', '/Library/Developer/CommandLineTools/usr/bin/git',
+                '--run', исходная._run, '--запрос', исходная._сессия,
+                '--наблюдатель', сам.исполнитель_наблюдателя, '--наблюдатель-sha256', сам.отпечаток_наблюдателя,
+                '--якорь', сам.исполнитель_якоря, '--якорь-sha256', сам.отпечаток_якоря,
+                '--', '/bin/sh', '-c', 'test -f .git']
+        вывод = io.StringIO()
+        with contextlib.redirect_stdout(вывод):
+            код = м.главная(args)
+        результат = json.loads(вывод.getvalue())
+        сам.assertEqual((код, результат['состояние'], результат['код_цели']), (3, 'UNKNOWN', 0))
+        сам.assertTrue((Path(сам.каталог_квитанций) / 'history.json').is_file())
+        сам._контекст_единого.__exit__(None, None, None)
+        сам._контекст_единого = None
+        print('state=UNKNOWN cli=completed target=0', flush=True)
 
     def test_самостоятельный_контролируемый_цикл_с_git(сам):
         if not all(getattr(сам, имя, None) for имя in ('исполнитель_наблюдателя', 'отпечаток_наблюдателя',

@@ -11832,6 +11832,125 @@ def _выполнить_контролируемый_цикл(
         raise
 
 
+def _запустить_явный_контролируемый_git(args):
+    """Отдельный опытный CLI-контур; cooperative custody остаётся предпосылкой."""
+    корень, gitdir, общий, домашний, config, замки, квитанции = (
+        Path(getattr(args, имя)) for имя in ('корень', 'gitdir', 'общий', 'домашний', 'config', 'замки', 'квитанции'))
+    run, запрос = args.run, args.запрос
+    if (re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None
+        or type(запрос) is not str or not запрос or PurePosixPath(запрос).is_absolute()
+        or '..' in PurePosixPath(запрос).parts or args.git not in ('/usr/bin/git', '/Library/Developer/CommandLineTools/usr/bin/git')
+        or not args.цель or args.цель[0] != '--'):
+        raise ОшибкаОтчёта('неверные параметры controlled-запуска')
+    команда = tuple(args.цель[1:])
+    проверить_команду_ограниченного_запуска(команда, _разрешить_имя=True)
+    # Для каждого linked worktree namespace расположен в его собственном
+    # gitdir; второй caller-selected каталог не является тем же замком.
+    if замки != gitdir / 'fum-controlled-lock' or gitdir.parent != общий / 'worktrees':
+        raise ОшибкаОтчёта('неверный namespace controlled-замка')
+    if any(not путь.is_absolute() or путь.resolve(strict=True) != путь
+           for путь in (корень, gitdir, общий, домашний, config, замки, квитанции)):
+        raise ОшибкаОтчёта('нефизические пути controlled-запуска')
+    for путь in (домашний, config, замки, квитанции):
+        if путь == корень or корень in путь.parents:
+            raise ОшибкаОтчёта('private каталог находится в рабочем дереве')
+    открытые = []
+    попытка_active = False
+    try:
+        def открыть_каталог(путь, private=False):
+            fd = os.open(путь, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            открытые.append(fd)
+            метка = os.fstat(fd)
+            if (метка.st_uid != os.geteuid() or метка.st_mode & 0o022
+                or private and stat.S_IMODE(метка.st_mode) != 0o700):
+                raise ОшибкаОтчёта('неподтверждённый каталог controlled-запуска')
+            return fd
+        root_fd = открыть_каталог(корень)
+        git_fd, common_fd = открыть_каталог(gitdir), открыть_каталог(общий)
+        if (_прочитать_источник_git_через_fd(root_fd, '.git', 4096) != b'gitdir: ' + os.fsencode(gitdir) + b'\n'
+            or _прочитать_источник_git_через_fd(git_fd, 'gitdir', 4096) != os.fsencode(корень / '.git') + b'\n'
+            or _прочитать_источник_git_через_fd(git_fd, 'commondir', 64) != b'../..\n'):
+            raise ОшибкаОтчёта('не подтверждён namespace рабочего Git')
+        info, xdg = общий / 'info', домашний / '.config/git'
+        info_fd, home_fd = открыть_каталог(info), открыть_каталог(домашний, True)
+        xdg_fd, config_fd = открыть_каталог(xdg), открыть_каталог(config, True)
+        lock_fd, durable_fd = открыть_каталог(замки, True), открыть_каталог(квитанции, True)
+        image_fd = os.open(args.git, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        открытые.append(image_fd)
+        роли = (('gitfile', корень, root_fd, '.git', 4096), ('backlink', gitdir, git_fd, 'gitdir', 4096),
+                ('commondir', gitdir, git_fd, 'commondir', 64), ('head', gitdir, git_fd, 'HEAD', 4096),
+                ('index', gitdir, git_fd, 'index', 16 * 1024 * 1024), ('common_config', общий, common_fd, 'config', 1024 * 1024),
+                ('worktree_config', gitdir, git_fd, 'config.worktree', 1024 * 1024),
+                ('system_config', config, config_fd, 'system-disabled', 4096), ('global_config', домашний, home_fd, '.gitconfig', 4096),
+                ('xdg_config', xdg, xdg_fd, 'config', 4096), ('info_exclude', info, info_fd, 'exclude', 1024 * 1024),
+                ('info_attributes', info, info_fd, 'attributes', 1024 * 1024), ('root_ignore', корень, root_fd, '.gitignore', 1024 * 1024),
+                ('root_attributes', корень, root_fd, '.gitattributes', 1024 * 1024), ('gitmodules', корень, root_fd, '.gitmodules', 1024 * 1024),
+                ('global_excludes', xdg, xdg_fd, 'ignore', 1024 * 1024))
+        метка = os.fstat(lock_fd)
+        lock_session = 'controlled-own.1'
+        селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                    метка.st_uid, stat.S_IMODE(метка.st_mode), lock_session, str(корень))
+        срок = time.monotonic() + 120
+        def получить_замок():
+            return _тестовый_замок_новой_сессии(селектор, lock_fd, корень, lock_session, срок_монотонный=срок)
+        имя_active = 'controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json'
+        активная = замки / имя_active
+        байты = json.dumps({'идентификатор': run, 'состояние': 'выполняется'}, ensure_ascii=False).encode('utf-8')
+        with получить_замок() as сверить:
+            сверить()
+            попытка_active = True
+            try:
+                active_fd = os.open(имя_active, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                                    0o600, dir_fd=lock_fd)
+            except FileExistsError:
+                попытка_active = False
+                raise ОшибкаОтчёта('controlled active уже существует') from None
+            открытые.append(active_fd)
+            if os.write(active_fd, байты) != len(байты):
+                raise ОшибкаОтчёта('неполная controlled active запись')
+            os.fsync(active_fd)
+            os.close(active_fd)
+            открытые.remove(active_fd)
+            os.fsync(lock_fd)
+            значение, readback = прочитать_машинную_запись(активная, предел=256)
+            if readback != байты or значение.get('идентификатор') != run:
+                raise ОшибкаОтчёта('controlled active не совпадает')
+            сверить()
+        заявка = _ЗаявкаЗакрытогоПрофиляGit(root_fd, роли, image_fd, запрос, срок)
+        now_ms = time.monotonic_ns() // 1_000_000
+        результат = _выполнить_контролируемый_цикл(
+            заявка, run, корень, запрос, durable_fd, args.git, str(домашний),
+            Path(args.наблюдатель), args.наблюдатель_sha256, Path(args.якорь), args.якорь_sha256,
+            команда, получить_замок, активная, байты, срок=срок,
+            срок_наблюдателя=now_ms + 90000, срок_остановки=now_ms + 100000, изолировать_git=False)
+        ошибки = []
+        while открытые:
+            fd = открытые.pop()
+            try:
+                os.close(fd)
+            except BaseException as ошибка:
+                ошибки.append(ошибка)
+        if ошибки:
+            raise BaseExceptionGroup('ошибки закрытия controlled-запуска', ошибки)
+        return результат
+    except BaseException:
+        if попытка_active:
+            try:
+                print('state=UNKNOWN HOLD', file=sys.stderr, flush=True)
+            finally:
+                threading.Event().wait()
+        ошибки = []
+        while открытые:
+            fd = открытые.pop()
+            try:
+                os.close(fd)
+            except BaseException as ошибка:
+                ошибки.append(ошибка)
+        if ошибки:
+            raise BaseExceptionGroup('ошибки закрытия до controlled-запуска', ошибки)
+        raise
+
+
 def _прочитать_сохранённую_историю_контролируемого_git(каталог, run, policy):
     """Читать сохранённое наблюдение без утверждения завершения или допуска."""
     if (type(каталог) is not type(Path('/')) or not каталог.is_absolute()
@@ -26212,6 +26331,11 @@ def построить_разбор_аргументов() -> argparse.ArgumentP
     восстановление.add_argument('--каталог', type=Path, required=True)
     восстановление.add_argument('--run', required=True)
     восстановление.add_argument('--policy-sha256', required=True)
+    controlled = команды.add_parser('запустить-controlled', allow_abbrev=False)
+    for имя in ('корень', 'gitdir', 'общий', 'домашний', 'config', 'замки', 'квитанции',
+                'git', 'run', 'запрос', 'наблюдатель', 'наблюдатель-sha256', 'якорь', 'якорь-sha256'):
+        controlled.add_argument('--' + имя, required=True)
+    controlled.add_argument('цель', nargs=argparse.REMAINDER)
     for имя in ("предпросмотр", "проверить-план", "закрыть", "возобновить", "проверить"):
         подкоманда = команды.add_parser(имя, allow_abbrev=False)
         добавить_общие_аргументы(подкоманда)
@@ -26271,6 +26395,13 @@ def главная(аргументы: Sequence[str] | None = None) -> int:
         return 1
     пространство = построить_разбор_аргументов().parse_args(аргументы)
     try:
+        if пространство.подкоманда == 'запустить-controlled':
+            try:
+                результат = _запустить_явный_контролируемый_git(пространство)
+            except OSError as ошибка:
+                raise ОшибкаОтчёта('не удалось подготовить controlled-запуск') from ошибка
+            print(json.dumps(результат._asdict(), ensure_ascii=True, sort_keys=True, separators=(',', ':')))
+            return 3
         if пространство.подкоманда == 'проверить-controlled-восстановление':
             try:
                 результат = _оценить_восстановление_контролируемого_git(
