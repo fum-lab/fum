@@ -17569,11 +17569,53 @@ def _тестово_предпросмотреть_active_помощника(
                 _ожидаемый_active=идентификатор, _ожидаемые_опоры=опоры)
 
 
+def _кооперативно_выполнить_предпросмотр(корень, запрос, сессия, контракт, срок):
+    """Только v1/v2 и непустая история; без Git или Popen под root-lock."""
+    if (type(контракт) is not tuple or len(контракт) != 3
+        or контракт[0] != 'fum.test-lock-cooperative.1' or type(контракт[1]) is not tuple
+        or len(контракт[1]) != 8 or контракт[1][6:] != (сессия, str(корень))
+        or type(контракт[2]) is not int or type(срок) is not float):
+        raise ОшибкаОтчёта('неверный cooperative контракт предпросмотра')
+    селектор, fd = контракт[1], контракт[2]
+    каталог = Path(селектор[1]); gitdir = каталог.parent
+    if (каталог.name != 'fum-controlled-lock' or gitdir.parent.name != 'worktrees'
+        or gitdir.resolve(strict=True) != gitdir):
+        raise ОшибкаОтчёта('неверный cooperative namespace предпросмотра')
+    root_fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        git_fd = os.open(gitdir, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        try:
+            if (_прочитать_источник_git_через_fd(root_fd, '.git', 4096) != b'gitdir: ' + os.fsencode(gitdir) + b'\n'
+                or _прочитать_источник_git_через_fd(git_fd, 'gitdir', 4096) != os.fsencode(корень / '.git') + b'\n'
+                or _прочитать_источник_git_через_fd(git_fd, 'commondir', 64) != b'../..\n'):
+                raise ОшибкаОтчёта('неподтверждённый cooperative namespace предпросмотра')
+        finally:
+            os.close(git_fd)
+    finally:
+        os.close(root_fd)
+    root_селектор = селектор[:6] + ('controlled-own.1', str(корень))
+    active = 'controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json'
+    with _тестовый_замок_новой_сессии(root_селектор, fd, корень, 'controlled-own.1', срок_монотонный=срок) as сверить:
+        сверить()
+        try:
+            os.stat(active, dir_fd=fd, follow_symlinks=False)
+        except FileNotFoundError:
+            pass
+        else:
+            raise ОшибкаОтчёта('controlled active запрещает предпросмотр')
+        результат = выполнить_предпросмотр(
+            корень, запрос, _контракт_замка=('fum.test-lock-single.1', селектор, fd),
+            _срок_замка=срок, _кооперативная_непустая=True)
+        сверить()
+        return результат
+
+
 def выполнить_предпросмотр(корень_репозитория: Path, запрос: Path, *,
                           каталог_замка: Path | None = None,
                           _контракт_замка=None, _срок_замка=None,
                           _физическая_история=False, _владелец=None,
-                          _ожидаемая_физическая_схема=None, _ожидаемый_терминал=None) -> int:
+                          _ожидаемая_физическая_схема=None, _ожидаемый_терминал=None,
+                          _кооперативная_непустая=False) -> int:
     схема = _выбрать_схему_физической_истории(_физическая_история, _ожидаемая_физическая_схема)
     if каталог_замка is not None and (
         not isinstance(каталог_замка, Path) or _физическая_история
@@ -17600,6 +17642,8 @@ def выполнить_предпросмотр(корень_репозитор�
                 _закрепить_каталог_прежнего_замка(корень_репозитория, запрос, каталог_замка))
             _срок_замка = time.monotonic() + 5.0
         корень, _, путь_отчёта, каталог, сессия = разрешить_сессию(корень_репозитория, запрос)
+        if type(_контракт_замка) is tuple and _контракт_замка and _контракт_замка[0] == 'fum.test-lock-cooperative.1':
+            return _кооперативно_выполнить_предпросмотр(корень, запрос, сессия, _контракт_замка, _срок_замка)
         if _контракт_замка is None:
             try:
                 сейчас = time.monotonic()
@@ -17626,6 +17670,8 @@ def выполнить_предпросмотр(корень_репозитор�
                 "предпросмотр запрещён для закрытого marker без снимка"
             )
         записи = каталоги.история()
+        if _кооперативная_непустая is True and not записи:
+            raise ОшибкаОтчёта('cooperative предпросмотр требует непустую историю')
         исходная_история = tuple((путь, байты) for путь, _, байты in записи)
         if (_контракт_замка is not None and _контракт_замка[0] != 'fum.test-lock-legacy.1' and any(
             запись['схема'] not in (СХЕМА_ЗАПУСКА, СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ)

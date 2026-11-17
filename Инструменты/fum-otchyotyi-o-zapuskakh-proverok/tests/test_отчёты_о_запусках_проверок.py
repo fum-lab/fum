@@ -40218,6 +40218,43 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             with м._удержать_объявленную_вершину_git(удержание, владелец, run, сессия) as вершина:
                 yield вершина, рабочий, домашний
 
+    def test_cooperative_legacy_writer_обновляет_непустой_отчёт_и_уважает_active(сам):
+        import shutil
+        import stat
+        м = загрузить_модуль_автоматизации()
+        фикстура = ФикстураОтчётов(_без_git=True)
+        try:
+            фикстура.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+            with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
+                shutil.copytree(фикстура.корень / 'Журнал', корень / 'Журнал')
+                роли = {запись[0]: запись for запись in вершина._удержание._источники}
+                замки = роли['head'][1] / 'fum-controlled-lock'
+                замки.mkdir(mode=0o700)
+                fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+                try:
+                    метка = os.fstat(fd)
+                    селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                                метка.st_uid, stat.S_IMODE(метка.st_mode), путь_запроса, str(корень))
+                    контракт = ('fum.test-lock-cooperative.1', селектор, fd)
+                    отчёт = корень / Path(путь_запроса).parent / 'отчёт.md'
+                    исходный = отчёт.read_bytes()
+                    with mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под lock')) as запуск:
+                        сам.assertEqual(м.выполнить_предпросмотр(корень, Path(путь_запроса),
+                            _контракт_замка=контракт, _срок_замка=time.monotonic()+10), 0)
+                        обновлённый = отчёт.read_bytes()
+                        сам.assertNotEqual(обновлённый, исходный)
+                        active = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+                        active.write_bytes(b'{}')
+                        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
+                            м.выполнить_предпросмотр(корень, Path(путь_запроса),
+                                _контракт_замка=контракт, _срок_замка=time.monotonic()+10)
+                        сам.assertEqual(отчёт.read_bytes(), обновлённый)
+                        запуск.assert_not_called()
+                finally:
+                    os.close(fd)
+        finally:
+            фикстура.очистить()
+
     def test_cooperative_план_git_вне_lock_и_отказ_при_active(сам):
         import fcntl
         import stat
