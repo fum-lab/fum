@@ -11719,6 +11719,44 @@ def _прочитать_результат_контролируемого_git(в
         'sha256:' + hashlib.sha256(ожидаемая).hexdigest())
 
 
+def _прочитать_сохранённую_историю_контролируемого_git(каталог, run, policy):
+    """Читать сохранённое наблюдение без утверждения завершения или допуска."""
+    if (type(каталог) is not type(Path('/')) or not каталог.is_absolute()
+        or каталог.resolve(strict=True) != каталог or type(run) is not str
+        or re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None
+        or type(policy) is not str or re.fullmatch(r'sha256:[0-9a-f]{64}', policy) is None):
+        raise ОшибкаОтчёта('неверные параметры controlled-истории')
+    fd = os.open(каталог, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        def метка():
+            данные = os.fstat(fd)
+            if not stat.S_ISDIR(данные.st_mode) or данные.st_uid != os.geteuid() or stat.S_IMODE(данные.st_mode) != 0o700:
+                raise ОшибкаОтчёта('неподтверждённый каталог controlled-истории')
+            return данные.st_dev, данные.st_ino, данные.st_uid, данные.st_mode
+        до = метка()
+        terminal, release, history = (_прочитать_источник_git_через_fd(fd, имя, 4096)
+                                      for имя in ('terminal.json', 'release.json', 'history.json'))
+        if any(type(данные) is not bytes for данные in (terminal, release, history)):
+            raise ОшибкаОтчёта('неполная controlled-история')
+        for данные, схема in ((terminal, 'fum.git-controlled-terminal-evidence.1'),
+                             (release, 'fum.git-controlled-release-evidence.1')):
+            запись = _разобрать_машинный_json(данные.decode('utf-8'))
+            if (type(запись) is not dict or запись.get('schema') != схема
+                or запись.get('state') != 'UNKNOWN' or запись.get('run') != run
+                or запись.get('policy_sha256') != policy):
+                raise ОшибкаОтчёта('несовместимая квитанция controlled-истории')
+        if history != _сформировать_наблюдение_контролируемого_git(run, bytes.fromhex(policy[7:]), terminal, release):
+            raise ОшибкаОтчёта('controlled-история не совпадает с квитанциями')
+        if метка() != до:
+            raise ОшибкаОтчёта('каталог controlled-истории изменился')
+        return _РезультатИсторииКонтролируемогоGit('fum.git-controlled-history-result.1', 'UNKNOWN', run,
+                                                    'sha256:' + hashlib.sha256(history).hexdigest())
+    except (UnicodeError, ValueError, OSError) as ошибка:
+        raise ОшибкаОтчёта('не удалось прочитать controlled-историю') from ошибка
+    finally:
+        os.close(fd)
+
+
 class _ПолномочиеСобственногоGit:
     """Однократное полномочие лишь для явно назначенного рабочего дерева.
 
@@ -26012,6 +26050,10 @@ def добавить_общие_аргументы(разбор: argparse.Argume
 def построить_разбор_аргументов() -> argparse.ArgumentParser:
     разбор = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     команды = разбор.add_subparsers(dest="подкоманда", required=True)
+    история = команды.add_parser('прочитать-controlled-историю', allow_abbrev=False)
+    история.add_argument('--каталог', type=Path, required=True)
+    история.add_argument('--run', required=True)
+    история.add_argument('--policy-sha256', required=True)
     for имя in ("предпросмотр", "проверить-план", "закрыть", "возобновить", "проверить"):
         подкоманда = команды.add_parser(имя, allow_abbrev=False)
         добавить_общие_аргументы(подкоманда)
@@ -26071,6 +26113,14 @@ def главная(аргументы: Sequence[str] | None = None) -> int:
         return 1
     пространство = построить_разбор_аргументов().parse_args(аргументы)
     try:
+        if пространство.подкоманда == 'прочитать-controlled-историю':
+            try:
+                результат = _прочитать_сохранённую_историю_контролируемого_git(
+                    пространство.каталог, пространство.run, пространство.policy_sha256)
+            except OSError as ошибка:
+                raise ОшибкаОтчёта('не удалось открыть controlled-историю') from ошибка
+            print(json.dumps(результат._asdict(), ensure_ascii=True, sort_keys=True, separators=(',', ':')))
+            return 3
         if пространство.подкоманда == "запустить":
             команда = list(пространство.аргументы_команды)
             if not команда or команда[0] != "--":

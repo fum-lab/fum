@@ -40896,6 +40896,41 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         сам.assertEqual(запись['schema'], 'fum.git-controlled-history-observation.1')
         сам.assertNotIn('fingerprint_sha256', запись)
 
+    def test_cli_controlled_история_возвращает_unknown_и_отклоняет_подмену(сам):
+        import io
+        м = загрузить_модуль_автоматизации()
+        run = '00112233-4455-4677-8899-aabbccddeeff'
+        policy = 'sha256:' + '1' * 64
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог).resolve()
+            def квитанция(схема):
+                return json.dumps({'schema': схема, 'state': 'UNKNOWN', 'run': run,
+                                   'policy_sha256': policy}, sort_keys=True).encode()
+            terminal = квитанция('fum.git-controlled-terminal-evidence.1')
+            release = квитанция('fum.git-controlled-release-evidence.1')
+            (путь / 'terminal.json').write_bytes(terminal)
+            (путь / 'release.json').write_bytes(release)
+            (путь / 'history.json').write_bytes(м._сформировать_наблюдение_контролируемого_git(
+                run, bytes.fromhex(policy[7:]), terminal, release))
+            args = ['прочитать-controlled-историю', '--каталог', str(путь), '--run', run, '--policy-sha256', policy]
+            out, err = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                сам.assertEqual(м.главная(args), 3)
+                сам.assertEqual(json.loads(out.getvalue())['состояние'], 'UNKNOWN')
+                with mock.patch.object(м, '_прочитать_сохранённую_историю_контролируемого_git',
+                                       side_effect=OSError('private path')):
+                    сам.assertEqual(м.главная(args), 1)
+                настоящий_close = os.close
+                def ошибка_close(fd):
+                    настоящий_close(fd)
+                    raise OSError('private path')
+                with mock.patch.object(м.os, 'close', side_effect=ошибка_close):
+                    сам.assertEqual(м.главная(args), 1)
+                (путь / 'release.json').write_bytes(b'tampered')
+                сам.assertEqual(м.главная(args), 1)
+                сам.assertEqual(м.главная([*args[:2], str(путь / 'missing'), *args[3:]]), 1)
+            сам.assertNotIn(str(путь), err.getvalue())
+
     def test_потребитель_истории_обнаруживает_реальную_подмену_файла(сам):
         import stat
         м = загрузить_модуль_автоматизации()
