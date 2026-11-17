@@ -19307,11 +19307,39 @@ class ПроверкаСобственногоСупервизора(unittest.Te
                 запись = json.loads((каталог_квитанций / 'intent.json').read_bytes())
                 сам.assertEqual((запись['schema'], запись['state'], запись['run']),
                                 ('fum.test-helper-intent.1', 'UNKNOWN', run))
+                сам.assertEqual(запись['generation'], grant2._поколение)
+                сам.assertRegex(запись['grant_sha256'], r'\A[0-9a-f]{64}\Z')
+                сам.assertNotIn(str(корень), (каталог_квитанций / 'intent.json').read_text())
+                данные = {'root': str(корень), 'root_identity': list(grant2._метка_корня),
+                          'session': запрос, 'run': run, 'generation': grant2._поколение,
+                          'helper_pin': list(pin), 'locks': [list(опора[0]) for опора in опоры],
+                          'command': list(команда), 'deadline_ns': int(grant2._связь[9] * 1_000_000_000)}
+                def oracle(объект):
+                    пары = [json.dumps(ключ, ensure_ascii=True) + ':' +
+                            json.dumps(объект[ключ], ensure_ascii=True, separators=(',', ':'))
+                            for ключ in sorted(объект)]
+                    байты = ('{' + ','.join(пары) + '}').encode('utf-8')
+                    return hashlib.sha256(b'fum.test-helper-fixture-grant.1' + bytes([0]) + байты).hexdigest()
+                сам.assertEqual(запись['grant_sha256'], oracle(данные))
+                мутации = {'root': str(корень) + '-other', 'root_identity': [1, 2, 3, 448],
+                           'session': 'Журнал/other/запрос.md',
+                           'run': '00000000-0000-4000-8000-000000000002',
+                           'generation': '00000000-0000-4000-8000-000000000003',
+                           'helper_pin': [pin[0], 'f' * 64],
+                           'locks': [list(опоры[1][0]), list(опоры[0][0])],
+                           'command': list(команда[:-1]) + ['999'],
+                           'deadline_ns': данные['deadline_ns'] + 1}
+                for поле, другое in мутации.items():
+                    изменённое = dict(данные); изменённое[поле] = другое
+                    with сам.subTest(поле=поле):
+                        сам.assertNotEqual(oracle(изменённое), запись['grant_sha256'])
+                        сам.assertEqual(м._тестовый_digest_фикстуры_помощника(изменённое), oracle(изменённое))
                 with сам.assertRaises(м.ОшибкаОтчёта):
                     issuer.записать_intent()
                 with сам.assertRaises(м.ОшибкаОтчёта):
                     м._ТестовыйIssuerПомощника(grant2, квитанции_fd)
                 grant4 = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                сам.assertNotEqual(grant4._поколение, grant2._поколение)
                 grant4.сверить_один_раз(*args)
                 duplicate = м._ТестовыйIssuerПомощника(grant4, квитанции_fd)
                 with сам.assertRaises(FileExistsError):
@@ -19343,6 +19371,20 @@ class ПроверкаСобственногоСупервизора(unittest.Te
                         поздний.записать_intent()
                 сам.assertEqual(поздний.состояние, 'неизвестно')
                 сам.assertTrue((другой / 'intent.json').is_file())
+
+    def test_digest_фикстуры_помощника_по_независимому_вектору(сам):
+        м = загрузить_модуль_автоматизации()
+        запись = {'command': ['helper', 'arg'], 'deadline_ns': 42, 'generation': 'g',
+                  'helper_pin': ['/bin/h', 'sha256:00'], 'locks': [['old', 1], ['new', 2]],
+                  'root': '/private/tmp/r', 'root_identity': [1, 2, 3, 448],
+                  'run': 'r', 'session': 's'}
+        ожидаемый = 'aa11ca4d24ca13b6bface538a2e0bd6c7cad698ad392208a1a4224d52329179e'
+        сам.assertEqual(м._тестовый_digest_фикстуры_помощника(запись), ожидаемый)
+        for ключ in запись:
+            with сам.subTest(поле=ключ):
+                изменённая = copy.deepcopy(запись)
+                изменённая[ключ] = [изменённая[ключ], 'другое']
+                сам.assertNotEqual(м._тестовый_digest_фикстуры_помощника(изменённая), ожидаемый)
 
     def test_реальный_терминал_попадает_в_предпросмотр_с_ожиданием(сам):
         код = сам._проверить_изолированный_предпросмотр(

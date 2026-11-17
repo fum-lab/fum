@@ -24658,6 +24658,7 @@ class _ТестовыйGrantПомощника:
             старый_селектор=опоры[0][0], новый_селектор=опоры[1][0])
         сам._связь = (корень, корень_fd, запрос, run, владелец, барьер, pin, опоры, команда, срок)
         сам._метка_корня, сам._метки = метка(корень_ст), tuple(метки)
+        сам._поколение = str(uuid.uuid4())
         сам._pid, сам._поток, сам._использован = os.getpid(), threading.current_thread(), False
         сам._сверен = False
         сам._issuer_использован = False
@@ -24690,6 +24691,12 @@ class _ТестовыйGrantПомощника:
         return None
 
 
+def _тестовый_digest_фикстуры_помощника(данные):
+    канонические = json.dumps(данные, ensure_ascii=True, sort_keys=True,
+                             separators=(',', ':'), allow_nan=False).encode('utf-8')
+    return hashlib.sha256(b'fum.test-helper-fixture-grant.1\0' + канонические).hexdigest()
+
+
 class _ТестовыйIssuerПомощника:
     """Частное намерение для сверенного verifier; права на запуск не выдаёт."""
     def __init__(сам, verifier, каталог_fd):
@@ -24717,11 +24724,14 @@ class _ТестовыйIssuerПомощника:
             raise ОшибкаОтчёта('намерение помощника недоступно')
         сам.состояние = 'неизвестно'
         связь = сам._verifier._связь
-        digest = hashlib.sha256(json.dumps(
-            [связь[2], связь[3], list(связь[6]), list(связь[8])],
-            ensure_ascii=True, separators=(',', ':'), allow_nan=False).encode('utf-8')).hexdigest()
+        digest = _тестовый_digest_фикстуры_помощника(
+            {'root': str(связь[0]), 'root_identity': сам._verifier._метка_корня,
+             'session': связь[2], 'run': связь[3], 'generation': сам._verifier._поколение,
+             'helper_pin': связь[6], 'locks': [селектор for селектор, _ in связь[7]],
+             'command': связь[8], 'deadline_ns': int(связь[9] * 1_000_000_000)})
         данные = json.dumps({'schema': 'fum.test-helper-intent.1', 'state': 'UNKNOWN',
-                             'run': связь[3], 'grant_sha256': digest},
+                             'run': связь[3], 'generation': сам._verifier._поколение,
+                             'grant_sha256': digest},
                             sort_keys=True, separators=(',', ':')).encode('utf-8')
         _ВладениеЗакрытымПрофилемGit._записать_квитанцию(сам, 'intent.json', данные)
         владелец, барьер = связь[4], связь[5]
