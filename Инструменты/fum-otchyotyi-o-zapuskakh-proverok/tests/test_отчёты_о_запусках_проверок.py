@@ -40734,6 +40734,38 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         finally:
             фикстура.очистить()
 
+    def test_synthetic_адаптер_общего_замка_проверяет_namespace_и_active(сам):
+        import shutil
+        м = загрузить_модуль_автоматизации()
+        сам._адаптер_fixture = ФикстураОтчётов(_без_git=True)
+        сам._адаптер_fixture.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+        сам._адаптер_context = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._адаптер_context.__enter__()
+        shutil.copytree(сам._адаптер_fixture.корень / 'Журнал', корень / 'Журнал')
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        замки = роли['head'][1] / 'fum-controlled-lock'
+        замки.mkdir(mode=0o700)
+        чужой = корень.parent / 'other-locks'
+        чужой.mkdir(mode=0o700)
+        отчёт = корень / Path(путь_запроса).parent / 'отчёт.md'
+        исходный = отчёт.read_bytes()
+        active = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+        with mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под lock')) as запуск:
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._тестово_предпросмотр_с_общим_замком(корень, Path(путь_запроса), чужой, срок=time.monotonic()+10)
+            сам.assertEqual(отчёт.read_bytes(), исходный)
+            active.write_bytes(b'{}')
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
+                м._тестово_предпросмотр_с_общим_замком(корень, Path(путь_запроса), замки, срок=time.monotonic()+10)
+            сам.assertEqual(отчёт.read_bytes(), исходный)
+            active.unlink()
+            сам.assertEqual(м._тестово_предпросмотр_с_общим_замком(
+                корень, Path(путь_запроса), замки, срок=time.monotonic()+10), 0)
+            сам.assertNotEqual(отчёт.read_bytes(), исходный)
+            запуск.assert_not_called()
+        сам._адаптер_context.__exit__(None, None, None)
+        сам._адаптер_fixture.очистить()
+
     def test_cooperative_writer_и_controlled_cli_сериализуются_между_процессами(сам):
         import select
         import shutil
