@@ -10,6 +10,7 @@ import math
 import os
 import re
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
@@ -19249,6 +19250,99 @@ class ПроверкаСобственногоСупервизора(unittest.Te
             'isolated-git.2', _версия_6=True, _штатный_профиль=True,
             _проверка_настоящего_помощника=True, _раздельный_участок=True)
         сам.assertEqual(код, 0, 'помощник и штатный предпросмотр должны завершиться')
+
+    def test_синтетический_grant_поглощает_отказ_и_повтор(сам):
+        м = загрузить_модуль_автоматизации()
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as временный:
+            база = Path(временный).resolve(); корень = база / 'repo'; корень.mkdir()
+            опоры = []
+            with contextlib.ExitStack() as стек:
+                корень_fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, корень_fd)
+                запрос = 'Журнал/fixture/запрос.md'
+                имя_замка = 'fum-check-runs-' + hashlib.sha256(
+                    (str(корень) + '\0' + запрос).encode('utf-8')).hexdigest() + '.lock'
+                метки_замков = []
+                for имя in ('old', 'new'):
+                    путь = база / имя; путь.mkdir(mode=0o700)
+                    fd = os.open(путь, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                    стек.callback(os.close, fd)
+                    замок_fd = os.open(имя_замка, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600, dir_fd=fd)
+                    ст_замка = os.fstat(замок_fd)
+                    метки_замков.extend((str(ст_замка.st_dev), str(ст_замка.st_ino)))
+                    os.close(замок_fd)
+                    ст = os.fstat(fd)
+                    опоры.append((('fum.test-lock-root.2', str(путь), ст.st_dev, ст.st_ino,
+                                   ст.st_uid, stat.S_IMODE(ст.st_mode), запрос, str(корень)), fd))
+                ст = Path('/private/tmp').lstat()
+                барьер = м._ТестовыйОдноразовыйБарьер((ст.st_dev, ст.st_ino, ст.st_uid, stat.S_IMODE(ст.st_mode)))
+                владелец = м._ТестовыйВладелецЗапуска()
+                run = '00000000-0000-4000-8000-000000000001'
+                helper = (Path(м.__file__).resolve().parents[2] / 'fum-svyaznostj-rabochej-sessii'
+                          / 'scripts' / 'подготовить-и-проверить-поля-журнала.py')
+                pin = (str(helper), м._ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ)
+                команда = (sys.executable, '-S', '-B', str(helper), '--корень', str(корень),
+                           '--запрос', запрос, '--каталог-замка', опоры[0][0][1],
+                           '--тестовый-каталог-нового-замка', опоры[1][0][1],
+                           '--тестовый-active', run, '--тестовые-опоры', *метки_замков)
+                args = (корень, корень_fd, запрос, run, владелец, барьер, pin, tuple(опоры), команда)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._ТестовыйGrantПомощника(*args[:-1], команда + ('лишний',), time.monotonic() + 5.0)
+                grant = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                with mock.patch.object(м.subprocess, 'Popen') as запуск:
+                    with сам.assertRaises(м.ОшибкаОтчёта):
+                        grant.сверить_один_раз(*args[:4], м._ТестовыйВладелецЗапуска(), *args[5:])
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'уже использован'):
+                        grant.сверить_один_раз(*args)
+                    запуск.assert_not_called()
+                grant2 = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                сам.assertIsNone(grant2.сверить_один_раз(*args))
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'уже использован'):
+                    grant2.сверить_один_раз(*args)
+                каталог_квитанций = база / 'receipts'; каталог_квитанций.mkdir(mode=0o700)
+                квитанции_fd = os.open(каталог_квитанций, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, квитанции_fd)
+                issuer = м._ТестовыйIssuerПомощника(grant2, квитанции_fd)
+                сам.assertIsNone(issuer.записать_intent())
+                запись = json.loads((каталог_квитанций / 'intent.json').read_bytes())
+                сам.assertEqual((запись['schema'], запись['state'], запись['run']),
+                                ('fum.test-helper-intent.1', 'UNKNOWN', run))
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    issuer.записать_intent()
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._ТестовыйIssuerПомощника(grant2, квитанции_fd)
+                grant4 = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                grant4.сверить_один_раз(*args)
+                duplicate = м._ТестовыйIssuerПомощника(grant4, квитанции_fd)
+                with сам.assertRaises(FileExistsError):
+                    duplicate.записать_intent()
+                сам.assertEqual(duplicate.состояние, 'неизвестно')
+                grant3 = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                владелец.состояние = 'занят'
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'не совпадает'):
+                    grant3.сверить_один_раз(*args)
+                владелец.состояние = 'готов'
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'уже использован'):
+                    grant3.сверить_один_раз(*args)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._ТестовыйIssuerПомощника(grant3, квитанции_fd)
+                grant5 = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                grant5.сверить_один_раз(*args)
+                with сам.assertRaises(OSError):
+                    м._ТестовыйIssuerПомощника(grant5, -1)
+                with сам.assertRaises(м.ОшибкаОтчёта):
+                    м._ТестовыйIssuerПомощника(grant5, квитанции_fd)
+                другой = база / 'late'; другой.mkdir(mode=0o700)
+                другой_fd = os.open(другой, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                стек.callback(os.close, другой_fd)
+                grant6 = м._ТестовыйGrantПомощника(*args, time.monotonic() + 5.0)
+                grant6.сверить_один_раз(*args)
+                поздний = м._ТестовыйIssuerПомощника(grant6, другой_fd)
+                with mock.patch.object(м, '_срок_действителен', side_effect=[True, False]):
+                    with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'неизвестна фаза'):
+                        поздний.записать_intent()
+                сам.assertEqual(поздний.состояние, 'неизвестно')
+                сам.assertTrue((другой / 'intent.json').is_file())
 
     def test_реальный_терминал_попадает_в_предпросмотр_с_ожиданием(сам):
         код = сам._проверить_изолированный_предпросмотр(

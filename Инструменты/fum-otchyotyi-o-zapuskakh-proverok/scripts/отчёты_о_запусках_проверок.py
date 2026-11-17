@@ -24610,6 +24610,130 @@ class _ТестовыйТранспортСупервизора:
                 return результат
 
 
+class _ТестовыйGrantПомощника:
+    """Однократная сверка синтетической фикстуры; не снимает запрет запуска.
+
+    Не удостоверяет issuer, custody, durable intent или исполняемый образ.
+    """
+    def __init__(сам, корень, корень_fd, запрос, run, владелец, барьер,
+                 pin, опоры, команда, срок):
+        if (type(корень) is not type(Path('/')) or not корень.is_absolute()
+            or корень == Path('/private/tmp') or not корень.is_relative_to(Path('/private/tmp'))
+            or корень.resolve(strict=True) != корень or type(корень_fd) is not int
+            or type(запрос) is not str or not запрос.endswith('/запрос.md')
+            or Path(запрос).is_absolute() or '..' in Path(запрос).parts
+            or type(run) is not str or проверить_идентификатор(run) != run
+            or type(владелец) is not _ТестовыйВладелецЗапуска
+            or type(барьер) is not _ТестовыйОдноразовыйБарьер
+            or владелец.состояние != 'готов' or владелец.ошибка is not None
+            or владелец._блокировка.locked() or владелец._жизненный_барьер is not None
+            or барьер.состояние != 'готов' or барьер.ошибка is not None or барьер._владелец is not None
+            or type(pin) is not tuple or len(pin) != 2
+            or type(pin[0]) is not str or pin[1] != _ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ
+            or type(опоры) is not tuple or len(опоры) != 2
+            or any(type(опора) is not tuple or len(опора) != 2
+                   or type(опора[0]) is not tuple or len(опора[0]) != 8
+                   or type(опора[1]) is not int for опора in опоры)
+            or type(команда) is not tuple or not команда or any(type(э) is not str for э in команда)
+            or type(срок) is not float or not _срок_действителен(срок)):
+            raise ОшибкаОтчёта('неверная заявка синтетического grant')
+        метка = lambda с: (с.st_dev, с.st_ino, с.st_uid, stat.S_IMODE(с.st_mode))
+        корень_ст = os.fstat(корень_fd)
+        if (not stat.S_ISDIR(корень_ст.st_mode) or корень_ст.st_uid != os.geteuid()
+            or метка(корень_ст) != метка(os.stat(корень, follow_symlinks=False))):
+            raise ОшибкаОтчёта('корень синтетического grant не совпадает')
+        метки = []
+        for селектор, fd in опоры:
+            сведения = os.fstat(fd)
+            if (селектор[0] != 'fum.test-lock-root.2' or селектор[6:] != (запрос, str(корень))
+                or not stat.S_ISDIR(сведения.st_mode) or сведения.st_uid != os.geteuid()
+                or stat.S_IMODE(сведения.st_mode) != 0o700 or метка(сведения) != селектор[2:6]
+                or метка(os.stat(селектор[1], follow_symlinks=False)) != селектор[2:6]):
+                raise ОшибкаОтчёта('опора синтетического grant не совпадает')
+            метки.append(метка(сведения))
+        if метки[0][:2] == метки[1][:2]:
+            raise ОшибкаОтчёта('опоры синтетического grant совпадают')
+        _тестово_сверить_pin_помощника(
+            команда, pin, корень=корень, запрос=Path(запрос), идентификатор=run,
+            старый_селектор=опоры[0][0], новый_селектор=опоры[1][0])
+        сам._связь = (корень, корень_fd, запрос, run, владелец, барьер, pin, опоры, команда, срок)
+        сам._метка_корня, сам._метки = метка(корень_ст), tuple(метки)
+        сам._pid, сам._поток, сам._использован = os.getpid(), threading.current_thread(), False
+        сам._сверен = False
+        сам._issuer_использован = False
+
+    def сверить_один_раз(сам, корень, корень_fd, запрос, run, владелец, барьер, pin, опоры, команда):
+        if сам._использован:
+            raise ОшибкаОтчёта('синтетический grant уже использован')
+        сам._использован = True
+        ожидаемые = сам._связь
+        if ((корень, корень_fd, запрос, run, pin, опоры, команда) !=
+            (ожидаемые[0], ожидаемые[1], ожидаемые[2], ожидаемые[3], ожидаемые[6], ожидаемые[7], ожидаемые[8])
+            or владелец is not ожидаемые[4] or барьер is not ожидаемые[5]
+            or владелец.состояние != 'готов' or владелец.ошибка is not None
+            or владелец._блокировка.locked() or владелец._жизненный_барьер is not None
+            or барьер.состояние != 'готов' or барьер.ошибка is not None or барьер._владелец is not None
+            or сам._pid != os.getpid() or сам._поток is not threading.current_thread()
+            or not _срок_действителен(ожидаемые[9])):
+            raise ОшибкаОтчёта('синтетический grant не совпадает')
+        метка = lambda с: (с.st_dev, с.st_ino, с.st_uid, stat.S_IMODE(с.st_mode))
+        if (метка(os.fstat(корень_fd)) != сам._метка_корня
+            or метка(os.stat(корень, follow_symlinks=False)) != сам._метка_корня
+            or any(метка(os.fstat(fd)) != метка_опоры
+                   or метка(os.stat(селектор[1], follow_symlinks=False)) != метка_опоры
+                   for (селектор, fd), метка_опоры in zip(опоры, сам._метки))):
+            raise ОшибкаОтчёта('опоры синтетического grant изменились')
+        _тестово_сверить_pin_помощника(
+            команда, pin, корень=корень, запрос=Path(запрос), идентификатор=run,
+            старый_селектор=опоры[0][0], новый_селектор=опоры[1][0])
+        сам._сверен = True
+        return None
+
+
+class _ТестовыйIssuerПомощника:
+    """Частное намерение для сверенного verifier; права на запуск не выдаёт."""
+    def __init__(сам, verifier, каталог_fd):
+        if (type(verifier) is not _ТестовыйGrantПомощника or verifier._сверен is not True
+            or verifier._issuer_использован is not False
+            or verifier._pid != os.getpid() or verifier._поток is not threading.current_thread()
+            or type(каталог_fd) is not int):
+            raise ОшибкаОтчёта('нет сверенной синтетической заявки')
+        verifier._issuer_использован = True
+        ст = os.fstat(каталог_fd)
+        if (not stat.S_ISDIR(ст.st_mode) or ст.st_uid != os.getuid() or os.getuid() != os.geteuid()
+            or stat.S_IMODE(ст.st_mode) != 0o700):
+            raise ОшибкаОтчёта('неверный каталог намерения помощника')
+        сам._verifier = verifier
+        сам._каталог_квитанций_fd = каталог_fd
+        сам._метка_каталога_квитанций = (ст.st_dev, ст.st_ino, ст.st_uid, stat.S_IMODE(ст.st_mode))
+        сам._попытка_квитанции, сам._fd_квитанций = None, []
+        сам._pid, сам._поток = os.getpid(), threading.current_thread()
+        сам.состояние = 'готов'
+
+    def записать_intent(сам):
+        if (сам.состояние != 'готов' or сам._pid != os.getpid()
+            or сам._поток is not threading.current_thread() or сам._verifier._сверен is not True
+            or not _срок_действителен(сам._verifier._связь[9])):
+            raise ОшибкаОтчёта('намерение помощника недоступно')
+        сам.состояние = 'неизвестно'
+        связь = сам._verifier._связь
+        digest = hashlib.sha256(json.dumps(
+            [связь[2], связь[3], list(связь[6]), list(связь[8])],
+            ensure_ascii=True, separators=(',', ':'), allow_nan=False).encode('utf-8')).hexdigest()
+        данные = json.dumps({'schema': 'fum.test-helper-intent.1', 'state': 'UNKNOWN',
+                             'run': связь[3], 'grant_sha256': digest},
+                            sort_keys=True, separators=(',', ':')).encode('utf-8')
+        _ВладениеЗакрытымПрофилемGit._записать_квитанцию(сам, 'intent.json', данные)
+        владелец, барьер = связь[4], связь[5]
+        if (not _срок_действителен(связь[9]) or владелец.состояние != 'готов'
+            or владелец.ошибка is not None or владелец._блокировка.locked()
+            or владелец._жизненный_барьер is not None or барьер.состояние != 'готов'
+            or барьер.ошибка is not None or барьер._владелец is not None):
+            raise ОшибкаОтчёта('неизвестна фаза после намерения помощника')
+        сам.состояние = 'намерение записано'
+        return None
+
+
 def _выполнить_ограниченный_запуск(
     корень_репозитория: Path,
     запрос: Path,
