@@ -40804,30 +40804,78 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                   'm._выполнить_контролируемый_цикл=lambda *a,**k: m._РезультатКонтролируемойПроверки("fum.git-controlled-check-result.1","UNKNOWN",0,"sha256:"+"0"*64); '
                   'm.subprocess.Popen=lambda *a,**k: (_ for _ in ()).throw(RuntimeError("unexpected Popen")); '
                   'raise SystemExit(m.главная(json.loads(sys.argv[2])))')
+        сам._legacy_child_фаза = 'попытка Popen'
         child = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, source, json.dumps(args), str(замки / lockname)],
                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         сам._legacy_child = child
+        сам._legacy_child_фаза = 'зарегистрирован'
         исходный_writer = м.заменить_управляемый_блок
         def writer_с_конкурентом(*args, **kwargs):
             child.stdin.write(b'P'); child.stdin.flush()
             сам.assertTrue(select.select([child.stdout], [], [], 10)[0])
             сам.assertEqual(os.read(child.stdout.fileno(), 1), b'B')
             return исходный_writer(*args, **kwargs)
+        def предпросмотр_в_гонке():
+            if getattr(сам, '_использовать_адаптер_в_гонке', False):
+                return м._тестово_предпросмотр_с_общим_замком(
+                    корень, Path(путь_запроса), замки, срок=time.monotonic()+10)
+            return м.выполнить_предпросмотр(корень, Path(путь_запроса),
+                _контракт_замка=контракт, _срок_замка=time.monotonic()+10)
         with mock.patch.object(м, 'заменить_управляемый_блок', side_effect=writer_с_конкурентом), \
              mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под root-lock')):
-            сам.assertEqual(м.выполнить_предпросмотр(корень, Path(путь_запроса),
-                _контракт_замка=контракт, _срок_замка=time.monotonic()+10), 0)
+            сам.assertEqual(предпросмотр_в_гонке(), 0)
         child.stdin.close(); child.stdin = None
-        stdout, stderr = child.communicate(timeout=10)
+        сам._legacy_child_фаза = 'ожидание ограниченного вывода'
+        streams = (child.stdout, child.stderr)
+        for stream in streams:
+            os.set_blocking(stream.fileno(), False)
+        остаток = list(streams)
+        буферы = {stream: bytearray() for stream in streams}
+        срок_вывода = time.monotonic() + 10
+        while остаток or child.poll() is None:
+            осталось = срок_вывода - time.monotonic()
+            if осталось <= 0:
+                raise AssertionError('UNKNOWN: срок или завершение child не установлены')
+            готовые = select.select(остаток, [], [], min(осталось, 0.05))[0]
+            for stream in готовые:
+                часть = os.read(stream.fileno(), 4097 - len(буферы[stream]))
+                if not часть:
+                    остаток.remove(stream)
+                else:
+                    буферы[stream].extend(часть)
+                    if len(буферы[stream]) > 4096:
+                        raise AssertionError('UNKNOWN: вывод child превышает предел')
+        stdout, stderr = (bytes(буферы[stream]) for stream in streams)
+        сам._legacy_child_фаза = 'завершение и EOF наблюдались'
+        for stream in streams:
+            stream.close()
         сам.assertEqual((child.returncode, stderr), (3, b''))
         сам.assertEqual(json.loads(stdout)['состояние'], 'UNKNOWN')
         with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'active запрещает'):
-            м.выполнить_предпросмотр(корень, Path(путь_запроса), _контракт_замка=контракт,
-                                     _срок_замка=time.monotonic()+10)
+            предпросмотр_в_гонке()
         os.close(fd)
         сам._legacy_context.__exit__(None, None, None)
         сам._legacy_context = None
         сам._legacy_fixture.очистить()
+
+    def test_synthetic_адаптер_и_controlled_cli_конкурируют_за_общий_замок(сам):
+        expected = getattr(сам, 'ожидаемый_sha256_интерпретатора', None)
+        сам.assertRegex(expected or '', r'^[0-9a-f]{64}$')
+        сам.assertEqual(sys.implementation.name, 'cpython')
+        сам.assertGreaterEqual(sys.version_info[:2], (3, 11))
+        исполняемый = Path(sys.executable).resolve(strict=True)
+        сам.assertEqual(исполняемый, getattr(сам, 'ожидаемый_путь_интерпретатора', None))
+        сам.assertEqual(hashlib.sha256(исполняемый.read_bytes()).hexdigest(), expected)
+        сам._использовать_адаптер_в_гонке = True
+        сам.test_cooperative_writer_и_controlled_cli_сериализуются_между_процессами()
+
+    def test_synthetic_гонка_отклоняет_неверный_pin_до_fixture(сам):
+        сам.ожидаемый_sha256_интерпретатора = '0' * 64
+        сам.ожидаемый_путь_интерпретатора = Path(sys.executable).resolve(strict=True)
+        with mock.patch.object(сам, 'test_cooperative_writer_и_controlled_cli_сериализуются_между_процессами') as гонка:
+            with сам.assertRaises(AssertionError):
+                сам.test_synthetic_адаптер_и_controlled_cli_конкурируют_за_общий_замок()
+            гонка.assert_not_called()
 
     def test_cooperative_writer_и_реальный_controlled_cycle_между_процессами(сам):
         import select
