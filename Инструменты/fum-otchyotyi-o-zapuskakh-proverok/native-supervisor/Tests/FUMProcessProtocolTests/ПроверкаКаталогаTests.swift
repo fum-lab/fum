@@ -4,6 +4,48 @@ import Foundation
 import Testing
 @testable import FUMProcessProtocol
 
+@Test func опорыМостаПроверяютПятьРазныхКаталогов() throws {
+    let база = NSTemporaryDirectory() + "fum-bridge-fds-" + UUID().uuidString
+    try FileManager.default.createDirectory(atPath: база, withIntermediateDirectories: false,
+                                            attributes: [.posixPermissions: 0o700])
+    var fd: [Int32] = []
+    defer { for номер in fd { _ = close(номер) } }
+    var каталоги: [ОпораЗаимствованногоКаталога] = []
+    for (индекс, имя) in ["root", "lock", "receipt", "session", "bridge"].enumerated() {
+        let путь = база + "/" + имя
+        try FileManager.default.createDirectory(atPath: путь, withIntermediateDirectories: false,
+                                                attributes: [.posixPermissions: 0o700])
+        let номер = open(путь, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard номер > 2 else { throw ОшибкаПротокола.неверныеАргументы }
+        fd.append(номер)
+        var метка = stat()
+        guard fstat(номер, &метка) == 0, let dev = UInt64(exactly: метка.st_dev) else {
+            throw ОшибкаПротокола.неверныеАргументы
+        }
+        каталоги.append(try #require(ОпораЗаимствованногоКаталога(
+            путь, String(номер), String(dev), String(метка.st_ino), String(метка.st_uid),
+            String(метка.st_mode & 0o7777), область: индекс == 0 ? .рабочееДерево : .приватныеКвитанции,
+            занятыеДескрипторы: [])))
+    }
+    var вход: [Int32] = [-1, -1], выход: [Int32] = [-1, -1]
+    guard pipe(&вход) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = close(вход[0]); _ = close(вход[1]) }
+    guard pipe(&выход) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = close(выход[0]); _ = close(выход[1]) }
+    #expect(fcntl(вход[0], F_SETFD, FD_CLOEXEC) == 0)
+    #expect(fcntl(выход[1], F_SETFD, FD_CLOEXEC) == 0)
+    let номера = try #require(ДескрипторыСинтетическогоПомощника(
+        String(вход[0]), String(fd[0]), String(fd[1]), String(fd[2]), занятые: []))
+    let дуплекс = try #require(ДуплексныеОпорыПомощника(номера, ответ: String(выход[1]), занятые: []))
+    let опоры = try #require(ОпорыМостаПомощника(дуплекс, сессия: String(fd[3]), мост: String(fd[4]), занятые: []))
+    #expect(ОпорыМостаПомощника(дуплекс, сессия: String(fd[3]), мост: String(fd[3]), занятые: []) == nil)
+    #expect(ОпорыМостаПомощника(дуплекс, сессия: String(fd[0]), мост: String(fd[4]), занятые: []) == nil)
+    #expect(подтвердитьОпорыМостаПомощника(опоры, корень: каталоги[0], замок: каталоги[1],
+        квитанции: каталоги[2], сессия: каталоги[3], мост: каталоги[4]))
+    #expect(!подтвердитьОпорыМостаПомощника(опоры, корень: каталоги[0], замок: каталоги[1],
+        квитанции: каталоги[2], сессия: каталоги[4], мост: каталоги[3]))
+}
+
 @Test func опорыПомощникаПроверяютРеальныеТипы() throws {
     let база = NSTemporaryDirectory() + "fum-helper-fds-" + UUID().uuidString
     try FileManager.default.createDirectory(atPath: база, withIntermediateDirectories: false,
