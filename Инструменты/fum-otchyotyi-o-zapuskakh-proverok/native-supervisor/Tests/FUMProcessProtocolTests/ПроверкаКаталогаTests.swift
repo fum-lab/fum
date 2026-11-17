@@ -35,6 +35,49 @@ import Testing
     let номера = try #require(ДескрипторыСинтетическогоПомощника(String(канал[0]), String(каталогFD[0]),
         String(каталогFD[1]), String(каталогFD[2]), занятые: []))
     #expect(подтвердитьОпорыСинтетическогоПомощника(номера, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
+    let лишний = open("/dev/null", O_RDONLY | O_CLOEXEC)
+    guard лишний > 2 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = close(лишний) }
+    let вызов = Array("fixture-nonce\n".utf8)
+    let записано = вызов.withUnsafeBytes { write(канал[1], $0.baseAddress, $0.count) }
+    guard записано == вызов.count else { throw ОшибкаПротокола.неверныеАргументы }
+    var действия: posix_spawn_file_actions_t?, настройки: posix_spawnattr_t?
+    guard posix_spawn_file_actions_init(&действия) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = posix_spawn_file_actions_destroy(&действия) }
+    guard posix_spawnattr_init(&настройки) == 0 else { throw ОшибкаПротокола.неверныеАргументы }
+    defer { _ = posix_spawnattr_destroy(&настройки) }
+    guard posix_spawn_file_actions_addopen(&действия, STDIN_FILENO, "/dev/null", O_RDONLY, 0) == 0,
+          posix_spawn_file_actions_addopen(&действия, STDOUT_FILENO, "/dev/null", O_WRONLY, 0) == 0,
+          posix_spawn_file_actions_addopen(&действия, STDERR_FILENO, "/dev/null", O_WRONLY, 0) == 0,
+          posix_spawnattr_setflags(&настройки, Int16(POSIX_SPAWN_CLOEXEC_DEFAULT)) == 0,
+          подготовитьПередачуОпорПомощника(номера, корень: опоры[0], замок: опоры[1],
+                                            квитанции: опоры[2], действия: &действия) else {
+        throw ОшибкаПротокола.неверныеАргументы
+    }
+    let программа = "IFS= read -r x < /dev/fd/\(канал[0]); [ \"$x\" = fixture-nonce ] && " +
+        каталогFD.map { "[ -d /dev/fd/\($0) ]" }.joined(separator: " && ") + " && [ ! -e /dev/fd/\(лишний) ]"
+    let argv = ["/bin/sh", "-c", программа].map { strdup($0) } + [nil]
+    defer { for часть in argv { free(часть) } }
+    var среда: [UnsafeMutablePointer<CChar>?] = [nil]
+    var pid: pid_t = 0
+    let старт = argv.withUnsafeBufferPointer { a in среда.withUnsafeMutableBufferPointer { e in
+        posix_spawn(&pid, "/bin/sh", &действия, &настройки, UnsafeMutablePointer(mutating: a.baseAddress), e.baseAddress)
+    } }
+    guard старт == 0, pid > 1 else { throw ОшибкаПротокола.неверныеАргументы }
+    var сырой: Int32 = 0
+    var собран = false
+    for _ in 0..<500 {
+        let итог = waitpid(pid, &сырой, WNOHANG)
+        if итог == pid { собран = true; break }
+        if итог < 0 { break }
+        usleep(10_000)
+    }
+    if !собран {
+        // Не закрывать fixture и не повторять при неизвестном состоянии ребёнка.
+        while true { _ = pause() }
+    }
+    print("fixture-child=\(pid) raw=\(сырой)")
+    #expect(сырой == 0)
     let запись = try #require(ДескрипторыСинтетическогоПомощника(String(канал[1]), String(каталогFD[0]),
         String(каталогFD[1]), String(каталогFD[2]), занятые: []))
     #expect(!подтвердитьОпорыСинтетическогоПомощника(запись, корень: опоры[0], замок: опоры[1], квитанции: опоры[2]))
