@@ -40329,7 +40329,7 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             'root': метка(дескрипторы[0]), 'lock': метка(дескрипторы[1]), 'receipt': метка(дескрипторы[2]),
             'report': файл(отчёт), 'active': файл(active), 'controlled_active': файл(controlled),
             'helper_sha256': м._ТЕСТОВЫЙ_SHA256_ПОМОЩНИКА_ПОЛЕЙ, 'operation': 'synthetic-active-preview'}
-        source_test = _случай in ('source_missing', 'source_changed')
+        source_test = _случай in ('source_missing', 'source_changed', 'role_swap')
         if _случай == 'channel_intent' or source_test:
             def роль(путь, fd):
                 сведения = (путь / имя_lock).stat()
@@ -40391,7 +40391,7 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             _мосты=tuple(дескрипторы[3:5]) if _случай == 'channel_intent' or source_test else None)
         сам._synthetic_ресурсы['cap'] = cap
         if source_test:
-            cap._роли_fd = роли
+            cap._роли_fd = (роли[1], роли[0], *роли[2:]) if _случай == 'role_swap' else роли
             cap._опора_issuer = (дескрипторы[0], [], b'')  # До этой проверки выполнение не должно дойти.
         if _случай == 'channel_intent':
             канал = квитанции / 'intent.json'
@@ -40434,6 +40434,8 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                 сам.assertEqual(Path(ошибка.exception.filename), зеркало / исходники['pair_path'])
             elif _случай == 'source_changed':
                 сам.assertIn('synthetic исходник изменился', str(ошибка.exception))
+            elif _случай == 'role_swap':
+                сам.assertIn('synthetic роль FD изменилась', str(ошибка.exception))
             сам.assertEqual(отчёт.read_bytes(), исходный)
             сам.assertTrue(cap._ошибка)
             with сам.assertRaises(м.ОшибкаОтчёта):
@@ -40460,6 +40462,9 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
     def test_synthetic_root_bridge_не_пишет_при_подменённом_import(сам):
         сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('source_changed')
+
+    def test_synthetic_root_bridge_не_пишет_при_перестановке_ролей(сам):
+        сам.test_synthetic_root_bridge_собственный_active_публикует_отчёт('role_swap')
 
     def test_synthetic_root_lock_ошибка_выхода_не_повторяется(сам):
         м = загрузить_модуль_автоматизации()
