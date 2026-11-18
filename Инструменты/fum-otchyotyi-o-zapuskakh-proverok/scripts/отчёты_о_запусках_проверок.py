@@ -15631,6 +15631,8 @@ def _тестово_снять_ограниченное_состояние_се�
     """Synthetic снимок байтов; вызывающий отдельно отвечает за порядок замков."""
     if type(каталоги) is not _ЗакреплённыеКаталогиПредпросмотра:
         raise ОшибкаОтчёта('неверная опора synthetic снимка')
+    if Path(каталоги.сессия).name != 'запрос.md':
+        raise ОшибкаОтчёта('неверное имя запроса synthetic снимка')
     def перечислить():
         запись = каталоги._открыть('.', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC,
                                    родитель=каталоги._запуски)
@@ -15657,7 +15659,8 @@ def _тестово_снять_ограниченное_состояние_се�
             raise ОшибкаОтчёта('неизвестный файл synthetic истории')
     описание = []
     общая_длина = 0
-    элементы = [(каталоги._родитель, каталоги.путь.name, 'report')]
+    элементы = [(каталоги._родитель, Path(каталоги.сессия).name, 'request'),
+                (каталоги._родитель, каталоги.путь.name, 'report')]
     элементы.extend((каталоги._запуски, имя, имя) for имя in имена)
     for родитель, имя, роль in элементы:
         предел = min(1024 * 1024, 8 * 1024 * 1024 - общая_длина)
@@ -18068,6 +18071,7 @@ class _ТестовыйДолговечныйIntentОперации:
         if not 0 < len(сам._байты) <= 4096:
             raise ОшибкаОтчёта('synthetic intent превышает предел')
         сам._состояние = 'готов'
+        сам._identity = None
         сам._fd = []
         сам._попытка = None
 
@@ -18076,6 +18080,10 @@ class _ТестовыйДолговечныйIntentОперации:
             raise ОшибкаОтчёта('повтор synthetic intent запрещён')
         сам._состояние = 'неизвестно'
         _карантин_synthetic_intent.append(сам)
+        каталог = os.fstat(сам._каталог)
+        if ((каталог.st_dev, каталог.st_ino, каталог.st_uid, stat.S_IMODE(каталог.st_mode)) != сам._метка
+            or not stat.S_ISDIR(каталог.st_mode)):
+            raise ОшибкаОтчёта('каталог synthetic intent изменился')
         сам._попытка = 'создание'
         fd = os.open(сам._имя, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
                      0o600, dir_fd=сам._каталог)
@@ -18110,22 +18118,28 @@ class _ТестовыйДолговечныйIntentОперации:
             raise ОшибкаОтчёта('readback synthetic intent не совпал')
         после = os.fstat(fd)
         имя_после = os.stat(сам._имя, dir_fd=сам._каталог, follow_symlinks=False)
+        каталог_после = os.fstat(сам._каталог)
         if ((после.st_dev, после.st_ino, после.st_uid, после.st_mode, после.st_nlink, после.st_size,
              после.st_mtime_ns, после.st_ctime_ns)
             != (повтор.st_dev, повтор.st_ino, повтор.st_uid, повтор.st_mode, повтор.st_nlink, повтор.st_size,
                 повтор.st_mtime_ns, повтор.st_ctime_ns)
-            or (имя_после.st_dev, имя_после.st_ino) != identity):
+            or (имя_после.st_dev, имя_после.st_ino) != identity
+            or (каталог_после.st_dev, каталог_после.st_ino, каталог_после.st_uid,
+                stat.S_IMODE(каталог_после.st_mode)) != сам._метка):
             raise ОшибкаОтчёта('synthetic intent изменился при readback')
         сам._попытка = ('закрытие чтения', fd)
         сам._fd.pop()
         os.close(fd)
         сам._попытка = None
+        сам._identity = identity
         сам._состояние = 'записан'
         _карантин_synthetic_intent.remove(сам)
         return сам._имя, сам._байты
 
 
 _активные_synthetic_удержания = {}
+_подготовленные_synthetic_операции = {}
+_начатые_synthetic_эффекты = set()
 
 
 class _ТестовоеУдержаниеОбщегоЗамка:
@@ -18222,7 +18236,35 @@ def _тестово_удержать_общий_и_сессионный_замк
                 token.проверить(корень, сессия, run, операция, селектор, fd)
             finally:
                 object.__setattr__(token, '_phase', 'завершён')
+                _подготовленные_synthetic_операции.pop(id(token), None)
+                _начатые_synthetic_эффекты.discard(id(token))
                 _активные_synthetic_удержания.pop(id(token), None)
+
+
+def _тестово_подготовить_durable_intent(token, каталоги):
+    """Под обоими synthetic замками записать slot до возможного эффекта."""
+    if (type(token) is not _ТестовоеУдержаниеОбщегоЗамка
+        or type(каталоги) is not _ЗакреплённыеКаталогиПредпросмотра
+        or каталоги.сессия != token._session
+        or каталоги.путь != token._root / Path(token._session).parent / 'отчёт.md'):
+        raise ОшибкаОтчёта('неверные опоры synthetic подготовки')
+    проверить = _ТестовоеУдержаниеОбщегоЗамка.проверить
+    проверить(token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    снимок = _тестово_снять_ограниченное_состояние_сессии(каталоги)
+    сериализация = json.dumps(снимок, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+    if len(сериализация) > 256 * 1024:
+        raise ОшибкаОтчёта('synthetic описание состояния превышает предел')
+    digest = hashlib.sha256(b'fum.synthetic-preimage.1\0' + сериализация).hexdigest()
+    проверить(token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    intent = _ТестовыйДолговечныйIntentОперации(
+        token._fd, str(token._root), token._session, token._run, token._operation, digest, _манифест=снимок)
+    имя, байты = intent.создать()
+    проверить(token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    if _тестово_снять_ограниченное_состояние_сессии(каталоги) != снимок:
+        raise ОшибкаОтчёта('synthetic preimage изменился после intent; UNKNOWN')
+    проверить(token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    _подготовленные_synthetic_операции[id(token)] = (token, intent, каталоги, снимок, имя, байты, intent._identity)
+    return intent, снимок, имя, байты
 
 
 def _кооперативно_выполнить_предпросмотр(корень, запрос, сессия, контракт, срок, *, _закрытие=False, _возобновление=False):
@@ -18260,6 +18302,12 @@ def _кооперативно_выполнить_предпросмотр(кор
             pass
         else:
             raise ОшибкаОтчёта('controlled active запрещает предпросмотр')
+        for имя in (_имя_synthetic_слота(str(корень), сессия), _прежнее_имя_synthetic_слота(str(корень), сессия)):
+            try:
+                os.stat(имя, dir_fd=fd, follow_symlinks=False)
+            except FileNotFoundError:
+                continue
+            raise ОшибкаОтчёта('synthetic intent запрещает cooperative операцию')
         операция = выполнить_закрытие if _закрытие else выполнить_возобновление if _возобновление else выполнить_предпросмотр
         результат = операция(корень, запрос, _контракт_замка=('fum.test-lock-single.1', селектор, fd),
                              _срок_замка=срок, _кооперативная_непустая=True)
@@ -18495,8 +18543,121 @@ def выполнить_проверку_плана(корень_репозито
     return 0
 
 
+def _тестово_использовать_удержание_сессии(token, корень, сессия, операция, контракт):
+    if (type(token) is not _ТестовоеУдержаниеОбщегоЗамка or type(контракт) is not tuple
+        or len(контракт) != 3 or контракт[0] != 'fum.test-lock-single.1'
+        or контракт[1] != token._selector or контракт[2] != token._fd or token._operation != операция):
+        raise ОшибкаОтчёта('неверное synthetic удержание для операции')
+    подготовлено = _подготовленные_synthetic_операции.get(id(token))
+    if (type(подготовлено) is not tuple or len(подготовлено) != 7 or подготовлено[0] is not token
+        or type(подготовлено[1]) is not _ТестовыйДолговечныйIntentОперации
+        or type(подготовлено[2]) is not _ЗакреплённыеКаталогиПредпросмотра):
+        raise ОшибкаОтчёта('synthetic операция не имеет подтверждённого intent')
+    if id(token) in _начатые_synthetic_эффекты:
+        raise ОшибкаОтчёта('повтор synthetic эффекта запрещён')
+    _начатые_synthetic_эффекты.add(id(token))
+    def сверить():
+        _ТестовоеУдержаниеОбщегоЗамка.проверить(
+            token, корень, сессия, token._run, операция, контракт[1], контракт[2])
+        if _подготовленные_synthetic_операции.get(id(token)) is not подготовлено:
+            raise ОшибкаОтчёта('synthetic intent утратил владение')
+        имя, байты, identity = подготовлено[4:7]
+        до = os.stat(имя, dir_fd=token._fd, follow_symlinks=False)
+        if ((до.st_dev, до.st_ino) != identity
+            or _прочитать_источник_git_через_fd(token._fd, имя, 4096) != байты):
+            raise ОшибкаОтчёта('synthetic intent изменился; UNKNOWN')
+        после = os.stat(имя, dir_fd=token._fd, follow_symlinks=False)
+        if (после.st_dev, после.st_ino) != identity:
+            raise ОшибкаОтчёта('synthetic intent подменён; UNKNOWN')
+    сверить()
+    if _тестово_снять_ограниченное_состояние_сессии(подготовлено[2]) != подготовлено[3]:
+        raise ОшибкаОтчёта('synthetic preimage изменился перед эффектом; UNKNOWN')
+    сверить()
+    return contextlib.nullcontext(сверить)
+
+
+def _тестово_выполнить_операцию_с_terminal(token):
+    """Synthetic v1/v2; terminal фиксирует наблюдение, не production admission."""
+    if type(token) is not _ТестовоеУдержаниеОбщегоЗамка or token._operation not in ('закрыть', 'возобновить'):
+        raise ОшибкаОтчёта('неверная synthetic операция')
+    подготовлено = _подготовленные_synthetic_операции.get(id(token))
+    if type(подготовлено) is not tuple or len(подготовлено) != 7 or подготовлено[0] is not token:
+        raise ОшибкаОтчёта('synthetic операция не подготовлена')
+    intent, каталоги, исходный, имя, байты, identity = подготовлено[1:]
+    до = {строка[0]: строка for строка in исходный}
+    if (ИМЯ_ЖУРНАЛА_ВОЗОБНОВЛЕНИЯ in до
+        or (ИМЯ_СНИМКА in до) != (token._operation == 'возобновить')):
+        raise ОшибкаОтчёта('synthetic операция несовместима с preimage')
+    роли = set(до) - {ИМЯ_СНИМКА}
+    if token._operation == 'закрыть':
+        роли.add(ИМЯ_СНИМКА)
+    порядок = ('request', 'report') + tuple(sorted(роли - {'request', 'report'}))
+    верхняя_граница = tuple((роль, (2**64 - 1,) * 9, 'f' * 64) for роль in порядок)
+    raw_max = json.dumps(верхняя_граница, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+    digest_max = hashlib.sha256(b'fum.synthetic-preimage.1\0' + raw_max).hexdigest()
+    _ТестовыйДолговечныйIntentОперации(token._fd, str(token._root), token._session,
+        token._run, token._operation, digest_max, _манифест=верхняя_граница)
+    terminal_max = json.dumps({'schema': 'fum.synthetic-operation-terminal.1', 'state': 'UNKNOWN',
+        'run': token._run, 'operation': token._operation, 'intent_sha256': 'f' * 64,
+        'postimage_sha256': digest_max, 'postimage': верхняя_граница}, sort_keys=True,
+        separators=(',', ':'), ensure_ascii=True).encode('ascii')
+    if len(terminal_max) > 4096:
+        raise ОшибкаОтчёта('synthetic terminal заранее превышает предел')
+    контракт = ('fum.test-lock-single.1', token._selector, token._fd)
+    действие = выполнить_закрытие if token._operation == 'закрыть' else выполнить_возобновление
+    результат = действие(token._root, Path(token._session), _контракт_замка=контракт,
+                         _срок_замка=token._deadline, _кооперативная_непустая=True, _удержание=token)
+    if type(результат) is not int or результат != 0:
+        raise ОшибкаОтчёта('неподтверждённый synthetic результат; UNKNOWN')
+    _ТестовоеУдержаниеОбщегоЗамка.проверить(
+        token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    после = _тестово_снять_ограниченное_состояние_сессии(каталоги)
+    пост = {строка[0]: строка for строка in после}
+    общие = {роль: значение for роль, значение in до.items() if роль not in ('report', ИМЯ_СНИМКА)}
+    новые = {роль: значение for роль, значение in пост.items() if роль not in ('report', ИМЯ_СНИМКА)}
+    if (общие != новые or ИМЯ_ЖУРНАЛА_ВОЗОБНОВЛЕНИЯ in пост
+        or (ИМЯ_СНИМКА in пост) != (token._operation == 'закрыть')
+        or пост.get('report') == до.get('report')):
+        raise ОшибкаОтчёта('synthetic postimage не подтверждён; UNKNOWN')
+    записи = прочитать_историю_проверок(каталоги.каталог, token._session)
+    if not записи or any(запись['схема'] not in (СХЕМА_ЗАПУСКА, СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ)
+                         for _, запись, _ in записи):
+        raise ОшибкаОтчёта('неподтверждённая synthetic история; UNKNOWN')
+    if token._operation == 'закрыть':
+        проверить_закрытое_состояние(каталоги.путь, каталоги.каталог / ИМЯ_СНИМКА, записи, token._session)
+    else:
+        текст = _снять_отчёт_без_ссылок(каталоги.путь)[0].decode('utf-8')
+        начало, конец, маркер = границы_управляемого_блока(текст)
+        if маркер != ОТКРЫТЫЙ_МАРКЕР or текст[начало:конец] != сформировать_блок(записи, ОТКРЫТЫЙ_МАРКЕР):
+            raise ОшибкаОтчёта('synthetic открытый отчёт не подтверждён; UNKNOWN')
+    if _тестово_снять_ограниченное_состояние_сессии(каталоги) != после:
+        raise ОшибкаОтчёта('synthetic postimage изменился после проверки; UNKNOWN')
+    метка = os.stat(имя, dir_fd=token._fd, follow_symlinks=False)
+    if ((метка.st_dev, метка.st_ino) != identity
+        or _прочитать_источник_git_через_fd(token._fd, имя, 4096) != байты):
+        raise ОшибкаОтчёта('synthetic intent изменился до terminal; UNKNOWN')
+    raw = json.dumps(после, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+    digest = hashlib.sha256(b'fum.synthetic-preimage.1\0' + raw).hexdigest()
+    terminal = _ТестовыйДолговечныйIntentОперации(
+        token._fd, str(token._root), token._session, token._run, token._operation, digest, _манифест=после)
+    terminal._имя = имя + '.terminal'
+    terminal._байты = json.dumps({'schema': 'fum.synthetic-operation-terminal.1', 'state': 'UNKNOWN',
+        'run': token._run, 'operation': token._operation, 'intent_sha256': hashlib.sha256(байты).hexdigest(),
+        'postimage_sha256': digest, 'postimage': после}, sort_keys=True, separators=(',', ':'),
+        ensure_ascii=True).encode('ascii')
+    if len(terminal._байты) > 4096:
+        raise ОшибкаОтчёта('synthetic terminal превышает предел; UNKNOWN')
+    _ТестовоеУдержаниеОбщегоЗамка.проверить(
+        token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    terminal.создать()
+    _ТестовоеУдержаниеОбщегоЗамка.проверить(
+        token, token._root, token._session, token._run, token._operation, token._selector, token._fd)
+    return terminal._имя, terminal._байты
+
+
 def выполнить_закрытие(корень_репозитория: Path, запрос: Path, *,
-                       _контракт_замка=None, _срок_замка=None, _кооперативная_непустая=False) -> int:
+                       _контракт_замка=None, _срок_замка=None, _кооперативная_непустая=False,
+                       _удержание=None) -> int:
     if (_контракт_замка is None) != (_срок_замка is None):
         raise ОшибкаОтчёта('контракт замка и срок должны задаваться вместе')
     корень, _, путь_отчёта, каталог, сессия = разрешить_сессию(
@@ -18507,7 +18668,8 @@ def выполнить_закрытие(корень_репозитория: Pat
         return _кооперативно_выполнить_предпросмотр(
             корень, запрос, сессия, _контракт_замка, _срок_замка, _закрытие=True)
     _проверить_подтверждённую_замену_отчёта(путь_отчёта)
-    замок = (межпроцессная_блокировка(корень, сессия,
+    замок = (_тестово_использовать_удержание_сессии(_удержание, корень, сессия, 'закрыть', _контракт_замка)
+             if _удержание is not None else межпроцессная_блокировка(корень, сессия,
                          срок_монотонный=_срок_открытого_замка()) if _контракт_замка is None
              else _тестово_выбрать_замок_сессии(
                  корень, сессия, срок_монотонный=_срок_замка, контракт=_контракт_замка))
@@ -18643,7 +18805,8 @@ def выполнить_закрытие(корень_репозитория: Pat
 
 
 def выполнить_возобновление(корень_репозитория: Path, запрос: Path, *,
-                            _контракт_замка=None, _срок_замка=None, _кооперативная_непустая=False) -> int:
+                            _контракт_замка=None, _срок_замка=None, _кооперативная_непустая=False,
+                            _удержание=None) -> int:
     if (_контракт_замка is None) != (_срок_замка is None):
         raise ОшибкаОтчёта('контракт замка и срок должны задаваться вместе')
     корень, _, путь_отчёта, каталог, сессия = разрешить_сессию(
@@ -18654,7 +18817,8 @@ def выполнить_возобновление(корень_репозито�
         return _кооперативно_выполнить_предпросмотр(
             корень, запрос, сессия, _контракт_замка, _срок_замка, _возобновление=True)
     _проверить_подтверждённую_замену_отчёта(путь_отчёта)
-    замок = (межпроцессная_блокировка(корень, сессия,
+    замок = (_тестово_использовать_удержание_сессии(_удержание, корень, сессия, 'возобновить', _контракт_замка)
+             if _удержание is not None else межпроцессная_блокировка(корень, сессия,
                          срок_монотонный=_срок_открытого_замка()) if _контракт_замка is None
              else _тестово_выбрать_замок_сессии(
                  корень, сессия, срок_монотонный=_срок_замка, контракт=_контракт_замка))

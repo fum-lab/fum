@@ -40333,6 +40333,107 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             открыть.assert_not_called()
         os.close(сам._boundary_fd)
 
+    def test_synthetic_durable_intent_отказывает_controlled_в_новом_процессе(сам):
+        import select
+        import shutil
+        import stat
+        source = getattr(сам, 'точный_исходник', None)
+        if type(source) is not str:
+            сам.skipTest('нужен закреплённый исходник конкурента')
+        м = загрузить_модуль_автоматизации()
+        сам._producer_fixture = ФикстураОтчётов(_без_git=True)
+        сам._producer_fixture.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+        сам._producer_context = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._producer_context.__enter__()
+        сессия, run = вершина._сессия, вершина._run
+        (корень / Path(сессия).parent).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(сам._producer_fixture.каталог_сессии, корень / Path(сессия).parent)
+        for путь in (корень / Path(сессия).parent / 'материалы' / 'запуски-проверок').glob('*.json'):
+            запись = json.loads(путь.read_bytes())
+            запись['сессия'] = сессия
+            путь.write_text(json.dumps(запись, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\n')
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        gitdir, общий = роли['head'][1], роли['common_config'][1]
+        замки, config, receipts = gitdir / 'fum-controlled-lock', корень.parent / 'config-private', корень.parent / 'receipts-private'
+        for каталог in (замки, config, receipts): каталог.mkdir(mode=0o700)
+        (config / 'system-disabled').write_bytes(b'')
+        сам._producer_fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        метка = os.fstat(сам._producer_fd)
+        селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                    метка.st_uid, stat.S_IMODE(метка.st_mode), сессия, str(корень))
+        отчёт = корень / Path(сессия).parent / 'отчёт.md'
+        сам.assertTrue((корень / сессия).is_file())
+        сам.assertTrue(отчёт.is_file())
+        история = отчёт.parent / 'материалы' / 'запуски-проверок'
+        исходный = отчёт.read_bytes()
+        сам._producer_dirs = м._ЗакреплённыеКаталогиПредпросмотра(отчёт, история, сессия)
+        сам._producer_dirs.__enter__()
+        сам._producer_lock = м._тестово_удержать_общий_и_сессионный_замки(
+            корень, сессия, run, 'закрыть', селектор, сам._producer_fd, time.monotonic() + 20.0)
+        token = сам._producer_lock.__enter__()
+        сам._producer_token = token
+        with mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под lock')) as запуск, \
+             mock.patch.object(м, 'вычислить_отпечаток_снимка', side_effect=AssertionError('Git под lock')) as git:
+            сам._producer_intent, снимок, имя, байты = м._тестово_подготовить_durable_intent(token, сам._producer_dirs)
+            сам.assertEqual(имя, м._имя_synthetic_слота(str(корень), сессия))
+            сам.assertEqual((замки / имя).read_bytes(), байты)
+            сам.assertEqual(json.loads(байты)['lock_directory'], list(селектор[2:6]))
+            сам.assertEqual(отчёт.read_bytes(), исходный)
+            if getattr(сам, '_producer_эффект', False):
+                terminal_имя, terminal_байты = м._тестово_выполнить_операцию_с_terminal(token)
+                терминал = json.loads(terminal_байты)
+                сам.assertEqual(терминал['state'], 'UNKNOWN')
+                сам.assertEqual(терминал['intent_sha256'], hashlib.sha256(байты).hexdigest())
+                сам.assertEqual((замки / terminal_имя).read_bytes(), terminal_байты)
+                сам.assertNotEqual(отчёт.read_bytes(), исходный)
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'повтор synthetic эффекта'):
+                    м._тестово_выполнить_операцию_с_terminal(token)
+            после_операции = отчёт.read_bytes()
+            запуск.assert_not_called(); git.assert_not_called()
+        сам._producer_lock.__exit__(None, None, None)
+        args = ['запустить-controlled', '--корень', str(корень), '--gitdir', str(gitdir), '--общий', str(общий),
+                '--домашний', str(домашний), '--config', str(config), '--замки', str(замки), '--квитанции', str(receipts),
+                '--git', '/Library/Developer/CommandLineTools/usr/bin/git', '--run', run, '--запрос', сессия,
+                '--наблюдатель', '/bin/true', '--наблюдатель-sha256', '0' * 64,
+                '--якорь', '/bin/true', '--якорь-sha256', '0' * 64, '--', '/bin/sh', '-c', 'test -f .git']
+        скрипт = ('import json,sys,types; from pathlib import Path; '
+                  'm=types.ModuleType("controlled_child"); m.__file__=sys.argv[1]; sys.modules[m.__name__]=m; '
+                  'exec(compile(Path(sys.argv[1]).read_bytes(),sys.argv[1],"exec"),m.__dict__); '
+                  'm.subprocess.Popen=lambda *a,**k: (_ for _ in ()).throw(RuntimeError("unexpected Popen")); '
+                  'raise SystemExit(m.главная(json.loads(sys.argv[2])))')
+        сам._producer_child_фаза = 'попытка Popen'
+        child = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, source, json.dumps(args)],
+                                 stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        сам._producer_child = child
+        сам._producer_child_фаза = 'зарегистрирован'
+        streams = (child.stdout, child.stderr)
+        for stream in streams: os.set_blocking(stream.fileno(), False)
+        остаток, буферы = list(streams), {stream: bytearray() for stream in streams}
+        deadline = time.monotonic() + 10
+        while остаток or child.poll() is None:
+            left = deadline - time.monotonic()
+            if left <= 0: raise AssertionError('UNKNOWN: исход child не установлен')
+            for stream in select.select(остаток, [], [], min(left, .05))[0]:
+                часть = os.read(stream.fileno(), 4097 - len(буферы[stream]))
+                if not часть: остаток.remove(stream)
+                else:
+                    буферы[stream].extend(часть)
+                    if len(буферы[stream]) > 4096: raise AssertionError('UNKNOWN: превышен предел child')
+        stdout, stderr = (bytes(буферы[stream]) for stream in streams)
+        сам._producer_child_фаза = 'завершение и EOF наблюдались'
+        for stream in streams: stream.close()
+        сам.assertEqual((child.returncode, stdout), (1, b''))
+        сам.assertIn('synthetic intent запрещает', stderr.decode('utf-8'))
+        сам.assertEqual((замки / имя).read_bytes(), байты)
+        сам.assertEqual(отчёт.read_bytes(), после_операции)
+        active = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+        сам.assertFalse(active.exists())
+        # Launcher удерживает fixture и FD после наблюдения; slot не удаляется.
+
+    def test_synthetic_effect_terminal_и_отказ_controlled(сам):
+        сам._producer_эффект = True
+        сам.test_synthetic_durable_intent_отказывает_controlled_в_новом_процессе()
+
     def test_synthetic_token_замков_связан_с_потоком_и_сроком(сам):
         import stat
         import threading
