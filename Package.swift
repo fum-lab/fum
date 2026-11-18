@@ -22,6 +22,11 @@ let package = Package(
         .executable(name: "фум-проверка-предела-фильтра", targets: ["ФУМПроверкаПределаФильтра"]),
     ],
     targets: [
+.executableTarget(
+    name: "FUMSyntheticRestartSupervisor",
+    path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Tests/FUMSyntheticRestartSupervisor",
+    swiftSettings: [.unsafeFlags(["-strict-concurrency=complete", "-warnings-as-errors"])]
+),
         .target(
             name: "FUMGitPlan",
             path: "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/native-supervisor/Sources/FUMGitPlan",
