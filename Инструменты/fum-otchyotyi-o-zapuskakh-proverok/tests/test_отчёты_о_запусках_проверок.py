@@ -40268,6 +40268,63 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def test_synthetic_ограниченный_снимок_сессии_включает_служебные_файлы(сам):
+        import shutil
+        м = загрузить_модуль_автоматизации()
+        сам._bounded_fixture = ФикстураОтчётов(_без_git=True)
+        сам._bounded_fixture.записать_завершённую_запись(1, '00000000-0000-4000-8000-000000000001', 1000)
+        сам._bounded_context = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._bounded_context.__enter__()
+        shutil.copytree(сам._bounded_fixture.корень / 'Журнал', корень / 'Журнал')
+        отчёт = корень / Path(путь_запроса).parent / 'отчёт.md'
+        история = отчёт.parent / 'материалы' / 'запуски-проверок'
+        (история / м.ИМЯ_СНИМКА).write_bytes(b'snapshot')
+        (история / м.ИМЯ_ЖУРНАЛА_ВОЗОБНОВЛЕНИЯ).write_bytes(b'recovery')
+        сам._bounded_dirs = м._ЗакреплённыеКаталогиПредпросмотра(отчёт, история, путь_запроса)
+        сам._bounded_dirs.__enter__()
+        результат = м._тестово_снять_ограниченное_состояние_сессии(сам._bounded_dirs)
+        роли = {строка[0] for строка in результат}
+        сам.assertIn('report', роли)
+        сам.assertIn(м.ИМЯ_СНИМКА, роли)
+        сам.assertIn(м.ИМЯ_ЖУРНАЛА_ВОЗОБНОВЛЕНИЯ, роли)
+        сам.assertTrue(any(м.ИМЯ_ФАЙЛА_ЗАПУСКА.fullmatch(имя) for имя in роли if имя != 'report'))
+        до = отчёт.read_bytes()
+        читать = сам._bounded_dirs._читать
+        вызовы = [0]
+        def дрейф(*аргументы, **параметры):
+            вызовы[0] += 1
+            if вызовы[0] == len(результат) + 1:
+                отчёт.write_bytes(до + b'drift')
+            return читать(*аргументы, **параметры)
+        with mock.patch.object(сам._bounded_dirs, '_читать', side_effect=дрейф):
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'изменилось при сверке'):
+                м._тестово_снять_ограниченное_состояние_сессии(сам._bounded_dirs)
+        отчёт.write_bytes(до)
+        (история / 'unknown').write_bytes(b'')
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'неизвестный файл'):
+            м._тестово_снять_ограниченное_состояние_сессии(сам._bounded_dirs)
+        (история / 'unknown').unlink()
+        отчёт.write_bytes(b'x' * (1024 * 1024 + 1))
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._тестово_снять_ограниченное_состояние_сессии(сам._bounded_dirs)
+        отчёт.write_bytes(до)
+        лишние = [история / ('extra-' + str(n)) for n in range(257)]
+        for путь in лишние:
+            путь.touch()
+        with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'слишком много файлов'):
+            м._тестово_снять_ограниченное_состояние_сессии(сам._bounded_dirs)
+        for путь in лишние:
+            путь.unlink()
+        крупные = [история / (str(n) + '_00000000-0000-4000-8000-' + f'{n:012d}' + '.json')
+                   for n in range(2, 11)]
+        for путь in крупные:
+            путь.write_bytes(b'x' * (1024 * 1024))
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            м._тестово_снять_ограниченное_состояние_сессии(сам._bounded_dirs)
+        сам._bounded_dirs.__exit__(None, None, None)
+        сам._bounded_context.__exit__(None, None, None)
+        сам._bounded_fixture.очистить()
+
     def test_synthetic_intent_отклоняет_имена_и_подмену_при_readback(сам):
         м = загрузить_модуль_автоматизации()
         сам._intent_base = Path(tempfile.mkdtemp(prefix='fum-operation-drift-', dir='/private/tmp')).resolve()
