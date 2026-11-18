@@ -40379,7 +40379,25 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
             сам.assertEqual((замки / имя).read_bytes(), байты)
             сам.assertEqual(json.loads(байты)['lock_directory'], list(селектор[2:6]))
             сам.assertEqual(отчёт.read_bytes(), исходный)
-            if getattr(сам, '_producer_эффект', False):
+            if getattr(сам, '_producer_fault', False):
+                исходный_вызов = м._ВладелецЗаменыПредпросмотра._вызвать
+                сам._producer_fault_фазы = []
+                def сбой(владелец, стадия, операция, *args, **kwargs):
+                    if стадия == 'повторная проверка предпросмотра' and владелец.действие_подтверждено:
+                        сам.assertTrue((история / м.ИМЯ_СНИМКА).is_file())
+                        сам._producer_fault_фазы.append('snapshot подтверждён')
+                        raise м._ПодтверждённыйОтказПослеСнимка('synthetic after snapshot')
+                    return исходный_вызов(владелец, стадия, операция, *args, **kwargs)
+                with mock.patch.object(м._ВладелецЗаменыПредпросмотра, '_вызвать', сбой):
+                    with сам.assertRaisesRegex(м._ПодтверждённыйОтказПослеСнимка, 'synthetic after snapshot'):
+                        м._тестово_выполнить_операцию_с_terminal(token)
+                сам.assertEqual(сам._producer_fault_фазы, ['snapshot подтверждён'])
+                сам.assertTrue((история / м.ИМЯ_СНИМКА).is_file())
+                сам.assertFalse((замки / (имя + '.terminal')).exists())
+                сам.assertEqual(отчёт.read_bytes(), исходный)
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'повтор synthetic эффекта'):
+                    м._тестово_выполнить_операцию_с_terminal(token)
+            elif getattr(сам, '_producer_эффект', False):
                 terminal_имя, terminal_байты = м._тестово_выполнить_операцию_с_terminal(token)
                 терминал = json.loads(terminal_байты)
                 сам.assertEqual(терминал['state'], 'UNKNOWN')
@@ -40432,6 +40450,10 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
     def test_synthetic_effect_terminal_и_отказ_controlled(сам):
         сам._producer_эффект = True
+        сам.test_synthetic_durable_intent_отказывает_controlled_в_новом_процессе()
+
+    def test_synthetic_fault_после_snapshot_запрещает_повтор(сам):
+        сам._producer_fault = True
         сам.test_synthetic_durable_intent_отказывает_controlled_в_новом_процессе()
 
     def test_synthetic_token_замков_связан_с_потоком_и_сроком(сам):
