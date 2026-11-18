@@ -40268,6 +40268,69 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def test_synthetic_token_замков_связан_с_потоком_и_сроком(сам):
+        import stat
+        import threading
+        м = загрузить_модуль_автоматизации()
+        сам._token_fixture = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._token_fixture.__enter__()
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        замки = роли['head'][1] / 'fum-controlled-lock'
+        замки.mkdir(mode=0o700)
+        сам._token_fd = os.open(замки, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        метка = os.fstat(сам._token_fd)
+        сессия, run, операция = вершина._сессия, вершина._run, 'закрыть'
+        (корень / Path(сессия).parent).mkdir(parents=True)
+        селектор = ('fum.test-lock-root.2', str(замки), метка.st_dev, метка.st_ino,
+                    метка.st_uid, stat.S_IMODE(метка.st_mode), сессия, str(корень))
+        срок = time.monotonic() + 30.0
+        def context():
+            сам._token_context = м._тестово_удержать_общий_и_сессионный_замки(
+                корень, сессия, run, операция, селектор, сам._token_fd, срок)
+            return сам._token_context
+        def проверить(token):
+            token.проверить(корень, сессия, run, операция, селектор, сам._token_fd)
+        with context() as token:
+            сам._token = token
+            проверить(token)
+            with сам.assertRaises(AttributeError): token._root_check = lambda: None
+            with сам.assertRaises(AttributeError): del token._session_check
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'повторный вход'):
+                with м._тестово_удержать_общий_и_сессионный_замки(
+                    корень, сессия + 'x', run, операция, селектор[:6] + (сессия + 'x', str(корень)), сам._token_fd, срок):
+                    сам.fail('повторный вход не запрещён')
+        with сам.assertRaises(м.ОшибкаОтчёта): проверить(token)
+        for изменено in ((корень, сессия + 'x', run, операция, селектор, сам._token_fd),
+                         (корень, сессия, run, 'возобновить', селектор, сам._token_fd),
+                         (корень, сессия, run, операция, селектор, сам._token_fd + 1)):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                with context() as token:
+                    сам._token = token
+                    with сам.assertRaises(м.ОшибкаОтчёта): token.проверить(*изменено)
+                    проверить(token)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            with context() as token:
+                сам._token = token
+                object.__setattr__(token, '_root_check', lambda: None)
+                проверить(token)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            with context() as token:
+                сам._token = token
+                ошибки = []
+                def другой_поток():
+                    try: проверить(token)
+                    except м.ОшибкаОтчёта: ошибки.append('отказ')
+                поток = threading.Thread(target=другой_поток)
+                поток.start(); поток.join(timeout=5)
+                сам.assertFalse(поток.is_alive()); сам.assertEqual(ошибки, ['отказ'])
+                проверить(token)
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            with context() as token:
+                сам._token = token
+                with mock.patch.object(м.time, 'monotonic', return_value=срок + 1): проверить(token)
+        os.close(сам._token_fd)
+        сам._token_fixture.__exit__(None, None, None)
+
     def test_synthetic_ограниченный_снимок_сессии_включает_служебные_файлы(сам):
         import shutil
         м = загрузить_модуль_автоматизации()

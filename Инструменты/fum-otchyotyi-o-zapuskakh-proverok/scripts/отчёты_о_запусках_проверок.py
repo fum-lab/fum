@@ -18104,6 +18104,106 @@ class _ТестовыйДолговечныйIntentОперации:
         return сам._имя, сам._байты
 
 
+_активные_synthetic_удержания = {}
+
+
+class _ТестовоеУдержаниеОбщегоЗамка:
+    """Однопоточная проверка двух уже захваченных замков synthetic fixture."""
+    __slots__ = ('_root', '_session', '_run', '_operation', '_selector', '_fd', '_deadline', '_pid', '_thread',
+                 '_root_check', '_session_check', '_phase', '_sealed')
+
+    def __init__(сам, root, session, run, operation, selector, fd, deadline, root_check, session_check):
+        object.__setattr__(сам, '_root', root); object.__setattr__(сам, '_session', session)
+        object.__setattr__(сам, '_run', run); object.__setattr__(сам, '_operation', operation)
+        object.__setattr__(сам, '_selector', selector); object.__setattr__(сам, '_fd', fd)
+        object.__setattr__(сам, '_deadline', deadline); object.__setattr__(сам, '_pid', os.getpid())
+        object.__setattr__(сам, '_thread', threading.current_thread())
+        object.__setattr__(сам, '_root_check', root_check); object.__setattr__(сам, '_session_check', session_check)
+        object.__setattr__(сам, '_phase', 'активен'); object.__setattr__(сам, '_sealed', True)
+
+    def __setattr__(сам, имя, значение):
+        raise AttributeError('synthetic удержание неизменяемо')
+
+    def __delattr__(сам, имя):
+        raise AttributeError('synthetic удержание неизменяемо')
+
+    def проверить(сам, root, session, run, operation, selector, fd):
+        try:
+            запись = _активные_synthetic_удержания.get(id(сам))
+            if (type(сам) is not _ТестовоеУдержаниеОбщегоЗамка or type(запись) is not tuple
+                or len(запись) != 12 or запись[0] is not сам or сам._phase != 'активен'
+                or (сам._root, сам._session, сам._run, сам._operation, сам._selector, сам._fd,
+                    сам._deadline, сам._pid, сам._thread) != запись[1:10]
+                or сам._root_check is not запись[10] or сам._session_check is not запись[11]
+                or os.getpid() != запись[8] or threading.current_thread() is not запись[9]
+                or type(root) is not type(Path('/')) or type(session) is not str or type(run) is not str
+                or type(operation) is not str or type(selector) is not tuple or type(fd) is not int
+                or (root, session, run, operation, selector, fd) != запись[1:7]
+                or not _срок_действителен(запись[7])):
+                raise ОшибкаОтчёта('synthetic удержание замков недействительно')
+            запись[10](); запись[11]()
+            if not _срок_действителен(запись[7]):
+                raise ОшибкаОтчёта('срок synthetic удержания истёк')
+        except BaseException:
+            object.__setattr__(сам, '_phase', 'неизвестно')
+            raise
+
+
+@contextlib.contextmanager
+def _тестово_удержать_общий_и_сессионный_замки(корень, сессия, run, операция, селектор, fd, срок):
+    """Только synthetic fixture; не даёт полномочия на запись или public admission."""
+    if (type(корень) is not type(Path('/')) or корень == Path('/private/tmp')
+        or not корень.is_relative_to(Path('/private/tmp'))
+        or type(сессия) is not str or type(run) is not str
+        or re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None
+        or type(операция) is not str or операция not in ('предпросмотр', 'закрыть', 'возобновить')
+        or type(селектор) is not tuple or len(селектор) != 8 or селектор[0] != 'fum.test-lock-root.2'
+        or селектор[6:] != (сессия, str(корень)) or type(fd) is not int
+        or type(срок) is not float or not _срок_действителен(срок)):
+        raise ОшибкаОтчёта('неверные входы synthetic удержания')
+    if any(другой[1] == корень for другой in _активные_synthetic_удержания.values()):
+        raise ОшибкаОтчёта('повторный вход synthetic удержания запрещён')
+    каталог = Path(селектор[1]); gitdir = каталог.parent
+    if (каталог.name != 'fum-controlled-lock' or gitdir.parent.name != 'worktrees'
+        or корень.resolve(strict=True) != корень or gitdir.resolve(strict=True) != gitdir):
+        raise ОшибкаОтчёта('неверный namespace synthetic удержания')
+    root_fd = os.open(корень, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        git_fd = os.open(gitdir, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        try:
+            if (_прочитать_источник_git_через_fd(root_fd, '.git', 4096) != b'gitdir: ' + os.fsencode(gitdir) + b'\n'
+                or _прочитать_источник_git_через_fd(git_fd, 'gitdir', 4096) != os.fsencode(корень / '.git') + b'\n'
+                or _прочитать_источник_git_через_fd(git_fd, 'commondir', 64) != b'../..\n'):
+                raise ОшибкаОтчёта('неподтверждённая topology synthetic удержания')
+        finally:
+            os.close(git_fd)
+    finally:
+        os.close(root_fd)
+    root_селектор = селектор[:6] + ('controlled-own.1', str(корень))
+    with _тестовый_замок_новой_сессии(root_селектор, fd, корень, 'controlled-own.1', срок_монотонный=срок) as root_check:
+        root_check()
+        active = 'controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json'
+        for имя in (active, _имя_synthetic_слота(str(корень), сессия), _прежнее_имя_synthetic_слота(str(корень), сессия)):
+            try:
+                os.stat(имя, dir_fd=fd, follow_symlinks=False)
+            except FileNotFoundError:
+                continue
+            raise ОшибкаОтчёта('active или intent запрещает synthetic удержание')
+        with межпроцессная_блокировка(корень, сессия, срок_монотонный=срок,
+                                     _закреплённый_каталог=(селектор, fd)) as session_check:
+            token = _ТестовоеУдержаниеОбщегоЗамка(корень, сессия, run, операция, селектор, fd, срок, root_check, session_check)
+            _активные_synthetic_удержания[id(token)] = (
+                token, корень, сессия, run, операция, селектор, fd, срок,
+                os.getpid(), threading.current_thread(), root_check, session_check)
+            try:
+                token.проверить(корень, сессия, run, операция, селектор, fd)
+                yield token
+                token.проверить(корень, сессия, run, операция, селектор, fd)
+            finally:
+                object.__setattr__(token, '_phase', 'завершён')
+                _активные_synthetic_удержания.pop(id(token), None)
+
+
 def _кооперативно_выполнить_предпросмотр(корень, запрос, сессия, контракт, срок, *, _закрытие=False, _возобновление=False):
     """Только v1/v2 и непустая история; без Git или Popen под root-lock."""
     if (type(контракт) is not tuple or len(контракт) != 3
