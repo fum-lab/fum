@@ -40365,11 +40365,19 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         сам.assertTrue((корень / сессия).is_file())
         сам.assertTrue(отчёт.is_file())
         история = отчёт.parent / 'материалы' / 'запуски-проверок'
+        операция = 'возобновить' if getattr(сам, '_producer_resume', False) else 'закрыть'
+        if операция == 'возобновить':
+            with mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen подготовки')), \
+                 mock.patch.object(м, 'вычислить_отпечаток_снимка', side_effect=AssertionError('Git подготовки')):
+                сам.assertEqual(м.выполнить_закрытие(корень, Path(сессия),
+                    _контракт_замка=('fum.test-lock-single.1', селектор, сам._producer_fd),
+                    _срок_замка=time.monotonic() + 20.0, _кооперативная_непустая=True), 0)
+            сам.assertTrue((история / м.ИМЯ_СНИМКА).is_file())
         исходный = отчёт.read_bytes()
         сам._producer_dirs = м._ЗакреплённыеКаталогиПредпросмотра(отчёт, история, сессия)
         сам._producer_dirs.__enter__()
         сам._producer_lock = м._тестово_удержать_общий_и_сессионный_замки(
-            корень, сессия, run, 'закрыть', селектор, сам._producer_fd, time.monotonic() + 20.0)
+            корень, сессия, run, операция, селектор, сам._producer_fd, time.monotonic() + 20.0)
         token = сам._producer_lock.__enter__()
         сам._producer_token = token
         with mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen под lock')) as запуск, \
@@ -40414,13 +40422,9 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                 '--git', '/Library/Developer/CommandLineTools/usr/bin/git', '--run', run, '--запрос', сессия,
                 '--наблюдатель', '/bin/true', '--наблюдатель-sha256', '0' * 64,
                 '--якорь', '/bin/true', '--якорь-sha256', '0' * 64, '--', '/bin/sh', '-c', 'test -f .git']
-        скрипт = ('import json,sys,types; from pathlib import Path; '
-                  'm=types.ModuleType("controlled_child"); m.__file__=sys.argv[1]; sys.modules[m.__name__]=m; '
-                  'exec(compile(Path(sys.argv[1]).read_bytes(),sys.argv[1],"exec"),m.__dict__); '
-                  'm.subprocess.Popen=lambda *a,**k: (_ for _ in ()).throw(RuntimeError("unexpected Popen")); '
-                  'raise SystemExit(m.главная(json.loads(sys.argv[2])))')
         сам._producer_child_фаза = 'попытка Popen'
-        child = subprocess.Popen([sys.executable, '-I', '-B', '-c', скрипт, source, json.dumps(args)],
+        child = subprocess.Popen(['/bin/sh', '-c', 'ulimit -SHu 0 && exec "$@"', 'fixture-peer',
+                                  sys.executable, '-I', '-B', source, *args], env={},
                                  stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         сам._producer_child = child
         сам._producer_child_фаза = 'зарегистрирован'
@@ -40440,6 +40444,34 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
         stdout, stderr = (bytes(буферы[stream]) for stream in streams)
         сам._producer_child_фаза = 'завершение и EOF наблюдались'
         for stream in streams: stream.close()
+        каталог_квитанций = getattr(сам, 'каталог_квитанций', None)
+        if каталог_квитанций is not None:
+            сам._producer_receipt_fd = os.open(каталог_квитанций, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            receipt_stat = os.fstat(сам._producer_receipt_fd)
+            сам.assertTrue(stat.S_ISDIR(receipt_stat.st_mode))
+            сам.assertEqual((receipt_stat.st_uid, stat.S_IMODE(receipt_stat.st_mode)), (os.geteuid(), 0o700))
+            сам._producer_receipt_files = []
+            def сохранить(имя_квитанции, данные):
+                if type(данные) is not bytes or len(данные) > 4096:
+                    raise AssertionError('UNKNOWN: неверный размер квитанции')
+                fd = os.open(имя_квитанции, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                             0o600, dir_fd=сам._producer_receipt_fd)
+                сам._producer_receipt_files.append(fd)
+                позиция = 0
+                while позиция < len(данные):
+                    число = os.write(fd, данные[позиция:])
+                    if число <= 0: raise AssertionError('UNKNOWN: неполная квитанция')
+                    позиция += число
+                os.fsync(fd)
+                сам._producer_receipt_files.pop()
+                os.close(fd)
+                os.fsync(сам._producer_receipt_fd)
+            сохранить('CHILD-STDOUT', stdout)
+            сохранить('CHILD-STDERR', stderr)
+            сохранить('CHILD-OUTCOME', json.dumps({'pid': child.pid, 'returncode': child.returncode},
+                sort_keys=True, separators=(',', ':')).encode('ascii'))
+            сохранить('INTENT', байты)
+            if getattr(сам, '_producer_эффект', False): сохранить('TERMINAL', terminal_байты)
         сам.assertEqual((child.returncode, stdout), (1, b''))
         сам.assertIn('synthetic intent запрещает', stderr.decode('utf-8'))
         сам.assertEqual((замки / имя).read_bytes(), байты)
@@ -40454,6 +40486,11 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
 
     def test_synthetic_fault_после_snapshot_запрещает_повтор(сам):
         сам._producer_fault = True
+        сам.test_synthetic_durable_intent_отказывает_controlled_в_новом_процессе()
+
+    def test_synthetic_resume_terminal_и_отказ_controlled(сам):
+        сам._producer_resume = True
+        сам._producer_эффект = True
         сам.test_synthetic_durable_intent_отказывает_controlled_в_новом_процессе()
 
     def test_synthetic_token_замков_связан_с_потоком_и_сроком(сам):
