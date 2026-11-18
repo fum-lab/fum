@@ -40268,6 +40268,50 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def test_synthetic_intent_отклоняет_имена_и_подмену_при_readback(сам):
+        м = загрузить_модуль_автоматизации()
+        сам._intent_base = Path(tempfile.mkdtemp(prefix='fum-operation-drift-', dir='/private/tmp')).resolve()
+        сам._intent_fd = os.open(сам._intent_base, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        args = (сам._intent_fd, '/private/tmp/synthetic-root', 'Журнал/fixture/запрос.md',
+                '00112233-4455-4677-8899-aabbccddeeff', 'закрыть', '1' * 64)
+        for индекс, неверное in ((1, '/private/tmp/../other'), (2, '../escape'), (2, 'a\0b'), (2, 'я' * 1024)):
+            плохие = list(args); плохие[индекс] = неверное
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._ТестовыйДолговечныйIntentОперации(*плохие)
+        сам._intent = м._ТестовыйДолговечныйIntentОперации(*args)
+        исходный_pread = os.pread
+        def подменить(fd, n, offset):
+            результат = исходный_pread(fd, n, offset)
+            путь = сам._intent_base / сам._intent._имя
+            путь.rename(сам._intent_base / 'saved-original')
+            путь.write_bytes(результат)
+            return результат
+        with mock.patch.object(м.os, 'pread', side_effect=подменить):
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'изменился при readback'):
+                сам._intent.создать()
+        сам.assertEqual(сам._intent._состояние, 'неизвестно')
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            сам._intent.создать()
+
+    def test_synthetic_intent_занимает_слот_и_отклоняет_повтор(сам):
+        м = загрузить_модуль_автоматизации()
+        сам._intent_base = Path(tempfile.mkdtemp(prefix='fum-operation-intent-', dir='/private/tmp')).resolve()
+        сам._intent_fd = os.open(сам._intent_base, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        args = (сам._intent_fd, '/private/tmp/synthetic-root', 'Журнал/fixture/запрос.md',
+                '00112233-4455-4677-8899-aabbccddeeff', 'закрыть', '1' * 64)
+        сам._intent = м._ТестовыйДолговечныйIntentОперации(*args)
+        имя, байты = сам._intent.создать()
+        сам.assertEqual((сам._intent_base / имя).read_bytes(), байты)
+        сам.assertEqual(сам._intent._состояние, 'записан')
+        with сам.assertRaises(м.ОшибкаОтчёта):
+            сам._intent.создать()
+        сам._повторный_intent = м._ТестовыйДолговечныйIntentОперации(*args)
+        with сам.assertRaises(FileExistsError):
+            сам._повторный_intent.создать()
+        сам.assertEqual(сам._повторный_intent._состояние, 'неизвестно')
+        сам.assertEqual((сам._intent_base / имя).read_bytes(), байты)
+        os.close(сам._intent_fd)
+
     def test_synthetic_root_bridge_собственный_active_публикует_отчёт(сам, _случай='успех'):
         import stat
         м = загрузить_модуль_автоматизации()

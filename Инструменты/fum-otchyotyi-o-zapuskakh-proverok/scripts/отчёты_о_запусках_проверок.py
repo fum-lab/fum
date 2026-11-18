@@ -17933,6 +17933,94 @@ def _тестово_предпросмотреть_active_помощника(
                 _ожидаемый_active=идентификатор, _ожидаемые_опоры=опоры)
 
 
+_карантин_synthetic_intent = []
+
+
+class _ТестовыйДолговечныйIntentОперации:
+    """Примитив fixture; сам по себе не проверяет полномочия и не допускает запись отчёта."""
+
+    def __init__(сам, fd, корень, сессия, run, операция, preimage):
+        if (type(fd) is not int or type(корень) is not str or not корень.startswith('/private/tmp/')
+            or '\0' in корень or len(os.fsencode(корень)) > 1024
+            or '..' in Path(корень).parts or str(Path(корень)) != корень
+            or type(сессия) is not str or not сессия or '\0' in сессия
+            or len(сессия.encode('utf-8')) > 1024 or PurePosixPath(сессия).is_absolute()
+            or '..' in PurePosixPath(сессия).parts or str(PurePosixPath(сессия)) != сессия or type(run) is not str
+            or re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', run) is None
+            or type(операция) is not str or операция not in ('предпросмотр', 'закрыть', 'возобновить')
+            or type(preimage) is not str or re.fullmatch(r'[0-9a-f]{64}', preimage) is None):
+            raise ОшибкаОтчёта('неверные параметры synthetic intent')
+        метка = os.fstat(fd)
+        if (not stat.S_ISDIR(метка.st_mode) or метка.st_uid != os.getuid()
+            or метка.st_uid != os.geteuid() or stat.S_IMODE(метка.st_mode) != 0o700):
+            raise ОшибкаОтчёта('неверный каталог synthetic intent')
+        сам._каталог = fd
+        сам._метка = (метка.st_dev, метка.st_ino, метка.st_uid, stat.S_IMODE(метка.st_mode))
+        ключ = hashlib.sha256(b'fum.synthetic-operation-slot.1\0' + os.fsencode(корень) + b'\0' + сессия.encode()).hexdigest()
+        сам._имя = 'synthetic-intent-' + ключ + '.json'
+        сам._байты = json.dumps({'schema': 'fum.synthetic-operation-intent.1', 'root': корень,
+            'session': сессия, 'run': run, 'operation': операция, 'preimage_sha256': preimage},
+            sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('ascii')
+        if not 0 < len(сам._байты) <= 4096:
+            raise ОшибкаОтчёта('synthetic intent превышает предел')
+        сам._состояние = 'готов'
+        сам._fd = []
+        сам._попытка = None
+
+    def создать(сам):
+        if сам._состояние != 'готов':
+            raise ОшибкаОтчёта('повтор synthetic intent запрещён')
+        сам._состояние = 'неизвестно'
+        _карантин_synthetic_intent.append(сам)
+        сам._попытка = 'создание'
+        fd = os.open(сам._имя, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
+                     0o600, dir_fd=сам._каталог)
+        сам._fd.append(fd)
+        позиция = 0
+        while позиция < len(сам._байты):
+            число = os.write(fd, сам._байты[позиция:])
+            if type(число) is not int or число <= 0 or число > len(сам._байты) - позиция:
+                raise ОшибкаОтчёта('неполная запись synthetic intent')
+            позиция += число
+        os.fsync(fd)
+        метка = os.fstat(fd)
+        if (not stat.S_ISREG(метка.st_mode) or метка.st_uid != os.geteuid()
+            or stat.S_IMODE(метка.st_mode) != 0o600 or метка.st_nlink != 1 or метка.st_size != len(сам._байты)):
+            raise ОшибкаОтчёта('неверный synthetic intent')
+        identity = (метка.st_dev, метка.st_ino)
+        сам._попытка = ('закрытие записи', fd)
+        сам._fd.pop()
+        os.close(fd)
+        os.fsync(сам._каталог)
+        сам._попытка = 'readback'
+        fd = os.open(сам._имя, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=сам._каталог)
+        сам._fd.append(fd)
+        повтор = os.fstat(fd)
+        каталог = os.fstat(сам._каталог)
+        имя = os.stat(сам._имя, dir_fd=сам._каталог, follow_symlinks=False)
+        if ((повтор.st_dev, повтор.st_ino) != identity or (имя.st_dev, имя.st_ino) != identity
+            or not stat.S_ISREG(повтор.st_mode) or повтор.st_uid != os.geteuid()
+            or stat.S_IMODE(повтор.st_mode) != 0o600 or повтор.st_nlink != 1
+            or повтор.st_size != len(сам._байты) or os.pread(fd, len(сам._байты) + 1, 0) != сам._байты
+            or (каталог.st_dev, каталог.st_ino, каталог.st_uid, stat.S_IMODE(каталог.st_mode)) != сам._метка):
+            raise ОшибкаОтчёта('readback synthetic intent не совпал')
+        после = os.fstat(fd)
+        имя_после = os.stat(сам._имя, dir_fd=сам._каталог, follow_symlinks=False)
+        if ((после.st_dev, после.st_ino, после.st_uid, после.st_mode, после.st_nlink, после.st_size,
+             после.st_mtime_ns, после.st_ctime_ns)
+            != (повтор.st_dev, повтор.st_ino, повтор.st_uid, повтор.st_mode, повтор.st_nlink, повтор.st_size,
+                повтор.st_mtime_ns, повтор.st_ctime_ns)
+            or (имя_после.st_dev, имя_после.st_ino) != identity):
+            raise ОшибкаОтчёта('synthetic intent изменился при readback')
+        сам._попытка = ('закрытие чтения', fd)
+        сам._fd.pop()
+        os.close(fd)
+        сам._попытка = None
+        сам._состояние = 'записан'
+        _карантин_synthetic_intent.remove(сам)
+        return сам._имя, сам._байты
+
+
 def _кооперативно_выполнить_предпросмотр(корень, запрос, сессия, контракт, срок, *, _закрытие=False, _возобновление=False):
     """Только v1/v2 и непустая история; без Git или Popen под root-lock."""
     if (type(контракт) is not tuple or len(контракт) != 3
