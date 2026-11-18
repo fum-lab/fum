@@ -11832,6 +11832,27 @@ def _выполнить_контролируемый_цикл(
         raise
 
 
+def _имя_synthetic_слота(корень, сессия):
+    if (type(корень) is not str or not Path(корень).is_absolute() or '\0' in корень
+        or '..' in Path(корень).parts or str(Path(корень)) != корень
+        or type(сессия) is not str or not сессия or '\0' in сессия
+        or PurePosixPath(сессия).is_absolute() or '..' in PurePosixPath(сессия).parts
+        or str(PurePosixPath(сессия)) != сессия):
+        raise ОшибкаОтчёта('неверная область synthetic слота')
+    root_bytes, session_bytes = os.fsencode(корень), сессия.encode('utf-8')
+    if len(root_bytes) > 1024 or len(session_bytes) > 1024:
+        raise ОшибкаОтчёта('область synthetic слота превышает предел')
+    материал = (b'fum.synthetic-operation-slot.2\0' + len(root_bytes).to_bytes(4, 'big') + root_bytes
+                + len(session_bytes).to_bytes(4, 'big') + session_bytes)
+    return 'synthetic-intent-' + hashlib.sha256(материал).hexdigest() + '.json'
+
+
+def _прежнее_имя_synthetic_слота(корень, сессия):
+    _имя_synthetic_слота(корень, сессия)
+    материал = b'fum.synthetic-operation-slot.1\0' + os.fsencode(корень) + b'\0' + сессия.encode('utf-8')
+    return 'synthetic-intent-' + hashlib.sha256(материал).hexdigest() + '.json'
+
+
 def _запустить_явный_контролируемый_git(args):
     """Отдельный опытный CLI-контур; cooperative custody остаётся предпосылкой."""
     корень, gitdir, общий, домашний, config, замки, квитанции = (
@@ -11898,6 +11919,13 @@ def _запустить_явный_контролируемый_git(args):
         байты = json.dumps({'идентификатор': run, 'состояние': 'выполняется'}, ensure_ascii=False).encode('utf-8')
         with получить_замок() as сверить:
             сверить()
+            for имя_слота in (_имя_synthetic_слота(str(корень), запрос),
+                              _прежнее_имя_synthetic_слота(str(корень), запрос)):
+                try:
+                    os.stat(имя_слота, dir_fd=lock_fd, follow_symlinks=False)
+                except FileNotFoundError:
+                    continue
+                raise ОшибкаОтчёта('synthetic intent запрещает controlled запуск')
             попытка_active = True
             try:
                 active_fd = os.open(имя_active, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
@@ -17956,8 +17984,7 @@ class _ТестовыйДолговечныйIntentОперации:
             raise ОшибкаОтчёта('неверный каталог synthetic intent')
         сам._каталог = fd
         сам._метка = (метка.st_dev, метка.st_ino, метка.st_uid, stat.S_IMODE(метка.st_mode))
-        ключ = hashlib.sha256(b'fum.synthetic-operation-slot.1\0' + os.fsencode(корень) + b'\0' + сессия.encode()).hexdigest()
-        сам._имя = 'synthetic-intent-' + ключ + '.json'
+        сам._имя = _имя_synthetic_слота(корень, сессия)
         сам._байты = json.dumps({'schema': 'fum.synthetic-operation-intent.1', 'root': корень,
             'session': сессия, 'run': run, 'operation': операция, 'preimage_sha256': preimage},
             sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('ascii')

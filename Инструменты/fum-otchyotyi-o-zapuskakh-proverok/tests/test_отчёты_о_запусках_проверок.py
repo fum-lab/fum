@@ -41105,6 +41105,62 @@ class ПроверкаУдержанногоСвязанногоGit(unittest.Tes
                         м._запустить_явный_контролируемый_git(args)
                     открыть.assert_not_called(); запустить.assert_not_called()
 
+    def test_controlled_cli_отклоняет_synthetic_slot_до_active_и_popen(сам):
+        м = загрузить_модуль_автоматизации()
+        сам._slot_context = сам.закрытая_вершина_для_неотслеживаемых(м)
+        вершина, корень, домашний = сам._slot_context.__enter__()
+        роли = {запись[0]: запись for запись in вершина._удержание._источники}
+        gitdir, общий = роли['head'][1], роли['common_config'][1]
+        config, замки, receipts = корень.parent / 'config-private', gitdir / 'fum-controlled-lock', корень.parent / 'receipts-private'
+        config.mkdir(mode=0o700); замки.mkdir(mode=0o700); receipts.mkdir(mode=0o700)
+        (config / 'system-disabled').write_bytes(b'')
+        args = м.argparse.Namespace(корень=str(корень), gitdir=str(gitdir), общий=str(общий),
+            домашний=str(домашний), config=str(config), замки=str(замки), квитанции=str(receipts),
+            git='/Library/Developer/CommandLineTools/usr/bin/git', run=вершина._run, запрос=вершина._сессия,
+            наблюдатель='/bin/true', наблюдатель_sha256='0' * 64, якорь='/bin/true', якорь_sha256='0' * 64,
+            цель=['--', '/bin/sh', '-c', 'test -f .git'])
+        имя = м._имя_synthetic_слота(str(корень), args.запрос)
+        слот = замки / имя
+        active = замки / ('controlled-active-' + hashlib.sha256(os.fsencode(корень)).hexdigest() + '.json')
+        сам.assertNotEqual(имя, м._имя_synthetic_слота(str(корень), args.запрос + '.other'))
+        сам.assertNotEqual(имя, м._имя_synthetic_слота(str(корень) + '-other', args.запрос))
+        for неправильная in ('../escape', 'a\0b', 'a//b'):
+            with сам.assertRaises(м.ОшибкаОтчёта):
+                м._имя_synthetic_слота(str(корень), неправильная)
+        результат = м._РезультатКонтролируемойПроверки('fum.git-controlled-check-result.1', 'UNKNOWN', 0, 'sha256:' + '0' * 64)
+        with mock.patch.object(м, '_выполнить_контролируемый_цикл', return_value=результат) as цикл, \
+             mock.patch.object(м.subprocess, 'Popen', side_effect=AssertionError('Popen')) as запуск:
+            прежний = замки / м._прежнее_имя_synthetic_слота(str(корень), args.запрос)
+            прежний.write_bytes(b'old-unknown')
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'intent запрещает'):
+                м._запустить_явный_контролируемый_git(args)
+            сам.assertEqual(прежний.read_bytes(), b'old-unknown')
+            сам.assertFalse(active.exists())
+            прежний.unlink()
+            for вид in ('file', 'dir', 'symlink'):
+                if вид == 'file': слот.write_bytes(b'unknown')
+                elif вид == 'dir': слот.mkdir()
+                else: слот.symlink_to('missing')
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'intent запрещает'):
+                    м._запустить_явный_контролируемый_git(args)
+                сам.assertFalse(active.exists())
+                слот.rmdir() if вид == 'dir' else слот.unlink()
+            исходный_stat = os.stat
+            for имя_ошибки in (имя, прежний.name):
+                def отказ(путь, *a, **kw):
+                    if путь == имя_ошибки:
+                        raise PermissionError('synthetic')
+                    return исходный_stat(путь, *a, **kw)
+                with mock.patch.object(м.os, 'stat', side_effect=отказ):
+                    with сам.assertRaises(PermissionError):
+                        м._запустить_явный_контролируемый_git(args)
+            сам.assertFalse(active.exists())
+            цикл.assert_not_called(); запуск.assert_not_called()
+            сам.assertIs(м._запустить_явный_контролируемый_git(args), результат)
+            сам.assertTrue(active.is_file())
+            цикл.assert_called_once(); запуск.assert_not_called()
+        сам._slot_context.__exit__(None, None, None)
+
     def test_controlled_cli_отклоняет_второй_active_без_popen(сам):
         м = загрузить_модуль_автоматизации()
         with сам.закрытая_вершина_для_неотслеживаемых(м) as (вершина, корень, домашний):
