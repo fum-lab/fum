@@ -40268,6 +40268,71 @@ class ПроверкаСвязанногоПрофиляGit(unittest.TestCase):
 
 
 class ПроверкаУдержанногоСвязанногоGit(unittest.TestCase):
+    def test_synthetic_intent_сверяет_и_ограничивает_манифест_до_создания(сам):
+        м = загрузить_модуль_автоматизации()
+        сам._manifest_base = Path(tempfile.mkdtemp(prefix='fum-intent-manifest-', dir='/private/tmp')).resolve()
+        сам._manifest_fd = os.open(сам._manifest_base, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        args = (сам._manifest_fd, '/private/tmp/synthetic-root', 'Журнал/fixture/запрос.md',
+                '00112233-4455-4677-8899-aabbccddeeff', 'закрыть')
+        строка = ('1_00000000-0000-4000-8000-000000000001.json', tuple(range(9)), 'c' * 64)
+        манифест = (('request', tuple(range(9)), 'a' * 64), ('report', tuple(range(9)), 'b' * 64), строка)
+        сериализация = json.dumps(манифест, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+        digest = hashlib.sha256(b'fum.synthetic-preimage.1\0' + сериализация).hexdigest()
+        with mock.patch.object(м.os, 'open', side_effect=AssertionError('открытие до проверки')) as открыть:
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'манифест не совпадает'):
+                м._ТестовыйДолговечныйIntentОперации(*args, '0' * 64, _манифест=манифест)
+            вторая = ('2_00000000-0000-4000-8000-000000000002.json', tuple(range(9)), 'd' * 64)
+            for плохой in (манифест[:1] + манифест[2:], манифест[:2],
+                           манифест[:2] + (вторая, строка), манифест + (строка,),
+                           манифест + (('unknown', tuple(range(9)), 'd' * 64),)):
+                with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'неполный или неоднозначный'):
+                    м._ТестовыйДолговечныйIntentОперации(*args, '0' * 64, _манифест=плохой)
+            имена = sorted(str(n) + '_00000000-0000-4000-8000-' + f'{n:012d}' + '.json' for n in range(1, 101))
+            большой = манифест[:2] + tuple((имя, tuple(range(9)), 'a' * 64) for имя in имена)
+            большие_байты = json.dumps(большой, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+            большой_digest = hashlib.sha256(b'fum.synthetic-preimage.1\0' + большие_байты).hexdigest()
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'превышает предел'):
+                м._ТестовыйДолговечныйIntentОперации(*args, большой_digest, _манифест=большой)
+            открыть.assert_not_called()
+        сам._manifest_intent = м._ТестовыйДолговечныйIntentОперации(*args, digest, _манифест=манифест)
+        имя, байты = сам._manifest_intent.создать()
+        сам.assertEqual(json.loads(байты)['preimage'], json.loads(сериализация))
+        сам.assertEqual((сам._manifest_base / имя).read_bytes(), байты)
+        os.close(сам._manifest_fd)
+
+    def test_synthetic_intent_граница_4096_до_создания(сам):
+        м = загрузить_модуль_автоматизации()
+        сам._boundary_base = Path(tempfile.mkdtemp(prefix='fum-intent-boundary-', dir='/private/tmp')).resolve()
+        сам._boundary_fd = os.open(сам._boundary_base, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        args = (сам._boundary_fd, '/private/tmp/synthetic-root', 'Журнал/fixture/запрос.md',
+                '00112233-4455-4677-8899-aabbccddeeff', 'закрыть')
+        метка = os.fstat(сам._boundary_fd)
+        directory = (метка.st_dev, метка.st_ino, метка.st_uid, stat.S_IMODE(метка.st_mode))
+        основа = (('request', tuple(range(9)), 'a' * 64), ('report', tuple(range(9)), 'b' * 64))
+        найденные = {}
+        for count in range(1, 40):
+            for padding in range(256):
+                имена = ['0' * padding + '1_00000000-0000-4000-8000-000000000001.json']
+                имена += [str(n) + '_00000000-0000-4000-8000-' + f'{n:012d}' + '.json' for n in range(2, count + 1)]
+                манифест = основа + tuple((имя, tuple(range(9)), 'c' * 64) for имя in sorted(имена))
+                сырые = json.dumps(манифест, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+                digest = hashlib.sha256(b'fum.synthetic-preimage.1\0' + сырые).hexdigest()
+                запись = {'schema': 'fum.synthetic-operation-intent.1', 'root': args[1], 'session': args[2],
+                          'run': args[3], 'operation': args[4], 'preimage_sha256': digest,
+                          'lock_directory': directory, 'preimage': манифест}
+                размер = len(json.dumps(запись, sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('ascii'))
+                if размер in (4096, 4097): найденные[размер] = (манифест, digest)
+                if len(найденные) == 2: break
+            if len(найденные) == 2: break
+        сам.assertEqual(set(найденные), {4096, 4097})
+        with mock.patch.object(м.os, 'open', side_effect=AssertionError('открытие до проверки')) as открыть:
+            ok = м._ТестовыйДолговечныйIntentОперации(*args, найденные[4096][1], _манифест=найденные[4096][0])
+            сам.assertEqual(len(ok._байты), 4096)
+            with сам.assertRaisesRegex(м.ОшибкаОтчёта, 'превышает предел'):
+                м._ТестовыйДолговечныйIntentОперации(*args, найденные[4097][1], _манифест=найденные[4097][0])
+            открыть.assert_not_called()
+        os.close(сам._boundary_fd)
+
     def test_synthetic_token_замков_связан_с_потоком_и_сроком(сам):
         import stat
         import threading

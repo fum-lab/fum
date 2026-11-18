@@ -18023,7 +18023,7 @@ _карантин_synthetic_intent = []
 class _ТестовыйДолговечныйIntentОперации:
     """Примитив fixture; сам по себе не проверяет полномочия и не допускает запись отчёта."""
 
-    def __init__(сам, fd, корень, сессия, run, операция, preimage):
+    def __init__(сам, fd, корень, сессия, run, операция, preimage, *, _манифест=None):
         if (type(fd) is not int or type(корень) is not str or not корень.startswith('/private/tmp/')
             or '\0' in корень or len(os.fsencode(корень)) > 1024
             or '..' in Path(корень).parts or str(Path(корень)) != корень
@@ -18041,9 +18041,30 @@ class _ТестовыйДолговечныйIntentОперации:
         сам._каталог = fd
         сам._метка = (метка.st_dev, метка.st_ino, метка.st_uid, stat.S_IMODE(метка.st_mode))
         сам._имя = _имя_synthetic_слота(корень, сессия)
-        сам._байты = json.dumps({'schema': 'fum.synthetic-operation-intent.1', 'root': корень,
-            'session': сессия, 'run': run, 'operation': операция, 'preimage_sha256': preimage},
-            sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('ascii')
+        запись = {'schema': 'fum.synthetic-operation-intent.1', 'root': корень,
+            'session': сессия, 'run': run, 'operation': операция, 'preimage_sha256': preimage,
+            'lock_directory': сам._метка}
+        if _манифест is not None:
+            if (type(_манифест) is not tuple or not 1 <= len(_манифест) <= 258
+                or any(type(строка) is not tuple or len(строка) != 3
+                       or type(строка[0]) is not str or not 1 <= len(строка[0]) <= 1024
+                       or type(строка[1]) is not tuple or len(строка[1]) != 9
+                       or any(type(число) is not int or not 0 <= число < 2**64 for число in строка[1])
+                       or type(строка[2]) is not str or re.fullmatch(r'[0-9a-f]{64}', строка[2]) is None
+                       for строка in _манифест)):
+                raise ОшибкаОтчёта('неверный synthetic манифест')
+            роли = tuple(строка[0] for строка in _манифест)
+            if (len(роли) < 3 or роли[:2] != ('request', 'report') or len(set(роли)) != len(роли)
+                or tuple(sorted(роли[2:])) != роли[2:]
+                or not any(ИМЯ_ФАЙЛА_ЗАПУСКА.fullmatch(имя) for имя in роли[2:])
+                or any(имя not in (ИМЯ_СНИМКА, ИМЯ_ЖУРНАЛА_ВОЗОБНОВЛЕНИЯ)
+                       and ИМЯ_ФАЙЛА_ЗАПУСКА.fullmatch(имя) is None for имя in роли[2:])):
+                raise ОшибкаОтчёта('неполный или неоднозначный synthetic манифест')
+            сериализация = json.dumps(_манифест, ensure_ascii=True, separators=(',', ':')).encode('ascii')
+            if hashlib.sha256(b'fum.synthetic-preimage.1\0' + сериализация).hexdigest() != preimage:
+                raise ОшибкаОтчёта('synthetic манифест не совпадает с отпечатком')
+            запись['preimage'] = _манифест
+        сам._байты = json.dumps(запись, sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('ascii')
         if not 0 < len(сам._байты) <= 4096:
             raise ОшибкаОтчёта('synthetic intent превышает предел')
         сам._состояние = 'готов'
